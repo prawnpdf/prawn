@@ -9,12 +9,19 @@ module Prawn
       # store all objects in this file
       @objects = []
 
+      ##########
       # create the basic objects that will be in all PDFs
+      ##########
+
       # root catalog
       @root = newobj
 
+      # basic metadata 
+      @info = newobj
+      @info.data = {"Creator" => "(Prawn)", "Producer" => "(Prawn)"}
+
       # list of pages
-      @pages = newobj 
+      @pages = newobj
       @pages.data = {}
 
       # populate the root catalog
@@ -59,7 +66,7 @@ module Prawn
         @output << obj.to_s
       end
     end
-    
+
     # Write out the PDF Cross Reference Table, as per spec 3.4.3
     def render_xref
       @xref_offset = @output.size
@@ -74,7 +81,7 @@ module Prawn
 
     # Write out the PDF Body, as per spec 3.4.4
     def render_trailer
-      trailer_hash = {"Size" => @objects.size, "Root" => @root.to_ref}
+      trailer_hash = {"Size" => @objects.size, "Root" => @root.to_ref, "Info" => @info.to_ref}
 
       @output << "trailer" << Prawn::CRLF
       @output << Prawn::Object.to_pdf(trailer_hash) << Prawn::CRLF
