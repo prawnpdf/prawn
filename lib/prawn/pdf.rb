@@ -1,7 +1,7 @@
 require 'stringio'
 
 module Prawn
-  CRLF = "\n"
+  CRLF = "\r\n"
 
   class PDF
 
