@@ -21,7 +21,7 @@ module Prawn
       @output << Prawn::Object.to_pdf(data) << Prawn::CRLF
       if stream
         @output << "stream" << Prawn::CRLF 
-        @output << stream
+        @output << stream.string
         @output << "endstream" << Prawn::CRLF 
       end
       @output << "endobj" << Prawn::CRLF
@@ -31,15 +31,26 @@ module Prawn
     # convert a standard ruby object into its PDF equivilant
     def self.to_pdf(obj)
       case obj
+        when Array then
+          obj.collect! {|i| self.to_pdf(i)}
+          "[ #{obj.join(" ")} ]"
         when Hash then
-          ret = "<< "
+          ret = "<< " << Prawn::CRLF
           obj.each do |key, val|
-            ret << "/#{key} #{val}" << Prawn::CRLF
+            ret << "  #{self.to_pdf(key)} #{self.to_pdf(val)}" << Prawn::CRLF
           end
           ret << ">>"
           ret
+        when Numeric then
+          obj.to_s
+        when Prawn::Name then
+          obj.to_s
+        when Prawn::Object then
+          obj.to_ref
+        when String then
+          "(#{obj})"
         else
-          raise ArgumentError, "Unable to convert a #{obj.class} into a PDF equivilant"
+          raise ArgumentError, "Unable to convert a #{obj.class} into a PDF equivilant (#{obj.inspect})"
       end
     end
   end

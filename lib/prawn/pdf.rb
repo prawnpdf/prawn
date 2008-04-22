@@ -18,17 +18,40 @@ module Prawn
 
       # basic metadata 
       @info = newobj
-      @info.data = {"Creator" => "(Prawn)", "Producer" => "(Prawn)"}
+      @info.data = {name("Creator") => "Prawn", name("Producer") => "Prawn"}
 
       # list of pages
       @pages = newobj
-      @pages.data = {}
+      @pages.data = {name("Type") => name("Pages"), name("Count") => 0, name("Kids") => []}
 
       # populate the root catalog
-      @root.data = {"Pages" => @pages.to_ref}
+      @root.data = {name("Type") => name("Catalog"), name("Pages") => @pages}
+
+      start_new_page
+    end
+
+    def stroke
+      add_content("S")
+    end
+
+    def line(x0, y0, x1, y1)
+      move_to(x0, y0).line_to(x1, y1)
+      stroke
+    end
+
+    def line_to(x, y)
+      add_content("%.3f %.3f l" % [ x, y ])
+      self
+    end
+
+    def move_to(x, y)
+      add_content("%.3f %.3f m" % [ x, y ])
+      self
     end
 
     def render
+      finish_page_content
+
       @output = StringIO.new
       render_header
       render_body
@@ -42,7 +65,40 @@ module Prawn
       File.open(filename,"w") { |f| f.write render }
     end
 
+    def start_new_page
+      # finish off the previous page if necesary
+      finish_page_content if @cur_content
+
+      # create the new page
+      @cur_page = newobj
+      @cur_content = newobj
+      @pages.data[name("Kids")] << @cur_page
+      @pages.data[name("Count")] += 1
+      @cur_page.data = {name("Type") => name("Page"), name("Parent") => @pages, name("MediaBox") => [0, 0, 595.28, 841.89], name("Contents") => @cur_content}
+      @cur_content.stream = StringIO.new
+      add_content("q")
+      #add_content("10 M 100 741.89 m 200 641.89 l S")
+      @cur_content.data = {name("Length") => 0}
+    end
+
     private
+
+    def add_content(str)
+      @cur_content.stream << str << Prawn::CRLF
+    end
+
+    def finish_page_content
+      add_content("Q")
+      @cur_content.data[name("Length")] = @cur_content.stream.size
+    end
+
+    def name(str)
+      if str.class == String
+        Prawn::Name.new(str)
+      else
+        str
+      end
+    end
 
     def newobj
       obj = Prawn::Object.new(@objects.size + 1, 0)
@@ -81,7 +137,7 @@ module Prawn
 
     # Write out the PDF Body, as per spec 3.4.4
     def render_trailer
-      trailer_hash = {"Size" => @objects.size, "Root" => @root.to_ref, "Info" => @info.to_ref}
+      trailer_hash = {name("Size") => @objects.size + 1, name("Root") => @root, name("Info") => @info}
 
       @output << "trailer" << Prawn::CRLF
       @output << Prawn::Object.to_pdf(trailer_hash) << Prawn::CRLF
