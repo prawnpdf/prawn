@@ -40,7 +40,7 @@ describe "PDF Object Serialization" do
  
   it "should convert a Ruby hash to a PDF Dictionary" do
     dict = Prawn::PdfObject( :foo  => :bar, 
-                             :baz  => [1,2,3], 
+                             "baz"  => [1,2,3], 
                              :bang => {:a => "what", :b => [:you, :say] } )
                             
     dict[0..1].should == "<<"
@@ -48,5 +48,10 @@ describe "PDF Object Serialization" do
     dict.should match(%r{/foo /bar\n})   
     dict.should match(%r{/baz \[1 2 3\]\n})    
     dict.should match(%r{/bang << /a \(what\)\n/b \[/you /say\]\n>>\n})
+  end      
+  
+  it "should not allow keys other than strings or symbols for PDF dicts" do
+    lambda { Prawn::PdfObject(:foo => :bar, :baz => :bang, 1 => 4) }.
+      should raise_error(Prawn::ObjectConversionError) 
   end
 end
