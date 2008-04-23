@@ -2,6 +2,10 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 # See PDF Reference, Sixth Edition (1.7) pp51-60 for details 
 describe "PDF Object Serialization" do     
+              
+  it "should convert Ruby's nil to PDF null" do
+    Prawn::PdfObject(nil).should == "null"
+  end
   
   it "should convert Ruby booleans to PDF booleans" do
     Prawn::PdfObject(true).should  == "true"
