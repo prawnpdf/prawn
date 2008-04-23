@@ -1,7 +1,7 @@
 require 'stringio'
 
 module Prawn
-  CRLF = "\r\n"
+  CRLF = "\n"
 
   class PDF
 
@@ -62,7 +62,7 @@ module Prawn
 
     def render_file(filename)
       #raise ArgumentError, "#{filename} already exists" if File.file?(filename)
-      File.open(filename,"w") { |f| f.write render }
+      File.open(filename,"wb") { |f| f.write render }
     end
 
     def start_new_page
@@ -128,10 +128,10 @@ module Prawn
       @xref_offset = @output.size
       @output << "xref" << Prawn::CRLF
       @output << "0 #{@objects.size + 1}" << Prawn::CRLF
-      @output << "0000000000 65535 f" << Prawn::CRLF
+      @output << "0000000000 65535 f " << Prawn::CRLF
       @objects.each do |obj|
         @output.printf("%010d", obj.offset)
-        @output << " 00000 n" << Prawn::CRLF
+        @output << " 00000 n " << Prawn::CRLF
       end
     end
 
