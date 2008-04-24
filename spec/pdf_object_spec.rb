@@ -57,5 +57,11 @@ describe "PDF Object Serialization" do
   it "should not allow keys other than strings or symbols for PDF dicts" do
     lambda { Prawn::PdfObject(:foo => :bar, :baz => :bang, 1 => 4) }.
       should raise_error(Prawn::ObjectConversionError) 
+  end  
+  
+  it "should convert a Prawn::Reference to a PDF indirect object reference" do
+    ref = Prawn::Reference(true)
+    Prawn::PdfObject(ref).should == ref.to_s
   end
+  
 end
