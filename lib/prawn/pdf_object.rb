@@ -48,7 +48,9 @@ module Prawn
       obj.each do |k,v|
         output << PdfObject(k.to_sym) << " " << PdfObject(v) << "\n"
       end   
-      output << ">>"        
+      output << ">>"  
+    when Prawn::Reference
+      obj.to_s      
     else
       raise ObjectConversionError, "This object cannot be serialized to PDF"
     end     
