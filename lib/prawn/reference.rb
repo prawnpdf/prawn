@@ -1,15 +1,17 @@
 module Prawn
   class Reference
              
-   attr_accessor :gen, :data 
+   attr_accessor :gen, :data, :offset
+   attr_reader :identifier, :stream
     
-    def initialize(data) 
+    def initialize(id,data)
+      @identifier = id 
       @gen   = 0       
       @data  = data     
     end            
     
     def object 
-      output = "#{object_id} #{gen} obj\n" <<
+      output = "#{@identifier} #{gen} obj\n" <<
                Prawn::PdfObject(data) << "\n"
       if @stream
         output << "stream\n" << @stream << "\nendstream\n" 
@@ -22,14 +24,14 @@ module Prawn
     end  
     
     def to_s            
-      "#{object_id} #{gen} R"
+      "#{@identifier} #{gen} R"
     end
       
   end         
   
   module_function
   
-  def Reference(data)
-    Reference.new(data)
+  def Reference(id,data)
+    Reference.new(id,data)
   end
 end

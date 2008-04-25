@@ -60,7 +60,7 @@ describe "PDF Object Serialization" do
   end  
   
   it "should convert a Prawn::Reference to a PDF indirect object reference" do
-    ref = Prawn::Reference(true)
+    ref = Prawn::Reference(1,true)
     Prawn::PdfObject(ref).should == ref.to_s
   end
   
