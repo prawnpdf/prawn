@@ -46,12 +46,13 @@ describe "PDF Object Serialization" do
     dict = Prawn::PdfObject( :foo  => :bar, 
                              "baz"  => [1,2,3], 
                              :bang => {:a => "what", :b => [:you, :say] } )
-                            
-    dict[0..1].should == "<<"
-    dict[-2..-1].should == ">>"   
-    dict.should match(%r{/foo /bar\n})   
-    dict.should match(%r{/baz \[1 2 3\]\n})    
-    dict.should match(%r{/bang << /a \(what\)\n/b \[/you /say\]\n>>\n})
+                
+    res = parse_pdf_object(dict)           
+
+    res["foo"].should == "bar"
+    res["baz"].should == [1,2,3]
+    res["bang"].should == { "a" => "what", "b" => ["you", "say"] }
+
   end      
   
   it "should not allow keys other than strings or symbols for PDF dicts" do
@@ -60,7 +61,7 @@ describe "PDF Object Serialization" do
   end  
   
   it "should convert a Prawn::Reference to a PDF indirect object reference" do
-    ref = Prawn::Reference(true)
+    ref = Prawn::Reference(1,true)
     Prawn::PdfObject(ref).should == ref.to_s
   end
   
