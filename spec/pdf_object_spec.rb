@@ -49,9 +49,9 @@ describe "PDF Object Serialization" do
                 
     res = parse_pdf_object(dict)           
 
-    res["foo"].should == "bar"
-    res["baz"].should == [1,2,3]
-    res["bang"].should == { "a" => "what", "b" => ["you", "say"] }
+    res[:foo].should == :bar
+    res[:baz].should == [1,2,3]
+    res[:bang].should == { :a => "what", :b => [:you, :say] }
 
   end      
   
