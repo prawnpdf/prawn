@@ -36,7 +36,8 @@ module Prawn
     end
 
     def line_to(x, y)
-      add_content("%.3f %.3f l" % [ x, y ])
+      add_content("%.3f %.3f l" % [ x, y ]) 
+      stroke
     end
 
     def move_to(x, y)
@@ -58,7 +59,7 @@ module Prawn
       File.open(filename,"wb") { |f| f.write render }
     end
 
-    private
+    private 
    
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
@@ -69,7 +70,6 @@ module Prawn
     end  
     
     def finish_page_content     
-      stroke
       add_content "Q"
       @page_content.data[:Length] = @page_content.stream.size
     end
