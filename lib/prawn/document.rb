@@ -33,7 +33,6 @@ module Prawn
     def line(x0, y0, x1, y1)
       move_to(x0, y0)
       line_to(x1, y1)
-      stroke
     end
 
     def line_to(x, y)
@@ -44,7 +43,7 @@ module Prawn
       add_content("%.3f %.3f m" % [ x, y ])
     end
 
-    def render
+    def render       
       finish_page_content
 
       @output = StringIO.new
@@ -62,21 +61,22 @@ module Prawn
     private
    
     def ref(data)
-      @objects << (r=Prawn::Reference.new(@objects.size + 1, data)); r
+      @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
     end  
    
     def add_content(str)
      @page_content << str << "\n"
     end  
     
-    def finish_page_content
+    def finish_page_content     
+      stroke
       add_content "Q"
       @page_content.data[:Length] = @page_content.stream.size
     end
     
     # Write out the PDF Header, as per spec 3.4.1
     def render_header
-      # pdf versi
+      # pdf version
       @output << "%PDF-1.1\n"
 
       # 4 binary chars, as recommended by the spec
