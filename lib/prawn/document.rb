@@ -24,10 +24,10 @@ module Prawn
        @pages.data[:Count] += 1 
      
        add_content "q"   
-    end   
+    end     
     
-    def stroke
-      add_content "S"
+    def page_count
+      @pages.data[:Count]
     end
 
     def line(x0, y0, x1, y1)
@@ -59,11 +59,15 @@ module Prawn
       File.open(filename,"wb") { |f| f.write render }
     end
 
-    private 
+    private
    
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
-    end  
+    end    
+    
+    def stroke
+      add_content "S"
+    end
    
     def add_content(str)
      @page_content << str << "\n"
