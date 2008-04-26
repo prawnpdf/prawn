@@ -3,11 +3,13 @@ require "stringio"
 module Prawn
   class Document    
     
-    def initialize
+    def initialize(options={})
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
        @root    = ref(:Type => :Catalog, :Pages => @pages)  
+       @page_start_proc = options[:on_page_start]
+       @page_stop_proc  = options[:on_page_end]
        start_new_page
      end  
    
@@ -24,27 +26,30 @@ module Prawn
        @pages.data[:Count] += 1 
      
        add_content "q"   
-    end   
+
+       @page_start_proc[self] if @page_start_proc
+    end     
     
-    def stroke
-      add_content "S"
+    def page_count
+      @pages.data[:Count]
     end
 
-    def line(x0, y0, x1, y1)
+    def line(*points)
+      x0,y0,x1,y1 = points.flatten
       move_to(x0, y0)
       line_to(x1, y1)
-      stroke
     end
 
     def line_to(x, y)
-      add_content("%.3f %.3f l" % [ x, y ])
+      add_content("%.3f %.3f l" % [ x, y ]) 
+      stroke
     end
 
     def move_to(x, y)
       add_content("%.3f %.3f m" % [ x, y ])
     end
 
-    def render
+    def render       
       finish_page_content
 
       @output = StringIO.new
@@ -62,21 +67,26 @@ module Prawn
     private
    
     def ref(data)
-      @objects << (r=Prawn::Reference.new(@objects.size + 1, data)); r
-    end  
+      @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
+    end    
+    
+    def stroke
+      add_content "S"
+    end
    
     def add_content(str)
      @page_content << str << "\n"
     end  
     
-    def finish_page_content
+    def finish_page_content     
+      @page_stop_proc[self] if @page_stop_proc
       add_content "Q"
       @page_content.data[:Length] = @page_content.stream.size
     end
     
     # Write out the PDF Header, as per spec 3.4.1
     def render_header
-      # pdf versi
+      # pdf version
       @output << "%PDF-1.1\n"
 
       # 4 binary chars, as recommended by the spec
