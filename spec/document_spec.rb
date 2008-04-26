@@ -1,4 +1,8 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+
+def create_pdf
+  @pdf = Prawn::Document.new
+end
                   
 describe "When drawing a line" do
      
@@ -24,12 +28,10 @@ describe "When drawing a line" do
 
   end    
     
-  before :each do
-     @pdf = Prawn::Document.new 
-  end
+  before(:each) { create_pdf }
  
   it "should draw and stroke a line from (100,600) to (100,500)" do
-    @pdf.line(100,600,100,500)
+    @pdf.line([100,600],[100,500])
     
     line_drawing = detect_lines
     
@@ -74,9 +76,7 @@ describe "When creating multi-page documents" do
   end
   
   
-  before :each do
-    @pdf = Prawn::Document.new
-  end
+  before(:each) { create_pdf }
   
   it "should initialize with a single page" do 
     page_counter = count_pages
@@ -101,3 +101,34 @@ describe "When creating multi-page documents" do
   end              
   
 end   
+
+describe "When beginning each new page" do
+
+  it "should execute the lambda specified by on_page_start" do
+    on_start = mock("page_start_proc")
+
+    on_start.should_receive(:[]).exactly(3).times
+   
+    pdf = Prawn::Document.new(:on_page_start => on_start)
+    pdf.start_new_page 
+    pdf.start_new_page
+  end
+
+end
+
+
+describe "WHen ending each page" do
+
+  it "should execute the lambda specified by on_page_end" do
+
+    on_end = mock("page_end_proc")
+
+    on_end.should_receive(:[]).exactly(3).times
+
+    pdf = Prawn::Document.new(:on_page_end => on_end)
+    pdf.start_new_page
+    pdf.start_new_page
+    pdf.render
+  end
+
+end
