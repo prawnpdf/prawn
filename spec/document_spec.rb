@@ -117,7 +117,7 @@ describe "When beginning each new page" do
 end
 
 
-describe "WHen ending each page" do
+describe "When ending each page" do
 
   it "should execute the lambda specified by on_page_end" do
 
