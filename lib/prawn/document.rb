@@ -1,7 +1,10 @@
 require "stringio"
+require "prawn/document/graphics"
 
 module Prawn
   class Document    
+
+    include Graphics
     
     def initialize(options={})
        @objects = []
@@ -34,18 +37,7 @@ module Prawn
       @pages.data[:Count]
     end
 
-    def line(*points)
-      x0,y0,x1,y1 = points.flatten
-      move_to(x0, y0)
-      line_to(x1, y1)
-    end
-
-    def line_to(x, y)
-      add_content("%.3f %.3f l" % [ x, y ]) 
-      stroke
-    end
-
-    def move_to(x, y)
+   def move_to(x, y)
       add_content("%.3f %.3f m" % [ x, y ])
     end
 

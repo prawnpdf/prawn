@@ -3,31 +3,39 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 def create_pdf
   @pdf = Prawn::Document.new
 end
+
+class LineDrawingObserver
+  attr_accessor :points, :strokes
+
+  def initialize
+    @points = [] 
+    @strokes = 0
+  end
+
+  def append_line(*params)
+    @points << params
+  end    
+             
+  def begin_new_subpath(*params)
+    @points << params
+  end
+  
+  def stroke_path   
+    @strokes += 1
+  end             
+
+end    
+
+def detect_lines        
+  output = @pdf.render
+  obs = LineDrawingObserver.new
+  PDF::Reader.string(output,obs) 
+  return obs
+end                           
+
                   
 describe "When drawing a line" do
-     
-  class LineDrawingObserver
-    attr_accessor :points, :strokes
-
-    def initialize
-      @points = [] 
-      @strokes = 0
-    end
-
-    def append_line(*params)
-      @points << params
-    end    
-               
-    def begin_new_subpath(*params)
-      @points << params
-    end
-    
-    def stroke_path   
-      @strokes += 1
-    end             
-
-  end    
-    
+   
   before(:each) { create_pdf }
  
   it "should draw and stroke a line from (100,600) to (100,500)" do
@@ -50,15 +58,41 @@ describe "When drawing a line" do
       [[100.0, 600.0], [100.0, 500.0], [75.0, 100.0], [50.0, 125.0]]
     line_drawing.strokes.should == 2
   end   
-  
-  def detect_lines        
-    output = @pdf.render
-    obs = LineDrawingObserver.new
-    PDF::Reader.string(output,obs) 
-    return obs
-  end                           
-       
+        
 end                            
+
+describe "When drawing a polygon" do
+
+  before(:each) { create_pdf }
+
+  it "should draw each line passed to polygon()" do
+    @pdf.polygon([100,500],[100,400],[200,400])
+
+    line_drawing = detect_lines
+    line_drawing.points.should == [[100,500],[100,400],
+                                   [100,400],[200,400],
+                                   [200,400],[100,500]]
+    line_drawing.strokes.should == 3
+  end
+
+end
+
+describe "When drawing a rectangle" do
+
+  before(:each) { create_pdf }
+
+  it "should draw each line in the rectangle" do
+    @pdf.rectangle [200,200], 50, 100
+
+    line_drawing = detect_lines
+    line_drawing.points.should == [[200,200],[250,200],
+                                   [250,200],[250,100],
+                                   [250,100],[200,100],
+                                   [200,100],[200,200]]
+
+  end
+
+end
 
 describe "When creating multi-page documents" do 
   
