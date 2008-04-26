@@ -25,4 +25,4 @@ pdf = Prawn::Document.new
  [430,600,465,500],
  [465,600,465,500]].each { |points| pdf.line(*points) }
 
-pdf.render_file("test.pdf")
+pdf.render_file "lines.pdf"
