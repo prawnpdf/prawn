@@ -28,11 +28,8 @@ module Prawn
     when FalseClass then "false"
     when Numeric    then String(obj)
     when Array      then "[" << obj.map { |e| PdfObject(e) }.join(' ') << "]"     
-    when String 
-      if obj =~ /\(|\)/
-        obj = obj.gsub("(", '\(').gsub(")",'\)') 
-      end
-      "(" << obj << ")"
+    when String     
+      "<" << obj.unpack("H*").first << ">"
     when Symbol                                                         
        if (obj = obj.to_s) =~ /\s/
          raise ObjectConversionError, "A PDF Name cannot contain whitespace"  
