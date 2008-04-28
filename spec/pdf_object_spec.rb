@@ -17,14 +17,20 @@ describe "PDF Object Serialization" do
     Prawn::PdfObject(1.214112421).should == "1.214112421" 
   end
   
-  it "should convert a Ruby string to PDF string" do
-    Prawn::PdfObject("I can has a string").should == "(I can has a string)"  
-  end               
+  it "should convert a Ruby string to PDF string" do       
+    s = "I can has a string"
+    parse_pdf_object(Prawn::PdfObject(s)).should == s
+  end                      
   
   it "should escape parens when converting from Ruby string to PDF" do
-    Prawn::PdfObject("I (can) has a string").should == 
-      '(I \(can\) has a string)'
-  end                     
+    s =  'I )(can has a string'      
+    parse_pdf_object(Prawn::PdfObject(s)).should == s
+  end               
+  
+  it "should handle ruby escaped parens when converting to PDF string" do
+    s = 'I can \\)( has string'
+    parse_pdf_object(Prawn::PdfObject(s)).should == s  
+  end      
   
   it "should convert a Ruby symbol to PDF name" do
     Prawn::PdfObject(:my_symbol).should == "/my_symbol"
@@ -39,14 +45,15 @@ describe "PDF Object Serialization" do
   
   it "should convert a Ruby array to PDF Array" do
     Prawn::PdfObject([1,2,3]).should == "[1 2 3]"
-    Prawn::PdfObject([[1,2],:foo,"Bar"]).should == "[[1 2] /foo (Bar)]"    
+    parse_pdf_object(Prawn::PdfObject([[1,2],:foo,"Bar"])).should ==  
+      [[1,2],:foo, "Bar"]
   end  
  
   it "should convert a Ruby hash to a PDF Dictionary" do
     dict = Prawn::PdfObject( :foo  => :bar, 
                              "baz"  => [1,2,3], 
-                             :bang => {:a => "what", :b => [:you, :say] } )
-                
+                             :bang => {:a => "what", :b => [:you, :say] } )     
+
     res = parse_pdf_object(dict)           
 
     res[:foo].should == :bar

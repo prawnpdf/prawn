@@ -14,7 +14,7 @@ describe "A Reference object" do
   
   it "should generate a valid PDF object for the referenced data" do
     ref = Prawn::Reference(2,[1,"foo"]) 
-    ref.object.should == "2 0 obj\n[1 (foo)]\nendobj\n" 
+    ref.object.should == "2 0 obj\n#{Prawn::PdfObject([1,"foo"])}\nendobj\n" 
   end             
   
   it "should automatically open a stream when #<< is used" do
