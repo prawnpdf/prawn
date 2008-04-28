@@ -36,13 +36,12 @@ module Prawn
        else
          "/" << obj   
        end 
-    when Hash                       
-      unless obj.keys.all? { |e| Symbol === e || String === e }
-        raise ObjectConversionError, "A PDF Dictionary must be keyed by names"
-      end
-              
+    when Hash           
       output = "<< "
-      obj.each do |k,v|
+      obj.each do |k,v|                                                        
+        unless String === k || Symbol === k
+          raise ObjectConversionError, "A PDF Dictionary must be keyed by names"
+        end                          
         output << PdfObject(k.to_sym) << " " << PdfObject(v) << "\n"
       end   
       output << ">>"  
