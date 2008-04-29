@@ -1,5 +1,6 @@
 module Prawn::Document::PageGeometry
-   
+        
+   # Dimensions pulled from PDF::Writer, rubyforge.org/projects/ruby-pdf
    SIZES = { "4A0" => [4767.87, 6740.79], 
              "2A0" => [3370.39, 4767.87], 
               "A0" => [2383.94, 3370.39], 
@@ -56,7 +57,10 @@ module Prawn::Document::PageGeometry
      when :portrait
        coords
      when :landscape
-       coords.reverse
+       coords.reverse 
+     else 
+       raise Prawn::Errors::InvalidPageLayout, 
+         "Layout must be either :portrait or :landscape"
      end
    end
 end

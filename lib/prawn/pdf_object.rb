@@ -1,10 +1,5 @@
 module Prawn 
-                                              
-  # This error is raised when Prawn::PdfObject() encounters a Ruby object it
-  # cannot convert to PDF
-  #
-  class ObjectConversionError < StandardError; end
-  
+                                             
   module_function
     
   # Serializes Ruby objects to their PDF equivalents.  Most primitive objects
@@ -32,7 +27,8 @@ module Prawn
       "<" << obj.unpack("H*").first << ">"
     when Symbol                                                         
        if (obj = obj.to_s) =~ /\s/
-         raise ObjectConversionError, "A PDF Name cannot contain whitespace"  
+         raise Prawn::Errors::FailedObjectConversion, 
+           "A PDF Name cannot contain whitespace"  
        else
          "/" << obj   
        end 
@@ -40,7 +36,8 @@ module Prawn
       output = "<< "
       obj.each do |k,v|                                                        
         unless String === k || Symbol === k
-          raise ObjectConversionError, "A PDF Dictionary must be keyed by names"
+          raise Prawn::Errors::FailedObjectConversion, 
+            "A PDF Dictionary must be keyed by names"
         end                          
         output << PdfObject(k.to_sym) << " " << PdfObject(v) << "\n"
       end   
@@ -48,7 +45,8 @@ module Prawn
     when Prawn::Reference
       obj.to_s      
     else
-      raise ObjectConversionError, "This object cannot be serialized to PDF"
+      raise Prawn::Errors::FailedObjectConversion, 
+        "This object cannot be serialized to PDF"
     end     
   end   
 end
