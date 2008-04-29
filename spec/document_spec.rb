@@ -10,7 +10,7 @@ class LineDrawingObserver
   def initialize
     @points = [] 
     @strokes = 0
-  end
+  end  
 
   def append_line(*params)
     @points << params
@@ -165,4 +165,47 @@ describe "When ending each page" do
     pdf.render
   end
 
+end                                 
+
+class PageDetails      
+  
+  def begin_page(params)
+    @geometry = params[:MediaBox]
+  end                       
+  
+  def size
+    @geometry[-2..-1] 
+  end
+  
+end
+
+def detect_page_details
+  output = @pdf.render
+  obs = PageDetails.new
+  PDF::Reader.string(output,obs) 
+  return obs      
+end
+
+describe "When setting page size" do
+  it "should default to LETTER" do
+    @pdf = Prawn::Document.new
+    page = detect_page_details
+    page.size.should == Prawn::Document::PageGeometry::SIZES["LETTER"]    
+  end                                                                  
+  
+  (Prawn::Document::PageGeometry::SIZES.keys - ["LETTER"]).each do |k|
+    it "should provide #{k} geometry" do
+      @pdf = Prawn::Document.new(:page_size => k)
+      page = detect_page_details
+      page.size.should == Prawn::Document::PageGeometry::SIZES[k]
+    end
+  end
+end       
+
+describe "When setting page layout" do
+  it "should reverse coordinates for landscape" do
+    @pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
+    page = detect_page_details
+    page.size.should == Prawn::Document::PageGeometry::SIZES["A4"].reverse
+  end   
 end
