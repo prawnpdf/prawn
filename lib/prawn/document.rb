@@ -1,10 +1,14 @@
 require "stringio"
 require "prawn/document/graphics"
+require "prawn/document/page_geometry"       
 
 module Prawn
-  class Document    
-
-    include Graphics
+  class Document  
+    
+    include Graphics                                 
+    include PageGeometry                             
+    
+    attr_accessor :page_size, :page_layout
     
     def initialize(options={})
        @objects = []
@@ -12,17 +16,20 @@ module Prawn
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
        @root    = ref(:Type => :Catalog, :Pages => @pages)  
        @page_start_proc = options[:on_page_start]
-       @page_stop_proc  = options[:on_page_end]
+       @page_stop_proc  = options[:on_page_end]              
+       @page_size   = options[:page_size]   || "LETTER"    
+       @page_layout = options[:page_layout] || :portrait
+       
        start_new_page
      end  
-   
+                                                
      def start_new_page
        finish_page_content if @page_content
        @page_content = ref(:Length => 0)   
      
        @current_page = ref(:Type     => :Page, 
                            :Parent   => @pages, 
-                           :MediaBox => [0, 0, 595.28, 841.89], 
+                           :MediaBox => page_dimensions, 
                            :Contents => @page_content) 
      
        @pages.data[:Kids] << @current_page
@@ -31,7 +38,7 @@ module Prawn
        add_content "q"   
 
        @page_start_proc[self] if @page_start_proc
-    end     
+    end             
     
     def page_count
       @pages.data[:Count]
@@ -59,7 +66,7 @@ module Prawn
    
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
-    end    
+    end                                               
     
     def stroke
       add_content "S"
