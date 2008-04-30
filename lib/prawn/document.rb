@@ -1,3 +1,9 @@
+# document.rb : Implements PDF document generation for Prawn
+#
+# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require "stringio"
 require "prawn/document/graphics"
 require "prawn/document/page_geometry"       
