@@ -31,7 +31,7 @@ module Prawn
   
   module_function
   
-  def Reference(id,data)
-    Reference.new(id,data)
+  def Reference(*args)
+    Reference.new(*args)
   end
 end
