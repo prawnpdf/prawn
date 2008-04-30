@@ -9,8 +9,8 @@ require "enumerator"
 module Prawn
   class Document
 
-     # Implements the drawing facilities for Prawn::Document  Use this to draw
-     # the most beautiful imagineable things.
+     # Implements the drawing facilities for Prawn::Document.  
+     # Use this to draw the most beautiful imaginable things.
      # 
      # This file lifts and modifies several of PDF::Writer's graphics functions
      # ruby-pdf.rubyforge.org
