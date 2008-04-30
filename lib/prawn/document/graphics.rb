@@ -50,15 +50,16 @@ module Prawn
       # centre-point upon completion of the drawing the circle.
       def circle_at(point, options)  
         x,y = point
-        ellipse_at(x, y, options[:radius],options[:radius])     
+        ellipse_at [x, y], options[:radius]     
       end 
         
       # Draws an ellipse of +x+ radius <tt>r1</tt> and +y+ radius <tt>r2</tt>
-      # with the centre-point at <tt>(x, y)</tt> as a complete subpath. The
+      # with the centre-point at <tt>point</tt> as a complete subpath. The
       # drawing point will be moved to the centre-point upon completion of the
       # drawing the ellipse.   
       #
-      def ellipse_at(x, y, r1, r2 = r1)
+      def ellipse_at(point, r1, r2 = r1)  
+        x, y = point
         l1 = r1 * KAPPA
         l2 = r2 * KAPPA
         # Upper right hand corner
