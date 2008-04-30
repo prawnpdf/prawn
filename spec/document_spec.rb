@@ -96,6 +96,79 @@ describe "When drawing a rectangle" do
 
 end
 
+class CurveObserver
+     
+  attr_reader :coords, :strokes
+  
+  def initialize
+    @coords = []          
+    @strokes = 0
+  end   
+  
+  def begin_new_subpath(*params)   
+    @coords += params
+  end
+  
+  def append_curved_segment(*params)
+    @coords += params
+  end           
+  
+  def stroke_path   
+    @strokes += 1
+  end
+end   
+
+describe "When drawing a curve" do  
+    
+  before(:each) { create_pdf }
+  
+  it "should draw a bezier curve from 50,50 to 100,100" do
+    @pdf.move_to  [50,50]
+    @pdf.curve_to [100,100],:bounds => [[20,90], [90,70]]
+    curve = observer(CurveObserver) 
+    curve.coords.should == [50.0, 50.0, 20.0, 90.0, 90.0, 70.0, 100.0, 100.0] 
+    curve.strokes.should == 1
+  end                             
+  
+  it "should draw a bezier curve from 100,100 to 50,50" do
+    @pdf.curve [100,100], [50,50], :bounds => [[20,90], [90,75]] 
+    curve = observer(CurveObserver)
+    curve.coords.should == [100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0] 
+    curve.strokes.should == 1
+  end
+  
+end 
+
+describe "When drawing an ellipse" do
+  before(:each) do 
+    create_pdf
+    @pdf.ellipse_at [100,100], 25, 50
+    @curve = observer(CurveObserver) 
+  end       
+  
+  it "should move the pointer to the center of the ellipse after drawing" do
+    @curve.coords[-2..-1].should == [100,100]
+  end 
+  
+  it "should stroke 4 curves to form the ellipse" do
+    @curve.strokes.should == 4
+  end
+end  
+
+describe "When drawing a circle" do
+  before(:each) do 
+    create_pdf
+    @pdf.circle_at [100,100], :radius => 25 
+    @pdf.ellipse_at [100,100], 25, 25
+    @curve = observer(CurveObserver) 
+  end       
+  
+  it "should stroke the same path as the equivalent ellipse" do 
+    middle = @curve.coords.length / 2
+    @curve.coords[0...middle].should == @curve.coords[middle..-1] 
+  end
+end
+                               
 describe "When creating multi-page documents" do 
   
   class PageCounter

@@ -44,7 +44,8 @@ module Prawn
       @pages.data[:Count]
     end
 
-   def move_to(x, y)
+   def move_to(*point)
+      x,y = point.flatten
       add_content("%.3f %.3f m" % [ x, y ])
     end
 

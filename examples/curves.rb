@@ -2,7 +2,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
 pdf = Prawn::Document.new
-pdf.move_to(100,100)
+pdf.move_to [100,100]
 pdf.curve_to [50,50],:bounds => [[20,90], [90,90]]   
 pdf.circle_at [200,200], :radius => 10
 pdf.render_file "curves.pdf"
