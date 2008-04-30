@@ -1,9 +1,5 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
 
-def create_pdf
-  @pdf = Prawn::Document.new
-end
-
 class LineDrawingObserver
   attr_accessor :points, :strokes
 
@@ -24,16 +20,8 @@ class LineDrawingObserver
     @strokes += 1
   end             
 
-end    
-
-def detect_lines        
-  output = @pdf.render
-  obs = LineDrawingObserver.new
-  PDF::Reader.string(output,obs) 
-  return obs
-end                           
-
-                  
+end                    
+           
 describe "When drawing a line" do
    
   before(:each) { create_pdf }
@@ -41,7 +29,7 @@ describe "When drawing a line" do
   it "should draw and stroke a line from (100,600) to (100,500)" do
     @pdf.line([100,600],[100,500])
     
-    line_drawing = detect_lines
+    line_drawing = observer(LineDrawingObserver)
     
     line_drawing.points.should == [[100,600],[100,500]]       
     line_drawing.strokes.should == 1
@@ -52,11 +40,25 @@ describe "When drawing a line" do
     @pdf.line(100,600,100,500) 
     @pdf.line(75,100,50,125)
     
-    line_drawing = detect_lines
+    line_drawing = observer(LineDrawingObserver)
     
     line_drawing.points.should == 
       [[100.0, 600.0], [100.0, 500.0], [75.0, 100.0], [50.0, 125.0]]
     line_drawing.strokes.should == 2
+  end
+  
+  class LineWidthReader 
+    attr_accessor :width
+    def set_line_width(params)
+      @width = params
+    end
+  end
+  
+  it "should properly set line width" do
+     create_pdf
+     @pdf.line_width = 10
+     line = observer(LineWidthReader)
+     line.width.should == 10 
   end   
         
 end                            
@@ -68,7 +70,7 @@ describe "When drawing a polygon" do
   it "should draw each line passed to polygon()" do
     @pdf.polygon([100,500],[100,400],[200,400])
 
-    line_drawing = detect_lines
+    line_drawing = observer(LineDrawingObserver)
     line_drawing.points.should == [[100,500],[100,400],
                                    [100,400],[200,400],
                                    [200,400],[100,500]]
@@ -84,7 +86,7 @@ describe "When drawing a rectangle" do
   it "should draw each line in the rectangle" do
     @pdf.rectangle [200,200], 50, 100
 
-    line_drawing = detect_lines
+    line_drawing = observer(LineDrawingObserver)
     line_drawing.points.should == [[200,200],[250,200],
                                    [250,200],[250,100],
                                    [250,100],[200,100],
