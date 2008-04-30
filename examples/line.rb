@@ -2,6 +2,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
  
 pdf = Prawn::Document.new   
+pdf.line_width = 10    
 
 [[100,741,100,641], 
  [100,691,150,691],

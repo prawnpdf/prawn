@@ -12,6 +12,10 @@ module Prawn
         x0,y0,x1,y1 = points.flatten
         move_to(x0, y0)
         line_to(x1, y1)
+      end   
+      
+      def line_width=(width)
+        add_content("#{width} w")
       end
 
       def line_to(x, y)
