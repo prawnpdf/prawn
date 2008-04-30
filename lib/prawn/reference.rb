@@ -1,3 +1,9 @@
+# reference.rb : Implementation of PDF indirect objects
+#
+# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Reference
              

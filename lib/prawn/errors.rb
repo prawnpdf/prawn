@@ -1,3 +1,9 @@
+# errors.rb : Implements custom error classes for Prawn
+#
+# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   module Errors
      # This error is raised when Prawn::PdfObject() encounters a Ruby object it
