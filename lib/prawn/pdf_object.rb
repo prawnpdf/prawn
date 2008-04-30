@@ -22,7 +22,7 @@ module Prawn
   #     PdfObject(:Symbol)   #=> "/Symbol"
   #     PdfObject(["foo",:bar, [1,2]]) #=> "[foo /bar [1 2]]"
   # 
-  def PdfObject(obj)
+  def PdfObject(obj) #:nodoc:
     case(obj)        
     when NilClass   then "null" 
     when TrueClass  then "true"
