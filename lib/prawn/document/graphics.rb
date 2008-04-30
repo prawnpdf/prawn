@@ -15,7 +15,17 @@ module Prawn
      # This file lifts and modifies several of PDF::Writer's graphics functions
      # ruby-pdf.rubyforge.org
      #
-     module Graphics
+     module Graphics 
+          
+       # Moves the drawing position to a given point.  The point can be
+       # specified as a tuple or a flattened argument list
+       #
+       #   pdf.move_to [100,50]
+       #   pdf.move_to(100,50)
+       def move_to(*point)
+         x,y = point.flatten
+         add_content("%.3f %.3f m" % [ x, y ])
+       end
                          
        # Sets line thickness to the <tt>width</tt> specified.
        #
