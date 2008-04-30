@@ -16,22 +16,43 @@ module Prawn
      # ruby-pdf.rubyforge.org
      #
      module Graphics
-       
+                         
+       # Sets line thickness to the <tt>width</tt> specified.
+       #
        def line_width=(width)
          add_content("#{width} w")
        end
- 
+        
+       # Draws a line from one point to another and automatically strokes the
+       # path.  Points may be specified as tuples or flattened argument list:
+       #
+       #   pdf.line [100,100], [200,250] 
+       #   pdf.line(100,100,200,250)
+       #
        def line(*points)
          x0,y0,x1,y1 = points.flatten
          move_to(x0, y0)
          line_to(x1, y1)
        end   
- 
-       def line_to(x, y)
+        
+       # Draws a line from the current drawing position to the specified point.
+       # The destination may be described as a tuple or a flattened list:    
+       #
+       #   pdf.line_to [50,50] 
+       #   pdf.line_to(50,50)    
+       #
+       def line_to(*point) 
+         x,y = point.flatten
          add_content("%.3f %.3f l" % [ x, y ]) 
          stroke
        end
+              
    
+       # Draws a Bezier curve from the current drawing position to the 
+       # specified point, bounded by two additional points.
+       #  
+       #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]   
+       #
        def curve_to(dest,options={})                           
          options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath, 
            "Bounding points for bezier curve must be specified "+
@@ -40,7 +61,12 @@ module Prawn
                        (options[:bounds] + dest).flatten )    
          stroke
       end    
- 
+         
+      # Draws a Bezier curve between two points, bounded by two additional
+      # points
+      #
+      #    pdf.curve [50,100], [100,100], :bounds => [[90,90],[75,75]]  
+      #
       def curve(origin,dest, options={})
         move_to *origin    
         curve_to(dest,options)
@@ -51,9 +77,12 @@ module Prawn
       #
       KAPPA = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0)
                                                                     
-      # Draws a circle of radius +r+ with the centre-point at <tt>point</tt>
+      # Draws a circle of radius <tt>:radius</tt> with the centre-point at <tt>point</tt>
       # as a complete subpath. The drawing point will be moved to the
-      # centre-point upon completion of the drawing the circle.
+      # centre-point upon completion of the drawing the circle.     
+      #                                           
+      #    pdf.circle_at [100,100], :radius => 25  
+      #
       def circle_at(point, options)  
         x,y = point
         ellipse_at [x, y], options[:radius]     
@@ -63,6 +92,9 @@ module Prawn
       # with the centre-point at <tt>point</tt> as a complete subpath. The
       # drawing point will be moved to the centre-point upon completion of the
       # drawing the ellipse.   
+      #                                    
+      #    # draws an ellipse with x-radius 25 and y-radius 50
+      #    pdf.ellipse_at [100,100], 25, 50   
       #
       def ellipse_at(point, r1, r2 = r1)  
         x, y = point
@@ -86,14 +118,25 @@ module Prawn
      
         move_to(x, y)
       end
-  
+       
+      # Draws a polygon from the specified points and automatically strokes
+      # the path.
+      #                                              
+      #    # draws a snazzy triangle
+      #    pdf.polygon [100,100], [100,200], [200,200]  
+      #
       def polygon(*points)
         (points << points[0]).each_cons(2) do |p1,p2|
           move_to(*p1)
           line_to(*p2)
         end
       end
- 
+                                    
+      # Draws a rectangle given <tt>point</tt>, <tt>width</tt> and 
+      # <tt>height</tt>.  The rectangle is bounded by its upper-left corner.
+      #
+      #    pdf.rectangle [300,300], 100, 200
+      # 
       def rectangle(point,width,height)
         x,y = point
         polygon [x        , y         ],
