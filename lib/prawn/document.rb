@@ -103,10 +103,6 @@ module Prawn
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
     end                                               
-    
-    def stroke
-      add_content "S"
-    end
    
     def add_content(str)
      @page_content << str << "\n"

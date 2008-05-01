@@ -33,8 +33,8 @@ module Prawn
          add_content("#{width} w")
        end
         
-       # Draws a line from one point to another and automatically strokes the
-       # path.  Points may be specified as tuples or flattened argument list:
+       # Draws a line from one point to another. Points may be specified as 
+       # tuples or flattened argument list:
        #
        #   pdf.line [100,100], [200,250] 
        #   pdf.line(100,100,200,250)
@@ -51,10 +51,9 @@ module Prawn
        #   pdf.line_to [50,50] 
        #   pdf.line_to(50,50)    
        #
-       def line_to(*point) 
+       def line_to(*point)      
          x,y = point.flatten
          add_content("%.3f %.3f l" % [ x, y ]) 
-         stroke
        end
               
    
@@ -69,7 +68,6 @@ module Prawn
            "as :bounds => [[x1,y1],[x2,y2]]"
          add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" % 
                        (options[:bounds] + dest).flatten )    
-         stroke
       end    
          
       # Draws a Bezier curve between two points, bounded by two additional
@@ -109,35 +107,37 @@ module Prawn
       def ellipse_at(point, r1, r2 = r1)  
         x, y = point
         l1 = r1 * KAPPA
-        l2 = r2 * KAPPA
+        l2 = r2 * KAPPA            
+        
+        move_to(x + r1, y)
+        
         # Upper right hand corner
-        curve [x + r1, y], [x,  y + r2], 
+        curve_to [x,  y + r2], 
           :bounds => [[x + r1, y + l1], [x + l2, y + r2]]
  
         # Upper left hand corner                          
-        curve [x,y + r2], [x - r1, y],  
+        curve_to [x - r1, y],  
           :bounds => [[x - l2, y + r2], [x - r1, y + l1]] 
    
         # Lower left hand corner
-        curve [x - r1, y], [x, y - r2],  
+        curve_to [x, y - r2],  
           :bounds => [[x - r1, y - l1], [x - l2, y - r2]]  
  
         # Lower right hand corner
-        curve [x, y - r2], [x + r1, y],
+        curve_to [x + r1, y],
           :bounds => [[x + l2, y - r2], [x + r1, y - l1]]    
      
         move_to(x, y)
       end
        
-      # Draws a polygon from the specified points and automatically strokes
-      # the path.
+      # Draws a polygon from the specified points.
       #                                              
       #    # draws a snazzy triangle
       #    pdf.polygon [100,100], [100,200], [200,200]  
       #
-      def polygon(*points)
+      def polygon(*points) 
+        move_to points[0]
         (points << points[0]).each_cons(2) do |p1,p2|
-          move_to(*p1)
           line_to(*p2)
         end
       end
@@ -149,11 +149,28 @@ module Prawn
       # 
       def rectangle(point,width,height)
         x,y = point
-        polygon [x        , y         ],
-                [x + width, y         ], 
-                [x + width, y - height],
-                [        x, y - height]
-      end                              
+        add_content("\n%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
+      end     
+      
+      def stroke #:nodoc:
+        add_content "S"
+      end              
+      
+      def fill #:nodoc:
+        add_content "f" 
+      end     
+      
+      def method_missing(id,*args,&block)
+        case(id.to_s) 
+        when /^stroke_(.*)/
+          send($1,*args,&block); stroke 
+        when /^fill_(.*)/
+          send($1,*args,&block); fill
+        else
+          super
+        end
+      end
+                                    
     end
   end
 end
