@@ -24,6 +24,6 @@ pdf.line_width = 10
  [380,500,415,600], 
  [430,600,430,500],
  [430,600,465,500],
- [465,600,465,500]].each { |points| pdf.line(*points) }
+ [465,600,465,500]].each { |points| pdf.stroke_line(*points) }
 
 pdf.render_file "lines.pdf"
