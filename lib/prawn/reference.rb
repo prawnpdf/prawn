@@ -1,5 +1,11 @@
+# reference.rb : Implementation of PDF indirect objects
+#
+# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
-  class Reference
+  class Reference #:nodoc:
              
    attr_accessor :gen, :data, :offset
    attr_reader :identifier, :stream
@@ -31,7 +37,7 @@ module Prawn
   
   module_function
   
-  def Reference(*args)
+  def Reference(*args) #:nodoc:
     Reference.new(*args)
   end
 end

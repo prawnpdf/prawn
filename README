@@ -1,1 +1,23 @@
-edit
+Prawn is a PDF writing library for Ruby designed to be tiny, fast, and nimble,
+just like the majestic sea creature.
+
+Development on this library is made possible thanks to the many people who
+donated to the Ruby Mendicant project:
+
+http://rubymendicant.wikidot.com      
+
+RESOURCES:
+
+Bug Tracker / Wiki:
+
+http://prawn.lighthouseapp.com/projects/9398-prawn/home
+
+GitHub:
+
+http://github.com/sandal/prawn
+
+This library is in the early stages of development, more resources will be
+available soon.  For now, if you have questions, problems, or ideas, please
+email me at gregory.t.brown@gmail.com.  Alternatively, you can look for 
+<sandal> in #ruport, #prawn, or #rubymendicant on Freenode.
+

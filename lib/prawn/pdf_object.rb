@@ -1,3 +1,9 @@
+# pdf_object.rb : Handles Ruby to PDF object serialization
+#
+# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn 
                                              
   module_function
@@ -16,7 +22,7 @@ module Prawn
   #     PdfObject(:Symbol)   #=> "/Symbol"
   #     PdfObject(["foo",:bar, [1,2]]) #=> "[foo /bar [1 2]]"
   # 
-  def PdfObject(obj)
+  def PdfObject(obj) #:nodoc:
     case(obj)        
     when NilClass   then "null" 
     when TrueClass  then "true"

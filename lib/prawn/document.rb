@@ -1,3 +1,9 @@
+# document.rb : Implements PDF document generation for Prawn
+#
+# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require "stringio"
 require "prawn/document/graphics"
 require "prawn/document/page_geometry"       
@@ -9,7 +15,24 @@ module Prawn
     include PageGeometry                             
     
     attr_accessor :page_size, :page_layout
-    
+          
+    # Creates a new PDF Document.  The following options are available:
+    #
+    # <tt>:page_size</tt>:: One of the Document::PageGeometry::SIZES (default: LETTER)
+    # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
+    # <tt>:on_page_start</tt>:: Optional proc run at each page start
+    # <tt>:on_page_stop</tt>:: Optional proc  run at each page stop
+    #                             
+    #    # New document, US Letter paper, portrait orientation
+    #    pdf = Prawn::Document.new                            
+    #
+    #    # New document, A4 paper, landscaped
+    #    pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
+    # 
+    #    # New document, draws a line at the start of each new page
+    #    pdf = Prawn::Document.new(:on_page_start => 
+    #      lambda { |doc| doc.line [0,100], [300,100] } )
+    #
     def initialize(options={})
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
@@ -22,7 +45,11 @@ module Prawn
        
        start_new_page
      end  
-                                                
+            
+     # Creates and advances to a new page in the document.
+     # Runs the <tt>:on_page_start</tt> lambda if one was provided at
+     # document creation time (See Document.initialize).  
+     #                                
      def start_new_page
        finish_page_content if @page_content
        @page_content = ref(:Length => 0)   
@@ -39,27 +66,36 @@ module Prawn
 
        @page_start_proc[self] if @page_start_proc
     end             
-    
+      
+    # Returns the number of pages in the document
+    #  
+    #    pdf = Prawn::Document.new
+    #    pdf.page_count #=> 1
+    #    3.times { pdf.start_new_page }
+    #    pdf.page_count #=> 4
     def page_count
       @pages.data[:Count]
     end
-
-   def move_to(x, y)
-      add_content("%.3f %.3f m" % [ x, y ])
-    end
-
-    def render(output=StringIO.new)       
+       
+    # Renders the PDF document, returning a string by default. 
+    #
+    def render
+      output = StringIO.new       
       finish_page_content
 
       render_header(output)
       render_body(output)
       render_xref(output)
       render_trailer(output)
-      output.string
+      output.string 
     end
-
+     
+    # Renders the PDF document to file.
+    #
+    #    pdf.render_file "foo.pdf"     
+    #
     def render_file(filename)
-      File.open(filename,"wb") { |f| f.write render }
+      File.open(filename,"wb") { |f| f << render }
     end
 
     private
@@ -67,10 +103,6 @@ module Prawn
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
     end                                               
-    
-    def stroke
-      add_content "S"
-    end
    
     def add_content(str)
      @page_content << str << "\n"

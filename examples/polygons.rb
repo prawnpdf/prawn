@@ -4,10 +4,10 @@ require "prawn"
 pdf = Prawn::Document.new
 
 20.times do |i|
-  pdf.polygon [ 50 + i*25,   50 + i*25], 
-              [100 + i*25,   50 + i*25],
-              [100 + i*25,  100 + i*25]
-  pdf.rectangle [0,600], 5*i, 10*i
+  pdf.stroke_polygon [ 50 + i*25,   50 + i*25], 
+                     [100 + i*25,   50 + i*25],
+                     [100 + i*25,  100 + i*25] 
+  pdf.stroke_rectangle [0,600], 5*i, 10*i  
 end
 
 pdf.render_file "pretty_polygons.pdf"
