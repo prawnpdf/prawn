@@ -160,6 +160,38 @@ describe "When drawing a circle" do
   end
 end    
 
+class ColorObserver 
+  attr_reader :stroke_color, :fill_color
+
+  def set_rgb_color_for_stroking(*params)
+    @stroke_color = params
+  end
+
+  def set_rgb_color_for_nonstroking(*params)
+    @fill_color = params
+  end
+end
+
+describe "When setting colors" do
+
+  before(:each) { create_pdf }
+
+  it "should set stroke colors" do
+    @pdf.stroke_color "ffcccc"
+    colors = observer(ColorObserver)
+    # 100% red, 80% green, 80% blue
+    colors.stroke_color.should == [1.0, 0.8, 0.8]
+  end
+
+  it "should set fill colors" do
+    @pdf.fill_color "ccff00"
+    colors = observer(ColorObserver)
+    # 80% red, 100% green, 0% blue
+    colors.fill_color.should == [0.8,1.0,0]
+  end
+
+end
+
 describe "When using painting shortcuts" do
   before(:each) { create_pdf }
  
