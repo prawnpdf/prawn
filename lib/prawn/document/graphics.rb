@@ -149,17 +149,41 @@ module Prawn
       # 
       def rectangle(point,width,height)
         x,y = point
-        add_content("\n%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
-      end     
+        add_content("%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
+      end 
       
-      def stroke #:nodoc:
+      # Sets the fill color.  6 digit HTML color codes are used.
+      # 
+      #   pdf.fill_color "f0ffc1"
+      #
+      def fill_color(color)     
+        r,g,b = [color[0..1], color[2..3], color[4..5]].map { |e| e.to_i(16) }       
+        add_content "%.3f %.3f %.3f rg" %  [r / 255.0, g / 255.0, b / 255.0]
+      end                                                                      
+      
+      # Sets the line stroking color.  6 digit HTML color codes are used.
+      #
+      #   pdf.stroke_color "cc2fde"
+      #
+      def stroke_color(color) 
+        r,g,b = [color[0..1], color[2..3], color[4..5]].map { |e| e.to_i(16) }     
+        add_content "%.3f %.3f %.3f RG" %  [r / 255.0, g / 255.0, b / 255.0]   
+      end
+      
+      # Strokes and closes the current path.
+      def stroke
         add_content "S"
       end              
       
-      def fill #:nodoc:
-        add_content "f" 
+      # Fills, strokes, and closes the current path.
+      def fill 
+        add_content "b" 
       end     
       
+      # Provides the following shortcuts:
+      #
+      #    stroke_some_method(*args) #=> some_method(*args); stroke
+      #    fill_some_method(*args) #=> some_method(*args); fill
       def method_missing(id,*args,&block)
         case(id.to_s) 
         when /^stroke_(.*)/
