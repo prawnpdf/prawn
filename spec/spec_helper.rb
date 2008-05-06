@@ -2,6 +2,7 @@ require "rubygems"
 require "spec"
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib') 
 require "prawn"
+gem 'pdf-reader', ">=0.7"
 require "pdf/reader"
 
 def create_pdf
