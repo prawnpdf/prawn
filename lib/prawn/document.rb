@@ -45,7 +45,7 @@ module Prawn
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
                        
-       register_font
+       register_fonts
        start_new_page
      end  
             
