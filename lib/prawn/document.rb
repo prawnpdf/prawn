@@ -6,12 +6,14 @@
 
 require "stringio"
 require "prawn/document/graphics"
-require "prawn/document/page_geometry"       
+require "prawn/document/page_geometry" 
+require "prawn/document/text"      
 
 module Prawn
   class Document  
     
-    include Graphics                                 
+    include Graphics    
+    include Text                             
     include PageGeometry                             
     
     attr_accessor :page_size, :page_layout
@@ -42,7 +44,8 @@ module Prawn
        @page_stop_proc  = options[:on_page_end]              
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
-       
+                       
+       register_fonts
        start_new_page
      end  
             
@@ -58,7 +61,7 @@ module Prawn
                            :Parent   => @pages, 
                            :MediaBox => page_dimensions, 
                            :Contents => @page_content) 
-     
+       set_page_font
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
      
