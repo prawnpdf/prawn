@@ -24,19 +24,22 @@ module Prawn
         }
       end 
       
-      def register_font(name)   
-        raise unless BUILT_INS.include?(name)    
-        fonts[name] ||= ref(:Type     => :Font, 
-                         :Subtype  => :Type1, 
-                         :BaseFont => name.to_sym,
-                         :Encoding => :MacRomanEncoding)           
-      end   
       
       def font(name)
         @font = name              
         register_font(name)
         set_current_font
-      end   
+      end                  
+      
+      private
+      
+      def register_font(name) #:nodoc:   
+        raise unless BUILT_INS.include?(name)    
+        fonts[name] ||= ref(:Type     => :Font, 
+                         :Subtype  => :Type1, 
+                         :BaseFont => name.to_sym,
+                         :Encoding => :MacRomanEncoding)           
+      end 
                    
       def set_current_font #:nodoc:                     
         font "Helvetica" unless fonts[@font]
@@ -58,8 +61,7 @@ module Prawn
       def fonts #:nodoc:
         @fonts ||= {}
       end
-      
-      private :set_current_font, :font_registry, :font_proc, :fonts
+
         
     end
     
