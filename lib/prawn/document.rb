@@ -61,7 +61,7 @@ module Prawn
                            :Parent   => @pages, 
                            :MediaBox => page_dimensions, 
                            :Contents => @page_content) 
-       set_page_font
+       set_current_font
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
      
