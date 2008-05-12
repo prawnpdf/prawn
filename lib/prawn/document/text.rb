@@ -14,10 +14,13 @@ module Prawn
           Symbol ZapfDingbats ]                      
               
       def text(text,options)        
-        x,y = options[:at]
+        x,y = options[:at]  
+        font_size = options[:size] || 12   
+        font_name = font_registry[fonts[@font]]         
+        
         add_content %Q{
         BT
-        /#{font_registry[fonts[@font]]} #{options[:size] || 12} Tf 
+        /#{font_name} #{font_size} Tf 
         #{x} #{y} Td 
         #{Prawn::PdfObject(text)} Tj 
         ET           
