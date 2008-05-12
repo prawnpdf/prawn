@@ -28,23 +28,28 @@ module Prawn
       
       def font(name)
         @font = name
-        set_page_font
+        set_current_font
       end   
                    
-      # temporary hack to get text rudiments working, will go away.
-      def set_page_font         
-        p @fonts
-        @current_page.data[:Resources] =  { 
-          :ProcSet => @proc, 
-          :Font    => { :F1 => @fonts[@font] }   
-        }
+      def set_current_font #:nodoc:
+        @font_registry ||= {}
+        @font_registry[@fonts[@font]] ||= :"F#{@font_registry.size + 1}"            
+                
+        @current_page.data[:Resources] ||= { 
+          :ProcSet => @proc,             
+          :Font    => {}
+        }                                                      
+        
+       @current_page.data[:Resources][:Font].merge!(
+         @font_registry[@fonts[@font]] => @fonts[@font] 
+       ) 
       end
         
       def text(text,options)        
         x,y = options[:at]
         add_content %Q{
         BT
-        /F1 #{options[:size] || 12} Tf 
+        /#{@font_registry[@fonts[@font]]} #{options[:size] || 12} Tf 
         #{x} #{y} Td 
         #{Prawn::PdfObject(text)} Tj 
         ET           
