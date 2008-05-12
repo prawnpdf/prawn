@@ -44,9 +44,8 @@ module Prawn
        @page_stop_proc  = options[:on_page_end]              
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
-                       
-       register_fonts
-       start_new_page
+       
+       start_new_page 
      end  
             
      # Creates and advances to a new page in the document.
@@ -57,10 +56,12 @@ module Prawn
        finish_page_content if @page_content
        @page_content = ref(:Length => 0)   
      
-       @current_page = ref(:Type     => :Page, 
-                           :Parent   => @pages, 
-                           :MediaBox => page_dimensions, 
-                           :Contents => @page_content) 
+       @current_page = ref(:Type      => :Page, 
+                           :Parent    => @pages, 
+                           :MediaBox  => page_dimensions, 
+                           :Contents  => @page_content,
+                           :ProcSet   => font_proc,
+                           :Resources => { :Font => {} } ) 
        set_current_font
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
