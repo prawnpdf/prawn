@@ -16,7 +16,33 @@ module Prawn
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout
+    attr_accessor :page_size, :page_layout    
+             
+    # Creates and renders a PDF document.  If a filename is given, the output
+    # will be rendered to file, otherwise the result will be turned as a string.
+    # The explicit receiver argument is necessary only when you need to make 
+    # use of a closure.     
+    #      
+    #    # Using implicit block form and rendering to a file
+    #    Prawn::Document.generate "foo.pdf" do
+    #       font "Times-Roman"   
+    #       text "Hello World", :at => [200,720], :size => 32       
+    #    end
+    #           
+    #    # Using explicit block form and rendering to a file
+    #    Prawn::Document.generate "foo.pdf" do |pdf|
+    #       pdf.font "Times-Roman"
+    #       text "Hello World", :at => [200,720], :size => 32
+    #    end                                                
+    #
+    #    # Using implicit block form and rendering to string
+    #    output = Prawn::Document.generate { stroke_line [100,100], [200,200] }    
+    #    
+    def self.generate(filename=nil,&block)
+      pdf = Prawn::Document.new          
+      block.arity < 1 ? pdf.instance_eval(&block) : yield(pdf)
+      filename ? pdf.render_file(filename) : pdf.render
+    end
           
     # Creates a new PDF Document.  The following options are available:
     #
