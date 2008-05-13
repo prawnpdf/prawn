@@ -26,7 +26,7 @@ module Prawn
         
         add_content %Q{
         BT
-        /#{font_name} #{font_size} Tf 
+        /#{font_name} #{font_size} Tf
         #{x} #{y} Td 
         #{Prawn::PdfObject(text)} Tj 
         ET           

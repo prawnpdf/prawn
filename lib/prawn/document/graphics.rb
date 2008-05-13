@@ -156,9 +156,9 @@ module Prawn
       # 
       #   pdf.fill_color "f0ffc1"
       #
-      def fill_color(color)     
-        r,g,b = [color[0..1], color[2..3], color[4..5]].map { |e| e.to_i(16) }       
-        add_content "%.3f %.3f %.3f rg" %  [r / 255.0, g / 255.0, b / 255.0]
+      def fill_color(color)
+        @fill_color = color
+        set_fill_color     
       end                                                                      
       
       # Sets the line stroking color.  6 digit HTML color codes are used.
@@ -166,8 +166,8 @@ module Prawn
       #   pdf.stroke_color "cc2fde"
       #
       def stroke_color(color) 
-        r,g,b = [color[0..1], color[2..3], color[4..5]].map { |e| e.to_i(16) }     
-        add_content "%.3f %.3f %.3f RG" %  [r / 255.0, g / 255.0, b / 255.0]   
+        @stroke_color = color
+        set_stroke_color
       end
       
       # Strokes and closes the current path.
@@ -193,7 +193,26 @@ module Prawn
         else
           super
         end
+      end                    
+                                                                          
+      def set_fill_color
+        r,g,b = [@fill_color[0..1], @fill_color[2..3], @fill_color[4..5]].
+                map { |e| e.to_i(16) }       
+        add_content "%.3f %.3f %.3f rg" %  [r / 255.0, g / 255.0, b / 255.0]   
       end
+      
+      def set_stroke_color
+        r,g,b = [@stroke_color[0..1], @stroke_color[2..3], @stroke_color[4..5]].
+                map { |e| e.to_i(16) }     
+        add_content "%.3f %.3f %.3f RG" %  [r / 255.0, g / 255.0, b / 255.0]       
+      end                                       
+      
+      def update_colors                                         
+        set_fill_color   if @fill_color
+        set_stroke_color if @stroke_color
+      end
+      
+      private :set_fill_color, :set_stroke_color, :update_colors
                                     
     end
   end
