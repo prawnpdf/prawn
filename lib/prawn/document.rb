@@ -88,7 +88,8 @@ module Prawn
                            :Contents  => @page_content,
                            :ProcSet   => font_proc,
                            :Resources => { :Font => {} } ) 
-       set_current_font
+       set_current_font    
+       update_colors
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
      
