@@ -7,12 +7,18 @@
 module Prawn
   class Document
     module Text
-      
+           
+      # The built in fonts specified by the Adobe PDF spec.
       BUILT_INS = %w[ Courier Courier-Bold Courier-Oblique Courier-BoldOblique
           Helvetica Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique
           Times-Roman Times-Bold Times-Italic Times-BoldItalic
           Symbol ZapfDingbats ]                      
-              
+                                                  
+      # Draws text at a specified position on the page.
+      #
+      #    pdf.text "Hello World",   :at => [100,100] 
+      #    pdf.text "Goodbye World", :at => [50,50], :size => 16
+      # 
       def text(text,options)        
         x,y = options[:at]  
         font_size = options[:size] || 12   
@@ -27,7 +33,13 @@ module Prawn
         }
       end 
       
-      
+       
+      # Sets the current font.
+      #      
+      # For the time being, name must be one of the BUILT_INS
+      #
+      #    pdf.font "Times-Roman"
+      #
       def font(name)
         @font = name              
         register_font(name)

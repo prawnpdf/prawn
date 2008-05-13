@@ -32,7 +32,7 @@ module Prawn
     #    # Using explicit block form and rendering to a file
     #    Prawn::Document.generate "foo.pdf" do |pdf|
     #       pdf.font "Times-Roman"
-    #       text "Hello World", :at => [200,720], :size => 32
+    #       pdf.text "Hello World", :at => [200,720], :size => 32
     #    end                                                
     #
     #    # Using implicit block form and rendering to string
