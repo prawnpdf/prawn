@@ -37,7 +37,9 @@ module Prawn
       private
       
       def register_font(name) #:nodoc:   
-        raise unless BUILT_INS.include?(name)    
+        unless BUILT_INS.include?(name)
+          raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
+        end    
         fonts[name] ||= ref(:Type     => :Font, 
                          :Subtype  => :Type1, 
                          :BaseFont => name.to_sym,
