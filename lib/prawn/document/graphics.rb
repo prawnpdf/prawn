@@ -194,6 +194,8 @@ module Prawn
           super
         end
       end                    
+      
+      private         
                                                                           
       def set_fill_color
         r,g,b = [@fill_color[0..1], @fill_color[2..3], @fill_color[4..5]].
@@ -211,9 +213,7 @@ module Prawn
         set_fill_color   if @fill_color
         set_stroke_color if @stroke_color
       end
-      
-      private :set_fill_color, :set_stroke_color, :update_colors
-                                    
+
     end
   end
 end
