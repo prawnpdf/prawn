@@ -55,4 +55,5 @@ module Prawn
         "This object cannot be serialized to PDF"
     end     
   end   
+  
 end

@@ -1,6 +1,6 @@
 # text.rb : Implements PDF text primitives
 #
-# Copyright April 2008, Gregory Brown.  All Rights Reserved.
+# Copyright May 2008, Gregory Brown.  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
@@ -32,8 +32,7 @@ module Prawn
         ET           
         }
       end 
-      
-       
+              
       # Sets the current font.
       #      
       # For the time being, name must be one of the BUILT_INS
@@ -53,9 +52,9 @@ module Prawn
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end    
         fonts[name] ||= ref(:Type     => :Font, 
-                         :Subtype  => :Type1, 
-                         :BaseFont => name.to_sym,
-                         :Encoding => :MacRomanEncoding)           
+                            :Subtype  => :Type1, 
+                            :BaseFont => name.to_sym,
+                            :Encoding => :MacRomanEncoding)           
       end 
                    
       def set_current_font #:nodoc:                     
@@ -77,10 +76,8 @@ module Prawn
       
       def fonts #:nodoc:
         @fonts ||= {}
-      end
-
-        
-    end
-    
+      end   
+          
+    end   
   end
 end

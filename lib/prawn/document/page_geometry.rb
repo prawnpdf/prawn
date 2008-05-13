@@ -68,5 +68,6 @@ module Prawn::Document::PageGeometry
        raise Prawn::Errors::InvalidPageLayout, 
          "Layout must be either :portrait or :landscape"
      end
-   end
+   end 
+   
 end

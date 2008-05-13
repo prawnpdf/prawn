@@ -4,7 +4,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-module Prawn
+module Prawn  
+  
   class Reference #:nodoc:
              
    attr_accessor :gen, :data, :offset
@@ -39,5 +40,6 @@ module Prawn
   
   def Reference(*args) #:nodoc:
     Reference.new(*args)
-  end
+  end     
+
 end
