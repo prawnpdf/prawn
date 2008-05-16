@@ -1,0 +1,1 @@
+require "prawn/font/afm"

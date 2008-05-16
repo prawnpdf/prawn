@@ -19,7 +19,8 @@ module Prawn
       #    pdf.text "Hello World",   :at => [100,100] 
       #    pdf.text "Goodbye World", :at => [50,50], :size => 16
       # 
-      def text(text,options)        
+      def text(text,options={})  
+        return wrapped_text(text,options) unless options[:at]      
         x,y = options[:at]  
         font_size = options[:size] || 12   
         font_name = font_registry[fonts[@font]]         
@@ -45,7 +46,24 @@ module Prawn
         set_current_font
       end                  
       
-      private
+      private      
+           
+      # Not really ready yet. 
+      def wrapped_text(text,options)  
+        font_size = options[:size] || 12   
+        font_name = font_registry[fonts[@font]]
+        
+        lines = text.lines.map { |e| Prawn::PdfObject(e) << " Tj\n" }.
+                     join("0 -#{font_size} Td\n") 
+        
+        add_content %Q{
+         BT
+          /#{font_name} #{font_size} Tf
+          50 500 Td 
+          #{lines} 
+          ET           
+        }    
+      end
       
       def register_font(name) #:nodoc:   
         unless BUILT_INS.include?(name)
