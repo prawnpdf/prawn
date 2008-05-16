@@ -49,7 +49,7 @@ module Prawn
         @bounding_boxes = {}
       
         file = font_name + (font_name =~ /\.afm$/ ? '' : '.afm')   
-        unless file == ?/
+        unless file[0..0] == "/"
            file = find_font(file)
         end                     
         parse_afm(file)
