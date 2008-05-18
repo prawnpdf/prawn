@@ -7,6 +7,7 @@
 require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
+require "prawn/graphics"
 require "prawn/document"
 require "prawn/reference"  
 require "prawn/font"

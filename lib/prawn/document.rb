@@ -5,14 +5,13 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/graphics"
 require "prawn/document/page_geometry" 
 require "prawn/document/text"      
 
 module Prawn
   class Document  
     
-    include Graphics    
+    include Prawn::Graphics    
     include Text                             
     include PageGeometry                             
     
