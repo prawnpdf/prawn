@@ -6,6 +6,7 @@
 
 require "stringio"
 require "prawn/document/page_geometry" 
+require "prawn/document/bounding_box"
 require "prawn/document/text"      
 
 module Prawn
