@@ -5,12 +5,14 @@ content = <<-EOS
 How does
 Prawn    deal     with
    white
-     space
-       and
+     space 
+     
+       and    
+       
        line
        breaks?
 EOS
 
 Prawn::Document.generate("flow.pdf") do |pdf|      
-  pdf.text "content", :size => 10
+  pdf.text content, :size => 10
 end

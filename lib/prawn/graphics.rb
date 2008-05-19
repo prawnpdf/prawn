@@ -15,6 +15,11 @@ module Prawn
    # ruby-pdf.rubyforge.org
    #
    module Graphics 
+       
+       
+     #######################################################################
+     # Low level drawing operations must translate to absolute coords!     #
+     #######################################################################
         
      # Moves the drawing position to a given point.  The point can be
      # specified as a tuple or a flattened argument list
@@ -22,15 +27,56 @@ module Prawn
      #   pdf.move_to [100,50]
      #   pdf.move_to(100,50)
      def move_to(*point)
-       x,y = point.flatten
+       x,y = translate(point)           
        add_content("%.3f %.3f m" % [ x, y ])
      end
-                       
+     
+     # Draws a line from the current drawing position to the specified point.
+     # The destination may be described as a tuple or a flattened list:    
+     #
+     #   pdf.line_to [50,50] 
+     #   pdf.line_to(50,50)    
+     #
+     def line_to(*point)      
+       x,y = translate(point)
+       add_content("%.3f %.3f l" % [ x, y ]) 
+     end    
+     
+      # Draws a Bezier curve from the current drawing position to the 
+      # specified point, bounded by two additional points.
+      #  
+      #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]   
+      #
+      def curve_to(dest,options={})                           
+        options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath, 
+          "Bounding points for bezier curve must be specified "+
+          "as :bounds => [[x1,y1],[x2,y2]]"       
+
+        curve_points = (options[:bounds] << dest).map { |e| translate(e) }
+        add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" % 
+                      curve_points.flatten )    
+     end   
+     
+     # Draws a rectangle given <tt>point</tt>, <tt>width</tt> and 
+     # <tt>height</tt>.  The rectangle is bounded by its upper-left corner.
+     #
+     #    pdf.rectangle [300,300], 100, 200
+     # 
+     def rectangle(point,width,height)
+       x,y = translate(point)
+       add_content("%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
+     end
+                          
      # Sets line thickness to the <tt>width</tt> specified.
      #
      def line_width=(width)
        add_content("#{width} w")
      end
+        
+     ###########################################################
+     #  Higher level functions: May use relative coords        #   
+     ########################################################### 
+      
       
      # Draws a line from one point to another. Points may be specified as 
      # tuples or flattened argument list:
@@ -43,32 +89,7 @@ module Prawn
        move_to(x0, y0)
        line_to(x1, y1)
      end   
-      
-     # Draws a line from the current drawing position to the specified point.
-     # The destination may be described as a tuple or a flattened list:    
-     #
-     #   pdf.line_to [50,50] 
-     #   pdf.line_to(50,50)    
-     #
-     def line_to(*point)      
-       x,y = point.flatten
-       add_content("%.3f %.3f l" % [ x, y ]) 
-     end
-            
- 
-     # Draws a Bezier curve from the current drawing position to the 
-     # specified point, bounded by two additional points.
-     #  
-     #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]   
-     #
-     def curve_to(dest,options={})                           
-       options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath, 
-         "Bounding points for bezier curve must be specified "+
-         "as :bounds => [[x1,y1],[x2,y2]]"
-       add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" % 
-                     (options[:bounds] + dest).flatten )    
-    end    
-       
+                
     # Draws a Bezier curve between two points, bounded by two additional
     # points
     #
@@ -140,17 +161,7 @@ module Prawn
         line_to(*p2)
       end
     end
-                                  
-    # Draws a rectangle given <tt>point</tt>, <tt>width</tt> and 
-    # <tt>height</tt>.  The rectangle is bounded by its upper-left corner.
-    #
-    #    pdf.rectangle [300,300], 100, 200
-    # 
-    def rectangle(point,width,height)
-      x,y = point
-      add_content("%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
-    end 
-    
+                                      
     # Sets the fill color.  6 digit HTML color codes are used.
     # 
     #   pdf.fill_color "f0ffc1"
@@ -194,7 +205,12 @@ module Prawn
       end
     end                    
     
-    private         
+    private    
+    
+    def translate(*point)
+      x,y = point.flatten
+      [@bounding_box.absolute_left + x, @bounding_box.absolute_bottom + y]
+    end     
                                                                         
     def set_fill_color
       r,g,b = [@fill_color[0..1], @fill_color[2..3], @fill_color[4..5]].
