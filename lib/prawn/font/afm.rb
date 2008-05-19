@@ -49,7 +49,7 @@ module Prawn
         @bounding_boxes = {}
       
         file = font_name + (font_name =~ /\.afm$/ ? '' : '.afm')   
-        unless file == ?/
+        unless file[0..0] == "/"
            file = find_font(file)
         end                     
         parse_afm(file)
@@ -59,6 +59,16 @@ module Prawn
         scale = font_size / 1000.0
         string.unpack("C*").
                inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
+      end
+
+      # Hackish, but does the trick for now.
+      def method_missing(method, *args, &block)
+        name = method.to_s.delete("_")
+        if @attributes.include? name
+          @attributes[name]
+        else
+          super  
+        end
       end
     
       private
@@ -114,18 +124,7 @@ module Prawn
             end
           end
         end
-      end  
-             
-      # Hackish, but does the trick for now.
-      def method_missing(method, *args, &block)
-        name = name.to_s.delete("_")
-        if @attributes.include? name
-          @attributes[name]
-        else
-          super  
-        end
-      end
-
+      end               
     end
   end   
 end
