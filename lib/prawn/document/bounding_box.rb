@@ -1,5 +1,5 @@
 module Prawn 
-  class Document
+  class Document       
     class BoundingBox
 
       def initialize(point,options={})

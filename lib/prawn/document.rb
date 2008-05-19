@@ -70,11 +70,16 @@ module Prawn
        @page_stop_proc  = options[:on_page_end]              
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
+             
+       ml = options[:left_margin]   || 36
+       mr = options[:right_margin]  || 36  
+       mt = options[:top_margin]    || 36
+       mb = options[:bottom_margin] || 36
         
        @margin_box = BoundingBox.new( 
-         [ 25, page_dimensions[-1] - 25 ], 
-         :width => page_dimensions[-2] - 50, 
-         :height => page_dimensions[-1] - 50 
+         [ ml, page_dimensions[-1] - mt ] , 
+         :width => page_dimensions[-2] - (ml + mr), 
+         :height => page_dimensions[-1] - (mt + mb)
        ) 
        
        @bounding_box = @margin_box
