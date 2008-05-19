@@ -10,4 +10,13 @@ require "prawn/pdf_object"
 require "prawn/graphics"
 require "prawn/document"
 require "prawn/reference"  
-require "prawn/font"
+require "prawn/font" 
+   
+module Prawn 
+  file = __FILE__
+  file = File.readlink(file) if File.symlink?(file)
+  dir = File.dirname(file)
+                          
+  # The base source directory for Prawn as installed on the system
+  BASEDIR = File.expand_path(File.join(dir, '..'))    
+end

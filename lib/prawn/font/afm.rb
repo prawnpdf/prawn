@@ -76,7 +76,8 @@ module Prawn
       def metrics_path
         @metrics_path ||= (ENV['METRICS'] || 
           "/usr/lib/afm:/usr/local/lib/afm:"+
-          "/usr/openwin/lib/fonts/afm/:.").split(':')
+          "/usr/openwin/lib/fonts/afm/:"+
+          "#{Prawn::BASEDIR+'/data/fonts/'}:.").split(':')
       end 
     
       def find_font(file)
