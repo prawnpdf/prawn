@@ -1,3 +1,5 @@
+puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
+
 require "rubygems"
 require "spec"
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib') 
