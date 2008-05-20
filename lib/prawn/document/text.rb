@@ -60,7 +60,7 @@ module Prawn
         font_size = options[:size] || 12   
         font_name = font_registry[fonts[@font]]
         
-        text = greedy_wrap(text.gsub(/\n/,""), font_size)
+        text = greedy_wrap(text, font_size)
         
         lines = "0 -#{font_size} Td\n" <<
                 text.lines.map { |e| Prawn::PdfObject(e) << " Tj\n" }.
@@ -75,23 +75,24 @@ module Prawn
         }    
       end 
       
-      def greedy_wrap(string, font_size)
-         
-        words = string.split(/ /)
-        space_left = bounds.right
-        output = ""
-        size_of_space = @font_metrics.string_width(" ", font_size)
-        words.each do |e|        
-         width = size_of_space +
-           (e.empty? ? 0 : @font_metrics.string_width(e, font_size)) 
-         if width <= space_left
-           output << e << " "
-           space_left -= width
-         else
-           output << "\n" << e << " "   
-           space_left = bounds.right - width
-         end
-        end           
+      def greedy_wrap(string, font_size)  
+        output = ""  
+        string.lines.each do |line|
+          words = line.split(/ /)
+          space_left = bounds.right
+          size_of_space = @font_metrics.string_width(" ", font_size)
+          words.each do |e|        
+           width = size_of_space +
+             (e.empty? ? 0 : @font_metrics.string_width(e, font_size)) 
+           if width <= space_left
+             output << e << " "
+             space_left -= width
+           else
+             output << "\n" << e << " "   
+             space_left = bounds.right - width
+           end
+          end               
+        end             
         output
       end
       
