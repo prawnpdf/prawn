@@ -1,5 +1,12 @@
 module Prawn 
-  class Document       
+  class Document   
+    
+    def bounding_box(*args,&block)  
+      @bounding_box = BoundingBox.new(*args)
+      block.call
+      @bounding_box = @margin_box    
+    end
+        
     class BoundingBox
 
       def initialize(point,options={})

@@ -16,7 +16,7 @@ module Prawn
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout, :bounding_box    
+    attr_accessor :page_size, :page_layout    
              
     # Creates and renders a PDF document.  If a filename is given, the output
     # will be rendered to file, otherwise the result will be turned as a string.
@@ -140,6 +140,10 @@ module Prawn
     #
     def render_file(filename)
       File.open(filename,"wb") { |f| f << render }
+    end   
+    
+    def bounds
+      @bounding_box
     end
 
     private
