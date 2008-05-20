@@ -42,16 +42,25 @@ module Prawn
       ]    
     
       attr_reader :attributes
-  
-      def initialize(font_name)    
+             
+      def self.data
+        @data ||= {}
+      end   
+         
+      def self.[](font)
+        data[font] ||= new(font) 
+      end 
+        
+      def initialize(font_name)            
         @attributes     = {}   
         @glyph_widths   = {}
-        @bounding_boxes = {}
-      
+        @bounding_boxes = {}  
+        
         file = font_name + (font_name =~ /\.afm$/ ? '' : '.afm')   
         unless file[0..0] == "/"
            file = find_font(file)
-        end                     
+        end    
+                         
         parse_afm(file)
       end   
     

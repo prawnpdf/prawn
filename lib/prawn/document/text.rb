@@ -21,7 +21,7 @@ module Prawn
       # 
       def text(text,options={})  
         return wrapped_text(text,options) unless options[:at]      
-        x,y = options[:at]  
+        x,y = translate(options[:at])  
         font_size = options[:size] || 12   
         font_name = font_registry[fonts[@font]]         
         
@@ -39,27 +39,35 @@ module Prawn
       # For the time being, name must be one of the BUILT_INS
       #
       #    pdf.font "Times-Roman"
-      #
-      def font(name)
-        @font = name              
+      #               
+      # PERF: Cache or limit calls to this, no need to generate a 
+      # new fontmetrics file or re-register the font each time.
+      def font(name)  
+        @font = name       
         register_font(name)
+        @font_metrics = Prawn::Font::AFM[name]   
         set_current_font
-      end                  
+      end      
+            
+      private
       
-      private      
+      def text_width(text,size) 
+        @font_metrics.string_width(text,size)  
+      end                      
            
       # Not really ready yet. 
       def wrapped_text(text,options)  
         font_size = options[:size] || 12   
         font_name = font_registry[fonts[@font]]
         
-        lines = text.lines.map { |e| Prawn::PdfObject(e) << " Tj\n" }.
-                     join("0 -#{font_size} Td\n") 
+        lines = "0 -#{font_size} Td\n" <<
+                text.lines.map { |e| Prawn::PdfObject(e) << " Tj\n" }.
+                  join("0 -#{font_size} Td\n") 
         
         add_content %Q{
          BT
           /#{font_name} #{font_size} Tf
-          50 500 Td 
+          #{@bounding_box.absolute_left} #{@bounding_box.absolute_top} Td 
           #{lines} 
           ET           
         }    
