@@ -44,7 +44,7 @@ Prawn::Document.generate("flow.pdf") do |pdf|
   
   pdf.text content, :size => 10    
                
-  pdf.bounding_box([100,500], :width => 200, :height => 400) do   
+  pdf.bounding_box([100,500], :width => 400, :height => 400) do   
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
     pdf.text poem, :size => 12  
