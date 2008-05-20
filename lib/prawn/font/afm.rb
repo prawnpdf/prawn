@@ -98,7 +98,7 @@ module Prawn
     
       def latin_glyphs_table
         @glyphs_table ||= (0..255).map do |i|
-          @glyph_widths[ISOLatin1Encoding[i] || '.notdef']
+          @glyph_widths[ISOLatin1Encoding[i]].to_i
         end 
       end
     
