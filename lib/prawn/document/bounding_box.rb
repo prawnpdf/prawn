@@ -2,9 +2,13 @@ module Prawn
   class Document   
     
     def bounding_box(*args,&block)  
-      @bounding_box = BoundingBox.new(*args)
-      block.call
-      @bounding_box = @margin_box    
+      @bounding_box = BoundingBox.new(*args) 
+      self.y = @bounding_box.absolute_top
+      
+      block.call                         
+      
+      self.y = @bounding_box.absolute_bottom   
+      @bounding_box = @margin_box        
     end
         
     class BoundingBox
