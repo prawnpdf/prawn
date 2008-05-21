@@ -49,30 +49,36 @@ module Prawn
         set_current_font
       end      
             
-      private
+      private  
+      
+      def move_text_position(dy)     
+         if (y - dy) < @margin_box.absolute_bottom  
+           return start_new_page
+         end
+         self.y -= dy
+      end          
       
       def text_width(text,size) 
         @font_metrics.string_width(text,size)  
       end                      
            
       # Not really ready yet. 
-      def wrapped_text(text,options)  
+      def wrapped_text(text,options)     
         font_size = options[:size] || 12   
         font_name = font_registry[fonts[@font]]
         
-        text = greedy_wrap(text, font_size)
-        
-        lines = "0 -#{font_size} Td\n" <<
-                text.lines.map { |e| Prawn::PdfObject(e) << " Tj\n" }.
-                  join("0 -#{font_size} Td\n") 
-        
-        add_content %Q{
-         BT
-          /#{font_name} #{font_size} Tf
-          #{@bounding_box.absolute_left} #{@bounding_box.absolute_top} Td 
-          #{lines} 
-          ET           
-        }    
+        text = greedy_wrap(text, font_size)        
+                           
+        text.lines.each do |e| 
+          move_text_position(font_size)  
+          add_content %Q{
+           BT
+            /#{font_name} #{font_size} Tf
+            #{@bounding_box.absolute_left} #{y} Td 
+            #{Prawn::PdfObject(e)} Tj 
+            ET           
+          }                        
+        end       
       end 
       
       def greedy_wrap(string, font_size)  
