@@ -5,18 +5,44 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/graphics"
 require "prawn/document/page_geometry" 
+require "prawn/document/bounding_box"
 require "prawn/document/text"      
 
 module Prawn
   class Document  
     
-    include Graphics    
+    include Prawn::Graphics    
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout
+    attr_accessor :page_size, :page_layout, :y    
+             
+    # Creates and renders a PDF document.  If a filename is given, the output
+    # will be rendered to file, otherwise the result will be turned as a string.
+    # The explicit receiver argument is necessary only when you need to make 
+    # use of a closure.     
+    #      
+    #    # Using implicit block form and rendering to a file
+    #    Prawn::Document.generate "foo.pdf" do
+    #       font "Times-Roman"   
+    #       text "Hello World", :at => [200,720], :size => 32       
+    #    end
+    #           
+    #    # Using explicit block form and rendering to a file
+    #    Prawn::Document.generate "foo.pdf" do |pdf|
+    #       pdf.font "Times-Roman"
+    #       pdf.text "Hello World", :at => [200,720], :size => 32
+    #    end                                                
+    #
+    #    # Using implicit block form and rendering to string
+    #    output = Prawn::Document.generate { stroke_line [100,100], [200,200] }    
+    #    
+    def self.generate(filename=nil,&block)
+      pdf = Prawn::Document.new          
+      block.arity < 1 ? pdf.instance_eval(&block) : yield(pdf)
+      filename ? pdf.render_file(filename) : pdf.render
+    end
           
     # Creates a new PDF Document.  The following options are available:
     #
@@ -44,9 +70,21 @@ module Prawn
        @page_stop_proc  = options[:on_page_end]              
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
-                       
-       register_fonts
-       start_new_page
+             
+       ml = options[:left_margin]   || 36
+       mr = options[:right_margin]  || 36  
+       mt = options[:top_margin]    || 36
+       mb = options[:bottom_margin] || 36
+        
+       @margin_box = BoundingBox.new( 
+         [ ml, page_dimensions[-1] - mt ] , 
+         :width => page_dimensions[-2] - (ml + mr), 
+         :height => page_dimensions[-1] - (mt + mb)
+       )  
+       
+       @bounding_box = @margin_box
+       
+       start_new_page 
      end  
             
      # Creates and advances to a new page in the document.
@@ -57,16 +95,20 @@ module Prawn
        finish_page_content if @page_content
        @page_content = ref(:Length => 0)   
      
-       @current_page = ref(:Type     => :Page, 
-                           :Parent   => @pages, 
-                           :MediaBox => page_dimensions, 
-                           :Contents => @page_content) 
-       set_page_font
+       @current_page = ref(:Type      => :Page, 
+                           :Parent    => @pages, 
+                           :MediaBox  => page_dimensions, 
+                           :Contents  => @page_content,
+                           :ProcSet   => font_proc,
+                           :Resources => { :Font => {} } ) 
+       set_current_font    
+       update_colors
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
      
        add_content "q"   
-
+       
+       @y = @margin_box.absolute_top        
        @page_start_proc[self] if @page_start_proc
     end             
       
@@ -99,8 +141,12 @@ module Prawn
     #
     def render_file(filename)
       File.open(filename,"wb") { |f| f << render }
+    end   
+    
+    def bounds
+      @bounding_box
     end
-
+   
     private
    
     def ref(data)

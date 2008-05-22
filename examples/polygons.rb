@@ -3,7 +3,7 @@ require "prawn"
 
 pdf = Prawn::Document.new
 
-20.times do |i|
+10.times do |i|
   pdf.stroke_polygon [ 50 + i*25,   50 + i*25], 
                      [100 + i*25,   50 + i*25],
                      [100 + i*25,  100 + i*25] 

@@ -161,13 +161,21 @@ describe "When drawing a circle" do
 end    
 
 class ColorObserver 
-  attr_reader :stroke_color, :fill_color
+  attr_reader :stroke_color, :fill_color, :stroke_color_count, 
+              :fill_color_count
+                            
+  def initialize
+    @stroke_color_count = 0
+    @fill_color_count   = 0
+  end
 
-  def set_rgb_color_for_stroking(*params)
+  def set_rgb_color_for_stroking(*params)    
+    @stroke_color_count += 1
     @stroke_color = params
   end
 
-  def set_rgb_color_for_nonstroking(*params)
+  def set_rgb_color_for_nonstroking(*params) 
+    @fill_color_count += 1
     @fill_color = params
   end
 end
@@ -188,7 +196,30 @@ describe "When setting colors" do
     colors = observer(ColorObserver)
     # 80% red, 100% green, 0% blue
     colors.fill_color.should == [0.8,1.0,0]
+  end   
+  
+  it "should reset the colors on each new page if they have been defined" do
+    @pdf.fill_color "ccff00"
+    colors = observer(ColorObserver)
+    
+    colors.fill_color_count.should == 1   
+    colors.stroke_color_count.should == 0
+    @pdf.start_new_page                
+    @pdf.stroke_color "ff00cc"  
+    
+    colors = observer(ColorObserver)
+    colors.fill_color_count.should == 2  
+    colors.stroke_color_count.should == 1
+    
+    @pdf.start_new_page
+    colors = observer(ColorObserver)
+    colors.fill_color_count.should == 3
+    colors.stroke_color_count.should == 2
+    
+    colors.fill_color.should   == [0.8,1.0,0.0]
+    colors.stroke_color.should == [1.0,0.0,0.8] 
   end
+    
 
 end
 
