@@ -1,3 +1,5 @@
+puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
+
 require "rubygems"
 require "spec"
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib') 
@@ -6,7 +8,10 @@ gem 'pdf-reader', ">=0.7"
 require "pdf/reader"
 
 def create_pdf
-  @pdf = Prawn::Document.new
+  @pdf = Prawn::Document.new(:left_margin   => 0,
+                             :right_margin  => 0,
+                             :top_margin    => 0,
+                             :bottom_margin => 0)
 end    
 
 def observer(klass)                                     

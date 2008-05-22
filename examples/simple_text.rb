@@ -1,9 +1,13 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
-pdf = Prawn::Document.new 
-pdf.text "Hello World", :at => [200,720], :size => 32
-pdf.start_new_page                       
-pdf.font "Courier"
-pdf.text "Goodbye World", :at => [288,50]
-pdf.render_file "hello.pdf"           
+Prawn::Document.generate "hello.pdf" do       
+  fill_color "0000ff"
+  text "Hello World", :at => [200,720], :size => 32       
+  font "Times-Roman"     
+  fill_color "ff0000"
+  text "Overcoming singular font limitation", :at => [5,5]    
+  start_new_page        
+  font "Courier"       
+  text "Goodbye World", :at => [288,50]     
+end
