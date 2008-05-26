@@ -9,7 +9,7 @@
 
 module Prawn
   module Font
-    class AFM
+    class AFM #:nodoc:
     
       ISOLatin1Encoding = %w[
        .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef

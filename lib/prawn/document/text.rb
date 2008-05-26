@@ -14,10 +14,20 @@ module Prawn
           Times-Roman Times-Bold Times-Italic Times-BoldItalic
           Symbol ZapfDingbats ]                      
                                                   
-      # Draws text at a specified position on the page.
+      # Draws text on the page.  If a point is specified via the <tt>:at</tt>
+      # option the text will begin exactly at that point, and the string is
+      # assumed to be pre-formatted to properly fit the page. 
+      #
+      # When <tt>:at</tt> is not specified, Prawn attempts to wrap the text to
+      # fit within your current bounding box (or margin box if no bounding box
+      # is being used ).  Text will flow onto the next page when it reaches
+      # the bottom of the margin_box.  Text wrap in Prawn does not re-flow
+      # linebreaks, so if you want fully automated text wrapping, be sure to
+      # remove newlines before attempting to draw your string.
       #
       #    pdf.text "Hello World",   :at => [100,100] 
-      #    pdf.text "Goodbye World", :at => [50,50], :size => 16
+      #    pdf.text "Goodbye World", :at => [50,50], :size => 16   
+      #    pdf.text "This will be wrapped when it hits the edge of your bounding box"
       # 
       def text(text,options={})  
         return wrapped_text(text,options) unless options[:at]      
