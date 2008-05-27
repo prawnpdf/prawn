@@ -42,6 +42,8 @@ module Prawn
         #{Prawn::PdfObject(text)} Tj 
         ET           
         }
+        
+        Info::Text.new(@font_metrics.string_width(text, font_size), font_size)
       end 
               
       # Sets the current font.
@@ -72,23 +74,25 @@ module Prawn
         @font_metrics.string_width(text,size)  
       end                      
            
-      # Not really ready yet. 
-      def wrapped_text(text,options)     
-        font_size = options[:size] || 12   
+      # Not really ready yet.
+      def wrapped_text(text,options)
+        font_size = options[:size] || 12
         font_name = font_registry[fonts[@font]]
         
-        text = greedy_wrap(text, font_size)        
-                           
-        text.lines.each do |e| 
-          move_text_position(font_size)  
+        text = greedy_wrap(text, font_size)
+        
+        text.lines.each do |e|
+          move_text_position(font_size)
           add_content %Q{
            BT
             /#{font_name} #{font_size} Tf
-            #{@bounding_box.absolute_left} #{y} Td 
-            #{Prawn::PdfObject(e)} Tj 
-            ET           
-          }                        
-        end       
+            #{@bounding_box.absolute_left} #{y} Td
+            #{Prawn::PdfObject(e)} Tj
+            ET
+          }
+        end
+        
+        Info::Text.new(bounds.right, text.lines.size * font_size)
       end 
       
       def greedy_wrap(string, font_size)  

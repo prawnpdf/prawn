@@ -1,10 +1,10 @@
 module Prawn 
   class Document   
-            
+    
     # A bounding box serves two important purposes:
     #    * Provide bounds for flowing text, starting at a given point
     #    * Translate the origin (0,0) for graphics primitives, for the purposes
-    #      of simplifying coordinate math.                                 
+    #      of simplifying coordinate math.
     #
     # When flowing text, the usage of a bounding box is simple. Text will
     # begin at the point specified, flowing the width of the bounding box.
@@ -17,19 +17,19 @@ module Prawn
     #    pdf.bounding_box([100,500], :width => 100, :height => 300) do
     #      pdf.text "This text will flow in a very narrow box starting" +
     #       "from [100,500].  The pointer will then be moved to [100,200]" +
-    #       "and return to the margin_box"  
-    #    end   
+    #       "and return to the margin_box"
+    #    end
     #    
     # When translating coordinates, the idea is to allow the user to draw 
     # relative to the origin, and then translate their drawing to a specified
     # area of the document, rather than adjust all their drawing coordinates
     # to match this new region.
     #
-    # Take for example two triangles which share one point, drawn from the 
+    # Take for example two triangles which share one point, drawn from the
     # origin:
     #
-    #    pdf.polygon [0,250], [0,0], [150,100] 
-    #    pdf.polygon [100,0], [150,100], [200,0] 
+    #    pdf.polygon [0,250], [0,0], [150,100]
+    #    pdf.polygon [100,0], [150,100], [200,0]
     #
     # It would be easy enough to translate these triangles to another point,
     # e.g [200,200]
@@ -44,11 +44,11 @@ module Prawn
     # If instead, we think of the drawing as being bounded by a box, we can
     # see that the image is 200 points wide by 250 points tall.
     #
-    # To translate it to a new origin, we simply select a point at (x,y+height) 
+    # To translate it to a new origin, we simply select a point at (x,y+height)
     #
     # Using the [200,200] example:
     #
-    #    pdf.bounding_box([200,450], :width => 200, :height => 250) do 
+    #    pdf.bounding_box([200,450], :width => 200, :height => 250) do
     #      pdf.polygon [0,250], [0,0], [150,100] 
     #      pdf.polygon [100,0], [150,100], [200,0]
     #    end
@@ -58,18 +58,28 @@ module Prawn
     # top-left corner of the rectangular bounding-box, and all of our graphics
     # calls remain unmodified.
     #
-    def bounding_box(*args,&block)  
-      @bounding_box = BoundingBox.new(*args) 
+    def bounding_box(*args, &block)
+      @bounding_box = BoundingBox.new(*args)
+      box_for_reference = @bounding_box
+      
       self.y = @bounding_box.absolute_top
       
-      block.call                         
+      block.call
       
-      self.y = @bounding_box.absolute_bottom   
-      @bounding_box = @margin_box        
+      if @bounding_box.height.nil?
+        @bounding_box.height = @bounding_box.absolute_top - self.y
+      end
+      
+      self.y = @bounding_box.absolute_bottom
+      @bounding_box = @margin_box
+      
+      box_for_reference
     end
-        
+    
     class BoundingBox
-
+      
+      attr_accessor :width, :height
+      
       def initialize(point,options={}) #:nodoc:
         @x,@y = point
         @width, @height = options[:width], options[:height]
@@ -80,45 +90,45 @@ module Prawn
       def anchor
         [@x, @y - @height]
       end
-          
+      
       # Relative left x-coordinate of the bounding box. (Always 0)
-      def left   
-        0                         
-      end                         
+      def left
+        0
+      end
       
       # Relative right x-coordinate of the bounding box. (Equal to the box width)
       def right
         @width
       end
-                                                                             
-      # Relative top y-coordinate of the bounding box. (Equal to the box height)     
+      
+      # Relative top y-coordinate of the bounding box. (Equal to the box height
       def top
         @height
-      end                                                                      
+      end
       
       # Relative bottom y-coordinate of the bounding box (Always 0)
       def bottom
         0
       end
-                  
+      
       # Absolute left x-coordinate of the bounding box
       def absolute_left
         @x
-      end                                                                                
+      end
       
       # Absolute right x-coordinate of the bounding box
       def absolute_right
-        @x + @width
-      end                                          
+        @x + width
+      end
       
       # Absolute top y-coordinate of the bounding box
       def absolute_top
         @y
-      end                                        
+      end
       
       # Absolute bottom y-coordinate of the bottom box
       def absolute_bottom
-        @y - @height
+        @y - height
       end
     end
   end

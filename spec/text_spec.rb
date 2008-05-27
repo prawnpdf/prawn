@@ -53,5 +53,21 @@ describe "when drawing text" do
    it "should raise an exception when an unknown font is used" do
      lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
    end
+   
+   it "should return an object with the dimensions of text" do
+     info = @pdf.text "Blah", :at => [100,100]
+     
+     info.width.should == 24.012
+     info.height.should == 12
+   end
+   
+   it "should return an object with the dimensions of wrapped text" do
+     @pdf.bounding_box([100,100], :width => 50, :height => 100) do
+       info = @pdf.text "The rain in Spain"
+       
+       info.width.should == 50
+       info.height.should == 24
+     end
+   end
 
 end
