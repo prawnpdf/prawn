@@ -59,14 +59,10 @@ module Prawn
     # calls remain unmodified.
     #
     def bounding_box(*args, &block)
-      @bounding_box = BoundingBox.new(*args)
+      @bounding_box = BoundingBox.new(self, *args)
       self.y = @bounding_box.absolute_top
       
       block.call
-      
-      if @bounding_box.height.nil?
-        @bounding_box.height = @bounding_box.absolute_top - self.y
-      end
       
       self.y = @bounding_box.absolute_bottom
       @bounding_box = @margin_box
@@ -74,17 +70,16 @@ module Prawn
     
     class BoundingBox
       
-      attr_accessor :width, :height
-      
-      def initialize(point,options={}) #:nodoc:
-        @x,@y = point
+      def initialize(parent, point, options={}) #:nodoc:
+        @parent = parent
+        @x, @y = point
         @width, @height = options[:width], options[:height]
       end
        
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box in absolute terms.
       def anchor
-        [@x, @y - @height]
+        [@x, @y - height]
       end
       
       # Relative left x-coordinate of the bounding box. (Always 0)
@@ -97,9 +92,9 @@ module Prawn
         @width
       end
       
-      # Relative top y-coordinate of the bounding box. (Equal to the box height
+      # Relative top y-coordinate of the bounding box. (Equal to the box height)
       def top
-        @height
+        height
       end
       
       # Relative bottom y-coordinate of the bounding box (Always 0)
@@ -125,6 +120,18 @@ module Prawn
       # Absolute bottom y-coordinate of the bottom box
       def absolute_bottom
         @y - height
+      end
+      
+      def width
+        @width
+      end
+      
+      def height
+        if @height.nil?
+          absolute_top - @parent.y
+        else
+          @height
+        end
       end
     end
   end
