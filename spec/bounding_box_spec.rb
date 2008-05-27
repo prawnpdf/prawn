@@ -1,10 +1,10 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "A bounding box" do
 
   before(:each) do
-    @box = Prawn::Document::BoundingBox.new( [100,100],  :width  => 50, 
-                                                         :height => 75 )
+    @box = Prawn::Document::BoundingBox.new(nil, [100,100], :width  => 50,
+                                                            :height => 75 )
   end
 
   it "should have an anchor at (x, y - height)" do

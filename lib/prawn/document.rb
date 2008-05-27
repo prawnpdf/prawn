@@ -79,9 +79,10 @@ module Prawn
        mt = options[:top_margin]    || 36
        mb = options[:bottom_margin] || 36
         
-       @margin_box = BoundingBox.new( 
-         [ ml, page_dimensions[-1] - mt ] , 
-         :width => page_dimensions[-2] - (ml + mr), 
+       @margin_box = BoundingBox.new(
+         self,
+         [ ml, page_dimensions[-1] - mt ] ,
+         :width => page_dimensions[-2] - (ml + mr),
          :height => page_dimensions[-1] - (mt + mb)
        )  
        
