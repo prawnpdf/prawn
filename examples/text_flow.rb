@@ -1,13 +1,13 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
-                                    
+
 content = <<-EOS
 How does
 Prawn    deal     with
    white
      space 
      
-       and    
+       and
        
        line
        breaks?
@@ -28,28 +28,36 @@ EOS
 overflow = "This text should flow gracefully onto the next page, like a stream"+
            " flows elegantly from a mountain lake down into the village below."
 
-Prawn::Document.generate("flow.pdf") do |pdf|                  
+Prawn::Document.generate("flow.pdf") do |pdf|
 
-  pdf.font "Times-Roman"    
+  pdf.font "Times-Roman"
   pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                   [pdf.bounds.right, pdf.bounds.top]
   
-  pdf.text content, :size => 10    
+  pdf.text content, :size => 10
                
-  pdf.bounding_box([100,600], :width => 200, :height => 500) do   
+  pdf.bounding_box([100,600], :width => 200, :height => 500) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
-    pdf.text poem, :size => 12  
-  end  
+    pdf.text poem, :size => 12
+  end
   
-  pdf.bounding_box([325,600], :width => 200, :height => 500) do 
+  pdf.bounding_box([325,600], :width => 200, :height => 500) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
     pdf.text poem.reverse, :size => 12
-  end    
+  end
   
-  pdf.text overflow * 10, :size => 14     
-                   
+  pdf.text overflow * 10, :size => 14
+  
   pdf.text "Hooray! We've conquered the evil PDF gods", :size => 36
+               
+  pdf.bounding_box([100,525], :width => 300) do
+    pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
+                    [pdf.bounds.right, pdf.bounds.top]
+    pdf.text poem, :size => 12
+  end
+  
+  pdf.text "And this text automatically goes below the poem", :size => 18
   
 end
