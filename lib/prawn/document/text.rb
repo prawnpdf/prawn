@@ -14,10 +14,20 @@ module Prawn
           Times-Roman Times-Bold Times-Italic Times-BoldItalic
           Symbol ZapfDingbats ]                      
                                                   
-      # Draws text at a specified position on the page.
+      # Draws text on the page.  If a point is specified via the <tt>:at</tt>
+      # option the text will begin exactly at that point, and the string is
+      # assumed to be pre-formatted to properly fit the page. 
+      #
+      # When <tt>:at</tt> is not specified, Prawn attempts to wrap the text to
+      # fit within your current bounding box (or margin box if no bounding box
+      # is being used ).  Text will flow onto the next page when it reaches
+      # the bottom of the margin_box.  Text wrap in Prawn does not re-flow
+      # linebreaks, so if you want fully automated text wrapping, be sure to
+      # remove newlines before attempting to draw your string.
       #
       #    pdf.text "Hello World",   :at => [100,100] 
-      #    pdf.text "Goodbye World", :at => [50,50], :size => 16
+      #    pdf.text "Goodbye World", :at => [50,50], :size => 16   
+      #    pdf.text "This will be wrapped when it hits the edge of your bounding box"
       # 
       def text(text,options={})  
         return wrapped_text(text,options) unless options[:at]      
@@ -62,23 +72,23 @@ module Prawn
         @font_metrics.string_width(text,size)  
       end                      
            
-      # Not really ready yet. 
-      def wrapped_text(text,options)     
-        font_size = options[:size] || 12   
+      # Not really ready yet.
+      def wrapped_text(text,options)
+        font_size = options[:size] || 12
         font_name = font_registry[fonts[@font]]
         
-        text = greedy_wrap(text, font_size)        
-                           
-        text.lines.each do |e| 
-          move_text_position(font_size)  
+        text = greedy_wrap(text, font_size)
+        
+        text.lines.each do |e|
+          move_text_position(font_size)
           add_content %Q{
            BT
             /#{font_name} #{font_size} Tf
-            #{@bounding_box.absolute_left} #{y} Td 
-            #{Prawn::PdfObject(e)} Tj 
-            ET           
-          }                        
-        end       
+            #{@bounding_box.absolute_left} #{y} Td
+            #{Prawn::PdfObject(e)} Tj
+            ET
+          }
+        end
       end 
       
       def greedy_wrap(string, font_size)  
