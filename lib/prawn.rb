@@ -11,7 +11,6 @@ require "prawn/graphics"
 require "prawn/document"
 require "prawn/reference"
 require "prawn/font"
-require "prawn/text_box"
    
 module Prawn 
   file = __FILE__
