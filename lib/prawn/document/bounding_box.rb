@@ -60,8 +60,6 @@ module Prawn
     #
     def bounding_box(*args, &block)
       @bounding_box = BoundingBox.new(*args)
-      box_for_reference = @bounding_box
-      
       self.y = @bounding_box.absolute_top
       
       block.call
@@ -72,8 +70,6 @@ module Prawn
       
       self.y = @bounding_box.absolute_bottom
       @bounding_box = @margin_box
-      
-      box_for_reference
     end
     
     class BoundingBox
