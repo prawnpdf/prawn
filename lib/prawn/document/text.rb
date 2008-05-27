@@ -42,8 +42,6 @@ module Prawn
         #{Prawn::PdfObject(text)} Tj 
         ET           
         }
-        
-        Info::Text.new(@font_metrics.string_width(text, font_size), font_size)
       end 
               
       # Sets the current font.
@@ -91,8 +89,6 @@ module Prawn
             ET
           }
         end
-        
-        Info::Text.new(bounds.right, text.lines.size * font_size)
       end 
       
       def greedy_wrap(string, font_size)  
