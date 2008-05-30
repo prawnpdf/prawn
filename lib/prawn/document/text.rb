@@ -126,17 +126,19 @@ module Prawn
         
 
         # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
-        #       pick it up.
+        #       pick it up. Missing StemV, and flags.  The flags returned by
+        #       ttf_head.flags seem to have issus.
+        #
         descriptor = ref(:Type        => :FontDescriptor,
                          :FontName    => basename,
                          :FontFile2   => fontfile,
-                         :Flags       => ttf_head.flags,
                          :FontBBox    => @font_metrics.bbox,
                          :ItalicAngle => @font_metrics.italic_angle.to_f,
                          :Ascent      => @font_metrics.ascender.to_f,
                          :Descent     => @font_metrics.descender.to_f
                          ) 
 
+        # TODO: Needs Widths, FirstChar and LastChar (at least)                
         fonts[basename] ||= ref(:Type => :Font,
                                 :Subtype => :TrueType,
                                 :BaseFont => basename,
