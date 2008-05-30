@@ -91,7 +91,7 @@ module Prawn
             BT
             /#{font_name} #{font_size} Tf
             #{@bounding_box.absolute_left} #{y} Td
-            #{Prawn::PdfObject(e)} Tj
+            #{Prawn::PdfObject(e.chomp)} Tj
             ET
           }  
         end
@@ -126,14 +126,14 @@ module Prawn
         
 
         # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
-        #       pick it up. Missing StemV, and flags.  The flags returned by
-        #       ttf_head.flags seem to have issus.
+        #       pick it up. Missing proper StemV and flags
         #
         descriptor = ref(:Type        => :FontDescriptor,
                          :FontName    => basename,
                          :FontFile2   => fontfile,
                          :FontBBox    => @font_metrics.bbox,  
-                         :Flags       => 4, # FIXME: Symb w. no additional flags 
+                         :Flags       => 32, # FIXME: additional flags 
+                         :StemV       => 0,
                          :ItalicAngle => @font_metrics.italic_angle.to_f,
                          :Ascent      => @font_metrics.ascender.to_f,
                          :Descent     => @font_metrics.descender.to_f
