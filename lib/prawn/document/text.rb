@@ -3,7 +3,7 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
- 
+
 module Prawn
   class Document
     module Text
@@ -53,10 +53,17 @@ module Prawn
       # PERF: Cache or limit calls to this, no need to generate a
       # new fontmetrics file or re-register the font each time.  
       #
-      def font(name)
-        @font = name
-        register_font(name)
-        @font_metrics = Prawn::Font::AFM[name]
+      def font(name, type = :builtin)
+        if type == :builtin
+          @font = name
+          register_builtin_font(name)
+          @font_metrics = Prawn::Font::AFM[name]
+        elsif type == :ttf
+          @font = embed_ttf_font(name)
+          # TODO: @font_metrics = read_ttf_metrics(name)
+        else
+          raise ArgumentError, 'Unrecognised font type'
+        end
         set_current_font
       end
             
@@ -91,8 +98,41 @@ module Prawn
           }  
         end
       end
+
+      def embed_ttf_font(file) #:nodoc:
+        unless File.file?(file)
+          raise ArgumentError, "file #{file} does not exist"
+        end
+
+        ttf = ::Font::TTF::File.new(file)
+        basename = nil
+        ttf.get_table(:name).name_records.each do |rec|
+          #puts rec.class.methods.sort.inspect
+          if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
+            basename = rec.utf8_str.to_sym
+          end
+        end
+
+        raise "Can't detect a postscript name for #{file}" if basename.nil?
+
+        # TODO: compress the font file
+        fontfile = ref(:Length => File.size(file))
+        fontfile << File.read(file)
+
+        # TODO: add the remaining required values to this DICT. See table 5.19 in the spec
+        descriptor = ref(:Type => :FontDescriptor,
+                         :FontName => basename,
+                         :FontFile2 => fontfile)
+
+        fonts[basename] ||= ref(:Type => :Font,
+                                :Subtype => :TrueType,
+                                :BaseFont => basename,
+                                :FontDescriptor => descriptor,
+                                :Encoding => :MacRomanEncoding)
+        return basename
+      end
       
-      def register_font(name) #:nodoc:
+      def register_builtin_font(name) #:nodoc:
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end
