@@ -9,8 +9,13 @@ require "prawn/errors"
 require "prawn/pdf_object"
 require "prawn/graphics"
 require "prawn/document"
-require "prawn/reference"
-require "prawn/font"
+require "prawn/reference"  
+require "prawn/font" 
+
+$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/")
+
+require 'ttf'
+
    
 module Prawn 
   file = __FILE__
