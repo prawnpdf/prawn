@@ -140,12 +140,14 @@ module Prawn
                          ) 
 
         # TODO: Needs Widths, FirstChar and LastChar (at least)                
-        fonts[basename] ||= ref(:Type => :Font,
-                                :Subtype => :TrueType,
-                                :BaseFont => basename,
+        fonts[basename] ||= ref(:Type           => :Font,
+                                :Subtype        => :TrueType,
+                                :BaseFont       => basename,
                                 :FontDescriptor => descriptor,
-                                :Encoding => :MacRomanEncoding,
-                                :Widths => @font_metrics.latin_glyphs_table )
+                                :Encoding       => :MacRomanEncoding,
+                                :Widths    => @font_metrics.latin_glyphs_table,
+                                :FirstChar => 0,
+                                :LastChar  => 255 )
         return basename
       end
       
