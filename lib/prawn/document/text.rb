@@ -132,7 +132,8 @@ module Prawn
         descriptor = ref(:Type        => :FontDescriptor,
                          :FontName    => basename,
                          :FontFile2   => fontfile,
-                         :FontBBox    => @font_metrics.bbox,
+                         :FontBBox    => @font_metrics.bbox,  
+                         :Flags       => 4, # FIXME: Symb w. no additional flags 
                          :ItalicAngle => @font_metrics.italic_angle.to_f,
                          :Ascent      => @font_metrics.ascender.to_f,
                          :Descent     => @font_metrics.descender.to_f
