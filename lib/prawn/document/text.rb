@@ -134,8 +134,7 @@ module Prawn
                          :FontBBox    => @font_metrics.bbox,
                          :ItalicAngle => @font_metrics.italic_angle.to_f,
                          :Ascent      => @font_metrics.ascender.to_f,
-                         :Descent     => @font_metrics.descender.to_f,   
-                         :StemV       => 0
+                         :Descent     => @font_metrics.descender.to_f
                          ) 
 
         fonts[basename] ||= ref(:Type => :Font,
