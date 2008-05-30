@@ -62,6 +62,10 @@ module Prawn
         end    
                          
         parse_afm(file)
+      end
+      
+      def bbox
+        fontbbox.split(/\s+/).map { |e| Integer(e) }
       end   
     
       def string_width(string,font_size)   
