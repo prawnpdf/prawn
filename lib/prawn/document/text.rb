@@ -144,7 +144,8 @@ module Prawn
                                 :Subtype => :TrueType,
                                 :BaseFont => basename,
                                 :FontDescriptor => descriptor,
-                                :Encoding => :MacRomanEncoding)
+                                :Encoding => :MacRomanEncoding,
+                                :Widths => @font_metrics.latin_glyphs_table )
         return basename
       end
       
