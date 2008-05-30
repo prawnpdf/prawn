@@ -53,17 +53,14 @@ module Prawn
       # PERF: Cache or limit calls to this, no need to generate a
       # new fontmetrics file or re-register the font each time.  
       #
-      def font(name, type = :builtin)
-        if type == :builtin
-          @font = name
-          register_builtin_font(name)
-          @font_metrics = Prawn::Font::AFM[name]
-        elsif type == :ttf
+      def font(name, type = :builtin)    
+        case(name)
+        when /\.ttf$/   
           @font = embed_ttf_font(name)
-          # TODO: @font_metrics = read_ttf_metrics(name)
         else
-          raise ArgumentError, 'Unrecognised font type'
-        end
+          @font = register_builtin_font(name)
+        end     
+        @font_metrics = Prawn::Font::AFM[name]   
         set_current_font
       end
             
@@ -139,7 +136,8 @@ module Prawn
         fonts[name] ||= ref(:Type => :Font,
                             :Subtype => :Type1,
                             :BaseFont => name.to_sym,
-                            :Encoding => :MacRomanEncoding)
+                            :Encoding => :MacRomanEncoding)   
+        return name
       end
                    
       def set_current_font #:nodoc:

@@ -56,7 +56,7 @@ module Prawn
         @glyph_widths   = {}
         @bounding_boxes = {}  
         
-        file = font_name + (font_name =~ /\.afm$/ ? '' : '.afm')   
+        file = font_name.sub(/\.(afm|ttf)$/,'') + '.afm'
         unless file[0..0] == "/"
            file = find_font(file)
         end    
