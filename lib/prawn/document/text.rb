@@ -86,7 +86,7 @@ module Prawn
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
         
         text.lines.each do |e|
-          move_text_position(font_size)
+          move_text_position(@font_metrics.font_height(font_size))
           add_content %Q{
             BT
             /#{font_name} #{font_size} Tf
@@ -144,7 +144,8 @@ module Prawn
                                 :Subtype        => :TrueType,
                                 :BaseFont       => basename,
                                 :FontDescriptor => descriptor,
-                                :Encoding       => :MacRomanEncoding,
+                                :Encoding       => :MacRomanEncoding,     
+                                # FIXME: This stuff is hackish
                                 :Widths    => @font_metrics.latin_glyphs_table,
                                 :FirstChar => 0,
                                 :LastChar  => 255 )
