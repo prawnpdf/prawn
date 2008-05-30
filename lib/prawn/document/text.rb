@@ -2,7 +2,9 @@
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
-# This is free software. Please see the LICENSE and COPYING files for details.
+# This is free software. Please see the LICENSE and COPYING files for details.   
+
+require "zlib"     
 
 module Prawn
   class Document
@@ -112,9 +114,13 @@ module Prawn
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-        # TODO: compress the font file
-        fontfile = ref(:Length => File.size(file))
-        fontfile << File.read(file)
+        font_content    = File.read(file)
+        compressed_font = Zlib::Deflate.deflate(font_content)
+        
+        fontfile = ref(:Length  => compressed_font.size,  
+                       :Length1 => font_content.size,
+                       :Filter => :FlateDecode )
+        fontfile << compressed_font
 
         # TODO: add the remaining required values to this DICT. See table 5.19 in the spec
         descriptor = ref(:Type => :FontDescriptor,
