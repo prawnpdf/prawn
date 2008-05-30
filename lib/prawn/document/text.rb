@@ -3,7 +3,6 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.   
-
 require "zlib"     
 
 module Prawn
@@ -55,15 +54,15 @@ module Prawn
       # PERF: Cache or limit calls to this, no need to generate a
       # new fontmetrics file or re-register the font each time.  
       #
-      def font(name, type = :builtin)    
+      def font(name, type = :builtin)      
+        @font_metrics = Prawn::Font::AFM[name]   
         case(name)
         when /\.ttf$/   
           @font = embed_ttf_font(name)
         else
           @font = register_builtin_font(name)
-        end     
-        @font_metrics = Prawn::Font::AFM[name]   
-        set_current_font
+        end    
+        set_current_font       
       end
             
       private
@@ -110,7 +109,8 @@ module Prawn
           if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
             basename = rec.utf8_str.to_sym
           end
-        end
+        end      
+
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
@@ -121,11 +121,22 @@ module Prawn
                        :Length1 => font_content.size,
                        :Filter => :FlateDecode )
         fontfile << compressed_font
+        
+        ttf_head = ttf.get_table(:head)        
+        
 
-        # TODO: add the remaining required values to this DICT. See table 5.19 in the spec
-        descriptor = ref(:Type => :FontDescriptor,
-                         :FontName => basename,
-                         :FontFile2 => fontfile)
+        # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
+        #       pick it up.
+        descriptor = ref(:Type        => :FontDescriptor,
+                         :FontName    => basename,
+                         :FontFile2   => fontfile,
+                         :Flags       => ttf_head.flags,
+                         :FontBBox    => @font_metrics.bbox,
+                         :ItalicAngle => @font_metrics.italic_angle.to_f,
+                         :Ascent      => @font_metrics.ascender.to_f,
+                         :Descent     => @font_metrics.descender.to_f,   
+                         :StemV       => 0
+                         ) 
 
         fonts[basename] ||= ref(:Type => :Font,
                                 :Subtype => :TrueType,
