@@ -18,8 +18,8 @@ module Prawn
     
     attr_accessor :page_size, :page_layout, :y    
              
-    # Creates and renders a PDF document.  If a filename is given, the output
-    # will be rendered to file, otherwise the result will be turned as a string.
+    # Creates and renders a PDF document. 
+    #
     # The explicit receiver argument is necessary only when you need to make 
     # use of a closure.     
     #      
@@ -29,19 +29,17 @@ module Prawn
     #       text "Hello World", :at => [200,720], :size => 32       
     #    end
     #           
-    #    # Using explicit block form and rendering to a file
+    #    # Using explicit block form and rendering to a file   
+    #    content = "Hello World"
     #    Prawn::Document.generate "foo.pdf" do |pdf|
     #       pdf.font "Times-Roman"
-    #       pdf.text "Hello World", :at => [200,720], :size => 32
+    #       pdf.text content, :at => [200,720], :size => 32
     #    end                                                
     #
-    #    # Using implicit block form and rendering to string
-    #    output = Prawn::Document.generate { stroke_line [100,100], [200,200] }    
-    #    
-    def self.generate(filename=nil,&block)
-      pdf = Prawn::Document.new          
+    def self.generate(filename,options={},&block)
+      pdf = Prawn::Document.new(options)          
       block.arity < 1 ? pdf.instance_eval(&block) : yield(pdf)
-      filename ? pdf.render_file(filename) : pdf.render
+      pdf.render_file(filename)
     end
           
     # Creates a new PDF Document.  The following options are available:
@@ -49,7 +47,12 @@ module Prawn
     # <tt>:page_size</tt>:: One of the Document::PageGeometry::SIZES (default: LETTER)
     # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
     # <tt>:on_page_start</tt>:: Optional proc run at each page start
-    # <tt>:on_page_stop</tt>:: Optional proc  run at each page stop
+    # <tt>:on_page_stop</tt>:: Optional proc  run at each page stop   
+    # <tt>:left_margin</tt>:: Sets the left margin in points [default: 0.5 inch]
+    # <tt>:right_margin</tt>:: Sets the right margin in points [default: 0.5 inch]
+    # <tt>:top_margin</tt>:: Sets the top margin in points [default: 0.5 inch]
+    # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [default: 0.5 inch]
+    # 
     #                             
     #    # New document, US Letter paper, portrait orientation
     #    pdf = Prawn::Document.new                            
@@ -76,9 +79,10 @@ module Prawn
        mt = options[:top_margin]    || 36
        mb = options[:bottom_margin] || 36
         
-       @margin_box = BoundingBox.new( 
-         [ ml, page_dimensions[-1] - mt ] , 
-         :width => page_dimensions[-2] - (ml + mr), 
+       @margin_box = BoundingBox.new(
+         self,
+         [ ml, page_dimensions[-1] - mt ] ,
+         :width => page_dimensions[-2] - (ml + mr),
          :height => page_dimensions[-1] - (mt + mb)
        )  
        
@@ -143,6 +147,11 @@ module Prawn
       File.open(filename,"wb") { |f| f << render }
     end   
     
+    # Returns the current BoundingBox object, which is by default
+    # the box represented by the margin box.  When called from within
+    # a <tt>bounding_box</tt> block, the box defined by that call will
+    # be used.
+    #
     def bounds
       @bounding_box
     end
