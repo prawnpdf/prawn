@@ -82,6 +82,12 @@ module Prawn
         else
           super  
         end
+      end  
+      
+      def latin_glyphs_table
+        @glyphs_table ||= (0..255).map do |i|
+          @glyph_widths[ISOLatin1Encoding[i]].to_i
+        end 
       end
     
       private
@@ -99,12 +105,6 @@ module Prawn
         raise "Couldn't find the font: #{file} in any of:\n" +
               @metrics_path.join("\n")
       end  
-    
-      def latin_glyphs_table
-        @glyphs_table ||= (0..255).map do |i|
-          @glyph_widths[ISOLatin1Encoding[i]].to_i
-        end 
-      end
     
       def parse_afm(file) 
         section = nil  
