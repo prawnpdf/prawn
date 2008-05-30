@@ -1,3 +1,8 @@
+# wrapping.rb : Implementation of naive text wrap
+#
+# Copyright May 2008, Michael Daines. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   module Font
     

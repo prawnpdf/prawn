@@ -1,26 +1,26 @@
-module Prawn 
-  class Document   
+module Prawn
+  class Document
     
     # A bounding box serves two important purposes:
-    #    * Provide bounds for flowing text, starting at a given point
-    #    * Translate the origin (0,0) for graphics primitives, for the purposes
-    #      of simplifying coordinate math.
+    # * Provide bounds for flowing text, starting at a given point
+    # * Translate the origin (0,0) for graphics primitives, for the purposes
+    # of simplifying coordinate math.
     #
     # When flowing text, the usage of a bounding box is simple. Text will
     # begin at the point specified, flowing the width of the bounding box.
-    # After the block exits, the text drawing position will be moved to 
-    # the bottom of the bounding box (y - height).  Currently, Prawn allows
+    # After the block exits, the text drawing position will be moved to
+    # the bottom of the bounding box (y - height). Currently, Prawn allows
     # text to overflow the bottom border of the bounding box, so it is up to
     # the user to ensure the text provided will fit within the height of the
     # bounding box.
     #
-    #    pdf.bounding_box([100,500], :width => 100, :height => 300) do
-    #      pdf.text "This text will flow in a very narrow box starting" +
-    #       "from [100,500].  The pointer will then be moved to [100,200]" +
-    #       "and return to the margin_box"
-    #    end
-    #    
-    # When translating coordinates, the idea is to allow the user to draw 
+    # pdf.bounding_box([100,500], :width => 100, :height => 300) do
+    # pdf.text "This text will flow in a very narrow box starting" +
+    # "from [100,500]. The pointer will then be moved to [100,200]" +
+    # "and return to the margin_box"
+    # end
+    #
+    # When translating coordinates, the idea is to allow the user to draw
     # relative to the origin, and then translate their drawing to a specified
     # area of the document, rather than adjust all their drawing coordinates
     # to match this new region.
@@ -28,14 +28,14 @@ module Prawn
     # Take for example two triangles which share one point, drawn from the
     # origin:
     #
-    #    pdf.polygon [0,250], [0,0], [150,100]
-    #    pdf.polygon [100,0], [150,100], [200,0]
+    # pdf.polygon [0,250], [0,0], [150,100]
+    # pdf.polygon [100,0], [150,100], [200,0]
     #
     # It would be easy enough to translate these triangles to another point,
     # e.g [200,200]
     #
-    #    pdf.polygon [200,450], [200,200], [350,300]
-    #    pdf.polygon [300,200], [350,300], [400,200]
+    # pdf.polygon [200,450], [200,200], [350,300]
+    # pdf.polygon [300,200], [350,300], [400,200]
     #
     # However, each time you want to move the drawing, you'd need to alter
     # every point in the drawing calls, which as you might imagine, can become
@@ -48,12 +48,12 @@ module Prawn
     #
     # Using the [200,200] example:
     #
-    #    pdf.bounding_box([200,450], :width => 200, :height => 250) do
-    #      pdf.polygon [0,250], [0,0], [150,100] 
-    #      pdf.polygon [100,0], [150,100], [200,0]
-    #    end
+    # pdf.bounding_box([200,450], :width => 200, :height => 250) do
+    # pdf.polygon [0,250], [0,0], [150,100]
+    # pdf.polygon [100,0], [150,100], [200,0]
+    # end
     #
-    # Notice that the drawing is still relative to the origin.  If we want to
+    # Notice that the drawing is still relative to the origin. If we want to
     # move this drawing around the document, we simply need to recalculate the
     # top-left corner of the rectangular bounding-box, and all of our graphics
     # calls remain unmodified.
