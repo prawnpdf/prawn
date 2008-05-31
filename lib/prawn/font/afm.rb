@@ -62,13 +62,21 @@ module Prawn
         end    
                          
         parse_afm(file)
+      end
+      
+      def bbox
+        fontbbox.split(/\s+/).map { |e| Integer(e) }
       end   
     
       def string_width(string,font_size)   
         scale = font_size / 1000.0
         string.unpack("C*").
                inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
-      end
+      end  
+      
+      def font_height(font_size)
+        Float(bbox[3] - bbox[1]) * font_size / 1000.0
+      end        
 
       # Hackish, but does the trick for now.
       def method_missing(method, *args, &block)
@@ -78,6 +86,12 @@ module Prawn
         else
           super  
         end
+      end  
+      
+      def latin_glyphs_table
+        @glyphs_table ||= (0..255).map do |i|
+          @glyph_widths[ISOLatin1Encoding[i]].to_i
+        end 
       end
     
       private
@@ -95,12 +109,6 @@ module Prawn
         raise "Couldn't find the font: #{file} in any of:\n" +
               @metrics_path.join("\n")
       end  
-    
-      def latin_glyphs_table
-        @glyphs_table ||= (0..255).map do |i|
-          @glyph_widths[ISOLatin1Encoding[i]].to_i
-        end 
-      end
     
       def parse_afm(file) 
         section = nil  
