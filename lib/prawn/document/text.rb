@@ -2,8 +2,9 @@
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
-# This is free software. Please see the LICENSE and COPYING files for details.
- 
+# This is free software. Please see the LICENSE and COPYING files for details.   
+require "zlib"     
+
 module Prawn
   class Document
     module Text
@@ -53,11 +54,15 @@ module Prawn
       # PERF: Cache or limit calls to this, no need to generate a
       # new fontmetrics file or re-register the font each time.  
       #
-      def font(name)
-        @font = name
-        register_font(name)
-        @font_metrics = Prawn::Font::AFM[name]
-        set_current_font
+      def font(name, type = :builtin)      
+        @font_metrics = Prawn::Font::AFM[name]   
+        case(name)
+        when /\.ttf$/   
+          @font = embed_ttf_font(name)
+        else
+          @font = register_builtin_font(name)
+        end    
+        set_current_font       
       end
             
       private
@@ -81,25 +86,81 @@ module Prawn
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
         
         text.lines.each do |e|
-          move_text_position(font_size)
+          move_text_position(@font_metrics.font_height(font_size))
           add_content %Q{
             BT
             /#{font_name} #{font_size} Tf
             #{@bounding_box.absolute_left} #{y} Td
-            #{Prawn::PdfObject(e)} Tj
+            #{Prawn::PdfObject(e.chomp)} Tj
             ET
           }  
         end
       end
+
+      def embed_ttf_font(file) #:nodoc:
+        unless File.file?(file)
+          raise ArgumentError, "file #{file} does not exist"
+        end
+
+        ttf = ::Font::TTF::File.new(file)
+        basename = nil
+        ttf.get_table(:name).name_records.each do |rec|
+          #puts rec.class.methods.sort.inspect
+          if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
+            basename = rec.utf8_str.to_sym
+          end
+        end      
+
+
+        raise "Can't detect a postscript name for #{file}" if basename.nil?
+
+        font_content    = File.read(file)
+        compressed_font = Zlib::Deflate.deflate(font_content)
+        
+        fontfile = ref(:Length  => compressed_font.size,  
+                       :Length1 => font_content.size,
+                       :Filter => :FlateDecode )
+        fontfile << compressed_font
+        
+        ttf_head = ttf.get_table(:head)        
+        
+
+        # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
+        #       pick it up. Missing proper StemV and flags
+        #
+        descriptor = ref(:Type        => :FontDescriptor,
+                         :FontName    => basename,
+                         :FontFile2   => fontfile,
+                         :FontBBox    => @font_metrics.bbox,  
+                         :Flags       => 32, # FIXME: additional flags 
+                         :StemV       => 0,
+                         :ItalicAngle => @font_metrics.italic_angle.to_f,
+                         :Ascent      => @font_metrics.ascender.to_f,
+                         :Descent     => @font_metrics.descender.to_f
+                         ) 
+
+        # TODO: Needs Widths, FirstChar and LastChar (at least)                
+        fonts[basename] ||= ref(:Type           => :Font,
+                                :Subtype        => :TrueType,
+                                :BaseFont       => basename,
+                                :FontDescriptor => descriptor,
+                                :Encoding       => :MacRomanEncoding,     
+                                # FIXME: This stuff is hackish
+                                :Widths    => @font_metrics.latin_glyphs_table,
+                                :FirstChar => 0,
+                                :LastChar  => 255 )
+        return basename
+      end
       
-      def register_font(name) #:nodoc:
+      def register_builtin_font(name) #:nodoc:
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end
         fonts[name] ||= ref(:Type => :Font,
                             :Subtype => :Type1,
                             :BaseFont => name.to_sym,
-                            :Encoding => :MacRomanEncoding)
+                            :Encoding => :MacRomanEncoding)   
+        return name
       end
                    
       def set_current_font #:nodoc:
