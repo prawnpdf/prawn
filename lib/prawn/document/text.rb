@@ -2,7 +2,8 @@
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
-# This is free software. Please see the LICENSE and COPYING files for details.
+# This is free software. Please see the LICENSE and COPYING files for details.   
+require "zlib"     
 
 module Prawn
   class Document
@@ -53,15 +54,15 @@ module Prawn
       # PERF: Cache or limit calls to this, no need to generate a
       # new fontmetrics file or re-register the font each time.  
       #
-      def font(name, type = :builtin)    
+      def font(name, type = :builtin)      
+        @font_metrics = Prawn::Font::AFM[name]   
         case(name)
         when /\.ttf$/   
           @font = embed_ttf_font(name)
         else
           @font = register_builtin_font(name)
-        end     
-        @font_metrics = Prawn::Font::AFM[name]   
-        set_current_font
+        end    
+        set_current_font       
       end
             
       private
@@ -85,12 +86,12 @@ module Prawn
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
         
         text.lines.each do |e|
-          move_text_position(font_size)
+          move_text_position(@font_metrics.font_height(font_size))
           add_content %Q{
             BT
             /#{font_name} #{font_size} Tf
             #{@bounding_box.absolute_left} #{y} Td
-            #{Prawn::PdfObject(e)} Tj
+            #{Prawn::PdfObject(e.chomp)} Tj
             ET
           }  
         end
@@ -108,24 +109,46 @@ module Prawn
           if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
             basename = rec.utf8_str.to_sym
           end
-        end
+        end      
+
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-        # TODO: compress the font file
-        fontfile = ref(:Length => File.size(file))
-        fontfile << File.read(file)
+        font_content    = File.read(file)
+        compressed_font = Zlib::Deflate.deflate(font_content)
+        
+        fontfile = ref(:Length  => compressed_font.size,  
+                       :Length1 => font_content.size,
+                       :Filter => :FlateDecode )
+        fontfile << compressed_font
+        
+        ttf_head = ttf.get_table(:head)        
+        
 
-        # TODO: add the remaining required values to this DICT. See table 5.19 in the spec
-        descriptor = ref(:Type => :FontDescriptor,
-                         :FontName => basename,
-                         :FontFile2 => fontfile)
+        # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
+        #       pick it up. Missing proper StemV and flags
+        #
+        descriptor = ref(:Type        => :FontDescriptor,
+                         :FontName    => basename,
+                         :FontFile2   => fontfile,
+                         :FontBBox    => @font_metrics.bbox,  
+                         :Flags       => 32, # FIXME: additional flags 
+                         :StemV       => 0,
+                         :ItalicAngle => @font_metrics.italic_angle.to_f,
+                         :Ascent      => @font_metrics.ascender.to_f,
+                         :Descent     => @font_metrics.descender.to_f
+                         ) 
 
-        fonts[basename] ||= ref(:Type => :Font,
-                                :Subtype => :TrueType,
-                                :BaseFont => basename,
+        # TODO: Needs Widths, FirstChar and LastChar (at least)                
+        fonts[basename] ||= ref(:Type           => :Font,
+                                :Subtype        => :TrueType,
+                                :BaseFont       => basename,
                                 :FontDescriptor => descriptor,
-                                :Encoding => :MacRomanEncoding)
+                                :Encoding       => :MacRomanEncoding,     
+                                # FIXME: This stuff is hackish
+                                :Widths    => @font_metrics.latin_glyphs_table,
+                                :FirstChar => 0,
+                                :LastChar  => 255 )
         return basename
       end
       
