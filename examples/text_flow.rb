@@ -36,13 +36,13 @@ Prawn::Document.generate("flow.pdf") do |pdf|
   
   pdf.text content, :size => 10
                
-  pdf.bounding_box([100,600], :width => 200, :height => 500) do
+  pdf.bounding_box([100,600], :width => 200, :height => 525) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
     pdf.text poem, :size => 12
   end
   
-  pdf.bounding_box([325,600], :width => 200, :height => 500) do
+  pdf.bounding_box([325,600], :width => 200, :height => 525) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
     pdf.text poem.reverse, :size => 12
@@ -52,7 +52,7 @@ Prawn::Document.generate("flow.pdf") do |pdf|
   
   pdf.text "Hooray! We've conquered the evil PDF gods", :size => 36
                
-  pdf.bounding_box([100,525], :width => 300) do
+  pdf.bounding_box([100,425], :width => 300) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
     pdf.text poem, :size => 12
