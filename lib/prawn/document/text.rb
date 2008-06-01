@@ -78,7 +78,6 @@ module Prawn
         @font_metrics.string_width(text,size)
       end
            
-      # Not really ready yet.
       def wrapped_text(text,options)
         font_size = options[:size] || 12
         font_name = font_registry[fonts[@font]]
