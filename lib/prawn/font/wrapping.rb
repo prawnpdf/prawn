@@ -6,7 +6,7 @@
 module Prawn
   module Font
     
-    class AFM
+    module Wrapping
       
       # TODO: Replace with TeX optimal algorithm
       def naive_wrap(string, line_width, font_size)

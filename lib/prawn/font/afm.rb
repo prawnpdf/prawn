@@ -9,7 +9,9 @@
 
 module Prawn
   module Font
-    class AFM #:nodoc:
+    class AFM #:nodoc:     
+      
+      include Prawn::Font::Wrapping
     
       ISOLatin1Encoding = %w[
        .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
@@ -106,8 +108,9 @@ module Prawn
       def find_font(file)
         metrics_path.find { |f| File.exist? "#{f}/#{file}" } + "/#{file}"    
       rescue NoMethodError
-        raise "Couldn't find the font: #{file} in any of:\n" +
-              @metrics_path.join("\n")
+        raise Prawn::Errors::UnknownFont, 
+          "Couldn't find the font: #{file} in any of:\n" + 
+           @metrics_path.join("\n")
       end  
     
       def parse_afm(file) 
