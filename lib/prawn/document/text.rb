@@ -2,19 +2,19 @@
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
-# This is free software. Please see the LICENSE and COPYING files for details.   
-require "zlib"     
+# This is free software. Please see the LICENSE and COPYING files for details.
+require "zlib"
 
 module Prawn
   class Document
     module Text
-           
+
       # The built in fonts specified by the Adobe PDF spec.
       BUILT_INS = %w[ Courier Courier-Bold Courier-Oblique Courier-BoldOblique
-                      Helvetica Helvetica-Bold Helvetica-Oblique 
-                      Helvetica-BoldOblique Times-Roman Times-Bold Times-Italic 
+                      Helvetica Helvetica-Bold Helvetica-Oblique
+                      Helvetica-BoldOblique Times-Roman Times-Bold Times-Italic
                       Times-BoldItalic Symbol ZapfDingbats ]
-                                                  
+
       # Draws text on the page. If a point is specified via the <tt>:at</tt>
       # option the text will begin exactly at that point, and the string is
       # assumed to be pre-formatted to properly fit the page.
@@ -31,20 +31,28 @@ module Prawn
       # pdf.text "This will be wrapped when it hits the edge of your bounding box"
       #
       def text(text,options={})
+        # replace the users string with a string composed of glyph codes
+        # TODO: hackish
+        if fonts[@font].data[:Subtype] == :Type0
+          unicode_codepoints = text.unpack("U*")
+          glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
+          text = glyph_codes.pack("n*")
+        end
+
         return wrapped_text(text,options) unless options[:at]
         x,y = translate(options[:at])
         font_size = options[:size] || 12
         font_name = font_registry[fonts[@font]]
-        
+
         add_content %Q{
           BT
           /#{font_name} #{font_size} Tf
           #{x} #{y} Td
           #{Prawn::PdfObject(text)} Tj
           ET
-        } 
+        }
       end
-              
+
       # Sets the current font.
       #
       # For the time being, name must be one of the BUILT_INS
@@ -52,38 +60,38 @@ module Prawn
       # pdf.font "Times-Roman"
       #
       # PERF: Cache or limit calls to this, no need to generate a
-      # new fontmetrics file or re-register the font each time.  
+      # new fontmetrics file or re-register the font each time.
       #
-      def font(name, type = :builtin)      
-        @font_metrics = Prawn::Font::AFM[name]   
+      def font(name)
+        @font_metrics = Prawn::Font::AFM[name]
         case(name)
-        when /\.ttf$/   
+        when /\.ttf$/
           @font = embed_ttf_font(name)
         else
           @font = register_builtin_font(name)
-        end    
-        set_current_font       
+        end
+        set_current_font
       end
-            
+
       private
-      
+
       def move_text_position(dy)
          if (y - dy) < @margin_box.absolute_bottom
            return start_new_page
          end
          self.y -= dy
       end
-      
+
       def text_width(text,size)
         @font_metrics.string_width(text,size)
       end
-           
+
       def wrapped_text(text,options)
         font_size = options[:size] || 12
         font_name = font_registry[fonts[@font]]
-        
+
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
-        
+
         text.lines.each do |e|
           move_text_position(@font_metrics.font_height(font_size))
           add_content %Q{
@@ -92,7 +100,7 @@ module Prawn
             #{@bounding_box.absolute_left} #{y} Td
             #{Prawn::PdfObject(e.chomp)} Tj
             ET
-          }  
+          }
         end
       end
 
@@ -101,28 +109,21 @@ module Prawn
           raise ArgumentError, "file #{file} does not exist"
         end
 
-        ttf = ::Font::TTF::File.new(file)
-        basename = nil
-        ttf.get_table(:name).name_records.each do |rec|
-          #puts rec.class.methods.sort.inspect
-          if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
-            basename = rec.utf8_str.to_sym
-          end
-        end      
-
+        basename = get_ttf_basename(file)
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
+        enctables[basename] = get_ttf_enctable(file)
+
+        raise "#{file} missing the required encoding table" if enctables[basename].nil?
+
         font_content    = File.read(file)
         compressed_font = Zlib::Deflate.deflate(font_content)
-        
-        fontfile = ref(:Length  => compressed_font.size,  
+
+        fontfile = ref(:Length  => compressed_font.size,
                        :Length1 => font_content.size,
                        :Filter => :FlateDecode )
         fontfile << compressed_font
-        
-        ttf_head = ttf.get_table(:head)        
-        
 
         # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
         #       pick it up. Missing proper StemV and flags
@@ -130,27 +131,50 @@ module Prawn
         descriptor = ref(:Type        => :FontDescriptor,
                          :FontName    => basename,
                          :FontFile2   => fontfile,
-                         :FontBBox    => @font_metrics.bbox,  
-                         :Flags       => 32, # FIXME: additional flags 
+                         :FontBBox    => @font_metrics.bbox,
+                         :Flags       => 32, # FIXME: additional flags
                          :StemV       => 0,
                          :ItalicAngle => @font_metrics.italic_angle.to_f,
                          :Ascent      => @font_metrics.ascender.to_f,
                          :Descent     => @font_metrics.descender.to_f
-                         ) 
+                         )
 
-        # TODO: Needs Widths, FirstChar and LastChar (at least)                
-        fonts[basename] ||= ref(:Type           => :Font,
-                                :Subtype        => :TrueType,
-                                :BaseFont       => basename,
-                                :FontDescriptor => descriptor,
-                                :Encoding       => :MacRomanEncoding,     
-                                # FIXME: This stuff is hackish
-                                :Widths    => @font_metrics.latin_glyphs_table,
-                                :FirstChar => 0,
-                                :LastChar  => 255 )
+        descendant = ref(:Type           => :Font,
+                         :Subtype        => :CIDFontType2, # CID, Type2 == CID, TTF
+                         :BaseFont       => basename,
+                         :CIDSystemInfo  => {:Registry => "Adobe", :Ordering => "Identity", :Supplement => 0},
+                         :FontDescriptor => descriptor#,
+                         #:W              => [0, [ 500, 1000, 1000, 1000, 1000, 1000, 1000 ]] # TODO real values here
+                        )
+
+        # TODO: Needs ToUnicode (at least)
+        fonts[basename] ||= ref(:Type            => :Font,
+                                :Subtype         => :Type0,
+                                :BaseFont        => basename,
+                                :DescendantFonts => [descendant],
+                                :Encoding        => :"Identity-H")
         return basename
       end
-      
+
+      def get_ttf_basename(filename)
+        ttf = ::Font::TTF::File.new(filename)
+        basename = nil
+        ttf.get_table(:name).name_records.each do |rec|
+          #puts rec.class.methods.sort.inspect
+          if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
+            basename = rec.utf8_str.to_sym
+          end
+        end
+        basename
+      end
+
+      def get_ttf_enctable(filename)
+        ttf = ::Font::TTF::File.new(filename)
+        ttf.get_table(:cmap).encoding_tables.find do |t|
+          t.class == ::Font::TTF::Table::Cmap::EncodingTable4
+        end
+      end
+
       def register_builtin_font(name) #:nodoc:
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
@@ -158,31 +182,34 @@ module Prawn
         fonts[name] ||= ref(:Type => :Font,
                             :Subtype => :Type1,
                             :BaseFont => name.to_sym,
-                            :Encoding => :MacRomanEncoding)   
+                            :Encoding => :MacRomanEncoding)
         return name
       end
-                   
+
       def set_current_font #:nodoc:
         font "Helvetica" unless fonts[@font]
         font_registry[fonts[@font]] ||= :"F#{font_registry.size + 1}"
-          
+
         @current_page.data[:Resources][:Font].merge!(
           font_registry[fonts[@font]] => fonts[@font]
         )
       end
-      
+
+      def enctables #:nodoc
+        @enctables ||= {}
+      end
       def font_registry #:nodoc:
         @font_registry ||= {}
       end
-      
+
       def font_proc #:nodoc:
         @font_proc ||= ref [:PDF, :Text]
       end
-      
+
       def fonts #:nodoc:
         @fonts ||= {}
       end
-          
+
     end
   end
 end
