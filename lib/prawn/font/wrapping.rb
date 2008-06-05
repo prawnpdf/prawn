@@ -5,7 +5,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   module Font
-    
     module Wrapping
       
       # TODO: Replace with TeX optimal algorithm

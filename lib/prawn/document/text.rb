@@ -63,7 +63,7 @@ module Prawn
       # new fontmetrics file or re-register the font each time.
       #
       def font(name)
-        @font_metrics = Prawn::Font::AFM[name]
+        @font_metrics = Prawn::Font::Metrics[name]
         case(name)
         when /\.ttf$/
           @font = embed_ttf_font(name)
