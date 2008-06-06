@@ -1,17 +1,12 @@
-# metrics.rb : Font metrics parsers for AFM and TTF.
+# cmap.rb : class for building ToUnicode CMaps for Type0 fonts
 #
-# Font::Metrics::Adobe is mainly a port of CPAN's Font::AFM
-# http://search.cpan.org/~gaas/Font-AFM-1.19/AFM.pm
-#
-# Copyright May 2008, Gregory Brown / James Edward Gray II. All Rights Reserved.
+# Copyright May 2008, Gregory Brown / James Healy. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
   module Font #:nodoc:
     class CMap
-
-      attr_accessor :codes
 
       def initialize
         @codes = {}
