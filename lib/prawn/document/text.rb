@@ -31,6 +31,18 @@ module Prawn
       # pdf.text "This will be wrapped when it hits the edge of your bounding box"
       #
       def text(text,options={})
+        # if we're running under a M17n aware VM, ensure the string provided is UTF-8 or can be
+        # converted to UTF-8
+        if text.respond_to?(:encode)
+          begin
+            puts "forcing encoding from #{text.encoding}"
+            text = text.encode("UTF-8")
+          rescue
+            raise ArgumentError, 'Strings must be supplied with a UTF-8 ' +
+            'encoding, or an encoding that can be converted to UTF-8'
+          end
+        end
+
         return wrapped_text(text,options) unless options[:at]
         x,y = translate(options[:at])
         font_size = options[:size] || 12
@@ -40,7 +52,9 @@ module Prawn
         # TODO: hackish
         if fonts[@font].data[:Subtype] == :Type0
           unicode_codepoints = text.unpack("U*")
-          glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
+          glyph_codes = unicode_codepoints.map { |u| 
+            enctables[@font].get_glyph_id_for_unicode(u)
+          }
           text = glyph_codes.pack("n*")
         end
 
@@ -95,11 +109,13 @@ module Prawn
 
         # THIS CODE JUST DID THE NASTY. FIXME!
         lines = text.lines
-        lines.each_with_index do |e,i|
+        lines = lines.map do |line|
           if fonts[@font].data[:Subtype] == :Type0
-            unicode_codepoints = e.chomp.unpack("U*")
-            glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
-            lines[i] = glyph_codes.pack("n*")
+            unicode_codepoints = line.unpack("U*")
+            glyph_codes = unicode_codepoints.map { |u| 
+              enctables[@font].get_glyph_id_for_unicode(u)
+            }
+            glyph_codes.pack("n*")
           end
         end
 
