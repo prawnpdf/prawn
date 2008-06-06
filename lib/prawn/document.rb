@@ -175,7 +175,7 @@ module Prawn
     # Write out the PDF Header, as per spec 3.4.1
     def render_header(output)
       # pdf version
-      output << "%PDF-1.1\n"
+      output << "%PDF-1.3\n"
 
       # 4 binary chars, as recommended by the spec
       output << "\xFF\xFF\xFF\xFF\n"

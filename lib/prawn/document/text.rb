@@ -174,7 +174,8 @@ module Prawn
                          :BaseFont       => basename,
                          :CIDSystemInfo  => {:Registry => "Adobe", :Ordering => "Identity", :Supplement => 0},
                          :FontDescriptor => descriptor,
-                         :W              => @font_metrics.glyph_widths
+                         :W              => @font_metrics.glyph_widths,
+                         :CIDToGIDMap    => :Identity
                         )
 
         # TODO: Needs ToUnicode (at least)
