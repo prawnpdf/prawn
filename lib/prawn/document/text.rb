@@ -60,26 +60,27 @@ module Prawn
 
         return wrapped_text(text,options) unless options[:at]
         x,y = translate(options[:at])
-        font_size = options[:size] || 12
-        font_name = font_registry[fonts[@font]]
+        font_size(options[:size] || current_font_size) do
+          font_name = font_registry[fonts[@font]]
 
-        # replace the users string with a string composed of glyph codes
-        # TODO: hackish
-        if fonts[@font].data[:Subtype] == :Type0
-          unicode_codepoints = text.unpack("U*")
-          glyph_codes = unicode_codepoints.map { |u| 
-            enctables[@font].get_glyph_id_for_unicode(u)
+          # replace the users string with a string composed of glyph codes
+          # TODO: hackish
+          if fonts[@font].data[:Subtype] == :Type0
+            unicode_codepoints = text.unpack("U*")
+            glyph_codes = unicode_codepoints.map { |u| 
+              enctables[@font].get_glyph_id_for_unicode(u)
+            }
+            text = glyph_codes.pack("n*")
+          end
+
+          add_content %Q{
+            BT
+            /#{font_name} #{current_font_size} Tf
+            #{x} #{y} Td
+            #{Prawn::PdfObject(text)} Tj
+            ET
           }
-          text = glyph_codes.pack("n*")
         end
-
-        add_content %Q{
-          BT
-          /#{font_name} #{font_size} Tf
-          #{x} #{y} Td
-          #{Prawn::PdfObject(text)} Tj
-          ET
-        }
       end
 
       # Sets the current font.
@@ -138,33 +139,34 @@ module Prawn
       end
 
       def wrapped_text(text,options)
-        font_size!(options[:size])
-        font_name = font_registry[fonts[@font]]
+        font_size(options[:size] || current_font_size) do
+          font_name = font_registry[fonts[@font]]
 
-        text = @font_metrics.naive_wrap(text, bounds.right, current_font_size)
+          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size)
 
-        # THIS CODE JUST DID THE NASTY. FIXME!
-        lines = text.lines
+          # THIS CODE JUST DID THE NASTY. FIXME!
+          lines = text.lines
 
-        if fonts[@font].data[:Subtype] == :Type0
-          lines = lines.map do |line|
-            unicode_codepoints = line.chomp.unpack("U*")
-            glyph_codes = unicode_codepoints.map { |u| 
-              enctables[@font].get_glyph_id_for_unicode(u)
-            }
-            glyph_codes.pack("n*")
+          if fonts[@font].data[:Subtype] == :Type0
+            lines = lines.map do |line|
+              unicode_codepoints = line.chomp.unpack("U*")
+              glyph_codes = unicode_codepoints.map { |u| 
+                enctables[@font].get_glyph_id_for_unicode(u)
+              }
+              glyph_codes.pack("n*")
+            end
           end
-        end
 
-        lines.each do |e|
-          move_text_position(@font_metrics.font_height(current_font_size))
-          add_content %Q{
-            BT
-            /#{font_name} #{current_font_size} Tf
-            #{@bounding_box.absolute_left} #{y} Td
-            #{Prawn::PdfObject(e.to_s.chomp)} Tj
-            ET
-          }
+          lines.each do |e|
+            move_text_position(@font_metrics.font_height(current_font_size))
+            add_content %Q{
+              BT
+              /#{font_name} #{current_font_size} Tf
+              #{@bounding_box.absolute_left} #{y} Td
+              #{Prawn::PdfObject(e.to_s.chomp)} Tj
+              ET
+            }
+          end
         end
       end
 

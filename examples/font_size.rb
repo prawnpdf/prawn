@@ -5,12 +5,13 @@ Prawn::Document.generate "font_size.pdf", :page_size => "A4" do
   font 'Helvetica'
   font_size! 16
   
-  text 'Large text!'
+  text 'Font at 16 point'
   
   font_size 9 do
-    text 'Small text'
-    text 'But this?', :size => 20
+    text 'Font at 9 point'
+    text 'Font at manual override 20 point', :size => 20
+    text 'Font at 9 point'
   end
   
-  text 'Large again!'
+  text 'Font at 16 point'
 end
