@@ -157,10 +157,6 @@ module Prawn
 
       class TTF < Metrics #:nodoc:
         
-        ######################
-        # Not yet functional #
-        ######################
-
         def initialize(font)
           @ttf = ::Font::TTF::File.open(font)
           @attributes     = {}
@@ -210,17 +206,17 @@ module Prawn
         end
 
         def basename
-          basename = nil
+          return @basename if @basename
           @ttf.get_table(:name).name_records.each do |rec|
             if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
-              basename = rec.utf8_str.to_sym
+              @basename = rec.utf8_str.to_sym
             end
           end
-          basename
+          @basename
         end
 
         def enc_table
-          @ttf.get_table(:cmap).encoding_tables.find do |t|
+          @enc_table ||= @ttf.get_table(:cmap).encoding_tables.find do |t|
             t.class == ::Font::TTF::Table::Cmap::EncodingTable4
           end
         end
@@ -230,9 +226,10 @@ module Prawn
         def to_unicode_cmap
           return @to_unicode if @to_unicode
           @to_unicode = Prawn::Font::CMap.new
-          glyphs = cmap.values.uniq.sort
+          unicode_for_glyph = cmap.invert
+          glyphs = unicode_for_glyph.keys.uniq.sort
           glyphs.each do |glyph|
-            @to_unicode[enc_table.get_unicode_for_glyph_id(glyph)] = glyph
+            @to_unicode[unicode_for_glyph[glyph]] = glyph
           end
           @to_unicode
         end
