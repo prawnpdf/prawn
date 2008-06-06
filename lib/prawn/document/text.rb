@@ -110,7 +110,7 @@ module Prawn
       
       # Sets the font size for all text nodes inside the block
       def font_size(size)
-        font_size_before_block = @font_size
+        font_size_before_block = @font_size || DEFAULT_FONT_SIZE
         font_size!(size)
         yield
         font_size!(font_size_before_block)
