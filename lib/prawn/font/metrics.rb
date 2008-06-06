@@ -169,9 +169,7 @@ module Prawn
         end
 
         def cmap
-          @cmap ||= @ttf.get_table(:cmap).encoding_tables.find do |t|
-            ::Font::TTF::Table::Cmap::EncodingTable4 === t
-          end.charmaps
+          @cmap ||= enc_table.charmaps
         end
 
         def string_width(string, font_size)
@@ -209,6 +207,22 @@ module Prawn
 
         def descender
           Integer(@ttf.get_table(:hhea).descender * scale_factor)
+        end
+
+        def basename
+          basename = nil
+          @ttf.get_table(:name).name_records.each do |rec|
+            if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
+              basename = rec.utf8_str.to_sym
+            end
+          end
+          basename
+        end
+
+        def enc_table
+          @ttf.get_table(:cmap).encoding_tables.find do |t|
+            t.class == ::Font::TTF::Table::Cmap::EncodingTable4
+          end
         end
 
         private
