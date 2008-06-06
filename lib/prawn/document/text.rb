@@ -92,15 +92,18 @@ module Prawn
 
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
 
-        # replace the users string with a string composed of glyph codes
-        # FIXME: hackish
-        if fonts[@font].data[:Subtype] == :Type0
-          unicode_codepoints = text.unpack("U*")
-          glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
-          text = glyph_codes.pack("n*")
+
+        # THIS CODE JUST DID THE NASTY. FIXME!
+        lines = text.lines
+        lines.each_with_index do |e,i|
+          if fonts[@font].data[:Subtype] == :Type0
+            unicode_codepoints = e.unpack("U*")
+            glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
+            lines[i] = glyph_codes.pack("n*")
+          end
         end
 
-        text.lines.each do |e|
+        lines.each do |e|
           move_text_position(@font_metrics.font_height(font_size))
           add_content %Q{
             BT
