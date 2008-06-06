@@ -106,11 +106,11 @@ module Prawn
 
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
 
-
         # THIS CODE JUST DID THE NASTY. FIXME!
         lines = text.lines
-        lines = lines.map do |line|
-          if fonts[@font].data[:Subtype] == :Type0
+
+        if fonts[@font].data[:Subtype] == :Type0
+          lines = lines.map do |line|
             unicode_codepoints = line.chomp.unpack("U*")
             glyph_codes = unicode_codepoints.map { |u| 
               enctables[@font].get_glyph_id_for_unicode(u)
@@ -125,7 +125,7 @@ module Prawn
             BT
             /#{font_name} #{font_size} Tf
             #{@bounding_box.absolute_left} #{y} Td
-            #{Prawn::PdfObject(e.chomp)} Tj
+            #{Prawn::PdfObject(e.to_s.chomp)} Tj
             ET
           }
         end

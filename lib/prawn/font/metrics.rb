@@ -19,10 +19,10 @@ module Prawn
 
       def self.[](font)
         data[font] ||= case(font)
-          when  /\.afm$/
-            Adobe.new(font) 
           when /\.ttf$/
             TTF.new(font)
+          else
+            Adobe.new(font)
         end
       end 
 
