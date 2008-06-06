@@ -23,18 +23,18 @@ module Prawn
     # The explicit receiver argument is necessary only when you need to make 
     # use of a closure.     
     #      
-    #    # Using implicit block form and rendering to a file
-    #    Prawn::Document.generate "foo.pdf" do
-    #       font "Times-Roman"   
-    #       text "Hello World", :at => [200,720], :size => 32       
-    #    end
-    #           
-    #    # Using explicit block form and rendering to a file   
-    #    content = "Hello World"
-    #    Prawn::Document.generate "foo.pdf" do |pdf|
-    #       pdf.font "Times-Roman"
-    #       pdf.text content, :at => [200,720], :size => 32
-    #    end                                                
+    #  # Using implicit block form and rendering to a file
+    #  Prawn::Document.generate "foo.pdf" do
+    #     font "Times-Roman"   
+    #     text "Hello World", :at => [200,720], :size => 32       
+    #  end
+    #         
+    #  # Using explicit block form and rendering to a file   
+    #  content = "Hello World"
+    #  Prawn::Document.generate "foo.pdf" do |pdf|
+    #     pdf.font "Times-Roman"
+    #     pdf.text content, :at => [200,720], :size => 32
+    #  end                                                
     #
     def self.generate(filename,options={},&block)
       pdf = Prawn::Document.new(options)          
@@ -44,25 +44,25 @@ module Prawn
           
     # Creates a new PDF Document.  The following options are available:
     #
-    # <tt>:page_size</tt>:: One of the Document::PageGeometry::SIZES (default: LETTER)
+    # <tt>:page_size</tt>:: One of the Document::PageGeometry::SIZES [LETTER]
     # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
     # <tt>:on_page_start</tt>:: Optional proc run at each page start
     # <tt>:on_page_stop</tt>:: Optional proc  run at each page stop   
-    # <tt>:left_margin</tt>:: Sets the left margin in points [default: 0.5 inch]
-    # <tt>:right_margin</tt>:: Sets the right margin in points [default: 0.5 inch]
-    # <tt>:top_margin</tt>:: Sets the top margin in points [default: 0.5 inch]
-    # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [default: 0.5 inch]
+    # <tt>:left_margin</tt>:: Sets the left margin in points [ 0.5 inch]
+    # <tt>:right_margin</tt>:: Sets the right margin in points [ 0.5 inch]
+    # <tt>:top_margin</tt>:: Sets the top margin in points [ 0.5 inch]
+    # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # 
     #                             
-    #    # New document, US Letter paper, portrait orientation
-    #    pdf = Prawn::Document.new                            
+    #  # New document, US Letter paper, portrait orientation
+    #  pdf = Prawn::Document.new                            
     #
-    #    # New document, A4 paper, landscaped
-    #    pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
+    #  # New document, A4 paper, landscaped
+    #  pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
     # 
-    #    # New document, draws a line at the start of each new page
-    #    pdf = Prawn::Document.new(:on_page_start => 
-    #      lambda { |doc| doc.line [0,100], [300,100] } )
+    #  # New document, draws a line at the start of each new page
+    #  pdf = Prawn::Document.new(:on_page_start => 
+    #    lambda { |doc| doc.line [0,100], [300,100] } )
     #
     def initialize(options={})
        @objects = []
@@ -118,10 +118,10 @@ module Prawn
       
     # Returns the number of pages in the document
     #  
-    #    pdf = Prawn::Document.new
-    #    pdf.page_count #=> 1
-    #    3.times { pdf.start_new_page }
-    #    pdf.page_count #=> 4
+    #   pdf = Prawn::Document.new
+    #   pdf.page_count #=> 1
+    #   3.times { pdf.start_new_page }
+    #   pdf.page_count #=> 4
     def page_count
       @pages.data[:Count]
     end
@@ -141,7 +141,7 @@ module Prawn
      
     # Renders the PDF document to file.
     #
-    #    pdf.render_file "foo.pdf"     
+    #   pdf.render_file "foo.pdf"     
     #
     def render_file(filename)
       File.open(filename,"wb") { |f| f << render }

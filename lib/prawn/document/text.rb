@@ -27,9 +27,9 @@ module Prawn
       # linebreaks, so if you want fully automated text wrapping, be sure to
       # remove newlines before attempting to draw your string.
       #
-      # pdf.text "Hello World", :at => [100,100]
-      # pdf.text "Goodbye World", :at => [50,50], :size => 16
-      # pdf.text "Will be wrapped when it hits the edge of your bounding box"
+      #   pdf.text "Hello World", :at => [100,100]
+      #   pdf.text "Goodbye World", :at => [50,50], :size => 16
+      #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
       #
       # Under Ruby 1.8 compatible implementations, all strings passed to this
       # function should be encoded as UTF-8. If you gets unexpected characters
@@ -89,8 +89,8 @@ module Prawn
       # fonts supported by PDF, or the location of a TTF file. The BUILT_INS
       # array specifies the valid built in font values.
       #
-      # pdf.font "Times-Roman"
-      # pdf.font "Chalkboard.ttf"
+      #   pdf.font "Times-Roman"
+      #   pdf.font "Chalkboard.ttf"
       #
       # If a ttf font is specified, the full file will be embedded in the 
       # rendered PDF. This should be your preferred option in most cases. 
@@ -108,7 +108,23 @@ module Prawn
         set_current_font
       end
       
-      # Sets the font size for all text nodes inside the block
+      # Sets the default font size for use within a block.  Individual overrides
+      # can be used as desired.  The previous font size will be stored after the
+      # block.
+      #
+      #  Prawn::Document.generate("font_size.pdf") do
+      #   font_size!(16) 
+      #   text "At size 16"
+      #
+      #   font_size(10) do
+      #     text "At size 10"
+      #     text "At size 6", :size => 6
+      #     text "At size 10"
+      #   end
+      #
+      #   text "At size 16"
+      #  end
+      #
       def font_size(size)
         font_size_before_block = @font_size || DEFAULT_FONT_SIZE
         font_size!(size)
@@ -116,7 +132,8 @@ module Prawn
         font_size!(font_size_before_block)
       end
       
-      # Sets the default font size for the document
+      # Sets the default font size. See example in font_size
+      #
       def font_size!(size)
         @font_size = size unless size == nil
       end

@@ -28,14 +28,14 @@ module Prawn
     # Take for example two triangles which share one point, drawn from the
     # origin:
     #
-    # pdf.polygon [0,250], [0,0], [150,100]
-    # pdf.polygon [100,0], [150,100], [200,0]
+    #   pdf.polygon [0,250], [0,0], [150,100]
+    #   pdf.polygon [100,0], [150,100], [200,0]
     #
     # It would be easy enough to translate these triangles to another point,
     # e.g [200,200]
     #
-    # pdf.polygon [200,450], [200,200], [350,300]
-    # pdf.polygon [300,200], [350,300], [400,200]
+    #   pdf.polygon [200,450], [200,200], [350,300]
+    #   pdf.polygon [300,200], [350,300], [400,200]
     #
     # However, each time you want to move the drawing, you'd need to alter
     # every point in the drawing calls, which as you might imagine, can become
@@ -48,10 +48,10 @@ module Prawn
     #
     # Using the [200,200] example:
     #
-    # pdf.bounding_box([200,450], :width => 200, :height => 250) do
-    # pdf.polygon [0,250], [0,0], [150,100]
-    # pdf.polygon [100,0], [150,100], [200,0]
-    # end
+    #   pdf.bounding_box([200,450], :width => 200, :height => 250) do
+    #     pdf.polygon [0,250], [0,0], [150,100]
+    #     pdf.polygon [100,0], [150,100], [200,0]
+    #   end
     #
     # Notice that the drawing is still relative to the origin. If we want to
     # move this drawing around the document, we simply need to recalculate the

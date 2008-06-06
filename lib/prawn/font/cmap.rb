@@ -6,7 +6,7 @@
 
 module Prawn
   module Font #:nodoc:
-    class CMap
+    class CMap #:nodoc:
 
       def initialize
         @codes = {}

@@ -9,7 +9,7 @@
 
 module Prawn
   module Font #:nodoc:
-    class Metrics
+    class Metrics #:nodoc:
 
       include Prawn::Font::Wrapping
 
