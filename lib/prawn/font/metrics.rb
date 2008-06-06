@@ -170,6 +170,10 @@ module Prawn
           end.charmaps
         end
 
+        def units_per_em
+          @scale ||= Float(@ttf.get_table(:head).units_per_em)
+        end
+
         def string_width(string, font_size)
           scale = font_size / 1000.0
           string.unpack("U*").
@@ -183,21 +187,21 @@ module Prawn
         end
 
         def character_width_by_code(code)
-          Integer(hmtx[cmap[code]][0] / 2048.0 * 1000)           
+          Integer(hmtx[cmap[code]][0] / units_per_em * 1000)           
         end                   
 
         # FIXME: Nasty
         def glyph_widths
           glyphs = cmap.values.sort.uniq
           first_glyph = glyphs.shift
-          widths = [first_glyph, [hmtx[first_glyph][0] / 2048.0 * 1000 ]]
+          widths = [first_glyph, [Integer(hmtx[first_glyph][0] / units_per_em * 1000)]]
           prev_glyph = first_glyph
           glyphs.each do |glyph|
             unless glyph == prev_glyph + 1
               widths << glyph
               widths << []
             end
-            widths.last << Integer(hmtx[glyph][0] / 2048.0 * 1000)
+            widths.last << Integer(hmtx[glyph][0] / units_per_em * 1000)
             prev_glyph = glyph
           end
           widths
