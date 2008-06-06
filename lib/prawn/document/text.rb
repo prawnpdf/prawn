@@ -198,12 +198,20 @@ module Prawn
                          :CIDToGIDMap    => :Identity
                         )
 
+        to_unicode_content = @font_metrics.to_unicode_cmap.to_s
+        compressed_to_unicode = Zlib::Deflate.deflate(to_unicode_content)
+        to_unicode = ref(:Length  => compressed_to_unicode.size,
+                         :Length1 => to_unicode_content.size,
+                         :Filter => :FlateDecode )
+        to_unicode << compressed_to_unicode
+
         # TODO: Needs ToUnicode (at least)
         fonts[basename] ||= ref(:Type            => :Font,
                                 :Subtype         => :Type0,
                                 :BaseFont        => basename,
                                 :DescendantFonts => [descendant],
-                                :Encoding        => :"Identity-H")
+                                :Encoding        => :"Identity-H",
+                                :ToUnicode       => to_unicode)
         return basename
       end
 

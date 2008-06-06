@@ -225,6 +225,18 @@ module Prawn
           end
         end
 
+        # TODO: instead of creating a map that contains every glyph in the font,
+        #       only include the glyphs that were used
+        def to_unicode_cmap
+          return @to_unicode if @to_unicode
+          @to_unicode = Prawn::Font::CMap.new
+          glyphs = cmap.values.uniq.sort
+          glyphs.each do |glyph|
+            @to_unicode[enc_table.get_unicode_for_glyph_id(glyph)] = glyph
+          end
+          @to_unicode
+        end
+
         private
 
         def hmtx
