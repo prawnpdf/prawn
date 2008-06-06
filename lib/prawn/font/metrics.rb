@@ -176,11 +176,10 @@ module Prawn
             inject(0) { |s,r| s + character_width_by_code(r) } * scale
         end
 
-        # FIXME: Nasty
         def glyph_widths
           glyphs = cmap.values.uniq.sort
           first_glyph = glyphs.shift
-          widths = [first_glyph, [Integer(hmtx[first_glyph][0] * scale_factor )]]
+          widths = [first_glyph, [Integer(hmtx[first_glyph][0] * scale_factor)]]
           prev_glyph = first_glyph
           glyphs.each do |glyph|
             unless glyph == prev_glyph + 1
@@ -191,6 +190,13 @@ module Prawn
             prev_glyph = glyph
           end
           widths
+        end
+
+        def bbox
+          head = @ttf.get_table(:head)
+          [:x_min, :y_min, :x_max, :y_max].map do |atr| 
+            Integer(head.send(atr) * scale_factor)
+          end
         end
 
         private
