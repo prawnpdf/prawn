@@ -111,7 +111,7 @@ module Prawn
         lines = text.lines
         lines = lines.map do |line|
           if fonts[@font].data[:Subtype] == :Type0
-            unicode_codepoints = line.unpack("U*")
+            unicode_codepoints = line.chomp.unpack("U*")
             glyph_codes = unicode_codepoints.map { |u| 
               enctables[@font].get_glyph_id_for_unicode(u)
             }
