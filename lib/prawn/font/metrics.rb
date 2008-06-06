@@ -165,7 +165,15 @@ module Prawn
         end
 
         def cmap
-          @cmap ||= @ttf.get_table(:cmap).encoding_tables[-1].charmaps
+          @cmap ||= @ttf.get_table(:cmap).encoding_tables.find do |t|
+            ::Font::TTF::Table::Cmap::EncodingTable4 === t
+          end.charmaps
+        end
+
+        def string_width(string, font_size)
+          scale = font_size / 1000.0
+          string.unpack("U*").
+            inject(0) { |s,r| s + character_width_by_code(r) } * scale
         end
 
         private
@@ -174,8 +182,8 @@ module Prawn
           @hmtx ||= @ttf.get_table(:hmtx).metrics
         end
 
-        def character_width_by_code(code,size)
-          hmtx[cmap[code]][0] / 2048.0 * size           
+        def character_width_by_code(code)
+          Integer(hmtx[cmap[code]][0] / 2048.0 * 1000)           
         end                   
 
         # FIXME: Nasty
