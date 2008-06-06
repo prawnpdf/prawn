@@ -164,17 +164,17 @@ module Prawn
                          :FontBBox    => @font_metrics.bbox,
                          :Flags       => 32, # FIXME: additional flags
                          :StemV       => 0,
-                         :ItalicAngle => @font_metrics.italic_angle.to_f,
-                         :Ascent      => @font_metrics.ascender.to_f,
-                         :Descent     => @font_metrics.descender.to_f
+                         :ItalicAngle => 0,
+                         :Ascent      => @font_metrics.ascender,
+                         :Descent     => @font_metrics.descender
                          )
 
         descendant = ref(:Type           => :Font,
                          :Subtype        => :CIDFontType2, # CID, Type2 == CID, TTF
                          :BaseFont       => basename,
                          :CIDSystemInfo  => {:Registry => "Adobe", :Ordering => "Identity", :Supplement => 0},
-                         :FontDescriptor => descriptor,#,
-                         :W              => ttf_metrics.send(:glyph_widths)
+                         :FontDescriptor => descriptor,
+                         :W              => @font_metrics.glyph_widths
                         )
 
         # TODO: Needs ToUnicode (at least)
