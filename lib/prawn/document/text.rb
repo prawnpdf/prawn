@@ -106,9 +106,9 @@ module Prawn
 
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
 
-
         # THIS CODE JUST DID THE NASTY. FIXME!
         lines = text.lines
+
         if fonts[@font].data[:Subtype] == :Type0
           lines = lines.map do |line|
             unicode_codepoints = line.chomp.unpack("U*")
@@ -125,7 +125,7 @@ module Prawn
             BT
             /#{font_name} #{font_size} Tf
             #{@bounding_box.absolute_left} #{y} Td
-            #{Prawn::PdfObject(e.chomp)} Tj
+            #{Prawn::PdfObject(e.to_s.chomp)} Tj
             ET
           }
         end
@@ -139,11 +139,11 @@ module Prawn
           raise ArgumentError, "file #{file} does not exist"
         end
 
-        basename = get_ttf_basename(file)
+        basename = @font_metrics.basename
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-        enctables[basename] = get_ttf_enctable(file)
+        enctables[basename] = @font_metrics.enc_table
 
         raise "#{file} missing the required encoding table" if enctables[basename].nil?
 
@@ -184,25 +184,6 @@ module Prawn
                                 :DescendantFonts => [descendant],
                                 :Encoding        => :"Identity-H")
         return basename
-      end
-
-      def get_ttf_basename(filename)
-        ttf = ::Font::TTF::File.new(filename)
-        basename = nil
-        ttf.get_table(:name).name_records.each do |rec|
-          #puts rec.class.methods.sort.inspect
-          if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
-            basename = rec.utf8_str.to_sym
-          end
-        end
-        basename
-      end
-
-      def get_ttf_enctable(filename)
-        ttf = ::Font::TTF::File.new(filename)
-        ttf.get_table(:cmap).encoding_tables.find do |t|
-          t.class == ::Font::TTF::Table::Cmap::EncodingTable4
-        end
       end
 
       def register_builtin_font(name) #:nodoc:
