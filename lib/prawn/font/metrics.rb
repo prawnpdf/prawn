@@ -174,9 +174,15 @@ module Prawn
           @hmtx ||= @ttf.get_table(:hmtx).metrics
         end
 
-        def character_width_by_code(code,size)
-          hmtx[cmap[code]][0] / 2048.0 * size           
+        def character_width_by_code(code)
+          Integer(hmtx[cmap[code]][0] / 2048.0 * 1000)           
         end                   
+
+        def string_width(string, font_size)
+          scale = font_size / 1000.0
+          string.unpack("U*").
+            inject(0) { |s,r| s + character_width_by_code(r) } * scale
+        end
 
         # FIXME: Nasty
         def glyph_widths
