@@ -8,7 +8,8 @@ require "zlib"
 module Prawn
   class Document
     module Text
-
+      DEFAULT_FONT_SIZE = 12
+      
       # The built in fonts specified by the Adobe PDF spec.
       BUILT_INS = %w[ Courier Courier-Bold Courier-Oblique Courier-BoldOblique
                       Helvetica Helvetica-Bold Helvetica-Oblique
@@ -86,8 +87,25 @@ module Prawn
         end
         set_current_font
       end
-
+      
+      # Sets the font size for all text nodes inside the block
+      def font_size(size)
+        font_size_before_block = @font_size
+        font_size!(size)
+        yield
+        font_size!(font_size_before_block)
+      end
+      
+      # Sets the default font size for the document
+      def font_size!(size)
+        @font_size = size unless size == nil
+      end
+      
       private
+      
+      def current_font_size
+        @font_size || DEFAULT_FONT_SIZE
+      end
 
       def move_text_position(dy)
          if (y - dy) < @margin_box.absolute_bottom
@@ -101,10 +119,10 @@ module Prawn
       end
 
       def wrapped_text(text,options)
-        font_size = options[:size] || 12
+        font_size!(options[:size])
         font_name = font_registry[fonts[@font]]
 
-        text = @font_metrics.naive_wrap(text, bounds.right, font_size)
+        text = @font_metrics.naive_wrap(text, bounds.right, current_font_size)
 
         # THIS CODE JUST DID THE NASTY. FIXME!
         lines = text.lines
@@ -120,10 +138,10 @@ module Prawn
         end
 
         lines.each do |e|
-          move_text_position(@font_metrics.font_height(font_size))
+          move_text_position(@font_metrics.font_height(current_font_size))
           add_content %Q{
             BT
-            /#{font_name} #{font_size} Tf
+            /#{font_name} #{current_font_size} Tf
             #{@bounding_box.absolute_left} #{y} Td
             #{Prawn::PdfObject(e.to_s.chomp)} Tj
             ET
