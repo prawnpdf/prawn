@@ -109,8 +109,8 @@ module Prawn
 
         # THIS CODE JUST DID THE NASTY. FIXME!
         lines = text.lines
-        lines = lines.map do |line|
-          if fonts[@font].data[:Subtype] == :Type0
+        if fonts[@font].data[:Subtype] == :Type0
+          lines = lines.map do |line|
             unicode_codepoints = line.chomp.unpack("U*")
             glyph_codes = unicode_codepoints.map { |u| 
               enctables[@font].get_glyph_id_for_unicode(u)
