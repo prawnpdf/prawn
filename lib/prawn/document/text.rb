@@ -30,12 +30,25 @@ module Prawn
       # pdf.text "Goodbye World", :at => [50,50], :size => 16
       # pdf.text "This will be wrapped when it hits the edge of your bounding box"
       #
+      # Under Ruby 1.8 compatible implementations, all strings passed to this
+      # function should be encoded as UTF-8. If you gets unexpected characters
+      # appearing in your rendered document, check this.
+      #
+      # Under a M17n aware implementation (like Ruby 1.9), Prawn will attempt to
+      # convert the string to UTF-8 if necessary. An ArgumentError exception will
+      # be raised if this conversion fails.
+      #
+      # If an empty box is rendered to your PDF instead of the character you wanted
+      # it usually means the current font doesn't include that character.
       def text(text,options={})
+        # TODO: if the current font is a built in one, we can't use the utf-8 string
+        #       provided by the user. We should convert it to WinAnsi or MacRoman
+        #       or some such.
+
         # if we're running under a M17n aware VM, ensure the string provided is UTF-8 or can be
         # converted to UTF-8
         if text.respond_to?(:encode)
           begin
-            puts "forcing encoding from #{text.encoding}"
             text = text.encode("UTF-8")
           rescue
             raise ArgumentError, 'Strings must be supplied with a UTF-8 ' +
@@ -69,13 +82,20 @@ module Prawn
 
       # Sets the current font.
       #
-      # For the time being, name must be one of the BUILT_INS
+      # The single parameter must be a string. It can be one of the 14 built-in
+      # fonts supported by PDF, or the location of a TTF file. The BUILT_INS
+      # array specifies the valid built in font values.
       #
       # pdf.font "Times-Roman"
+      # pdf.font "chalkboard.ttf"
+      #
+      # If a ttf font is specified, the full file will be embedded in the rendered
+      # PDF. This should be your preferred option in most cases. It will increase
+      # the size of the resulting file, but also make it more portable.
       #
       # PERF: Cache or limit calls to this, no need to generate a
       # new fontmetrics file or re-register the font each time.
-      #
+      
       def font(name)
         @font_metrics = Prawn::Font::Metrics[name]
         case(name)
