@@ -31,6 +31,11 @@ module Prawn
       # pdf.text "This will be wrapped when it hits the edge of your bounding box"
       #
       def text(text,options={})
+        return wrapped_text(text,options) unless options[:at]
+        x,y = translate(options[:at])
+        font_size = options[:size] || 12
+        font_name = font_registry[fonts[@font]]
+
         # replace the users string with a string composed of glyph codes
         # TODO: hackish
         if fonts[@font].data[:Subtype] == :Type0
@@ -38,11 +43,6 @@ module Prawn
           glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
           text = glyph_codes.pack("n*")
         end
-
-        return wrapped_text(text,options) unless options[:at]
-        x,y = translate(options[:at])
-        font_size = options[:size] || 12
-        font_name = font_registry[fonts[@font]]
 
         add_content %Q{
           BT
@@ -91,6 +91,14 @@ module Prawn
         font_name = font_registry[fonts[@font]]
 
         text = @font_metrics.naive_wrap(text, bounds.right, font_size)
+
+        # replace the users string with a string composed of glyph codes
+        # FIXME: hackish
+        if fonts[@font].data[:Subtype] == :Type0
+          unicode_codepoints = text.unpack("U*")
+          glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
+          text = glyph_codes.pack("n*")
+        end
 
         text.lines.each do |e|
           move_text_position(@font_metrics.font_height(font_size))
