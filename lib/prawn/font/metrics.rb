@@ -12,6 +12,7 @@ module Prawn
     class Metrics
 
       include Prawn::Font::Wrapping
+      attr_accessor :file
 
       def self.[](font)
         data[font] ||= Adobe.new(font) 
@@ -157,6 +158,7 @@ module Prawn
         ######################
 
         def initialize(font)
+          @ttf = ::Font::TTF::File.open(font)
           @attributes     = {}
           @glyph_widths   = {}
           @bounding_boxes = {}
@@ -168,9 +170,30 @@ module Prawn
 
         private
 
+        def hmtx
+          @hmtx ||= @ttf.get_table(:hmtx).metrics
+        end
+
         def character_width_by_code(code,size)
-          @ttf.get_table(:hmtx).metrics[cmap[code]][0] / 2048.0 * size           
+          hmtx[cmap[code]][0] / 2048.0 * size           
         end                   
+
+        # FIXME: Nasty
+        def glyph_widths
+          glyphs = cmap.values.sort
+          first_glyph = glyphs.shift
+          widths = [first_glyph, [hmtx[first_glyph][0] / 2048.0 * 1000 ]]
+          last_glyph_code = first_glyph
+          glyphs.each do |glyph|
+            if glyph != last_glyph_code + 1
+              widths << glyph
+              widths << []
+            end
+            widths.last << Integer(hmtx[glyph][0] / 2048.0 * 1000)
+            last_glyph_code = glyph
+          end
+          widths
+        end
       end
     end
   end   

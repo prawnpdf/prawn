@@ -97,7 +97,7 @@ module Prawn
         lines = text.lines
         lines.each_with_index do |e,i|
           if fonts[@font].data[:Subtype] == :Type0
-            unicode_codepoints = e.unpack("U*")
+            unicode_codepoints = e.chomp.unpack("U*")
             glyph_codes = unicode_codepoints.collect { |u| enctables[@font].get_glyph_id_for_unicode(u)}
             lines[i] = glyph_codes.pack("n*")
           end
@@ -116,6 +116,9 @@ module Prawn
       end
 
       def embed_ttf_font(file) #:nodoc:
+
+        ttf_metrics = Prawn::Font::Metrics::TTF.new(file)
+
         unless File.file?(file)
           raise ArgumentError, "file #{file} does not exist"
         end
@@ -154,8 +157,8 @@ module Prawn
                          :Subtype        => :CIDFontType2, # CID, Type2 == CID, TTF
                          :BaseFont       => basename,
                          :CIDSystemInfo  => {:Registry => "Adobe", :Ordering => "Identity", :Supplement => 0},
-                         :FontDescriptor => descriptor#,
-                         #:W              => [0, [ 500, 1000, 1000, 1000, 1000, 1000, 1000 ]] # TODO real values here
+                         :FontDescriptor => descriptor,#,
+                         :W              => ttf_metrics.send(:glyph_widths)
                         )
 
         # TODO: Needs ToUnicode (at least)
