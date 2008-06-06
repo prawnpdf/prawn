@@ -1,6 +1,6 @@
-# afm.rb : Implementation of a simple Adobe Font Metrics parser
+# metrics.rb : Font metrics parsers for AFM and TTF.
 #
-# Mainly a port of CPAN's Font::AFM 
+# Font::Metrics::Adobe is mainly a port of CPAN's Font::AFM 
 # http://search.cpan.org/~gaas/Font-AFM-1.19/AFM.pm
 #
 # Copyright May 2008, Gregory Brown / James Edward Gray II. All Rights Reserved.
@@ -8,8 +8,10 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-  module Font
+  module Font #:nodoc:
     class Metrics
+
+      include Prawn::Font::Wrapping
 
       def self.[](font)
         data[font] ||= Adobe.new(font) 
@@ -19,10 +21,8 @@ module Prawn
         @data ||= {}
       end   
  
-      class Adobe #:nodoc:     
-        
-        include Prawn::Font::Wrapping
-      
+      class Adobe < Metrics #:nodoc:     
+         
         ISOLatin1Encoding = %w[
          .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
          .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
@@ -150,7 +150,7 @@ module Prawn
         end               
       end
 
-      class TTF #:nodoc:
+      class TTF < Metrics #:nodoc:
         
         ######################
         # Not yet functional #
