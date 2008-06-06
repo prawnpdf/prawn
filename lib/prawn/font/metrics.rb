@@ -192,17 +192,17 @@ module Prawn
 
         # FIXME: Nasty
         def glyph_widths
-          glyphs = cmap.values.sort
+          glyphs = cmap.values.uniq.sort
           first_glyph = glyphs.shift
           widths = [first_glyph, [Integer(hmtx[first_glyph][0] / units_per_em * 1000)]]
-          last_glyph_code = first_glyph
+          prev_glyph = first_glyph
           glyphs.each do |glyph|
-            if glyph != last_glyph_code + 1
+            unless glyph == prev_glyph + 1
               widths << glyph
               widths << []
             end
             widths.last << Integer(hmtx[glyph][0] / units_per_em * 1000)
-            last_glyph_code = glyph
+            prev_glyph = glyph
           end
           widths
         end
