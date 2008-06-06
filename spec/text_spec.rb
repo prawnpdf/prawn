@@ -39,6 +39,37 @@ describe "when drawing text" do
      text.fonts[0][:size].should == 16
    end
    
+   it "should allow setting a default font size" do
+     @pdf.font_size! 16
+     @pdf.text "Blah"
+     text = observer(TextObserver)
+     text.fonts[0][:size].should == 16
+   end
+   
+   it "should allow setting the font size on the text nodes and overwrite the default" do
+     @pdf.font_size! 16
+     @pdf.text "Blah", :size => 11
+     text = observer(TextObserver)
+     text.fonts[0][:size].should == 11
+   end
+   
+   
+   it "should allow setting a font size transaction with a block" do
+     @pdf.font_size 16 do
+       @pdf.text 'Blah'
+     end
+     text = observer(TextObserver)
+     text.fonts[0][:size].should == 16
+   end
+   
+   it "should allow setting the font size on the text nodes and overwrite the default when in a font size block" do
+     @pdf.font_size 16 do
+        @pdf.text 'Blah', :size => 11
+      end
+      text = observer(TextObserver)
+      text.fonts[0][:size].should == 11
+   end
+      
    it "should allow registering of built-in fonts on the fly" do
      @pdf.font "Courier"
      @pdf.text "Blah", :at => [100,100]
