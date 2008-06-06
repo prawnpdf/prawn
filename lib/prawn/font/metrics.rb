@@ -12,10 +12,18 @@ module Prawn
     class Metrics
 
       include Prawn::Font::Wrapping
-      attr_accessor :file
+
+      def font_height(font_size)
+        Float(bbox[3] - bbox[1]) * font_size / 1000.0
+      end        
 
       def self.[](font)
-        data[font] ||= Adobe.new(font) 
+        data[font] ||= case(font)
+          when  /\.afm$/
+            Adobe.new(font) 
+          when /\.ttf$/
+            TTF.new(font)
+        end
       end 
 
       def self.data
@@ -61,7 +69,7 @@ module Prawn
           @glyph_widths   = {}
           @bounding_boxes = {}  
           
-          file = font_name.sub(/\.(afm|ttf)$/,'') + '.afm'
+          file = font_name.sub(/\.afm$/,'') + '.afm'
           unless file[0..0] == "/"
              file = find_font(file)
           end    
@@ -79,10 +87,6 @@ module Prawn
                  inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
         end  
         
-        def font_height(font_size)
-          Float(bbox[3] - bbox[1]) * font_size / 1000.0
-        end        
-
         def latin_glyphs_table
           @glyphs_table ||= (0..255).map do |i|
             @glyph_widths[ISOLatin1Encoding[i]].to_i
@@ -197,6 +201,14 @@ module Prawn
           [:x_min, :y_min, :x_max, :y_max].map do |atr| 
             Integer(head.send(atr) * scale_factor)
           end
+        end
+
+        def ascender
+          Integer(@ttf.get_table(:hhea).ascender * scale_factor)
+        end
+
+        def descender
+          Integer(@ttf.get_table(:hhea).descender * scale_factor)
         end
 
         private
