@@ -207,10 +207,10 @@ module Prawn
 
         def basename
           return @basename if @basename
+          ps_name = ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
+
           @ttf.get_table(:name).name_records.each do |rec|
-            if rec.name_id == ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
-              @basename = rec.utf8_str.to_sym
-            end
+            @basename = rec.utf8_str.to_sym if rec.name_id == ps_name            
           end
           @basename
         end
