@@ -8,6 +8,7 @@ require "stringio"
 require "prawn/document/page_geometry" 
 require "prawn/document/bounding_box"
 require "prawn/document/text"      
+require "prawn/document/table"
 
 module Prawn
   class Document  
@@ -16,7 +17,7 @@ module Prawn
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout, :y    
+    attr_accessor :page_size, :page_layout, :y, :font_metrics
              
     # Creates and renders a PDF document. 
     #
@@ -154,6 +155,11 @@ module Prawn
     #
     def bounds
       @bounding_box
+    end
+
+    # TODO: This is still just a hack, kids
+    def table(data)
+      Prawn::Document::Table.new(data,self).draw
     end
    
     private
