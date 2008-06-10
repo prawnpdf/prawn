@@ -158,8 +158,8 @@ module Prawn
     end
 
     # TODO: This is still just a hack, kids
-    def table(data)
-      Prawn::Document::Table.new(data,self).draw
+    def table(data,options={})
+      Prawn::Document::Table.new(data,self,options).draw
     end
    
     private
