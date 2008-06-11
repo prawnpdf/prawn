@@ -183,6 +183,8 @@ module Prawn
 
     # TODO: This is still just a hack, kids
     def table(data,options={})
+      # ensure a valid font is selected
+      font "Helvetica" unless fonts[@font]
       Prawn::Document::Table.new(data,self,options).draw
     end
    
