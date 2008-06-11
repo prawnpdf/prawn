@@ -58,6 +58,9 @@ module Prawn
           end
         end
 
+        # ensure a valid font is selected
+        font "Helvetica" unless fonts[@font]
+
         return wrapped_text(text,options) unless options[:at]
         x,y = translate(options[:at])
         font_size(options[:size] || current_font_size) do
@@ -267,7 +270,7 @@ module Prawn
       end
 
       def set_current_font #:nodoc:
-        font "Helvetica" unless fonts[@font]
+        return if @font.nil?
         font_registry[fonts[@font]] ||= :"F#{font_registry.size + 1}"
 
         @current_page.data[:Resources][:Font].merge!(

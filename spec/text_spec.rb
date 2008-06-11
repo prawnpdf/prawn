@@ -4,20 +4,38 @@ class TextObserver
   
   attr_accessor :font_settings, :size, :string
             
-  FONTS = { :F1 => "Helvetica", 
-            :F2 => "Courier",
-            :F3 => "Times-Roman"  }
-                                             
   def initialize     
     @font_settings = []
+    @fonts = {}
   end
   
+  def resource_font(*params)
+    @fonts[params[0]] = params[1].basefont
+  end
+
   def set_text_font_and_size(*params)     
-    @font_settings << { :name => FONTS[params[0]], :size => params[1] }
+    @font_settings << { :name => @fonts[params[0]], :size => params[1] }
   end     
   
   def show_text(*params)
     @string = params[0]
+  end
+end
+
+class FontObserver
+
+  attr_accessor :page_fonts
+
+  def initialize
+    @page_fonts = []
+  end
+
+  def resource_font(*params)
+    @page_fonts.last << params[1].basefont
+  end
+
+  def begin_page(*params)
+    @page_fonts << []
   end
 end
 
@@ -28,7 +46,7 @@ describe "when drawing text" do
    it "should default to 12 point helvetica" do
       @pdf.text "Blah", :at => [100,100]              
       text = observer(TextObserver)
-      text.font_settings[0][:name].should == "Helvetica"
+      text.font_settings[0][:name].should == :Helvetica
       text.font_settings[0][:size].should == 12   
       text.string.should == "Blah"
    end   
@@ -89,9 +107,20 @@ describe "when drawing text" do
      @pdf.text "Blaz", :at => [150,150]
      text = observer(TextObserver) 
             
-     text.font_settings[0][:name].should == "Courier"
-     text.font_settings[1][:name].should == "Times-Roman"
+     text.font_settings[0][:name].should == :Courier
+     text.font_settings[1][:name].should == :"Times-Roman"
    end   
+
+   it "should utilise the same default font across multiple pages" do
+     @pdf.text "Blah", :at => [100,100]
+     @pdf.start_new_page
+     @pdf.text "Blaz", :at => [150,150]
+     text = observer(FontObserver)
+
+     text.page_fonts.size.should eql(2)
+     text.page_fonts[0][0].should eql(:Helvetica)
+     text.page_fonts[1][0].should eql(:Helvetica)
+   end
    
    it "should raise an exception when an unknown font is used" do
      lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
