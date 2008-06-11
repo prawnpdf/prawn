@@ -157,6 +157,30 @@ module Prawn
       @bounding_box
     end
 
+    def move_up(n)
+      self.y += n
+    end
+
+    def move_down(n)
+      self.y -= n
+    end
+
+    def pad_top(y)
+      move_down(y)
+      yield
+    end
+
+    def pad_bottom(y)
+      yield
+      move_down(y)
+    end
+
+    def pad(y)
+      move_down(y)
+      yield
+      move_down(y)
+    end
+
     # TODO: This is still just a hack, kids
     def table(data,options={})
       Prawn::Document::Table.new(data,self,options).draw
