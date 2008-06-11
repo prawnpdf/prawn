@@ -64,7 +64,7 @@ module Prawn
     # 
     def rectangle(point,width,height)
       x,y = translate(point)
-      add_content("%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
+      add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])      
     end
                          
     # Sets line thickness to the <tt>width</tt> specified.
