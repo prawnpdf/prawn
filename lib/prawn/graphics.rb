@@ -70,7 +70,12 @@ module Prawn
     # Sets line thickness to the <tt>width</tt> specified.
     #
     def line_width=(width)
+      @line_width = width
       add_content("#{width} w")
+    end
+
+    def line_width
+      @line_width || 1
     end
        
     ###########################################################

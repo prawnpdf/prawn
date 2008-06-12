@@ -61,7 +61,7 @@ module Prawn
     #  # New document, A4 paper, landscaped
     #  pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
     # 
-    #  # New document, draws a line at the start of each new page
+    :e #  # New document, draws a line at the start of each new page
     #  pdf = Prawn::Document.new(:on_page_start => 
     #    lambda { |doc| doc.line [0,100], [300,100] } )
     #
@@ -187,9 +187,18 @@ module Prawn
       font "Helvetica" unless fonts[@font]
       Prawn::Document::Table.new(data,self,options).draw
     end
+
+    # Stores the current state of the named attributes, executes the block, and
+    # then restores the original values after the block has executed.
+    def mask(*fields)
+      stored = {}
+      fields.each { |f| stored[f] = send(f) }
+      yield
+      fields.each { |f| send("#{f}=", stored[f]) }
+    end
    
     private
-   
+  
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
     end                                               
