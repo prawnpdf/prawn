@@ -6,7 +6,7 @@ module Prawn
         @document = options[:document]
         @text     = options[:text]
         @width    = options[:width]
-        @border   = options[:border]
+        @border   = options[:border] 
         @padding  = options[:padding] || 0
       end
 
@@ -19,7 +19,10 @@ module Prawn
         end
 
         if @border
-          @document.stroke_rectangle @point, @width,  box_height+ 2*@padding
+          @document.mask(:line_width) do
+            @document.line_width = @border
+            @document.stroke_rectangle @point, @width,  box_height+ 2*@padding
+          end
         end
       end
     end
