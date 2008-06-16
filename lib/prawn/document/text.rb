@@ -141,11 +141,11 @@ module Prawn
         @font_size = size unless size == nil
       end
       
-      private
-      
       def current_font_size
         @font_size || DEFAULT_FONT_SIZE
       end
+
+      private
 
       def move_text_position(dy)
          if (y - dy) < @margin_box.absolute_bottom
