@@ -36,6 +36,7 @@ module Prawn
                                              :padding  => @padding,
                                              :border   => @border )
             end
+            @document.start_new_page if c.height > @document.y
             c.draw
           end
           @document.y -= @padding
