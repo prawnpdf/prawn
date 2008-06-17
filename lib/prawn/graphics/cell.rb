@@ -1,8 +1,8 @@
 module Prawn
   module Graphics
     class Cell
-      def initialize(point, options={})
-        @point    = point
+      def initialize(options={})
+        @point    = options[:point]
         @document = options[:document]
         @text     = options[:text]
         @width    = options[:width]
@@ -28,20 +28,23 @@ module Prawn
       def text_area_height
         @document.font_metrics.string_height(@text, 
          :font_size  => @document.current_font_size, 
-         :line_width => text_area_width)
+         :line_width => text_area_width) 
       end
 
       def draw
-        @document.bounding_box( [@point[0] + @padding, @point[1] - @padding], 
-                                :width  => text_area_width,
-                                :height => text_area_height) do
-          @document.text @text
-          if @border
-            @document.mask(:line_width) do
-              @document.line_width = @border
-              @document.stroke_rectangle [-@padding,@document.bounds.top+@padding], width, height
-            end
+        rel_point = [@point[0] - @document.bounds.absolute_left,
+                     @point[1] - @document.bounds.absolute_bottom]
+        if @border
+          @document.mask(:line_width) do
+            @document.line_width = @border
+            @document.stroke_rectangle rel_point, width, height
           end
+        end
+
+        @document.bounding_box( [@point[0] + @padding, @point[1] - @padding], 
+                                :width   => width,
+                                :height  => height - @padding) do
+          @document.text @text
         end
       end
     end
