@@ -5,91 +5,109 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "enumerator"
+require "prawn/graphics/cell"
 
 module Prawn
 
-   # Implements the drawing facilities for Prawn::Document.  
-   # Use this to draw the most beautiful imaginable things.
-   # 
-   # This file lifts and modifies several of PDF::Writer's graphics functions
-   # ruby-pdf.rubyforge.org
-   #
-   module Graphics 
+  # Implements the drawing facilities for Prawn::Document.  
+  # Use this to draw the most beautiful imaginable things.
+  # 
+  # This file lifts and modifies several of PDF::Writer's graphics functions
+  # ruby-pdf.rubyforge.org
+  #
+  module Graphics 
+      
+      
+    #######################################################################
+    # Low level drawing operations must translate to absolute coords!     #
+    #######################################################################
        
-       
-     #######################################################################
-     # Low level drawing operations must translate to absolute coords!     #
-     #######################################################################
-        
-     # Moves the drawing position to a given point.  The point can be
-     # specified as a tuple or a flattened argument list
-     #
-     #   pdf.move_to [100,50]
-     #   pdf.move_to(100,50)
-     def move_to(*point)
-       x,y = translate(point)           
-       add_content("%.3f %.3f m" % [ x, y ])
-     end
-     
-     # Draws a line from the current drawing position to the specified point.
-     # The destination may be described as a tuple or a flattened list:    
-     #
-     #   pdf.line_to [50,50] 
-     #   pdf.line_to(50,50)    
-     #
-     def line_to(*point)      
-       x,y = translate(point)
-       add_content("%.3f %.3f l" % [ x, y ]) 
-     end    
-     
-      # Draws a Bezier curve from the current drawing position to the 
-      # specified point, bounded by two additional points.
-      #  
-      #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]   
-      #
-      def curve_to(dest,options={})                           
-        options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath, 
-          "Bounding points for bezier curve must be specified "+
-          "as :bounds => [[x1,y1],[x2,y2]]"       
+    # Moves the drawing position to a given point.  The point can be
+    # specified as a tuple or a flattened argument list
+    #
+    #   pdf.move_to [100,50]
+    #   pdf.move_to(100,50)
+    def move_to(*point)
+      x,y = translate(point)           
+      add_content("%.3f %.3f m" % [ x, y ])
+    end
+    
+    # Draws a line from the current drawing position to the specified point.
+    # The destination may be described as a tuple or a flattened list:    
+    #
+    #   pdf.line_to [50,50] 
+    #   pdf.line_to(50,50)    
+    #
+    def line_to(*point)      
+      x,y = translate(point)
+      add_content("%.3f %.3f l" % [ x, y ]) 
+    end    
+    
+    # Draws a Bezier curve from the current drawing position to the 
+    # specified point, bounded by two additional points.
+    #  
+    #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]   
+    #
+    def curve_to(dest,options={})                           
+       options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath, 
+         "Bounding points for bezier curve must be specified "+
+         "as :bounds => [[x1,y1],[x2,y2]]"       
 
-        curve_points = (options[:bounds] << dest).map { |e| translate(e) }
-        add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" % 
-                      curve_points.flatten )    
-     end   
+       curve_points = (options[:bounds] << dest).map { |e| translate(e) }
+       add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" % 
+                     curve_points.flatten )    
+    end   
+    
+    # Draws a rectangle given <tt>point</tt>, <tt>width</tt> and 
+    # <tt>height</tt>.  The rectangle is bounded by its upper-left corner.
+    #
+    #    pdf.rectangle [300,300], 100, 200
+    # 
+    def rectangle(point,width,height)
+      x,y = translate(point)
+      add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])      
+    end
+                         
+    # Sets line thickness to the <tt>width</tt> specified.
+    #
+    def line_width=(width)
+      @line_width = width
+      add_content("#{width} w")
+    end
+
+    def line_width
+      @line_width || 1
+    end
+       
+    ###########################################################
+    #  Higher level functions: May use relative coords        #   
+    ########################################################### 
      
-     # Draws a rectangle given <tt>point</tt>, <tt>width</tt> and 
-     # <tt>height</tt>.  The rectangle is bounded by its upper-left corner.
-     #
-     #    pdf.rectangle [300,300], 100, 200
-     # 
-     def rectangle(point,width,height)
-       x,y = translate(point)
-       add_content("%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
-     end
-                          
-     # Sets line thickness to the <tt>width</tt> specified.
-     #
-     def line_width=(width)
-       add_content("#{width} w")
-     end
-        
-     ###########################################################
-     #  Higher level functions: May use relative coords        #   
-     ########################################################### 
-      
-      
-     # Draws a line from one point to another. Points may be specified as 
-     # tuples or flattened argument list:
-     #
-     #   pdf.line [100,100], [200,250] 
-     #   pdf.line(100,100,200,250)
-     #
-     def line(*points)
-       x0,y0,x1,y1 = points.flatten
-       move_to(x0, y0)
-       line_to(x1, y1)
-     end   
-                
+     
+    # Draws a line from one point to another. Points may be specified as 
+    # tuples or flattened argument list:
+    #
+    #   pdf.line [100,100], [200,250] 
+    #   pdf.line(100,100,200,250)
+    #
+    def line(*points)
+      x0,y0,x1,y1 = points.flatten
+      move_to(x0, y0)
+      line_to(x1, y1)
+    end   
+
+    def horizontal_line(x1,x2)
+      line(x1,y,x2,y)
+    end
+
+    def horizontal_rule
+      horizontal_line(bounds.absolute_left, bounds.absolute_right)
+    end
+
+    def vertical_line_at(x,y1,y2)
+      line(x,y1,x,y2)
+    end
+               
     # Draws a Bezier curve between two points, bounded by two additional
     # points
     #

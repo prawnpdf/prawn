@@ -88,7 +88,8 @@ describe "When drawing a rectangle" do
     @pdf.rectangle [200,200], 50, 100
 
     rectangle = observer(RectangleDrawingObserver)
-    rectangle.point.should  == [200,200]
+    # PDF uses bottom left corner
+    rectangle.point.should  == [200,100]
     rectangle.width.should  == 50
     rectangle.height.should == 100
 

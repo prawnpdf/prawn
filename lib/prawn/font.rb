@@ -1,2 +1,3 @@
-require "prawn/font/afm"
-require "prawn/font/wrapping"
+require "prawn/font/wrapping"       
+require "prawn/font/metrics"
+require "prawn/font/cmap"
