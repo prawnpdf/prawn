@@ -4,10 +4,10 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
-  module Font
-    
-    class AFM
-
+  module Font #:nodoc:
+    module Wrapping #:nodoc:
+      
+      # TODO: Replace with TeX optimal algorithm
       def naive_wrap(string, line_width, font_size)
         output = ""
         string.lines.each do |line|
