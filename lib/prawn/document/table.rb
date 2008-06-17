@@ -8,8 +8,8 @@ module Prawn
         @data               = data
         @document           = document
         @font_size          = options[:font_size] || 12
-        @horizontal_spacing = options[:horizontal_spacing] || 5
-        @vertical_spacing   = options[:vertical_spacing]  || 5
+        @padding            = options[:padding]   || 5
+        @border             = options[:border]    || 1
         calculate_column_widths
       end
       
@@ -18,7 +18,8 @@ module Prawn
         @data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.lines.map { |e| 
-              @document.font_metrics.string_width(e,@font_size) }.max
+              @document.font_metrics.string_width(e,@font_size) }.max +
+                2*@padding
             @col_widths[i] = length if length > @col_widths[i]
           end
         end
@@ -26,48 +27,20 @@ module Prawn
 
       def draw
         @document.font_size(@font_size) do
-          y = @document.y
           @data.each do |row|
-            x = @document.bounds.absolute_left
-            lines = 1
-            row.each_with_index do |col,i|
-              col_lines = col.lines.length
-              lines = col_lines if col_lines > lines
-              width = @col_widths[i]
-              @document.bounding_box([x,y], :width => width) do
-                @document.text(col)
-              end
-              x += width + @horizontal_spacing
+            c = Prawn::Graphics::CellBlock.new(@document)
+            row.each_with_index do |e,i|
+              c << Prawn::Graphics::Cell.new(:document => @document, 
+                                             :text     => e, 
+                                             :width    => @col_widths[i],
+                                             :padding  => @padding,
+                                             :border   => @border )
             end
-
-            row_height = @document.font_metrics.font_height(@font_size) * lines
-
-            y -= (row_height) + @vertical_spacing
-
-            # TODO: Need a shortcut for an absolute bounding box.
-
-            @document.stroke_line [0, y - @document.bounds.absolute_bottom], 
-                                  [x - @document.bounds.absolute_left, y - @document.bounds.absolute_bottom]
-
-            @document.stroke_line [0, y + row_height - @document.bounds.absolute_bottom],
-                                  [x - @document.bounds.absolute_left, y + row_height - @document.bounds.absolute_bottom]
-
-            x = @document.bounds.left
-
-            @document.stroke_line [x, y + row_height - @document.bounds.absolute_bottom],
-                                  [x, y - @document.bounds.absolute_bottom]
-
-            @col_widths.each do |w|
-              x += w + @horizontal_spacing / 2.0
-             @document.stroke_line [x, y + row_height - @document.bounds.absolute_bottom],
-                                   [x, y - @document.bounds.absolute_bottom]
-              x += @horizontal_spacing / 2.0
-            end
-
+            c.draw
           end
+          @document.y -= @padding
         end
       end
-
     end
   end
 end

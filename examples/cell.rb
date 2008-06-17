@@ -7,13 +7,13 @@ require "prawn/graphics/cell"
 # stuff )
 Prawn::Document.generate("cell.pdf") do 
   font "Helvetica"
-  cell = Prawn::Graphics::Cell.new([0,0],
+  cell = Prawn::Graphics::Cell.new(
     :border => 3, :padding => 10, :width => 75,
     :text => "You know that kittens are made of mud!", :document => self)
-  cell2 = Prawn::Graphics::Cell.new([0,0],
+  cell2 = Prawn::Graphics::Cell.new(
     :border => 3, :padding => 10,
     :text => "And that puppies are made of gravy", :document => self)
-  cell3 = Prawn::Graphics::Cell.new([0,0],
+  cell3 = Prawn::Graphics::Cell.new(
     :border => 3, :padding => 10, :width => 100, 
     :text => "This is simply the way of the world", :document => self)
 

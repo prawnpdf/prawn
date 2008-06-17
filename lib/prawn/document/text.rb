@@ -176,9 +176,10 @@ module Prawn
               glyph_codes.pack("n*")
             end
           end
-
+          
           lines.each do |e|
-            move_text_position(@font_metrics.font_height(current_font_size))
+            move_text_position(@font_metrics.font_height(current_font_size) +
+                               @font_metrics.descender / 1000.0 * current_font_size)
             add_content %Q{
               BT
               /#{font_name} #{current_font_size} Tf
@@ -186,6 +187,8 @@ module Prawn
               #{Prawn::PdfObject(e.to_s.chomp)} Tj
               ET
             }
+
+            move_text_position(-@font_metrics.descender / 1000.0 * current_font_size)
           end
         end
       end

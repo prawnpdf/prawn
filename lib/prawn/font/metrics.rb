@@ -99,6 +99,10 @@ module Prawn
           end 
         end
 
+        def descender
+          @attributes["descender"].to_i 
+        end
+
         # Hackish, but does the trick for now.
         def method_missing(method, *args, &block)
           name = method.to_s.delete("_")
@@ -247,6 +251,7 @@ module Prawn
         end
 
         def character_width_by_code(code)
+          return 0 unless cmap[code]
           Integer(hmtx[cmap[code]][0] * scale_factor)           
         end                   
 
