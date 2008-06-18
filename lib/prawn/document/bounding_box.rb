@@ -59,13 +59,14 @@ module Prawn
     # calls remain unmodified.
     #
     def bounding_box(*args, &block)
+      parent_box = @bounding_box
       @bounding_box = BoundingBox.new(self, *args)
       self.y = @bounding_box.absolute_top
       
       block.call
       
       self.y = @bounding_box.absolute_bottom
-      @bounding_box = @margin_box
+      @bounding_box = parent_box
     end
     
     class BoundingBox
