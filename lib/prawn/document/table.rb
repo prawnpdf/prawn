@@ -8,39 +8,72 @@ module Prawn
         @data               = data
         @document           = document
         @font_size          = options[:font_size] || 12
-        @horizontal_spacing = options[:horizontal_spacing] || 5
-        @vertical_spacing   = options[:vertical_spacing]  || 5
+        @padding            = options[:padding]   || 5
+        @border             = options[:border]    || 1
+        @position           = options[:position]  || :left
         calculate_column_widths
+        (options[:widths] || {}).each do |index,width| 
+          @col_widths[index] = width
+        end
       end
       
       def calculate_column_widths
-        @col_widths = Hash.new(0)
+        @col_widths = [0] * @data[0].length
         @data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.lines.map { |e| 
-              @document.font_metrics.string_width(e,@font_size) }.max
+              @document.font_metrics.string_width(e,@font_size) }.max +
+                2*@padding
             @col_widths[i] = length if length > @col_widths[i]
           end
         end
       end
 
+      def width
+         @col_widths.inject(0) { |s,r| s + r }
+      end
+
+
       def draw
-        @document.font_size(@font_size) do
-          y = @document.y
-          @data.each do |row|
-            x = @document.bounds.absolute_left
-            lines = 1
-            row.each_with_index do |col,i|
-              col_lines = col.lines.length
-              lines = col_lines if col_lines > lines
-              width = @col_widths[i]
-              @document.bounding_box([x,y], :width => width) do
-                @document.text(col)
-              end
-              x += width + @horizontal_spacing
-            end
-            y -= (@document.font_metrics.font_height(@font_size) * lines) + @vertical_spacing
+        case(@position) 
+        when :center
+          x = ((@document.bounds.absolute_right + 
+                @document.bounds.absolute_left ) / 2.0 ) - (width / 2.0)
+
+          @document.bounding_box [x,@document.y], :width => width do
+            generate_table
           end
+        when Numeric
+          x = @position
+          @document.bounding_box [x,@document.y], :width => width do
+            generate_table
+          end
+        else
+          generate_table
+        end
+      end
+
+      private
+
+      def generate_table
+        @document.font_size(@font_size) do
+          @data.each do |row|
+            c = Prawn::Graphics::CellBlock.new(@document)
+            row.each_with_index do |e,i|
+              c << Prawn::Graphics::Cell.new(:document => @document, 
+                                             :text     => e, 
+                                             :width    => @col_widths[i],
+                                             :padding  => @padding,
+                                             :border   => @border )
+            end
+            # TODO: Give better access to margin_box
+            if c.height > @document.y - @document.instance_eval { @margin_box }.
+                          absolute_bottom
+              @document.start_new_page
+            end
+            c.draw
+          end
+          @document.y -= @padding
         end
       end
 

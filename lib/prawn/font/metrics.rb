@@ -29,6 +29,12 @@ module Prawn
       def self.data
         @data ||= {}
       end   
+
+
+      def string_height(string,options={})
+        string = naive_wrap(string, options[:line_width], options[:font_size])
+        string.lines.length * font_height(options[:font_size])
+      end
  
       class Adobe < Metrics #:nodoc:     
          
@@ -86,11 +92,15 @@ module Prawn
           string.unpack("C*").
                  inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
         end  
-        
+ 
         def latin_glyphs_table
           @glyphs_table ||= (0..255).map do |i|
             @glyph_widths[ISOLatin1Encoding[i]].to_i
           end 
+        end
+
+        def descender
+          @attributes["descender"].to_i 
         end
 
         # Hackish, but does the trick for now.
@@ -241,6 +251,7 @@ module Prawn
         end
 
         def character_width_by_code(code)
+          return 0 unless cmap[code]
           Integer(hmtx[cmap[code]][0] * scale_factor)           
         end                   
 

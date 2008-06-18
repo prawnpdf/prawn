@@ -5,6 +5,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "enumerator"
+require "prawn/graphics/cell"
 
 module Prawn
 
@@ -64,13 +65,18 @@ module Prawn
     # 
     def rectangle(point,width,height)
       x,y = translate(point)
-      add_content("%.3f %.3f %.3f %.3f re" % [ x, y, width, height ])      
+      add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])      
     end
                          
     # Sets line thickness to the <tt>width</tt> specified.
     #
     def line_width=(width)
+      @line_width = width
       add_content("#{width} w")
+    end
+
+    def line_width
+      @line_width || 1
     end
        
     ###########################################################
