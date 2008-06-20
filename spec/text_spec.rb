@@ -42,6 +42,19 @@ end
 describe "when drawing text" do
    
    before(:each) { create_pdf } 
+
+   it "should advance down the document based on font_height" do
+     position = @pdf.y
+     @pdf.text "Foo"
+
+     @pdf.y.should be_close(position - @pdf.font_metrics.font_height(12),
+                            0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz"
+     @pdf.y.should be_close(position - 3*@pdf.font_metrics.font_height(12),
+                            0.0001)
+   end
    
    it "should default to 12 point helvetica" do
       @pdf.text "Blah", :at => [100,100]              
