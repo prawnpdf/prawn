@@ -1,6 +1,8 @@
 require "rubygems"
 require "pdf/writer"
 require "pdf/simpletable"
+gem "pdf-wrapper", ">=0.1.2"
+require "pdf/wrapper"
 require "fastercsv"
 require "benchmark"
 
@@ -43,6 +45,15 @@ end
 ##############################
 doc = Prawn::Document.new
 
+##############################
+# PDF::Wrapper Table Rendering Prep
+##############################
+wrapper_doc = PDF::Wrapper.new
+wrapper_table = PDF::Wrapper::Table.new do |t|
+  t.data = csv_data
+  t.table_options :font_size => 6
+end
+
 #######################
 # Benchmarking code   #
 #######################
@@ -50,6 +61,10 @@ doc = Prawn::Document.new
 puts "Processing #{csv_data.length} records"
 
 Benchmark.bmbm do |x|
+  x.report("PDF Wrapper") do
+    wrapper_doc.table( wrapper_table, :width => 100 ) unless wrapper_doc.finished?
+    wrapper_doc.render_to_file('currency_pdf_wrapper.pdf')
+  end
   x.report("Prawn") do
     doc.table(csv_data, :font_size => 10, :padding => 2, :position => :center)
     doc.render_file('currency_prawn.pdf')
