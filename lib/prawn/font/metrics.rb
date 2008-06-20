@@ -73,7 +73,8 @@ module Prawn
         def initialize(font_name)            
           @attributes     = {}   
           @glyph_widths   = {}
-          @bounding_boxes = {}  
+          @bounding_boxes = {}
+          @kern_pairs     = {}
           
           file = font_name.sub(/\.afm$/,'') + '.afm'
           unless file[0..0] == "/"
@@ -87,10 +88,18 @@ module Prawn
           fontbbox.split(/\s+/).map { |e| Integer(e) }
         end   
       
-        def string_width(string,font_size)   
+        def string_width(string, font_size, options = {})   
           scale = font_size / 1000.0
-          string.unpack("C*").
-                 inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
+          characters = string.unpack("C*")
+          
+          if options[:kerning]
+            names = characters.map { |r| ISOLatin1Encoding[r] }
+            adjustments = ([nil] + names).
+              zip(names)[1..-1].map { |p| @kern_pairs[p] || 0 }
+            characters.inject(0) { |s,r| s + latin_glyphs_table[r] + adjustments.shift } * scale
+          else
+            characters.inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
+          end
         end  
  
         def latin_glyphs_table
@@ -131,27 +140,30 @@ module Prawn
         end  
       
         def parse_afm(file) 
-          section = nil  
+          section = []
+          
           File.open(file,"rb") do |file|
+            
             file.each do |line| 
               if line =~ /^Start(\w+)/
-                section = $1
+                section.push $1
               elsif line =~ /^End(\w+)/
-                section = nil
-                if $1 == "FontMetrics"
-                  break
-                else
-                  next
-                end
+                section.pop
               end
-              next if %w[KernData Composites].include? section
-          
-              if section == "CharMetrics"
+              
+              if section == ["FontMetrics", "CharMetrics"]
                 next unless line =~ /^CH?\s/  
           
                 name                  = line[/\bN\s+(\.?\w+)\s*;/, 1]
                 @glyph_widths[name]   = line[/\bWX\s+(\d+)\s*;/, 1].to_i
                 @bounding_boxes[name] = line[/\bB\s+([^;]+);/, 1].to_s.rstrip
+              elsif section == ["FontMetrics", "KernData", "KernPairs"]
+                next unless line =~ /^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/
+                @kern_pairs[[$1, $2]] = $3.to_i
+              elsif section == ["FontMetrics", "KernData", "TrackKern"]
+                next
+              elsif section == ["FontMetrics", "Composites"]
+                next
               elsif line =~ /(^\w+)\s+(.*)/
                 key, value = $1.to_s.downcase, $2      
               
