@@ -7,7 +7,8 @@ require "benchmark"
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
-csv_data = FasterCSV.read("#{Prawn::BASEDIR}/examples/currency.csv") * 2
+csv_data = FasterCSV.read("#{Prawn::BASEDIR}/examples/currency.csv") * 
+  (ARGV.first || 1).to_i
 
 ####################################
 # PDF::Writer Table Rendering Prep #
@@ -50,7 +51,7 @@ puts "Processing #{csv_data.length} records"
 
 Benchmark.bmbm do |x|
   x.report("Prawn") do
-    doc.table(csv_data, :font_size => 10, :padding => 2)
+    doc.table(csv_data, :font_size => 10, :padding => 2, :position => :center)
     doc.render_file('currency_prawn.pdf')
   end
   x.report("PDF Writer") do
