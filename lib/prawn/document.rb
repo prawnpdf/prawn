@@ -124,6 +124,7 @@ module Prawn
     #   pdf.page_count #=> 1
     #   3.times { pdf.start_new_page }
     #   pdf.page_count #=> 4
+    #
     def page_count
       @pages.data[:Count]
     end
