@@ -17,7 +17,8 @@ module Prawn
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout, :y, :font_metrics
+    attr_accessor :page_size, :page_layout, :y
+
              
     # Creates and renders a PDF document. 
     #
@@ -61,7 +62,7 @@ module Prawn
     #  # New document, A4 paper, landscaped
     #  pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
     # 
-    :e #  # New document, draws a line at the start of each new page
+    #  # New document, draws a line at the start of each new page
     #  pdf = Prawn::Document.new(:on_page_start => 
     #    lambda { |doc| doc.line [0,100], [300,100] } )
     #
@@ -181,10 +182,7 @@ module Prawn
       move_down(y)
     end
 
-    # TODO: This is still just a hack, kids
     def table(data,options={})
-      # ensure a valid font is selected
-      font "Helvetica" unless fonts[@font]
       Prawn::Document::Table.new(data,self,options).draw
     end
 
