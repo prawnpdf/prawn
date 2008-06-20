@@ -28,7 +28,15 @@ Prawn::Document.generate("table.pdf") do
 
     :font_size  => 24, 
     :padding    => 10,
-    :border     => 2
+    :border     => 2,
+    :position   => :center
 
-  text "This should appear just below the table at the original font size"
+  pad(20) do
+    text "This should appear in the original font size"
+  end
+
+  table [[ "Wide", "columns", "streeetch"], 
+         ["are","mighty fine", "streeeeeeeech"]],
+    :widths => { 0 => 200, 1 => 250 }, :position => 5
+
 end
