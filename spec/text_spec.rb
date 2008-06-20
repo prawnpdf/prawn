@@ -39,6 +39,25 @@ class FontObserver
   end
 end
 
+describe "Font Metrics" do
+
+  it "should default to Helvetica if no font is specified" do
+    @pdf = Prawn::Document.new
+    @pdf.font_metrics.should == Prawn::Font::Metrics["Helvetica"]
+  end
+
+  it "should use the currently set font for font_metrics" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    @pdf.font_metrics.should == Prawn::Font::Metrics["Courier"]
+   
+    comicsans = "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
+    @pdf.font(comicsans)
+    @pdf.font_metrics.should == Prawn::Font::Metrics[comicsans]
+  end
+
+end
+
 describe "when drawing text" do
    
    before(:each) { create_pdf } 
