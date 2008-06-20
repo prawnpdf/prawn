@@ -44,3 +44,36 @@ describe "A bounding box" do
   end
 
 end
+
+describe "drawing bounding boxes" do
+
+  it "should restore the margin box when bounding box exits" do
+    @pdf = Prawn::Document.new
+    margin_box = @pdf.bounds
+
+    @pdf.bounding_box [100,500] do
+      #nothing
+    end
+
+    @pdf.bounds.should == margin_box
+
+  end
+
+  it "should restore the parent bounding box when calls are nested" do
+    @pdf = Prawn::Document.new
+    @pdf.bounding_box [100,500], :width => 300, :height => 300 do 
+
+      @pdf.bounds.absolute_top.should  == 500
+      @pdf.bounds.absolute_left.should == 100 
+
+      @pdf.bounding_box [50,200], :width => 100, :height => 100 do
+        @pdf.bounds.absolute_top.should == 200 
+        @pdf.bounds.absolute_left.should == 50
+      end
+
+      @pdf.bounds.absolute_top.should  == 500
+      @pdf.bounds.absolute_left.should == 100 
+
+    end
+  end
+end
