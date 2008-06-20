@@ -10,7 +10,8 @@ module Prawn
         @padding  = options[:padding] || 0
       end
 
-      attr_accessor :point, :height
+      attr_accessor :point
+      attr_writer   :height
 
       def text_area_width
         width - 2*@padding
