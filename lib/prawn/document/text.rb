@@ -86,6 +86,10 @@ module Prawn
         end
       end
 
+      def font_metrics
+        @font_metrics ||= Prawn::Font::Metrics["Helvetica"]
+      end
+
       # Sets the current font.
       #
       # The single parameter must be a string. It can be one of the 14 built-in
