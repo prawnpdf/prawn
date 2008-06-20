@@ -85,8 +85,6 @@ module Prawn
  
   class Document
     def cell(point, options={})
-      # TODO: We *must* centralize this default font crap.
-      font "Helvetica" unless fonts[@font]
       Prawn::Graphics::Cell.new(point,options.merge(:document => self)).draw
     end
   end
