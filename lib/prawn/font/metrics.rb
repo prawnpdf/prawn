@@ -93,14 +93,28 @@ module Prawn
           characters = string.unpack("C*")
           
           if options[:kerning]
-            names = characters.map { |r| ISOLatin1Encoding[r] }
-            adjustments = ([nil] + names).
-              zip(names)[1..-1].map { |p| @kern_pairs[p] || 0 }
-            characters.inject(0) { |s,r| s + latin_glyphs_table[r] + adjustments.shift } * scale
+            width = 0
+            previous = nil
+            
+            characters.each do |char|
+              width += latin_glyphs_table[char] * scale
+              
+              if previous
+                width += kerning(ISOLatin1Encoding[previous], ISOLatin1Encoding[char]) * scale
+              end
+              
+              previous = char
+            end
+            
+            width
           else
             characters.inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
           end
-        end  
+        end
+        
+        def kerning(x, y)
+          @kern_pairs[[x,y]] || 0
+        end
  
         def latin_glyphs_table
           @glyphs_table ||= (0..255).map do |i|
