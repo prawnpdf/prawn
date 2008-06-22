@@ -20,6 +20,7 @@ describe "adobe font metrics" do
     @times.kern("To").should == ["T", -80, "o"]
     @times.kern("Tö").should == ["T", -80, "ö"]
     @times.kern("Technology").should == ["T", -70, "echnology"]
+    @times.kern("Technology...").should == ["T", -70, "echnology", -65, "..."]
   end
   
 end
