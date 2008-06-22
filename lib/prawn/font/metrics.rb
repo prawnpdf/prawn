@@ -90,30 +90,36 @@ module Prawn
       
         def string_width(string, font_size, options = {})   
           scale = font_size / 1000.0
-          characters = string.unpack("C*")
           
           if options[:kerning]
-            width = 0
-            previous = nil
-            
-            characters.each do |char|
-              width += latin_glyphs_table[char] * scale
-              
-              if previous
-                width += kerning(ISOLatin1Encoding[previous], ISOLatin1Encoding[char]) * scale
+            kern(string).inject(0) do |s,r|
+              if r.is_a? String
+                s + string_width(r, font_size, :kerning => false)
+              else
+                s + (r * scale)
               end
-              
-              previous = char
             end
-            
-            width
           else
-            characters.inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
+            string.unpack("C*").inject(0) do |s,r|
+              s + latin_glyphs_table[r]
+            end * scale
           end
         end
         
-        def kerning(x, y)
-          @kern_pairs[[x,y]] || 0
+        def kern(string)
+          ary = []
+          string.each_char do |r|
+            if ary.last.is_a? String
+              if kern = @kern_pairs[[ary.last, r]]
+                ary << kern << r
+              else
+                ary.last << r
+              end
+            else
+              ary << r
+            end
+          end
+          ary
         end
  
         def latin_glyphs_table
@@ -161,8 +167,10 @@ module Prawn
             file.each do |line| 
               if line =~ /^Start(\w+)/
                 section.push $1
+                next
               elsif line =~ /^End(\w+)/
                 section.pop
+                next
               end
               
               if section == ["FontMetrics", "CharMetrics"]
