@@ -80,7 +80,19 @@ module Prawn
             BT
             /#{font_name} #{current_font_size} Tf
             #{x} #{y} Td
-            #{Prawn::PdfObject(text)} Tj
+          }
+          
+          if options[:kerning]
+            reversed = font_metrics.kern(text).map do |i|
+              i.is_a?(Numeric) ? -i : i
+            end
+            
+            add_content "#{Prawn::PdfObject(reversed)} TJ\n"
+          else
+            add_content "#{Prawn::PdfObject(text)} Tj\n"
+          end
+          
+          add_content %Q{
             ET
           }
         end
@@ -166,7 +178,7 @@ module Prawn
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]
 
-          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size)
+          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size, :kerning => options[:kerning])
 
           # THIS CODE JUST DID THE NASTY. FIXME!
           lines = text.lines
@@ -188,7 +200,19 @@ module Prawn
               BT
               /#{font_name} #{current_font_size} Tf
               #{@bounding_box.absolute_left} #{y} Td
-              #{Prawn::PdfObject(e.to_s.chomp)} Tj
+            }
+            
+            if options[:kerning]
+              reversed = font_metrics.kern(e.to_s.chomp).map do |i|
+                i.is_a?(Numeric) ? -i : i
+              end
+            
+              add_content "#{Prawn::PdfObject(reversed)} TJ\n"
+            else
+              add_content "#{Prawn::PdfObject(e.to_s.chomp)} Tj\n"
+            end
+            
+            add_content %Q{
               ET
             }
 
