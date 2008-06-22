@@ -100,26 +100,32 @@ module Prawn
               end
             end
           else
-            string.unpack("C*").inject(0) do |s,r|
+            string.unpack("U*").inject(0) do |s,r|
               s + latin_glyphs_table[r]
             end * scale
           end
         end
         
         def kern(string)
-          ary = []
-          string.each_char do |r|
-            if ary.last.is_a? String
-              if kern = @kern_pairs[[ary.last, r]]
-                ary << kern << r
+          string.unpack("U*").inject([]) do |a,r|
+            if a.last.is_a? Array
+              if kern = latin_kern_pairs_table[[a.last.last, r]]
+                a << kern << [r]
               else
-                ary.last << r
+                a.last << r
               end
             else
-              ary << r
+              a << [r]
             end
+            a
+          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
+        end
+        
+        def latin_kern_pairs_table
+          @kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
+            h[p[0].map { |n| ISOLatin1Encoding.index(n) }] = p[1]
+            h
           end
-          ary
         end
  
         def latin_glyphs_table
