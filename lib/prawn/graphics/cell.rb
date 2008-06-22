@@ -10,7 +10,8 @@ module Prawn
         @padding  = options[:padding] || 0
       end
 
-      attr_accessor :point, :height
+      attr_accessor :point
+      attr_writer   :height
 
       def text_area_width
         width - 2*@padding
@@ -85,8 +86,6 @@ module Prawn
  
   class Document
     def cell(point, options={})
-      # TODO: We *must* centralize this default font crap.
-      font "Helvetica" unless fonts[@font]
       Prawn::Graphics::Cell.new(point,options.merge(:document => self)).draw
     end
   end

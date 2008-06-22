@@ -112,8 +112,6 @@ module Prawn
             super  
           end
         end  
-             
-        private
       
         def metrics_path
           @metrics_path ||= (ENV['METRICS'] || 
@@ -121,6 +119,8 @@ module Prawn
             "/usr/openwin/lib/fonts/afm/:"+
             "#{Prawn::BASEDIR+'/data/fonts/'}:.").split(':')
         end 
+
+        private
       
         def find_font(file)
           metrics_path.find { |f| File.exist? "#{f}/#{file}" } + "/#{file}"    
