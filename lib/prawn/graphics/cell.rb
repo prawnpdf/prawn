@@ -19,7 +19,7 @@ module Prawn
 
       def width
         @width || (@document.font_metrics.string_width(@text,
-           @document.current_font_size) + 2*@padding+1)
+           @document.current_font_size) + 2*@padding)
       end
 
       def height
