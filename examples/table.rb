@@ -26,7 +26,7 @@ Prawn::Document.generate("table.pdf") do
          [ "It",    "Rules",             "4" ],     
          [ "It",    "Rules",             "4" ]],     
 
-    :font_size  => 24, 
+    :font_size  => 20, 
     :padding    => 10,
     :border     => 2,
     :position   => :center
