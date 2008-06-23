@@ -11,6 +11,7 @@ module Prawn
         @padding            = options[:padding]   || 5
         @border             = options[:border]    || 1
         @position           = options[:position]  || :left
+        @headers            = options[:headers]
         calculate_column_widths
         (options[:widths] || {}).each do |index,width| 
           @col_widths[index] = width
@@ -19,7 +20,7 @@ module Prawn
       
       def calculate_column_widths
         @col_widths = [0] * @data[0].length
-        @data.each do |row|
+        renderable_data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.lines.map { |e| 
               @document.font_metrics.string_width(e,@font_size) }.max +
@@ -32,7 +33,6 @@ module Prawn
       def width
          @col_widths.inject(0) { |s,r| s + r }
       end
-
 
       def draw
         case(@position) 
@@ -55,9 +55,17 @@ module Prawn
 
       private
 
+      def renderable_data
+        if @headers
+          [@headers] + @data
+        else
+          @data
+        end
+      end
+
       def generate_table
         @document.font_size(@font_size) do
-          @data.each do |row|
+          renderable_data.each do |row|
             c = Prawn::Graphics::CellBlock.new(@document)
             row.each_with_index do |e,i|
               c << Prawn::Graphics::Cell.new(:document => @document, 
