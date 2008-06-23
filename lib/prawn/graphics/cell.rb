@@ -19,7 +19,7 @@ module Prawn
 
       def width
         @width || (@document.font_metrics.string_width(@text,
-           @document.current_font_size) + 2*@padding)
+          @document.current_font_size)) + 2*@padding
       end
 
       def height
@@ -43,7 +43,7 @@ module Prawn
         end
 
         @document.bounding_box( [@point[0] + @padding, @point[1] - @padding], 
-                                :width   => width,
+                                :width   => text_area_width,
                                 :height  => height - @padding) do
           @document.text @text
         end
