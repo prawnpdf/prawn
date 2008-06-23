@@ -65,15 +65,33 @@ module Prawn
         x,y = translate(options[:at])
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]
+          
+          if options[:kerning]
+            kerned = font_metrics.kern(text)
+          end
 
           # replace the users string with a string composed of glyph codes
           # TODO: hackish
           if fonts[@font].data[:Subtype] == :Type0
-            unicode_codepoints = text.unpack("U*")
-            glyph_codes = unicode_codepoints.map { |u| 
-              enctables[@font].get_glyph_id_for_unicode(u)
-            }
-            text = glyph_codes.pack("n*")
+            if options[:kerning]
+              kerned = kerned.map do |i|
+                if i.is_a?(String)
+                  unicode_codepoints = i.unpack("U*")
+                  glyph_codes = unicode_codepoints.map { |u| 
+                    enctables[@font].get_glyph_id_for_unicode(u)
+                  }
+                  glyph_codes.pack("n*")
+                else
+                  i
+                end
+              end
+            else
+              unicode_codepoints = text.unpack("U*")
+              glyph_codes = unicode_codepoints.map { |u| 
+                enctables[@font].get_glyph_id_for_unicode(u)
+              }
+              text = glyph_codes.pack("n*")
+            end
           end
 
           add_content %Q{
@@ -83,7 +101,7 @@ module Prawn
           }
           
           if options[:kerning]
-            reversed = font_metrics.kern(text).map do |i|
+            reversed = kerned.map do |i|
               i.is_a?(Numeric) ? -i : i
             end
             
@@ -200,19 +218,7 @@ module Prawn
               BT
               /#{font_name} #{current_font_size} Tf
               #{@bounding_box.absolute_left} #{y} Td
-            }
-            
-            if options[:kerning]
-              reversed = font_metrics.kern(e.to_s.chomp).map do |i|
-                i.is_a?(Numeric) ? -i : i
-              end
-            
-              add_content "#{Prawn::PdfObject(reversed)} TJ\n"
-            else
-              add_content "#{Prawn::PdfObject(e.to_s.chomp)} Tj\n"
-            end
-            
-            add_content %Q{
+              #{Prawn::PdfObject(e.to_s.chomp)} Tj
               ET
             }
 

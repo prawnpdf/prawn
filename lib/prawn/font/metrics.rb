@@ -218,10 +218,37 @@ module Prawn
           @cmap ||= enc_table.charmaps
         end
 
-        def string_width(string, font_size)
+        def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
-          string.unpack("U*").
-            inject(0) { |s,r| s + character_width_by_code(r) } * scale
+          
+          if options[:kerning]
+            kern(string).inject(0) do |s,r|
+              if r.is_a? String
+                s + string_width(r, font_size, :kerning => false)
+              else
+                s + (r * scale)
+              end
+            end
+          else
+            string.unpack("U*").inject(0) do |s,r|
+              s + character_width_by_code(r)
+            end * scale
+          end
+        end
+        
+        def kern(string)
+          string.unpack("U*").inject([]) do |a,r|
+            if a.last.is_a? Array
+              if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]]
+                a << kern << [r]
+              else
+                a.last << r
+              end
+            else
+              a << [r]
+            end
+            a
+          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
         end
 
         def glyph_widths
@@ -282,6 +309,21 @@ module Prawn
             @to_unicode[unicode_for_glyph[glyph]] = glyph
           end
           @to_unicode
+        end
+        
+        def kern_pairs_table
+          return @kern_pairs_table if @kern_pairs_table
+          
+          table = @ttf.get_table(:kern).subtables.find { |s| s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
+          
+          if table
+            @kern_pairs_table ||= table.kerning_pairs.inject({}) do |h,p|
+              h[[p.left, p.right]] = p.value
+              h
+            end
+          else
+            @kern_pairs_table = {}
+          end
         end
 
         private
