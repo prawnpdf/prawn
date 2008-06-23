@@ -8,9 +8,10 @@ module Prawn
         @width    = options[:width]
         @border   = options[:border] 
         @padding  = options[:padding] || 0
+        @style    = options[:style] || :all
       end
 
-      attr_accessor :point
+      attr_accessor :point, :style
       attr_writer   :height
 
       def text_area_width
@@ -38,7 +39,34 @@ module Prawn
         if @border
           @document.mask(:line_width) do
             @document.line_width = @border
-            @document.stroke_rectangle rel_point, width, height
+            case(@style)
+            when :all
+              @document.stroke_rectangle rel_point, width, height
+            when :sides
+              @document.stroke_vertical_line_at(rel_point[0], rel_point[1],
+                                                rel_point[1] - height)
+              @document.stroke_vertical_line_at(rel_point[0] + width,
+                                                rel_point[1],
+                                                rel_point[1] - height)
+            when :no_top
+              @document.stroke_vertical_line_at(rel_point[0], rel_point[1],
+                                                rel_point[1] - height)
+              @document.stroke_vertical_line_at(rel_point[0] + width,
+                                                rel_point[1],
+                                                rel_point[1] - height)
+
+              @document.stroke_line [rel_point[0], rel_point[1] - height],
+                                    [rel_point[0]+width, rel_point[1] - height]
+             when :no_bottom
+              @document.stroke_vertical_line_at(rel_point[0], rel_point[1],
+                                                rel_point[1] - height)
+              @document.stroke_vertical_line_at(rel_point[0] + width,
+                                                rel_point[1],
+                                                rel_point[1] - height)
+
+              @document.stroke_line rel_point,
+                                    [rel_point[0]+width, rel_point[1]]
+            end
           end
         end
 
@@ -52,6 +80,9 @@ module Prawn
 
     # TODO: A temporary, entertaining name that should probably be changed.
     class CellBlock
+
+      include Enumerable
+
       def initialize(document)
         @document = document
         @cells    = []
@@ -80,6 +111,10 @@ module Prawn
         end
         
         @document.y = y - @height
+      end
+
+      def each
+        @cells.each { |e| yield(e) }
       end
     end
   end
