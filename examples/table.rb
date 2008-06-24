@@ -30,7 +30,7 @@ Prawn::Document.generate("table.pdf") do
     :padding    => 7,
     :border     => 2,
     :position   => :center,
-    :headers    => ["A","B","C"]
+    :headers    => ["Column A","Column B","#"]
 
   pad(20) do
     text "This should appear in the original font size"
