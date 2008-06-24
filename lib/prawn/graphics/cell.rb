@@ -8,23 +8,25 @@ module Prawn
         @width        = options[:width]
         @border       = options[:border] 
         @border_style = options[:border_style] || :all
-        @padding      = options[:padding] || 0
+
+        @horizontal_padding = options[:horizontal_padding] || 0
+        @vertical_padding   = options[:vertical_padding]   || 0
       end
 
       attr_accessor :point, :border_style
       attr_writer   :height
 
       def text_area_width
-        width - 2*@padding
+        width - 2*@horizontal_padding
       end
 
       def width
         @width || (@document.font_metrics.string_width(@text,
-          @document.current_font_size)) + 2*@padding
+          @document.current_font_size)) + 2*@horizontal_padding
       end
 
       def height
-        @height || text_area_height + 2*@padding
+        @height || text_area_height + 2*@vertical_padding
       end
 
       def text_area_height
@@ -64,9 +66,10 @@ module Prawn
 
         end
 
-        @document.bounding_box( [@point[0] + @padding, @point[1] - @padding], 
+        @document.bounding_box( [@point[0] + @horizontal_padding, 
+                                 @point[1] - @vertical_padding], 
                                 :width   => text_area_width,
-                                :height  => height - @padding) do
+                                :height  => height - @vertical_padding) do
           @document.text @text
         end
       end

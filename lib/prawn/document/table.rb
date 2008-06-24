@@ -8,7 +8,8 @@ module Prawn
         @data               = data
         @document           = document
         @font_size          = options[:font_size] || 12
-        @padding            = options[:padding]   || 5
+        @horizontal_padding = options[:horizontal_padding] || 5
+        @vertical_padding   = options[:vertical_padding]   || 5
         @border             = options[:border]    || 1
         @position           = options[:position]  || :left
         @headers            = options[:headers]
@@ -24,7 +25,7 @@ module Prawn
           row.each_with_index do |cell,i|
             length = cell.lines.map { |e| 
               @document.font_metrics.string_width(e,@font_size) }.max +
-                2*@padding
+                2*@horizontal_padding
             @col_widths[i] = length if length > @col_widths[i]
           end
         end
@@ -74,7 +75,8 @@ module Prawn
               c << Prawn::Graphics::Cell.new(:document => @document, 
                                              :text     => e, 
                                              :width    => @col_widths[i],
-                                             :padding  => @padding,
+                                             :horizontal_padding => @horizontal_padding,
+                                             :vertical_padding => @vertical_padding,
                                              :border   => @border,
                                              :border_style    => :sides )
             end
@@ -105,7 +107,7 @@ module Prawn
 
 
           end
-          @document.y -= @padding
+          @document.y -= @vertical_padding
         end
       end
 
