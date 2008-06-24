@@ -23,11 +23,9 @@ table = PDF::SimpleTable.new do |tab|
     col.heading = "Date"
   }
   tab.columns["rate"] = PDF::SimpleTable::Column.new("rate") { |col|
-    col.heading = "rate"
+    col.heading = "Rate"
   }
 
-  tab.show_lines    = :all
-  tab.show_headings = false
   tab.orientation   = :center
   tab.shade_rows    = :none
 
@@ -51,7 +49,8 @@ puts "Processing #{csv_data.length} records"
 
 Benchmark.bmbm do |x|
   x.report("Prawn") do
-    doc.table(csv_data, :font_size => 10, :padding => 2, :position => :center)
+    doc.table(csv_data, :font_size => 10, :padding => 2, :position => :center,
+                        :headers   => ["Date","Rate"])
     doc.render_file('currency_prawn.pdf')
   end
   x.report("PDF Writer") do
