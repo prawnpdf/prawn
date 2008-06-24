@@ -112,7 +112,9 @@ module Prawn
       end
 
       def draw_page(contents)
-        if contents.length == 1
+        if contents.empty?
+          return
+        elsif contents.length == 1
           contents.first.border_style = :all
         else
           if @headers
