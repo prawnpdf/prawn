@@ -11,6 +11,7 @@ module Prawn
         @horizontal_padding = options[:horizontal_padding] || 5
         @vertical_padding   = options[:vertical_padding]   || 5
         @border             = options[:border]    || 1
+        @border_style       = options[:border_style]
         @position           = options[:position]  || :left
         @headers            = options[:headers]
         calculate_column_widths
@@ -114,7 +115,9 @@ module Prawn
       def draw_page(contents)
         if contents.empty?
           return
-        elsif contents.length == 1
+        elsif @border_style == :grid
+          contents.each { |e| e.border_style = :all }
+        elsif contents.length == 1 
           contents.first.border_style = :all
         else
           if @headers
