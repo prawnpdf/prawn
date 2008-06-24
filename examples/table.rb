@@ -26,10 +26,11 @@ Prawn::Document.generate("table.pdf") do
          [ "It",    "Rules",             "4" ],     
          [ "It",    "Rules",             "4" ]],     
 
-    :font_size  => 20, 
-    :padding    => 10,
+    :font_size  => 14, 
+    :padding    => 7,
     :border     => 2,
-    :position   => :center
+    :position   => :center,
+    :headers    => ["A","B","C"]
 
   pad(20) do
     text "This should appear in the original font size"
@@ -37,7 +38,6 @@ Prawn::Document.generate("table.pdf") do
 
   table [[ "Wide", "columns", "streeetch"], 
          ["are","mighty fine", "streeeeeeeech"]],
-    :widths => { 0 => 200, 1 => 250 }, :position => 5,
-    :headers => ["A","B","C"]
+    :widths => { 0 => 200, 1 => 250 }, :position => 5
 
 end
