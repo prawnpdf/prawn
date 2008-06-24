@@ -49,8 +49,11 @@ puts "Processing #{csv_data.length} records"
 
 Benchmark.bmbm do |x|
   x.report("Prawn") do
-    doc.table(csv_data, :font_size => 10, :padding => 2, :position => :center,
-                        :headers   => ["Date","Rate"])
+    doc.table(csv_data, :font_size          => 10, 
+                        :vertical_padding   => 2,
+                        :horizontal_padding => 5, 
+                        :position           => :center,
+                        :headers            => ["Date","Rate"])
     doc.render_file('currency_prawn.pdf')
   end
   x.report("PDF Writer") do
