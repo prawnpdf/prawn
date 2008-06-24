@@ -2,15 +2,16 @@ module Prawn
   module Graphics
     class Cell
       def initialize(options={})
-        @point    = options[:point]
-        @document = options[:document]
-        @text     = options[:text]
-        @width    = options[:width]
-        @border   = options[:border] 
-        @padding  = options[:padding] || 0
+        @point        = options[:point]
+        @document     = options[:document]
+        @text         = options[:text]
+        @width        = options[:width]
+        @border       = options[:border] 
+        @border_style = options[:border_style] || :all
+        @padding      = options[:padding] || 0
       end
 
-      attr_accessor :point
+      attr_accessor :point, :border_style
       attr_writer   :height
 
       def text_area_width
@@ -38,8 +39,29 @@ module Prawn
         if @border
           @document.mask(:line_width) do
             @document.line_width = @border
-            @document.stroke_rectangle rel_point, width, height
+
+            if borders.include?(:left)
+              @document.stroke_line rel_point, [rel_point[0], rel_point[1] - height]
+            end
+
+            if borders.include?(:right)
+              @document.stroke_line rel_point[0] + width, rel_point[1],
+                                  rel_point[0] + width, rel_point[1] - height
+            end
+
+            if borders.include?(:top)
+              @document.stroke_line rel_point, [ rel_point[0] + width, rel_point[1] ]
+            end
+
+            if borders.include?(:bottom)
+              @document.stroke_line [rel_point[0], rel_point[1] - height],
+                                  [rel_point[0] + width, rel_point[1] - height]
+            end
+
           end
+          
+          borders
+
         end
 
         @document.bounding_box( [@point[0] + @padding, @point[1] - @padding], 
@@ -48,6 +70,20 @@ module Prawn
           @document.text @text
         end
       end
+
+      def borders
+        @borders ||= case @border_style
+        when :all
+          [:top,:left,:right,:bottom]
+        when :sides
+          [:left,:right]
+        when :no_top
+          [:left,:right,:bottom]
+        when :no_bottom
+          [:left,:right,:top]
+        end
+      end
+
     end
 
     # TODO: A temporary, entertaining name that should probably be changed.
@@ -81,6 +117,11 @@ module Prawn
         
         @document.y = y - @height
       end
+
+      def border_style=(s)
+        @cells.each { |e| e.border_style = s }
+      end
+
     end
   end
  

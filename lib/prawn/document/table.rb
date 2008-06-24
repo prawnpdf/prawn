@@ -64,27 +64,64 @@ module Prawn
       end
 
       def generate_table
+        page_contents = []
+        y_pos = @document.y
+
         @document.font_size(@font_size) do
-          renderable_data.each do |row|
+          renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
             row.each_with_index do |e,i|
               c << Prawn::Graphics::Cell.new(:document => @document, 
                                              :text     => e, 
                                              :width    => @col_widths[i],
                                              :padding  => @padding,
-                                             :border   => @border )
+                                             :border   => @border,
+                                             :border_style    => :sides )
             end
+
+
             # TODO: Give better access to margin_box
-            if c.height > @document.y - @document.instance_eval { @margin_box }.
-                          absolute_bottom
+            if c.height > (x=y_pos - @document.instance_eval { @margin_box }.
+                          absolute_bottom)
+              draw_page(page_contents)
               @document.start_new_page
+              if @headers
+                page_contents = [page_contents[0]]
+                y_pos = @document.y - page_contents[0].height
+              else
+                page_contents = []
+                y_pos = @document.y
+              end
+
             end
-            c.draw
+
+            page_contents << c
+
+            y_pos -= c.height
+
+            if index == renderable_data.length - 1
+              draw_page(page_contents)
+            end
+
+
           end
           @document.y -= @padding
         end
       end
 
+      def draw_page(contents)
+        if contents.length == 1
+          contents.first.border_style = :all
+        else
+          if @headers
+            contents.first.border_style = :all
+          else
+            contents.first.border_style = :no_bottom 
+          end
+          contents.last.border_style  = :no_top
+        end
+        contents.each { |x| x.draw }
+      end
     end
   end
 end
