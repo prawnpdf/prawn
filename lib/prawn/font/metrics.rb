@@ -29,7 +29,7 @@ module Prawn
 
       def string_height(string,options={})
         string = naive_wrap(string, options[:line_width], options[:font_size])
-        string.lines.length * font_height(options[:font_size])
+        string.lines.to_a.length * font_height(options[:font_size])
       end
  
       class Adobe < Metrics #:nodoc:     
