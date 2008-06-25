@@ -6,7 +6,7 @@ module Prawn
         @document     = options[:document]
         @text         = options[:text]
         @width        = options[:width]
-        @border       = options[:border] || 1
+        @border       = options[:border]
         @border_style = options[:border_style] || :all
 
         @horizontal_padding = options[:horizontal_padding] || 0
@@ -17,7 +17,7 @@ module Prawn
         end
       end
 
-      attr_accessor :point, :border_style
+      attr_accessor :point, :border_style, :border
       attr_writer   :height
 
       def text_area_width
@@ -47,12 +47,14 @@ module Prawn
             @document.line_width = @border
 
             if borders.include?(:left)
-              @document.stroke_line rel_point, [rel_point[0], rel_point[1] - height]
+              @document.stroke_line [rel_point[0], rel_point[1] + @border / 2.0], 
+                [rel_point[0], rel_point[1] - height - @border / 2.0]
             end
 
             if borders.include?(:right)
-              @document.stroke_line rel_point[0] + width, rel_point[1],
-                                  rel_point[0] + width, rel_point[1] - height
+              @document.stroke_line( 
+                [rel_point[0] + width, rel_point[1] + @border / 2.0],
+                [rel_point[0] + width, rel_point[1] - height - @border / 2.0 ] )
             end
 
             if borders.include?(:top)
@@ -103,6 +105,7 @@ module Prawn
       end
 
       attr_reader :width, :height
+      attr_accessor :background_color
 
       def <<(cell)
         @cells << cell
@@ -115,6 +118,22 @@ module Prawn
         y = @document.y
         x = @document.bounds.absolute_left
 
+        # TODO: This is a bit of a hack and can be cleaned up
+        if @background_color
+          old_fill_color, old_stroke_color = 
+           @document.instance_eval { [@fill_color, @stroke_color] }
+          @document.fill_color @background_color
+          @document.stroke_color @background_color
+
+          @document.canvas do
+            @document.fill_rectangle [x+border,y-border], 
+              width-2*border, height-2*border
+          end
+
+          @document.fill_color old_fill_color || "000000"
+          @document.stroke_color old_stroke_color || "000000"
+        end
+
         @cells.each do |e|
           e.point  = [x,y]
           e.height = @height
@@ -123,6 +142,10 @@ module Prawn
         end
         
         @document.y = y - @height
+      end
+
+      def border
+        @cells[0].border
       end
 
       def border_style=(s)

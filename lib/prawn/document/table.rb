@@ -14,6 +14,7 @@ module Prawn
         @border_style       = options[:border_style]
         @position           = options[:position]  || :left
         @headers            = options[:headers]
+        @row_colors         = options[:row_colors]
         calculate_column_widths
         (options[:widths] || {}).each do |index,width| 
           @col_widths[index] = width
@@ -79,7 +80,7 @@ module Prawn
                                              :horizontal_padding => @horizontal_padding,
                                              :vertical_padding => @vertical_padding,
                                              :border   => @border,
-                                             :border_style    => :sides )
+                                             :border_style => :sides )
             end
 
 
@@ -125,7 +126,12 @@ module Prawn
           end
           contents.last.border_style  = :no_top
         end
-        contents.each { |x| x.draw }
+        contents.each do |x| 
+          if @row_colors
+            x.background_color = @row_colors.unshift(@row_colors.pop).last
+          end
+          x.draw 
+        end
       end
     end
   end
