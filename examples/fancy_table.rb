@@ -16,7 +16,8 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
     :headers          => ["Col A", "Col B"],
     :border           => 2,
     :vertical_padding => 2,
-    :font_size        => 10
+    :font_size        => 10,
+    :widths => { 1 => 50 }
 
   move_down 200
 
@@ -25,7 +26,17 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
     :border_style => :grid,
     :font_size => 40
 
-  text "This document demonstrates a number of Prawn's table features", 
-        :at => [50,50], :size => 24
+  cell [500,300],
+    :text => "This free flowing textbox shows how you can use Prawn's "+
+      "cells outside of a table with ease.  Think of a 'cell' as " +
+      "simply a limited purpose bounding box that is meant for laying " +
+      "out blocks of text and optionally placing a border around it",
+    :width => 225, :padding => 10, :border => 2
+
+  font_size! 24
+  cell [50,75], 
+    :text => "This document demonstrates a number of Prawn's table features",
+    :border_style => :no_top, # :all, :no_bottom, :sides
+    :horizontal_padding => 5
 
 end
