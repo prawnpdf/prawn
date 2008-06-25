@@ -17,7 +17,7 @@ module Prawn
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout, :y
+    attr_accessor :page_size, :page_layout, :y, :margin_box
 
              
     # Creates and renders a PDF document. 
