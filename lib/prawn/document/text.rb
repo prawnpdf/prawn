@@ -47,17 +47,6 @@ module Prawn
         # string provided by the user. We should convert it to WinAnsi or 
         # MacRoman or some such.
 
-        # if we're running under a M17n aware VM, ensure the string provided is 
-        # UTF-8 or can be converted to UTF-8
-        if text.respond_to?(:force_encoding)
-          begin
-            text = text.force_encoding("UTF-8")
-          rescue
-            raise ArgumentError, 'Strings must be supplied with a UTF-8 ' +
-            'encoding, or an encoding that can be converted to UTF-8'
-          end
-        end
-
         # ensure a valid font is selected
         font "Helvetica" unless fonts[@font]
 
