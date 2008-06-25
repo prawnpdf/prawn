@@ -2,27 +2,35 @@ module Prawn
   module Graphics
     class Cell
       def initialize(options={})
-        @point    = options[:point]
-        @document = options[:document]
-        @text     = options[:text]
-        @width    = options[:width]
-        @border   = options[:border] 
-        @padding  = options[:padding] || 0
+        @point        = options[:point]
+        @document     = options[:document]
+        @text         = options[:text]
+        @width        = options[:width]
+        @border       = options[:border] || 1
+        @border_style = options[:border_style] || :all
+
+        @horizontal_padding = options[:horizontal_padding] || 0
+        @vertical_padding   = options[:vertical_padding]   || 0
+
+        if options[:padding]
+          @horizontal_padding = @vertical_padding = options[:padding]
+        end
       end
 
-      attr_accessor :point, :height
+      attr_accessor :point, :border_style
+      attr_writer   :height
 
       def text_area_width
-        width - 2*@padding
+        width - 2*@horizontal_padding
       end
 
       def width
         @width || (@document.font_metrics.string_width(@text,
-           @document.current_font_size) + 2*@padding+1)
+          @document.current_font_size)) + 2*@horizontal_padding
       end
 
       def height
-        @height || text_area_height + 2*@padding
+        @height || text_area_height + 2*@vertical_padding
       end
 
       def text_area_height
@@ -37,16 +45,52 @@ module Prawn
         if @border
           @document.mask(:line_width) do
             @document.line_width = @border
-            @document.stroke_rectangle rel_point, width, height
+
+            if borders.include?(:left)
+              @document.stroke_line rel_point, [rel_point[0], rel_point[1] - height]
+            end
+
+            if borders.include?(:right)
+              @document.stroke_line rel_point[0] + width, rel_point[1],
+                                  rel_point[0] + width, rel_point[1] - height
+            end
+
+            if borders.include?(:top)
+              @document.stroke_line rel_point, [ rel_point[0] + width, rel_point[1] ]
+            end
+
+            if borders.include?(:bottom)
+              @document.stroke_line [rel_point[0], rel_point[1] - height],
+                                  [rel_point[0] + width, rel_point[1] - height]
+            end
+
           end
+          
+          borders
+
         end
 
-        @document.bounding_box( [@point[0] + @padding, @point[1] - @padding], 
-                                :width   => width,
-                                :height  => height - @padding) do
+        @document.bounding_box( [@point[0] + @horizontal_padding, 
+                                 @point[1] - @vertical_padding], 
+                                :width   => text_area_width,
+                                :height  => height - @vertical_padding) do
           @document.text @text
         end
       end
+
+      def borders
+        @borders ||= case @border_style
+        when :all
+          [:top,:left,:right,:bottom]
+        when :sides
+          [:left,:right]
+        when :no_top
+          [:left,:right,:bottom]
+        when :no_bottom
+          [:left,:right,:top]
+        end
+      end
+
     end
 
     # TODO: A temporary, entertaining name that should probably be changed.
@@ -80,14 +124,17 @@ module Prawn
         
         @document.y = y - @height
       end
+
+      def border_style=(s)
+        @cells.each { |e| e.border_style = s }
+      end
+
     end
   end
  
   class Document
     def cell(point, options={})
-      # TODO: We *must* centralize this default font crap.
-      font "Helvetica" unless fonts[@font]
-      Prawn::Graphics::Cell.new(point,options.merge(:document => self)).draw
+      Prawn::Graphics::Cell.new(options.merge(:document => self, :point => point)).draw
     end
   end
 end

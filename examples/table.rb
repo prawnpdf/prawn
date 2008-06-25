@@ -2,7 +2,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
 Prawn::Document.generate("table.pdf") do 
-  font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
+  font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
   table [["foo",    "baaar",             "1" ],
          ["This is","a sample",          "2" ],
          ["Table",  "dont\ncha\nknow?",  "3" ],
@@ -27,9 +27,11 @@ Prawn::Document.generate("table.pdf") do
          [ "It",    "Rules",             "4" ]],     
 
     :font_size  => 24, 
-    :padding    => 10,
+    :horizontal_padding => 10,
+    :vertical_padding => 3,
     :border     => 2,
-    :position   => :center
+    :position   => :center,
+    :headers    => ["Column A","Column B","#"]
 
   pad(20) do
     text "This should appear in the original font size"

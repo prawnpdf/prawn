@@ -13,10 +13,6 @@ module Prawn
 
       include Prawn::Font::Wrapping
 
-      def font_height(font_size)
-        Float(bbox[3] - bbox[1]) * font_size / 1000.0
-      end        
-
       def self.[](font)
         data[font] ||= case(font)
           when /\.ttf$/
@@ -33,7 +29,7 @@ module Prawn
 
       def string_height(string,options={})
         string = naive_wrap(string, options[:line_width], options[:font_size])
-        string.lines.length * font_height(options[:font_size])
+        string.lines.to_a.length * font_height(options[:font_size])
       end
  
       class Adobe < Metrics #:nodoc:     
@@ -86,6 +82,10 @@ module Prawn
         def bbox
           fontbbox.split(/\s+/).map { |e| Integer(e) }
         end   
+
+        def font_height(font_size)
+          Float(bbox[3] - bbox[1]) * font_size / 1000.0
+        end        
       
         def string_width(string,font_size)   
           scale = font_size / 1000.0
@@ -97,6 +97,10 @@ module Prawn
           @glyphs_table ||= (0..255).map do |i|
             @glyph_widths[ISOLatin1Encoding[i]].to_i
           end 
+        end
+
+        def ascender
+          @attributes["ascender"].to_i
         end
 
         def descender
@@ -112,8 +116,6 @@ module Prawn
             super  
           end
         end  
-             
-        private
       
         def metrics_path
           @metrics_path ||= (ENV['METRICS'] || 
@@ -121,6 +123,8 @@ module Prawn
             "/usr/openwin/lib/fonts/afm/:"+
             "#{Prawn::BASEDIR+'/data/fonts/'}:.").split(':')
         end 
+
+        private
       
         def find_font(file)
           metrics_path.find { |f| File.exist? "#{f}/#{file}" } + "/#{file}"    
@@ -203,7 +207,7 @@ module Prawn
         def bbox
           head = @ttf.get_table(:head)
           [:x_min, :y_min, :x_max, :y_max].map do |atr| 
-            Integer(head.send(atr) * scale_factor)
+            Integer(head.send(atr)) * scale_factor
           end
         end
 
@@ -213,6 +217,10 @@ module Prawn
 
         def descender
           Integer(@ttf.get_table(:hhea).descender * scale_factor)
+        end
+
+        def font_height(size)
+          (ascender - descender) * size / 1000.0
         end
 
         def basename
