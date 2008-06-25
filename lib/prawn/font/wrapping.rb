@@ -17,7 +17,7 @@ module Prawn
           segments.each do |segment|
             segment_width = string_width(segment, font_size)
       
-            if accumulated_width + segment_width > line_width
+            if (accumulated_width + segment_width).round > line_width.round
               output << "\n"
               
               if segment =~ /\s/

@@ -25,11 +25,9 @@ table = PDF::SimpleTable.new do |tab|
     col.heading = "Date"
   }
   tab.columns["rate"] = PDF::SimpleTable::Column.new("rate") { |col|
-    col.heading = "rate"
+    col.heading = "Rate"
   }
 
-  tab.show_lines    = :all
-  tab.show_headings = false
   tab.orientation   = :center
   tab.shade_rows    = :none
 
@@ -66,7 +64,11 @@ Benchmark.bmbm do |x|
     wrapper_doc.render_to_file('currency_pdf_wrapper.pdf')
   end
   x.report("Prawn") do
-    doc.table(csv_data, :font_size => 10, :padding => 2, :position => :center)
+    doc.table(csv_data, :font_size          => 10, 
+                        :vertical_padding   => 2,
+                        :horizontal_padding => 5, 
+                        :position           => :center,
+                        :headers            => ["Date","Rate"])
     doc.render_file('currency_prawn.pdf')
   end
   x.report("PDF Writer") do

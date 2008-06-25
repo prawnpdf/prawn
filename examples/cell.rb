@@ -6,7 +6,6 @@ require "prawn/graphics/cell"
 # to low level objects I'll be using for table building support (and other fun
 # stuff )
 Prawn::Document.generate("cell.pdf") do 
-  font "Helvetica"
   cell = Prawn::Graphics::Cell.new(
     :border => 3, :padding => 10, :width => 75,
     :text => "You know that kittens are made of mud!", :document => self)

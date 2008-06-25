@@ -115,3 +115,18 @@ describe "When setting page layout" do
     page.size.should == Prawn::Document::PageGeometry::SIZES["A4"].reverse
   end   
 end
+
+describe "The mask() feature" do
+  it "should allow transactional restoration of attributes" do
+    @pdf = Prawn::Document.new
+    y, line_width = @pdf.y, @pdf.line_width
+    @pdf.mask(:y, :line_width) do
+      @pdf.y = y + 1
+      @pdf.line_width = line_width + 1
+      @pdf.y.should_not == y
+      @pdf.line_width.should_not == line_width
+    end
+    @pdf.y.should == y
+    @pdf.line_width.should == line_width 
+  end
+end
