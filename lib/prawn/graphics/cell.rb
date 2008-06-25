@@ -47,22 +47,24 @@ module Prawn
             @document.line_width = @border
 
             if borders.include?(:left)
-              @document.stroke_line [rel_point[0], rel_point[1] + @border / 2.0], 
-                [rel_point[0], rel_point[1] - height - @border / 2.0]
+              @document.stroke_line [rel_point[0], rel_point[1] + (@border / 2.0)], 
+                [rel_point[0], rel_point[1] - height - @border / 2.0 ]
             end
 
             if borders.include?(:right)
               @document.stroke_line( 
-                [rel_point[0] + width, rel_point[1] + @border / 2.0],
-                [rel_point[0] + width, rel_point[1] - height - @border / 2.0 ] )
+                [rel_point[0] + width, rel_point[1] + (@border / 2.0)],
+                [rel_point[0] + width, rel_point[1] - height - @border / 2.0] )
             end
 
             if borders.include?(:top)
-              @document.stroke_line rel_point, [ rel_point[0] + width, rel_point[1] ]
+              @document.stroke_line(
+                [ rel_point[0] + @border / 2.0, rel_point[1] ], 
+                [ rel_point[0] - @border / 2.0 + width, rel_point[1] ])
             end
 
             if borders.include?(:bottom)
-              @document.stroke_line [rel_point[0], rel_point[1] - height],
+              @document.stroke_line [rel_point[0], rel_point[1] - height ],
                                   [rel_point[0] + width, rel_point[1] - height]
             end
 
