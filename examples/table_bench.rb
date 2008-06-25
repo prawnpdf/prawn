@@ -27,7 +27,6 @@ table = PDF::SimpleTable.new do |tab|
   }
 
   tab.orientation   = :center
-  tab.shade_rows    = :none
 
   data = csv_data.map do |e| 
     { "date" => e[0], "rate" => e[1] }
@@ -52,7 +51,8 @@ Benchmark.bmbm do |x|
     doc.table(csv_data, :font_size          => 10, 
                         :vertical_padding   => 2,
                         :horizontal_padding => 5, 
-                        :position           => :center,
+                        :position           => :center, 
+                        :row_colors         => ["ffffff","cccccc"],
                         :headers            => ["Date","Rate"])
     doc.render_file('currency_prawn.pdf')
   end
