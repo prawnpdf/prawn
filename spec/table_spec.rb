@@ -45,4 +45,32 @@ describe "A table's width" do
 
   end
 
+  it "should paginate large tables" do
+    # 30 rows fit on the table with default setting, 31 exceed.
+    data = [["foo"]] * 31
+    pdf = Prawn::Document.new
+
+    pdf.table data
+    pdf.page_count.should == 2
+
+    pdf.table data
+    pdf.page_count.should == 3
+  end
+
+  it "should have a height of n rows + vertical padding" do
+    data = [["foo"],["bar"],["baaaz"]]
+    pdf = Prawn::Document.new
+    num_rows = data.length
+    vpad     = 4
+    
+    origin = pdf.y
+    pdf.table data, :vertical_padding => vpad
+
+    table_height = origin - pdf.y
+
+    font_height = pdf.font_metrics.font_height(12)
+
+    table_height.should be_close(num_rows*font_height + 2*vpad*num_rows + vpad, 0.001)
+  end
+
 end
