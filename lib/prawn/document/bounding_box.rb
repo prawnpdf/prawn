@@ -107,6 +107,26 @@ module Prawn
       def bottom
         0
       end
+
+      # Relative top-left point of the bounding_box
+      def top_left
+        [left,top]
+      end
+
+      # Relative top-right point of the bounding box
+      def top_right
+        [right,top]
+      end
+
+      # Relative bottom-right point of the bounding box
+      def bottom_right
+        [right,bottom]
+      end
+
+      # Relative bottom-left point of the bounding box
+      def bottom_left
+        [left,bottom]
+      end
       
       # Absolute left x-coordinate of the bounding box
       def absolute_left
@@ -127,11 +147,35 @@ module Prawn
       def absolute_bottom
         @y - height
       end
+
+      # Absolute top-left point of the bounding box
+      def absolute_top_left
+        [absolute_left, absolute_top]
+      end
+
+      # Absolute top-right point of the bounding box
+      def absolute_top_right
+        [absolute_right, absolute_top]
+      end
+
+      # Absolute bottom-left point of the bounding box
+      def absolute_bottom_left
+        [absolute_left, absolute_bottom]
+      end
+
+      # Absolute bottom-left point of the bounding box
+      def absolute_bottom_right
+        [absolute_right, absolute_bottom]
+      end
       
+      # Width of the bounding box
       def width
         @width
       end
       
+      # Height of the bounding box.  If the box is 'stretchy' (unspecified
+      # height attribute), height is calculated as the distance from the top of
+      # the box to the current drawing position.
       def height
         if @height.nil?
           absolute_top - @parent.y
