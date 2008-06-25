@@ -83,9 +83,7 @@ module Prawn
             end
 
 
-            # TODO: Give better access to margin_box
-            if c.height > (x=y_pos - @document.instance_eval { @margin_box }.
-                          absolute_bottom)
+            if c.height > (x=y_pos - @document.margin_box.absolute_bottom)
               draw_page(page_contents)
               @document.start_new_page
               if @headers
