@@ -6,11 +6,15 @@ module Prawn
         @document     = options[:document]
         @text         = options[:text]
         @width        = options[:width]
-        @border       = options[:border] 
+        @border       = options[:border] || 1
         @border_style = options[:border_style] || :all
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
+
+        if options[:padding]
+          @horizontal_padding = @vertical_padding = options[:padding]
+        end
       end
 
       attr_accessor :point, :border_style
@@ -130,7 +134,7 @@ module Prawn
  
   class Document
     def cell(point, options={})
-      Prawn::Graphics::Cell.new(point,options.merge(:document => self)).draw
+      Prawn::Graphics::Cell.new(options.merge(:document => self, :point => point)).draw
     end
   end
 end
