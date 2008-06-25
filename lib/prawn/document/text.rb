@@ -49,9 +49,9 @@ module Prawn
 
         # if we're running under a M17n aware VM, ensure the string provided is 
         # UTF-8 or can be converted to UTF-8
-        if text.respond_to?(:encode)
+        if text.respond_to?(:"encode!")
           begin
-            text = text.encode("UTF-8")
+            text.encode!("UTF-8")
           rescue
             raise ArgumentError, 'Strings must be supplied with a UTF-8 ' +
             'encoding, or an encoding that can be converted to UTF-8'
