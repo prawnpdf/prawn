@@ -68,6 +68,11 @@ module Prawn
       self.y = @bounding_box.absolute_bottom
       @bounding_box = parent_box
     end
+
+    def canvas(&block)
+      bounding_box( [0, page_dimensions[3]], 
+       :width  => page_dimensions[2], :height => page_dimensions[3], &block)
+    end
     
     class BoundingBox
       
