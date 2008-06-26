@@ -17,7 +17,7 @@ module Prawn
 
     class Table
 
-      attr_reader :col_widths
+      attr_reader :col_widths # :nodoc:
 
       def initialize(data, document,options={})
         @data                = data
@@ -131,29 +131,23 @@ module Prawn
       end
 
       def draw_page(contents)
-        if contents.empty?
-          return
-        elsif @border_style == :grid
+        return if contents.empty?
+
+        if @border_style == :grid || contents.length == 1
           contents.each { |e| e.border_style = :all }
-        elsif contents.length == 1 
-          contents.first.border_style = :all
         else
-          if @headers
-            contents.first.border_style = :all
-          else
-            contents.first.border_style = :no_bottom 
-          end
+          contents.first.border_style = @headers ? :all : :no_bottom
           contents.last.border_style  = :no_top
         end
+
         contents.each do |x| 
           if @row_colors
             x.background_color = @row_colors.unshift(@row_colors.pop).last
           end
           x.draw 
         end
-        if @row_colors
-          @row_colors = @original_row_colors.dup
-        end
+
+        @row_colors = @original_row_colors.dup if @row_colors
       end
     end
   end
