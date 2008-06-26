@@ -95,7 +95,7 @@ module Prawn
             
      # Creates and advances to a new page in the document.
      # Runs the <tt>:on_page_start</tt> lambda if one was provided at
-     # document creation time (See Document.initialize).  
+     # document creation time (See Document.new).  
      #                                
      def start_new_page
        finish_page_content if @page_content
@@ -129,7 +129,7 @@ module Prawn
       @pages.data[:Count]
     end
        
-    # Renders the PDF document, returning a string by default. 
+    # Renders the PDF document to string
     #
     def render
       output = StringIO.new       
@@ -159,37 +159,79 @@ module Prawn
       @bounding_box
     end
 
+    # Moves up the document by n points
+    # 
     def move_up(n)
       self.y += n
     end
 
+    # Moves down the document by n point
+    # 
     def move_down(n)
       self.y -= n
     end
 
+   
+    # Moves down the document and then executes a block.
+    #
+    #   pdf.text "some text"
+    #   pdf.pad_top(100) do
+    #     pdf.text "This is 100 points below the previous line of text"
+    #   end
+    #   pdf.text "This text appears right below the previous line of text"
+    #
     def pad_top(y)
       move_down(y)
       yield
     end
 
+    # Executes a block then moves down the document
+    #
+    #   pdf.text "some text"
+    #   pdf.pad_bottom(100) do
+    #     pdf.text "This text appears right below the previous line of text"
+    #   end
+    #   pdf.text "This is 100 points below the previous line of text"
+    #
     def pad_bottom(y)
       yield
       move_down(y)
     end
 
+    # Moves down the document by y, executes a block, then moves down the
+    # document by y again.
+    #
+    #   pdf.text "some text"
+    #   pdf.pad(100) do
+    #     pdf.text "This is 100 points below the previous line of text"  
+    #   end
+    #   pdf.text "This is 100 points below the previous line of text"
+    #
     def pad(y)
       move_down(y)
       yield
       move_down(y)
     end
 
+
+    # Builds and renders a Document::Table object from raw data.
+    # For details on the options that can be passed, see
+    # Document::Table.new
+    #
+    #   data = [["Gregory","Brown"],["James","Healy"],["Jia","Wu"]]
+    #
+    #   Prawn::Document.generate("table.pdf") do
+    #     table data, :headers => ["First Name", "Last Name"]
+    #   end
+    #
     def table(data,options={})
       Prawn::Document::Table.new(data,self,options).draw
     end
 
-    # Stores the current state of the named attributes, executes the block, and
-    # then restores the original values after the block has executed.
-    def mask(*fields)
+   def mask(*fields) # :nodoc:
+     # Stores the current state of the named attributes, executes the block, and
+     # then restores the original values after the block has executed.
+     # -- I will remove the nodoc if/when this feature is a little less hacky
       stored = {}
       fields.each { |f| stored[f] = send(f) }
       yield
