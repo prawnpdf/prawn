@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")   
 
 class TextObserver                         
@@ -156,6 +158,14 @@ describe "when drawing text" do
    
    it "should raise an exception when an unknown font is used" do
      lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
+   end
+
+   # Handle string encodings in a sane way on M17N aware VMs
+   if "spec".respond_to?(:encode!)
+     it "should raise an exception when a utf-8 incompatible string is rendered" do
+       str = "Blah \xDD"
+       lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+     end
    end
 
 end

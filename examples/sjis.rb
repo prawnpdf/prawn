@@ -9,7 +9,7 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
-datafile = File.join(File.dirname(__FILE__), "shift_jis_text.txt")
+datafile = File.join(File.dirname(__FILE__), "..", "data", "shift_jis_text.txt")
 sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
 
 Prawn::Document.generate("sjis.pdf") do

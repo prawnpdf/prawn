@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 # See PDF Reference, Sixth Edition (1.7) pp51-60 for details 
