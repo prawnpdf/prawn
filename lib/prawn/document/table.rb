@@ -1,5 +1,20 @@
 module Prawn
   class Document
+
+    # Builds and renders a Document::Table object from raw data.
+    # For details on the options that can be passed, see
+    # Document::Table.new
+    #
+    #   data = [["Gregory","Brown"],["James","Healy"],["Jia","Wu"]]
+    #
+    #   Prawn::Document.generate("table.pdf") do
+    #     table data, :headers => ["First Name", "Last Name"]
+    #   end
+    #
+    def table(data,options={})
+      Prawn::Document::Table.new(data,self,options).draw
+    end
+
     class Table
 
       attr_reader :col_widths

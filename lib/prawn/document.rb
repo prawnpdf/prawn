@@ -214,21 +214,7 @@ module Prawn
     end
 
 
-    # Builds and renders a Document::Table object from raw data.
-    # For details on the options that can be passed, see
-    # Document::Table.new
-    #
-    #   data = [["Gregory","Brown"],["James","Healy"],["Jia","Wu"]]
-    #
-    #   Prawn::Document.generate("table.pdf") do
-    #     table data, :headers => ["First Name", "Last Name"]
-    #   end
-    #
-    def table(data,options={})
-      Prawn::Document::Table.new(data,self,options).draw
-    end
-
-   def mask(*fields) # :nodoc:
+    def mask(*fields) # :nodoc:
      # Stores the current state of the named attributes, executes the block, and
      # then restores the original values after the block has executed.
      # -- I will remove the nodoc if/when this feature is a little less hacky
