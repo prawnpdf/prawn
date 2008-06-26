@@ -5,17 +5,20 @@ module Prawn
       attr_reader :col_widths
 
       def initialize(data, document,options={})
-        @data               = data
-        @document           = document
-        @font_size          = options[:font_size] || 12
-        @horizontal_padding = options[:horizontal_padding] || 5
-        @vertical_padding   = options[:vertical_padding]   || 5
-        @border             = options[:border]    || 1
-        @border_style       = options[:border_style]
-        @position           = options[:position]  || :left
-        @headers            = options[:headers]
-        @row_colors         = options[:row_colors]
+        @data                = data
+        @document            = document
+        @font_size           = options[:font_size] || 12
+        @horizontal_padding  = options[:horizontal_padding] || 5
+        @vertical_padding    = options[:vertical_padding]   || 5
+        @border              = options[:border]    || 1
+        @border_style        = options[:border_style]
+        @position            = options[:position]  || :left
+        @headers             = options[:headers]
+        @row_colors          = options[:row_colors]
+
         @row_colors = ["ffffff","cccccc"] if @row_colors == :pdf_writer
+
+        @original_row_colors = @row_colors.dup if @row_colors
         calculate_column_widths
         (options[:widths] || {}).each do |index,width| 
           @col_widths[index] = width
@@ -132,6 +135,9 @@ module Prawn
             x.background_color = @row_colors.unshift(@row_colors.pop).last
           end
           x.draw 
+        end
+        if @row_colors
+          @row_colors = @original_row_colors.dup
         end
       end
     end
