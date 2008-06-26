@@ -15,6 +15,7 @@ module Prawn
         @position           = options[:position]  || :left
         @headers            = options[:headers]
         @row_colors         = options[:row_colors]
+        @row_colors = ["ffffff","cccccc"] if @row_colors == :pdf_writer
         calculate_column_widths
         (options[:widths] || {}).each do |index,width| 
           @col_widths[index] = width
