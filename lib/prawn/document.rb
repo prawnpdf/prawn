@@ -132,14 +132,16 @@ module Prawn
     # Renders the PDF document, returning a string by default. 
     #
     def render
-      output = StringIO.new       
+      output = StringIO.new
       finish_page_content
 
       render_header(output)
       render_body(output)
       render_xref(output)
       render_trailer(output)
-      output.string 
+      str = output.string 
+      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+      str
     end
      
     # Renders the PDF document to file.
@@ -147,7 +149,8 @@ module Prawn
     #   pdf.render_file "foo.pdf"     
     #
     def render_file(filename)
-      File.open(filename,"wb") { |f| f << render }
+      const_defined?(Encoding) ? mode = "wb:ASCII-8BIT" : mode = "wb"
+      File.open(filename,mode) { |f| f << render }
     end   
     
     # Returns the current BoundingBox object, which is by default

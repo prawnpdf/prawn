@@ -20,6 +20,12 @@ module Prawn
      # This error is raised when Prawn cannot find a specified font   
      #
      class UnknownFont < StandardError; end   
+
+     # This error is raised when prawn is being used on a M17N aware VM,
+     # and the user attempts to add text that isn't compatible with UTF-8
+     # to their document
+     #
+     class IncompatibleStringEncoding < StandardError; end   
      
   end
 end   
