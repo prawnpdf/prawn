@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rake'
 require 'spec/rake/spectask'
+require "rake/rdoctask"
 
 task :default => [:spec]
 
@@ -15,4 +16,16 @@ task :stats do
 	CodeStatistics.new( ["Prawn", "lib"], 
 	                    ["Specs",     "spec"] ).to_s
 end
+
+desc "genrates documentation"
+Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_files.include( "README",
+                           "COPYING",
+                           "LICENSE", "lib/" )
+  rdoc.main     = "README"
+  rdoc.rdoc_dir = "doc/html"
+  rdoc.title    = "Prawn Documentation"
+end
+
+
 
