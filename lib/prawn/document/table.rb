@@ -141,14 +141,21 @@ module Prawn
         end
 
         contents.each do |x| 
-          if @row_colors
-            x.background_color = @row_colors.unshift(@row_colors.pop).last
-          end
+          x.background_color = next_row_color if @row_colors
           x.draw 
         end
 
+        reset_row_colors
+      end
+
+      def next_row_color
+        @row_colors.unshift(@row_colors.pop).last
+      end
+
+      def reset_row_colors
         @row_colors = @original_row_colors.dup if @row_colors
       end
+
     end
   end
 end
