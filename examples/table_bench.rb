@@ -5,7 +5,9 @@ require "fastercsv"
 require "benchmark"
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'examples')
 require "prawn"
+require "ruport_formatter"
 
 csv_data = FasterCSV.read("#{Prawn::BASEDIR}/examples/currency.csv") * 
   (ARGV.first || 1).to_i
@@ -40,6 +42,13 @@ end
 ##############################
 doc = Prawn::Document.new
 
+#####################
+# Ruport/Prawn Prep #
+#####################
+
+ruport_table = Table(%w[Date Rate], :data => csv_data)
+ruport_doc   = Prawn::Document.new
+
 #######################
 # Benchmarking code   #
 #######################
@@ -52,9 +61,12 @@ Benchmark.bmbm do |x|
                         :vertical_padding   => 2,
                         :horizontal_padding => 5, 
                         :position           => :center, 
-                        :row_colors         => ["ffffff","cccccc"],
+                        :row_colors         => :pdf_writer,
                         :headers            => ["Date","Rate"])
     doc.render_file('currency_prawn.pdf')
+  end
+  x.report("Ruport/Prawn") do
+    ruport_table.save_as('currency_ruport.pdf', :document => ruport_doc)
   end
   x.report("PDF Writer") do
     table.render_on(pdf) 
