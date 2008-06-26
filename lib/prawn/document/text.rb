@@ -71,10 +71,7 @@ module Prawn
         end
       end
 
-      # The current font metrics object.  If the font has not yet been set, this
-      # will default to Helvetica.
-      #
-      def font_metrics
+      def font_metrics #:nodoc:
         @font_metrics ||= Prawn::Font::Metrics["Helvetica"]
       end
 
