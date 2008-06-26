@@ -37,7 +37,7 @@ module Prawn
       # <tt>:horizontal_padding</tt>:: The horizontal padding in PDF points
       # <tt>:vertical_padding</tt>:: The vertical padding in PDF points
       # <tt>:padding</tt>:: Overrides both horizontal and vertical padding
-      # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top<tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>
+      # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>
       #
       def initialize(options={})
         @point        = options[:point]
