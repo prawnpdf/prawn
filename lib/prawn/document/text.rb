@@ -31,13 +31,9 @@ module Prawn
       #   pdf.text "Goodbye World", :at => [50,50], :size => 16
       #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
       #
-      # Under Ruby 1.8 compatible implementations, all strings passed to this
-      # function should be encoded as UTF-8. If you gets unexpected characters
-      # appearing in your rendered document, check this.
-      #
-      # Under a M17n aware implementation (like Ruby 1.9), Prawn will attempt
-      # to convert the string to UTF-8 if necessary. An ArgumentError exception 
-      # will be raised if this conversion fails.
+      # All strings passed to this function should be encoded as UTF-8. 
+      # If you gets unexpected characters appearing in your rendered 
+      # document, check this.
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
@@ -75,6 +71,9 @@ module Prawn
         end
       end
 
+      # The current font metrics object.  If the font has not yet been set, this
+      # will default to Helvetica.
+      #
       def font_metrics
         @font_metrics ||= Prawn::Font::Metrics["Helvetica"]
       end
@@ -133,7 +132,9 @@ module Prawn
       def font_size!(size)
         @font_size = size unless size == nil
       end
-      
+     
+      # The current font_size being used in the document.
+      #
       def current_font_size
         @font_size || DEFAULT_FONT_SIZE
       end
