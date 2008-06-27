@@ -1,6 +1,5 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
-require "prawn/graphics/cell"
 
 # If this looks a somewhat Byzantine, don't worry.  It's a temporary interface
 # to low level objects I'll be using for table building support (and other fun
