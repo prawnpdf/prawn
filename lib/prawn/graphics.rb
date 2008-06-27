@@ -27,6 +27,7 @@ module Prawn
     #
     #   pdf.move_to [100,50]
     #   pdf.move_to(100,50)
+    #
     def move_to(*point)
       x,y = translate(point)           
       add_content("%.3f %.3f m" % [ x, y ])
@@ -75,6 +76,8 @@ module Prawn
       add_content("#{width} w")
     end
 
+    # The current line thickness
+    #
     def line_width
       @line_width || 1
     end
@@ -96,14 +99,22 @@ module Prawn
       line_to(x1, y1)
     end   
 
+    # Draws a horizontal line from <tt>x1</tt> to <tt>x2</tt> at the
+    # current <tt>y</tt> position.
+    #
     def horizontal_line(x1,x2)
       line(x1,y,x2,y)
     end
 
+    # Draws a horizontal line from the left border to the right border of the
+    # bounding box at the current <tt>y</tt> position.
+    #
     def horizontal_rule
       horizontal_line(bounds.absolute_left, bounds.absolute_right)
     end
 
+    # Draws a vertical line at the given x position from y1 to y2.
+    # 
     def vertical_line_at(x,y1,y2)
       line(x,y1,x,y2)
     end
@@ -199,11 +210,13 @@ module Prawn
     end
     
     # Strokes and closes the current path.
+    #
     def stroke
       add_content "S"
     end              
     
     # Fills, strokes, and closes the current path.
+    #
     def fill 
       add_content "b" 
     end     
@@ -212,6 +225,7 @@ module Prawn
     #
     #    stroke_some_method(*args) #=> some_method(*args); stroke
     #    fill_some_method(*args) #=> some_method(*args); fill
+    #
     def method_missing(id,*args,&block)
       case(id.to_s) 
       when /^stroke_(.*)/

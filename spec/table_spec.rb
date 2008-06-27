@@ -76,3 +76,57 @@ describe "A table's width" do
   end
 
 end
+
+class TableTextObserver
+  attr_accessor :font_settings, :size, :strings
+            
+  def initialize     
+    @font_settings = []
+    @fonts = {}
+    @strings = []
+  end
+  
+  def resource_font(*params)
+    @fonts[params[0]] = params[1].basefont
+  end
+
+  def set_text_font_and_size(*params)     
+    @font_settings << { :name => @fonts[params[0]], :size => params[1] }
+  end     
+  
+  def show_text(*params)
+    @strings << params[0]
+  end
+end
+
+
+describe "A table's content" do
+
+  it "should output content cell by cell, row by row" do
+    data = [["foo","bar"],["baz","bang"]]
+    @pdf = Prawn::Document.new
+    @pdf.table(data)
+    output = observer(TableTextObserver)
+    output.strings.should == data.flatten
+  end
+
+  it "should add headers to output when specified" do
+    data = [["foo","bar"],["baz","bang"]]
+    headers = %w[a b]
+    @pdf = Prawn::Document.new
+    @pdf.table(data, :headers => headers)
+    output = observer(TableTextObserver)
+    output.strings.should == headers + data.flatten
+  end
+
+  it "should repeat headers across pages" do
+    data = [["foo","bar"]]*30
+    headers = ["baz","foobar"]
+    @pdf = Prawn::Document.new
+    @pdf.table(data, :headers => headers)
+    output = observer(TableTextObserver)
+    output.strings.should == headers + data.flatten[0..-3] + headers +
+      data.flatten[-2..-1]
+  end
+    
+end

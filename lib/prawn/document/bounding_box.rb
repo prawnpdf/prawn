@@ -68,6 +68,18 @@ module Prawn
       self.y = @bounding_box.absolute_bottom
       @bounding_box = parent_box
     end
+
+    # A shortcut to produce a bounding box which is mapped to the document's
+    # absolute coordinates
+    #
+    #   pdf.canvas do
+    #     pdf.line pdf.bounds.bottom_left, pdf.bounds.top_right
+    #   end
+    #
+    def canvas(&block)
+      bounding_box( [0, page_dimensions[3]], 
+       :width  => page_dimensions[2], :height => page_dimensions[3], &block)
+    end
     
     class BoundingBox
       
@@ -79,54 +91,117 @@ module Prawn
        
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box in absolute terms.
+      #
       def anchor
         [@x, @y - height]
       end
       
       # Relative left x-coordinate of the bounding box. (Always 0)
+      #
       def left
         0
       end
       
       # Relative right x-coordinate of the bounding box. (Equal to the box width)
+      #
       def right
         @width
       end
       
       # Relative top y-coordinate of the bounding box. (Equal to the box height)
+      #
       def top
         height
       end
       
       # Relative bottom y-coordinate of the bounding box (Always 0)
+      #
       def bottom
         0
       end
+
+      # Relative top-left point of the bounding_box
+      #
+      def top_left
+        [left,top]
+      end
+
+      # Relative top-right point of the bounding box
+      #
+      def top_right
+        [right,top]
+      end
+
+      # Relative bottom-right point of the bounding box
+      #
+      def bottom_right
+        [right,bottom]
+      end
+
+      # Relative bottom-left point of the bounding box
+      #
+      def bottom_left
+        [left,bottom]
+      end
       
       # Absolute left x-coordinate of the bounding box
+      #
       def absolute_left
         @x
       end
       
       # Absolute right x-coordinate of the bounding box
+      #
       def absolute_right
         @x + width
       end
       
       # Absolute top y-coordinate of the bounding box
+      #
       def absolute_top
         @y
       end
       
       # Absolute bottom y-coordinate of the bottom box
+      #
       def absolute_bottom
         @y - height
       end
+
+      # Absolute top-left point of the bounding box
+      #
+      def absolute_top_left
+        [absolute_left, absolute_top]
+      end
+
+      # Absolute top-right point of the bounding box
+      #
+      def absolute_top_right
+        [absolute_right, absolute_top]
+      end
+
+      # Absolute bottom-left point of the bounding box
+      #
+      def absolute_bottom_left
+        [absolute_left, absolute_bottom]
+      end
+
+      # Absolute bottom-left point of the bounding box
+      #
+      def absolute_bottom_right
+        [absolute_right, absolute_bottom]
+      end
       
+      # Width of the bounding box
+      #
       def width
         @width
       end
       
+      # Height of the bounding box.  If the box is 'stretchy' (unspecified
+      # height attribute), height is calculated as the distance from the top of
+      # the box to the current drawing position.
+      #
       def height
         if @height.nil?
           absolute_top - @parent.y
