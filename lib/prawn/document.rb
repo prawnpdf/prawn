@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # document.rb : Implements PDF document generation for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

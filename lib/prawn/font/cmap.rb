@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # cmap.rb : class for building ToUnicode CMaps for Type0 fonts
 #
 # Copyright May 2008, Gregory Brown / James Healy. All Rights Reserved.

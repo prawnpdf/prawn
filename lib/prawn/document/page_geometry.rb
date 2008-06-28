@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # page_geometry.rb : Describes PDF page geometries
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # wrapping.rb : Implementation of naive text wrap
 #
 # Copyright May 2008, Michael Daines. All Rights Reserved.
