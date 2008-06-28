@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # metrics.rb : Font metrics parsers for AFM and TTF.
 #
 # Font::Metrics::Adobe is mainly a port of CPAN's Font::AFM 
