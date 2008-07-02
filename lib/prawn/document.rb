@@ -20,6 +20,7 @@ module Prawn
     include PageGeometry                             
     
     attr_accessor :page_size, :page_layout, :y, :margin_box
+    attr_reader   :margins
 
              
     # Creates and renders a PDF document. 
@@ -78,29 +79,38 @@ module Prawn
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
              
-       ml = options[:left_margin]   || 36
-       mr = options[:right_margin]  || 36  
-       mt = options[:top_margin]    || 36
-       mb = options[:bottom_margin] || 36
+       @margins = { :left   => options[:left_margin]   || 36,
+                    :right  => options[:right_margin]  || 36,  
+                    :top    => options[:top_margin]    || 36,       
+                    :bottom => options[:bottom_margin] || 36  }
         
-       @margin_box = BoundingBox.new(
-         self,
-         [ ml, page_dimensions[-1] - mt ] ,
-         :width => page_dimensions[-2] - (ml + mr),
-         :height => page_dimensions[-1] - (mt + mb)
-       )  
+       generate_margin_box
        
        @bounding_box = @margin_box
        
        start_new_page 
-     end  
+     end     
+     
+     def generate_margin_box     
+       old_margin_box = @margin_box
+       @margin_box = BoundingBox.new(
+         self,
+         [ @margins[:left], page_dimensions[-1] - @margins[:top] ] ,
+         :width => page_dimensions[-2] - (@margins[:left] + @margins[:right]),
+         :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
+       )                                 
+             
+       # update bounding box if not flowing from the previous page
+       @bounding_box = @margin_box if old_margin_box == @bounding_box              
+     end
             
      # Creates and advances to a new page in the document.
      # Runs the <tt>:on_page_start</tt> lambda if one was provided at
      # document creation time (See Document.new).  
      #                                
      def start_new_page
-       finish_page_content if @page_content
+       finish_page_content if @page_content  
+       generate_margin_box    
        @page_content = ref(:Length => 0)   
      
        @current_page = ref(:Type      => :Page, 
