@@ -151,7 +151,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"     
     #
     def render_file(filename)
-      const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
+      Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
       File.open(filename,mode) { |f| f << render }
     end   
     
