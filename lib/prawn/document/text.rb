@@ -51,9 +51,9 @@ module Prawn
           begin
             text.encode!("UTF-8")
           rescue
-            raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " + 
-            "#{text.encoding} can not be transparently converted to UTF-8. " + 
-            "Please ensure the encoding of the string you are attempting " + 
+            raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
+            "#{text.encoding} can not be transparently converted to UTF-8. " +
+            "Please ensure the encoding of the string you are attempting " +
             "to use is set correctly"
           end
         end

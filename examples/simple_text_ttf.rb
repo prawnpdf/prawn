@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+puts __ENCODING__
+
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
