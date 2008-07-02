@@ -160,4 +160,13 @@ describe "when drawing text" do
      lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
    end
 
+   # Handle string encodings in a sane way on M17N aware VMs
+   if "spec".respond_to?(:encode!)
+     it "should raise an exception when a utf-8 incompatible string is rendered" do
+       str = "Blah \xDD"
+       str.force_encoding("ASCII-8BIT")
+       lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+     end
+   end
+
 end
