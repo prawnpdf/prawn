@@ -13,6 +13,6 @@ datafile = File.join(File.dirname(__FILE__), "..", "data", "shift_jis_text.txt")
 sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
 
 Prawn::Document.generate("sjis.pdf") do
-  font "/usr/share/fonts/truetype/arphic/gkai00mp.ttf"
+  font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
   text sjis_str
 end
