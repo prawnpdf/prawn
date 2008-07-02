@@ -34,11 +34,11 @@ class IO
 
     alias :old_read :read
 
-    def read(n)
-        ret = old_read(n)
-        raise Font::TTF::MalformedFont if ret.nil?
-        ret
-    end
+    #ef read(n)
+    #   ret = old_read(n)
+    #   raise Font::TTF::MalformedFont if ret.nil?
+    #    ret
+    #end
 
     def read_ushort
         read(SIZEOF_USHORT).unpack("n")[0]
