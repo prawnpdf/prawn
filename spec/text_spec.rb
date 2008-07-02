@@ -164,6 +164,7 @@ describe "when drawing text" do
    if "spec".respond_to?(:encode!)
      it "should raise an exception when a utf-8 incompatible string is rendered" do
        str = "Blah \xDD"
+       str.force_encoding("ASCII-8BIT")
        lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
      end
    end

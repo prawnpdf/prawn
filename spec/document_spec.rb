@@ -132,3 +132,14 @@ describe "The mask() feature" do
     @pdf.line_width.should == line_width 
   end
 end
+
+describe "The render() feature" do
+  if "spec".respond_to?(:encode!)
+    it "should return a 8 bit encoded string on a m17n aware VM" do
+      @pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
+      @pdf.line [100,100], [200,200]
+      str = @pdf.render
+      str.encoding.to_s.should eql("ASCII-8BIT")
+    end
+  end
+end
