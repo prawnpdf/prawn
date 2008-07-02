@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # errors.rb : Implements custom error classes for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

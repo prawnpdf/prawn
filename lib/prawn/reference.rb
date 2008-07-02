@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # reference.rb : Implementation of PDF indirect objects
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

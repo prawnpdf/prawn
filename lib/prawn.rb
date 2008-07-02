@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # prawn.rb : A library for PDF generation in Ruby
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

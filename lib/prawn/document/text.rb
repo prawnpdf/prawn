@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # text.rb : Implements PDF text primitives
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
