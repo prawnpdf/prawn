@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # graphics.rb : Implements PDF drawing primitives
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

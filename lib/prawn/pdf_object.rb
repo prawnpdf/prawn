@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # pdf_object.rb : Handles Ruby to PDF object serialization
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.
