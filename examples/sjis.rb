@@ -4,7 +4,8 @@
 # be transparently converted to utf-8 and rendered as usual.
 # 
 # NOTE: only works on ruby1.9 compatible VMs, and requires the current
-#       font to include japanese glyphs
+#       font to include japanese glyphs. On 1.8.x comaptible VMs, an exception
+#       will be raised.
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
