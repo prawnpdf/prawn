@@ -108,6 +108,13 @@ describe "When setting page size" do
       page.size.should == Prawn::Document::PageGeometry::SIZES[k]
     end
   end
+  
+  it "should allow custom page size" do 
+      @pdf = Prawn::Document.new(:page_size => [1920, 1080] )
+      page = detect_page_details
+      page.size.should == [1920, 1080]
+  end
+
 end       
 
 describe "When setting page layout" do
