@@ -102,16 +102,18 @@ describe "drawing bounding boxes" do
     @pdf = Prawn::Document.new
     @pdf.bounding_box [100,500], :width => 300, :height => 300 do 
 
-      @pdf.bounds.absolute_top.should  == 500
-      @pdf.bounds.absolute_left.should == 100 
+      @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
+      @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
+
+      parent_box = @pdf.bounds
 
       @pdf.bounding_box [50,200], :width => 100, :height => 100 do
-        @pdf.bounds.absolute_top.should == 200 
-        @pdf.bounds.absolute_left.should == 50
+        @pdf.bounds.absolute_top.should == 200 + parent_box.absolute_bottom
+        @pdf.bounds.absolute_left.should == 50 + parent_box.absolute_left
       end
 
-      @pdf.bounds.absolute_top.should  == 500
-      @pdf.bounds.absolute_left.should == 100 
+      @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
+      @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
 
     end
   end

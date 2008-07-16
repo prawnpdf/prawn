@@ -62,7 +62,7 @@ module Prawn
           "EXECUTIVE" => [521.86, 756.00] }
      
       def page_dimensions #:nodoc:
-        coords = SIZES[page_size]  
+        coords = SIZES[page_size] || page_size
         [0,0] + case(page_layout)   
         when :portrait
           coords
