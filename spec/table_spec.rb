@@ -128,5 +128,13 @@ describe "A table's content" do
     output.strings.should == headers + data.flatten[0..-3] + headers +
       data.flatten[-2..-1]
   end
+
+  it "should allow empty fields" do
+    lambda {
+      data = [["foo","bar"],["baz",""]]
+      @pdf = Prawn::Document.new
+      @pdf.table(data)
+    }.should_not raise_error
+  end
     
 end
