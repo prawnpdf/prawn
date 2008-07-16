@@ -148,7 +148,7 @@ module Prawn
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.lines.map { |e| 
-              @document.font_metrics.string_width(e,@font_size) }.max +
+              @document.font_metrics.string_width(e,@font_size) }.max.to_f +
                 2*@horizontal_padding
             @col_widths[i] = length if length > @col_widths[i]
           end
