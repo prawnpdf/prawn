@@ -215,11 +215,17 @@ module Prawn
     #
     def stroke
       add_content "S"
-    end              
+    end
+
+    # Fills and closes the current path
+    #
+    def fill
+      add_content "f"
+    end
     
     # Fills, strokes, and closes the current path.
     #
-    def fill 
+    def fill_and_stroke
       add_content "b" 
     end     
     
@@ -230,6 +236,8 @@ module Prawn
     #
     def method_missing(id,*args,&block)
       case(id.to_s) 
+      when /^fill_and_stroke_(.*)/
+        send($1,*args,&block); fill_and_stroke
       when /^stroke_(.*)/
         send($1,*args,&block); stroke 
       when /^fill_(.*)/

@@ -160,12 +160,26 @@ describe "when drawing text" do
      lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
    end
 
-   # Handle string encodings in a sane way on M17N aware VMs
    if "spec".respond_to?(:encode!)
+     # Handle non utf-8 string encodings in a sane way on M17N aware VMs
      it "should raise an exception when a utf-8 incompatible string is rendered" do
        str = "Blah \xDD"
        str.force_encoding("ASCII-8BIT")
        lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+     end
+     it "should not raise an exception when a shift-jis string is rendered" do
+       sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
+       lambda { @pdf.text sjis_str }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
+     end
+   else
+     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
+     it "should raise an exception when a corrupt utf-8 string is rendered" do
+       str = "Blah \xDD"
+       lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+     end
+     it "should raise an exception when a shift-jis string is rendered" do
+       sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
+       lambda { @pdf.text sjis_str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
      end
    end
 
