@@ -125,10 +125,9 @@ module Prawn
       def draw
         case(@position) 
         when :center
-          x = ((@document.bounds.absolute_right + 
-                @document.bounds.absolute_left ) / 2.0 ) - (width / 2.0)
+          x = ((@document.bounds.width) / 2.0 ) - (width / 2.0)
 
-          @document.bounding_box [x,@document.bounds.height], :width => width do
+          @document.bounding_box [x,@document.y - @document.bounds.absolute_bottom], :width => width do
             generate_table
           end
         when Numeric

@@ -14,7 +14,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
   table [["This is",   "A Test"    ],
          ["Of tables", "Drawn Side"],
          ["By side",   "and stuff" ]], 
-    :position         => 550, 
+    :position         => 600, 
     :headers          => ["Col A", "Col B"],
     :border           => 1,
     :vertical_padding => 5,
@@ -23,7 +23,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
     :row_colors       => :pdf_writer,
     :widths => { 1 => 50 }
 
-  move_down 200
+  move_down 150
 
   table [%w[1 2 3],%w[4 5 6],%w[7 8 9]], 
     :position => :center,
@@ -41,6 +41,6 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
   cell [50,75], 
     :text => "This document demonstrates a number of Prawn's table features",
     :border_style => :no_top, # :all, :no_bottom, :sides
-    :horizontal_padding => 5
+    :horizontal_padding => 5, :border => 1
 
 end
