@@ -90,8 +90,8 @@ module Prawn
       # Draws the cell onto the PDF document
       # 
       def draw
-        rel_point = [@point[0] - @document.bounds.absolute_left,
-                     @point[1] - @document.bounds.absolute_bottom]
+        rel_point = @point
+
         if @border
           @document.mask(:line_width) do
             @document.line_width = @border
@@ -182,7 +182,7 @@ module Prawn
           @document.stroke_color @background_color
 
           @document.canvas do
-            @document.fill_rectangle [x+border,y-border], 
+            @document.fill_and_stroke_rectangle [x+border,y-border], 
               width-2*border, height-2*border
           end
 
@@ -191,7 +191,7 @@ module Prawn
         end
 
         @cells.each do |e|
-          e.point  = [x,y]
+          e.point  = [x - @document.bounds.absolute_left, y - @document.bounds.absolute_bottom]
           e.height = @height
           e.draw
           x += e.width

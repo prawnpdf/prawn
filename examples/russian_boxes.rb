@@ -17,7 +17,7 @@ def recurse_bounding_box(pdf, max_depth=5, depth=1)
   box = pdf.bounds
   width = (box.width-15)/2
   height = (box.height-15)/2
-  left_top_corners = [box.absolute_left+5, box.absolute_right-width-5].combine [box.absolute_top-5, box.absolute_bottom+height+5]
+  left_top_corners = [5, box.right-width-5].combine [box.top-5, height+5]
   left_top_corners.each do |lt|
     pdf.bounding_box(lt, :width=>width, :height=>height) do
       pdf.stroke_rectangle [0,height], width, height
