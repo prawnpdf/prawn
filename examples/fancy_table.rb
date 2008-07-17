@@ -41,6 +41,6 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
   cell [50,75], 
     :text => "This document demonstrates a number of Prawn's table features",
     :border_style => :no_top, # :all, :no_bottom, :sides
-    :horizontal_padding => 5
+    :horizontal_padding => 5, :border => 1
 
 end
