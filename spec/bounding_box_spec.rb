@@ -24,11 +24,11 @@ describe "A bounding box" do
   it "should have a right boundary equal to the width" do
     @box.right.should == @width
   end
-
+  
   it "should have a top boundary of height" do
     @box.top.should == @height
   end
-
+  
   it "should have a bottom boundary of 0" do
     @box.bottom.should == 0
   end
@@ -52,15 +52,15 @@ describe "A bounding box" do
   it "should have an absolute left boundary of x" do
     @box.absolute_left.should == @x
   end
-
+  
   it "should have an absolute right boundary of x + width" do
     @box.absolute_right.should == @x + @width
   end
-
+  
   it "should have an absolute top boundary of y" do
     @box.absolute_top.should == @y
   end
-
+  
   it "should have an absolute bottom boundary of y - height" do
     @box.absolute_bottom.should == @y - @height
   end

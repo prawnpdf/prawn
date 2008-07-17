@@ -71,7 +71,8 @@ module Prawn
         def initialize(font_name)            
           @attributes     = {}   
           @glyph_widths   = {}
-          @bounding_boxes = {}  
+          @bounding_boxes = {}
+          @kern_pairs     = {}
           
           file = font_name.sub(/\.afm$/,'') + '.afm'
           unless file[0..0] == "/"
@@ -89,11 +90,45 @@ module Prawn
           Float(bbox[3] - bbox[1]) * font_size / 1000.0
         end        
       
-        def string_width(string,font_size)   
+        def string_width(string, font_size, options = {})   
           scale = font_size / 1000.0
-          string.unpack("C*").
-                 inject(0) { |s,r| s + latin_glyphs_table[r] } * scale
-        end  
+          
+          if options[:kerning]
+            kern(string).inject(0) do |s,r|
+              if r.is_a? String
+                s + string_width(r, font_size, :kerning => false)
+              else
+                s + (r * scale)
+              end
+            end
+          else
+            string.unpack("U*").inject(0) do |s,r|
+              s + latin_glyphs_table[r]
+            end * scale
+          end
+        end
+        
+        def kern(string)
+          string.unpack("U*").inject([]) do |a,r|
+            if a.last.is_a? Array
+              if kern = latin_kern_pairs_table[[a.last.last, r]]
+                a << kern << [r]
+              else
+                a.last << r
+              end
+            else
+              a << [r]
+            end
+            a
+          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
+        end
+        
+        def latin_kern_pairs_table
+          @kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
+            h[p[0].map { |n| ISOLatin1Encoding.index(n) }] = p[1]
+            h
+          end
+        end
  
         def latin_glyphs_table
           @glyphs_table ||= (0..255).map do |i|
@@ -137,27 +172,32 @@ module Prawn
         end  
       
         def parse_afm(file) 
-          section = nil  
+          section = []
+          
           File.open(file,"rb") do |file|
+            
             file.each do |line| 
               if line =~ /^Start(\w+)/
-                section = $1
+                section.push $1
+                next
               elsif line =~ /^End(\w+)/
-                section = nil
-                if $1 == "FontMetrics"
-                  break
-                else
-                  next
-                end
+                section.pop
+                next
               end
-              next if %w[KernData Composites].include? section
-          
-              if section == "CharMetrics"
+              
+              if section == ["FontMetrics", "CharMetrics"]
                 next unless line =~ /^CH?\s/  
           
                 name                  = line[/\bN\s+(\.?\w+)\s*;/, 1]
                 @glyph_widths[name]   = line[/\bWX\s+(\d+)\s*;/, 1].to_i
                 @bounding_boxes[name] = line[/\bB\s+([^;]+);/, 1].to_s.rstrip
+              elsif section == ["FontMetrics", "KernData", "KernPairs"]
+                next unless line =~ /^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/
+                @kern_pairs[[$1, $2]] = $3.to_i
+              elsif section == ["FontMetrics", "KernData", "TrackKern"]
+                next
+              elsif section == ["FontMetrics", "Composites"]
+                next
               elsif line =~ /(^\w+)\s+(.*)/
                 key, value = $1.to_s.downcase, $2      
               
@@ -184,10 +224,37 @@ module Prawn
           @cmap ||= enc_table.charmaps
         end
 
-        def string_width(string, font_size)
+        def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
-          string.unpack("U*").
-            inject(0) { |s,r| s + character_width_by_code(r) } * scale
+          
+          if options[:kerning]
+            kern(string).inject(0) do |s,r|
+              if r.is_a? String
+                s + string_width(r, font_size, :kerning => false)
+              else
+                s + (r * scale)
+              end
+            end
+          else
+            string.unpack("U*").inject(0) do |s,r|
+              s + character_width_by_code(r)
+            end * scale
+          end
+        end
+        
+        def kern(string)
+          string.unpack("U*").inject([]) do |a,r|
+            if a.last.is_a? Array
+              if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]]
+                a << kern << [r]
+              else
+                a.last << r
+              end
+            else
+              a << [r]
+            end
+            a
+          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
         end
 
         def glyph_widths
@@ -252,6 +319,21 @@ module Prawn
             @to_unicode[unicode_for_glyph[glyph]] = glyph
           end
           @to_unicode
+        end
+        
+        def kern_pairs_table
+          return @kern_pairs_table if @kern_pairs_table
+          
+          table = @ttf.get_table(:kern).subtables.find { |s| s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
+          
+          if table
+            @kern_pairs_table ||= table.kerning_pairs.inject({}) do |h,p|
+              h[[p.left, p.right]] = p.value
+              h
+            end
+          else
+            @kern_pairs_table = {}
+          end
         end
 
         private
