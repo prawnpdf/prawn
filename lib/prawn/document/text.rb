@@ -115,6 +115,8 @@ module Prawn
       # more portable.
       #
       def font(name)
+        register_proc :PDF
+        register_proc :Text
         @font_metrics = Prawn::Font::Metrics[name]
         case(name)
         when /\.ttf$/
@@ -292,7 +294,7 @@ module Prawn
         return if @font.nil?
         font_registry[fonts[@font]] ||= :"F#{font_registry.size + 1}"
 
-        @current_page.data[:Resources][:Font].merge!(
+        page_fonts.merge!(
           font_registry[fonts[@font]] => fonts[@font]
         )
       end
@@ -302,10 +304,6 @@ module Prawn
       end
       def font_registry #:nodoc:
         @font_registry ||= {}
-      end
-
-      def font_proc #:nodoc:
-        @font_proc ||= ref [:PDF, :Text]
       end
 
       def fonts #:nodoc:
