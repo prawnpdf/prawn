@@ -62,9 +62,15 @@ module Prawn
     #
     def bounding_box(*args, &block)
       parent_box = @bounding_box
+      
+      # Offset to relative positions
+      top_left = args[0]
+      top_left[0] += parent_box.absolute_left
+      top_left[1] += parent_box.absolute_bottom
+
       @bounding_box = BoundingBox.new(self, *args)
       self.y = @bounding_box.absolute_top
-      
+     
       block.call
       
       self.y = @bounding_box.absolute_bottom
@@ -79,8 +85,18 @@ module Prawn
     #   end
     #
     def canvas(&block)
-      bounding_box( [0, page_dimensions[3]], 
-       :width  => page_dimensions[2], :height => page_dimensions[3], &block)
+      parent_box = @bounding_box
+      @bounding_box = BoundingBox.new(self, [0,page_dimensions[3]], 
+        :width => page_dimensions[2], 
+        :height => page_dimensions[3] 
+      )
+
+      self.y = @bounding_box.absolute_top
+
+      block.call
+
+      self.y = @bounding_box.absolute_bottom
+      @bounding_box = parent_box
     end
     
     class BoundingBox
