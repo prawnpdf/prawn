@@ -10,14 +10,14 @@ module Prawn
     module Wrapping #:nodoc:
       
       # TODO: Replace with TeX optimal algorithm
-      def naive_wrap(string, line_width, font_size)
+      def naive_wrap(string, line_width, font_size, options = {})
         output = ""
         string.lines.each do |line|
           accumulated_width = 0
           segments = line.scan(/\S+|\s+/)
           
           segments.each do |segment|
-            segment_width = string_width(segment, font_size)
+            segment_width = string_width(segment, font_size, :kerning => options[:kerning])
       
             if (accumulated_width + segment_width).round > line_width.round
               output << "\n"

@@ -5,7 +5,7 @@ require "prawn"
 
 Prawn::Document.generate("table.pdf") do 
   font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
-  table [["foo",    "baaar",             "1" ],
+  table [["ὕαλον ϕαγεῖν",    "baaar",             "1" ],
          ["This is","a sample",          "2" ],
          ["Table",  "dont\ncha\nknow?",  "3" ],
          [ "It",    "Rules",             "4" ],     
