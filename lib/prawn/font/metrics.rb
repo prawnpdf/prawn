@@ -161,6 +161,10 @@ module Prawn
             "#{Prawn::BASEDIR+'/data/fonts/'}:.").split(':')
         end 
 
+        def has_kerning_data?
+          true
+        end
+
         private
       
         def find_font(file)
@@ -226,13 +230,12 @@ module Prawn
 
         def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
-          
           if options[:kerning]
             kern(string).inject(0) do |s,r|
               if r.is_a? String
                 s + string_width(r, font_size, :kerning => false)
               else
-                s + (r * scale)
+                s + r * scale
               end
             end
           else
@@ -245,7 +248,8 @@ module Prawn
         def kern(string)
           string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
-              if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]]
+              if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]] 
+                kern *= scale_factor
                 a << kern << [r]
               else
                 a.last << r
@@ -334,6 +338,12 @@ module Prawn
           else
             @kern_pairs_table = {}
           end
+        end
+
+        def has_kerning_data?
+          kern_pairs_table.empty? 
+        rescue ::Font::TTF::TableMissing
+          false
         end
 
         private

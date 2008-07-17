@@ -68,6 +68,12 @@ module Prawn
           end
         end
 
+        if options.key?(:kerning)
+          options[:kerning] = false unless font_metrics.has_kerning_data?
+        else
+          options[:kerning] = true if font_metrics.has_kerning_data?
+        end
+
         # ensure a valid font is selected
         font "Helvetica" unless fonts[@font]
 
