@@ -116,9 +116,7 @@ module Prawn
        @current_page = ref(:Type      => :Page, 
                            :Parent    => @pages, 
                            :MediaBox  => page_dimensions, 
-                           :Contents  => @page_content,
-                           :ProcSet   => font_proc,
-                           :Resources => { :Font => {} } ) 
+                           :Contents  => @page_content)
        set_current_font    
        update_colors
        @pages.data[:Kids] << @current_page
@@ -248,6 +246,26 @@ module Prawn
     def add_content(str)
      @page_content << str << "\n"
     end  
+
+    # Add a new type to the current pages ProcSet
+    def register_proc(type)
+      @current_page.data[:ProcSet] ||= ref([])
+      unless @current_page.data[:ProcSet].data.include?(type)
+        @current_page.data[:ProcSet].data << type
+      end
+    end
+
+    def page_resources
+      @current_page.data[:Resources] ||= {}
+    end
+
+    def page_fonts
+      page_resources[:Font] ||= {}
+    end
+
+    def page_xobjects
+      page_resources[:XObject] ||= {}
+    end
     
     def finish_page_content     
       @page_stop_proc[self] if @page_stop_proc
