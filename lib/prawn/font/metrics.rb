@@ -32,7 +32,7 @@ module Prawn
         string = naive_wrap(string, options[:line_width], options[:font_size])
         string.lines.to_a.length * font_height(options[:font_size])
       end
- 
+
       class Adobe < Metrics #:nodoc:     
          
         ISOLatin1Encoding = %w[
@@ -171,6 +171,10 @@ module Prawn
 
         def type0?
           false
+        end
+
+        def convert_text(text, options={})
+          options[:kerning] ? kern(text) : text
         end
 
         private
@@ -369,6 +373,18 @@ module Prawn
 
         def type0?
           true
+        end
+
+        def convert_text(text,options)
+          if options[:kerning]
+            kern(text)
+          else
+           unicode_codepoints = text.unpack("U*")
+            glyph_codes = unicode_codepoints.map { |u| 
+              enc_table.get_glyph_id_for_unicode(u)
+            }
+            text = glyph_codes.pack("n*")
+          end
         end
 
         private
