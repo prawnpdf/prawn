@@ -20,7 +20,7 @@ module Prawn
     def image(filename, options={})
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
 
-      image_content = File.read(filename)
+      image_content = File.open(filename, "rb") { |f| f.read }
       image_info = ::Prawn::Images::ImageInfo.new(image_content)
 
       # register the fact that the current page uses images
