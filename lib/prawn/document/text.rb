@@ -80,17 +80,10 @@ module Prawn
         return wrapped_text(text,options) unless options[:at]
         x,y = translate(options[:at])
         font_size(options[:size] || current_font_size) do
-          font_name = font_registry[fonts[@font]]
-          
-          if options[:kerning]
-            kerned = font_metrics.kern(text)
-          elsif @font_metrics.type0?
-            unicode_codepoints = text.unpack("U*")
-            glyph_codes = unicode_codepoints.map { |u| 
-              enctables[@font].get_glyph_id_for_unicode(u)
-            }
-            text = glyph_codes.pack("n*")
-          end
+          font_name = font_registry[fonts[@font]]          
+
+
+          text = @font_metrics.convert_text(text,options)
 
           add_content %Q{
             BT
@@ -98,11 +91,8 @@ module Prawn
             #{x} #{y} Td
           }
           
-          if options[:kerning]
-            add_content "#{Prawn::PdfObject(kerned)} TJ\n"
-          else
-            add_content "#{Prawn::PdfObject(text)} Tj\n"
-          end
+          add_content Prawn::PdfObject(text) << 
+            " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
           
           add_content %Q{
             ET
