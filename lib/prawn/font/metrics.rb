@@ -376,6 +376,7 @@ module Prawn
         end
 
         def convert_text(text,options)
+          text = text.chomp
           if options[:kerning]
             kern(text)
           else

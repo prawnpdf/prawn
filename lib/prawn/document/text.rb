@@ -178,28 +178,22 @@ module Prawn
         @font_metrics.string_width(text,size)
       end
 
+      # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options)
+        options[:kerning] = false
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]
 
-          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size, :kerning => options[:kerning])
+          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size, 
+            :kerning => options[:kerning])
 
-          # THIS CODE JUST DID THE NASTY. FIXME!
-          lines = text.lines
+          lines = text.lines.map { |t| 
+            @font_metrics.convert_text(t, options) }
 
-          if fonts[@font].data[:Subtype] == :Type0
-            lines = lines.map do |line|
-              unicode_codepoints = line.chomp.unpack("U*")
-              glyph_codes = unicode_codepoints.map { |u| 
-                enctables[@font].get_glyph_id_for_unicode(u)
-              }
-              glyph_codes.pack("n*")
-            end
-          end
-          
           lines.each do |e|
             move_text_position(@font_metrics.font_height(current_font_size) +
                                @font_metrics.descender / 1000.0 * current_font_size)
+
             add_content %Q{
               BT
               /#{font_name} #{current_font_size} Tf
