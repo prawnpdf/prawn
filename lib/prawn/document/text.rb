@@ -84,30 +84,12 @@ module Prawn
           
           if options[:kerning]
             kerned = font_metrics.kern(text)
-          end
-
-          # replace the users string with a string composed of glyph codes
-          # TODO: hackish
-          if fonts[@font].data[:Subtype] == :Type0
-            if options[:kerning]
-              kerned = kerned.map do |i|
-                if i.is_a?(String)
-                  unicode_codepoints = i.unpack("U*")
-                  glyph_codes = unicode_codepoints.map { |u| 
-                    enctables[@font].get_glyph_id_for_unicode(u)
-                  }
-                  glyph_codes.pack("n*")
-                else
-                  i
-                end
-              end
-            else
-              unicode_codepoints = text.unpack("U*")
-              glyph_codes = unicode_codepoints.map { |u| 
-                enctables[@font].get_glyph_id_for_unicode(u)
-              }
-              text = glyph_codes.pack("n*")
-            end
+          elsif @font_metrics.type0?
+            unicode_codepoints = text.unpack("U*")
+            glyph_codes = unicode_codepoints.map { |u| 
+              enctables[@font].get_glyph_id_for_unicode(u)
+            }
+            text = glyph_codes.pack("n*")
           end
 
           add_content %Q{
@@ -117,11 +99,7 @@ module Prawn
           }
           
           if options[:kerning]
-            reversed = kerned.map do |i|
-              i.is_a?(Numeric) ? -i : i
-            end
-            
-            add_content "#{Prawn::PdfObject(reversed)} TJ\n"
+            add_content "#{Prawn::PdfObject(kerned)} TJ\n"
           else
             add_content "#{Prawn::PdfObject(text)} Tj\n"
           end
