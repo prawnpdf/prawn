@@ -24,7 +24,7 @@ module Prawn
       image_info = ::Prawn::Images::ImageInfo.new(image_content)
 
       # register the fact that the current page uses images
-      register_proc :ImageC
+      proc_set << :ImageC
 
       # find where the image will be placed
       x,y = translate(options[:at])
