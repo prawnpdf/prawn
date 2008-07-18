@@ -19,9 +19,6 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/")
 
 require 'ttf'
 
-require 'rubygems'
-require 'image_size'
-
 module Prawn 
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)
