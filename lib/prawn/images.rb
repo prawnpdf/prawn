@@ -6,6 +6,9 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require 'prawn/images/offset_reader'
+require 'prawn/images/image_info'
+
 module Prawn
 
   module Images
@@ -16,6 +19,11 @@ module Prawn
     # Currently only works on *some* JPG files.
     def image(filename, options={})
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
+
+      image_content = File.read(filename)
+      image_info = ::Prawn::Images::ImageInfo.new(image_content)
+
+      raise ArgumentError, "Unsupported Image Type" unless image_info.format == "JPEG"
 
       # register the fact that the current page uses images
       register_proc :ImageC
@@ -29,15 +37,13 @@ module Prawn
       # TODO: What's the best way to get the necessary info from the image file
       #       without resorting to imagemagick and other scary dependencies?
       #       Maybe check PDF::Writer for ideas.
-      image_content = File.read(filename)
-      w,h = ImageSize.new(image_content).get_size
       image_obj = ref(:Type       => :XObject,
                       :Subtype    => :Image,
                       :ColorSpace => :DeviceRGB,
                       :Filter     => :DCTDecode,
                       :BitsPerComponent => 8,
-                      :Width   => w,
-                      :Height  => h,
+                      :Width   => image_info.width,
+                      :Height  => image_info.height,
                       :Length  => image_content.size
                       )
       image_obj << image_content
@@ -49,7 +55,7 @@ module Prawn
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      add_content instruct % [ w, h, x, y, label ]
+      add_content instruct % [ image_info.width, image_info.height, x, y, label ]
     end
 
     private
