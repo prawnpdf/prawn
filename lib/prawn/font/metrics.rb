@@ -218,7 +218,7 @@ module Prawn
       class TTF < Metrics #:nodoc:
         
         def initialize(font)
-          @ttf = ::Font::TTF::File.open(font)
+          @ttf = ::Font::TTF::File.open(font,"rb")
           @attributes     = {}
           @glyph_widths   = {}
           @bounding_boxes = {}
