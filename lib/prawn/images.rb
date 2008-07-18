@@ -23,8 +23,6 @@ module Prawn
       image_content = File.read(filename)
       image_info = ::Prawn::Images::ImageInfo.new(image_content)
 
-      raise ArgumentError, "Unsupported Image Type" unless image_info.format == "JPEG"
-
       # register the fact that the current page uses images
       register_proc :ImageC
 
@@ -37,15 +35,14 @@ module Prawn
       # TODO: What's the best way to get the necessary info from the image file
       #       without resorting to imagemagick and other scary dependencies?
       #       Maybe check PDF::Writer for ideas.
-      image_obj = ref(:Type       => :XObject,
-                      :Subtype    => :Image,
-                      :ColorSpace => :DeviceRGB,
-                      :Filter     => :DCTDecode,
-                      :BitsPerComponent => 8,
-                      :Width   => image_info.width,
-                      :Height  => image_info.height,
-                      :Length  => image_content.size
-                      )
+      case image_info.format
+      when "JPEG" then
+        image_obj = build_jpg_object(image_info, image_content.size)
+      else
+        raise ArgumentError, "Unsupported Image Type"
+      end
+
+
       image_obj << image_content
 
       # add a reference to the image object to the current page
@@ -59,6 +56,28 @@ module Prawn
     end
 
     private
+
+    def build_jpg_object(info, size)
+      obj = ref(:Type       => :XObject,
+                :Subtype    => :Image,
+                :ColorSpace => :DeviceRGB,
+                :Filter     => :DCTDecode,
+                :BitsPerComponent => 8,
+                :Width   => info.width,
+                :Height  => info.height,
+                :Length  => size
+               )
+
+      case info.channels
+      when 1
+        obj.data[:ColorSpace] = :DeviceGray
+      when 4
+        obj.data[:ColorSpace] = :DeviceCMYK
+      else
+        obj.data[:ColorSpace] = :DeviceRGB
+      end
+      obj
+    end
 
     def image_counter
       @image_counter ||= 0
