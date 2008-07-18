@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
+require "set"
 require "prawn/document/page_geometry" 
 require "prawn/document/bounding_box"
 require "prawn/document/text"      
@@ -248,12 +249,9 @@ module Prawn
      @page_content << str << "\n"
     end  
 
-    # Add a new type to the current pages ProcSet
-    def register_proc(type)
-      @current_page.data[:ProcSet] ||= ref([])
-      unless @current_page.data[:ProcSet].data.include?(type)
-        @current_page.data[:ProcSet].data << type
-      end
+    def proc_set
+      @current_page.data[:ProcSet] ||= ref(Set.new)
+      @current_page.data[:ProcSet].data
     end
 
     def page_resources
