@@ -28,7 +28,6 @@ module Prawn
         @data ||= {}
       end   
 
-
       def string_height(string,options={})
         string = naive_wrap(string, options[:line_width], options[:font_size])
         string.lines.to_a.length * font_height(options[:font_size])
@@ -109,7 +108,7 @@ module Prawn
         end
         
         def kern(string)
-          string.unpack("U*").inject([]) do |a,r|
+          kerned = string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
               if kern = latin_kern_pairs_table[[a.last.last, r]]
                 a << kern << [r]
@@ -120,7 +119,12 @@ module Prawn
               a << [r]
             end
             a
-          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
+          end
+          
+          kerned.map { |r| 
+            i = r.is_a?(Array) ? r.pack("U*") : r 
+            i.is_a?(Numeric) ? -i : i
+          }
         end
         
         def latin_kern_pairs_table
@@ -163,6 +167,10 @@ module Prawn
 
         def has_kerning_data?
           true
+        end
+
+        def type0?
+          false
         end
 
         private
@@ -245,6 +253,7 @@ module Prawn
           end
         end
         
+        # TODO: NASTY. 
         def kern(string)
           string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
@@ -258,7 +267,19 @@ module Prawn
               a << [r]
             end
             a
-          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
+          end.map { |r| 
+            i = r.is_a?(Array) ? r.pack("U*") : r 
+            x = if i.is_a?(String)
+              unicode_codepoints = i.unpack("U*")
+              glyph_codes = unicode_codepoints.map { |u| 
+                enc_table.get_glyph_id_for_unicode(u)
+              }
+              glyph_codes.pack("n*")
+            else
+              i
+            end
+            x.is_a?(Numeric) ? -x : x
+          }
         end
 
         def glyph_widths
@@ -344,6 +365,10 @@ module Prawn
           !kern_pairs_table.empty? 
         rescue ::Font::TTF::TableMissing
           false
+        end
+
+        def type0?
+          true
         end
 
         private
