@@ -263,7 +263,7 @@ module Prawn
           raise "#{file} missing the required encoding table" 
         end
 
-        font_content    = File.read(file,"rb")
+        font_content    = File.open(file,"rb").read
         compressed_font = Zlib::Deflate.deflate(font_content)
 
         fontfile = ref(:Length  => compressed_font.size,
