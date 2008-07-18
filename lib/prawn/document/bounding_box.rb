@@ -59,6 +59,29 @@ module Prawn
     # move this drawing around the document, we simply need to recalculate the
     # top-left corner of the rectangular bounding-box, and all of our graphics
     # calls remain unmodified.
+    # 
+    # By default, bounding boxes are specified relative to the document's 
+    # margin_box (which is itself a bounding box).  You can also nest bounding
+    # boxes, allowing you to build components which are relative to each other
+    #
+    # pdf.bouding_box([200,450], :width => 200, :height => 250) do
+    #   pdf.bounding_box([50,200], :width => 50, :height => 50) do
+    #     # a 50x50 bounding box that starts 50 pixels left and 50 pixels down 
+    #     # the parent bounding box.
+    #   end
+    # end
+    #
+    # If you wish to position the bounding boxes at absolute coordinates rather
+    # than relative to the margins or other bounding boxes, you can use canvas()
+    #
+    #   pdf.canvas do
+    #     pdf.bounding_box([200,450], :width => 200, :height => 250) do
+    #       # positioned at 'real' (200,450)
+    #     end
+    #   end
+    #
+    # Of course, if you use canvas, you will be responsible for ensuring that
+    # you remain within the printable area of your document.
     #
     def bounding_box(*args, &block)
       parent_box = @bounding_box
@@ -78,7 +101,7 @@ module Prawn
     end
 
     # A shortcut to produce a bounding box which is mapped to the document's
-    # absolute coordinates
+    # absolute coordinates, regardless of how things are nested or margin sizes.
     #
     #   pdf.canvas do
     #     pdf.line pdf.bounds.bottom_left, pdf.bounds.top_right
@@ -108,7 +131,7 @@ module Prawn
       end
        
       # The translated origin (x,y-height) which describes the location
-      # of the bottom left corner of the bounding box in absolute terms.
+      # of the bottom left corner of the bounding box
       #
       def anchor
         [@x, @y - height]

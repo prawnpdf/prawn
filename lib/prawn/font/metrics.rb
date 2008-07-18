@@ -341,7 +341,7 @@ module Prawn
         end
 
         def has_kerning_data?
-          kern_pairs_table.empty? 
+          !kern_pairs_table.empty? 
         rescue ::Font::TTF::TableMissing
           false
         end
