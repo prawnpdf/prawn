@@ -22,6 +22,10 @@ class TextObserver
   def show_text(*params)
     @string = params[0]
   end
+
+  def show_text_with_positioning(*params)
+    @string = params[0].join
+  end
 end
 
 class FontObserver
