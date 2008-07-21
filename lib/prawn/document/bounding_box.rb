@@ -246,11 +246,7 @@ module Prawn
       # the box to the current drawing position.
       #
       def height
-        if @height.nil?
-          absolute_top - @parent.y
-        else
-          @height
-        end
+        @height || absolute_top - @parent.y
       end
     end
   end
