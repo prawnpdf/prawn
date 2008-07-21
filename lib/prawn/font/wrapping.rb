@@ -17,7 +17,8 @@ module Prawn
           segments = line.scan(/\S+|\s+/)
                                         
           segments.each do |segment|    
-            segment_width = string_width(segment, font_size, :kerning => options[:kerning]) 
+            segment_width = string_width(segment, font_size, 
+              :kerning => options[:kerning]) 
       
             if (accumulated_width + segment_width).round > line_width.round
               output << "\n"

@@ -101,6 +101,8 @@ module Prawn
        )                                 
              
        # update bounding box if not flowing from the previous page
+       # TODO: This may have a bug where the old margin is restored
+       # when the bounding box exits.
        @bounding_box = @margin_box if old_margin_box == @bounding_box              
      end
             
