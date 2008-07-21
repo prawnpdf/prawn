@@ -93,11 +93,11 @@ module Prawn
           scale = font_size / 1000.0
           
           if options[:kerning]
-            kern(string).inject(0) do |s,r|
+            kern(string).inject(0) do |s,r|   
               if r.is_a? String
                 s + string_width(r, font_size, :kerning => false)
-              else
-                s + (r * scale)
+              else 
+                s - (r * scale)
               end
             end
           else
