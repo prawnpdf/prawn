@@ -83,21 +83,15 @@ module Prawn
     # Of course, if you use canvas, you will be responsible for ensuring that
     # you remain within the printable area of your document.
     #
-    def bounding_box(*args, &block)
-      parent_box = @bounding_box
-      
-      # Offset to relative positions
-      top_left = args[0]
-      top_left[0] += parent_box.absolute_left
-      top_left[1] += parent_box.absolute_bottom
+    def bounding_box(*args, &block)    
+      init_bounding_box(block) do |parent_box|
+        # Offset to relative positions
+        top_left = args[0]
+        top_left[0] += parent_box.absolute_left
+        top_left[1] += parent_box.absolute_bottom
 
-      @bounding_box = BoundingBox.new(self, *args)
-      self.y = @bounding_box.absolute_top
-     
-      block.call
-      
-      self.y = @bounding_box.absolute_bottom
-      @bounding_box = parent_box
+        @bounding_box = BoundingBox.new(self, *args)   
+      end
     end
 
     # A shortcut to produce a bounding box which is mapped to the document's
@@ -107,21 +101,29 @@ module Prawn
     #     pdf.line pdf.bounds.bottom_left, pdf.bounds.top_right
     #   end
     #
-    def canvas(&block)
-      parent_box = @bounding_box
-      @bounding_box = BoundingBox.new(self, [0,page_dimensions[3]], 
-        :width => page_dimensions[2], 
-        :height => page_dimensions[3] 
-      )
-
-      self.y = @bounding_box.absolute_top
-
-      block.call
-
-      self.y = @bounding_box.absolute_bottom
-      @bounding_box = parent_box
-    end
+    def canvas(&block)     
+      init_bounding_box(block) do |_|
+        @bounding_box = BoundingBox.new(self, [0,page_dimensions[3]], 
+          :width => page_dimensions[2], 
+          :height => page_dimensions[3] 
+        ) 
+      end
+    end      
     
+    private
+    
+    def init_bounding_box(user_block, &init_block)
+      parent_box = @bounding_box       
+
+      init_block.call(parent_box)     
+
+      self.y = @bounding_box.absolute_top       
+      user_block.call   
+      self.y = @bounding_box.absolute_bottom 
+
+      @bounding_box = parent_box 
+    end
+       
     class BoundingBox
       
       def initialize(parent, point, options={}) #:nodoc:
