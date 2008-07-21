@@ -107,11 +107,9 @@ module Prawn
         
         @row_colors = ["ffffff","cccccc"] if @row_colors == :pdf_writer
 
-        @original_row_colors = @row_colors.dup if @row_colors
-        calculate_column_widths
-        (options[:widths] || {}).each do |index,width| 
-          @col_widths[index] = width
-        end
+        @original_row_colors = @row_colors.dup if @row_colors  
+        
+        calculate_column_widths(options[:widths])
       end
       
       # Width of the table in PDF points
@@ -142,8 +140,8 @@ module Prawn
 
       private
 
-      def calculate_column_widths
-        @col_widths = [0] * @data[0].length
+      def calculate_column_widths(manual_widths=nil)
+        @col_widths = [0] * @data[0].length    
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.lines.map { |e| 
@@ -151,7 +149,10 @@ module Prawn
                 2*@horizontal_padding
             @col_widths[i] = length if length > @col_widths[i]
           end
-        end
+        end  
+        
+        # TODO: Could optimize here
+        manual_widths.each { |k,v| @col_widths[k] = v } if manual_widths           
       end
 
       def renderable_data
