@@ -107,7 +107,7 @@ module Prawn
           end
         end
         
-        def kern(string)
+        def kern(string) 
           kerned = string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
               if kern = latin_kern_pairs_table[[a.last.last, r]]
@@ -243,10 +243,10 @@ module Prawn
         def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
           if options[:kerning]
-            kern(string).inject(0) do |s,r|
-              if r.is_a? String
+            kern(string,:skip_conversion => true).inject(0) do |s,r|
+              if r.is_a? String  
                 s + string_width(r, font_size, :kerning => false)
-              else
+              else 
                 s + r * scale
               end
             end
@@ -255,10 +255,10 @@ module Prawn
               s + character_width_by_code(r)
             end * scale
           end
-        end
+        end   
         
         # TODO: NASTY. 
-        def kern(string)
+        def kern(string,options={})   
           string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
               if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]] 
@@ -272,17 +272,21 @@ module Prawn
             end
             a
           end.map { |r| 
-            i = r.is_a?(Array) ? r.pack("U*") : r 
-            x = if i.is_a?(String)
-              unicode_codepoints = i.unpack("U*")
-              glyph_codes = unicode_codepoints.map { |u| 
-                enc_table.get_glyph_id_for_unicode(u)
-              }
-              glyph_codes.pack("n*")
+            if options[:skip_conversion]
+              r.is_a?(Array) ? r.pack("U*") : r
             else
-              i
+              i = r.is_a?(Array) ? r.pack("U*") : r 
+              x = if i.is_a?(String)
+                unicode_codepoints = i.unpack("U*")
+                glyph_codes = unicode_codepoints.map { |u| 
+                  enc_table.get_glyph_id_for_unicode(u)
+                }
+                glyph_codes.pack("n*")
+              else
+                i
+              end
+              x.is_a?(Numeric) ? -x : x 
             end
-            x.is_a?(Numeric) ? -x : x
           }
         end
 

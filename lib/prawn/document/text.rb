@@ -81,9 +81,8 @@ module Prawn
         x,y = translate(options[:at])
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]          
-
-
-          text = @font_metrics.convert_text(text,options)
+          
+          text = @font_metrics.convert_text(text,options)    
 
           add_content %Q{
             BT
@@ -180,27 +179,31 @@ module Prawn
 
       # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options)
-        options[:kerning] = false
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]
 
           text = @font_metrics.naive_wrap(text, bounds.right, current_font_size, 
-            :kerning => options[:kerning])
+            :kerning => options[:kerning]) 
 
-          lines = text.lines.map { |t| 
-            @font_metrics.convert_text(t, options) }
+          lines = text.lines
 
           lines.each do |e|
             move_text_position(@font_metrics.font_height(current_font_size) +
-                               @font_metrics.descender / 1000.0 * current_font_size)
-
+                               @font_metrics.descender / 1000.0 * current_font_size)  
+                               
+                               
             add_content %Q{
               BT
               /#{font_name} #{current_font_size} Tf
               #{@bounding_box.absolute_left} #{y} Td
-              #{Prawn::PdfObject(e.to_s.chomp)} Tj
+            }    
+             
+           add_content Prawn::PdfObject(@font_metrics.convert_text(e,options)) << 
+             " #{options[:kerning] ? 'TJ' : 'Tj'}\n"   
+
+            add_content %Q{
               ET
-            }
+            }                
 
             move_text_position(-@font_metrics.descender / 1000.0 * current_font_size)
           end
@@ -297,7 +300,8 @@ module Prawn
 
       def enctables #:nodoc
         @enctables ||= {}
-      end
+      end 
+      
       def font_registry #:nodoc:
         @font_registry ||= {}
       end
