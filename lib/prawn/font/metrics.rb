@@ -357,7 +357,8 @@ module Prawn
         def kern_pairs_table
           return @kern_pairs_table if @kern_pairs_table
           
-          table = @ttf.get_table(:kern).subtables.find { |s| s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
+          table = @ttf.get_table(:kern).subtables.find { |s| 
+            s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
           
           if table
             @kern_pairs_table ||= table.kerning_pairs.inject({}) do |h,p|

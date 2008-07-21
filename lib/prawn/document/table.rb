@@ -172,16 +172,17 @@ module Prawn
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
             row.each_with_index do |e,i|
-              c << Prawn::Graphics::Cell.new(:document => @document, 
-                                             :text     => e, 
-                                             :width    => @col_widths[i],
-                                             :horizontal_padding => @horizontal_padding,
-                                             :vertical_padding => @vertical_padding,
-                                             :border   => @border,
-                                             :border_style => :sides )
+              c << Prawn::Graphics::Cell.new(
+                :document => @document, 
+                :text     => e, 
+                :width    => @col_widths[i],
+                :horizontal_padding => @horizontal_padding,
+                :vertical_padding => @vertical_padding,
+                :border   => @border,
+                :border_style => :sides )    
             end
 
-            if c.height > (x= y_pos - @document.margin_box.absolute_bottom)
+            if c.height > y_pos - @document.margin_box.absolute_bottom
               draw_page(page_contents)
               @document.start_new_page
               if @headers
@@ -191,7 +192,6 @@ module Prawn
                 page_contents = []
                 y_pos = @document.y
               end
-
             end
 
             page_contents << c
@@ -201,7 +201,6 @@ module Prawn
             if index == renderable_data.length - 1
               draw_page(page_contents)
             end
-
 
           end
           @document.y -= @vertical_padding

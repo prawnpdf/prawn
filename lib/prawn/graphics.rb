@@ -70,7 +70,11 @@ module Prawn
       x,y = translate(point)
       add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])      
     end
-                         
+       
+    ###########################################################
+    #  Higher level functions: May use relative coords        #   
+    ########################################################### 
+      
     # Sets line thickness to the <tt>width</tt> specified.
     #
     def line_width=(width)
@@ -84,11 +88,6 @@ module Prawn
       @line_width || 1
     end
        
-    ###########################################################
-    #  Higher level functions: May use relative coords        #   
-    ########################################################### 
-     
-     
     # Draws a line from one point to another. Points may be specified as 
     # tuples or flattened argument list:
     #

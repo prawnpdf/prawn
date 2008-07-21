@@ -78,6 +78,7 @@ module Prawn
         font "Helvetica" unless fonts[@font]
 
         return wrapped_text(text,options) unless options[:at]
+        
         x,y = translate(options[:at])
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]          
@@ -167,10 +168,7 @@ module Prawn
       private
 
       def move_text_position(dy)
-         if (y - dy) < @margin_box.absolute_bottom
-           return start_new_page
-         end
-         self.y -= dy
+         (y - dy) < @margin_box.absolute_bottom ? start_new_page : self.y -= dy       
       end
 
       def text_width(text,size)
@@ -187,9 +185,10 @@ module Prawn
 
           lines = text.lines
 
-          lines.each do |e|
+          lines.each do |e|    
+            
             move_text_position(@font_metrics.font_height(current_font_size) +
-                               @font_metrics.descender / 1000.0 * current_font_size)  
+                           @font_metrics.descender / 1000.0 * current_font_size)  
                                
                                
             add_content %Q{
