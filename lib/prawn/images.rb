@@ -30,6 +30,8 @@ module Prawn
       case image_info.format
       when "JPEG" then
         image_obj = build_jpg_object(image_info, image_content.size)
+      when "PNG" then
+        image_obj = build_png_object(image_info, image_content.size)
       else
         raise ArgumentError, "Unsupported Image Type"
       end
@@ -59,7 +61,6 @@ module Prawn
       else
         :DeviceRGB
       end
-        
       
       ref(:Type             => :XObject,
           :Subtype          => :Image,     
@@ -69,6 +70,54 @@ module Prawn
           :Width            => info.width,
           :Height           => info.height,
           :Length           => size )   
+      obj
+    end
+
+    def build_png_object(info, size)
+      if info.info[:compression_method] != 0
+        raise ArgumentError, 'PNG uses an unsupported compression method'
+      end
+
+      if info.info[:filter_method] != 0
+        raise ArgumentError, 'PNG uses an unsupported filter method'
+      end
+
+      if info.info[:interlace_method] != 0
+        raise ArgumentError, 'PNG uses unsupported interlace method'
+      end
+
+      if info.bits > 8
+        raise ArgumentError, 'PNG uses more than 8 bits'
+      end
+
+      obj = ref(:Type       => :XObject,
+                :Subtype    => :Image,
+                :Height     => info.height,
+                :Width      => info.width,
+                :BitsPerComponent => info.bits,
+                :Length     => size
+               )
+                #:Filter     => :FlateDecode,
+      case info.info[:color_type]
+      when 3
+        ncolor = 1
+        color  = :DeviceRGB
+      when 2
+        ncolor = 3
+        color  = :DeviceRGB
+      when 0
+        ncolor = 1
+        colour = :DeviceGray
+      else
+        raise ArgumentError, "PNG has unsupported color type" 
+      end
+      obj.data[:DecodeParms] = [{:Predictor => 15, :Colors => ncolor, :Columns => info.width}]
+      obj.data[:ColorSpace]  = color
+      obj
+    end
+
+    def image_counter
+      @image_counter ||= 0
     end
 
     def next_image_id
