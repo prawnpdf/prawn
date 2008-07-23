@@ -145,7 +145,7 @@ module Prawn
         @col_widths = [0] * @data[0].length    
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
-            length = cell.lines.map { |e| 
+            length = cell.to_s.lines.map { |e| 
               @document.font_metrics.string_width(e,@font_size) }.max.to_f +
                 2*@horizontal_padding
             @col_widths[i] = length if length > @col_widths[i]
@@ -174,7 +174,7 @@ module Prawn
             row.each_with_index do |e,i|
               c << Prawn::Graphics::Cell.new(
                 :document => @document, 
-                :text     => e, 
+                :text     => e.to_s, 
                 :width    => @col_widths[i],
                 :horizontal_padding => @horizontal_padding,
                 :vertical_padding => @vertical_padding,
