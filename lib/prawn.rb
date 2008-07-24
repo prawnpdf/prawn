@@ -10,6 +10,7 @@ require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
 require "prawn/graphics"
+require "prawn/images"
 require "prawn/document"
 require "prawn/reference"
 require "prawn/font" 
@@ -18,7 +19,6 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/font_ttf")
 
 require 'ttf'
 
-   
 module Prawn 
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)

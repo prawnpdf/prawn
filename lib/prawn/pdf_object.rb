@@ -30,7 +30,7 @@ module Prawn
     when TrueClass  then "true"
     when FalseClass then "false"
     when Numeric    then String(obj)
-    when Array      then "[" << obj.map { |e| PdfObject(e) }.join(' ') << "]"     
+    when Array      then "[" << obj.map { |e| PdfObject(e) }.join(' ') << "]"
     when String     
       "<" << obj.unpack("H*").first << ">"
     when Symbol                                                         
