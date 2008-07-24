@@ -16,6 +16,7 @@ module Prawn
   class Document  
     
     include Prawn::Graphics    
+    include Prawn::Images
     include Text                             
     include PageGeometry                             
     
