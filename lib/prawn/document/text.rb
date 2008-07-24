@@ -41,7 +41,6 @@ module Prawn
       # wanted it usually means the current font doesn't include that character.
       #
       def text(text,options={})
-
         # check the string is encoded sanely
         normalize_encoding(text)
 
@@ -157,7 +156,8 @@ module Prawn
       end
 
       # TODO: Get kerning working with wrapped text
-      def wrapped_text(text,options)
+      def wrapped_text(text,options) 
+        options[:align] ||= :left
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]
 
@@ -171,11 +171,22 @@ module Prawn
             move_text_position(@font_metrics.font_height(current_font_size) +
                            @font_metrics.descender / 1000.0 * current_font_size)  
                                
+                           
+            line_width = text_width(e,font_size)
+            case(options[:align]) 
+            when :left
+              x = @bounding_box.absolute_left
+            when :center
+              x = @bounding_box.absolute_left + 
+                (@bounding_box.width - line_width) / 2.0
+            when :right
+              x = @bounding_box.absolute_right - line_width
+            end
                                
             add_content %Q{
               BT
               /#{font_name} #{current_font_size} Tf
-              #{@bounding_box.absolute_left} #{y} Td
+              #{x} #{y} Td
             }    
              
            add_content Prawn::PdfObject(@font_metrics.convert_text(e,options)) << 
