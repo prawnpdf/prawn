@@ -33,40 +33,17 @@ module Prawn
       #   pdf.text "Goodbye World", :at => [50,50], :size => 16
       #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
       #
-      # All strings passed to this function should be encoded as UTF-8. 
-      # If you gets unexpected characters appearing in your rendered 
+      # All strings passed to this function should be encoded as UTF-8.
+      # If you get unexpected characters appearing in your rendered 
       # document, check this.
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
-      # 
+      #
       def text(text,options={})
-        # TODO: if the current font is a built in one, we can't use the utf-8 
-        # string provided by the user. We should convert it to WinAnsi or 
-        # MacRoman or some such.
 
-        if text.respond_to?(:"encode!")
-          # if we're running under a M17n aware VM, ensure the string provided is
-          # UTF-8 (by converting it if necessary)
-          begin
-            text.encode!("UTF-8")
-          rescue
-            raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
-            "#{text.encoding} can not be transparently converted to UTF-8. " +
-            "Please ensure the encoding of the string you are attempting " +
-            "to use is set correctly"
-          end
-        else
-          # on a non M17N aware VM, use unpack as a hackish way to verify the
-          # string is valid utf-8. I thought it was better than loading iconv
-          # though.
-          begin
-            text.unpack("U*")
-          rescue
-            raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
-            "are attempting to render is not encoded in valid UTF-8."
-          end
-        end
+        # check the string is encoded sanely
+        normalize_encoding(text)
 
         if options.key?(:kerning)
           options[:kerning] = false unless font_metrics.has_kerning_data?
@@ -275,6 +252,34 @@ module Prawn
                                 :Encoding        => :"Identity-H",
                                 :ToUnicode       => to_unicode)
         return basename
+      end
+
+      def normalise_encoding(text)
+        # TODO: if the current font is a built in one, we can't use the utf-8
+        # string provided by the user. We should convert it to WinAnsi or
+        # MacRoman or some such.
+        if text.respond_to?(:"encode!")
+          # if we're running under a M17n aware VM, ensure the string provided is
+          # UTF-8 (by converting it if necessary)
+          begin
+            text.encode!("UTF-8")
+          rescue
+            raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
+            "#{text.encoding} can not be transparently converted to UTF-8. " +
+            "Please ensure the encoding of the string you are attempting " +
+            "to use is set correctly"
+          end
+        else
+          # on a non M17N aware VM, use unpack as a hackish way to verify the
+          # string is valid utf-8. I thought it was better than loading iconv
+          # though.
+          begin
+            text.unpack("U*")
+          rescue
+            raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
+            "are attempting to render is not encoded in valid UTF-8."
+          end
+        end
       end
 
       def register_builtin_font(name) #:nodoc:
