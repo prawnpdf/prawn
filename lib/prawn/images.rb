@@ -6,9 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'prawn/images/offset_reader'
-
-
 module Prawn
 
   module Images
