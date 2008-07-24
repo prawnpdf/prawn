@@ -96,8 +96,7 @@ module Prawn
       # more portable.
       #
       def font(name)
-        register_proc :PDF
-        register_proc :Text
+        proc_set :PDF, :Text
         @font_metrics = Prawn::Font::Metrics[name]
         case(name)
         when /\.ttf$/
