@@ -171,15 +171,26 @@ module Prawn
         @document.font_size(@font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
-            row.each_with_index do |e,i|
-              c << Prawn::Graphics::Cell.new(
-                :document => @document, 
-                :text     => e.to_s, 
-                :width    => @col_widths[i],
-                :horizontal_padding => @horizontal_padding,
-                :vertical_padding => @vertical_padding,
-                :border   => @border,
-                :border_style => :sides )    
+            row.each_with_index do |e,i| 
+              case(e)
+              when Prawn::Graphics::Cell
+                e.document = @document
+                e.width    = @col_widths[i]
+                e.horizontal_padding = @horizontal_padding
+                e.vertical_padding   = @vertical_padding    
+                e.border             = @border
+                e.border_style       = :sides
+                c << e
+              else
+                c << Prawn::Graphics::Cell.new(
+                  :document => @document, 
+                  :text     => e.to_s, 
+                  :width    => @col_widths[i],
+                  :horizontal_padding => @horizontal_padding,
+                  :vertical_padding => @vertical_padding,
+                  :border   => @border,
+                  :border_style => :sides ) 
+              end   
             end
 
             if c.height > y_pos - @document.margin_box.absolute_bottom
