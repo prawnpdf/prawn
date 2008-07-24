@@ -254,7 +254,7 @@ module Prawn
         return basename
       end
 
-      def normalise_encoding(text)
+      def normalize_encoding(text)
         # TODO: if the current font is a built in one, we can't use the utf-8
         # string provided by the user. We should convert it to WinAnsi or
         # MacRoman or some such.
