@@ -177,29 +177,28 @@ module Prawn
 
         # TODO: This is a bit of a hack and can be cleaned up
         if @background_color
-          old_fill_color, old_stroke_color = 
-           @document.instance_eval { [@fill_color, @stroke_color] }
-          @document.fill_color @background_color
-          @document.stroke_color @background_color
 
-          @document.canvas do
-            case border_style
-            when :all
-              point = [x,y-border]
-              h = height - border
-            when :no_top
-              point = [x,y-border/2.0]  
-              h     = height - border / 2.0
-            else
-              point = [x,y-border/2.0]
-              h     = height
-           end
+          @document.mask(:fill_color, :stroke_color) do
+            @document.fill_color = @background_color
+            @document.stroke_color = @background_color
+
+            @document.canvas do
+              case border_style
+              when :all
+                point = [x,y-border]
+                h = height - border
+              when :no_top
+                point = [x,y-border/2.0]  
+                h     = height - border / 2.0
+              else
+                point = [x,y-border/2.0]
+                h     = height
+             end
                     
-            @document.fill_and_stroke_rectangle point, width, h
-          end
+              @document.fill_and_stroke_rectangle point, width, h
+            end
+          end   
 
-          @document.fill_color old_fill_color || "000000"
-          @document.stroke_color old_stroke_color || "000000"
         end
 
         @cells.each do |e|
