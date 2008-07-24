@@ -124,7 +124,8 @@ module Prawn
       #   text "At size 16"
       #  end
       #
-      def font_size(size)
+      def font_size(size=nil)
+        return current_font_size unless size
         font_size_before_block = @font_size || DEFAULT_FONT_SIZE
         font_size!(size)
         yield
@@ -135,15 +136,17 @@ module Prawn
       #
       def font_size!(size)
         @font_size = size unless size == nil
-      end
-     
+      end     
+      
+      alias_method :font_size=, :font_size!
+
+      private 
+      
       # The current font_size being used in the document.
       #
       def current_font_size
         @font_size || DEFAULT_FONT_SIZE
       end
-
-      private
 
       def move_text_position(dy)
          (y - dy) < @margin_box.absolute_bottom ? start_new_page : self.y -= dy       
