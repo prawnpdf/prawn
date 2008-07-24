@@ -45,11 +45,12 @@ module Prawn
       # add a reference to the image object to the current page
       # resource list and give it a label
       label = "I#{next_image_id}"
-      page_xobjects.merge!( label => image_obj )
+      page_xobjects.merge!( label => image_obj )   
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      add_content instruct % [ image_info.width, image_info.height, x, y, label ]
+      add_content instruct % [ image_info.width, image_info.height, x, 
+                               y - image_info.height, label ]
     end
 
     private
@@ -59,7 +60,7 @@ module Prawn
                 :Subtype    => :Image,
                 :ColorSpace => :DeviceRGB,
                 :Filter     => :DCTDecode,
-                :BitsPerComponent => 8,
+                :BitsPerComponent => info.bits,
                 :Width   => info.width,
                 :Height  => info.height,
                 :Length  => size
@@ -76,13 +77,9 @@ module Prawn
       obj
     end
 
-    def image_counter
-      @image_counter ||= 0
-    end
-
     def next_image_id
-      counter = image_counter
-      counter += 1
+      @image_counter ||= 0
+      @image_counter += 1
     end
   end
 end
