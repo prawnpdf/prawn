@@ -205,19 +205,19 @@ describe "When setting colors" do
     @pdf.fill_color "ccff00"
     colors = observer(ColorObserver)
     
-    colors.fill_color_count.should == 1   
-    colors.stroke_color_count.should == 0
+    colors.fill_color_count.should == 2   
+    colors.stroke_color_count.should == 1
     @pdf.start_new_page                
     @pdf.stroke_color "ff00cc"  
     
     colors = observer(ColorObserver)
-    colors.fill_color_count.should == 2  
-    colors.stroke_color_count.should == 1
+    colors.fill_color_count.should == 3  
+    colors.stroke_color_count.should == 3
     
     @pdf.start_new_page
     colors = observer(ColorObserver)
-    colors.fill_color_count.should == 3
-    colors.stroke_color_count.should == 2
+    colors.fill_color_count.should == 4
+    colors.stroke_color_count.should == 4
     
     colors.fill_color.should   == [0.8,1.0,0.0]
     colors.stroke_color.should == [1.0,0.0,0.8] 
