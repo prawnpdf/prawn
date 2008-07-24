@@ -183,8 +183,19 @@ module Prawn
           @document.stroke_color @background_color
 
           @document.canvas do
-            @document.fill_and_stroke_rectangle [x+border,y-border], 
-              width-2*border, height-2*border
+            case border_style
+            when :all
+              point = [x,y-border]
+              h = height - border
+            when :no_top
+              point = [x,y-border/2.0]  
+              h     = height - border / 2.0
+            else
+              point = [x,y-border/2.0]
+              h     = height
+           end
+                    
+            @document.fill_and_stroke_rectangle point, width, h
           end
 
           @document.fill_color old_fill_color || "000000"
@@ -208,6 +219,10 @@ module Prawn
 
       def border_style=(s)
         @cells.each { |e| e.border_style = s }
+      end                 
+      
+      def border_style
+        @cells[0].border_style
       end
 
     end
