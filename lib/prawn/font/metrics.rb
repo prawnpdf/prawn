@@ -28,12 +28,11 @@ module Prawn
         @data ||= {}
       end   
 
-
       def string_height(string,options={})
         string = naive_wrap(string, options[:line_width], options[:font_size])
         string.lines.to_a.length * font_height(options[:font_size])
       end
- 
+
       class Adobe < Metrics #:nodoc:     
          
         ISOLatin1Encoding = %w[
@@ -94,11 +93,11 @@ module Prawn
           scale = font_size / 1000.0
           
           if options[:kerning]
-            kern(string).inject(0) do |s,r|
+            kern(string).inject(0) do |s,r|   
               if r.is_a? String
                 s + string_width(r, font_size, :kerning => false)
-              else
-                s + (r * scale)
+              else 
+                s - (r * scale)
               end
             end
           else
@@ -108,8 +107,8 @@ module Prawn
           end
         end
         
-        def kern(string)
-          string.unpack("U*").inject([]) do |a,r|
+        def kern(string) 
+          kerned = string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
               if kern = latin_kern_pairs_table[[a.last.last, r]]
                 a << kern << [r]
@@ -120,7 +119,12 @@ module Prawn
               a << [r]
             end
             a
-          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
+          end
+          
+          kerned.map { |r| 
+            i = r.is_a?(Array) ? r.pack("U*") : r 
+            i.is_a?(Numeric) ? -i : i
+          }
         end
         
         def latin_kern_pairs_table
@@ -163,6 +167,14 @@ module Prawn
 
         def has_kerning_data?
           true
+        end
+
+        def type0?
+          false
+        end
+
+        def convert_text(text, options={})
+          options[:kerning] ? kern(text) : text
         end
 
         private
@@ -231,10 +243,10 @@ module Prawn
         def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
           if options[:kerning]
-            kern(string).inject(0) do |s,r|
-              if r.is_a? String
+            kern(string,:skip_conversion => true).inject(0) do |s,r|
+              if r.is_a? String  
                 s + string_width(r, font_size, :kerning => false)
-              else
+              else 
                 s + r * scale
               end
             end
@@ -243,9 +255,10 @@ module Prawn
               s + character_width_by_code(r)
             end * scale
           end
-        end
+        end   
         
-        def kern(string)
+        # TODO: NASTY. 
+        def kern(string,options={})   
           string.unpack("U*").inject([]) do |a,r|
             if a.last.is_a? Array
               if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]] 
@@ -258,7 +271,23 @@ module Prawn
               a << [r]
             end
             a
-          end.map { |r| r.is_a?(Array) ? r.pack("U*") : r }
+          end.map { |r| 
+            if options[:skip_conversion]
+              r.is_a?(Array) ? r.pack("U*") : r
+            else
+              i = r.is_a?(Array) ? r.pack("U*") : r 
+              x = if i.is_a?(String)
+                unicode_codepoints = i.unpack("U*")
+                glyph_codes = unicode_codepoints.map { |u| 
+                  enc_table.get_glyph_id_for_unicode(u)
+                }
+                glyph_codes.pack("n*")
+              else
+                i
+              end
+              x.is_a?(Numeric) ? -x : x 
+            end
+          }
         end
 
         def glyph_widths
@@ -328,7 +357,8 @@ module Prawn
         def kern_pairs_table
           return @kern_pairs_table if @kern_pairs_table
           
-          table = @ttf.get_table(:kern).subtables.find { |s| s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
+          table = @ttf.get_table(:kern).subtables.find { |s| 
+            s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
           
           if table
             @kern_pairs_table ||= table.kerning_pairs.inject({}) do |h,p|
@@ -341,9 +371,26 @@ module Prawn
         end
 
         def has_kerning_data?
-          kern_pairs_table.empty? 
+          !kern_pairs_table.empty? 
         rescue ::Font::TTF::TableMissing
           false
+        end
+
+        def type0?
+          true
+        end
+
+        def convert_text(text,options)
+          text = text.chomp
+          if options[:kerning]
+            kern(text)
+          else
+           unicode_codepoints = text.unpack("U*")
+            glyph_codes = unicode_codepoints.map { |u| 
+              enc_table.get_glyph_id_for_unicode(u)
+            }
+            text = glyph_codes.pack("n*")
+          end
         end
 
         private

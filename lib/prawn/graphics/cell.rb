@@ -14,7 +14,8 @@ module Prawn
     #    end
     #
     def cell(point, options={})
-      Prawn::Graphics::Cell.new(options.merge(:document => self, :point => point)).draw
+      Prawn::Graphics::Cell.new(
+        options.merge(:document => self, :point => point)).draw
     end
   end
 
@@ -191,7 +192,8 @@ module Prawn
         end
 
         @cells.each do |e|
-          e.point  = [x - @document.bounds.absolute_left, y - @document.bounds.absolute_bottom]
+          e.point  = [x - @document.bounds.absolute_left, 
+                      y - @document.bounds.absolute_bottom]
           e.height = @height
           e.draw
           x += e.width
