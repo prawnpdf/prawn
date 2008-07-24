@@ -15,9 +15,12 @@ require "prawn/document"
 require "prawn/reference"
 require "prawn/font" 
 
-$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/font_ttf")
+%w[image_info font_ttf].each do |dep|
+  $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/#{dep}")
+end
 
 require 'ttf'
+require 'image_info'
 
 module Prawn 
   file = __FILE__

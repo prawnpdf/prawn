@@ -7,7 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'prawn/images/offset_reader'
-require 'prawn/images/image_info'
+
 
 module Prawn
 
@@ -21,7 +21,7 @@ module Prawn
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
 
       image_content = File.open(filename, "rb") { |f| f.read }
-      image_info = ::Prawn::Images::ImageInfo.new(image_content)
+      image_info = ImageInfo.new(image_content)
 
       # register the fact that the current page uses images
       proc_set :ImageC
