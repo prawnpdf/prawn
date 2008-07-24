@@ -48,7 +48,8 @@ module Prawn
         @text         = options[:text]
         @width        = options[:width]
         @border       = options[:border]
-        @border_style = options[:border_style] || :all
+        @border_style = options[:border_style] || :all               
+        @background_color = options[:background_color]
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -58,7 +59,7 @@ module Prawn
         end
       end
 
-      attr_accessor :point, :border_style, :border
+      attr_accessor :point, :border_style, :border, :background_color
       attr_writer   :height #:nodoc:
 
       # The width of the text area excluding the horizonal padding
@@ -96,6 +97,16 @@ module Prawn
         if @border
           @document.mask(:line_width) do
             @document.line_width = @border
+            
+            if @background_color    
+              @document.mask(:fill_color) do
+                @document.fill_color @background_color  
+                h  = borders.include?(:bottom) ? height - border : height + border / 2.0
+                @document.fill_rectangle [rel_point[0] + border / 2.0, 
+                                          rel_point[1] - border / 2.0 ], 
+                    width - border, h  
+              end
+            end 
 
             if borders.include?(:left)
               @document.stroke_line [rel_point[0], rel_point[1] + (@border / 2.0)], 
@@ -166,7 +177,7 @@ module Prawn
 
       def <<(cell)
         @cells << cell
-        @height = cell.height if cell.height > @height
+        @height = cell.height if cell.height > @height 
         @width += cell.width
         self
       end
@@ -175,36 +186,11 @@ module Prawn
         y = @document.y
         x = @document.bounds.absolute_left
 
-        # TODO: This is a bit of a hack and can be cleaned up
-        if @background_color
-
-          @document.mask(:fill_color, :stroke_color) do
-            @document.fill_color = @background_color
-            @document.stroke_color = @background_color
-
-            @document.canvas do
-              case border_style
-              when :all
-                point = [x,y-border]
-                h = height - border
-              when :no_top
-                point = [x,y-border/2.0]  
-                h     = height - border / 2.0
-              else
-                point = [x,y-border/2.0]
-                h     = height
-             end
-                    
-              @document.fill_and_stroke_rectangle point, width, h
-            end
-          end   
-
-        end
-
         @cells.each do |e|
           e.point  = [x - @document.bounds.absolute_left, 
                       y - @document.bounds.absolute_bottom]
           e.height = @height
+          e.background_color = @background_color
           e.draw
           x += e.width
         end
