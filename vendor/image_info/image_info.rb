@@ -25,7 +25,24 @@
 # no response to emails asking for my extensions to be integrated and a
 # RubyGem package to be made available.
 
-class ImageInfo
+class ImageInfo  
+  
+  module OffsetReader
+    def read_o(length = 1, offset = nil)
+      @offset ||= 0
+      @offset = offset if offset
+      ret = self[@offset, length]
+      @offset += length
+      ret
+    end
+    def offset
+      @offset
+    end
+    def offset=(o)
+      @offset = o || 0
+    end
+  end
+  
   # Image Format Constants
   module Formats
     OTHER     = "OTHER"
@@ -74,7 +91,7 @@ class ImageInfo
     elsif @data.is_a?(String)
       @top = @data[0, 128]
       # Define Singleton-method definition to String (byte, offset)
-      @data.extend(Prawn::Images::OffsetReader)
+      @data.extend(OffsetReader)
     else
       raise "argument class error!! #{data.type}"
     end
