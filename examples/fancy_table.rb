@@ -9,7 +9,7 @@ headers, *body = FasterCSV.read("#{Prawn::BASEDIR}/examples/addressbook.csv")
 
 Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
 
-  mask(:y) { table body, :headers => headers }
+  mask(:y) { table body, :headers => headers, :align => :center }
 
   table [["This is",   "A Test"    ],
          [  Prawn::Graphics::Cell.new( :text => "Of tables",

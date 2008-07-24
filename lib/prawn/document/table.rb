@@ -95,7 +95,8 @@ module Prawn
         @border              = options[:border]    || 1
         @position            = options[:position]  || :left
         @headers             = options[:headers]
-        @row_colors          = options[:row_colors]
+        @row_colors          = options[:row_colors]   
+        @align               = options[:align]
 
         @horizontal_padding  = options[:horizontal_padding] || 5
         @vertical_padding    = options[:vertical_padding]   || 5
@@ -180,6 +181,7 @@ module Prawn
                 e.vertical_padding   = @vertical_padding    
                 e.border             = @border
                 e.border_style       = :sides
+                e.align              = @align
                 c << e
               else
                 c << Prawn::Graphics::Cell.new(
@@ -189,7 +191,8 @@ module Prawn
                   :horizontal_padding => @horizontal_padding,
                   :vertical_padding => @vertical_padding,
                   :border   => @border,
-                  :border_style => :sides ) 
+                  :border_style => :sides,
+                  :align    => @align ) 
               end   
             end
 
