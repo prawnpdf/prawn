@@ -49,7 +49,8 @@ module Prawn
         @width        = options[:width]
         @border       = options[:border]
         @border_style = options[:border_style] || :all               
-        @background_color = options[:background_color]
+        @background_color = options[:background_color] 
+        @align            = options[:align] || :left
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -60,7 +61,8 @@ module Prawn
       end
 
       attr_accessor :point, :border_style, :border, :background_color,
-                    :document, :horizontal_padding, :vertical_padding
+                    :document, :horizontal_padding, :vertical_padding,
+                    :align
       attr_writer   :height, :width #:nodoc:   
       
       def to_s
@@ -145,7 +147,7 @@ module Prawn
                                  @point[1] - @vertical_padding], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
-          @document.text @text
+          @document.text @text, :align => @align
         end
       end
 
