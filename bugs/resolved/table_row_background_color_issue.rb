@@ -7,7 +7,7 @@
 # Because this almost appears to be a feature display-wise, we will leave it 
 # alone for now.
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "prawn"
 
 Prawn::Document.generate("table_with_background_color_problems.pdf") do 
@@ -41,7 +41,7 @@ Prawn::Document.generate("table_with_background_color_problems.pdf") do
     :border     => 1,
     :position   => :center,
     :headers    => ["Column A","Column B","#"],
-    :row_colors => ["eeeeee"]
+    :row_colors => ["cccccc"]
 
   pad(20) do
     text "This should appear in the original font size"
