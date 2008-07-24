@@ -250,11 +250,9 @@ module Prawn
     end  
 
     # Add a new type to the current pages ProcSet
-    def register_proc(type)
+    def proc_set(*types)
       @current_page.data[:ProcSet] ||= ref([])
-      unless @current_page.data[:ProcSet].data.include?(type)
-        @current_page.data[:ProcSet].data << type
-      end
+      @current_page.data[:ProcSet].data |= types
     end
 
     def page_resources
