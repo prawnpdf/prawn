@@ -12,7 +12,9 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
   mask(:y) { table body, :headers => headers }
 
   table [["This is",   "A Test"    ],
-         ["Of tables", "Drawn Side"],
+         [  Prawn::Graphics::Cell.new( :text => "Of tables",
+                                       :background_color => "ffccff" ),
+            "Drawn Side"],
          ["By side",   "and stuff" ]], 
     :position         => 600, 
     :headers          => ["Col A", "Col B"],

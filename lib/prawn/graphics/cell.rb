@@ -45,7 +45,7 @@ module Prawn
       def initialize(options={})
         @point        = options[:point]
         @document     = options[:document]
-        @text         = options[:text]
+        @text         = options[:text].to_s
         @width        = options[:width]
         @border       = options[:border]
         @border_style = options[:border_style] || :all               
@@ -59,8 +59,13 @@ module Prawn
         end
       end
 
-      attr_accessor :point, :border_style, :border, :background_color
-      attr_writer   :height #:nodoc:
+      attr_accessor :point, :border_style, :border, :background_color,
+                    :document, :horizontal_padding, :vertical_padding
+      attr_writer   :height, :width #:nodoc:   
+      
+      def to_s
+        @text
+      end
 
       # The width of the text area excluding the horizonal padding
       #
@@ -190,7 +195,7 @@ module Prawn
           e.point  = [x - @document.bounds.absolute_left, 
                       y - @document.bounds.absolute_bottom]
           e.height = @height
-          e.background_color = @background_color
+          e.background_color ||= @background_color
           e.draw
           x += e.width
         end
