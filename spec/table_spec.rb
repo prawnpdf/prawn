@@ -97,6 +97,11 @@ class TableTextObserver
   def show_text(*params)
     @strings << params[0]
   end
+  
+  def show_text_with_positioning(*params)      
+    # ignore kerning information
+    @strings << params[0].reject { |e| Numeric === e }.join
+  end
 end
 
 

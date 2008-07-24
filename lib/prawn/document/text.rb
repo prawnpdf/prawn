@@ -33,40 +33,17 @@ module Prawn
       #   pdf.text "Goodbye World", :at => [50,50], :size => 16
       #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
       #
-      # All strings passed to this function should be encoded as UTF-8. 
-      # If you gets unexpected characters appearing in your rendered 
+      # All strings passed to this function should be encoded as UTF-8.
+      # If you get unexpected characters appearing in your rendered 
       # document, check this.
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
-      # 
+      #
       def text(text,options={})
-        # TODO: if the current font is a built in one, we can't use the utf-8 
-        # string provided by the user. We should convert it to WinAnsi or 
-        # MacRoman or some such.
 
-        if text.respond_to?(:"encode!")
-          # if we're running under a M17n aware VM, ensure the string provided is
-          # UTF-8 (by converting it if necessary)
-          begin
-            text.encode!("UTF-8")
-          rescue
-            raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
-            "#{text.encoding} can not be transparently converted to UTF-8. " +
-            "Please ensure the encoding of the string you are attempting " +
-            "to use is set correctly"
-          end
-        else
-          # on a non M17N aware VM, use unpack as a hackish way to verify the
-          # string is valid utf-8. I thought it was better than loading iconv
-          # though.
-          begin
-            text.unpack("U*")
-          rescue
-            raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
-            "are attempting to render is not encoded in valid UTF-8."
-          end
-        end
+        # check the string is encoded sanely
+        normalize_encoding(text)
 
         if options.key?(:kerning)
           options[:kerning] = false unless font_metrics.has_kerning_data?
@@ -78,37 +55,12 @@ module Prawn
         font "Helvetica" unless fonts[@font]
 
         return wrapped_text(text,options) unless options[:at]
+        
         x,y = translate(options[:at])
         font_size(options[:size] || current_font_size) do
-          font_name = font_registry[fonts[@font]]
+          font_name = font_registry[fonts[@font]]          
           
-          if options[:kerning]
-            kerned = font_metrics.kern(text)
-          end
-
-          # replace the users string with a string composed of glyph codes
-          # TODO: hackish
-          if fonts[@font].data[:Subtype] == :Type0
-            if options[:kerning]
-              kerned = kerned.map do |i|
-                if i.is_a?(String)
-                  unicode_codepoints = i.unpack("U*")
-                  glyph_codes = unicode_codepoints.map { |u| 
-                    enctables[@font].get_glyph_id_for_unicode(u)
-                  }
-                  glyph_codes.pack("n*")
-                else
-                  i
-                end
-              end
-            else
-              unicode_codepoints = text.unpack("U*")
-              glyph_codes = unicode_codepoints.map { |u| 
-                enctables[@font].get_glyph_id_for_unicode(u)
-              }
-              text = glyph_codes.pack("n*")
-            end
-          end
+          text = @font_metrics.convert_text(text,options)    
 
           add_content %Q{
             BT
@@ -116,15 +68,8 @@ module Prawn
             #{x} #{y} Td
           }
           
-          if options[:kerning]
-            reversed = kerned.map do |i|
-              i.is_a?(Numeric) ? -i : i
-            end
-            
-            add_content "#{Prawn::PdfObject(reversed)} TJ\n"
-          else
-            add_content "#{Prawn::PdfObject(text)} Tj\n"
-          end
+          add_content Prawn::PdfObject(text) << 
+            " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
           
           add_content %Q{
             ET
@@ -151,8 +96,7 @@ module Prawn
       # more portable.
       #
       def font(name)
-        register_proc :PDF
-        register_proc :Text
+        proc_set :PDF, :Text
         @font_metrics = Prawn::Font::Metrics[name]
         case(name)
         when /\.ttf$/
@@ -202,45 +146,41 @@ module Prawn
       private
 
       def move_text_position(dy)
-         if (y - dy) < @margin_box.absolute_bottom
-           return start_new_page
-         end
-         self.y -= dy
+         (y - dy) < @margin_box.absolute_bottom ? start_new_page : self.y -= dy       
       end
 
       def text_width(text,size)
         @font_metrics.string_width(text,size)
       end
 
+      # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options)
         font_size(options[:size] || current_font_size) do
           font_name = font_registry[fonts[@font]]
 
-          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size, :kerning => options[:kerning])
+          text = @font_metrics.naive_wrap(text, bounds.right, current_font_size, 
+            :kerning => options[:kerning]) 
 
-          # THIS CODE JUST DID THE NASTY. FIXME!
           lines = text.lines
 
-          if fonts[@font].data[:Subtype] == :Type0
-            lines = lines.map do |line|
-              unicode_codepoints = line.chomp.unpack("U*")
-              glyph_codes = unicode_codepoints.map { |u| 
-                enctables[@font].get_glyph_id_for_unicode(u)
-              }
-              glyph_codes.pack("n*")
-            end
-          end
-          
-          lines.each do |e|
+          lines.each do |e|    
+            
             move_text_position(@font_metrics.font_height(current_font_size) +
-                               @font_metrics.descender / 1000.0 * current_font_size)
+                           @font_metrics.descender / 1000.0 * current_font_size)  
+                               
+                               
             add_content %Q{
               BT
               /#{font_name} #{current_font_size} Tf
               #{@bounding_box.absolute_left} #{y} Td
-              #{Prawn::PdfObject(e.to_s.chomp)} Tj
+            }    
+             
+           add_content Prawn::PdfObject(@font_metrics.convert_text(e,options)) << 
+             " #{options[:kerning] ? 'TJ' : 'Tj'}\n"   
+
+            add_content %Q{
               ET
-            }
+            }                
 
             move_text_position(-@font_metrics.descender / 1000.0 * current_font_size)
           end
@@ -315,6 +255,34 @@ module Prawn
         return basename
       end
 
+      def normalize_encoding(text)
+        # TODO: if the current font is a built in one, we can't use the utf-8
+        # string provided by the user. We should convert it to WinAnsi or
+        # MacRoman or some such.
+        if text.respond_to?(:"encode!")
+          # if we're running under a M17n aware VM, ensure the string provided is
+          # UTF-8 (by converting it if necessary)
+          begin
+            text.encode!("UTF-8")
+          rescue
+            raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
+            "#{text.encoding} can not be transparently converted to UTF-8. " +
+            "Please ensure the encoding of the string you are attempting " +
+            "to use is set correctly"
+          end
+        else
+          # on a non M17N aware VM, use unpack as a hackish way to verify the
+          # string is valid utf-8. I thought it was better than loading iconv
+          # though.
+          begin
+            text.unpack("U*")
+          rescue
+            raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
+            "are attempting to render is not encoded in valid UTF-8."
+          end
+        end
+      end
+
       def register_builtin_font(name) #:nodoc:
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
@@ -337,7 +305,8 @@ module Prawn
 
       def enctables #:nodoc
         @enctables ||= {}
-      end
+      end 
+      
       def font_registry #:nodoc:
         @font_registry ||= {}
       end

@@ -101,6 +101,8 @@ module Prawn
        )                                 
              
        # update bounding box if not flowing from the previous page
+       # TODO: This may have a bug where the old margin is restored
+       # when the bounding box exits.
        @bounding_box = @margin_box if old_margin_box == @bounding_box              
      end
             
@@ -248,11 +250,9 @@ module Prawn
     end  
 
     # Add a new type to the current pages ProcSet
-    def register_proc(type)
+    def proc_set(*types)
       @current_page.data[:ProcSet] ||= ref([])
-      unless @current_page.data[:ProcSet].data.include?(type)
-        @current_page.data[:ProcSet].data << type
-      end
+      @current_page.data[:ProcSet].data |= types
     end
 
     def page_resources

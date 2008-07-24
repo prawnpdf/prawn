@@ -107,11 +107,9 @@ module Prawn
         
         @row_colors = ["ffffff","cccccc"] if @row_colors == :pdf_writer
 
-        @original_row_colors = @row_colors.dup if @row_colors
-        calculate_column_widths
-        (options[:widths] || {}).each do |index,width| 
-          @col_widths[index] = width
-        end
+        @original_row_colors = @row_colors.dup if @row_colors  
+        
+        calculate_column_widths(options[:widths])
       end
       
       # Width of the table in PDF points
@@ -125,14 +123,15 @@ module Prawn
       def draw
         case(@position) 
         when :center
-          x = ((@document.bounds.width) / 2.0 ) - (width / 2.0)
-
-          @document.bounding_box [x,@document.y - @document.bounds.absolute_bottom], :width => width do
+          x = (@document.bounds.width - width) / 2.0
+          y = @document.y - @document.bounds.absolute_bottom
+          @document.bounding_box [x, y], :width => width do
             generate_table
           end
-        when Numeric
+        when Numeric     
           x = @position
-          @document.bounding_box [x,@document.y - @document.bounds.absolute_bottom], :width => width do
+          y = @document.y - @document.bounds.absolute_bottom
+          @document.bounding_box [x,y], :width => width do
             generate_table
           end
         else
@@ -142,16 +141,19 @@ module Prawn
 
       private
 
-      def calculate_column_widths
-        @col_widths = [0] * @data[0].length
+      def calculate_column_widths(manual_widths=nil)
+        @col_widths = [0] * @data[0].length    
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
-            length = cell.lines.map { |e| 
+            length = cell.to_s.lines.map { |e| 
               @document.font_metrics.string_width(e,@font_size) }.max.to_f +
                 2*@horizontal_padding
             @col_widths[i] = length if length > @col_widths[i]
           end
-        end
+        end  
+        
+        # TODO: Could optimize here
+        manual_widths.each { |k,v| @col_widths[k] = v } if manual_widths           
       end
 
       def renderable_data
@@ -170,16 +172,17 @@ module Prawn
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
             row.each_with_index do |e,i|
-              c << Prawn::Graphics::Cell.new(:document => @document, 
-                                             :text     => e, 
-                                             :width    => @col_widths[i],
-                                             :horizontal_padding => @horizontal_padding,
-                                             :vertical_padding => @vertical_padding,
-                                             :border   => @border,
-                                             :border_style => :sides )
+              c << Prawn::Graphics::Cell.new(
+                :document => @document, 
+                :text     => e.to_s, 
+                :width    => @col_widths[i],
+                :horizontal_padding => @horizontal_padding,
+                :vertical_padding => @vertical_padding,
+                :border   => @border,
+                :border_style => :sides )    
             end
 
-            if c.height > (x= y_pos - @document.margin_box.absolute_bottom)
+            if c.height > y_pos - @document.margin_box.absolute_bottom
               draw_page(page_contents)
               @document.start_new_page
               if @headers
@@ -189,7 +192,6 @@ module Prawn
                 page_contents = []
                 y_pos = @document.y
               end
-
             end
 
             page_contents << c
@@ -199,7 +201,6 @@ module Prawn
             if index == renderable_data.length - 1
               draw_page(page_contents)
             end
-
 
           end
           @document.y -= @vertical_padding
