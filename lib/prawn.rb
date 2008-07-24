@@ -14,7 +14,7 @@ require "prawn/document"
 require "prawn/reference"
 require "prawn/font" 
 
-$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/")
+$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/font_ttf")
 
 require 'ttf'
 
