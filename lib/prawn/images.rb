@@ -59,8 +59,7 @@ module Prawn
       else
         :DeviceRGB
       end
-        
-      
+           
       ref(:Type             => :XObject,
           :Subtype          => :Image,     
           :Filter           => :DCTDecode, 
