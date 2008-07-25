@@ -45,10 +45,12 @@ module Prawn
       def initialize(options={})
         @point        = options[:point]
         @document     = options[:document]
-        @text         = options[:text]
+        @text         = options[:text].to_s
         @width        = options[:width]
         @border       = options[:border]
-        @border_style = options[:border_style] || :all
+        @border_style = options[:border_style] || :all               
+        @background_color = options[:background_color] 
+        @align            = options[:align] || :left
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -58,8 +60,14 @@ module Prawn
         end
       end
 
-      attr_accessor :point, :border_style, :border
-      attr_writer   :height #:nodoc:
+      attr_accessor :point, :border_style, :border, :background_color,
+                    :document, :horizontal_padding, :vertical_padding,
+                    :align
+      attr_writer   :height, :width #:nodoc:   
+      
+      def to_s
+        @text
+      end
 
       # The width of the text area excluding the horizonal padding
       #
@@ -71,7 +79,7 @@ module Prawn
       #
       def width
         @width || (@document.font_metrics.string_width(@text,
-          @document.current_font_size)) + 2*@horizontal_padding
+          @document.font_size)) + 2*@horizontal_padding
       end
 
       # The height of the cell in PDF points
@@ -84,7 +92,7 @@ module Prawn
       #
       def text_area_height
         @document.font_metrics.string_height(@text, 
-         :font_size  => @document.current_font_size, 
+         :font_size  => @document.font_size, 
          :line_width => text_area_width) 
       end
 
@@ -96,6 +104,16 @@ module Prawn
         if @border
           @document.mask(:line_width) do
             @document.line_width = @border
+            
+            if @background_color    
+              @document.mask(:fill_color) do
+                @document.fill_color @background_color  
+                h  = borders.include?(:bottom) ? height - border : height + border / 2.0
+                @document.fill_rectangle [rel_point[0] + border / 2.0, 
+                                          rel_point[1] - border / 2.0 ], 
+                    width - border, h  
+              end
+            end 
 
             if borders.include?(:left)
               @document.stroke_line [rel_point[0], rel_point[1] + (@border / 2.0)], 
@@ -129,7 +147,7 @@ module Prawn
                                  @point[1] - @vertical_padding], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
-          @document.text @text
+          @document.text @text, :align => @align
         end
       end
 
@@ -166,7 +184,7 @@ module Prawn
 
       def <<(cell)
         @cells << cell
-        @height = cell.height if cell.height > @height
+        @height = cell.height if cell.height > @height 
         @width += cell.width
         self
       end
@@ -175,26 +193,11 @@ module Prawn
         y = @document.y
         x = @document.bounds.absolute_left
 
-        # TODO: This is a bit of a hack and can be cleaned up
-        if @background_color
-          old_fill_color, old_stroke_color = 
-           @document.instance_eval { [@fill_color, @stroke_color] }
-          @document.fill_color @background_color
-          @document.stroke_color @background_color
-
-          @document.canvas do
-            @document.fill_and_stroke_rectangle [x+border,y-border], 
-              width-2*border, height-2*border
-          end
-
-          @document.fill_color old_fill_color || "000000"
-          @document.stroke_color old_stroke_color || "000000"
-        end
-
         @cells.each do |e|
           e.point  = [x - @document.bounds.absolute_left, 
                       y - @document.bounds.absolute_bottom]
           e.height = @height
+          e.background_color ||= @background_color
           e.draw
           x += e.width
         end
@@ -208,6 +211,10 @@ module Prawn
 
       def border_style=(s)
         @cells.each { |e| e.border_style = s }
+      end                 
+      
+      def border_style
+        @cells[0].border_style
       end
 
     end
