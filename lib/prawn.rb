@@ -10,15 +10,18 @@ require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
 require "prawn/graphics"
+require "prawn/images"
 require "prawn/document"
 require "prawn/reference"
 require "prawn/font" 
 
-$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/")
+%w[image_info font_ttf].each do |dep|
+  $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/#{dep}")
+end
 
 require 'ttf'
+require 'image_info'
 
-   
 module Prawn 
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)

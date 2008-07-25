@@ -95,7 +95,8 @@ module Prawn
         @border              = options[:border]    || 1
         @position            = options[:position]  || :left
         @headers             = options[:headers]
-        @row_colors          = options[:row_colors]
+        @row_colors          = options[:row_colors]   
+        @align               = options[:align]
 
         @horizontal_padding  = options[:horizontal_padding] || 5
         @vertical_padding    = options[:vertical_padding]   || 5
@@ -171,15 +172,28 @@ module Prawn
         @document.font_size(@font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
-            row.each_with_index do |e,i|
-              c << Prawn::Graphics::Cell.new(
-                :document => @document, 
-                :text     => e.to_s, 
-                :width    => @col_widths[i],
-                :horizontal_padding => @horizontal_padding,
-                :vertical_padding => @vertical_padding,
-                :border   => @border,
-                :border_style => :sides )    
+            row.each_with_index do |e,i| 
+              case(e)
+              when Prawn::Graphics::Cell
+                e.document = @document
+                e.width    = @col_widths[i]
+                e.horizontal_padding = @horizontal_padding
+                e.vertical_padding   = @vertical_padding    
+                e.border             = @border
+                e.border_style       = :sides
+                e.align              = @align
+                c << e
+              else
+                c << Prawn::Graphics::Cell.new(
+                  :document => @document, 
+                  :text     => e.to_s, 
+                  :width    => @col_widths[i],
+                  :horizontal_padding => @horizontal_padding,
+                  :vertical_padding => @vertical_padding,
+                  :border   => @border,
+                  :border_style => :sides,
+                  :align    => @align ) 
+              end   
             end
 
             if c.height > y_pos - @document.margin_box.absolute_bottom
