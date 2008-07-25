@@ -50,26 +50,25 @@ module Prawn
 
     private
 
-    def build_jpg_object(info, size)
-      obj = ref(:Type       => :XObject,
-                :Subtype    => :Image,
-                :ColorSpace => :DeviceRGB,
-                :Filter     => :DCTDecode,
-                :BitsPerComponent => info.bits,
-                :Width   => info.width,
-                :Height  => info.height,
-                :Length  => size
-               )
-
-      case info.channels
+    def build_jpg_object(info, size)  
+      color_space = case info.channels
       when 1
-        obj.data[:ColorSpace] = :DeviceGray
+        :DeviceGray
       when 4
-        obj.data[:ColorSpace] = :DeviceCMYK
+        :DeviceCMYK
       else
-        obj.data[:ColorSpace] = :DeviceRGB
+        :DeviceRGB
       end
-      obj
+        
+      
+      ref(:Type             => :XObject,
+          :Subtype          => :Image,     
+          :Filter           => :DCTDecode, 
+          :ColorSpace       => color_space,
+          :BitsPerComponent => info.bits,
+          :Width            => info.width,
+          :Height           => info.height,
+          :Length           => size )   
     end
 
     def next_image_id
