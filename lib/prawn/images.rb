@@ -27,11 +27,6 @@ module Prawn
       x,y = translate(options[:at])
 
       # build the image object and embed the raw data
-      # TODO: need a lot more smarts in the building of this dict. The values
-      #       for options like ColorSpace and Filter depend on the image file.
-      # TODO: What's the best way to get the necessary info from the image file
-      #       without resorting to imagemagick and other scary dependencies?
-      #       Maybe check PDF::Writer for ideas.
       case image_info.format
       when "JPEG" then
         image_obj = build_jpg_object(image_info, image_content.size)
