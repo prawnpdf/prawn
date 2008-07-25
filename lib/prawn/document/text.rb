@@ -107,7 +107,7 @@ module Prawn
       end
       
       # Sets the default font size for use within a block.  Individual overrides
-      # can be used as desired.  The previous font size will be stored after the
+      # can be used as desired.  The previous font size will be restored after the
       # block.
       #
       #  Prawn::Document.generate("font_size.pdf") do
