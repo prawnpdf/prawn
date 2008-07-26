@@ -111,9 +111,9 @@ module Prawn
                 :Width            => info.width,
                 :BitsPerComponent => info.bits,
                 :Length           => idata.size,
-                :DecodeParms      =>  [ {:Predictor => 15, 
-                                         :Colors    => ncolor, 
-                                         :Columns     => info.width}],
+                :DecodeParms      => {:Predictor => 15,
+                                      :Colors    => ncolor,
+                                      :Columns   => info.width},
                 :Filter           => :FlateDecode
                 
                )
