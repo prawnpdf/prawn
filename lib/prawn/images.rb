@@ -20,6 +20,7 @@ module Prawn
     # <tt>:at</tt>:: the location of the top left corner of the image [current position]
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
+    # <tt>:scale</tt>:: scale the dimensions of the image proportionally
     #
     def image(filename, options={})
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
@@ -30,7 +31,7 @@ module Prawn
       # register the fact that the current page uses images
       proc_set :ImageC
 
-      # find where the image will be placed
+      # find where the image will be placed and how big it will be
       x,y = translate(options[:at])
       w,h = calc_image_dimensions(image_info, options)
 
@@ -152,12 +153,24 @@ module Prawn
     end
 
     def calc_image_dimensions(info, options)
-      # TODO: allow proportional scaling
       # TODO: allow the image to be aligned in a box
-      [
-        options[:width] || info.width,
-        options[:height] || info.height
-      ]
+      w = options[:width] || info.width
+      h = options[:height] || info.height
+
+      if options[:scale] && (options[:width] || options[:height])
+        wp = w / info.width.to_f
+        hp = h / info.height.to_f
+
+        if wp < hp
+          w = info.width * wp
+          h = info.height * wp
+        else
+          w = info.width * hp
+          h = info.height * hp
+        end
+      end
+
+      [w,h]
     end
 
     def next_image_id
