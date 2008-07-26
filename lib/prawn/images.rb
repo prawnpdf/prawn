@@ -10,10 +10,17 @@ module Prawn
 
   module Images
 
-    # add the image at filename to the current page.
-    # use the :at option to chose the image location
+    # add the image at filename to the current page. Currently only
+    # JPG and PNG files are supported.
     #
-    # Currently only works on *some* JPG files.
+    # Arguments:
+    # <tt>filename</tt>:: the path to the file to be embedded
+    #
+    # Options:
+    # <tt>:at</tt>:: the location of the top left corner of the image [current position]
+    # <tt>:height</tt>:: the height of the image [actual height of the image]
+    # <tt>:width</tt>:: the width of the image [actual width of the image]
+    #
     def image(filename, options={})
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
 
@@ -25,6 +32,7 @@ module Prawn
 
       # find where the image will be placed
       x,y = translate(options[:at])
+      w,h = calc_image_dimensions(image_info, options)
 
       # build the image object and embed the raw data
       image_obj = case image_info.format
@@ -36,16 +44,14 @@ module Prawn
         raise ArgumentError, "Unsupported Image Type"
       end
 
-
       # add a reference to the image object to the current page
       # resource list and give it a label
       label = "I#{next_image_id}"
-      page_xobjects.merge!( label => image_obj )   
+      page_xobjects.merge!( label => image_obj )
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      add_content instruct % [ image_info.width, image_info.height, x, 
-                               y - image_info.height, label ]
+      add_content instruct % [ w, h, x, y - h, label ]
     end
 
     private
@@ -143,6 +149,15 @@ module Prawn
       end
 
       return obj
+    end
+
+    def calc_image_dimensions(info, options)
+      # TODO: allow proportional scaling
+      # TODO: allow the image to be aligned in a box
+      [
+        options[:width] || info.width,
+        options[:height] || info.height
+      ]
     end
 
     def next_image_id
