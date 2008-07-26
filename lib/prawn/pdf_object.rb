@@ -24,14 +24,15 @@ module Prawn
   #     PdfObject(:Symbol)   #=> "/Symbol"
   #     PdfObject(["foo",:bar, [1,2]]) #=> "[foo /bar [1 2]]"
   # 
-  def PdfObject(obj) #:nodoc:
+  def PdfObject(obj, in_content_stream = false) #:nodoc:
     case(obj)        
     when NilClass   then "null" 
     when TrueClass  then "true"
     when FalseClass then "false"
     when Numeric    then String(obj)
-    when Array      then "[" << obj.map { |e| PdfObject(e) }.join(' ') << "]"
+    when Array      then "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
     when String     
+      obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
       "<" << obj.unpack("H*").first << ">"
     when Symbol                                                         
        if (obj = obj.to_s) =~ /\s/
@@ -47,7 +48,7 @@ module Prawn
           raise Prawn::Errors::FailedObjectConversion, 
             "A PDF Dictionary must be keyed by names"
         end                          
-        output << PdfObject(k.to_sym) << " " << PdfObject(v) << "\n"
+        output << PdfObject(k.to_sym, in_content_stream) << " " << PdfObject(v, in_content_stream) << "\n"
       end   
       output << ">>"  
     when Prawn::Reference
