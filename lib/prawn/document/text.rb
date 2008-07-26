@@ -67,7 +67,7 @@ module Prawn
             #{x} #{y} Td
           }
           
-          add_content Prawn::PdfObject(text) << 
+          add_content Prawn::PdfObject(text, true) << 
             " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
           
           add_content %Q{
@@ -189,7 +189,7 @@ module Prawn
               #{x} #{y} Td
             }    
              
-           add_content Prawn::PdfObject(@font_metrics.convert_text(e,options)) << 
+           add_content Prawn::PdfObject(@font_metrics.convert_text(e,options), true) << 
              " #{options[:kerning] ? 'TJ' : 'Tj'}\n"   
 
             add_content %Q{
