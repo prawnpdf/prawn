@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-# imagess.rb : Implements PDF image embedding
+# images.rb : Implements PDF image embedding
 #
-# Copyright April 2008, James Healy.  All Rights Reserved.
+# Copyright April 2008, James Healy, Gregory Brown.  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
@@ -103,7 +103,7 @@ module Prawn
         raise ArgumentError, "PNG has unsupported color type" 
       end                                   
 
-      png = Prawn::Images::PNG.new(data, info.info[:color_type])
+      png = Prawn::Images::PNG.new(data)
 
       # build the image dict
       obj = ref(:Type             => :XObject,
