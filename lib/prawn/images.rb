@@ -102,102 +102,47 @@ module Prawn
       else
         raise ArgumentError, "PNG has unsupported color type" 
       end                                   
-      
-      palette, idata, trans = do_the_nasty(data,info)   
-      
+
+      png = Prawn::Images::PNG.new(data, info.info[:color_type])
+
+      # build the image dict
       obj = ref(:Type             => :XObject,
                 :Subtype          => :Image,
                 :Height           => info.height,
                 :Width            => info.width,
                 :BitsPerComponent => info.bits,
-                :Length           => idata.size,
+                :Length           => png.img_data.size,
                 :DecodeParms      => {:Predictor => 15,
                                       :Colors    => ncolor,
                                       :Columns   => info.width},
                 :Filter           => :FlateDecode
                 
                )
-                #:Filter     => :FlateDecode 
+
+      # append the actual image data to the object as a stream
+      obj << png.img_data
       
-      unless palette.empty?
-        obj.data[:ColorSpace] = [:Indexed, :DeviceRGB,  (palette.size / 3) -1]
- 
-        palette_obj = ref(:Length => palette.size)
-        palette_obj << palette
-
-        obj.data[:ColorSpace] << palette_obj
-          
-        if trans
-          case trans[:type]
-          when 'indexed'
-            obj.data[:Mask] = trans[:data]
-          end
-        end
-      else
+      # sort out the colours of the image
+      if png.palette.empty?
         obj.data[:ColorSpace] = color
-      end
+      else
+        # embed the colour palette in the PDF as a object stream
+        palette_obj = ref(:Length => png.palette.size)
+        palette_obj << png.palette
 
-      obj << idata     
-      return obj
-    end   
+        # build the color space array for the image
+        obj.data[:ColorSpace] = [:Indexed, 
+                                 :DeviceRGB,
+                                 (png.palette.size / 3) -1,
+                                 palette_obj]
 
-    def do_the_nasty(data,image_info) 
-      data = data.dup
-      data.extend(ImageInfo::OffsetReader)
-
-      data.read_o(8)  # Skip the default header
-
-      ok      = true
-      length  = data.size
-      palette = ""
-      idat    = ""
-
-      while ok
-        chunk_size  = data.read_o(4).unpack("N")[0]
-        section     = data.read_o(4)
-        case section
-        when 'PLTE'
-          palette << data.read_o(chunk_size)
-        when 'IDAT'
-          idat << data.read_o(chunk_size)
-        when 'tRNS'
-            # This chunk can only occur once and it must occur after the
-            # PLTE chunk and before the IDAT chunk
-          trans = {}
-          case image_info.info[:color_type]
-          when 3
-              # Indexed colour, RGB. Each byte in this chunk is an alpha for
-              # the palette index in the PLTE ("palette") chunk up until the
-              # last non-opaque entry. Set up an array, stretching over all
-              # palette entries which will be 0 (opaque) or 1 (transparent).
-            trans[:type]  = 'indexed'
-            trans[:data]  = data.read_o(chunk_size).unpack("C*")
-          when 0
-              # Greyscale. Corresponding to entries in the PLTE chunk.
-              # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
-            trans[:grayscale] = data.read_o(2).unpack("n")
-            trans[:type]      = 'indexed'
-#           trans[:data]      = data.read_o.unpack("C")
-          when 2
-              # True colour with proper alpha channel.
-            trans[:rgb] = data.read_o(6).unpack("nnn")
-          end
-        else
-          data.offset += chunk_size
+        # add transparency data if necessary
+        if png.transparency && png.transparency[:type] == 'indexed'
+          obj.data[:Mask] = png.transparency[:data]
         end
-
-        ok = (section != "IEND")
-
-        data.read_o(4)  # Skip the CRC
       end
 
-      if image_info.bits > 8
-        raise TypeError, PDF::Writer::Lang[:png_8bit_colour]
-      end
-      if image_info.info[:interlace_method] != 0
-        raise TypeError, PDF::Writer::Lang[:png_interlace]
-      end        
-      [palette,idat,trans]
+      return obj
     end
 
     def next_image_id
