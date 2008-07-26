@@ -120,11 +120,12 @@ module Prawn
                 #:Filter     => :FlateDecode 
       
       unless palette.empty?
-        obj.data[:ColorSpace]  = 
-          ref [:Indexed, :DeviceRGB,  (palette.size / 3) -1]     
+        obj.data[:ColorSpace] = [:Indexed, :DeviceRGB,  (palette.size / 3) -1]
  
- 
-        obj.data[:ColorSpace] << palette
+        palette_obj = ref(:Length => palette.size)
+        palette_obj << palette
+
+        obj.data[:ColorSpace] << palette_obj
           
         if trans
           case trans[:type]
