@@ -15,7 +15,7 @@ Prawn::Document.generate("image.pdf") do
 =end
   
 #=begin
-   ruport = "#{Prawn::BASEDIR}/data/images/ruport.png"  
-   canvas { image ruport, :at => [100,605] }
+   ruport = "#{Prawn::BASEDIR}/data/images/google.png"  
+   canvas { image ruport, :at => [100,605], :width => 300, :height => 300 }
 #=end
 end
