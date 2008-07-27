@@ -28,11 +28,10 @@ module Prawn
 
         data.read(8)  # Skip the default header
 
-        ok        = true
         @palette  = ""
         @img_data = ""
 
-        while ok
+        loop do
           chunk_size  = data.read(4).unpack("N")[0]
           section     = data.read(4)
           case section
@@ -75,7 +74,7 @@ module Prawn
             end
           when 'IEND'
             # we've got everything we need, exit the loop
-            ok = false
+            break
           else
             # unknown (or un-important) section, skip over it
             data.seek(data.pos + chunk_size)
