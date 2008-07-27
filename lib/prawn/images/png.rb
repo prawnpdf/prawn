@@ -57,19 +57,19 @@ module Prawn
             # PLTE chunk and before the IDAT chunk
             @transparency = {}
             case @color_type
-            when :indexed
+            when 3
               # Indexed colour, RGB. Each byte in this chunk is an alpha for
               # the palette index in the PLTE ("palette") chunk up until the
               # last non-opaque entry. Set up an array, stretching over all
               # palette entries which will be 0 (opaque) or 1 (transparent).
               @transparency[:type]  = 'indexed'
               @transparency[:data]  = data.read(chunk_size).unpack("C*")
-            when :greyscale
+            when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
               @transparency[:grayscale] = data.read(2).unpack("n")
               @transparency[:type]      = 'indexed'
-            when :rgb
+            when 2
               # True colour with proper alpha channel.
               @transparency[:rgb] = data.read(6).unpack("nnn")
             end

@@ -12,9 +12,8 @@ module Prawn
   module Images
     # A convenience class that wraps the logic for extracting the parts
     # of a PNG image that we need to embed them in a PDF
-    class Jpg #nodoc
-      attr_reader :width, :height, :bits
-      attr_reader :color_space, :channels
+    class JPG #nodoc
+      attr_reader :width, :height, :bits, :channels
 
       JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf)
       JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef)
