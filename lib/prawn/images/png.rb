@@ -16,6 +16,9 @@ module Prawn
     # of a PNG image that we need to embed them in a PDF
     class PNG #nodoc
       attr_reader :palette, :img_data, :transparency
+      attr_reader :width, :height, :bits
+      attr_reader :color_type, :compression_method, :filter_method
+      attr_reader :interlace_method
 
       # Process a new PNG image
       #
@@ -36,14 +39,15 @@ module Prawn
           when 'IHDR'
             # we can grab other interesting values from here (like width,
             # height, etc)
-            case data.read(chunk_size).unpack("NNCCCCC")[3]
-            when 0
-              @color_type = :greyscale
-            when 2
-              @color_type = :rgb
-            when 3
-              @color_type = :indexed
-            end
+            values = data.read(chunk_size).unpack("NNCCCCC")
+
+            @width              = values[0]
+            @height             = values[1]
+            @bits               = values[2]
+            @color_type         = values[3]
+            @compression_method = values[4]
+            @filter_method      = values[5]
+            @interlace_method   = values[6]
           when 'PLTE'
             @palette << data.read(chunk_size)
           when 'IDAT'
