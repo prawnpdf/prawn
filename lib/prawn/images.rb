@@ -26,24 +26,23 @@ module Prawn
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
 
       image_content = File.open(filename, "rb") { |f| f.read }
-      image_info = ImageInfo.new(image_content)
 
       # register the fact that the current page uses images
       proc_set :ImageC
 
+      # build the image object and embed the raw data
+      image_obj = case detect_image_format(image_content)
+      when :jpg then
+        info = Prawn::Images::Jpg.new(image_content)
+        build_jpg_object(image_content, info)
+      when :png then
+        info = Prawn::Images::PNG.new(image_content)
+        build_png_object(image_content, info)
+      end
+
       # find where the image will be placed and how big it will be
       x,y = translate(options[:at])
-      w,h = calc_image_dimensions(image_info, options)
-
-      # build the image object and embed the raw data
-      image_obj = case image_info.format
-      when "JPEG" then
-        build_jpg_object(image_info, image_content)
-      when "PNG" then
-        build_png_object(image_info, image_content)
-      else
-        raise ArgumentError, "Unsupported Image Type"
-      end
+      w,h = calc_image_dimensions(info, options)
 
       # add a reference to the image object to the current page
       # resource list and give it a label
@@ -57,9 +56,8 @@ module Prawn
 
     private
 
-    def build_jpg_object(info, image) 
-      size = image.size 
-      color_space = case info.channels
+    def build_jpg_object(data, jpg) 
+      color_space = case jpg.channels
       when 1
         :DeviceGray
       when 4
@@ -67,61 +65,61 @@ module Prawn
       else
         :DeviceRGB
       end
-      obj = ref(:Type             => :XObject,
-          :Subtype          => :Image,     
-          :Filter           => :DCTDecode, 
+      obj = ref(:Type       => :XObject,
+          :Subtype          => :Image,
+          :Filter           => :DCTDecode,
           :ColorSpace       => color_space,
-          :BitsPerComponent => info.bits,
-          :Width            => info.width,
-          :Height           => info.height,
-          :Length           => size ) 
-      obj << image
-      return obj       
+          :BitsPerComponent => jpg.bits,
+          :Width            => jpg.width,
+          :Height           => jpg.height,
+          :Length           => data.size ) 
+      obj << data
+      return obj
     end
 
-    def build_png_object(info, data)  
-      if info.info[:compression_method] != 0
+    def build_png_object(data, png)
+      png = Prawn::Images::PNG.new(data)
+
+      if png.compression_method != 0
         raise ArgumentError, 'PNG uses an unsupported compression method'
       end
 
-      if info.info[:filter_method] != 0
+      if png.filter_method != 0
         raise ArgumentError, 'PNG uses an unsupported filter method'
       end
 
-      if info.info[:interlace_method] != 0
+      if png.interlace_method != 0
         raise ArgumentError, 'PNG uses unsupported interlace method'
       end
 
-      if info.bits > 8
+      if png.bits > 8
         raise ArgumentError, 'PNG uses more than 8 bits'
       end
       
-      case info.info[:color_type]
-      when 3
-        ncolor = 1
-        color  = :DeviceRGB
-      when 2
-        ncolor = 3
-        color  = :DeviceRGB
+      case png.color_type
       when 0
         ncolor = 1
         color = :DeviceGray
+      when 2
+        ncolor = 3
+        color  = :DeviceRGB
+      when 3
+        ncolor = 1
+        color  = :DeviceRGB
       else
         raise ArgumentError, "PNG has unsupported color type" 
       end                                   
 
-      png = Prawn::Images::PNG.new(data)
-
       # build the image dict
       obj = ref(:Type             => :XObject,
                 :Subtype          => :Image,
-                :Height           => info.height,
-                :Width            => info.width,
-                :BitsPerComponent => info.bits,
+                :Height           => png.height,
+                :Width            => png.width,
+                :BitsPerComponent => png.bits,
                 :Length           => png.img_data.size,
                 :DecodeParms      => {:Predictor => 15,
                                       :Colors    => ncolor,
-                                      :Columns   => info.width},
+                                      :Columns   => png.width},
                 :Filter           => :FlateDecode
                 
                )
@@ -144,9 +142,9 @@ module Prawn
                                  palette_obj]
 
         # add transparency data if necessary
-        if png.transparency && png.transparency[:type] == 'indexed'
-          obj.data[:Mask] = png.transparency[:data]
-        end
+        #if png.transparency && png.transparency[:type] == 'indexed'
+        #  obj.data[:Mask] = png.transparency[:data]
+        #end
       end
 
       return obj
@@ -171,6 +169,18 @@ module Prawn
       end
 
       [w,h]
+    end
+
+    def detect_image_format(content)
+      top = content[0,128]
+
+      if top[0, 3]  == "\xff\xd8\xff"
+        return :jpg
+      elsif top[0, 8]  == "\x89PNG\x0d\x0a\x1a\x0a"
+        return :png
+      else
+        raise ArgumentError, "Unsupported Image Type"
+      end
     end
 
     def next_image_id
