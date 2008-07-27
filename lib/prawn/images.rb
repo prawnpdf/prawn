@@ -33,7 +33,7 @@ module Prawn
       # build the image object and embed the raw data
       image_obj = case detect_image_format(image_content)
       when :jpg then
-        info = Prawn::Images::Jpg.new(image_content)
+        info = Prawn::Images::JPG.new(image_content)
         build_jpg_object(image_content, info)
       when :png then
         info = Prawn::Images::PNG.new(image_content)
