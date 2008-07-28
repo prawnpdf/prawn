@@ -18,7 +18,7 @@ module Prawn
       attr_reader :palette, :img_data, :transparency
       attr_reader :width, :height, :bits
       attr_reader :color_type, :compression_method, :filter_method
-      attr_reader :interlace_method
+      attr_reader :interlace_method, :alpha_channel
 
       # Process a new PNG image
       #
@@ -82,6 +82,22 @@ module Prawn
           end
 
           data.read(4)  # Skip the CRC
+        end
+
+        # if our img_data contains alpha channel data, split it out
+        # TODO: this is currently somewhat broken. Needs to be
+        #       expanded to handle filters. See the PNG gem for
+        #       sample code.
+        if @color_type == 6
+          uncompressed_data = Zlib::Inflate.new.inflate(@img_data)
+          @img_data = ""
+          @alpha_channel = ""
+          uncompressed_data.unpack("C*").each_slice(4) do |pixel|
+            @img_data << pixel[0,3].pack("C*")
+            @alpha_channel << pixel[3] if pixel[3]
+          end
+          @img_data = Zlib::Deflate.deflate(@img_data)
+          @alpha_channel = Zlib::Deflate.deflate(@alpha_channel)
         end
       end
     end
