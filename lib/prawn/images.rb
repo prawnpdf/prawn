@@ -78,7 +78,6 @@ module Prawn
     end
 
     def build_png_object(data, png)
-      png = Prawn::Images::PNG.new(data)
 
       if png.compression_method != 0
         raise ArgumentError, 'PNG uses an unsupported compression method'
@@ -106,6 +105,9 @@ module Prawn
       when 3
         ncolor = 1
         color  = :DeviceRGB
+      when 6
+        ncolor = 3
+        color  = :DeviceRGB
       else
         raise ArgumentError, "PNG has unsupported color type" 
       end                                   
@@ -117,12 +119,15 @@ module Prawn
                 :Width            => png.width,
                 :BitsPerComponent => png.bits,
                 :Length           => png.img_data.size,
-                :DecodeParms      => {:Predictor => 15,
-                                      :Colors    => ncolor,
-                                      :Columns   => png.width},
                 :Filter           => :FlateDecode
                 
                )
+
+      unless png.alpha_channel
+        obj.data[:DecodeParms] = {:Predictor => 15,
+                                  :Colors    => ncolor,
+                                  :Columns   => png.width}
+      end
 
       # append the actual image data to the object as a stream
       obj << png.img_data
@@ -145,6 +150,21 @@ module Prawn
         #if png.transparency && png.transparency[:type] == 'indexed'
         #  obj.data[:Mask] = png.transparency[:data]
         #end
+      end
+
+      if png.alpha_channel
+        smask_obj = ref(:Type             => :XObject,
+                        :Subtype          => :Image,
+                        :Height           => png.height,
+                        :Width            => png.width,
+                        :BitsPerComponent => 8,
+                        :Length           => png.alpha_channel.size,
+                        :Filter           => :FlateDecode,
+                        :ColorSpace       => :DeviceGray,
+                        :Decode           => [0, 1]
+                       )
+        smask_obj << png.alpha_channel
+        obj.data[:SMask] = smask_obj
       end
 
       return obj
