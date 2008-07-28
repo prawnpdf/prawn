@@ -175,17 +175,17 @@ module Prawn
       w = options[:width] || info.width
       h = options[:height] || info.height
 
-      if options[:scale] && (options[:width] || options[:height])
-        wp = w / info.width.to_f
+      if options[:width] && !options[:height]
+        wp = w / info.width.to_f 
+        w = info.width * wp
+        h = info.height * wp
+      elsif options[:height] && !options[:width]         
         hp = h / info.height.to_f
-
-        if wp < hp
-          w = info.width * wp
-          h = info.height * wp
-        else
-          w = info.width * hp
-          h = info.height * hp
-        end
+        w = info.width * hp
+        h = info.height * hp   
+      elsif options[:scale] 
+        w = info.width * options[:scale]
+        h = info.height * options[:scale]
       end
 
       [w,h]
