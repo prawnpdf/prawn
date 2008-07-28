@@ -107,6 +107,7 @@ module Prawn
         @alpha_channel = ""
         scanline_length = 4 * @width + 1 # for filter
         row = 0
+        pixels = []
         until data.empty? do
           row_data = data.slice! 0, scanline_length
           filter = row_data.shift
@@ -121,13 +122,13 @@ module Prawn
           when 2 then # Up
             row_data.each_with_index do |byte, index|
               col = index / 4
-              upper = row == 0 ? 0 : canvas[col, row - 1].values[index % 4]
+              upper = row == 0 ? 0 : pixels[row-1][col][index % 4]
               row_data[index] = (upper + byte) % 256
             end
           when 3 then # Average
             row_data.each_with_index do |byte, index|
               col = index / 4
-              upper = row == 0 ? 0 : canvas[col, row - 1].values[index % 4]
+              upper = row == 0 ? 0 : pixels[row-1][col][index % 4]
               left = index < 4 ? 0 : row_data[index - 4]
 
               row_data[index] = (byte + ((left + upper)/2).floor) % 256
@@ -141,9 +142,9 @@ module Prawn
               if row == 0 then
                 upper = upper_left = 0
               else
-                upper = canvas[col, row - 1].values[index % 4]
+                upper = pixels[row-1][col][index % 4]
                 upper_left = col == 0 ? 0 :
-                  canvas[col - 1, row - 1].values[index % 4]
+                  pixels[row-1][col-1][index % 4]
               end
 
               paeth = paeth left, upper, upper_left
@@ -154,15 +155,22 @@ module Prawn
             raise ArgumentError, "Invalid filter algorithm #{filter}"
           end
 
-          #@img_data << "\x00"
-          #@alpha_channel << "\x00"
-
+          pixels << []
           row_data.each_slice 4 do |slice|
-            @img_data << slice[0,3].pack("C*")
-            @alpha_channel << slice[3]
+            pixels.last << slice
+          end
+          row += 1
+        end
+
+        # convert the pixel data to seperate strings for colours and alpha
+        pixels.each do |row|
+          row.each do |pixel|
+            @img_data << pixel[0,3].pack("C*")
+            @alpha_channel << pixel[3]
           end
         end
 
+        # compress the data
         @img_data = Zlib::Deflate.deflate(@img_data)
         @alpha_channel = Zlib::Deflate.deflate(@alpha_channel)
       end
