@@ -85,20 +85,86 @@ module Prawn
         end
 
         # if our img_data contains alpha channel data, split it out
-        # TODO: this is currently somewhat broken. Needs to be
-        #       expanded to handle filters. See the PNG gem for
-        #       sample code.
-        if @color_type == 6
-          uncompressed_data = Zlib::Inflate.new.inflate(@img_data)
-          @img_data = ""
-          @alpha_channel = ""
-          uncompressed_data.unpack("C*").each_slice(4) do |pixel|
-            @img_data << pixel[0,3].pack("C*")
-            @alpha_channel << pixel[3] if pixel[3]
+        unfilter_image_data if @color_type == 6
+      end
+
+      private
+
+      def paeth(a, b, c) # left, above, upper left
+        p = a + b - c
+        pa = (p - a).abs
+        pb = (p - b).abs
+        pc = (p - c).abs
+
+        return a if pa <= pb && pa <= pc
+        return b if pb <= pc
+        c
+      end
+
+      def unfilter_image_data
+        data = Zlib::Inflate.inflate(@img_data).unpack 'C*'
+        @img_data = ""
+        @alpha_channel = ""
+        scanline_length = 4 * @width + 1 # for filter
+        row = 0
+        until data.empty? do
+          row_data = data.slice! 0, scanline_length
+          filter = row_data.shift
+          case filter
+          when 0 then # None
+          when 1 then # Sub
+            row_data.each_with_index do |byte, index|
+              left = index < 4 ? 0 : row_data[index - 4]
+              row_data[index] = (byte + left) % 256
+              #p [byte, left, row_data[index]]
+            end
+          when 2 then # Up
+            row_data.each_with_index do |byte, index|
+              col = index / 4
+              upper = row == 0 ? 0 : canvas[col, row - 1].values[index % 4]
+              row_data[index] = (upper + byte) % 256
+            end
+          when 3 then # Average
+            row_data.each_with_index do |byte, index|
+              col = index / 4
+              upper = row == 0 ? 0 : canvas[col, row - 1].values[index % 4]
+              left = index < 4 ? 0 : row_data[index - 4]
+
+              row_data[index] = (byte + ((left + upper)/2).floor) % 256
+            end
+          when 4 then # Paeth
+            left = upper = upper_left = nil
+            row_data.each_with_index do |byte, index|
+              col = index / 4
+
+              left = index < 4 ? 0 : row_data[index - 4]
+              if row == 0 then
+                upper = upper_left = 0
+              else
+                upper = canvas[col, row - 1].values[index % 4]
+                upper_left = col == 0 ? 0 :
+                  canvas[col - 1, row - 1].values[index % 4]
+              end
+
+              paeth = paeth left, upper, upper_left
+              row_data[index] = (byte + paeth) % 256
+              #p [byte, paeth, row_data[index]]
+            end
+          else
+            raise ArgumentError, "Invalid filter algorithm #{filter}"
           end
-          @img_data = Zlib::Deflate.deflate(@img_data)
-          @alpha_channel = Zlib::Deflate.deflate(@alpha_channel)
+
+          #@img_data << "\x00"
+          #@alpha_channel << "\x00"
+
+          row_data.each_slice 4 do |slice|
+            @img_data << slice[0,3].pack("C*")
+            @alpha_channel << slice[3]
+          end
         end
+
+        @img_data = Zlib::Deflate.deflate(@img_data)
+        @alpha_channel = Zlib::Deflate.deflate(@alpha_channel)
       end
     end
   end
