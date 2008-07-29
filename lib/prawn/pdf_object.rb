@@ -30,7 +30,8 @@ module Prawn
     when TrueClass  then "true"
     when FalseClass then "false"
     when Numeric    then String(obj)
-    when Array      then "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
+    when Array
+      "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
     when String     
       obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
       "<" << obj.unpack("H*").first << ">"
@@ -48,7 +49,8 @@ module Prawn
           raise Prawn::Errors::FailedObjectConversion, 
             "A PDF Dictionary must be keyed by names"
         end                          
-        output << PdfObject(k.to_sym, in_content_stream) << " " << PdfObject(v, in_content_stream) << "\n"
+        output << PdfObject(k.to_sym, in_content_stream) << " " << 
+                  PdfObject(v, in_content_stream) << "\n"
       end   
       output << ">>"  
     when Prawn::Reference
