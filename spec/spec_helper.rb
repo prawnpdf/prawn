@@ -17,9 +17,9 @@ def create_pdf
 end    
 
 def observer(klass)                                     
-  output = @pdf.render
+  @output = @pdf.render
   obs = klass.new
-  PDF::Reader.string(output,obs)
+  PDF::Reader.string(@output,obs)
   obs   
 end     
 

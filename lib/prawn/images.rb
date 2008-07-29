@@ -6,6 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require 'digest/sha1'
+
 module Prawn
 
   module Images
@@ -26,18 +28,28 @@ module Prawn
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)
 
       image_content = File.open(filename, "rb") { |f| f.read }
+      image_sha1 = Digest::SHA1.hexdigest(image_content)
 
       # register the fact that the current page uses images
       proc_set :ImageC
 
-      # build the image object and embed the raw data
-      image_obj = case detect_image_format(image_content)
-      when :jpg then
-        info = Prawn::Images::JPG.new(image_content)
-        build_jpg_object(image_content, info)
-      when :png then
-        info = Prawn::Images::PNG.new(image_content)
-        build_png_object(image_content, info)
+      # if this image has already been embedded, just reuse it
+      image_obj = image_registry[image_sha1]
+
+      if image_registry[image_sha1]
+        info = image_registry[image_sha1][:info]
+        image_obj = image_registry[image_sha1][:obj]
+      else
+        # build the image object and embed the raw data
+        image_obj = case detect_image_format(image_content)
+        when :jpg then
+          info = Prawn::Images::JPG.new(image_content)
+          build_jpg_object(image_content, info)
+        when :png then
+          info = Prawn::Images::PNG.new(image_content)
+          build_png_object(image_content, info)
+        end
+        image_registry[image_sha1] = {:obj => image_obj, :info => info}
       end
 
       # find where the image will be placed and how big it will be
@@ -201,6 +213,10 @@ module Prawn
       else
         raise ArgumentError, "Unsupported Image Type"
       end
+    end
+
+    def image_registry
+      @image_registry ||= {}
     end
 
     def next_image_id
