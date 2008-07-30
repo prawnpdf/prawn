@@ -9,7 +9,9 @@ headers, *body = FasterCSV.read("#{Prawn::BASEDIR}/examples/addressbook.csv")
 
 Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
 
-  mask(:y) { table body, :headers => headers, :align => :center }
+  mask(:y) { table body, :headers      => headers, 
+                         :align        => :center,
+                         :border_style => :grid     }
 
   table [["This is",   "A Test"    ],
          [  Prawn::Graphics::Cell.new( :text => "Of tables",
@@ -28,7 +30,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
 
   table [%w[1 2 3],%w[4 5 6],%w[7 8 9]], 
     :position => :center,
-    :border_style => :grid,
+    :border   => 0,
     :font_size => 40
 
   cell [500,300],
@@ -42,6 +44,5 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
   cell [50,75], 
     :text => "This document demonstrates a number of Prawn's table features",
     :border_style => :no_top, # :all, :no_bottom, :sides
-    :horizontal_padding => 5, :border => 1
-
+    :horizontal_padding => 5
 end
