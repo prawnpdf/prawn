@@ -47,7 +47,7 @@ module Prawn
         @document     = options[:document]
         @text         = options[:text].to_s
         @width        = options[:width]
-        @border       = options[:border]
+        @border       = options[:border] || 1
         @border_style = options[:border_style] || :all               
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
@@ -99,21 +99,21 @@ module Prawn
       # Draws the cell onto the PDF document
       # 
       def draw
-        rel_point = @point
+        rel_point = @point                
+        
+        if @background_color    
+          @document.mask(:fill_color) do
+            @document.fill_color @background_color  
+            h  = borders.include?(:bottom) ? height - border : height + border / 2.0
+            @document.fill_rectangle [rel_point[0] + border / 2.0, 
+                                      rel_point[1] - border / 2.0 ], 
+                width - border, h  
+          end
+        end
 
-        if @border
+        if @border > 0
           @document.mask(:line_width) do
             @document.line_width = @border
-            
-            if @background_color    
-              @document.mask(:fill_color) do
-                @document.fill_color @background_color  
-                h  = borders.include?(:bottom) ? height - border : height + border / 2.0
-                @document.fill_rectangle [rel_point[0] + border / 2.0, 
-                                          rel_point[1] - border / 2.0 ], 
-                    width - border, h  
-              end
-            end 
 
             if borders.include?(:left)
               @document.stroke_line [rel_point[0], rel_point[1] + (@border / 2.0)], 
