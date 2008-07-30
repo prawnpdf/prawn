@@ -195,8 +195,9 @@ module Prawn
             add_content %Q{
               ET
             }                
-
-            move_text_position(-@font_metrics.descender / 1000.0 * current_font_size)
+            
+            ds = -@font_metrics.descender / 1000.0 * current_font_size 
+            move_text_position(options[:spacing] || ds )
           end
         end
       end
