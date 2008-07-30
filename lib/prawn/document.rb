@@ -20,8 +20,8 @@ module Prawn
     include Text                             
     include PageGeometry                             
     
-    attr_accessor :page_size, :page_layout, :y, :margin_box
-    attr_reader   :margins
+    attr_accessor :y, :margin_box
+    attr_reader   :margins, :page_size, :page_layout
 
              
     # Creates and renders a PDF document. 
@@ -58,6 +58,7 @@ module Prawn
     # <tt>:right_margin</tt>:: Sets the right margin in points [ 0.5 inch]
     # <tt>:top_margin</tt>:: Sets the top margin in points [ 0.5 inch]
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
+    # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # 
     #                             
     #  # New document, US Letter paper, portrait orientation
@@ -89,7 +90,7 @@ module Prawn
        
        @bounding_box = @margin_box
        
-       start_new_page 
+       start_new_page unless options[:skip_page_creation]
      end     
      
      def generate_margin_box     
@@ -111,7 +112,16 @@ module Prawn
      # Runs the <tt>:on_page_start</tt> lambda if one was provided at
      # document creation time (See Document.new).  
      #                                
-     def start_new_page
+     def start_new_page(options = {})      
+       @page_size   = options[:size] if options[:size]
+       @page_layout = options[:layout] if options[:layout]
+                                             
+       [:left,:right,:top,:bottom].each do |side|  
+         if options[:"#{side}_margin"] 
+           @margins[side] = options[:"#{side}_margin"]   
+         end
+       end
+       
        finish_page_content if @page_content  
        generate_margin_box    
        @page_content = ref(:Length => 0)   
