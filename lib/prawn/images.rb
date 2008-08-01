@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# encoding: ASCII-8BIT
 # images.rb : Implements PDF image embedding
 #
 # Copyright April 2008, James Healy, Gregory Brown.  All Rights Reserved.
@@ -25,9 +24,12 @@ module Prawn
     # <tt>:scale</tt>:: scale the dimensions of the image proportionally
     #
     def image(filename, options={})
-      raise ArgumentError, "#{filename} not found" unless File.file?(filename)
-
-      image_content = File.open(filename, "rb") { |f| f.read }
+      raise ArgumentError, "#{filename} not found" unless File.file?(filename)  
+      
+      
+      read_mode = ruby_18 { "rb" } || ruby_19 { "rb:ASCII-8BIT" }
+      image_content =  File.open(filename, read_mode) { |f| f.read }
+      
       image_sha1 = Digest::SHA1.hexdigest(image_content)
 
       # register the fact that the current page uses images
@@ -204,9 +206,9 @@ module Prawn
     end
 
     def detect_image_format(content)
-      top = content[0,128]
+      top = content[0,128]                       
 
-      if top[0, 3]  == "\xff\xd8\xff"
+      if top[0, 3] == "\xff\xd8\xff"
         return :jpg
       elsif top[0, 8]  == "\x89PNG\x0d\x0a\x1a\x0a"
         return :png

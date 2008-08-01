@@ -62,7 +62,7 @@ describe "Font Metrics" do
     @pdf.font_metrics.should == Prawn::Font::Metrics[comicsans]
   end
 
-end
+end    
 
 describe "when drawing text" do
    
@@ -171,8 +171,9 @@ describe "when drawing text" do
        str.force_encoding("ASCII-8BIT")
        lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
      end
-     it "should not raise an exception when a shift-jis string is rendered" do
-       sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
+     it "should not raise an exception when a shift-jis string is rendered" do 
+       datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"  
+       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets } 
        lambda { @pdf.text sjis_str }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
      end
    else
