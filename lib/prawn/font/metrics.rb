@@ -119,12 +119,12 @@ module Prawn
               a << [r]
             end
             a
-          end
+          end            
           
           kerned.map { |r| 
             i = r.is_a?(Array) ? r.pack("U*") : r 
             i.is_a?(Numeric) ? -i : i
-          }
+          }                        
         end
         
         def latin_kern_pairs_table

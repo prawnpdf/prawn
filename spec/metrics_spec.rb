@@ -1,3 +1,5 @@
+# encoding: ASCII-8BIT          
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")   
 
 describe "adobe font metrics" do
@@ -18,7 +20,7 @@ describe "adobe font metrics" do
   
   it "should kern a string" do
     @times.kern("To").should == ["T", 80, "o"]
-    @times.kern("Télé").should == ["T", 70, "élé"]
+    @times.kern("Télé").should == ["T", 70, "\303\251l\303\251"]
     @times.kern("Technology").should == ["T", 70, "echnology"]
     @times.kern("Technology...").should == ["T", 70, "echnology", 65, "..."]
   end
