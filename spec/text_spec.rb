@@ -29,7 +29,6 @@ class TextObserver
 end
 
 class FontObserver
-
   attr_accessor :page_fonts
 
   def initialize
