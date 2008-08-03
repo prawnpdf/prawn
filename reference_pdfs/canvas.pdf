@@ -41,14 +41,14 @@ Q
 endstream
 endobj
 5 0 obj
-<< /Contents 4 0 R
-/Type /Page
+<< /Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612.0 792.0]
+/Contents 4 0 R
+/ProcSet 6 0 R
 /Resources << /Font << /F1 7 0 R
 >>
 >>
-/Parent 2 0 R
-/ProcSet 6 0 R
-/MediaBox [0 0 612.0 792.0]
 >>
 endobj
 6 0 obj
@@ -56,8 +56,8 @@ endobj
 endobj
 7 0 obj
 << /Type /Font
-/BaseFont /Helvetica
 /Subtype /Type1
+/BaseFont /Helvetica
 /Encoding /MacRomanEncoding
 >>
 endobj

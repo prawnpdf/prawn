@@ -6,8 +6,8 @@
 >>
 endobj
 2 0 obj
-<< /Count 2
-/Type /Pages
+<< /Type /Pages
+/Count 2
 /Kids [5 0 R 9 0 R]
 >>
 endobj
@@ -919,9 +919,9 @@ endobj
 5 0 obj
 << /Type /Page
 /Parent 2 0 R
-/ProcSet 6 0 R
 /MediaBox [0 0 612.0 792.0]
 /Contents 4 0 R
+/ProcSet 6 0 R
 /Resources << /Font << /F1 7 0 R
 >>
 >>
@@ -932,9 +932,9 @@ endobj
 endobj
 7 0 obj
 << /Type /Font
-/Encoding /MacRomanEncoding
 /Subtype /Type1
 /BaseFont /Times-Roman
+/Encoding /MacRomanEncoding
 >>
 endobj
 8 0 obj

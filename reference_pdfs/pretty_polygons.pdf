@@ -6,14 +6,14 @@
 >>
 endobj
 2 0 obj
-<< /Kids [5 0 R]
-/Type /Pages
+<< /Type /Pages
 /Count 1
+/Kids [5 0 R]
 >>
 endobj
 3 0 obj
-<< /Pages 2 0 R
-/Type /Catalog
+<< /Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
@@ -98,10 +98,10 @@ Q
 endstream
 endobj
 5 0 obj
-<< /Parent 2 0 R
+<< /Type /Page
+/Parent 2 0 R
 /MediaBox [0 0 612.0 792.0]
 /Contents 4 0 R
-/Type /Page
 >>
 endobj
 xref
@@ -113,9 +113,9 @@ xref
 0000000214 00000 n 
 0000001384 00000 n 
 trailer
-<< /Root 3 0 R
+<< /Size 6
+/Root 3 0 R
 /Info 1 0 R
-/Size 6
 >>
 startxref
 1475
