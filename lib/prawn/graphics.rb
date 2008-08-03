@@ -219,18 +219,21 @@ module Prawn
     # Strokes and closes the current path.
     #
     def stroke
+      yield if block_given?
       add_content "S"
     end
 
     # Fills and closes the current path
     #
-    def fill
+    def fill               
+      yield if block_given?
       add_content "f"
     end
     
     # Fills, strokes, and closes the current path.
     #
-    def fill_and_stroke
+    def fill_and_stroke  
+      yield if block_given?
       add_content "b" 
     end     
     

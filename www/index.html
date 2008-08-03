@@ -1,5 +1,99 @@
-<html>
-<body>
-<h1>O hai</h1>
+<html>  
+<head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link href="prawn.css" rel="stylesheet" type="text/css" />
+</head>
+<body> 
+
+<div id="contents">
+  <ul>                                                        
+    <li><a href="docs/index.html">Docs</li>
+    <li><a href="http://prawn.lighthouseapp.com">Bugs</a></li>
+    <li><a href="http://groups.google.com/group/prawn-ruby">Community</a></li>
+    <li><a href="http://github.com/sandal/prawn">Source</a></li>    
+  </ul>
+
+<h1><i>Prawn: Fast, Nimble PDF Generation For Ruby</i></h1>
+<span style="color:ffffff; font-size: 0.8em">
+<b>Installable via <u><a href="http://rubygems.org">RubyGems</a></u> :&nbsp; <tt>gem install prawn</tt></b>  
+<br> 
+</span>
+
+<h2>Building printable documents doesn't have to be hard</h2>
+<p>
+   If you've ever needed to produce PDF documents before, in Ruby another language, you probably know how much it can suck.  <span style="color: #eeff44"><b><i>Prawn takes the pain out of generating beautiful printable documents</b></i></span>, while still remaining fast, tiny and nimble.  It is also named after a majestic sea creature, and that has to count for something.     
+</p>
+<h2>The features you need, without all the complexity</h2>
+   
+<p>
+In addition to being the <span style="color: #eeff44"><i><b>fastest pure Ruby PDF generation library</i></b></span>, Prawn has features that might prevent you from hating your job.  The samples below give
+a taste of what Prawn based programs looks like, <span style="color: #eeff44"><b><i>click the code to reveal the PDF it generates.</i></b></span>
+</p>  
+                                                                     
+<h3>-- Built in support for UTF-8</h3>
+    
+<p>
+Internationalized text in Prawn is as simple as providing UTF-8 strings for it to render, assuming you've got a Unicode aware TTF font handy.  For those who are running on Ruby 1.9, any encoding that can be converted to UTF-8 will work out of the box!
+</p>     
+
+<a href="media/utf8.pdf"><img src="media/utf8.png" style="padding-left: 1.5em;"/></a>
+         
+<h3>-- Easy image embedding</h3>
+  
+<p>
+Prawn makes embedding JPEG and PNG images a breeze.  With support for alpha transparency, easy positioning and scaling of images, you'll have no problem
+including all the graphics you need in your documents.
+</p>  
+
+<a href="media/image.pdf"><img src="media/images.png" style="padding-left: 1.5em;"/></a>  
+
+<h3>-- Flexible table drawing</h3>
+
+<p>
+Prawn has built in support for rendering text in the form of tables, providing
+basic reporting functionality.  This lets users focus on customizing their 
+documents rather than forcing them to write a ton of low level graphics drawing
+code.
+</p>   
+
+<a href="media/fancy_table.pdf"><img src="media/tables.png" style="padding-left: 1.5em;"/></a>   
+
+<h3>-- Simplified content positioning</h3>
+                                                        
+<p>
+Anyone who has done work with a low level graphics engine knows that doing coordinate math isn't fun.  Prawn simplifies this by allowing you to box off a sub-section of the document and treat it as its own mini-coordinate space.  This means that all positioning is relative, making it easy to move things around your document while keeping your code clean.
+
+Text can also be flowed within these sectioned off bounding boxes, so this 
+makes it trivial to generate columns of text on the fly.
+</p>              
+
+<a href="media/bounding_boxes.pdf"><img src="media/bounding_boxes.png"/></a>
+
+<h3>-- And loads more to come</h3>
+
+<span style="color: #eeff44"><b><i>Prawn is currently alpha-level software under active development.</i></b></span>  New features are cropping up every day, and we expect to see loads of cool things in the near future including integration with the popular <a href="http://rubyreports.org">Ruby Reports</a> project.  For now, you can keep
+an eye on the latest new features by checking out the <a href="http://github.com/sandal/prawn/tree/master/examples">examples distributed
+with the source</a>, which include the code samples shown above and much, much more!    
+
+<h2>Supported by the Ruby Community</h2> 
+
+<p>The development on Prawn is in part made possible through donations from the community to 
+Gregory Brown's <a href="http://rubymendicant.wikidot.com">Ruby Mendicant</a> project, but quickly outgrew its humble beginnings.</p>  
+
+<p>Since the project began in April 2008, the project has seen contributions in the form of code, bug reports, and feature requests from a whole bunch of Ruby hackers.  You can find many of their contributions by checking out the <a href="http://github.com/sandal/prawn/network">Github
+network graph</a> for the project.  Although several have contributed patches to Prawn, special thanks goes out to <b>James Healy</b> and <b>Michael Daines</b> for being instrumental to the forward development of the library.</p>  
+
+<p>Many people have expressed interest in using Prawn within their Rails applications, and for this purpose, you might be interested in checking out yet another community contribution, thorny_sun's <a href="http://cracklabs.com/prawnto">Prawnto</a> Rails plugin.  Although this is not officially part of Prawn, we'll do what we can to make sure this plugin continues to work as things move forward</p>
+
+<p><span style="color: #eeff44"><b><i>Please join us in the development of Prawn so that it can become the library of choice for PDF generation in Ruby.</i></b></span>   You can start by getting in touch with us on the <a href="http://groups.google.com/group/prawn-ruby">mailing list</a> or stopping by to chat in the <tt>#prawn</tt> channel on irc.freenode.net. There is lots left to be done, and we could use your help!</p>
+ 
+<h2>What are you waiting for?</h2>
+<p>It's time to generate some PDFs. Get Prawn via RubyGems with <tt>gem install prawn</tt> or clone us at <tt>git://github.com/sandal/prawn.git</tt></p>
+
+</div>      
 </body>
-</html>
+
+
+
