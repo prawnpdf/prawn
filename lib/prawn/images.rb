@@ -22,6 +22,18 @@ module Prawn
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
     # <tt>:scale</tt>:: scale the dimensions of the image proportionally
+    # 
+    #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
+    #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
+    #     image pigs, :at => [50,450], :width => 450                                      
+    #
+    #     dice = "#{Prawn::BASEDIR}/data/images/dice.png"
+    #     image dice, :at => [50, 450], :scale => 0.75 
+    #   end   
+    #
+    # If only one of :width / :height are provided, the image will be scaled
+    # proportionally.  When both are provided, the image will be stretched to 
+    # fit the dimensions without maintaining the aspect ratio.
     #
     def image(filename, options={})
       raise ArgumentError, "#{filename} not found" unless File.file?(filename)  

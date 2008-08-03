@@ -37,14 +37,17 @@ task :examples do
   t = Time.now
   puts "Running Examples"
   examples.each { |file| `ruby -Ilib #{file}` }  
-  puts "Ran in #{Time.now - t} s"
-  `mv *.pdf output`
+  puts "Ran in #{Time.now - t} s"        
+  `mv *.pdf output`                     
+=begin
+  # Has some issues     
   puts "Checking for differences..."
   output = Dir["output/*.pdf"]
-  ref    = Dir["reference_pdfs/*.pdf"]
+  ref    = Dir["reference_pdfs/*.pdf"]   
   output.zip(ref).each do |o,r|
     system "diff -q #{o} #{r}"
-  end
+  end 
+=end
 end
 
 spec = Gem::Specification.new do |spec|

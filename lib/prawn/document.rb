@@ -26,7 +26,7 @@ module Prawn
              
     # Creates and renders a PDF document. 
     #
-    # The explicit receiver argument is necessary only when you need to make 
+    # The block argument is necessary only when you need to make 
     # use of a closure.     
     #      
     #  # Using implicit block form and rendering to a file
@@ -61,15 +61,15 @@ module Prawn
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # 
     #                             
-    #  # New document, US Letter paper, portrait orientation
-    #  pdf = Prawn::Document.new                            
+    #   # New document, US Letter paper, portrait orientation
+    #   pdf = Prawn::Document.new                            
     #
-    #  # New document, A4 paper, landscaped
-    #  pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
+    #   # New document, A4 paper, landscaped
+    #   pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
     # 
-    #  # New document, draws a line at the start of each new page
-    #  pdf = Prawn::Document.new(:on_page_start => 
-    #    lambda { |doc| doc.line [0,100], [300,100] } )
+    #   # New document, draws a line at the start of each new page
+    #   pdf = Prawn::Document.new(:on_page_start => 
+    #     lambda { |doc| doc.line [0,100], [300,100] } )
     #
     def initialize(options={})
        @objects = []
@@ -92,25 +92,16 @@ module Prawn
        
        start_new_page unless options[:skip_page_creation]
      end     
-     
-     def generate_margin_box     
-       old_margin_box = @margin_box
-       @margin_box = BoundingBox.new(
-         self,
-         [ @margins[:left], page_dimensions[-1] - @margins[:top] ] ,
-         :width => page_dimensions[-2] - (@margins[:left] + @margins[:right]),
-         :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
-       )                                 
-             
-       # update bounding box if not flowing from the previous page
-       # TODO: This may have a bug where the old margin is restored
-       # when the bounding box exits.
-       @bounding_box = @margin_box if old_margin_box == @bounding_box              
-     end
             
      # Creates and advances to a new page in the document.
-     # Runs the <tt>:on_page_start</tt> lambda if one was provided at
-     # document creation time (See Document.new).  
+     # Runs the <tt>on_page_start</tt> lambda if one was provided at
+     # document creation time (See Document.new).    
+     #
+     # Page size, margins, and layout can also be set when generating a
+     # new page. These values will become the new defaults for page creation
+     #
+     #   pdf.start_new_page(:size => "LEGAL", :layout => :landscape)    
+     #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
      #                                
      def start_new_page(options = {})      
        @page_size   = options[:size] if options[:size]
@@ -196,8 +187,7 @@ module Prawn
     def move_down(n)
       self.y -= n
     end
-
-   
+ 
     # Moves down the document and then executes a block.
     #
     #   pdf.text "some text"
@@ -250,7 +240,22 @@ module Prawn
       fields.each { |f| send("#{f}=", stored[f]) }
     end
    
-    private
+    private 
+    
+    def generate_margin_box     
+      old_margin_box = @margin_box
+      @margin_box = BoundingBox.new(
+        self,
+        [ @margins[:left], page_dimensions[-1] - @margins[:top] ] ,
+        :width => page_dimensions[-2] - (@margins[:left] + @margins[:right]),
+        :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
+      )                                 
+            
+      # update bounding box if not flowing from the previous page
+      # TODO: This may have a bug where the old margin is restored
+      # when the bounding box exits.
+      @bounding_box = @margin_box if old_margin_box == @bounding_box              
+    end
   
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
