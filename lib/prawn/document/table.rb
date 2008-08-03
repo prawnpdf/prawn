@@ -77,7 +77,8 @@ module Prawn
       # <tt>:border_style</tt>:: If set to :grid, fills in all borders.  Otherwise, borders are drawn on columns only, not rows
       # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
       # <tt>:widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
-      # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.  
+      # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
+      # <tt>:align</tt>:: Alignment of text in columns [:left]
       #
       # Row colors are specified as html encoded values, e.g.
       # ["ffffff","aaaaaa","ccaaff"].  You can also specify 

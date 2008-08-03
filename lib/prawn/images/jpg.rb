@@ -12,7 +12,7 @@ module Prawn
   module Images
     # A convenience class that wraps the logic for extracting the parts
     # of a PNG image that we need to embed them in a PDF
-    class JPG #nodoc
+    class JPG #:nodoc:
       attr_reader :width, :height, :bits, :channels
 
       JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf)

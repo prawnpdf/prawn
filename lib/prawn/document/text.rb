@@ -27,13 +27,17 @@ module Prawn
       # is being used ). Text will flow onto the next page when it reaches
       # the bottom of the margin_box. Text wrap in Prawn does not re-flow
       # linebreaks, so if you want fully automated text wrapping, be sure to
-      # remove newlines before attempting to draw your string.
+      # remove newlines before attempting to draw your string.  
       #
       #   pdf.text "Hello World", :at => [100,100]
       #   pdf.text "Goodbye World", :at => [50,50], :size => 16
       #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
       #
-      # All strings passed to this function should be encoded as UTF-8.
+      # If your font contains kerning pairs data that Prawn can parse, the 
+      # text will be kerned by default.  You can disable this feature by passing
+      # <tt>:kerning => false</tt>.
+      #
+      # Note that strings passed to this function should be encoded as UTF-8.
       # If you get unexpected characters appearing in your rendered 
       # document, check this.
       #
@@ -75,8 +79,12 @@ module Prawn
           }
         end
       end
-
-      def font_metrics #:nodoc:
+                       
+      # Access to low-level font metrics data. This is only necessary for those
+      # who require direct access to font attributes, and can be safely ignored
+      # otherwise.
+      #                 
+      def font_metrics 
         @font_metrics ||= Prawn::Font::Metrics["Helvetica"]
       end
 
@@ -121,7 +129,10 @@ module Prawn
       #   end
       #
       #   text "At size 16"
-      #  end
+      #  end   
+      #
+      # When called without an argument, this method returns the current font
+      # size.
       #
       def font_size(size=nil)
         return current_font_size unless size

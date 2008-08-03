@@ -14,7 +14,7 @@ module Prawn
   module Images
     # A convenience class that wraps the logic for extracting the parts
     # of a PNG image that we need to embed them in a PDF
-    class PNG #nodoc
+    class PNG #:nodoc:
       attr_reader :palette, :img_data, :transparency
       attr_reader :width, :height, :bits
       attr_reader :color_type, :compression_method, :filter_method
