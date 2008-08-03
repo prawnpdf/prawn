@@ -33,21 +33,22 @@ end
 desc "run all examples, and then diff them against reference PDFs"
 task :examples do 
   mkdir_p "output"
-  examples = Dir["examples/*.rb"].reject { |e| e =~ /bench|sjis/ }   
+  examples = Dir["examples/*.rb"].reject { |e| e =~ /bench/ }   
   t = Time.now
-  puts "Running Examples"
+  puts "Running Examples, skipping benchmark"
   examples.each { |file| `ruby -Ilib #{file}` }  
   puts "Ran in #{Time.now - t} s"        
   `mv *.pdf output`                     
-=begin
-  # Has some issues     
-  puts "Checking for differences..."
-  output = Dir["output/*.pdf"]
-  ref    = Dir["reference_pdfs/*.pdf"]   
-  output.zip(ref).each do |o,r|
-    system "diff -q #{o} #{r}"
-  end 
-=end
+                   
+  unless RUBY_VERSION < "1.9"    
+    puts "Checking for differences..."
+    output = Dir["output/*.pdf"]
+    ref    = Dir["reference_pdfs/*.pdf"]   
+    output.zip(ref).each do |o,r|
+      system "diff -q #{o} #{r}"
+    end                      
+  end
+
 end
 
 spec = Gem::Specification.new do |spec|

@@ -10,10 +10,12 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
-datafile = File.join(File.dirname(__FILE__), "..", "data", "shift_jis_text.txt")
-sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
+ruby_19 do  
+  datafile = File.join(File.dirname(__FILE__), "..", "data", "shift_jis_text.txt")
+  sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
 
-Prawn::Document.generate("sjis.pdf") do
-  font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
-  text sjis_str
+  Prawn::Document.generate("sjis.pdf") do
+    font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    text sjis_str
+  end       
 end

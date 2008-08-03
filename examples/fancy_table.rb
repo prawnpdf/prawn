@@ -3,10 +3,21 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 require "rubygems"
-require "fastercsv"
+   
+headers, body = nil, nil   
+     
+ruby_18 do        
+  require "fastercsv" 
+  headers, *body = FasterCSV.read("#{Prawn::BASEDIR}/examples/addressbook.csv")   
+end
 
-headers, *body = FasterCSV.read("#{Prawn::BASEDIR}/examples/addressbook.csv")
-
+ruby_19 do            
+  require "csv"
+  headers, *body = CSV.read("#{Prawn::BASEDIR}/examples/addressbook.csv")
+  headers.map! { |e| e.encode("UTF-8") }
+  body.map! { |e| e.map! { |x| x.encode("UTF-8") } }
+end
+                                                                                  
 Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
 
   mask(:y) { table body, :headers      => headers, 
