@@ -30,6 +30,23 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title    = "Prawn Documentation"
 end     
 
+desc "run all examples, and then diff them against reference PDFs"
+task :examples do 
+  mkdir_p "output"
+  examples = Dir["examples/*.rb"].reject { |e| e =~ /bench|sjis/ }   
+  t = Time.now
+  puts "Running Examples"
+  examples.each { |file| `ruby -Ilib #{file}` }  
+  puts "Ran in #{Time.now - t} s"
+  `mv *.pdf output`
+  puts "Checking for differences..."
+  output = Dir["output/*.pdf"]
+  ref    = Dir["reference_pdfs/*.pdf"]
+  output.zip(ref).each do |o,r|
+    system "diff -q #{o} #{r}"
+  end
+end
+
 spec = Gem::Specification.new do |spec|
   spec.name = "prawn"
   spec.version = PRAWN_VERSION

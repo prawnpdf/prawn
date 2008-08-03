@@ -111,7 +111,7 @@ module Prawn
     # bounding box at the current <tt>y</tt> position.
     #
     def horizontal_rule
-      horizontal_line(bounds.absolute_left, bounds.absolute_right)
+      horizontal_line(bounds.left, bounds.right)
     end
 
     # Draws a vertical line at the given x position from y1 to y2.

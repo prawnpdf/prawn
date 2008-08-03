@@ -3,7 +3,7 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
            
-Prawn::Document.generate("image.pdf", :page_layout => :landscape) do     
+Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
   pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
   image pigs, :at => [50,450], :width => 450                                      
 
