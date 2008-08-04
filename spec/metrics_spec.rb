@@ -1,4 +1,4 @@
-# encoding: ASCII-8BIT          
+# encoding: utf-8
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")   
 
@@ -6,23 +6,24 @@ describe "adobe font metrics" do
   
   setup do
     @times = Prawn::Font::Metrics["Times-Roman"]
+    @iconv = Iconv.new('ISO-8859-1', 'utf-8')
   end
   
   it "should calculate string width taking into account accented characters" do
-    @times.string_width("é", 12).should == @times.string_width("e", 12)
+    @times.string_width(@iconv.iconv("é"), 12).should == @times.string_width("e", 12)
   end
   
   it "should calculate string width taking into account kerning pairs" do
-    @times.string_width("To", 12).should == 13.332
-    @times.string_width("To", 12, :kerning => true).should == 12.372
-    @times.string_width("Tö", 12, :kerning => true).should == 12.372
+    @times.string_width(@iconv.iconv("To"), 12).should == 13.332
+    @times.string_width(@iconv.iconv("To"), 12, :kerning => true).should == 12.372
+    @times.string_width(@iconv.iconv("Tö"), 12, :kerning => true).should == 12.372
   end
   
   it "should kern a string" do
-    @times.kern("To").should == ["T", 80, "o"]
-    @times.kern("Télé").should == ["T", 70, "\303\251l\303\251"]
-    @times.kern("Technology").should == ["T", 70, "echnology"]
-    @times.kern("Technology...").should == ["T", 70, "echnology", 65, "..."]
+    @times.kern(@iconv.iconv("To")).should == ["T", 80, "o"]
+    @times.kern(@iconv.iconv("Télé")).should == ["T", 70, @iconv.iconv("élé")]
+    @times.kern(@iconv.iconv("Technology")).should == ["T", 70, "echnology"]
+    @times.kern(@iconv.iconv("Technology...")).should == ["T", 70, "echnology", 65, "..."]
   end
   
 end
