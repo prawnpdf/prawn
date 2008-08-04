@@ -37,9 +37,15 @@ module Prawn
       # text will be kerned by default.  You can disable this feature by passing
       # <tt>:kerning => false</tt>.
       #
+      # == Encoding
+      #
       # Note that strings passed to this function should be encoded as UTF-8.
-      # If you get unexpected characters appearing in your rendered 
-      # document, check this.
+      # If you get unexpected characters appearing in your rendered document, 
+      # check this.
+      #
+      # If the current font is a built-in one, although the string must be
+      # encoded as UTF-8, only characters that are available in ISO-8859-1
+      # are allowed.
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
@@ -52,7 +58,9 @@ module Prawn
         # original string
         text = text.dup
 
-        # check the string is encoded sanely (utf-8)
+        # check the string is encoded sanely
+        # - UTF-8 for TTF fonts
+        # - ISO-8859-1 for Built-In fonts
         if using_builtin_font?
           normalize_builtin_encoding(text)
         else
