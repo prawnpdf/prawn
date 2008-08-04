@@ -181,7 +181,8 @@ describe "when drawing text" do
      end
      it "should not raise an exception when a shift-jis string is rendered" do 
        datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"  
-       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }        
+       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets } 
+       @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
        lambda { @pdf.text sjis_str }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
      end
    else
