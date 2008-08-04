@@ -163,6 +163,15 @@ describe "when drawing text" do
      lambda { @pdf.font "Pao bu" }.should.raise(Prawn::Errors::UnknownFont)
    end
 
+   it "should correctly render a utf-8 string when using a built-in font" do
+     str = "©" # copyright symbol
+     @pdf.text str
+
+     # grab the text from the rendered PDF and ensure it matches
+     text = observer(TextObserver)
+     text.string.should eql(str)
+   end
+
    if "spec".respond_to?(:encode!)
      # Handle non utf-8 string encodings in a sane way on M17N aware VMs
      it "should raise an exception when a utf-8 incompatible string is rendered" do
