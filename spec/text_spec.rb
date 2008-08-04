@@ -169,7 +169,7 @@ describe "when drawing text" do
 
      # grab the text from the rendered PDF and ensure it matches
      text = observer(TextObserver)
-     text.string.should eql(str)
+     text.string.should == str
    end
 
    if "spec".respond_to?(:encode!)
