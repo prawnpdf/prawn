@@ -129,6 +129,7 @@ module Prawn
           
           kerned.map { |r| 
             i = r.is_a?(Array) ? r.pack("C*") : r 
+            i.force_encoding("ISO-8859-1") if i.respond_to?(:force_encoding)
             i.is_a?(Numeric) ? -i : i
           }                        
         end

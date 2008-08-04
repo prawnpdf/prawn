@@ -316,7 +316,7 @@ module Prawn
         # TODO: if the current font is a built in one, we can't use the utf-8
         # string provided by the user. We should convert it to WinAnsi or
         # MacRoman or some such.
-        if text.respond_to?(:"encode!")
+        if text.respond_to?(:encode!)
           # if we're running under a M17n aware VM, ensure the string provided is
           # UTF-8 (by converting it if necessary)
           begin
@@ -373,7 +373,7 @@ module Prawn
       end
 
       def using_builtin_font?
-        @font[-4,4].downcase != ".ttf"
+        fonts[@font].data[:Subtype] == :Type1
       end
     end
   end
