@@ -45,17 +45,25 @@ module Prawn
       # wanted it usually means the current font doesn't include that character.
       #
       def text(text,options={})
-        # check the string is encoded sanely
-        normalize_encoding(text)
+        # ensure a valid font is selected
+        font "Helvetica" unless fonts[@font]
+
+        # we'll be messing with the strings encoding, don't change the users
+        # original string
+        text = text.dup
+
+        # check the string is encoded sanely (utf-8)
+        if using_builtin_font?
+          normalise_builtin_encoding(text)
+        else
+          normalize_ttf_encoding(text)
+        end
 
         if options.key?(:kerning)
           options[:kerning] = false unless font_metrics.has_kerning_data?
         else
           options[:kerning] = true if font_metrics.has_kerning_data?
         end
-
-        # ensure a valid font is selected
-        font "Helvetica" unless fonts[@font]
 
         return wrapped_text(text,options) unless options[:at]
         
@@ -151,7 +159,8 @@ module Prawn
       alias_method :font_size=, :font_size!
 
       private 
-      
+
+
       # The current font_size being used in the document.
       #
       def current_font_size
@@ -281,7 +290,21 @@ module Prawn
         return basename
       end
 
-      def normalize_encoding(text)
+      # built-in fonts only work with latin encoding, so translate the string
+      def normalise_builtin_encoding(text)
+        if text.respond_to?(:encode!)
+          text.encode!("ISO-8859-1")
+        else
+          require 'iconv'
+          text.replace Iconv.conv('ISO-8859-1', 'utf-8', text)
+        end
+      rescue
+        raise Prawn::Errors::IncompatibleStringEncoding, "When using a " +
+            "builtin font, only characters that exist in " +
+            "WinAnsi/ISO-8859-1 are allowed."
+      end
+
+      def normalize_ttf_encoding(text)
         # TODO: if the current font is a built in one, we can't use the utf-8
         # string provided by the user. We should convert it to WinAnsi or
         # MacRoman or some such.
@@ -316,7 +339,7 @@ module Prawn
         fonts[name] ||= ref(:Type => :Font,
                             :Subtype => :Type1,
                             :BaseFont => name.to_sym,
-                            :Encoding => :MacRomanEncoding)
+                            :Encoding => :WinAnsiEncoding)
         return name
       end
 
@@ -341,6 +364,9 @@ module Prawn
         @fonts ||= {}
       end
 
+      def using_builtin_font?
+        @font[-4,4].downcase != ".ttf"
+      end
     end
   end
 end
