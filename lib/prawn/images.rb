@@ -18,10 +18,11 @@ module Prawn
     # <tt>filename</tt>:: the path to the file to be embedded
     #
     # Options:
-    # <tt>:at</tt>:: the location of the top left corner of the image [current position]
+    # <tt>:at</tt>:: the location of the top left corner of the image.
+    # <tt>:position/tt>::  
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
-    # <tt>:scale</tt>:: scale the dimensions of the image proportionally
+    # <tt>:scale</tt>:: scale the dimensions of the image proportionally      
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
     #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
@@ -66,9 +67,14 @@ module Prawn
         image_registry[image_sha1] = {:obj => image_obj, :info => info}
       end
 
-      # find where the image will be placed and how big it will be
-      x,y = translate(options[:at])
+      # find where the image will be placed and how big it will be  
       w,h = calc_image_dimensions(info, options)
+      if options[:at]       
+        x,y = translate(options[:at]) 
+      else                  
+        x,y = image_position(w,h,options) 
+        move_text_position h   
+      end
 
       # add a reference to the image object to the current page
       # resource list and give it a label
@@ -80,7 +86,25 @@ module Prawn
       add_content instruct % [ w, h, x, y - h, label ]
     end
 
-    private
+    private   
+    
+    def image_position(w,h,options)
+      options[:position] ||= :left
+      case options[:position] 
+      when :left
+        x,y = bounds.absolute_left, self.y
+      when :center
+        x = bounds.absolute_left + (bounds.width - w) / 2.0 
+        y = self.y
+      when :right
+        x,y = bounds.absolute_right - w, self.y  
+      when Numeric
+        x = options[:position] + bounds.absolute_left
+        y = self.y
+      end       
+      
+      return [x,y]
+    end
 
     def build_jpg_object(data, jpg) 
       color_space = case jpg.channels
