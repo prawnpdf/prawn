@@ -159,10 +159,15 @@ module Prawn
         end  
       
         def metrics_path
-          @metrics_path ||= (ENV['METRICS'] || 
-            "/usr/lib/afm:/usr/local/lib/afm:"+
-            "/usr/openwin/lib/fonts/afm/:"+
-            "#{Prawn::BASEDIR+'/data/fonts/'}:.").split(':')
+          if m = ENV['METRICS']
+            @metrics_path ||= m.split(':')
+          else 
+            @metrics_path ||= [
+              "/usr/lib/afm",
+              "/usr/local/lib/afm",
+              "/usr/openwin/lib/fonts/afm/", 
+               Prawn::BASEDIR+'/data/fonts/','.'] 
+          end
         end 
 
         def has_kerning_data?
