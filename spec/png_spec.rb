@@ -28,7 +28,7 @@ describe "When reading an RGB PNG file" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename) { |f| f.read }
+    data = File.open(@data_filename, "rb") { |f| f.read }
     png.img_data.should eql(data)
   end  
 end
