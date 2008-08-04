@@ -1,4 +1,10 @@
 # encoding: utf-8
+#
+# table.rb : Simple table drawing functionality
+#
+# Copyright June 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
   class Document
