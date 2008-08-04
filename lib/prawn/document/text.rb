@@ -54,7 +54,7 @@ module Prawn
 
         # check the string is encoded sanely (utf-8)
         if using_builtin_font?
-          normalise_builtin_encoding(text)
+          normalize_builtin_encoding(text)
         else
           normalize_ttf_encoding(text)
         end
@@ -291,7 +291,7 @@ module Prawn
       end
 
       # built-in fonts only work with latin encoding, so translate the string
-      def normalise_builtin_encoding(text)
+      def normalize_builtin_encoding(text)
         if text.respond_to?(:encode!)
           text.encode!("ISO-8859-1")
         else
