@@ -192,27 +192,73 @@ module Prawn
       end
     end
                                       
-    # Sets the fill color.  6 digit HTML color codes are used.
+    # Sets the fill color.  
+    #
+    # If a single argument is provided, it should be a 6 digit HTML color 
+    # code.
     # 
     #   pdf.fill_color "f0ffc1"
     #
-    def fill_color(color=nil)
-      return @fill_color unless color
-      @fill_color = color
-      set_fill_color     
+    # If 3 arguments are provided, the color is assumed to be a RGB value.
+    # Values range from 0 - 255.
+    # 
+    #   pdf.fill_color 255, 0, 0
+    #
+    # If 4 arguments are provided, the color is assumed to be a CMYK value
+    # Values range from 0 - 100.
+    # 
+    #   pdf.fill_color 0, 99, 95, 0
+    #
+    def fill_color(*color)
+      if color.size == 0
+        return @fill_color
+      elsif color.size == 1
+        color = color.to_s
+        r,g,b = color[0..1], color[2..3], color[4..5]
+        @fill_color = [r,g,b].map { |e| e.to_i(16) }
+        set_fill_color
+      elsif color.size == 3 || color.size == 4
+        @fill_color = color
+        set_fill_color
+      elsif color.size == 2 || color.size > 4
+        raise ArgumentError, 'wrong number of arguments supplied'
+      end
     end 
     
     alias_method :fill_color=, :fill_color                                                                     
     
     # Sets the line stroking color.  6 digit HTML color codes are used.
     #
-    #   pdf.stroke_color "cc2fde"
+    # If a single argument is provided, it should be a 6 digit HTML color 
+    # code.
+    # 
+    #   pdf.fill_color "f0ffc1"
+    #
+    # If 3 arguments are provided, the color is assumed to be a RGB value.
+    # Values range from 0 - 255.
+    # 
+    #   pdf.fill_color 255, 0, 0
+    #
+    # If 4 arguments are provided, the color is assumed to be a CMYK value
+    # Values range from 0 - 100.
+    # 
+    #   pdf.fill_color 0, 99, 95, 0
     #
     def stroke_color(color=nil) 
-      return @stroke_color unless color
-      @stroke_color = color
-      set_stroke_color
-    end   
+      if color.size == 0
+        return @stroke_color
+      elsif color.size == 1
+        color = color.to_s
+        r,g,b = color[0..1], color[2..3], color[4..5]
+        @stroke_color = [r,g,b].map { |e| e.to_i(16) }
+        set_stroke_color
+      elsif color.size == 3 || color.size == 4
+        @stroke_color = color
+        set_stroke_color
+      elsif color.size == 2 || color.size > 4
+        raise ArgumentError, 'wrong number of arguments supplied'
+      end
+    end
     
     alias_method :stroke_color=, :stroke_color
     
@@ -263,20 +309,29 @@ module Prawn
     end     
                                                                         
     def set_fill_color
-      r,g,b = [@fill_color[0..1], @fill_color[2..3], @fill_color[4..5]].
-              map { |e| e.to_i(16) }       
-      add_content "%.3f %.3f %.3f rg" %  [r / 255.0, g / 255.0, b / 255.0]   
+      if @fill_color.size == 3
+        r,g,b = *@fill_color
+        add_content "%.3f %.3f %.3f rg" %  [r / 255.0, g / 255.0, b / 255.0]
+      elsif @fill_color.size == 4
+        c,m,y,k = *@fill_color
+        add_content "%.3f %.3f %.3f %.3f k" %  [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
+      end
+
     end
     
     def set_stroke_color
-      r,g,b = [@stroke_color[0..1], @stroke_color[2..3], @stroke_color[4..5]].
-              map { |e| e.to_i(16) }     
-      add_content "%.3f %.3f %.3f RG" %  [r / 255.0, g / 255.0, b / 255.0]       
+      if @fill_color.size == 3
+        r,g,b = *@fill_color
+        add_content "%.3f %.3f %.3f RG" %  [r / 255.0, g / 255.0, b / 255.0]
+      elsif @fill_color.size == 4
+        c,m,y,k = *@fill_color
+        add_content "%.3f %.3f %.3f %.3f K" %  [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
+      end
     end                                       
     
     def update_colors 
-      @fill_color   ||= "000000"
-      @stroke_color ||= "000000"                                       
+      @fill_color   ||= [0,0,0]
+      @stroke_color ||= [0,0,0]
       set_fill_color
       set_stroke_color
     end
