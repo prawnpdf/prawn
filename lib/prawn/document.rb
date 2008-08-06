@@ -77,7 +77,7 @@ module Prawn
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
        @root    = ref(:Type => :Catalog, :Pages => @pages)  
        @page_start_proc = options[:on_page_start]
-       @page_stop_proc  = options[:on_page_end]              
+       @page_stop_proc  = options[:on_page_stop]              
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
              
