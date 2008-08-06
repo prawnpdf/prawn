@@ -67,7 +67,7 @@ describe "When ending each page" do
 
     on_end.should_receive(:[]).exactly(3).times
 
-    pdf = Prawn::Document.new(:on_page_end => on_end)
+    pdf = Prawn::Document.new(:on_page_stop => on_end)
     pdf.start_new_page
     pdf.start_new_page
     pdf.render
