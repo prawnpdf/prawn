@@ -73,6 +73,30 @@ describe "When ending each page" do
     pdf.render
   end
 
+  it "should not compress the page content stream if compression is disabled" do
+
+    pdf = Prawn::Document.new(:compress => false)
+    content_stub = pdf.ref({})
+    content_stub.stub!(:compress_stream).and_return(true)
+    content_stub.should_not_receive(:compress_stream)
+
+    pdf.instance_variable_set("@page_content", content_stub)
+    pdf.text "Hi There" * 20
+    pdf.render
+  end
+
+  it "should compress the page content stream if compression is enabled" do
+
+    pdf = Prawn::Document.new(:compress => true)
+    content_stub = pdf.ref({})
+    content_stub.stub!(:compress_stream).and_return(true)
+    content_stub.should_receive(:compress_stream).exactly(1).times
+
+    pdf.instance_variable_set("@page_content", content_stub)
+    pdf.text "Hi There" * 20
+    pdf.render
+  end
+
 end                                 
 
 class PageDetails      

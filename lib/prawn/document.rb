@@ -59,6 +59,7 @@ module Prawn
     # <tt>:top_margin</tt>:: Sets the top margin in points [ 0.5 inch]
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
+    # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
     # 
     #                             
     #   # New document, US Letter paper, portrait orientation
@@ -80,6 +81,7 @@ module Prawn
        @page_stop_proc  = options[:on_page_end]              
        @page_size   = options[:page_size]   || "LETTER"    
        @page_layout = options[:page_layout] || :portrait
+       @compress = options[:compress] || false
              
        @margins = { :left   => options[:left_margin]   || 36,
                     :right  => options[:right_margin]  || 36,  
@@ -239,6 +241,11 @@ module Prawn
       yield
       fields.each { |f| send("#{f}=", stored[f]) }
     end
+
+    def compression_enabled?
+      @compress
+    end
+
    
     private 
     
@@ -286,6 +293,7 @@ module Prawn
     def finish_page_content     
       @page_stop_proc[self] if @page_stop_proc
       add_content "Q"
+      @page_content.compress_stream if compression_enabled?
       @page_content.data[:Length] = @page_content.stream.size
     end
     
