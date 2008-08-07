@@ -230,21 +230,21 @@ describe "When using painting shortcuts" do
   before(:each) { create_pdf }
  
   it "should convert stroke_some_method(args) into some_method(args); stroke" do
-    @pdf.should_receive(:line_to).with([100,100])
-    @pdf.should_receive(:stroke)
+    @pdf.expects(:line_to).with([100,100])
+    @pdf.expects(:stroke)
     
     @pdf.stroke_line_to [100,100]
   end  
   
   it "should convert fill_some_method(args) into some_method(args); fill" do
-    @pdf.should_receive(:line_to).with([100,100]) 
-    @pdf.should_receive(:fill)
+    @pdf.expects(:line_to).with([100,100]) 
+    @pdf.expects(:fill)
     
     @pdf.fill_line_to [100,100]
   end
   
   it "should not break method_missing" do
     lambda { @pdf.i_have_a_pretty_girlfriend_named_jia }.
-      should raise_error(NoMethodError) 
+      should.raise(NoMethodError) 
   end
 end

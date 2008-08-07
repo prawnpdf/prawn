@@ -101,8 +101,8 @@ module Prawn
               end
             end
           else
-            string.unpack("U*").inject(0) do |s,r|
-              s + latin_glyphs_table[r]
+            string.unpack("U*").inject(0) do |s,r| 
+              s + latin_glyphs_table[r].to_i
             end * scale
           end
         end

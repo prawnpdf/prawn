@@ -11,7 +11,7 @@ describe "A bounding box" do
       @pdf.text "The rain in Spain falls mainly on the plains."
     end
     
-    @pdf.y.should be_close(458.384, 0.001)
+    @pdf.y.should.be.close 458.384, 0.001 
   end
 
 end
