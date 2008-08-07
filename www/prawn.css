@@ -29,7 +29,8 @@ h1 {
 
 a { 
 	color: #ffffff; 
-	text-decoration: none; 
+	text-decoration: none;
+	outline: none; 
 }
 
 a:visited { 
@@ -38,6 +39,10 @@ a:visited {
 
 a:hover, a:active { 
 	color: #ffffff;
+}
+ 
+a img {
+    border:none;
 }
 
 #contents { 
