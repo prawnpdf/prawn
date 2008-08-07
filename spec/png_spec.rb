@@ -17,19 +17,19 @@ describe "When reading an RGB PNG file" do
   it "should read the attributes from the header chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
     
-    png.width.should eql(258)
-    png.height.should eql(105)
-    png.bits.should eql(8)
-    png.color_type.should eql(2)
-    png.compression_method.should eql(0)
-    png.filter_method.should eql(0)
-    png.interlace_method.should eql(0)
+    png.width.should == 258
+    png.height.should == 105
+    png.bits.should == 8
+    png.color_type.should == 2
+    png.compression_method.should == 0
+    png.filter_method.should == 0
+    png.interlace_method.should == 0
   end
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
     data = File.open(@data_filename, "rb") { |f| f.read }
-    png.img_data.should eql(data)
+    png.img_data.should == data
   end  
 end
 
