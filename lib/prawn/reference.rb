@@ -6,6 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require 'zlib'
+
 module Prawn  
   
   class Reference #:nodoc:
@@ -17,6 +19,7 @@ module Prawn
       @identifier = id 
       @gen   = 0       
       @data  = data     
+      @compressed = false
     end            
     
     def object 
@@ -29,13 +32,19 @@ module Prawn
     end  
     
     def <<(data)
+      raise 'Cannot add data to a stream that is compressed' if @compressed
       (@stream ||= "") << data  
     end  
     
     def to_s            
       "#{@identifier} #{gen} R"
     end
-      
+
+    def compress_stream
+      @stream = Zlib::Deflate.deflate(@stream)
+      @data[:Filter] = :FlateDecode
+      @compressed = true
+    end
   end         
   
   module_function
