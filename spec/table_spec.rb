@@ -72,7 +72,7 @@ describe "A table's width" do
 
     font_height = pdf.font_metrics.font_height(12)
 
-    table_height.should be_close(num_rows*font_height + 2*vpad*num_rows + vpad, 0.001)
+    table_height.should.be.close(num_rows*font_height + 2*vpad*num_rows + vpad, 0.001)
   end
 
 end
@@ -139,7 +139,7 @@ describe "A table's content" do
       data = [["foo","bar"],["baz",""]]
       @pdf = Prawn::Document.new
       @pdf.table(data)
-    }.should_not raise_error
+    }.should.not.raise
   end
     
 end
