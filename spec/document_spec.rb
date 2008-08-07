@@ -49,7 +49,7 @@ describe "When beginning each new page" do
   it "should execute the lambda specified by on_page_start" do
     on_start = mock("page_start_proc")
 
-    on_start.should_receive(:[]).exactly(3).times
+    on_start.expects(:[]).times(3)
    
     pdf = Prawn::Document.new(:on_page_start => on_start)
     pdf.start_new_page 
@@ -65,7 +65,7 @@ describe "When ending each page" do
 
     on_end = mock("page_end_proc")
 
-    on_end.should_receive(:[]).exactly(3).times
+    on_end.expects(:[]).times(3)
 
     pdf = Prawn::Document.new(:on_page_stop => on_end)
     pdf.start_new_page
@@ -77,8 +77,8 @@ describe "When ending each page" do
 
     pdf = Prawn::Document.new(:compress => false)
     content_stub = pdf.ref({})
-    content_stub.stub!(:compress_stream).and_return(true)
-    content_stub.should_not_receive(:compress_stream)
+    content_stub.stubs(:compress_stream).returns(true)
+    content_stub.expects(:compress_stream).never
 
     pdf.instance_variable_set("@page_content", content_stub)
     pdf.text "Hi There" * 20
@@ -89,8 +89,8 @@ describe "When ending each page" do
 
     pdf = Prawn::Document.new(:compress => true)
     content_stub = pdf.ref({})
-    content_stub.stub!(:compress_stream).and_return(true)
-    content_stub.should_receive(:compress_stream).exactly(1).times
+    content_stub.stubs(:compress_stream).returns(true)
+    content_stub.expects(:compress_stream).once
 
     pdf.instance_variable_set("@page_content", content_stub)
     pdf.text "Hi There" * 20
@@ -156,8 +156,8 @@ describe "The mask() feature" do
     @pdf.mask(:y, :line_width) do
       @pdf.y = y + 1
       @pdf.line_width = line_width + 1
-      @pdf.y.should_not == y
-      @pdf.line_width.should_not == line_width
+      @pdf.y.should.not == y
+      @pdf.line_width.should.not == line_width
     end
     @pdf.y.should == y
     @pdf.line_width.should == line_width 
@@ -170,7 +170,7 @@ describe "The render() feature" do
       @pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
       @pdf.line [100,100], [200,200]
       str = @pdf.render
-      str.encoding.to_s.should eql("ASCII-8BIT")
+      str.encoding.to_s.should == "ASCII-8BIT"
     end
   end
 end
