@@ -184,6 +184,13 @@ module Prawn
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
             row.each_with_index do |e,i| 
+              case(@align)
+              when Array, Hash
+                align            = @align[i] || :left
+              else
+                align            = @align
+              end
+              
               case(e)
               when Prawn::Graphics::Cell
                 e.document = @document
@@ -192,7 +199,7 @@ module Prawn
                 e.vertical_padding   = @vertical_padding    
                 e.border             = @border
                 e.border_style       = :sides
-                e.align              = @align
+                e.align              = align
                 c << e
               else
                 c << Prawn::Graphics::Cell.new(
@@ -203,7 +210,7 @@ module Prawn
                   :vertical_padding => @vertical_padding,
                   :border   => @border,
                   :border_style => :sides,
-                  :align    => @align ) 
+                  :align    => align ) 
               end   
             end
 
