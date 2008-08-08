@@ -4,7 +4,7 @@ require 'spec/rake/spectask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
-PRAWN_VERSION = "0.1.0" 
+PRAWN_VERSION = "0.1.1" 
 
 task :default => [:spec]
 
