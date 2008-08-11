@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: ASCII-8BIT
 
 # Spec'ing the PNG class. Not complete yet - still needs to check the
 # contents of palette and transparency to ensure they're correct.
@@ -115,13 +115,13 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
 
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, "rb") { |f| f.read }
+    data = File.open(@data_filename, rb_flag) { |f| f.read }
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@alpha_data_filename, "rb") { |f| f.read }
+    data = File.open(@alpha_data_filename, rb_flag) { |f| f.read }
     png.alpha_channel.should == data
   end
 end
@@ -132,7 +132,7 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
     @filename = "#{Prawn::BASEDIR}/data/images/dice.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/dice.dat"
     @alpha_data_filename = "#{Prawn::BASEDIR}/data/images/dice.alpha"
-    @img_data = File.open(@filename, "rb") { |f| f.read }
+    @img_data = File.open(@filename, "rb") { |f| f.read }       
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -149,13 +149,13 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
 
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, "rb") { |f| f.read }
+    data = File.open(@data_filename, rb_flag) { |f| f.read }     
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@alpha_data_filename, "rb") { |f| f.read }
+    data = File.open(@alpha_data_filename, rb_flag) { |f| f.read }
     png.alpha_channel.should == data
   end
 end
