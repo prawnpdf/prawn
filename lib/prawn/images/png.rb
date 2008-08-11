@@ -84,10 +84,21 @@ module Prawn
         end
 
         # if our img_data contains alpha channel data, split it out
-        unfilter_image_data if @color_type == 6
+        unfilter_image_data if alpha_channel?
+      end
+
+      def pixel_bytes
+        case @color_type
+        when 0, 4    then 1
+        when 1, 2, 6 then 3
+        end
       end
 
       private
+
+      def alpha_channel?
+        @color_type == 4 || @color_type == 6
+      end
 
       def paeth(a, b, c) # left, above, upper left
         p = a + b - c
@@ -104,7 +115,10 @@ module Prawn
         data = Zlib::Inflate.inflate(@img_data).unpack 'C*'
         @img_data = ""
         @alpha_channel = ""
-        scanline_length = 4 * @width + 1 # for filter
+
+        # each pixel has the color bytes, plus a byte of alpha channel
+        pixel_length = pixel_bytes + 1
+        scanline_length = pixel_length * @width + 1 # for filter
         row = 0
         pixels = []
         until data.empty? do
@@ -114,36 +128,36 @@ module Prawn
           when 0 then # None
           when 1 then # Sub
             row_data.each_with_index do |byte, index|
-              left = index < 4 ? 0 : row_data[index - 4]
+              left = index < pixel_length ? 0 : row_data[index - pixel_length]
               row_data[index] = (byte + left) % 256
               #p [byte, left, row_data[index]]
             end
           when 2 then # Up
             row_data.each_with_index do |byte, index|
-              col = index / 4
-              upper = row == 0 ? 0 : pixels[row-1][col][index % 4]
+              col = index / pixel_length
+              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_length]
               row_data[index] = (upper + byte) % 256
             end
           when 3 then # Average
             row_data.each_with_index do |byte, index|
-              col = index / 4
-              upper = row == 0 ? 0 : pixels[row-1][col][index % 4]
-              left = index < 4 ? 0 : row_data[index - 4]
+              col = index / pixel_length
+              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_length]
+              left = index < pixel_length ? 0 : row_data[index - pixel_length]
 
               row_data[index] = (byte + ((left + upper)/2).floor) % 256
             end
           when 4 then # Paeth
             left = upper = upper_left = nil
             row_data.each_with_index do |byte, index|
-              col = index / 4
+              col = index / pixel_length
 
-              left = index < 4 ? 0 : row_data[index - 4]
+              left = index < pixel_length ? 0 : row_data[index - pixel_length]
               if row == 0 then
                 upper = upper_left = 0
               else
-                upper = pixels[row-1][col][index % 4]
+                upper = pixels[row-1][col][index % pixel_length]
                 upper_left = col == 0 ? 0 :
-                  pixels[row-1][col-1][index % 4]
+                  pixels[row-1][col-1][index % pixel_length]
               end
 
               paeth = paeth left, upper, upper_left
@@ -155,7 +169,7 @@ module Prawn
           end
 
           pixels << []
-          row_data.each_slice 4 do |slice|
+          row_data.each_slice pixel_length do |slice|
             pixels.last << slice
           end
           row += 1
@@ -164,8 +178,8 @@ module Prawn
         # convert the pixel data to seperate strings for colours and alpha
         pixels.each do |row|
           row.each do |pixel|
-            @img_data << pixel[0,3].pack("C*")
-            @alpha_channel << pixel[3]
+            @img_data << pixel[0,pixel_bytes].pack("C*")
+            @alpha_channel << pixel.last
           end
         end
 
