@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: ASCII-8BIT
 
 # png.rb : Extracts the data from a PNG that is needed for embedding
 #
@@ -125,20 +125,20 @@ module Prawn
           row_data = data.slice! 0, scanline_length
           filter = row_data.shift
           case filter
-          when 0 then # None
-          when 1 then # Sub
+          when 0 # None
+          when 1 # Sub
             row_data.each_with_index do |byte, index|
               left = index < pixel_length ? 0 : row_data[index - pixel_length]
               row_data[index] = (byte + left) % 256
               #p [byte, left, row_data[index]]
             end
-          when 2 then # Up
+          when 2 # Up
             row_data.each_with_index do |byte, index|
               col = index / pixel_length
               upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_length]
               row_data[index] = (upper + byte) % 256
             end
-          when 3 then # Average
+          when 3  # Average
             row_data.each_with_index do |byte, index|
               col = index / pixel_length
               upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_length]
@@ -146,7 +146,7 @@ module Prawn
 
               row_data[index] = (byte + ((left + upper)/2).floor) % 256
             end
-          when 4 then # Paeth
+          when 4 # Paeth
             left = upper = upper_left = nil
             row_data.each_with_index do |byte, index|
               col = index / pixel_length
