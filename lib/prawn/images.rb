@@ -145,22 +145,12 @@ module Prawn
         raise ArgumentError, 'PNG uses more than 8 bits'
       end
       
-      case png.color_type
-      when 0
-        ncolor = 1
+      case png.pixel_bytes
+      when 1
         color = :DeviceGray
-      when 2
-        ncolor = 3
-        color  = :DeviceRGB
       when 3
-        ncolor = 1
-        color  = :DeviceRGB
-      when 6
-        ncolor = 3
-        color  = :DeviceRGB
-      else
-        raise ArgumentError, "PNG has unsupported color type" 
-      end                                   
+        color = :DeviceRGB
+      end
 
       # build the image dict
       obj = ref(:Type             => :XObject,
@@ -175,7 +165,7 @@ module Prawn
 
       unless png.alpha_channel
         obj.data[:DecodeParms] = {:Predictor => 15,
-                                  :Colors    => ncolor,
+                                  :Colors    => png.pixel_bytes,
                                   :Columns   => png.width}
       end
 
