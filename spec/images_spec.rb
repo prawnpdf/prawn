@@ -33,10 +33,10 @@ describe "the image() function" do
     images = observer(ImageObserver)
 
     # there should be 2 images in the page resources
-    images.page_xobjects.first.size.should eql(2)
+    images.page_xobjects.first.size.should == 2
 
     # but only 1 image xobject
-    @output.scan(/\/Type \/XObject/).size.should eql(1)
+    @output.scan(/\/Type \/XObject/).size.should == 1
   end  
 end
 

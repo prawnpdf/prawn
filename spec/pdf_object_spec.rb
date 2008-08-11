@@ -48,7 +48,7 @@ describe "PDF Object Serialization" do
  
   it "should not convert a whitespace containing Ruby symbol to a PDF name" do
     lambda { Prawn::PdfObject(:"My Symbol With Spaces") }.
-      should raise_error(Prawn::Errors::FailedObjectConversion)
+      should.raise(Prawn::Errors::FailedObjectConversion)
   end    
   
   it "should convert a Ruby array to PDF Array when inside a content stream" do
@@ -91,7 +91,7 @@ describe "PDF Object Serialization" do
   
   it "should not allow keys other than strings or symbols for PDF dicts" do
     lambda { Prawn::PdfObject(:foo => :bar, :baz => :bang, 1 => 4) }.
-      should raise_error(Prawn::Errors::FailedObjectConversion) 
+      should.raise(Prawn::Errors::FailedObjectConversion) 
   end  
   
   it "should convert a Prawn::Reference to a PDF indirect object reference" do

@@ -71,12 +71,12 @@ describe "when drawing text" do
      position = @pdf.y
      @pdf.text "Foo"
 
-     @pdf.y.should be_close(position - @pdf.font_metrics.font_height(12),
+     @pdf.y.should.be.close(position - @pdf.font_metrics.font_height(12),
                             0.0001)
 
      position = @pdf.y
      @pdf.text "Foo\nBar\nBaz"
-     @pdf.y.should be_close(position - 3*@pdf.font_metrics.font_height(12),
+     @pdf.y.should.be.close(position - 3*@pdf.font_metrics.font_height(12),
                             0.0001)
    end
    
@@ -154,13 +154,22 @@ describe "when drawing text" do
      @pdf.text "Blaz", :at => [150,150]
      text = observer(FontObserver)
 
-     text.page_fonts.size.should eql(2)
-     text.page_fonts[0][0].should eql(:Helvetica)
-     text.page_fonts[1][0].should eql(:Helvetica)
+     text.page_fonts.size.should  == 2
+     text.page_fonts[0][0].should == :Helvetica
+     text.page_fonts[1][0].should == :Helvetica
    end
    
    it "should raise an exception when an unknown font is used" do
-     lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
+     lambda { @pdf.font "Pao bu" }.should.raise(Prawn::Errors::UnknownFont)
+   end
+
+   it "should correctly render a utf-8 string when using a built-in font" do
+     str = "©" # copyright symbol
+     @pdf.text str
+
+     # grab the text from the rendered PDF and ensure it matches
+     text = observer(TextObserver)
+     text.string.should == str
    end
 
    if "spec".respond_to?(:encode!)
@@ -168,22 +177,23 @@ describe "when drawing text" do
      it "should raise an exception when a utf-8 incompatible string is rendered" do
        str = "Blah \xDD"
        str.force_encoding("ASCII-8BIT")
-       lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+       lambda { @pdf.text str }.should.raise(Prawn::Errors::IncompatibleStringEncoding)
      end
      it "should not raise an exception when a shift-jis string is rendered" do 
        datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"  
        sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets } 
-       lambda { @pdf.text sjis_str }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
+       @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+       lambda { @pdf.text sjis_str }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
      end
    else
      # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
      it "should raise an exception when a corrupt utf-8 string is rendered" do
        str = "Blah \xDD"
-       lambda { @pdf.text str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+       lambda { @pdf.text str }.should.raise(Prawn::Errors::IncompatibleStringEncoding)
      end
      it "should raise an exception when a shift-jis string is rendered" do
        sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
-       lambda { @pdf.text sjis_str }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
+       lambda { @pdf.text sjis_str }.should.raise(Prawn::Errors::IncompatibleStringEncoding)
      end
    end
 

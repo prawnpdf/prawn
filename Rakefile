@@ -1,16 +1,18 @@
 require 'rubygems'
 require 'rake'
-require 'spec/rake/spectask'
+require 'rake/testtask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
 PRAWN_VERSION = "0.1.1" 
 
-task :default => [:spec]
-
-desc "Run all specs"
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_files = FileList['spec/**/*.rb']
+task :default => [:test]
+       
+desc "Run all tests, test-spec and mocha required"
+Rake::TestTask.new do |test|
+  test.libs << "spec"
+  test.test_files = Dir[ "spec/*_spec.rb" ]
+  test.verbose = true
 end
 
 desc "Show library's code statistics"

@@ -26,4 +26,17 @@ describe "A Reference object" do
                            "\nBT\n/F1 12 Tf\n72 712 Td\n( A stream ) Tj\nET" +
                            "\nendstream\nendobj\n"
   end
+
+  it "should compress a stream upon request" do
+    ref = Prawn::Reference(2,{})
+    ref << "Hi There " * 20
+
+    cref = Prawn::Reference(2,{})
+    cref << "Hi There " * 20
+    cref.compress_stream
+
+    assert cref.stream.size < ref.stream.size, 
+      "compressed stream expected to be smaller than source but wasn't"
+    cref.data[:Filter].should == :FlateDecode
+  end
 end

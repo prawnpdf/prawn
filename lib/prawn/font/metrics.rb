@@ -89,6 +89,8 @@ module Prawn
           Float(bbox[3] - bbox[1]) * font_size / 1000.0
         end        
       
+        # calculates the width of the supplied string.
+        # String *must* be encoded as iso-8859-1
         def string_width(string, font_size, options = {})   
           scale = font_size / 1000.0
           
@@ -101,14 +103,18 @@ module Prawn
               end
             end
           else
-            string.unpack("U*").inject(0) do |s,r|
+            string.unpack("C*").inject(0) do |s,r|
               s + latin_glyphs_table[r]
             end * scale
           end
         end
         
+        # converts a string into an array with spacing offsets
+        # bewteen characters that need to be kerned
+        #
+        # String *must* be encoded as iso-8859-1
         def kern(string) 
-          kerned = string.unpack("U*").inject([]) do |a,r|
+          kerned = string.unpack("C*").inject([]) do |a,r|
             if a.last.is_a? Array
               if kern = latin_kern_pairs_table[[a.last.last, r]]
                 a << kern << [r]
@@ -122,7 +128,8 @@ module Prawn
           end            
           
           kerned.map { |r| 
-            i = r.is_a?(Array) ? r.pack("U*") : r 
+            i = r.is_a?(Array) ? r.pack("C*") : r 
+            i.force_encoding("ISO-8859-1") if i.respond_to?(:force_encoding)
             i.is_a?(Numeric) ? -i : i
           }                        
         end
@@ -178,6 +185,10 @@ module Prawn
           false
         end
 
+        # perform any changes to the string that need to happen
+        # before it is rendered to the canvas
+        #
+        # String *must* be encoded as iso-8859-1
         def convert_text(text, options={})
           options[:kerning] ? kern(text) : text
         end

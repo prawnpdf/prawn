@@ -16,10 +16,10 @@ describe "When reading a JPEG file" do
   it "should read the basic attributes correctly" do
     jpg = Prawn::Images::JPG.new(@img_data)
     
-    jpg.width.should eql(604)
-    jpg.height.should eql(453)
-    jpg.bits.should eql(8)
-    jpg.channels.should eql(3)
+    jpg.width.should == 604
+    jpg.height.should == 453
+    jpg.bits.should == 8
+    jpg.channels.should == 3
   end
 end
 
