@@ -7,7 +7,8 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "enumerator"
-require "prawn/graphics/cell"
+require "prawn/graphics/cell"   
+require "prawn/graphics/color"
 
 module Prawn
 
@@ -17,9 +18,10 @@ module Prawn
   # This file lifts and modifies several of PDF::Writer's graphics functions
   # ruby-pdf.rubyforge.org
   #
-  module Graphics 
-      
-      
+  module Graphics  
+    
+    include Color
+           
     #######################################################################
     # Low level drawing operations must translate to absolute coords!     #
     #######################################################################
@@ -191,150 +193,34 @@ module Prawn
         line_to(*p2)
       end
     end
-                                      
-    # Sets the fill color.  
-    #
-    # If a single argument is provided, it should be a 6 digit HTML color 
-    # code.
-    # 
-    #   pdf.fill_color "f0ffc1"
-    #
-    # If 3 arguments are provided, the color is assumed to be a RGB value.
-    # Values range from 0 - 255.
-    # 
-    #   pdf.fill_color 255, 0, 0
-    #
-    # If 4 arguments are provided, the color is assumed to be a CMYK value
-    # Values range from 0 - 100.
-    # 
-    #   pdf.fill_color 0, 99, 95, 0
-    #
-    def fill_color(*color)
-      if color.size == 0
-        return @fill_color
-      elsif color.size == 1
-        color = color.to_s
-        r,g,b = color[0..1], color[2..3], color[4..5]
-        @fill_color = [r,g,b].map { |e| e.to_i(16) }
-        set_fill_color
-      elsif color.size == 3 || color.size == 4
-        @fill_color = color
-        set_fill_color
-      elsif color.size == 2 || color.size > 4
-        raise ArgumentError, 'wrong number of arguments supplied'
-      end
-    end 
     
-    alias_method :fill_color=, :fill_color                                                                     
-    
-    # Sets the line stroking color.  6 digit HTML color codes are used.
-    #
-    # If a single argument is provided, it should be a 6 digit HTML color 
-    # code.
-    # 
-    #   pdf.fill_color "f0ffc1"
-    #
-    # If 3 arguments are provided, the color is assumed to be a RGB value.
-    # Values range from 0 - 255.
-    # 
-    #   pdf.fill_color 255, 0, 0
-    #
-    # If 4 arguments are provided, the color is assumed to be a CMYK value
-    # Values range from 0 - 100.
-    # 
-    #   pdf.fill_color 0, 99, 95, 0
-    #
-    def stroke_color(color=nil) 
-      if color.size == 0
-        return @stroke_color
-      elsif color.size == 1
-        color = color.to_s
-        r,g,b = color[0..1], color[2..3], color[4..5]
-        @stroke_color = [r,g,b].map { |e| e.to_i(16) }
-        set_stroke_color
-      elsif color.size == 3 || color.size == 4
-        @stroke_color = color
-        set_stroke_color
-      elsif color.size == 2 || color.size > 4
-        raise ArgumentError, 'wrong number of arguments supplied'
-      end
-    end
-    
-    alias_method :stroke_color=, :stroke_color
-    
-    # Strokes and closes the current path.
+    # Strokes and closes the current path. See Graphic::Color for color details
     #
     def stroke
       yield if block_given?
       add_content "S"
     end
 
-    # Fills and closes the current path
+    # Fills and closes the current path. See Graphic::Color for color details
     #
     def fill               
       yield if block_given?
       add_content "f"
     end
-    
-    # Fills, strokes, and closes the current path.
+
+    # Fills, strokes, and closes the current path. See Graphic::Color for color details
     #
     def fill_and_stroke  
       yield if block_given?
       add_content "b" 
-    end     
+    end                                                       
     
-    # Provides the following shortcuts:
-    #
-    #    stroke_some_method(*args) #=> some_method(*args); stroke
-    #    fill_some_method(*args) #=> some_method(*args); fill
-    #
-    def method_missing(id,*args,&block)
-      case(id.to_s) 
-      when /^fill_and_stroke_(.*)/
-        send($1,*args,&block); fill_and_stroke
-      when /^stroke_(.*)/
-        send($1,*args,&block); stroke 
-      when /^fill_(.*)/
-        send($1,*args,&block); fill
-      else
-        super
-      end
-    end                    
-    
-    private    
+    private       
     
     def translate(*point)
       x,y = point.flatten
       [@bounding_box.absolute_left + x, @bounding_box.absolute_bottom + y]
-    end     
-                                                                        
-    def set_fill_color
-      if @fill_color.size == 3
-        r,g,b = *@fill_color
-        add_content "%.3f %.3f %.3f rg" %  [r / 255.0, g / 255.0, b / 255.0]
-      elsif @fill_color.size == 4
-        c,m,y,k = *@fill_color
-        add_content "%.3f %.3f %.3f %.3f k" %  [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
-      end
-
-    end
-    
-    def set_stroke_color
-      if @fill_color.size == 3
-        r,g,b = *@fill_color
-        add_content "%.3f %.3f %.3f RG" %  [r / 255.0, g / 255.0, b / 255.0]
-      elsif @fill_color.size == 4
-        c,m,y,k = *@fill_color
-        add_content "%.3f %.3f %.3f %.3f K" %  [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
-      end
-    end                                       
-    
-    def update_colors 
-      @fill_color   ||= [0,0,0]
-      @stroke_color ||= [0,0,0]
-      set_fill_color
-      set_stroke_color
-    end
+    end                                                                           
 
   end
 end
