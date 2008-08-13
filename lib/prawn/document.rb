@@ -248,7 +248,6 @@ module Prawn
     def compression_enabled?
       @compress
     end
-
    
     private 
     
