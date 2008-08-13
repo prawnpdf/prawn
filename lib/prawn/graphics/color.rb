@@ -58,7 +58,29 @@ module Prawn
         else
           super
         end
-      end      
+      end   
+      
+      module_function
+        
+      # Converts RGB value array to hex string suitable for use with fill_color 
+      # and stroke_color  
+      #
+      #   >> Prawn::Graphics::Color.rgb2hex([255,120,8])
+      #   => "ff7808"     
+      #
+      def rgb2hex(rgb)
+        rgb.map { |e| "%02x" % e }.join
+      end  
+       
+      # Converts hex string into RGB value array:
+      #
+      #  >> Prawn::Graphics::Color.hex2rgb("ff7808")
+      #  => [255, 120, 8]
+      #
+      def hex2rgb(hex)
+        r,g,b = hex[0..1], hex[2..3], hex[4..5]
+        [r,g,b].map { |e| e.to_i(16) }
+      end 
       
       private
       
@@ -72,11 +94,6 @@ module Prawn
           raise ArgumentError, 'wrong number of arguments supplied'    
         end
       end  
-
-      def hex2rgb(hex)
-        r,g,b = hex[0..1], hex[2..3], hex[4..5]
-        [r,g,b].map { |e| e.to_i(16) }
-      end
       
       def set_fill_color             
         case @fill_color
