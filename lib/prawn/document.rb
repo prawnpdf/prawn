@@ -43,8 +43,7 @@ module Prawn
     #  end                                                
     #
     def self.generate(filename,options={},&block)
-      pdf = Prawn::Document.new(options)          
-      block.arity < 1 ? pdf.instance_eval(&block) : yield(pdf)
+      pdf = Prawn::Document.new(options,&block)          
       pdf.render_file(filename)
     end
           
@@ -72,7 +71,7 @@ module Prawn
     #   pdf = Prawn::Document.new(:on_page_start => 
     #     lambda { |doc| doc.line [0,100], [300,100] } )
     #
-    def initialize(options={})
+    def initialize(options={},&block)
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
@@ -92,7 +91,11 @@ module Prawn
        
        @bounding_box = @margin_box
        
-       start_new_page unless options[:skip_page_creation]
+       start_new_page unless options[:skip_page_creation]    
+       
+       if block
+         block.arity < 1 ? instance_eval(&block) : block[self]    
+       end 
      end     
             
      # Creates and advances to a new page in the document.
