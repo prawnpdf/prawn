@@ -185,13 +185,35 @@ module Prawn
                                  :DeviceRGB,
                                  (png.palette.size / 3) -1,
                                  palette_obj]
-
-        # add transparency data if necessary
-        #if png.transparency && png.transparency[:type] == 'indexed'
-        #  obj.data[:Mask] = png.transparency[:data]
-        #end
       end
 
+      # *************************************
+      # add transparency data if necessary
+      # *************************************
+
+      # For PNG color types 0, 2 and 3, the transparency data is stored in
+      # a dedicated PNG chunk, and is exposed via the transparency attribute
+      # of the PNG class.
+      if png.transparency[:grayscale]
+        # Use Color Key Masking (spec section 4.8.5)
+        # - An array with N elements, where N is two times the number of color
+        #   components.
+        obj.data[:Mask] = png.transparency[:grayscale].collect { |val| [val,val] }
+      elsif png.transparency[:rgb]
+        # Use Color Key Masking (spec section 4.8.5)
+        # - An array with N elements, where N is two times the number of color
+        #   components.
+        obj.data[:Mask] = png.transparency[:rgb].collect { |val| [val,val] }.flatten
+      elsif png.transparency[:indexed]
+        # TODO: broken. I was attempting to us Color Key Masking, but I think
+        #       we need to construct an SMask i think. Maybe do it inside
+        #       the PNG class, and store it in alpha_channel
+        #obj.data[:Mask] = png.transparency[:indexed]
+      end
+
+      # For PNG color types 4 and 6, the transparency data is stored as a alpha
+      # channel mixed in with the main image data. The PNG class seperates
+      # it out for us and makes it available via the alpha_channel attribute
       if png.alpha_channel
         smask_obj = ref(:Type             => :XObject,
                         :Subtype          => :Image,

@@ -30,6 +30,7 @@ module Prawn
 
         @palette  = ""
         @img_data = ""
+        @transparency = {}
 
         loop do
           chunk_size  = data.read(4).unpack("N")[0]
@@ -61,16 +62,16 @@ module Prawn
               # the palette index in the PLTE ("palette") chunk up until the
               # last non-opaque entry. Set up an array, stretching over all
               # palette entries which will be 0 (opaque) or 1 (transparent).
-              @transparency[:type]  = 'indexed'
-              @transparency[:data]  = data.read(chunk_size).unpack("C*")
+              @transparency[:indexed]  = data.read(chunk_size).unpack("C*")
+              short = 255 - @transparency[:indexed].size
+              @transparency[:indexed] += ([255] * short) if short > 0
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
-              @transparency[:grayscale] = data.read(2).unpack("n")
-              @transparency[:type]      = 'indexed'
+              @transparency[:grayscale] = data.read(chunk_size).unpack("n")
             when 2
               # True colour with proper alpha channel.
-              @transparency[:rgb] = data.read(6).unpack("nnn")
+              @transparency[:rgb] = data.read(chunk_size).unpack("nnn")
             end
           when 'IEND'
             # we've got everything we need, exit the loop
@@ -89,7 +90,7 @@ module Prawn
 
       def pixel_bytes
         case @color_type
-        when 0, 4    then 1
+        when 0, 3, 4 then 1
         when 1, 2, 6 then 3
         end
       end
