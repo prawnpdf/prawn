@@ -24,7 +24,7 @@ module Prawn
     def font(name=nil, options={}) 
       if name                                                         
         # Refactor this line
-        name = Font.families[name][options[:style] || :normal] || name    
+        name = font_families[name][options[:style] || :normal] || name    
         
         Prawn::Font.register(name,:for => self) unless font_registry[name]
         @font_name = name   
@@ -37,24 +37,10 @@ module Prawn
     
     def font_registry
       @font_registry ||= {}
-    end
-  end
-
-  class Font
+    end     
     
-    BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats 
-                    Courier-Bold Courier-Oblique Courier-BoldOblique
-                    Times-Bold Times-Oblique Times-BoldOblique
-                    Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique ] 
-                        
-    DEFAULT_SIZE = 12
-      
-    def self.register(name,options={})         
-       options[:for].font_registry[name] = Font.new(name,options)
-    end       
-    
-    def self.families 
-      @families ||= Hash.new { |h,k| h[k] = {} }.merge!(      
+    def font_families 
+      @font_families ||= Hash.new { |h,k| h[k] = {} }.merge!(      
         { "Courier"     => { :bold        => "Courier-Bold",
                              :italic      => "Courier-Oblique",
                              :bold_italic => "Courier-BoldOblique",
@@ -71,7 +57,20 @@ module Prawn
                              :normal       => "Helvetica" }        
         }) 
     end
+  end
+
+  class Font
     
+    BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats 
+                    Courier-Bold Courier-Oblique Courier-BoldOblique
+                    Times-Bold Times-Oblique Times-BoldOblique
+                    Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique ] 
+                        
+    DEFAULT_SIZE = 12
+      
+    def self.register(name,options={})         
+       options[:for].font_registry[name] = Font.new(name,options)
+    end      
       
     attr_reader   :metrics, :identifier, :reference, :name
     attr_writer   :size         
