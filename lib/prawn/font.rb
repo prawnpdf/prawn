@@ -22,10 +22,11 @@ module Prawn
     # more portable.
     #
     def font(name=nil, options={}) 
-      if name   
-        ff = name if font_families.key?(name)                                                     
-        # Refactor this line
-        name = font_families[name][options[:style] || :normal] || name         
+      if name     
+        if font_families.key?(name)
+          ff = name                                                      
+          name = font_families[name][options[:style] || :normal]
+        end 
         Prawn::Font.register(name,:for => self, :family => ff) unless font_registry[name]
         @font_name = name   
       elsif @font_name.nil?                                              
@@ -34,8 +35,6 @@ module Prawn
       end  
       font_registry[@font_name] 
     end      
-    
-    attr_reader :font_family
     
     def font_registry
       @font_registry ||= {}
