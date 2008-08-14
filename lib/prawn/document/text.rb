@@ -86,10 +86,6 @@ module Prawn
          (y - dy) < @margin_box.absolute_bottom ? start_new_page : self.y -= dy       
       end
 
-      def text_width(text,size)
-        font.metrics.string_width(text,size)
-      end
-
       # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options) 
         options[:align] ||= :left 
