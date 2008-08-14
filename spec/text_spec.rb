@@ -63,6 +63,35 @@ describe "Font Metrics" do
 
 end    
 
+describe "font style support" do
+  before(:each) { create_pdf }
+  
+  it "should allow specifying font style by style name and font family" do    
+    @pdf.font "Courier", :style => :bold
+    @pdf.text "In Courier bold"    
+    
+    @pdf.font "Courier", :style => :bold_italic
+    @pdf.text "In Courier bold-italic"   
+     
+    @pdf.font "Courier", :style => :italic
+    @pdf.text "In Courier italic"    
+    
+    @pdf.font "Courier", :style => :normal
+    @pdf.text "In Normal Courier"  
+           
+    @pdf.font "Helvetica"
+    @pdf.text "In Normal Helvetica"     
+    
+    text = observer(TextObserver)
+    text.font_settings[0][:name].should == :"Courier-Bold"
+    text.font_settings[1][:name].should == :"Courier-BoldOblique"
+    text.font_settings[2][:name].should == :"Courier-Oblique"
+    text.font_settings[3][:name].should == :"Courier"
+    text.font_settings[4][:name].should == :"Helvetica"
+ end
+      
+end
+
 describe "when drawing text" do     
    
    before(:each) { create_pdf } 

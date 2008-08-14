@@ -21,8 +21,11 @@ module Prawn
     # It will increase the size of the resulting file, but also make it 
     # more portable.
     #
-    def font(name=nil) 
-      if name  
+    def font(name=nil, options={}) 
+      if name                                                         
+        # Refactor this line
+        name = Font.families[name][options[:style] || :normal] || name    
+        
         Prawn::Font.register(name,:for => self) unless font_registry[name]
         @font_name = name   
       elsif @font_name.nil?                                              
@@ -48,7 +51,27 @@ module Prawn
       
     def self.register(name,options={})         
        options[:for].font_registry[name] = Font.new(name,options)
-    end  
+    end       
+    
+    def self.families 
+      @families ||= Hash.new { |h,k| h[k] = {} }.merge!(      
+        { "Courier"     => { :bold        => "Courier-Bold",
+                             :italic      => "Courier-Oblique",
+                             :bold_italic => "Courier-BoldOblique",
+                             :normal      => "Courier" },       
+           
+          "Times-Roman" => { :bold         => "Times-Bold",
+                             :italic       => "Times-Oblique",
+                             :bold_italic  => "Times-BoldOblique",
+                             :normal       => "Times-Roman" },        
+           
+          "Helvetica"   => { :bold         => "Helvetica-Bold",
+                             :italic       => "Helvetica-Oblique",
+                             :bold_italic  => "Helvetica-BoldOblique",
+                             :normal       => "Helvetica" }        
+        }) 
+    end
+    
       
     attr_reader   :metrics, :identifier, :reference, :name
     attr_writer   :size         
@@ -70,8 +93,8 @@ module Prawn
       end  
       
       add_to_current_page    
-    end 
-      
+    end      
+    
     def size(points=nil)      
       return @size unless points
       size_before_yield = @size
