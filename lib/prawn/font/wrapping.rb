@@ -39,7 +39,6 @@ module Prawn
         output
       end
       
-    end
-  
+    end  
   end
 end

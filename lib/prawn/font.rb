@@ -22,18 +22,20 @@ module Prawn
     # more portable.
     #
     def font(name=nil, options={}) 
-      if name                                                         
+      if name   
+        ff = name if font_families.key?(name)                                                     
         # Refactor this line
-        name = font_families[name][options[:style] || :normal] || name    
-        
-        Prawn::Font.register(name,:for => self) unless font_registry[name]
+        name = font_families[name][options[:style] || :normal] || name         
+        Prawn::Font.register(name,:for => self, :family => ff) unless font_registry[name]
         @font_name = name   
       elsif @font_name.nil?                                              
-        Prawn::Font.register("Helvetica", :for => self) 
+        Prawn::Font.register("Helvetica", :for => self, :family => "Helvetica") 
         @font_name = "Helvetica"             
       end  
       font_registry[@font_name] 
-    end   
+    end      
+    
+    attr_reader :font_family
     
     def font_registry
       @font_registry ||= {}
@@ -47,8 +49,8 @@ module Prawn
                              :normal      => "Courier" },       
            
           "Times-Roman" => { :bold         => "Times-Bold",
-                             :italic       => "Times-Oblique",
-                             :bold_italic  => "Times-BoldOblique",
+                             :italic       => "Times-Italic",
+                             :bold_italic  => "Times-BoldItalic",
                              :normal       => "Times-Roman" },        
            
           "Helvetica"   => { :bold         => "Helvetica-Bold",
@@ -63,7 +65,7 @@ module Prawn
     
     BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats 
                     Courier-Bold Courier-Oblique Courier-BoldOblique
-                    Times-Bold Times-Oblique Times-BoldOblique
+                    Times-Bold Times-Italic Times-BoldItalic
                     Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique ] 
                         
     DEFAULT_SIZE = 12
@@ -72,13 +74,15 @@ module Prawn
        options[:for].font_registry[name] = Font.new(name,options)
     end      
       
-    attr_reader   :metrics, :identifier, :reference, :name
+    attr_reader   :metrics, :identifier, :reference, :name, :family
     attr_writer   :size         
       
     def initialize(name,options={}) 
-      @name       = name           
+      @name       = name   
+      @family     = options[:family]      
+              
       @metrics    = Prawn::Font::Metrics[name] 
-      @document   = options[:for]        
+      @document   = options[:for]  
       
       @document.proc_set :PDF, :Text  
       @size       = DEFAULT_SIZE
