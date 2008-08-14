@@ -52,7 +52,6 @@ module Prawn
       
     attr_reader   :metrics, :identifier, :reference, :name
     attr_writer   :size         
-    attr_accessor :style
       
     def initialize(name,options={}) 
       @name       = name           
@@ -62,7 +61,6 @@ module Prawn
       @document.proc_set :PDF, :Text  
       @size       = DEFAULT_SIZE
       @identifier = :"F#{@document.font_registry.size + 1}"  
-      @style      = :none
       
       case(name)
       when /\.ttf$/
