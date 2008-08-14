@@ -87,8 +87,8 @@ module Prawn
       # The width of the cell in PDF points
       #
       def width
-        @width || (@document.font_metrics.string_width(@text,
-          @document.font_size)) + 2*@horizontal_padding
+        @width || (@document.font.metrics.string_width(@text,
+          @document.font.size)) + 2*@horizontal_padding
       end
 
       # The height of the cell in PDF points
@@ -100,9 +100,7 @@ module Prawn
       # The height of the text area excluding the vertical padding
       #
       def text_area_height
-        @document.font_metrics.string_height(@text, 
-         :font_size  => @document.font_size, 
-         :line_width => text_area_width) 
+        @document.font.height_of(@text, :line_width => text_area_width) 
       end
 
       # Draws the cell onto the PDF document

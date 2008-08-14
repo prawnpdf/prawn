@@ -19,8 +19,8 @@ describe "A table's width" do
     table = Prawn::Document::Table.new( [%w[ foo b ], %w[d foobar]], pdf,
       :horizontal_padding => hpad, :font_size => fs)
 
-    col0_width = pdf.font_metrics.string_width("foo",fs)
-    col1_width = pdf.font_metrics.string_width("foobar",fs)
+    col0_width = pdf.font.metrics.string_width("foo",fs)
+    col1_width = pdf.font.metrics.string_width("foobar",fs)
 
     table.width.should == col0_width + col1_width + 2*columns*hpad
   end
@@ -33,8 +33,8 @@ describe "A table's width" do
     stretchy_columns = 2
     
     col0_width = 50
-    col1_width = pdf.font_metrics.string_width("foo",fs)
-    col2_width = pdf.font_metrics.string_width("foobar",fs)
+    col1_width = pdf.font.metrics.string_width("foo",fs)
+    col2_width = pdf.font.metrics.string_width("foobar",fs)
     col3_width = 150
 
     table = Prawn::Document::Table.new( [%w[snake foo b apple], 
@@ -70,7 +70,7 @@ describe "A table's width" do
 
     table_height = origin - pdf.y
 
-    font_height = pdf.font_metrics.font_height(12)
+    font_height = pdf.font.height
 
     table_height.should.be.close(num_rows*font_height + 2*vpad*num_rows + vpad, 0.001)
   end

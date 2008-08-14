@@ -94,9 +94,9 @@ module Prawn
       # See Document#table for typical usage, as directly using this class is
       # not recommended unless you know why you want to do it.
       #
-      def initialize(data, document,options={})
+      def initialize(data, document,options={})   
         @data                = data
-        @document            = document
+        @document            = document                    
         @font_size           = options[:font_size] || 12
         @border_style        = options[:border_style]
         @border              = options[:border]    || 1
@@ -154,7 +154,7 @@ module Prawn
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.to_s.lines.map { |e| 
-              @document.font_metrics.string_width(e,@font_size) }.max.to_f +
+              @document.font.metrics.string_width(e,@font_size) }.max.to_f +
                 2*@horizontal_padding
             @col_widths[i] = length if length > @col_widths[i]
           end
@@ -176,7 +176,7 @@ module Prawn
         page_contents = []
         y_pos = @document.y
 
-        @document.font_size(@font_size) do
+        @document.font.size(@font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
             row.each_with_index do |e,i| 

@@ -51,7 +51,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
       "out blocks of text and optionally placing a border around it",
     :width => 225, :padding => 10, :border => 2
 
-  font_size! 24
+  font.size = 24
   cell [50,75], 
     :text => "This document demonstrates a number of Prawn's table features",
     :border_style => :no_top, # :all, :no_bottom, :sides

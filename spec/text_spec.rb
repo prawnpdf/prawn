@@ -11,7 +11,7 @@ class TextObserver
     @fonts = {}
   end
   
-  def resource_font(*params)
+  def resource_font(*params)     
     @fonts[params[0]] = params[1].basefont
   end
 
@@ -44,26 +44,26 @@ class FontObserver
   end
 end
 
-describe "Font Metrics" do
+describe "Font Metrics" do  
 
   it "should default to Helvetica if no font is specified" do
     @pdf = Prawn::Document.new
-    @pdf.font_metrics.should == Prawn::Font::Metrics["Helvetica"]
+    @pdf.font.metrics.should == Prawn::Font::Metrics["Helvetica"]
   end
 
   it "should use the currently set font for font_metrics" do
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @pdf.font_metrics.should == Prawn::Font::Metrics["Courier"]
+    @pdf.font.metrics.should == Prawn::Font::Metrics["Courier"]
    
     comicsans = "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
     @pdf.font(comicsans)
-    @pdf.font_metrics.should == Prawn::Font::Metrics[comicsans]
+    @pdf.font.metrics.should == Prawn::Font::Metrics[comicsans]
   end
 
 end    
 
-describe "when drawing text" do
+describe "when drawing text" do     
    
    before(:each) { create_pdf } 
 
@@ -71,13 +71,11 @@ describe "when drawing text" do
      position = @pdf.y
      @pdf.text "Foo"
 
-     @pdf.y.should.be.close(position - @pdf.font_metrics.font_height(12),
-                            0.0001)
+     @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
 
      position = @pdf.y
      @pdf.text "Foo\nBar\nBaz"
-     @pdf.y.should.be.close(position - 3*@pdf.font_metrics.font_height(12),
-                            0.0001)
+     @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
    end
    
    it "should default to 12 point helvetica" do
@@ -95,14 +93,14 @@ describe "when drawing text" do
    end
    
    it "should allow setting a default font size" do
-     @pdf.font_size! 16
+     @pdf.font.size = 16
      @pdf.text "Blah"
      text = observer(TextObserver)
      text.font_settings[0][:size].should == 16
    end
    
    it "should allow overriding default font for a single instance" do
-     @pdf.font_size! 16
+     @pdf.font.size = 16
 
      @pdf.text "Blah", :size => 11
      @pdf.text "Blaz"
@@ -113,7 +111,7 @@ describe "when drawing text" do
    
    
    it "should allow setting a font size transaction with a block" do
-     @pdf.font_size 16 do
+     @pdf.font.size 16 do
        @pdf.text 'Blah'
      end
 
@@ -126,7 +124,7 @@ describe "when drawing text" do
    
    it "should allow manual setting the font size " +
        "when in a font size block" do
-     @pdf.font_size 16 do
+     @pdf.font.size(16) do
         @pdf.text 'Foo'
         @pdf.text 'Blah', :size => 11
         @pdf.text 'Blaz'
@@ -138,14 +136,13 @@ describe "when drawing text" do
    end
       
    it "should allow registering of built-in font_settings on the fly" do
-     @pdf.font "Courier"
+     @pdf.font "Times-Roman"
      @pdf.text "Blah", :at => [100,100]
-     @pdf.font "Times-Roman"                    
+     @pdf.font "Courier"                    
      @pdf.text "Blaz", :at => [150,150]
-     text = observer(TextObserver) 
-            
-     text.font_settings[0][:name].should == :Courier
-     text.font_settings[1][:name].should == :"Times-Roman"
+     text = observer(TextObserver)                     
+     text.font_settings[0][:name].should == :"Times-Roman"  
+     text.font_settings[1][:name].should == :Courier
    end   
 
    it "should utilise the same default font across multiple pages" do

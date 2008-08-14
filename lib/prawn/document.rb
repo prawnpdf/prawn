@@ -22,8 +22,7 @@ module Prawn
     
     attr_accessor :y, :margin_box
     attr_reader   :margins, :page_size, :page_layout
-
-             
+      
     # Creates and renders a PDF document. 
     #
     # The block argument is necessary only when you need to make 
@@ -126,7 +125,7 @@ module Prawn
                            :Parent    => @pages, 
                            :MediaBox  => page_dimensions, 
                            :Contents  => @page_content)
-       set_current_font    
+       font.add_to_current_page if @font_name  
        update_colors
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
@@ -247,25 +246,8 @@ module Prawn
 
     def compression_enabled?
       @compress
-    end
-   
-    private 
+    end 
     
-    def generate_margin_box     
-      old_margin_box = @margin_box
-      @margin_box = BoundingBox.new(
-        self,
-        [ @margins[:left], page_dimensions[-1] - @margins[:top] ] ,
-        :width => page_dimensions[-2] - (@margins[:left] + @margins[:right]),
-        :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
-      )                                 
-            
-      # update bounding box if not flowing from the previous page
-      # TODO: This may have a bug where the old margin is restored
-      # when the bounding box exits.
-      @bounding_box = @margin_box if old_margin_box == @bounding_box              
-    end
-  
     def ref(data)
       @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
     end                                               
@@ -290,6 +272,23 @@ module Prawn
 
     def page_xobjects
       page_resources[:XObject] ||= {}
+    end
+   
+    private 
+    
+    def generate_margin_box     
+      old_margin_box = @margin_box
+      @margin_box = BoundingBox.new(
+        self,
+        [ @margins[:left], page_dimensions[-1] - @margins[:top] ] ,
+        :width => page_dimensions[-2] - (@margins[:left] + @margins[:right]),
+        :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
+      )                                 
+            
+      # update bounding box if not flowing from the previous page
+      # TODO: This may have a bug where the old margin is restored
+      # when the bounding box exits.
+      @bounding_box = @margin_box if old_margin_box == @bounding_box              
     end
     
     def finish_page_content     

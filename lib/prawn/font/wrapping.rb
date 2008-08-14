@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
-  module Font #:nodoc:
+  class Font #:nodoc:
     module Wrapping #:nodoc:
       
       # TODO: Replace with TeX optimal algorithm

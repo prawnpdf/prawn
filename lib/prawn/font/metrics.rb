@@ -10,7 +10,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-  module Font #:nodoc:
+  class Font #:nodoc:
     class Metrics #:nodoc:
 
       include Prawn::Font::Wrapping
