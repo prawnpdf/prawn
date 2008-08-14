@@ -61,22 +61,8 @@ module Prawn
         
         x,y = translate(options[:at]) 
         
-        font.size(options[:size]) do          
-          
-          text = font.metrics.convert_text(text,options)    
-
-          add_content %Q{
-            BT
-            /#{font.identifier} #{font.size} Tf
-            #{x} #{y} Td
-          }
-          
-          add_content Prawn::PdfObject(text, true) << 
-            " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
-          
-          add_content %Q{
-            ET
-          }
+        font.size(options[:size]) do                 
+          add_text_content(text,x,y,options)
         end
       end
                        
@@ -112,24 +98,30 @@ module Prawn
               x = @bounding_box.absolute_right - line_width
             end
                                
-            add_content %Q{
-              BT
-              /#{font.identifier} #{font.size} Tf
-              #{x} #{y} Td
-            }    
-             
-           add_content Prawn::PdfObject(font.metrics.convert_text(e,options), true) << 
-             " #{options[:kerning] ? 'TJ' : 'Tj'}\n"   
-
-            add_content %Q{
-              ET
-            }                
+            add_text_content(e,x,y,options)
             
             ds = -font.metrics.descender / 1000.0 * font.size 
             move_text_position(options[:spacing] || ds )
           end
         end
-      end
+      end  
+      
+      def add_text_content(text, x, y, options)
+        text = font.metrics.convert_text(text,options)
+
+        add_content %Q{
+          BT
+          /#{font.identifier} #{font.size} Tf
+          #{x} #{y} Td
+        }  
+
+        add_content Prawn::PdfObject(text, true) <<
+          " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
+
+        add_content %Q{
+          ET
+        }
+      end  
     end
   end
 end
