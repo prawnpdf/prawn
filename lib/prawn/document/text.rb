@@ -74,35 +74,44 @@ module Prawn
 
       # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options) 
-        options[:align] ||= :left 
+        options[:align] ||= :left      
+        @text_x_pos ||= 0 
+        
         font.size(options[:size]) do
           text = font.metrics.naive_wrap(text, bounds.right, font.size, 
-            :kerning => options[:kerning]) 
+            :kerning => options[:kerning], :offset => @text_x_pos ) 
 
           lines = text.lines
-
-          lines.each do |e|    
+          line_y = nil 
+                                                                              
+          lines.each do |e|                                                   
+            line_y = self.y           
             
             move_text_position( font.height + 
-                                font.metrics.descender / 1000.0 * font.size )  
-                               
+                                font.metrics.descender / 1000.0 * font.size )                                 
                            
             line_width = font.width_of(e)
             case(options[:align]) 
             when :left
-              x = @bounding_box.absolute_left
+              x = @bounding_box.absolute_left + @text_x_pos
             when :center
-              x = @bounding_box.absolute_left + 
+              x = @bounding_box.absolute_left + @text_x_pos +
                 (@bounding_box.width - line_width) / 2.0
             when :right
-              x = @bounding_box.absolute_right - line_width
+              x = @bounding_box.absolute_right - line_width - @text_x_pos
             end
                                
             add_text_content(e,x,y,options)
-            
             ds = -font.metrics.descender / 1000.0 * font.size 
-            move_text_position(options[:spacing] || ds )
+            move_text_position(options[:spacing] || ds )     
+            @text_x_pos = 0
+          end 
+          
+          if options[:hold_position]  
+            self.y = line_y 
+            @text_x_pos = font.width_of(lines.last)
           end
+          
         end
       end  
       

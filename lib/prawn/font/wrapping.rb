@@ -11,9 +11,9 @@ module Prawn
       
       # TODO: Replace with TeX optimal algorithm
       def naive_wrap(string, line_width, font_size, options = {})
-        output = ""
+        output = ""                
+        accumulated_width = options[:offset] || 0 
         string.lines.each do |line|
-          accumulated_width = 0
           segments = line.scan(/\S+|\s+/)
                                         
           segments.each do |segment|    
@@ -33,7 +33,9 @@ module Prawn
               output << segment
               accumulated_width += segment_width
             end
-          end
+          end    
+          
+          accumulated_width = 0
         end
   
         output
