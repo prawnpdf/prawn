@@ -4,9 +4,11 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
    
 Prawn::Document.generate("hold-text-position.pdf") do
-  text "bar bar " * 12, :hold_position => true   
-  font "Helvetica", :style => :bold
-  text "baz baz " * 12, :hold_position => true
-  font "Helvetica", :style => :normal
-  text "bar bar " * 12                             
+  text "bar bar " * 11, :hold_position => true
+  text "bazzy bazzy " * 11, :hold_position => true, :style => :bold
+  text "bar bar " * 4, :style => :normal, :hold_position => true
+
+  text "Hello ", :hold_position => true
+  text "Kitty ", :hold_position => true
+  text "The Sequel!!!"                        
 end

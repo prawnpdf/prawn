@@ -45,8 +45,15 @@ module Prawn
       def text(text,options={})
         # we'll be messing with the strings encoding, don't change the users
         # original string
-        text = text.dup
-          
+        text = text.dup                    
+        
+        original_font  = font.name                                              
+        
+        if options[:style]  
+          raise "Bad font family" unless font.family
+          font(font.family,:style => options[:style])
+        end
+               
         font.normalize_encoding(text)
 
         if options.key?(:kerning)
@@ -54,17 +61,21 @@ module Prawn
         else
           options[:kerning] = true if font.metrics.has_kerning_data?
         end                     
-        
-        options[:size] ||= font.size
 
-        return wrapped_text(text,options) unless options[:at]
-        
-        x,y = translate(options[:at]) 
-        
-        font.size(options[:size]) do                 
-          add_text_content(text,x,y,options)
-        end
-      end
+        options[:size] ||= font.size       
+
+        if options[:at]                
+          x,y = translate(options[:at]) 
+               
+          font.size(options[:size]) do                 
+            add_text_content(text,x,y,options)
+          end  
+        else
+          wrapped_text(text,options)
+        end         
+
+        font(original_font) 
+      end   
                        
       private 
 
