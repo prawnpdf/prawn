@@ -54,12 +54,10 @@ module Prawn
           font(font.family,:style => options[:style])
         end
                
-        font.normalize_encoding(text)
+        font.normalize_encoding(text) unless @skip_encoding
 
-        if options.key?(:kerning)
-          options[:kerning] = false unless font.metrics.has_kerning_data?
-        else
-          options[:kerning] = true if font.metrics.has_kerning_data?
+        unless options.key?(:kerning)
+          options[:kerning] = font.metrics.has_kerning_data?
         end                     
 
         options[:size] ||= font.size       

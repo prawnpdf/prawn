@@ -77,9 +77,10 @@ module Prawn
        @root    = ref(:Type => :Catalog, :Pages => @pages)  
        @page_start_proc = options[:on_page_start]
        @page_stop_proc  = options[:on_page_stop]              
-       @page_size   = options[:page_size]   || "LETTER"    
-       @page_layout = options[:page_layout] || :portrait
-       @compress = options[:compress] || false
+       @page_size       = options[:page_size]   || "LETTER"    
+       @page_layout     = options[:page_layout] || :portrait
+       @compress        = options[:compress] || false                
+       @skip_encoding   = options[:skip_encoding]
              
        @margins = { :left   => options[:left_margin]   || 36,
                     :right  => options[:right_margin]  || 36,  

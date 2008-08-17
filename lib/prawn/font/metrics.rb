@@ -275,7 +275,9 @@ module Prawn
         
         # TODO: NASTY. 
         def kern(string,options={})   
-          string.unpack("U*").inject([]) do |a,r|
+          a = []
+          
+          string.unpack("U*").each do |r|
             if a.last.is_a? Array
               if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]] 
                 kern *= scale_factor
@@ -287,7 +289,9 @@ module Prawn
               a << [r]
             end
             a
-          end.map { |r| 
+          end
+          
+          a.map { |r| 
             if options[:skip_conversion]
               r.is_a?(Array) ? r.pack("U*") : r
             else
@@ -398,9 +402,9 @@ module Prawn
 
         def convert_text(text,options)
           text = text.chomp
-          if options[:kerning]
-            kern(text)
-          else
+          if options[:kerning] 
+            kern(text)         
+          else     
            unicode_codepoints = text.unpack("U*")
             glyph_codes = unicode_codepoints.map { |u| 
               enc_table.get_glyph_id_for_unicode(u)
