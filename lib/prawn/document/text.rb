@@ -93,11 +93,8 @@ module Prawn
             :kerning => options[:kerning], :offset => @text_x_pos ) 
 
           lines = text.lines
-          line_y = nil 
-                                                                              
+                                                       
           lines.each do |e|                                                   
-            line_y = self.y           
-            
             move_text_position( font.height + 
                                 font.metrics.descender / 1000.0 * font.size )                                 
                            
@@ -117,12 +114,6 @@ module Prawn
             move_text_position(options[:spacing] || ds )     
             @text_x_pos = 0
           end 
-          
-          if options[:hold_position]  
-            self.y = line_y 
-            @text_x_pos = font.width_of(lines.last)
-          end
-          
         end
       end  
       
