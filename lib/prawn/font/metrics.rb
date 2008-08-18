@@ -383,19 +383,19 @@ module Prawn
             s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
           
           if table
-            @kern_pairs_table ||= table.kerning_pairs.inject({}) do |h,p|
+            @kern_pairs_table = table.kerning_pairs.inject({}) do |h,p|
               h[[p.left, p.right]] = p.value
               h
             end
           else
             @kern_pairs_table = {}
-          end
+          end               
+        rescue ::Font::TTF::TableMissing
+          @kern_pairs_table = {}
         end
 
         def has_kerning_data?
           @has_kerning_data 
-        rescue ::Font::TTF::TableMissing
-          false
         end
 
         def type0?
