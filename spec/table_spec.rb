@@ -47,7 +47,8 @@ describe "A table's width" do
                               col0_width.ceil + col3_width.ceil
 
   end
-
+      
+  # FIXME: Put in the right context
   it "should paginate large tables" do
     # 30 rows fit on the table with default setting, 31 exceed.
     data = [["foo"]] * 31
@@ -60,22 +61,29 @@ describe "A table's width" do
     pdf.page_count.should == 3
   end
 
-  it "should have a height of n rows + vertical padding" do
+end   
+
+describe "A table's height" do 
+  
+  before :all do                                           
     data = [["foo"],["bar"],["baaaz"]]
     pdf = Prawn::Document.new
-    num_rows = data.length
-    vpad     = 4
-    
+    @num_rows = data.length
+       
+    @vpad  = 4
     origin = pdf.y
-    pdf.table data, :vertical_padding => vpad
+    pdf.table data, :vertical_padding => @vpad
 
-    table_height = origin - pdf.y
+    @table_height = origin - pdf.y
 
-    font_height = pdf.font.height
-
-    table_height.should.be.close(num_rows*font_height + 2*vpad*num_rows + vpad, 0.001)
+    @font_height = pdf.font.height
+  end   
+  
+  it "should have a height of n rows" do  
+    @table_height.should.be.close(
+      @num_rows*@font_height + 2*@vpad*@num_rows, 0.001 )
   end
-
+  
 end
 
 class TableTextObserver

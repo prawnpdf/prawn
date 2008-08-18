@@ -226,7 +226,6 @@ module Prawn
             end
 
           end
-          @document.y -= @vertical_padding
         end
       end
 

@@ -34,10 +34,10 @@ Prawn::Document.generate("table.pdf") do
     :border     => 2,
     :position   => :center,
     :headers    => ["Column A","Column B","#"]
-  pad(20) do
-    text "This should appear in the original font size"
-  end
-
+                            
+  text "This should appear in the original font size, just below the table"     
+  move_down 10
+  
   table [[ "Wide", "columns", "streeetch"], 
          ["are","mighty fine", "streeeeeeeech"]],
     :widths => { 0 => 200, 1 => 250 }, :position => 5
