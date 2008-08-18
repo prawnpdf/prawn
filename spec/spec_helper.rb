@@ -34,7 +34,3 @@ def parse_pdf_object(obj)
   PDF::Reader::Parser.new(
      PDF::Reader::Buffer.new(sio = StringIO.new(obj)), nil).parse_token   
 end    
-
-def rb_flag
-  ruby_18 { "rb" } || ruby_19 { "rb:ASCII-8BIT" }
-end

@@ -14,7 +14,7 @@ describe "When reading a greyscale PNG file (color type 0)" do
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/web-links.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/web-links.dat"
-    @img_data = File.open(@filename, "rb") { |f| f.read }
+    @img_data = File.read_binary(@filename) 
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -31,7 +31,7 @@ describe "When reading a greyscale PNG file (color type 0)" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, "rb") { |f| f.read }
+    data = File.read_binary(@data_filename)
     png.img_data.should == data
   end
 end
@@ -40,7 +40,7 @@ describe "When reading a greyscale PNG file with transparency (color type 0)" do
 
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/ruport_type0.png"
-    @img_data = File.open(@filename, file_read_mode) { |f| f.read }
+    @img_data = File.read_binary(@filename)
   end
 
   # In a greyscale type 0 PNG image, the tRNS chunk should contain a single value
@@ -58,7 +58,7 @@ describe "When reading an RGB PNG file (color type 2)" do
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/ruport.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/ruport_data.dat"
-    @img_data = File.open(@filename, "rb") { |f| f.read }
+    @img_data = File.read_binary(@filename)
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -75,7 +75,7 @@ describe "When reading an RGB PNG file (color type 2)" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, "rb") { |f| f.read }
+    data = File.read_binary(@data_filename)
     png.img_data.should == data
   end
 end
@@ -84,7 +84,7 @@ describe "When reading an RGB PNG file with transparency (color type 2)" do
 
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/arrow2.png"
-    @img_data = File.open(@filename, file_read_mode) { |f| f.read }
+    @img_data = File.read_binary(@filename)
   end
 
   # In a RGB type 2 PNG image, the tRNS chunk should contain a single RGB value
@@ -105,7 +105,7 @@ describe "When reading an indexed color PNG file (color type 3)" do
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/rails.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/rails.dat"
-    @img_data = File.open(@filename, "rb") { |f| f.read }
+    @img_data = File.read_binary(@filename) 
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -122,7 +122,7 @@ describe "When reading an indexed color PNG file (color type 3)" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, "rb") { |f| f.read }
+    data = File.read_binary(@data_filename)
     png.img_data.should == data
   end
 end
@@ -133,7 +133,7 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
     @filename = "#{Prawn::BASEDIR}/data/images/page_white_text.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/page_white_text.dat"
     @alpha_data_filename = "#{Prawn::BASEDIR}/data/images/page_white_text.alpha"
-    @img_data = File.open(@filename, "rb") { |f| f.read }
+    @img_data = File.read_binary(@filename)
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -150,13 +150,13 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
 
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, rb_flag) { |f| f.read }
+    data = File.read_binary(@data_filename)
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@alpha_data_filename, rb_flag) { |f| f.read }
+    data = File.read_binary(@alpha_data_filename) 
     png.alpha_channel.should == data
   end
 end
@@ -167,7 +167,7 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
     @filename = "#{Prawn::BASEDIR}/data/images/dice.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/dice.dat"
     @alpha_data_filename = "#{Prawn::BASEDIR}/data/images/dice.alpha"
-    @img_data = File.open(@filename, "rb") { |f| f.read }       
+    @img_data = File.read_binary(@filename)  
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -184,13 +184,13 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
 
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@data_filename, rb_flag) { |f| f.read }     
+    data = File.read_binary(@data_filename)   
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.open(@alpha_data_filename, rb_flag) { |f| f.read }
+    data = File.read_binary(@alpha_data_filename)
     png.alpha_channel.should == data
   end
 end

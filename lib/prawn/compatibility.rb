@@ -9,8 +9,15 @@ if RUBY_VERSION < "1.9"
     def each_char
       scanner, char = StringScanner.new(self), /./mu
       loop { yield(scanner.scan(char) || break) }
+    end       
+    
+  end
+  
+  class File
+    def self.read_binary(file) 
+      File.open(file,"rb") { |f| f.read } 
     end
-  end 
+  end
   
   def ruby_18
     yield
@@ -20,7 +27,13 @@ if RUBY_VERSION < "1.9"
     false
   end
      
-else  
+else
+  
+  class File
+    def self.read_binary(file) 
+      File.open(file,"rb:BINARY") { |f| f.read } 
+    end
+  end  
  
   def ruby_18 
     false  
