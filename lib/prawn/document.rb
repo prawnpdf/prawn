@@ -133,7 +133,7 @@ module Prawn
      
        add_content "q"   
        
-       @y = @margin_box.absolute_top        
+       @y = @bounding_box.absolute_top        
        @page_start_proc[self] if @page_start_proc
     end             
       

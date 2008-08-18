@@ -77,8 +77,10 @@ module Prawn
                        
       private 
 
-      def move_text_position(dy)
-         (y - dy) < @margin_box.absolute_bottom ? start_new_page : self.y -= dy       
+      def move_text_position(dy)   
+         bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
+                                            @bounding_box.absolute_bottom
+         (y - dy) < bottom ? start_new_page : self.y -= dy       
       end
 
       # TODO: Get kerning working with wrapped text

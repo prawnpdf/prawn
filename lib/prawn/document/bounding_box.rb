@@ -245,9 +245,14 @@ module Prawn
       # height attribute), height is calculated as the distance from the top of
       # the box to the current drawing position.
       #
-      def height
+      def height  
         @height || absolute_top - @parent.y
+      end    
+      
+      def stretchy?
+        !@height 
       end
+      
     end
   end
 end
