@@ -247,9 +247,11 @@ module Prawn
         
         def initialize(font)
           @ttf = ::Font::TTF::File.open(font,"rb")
-          @attributes     = {}
-          @glyph_widths   = {}
-          @bounding_boxes = {}
+          @attributes       = {}
+          @glyph_widths     = {}
+          @bounding_boxes   = {} 
+          @char_widths      = {}   
+          @has_kerning_data = !kern_pairs_table.empty?    
         end
 
         def cmap
@@ -391,7 +393,7 @@ module Prawn
         end
 
         def has_kerning_data?
-          !kern_pairs_table.empty? 
+          @has_kerning_data 
         rescue ::Font::TTF::TableMissing
           false
         end
@@ -417,15 +419,16 @@ module Prawn
 
         def hmtx
           @hmtx ||= @ttf.get_table(:hmtx).metrics
-        end
+        end         
+        
 
-        def character_width_by_code(code)
+        def character_width_by_code(code)    
           return 0 unless cmap[code]
-          Integer(hmtx[cmap[code]][0] * scale_factor)           
+          @char_widths[code] ||= Integer(hmtx[cmap[code]][0] * scale_factor)           
         end                   
 
         def scale_factor
-          @scale ||= 1 / Float(@ttf.get_table(:head).units_per_em / 1000.0)
+          @scale ||= 1000 * Float(@ttf.get_table(:head).units_per_em)**-1
         end
 
       end
