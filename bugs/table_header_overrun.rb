@@ -19,6 +19,10 @@ Prawn::Document.generate("table_header_overrun.pdf", @prawn_document_options) do
         :horizontal_padding => 5,
         :vertical_padding => 3,
         :border => 2,
-        :position => :center)
+        :position => :center)  
+        
+  start_new_page
+  
+  table [['MyString']], :headers=>['Field1']
 
 end

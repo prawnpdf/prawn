@@ -118,7 +118,9 @@ module Prawn
         @original_row_colors = @row_colors.dup if @row_colors  
         
         calculate_column_widths(options[:widths])
-      end
+      end      
+      
+      attr_reader :col_widths
       
       # Width of the table in PDF points
       #
@@ -156,7 +158,7 @@ module Prawn
             length = cell.to_s.lines.map { |e| 
               @document.font.metrics.string_width(e,@font_size) }.max.to_f +
                 2*@horizontal_padding
-            @col_widths[i] = length if length > @col_widths[i]
+            @col_widths[i] = length.ceil if length > @col_widths[i]
           end
         end  
         
