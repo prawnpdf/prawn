@@ -198,12 +198,14 @@ module Prawn
         # Use Color Key Masking (spec section 4.8.5)
         # - An array with N elements, where N is two times the number of color
         #   components.
-        obj.data[:Mask] = png.transparency[:grayscale].collect { |val| [val,val] }
+        val = png.transparency[:grayscale]
+        obj.data[:Mask] = [val, val]
       elsif png.transparency[:rgb]
         # Use Color Key Masking (spec section 4.8.5)
         # - An array with N elements, where N is two times the number of color
         #   components.
-        obj.data[:Mask] = png.transparency[:rgb].collect { |val| [val,val] }.flatten
+        rgb = png.transparency[:rgb]
+        obj.data[:Mask] = rgb.collect { |val| [val,val] }.flatten
       elsif png.transparency[:indexed]
         # TODO: broken. I was attempting to us Color Key Masking, but I think
         #       we need to construct an SMask i think. Maybe do it inside

@@ -49,7 +49,7 @@ describe "When reading a greyscale PNG file with transparency (color type 0)" do
   # http://www.w3.org/TR/PNG/#11tRNS
   it "should read the tRNS chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    png.transparency[:grayscale].should == [255]
+    png.transparency[:grayscale].should == 255
   end
 end
 

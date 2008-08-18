@@ -68,7 +68,8 @@ module Prawn
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
-              @transparency[:grayscale] = data.read(chunk_size).unpack("n")
+              grayval = data.read(chunk_size).unpack("n").first
+              @transparency[:grayscale] = grayval
             when 2
               # True colour with proper alpha channel.
               @transparency[:rgb] = data.read(chunk_size).unpack("nnn")
