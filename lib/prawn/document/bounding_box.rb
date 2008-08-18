@@ -92,8 +92,20 @@ module Prawn
 
         @bounding_box = BoundingBox.new(self, *args)   
       end
+    end 
+    
+    
+    def lazy_bounding_box(*args,&block)
+      parent_box   = @bounding_box
+      top_left     = args[0]
+      top_left[0] += parent_box.absolute_left
+      top_left[1] += parent_box.absolute_bottom       
+      
+      box = LazyBoundingBox.new(self,*args)
+      box.action(&block)
+      return box 
     end
-
+    
     # A shortcut to produce a bounding box which is mapped to the document's
     # absolute coordinates, regardless of how things are nested or margin sizes.
     #
@@ -108,7 +120,25 @@ module Prawn
           :height => page_dimensions[3] 
         ) 
       end
-    end      
+    end  
+    
+    def header(top_left,options={},&block)   
+      top_left[0] += margin_box.absolute_left
+      top_left[1] += margin_box.absolute_bottom      
+      @header = LazyBoundingBox.new(self, top_left,
+        :width  => options[:width]  || margin_box.width, 
+        :height => options[:height] || margin_box.height )
+      @header.action(&block)       
+    end
+    
+    def footer(top_left,options={},&block)       
+      top_left[0] += margin_box.absolute_left
+      top_left[1] += margin_box.absolute_bottom      
+      @footer = LazyBoundingBox.new(self, top_left,
+        :width  => options[:width]  || margin_box.width, 
+        :height => options[:height] || margin_box.height )
+      @footer.action(&block) 
+    end
     
     private
     
@@ -130,8 +160,8 @@ module Prawn
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
-      end
-       
+      end     
+      
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box
       #
@@ -253,6 +283,25 @@ module Prawn
         !@height 
       end
       
+    end    
+    
+    class LazyBoundingBox < BoundingBox
+     
+       def action(&block)
+         @action = block
+       end
+       
+       def draw
+         @parent.mask(:y) do  
+           parent_box = @parent.bounds  
+           @parent.bounds = self    
+           @parent.y = absolute_top
+           @action.call   
+           @parent.bounds = parent_box
+         end
+       end
+
     end
+    
   end
 end

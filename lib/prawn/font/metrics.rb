@@ -116,8 +116,8 @@ module Prawn
         def kern(string) 
           kerned = string.unpack("C*").inject([]) do |a,r|
             if a.last.is_a? Array
-              if kern = latin_kern_pairs_table[[a.last.last, r]]
-                a << kern << [r]
+              if k = latin_kern_pairs_table[[a.last.last, r]]
+                a << k << [r]
               else
                 a.last << r
               end
@@ -134,7 +134,7 @@ module Prawn
           }                        
         end
         
-        def latin_kern_pairs_table
+        def latin_kern_pairs_table   
           @kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
             h[p[0].map { |n| ISOLatin1Encoding.index(n) }] = p[1]
             h

@@ -74,9 +74,7 @@ module Prawn
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
-       @root    = ref(:Type => :Catalog, :Pages => @pages)  
-       @page_start_proc = options[:on_page_start]
-       @page_stop_proc  = options[:on_page_stop]              
+       @root    = ref(:Type => :Catalog, :Pages => @pages)        
        @page_size       = options[:page_size]   || "LETTER"    
        @page_layout     = options[:page_layout] || :portrait
        @compress        = options[:compress] || false                
@@ -134,7 +132,6 @@ module Prawn
        add_content "q"   
        
        @y = @bounding_box.absolute_top        
-       @page_start_proc[self] if @page_start_proc
     end             
       
     # Returns the number of pages in the document
@@ -179,6 +176,10 @@ module Prawn
     #
     def bounds
       @bounding_box
+    end  
+    
+    def bounds=(bounding_box)
+      @bounding_box = bounding_box
     end
 
     # Moves up the document by n points
@@ -293,7 +294,8 @@ module Prawn
     end
     
     def finish_page_content     
-      @page_stop_proc[self] if @page_stop_proc
+      @header.draw if @header      
+      @footer.draw if @footer
       add_content "Q"
       @page_content.compress_stream if compression_enabled?
       @page_content.data[:Length] = @page_content.stream.size
