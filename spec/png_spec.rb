@@ -36,6 +36,23 @@ describe "When reading a greyscale PNG file (color type 0)" do
   end
 end
 
+describe "When reading a greyscale PNG file with transparency (color type 0)" do
+
+  before(:each) do
+    @filename = "#{Prawn::BASEDIR}/data/images/ruport_type0.png"
+    @img_data = File.open(@filename, file_read_mode) { |f| f.read }
+  end
+
+  # In a greyscale type 0 PNG image, the tRNS chunk should contain a single value
+  # that indicates the color that should be interpreted as transparent.
+  #
+  # http://www.w3.org/TR/PNG/#11tRNS
+  it "should read the tRNS chunk correctly" do
+    png = Prawn::Images::PNG.new(@img_data)
+    png.transparency[:grayscale].should == [255]
+  end
+end
+
 describe "When reading an RGB PNG file (color type 2)" do
 
   before(:each) do
@@ -60,6 +77,24 @@ describe "When reading an RGB PNG file (color type 2)" do
     png = Prawn::Images::PNG.new(@img_data)
     data = File.open(@data_filename, "rb") { |f| f.read }
     png.img_data.should == data
+  end
+end
+
+describe "When reading an RGB PNG file with transparency (color type 2)" do
+
+  before(:each) do
+    @filename = "#{Prawn::BASEDIR}/data/images/arrow2.png"
+    @img_data = File.open(@filename, file_read_mode) { |f| f.read }
+  end
+
+  # In a RGB type 2 PNG image, the tRNS chunk should contain a single RGB value
+  # that indicates the color that should be interpreted as transparent. In this
+  # case it's green.
+  #
+  # http://www.w3.org/TR/PNG/#11tRNS
+  it "should read the tRNS chunk correctly" do
+    png = Prawn::Images::PNG.new(@img_data)
+    png.transparency[:rgb].should == [0, 255, 0]
   end
 end
 
