@@ -130,12 +130,14 @@ module Prawn
       
       # Draws the table onto the PDF document
       #
-      def draw
+      def draw  
+        @parent_bounds = @document.bounds  
         case(@position) 
         when :center
           x = (@document.bounds.width - width) / 2.0
-          y = @document.y - @document.bounds.absolute_bottom
-          @document.bounding_box [x, y], :width => width do
+          dy = @document.bounds.absolute_top - @document.y
+          @document.bounding_box [x, @parent_bounds.top], :width => width do 
+            @document.move_down(dy)
             generate_table
           end
         when Numeric     
@@ -174,9 +176,9 @@ module Prawn
         end
       end
 
-      def generate_table
+      def generate_table    
         page_contents = []
-        y_pos = @document.y
+        y_pos = @document.y 
 
         @document.font.size(@font_size) do
           renderable_data.each_with_index do |row,index|
@@ -205,7 +207,7 @@ module Prawn
               end   
             end
 
-            if c.height > y_pos - @document.margin_box.absolute_bottom
+            if c.height > y_pos - @parent_bounds.absolute_bottom
               draw_page(page_contents)
               @document.start_new_page
               if @headers

@@ -15,7 +15,55 @@ Prawn::Document.generate("flow_with_headers_and_footers.pdf")  do
                                       
   bounding_box([bounds.left, bounds.top - 50], 
       :width  => bounds.width, :height => bounds.height - 100) do                 
-   text "this is some flowing text " * 200          
+   text "this is some flowing text " * 200    
+   
+   move_down(20)
+   
+   font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+   table [["ὕαλον ϕαγεῖν",    "baaar",             "1" ],
+          ["This is","a sample",          "2" ],
+          ["Table",  "dont\ncha\nknow?",  "3" ],
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules\nwith an iron fist", "x" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],   
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ],  
+          [ "It",    "Rules",             "4" ],     
+          [ "It",    "Rules",             "4" ]],     
+
+     :font_size  => 24, 
+     :horizontal_padding => 10,
+     :vertical_padding => 3,
+     :border     => 2,
+     :position   => :center,
+     :headers    => ["Column A","Column B","#"]
+          
  end    
  
 end       
