@@ -12,7 +12,7 @@ describe "A table's width" do
   end
 
   it "should calculate unspecified column widths as "+
-     "(max(string_width) + 2*horizontal_padding)" do
+     "(max(string_width).ceil + 2*horizontal_padding)" do
     pdf = Prawn::Document.new
     hpad, fs = 3, 12
     columns = 2
@@ -22,7 +22,7 @@ describe "A table's width" do
     col0_width = pdf.font.metrics.string_width("foo",fs)
     col1_width = pdf.font.metrics.string_width("foobar",fs)
 
-    table.width.should == col0_width + col1_width + 2*columns*hpad
+    table.width.should == col0_width.ceil + col1_width.ceil + 2*columns*hpad
   end
 
   it "should allow mixing autocalculated and preset"+
@@ -42,8 +42,9 @@ describe "A table's width" do
       :horizontal_padding => hpad, :font_size => fs, 
       :widths => { 0 => col0_width, 3 => col3_width } )
 
-        table.width.should == col1_width + col2_width + 2*stretchy_columns*hpad +
-                              col0_width + col3_width
+        table.width.should == col1_width.ceil + col2_width.ceil + 
+                              2*stretchy_columns*hpad + 
+                              col0_width.ceil + col3_width.ceil
 
   end
 
