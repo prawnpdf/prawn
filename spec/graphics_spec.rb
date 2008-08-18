@@ -31,7 +31,7 @@ describe "When drawing a line" do
     line_drawing.points.should == [[100,600],[100,500]]       
   end  
   
-  it "should draw two lines (100,600) to (100,500) and stroke each line" +
+  it "should draw two lines at (100,600) to (100,500) " +
      "and (75,100) to (50,125)" do 
     @pdf.line(100,600,100,500) 
     @pdf.line(75,100,50,125)
@@ -55,6 +55,21 @@ describe "When drawing a line" do
      line = observer(LineWidthReader)
      line.width.should == 10 
   end   
+  
+  describe "(Horizontally)" do  
+   
+    before :each do
+      @pdf = Prawn::Document.new
+      @pdf.horizontal_line(100,150)
+      @line = observer(LineDrawingObserver) 
+    end
+   
+    it "should draw from [x1,pdf.y],[x2,pdf.y]" do
+      @line.points.should == [[100.0 + @pdf.bounds.absolute_left, @pdf.y],
+                              [150.0 + @pdf.bounds.absolute_left, @pdf.y]]
+    end      
+    
+  end
         
 end                            
 
@@ -147,7 +162,7 @@ describe "When drawing an ellipse" do
     @curve.coords[-2..-1].should == [100,100]
   end 
   
-end  
+end    
 
 describe "When drawing a circle" do
   before(:each) do 

@@ -106,7 +106,7 @@ module Prawn
     # current <tt>y</tt> position.
     #
     def horizontal_line(x1,x2)
-      line(x1,y,x2,y)
+      line(x1,y-bounds.absolute_bottom,x2,y-bounds.absolute_bottom)
     end
 
     # Draws a horizontal line from the left border to the right border of the

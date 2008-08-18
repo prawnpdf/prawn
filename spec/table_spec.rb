@@ -65,7 +65,7 @@ end
 
 describe "A table's height" do 
   
-  before :all do                                           
+  before :each do                                           
     data = [["foo"],["bar"],["baaaz"]]
     pdf = Prawn::Document.new
     @num_rows = data.length
