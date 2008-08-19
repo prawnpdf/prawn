@@ -102,21 +102,6 @@ module Prawn
         @color_type == 4 || @color_type == 6
       end
 
-      def paeth(a, b, c) # left, above, upper left
-        p = a + b - c
-        pa = (p - a).abs
-        pb = (p - b).abs
-        pc = (p - c).abs  
-
-        if pa <= pb && pa <= pc
-          a
-        elsif pb <= pc
-          b
-        else
-          c
-        end 
-      end
-
       def unfilter_image_data
         data = Zlib::Inflate.inflate(@img_data).unpack 'C*'
         @img_data = ""
@@ -126,7 +111,8 @@ module Prawn
         pixel_length = pixel_bytes + 1
         scanline_length = pixel_length * @width + 1 # for filter
         row = 0
-        pixels = []
+        pixels = []    
+        paeth, pa, pb, pc = nil
         until data.empty? do
           row_data = data.slice! 0, scanline_length
           filter = row_data.shift
@@ -166,7 +152,19 @@ module Prawn
                   pixels[row-1][col-1][index % pixel_length]
               end
 
-              paeth = paeth left, upper, upper_left
+              p = left + upper - upper_left
+              pa = (p - left).abs
+              pb = (p - upper).abs
+              pc = (p - upper_left).abs  
+
+              paeth = if pa <= pb && pa <= pc
+                left
+              elsif pb <= pc
+                upper
+              else
+                upper_left
+              end
+              
               row_data[index] = (byte + paeth) % 256
               #p [byte, paeth, row_data[index]]
             end
