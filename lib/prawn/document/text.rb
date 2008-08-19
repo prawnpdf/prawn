@@ -54,15 +54,20 @@ module Prawn
       # than +font.height+ below, simply call <tt>move_up font.height</tt> 
       # before your call to text()
       #
-      # === Character Encoding Details: 
+      # == Rotation
+      #
+      # Text can be rotated before it is placed on the canvas by specifying the
+      # :rotate option. Rotation occurs counter-clockwise.
+      #
+      # == Encoding
       #
       # Note that strings passed to this function should be encoded as UTF-8.
       # If you get unexpected characters appearing in your rendered document, 
       # check this.
       #
       # If the current font is a built-in one, although the string must be
-      # encoded as UTF-8, only characters that are available in ISO-8859-1
-      # are allowed (transliteration will be attempted).
+      # encoded as UTF-8, only characters that are available in WinAnsi
+      # are allowed.
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
@@ -84,6 +89,9 @@ module Prawn
           x,y = translate(options[:at])            
           font.size(options[:size]) { add_text_content(text,x,y,options) }
         else
+          if options[:rotate]
+            raise ArgumentError, "Rotated text may only be used with :at" 
+          end
           wrapped_text(text,options)
         end         
 
@@ -153,23 +161,24 @@ module Prawn
           end 
         end
       end  
-      
+
       def add_text_content(text, x, y, options)
         text = font.metrics.convert_text(text,options)
 
-        add_content %Q{
-          BT
-          /#{font.identifier} #{font.size} Tf
-          #{x} #{y} Td
-        }  
-
+        add_content "\nBT"
+        add_content "/#{font.identifier} #{font.size} Tf"
+        if options[:rotate]
+          rad = options[:rotate].to_i * Math::PI / 180
+          arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
+          add_content "%.3f %.3f %.3f %.3f %.3f %.3f Tm" % arr
+        else
+          add_content "#{x} #{y} Td"
+        end
+        rad = 1.570796
         add_content Prawn::PdfObject(text, true) <<
-          " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
-
-        add_content %Q{
-          ET
-        }
-      end  
+          " #{options[:kerning] ? 'TJ' : 'Tj'}"
+        add_content "ET\n"
+      end
     end
   end
 end

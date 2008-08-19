@@ -5,7 +5,7 @@ require "prawn"
 
 Prawn::Document.generate "hello.pdf" do       
   fill_color "0000ff"
-  text "Hello World", :at => [200,720], :size => 32       
+  text "Hello World", :at => [200,420], :size => 32, :rotate => 45
   font "Times-Roman"     
   fill_color "ff0000"
   text "Overcoming singular font limitation", :at => [5,5]    
