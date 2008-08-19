@@ -107,14 +107,14 @@ module Prawn
         pa = (p - a).abs
         pb = (p - b).abs
         pc = (p - c).abs  
-        
+
         if pa <= pb && pa <= pc
           a
         elsif pb <= pc
           b
         else
           c
-        end
+        end 
       end
 
       def unfilter_image_data
@@ -158,16 +158,15 @@ module Prawn
               col = index / pixel_length
 
               left = index < pixel_length ? 0 : row_data[index - pixel_length]
-              if row == 0 then
+              if row.zero?
                 upper = upper_left = 0
               else
                 upper = pixels[row-1][col][index % pixel_length]
-                upper_left = col == 0 ? 0 :
+                upper_left = col.zero? ? 0 :
                   pixels[row-1][col-1][index % pixel_length]
               end
-        
-              paeth = paeth(left, upper, upper_left) 
 
+              paeth = paeth left, upper, upper_left
               row_data[index] = (byte + paeth) % 256
               #p [byte, paeth, row_data[index]]
             end
