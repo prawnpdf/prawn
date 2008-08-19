@@ -218,7 +218,11 @@ module Prawn
 
       def border_style=(s)
         @cells.each { |e| e.border_style = s }
-      end                 
+      end    
+      
+      def align=(align) 
+        @cells.each { |e| e.align = align } 
+      end           
       
       def border_style
         @cells[0].border_style

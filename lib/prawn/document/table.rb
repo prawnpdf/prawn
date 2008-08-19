@@ -7,8 +7,8 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-  class Document
-
+  class Document    
+    
     # Builds and renders a Document::Table object from raw data.
     # For details on the options that can be passed, see
     # Document::Table.new
@@ -37,7 +37,7 @@ module Prawn
     #
     #   end
     #
-    def table(data,options={})
+    def table(data,options={})           
       Prawn::Document::Table.new(data,self,options).draw
     end
 
@@ -63,7 +63,9 @@ module Prawn
     # 
     class Table
 
-      attr_reader :col_widths # :nodoc:
+      attr_reader :col_widths # :nodoc: 
+      
+      NUMBER_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+(?:[eE][+-]?\d+)?)?$/ #:nodoc: 
 
       # Creates a new Document::Table object. This is generally called 
       # indirectly through Document#table but can also be used explictly.
@@ -94,7 +96,7 @@ module Prawn
       # See Document#table for typical usage, as directly using this class is
       # not recommended unless you know why you want to do it.
       #
-      def initialize(data, document,options={})   
+      def initialize(data, document,options={})    
         @data                = data
         @document            = document                    
         @font_size           = options[:font_size] || 12
@@ -103,7 +105,8 @@ module Prawn
         @position            = options[:position]  || :left
         @headers             = options[:headers]
         @row_colors          = options[:row_colors]   
-        @align               = options[:align]
+        @align               = options[:align]    
+        @align_headers       = options[:align_headers]
 
         @horizontal_padding  = options[:horizontal_padding] || 5
         @vertical_padding    = options[:vertical_padding]   || 5
@@ -183,13 +186,16 @@ module Prawn
         @document.font.size(@font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
-            row.each_with_index do |e,i| 
+            row.each_with_index do |e,i|     
               case(@align)
-              when Array, Hash
-                align            = @align[i] || :left
+              when Hash
+                align            = @align[i]
               else
                 align            = @align
-              end
+              end   
+              
+              
+              align ||= e.to_s =~ NUMBER_PATTERN ? :right : :left 
               
               case(e)
               when Prawn::Graphics::Cell
@@ -199,7 +205,7 @@ module Prawn
                 e.vertical_padding   = @vertical_padding    
                 e.border             = @border
                 e.border_style       = :sides
-                e.align              = align
+                e.align              = align 
                 c << e
               else
                 c << Prawn::Graphics::Cell.new(
@@ -243,8 +249,13 @@ module Prawn
 
         if @border_style == :grid || contents.length == 1
           contents.each { |e| e.border_style = :all }
-        else
-          contents.first.border_style = @headers ? :all : :no_bottom
+        else                            
+          if @headers
+            contents.first.border_style = :all 
+            contents.first.align        = @align_headers || :left
+          else
+            contents.first.border_style  = :no_bottom    
+          end
           contents.last.border_style  = :no_top
         end
 

@@ -5,13 +5,13 @@ require "prawn"
 
 Prawn::Document.generate("table.pdf") do 
   font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
-  table [["ὕαλον ϕαγεῖν",    "baaar",             "1" ],
+  table [["ὕαλον ϕαγεῖν",    "baaar",    "1" ],
          ["This is","a sample",          "2" ],
          ["Table",  "dont\ncha\nknow?",  "3" ],
          [ "It",    "Rules",             "4" ],     
          [ "It",    "Rules",             "4" ],     
-         [ "It",    "Rules",             "4" ],     
-         [ "It",    "Rules",             "4" ],     
+         [ "It",    "Rules",             "4123231" ],     
+         [ "It",    "Rules",             "22.5" ],     
          [ "It",    "Rules",             "4" ],     
          [ "It",    "Rules",             "4" ],     
          [ "It",    "Rules",             "4" ],     
@@ -30,10 +30,12 @@ Prawn::Document.generate("table.pdf") do
 
     :font_size  => 24, 
     :horizontal_padding => 10,
-    :vertical_padding => 3,
-    :border     => 2,
-    :position   => :center,
-    :headers    => ["Column A","Column B","#"]
+    :vertical_padding   => 3,
+    :border             => 2,
+    :position           => :center,
+    :headers            => ["Column A","Column B","#"],
+    :align              => {1 => :center},
+    :align_headers      => :center
                             
   text "This should appear in the original font size, just below the table"     
   move_down 10
