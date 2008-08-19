@@ -174,10 +174,11 @@ module Prawn
             raise ArgumentError, "Invalid filter algorithm #{filter}"
           end
 
-          pixels << []
+          s = []
           row_data.each_slice pixel_length do |slice|
-            pixels.last << slice
+            s << slice
           end
+          pixels << s
           row += 1
         end
 

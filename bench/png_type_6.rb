@@ -3,7 +3,7 @@ require "prawn"
 require "benchmark"   
 
 #=begin
-N=1
+N=5
      
 Benchmark.bmbm do |x|         
   x.report("PNG Type 6") do     
