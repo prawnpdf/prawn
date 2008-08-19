@@ -161,8 +161,22 @@ module Prawn
                 upper_left = col == 0 ? 0 :
                   pixels[row-1][col-1][index % pixel_length]
               end
+        
+              a,b,c = left, upper, upper_left 
+                           
+              p = a + b - c
+              pa = (p - a).abs
+              pb = (p - b).abs
+              pc = (p - c).abs
 
-              paeth = paeth left, upper, upper_left
+              if pa <= pb && pa <= pc  
+                paeth = a
+              elsif pb <= pc     
+                paeth = b
+              else
+                paeth = c 
+              end         
+              
               row_data[index] = (byte + paeth) % 256
               #p [byte, paeth, row_data[index]]
             end
