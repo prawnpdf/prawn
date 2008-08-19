@@ -90,7 +90,7 @@ module Prawn
       end
 
       def pixel_bytes
-        case @color_type
+        @pixel_bytes ||= case @color_type
         when 0, 3, 4 then 1
         when 1, 2, 6 then 3
         end
@@ -106,11 +106,15 @@ module Prawn
         p = a + b - c
         pa = (p - a).abs
         pb = (p - b).abs
-        pc = (p - c).abs
-
-        return a if pa <= pb && pa <= pc
-        return b if pb <= pc
-        c
+        pc = (p - c).abs  
+        
+        if pa <= pb && pa <= pc
+          a
+        elsif pb <= pc
+          b
+        else
+          c
+        end
       end
 
       def unfilter_image_data
@@ -162,21 +166,8 @@ module Prawn
                   pixels[row-1][col-1][index % pixel_length]
               end
         
-              a,b,c = left, upper, upper_left 
-                           
-              p = a + b - c
-              pa = (p - a).abs
-              pb = (p - b).abs
-              pc = (p - c).abs
+              paeth = paeth(left, upper, upper_left) 
 
-              if pa <= pb && pa <= pc  
-                paeth = a
-              elsif pb <= pc     
-                paeth = b
-              else
-                paeth = c 
-              end         
-              
               row_data[index] = (byte + paeth) % 256
               #p [byte, paeth, row_data[index]]
             end
