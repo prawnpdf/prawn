@@ -101,7 +101,7 @@ module Prawn
         @document            = document                    
         @font_size           = options[:font_size] || 12
         @border_style        = options[:border_style]
-        @border              = options[:border]    || 1
+        @border_width        = options[:border_width]    || 1
         @position            = options[:position]  || :left
         @headers             = options[:headers]
         @row_colors          = options[:row_colors]   
@@ -203,7 +203,7 @@ module Prawn
                 e.width    = @col_widths[i]
                 e.horizontal_padding = @horizontal_padding
                 e.vertical_padding   = @vertical_padding    
-                e.border             = @border
+                e.border_width       = @border_width
                 e.border_style       = :sides
                 e.align              = align 
                 c << e
@@ -214,7 +214,7 @@ module Prawn
                   :width    => @col_widths[i],
                   :horizontal_padding => @horizontal_padding,
                   :vertical_padding => @vertical_padding,
-                  :border   => @border,
+                  :border_width   => @border_width,
                   :border_style => :sides,
                   :align    => align ) 
               end   
