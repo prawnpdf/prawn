@@ -7,14 +7,17 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   class Font #:nodoc:
-    module Wrapping #:nodoc:
+    module Wrapping #:nodoc:                
+      $KCODE="U"
       
       # TODO: Replace with TeX optimal algorithm
       def naive_wrap(string, line_width, font_size, options = {})
+        accumulated_width = 0
+        scan_pattern = options[:mode] == :character ? /./ : /\S+|\s+/                                    
+        
         output = ""                
-        accumulated_width = options[:offset] || 0 
-        string.lines.each do |line|
-          segments = line.scan(/\S+|\s+/)
+        string.lines.each do |line|         
+          segments = line.scan(scan_pattern)
                                         
           segments.each do |segment|    
             segment_width = string_width(segment, font_size, 
@@ -34,8 +37,6 @@ module Prawn
               accumulated_width += segment_width
             end
           end    
-          
-          accumulated_width = 0
         end
   
         output
