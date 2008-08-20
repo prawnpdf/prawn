@@ -30,7 +30,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
           "Drawn Side"], ["By side",   "and stuff" ]], 
     :position         => 600, 
     :headers          => ["Col A", "Col B"],
-    :border           => 1,
+    :border_width     => 1,
     :vertical_padding => 5,
     :horizontal_padding => 3,
     :font_size        => 10,
@@ -41,7 +41,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
 
   table [%w[1 2 3],%w[4 5 6],%w[7 8 9]], 
     :position => :center,
-    :border   => 0,
+    :border_width   => 0,
     :font_size => 40
 
   cell [500,300],
@@ -49,7 +49,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
       "cells outside of a table with ease.  Think of a 'cell' as " +
       "simply a limited purpose bounding box that is meant for laying " +
       "out blocks of text and optionally placing a border around it",
-    :width => 225, :padding => 10, :border => 2
+    :width => 225, :padding => 10, :border_width => 2
 
   font.size = 24
   cell [50,75], 
