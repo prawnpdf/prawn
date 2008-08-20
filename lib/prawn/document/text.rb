@@ -42,10 +42,12 @@ module Prawn
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
       #
-      def text(text,options={})
+      def text(text,options={})            
         # we'll be messing with the strings encoding, don't change the users
         # original string
         text = text.dup                    
+        
+        options = text_options.merge(options)  
         
         original_font  = font.name                                              
         
