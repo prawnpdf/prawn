@@ -54,6 +54,7 @@ module Prawn
         @document     = options[:document]
         @text         = options[:text].to_s
         @width        = options[:width]
+        @borders      = options[:borders]
         @border_width = options[:border_width] || 1
         @border_style = options[:border_style] || :all               
         @background_color = options[:background_color] 
