@@ -106,7 +106,7 @@ module Prawn
             when :left
               x = @bounding_box.absolute_left
             when :center
-              x = @bounding_box.absolute_left
+              x = @bounding_box.absolute_left +
                 (@bounding_box.width - line_width) / 2.0
             when :right
               x = @bounding_box.absolute_right - line_width 
