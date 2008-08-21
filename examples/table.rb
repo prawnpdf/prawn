@@ -31,7 +31,7 @@ Prawn::Document.generate("table.pdf") do
     :font_size  => 24, 
     :horizontal_padding => 10,
     :vertical_padding   => 3,
-    :border             => 2,
+    :border_width       => 2,
     :position           => :center,
     :headers            => ["Column A","Column B","#"],
     :align              => {1 => :center},
