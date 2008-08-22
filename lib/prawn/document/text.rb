@@ -10,26 +10,34 @@ require "zlib"
 module Prawn
   class Document
     module Text
-      # Draws text on the page. If a point is specified via the <tt>:at</tt>
+      # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
       # assumed to be pre-formatted to properly fit the page.
+      # 
+      #   pdf.text "Hello World", :at => [100,100]
+      #   pdf.text "Goodbye World", :at => [50,50], :size => 16
       #
-      # When <tt>:at</tt> is not specified, Prawn attempts to wrap the text to
-      # fit within your current bounding box (or margin box if no bounding box
+      # When +:at+ is not specified, Prawn attempts to wrap the text to
+      # fit within your current bounding box (or margin_box if no bounding box
       # is being used ). Text will flow onto the next page when it reaches
-      # the bottom of the margin_box. Text wrap in Prawn does not re-flow
+      # the bottom of the bounding box. Text wrap in Prawn does not re-flow
       # linebreaks, so if you want fully automated text wrapping, be sure to
       # remove newlines before attempting to draw your string.  
       #
-      #   pdf.text "Hello World", :at => [100,100]
-      #   pdf.text "Goodbye World", :at => [50,50], :size => 16
       #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
+      #   pdf.text "This will be centered", :align => :center
+      #   pdf.text "This will be right aligned", :align => :right     
+      #
+      #  Wrapping is done by splitting words by spaces by default.  If your text
+      #  does not contain spaces, you can wrap based on characters instead:
+      #
+      #   pdf.text "This will be wrapped by character", :wrap => :character  
       #
       # If your font contains kerning pairs data that Prawn can parse, the 
       # text will be kerned by default.  You can disable this feature by passing
       # <tt>:kerning => false</tt>.
       #
-      # == Encoding
+      # === Character Encoding Details: 
       #
       # Note that strings passed to this function should be encoded as UTF-8.
       # If you get unexpected characters appearing in your rendered document, 
@@ -45,31 +53,19 @@ module Prawn
       def text(text,options={})            
         # we'll be messing with the strings encoding, don't change the users
         # original string
-        text = text.dup                    
+        text = text.dup                      
         
-        options = text_options.merge(options)  
-        
-        original_font  = font.name                                              
-        
-        if options[:style]  
-          raise "Bad font family" unless font.family
-          font(font.family,:style => options[:style])
-        end
-               
-        font.normalize_encoding(text) unless @skip_encoding
-
-        unless options.key?(:kerning)
-          options[:kerning] = font.metrics.has_kerning_data?
-        end                     
-
-        options[:size] ||= font.size       
+        # we might also mess with the font
+        original_font  = font.name   
+              
+        options = text_options.merge(options)
+        process_text_options(options) 
+         
+        font.normalize_encoding(text) unless @skip_encoding        
 
         if options[:at]                
-          x,y = translate(options[:at]) 
-               
-          font.size(options[:size]) do                 
-            add_text_content(text,x,y,options)
-          end  
+          x,y = translate(options[:at])            
+          font.size(options[:size]) { add_text_content(text,x,y,options) }
         else
           wrapped_text(text,options)
         end         
@@ -78,6 +74,22 @@ module Prawn
       end   
                        
       private 
+      
+      def process_text_options(options)
+        Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
+                              :spacing, :align ], options                               
+        
+        if options[:style]  
+          raise "Bad font family" unless font.family
+          font(font.family,:style => options[:style])
+        end
+
+        unless options.key?(:kerning)
+          options[:kerning] = font.metrics.has_kerning_data?
+        end                     
+
+        options[:size] ||= font.size
+     end
 
       def move_text_position(dy)   
          bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
@@ -87,7 +99,6 @@ module Prawn
          self.y -= dy       
       end
 
-      # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options) 
         options[:align] ||= :left      
 
@@ -98,23 +109,21 @@ module Prawn
           lines = text.lines
                                                        
           lines.each do |e|                                                   
-            move_text_position( font.height + 
-                                font.metrics.descender / 1000.0 * font.size )                                 
+            move_text_position( font.height + font.descender )                                 
                            
             line_width = font.width_of(e)
             case(options[:align]) 
             when :left
               x = @bounding_box.absolute_left
             when :center
-              x = @bounding_box.absolute_left +
+              x = @bounding_box.absolute_left + 
                 (@bounding_box.width - line_width) / 2.0
             when :right
               x = @bounding_box.absolute_right - line_width 
             end
                                
             add_text_content(e,x,y,options)
-            ds = -font.metrics.descender / 1000.0 * font.size 
-            move_text_position(options[:spacing] || ds )     
+            move_text_position(options[:spacing] || -font.descender )     
           end 
         end
       end  

@@ -116,7 +116,11 @@ module Prawn
     
     def height
       @metrics.font_height(@size)       
-    end  
+    end     
+    
+    def descender
+      @metrics.descender / 1000.0 * @size
+    end
     
     def normalize_encoding(text)
       # check the string is encoded sanely
