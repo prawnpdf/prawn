@@ -48,19 +48,6 @@ describe "A table's width" do
 
   end
       
-  # FIXME: Put in the right context
-  it "should paginate large tables" do
-    # 30 rows fit on the table with default setting, 31 exceed.
-    data = [["foo"]] * 31
-    pdf = Prawn::Document.new
-
-    pdf.table data
-    pdf.page_count.should == 2
-
-    pdf.table data
-    pdf.page_count.should == 3
-  end
-
 end   
 
 describe "A table's height" do 
@@ -149,6 +136,19 @@ describe "A table's content" do
       @pdf = Prawn::Document.new
       @pdf.table(data)
     }.should.not.raise
+  end   
+  
+  it "should paginate for large tables" do
+    # 30 rows fit on the table with default setting, 31 exceed.
+    data = [["foo"]] * 31
+    pdf = Prawn::Document.new
+
+    pdf.table data
+    pdf.page_count.should == 2
+
+    pdf.table data
+    pdf.page_count.should == 3
   end
+  
     
 end

@@ -57,12 +57,12 @@ Prawn::Document.generate("flow_with_headers_and_footers.pdf")  do
           [ "It",    "Rules",             "4" ],     
           [ "It",    "Rules",             "4" ]],     
 
-     :font_size  => 24, 
+     :font_size          => 24, 
      :horizontal_padding => 10,
-     :vertical_padding => 3,
-     :border     => 2,
-     :position   => :center,
-     :headers    => ["Column A","Column B","#"]
+     :vertical_padding   => 3,
+     :border_width       => 2,
+     :position           => :center,
+     :headers            => ["Column A","Column B","#"]
           
  end    
  
