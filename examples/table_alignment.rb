@@ -16,17 +16,11 @@ Prawn::Document.generate("table_alignment.pdf") do
   end
 
   table rows,
-    :font_size  => 14, 
+    :font_size  => 12, 
     :horizontal_padding => 3,
     :vertical_padding   => 3,
     :border_width       => 2,
     :border_style       => :grid,
     :position           => :center,
-    :widths => {0 => 180, 1 => 180, 2 => 180}     
-    
-  bounding_box([200,400], :width => 150, :height => 150) do
-    stroke_line bounds.top_left, bounds.top_right
-    text "Flowing text "*10, :spacing => 12, :valign => :middle       
-    stroke_line bounds.bottom_left, bounds.bottom_right
-  end
+    :widths => {0 => 180, 1 => 180, 2 => 180}
 end

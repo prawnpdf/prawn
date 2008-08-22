@@ -98,27 +98,15 @@ module Prawn
 
           lines = text.lines
 
-          descender = font.metrics.descender / 1000.0 * font.size  
-          options[:spacing] ||= -descender
-          
-                       
-          text_height = text.lines.length * font.height
-          text_height += (text.lines.length-1)*options[:spacing]  
-          
-          case options[:valign]    
-          when :middle
-            move_text_position((@bounding_box.height - text_height) / 2.0)
-          when :bottom
-            move_text_position(@bounding_box.height - text_height)
+          descender = font.metrics.descender / 1000.0 * font.size
+
+          text_height = text.lines.inject(0) do |t,l|
+            t + font.height_of(l, :line_width => font.width_of(l))
           end
 
-          lines.each do |e|      
-            
-            move_text_position(font.height + descender)             
-                                                         
-            line_width = font.width_of(e) 
-            
-            case options[:align]
+          lines.each do |e|                                                   
+            line_width = font.width_of(e)
+            case(options[:align]) 
             when :left
               x = @bounding_box.absolute_left
             when :center
@@ -127,11 +115,25 @@ module Prawn
             when :right
               x = @bounding_box.absolute_right - line_width 
             end
+
+            case options[:valign]
+            when :middle
+              move_text_position((@bounding_box.height - 
+                                  text_height + font.height) / 2.0 )
+              options[:valign] = :top
+            when :bottom
+              move_text_position(@bounding_box.height - 
+                                 text_height + font.height / 2.0)
+              options[:valign] = :top
+            else
+              move_text_position(font.height + descender)
+            end
             
             add_text_content(e,x,y,options)
-            move_text_position(options[:spacing])     
+            ds = -font.metrics.descender / 1000.0 * font.size 
+            move_text_position(options[:spacing] || ds )     
           end 
-        end  
+        end
       end  
       
       def add_text_content(text, x, y, options)
