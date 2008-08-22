@@ -54,13 +54,11 @@ module Prawn
         @document     = options[:document]
         @text         = options[:text].to_s
         @width        = options[:width]
-        @height       = options[:height]
         @borders      = options[:borders]
         @border_width = options[:border_width] || 1
         @border_style = options[:border_style] || :all               
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
-        @valign           = options[:valign] || :top
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -72,7 +70,7 @@ module Prawn
 
       attr_accessor :point, :border_style, :border_width, :background_color,
                     :document, :horizontal_padding, :vertical_padding,
-                    :align, :valign
+                    :align
       attr_writer   :height, :width #:nodoc:   
            
       # Returns the cell's text as a string.
@@ -158,7 +156,7 @@ module Prawn
                                  @point[1] - @vertical_padding], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
-          @document.text @text, :align => @align, :valign => @valign
+          @document.text @text, :align => @align
         end
       end
 

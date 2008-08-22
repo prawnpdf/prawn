@@ -205,7 +205,7 @@ module Prawn
                 e.vertical_padding   = @vertical_padding    
                 e.border_width       = @border_width
                 e.border_style       = :sides
-                e.align              ||= align 
+                e.align              = align 
                 c << e
               else
                 c << Prawn::Graphics::Cell.new(

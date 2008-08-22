@@ -90,21 +90,17 @@ module Prawn
       # TODO: Get kerning working with wrapped text
       def wrapped_text(text,options) 
         options[:align] ||= :left      
-        options[:valign] ||= :top      
 
         font.size(options[:size]) do
           text = font.metrics.naive_wrap(text, bounds.right, font.size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines
-
-          descender = font.metrics.descender / 1000.0 * font.size
-
-          text_height = text.lines.inject(0) do |t,l|
-            t + font.height_of(l, :line_width => font.width_of(l))
-          end
-
+                                                       
           lines.each do |e|                                                   
+            move_text_position( font.height + 
+                                font.metrics.descender / 1000.0 * font.size )                                 
+                           
             line_width = font.width_of(e)
             case(options[:align]) 
             when :left
@@ -115,20 +111,7 @@ module Prawn
             when :right
               x = @bounding_box.absolute_right - line_width 
             end
-
-            case options[:valign]
-            when :middle
-              move_text_position((@bounding_box.height - 
-                                  text_height + font.height) / 2.0 )
-              options[:valign] = :top
-            when :bottom
-              move_text_position(@bounding_box.height - 
-                                 text_height + font.height / 2.0)
-              options[:valign] = :top
-            else
-              move_text_position(font.height + descender)
-            end
-            
+                               
             add_text_content(e,x,y,options)
             ds = -font.metrics.descender / 1000.0 * font.size 
             move_text_position(options[:spacing] || ds )     
