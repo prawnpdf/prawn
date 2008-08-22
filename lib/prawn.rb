@@ -29,5 +29,16 @@ module Prawn
   dir = File.dirname(file)
                           
   # The base source directory for Prawn as installed on the system
-  BASEDIR = File.expand_path(File.join(dir, '..'))    
+  BASEDIR = File.expand_path(File.join(dir, '..'))  
+  
+  extend self
+  
+  def verify_options(accepted,actual)                      
+    require "set"
+    unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
+      raise Prawn::Errors::UnknownOption, 
+        "\nDetected unknown option(s): #{(act - acc).to_a.inspect}\n" <<
+        "Accepted options are: #{accepted.inspect}"
+    end    
+  end   
 end                                                 

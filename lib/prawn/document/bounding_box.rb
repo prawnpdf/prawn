@@ -16,11 +16,11 @@ module Prawn
     # the user to ensure the text provided will fit within the height of the
     # bounding box.
     #
-    # pdf.bounding_box([100,500], :width => 100, :height => 300) do
-    # pdf.text "This text will flow in a very narrow box starting" +
-    # "from [100,500]. The pointer will then be moved to [100,200]" +
-    # "and return to the margin_box"
-    # end
+    #   pdf.bounding_box([100,500], :width => 100, :height => 300) do
+    #     pdf.text "This text will flow in a very narrow box starting" +
+    #      "from [100,500]. The pointer will then be moved to [100,200]" +
+    #      "and return to the margin_box"
+    #   end
     #
     # When translating coordinates, the idea is to allow the user to draw
     # relative to the origin, and then translate their drawing to a specified
@@ -84,23 +84,38 @@ module Prawn
     # you remain within the printable area of your document.
     #
     def bounding_box(*args, &block)    
-      init_bounding_box(block) do |parent_box|
-        # Offset to relative positions
-        top_left = args[0]
-        top_left[0] += parent_box.absolute_left
-        top_left[1] += parent_box.absolute_bottom
-
+      init_bounding_box(block) do |_|
+        translate!(args[0])     
         @bounding_box = BoundingBox.new(self, *args)   
       end
     end 
     
-    
+        
+    # A LazyBoundingBox is simply a BoundingBox with an action tied to it to be 
+    # executed later.  The lazy_bounding_box method takes the same arguments as
+    # bounding_box, but returns a LazyBoundingBox object instead of executing
+    # the code block directly.
+    #
+    # You can then call LazyBoundingBox#draw at any time (or multiple times if 
+    # you wish), and the contents of the block will then be run. This can be
+    # useful for assembling repeating page elements or reusable components.
+    #
+    #  file = "lazy_bounding_boxes.pdf"
+    #  Prawn::Document.generate(file, :skip_page_creation => true) do                    
+    #    point = [bounds.right-50, bounds.bottom + 25]
+    #    page_counter = lazy_bounding_box(point, :width => 50) do   
+    #      text "Page: #{page_count}"
+    #    end 
+    #
+    #    10.times do         
+    #     start_new_page
+    #      text "Some text"  
+    #      page_counter.draw
+    #    end
+    #  end
+    #
     def lazy_bounding_box(*args,&block)
-      parent_box   = @bounding_box
-      top_left     = args[0]
-      top_left[0] += parent_box.absolute_left
-      top_left[1] += parent_box.absolute_bottom       
-      
+      translate!(args[0])  
       box = LazyBoundingBox.new(self,*args)
       box.action(&block)
       return box 
@@ -121,23 +136,35 @@ module Prawn
         ) 
       end
     end  
-    
+       
+    # A header is a LazyBoundingBox drawn relative to the margins that can be
+    # repeated on every page of the document.
+    #
+    # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
+    # width and height   
+    #
+    #   header margin_box.top_left do 
+    #    text "Here's My Fancy Header", :size => 25, :align => :center   
+    #    stroke_horizontal_rule
+    #  end
+    #
     def header(top_left,options={},&block)   
-      top_left[0] += margin_box.absolute_left
-      top_left[1] += margin_box.absolute_bottom      
-      @header = LazyBoundingBox.new(self, top_left,
-        :width  => options[:width]  || margin_box.width, 
-        :height => options[:height] || margin_box.height )
-      @header.action(&block)       
+      @header = repeating_page_element(top_left,options={},&block)
     end
-    
+        
+    # A footer is a LazyBoundingBox drawn relative to the margins that can be
+    # repeated on every page of the document.
+    #
+    # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
+    # width and height
+    #
+    #   footer [margin_box.left, margin_box.bottom + 25] do
+    #     stroke_horizontal_rule
+    #     text "And here's a sexy footer", :size => 16
+    #   end    
+    #
     def footer(top_left,options={},&block)       
-      top_left[0] += margin_box.absolute_left
-      top_left[1] += margin_box.absolute_bottom      
-      @footer = LazyBoundingBox.new(self, top_left,
-        :width  => options[:width]  || margin_box.width, 
-        :height => options[:height] || margin_box.height )
-      @footer.action(&block) 
+      @footer = repeating_page_element(top_left,options={},&block)
     end
     
     private
@@ -152,11 +179,23 @@ module Prawn
       self.y = @bounding_box.absolute_bottom 
 
       @bounding_box = parent_box 
-    end
-       
+    end   
+    
+    def repeating_page_element(top_left,options={},&block)
+      top_left[0] += margin_box.absolute_left
+      top_left[1] += margin_box.absolute_bottom      
+      r = LazyBoundingBox.new(self, top_left,
+        :width  => options[:width]  || margin_box.width, 
+        :height => options[:height] || margin_box.height )
+      r.action(&block)
+      return r
+    end  
+ 
     class BoundingBox
       
-      def initialize(parent, point, options={}) #:nodoc:
+      def initialize(parent, point, options={}) #:nodoc:   
+        Prawn.verify_options([:width,:height],options)
+        
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
@@ -278,19 +317,31 @@ module Prawn
       def height  
         @height || absolute_top - @parent.y
       end    
-      
+       
+      # Returns +false+ when the box has a defined height, +true+ when the height
+      # is being calculated on the fly based on the current vertical position.
+      #
       def stretchy?
         !@height 
       end
       
     end    
-    
+       
     class LazyBoundingBox < BoundingBox
-     
+       
+       # Defines the block to be executed by LazyBoundingBox#draw. 
+       # Usually, this will be used via a higher level interface.  
+       # See the documentation for Document#lazy_bounding_box, Document#header,
+       # and Document#footer
+       #
        def action(&block)
          @action = block
        end
        
+       # Sets Document#bounds to use the LazyBoundingBox for its bounds,
+       # runs the block specified by LazyBoundingBox#action,
+       # and then restores the original bounds of the document.
+       #
        def draw
          @parent.mask(:y) do  
            parent_box = @parent.bounds  

@@ -220,7 +220,11 @@ module Prawn
     def translate(*point)
       x,y = point.flatten
       [@bounding_box.absolute_left + x, @bounding_box.absolute_bottom + y]
-    end                                                                           
+    end    
+    
+    def translate!(point)
+      point.replace(translate(point))
+    end                                                                        
 
   end
 end
