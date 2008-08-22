@@ -181,10 +181,8 @@ module Prawn
       @bounding_box = parent_box 
     end   
     
-    def repeating_page_element(top_left,options={},&block)
-      top_left[0] += margin_box.absolute_left
-      top_left[1] += margin_box.absolute_bottom      
-      r = LazyBoundingBox.new(self, top_left,
+    def repeating_page_element(top_left,options={},&block)   
+      r = LazyBoundingBox.new(self, translate(top_left),
         :width  => options[:width]  || margin_box.width, 
         :height => options[:height] || margin_box.height )
       r.action(&block)
