@@ -16,19 +16,15 @@ module Prawn
       include Prawn::Font::Wrapping
 
       def self.[](font)
-        data[font] ||= case(font)
-          when /\.ttf$/
-            TTF.new(font)
-          else
-            Adobe.new(font)
-        end
+        data[font] ||= (font.match(/\.ttf$/) ? TTF : Adobe).new(font)
       end 
 
       def self.data
         @data ||= {}
       end   
 
-      def string_height(string,options={})
+      def string_height(string,options={}) 
+        Prawn.verify_options [:line_width, :font_size], options
         string = naive_wrap(string, options[:line_width], options[:font_size])
         string.lines.to_a.length * font_height(options[:font_size])
       end
@@ -91,7 +87,9 @@ module Prawn
       
         # calculates the width of the supplied string.
         # String *must* be encoded as iso-8859-1
-        def string_width(string, font_size, options = {})   
+        def string_width(string, font_size, options = {}) 
+          Prawn.verify_options [:kerning], options
+            
           scale = font_size / 1000.0
           
           if options[:kerning]
@@ -158,11 +156,7 @@ module Prawn
         # Hackish, but does the trick for now.
         def method_missing(method, *args, &block)
           name = method.to_s.delete("_")
-          if @attributes.include? name
-            @attributes[name]
-          else
-            super  
-          end
+          @attributes.include?(name) ? @attributes[name] : super
         end  
       
         def metrics_path
@@ -170,10 +164,10 @@ module Prawn
             @metrics_path ||= m.split(':')
           else 
             @metrics_path ||= [
-              "/usr/lib/afm",
+              ".", "/usr/lib/afm",
               "/usr/local/lib/afm",
               "/usr/openwin/lib/fonts/afm/", 
-               Prawn::BASEDIR+'/data/fonts/','.'] 
+               Prawn::BASEDIR+'/data/fonts/'] 
           end
         end 
 
@@ -188,7 +182,8 @@ module Prawn
         # perform any changes to the string that need to happen
         # before it is rendered to the canvas
         #
-        # String *must* be encoded as iso-8859-1
+        # String *must* be encoded as iso-8859-1         
+        #
         def convert_text(text, options={})
           options[:kerning] ? kern(text) : text
         end
@@ -421,7 +416,6 @@ module Prawn
           @hmtx ||= @ttf.get_table(:hmtx).metrics
         end         
         
-
         def character_width_by_code(code)    
           return 0 unless cmap[code]
           @char_widths[code] ||= Integer(hmtx[cmap[code]][0] * scale_factor)           
