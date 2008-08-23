@@ -21,23 +21,23 @@ describe "PDF Object Serialization" do
   
   it "should convert a Ruby string to PDF string when inside a content stream" do       
     s = "I can has a string"
-    parse_pdf_object(Prawn::PdfObject(s, true)).should == s
+    PDF::Inspector.parse(Prawn::PdfObject(s, true)).should == s
   end                      
 
   it "should convert a Ruby string to a UTF-16 PDF string when outside a content stream" do       
     s = "I can has a string"
     s_utf16 = "\xFE\xFF" + s.unpack("U*").pack("n*")
-    parse_pdf_object(Prawn::PdfObject(s, false)).should == s_utf16
+    PDF::Inspector.parse(Prawn::PdfObject(s, false)).should == s_utf16
   end                      
   
   it "should escape parens when converting from Ruby string to PDF" do
     s =  'I )(can has a string'      
-    parse_pdf_object(Prawn::PdfObject(s, true)).should == s
+    PDF::Inspector.parse(Prawn::PdfObject(s, true)).should == s
   end               
   
   it "should handle ruby escaped parens when converting to PDF string" do
     s = 'I can \\)( has string'
-    parse_pdf_object(Prawn::PdfObject(s, true)).should == s  
+    PDF::Inspector.parse(Prawn::PdfObject(s, true)).should == s  
   end      
   
   it "should convert a Ruby symbol to PDF name" do
@@ -53,13 +53,13 @@ describe "PDF Object Serialization" do
   
   it "should convert a Ruby array to PDF Array when inside a content stream" do
     Prawn::PdfObject([1,2,3]).should == "[1 2 3]"
-    parse_pdf_object(Prawn::PdfObject([[1,2],:foo,"Bar"], true)).should ==  
+    PDF::Inspector.parse(Prawn::PdfObject([[1,2],:foo,"Bar"], true)).should ==  
       [[1,2],:foo, "Bar"]
   end  
 
   it "should convert a Ruby array to PDF Array when outside a content stream" do
     Prawn::PdfObject([1,2,3]).should == "[1 2 3]"
-    parse_pdf_object(Prawn::PdfObject([[1,2],:foo,"Bar"], false)).should ==  
+    PDF::Inspector.parse(Prawn::PdfObject([[1,2],:foo,"Bar"], false)).should ==  
       [[1,2],:foo, "\xFE\xFF\x00B\x00a\x00r"]
   end  
  
@@ -68,7 +68,7 @@ describe "PDF Object Serialization" do
                               "baz"  => [1,2,3], 
                               :bang => {:a => "what", :b => [:you, :say] }}, true )     
 
-    res = parse_pdf_object(dict)           
+    res = PDF::Inspector.parse(dict)           
 
     res[:foo].should == :bar
     res[:baz].should == [1,2,3]
@@ -81,7 +81,7 @@ describe "PDF Object Serialization" do
                               "baz"  => [1,2,3], 
                               :bang => {:a => "what", :b => [:you, :say] }}, false )
 
-    res = parse_pdf_object(dict)           
+    res = PDF::Inspector.parse(dict)           
 
     res[:foo].should == :bar
     res[:baz].should == [1,2,3]

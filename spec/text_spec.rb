@@ -2,48 +2,6 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")   
 
-class TextObserver                         
-  
-  attr_accessor :font_settings, :size, :string
-            
-  def initialize     
-    @font_settings = []
-    @fonts = {}
-  end
-  
-  def resource_font(*params)     
-    @fonts[params[0]] = params[1].basefont
-  end
-
-  def set_text_font_and_size(*params)     
-    @font_settings << { :name => @fonts[params[0]], :size => params[1] }
-  end     
-  
-  def show_text(*params)
-    @string = params[0]
-  end
-
-  def show_text_with_positioning(*params)
-    @string = params[0].join
-  end
-end
-
-class FontObserver
-  attr_accessor :page_fonts
-
-  def initialize
-    @page_fonts = []
-  end
-
-  def resource_font(*params)
-    @page_fonts.last << params[1].basefont
-  end
-
-  def begin_page(*params)
-    @page_fonts << []
-  end
-end
-
 describe "Font Metrics" do  
 
   it "should default to Helvetica if no font is specified" do
@@ -82,12 +40,10 @@ describe "font style support" do
     @pdf.font "Helvetica"
     @pdf.text "In Normal Helvetica"     
     
-    text = observer(TextObserver)
-    text.font_settings[0][:name].should == :"Courier-Bold"
-    text.font_settings[1][:name].should == :"Courier-BoldOblique"
-    text.font_settings[2][:name].should == :"Courier-Oblique"
-    text.font_settings[3][:name].should == :"Courier"
-    text.font_settings[4][:name].should == :"Helvetica"
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.font_settings.map { |e| e[:name] }.should == 
+     [:"Courier-Bold", :"Courier-BoldOblique", :"Courier-Oblique", 
+      :Courier, :Helvetica]
  end
       
 end
@@ -109,22 +65,22 @@ describe "when drawing text" do
    
    it "should default to 12 point helvetica" do
       @pdf.text "Blah", :at => [100,100]              
-      text = observer(TextObserver)
+      text = PDF::Inspector::Text.analyze(@pdf.render)  
       text.font_settings[0][:name].should == :Helvetica
       text.font_settings[0][:size].should == 12   
-      text.string.should == "Blah"
+      text.strings.first.should == "Blah"
    end   
    
    it "should allow setting font size" do
      @pdf.text "Blah", :at => [100,100], :size => 16
-     text = observer(TextObserver)
+     text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 16
    end
    
    it "should allow setting a default font size" do
      @pdf.font.size = 16
      @pdf.text "Blah"
-     text = observer(TextObserver)
+     text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 16
    end
    
@@ -133,7 +89,7 @@ describe "when drawing text" do
 
      @pdf.text "Blah", :size => 11
      @pdf.text "Blaz"
-     text = observer(TextObserver)
+     text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 11
      text.font_settings[1][:size].should == 16
    end
@@ -146,7 +102,7 @@ describe "when drawing text" do
 
      @pdf.text 'blah'
 
-     text = observer(TextObserver)
+     text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 16
      text.font_settings[1][:size].should == 12
    end
@@ -158,7 +114,7 @@ describe "when drawing text" do
         @pdf.text 'Blah', :size => 11
         @pdf.text 'Blaz'
       end
-      text = observer(TextObserver)
+      text = PDF::Inspector::Text.analyze(@pdf.render)  
       text.font_settings[0][:size].should == 16
       text.font_settings[1][:size].should == 11
       text.font_settings[2][:size].should == 16
@@ -169,7 +125,7 @@ describe "when drawing text" do
      @pdf.text "Blah", :at => [100,100]
      @pdf.font "Courier"                    
      @pdf.text "Blaz", :at => [150,150]
-     text = observer(TextObserver)                     
+     text = PDF::Inspector::Text.analyze(@pdf.render)                      
      text.font_settings[0][:name].should == :"Times-Roman"  
      text.font_settings[1][:name].should == :Courier
    end   
@@ -178,11 +134,11 @@ describe "when drawing text" do
      @pdf.text "Blah", :at => [100,100]
      @pdf.start_new_page
      @pdf.text "Blaz", :at => [150,150]
-     text = observer(FontObserver)
+     text = PDF::Inspector::Text.analyze(@pdf.render)  
 
-     text.page_fonts.size.should  == 2
-     text.page_fonts[0][0].should == :Helvetica
-     text.page_fonts[1][0].should == :Helvetica
+     text.font_settings.size.should  == 2
+     text.font_settings[0][:name].should == :Helvetica
+     text.font_settings[1][:name].should == :Helvetica
    end
    
    it "should raise an exception when an unknown font is used" do
@@ -194,8 +150,8 @@ describe "when drawing text" do
      @pdf.text str
 
      # grab the text from the rendered PDF and ensure it matches
-     text = observer(TextObserver)
-     text.string.should == str
+     text = PDF::Inspector::Text.analyze(@pdf.render)
+     text.strings.first.should == str
    end
                     
    if "spec".respond_to?(:encode!)
