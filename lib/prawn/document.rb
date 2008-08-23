@@ -30,18 +30,18 @@ module Prawn
     # The block argument is necessary only when you need to make 
     # use of a closure.     
     #      
-    #  # Using implicit block form and rendering to a file
-    #  Prawn::Document.generate "foo.pdf" do
+    #   # Using implicit block form and rendering to a file
+    #   Prawn::Document.generate "foo.pdf" do
     #     font "Times-Roman"   
     #     text "Hello World", :at => [200,720], :size => 32       
-    #  end
+    #   end
     #         
-    #  # Using explicit block form and rendering to a file   
-    #  content = "Hello World"
-    #  Prawn::Document.generate "foo.pdf" do |pdf|
+    #   # Using explicit block form and rendering to a file   
+    #   content = "Hello World"
+    #   Prawn::Document.generate "foo.pdf" do |pdf|
     #     pdf.font "Times-Roman"
     #     pdf.text content, :at => [200,720], :size => 32
-    #  end                                                
+    #   end                                                
     #
     def self.generate(filename,options={},&block)
       pdf = Prawn::Document.new(options,&block)          
@@ -72,7 +72,11 @@ module Prawn
     #   pdf = Prawn::Document.new(:on_page_start => 
     #     lambda { |doc| doc.line [0,100], [300,100] } )
     #
-    def initialize(options={},&block)
+    def initialize(options={},&block)   
+       Prawn.verify_options [:page_size, :page_layout, :on_page_start,
+         :on_page_stop, :left_margin, :right_margin, :top_margin,
+         :bottom_margin, :skip_page_creation, :compress ], options
+         
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
@@ -111,6 +115,9 @@ module Prawn
      #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
      #                                
      def start_new_page(options = {})      
+       Prawn.verify_options [:size,:layout, :left_margin, :right_margin,
+         :top_margin, :bottom_margin ], options  
+         
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
                                              
@@ -244,9 +251,12 @@ module Prawn
       yield
       fields.each { |f| send("#{f}=", stored[f]) }
     end
-
+     
+    # Returns true if content streams will be compressed before rendering,
+    # false otherwise
+    #
     def compression_enabled?
-      @compress
+      !!@compress
     end 
    
     private 
