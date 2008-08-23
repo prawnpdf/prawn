@@ -67,10 +67,6 @@ module Prawn
     #
     #   # New document, A4 paper, landscaped
     #   pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
-    # 
-    #   # New document, draws a line at the start of each new page
-    #   pdf = Prawn::Document.new(:on_page_start => 
-    #     lambda { |doc| doc.line [0,100], [300,100] } )
     #
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :on_page_start,
