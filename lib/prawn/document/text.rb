@@ -71,7 +71,16 @@ module Prawn
         end         
 
         font(original_font) 
-      end   
+      end 
+                          
+      # A hash of configuration options, to be used globally by text().
+      # 
+      #   pdf.text_options.update(:size => 16, :align => :right)   
+      #   pdf.text "Hello World" #=> Size 16 w. right alignment
+      #
+      def text_options
+        @text_options ||= {}
+      end 
                        
       private 
       

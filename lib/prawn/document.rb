@@ -21,7 +21,7 @@ module Prawn
     include PageGeometry                             
     
     attr_accessor :y, :margin_box
-    attr_reader   :margins, :page_size, :page_layout, :text_options
+    attr_reader   :margins, :page_size, :page_layout
       
     # Creates and renders a PDF document. 
     #
@@ -79,7 +79,8 @@ module Prawn
        @page_layout     = options[:page_layout] || :portrait
        @compress        = options[:compress] || false                
        @skip_encoding   = options[:skip_encoding]
-       @text_options    = options[:text_options] || {}
+       
+       text_options.update(options[:text_options] || {}) 
              
        @margins = { :left   => options[:left_margin]   || 36,
                     :right  => options[:right_margin]  || 36,  
