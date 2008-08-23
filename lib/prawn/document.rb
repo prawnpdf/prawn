@@ -11,10 +11,12 @@ require "prawn/document/page_geometry"
 require "prawn/document/bounding_box"
 require "prawn/document/text"      
 require "prawn/document/table"
+require "prawn/document/internals"
 
 module Prawn
   class Document  
-    
+           
+    include Prawn::Document::Internals
     include Prawn::Graphics    
     include Prawn::Images
     include Text                             
@@ -119,15 +121,8 @@ module Prawn
        end
        
        finish_page_content if @page_content  
-       generate_margin_box    
-       @page_content = ref(:Length => 0)   
-     
-       @current_page = ref(:Type      => :Page, 
-                           :Parent    => @pages, 
-                           :MediaBox  => page_dimensions, 
-                           :Contents  => @page_content)
-       font.add_to_current_page if @font_name  
-       update_colors
+       build_new_page_content
+
        @pages.data[:Kids] << @current_page
        @pages.data[:Count] += 1 
      
@@ -179,7 +174,10 @@ module Prawn
     def bounds
       @bounding_box
     end  
-    
+      
+    # Sets Document#bounds to the BoundingBox provided.  If you don't know
+    # why you'd need to do this, chances are, you can ignore this feature
+    #
     def bounds=(bounding_box)
       @bounding_box = bounding_box
     end
@@ -237,7 +235,6 @@ module Prawn
       move_down(y)
     end
 
-
     def mask(*fields) # :nodoc:
      # Stores the current state of the named attributes, executes the block, and
      # then restores the original values after the block has executed.
@@ -251,34 +248,22 @@ module Prawn
     def compression_enabled?
       @compress
     end 
-    
-    def ref(data)
-      @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
-    end                                               
-   
-    def add_content(str)
-     @page_content << str << "\n"
-    end  
-
-    # Add a new type to the current pages ProcSet
-    def proc_set(*types)
-      @current_page.data[:ProcSet] ||= ref([])
-      @current_page.data[:ProcSet].data |= types
-    end
-
-    def page_resources
-      @current_page.data[:Resources] ||= {}
-    end
-
-    def page_fonts
-      page_resources[:Font] ||= {}
-    end
-
-    def page_xobjects
-      page_resources[:XObject] ||= {}
-    end
    
     private 
+    
+    # See Prawn::Document::Internals for low-level PDF functions       
+    
+    def build_new_page_content
+      generate_margin_box    
+      @page_content = ref(:Length => 0)   
+    
+      @current_page = ref(:Type      => :Page, 
+                          :Parent    => @pages, 
+                          :MediaBox  => page_dimensions, 
+                          :Contents  => @page_content)
+      font.add_to_current_page if @font_name  
+      update_colors
+    end
     
     def generate_margin_box     
       old_margin_box = @margin_box
@@ -295,54 +280,5 @@ module Prawn
       @bounding_box = @margin_box if old_margin_box == @bounding_box              
     end
     
-    def finish_page_content     
-      @header.draw if @header      
-      @footer.draw if @footer
-      add_content "Q"
-      @page_content.compress_stream if compression_enabled?
-      @page_content.data[:Length] = @page_content.stream.size
-    end
-    
-    # Write out the PDF Header, as per spec 3.4.1
-    def render_header(output)
-      # pdf version
-      output << "%PDF-1.3\n"
-
-      # 4 binary chars, as recommended by the spec
-      output << "\xFF\xFF\xFF\xFF\n"
-    end
-
-    # Write out the PDF Body, as per spec 3.4.2
-    def render_body(output)
-      @objects.each do |ref|
-        ref.offset = output.size
-        output << ref.object
-      end
-    end
-
-    # Write out the PDF Cross Reference Table, as per spec 3.4.3
-    def render_xref(output)
-      @xref_offset = output.size
-      output << "xref\n"
-      output << "0 #{@objects.size + 1}\n"
-      output << "0000000000 65535 f \n"
-      @objects.each do |ref|
-        output.printf("%010d", ref.offset)
-        output << " 00000 n \n"
-      end
-    end
-
-    # Write out the PDF Body, as per spec 3.4.4
-    def render_trailer(output)
-      trailer_hash = {:Size => @objects.size + 1, 
-                      :Root => @root,
-                      :Info => @info}
-
-      output << "trailer\n"
-      output << Prawn::PdfObject(trailer_hash) << "\n"
-      output << "startxref\n" 
-      output << @xref_offset << "\n"
-      output << "%%EOF"
-    end 
   end
 end

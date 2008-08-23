@@ -13,12 +13,6 @@ gem 'pdf-reader', ">=0.7.3"
 require "pdf/reader"          
 require "pdf/inspector"
 
-module Prawn
-  class Document
-    public :ref
-  end
-end
-
 def create_pdf
   @pdf = Prawn::Document.new(:left_margin   => 0,
                              :right_margin  => 0,

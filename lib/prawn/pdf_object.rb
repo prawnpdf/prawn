@@ -24,7 +24,7 @@ module Prawn
   #     PdfObject(:Symbol)   #=> "/Symbol"
   #     PdfObject(["foo",:bar, [1,2]]) #=> "[foo /bar [1 2]]"
   # 
-  def PdfObject(obj, in_content_stream = false) #:nodoc:
+  def PdfObject(obj, in_content_stream = false)
     case(obj)        
     when NilClass   then "null" 
     when TrueClass  then "true"
