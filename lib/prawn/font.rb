@@ -35,11 +35,33 @@ module Prawn
       end  
       font_registry[@font_name] 
     end      
-    
+       
+    # Hash of Font objects keyed by names
+    #
     def font_registry
       @font_registry ||= {}
     end     
-    
+     
+    # Hash that maps font family names to their styled individual font names
+    #  
+    # To add support for another font family, append to this hash, e.g:
+    #
+    #   pdf.font_families.update(
+    #    "MyTrueTypeFamily" => { :bold        => "foo-bold.ttf", 
+    #                            :italic      => "foo-italic.ttf",
+    #                            :bold_italic => "foo-bold-italic.ttf",
+    #                            :normal      => "foo.ttf" })
+    #
+    # This will then allow you to use the fonts like so:
+    #
+    #   pdf.font("MyTrueTypeFamily", :style => :bold)   
+    #   pdf.text "Some bold text"
+    #   pdf.font("MyTrueTypeFamily")
+    #   pdf.text "Some normal text"
+    #
+    # This assumes that you have appropriate TTF fonts for each style you 
+    # wish to support.
+    #                                                  
     def font_families 
       @font_families ||= Hash.new { |h,k| h[k] = {} }.merge!(      
         { "Courier"     => { :bold        => "Courier-Bold",
@@ -59,7 +81,9 @@ module Prawn
         }) 
     end
   end
-
+  
+  # Provides font information and helper functions.  
+  # 
   class Font
     
     BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats 
@@ -97,6 +121,26 @@ module Prawn
       add_to_current_page    
     end      
     
+    # Sets the default font size for use within a block. Individual overrides
+    # can be used as desired. The previous font size will be restored after the
+    # block.
+    #
+    # Prawn::Document.generate("font_size.pdf") do
+    #   font.size = 16
+    #   text "At size 16"
+    #
+    #   font.size(10) do
+    #     text "At size 10"
+    #     text "At size 6", :size => 6
+    #     text "At size 10"
+    #   end
+    #
+    #   text "At size 16"
+    # end
+    #
+    # When called without an argument, this method returns the current font
+    # size.
+    #
     def size(points=nil)      
       return @size unless points
       size_before_yield = @size
@@ -116,7 +160,11 @@ module Prawn
     
     def height
       @metrics.font_height(@size)       
-    end     
+    end   
+    
+    def ascender
+      @metrics.ascender / 1000.0 * @size
+    end  
     
     def descender
       @metrics.descender / 1000.0 * @size

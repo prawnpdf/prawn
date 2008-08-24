@@ -24,15 +24,15 @@ module Prawn
               :kerning => options[:kerning]) 
       
             if (accumulated_width + segment_width).round > line_width.round
-              output << "\n"
+              output = "#{output.rstrip}\n"
               
-              if segment =~ /\s/
+              if segment =~ /\s/           
                 accumulated_width = 0
               else
                 output << segment
                 accumulated_width = segment_width
               end
-            else
+            else                           
               output << segment
               accumulated_width += segment_width
             end
