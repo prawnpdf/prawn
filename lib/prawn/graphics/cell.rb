@@ -69,8 +69,9 @@ module Prawn
       end
 
       attr_accessor :point, :border_style, :border_width, :background_color,
-                    :document, :horizontal_padding, :vertical_padding,
-                    :align
+                    :document, :horizontal_padding, :vertical_padding, :align,
+                    :borders
+                    
       attr_writer   :height, :width #:nodoc:   
            
       # Returns the cell's text as a string.
