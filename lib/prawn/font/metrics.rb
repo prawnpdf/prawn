@@ -379,8 +379,7 @@ module Prawn
           
           if table
             @kern_pairs_table = table.kerning_pairs.inject({}) do |h,p|
-              h[[p.left, p.right]] = p.value
-              h
+              h[[p.left, p.right]] = p.value; h
             end
           else
             @kern_pairs_table = {}
