@@ -12,8 +12,8 @@ endobj
 >>
 endobj
 3 0 obj
-<< /Pages 2 0 R
-/Type /Catalog
+<< /Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
@@ -1294,8 +1294,8 @@ endobj
 << /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 792.0 612.0]
-/ProcSet 6 0 R
 /Contents 4 0 R
+/ProcSet 6 0 R
 /Resources << /Font << /F1 7 0 R
 >>
 >>
@@ -1306,9 +1306,9 @@ endobj
 endobj
 7 0 obj
 << /Type /Font
+/Subtype /Type1
 /BaseFont /Helvetica
 /Encoding /WinAnsiEncoding
-/Subtype /Type1
 >>
 endobj
 xref

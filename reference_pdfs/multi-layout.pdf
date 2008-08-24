@@ -38,14 +38,14 @@ Q
 endstream
 endobj
 5 0 obj
-<< /Resources << /Font << /F1 7 0 R
->>
->>
-/Type /Page
+<< /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 792.0 612.0]
-/ProcSet 6 0 R
 /Contents 4 0 R
+/ProcSet 6 0 R
+/Resources << /Font << /F1 7 0 R
+>>
+>>
 >>
 endobj
 6 0 obj
@@ -53,8 +53,8 @@ endobj
 endobj
 7 0 obj
 << /Type /Font
-/BaseFont /Helvetica
 /Subtype /Type1
+/BaseFont /Helvetica
 /Encoding /WinAnsiEncoding
 >>
 endobj
@@ -80,13 +80,13 @@ Q
 endstream
 endobj
 9 0 obj
-<< /Resources << /Font << /F1 7 0 R
->>
->>
-/Type /Page
+<< /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612.0 792.0]
 /Contents 8 0 R
+/Resources << /Font << /F1 7 0 R
+>>
+>>
 >>
 endobj
 10 0 obj
@@ -111,13 +111,13 @@ Q
 endstream
 endobj
 11 0 obj
-<< /Resources << /Font << /F1 7 0 R
->>
->>
-/Type /Page
+<< /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612.0 1008.0]
 /Contents 10 0 R
+/Resources << /Font << /F1 7 0 R
+>>
+>>
 >>
 endobj
 12 0 obj
@@ -152,13 +152,13 @@ Q
 endstream
 endobj
 13 0 obj
-<< /Resources << /Font << /F1 7 0 R
->>
->>
-/Type /Page
+<< /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612.0 1008.0]
 /Contents 12 0 R
+/Resources << /Font << /F1 7 0 R
+>>
+>>
 >>
 endobj
 xref

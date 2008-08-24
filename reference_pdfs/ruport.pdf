@@ -6,9 +6,9 @@
 >>
 endobj
 2 0 obj
-<< /Kids [5 0 R]
-/Type /Pages
+<< /Type /Pages
 /Count 1
+/Kids [5 0 R]
 >>
 endobj
 3 0 obj
@@ -67,24 +67,24 @@ Q
 endstream
 endobj
 5 0 obj
-<< /Contents 4 0 R
+<< /Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612.0 792.0]
+/Contents 4 0 R
 /ProcSet 6 0 R
-/Type /Page
 /Resources << /Font << /F1 7 0 R
 >>
 >>
-/Parent 2 0 R
-/MediaBox [0 0 612.0 792.0]
 >>
 endobj
 6 0 obj
 [/PDF /Text]
 endobj
 7 0 obj
-<< /BaseFont /Helvetica
-/Encoding /WinAnsiEncoding
-/Type /Font
+<< /Type /Font
 /Subtype /Type1
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
 >>
 endobj
 xref
@@ -98,9 +98,9 @@ xref
 0000000953 00000 n 
 0000000981 00000 n 
 trailer
-<< /Root 3 0 R
+<< /Size 8
+/Root 3 0 R
 /Info 1 0 R
-/Size 8
 >>
 startxref
 1078

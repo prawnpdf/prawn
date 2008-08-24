@@ -8,7 +8,7 @@
 module Prawn
   class Font #:nodoc:
     module Wrapping #:nodoc:                
-      $KCODE="U"
+      ruby_18 { $KCODE="U" }
       
       # TODO: Replace with TeX optimal algorithm
       def naive_wrap(string, line_width, font_size, options = {})
