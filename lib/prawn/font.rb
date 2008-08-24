@@ -148,29 +148,37 @@ module Prawn
       yield
       @size = size_before_yield
     end    
-    
+        
+    # Gets width of string in PDF points at current font size
+    #
     def width_of(string)
       @metrics.string_width(string,@size)
     end     
-    
-    def height_of(string,options={})
-      @metrics.string_height( string, :font_size  => @size, 
-                                      :line_width => options[:line_width] ) 
+     
+    # Gets height of text in PDF points at current font size.
+    # Text +:line_width+ must be specified in PDF points. 
+    #
+    def height_of(text,options={}) 
+      Prawn.verify_options [:line_width]
+      @metrics.string_height( text, :font_size  => @size, 
+                                    :line_width => options[:line_width] ) 
     end                     
-    
+     
+    # Gets height of current font in PDF points at current font size
+    #
     def height
       @metrics.font_height(@size)       
     end   
     
-    def ascender
+    def ascender # :nodoc:
       @metrics.ascender / 1000.0 * @size
     end  
     
-    def descender
+    def descender # :nodoc:
       @metrics.descender / 1000.0 * @size
     end
-    
-    def normalize_encoding(text)
+                           
+    def normalize_encoding(text) # :nodoc:
       # check the string is encoded sanely
       # - UTF-8 for TTF fonts
       # - ISO-8859-1 for Built-In fonts
@@ -180,8 +188,8 @@ module Prawn
         normalize_builtin_encoding(text) 
       end 
     end
-    
-    def add_to_current_page
+                 
+    def add_to_current_page #:nodoc:
       @document.page_fonts.merge!(@identifier => @reference)
     end              
     
