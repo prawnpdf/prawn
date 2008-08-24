@@ -111,9 +111,6 @@ module Prawn
      #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
      #                                
      def start_new_page(options = {})      
-       Prawn.verify_options [:size,:layout, :left_margin, :right_margin,
-         :top_margin, :bottom_margin ], options  
-         
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
                                              

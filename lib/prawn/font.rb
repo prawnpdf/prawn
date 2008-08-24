@@ -159,7 +159,6 @@ module Prawn
     # Text +:line_width+ must be specified in PDF points. 
     #
     def height_of(text,options={}) 
-      Prawn.verify_options [:line_width]
       @metrics.string_height( text, :font_size  => @size, 
                                     :line_width => options[:line_width] ) 
     end                     

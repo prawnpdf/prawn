@@ -192,8 +192,6 @@ module Prawn
     class BoundingBox
       
       def initialize(parent, point, options={}) #:nodoc:   
-        Prawn.verify_options([:width,:height],options)
-        
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]

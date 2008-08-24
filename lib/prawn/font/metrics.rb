@@ -24,7 +24,6 @@ module Prawn
       end   
 
       def string_height(string,options={}) 
-        Prawn.verify_options [:line_width, :font_size], options
         string = naive_wrap(string, options[:line_width], options[:font_size])
         string.lines.to_a.length * font_height(options[:font_size])
       end
@@ -88,8 +87,6 @@ module Prawn
         # calculates the width of the supplied string.
         # String *must* be encoded as iso-8859-1
         def string_width(string, font_size, options = {}) 
-          Prawn.verify_options [:kerning], options
-            
           scale = font_size / 1000.0
           
           if options[:kerning]
