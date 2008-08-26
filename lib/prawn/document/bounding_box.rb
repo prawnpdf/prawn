@@ -149,7 +149,7 @@ module Prawn
     #  end
     #
     def header(top_left,options={},&block)   
-      @header = repeating_page_element(top_left,options={},&block)
+      @header = repeating_page_element(top_left,options,&block)
     end
         
     # A footer is a LazyBoundingBox drawn relative to the margins that can be
@@ -164,7 +164,7 @@ module Prawn
     #   end    
     #
     def footer(top_left,options={},&block)       
-      @footer = repeating_page_element(top_left,options={},&block)
+      @footer = repeating_page_element(top_left,options,&block)
     end
     
     private
