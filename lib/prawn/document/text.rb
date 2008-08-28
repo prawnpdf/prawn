@@ -53,7 +53,7 @@ module Prawn
       def text(text,options={})            
         # we'll be messing with the strings encoding, don't change the users
         # original string
-        text = text.dup                      
+        text = text.to_s.dup                      
         
         # we might also mess with the font
         original_font  = font.name   
