@@ -27,7 +27,8 @@ module Prawn
           ff = name                                                      
           name = font_families[name][options[:style] || :normal]
         end 
-        Prawn::Font.register(name,:for => self, :family => ff) unless font_registry[name]
+        Prawn::Font.register(name,:for => self, :family => ff) unless font_registry[name]      
+        font_registry[name].add_to_current_page
         @font_name = name   
       elsif @font_name.nil?                                              
         Prawn::Font.register("Helvetica", :for => self, :family => "Helvetica") 

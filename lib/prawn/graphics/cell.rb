@@ -95,7 +95,7 @@ module Prawn
 
       # The height of the cell in PDF points
       #
-      def height
+      def height  
         @height || text_area_height + 2*@vertical_padding
       end
 

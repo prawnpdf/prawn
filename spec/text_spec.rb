@@ -1,52 +1,6 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")   
-
-describe "Font Metrics" do  
-
-  it "should default to Helvetica if no font is specified" do
-    @pdf = Prawn::Document.new
-    @pdf.font.metrics.should == Prawn::Font::Metrics["Helvetica"]
-  end
-
-  it "should use the currently set font for font_metrics" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-    @pdf.font.metrics.should == Prawn::Font::Metrics["Courier"]
-   
-    comicsans = "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
-    @pdf.font(comicsans)
-    @pdf.font.metrics.should == Prawn::Font::Metrics[comicsans]
-  end
-
-end    
-
-describe "font style support" do
-  before(:each) { create_pdf }
-  
-  it "should allow specifying font style by style name and font family" do    
-    @pdf.font "Courier", :style => :bold
-    @pdf.text "In Courier bold"    
-    
-    @pdf.font "Courier", :style => :bold_italic
-    @pdf.text "In Courier bold-italic"   
-     
-    @pdf.font "Courier", :style => :italic
-    @pdf.text "In Courier italic"    
-    
-    @pdf.font "Courier", :style => :normal
-    @pdf.text "In Normal Courier"  
-           
-    @pdf.font "Helvetica"
-    @pdf.text "In Normal Helvetica"     
-    
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings.map { |e| e[:name] }.should == 
-     [:"Courier-Bold", :"Courier-BoldOblique", :"Courier-Oblique", 
-      :Courier, :Helvetica]
- end
-      
-end
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")      
 
 describe "when drawing text" do     
    
