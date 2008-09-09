@@ -17,8 +17,8 @@ describe "Font Metrics" do
     comicsans = "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
     @pdf.font(comicsans)
     @pdf.font.metrics.should == Prawn::Font::Metrics[comicsans]
-  end
-
+  end         
+  
 end    
 
 describe "font style support" do

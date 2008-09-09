@@ -26,6 +26,10 @@ module Prawn
       def string_height(string,options={}) 
         string = naive_wrap(string, options[:line_width], options[:font_size])
         string.lines.to_a.length * font_height(options[:font_size])
+      end   
+      
+      def font_height(size)
+        (ascender - descender + line_gap) * size / 1000.0
       end
 
       class Adobe < Metrics #:nodoc:     
@@ -80,10 +84,6 @@ module Prawn
           fontbbox.split(/\s+/).map { |e| Integer(e) }
         end   
 
-        def font_height(font_size)
-          Float(bbox[3] - bbox[1]) * font_size / 1000.0
-        end        
-      
         # calculates the width of the supplied string.
         # String *must* be encoded as iso-8859-1
         def string_width(string, font_size, options = {}) 
@@ -148,6 +148,10 @@ module Prawn
 
         def descender
           @attributes["descender"].to_i 
+        end  
+        
+        def line_gap    
+          Float(bbox[3] - bbox[1]) - (ascender - descender)
         end
 
         # Hackish, but does the trick for now.
@@ -235,7 +239,9 @@ module Prawn
         end               
       end
 
-      class TTF < Metrics #:nodoc:
+      class TTF < Metrics #:nodoc:  
+        
+        attr_accessor :ttf
         
         def initialize(font)
           @ttf = ::Font::TTF::File.open(font,"rb")
@@ -333,10 +339,10 @@ module Prawn
 
         def descender
           Integer(@ttf.get_table(:hhea).descender * scale_factor)
-        end
-
-        def font_height(size)
-          (ascender - descender) * size / 1000.0
+        end      
+        
+        def line_gap
+          Integer(@ttf.get_table(:hhea).line_gap * scale_factor)   
         end
 
         def basename

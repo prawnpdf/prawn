@@ -48,7 +48,6 @@ describe "when drawing text" do
      text.font_settings[1][:size].should == 16
    end
    
-   
    it "should allow setting a font size transaction with a block" do
      @pdf.font.size 16 do
        @pdf.text 'Blah'
