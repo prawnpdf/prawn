@@ -221,8 +221,9 @@ module Prawn
                   :align              => align ) 
               end   
             end
-
-            if c.height > y_pos - @parent_bounds.absolute_bottom
+                                                
+            bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
+            if c.height > y_pos - bbox.absolute_bottom
               draw_page(page_contents)
               @document.start_new_page
               if C(:headers)
