@@ -1,0 +1,11 @@
+# As of 200fc36455fa3bee0e1e3bb25d1b5bf73dbf3b52,
+# the following code does not correctly render a PNG image
+#
+# encoding: utf-8
+
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+require "prawn"
+
+Prawn::Document.generate('png_barcode_issue.pdf') do
+  image "#{Prawn::BASEDIR}/data/images/barcode_issue.png"
+end
