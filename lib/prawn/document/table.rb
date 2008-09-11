@@ -106,7 +106,7 @@ module Prawn
         
         Prawn.verify_options [:font_size,:border_style, :border_width,
          :position, :headers, :row_colors, :align, :align_headers, 
-         :horizontal_padding, :vertical_padding, :padding, :widths ], options     
+         :horizontal_padding, :vertical_padding, :padding, :widths, :header_color ], options     
                                             
         configuration.update(options)  
 
@@ -261,9 +261,11 @@ module Prawn
           end
           contents.last.border_style  = :no_top
         end
+        
+        contents.first.background_color = C(:header_color) if C(:header_color)
 
         contents.each do |x| 
-          x.background_color = next_row_color if C(:row_colors)
+          x.background_color = next_row_color if C(:row_colors) && x.background_color.blank?
           x.draw 
         end
 
