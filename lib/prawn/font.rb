@@ -201,7 +201,7 @@ module Prawn
         text.encode!("ISO-8859-1")
       else
         require 'iconv'
-        text.replace Iconv.conv('ISO-8859-1', 'utf-8', text)
+        text.replace Iconv.conv('ISO-8859-1//TRANSLIT', 'utf-8', text)
       end
     rescue
       raise Prawn::Errors::IncompatibleStringEncoding, "When using a " +

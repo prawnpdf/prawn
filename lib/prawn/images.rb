@@ -19,7 +19,7 @@ module Prawn
     #
     # Options:
     # <tt>:at</tt>:: the location of the top left corner of the image.
-    # <tt>:position/tt>::  
+    # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
     # <tt>:scale</tt>:: scale the dimensions of the image proportionally      

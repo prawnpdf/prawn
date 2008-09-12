@@ -11,10 +11,9 @@ module Prawn
     # When flowing text, the usage of a bounding box is simple. Text will
     # begin at the point specified, flowing the width of the bounding box.
     # After the block exits, the text drawing position will be moved to
-    # the bottom of the bounding box (y - height). Currently, Prawn allows
-    # text to overflow the bottom border of the bounding box, so it is up to
-    # the user to ensure the text provided will fit within the height of the
-    # bounding box.
+    # the bottom of the bounding box (y - height). If flowing text exceeds
+    # the height of the bounding box, the text will be continued on the next
+    # page, starting again at the top-left corner of the bounding box.
     #
     #   pdf.bounding_box([100,500], :width => 100, :height => 300) do
     #     pdf.text "This text will flow in a very narrow box starting" +

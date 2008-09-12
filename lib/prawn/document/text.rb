@@ -45,7 +45,7 @@ module Prawn
       #
       # If the current font is a built-in one, although the string must be
       # encoded as UTF-8, only characters that are available in ISO-8859-1
-      # are allowed.
+      # are allowed (transliteration will be attempted).
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.

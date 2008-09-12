@@ -27,15 +27,21 @@ module Prawn
       
     # Creates and renders a PDF document. 
     #
-    # The block argument is necessary only when you need to make 
-    # use of a closure.     
-    #      
+    # When using the implicit block form, Prawn will evaluate the block
+    # within an instance of Prawn::Document, simplifying your syntax.
+    # However, please note that you will not be able to reference variables
+    # from the enclosing scope within this block.
+    #
     #   # Using implicit block form and rendering to a file
     #   Prawn::Document.generate "foo.pdf" do
     #     font "Times-Roman"   
     #     text "Hello World", :at => [200,720], :size => 32       
     #   end
-    #         
+    #
+    # If you need to access your local and instance variables, use the explicit
+    # block form shown below.  In this case, Prawn yields an instance of
+    # PDF::Document and the block is an ordinary closure:     
+    #
     #   # Using explicit block form and rendering to a file   
     #   content = "Hello World"
     #   Prawn::Document.generate "foo.pdf" do |pdf|
@@ -61,6 +67,7 @@ module Prawn
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
     # 
+    # Usage:
     #                             
     #   # New document, US Letter paper, portrait orientation
     #   pdf = Prawn::Document.new                            
@@ -100,9 +107,7 @@ module Prawn
        end 
      end     
             
-     # Creates and advances to a new page in the document.
-     # Runs the <tt>on_page_start</tt> lambda if one was provided at
-     # document creation time (See Document.new).    
+     # Creates and advances to a new page in the document. 
      #
      # Page size, margins, and layout can also be set when generating a
      # new page. These values will become the new defaults for page creation

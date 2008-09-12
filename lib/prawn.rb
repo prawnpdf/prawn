@@ -22,7 +22,7 @@ module Prawn
   
   extend self
   
-  def verify_options(accepted,actual)                      
+  def verify_options(accepted,actual) #:nodoc:                    
     require "set"
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
       raise Prawn::Errors::UnknownOption, 
@@ -31,7 +31,7 @@ module Prawn
     end    
   end      
   
-  module Configurable
+  module Configurable #:nodoc:
     def configuration(*args)
       @config ||= Marshal.load(Marshal.dump(default_configuration))
       if Hash === args[0]

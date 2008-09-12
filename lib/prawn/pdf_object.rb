@@ -6,6 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+# Top level Module
+#
 module Prawn 
                                              
   module_function
