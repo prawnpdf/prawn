@@ -9,7 +9,6 @@
 # boxes.  Ideally, this would instead use the nesting bounding box dimensions
 # [#80] , but this works for now.
 #
-
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "prawn"
 

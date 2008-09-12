@@ -6,7 +6,7 @@
 # there remains a very minor issue when the border size is 1 for the headers.
 # Because this almost appears to be a feature display-wise, we will leave it 
 # alone for now.
-
+#
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "prawn"
 
