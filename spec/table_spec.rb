@@ -121,6 +121,19 @@ describe "A table's content" do
     pdf.table data
     pdf.page_count.should == 3
   end
-  
     
+end
+
+describe "An invalid table" do
+  
+  before(:each) do
+    @pdf = Prawn::Document.new
+    @bad_data = ["Single Nested Array"]
+  end
+  
+  it "should raise error when invalid table data is given" do
+    assert_raises(Prawn::Errors::InvalidTableData) do
+      @pdf.table(@bad_data)
+    end
+  end
 end

@@ -36,5 +36,9 @@ module Prawn
      #
      class UnknownOption < StandardError; end
      
+     # This error is raised when table data is malformed
+     #
+     class InvalidTableData < StandardError; end 
+     
   end
 end   

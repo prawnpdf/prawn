@@ -100,8 +100,13 @@ module Prawn
       # See Document#table for typical usage, as directly using this class is
       # not recommended unless you know why you want to do it.
       #
-      def initialize(data, document,options={})    
-        @data     = data
+      def initialize(data, document,options={})     
+        unless data.all? { |e| Array === e }
+          raise Prawn::Errors::InvalidTableData,
+            "data must be a two dimensional array of Prawn::Cells or strings"
+        end
+        
+        @data     = data        
         @document = document
         
         Prawn.verify_options [:font_size,:border_style, :border_width,
