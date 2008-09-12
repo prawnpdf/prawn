@@ -5,8 +5,8 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 
 Prawn::Document.generate("test.pdf") do
-  table [["test\n\ntest","test\n\ntest"],
-        ["test\n\ntest", "test\n\ntest"]],  :border_style => :grid
+  table [["test\n\naaaa","test\n\nbbbb"],
+        ["test\n\ncccc", "test\n\ndddd"]],  :border_style => :grid
     
-  cell [100,100], :text => "test\n\ntest"
+  cell [100,100], :text => "test\n\naaaa"
 end
