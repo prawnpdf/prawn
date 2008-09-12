@@ -86,8 +86,12 @@ module Prawn
 
     # The current line thickness
     #
-    def line_width
-      @line_width || 1
+    def line_width(width=nil)
+      if width
+        self.line_width = width
+      else
+        @line_width || 1
+      end
     end
        
     # Draws a line from one point to another. Points may be specified as 

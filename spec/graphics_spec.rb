@@ -25,12 +25,17 @@ describe "When drawing a line" do
       [[100.0, 600.0], [100.0, 500.0], [75.0, 100.0], [50.0, 125.0]]
   end
 
-  it "should properly set line width" do
-     create_pdf
+  it "should properly set line width via line_width=" do
      @pdf.line_width = 10
      line = PDF::Inspector::Graphics::Line.analyze(@pdf.render) 
      line.widths.first.should == 10 
-  end   
+  end  
+  
+  it "should properly set line width via line_width(width)" do
+     @pdf.line_width(10)
+     line = PDF::Inspector::Graphics::Line.analyze(@pdf.render) 
+     line.widths.first.should == 10 
+  end 
   
   describe "(Horizontally)" do  
    
