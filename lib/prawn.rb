@@ -20,6 +20,8 @@ module Prawn
   # The base source directory for Prawn as installed on the system
   BASEDIR = File.expand_path(File.join(dir, '..'))  
   
+  VERSION = "0.2.0"
+  
   extend self
   
   def verify_options(accepted,actual) #:nodoc:                    
