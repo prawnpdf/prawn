@@ -7,7 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-  class Font #:nodoc:
+  class Font 
     class CMap #:nodoc:
 
       def initialize

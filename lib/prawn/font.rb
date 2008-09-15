@@ -39,7 +39,7 @@ module Prawn
        
     # Hash of Font objects keyed by names
     #
-    def font_registry
+    def font_registry #:nodoc:
       @font_registry ||= {}
     end     
      
@@ -94,14 +94,28 @@ module Prawn
                         
     DEFAULT_SIZE = 12
       
-    def self.register(name,options={})         
+    def self.register(name,options={})  #:nodoc:      
        options[:for].font_registry[name] = Font.new(name,options)
     end      
-      
-    attr_reader   :metrics, :identifier, :reference, :name, :family
+    
+    # The font metrics object  
+    attr_reader   :metrics
+    
+    # The current font name
+    attr_reader :name
+    
+    # The current font family
+    attr_reader :family
+  
+    attr_reader  :identifier, :reference #:nodoc:
+    
+    # Sets the size of the current font:
+    #
+    #   font.size = 16
+    #
     attr_writer   :size         
       
-    def initialize(name,options={}) 
+    def initialize(name,options={}) #:nodoc:
       @name       = name   
       @family     = options[:family]      
               
@@ -170,11 +184,15 @@ module Prawn
       @metrics.font_height(@size)       
     end   
     
-    def ascender # :nodoc:
+    # The height of the ascender at the current font size in PDF points
+    #
+    def ascender 
       @metrics.ascender / 1000.0 * @size
     end  
     
-    def descender # :nodoc:
+    # The height of the descender at the current font size in PDF points
+    #
+    def descender 
       @metrics.descender / 1000.0 * @size
     end
                            

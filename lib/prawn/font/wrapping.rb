@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
-  class Font #:nodoc:
+  class Font
     module Wrapping #:nodoc:                
       ruby_18 { $KCODE="U" }
       
