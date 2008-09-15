@@ -24,7 +24,7 @@ module Prawn
               :kerning => options[:kerning]) 
       
             if (accumulated_width + segment_width).round > line_width.round
-              output = "#{output.rstrip}\n"
+              output = "#{output.sub(/[ \t]*\n?(\n*)\z/, "\n\\1")}"
               
               if segment =~ /\s/           
                 accumulated_width = 0
