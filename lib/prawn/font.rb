@@ -195,6 +195,10 @@ module Prawn
     def descender 
       @metrics.descender / 1000.0 * @size
     end
+    
+    def line_gap
+      @metrics.line_gap / 1000.0 * @size
+    end
                            
     def normalize_encoding(text) # :nodoc:
       # check the string is encoded sanely
