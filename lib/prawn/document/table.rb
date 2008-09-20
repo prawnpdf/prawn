@@ -269,8 +269,10 @@ module Prawn
         
         contents.first.background_color = C(:header_color) if C(:header_color)
 
-        contents.each do |x| 
-          x.background_color = next_row_color if C(:row_colors) && x.background_color.nil?
+        contents.each do |x|
+          unless x.background_color 
+            x.background_color = next_row_color if C(:row_colors) 
+          end
           x.draw 
         end
 
