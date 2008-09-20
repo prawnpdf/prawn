@@ -16,7 +16,7 @@ module Prawn
       include Prawn::Font::Wrapping
 
       def self.[](font)
-        data[font] ||= (font.match(/\.ttf$/) ? TTF : Adobe).new(font)
+        data[font] ||= (font.match(/\.ttf$/i) ? TTF : Adobe).new(font)
       end 
 
       def self.data

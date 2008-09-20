@@ -127,7 +127,7 @@ module Prawn
       @identifier = :"F#{@document.font_registry.size + 1}"  
       
       case(name)
-      when /\.ttf$/
+      when /\.ttf$/i
         embed_ttf(name)
       else
         register_builtin(name)
