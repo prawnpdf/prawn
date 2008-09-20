@@ -12,6 +12,7 @@ require "prawn/document/bounding_box"
 require "prawn/document/text"      
 require "prawn/document/table"
 require "prawn/document/internals"
+require "prawn/document/span"
 
 module Prawn
   class Document  
