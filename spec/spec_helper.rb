@@ -9,6 +9,8 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'vendor','pdf-inspector','lib')
 require "prawn"
 
+Prawn.debug = true
+
 gem 'pdf-reader', ">=0.7.3"
 require "pdf/reader"          
 require "pdf/inspector"

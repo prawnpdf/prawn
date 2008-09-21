@@ -24,8 +24,10 @@ module Prawn
       end   
 
       def string_height(string,options={})
-        unless options[:line_width] 
-          raise ArgumentError, ":line_width must be specified." 
+        Prawn.verify_options [:font_size, :spacing, :line_width], options do
+          unless options[:line_width] 
+            raise ArgumentError, ":line_width must be specified." 
+          end
         end
         
         line_count = string.lines.to_a.length

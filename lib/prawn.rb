@@ -22,14 +22,18 @@ module Prawn
   
   extend self
   
-  def verify_options(accepted,actual) #:nodoc:                    
+  attr_accessor :debug
+  
+  def verify_options(accepted,actual) #:nodoc:      
+    return unless debug || $DEBUG              
     require "set"
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
       raise Prawn::Errors::UnknownOption, 
         "\nDetected unknown option(s): #{(act - acc).to_a.inspect}\n" <<
         "Accepted options are: #{accepted.inspect}"
-    end    
-  end      
+    end   
+    yield if block_given? 
+  end     
   
   module Configurable #:nodoc:
     def configuration(*args)
