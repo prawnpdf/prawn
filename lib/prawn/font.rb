@@ -173,9 +173,8 @@ module Prawn
     # Gets height of text in PDF points at current font size.
     # Text +:line_width+ must be specified in PDF points. 
     #
-    def height_of(text,options={}) 
-      @metrics.string_height( text, :font_size  => @size, 
-                                    :line_width => options[:line_width] ) 
+    def height_of(text,options={})
+      @metrics.string_height( text, options.merge(:font_size  => @size) ) 
     end                     
      
     # Gets height of current font in PDF points at current font size
