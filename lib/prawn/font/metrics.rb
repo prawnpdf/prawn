@@ -23,9 +23,16 @@ module Prawn
         @data ||= {}
       end   
 
-      def string_height(string,options={}) 
+      def string_height(string,options={})
+        unless options[:line_width] 
+          raise ArgumentError, ":line_width must be specified." 
+        end
+        
+        line_count = string.lines.to_a.length
+        spacing = (options[:spacing] || 0) * line_count
+         
         string = naive_wrap(string, options[:line_width], options[:font_size])
-        string.lines.to_a.length * font_height(options[:font_size])
+         line_count * font_height(options[:font_size]) + spacing
       end   
       
       def font_height(size)

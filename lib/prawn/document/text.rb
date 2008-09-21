@@ -37,6 +37,22 @@ module Prawn
       # text will be kerned by default.  You can disable this feature by passing
       # <tt>:kerning => false</tt>.
       #
+      # === Text Positioning Details:
+      #
+      # When using the +:at+ parameter, Prawn will position your text by its
+      # baseline, and flow along a single line.
+      #
+      # When using automatic text flow, Prawn will position your text exactly
+      # font.height *below* the baseline, and space each line of text by 
+      # font.height + options[:spacing] (default 0)
+      #
+      # Finally, the drawing position will be moved to the baseline of final 
+      # line of text, plus any additional spacing.
+      #
+      # If you wish to position your flowing text by it's baseline rather
+      # than +font.height+ below, simply call <tt>move_up font.height</tt> 
+      # before your call to text()
+      #
       # === Character Encoding Details: 
       #
       # Note that strings passed to this function should be encoded as UTF-8.
@@ -118,7 +134,7 @@ module Prawn
           lines = text.lines
                                                        
           lines.each do |e|                                                   
-            move_text_position( font.height + font.descender )                                 
+            move_text_position(font.height)                                
                            
             line_width = font.width_of(e)
             case(options[:align]) 
@@ -132,7 +148,7 @@ module Prawn
             end
                                
             add_text_content(e,x,y,options)
-            move_text_position(options[:spacing] || -font.descender )     
+            move_text_position(options[:spacing]) if options[:spacing]
           end 
         end
       end  
