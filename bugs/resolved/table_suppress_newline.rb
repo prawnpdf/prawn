@@ -1,10 +1,12 @@
 # As of bbe1df6530455dff41768bcc329bdc7cfdfaded1 (and earlier),
 # Prawn does not properly display cells with newlines in tables.
 #
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+# Fixed in e28cf53b5d05e6cb343e8dd5265c57d5f24ef4da [#76]
+#
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "prawn"
 
-Prawn::Document.generate("test.pdf") do
+Prawn::Document.generate("table_supresses_newlines.pdf") do
   table [["test\n\naaaa","test\n\nbbbb"],
         ["test\n\ncccc", "test\n\ndddd"]],  :border_style => :grid
     
