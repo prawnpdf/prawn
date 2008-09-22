@@ -128,7 +128,7 @@ module Prawn
     #   end
     #
     def canvas(&block)     
-      init_bounding_box(block) do |_|
+      init_bounding_box(block, :hold_position => true) do |_|
         @bounding_box = BoundingBox.new(self, [0,page_dimensions[3]], 
           :width => page_dimensions[2], 
           :height => page_dimensions[3] 
@@ -168,14 +168,14 @@ module Prawn
     
     private
     
-    def init_bounding_box(user_block, &init_block)
+    def init_bounding_box(user_block, options={}, &init_block)
       parent_box = @bounding_box       
 
       init_block.call(parent_box)     
 
       self.y = @bounding_box.absolute_top       
       user_block.call   
-      self.y = @bounding_box.absolute_bottom 
+      self.y = @bounding_box.absolute_bottom unless options[:hold_position]
 
       @bounding_box = parent_box 
     end   
