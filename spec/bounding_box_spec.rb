@@ -127,3 +127,15 @@ describe "drawing bounding boxes" do
   end
   
 end
+
+describe "A canvas" do
+  before(:each) { create_pdf }
+  
+  it "should use whatever the last set y position is" do
+    @pdf.canvas do
+      @pdf.bounding_box([100,500],:width => 200) { @pdf.move_down 50 }
+    end
+    @pdf.y.should == 450
+  end
+end      
+  
