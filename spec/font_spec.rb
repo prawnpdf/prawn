@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")           
 
 describe "Font Metrics" do  
 
@@ -20,34 +20,6 @@ describe "Font Metrics" do
   end         
   
 end    
-
-
-describe "Font size calculations" do
-  before(:each) do
-    create_pdf
-    @font = @pdf.font
-  end
-  
-  it "should require a line width option" do
-    assert_raises(ArgumentError) do
-      @font.height_of("Foo")
-    end
-  end
-  
-  it "should equal the number of lines * font.height by default" do
-    actual_height = @pdf.font.height_of("Foo\nBar\nBaz", :line_width => 200)
-    actual_height.should == 3 * @pdf.font.height
-  end
-  
-  it "should consider spacing when provided" do
-    spacing = 10
-    actual_height = @pdf.font.height_of("Foo\nBar\nBaz", 
-      :line_width => 200, :spacing => spacing)
-    actual_height.should == 3 * @pdf.font.height + 3 * spacing
-  end
-  
-end
-
 
 describe "font style support" do
   before(:each) { create_pdf }
