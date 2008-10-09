@@ -199,44 +199,45 @@ module Prawn
              @metrics_path.join("\n")
         end  
       
-        def parse_afm(file) 
+        def parse_afm(file_name) 
           section = []
-          
-          File.open(file,"rb") do |file|
-            
-            file.each do |line| 
-              if line =~ /^Start(\w+)/
-                section.push $1
-                next
-              elsif line =~ /^End(\w+)/
-                section.pop
-                next
-              end
-              
-              if section == ["FontMetrics", "CharMetrics"]
-                next unless line =~ /^CH?\s/  
-          
-                name                  = line[/\bN\s+(\.?\w+)\s*;/, 1]
-                @glyph_widths[name]   = line[/\bWX\s+(\d+)\s*;/, 1].to_i
-                @bounding_boxes[name] = line[/\bB\s+([^;]+);/, 1].to_s.rstrip
-              elsif section == ["FontMetrics", "KernData", "KernPairs"]
-                next unless line =~ /^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/
-                @kern_pairs[[$1, $2]] = $3.to_i
-              elsif section == ["FontMetrics", "KernData", "TrackKern"]
-                next
-              elsif section == ["FontMetrics", "Composites"]
-                next
-              elsif line =~ /(^\w+)\s+(.*)/
-                key, value = $1.to_s.downcase, $2      
-              
-                @attributes[key] =  @attributes[key] ? 
-                  Array(@attributes[key]) << value : value
-              else
-                warn "Can't parse:  #{line}"
-              end
+
+          File.foreach(file_name) do |line|        
+            case line
+            when /^Start(\w+)/
+              section.push $1
+              next
+            when /^End(\w+)/
+              section.pop
+              next
             end
-          end
-        end               
+
+            case section
+            when ["FontMetrics", "CharMetrics"]
+              next unless line =~ /^CH?\s/  
+
+              name                  = line[/\bN\s+(\.?\w+)\s*;/, 1]
+              @glyph_widths[name]   = line[/\bWX\s+(\d+)\s*;/, 1].to_i
+              @bounding_boxes[name] = line[/\bB\s+([^;]+);/, 1].to_s.rstrip
+            when ["FontMetrics", "KernData", "KernPairs"]
+              next unless line =~ /^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/
+              @kern_pairs[[$1, $2]] = $3.to_i
+            when ["FontMetrics", "KernData", "TrackKern"], 
+              ["FontMetrics", "Composites"]
+              next
+            else
+              parse_generic_afm_attribute(line)
+            end
+          end 
+        end
+
+        def parse_generic_afm_attribute(line)
+          line =~ /(^\w+)\s+(.*)/
+          key, value = $1.to_s.downcase, $2      
+
+          @attributes[key] =  @attributes[key] ? 
+          Array(@attributes[key]) << value : value
+        end     
       end
 
       class TTF < Metrics #:nodoc:  
