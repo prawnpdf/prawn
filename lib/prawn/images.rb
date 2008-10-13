@@ -39,7 +39,7 @@ module Prawn
     def image(file, options={})     
       Prawn.verify_options [:at,:position, :height, :width, :scale], options
       
-      if file.kind_of?(IO)
+      if file.respond_to?(:read)
         image_content = file.read
       else      
         raise ArgumentError, "#{file} not found" unless File.file?(file)  
