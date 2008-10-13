@@ -12,11 +12,11 @@ module Prawn
       
       # TODO: Replace with TeX optimal algorithm
       def naive_wrap(string, line_width, font_size, options = {})
-        accumulated_width = 0
         scan_pattern = options[:mode] == :character ? /./ : /\S+|\s+/                                    
         
         output = ""                
-        string.lines.each do |line|         
+        string.lines.each do |line| 
+          accumulated_width = 0        
           segments = line.scan(scan_pattern)
                                         
           segments.each do |segment|    
