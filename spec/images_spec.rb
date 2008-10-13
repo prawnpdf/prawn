@@ -5,7 +5,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "the image() function" do
 
   before(:each) do
-    @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg"
+    @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
     create_pdf
   end
 
@@ -21,5 +21,20 @@ describe "the image() function" do
     # but only 1 image xobject
     output.scan(/\/Type \/XObject/).size.should == 1
   end  
+  
+  it "should return the image info object" do
+    info =  @pdf.image(@filename)
+    
+    assert info.kind_of?(Prawn::Images::JPG)
+    
+    info.height.should == 453
+  end
+  
+  it "should accept IO objects" do
+    file = File.open(@filename, "rb")
+    info = @pdf.image(file)
+    
+    info.height.should == 453
+  end
 end
 

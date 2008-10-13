@@ -36,11 +36,15 @@ module Prawn
     # proportionally.  When both are provided, the image will be stretched to 
     # fit the dimensions without maintaining the aspect ratio.
     #
-    def image(filename, options={})     
+    def image(file, options={})     
       Prawn.verify_options [:at,:position, :height, :width, :scale], options
-      raise ArgumentError, "#{filename} not found" unless File.file?(filename)  
       
-      image_content =  File.read_binary(filename)
+      if file.kind_of?(IO)
+        image_content = file.read
+      else      
+        raise ArgumentError, "#{file} not found" unless File.file?(file)  
+        image_content =  File.read_binary(file)
+      end
       
       image_sha1 = Digest::SHA1.hexdigest(image_content)
 
@@ -83,6 +87,8 @@ module Prawn
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
       add_content instruct % [ w, h, x, y - h, label ]
+      
+      return info
     end
 
     private   
