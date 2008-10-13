@@ -17,7 +17,29 @@ describe "Font Metrics" do
     comicsans = "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
     @pdf.font(comicsans)
     @pdf.font.metrics.should == Prawn::Font::Metrics[comicsans]
-  end         
+  end 
+
+  it "should wrap text" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    @pdf.font.metrics.naive_wrap("Please wrap this text about HERE. More text that should be wrapped", 220, @pdf.font.size).should ==
+				 "Please wrap this text about\nHERE. More text that should be\nwrapped"
+  end
+
+  it "should respect end of line when wrapping text" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    text = "Please wrap only before\nTHIS word. Don't wrap this"
+    @pdf.font.metrics.naive_wrap(text, 220, @pdf.font.size).should == text
+  end
+
+  it "should respect end of line when wrapping text and mode is set to 'character'" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    opts = {:mode => :character}
+    @pdf.font.metrics.naive_wrap("You can wrap this text HERE", 180, @pdf.font.size, opts).should ==
+				 "You can wrap this text HE\nRE"
+  end     
   
 end    
 
