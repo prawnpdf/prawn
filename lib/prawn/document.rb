@@ -59,8 +59,6 @@ module Prawn
     #
     # <tt>:page_size</tt>:: One of the Document::PageGeometry::SIZES [LETTER]
     # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
-    # <tt>:on_page_start</tt>:: Optional proc run at each page start
-    # <tt>:on_page_stop</tt>:: Optional proc  run at each page stop   
     # <tt>:left_margin</tt>:: Sets the left margin in points [ 0.5 inch]
     # <tt>:right_margin</tt>:: Sets the right margin in points [ 0.5 inch]
     # <tt>:top_margin</tt>:: Sets the top margin in points [ 0.5 inch]
@@ -77,9 +75,9 @@ module Prawn
     #   pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
     #
     def initialize(options={},&block)   
-       Prawn.verify_options [:page_size, :page_layout, :on_page_start,
-         :on_page_stop, :left_margin, :right_margin, :top_margin,
-         :bottom_margin, :skip_page_creation, :compress, :skip_encoding, :text_options ], options
+       Prawn.verify_options [:page_size, :page_layout, :left_margin, 
+         :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
+         :compress, :skip_encoding, :text_options ], options
          
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
