@@ -140,7 +140,7 @@ module Prawn
     # repeated on every page of the document.
     #
     # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
-    # width and height   
+    # width and height are used.   
     #
     #   header margin_box.top_left do 
     #    text "Here's My Fancy Header", :size => 25, :align => :center   
@@ -155,7 +155,7 @@ module Prawn
     # repeated on every page of the document.
     #
     # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
-    # width and height
+    # width and height are used.
     #
     #   footer [margin_box.left, margin_box.bottom + 25] do
     #     stroke_horizontal_rule
