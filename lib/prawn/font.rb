@@ -22,6 +22,11 @@ module Prawn
     # more portable.
     #
     def font(name=nil, options={}) 
+      if block_given?
+        original_name = font.name
+        original_size = font.size
+      end
+      
       if name     
         if font_families.key?(name)
           ff = name                                                      
@@ -34,7 +39,16 @@ module Prawn
         Prawn::Font.register("Helvetica", :for => self, :family => "Helvetica") 
         @font_name = "Helvetica"             
       end  
-      font_registry[@font_name] 
+     
+      font_obj = font_registry[@font_name] 
+      font_obj.size = options[:size] if options[:size]
+      
+      if block_given?
+        yield
+        font(original_name, :size => original_size)
+      else
+        font_obj
+      end
     end      
        
     # Hash of Font objects keyed by names
@@ -134,7 +148,11 @@ module Prawn
       end  
       
       add_to_current_page    
-    end      
+    end     
+    
+    def inspect
+      "Prawn::Font< #{name}: #{size} >"
+    end
     
     # Sets the default font size for use within a block. Individual overrides
     # can be used as desired. The previous font size will be restored after the

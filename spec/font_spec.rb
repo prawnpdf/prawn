@@ -70,6 +70,28 @@ describe "font style support" do
       
 end
 
+describe "Transactional font handling" do
+  before(:each) { create_pdf }
+  
+  it "should allow setting of size directly when font is created" do
+    @pdf.font "Courier", :size => 16
+    @pdf.font.size.should == 16 
+  end
+  
+  it "should allow temporary setting of a new font using a transaction" do
+    original = @pdf.font
+    
+    @pdf.font "Courier", :size => 16 do
+      @pdf.font.name.should == "Courier"
+      @pdf.font.size.should == 16
+    end
+    
+    @pdf.font.should == original  
+  end
+  
+end
+
+
 describe "Document#page_fonts" do
   before(:each) { create_pdf } 
   
