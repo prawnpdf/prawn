@@ -87,7 +87,7 @@ module Prawn
 
       # find where the image will be placed and how big it will be  
       w,h = calc_image_dimensions(info, options)
-      
+
       if options[:at]       
         x,y = translate(options[:at]) 
       else                  
@@ -288,6 +288,8 @@ module Prawn
           w = bh * ip
         end
       end
+      info.scaled_width = w
+      info.scaled_height = h
       [w,h]
     end
 
