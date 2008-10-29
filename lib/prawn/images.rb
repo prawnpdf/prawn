@@ -22,7 +22,8 @@ module Prawn
     # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
-    # <tt>:scale</tt>:: scale the dimensions of the image proportionally   
+    # <tt>:scale</tt>:: scale the dimensions of the image proportionally
+    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [with,height]
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
     #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
@@ -51,7 +52,7 @@ module Prawn
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     # 
     def image(file, options={})     
-      Prawn.verify_options [:at,:position, :height, :width, :scale], options
+      Prawn.verify_options [:at,:position, :height, :width, :scale, :fit], options
       
       if file.respond_to?(:read)
         image_content = file.read
@@ -118,8 +119,8 @@ module Prawn
         bounds.absolute_right - w
       when Numeric
         options[:position] + bounds.absolute_left
-      end       
-      
+      end
+
       return [x,y]
     end
 
@@ -252,7 +253,6 @@ module Prawn
     end
 
     def calc_image_dimensions(info, options)
-      # TODO: allow the image to be aligned in a box
       w = options[:width] || info.width
       h = options[:height] || info.height
 
@@ -267,8 +267,18 @@ module Prawn
       elsif options[:scale] 
         w = info.width * options[:scale]
         h = info.height * options[:scale]
+      elsif options[:fit] 
+        bw, bh = options[:fit]
+        bp = bw / bh.to_f
+        ip = info.width / info.height.to_f
+        if ip > bp
+          w = bw
+          h = bw / ip
+        else
+          h = bh
+          w = bh * ip
+        end
       end
-
       [w,h]
     end
 
