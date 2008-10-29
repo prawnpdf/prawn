@@ -52,7 +52,7 @@ module Prawn
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     # 
     def image(file, options={})     
-      Prawn.verify_options [:at,:position, :height, :width, :scale, :fit], options
+      Prawn.verify_options [:at, :position, :vposition, :height, :width, :scale, :fit], options
       
       if file.respond_to?(:read)
         image_content = file.read
@@ -87,6 +87,7 @@ module Prawn
 
       # find where the image will be placed and how big it will be  
       w,h = calc_image_dimensions(info, options)
+      
       if options[:at]       
         x,y = translate(options[:at]) 
       else                  
@@ -120,7 +121,15 @@ module Prawn
       when Numeric
         options[:position] + bounds.absolute_left
       end
-
+      options[:vposition] ||= :top
+      y = case options[:vposition]
+      when :top
+        bounds.absolute_top
+      when :center
+        bounds.absolute_top - (bounds.height - h) / 2.0
+      when :bottom
+        bounds.absolute_bottom + h
+      end
       return [x,y]
     end
 
