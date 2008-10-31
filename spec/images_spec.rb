@@ -17,7 +17,6 @@ describe "the image() function" do
     images = PDF::Inspector::XObject.analyze(output)
     # there should be 2 images in the page resources
     images.page_xobjects.first.size.should == 2
-
     # but only 1 image xobject
     output.scan(/\/Type \/XObject/).size.should == 1
   end  
@@ -36,5 +35,20 @@ describe "the image() function" do
     
     info.height.should == 453
   end
+  
+  it "should fit inside the defined constraints" do
+    info = @pdf.image @filename, :fit => [100,400]
+    info.scaled_width.should <= 100
+    info.scaled_height.should <= 400
+    
+    info = @pdf.image @filename, :fit => [400,100]
+    info.scaled_width.should <= 400
+    info.scaled_height.should <= 100
+    
+    info = @pdf.image @filename, :fit => [604,453]
+    info.scaled_width.should == 604
+    info.scaled_height.should == 453
+  end
+  
 end
 

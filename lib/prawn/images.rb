@@ -20,9 +20,11 @@ module Prawn
     # Options:
     # <tt>:at</tt>:: the location of the top left corner of the image.
     # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
+    # <tt>:vposition</tt>::  One of (:top, :center, :center) or an y-offset    
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
-    # <tt>:scale</tt>:: scale the dimensions of the image proportionally   
+    # <tt>:scale</tt>:: scale the dimensions of the image proportionally
+    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [with,height]
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
     #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
@@ -51,7 +53,7 @@ module Prawn
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     # 
     def image(file, options={})     
-      Prawn.verify_options [:at,:position, :height, :width, :scale], options
+      Prawn.verify_options [:at, :position, :vposition, :height, :width, :scale, :fit], options
       
       if file.respond_to?(:read)
         image_content = file.read
@@ -86,6 +88,7 @@ module Prawn
 
       # find where the image will be placed and how big it will be  
       w,h = calc_image_dimensions(info, options)
+
       if options[:at]       
         x,y = translate(options[:at]) 
       else                  
@@ -118,8 +121,18 @@ module Prawn
         bounds.absolute_right - w
       when Numeric
         options[:position] + bounds.absolute_left
-      end       
-      
+      end
+      options[:vposition] ||= :top
+      y = case options[:vposition]
+      when :top
+        bounds.absolute_top
+      when :center
+        bounds.absolute_top - (bounds.height - h) / 2.0
+      when :bottom
+        bounds.absolute_bottom + h
+      when Numeric
+        bounds.absolute_top - options[:vposition]
+      end
       return [x,y]
     end
 
@@ -252,7 +265,6 @@ module Prawn
     end
 
     def calc_image_dimensions(info, options)
-      # TODO: allow the image to be aligned in a box
       w = options[:width] || info.width
       h = options[:height] || info.height
 
@@ -267,8 +279,20 @@ module Prawn
       elsif options[:scale] 
         w = info.width * options[:scale]
         h = info.height * options[:scale]
+      elsif options[:fit] 
+        bw, bh = options[:fit]
+        bp = bw / bh.to_f
+        ip = info.width / info.height.to_f
+        if ip > bp
+          w = bw
+          h = bw / ip
+        else
+          h = bh
+          w = bh * ip
+        end
       end
-
+      info.scaled_width = w
+      info.scaled_height = h
       [w,h]
     end
 

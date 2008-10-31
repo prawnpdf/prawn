@@ -19,7 +19,8 @@ module Prawn
       attr_reader :width, :height, :bits
       attr_reader :color_type, :compression_method, :filter_method
       attr_reader :interlace_method, :alpha_channel
-
+      attr_accessor :scaled_width, :scaled_height
+      
       # Process a new PNG image
       #
       # <tt>:data</tt>:: A string containing a full PNG file
