@@ -20,6 +20,7 @@ module Prawn
     # Options:
     # <tt>:at</tt>:: the location of the top left corner of the image.
     # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
+    # <tt>:vposition</tt>::  One of (:top, :center, :center) or an y-offset    
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
     # <tt>:scale</tt>:: scale the dimensions of the image proportionally
@@ -129,6 +130,8 @@ module Prawn
         bounds.absolute_top - (bounds.height - h) / 2.0
       when :bottom
         bounds.absolute_bottom + h
+      when Numeric
+        bounds.absolute_top - options[:vposition]
       end
       return [x,y]
     end
