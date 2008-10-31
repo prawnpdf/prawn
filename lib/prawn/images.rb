@@ -140,10 +140,12 @@ module Prawn
       color_space = case jpg.channels
       when 1
         :DeviceGray
+      when 3
+        :DeviceRGB
       when 4
         :DeviceCMYK
       else
-        :DeviceRGB
+        raise ArgumentError, 'JPG uses an unsupported number of channels'
       end
       obj = ref(:Type       => :XObject,
           :Subtype          => :Image,
@@ -153,6 +155,14 @@ module Prawn
           :Width            => jpg.width,
           :Height           => jpg.height,
           :Length           => data.size ) 
+
+      # add extra decode params for CMYK images. By swapping the
+      # min and max values from the default, we invert the colours. See
+      # section 4.8.4 of the spec.
+      if color_space == :DeviceCMYK
+        obj.data[:Decode] = [ 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 ]
+      end
+
       obj << data
       return obj
     end
