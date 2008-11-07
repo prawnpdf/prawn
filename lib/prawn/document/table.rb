@@ -90,7 +90,7 @@ module Prawn
       # <tt>:widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
       # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
       # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
-      # <tt>:align_headers</tt>:: Alignment of header text.
+      # <tt>:align_headers</tt>:: Alignment of header text.  Specify for entire header (<tt>:left</tt>) or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the header alignment is the same as the column alignment.
       #
       # Row colors are specified as html encoded values, e.g.
       # ["ffffff","aaaaaa","ccaaff"].  You can also specify 
@@ -260,12 +260,24 @@ module Prawn
           contents.each { |e| e.border_style = :all }
         else                            
           if C(:headers)
-            contents.first.border_style = :all 
-            contents.first.align        = C(:align_headers) || :left
+            contents.first.border_style = :all
           else
-            contents.first.border_style  = :no_bottom    
+            contents.first.border_style  = :no_bottom
           end
           contents.last.border_style  = :no_top
+        end
+        if C(:headers)
+          contents.first.cells.each_with_index do |e,i|
+          if C(:align_headers)
+            case C(:align_headers)
+              when Hash
+                align = C(:align_headers)[i]
+              else
+                align = C(:align_headers)
+              end
+            end
+            e.align = align if align
+          end
         end
         
         contents.first.background_color = C(:header_color) if C(:header_color)

@@ -190,7 +190,7 @@ module Prawn
         @height   = 0
       end
 
-      attr_reader :width, :height
+      attr_reader :width, :height, :cells
       attr_accessor :background_color
 
       def <<(cell)
