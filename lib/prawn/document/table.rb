@@ -287,12 +287,16 @@ module Prawn
           end
         end
         
-        contents.first.background_color = C(:header_color) if C(:header_color) && C(:headers)
+        if C(:header_color) && C(:headers)
+          contents.first.background_color = C(:header_color) 
+        end
 
         rows_to_skip_coloring = C(:headers) ? 1 : 0
         contents.each_with_index do |x,index|
           unless x.background_color 
-            x.background_color = next_row_color if C(:row_colors)  && index >= rows_to_skip_coloring
+            if C(:row_colors)  && index >= rows_to_skip_coloring
+              x.background_color = next_row_color 
+            end
           end
           x.draw 
         end
