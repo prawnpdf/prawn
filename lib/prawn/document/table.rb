@@ -268,11 +268,23 @@ module Prawn
         else
           if C(:headers)
             contents.first.border_style = :all
-            contents.first.align = C(:align_headers) || :left
           else
             contents.first.border_style = :no_bottom
           end
           contents.last.border_style = :no_top
+        end
+        if C(:headers)
+          contents.first.cells.each_with_index do |e,i|
+          if C(:align_headers)
+            case C(:align_headers)
+              when Hash
+                align = C(:align_headers)[i]
+              else
+                align = C(:align_headers)
+              end
+            end
+            e.align = align if align
+          end
         end
         
         contents.first.background_color = C(:header_color) if C(:header_color)
