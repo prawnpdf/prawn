@@ -42,12 +42,13 @@ module Prawn
       # <tt>:document</tt>:: The Prawn::Document object to render on. 
       # <tt>:text</tt>:: The text to be flowed within the cell
       # <tt>:width</tt>:: The width in PDF points of the cell.
-      # <tt>:border</tt>:: The border line width. If omitted, no border will be drawn.
       # <tt>:horizontal_padding</tt>:: The horizontal padding in PDF points
       # <tt>:vertical_padding</tt>:: The vertical padding in PDF points
       # <tt>:padding</tt>:: Overrides both horizontal and vertical padding
-      # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>   
       # <tt>:align</tt>:: One of <tt>:left</tt>, <tt>:right</tt>, <tt>:center</tt>
+      # <tt>:borders</tt>:: An array of sides which should have a border. Any of <tt>:top</tt>, <tt>:left</tt>, <tt>:right</tt>, <tt>:bottom</tt>
+      # <tt>:border_width</tt>:: The border line width. Defaults to 1.
+      # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>. Defaults to :all.
       #
       def initialize(options={})
         @point        = options[:point]
