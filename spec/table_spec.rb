@@ -136,4 +136,21 @@ describe "An invalid table" do
       @pdf.table(@bad_data)
     end
   end
+
+  it "should raise an EmptyTableError with empty table data" do
+    lambda {
+      data = []
+      @pdf = Prawn::Document.new
+      @pdf.table(data)
+    }.should.raise( Prawn::Errors::EmptyTable )
+  end   
+
+  it "should raise an EmptyTableError with nil table data" do
+    lambda {
+      data = nil
+      @pdf = Prawn::Document.new
+      @pdf.table(data)
+    }.should.raise( Prawn::Errors::EmptyTable )
+  end   
+
 end
