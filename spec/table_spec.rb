@@ -109,6 +109,22 @@ describe "A table's content" do
       @pdf.table(data)
     }.should.not.raise
   end   
+
+  it "should raise an EmptyTableError with an empty table" do
+    lambda {
+      data = []
+      @pdf = Prawn::Document.new
+      @pdf.table(data)
+    }.should.raise( Prawn::Errors::EmptyTable )
+  end   
+
+  it "should raise an EmptyTableError with a nil table" do
+    lambda {
+      data = nil
+      @pdf = Prawn::Document.new
+      @pdf.table(data)
+    }.should.raise( Prawn::Errors::EmptyTable )
+  end   
   
   it "should paginate for large tables" do
     # 30 rows fit on the table with default setting, 31 exceed.
