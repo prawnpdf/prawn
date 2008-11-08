@@ -75,6 +75,29 @@ end
 
 describe "A table's content" do
 
+  it "should not cause an error if rendering the very first row causes a page break" do
+    Prawn::Document.new( :page_layout => :portrait ) do
+      arr = Array(1..5).collect{|i| ["cell #{i}"] }
+
+      move_down( y - (bounds.absolute_bottom + 3) )
+
+      lambda {
+        table( arr,
+            :font_size          => 9, 
+            :horizontal_padding => 3,
+            :vertical_padding   => 3,
+            :border_width       => 0.05,
+            :border_style       => :none,
+            :row_colors         => %w{ffffff eeeeee},
+            :widths             => {0 =>110},
+            :position           => :left,
+            :headers            => ["exploding header"],
+            :align              => :left,
+            :align_headers      => :center)
+      }.should.not.raise
+    end
+  end
+
   it "should output content cell by cell, row by row" do
     data = [["foo","bar"],["baz","bang"]]
     @pdf = Prawn::Document.new

@@ -250,7 +250,7 @@ module Prawn
             if c.height > y_pos - bbox.absolute_bottom
               draw_page(page_contents)
               @document.start_new_page
-              if C(:headers)
+              if C(:headers) && page_contents.any?
                 page_contents = [page_contents[0]]
                 y_pos = @document.y - page_contents[0].height
               else
