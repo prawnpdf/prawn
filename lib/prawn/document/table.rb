@@ -300,7 +300,9 @@ module Prawn
       end
 
       def next_row_color
-        C(:row_colors).unshift(C(:row_colors).pop).last
+        color = C(:row_colors).shift
+        C(:row_colors).push(color)
+        color
       end
 
       def reset_row_colors    
