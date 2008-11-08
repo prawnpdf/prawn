@@ -262,46 +262,31 @@ module Prawn
 
       def draw_page(contents)
         return if contents.empty?
-
+ 
         if C(:border_style) == :grid || contents.length == 1
           contents.each { |e| e.border_style = :all }
-        else                            
+        else
           if C(:headers)
             contents.first.border_style = :all
+            contents.first.align = C(:align_headers) || :left
           else
-            contents.first.border_style  = :no_bottom
+            contents.first.border_style = :no_bottom
           end
-          contents.last.border_style  = :no_top
-        end
-        if C(:headers)
-          contents.first.cells.each_with_index do |e,i|
-          if C(:align_headers)
-            case C(:align_headers)
-              when Hash
-                align = C(:align_headers)[i]
-              else
-                align = C(:align_headers)
-              end
-            end
-            e.align = align if align
-          end
+          contents.last.border_style = :no_top
         end
         
-        if C(:header_color) && C(:headers)
-          contents.first.background_color = C(:header_color) 
-        end
-
+        contents.first.background_color = C(:header_color) if C(:header_color)
+ 
         contents.each do |x|
-          unless x.background_color 
-            if C(:row_colors)  && index >= rows_to_skip_coloring
-              x.background_color = next_row_color 
-            end
+          unless x.background_color
+            x.background_color = next_row_color if C(:row_colors)
           end
-          x.draw 
+          x.draw
         end
-
+ 
         reset_row_colors
       end
+
 
       def next_row_color
         color = C(:row_colors).shift
