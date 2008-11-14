@@ -12,8 +12,8 @@ Prawn::Document.generate("text_box.pdf") do
     :width    => 250, :height => font.height * 10,
     :overflow => :truncate,
     :at       => [50, 300]
-    
+  
   move_down 20
-
+  
   text_box "Oh hai text box. " * 100, :overflow => :expand
 end

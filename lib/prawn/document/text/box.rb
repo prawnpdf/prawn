@@ -20,14 +20,19 @@ module Prawn
           x,y = @at
           
           unless @overflow == :expand
+            original_y = @document.y
             fit_text_to_box
           end
           
-          @document.y = @document.bounds.absolute_bottom + y   
-          @document.span(@width, :position => x) do
+          @document.bounding_box([x,@document.bounds.top], 
+            :width => @width, :height => @document.bounds.height) do
+            @document.y = @document.bounds.absolute_bottom + y 
             @document.text @text
           end
-            
+          
+          unless @overflow == :expand
+            @document.y = y + @document.bounds.absolute_bottom - @height  
+          end        
         end
         
         private
