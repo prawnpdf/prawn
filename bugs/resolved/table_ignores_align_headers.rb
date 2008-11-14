@@ -6,9 +6,13 @@
 # 
 #  * This issue can only be reproduced when :border_style => :grid is used
 #
+# Resolved as of 47297900dcf3f16c4765ca817f17c53fb0a5a079
+# I think a bad merge created issues in edge, and this code fixes previous
+# problems that are present in stable.
+#
 $DEBUG = true
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "prawn"
 
 Prawn::Document.generate("table_ignores_align_headers.pdf") do
