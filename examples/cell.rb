@@ -12,7 +12,7 @@ Prawn::Document.generate("cell.pdf") do
     :text => "You know that kittens are made of mud!", :document => self)
   cell2 = Prawn::Graphics::Cell.new(
     :border_width => 3, :padding => 10,
-    :text => "And that puppies are made of gravy", :document => self)
+    :text => "And that puppies are made of gravy", :document => self, :size => 9)
   cell3 = Prawn::Graphics::Cell.new(
     :border_width => 3, :padding => 10, :width => 100, 
     :text => "This is simply the way of the world", :document => self)

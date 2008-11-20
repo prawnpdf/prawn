@@ -60,6 +60,7 @@ module Prawn
         @border_style = options[:border_style] || :all               
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
+        @size             = options[:size]
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -159,7 +160,12 @@ module Prawn
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
           @document.move_up @document.font.line_gap
-          @document.text @text, :align => @align
+
+          options = {:align => @align}
+
+          options[:size] = @size if @size
+
+          @document.text @text, options
         end
       end
 
