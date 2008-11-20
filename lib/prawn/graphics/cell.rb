@@ -60,7 +60,7 @@ module Prawn
         @border_style = options[:border_style] || :all               
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
-        @size             = options[:size]
+        @font_size        = options[:font_size]
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -92,7 +92,7 @@ module Prawn
       #
       def width
         @width || (@document.font.metrics.string_width(@text,
-          @document.font.size)) + 2*@horizontal_padding
+          @font_size || @document.font.size)) + 2*@horizontal_padding
       end
 
       # The height of the cell in PDF points
@@ -163,7 +163,7 @@ module Prawn
 
           options = {:align => @align}
 
-          options[:size] = @size if @size
+          options[:size] = @font_size if @font_size
 
           @document.text @text, options
         end
