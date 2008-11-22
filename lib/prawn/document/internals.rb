@@ -7,7 +7,6 @@ module Prawn
     # are you won't need anything you find here.  
     #
     module Internals    
-      
       # Creates a new Prawn::Reference and adds it to the Document's object
       # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.    
       def ref(data)
@@ -50,6 +49,13 @@ module Prawn
         page_resources[:XObject] ||= {}
       end  
       
+      # The Name dictionary (PDF spec 3.6.3) for this document. It is
+      # lazily initialized, so that documents that do not need a name
+      # dictionary do not incur the additional overhead.
+      def names
+        @root.data[:Names] ||= ref(:Type => :Names)
+      end
+
       private      
       
       def finish_page_content     

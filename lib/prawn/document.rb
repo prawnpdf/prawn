@@ -13,11 +13,15 @@ require "prawn/document/text"
 require "prawn/document/table"
 require "prawn/document/internals"
 require "prawn/document/span"
+require "prawn/document/annotations"
+require "prawn/document/destinations"
 
 module Prawn
   class Document  
            
     include Prawn::Document::Internals
+    include Prawn::Document::Annotations
+    include Prawn::Document::Destinations
     include Prawn::Graphics    
     include Prawn::Images
     include Text                             
@@ -81,8 +85,8 @@ module Prawn
          
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
-       @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])  
-       @root    = ref(:Type => :Catalog, :Pages => @pages)        
+       @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])
+       @root    = ref(:Type => :Catalog, :Pages => @pages)
        @page_size       = options[:page_size]   || "LETTER"    
        @page_layout     = options[:page_layout] || :portrait
        @compress        = options[:compress] || false                
