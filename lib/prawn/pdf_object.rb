@@ -34,18 +34,12 @@ module Prawn
     when Numeric    then String(obj)
     when Array
       "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
+    when Prawn::LiteralString
+      obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+      "(#{obj})"
     when String
-      # Some places, a "string" must be only a parenthesized sequence of characters
-      # (e.g., in link destinations and name trees). So, we check to see if the string
-      # has any non-latin characters in it, and if so, we pack it. Otherwise, we just use
-      # the "raw" parenthesized string.
-      if obj =~ /[\x00-\x1f\x7f-\xff]/
-        obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
-        "<" << obj.unpack("H*").first << ">"
-      else
-        obj = obj.gsub(/[\(\)\\]/) { |m| "\\#{m}" }
-        "(#{obj})"
-      end
+      obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
+      "<" << obj.unpack("H*").first << ">"
     when Symbol                                                         
        if (obj = obj.to_s) =~ /\s/
          raise Prawn::Errors::FailedObjectConversion, 
@@ -69,7 +63,7 @@ module Prawn
     when Prawn::NameTree::Node
       PdfObject(obj.to_hash)
     when Prawn::NameTree::Value
-      "(#{obj.name}) #{obj.value}"
+      PdfObject(obj.name) + " " + PdfObject(obj.value)
     else
       raise Prawn::Errors::FailedObjectConversion, 
         "This object cannot be serialized to PDF"

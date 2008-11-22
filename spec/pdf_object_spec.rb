@@ -24,13 +24,8 @@ describe "PDF Object Serialization" do
     PDF::Inspector.parse(Prawn::PdfObject(s, true)).should == s
   end                      
 
-  it "should convert a Ruby string to literal PDF string when outside a content stream" do
+  it "should convert a Ruby string to a UTF-16 PDF string when outside a content stream" do       
     s = "I can has a string"
-    PDF::Inspector.parse(Prawn::PdfObject(s, false)).should == s
-  end
-
-  it "should convert a Ruby string with non-latin data to a UTF-16 PDF string when outside a content stream" do       
-    s = "I can has a 한굴 string"
     s_utf16 = "\xFE\xFF" + s.unpack("U*").pack("n*")
     PDF::Inspector.parse(Prawn::PdfObject(s, false)).should == s_utf16
   end                      
@@ -63,9 +58,10 @@ describe "PDF Object Serialization" do
   end  
 
   it "should convert a Ruby array to PDF Array when outside a content stream" do
+    bar = "\xFE\xFF" + "Bar".unpack("U*").pack("n*")
     Prawn::PdfObject([1,2,3]).should == "[1 2 3]"
     PDF::Inspector.parse(Prawn::PdfObject([[1,2],:foo,"Bar"], false)).should ==  
-      [[1,2],:foo, "Bar"]
+      [[1,2],:foo, bar]
   end  
  
   it "should convert a Ruby hash to a PDF Dictionary when inside a content stream" do
@@ -82,6 +78,7 @@ describe "PDF Object Serialization" do
   end      
 
   it "should convert a Ruby hash to a PDF Dictionary when outside a content stream" do
+    what = "\xFE\xFF" + "what".unpack("U*").pack("n*")
     dict = Prawn::PdfObject( {:foo  => :bar, 
                               "baz" => [1,2,3], 
                               :bang => {:a => "what", :b => [:you, :say] }}, false )
@@ -90,7 +87,7 @@ describe "PDF Object Serialization" do
 
     res[:foo].should == :bar
     res[:baz].should == [1,2,3]
-    res[:bang].should == { :a => "what", :b => [:you, :say] }
+    res[:bang].should == { :a => what, :b => [:you, :say] }
 
   end      
   

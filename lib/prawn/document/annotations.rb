@@ -1,3 +1,5 @@
+require 'prawn/literal_string'
+
 module Prawn
   class Document
     module Annotations
@@ -5,7 +7,7 @@ module Prawn
       # +options+ must be a Hash describing the annotation.
       def annotate(options)
         @current_page.data[:Annots] ||= []
-        options = options.merge(:Type => :Annot)
+        options = sanitize_annotation_hash(options)
         @current_page.data[:Annots] << ref(options)
         return options
       end
@@ -28,6 +30,18 @@ module Prawn
         options = options.merge(:Subtype => :Link, :Rect => rect)
         annotate(options)
       end
+
+      private
+
+        def sanitize_annotation_hash(options)
+          options = options.merge(:Type => :Annot)
+
+          if options[:Dest].is_a?(String)
+            options[:Dest] = Prawn::LiteralString.new(options[:Dest])
+          end
+
+          options
+        end
     end
   end
 end

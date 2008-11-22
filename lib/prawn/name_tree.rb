@@ -1,3 +1,4 @@
+require 'prawn/literal_string'
 require 'prawn/reference'
 
 module Prawn
@@ -137,7 +138,7 @@ module Prawn
       attr_reader :value
 
       def initialize(name, value)
-        @name, @value = name, value
+        @name, @value = Prawn::LiteralString.new(name), value
       end
 
       def <=>(leaf)
