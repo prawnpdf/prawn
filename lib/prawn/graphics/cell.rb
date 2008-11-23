@@ -48,7 +48,7 @@ module Prawn
       # <tt>:align</tt>:: One of <tt>:left</tt>, <tt>:right</tt>, <tt>:center</tt>
       # <tt>:borders</tt>:: An array of sides which should have a border. Any of <tt>:top</tt>, <tt>:left</tt>, <tt>:right</tt>, <tt>:bottom</tt>
       # <tt>:border_width</tt>:: The border line width. Defaults to 1.
-      # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>, <tt>:no</tt>, <tt>:bottom_only</tt>. Defaults to :all.
+      # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>, <tt>:none</tt>, <tt>:bottom_only</tt>. Defaults to :all.
       #
       def initialize(options={})
         @point        = options[:point]
@@ -177,7 +177,7 @@ module Prawn
           [:left,:right,:top]
         when :bottom_only
           [:bottom]
-        when :no
+        when :none
           []
         end
       end

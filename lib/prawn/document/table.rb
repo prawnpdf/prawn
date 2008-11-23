@@ -264,7 +264,7 @@ module Prawn
         return if contents.empty?
  
         if C(:border_style) == :underline_header
-          contents.each { |e| e.border_style = :no }
+          contents.each { |e| e.border_style = :none }
           contents.first.border_style = :bottom_only if C(:headers)
         elsif C(:border_style) == :grid || contents.length == 1
           contents.each { |e| e.border_style = :all }
