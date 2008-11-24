@@ -42,9 +42,11 @@ module Prawn
             @width, @document.font.size)
             
           max_lines = (@height / @document.font.height).floor
+
+          lines = text.lines.to_a
           
-          unless text.lines.size < max_lines
-            @text = text.lines[0...max_lines].join
+          unless lines.length < max_lines
+            @text = lines[0...max_lines].join
             case(@overflow)
             when :ellipses
               @text[-3..-1] = "..."
