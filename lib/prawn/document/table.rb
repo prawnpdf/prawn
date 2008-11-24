@@ -201,10 +201,12 @@ module Prawn
         @document.font.size C(:font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
-            row.each_with_index do |e,i|     
+            
+            col_index = 0
+            row.each do |e|
               case C(:align)
               when Hash
-                align            = C(:align)[i]
+                align            = C(:align)[col_index]
               else
                 align            = C(:align)
               end   
@@ -215,7 +217,7 @@ module Prawn
               case e
               when Prawn::Graphics::Cell
                 e.document = @document
-                e.width    = @col_widths[i]
+                e.width    = @col_widths[col_index]
                 e.horizontal_padding = C(:horizontal_padding)
                 e.vertical_padding   = C(:vertical_padding)    
                 e.border_width       = C(:border_width)
@@ -223,16 +225,25 @@ module Prawn
                 e.align              = align 
                 c << e
               else
+                text = e.is_a?(Hash) ? e[:text] : e.to_s
+                width = if e.is_a?(Hash) && e.has_key?(:colspan)
+                  @col_widths.slice(col_index, e[:colspan]).inject { |sum, width| sum + width }
+                else
+                  @col_widths[col_index]
+                end
+                
                 c << Prawn::Graphics::Cell.new(
                   :document => @document, 
-                  :text     => e.to_s, 
-                  :width    => @col_widths[i],
+                  :text     => text,
+                  :width    => width,
                   :horizontal_padding => C(:horizontal_padding),
                   :vertical_padding   => C(:vertical_padding),
                   :border_width       => C(:border_width),
                   :border_style       => :sides,
                   :align              => align ) 
-              end   
+              end
+              
+              col_index += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1
             end
                                                 
             bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
