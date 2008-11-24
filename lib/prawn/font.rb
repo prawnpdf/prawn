@@ -7,7 +7,8 @@ require "prawn/font/cmap"
 module Prawn 
   
   class Document 
-    # Sets the current font.
+    # Without arguments, this returns the currently selected font. Otherwise,
+    # it sets the current font.
     #
     # The single parameter must be a string. It can be one of the 14 built-in
     # fonts supported by PDF, or the location of a TTF file. The BUILT_INS
@@ -22,33 +23,35 @@ module Prawn
     # more portable.
     #
     def font(name=nil, options={}) 
+      return @font || font("Helvetica") if name.nil?
+
       if block_given?
         original_name = font.name
         original_size = font.size
       end
       
-      if name     
-        if font_families.key?(name)
-          ff = name                                                      
-          name = font_families[name][options[:style] || :normal]
-        end 
-        Prawn::Font.register(name,:for => self, :family => ff) unless font_registry[name]      
-        font_registry[name].add_to_current_page
-        @font_name = name   
-      elsif @font_name.nil?                                              
-        Prawn::Font.register("Helvetica", :for => self, :family => "Helvetica") 
-        @font_name = "Helvetica"             
-      end  
+      @font = find_font(name, options)
+      @font.add_to_current_page
      
-      font_obj = font_registry[@font_name] 
-      font_obj.size = options[:size] if options[:size]
+      @font.size = options[:size] if options[:size]
       
       if block_given?
         yield
         font(original_name, :size => original_size)
       else
-        font_obj
+        @font
       end
+    end
+
+    # Looks up the given font name. Once a font has been found by that name,
+    # it will be cached to subsequent lookups for that font will return the
+    # same object.
+    def find_font(name, options={}) #:nodoc:
+      if font_families.key?(name)
+        family, name = name, font_families[name][options[:style] || :normal]
+      end
+
+      font_registry[name] ||= Font.new(name, options.merge(:for => self, :family => family))
     end      
        
     # Hash of Font objects keyed by names
@@ -108,10 +111,6 @@ module Prawn
                         
     DEFAULT_SIZE = 12
       
-    def self.register(name,options={})  #:nodoc:      
-       options[:for].font_registry[name] = Font.new(name,options)
-    end      
-    
     # The font metrics object  
     attr_reader   :metrics
     
@@ -146,8 +145,6 @@ module Prawn
       else
         register_builtin(name)
       end  
-      
-      add_to_current_page    
     end     
     
     def inspect

@@ -272,7 +272,7 @@ module Prawn
                           :Parent    => @pages, 
                           :MediaBox  => page_dimensions, 
                           :Contents  => @page_content)
-      font.add_to_current_page if @font_name  
+      font.add_to_current_page if @font
       update_colors
     end
     
