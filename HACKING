@@ -1,0 +1,40 @@
+= Hacking on Prawn
+
+A stub file that'll eventually get bigger
+
+== NOTES ==
+
+Install test-spec, pdf-reader, and mocha from RubyGems
+
+Be sure to load in the necessary git submodules as well:
+
+  git submodule init
+  git submodule update
+
+If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
+
+  gem install test-unit -v 1.2.3
+  
+== Patch process ==
+
+  1. File a ticket in Lighthouse describing your feature with 'request'
+  2. Fork Prawn on Github, make your changes
+  3. Submit pull request so Gregory is notified
+  4. Link your commits on Lighthouse
+  
+  If you are working on a ticket that has already been created, skip step 1.
+  
+  All feature enhancements should come with an example in the examples/ dir,
+  and preferably, some specs.
+  
+  All bug reports should have a reproducible example in bugs/ and preferably,
+  some specs.
+  
+== Support ==
+
+  Find us in #prawn on irc.freenode.net
+  <sandal> - Gregory Brown
+  <yob>    - James Healy
+  
+  Otherwise, use the mailing list:
+  http://groups.google.com/group/prawn-ruby
