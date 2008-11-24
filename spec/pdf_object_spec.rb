@@ -58,14 +58,15 @@ describe "PDF Object Serialization" do
   end  
 
   it "should convert a Ruby array to PDF Array when outside a content stream" do
+    bar = "\xFE\xFF" + "Bar".unpack("U*").pack("n*")
     Prawn::PdfObject([1,2,3]).should == "[1 2 3]"
     PDF::Inspector.parse(Prawn::PdfObject([[1,2],:foo,"Bar"], false)).should ==  
-      [[1,2],:foo, "\xFE\xFF\x00B\x00a\x00r"]
+      [[1,2],:foo, bar]
   end  
  
   it "should convert a Ruby hash to a PDF Dictionary when inside a content stream" do
     dict = Prawn::PdfObject( {:foo  => :bar, 
-                              "baz"  => [1,2,3], 
+                              "baz" => [1,2,3], 
                               :bang => {:a => "what", :b => [:you, :say] }}, true )     
 
     res = PDF::Inspector.parse(dict)           
@@ -77,15 +78,16 @@ describe "PDF Object Serialization" do
   end      
 
   it "should convert a Ruby hash to a PDF Dictionary when outside a content stream" do
+    what = "\xFE\xFF" + "what".unpack("U*").pack("n*")
     dict = Prawn::PdfObject( {:foo  => :bar, 
-                              "baz"  => [1,2,3], 
+                              "baz" => [1,2,3], 
                               :bang => {:a => "what", :b => [:you, :say] }}, false )
 
     res = PDF::Inspector.parse(dict)           
 
     res[:foo].should == :bar
     res[:baz].should == [1,2,3]
-    res[:bang].should == { :a => "\xFE\xFF\x00w\x00h\x00a\x00t", :b => [:you, :say] }
+    res[:bang].should == { :a => what, :b => [:you, :say] }
 
   end      
   
@@ -98,5 +100,13 @@ describe "PDF Object Serialization" do
     ref = Prawn::Reference(1,true)
     Prawn::PdfObject(ref).should == ref.to_s
   end
-  
+
+  it "should convert a NameTree::Node to a PDF hash" do
+    node = Prawn::NameTree::Node.new(Prawn::Document.new, 10)
+    node.add "hello", 1.0
+    node.add "world", 2.0
+    data = Prawn::PdfObject(node)
+    res = PDF::Inspector.parse(data)
+    res.should == {:Names => ["hello", 1.0, "world", 2.0]}
+  end
 end
