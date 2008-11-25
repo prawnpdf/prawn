@@ -18,13 +18,13 @@ module Prawn
     # <tt>file</tt>:: path to file or an object that responds to #read
     #
     # Options:
-    # <tt>:at</tt>:: the location of the top left corner of the image.
+    # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of the image.
     # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
     # <tt>:vposition</tt>::  One of (:top, :center, :center) or an y-offset    
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
     # <tt>:scale</tt>:: scale the dimensions of the image proportionally
-    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [with,height]
+    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [width,height]
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
     #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
@@ -37,6 +37,9 @@ module Prawn
     # If only one of :width / :height are provided, the image will be scaled
     # proportionally.  When both are provided, the image will be stretched to 
     # fit the dimensions without maintaining the aspect ratio.
+    #
+    # If :at is provided, the image will be place in the current page but
+    # the text position will not be changed.
     #
     # If instead of an explicit filename, an object with a read method is
     # passed as +file+, you can embed images from IO objects and things
@@ -89,7 +92,7 @@ module Prawn
       # find where the image will be placed and how big it will be  
       w,h = calc_image_dimensions(info, options)
 
-      if options[:at]       
+      if options[:at]     
         x,y = translate(options[:at]) 
       else                  
         x,y = image_position(w,h,options) 
