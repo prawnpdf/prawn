@@ -138,13 +138,8 @@ module Prawn
       @document.proc_set :PDF, :Text  
       @size       = DEFAULT_SIZE
       @identifier = :"F#{@document.font_registry.size + 1}"  
-      
-      case(name)
-      when /\.ttf$/i
-        embed_ttf(name)
-      else
-        register_builtin(name)
-      end  
+
+      @reference = nil
     end     
     
     def inspect
@@ -227,11 +222,21 @@ module Prawn
     end
                  
     def add_to_current_page #:nodoc:
+      embed! unless @reference
       @document.page_fonts.merge!(@identifier => @reference)
     end              
     
     private
-    
+
+    def embed!
+      case(name)
+      when /\.ttf$/i
+        embed_ttf(name)
+      else
+        register_builtin(name)
+      end  
+    end
+
     # built-in fonts only work with latin encoding, so translate the string
     def normalize_builtin_encoding(text)
       if text.respond_to?(:encode!)
