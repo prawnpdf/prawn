@@ -36,19 +36,33 @@ describe "the image() function" do
     info.height.should == 453
   end
   
-  it "should fit inside the defined constraints" do
-    info = @pdf.image @filename, :fit => [100,400]
-    info.scaled_width.should <= 100
-    info.scaled_height.should <= 400
-    
-    info = @pdf.image @filename, :fit => [400,100]
-    info.scaled_width.should <= 400
-    info.scaled_height.should <= 100
-    
-    info = @pdf.image @filename, :fit => [604,453]
-    info.scaled_width.should == 604
-    info.scaled_height.should == 453
+  describe ":fit option" do
+    it "should fit inside the defined constraints" do
+      info = @pdf.image @filename, :fit => [100,400]
+      info.scaled_width.should <= 100
+      info.scaled_height.should <= 400
+
+      info = @pdf.image @filename, :fit => [400,100]
+      info.scaled_width.should <= 400
+      info.scaled_height.should <= 100
+
+      info = @pdf.image @filename, :fit => [604,453]
+      info.scaled_width.should == 604
+      info.scaled_height.should == 453
+    end
+    it "should move text position" do
+      @y = @pdf.y
+      info = @pdf.image @filename, :fit => [100,400]
+      @pdf.y.should < @y
+    end
   end
-  
+  describe ":at option" do
+    it "should not move text position" do
+      @y = @pdf.y
+      info = @pdf.image @filename, :at => [100,400]
+      @pdf.y.should == @y
+    end
+  end
+
 end
 
