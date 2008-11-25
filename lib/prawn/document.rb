@@ -69,6 +69,7 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
+    # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # 
     # Usage:
     #                             
@@ -78,10 +79,13 @@ module Prawn
     #   # New document, A4 paper, landscaped
     #   pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)    
     #
+    #   # New document, with background
+    #   pdf = Prawn::Document.new(:background => "#{Prawn::BASEDIR}/data/images/pigs.jpg")    
+    #
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options ], options
+         :compress, :skip_encoding, :text_options, :background ], options
          
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
@@ -91,6 +95,7 @@ module Prawn
        @page_layout     = options[:page_layout] || :portrait
        @compress        = options[:compress] || false                
        @skip_encoding   = options[:skip_encoding]
+       @background      = options[:background]
        
        text_options.update(options[:text_options] || {}) 
              
@@ -136,7 +141,9 @@ module Prawn
      
        add_content "q"   
        
-       @y = @bounding_box.absolute_top        
+       @y = @bounding_box.absolute_top
+       
+       image(@background, :at => [0,@y]) if @background
     end             
       
     # Returns the number of pages in the document
