@@ -125,7 +125,7 @@ module Prawn
       horizontal_line(bounds.left, bounds.right)
     end
 
-    # Draws a vertical line at the given x position from y1 to y2.
+    # Draws a vertical line at the given :at coordinate from y1 to y2.
     #
     def vertical_line(y1,y2,params)
       line(params[:at],y1,params[:at],y2)
