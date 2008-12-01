@@ -377,10 +377,8 @@ module Prawn
           if options[:kerning] 
             kern(text)         
           else     
-           unicode_codepoints = text.unpack("U*")
-            glyph_codes = unicode_codepoints.map { |u| 
-              cmap[u]
-            }
+            unicode_codepoints = text.unpack("U*")
+            glyph_codes = unicode_codepoints.map { |u| cmap[u] }
             text = glyph_codes.pack("n*")
           end
         end
