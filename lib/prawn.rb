@@ -6,11 +6,11 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
            
-%w[font_ttf].each do |dep|
+%w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/#{dep}")
 end
 
-require 'ttf'
+require 'ttfunk'
 
 module Prawn 
   file = __FILE__

@@ -297,7 +297,7 @@ module Prawn
 
       raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-      @encodings = @metrics.enc_table
+      @encodings = @metrics.cmap
 
       if @encodings.nil?
         raise "#{file} missing the required encoding table"

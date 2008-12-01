@@ -245,16 +245,16 @@ module Prawn
         attr_accessor :ttf
         
         def initialize(font)
-          @ttf = ::Font::TTF::File.open(font,"rb")
+          @ttf = TTFunk::File.new(font)
           @attributes       = {}
           @glyph_widths     = {}
           @bounding_boxes   = {} 
           @char_widths      = {}   
-          @has_kerning_data = !kern_pairs_table.empty?    
+          @has_kerning_data = !! @ttf.kern? && @ttf.kern.sub_tables[0]
         end
 
         def cmap
-          @cmap ||= enc_table.charmaps
+          @ttf.cmap.formats[4]
         end
 
         def string_width(string, font_size, options = {})
@@ -300,7 +300,8 @@ module Prawn
               x = if i.is_a?(String)
                 unicode_codepoints = i.unpack("U*")
                 glyph_codes = unicode_codepoints.map { |u| 
-                  enc_table.get_glyph_id_for_unicode(u)
+                  cmap[u]
+                  #enc_table.get_glyph_id_for_unicode(u)
                 }
                 glyph_codes.pack("n*")
               else
@@ -314,7 +315,7 @@ module Prawn
         def glyph_widths
           glyphs = cmap.values.uniq.sort
           first_glyph = glyphs.shift
-          widths = [first_glyph, [Integer(hmtx[first_glyph][0] * scale_factor)]]
+          widths = [first_glyph, [Integer(hmtx[first_glyph][0] * scale_factor)]] 
           prev_glyph = first_glyph
           glyphs.each do |glyph|
             unless glyph == prev_glyph + 1
@@ -328,38 +329,26 @@ module Prawn
         end
 
         def bbox
-          head = @ttf.get_table(:head)
           [:x_min, :y_min, :x_max, :y_max].map do |atr| 
-            Integer(head.send(atr)) * scale_factor
+            Integer(@ttf.head.send(atr)) * scale_factor
           end
         end
 
         def ascender
-          Integer(@ttf.get_table(:hhea).ascender * scale_factor)
+          Integer(@ttf.hhea.ascent * scale_factor)
         end
 
         def descender
-          Integer(@ttf.get_table(:hhea).descender * scale_factor)
+          Integer(@ttf.hhea.descent * scale_factor)
         end      
         
         def line_gap
-          Integer(@ttf.get_table(:hhea).line_gap * scale_factor)   
+          Integer(@ttf.hhea.line_gap * scale_factor)   
         end
 
         def basename
           return @basename if @basename
-          ps_name = ::Font::TTF::Table::Name::NameRecord::POSTSCRIPT_NAME
-
-          @ttf.get_table(:name).name_records.each do |rec|
-            @basename = rec.utf8_str.to_sym if rec.name_id == ps_name            
-          end
-          @basename
-        end
-
-        def enc_table
-          @enc_table ||= @ttf.get_table(:cmap).encoding_tables.find do |t|
-            t.class == ::Font::TTF::Table::Cmap::EncodingTable4
-          end
+          @basename = @ttf.name.postscript_name
         end
 
         # TODO: instead of creating a map that contains every glyph in the font,
@@ -376,20 +365,7 @@ module Prawn
         end
         
         def kern_pairs_table
-          return @kern_pairs_table if @kern_pairs_table
-          
-          table = @ttf.get_table(:kern).subtables.find { |s| 
-            s.is_a? ::Font::TTF::Table::Kern::KerningSubtable0 }
-          
-          if table
-            @kern_pairs_table = table.kerning_pairs.inject({}) do |h,p|
-              h[[p.left, p.right]] = p.value; h
-            end
-          else
-            @kern_pairs_table = {}
-          end               
-        rescue ::Font::TTF::TableMissing
-          @kern_pairs_table = {}
+          has_kerning_data? ? @ttf.kern.sub_tables[0] : {}
         end
 
         def has_kerning_data?
@@ -407,16 +383,16 @@ module Prawn
           else     
            unicode_codepoints = text.unpack("U*")
             glyph_codes = unicode_codepoints.map { |u| 
-              enc_table.get_glyph_id_for_unicode(u)
+              cmap[u]
             }
             text = glyph_codes.pack("n*")
           end
         end
-
+        
         private
 
         def hmtx
-          @hmtx ||= @ttf.get_table(:hmtx).metrics
+          @hmtx ||= @ttf.hmtx.values
         end         
         
         def character_width_by_code(code)    
@@ -425,7 +401,7 @@ module Prawn
         end                   
 
         def scale_factor
-          @scale ||= 1000 * Float(@ttf.get_table(:head).units_per_em)**-1
+          @scale ||= 1000 * Float(@ttf.head.units_per_em)**-1
         end
 
       end
