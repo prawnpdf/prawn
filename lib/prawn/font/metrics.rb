@@ -254,7 +254,7 @@ module Prawn
         end
 
         def cmap
-          @ttf.cmap.formats[4]
+          @cmap ||= @ttf.cmap.formats[4]
         end
 
         def string_width(string, font_size, options = {})
@@ -299,10 +299,7 @@ module Prawn
               i = r.is_a?(Array) ? r.pack("U*") : r 
               x = if i.is_a?(String)
                 unicode_codepoints = i.unpack("U*")
-                glyph_codes = unicode_codepoints.map { |u| 
-                  cmap[u]
-                  #enc_table.get_glyph_id_for_unicode(u)
-                }
+                glyph_codes = unicode_codepoints.map { |u| cmap[u] }
                 glyph_codes.pack("n*")
               else
                 i
@@ -347,8 +344,7 @@ module Prawn
         end
 
         def basename
-          return @basename if @basename
-          @basename = @ttf.name.postscript_name
+          @basename ||= @ttf.name.postscript_name
         end
 
         # TODO: instead of creating a map that contains every glyph in the font,
@@ -365,7 +361,7 @@ module Prawn
         end
         
         def kern_pairs_table
-          has_kerning_data? ? @ttf.kern.sub_tables[0] : {}
+          @kerning_data ||= has_kerning_data? ? @ttf.kern.sub_tables[0] : {}
         end
 
         def has_kerning_data?
