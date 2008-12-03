@@ -87,7 +87,7 @@ describe "When ending each page" do
   it "should result in a smaller file size when compressed" do
     doc_uncompressed = Prawn::Document.new
     doc_compressed   = Prawn::Document.new(:compress => true)
-    [doc_uncompressed, doc_uncompressed].each do |pdf|
+    [doc_compressed, doc_uncompressed].each do |pdf|
        pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
        pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
     end
