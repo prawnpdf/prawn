@@ -9,6 +9,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require 'prawn/encoding'
+
 module Prawn
   class Font 
     class Metrics #:nodoc:
@@ -33,37 +35,6 @@ module Prawn
       end
 
       class Adobe < Metrics #:nodoc:     
-         
-        ISOLatin1Encoding = %w[
-         .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
-         .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
-         .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
-         .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef space
-         exclam quotedbl numbersign dollar percent ampersand quoteright
-         parenleft parenright asterisk plus comma minus period slash zero one
-         two three four five six seven eight nine colon semicolon less equal
-         greater question at A B C D E F G H I J K L M N O P Q R S
-         T U V W X Y Z bracketleft backslash bracketright asciicircum
-         underscore quoteleft a b c d e f g h i j k l m n o p q r s
-         t u v w x y z braceleft bar braceright asciitilde .notdef .notdef
-         .notdef .notdef .notdef .notdef .notdef .notdef .notdef .notdef
-         .notdef .notdef .notdef .notdef .notdef .notdef .notdef dotlessi grave
-         acute circumflex tilde macron breve dotaccent dieresis .notdef ring
-         cedilla .notdef hungarumlaut ogonek caron space exclamdown cent
-         sterling currency yen brokenbar section dieresis copyright ordfeminine
-         guillemotleft logicalnot hyphen registered macron degree plusminus
-         twosuperior threesuperior acute mu paragraph periodcentered cedilla
-         onesuperior ordmasculine guillemotright onequarter onehalf threequarters
-         questiondown Agrave Aacute Acircumflex Atilde Adieresis Aring AE
-         Ccedilla Egrave Eacute Ecircumflex Edieresis Igrave Iacute Icircumflex
-         Idieresis Eth Ntilde Ograve Oacute Ocircumflex Otilde Odieresis
-         multiply Oslash Ugrave Uacute Ucircumflex Udieresis Yacute Thorn
-         germandbls agrave aacute acircumflex atilde adieresis aring ae
-         ccedilla egrave eacute ecircumflex edieresis igrave iacute icircumflex
-         idieresis eth ntilde ograve oacute ocircumflex otilde odieresis divide
-         oslash ugrave uacute ucircumflex udieresis yacute thorn ydieresis
-        ]    
-      
         attr_reader :attributes
                                   
         def initialize(font_name)            
@@ -131,14 +102,14 @@ module Prawn
         
         def latin_kern_pairs_table   
           @kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
-            h[p[0].map { |n| ISOLatin1Encoding.index(n) }] = p[1]
+            h[p[0].map { |n| Encoding::WinAnsi::CHARACTERS.index(n) }] = p[1]
             h
           end
         end
  
         def latin_glyphs_table
           @glyphs_table ||= (0..255).map do |i|
-            @glyph_widths[ISOLatin1Encoding[i]].to_i
+            @glyph_widths[Encoding::WinAnsi::CHARACTERS[i]].to_i
           end 
         end
 
