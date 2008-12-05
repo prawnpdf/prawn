@@ -239,16 +239,11 @@ module Prawn
 
     # built-in fonts only work with latin encoding, so translate the string
     def normalize_builtin_encoding(text)
-      if text.respond_to?(:encode!)
-        text.encode!("ISO-8859-1")
-      else
-        require 'iconv'
-        text.replace Iconv.conv('ISO-8859-1//TRANSLIT', 'utf-8', text)
-      end
-    rescue
-      raise Prawn::Errors::IncompatibleStringEncoding, "When using a " +
-          "builtin font, only characters that exist in " +
-          "WinAnsi/ISO-8859-1 are allowed."
+      enc = Prawn::Encoding::WinAnsi.new
+      text.replace text.unpack("U*").collect { |i| enc[i] }.pack("C*")
+    rescue 
+       raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
+        "are attempting to render is not encoded in valid UTF-8."
     end
 
     def normalize_ttf_encoding(text)
@@ -299,7 +294,7 @@ module Prawn
 
       raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-      @encodings = @metrics.enc_table
+      @encodings = @metrics.cmap
 
       if @encodings.nil?
         raise "#{file} missing the required encoding table"
