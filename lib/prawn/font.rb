@@ -237,13 +237,17 @@ module Prawn
       end  
     end
 
-    # built-in fonts only work with latin encoding, so translate the string
+    # built-in fonts only work with winansi encoding, so translate the string
     def normalize_builtin_encoding(text)
       enc = Prawn::Encoding::WinAnsi.new
       text.replace text.unpack("U*").collect { |i| enc[i] }.pack("C*")
     rescue 
-       raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
-        "are attempting to render is not encoded in valid UTF-8."
+       raise Prawn::Errors::IncompatibleStringEncoding, "When using an AFM" +
+       " font in Prawn, you must provide UTF-8 encoded strings, but only" +
+       " characters in WinAnsi may be used.  Consider " +
+       " using a TTF font if you need full unicode support, or see" +
+       " http://en.wikipedia.org/wiki/Windows-1252 for a list of supported " +
+       " characters."
     end
 
     def normalize_ttf_encoding(text)
