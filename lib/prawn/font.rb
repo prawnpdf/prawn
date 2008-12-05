@@ -244,9 +244,9 @@ module Prawn
     rescue 
        raise Prawn::Errors::IncompatibleStringEncoding, "When using an AFM" +
        " font in Prawn, you must provide UTF-8 encoded strings, but only" +
-       " characters in WinAnsi may be used.  Consider " +
+       " characters in WinAnsi may be used.  Consider" +
        " using a TTF font if you need full unicode support, or see" +
-       " http://en.wikipedia.org/wiki/Windows-1252 for a list of supported " +
+       " http://en.wikipedia.org/wiki/Windows-1252 for a list of supported" +
        " characters."
     end
 
