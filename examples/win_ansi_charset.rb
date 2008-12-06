@@ -1,4 +1,4 @@
-$LOAD_PATH << "lib"
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'prawn'
 
 FONT_SIZE = 9.5
