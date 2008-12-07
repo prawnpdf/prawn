@@ -20,9 +20,9 @@ module Prawn
         .notdef       .notdef        .notdef        .notdef
         
         space         exclam         quotedbl       numbersign
-        dollar        percent        ampersand      quoteright
+        dollar        percent        ampersand      quotesingle
         parenleft     parenright     asterisk       plus
-        comma         minus          period         slash
+        comma         hyphen         period         slash
         zero          one            two            three
         four          five           six            seven
         eight         nine           colon          semicolon
