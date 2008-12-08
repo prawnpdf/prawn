@@ -86,5 +86,3 @@ Prawn::Document.generate('font_calculations.pdf') do
   demonstration
   
 end
-
-`open font_calculations.pdf`
