@@ -118,7 +118,7 @@ module Prawn
         @document = document
         
         Prawn.verify_options [:font_size,:border_style, :border_width,
-         :position, :headers, :row_colors, :align, :align_headers, 
+         :position, :headers, :row_colors, :align, :align_headers, :header_text_color, :border_color,
          :horizontal_padding, :vertical_padding, :padding, :widths, 
          :header_color ], options     
                                             
@@ -292,25 +292,27 @@ module Prawn
         
         if C(:headers)
           contents.first.cells.each_with_index do |e,i|
-          if C(:align_headers)
-            case C(:align_headers)
-              when Hash
-                align = C(:align_headers)[i]
-              else
-                align = C(:align_headers)
-              end
+            if C(:align_headers)
+              case C(:align_headers)
+                when Hash
+                  align = C(:align_headers)[i]
+                else
+                  align = C(:align_headers)
+                end
             end
             e.align = align if align
+            e.text_color = C(:header_text_color) if C(:header_text_color)
+            e.background_color = C(:header_color) if C(:header_color)
           end
         end
         
-        contents.first.background_color = C(:header_color) if C(:header_color)
- 
         contents.each do |x|
           unless x.background_color
             x.background_color = next_row_color if C(:row_colors)
           end
-          x.draw
+          x.border_color = C(:border_color) if C(:border_color)
+          
+          x.draw 
         end
  
         reset_row_colors

@@ -55,11 +55,13 @@ module Prawn
         @point        = options[:point]
         @document     = options[:document]
         @text         = options[:text].to_s
+        @text_color   = options[:text_color]
         @width        = options[:width]
         @height       = options[:height]
         @borders      = options[:borders]
         @border_width = options[:border_width] || 1
         @border_style = options[:border_style] || :all               
+        @border_color = options[:border_color]
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
         @font_size        = options[:font_size]
@@ -74,7 +76,7 @@ module Prawn
 
       attr_accessor :point, :border_style, :border_width, :background_color,
                     :document, :horizontal_padding, :vertical_padding, :align,
-                    :borders
+                    :borders, :text_color, :border_color
                     
       attr_writer   :height, :width #:nodoc:   
            
@@ -129,26 +131,30 @@ module Prawn
           @document.mask(:line_width) do
             @document.line_width = @border_width
 
-            if borders.include?(:left)
-              @document.stroke_line [rel_point[0], rel_point[1] + (@border_width / 2.0)], 
-                [rel_point[0], rel_point[1] - height - @border_width / 2.0 ]
-            end
+            @document.mask(:stroke_color) do
+              @document.stroke_color @border_color if @border_color
 
-            if borders.include?(:right)
-              @document.stroke_line( 
-                [rel_point[0] + width, rel_point[1] + (@border_width / 2.0)],
-                [rel_point[0] + width, rel_point[1] - height - @border_width / 2.0] )
-            end
+              if borders.include?(:left)
+                @document.stroke_line [rel_point[0], rel_point[1] + (@border_width / 2.0)], 
+                  [rel_point[0], rel_point[1] - height - @border_width / 2.0 ]
+              end
 
-            if borders.include?(:top)
-              @document.stroke_line(
-                [ rel_point[0] + @border_width / 2.0, rel_point[1] ], 
-                [ rel_point[0] - @border_width / 2.0 + width, rel_point[1] ])
-            end
+              if borders.include?(:right)
+                @document.stroke_line( 
+                  [rel_point[0] + width, rel_point[1] + (@border_width / 2.0)],
+                  [rel_point[0] + width, rel_point[1] - height - @border_width / 2.0] )
+              end
 
-            if borders.include?(:bottom)
-              @document.stroke_line [rel_point[0], rel_point[1] - height ],
-                                  [rel_point[0] + width, rel_point[1] - height]
+              if borders.include?(:top)
+                @document.stroke_line(
+                  [ rel_point[0] + @border_width / 2.0, rel_point[1] ], 
+                  [ rel_point[0] - @border_width / 2.0 + width, rel_point[1] ])
+              end
+
+              if borders.include?(:bottom)
+                @document.stroke_line [rel_point[0], rel_point[1] - height ],
+                                    [rel_point[0] + width, rel_point[1] - height]
+              end
             end
 
           end
@@ -167,7 +173,10 @@ module Prawn
 
           options[:size] = @font_size if @font_size
 
-          @document.text @text, options
+          @document.mask(:fill_color) do
+            @document.fill_color @text_color if @text_color                        
+            @document.text @text, options
+          end
         end
       end
 
@@ -204,7 +213,7 @@ module Prawn
       end
 
       attr_reader :width, :height, :cells
-      attr_accessor :background_color
+      attr_accessor :background_color, :text_color, :border_color
 
       def <<(cell)
         @cells << cell
@@ -222,6 +231,8 @@ module Prawn
                       y - @document.bounds.absolute_bottom]
           e.height = @height
           e.background_color ||= @background_color
+          e.text_color ||= @text_color
+          e.border_color ||= @border_color
           e.draw
           x += e.width
         end
