@@ -156,6 +156,13 @@ module Prawn
     def page_count
       @pages.data[:Count]
     end
+    
+    # The current y drawing position relative to the innermost bounding box,
+    # or to the page margins at the top level.  
+    #
+    def cursor
+      y - bounds.absolute_bottom
+    end
        
     # Renders the PDF document to string
     #

@@ -1,6 +1,16 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+
+describe "The cursor" do
+  it "should equal pdf.y - bounds.absolute_bottom" do
+    pdf = Prawn::Document.new
+    pdf.cursor.should == pdf.bounds.top
+    
+    pdf.y = 300
+    pdf.cursor.should == pdf.y - pdf.bounds.absolute_bottom 
+  end
+end 
                                
 describe "When creating multi-page documents" do 
  
