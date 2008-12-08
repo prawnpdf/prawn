@@ -8,6 +8,8 @@ Prawn::Document.generate("image-flow.pdf", :page_layout => :landscape) do
   
   text "o hai"
   
+  move_down 10
+  
   image stef 
   
   text "flowing text" 
@@ -19,6 +21,8 @@ Prawn::Document.generate("image-flow.pdf", :page_layout => :landscape) do
   image stef, :position => :right  
   
   text "again"
+                 
+  move_down 10                 
                  
   image stef, :position => :left     
   

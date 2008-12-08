@@ -115,6 +115,7 @@ module Prawn
     
     def image_position(w,h,options)
       options[:position] ||= :left
+      
       x = case options[:position] 
       when :left
         bounds.absolute_left
@@ -125,7 +126,7 @@ module Prawn
       when Numeric
         options[:position] + bounds.absolute_left
       end
-      options[:vposition] ||= :top
+
       y = case options[:vposition]
       when :top
         bounds.absolute_top
@@ -135,6 +136,8 @@ module Prawn
         bounds.absolute_bottom + h
       when Numeric
         bounds.absolute_top - options[:vposition]
+      else
+        self.y
       end
       return [x,y]
     end
