@@ -38,7 +38,23 @@ describe "When beginning each new page" do
     pdf.render
     
     call_count.should == 3
-  end                   
+  end
+  describe "Background template feature" do
+    before(:each) do
+      @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg"
+      @pdf = Prawn::Document.new(:background => @filename)
+    end
+    it "should place a background image if it is in options block" do
+      output = @pdf.render
+      images = PDF::Inspector::XObject.analyze(output)
+      # there should be 2 images in the page resources
+      images.page_xobjects.first.size.should == 1
+    end
+    it "should place a background image if it is in options block" do
+      @pdf.instance_variable_defined?(:@background).should == true
+      @pdf.instance_variable_get(:@background).should == @filename
+    end
+  end
 
 end
 
