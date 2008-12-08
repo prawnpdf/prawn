@@ -98,6 +98,7 @@ module Prawn
       # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
       # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
       # <tt>:align_headers</tt>:: Alignment of header text.  Specify for entire header (<tt>:left</tt>) or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the header alignment is the same as the column alignment.
+      # <tt>:minimum_rows</tt>:: The minimum rows to display on a page, including header.
       #
       # Row colors are specified as html encoded values, e.g.
       # ["ffffff","aaaaaa","ccaaff"].  You can also specify 
@@ -248,14 +249,19 @@ module Prawn
                                                 
             bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
             if c.height > y_pos - bbox.absolute_bottom
-              draw_page(page_contents)
-              @document.start_new_page
-              if C(:headers) && page_contents.any?
-                page_contents = [page_contents[0]]
-                y_pos = @document.y - page_contents[0].height
-              else
-                page_contents = []
+              if C(:headers) && page_contents.length == 1
+                @document.start_new_page
                 y_pos = @document.y
+              else
+                draw_page(page_contents)
+                @document.start_new_page
+                if C(:headers) && page_contents.any?
+                  page_contents = [page_contents[0]]
+                  y_pos = @document.y - page_contents[0].height
+                else
+                  page_contents = []
+                  y_pos = @document.y
+                end
               end
             end
 
