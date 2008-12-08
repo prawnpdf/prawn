@@ -109,6 +109,9 @@ module Prawn
     # Draws a horizontal line from <tt>x1</tt> to <tt>x2</tt> at the
     # current <tt>y</tt> position, or the position specified by the :at option.
     #
+    #  # draw a line from [25, 75] to [100, 75]
+    #  horizontal_line 25, 100, :at => 75  
+    #
     def horizontal_line(x1,x2,options={})
       if options[:at]
         y1 = options[:at]
@@ -126,7 +129,10 @@ module Prawn
       horizontal_line(bounds.left, bounds.right)
     end
 
-    # Draws a vertical line at the given :at coordinate from y1 to y2.
+    # Draws a vertical line at the x cooordinate given by :at from y1 to y2.
+    #
+    #   # draw a line from [25, 100] to [25, 300]
+    #   vertical_line 100, 300, :at => 25
     #
     def vertical_line(y1,y2,params)
       line(params[:at],y1,params[:at],y2)
