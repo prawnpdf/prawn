@@ -115,7 +115,8 @@ module Prawn
       else
         y1 = y - bounds.absolute_bottom
       end
-        line(x1,y1,x2,y1)
+      
+      line(x1,y1,x2,y1)
     end
 
     # Draws a horizontal line from the left border to the right border of the
