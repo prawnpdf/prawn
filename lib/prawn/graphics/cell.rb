@@ -42,6 +42,7 @@ module Prawn
       # <tt>:document</tt>:: The Prawn::Document object to render on. 
       # <tt>:text</tt>:: The text to be flowed within the cell
       # <tt>:width</tt>:: The width in PDF points of the cell.
+      # <tt>:height</tt>:: The height in PDF points of the cell.
       # <tt>:horizontal_padding</tt>:: The horizontal padding in PDF points
       # <tt>:vertical_padding</tt>:: The vertical padding in PDF points
       # <tt>:padding</tt>:: Overrides both horizontal and vertical padding
@@ -55,6 +56,7 @@ module Prawn
         @document     = options[:document]
         @text         = options[:text].to_s
         @width        = options[:width]
+        @height       = options[:height]
         @borders      = options[:borders]
         @border_width = options[:border_width] || 1
         @border_style = options[:border_style] || :all               
