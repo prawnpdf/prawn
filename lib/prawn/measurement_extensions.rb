@@ -1,4 +1,4 @@
-require 'prawn/measurement_units'
+require 'prawn/measurements'
 
 class Numeric
   include Prawn::Measurements        
