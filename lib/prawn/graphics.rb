@@ -216,6 +216,12 @@ module Prawn
       yield if block_given?
       add_content "S"
     end
+    
+    # Draws and strokes a rectangle represented by the current bounding box
+    #
+    def stroke_bounds
+      stroke_rectangle bounds.top_left, bounds.width, bounds.height
+    end
 
     # Fills and closes the current path. See Graphic::Color for color details
     #
