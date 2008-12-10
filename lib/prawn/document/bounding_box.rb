@@ -135,6 +135,15 @@ module Prawn
         ) 
       end
     end  
+    
+    # A bounding box with the same dimensions of its parents, minus a margin
+    # on all sides
+    #
+    def padded_box(margin, &block)
+      bounding_box [bounds.left + margin, bounds.top - margin],
+        :width  => bounds.width - (margin * 2), 
+        :height => bounds.height - (margin * 2), &block 
+    end
        
     # A header is a LazyBoundingBox drawn relative to the margins that can be
     # repeated on every page of the document.
