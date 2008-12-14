@@ -144,7 +144,7 @@ module Prawn
     #    pdf.curve [50,100], [100,100], :bounds => [[90,90],[75,75]]
     #
     def curve(origin,dest, options={})
-      move_to *origin
+      move_to(*origin)
       curve_to(dest,options)
     end
 
