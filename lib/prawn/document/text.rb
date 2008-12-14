@@ -40,6 +40,9 @@ module Prawn
       #
       # === Text Positioning Details:
       #
+      # FIXME: If we go with this of using ascender for TTF and font height
+      # For AFM, we need to document the sucker.
+      #
       # When using the +:at+ parameter, Prawn will position your text by its
       # baseline, and flow along a single line.
       #
@@ -142,8 +145,12 @@ module Prawn
 
           lines = text.lines
                                                        
-          lines.each do |e|                                                   
-            move_text_position(font.height)                                
+          lines.each do |e|         
+            if font.metrics.type0?     
+              move_text_position(font.ascender)
+            else                                     
+              move_text_position(font.height) 
+            end                               
                            
             line_width = font.width_of(e)
             case(options[:align]) 
@@ -157,6 +164,11 @@ module Prawn
             end
                                
             add_text_content(e,x,y,options)
+            
+            if font.metrics.type0?
+              move_text_position(font.height - font.ascender)
+            end
+            
             move_text_position(options[:spacing]) if options[:spacing]
           end 
         end
