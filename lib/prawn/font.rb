@@ -176,12 +176,18 @@ module Prawn
         
     # Gets width of string in PDF points at current font size
     #
+    # If using an AFM, string *must* be encoded as WinAnsi 
+    # (Use normalize_encoding to convert)
+    # 
     def width_of(string)
       @metrics.string_width(string,@size)
     end     
      
     # Gets height of text in PDF points at current font size.
     # Text +:line_width+ must be specified in PDF points. 
+    #
+    # If using an AFM, string *must* be encoded as WinAnsi 
+    # (Use normalize_encoding to convert)
     #
     def height_of(text,options={}) 
       @metrics.string_height( text, :font_size  => @size, 
@@ -241,13 +247,6 @@ module Prawn
     def normalize_builtin_encoding(text)
       enc = Prawn::Encoding::WinAnsi.new
       text.replace text.unpack("U*").collect { |i| enc[i] }.pack("C*")
-    rescue 
-       raise Prawn::Errors::IncompatibleStringEncoding, "When using an AFM" +
-       " font in Prawn, you must provide UTF-8 encoded strings, but only" +
-       " characters in WinAnsi may be used.  Consider" +
-       " using a TTF font if you need full unicode support, or see" +
-       " http://en.wikipedia.org/wiki/Windows-1252 for a list of supported" +
-       " characters."
     end
 
     def normalize_ttf_encoding(text)

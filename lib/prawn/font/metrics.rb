@@ -56,7 +56,9 @@ module Prawn
         end   
 
         # calculates the width of the supplied string.
-        # String *must* be encoded as iso-8859-1
+        #
+        # String *must* be encoded as WinAnsi 
+        #
         def string_width(string, font_size, options = {}) 
           scale = font_size / 1000.0
           
@@ -78,7 +80,8 @@ module Prawn
         # converts a string into an array with spacing offsets
         # bewteen characters that need to be kerned
         #
-        # String *must* be encoded as iso-8859-1
+        # String *must* be encoded as WinAnsi
+        #
         def kern(string) 
           kerned = string.unpack("C*").inject([]) do |a,r|
             if a.last.is_a? Array
@@ -154,7 +157,7 @@ module Prawn
         # perform any changes to the string that need to happen
         # before it is rendered to the canvas
         #
-        # String *must* be encoded as iso-8859-1         
+        # String *must* be encoded as WinAnsi       
         #
         def convert_text(text, options={})
           options[:kerning] ? kern(text) : text
@@ -227,7 +230,7 @@ module Prawn
         def cmap
           @cmap ||= @ttf.cmap.formats[4]
         end
-
+        
         def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
           if options[:kerning]
