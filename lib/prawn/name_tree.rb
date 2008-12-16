@@ -11,7 +11,7 @@ require 'prawn/reference'
 
 module Prawn
   module NameTree
-    class Node
+    class Node #:nodoc:
       attr_reader :children
       attr_reader :limit
       attr_reader :document

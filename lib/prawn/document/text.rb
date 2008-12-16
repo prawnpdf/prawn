@@ -11,6 +11,7 @@ require "prawn/document/text/box"
 module Prawn
   class Document
     module Text
+      
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
       # assumed to be pre-formatted to properly fit the page.

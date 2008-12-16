@@ -9,12 +9,21 @@
 module Prawn
   class Document
     
+    # Defines an invisible rectangle which you can flow text in. When the
+    # text overflows the box, you can either display :ellipses, :truncate
+    # the text, or allow it to :overflow the bottom boundary.
+    #
+    #   text_box "Oh hai text box. " * 200, 
+    #     :width    => 300, :height => font.height * 5,
+    #     :overflow => :ellipses, 
+    #     :at       => [100,bounds.top]
+    #
     def text_box(text,options)
       Text::Box.new(text, options.merge(:for => self)).render
     end
     
-    module Text
-      class Box
+    module Text 
+      class Box #:nodoc:
         def initialize(text,options={})
           @document  = options[:for]
           @text      = text

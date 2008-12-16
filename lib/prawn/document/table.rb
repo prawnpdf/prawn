@@ -87,17 +87,21 @@ module Prawn
       # The following options are available for customizing your tables, with
       # defaults shown in [] at the end of each description.
       #
+      # <tt>:headers</tt>:: An array of table headers, either strings or Cells. [Empty]
+      # <tt>:align_headers</tt>:: Alignment of header text.  Specify for entire header (<tt>:left</tt>) or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the header alignment is the same as the column alignment.
+      # <tt>:header_text_color</tt>:: Sets the text color of the headers
+      # <tt>:header_color</tt>:: Manually sets the header color
       # <tt>:font_size</tt>:: The font size for the text cells . [12]
       # <tt>:horizontal_padding</tt>:: The horizontal cell padding in PDF points [5]
       # <tt>:vertical_padding</tt>:: The vertical cell padding in PDF points [5]
       # <tt>:padding</tt>:: Horizontal and vertical cell padding (overrides both)
       # <tt>:border_width</tt>:: With of border lines in PDF points [1]
       # <tt>:border_style</tt>:: If set to :grid, fills in all borders. If set to :underline_header, underline header only. Otherwise, borders are drawn on columns only, not rows
+      # <tt>:border_color</tt>:: Sets the color of the borders.
       # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
       # <tt>:widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
       # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
       # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
-      # <tt>:align_headers</tt>:: Alignment of header text.  Specify for entire header (<tt>:left</tt>) or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the header alignment is the same as the column alignment.
       # <tt>:minimum_rows</tt>:: The minimum rows to display on a page, including header.
       #
       # Row colors are specified as html encoded values, e.g.

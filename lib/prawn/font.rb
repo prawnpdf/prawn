@@ -51,6 +51,7 @@ module Prawn
     # Looks up the given font name. Once a font has been found by that name,
     # it will be cached to subsequent lookups for that font will return the
     # same object.
+    #
     def find_font(name, options={}) #:nodoc:
       if font_families.key?(name)
         family, name = name, font_families[name][options[:style] || :normal]
