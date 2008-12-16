@@ -26,7 +26,8 @@ desc "genrates documentation"
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include( "README",
                            "COPYING",
-                           "LICENSE", "lib/" )
+                           "LICENSE", 
+                           "HACKING", "lib/" )
   rdoc.main     = "README"
   rdoc.rdoc_dir = "doc/html"
   rdoc.title    = "Prawn Documentation"

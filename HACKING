@@ -2,7 +2,7 @@
 
 A stub file that'll eventually get bigger
 
-== NOTES ==
+== NOTES 
 
 Install test-spec, pdf-reader, and mocha from RubyGems
 
@@ -15,7 +15,7 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
 
   gem install test-unit -v 1.2.3
   
-== Patch process ==
+== Patch process 
 
   1. File a ticket in Lighthouse describing your feature with 'request'
   2. Fork Prawn on Github, make your changes
@@ -30,7 +30,7 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
   All bug reports should have a reproducible example in bugs/ and preferably,
   some specs.
   
-== Support ==
+== Support
 
   Find us in #prawn on irc.freenode.net
   <sandal> - Gregory Brown
