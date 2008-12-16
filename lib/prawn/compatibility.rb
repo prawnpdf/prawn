@@ -1,3 +1,6 @@
+# Why would we ever use Ruby 1.8.7 when we can backport with something
+# as simple as this?
+#
 # encoding: utf-8
 
 if RUBY_VERSION < "1.9"
@@ -14,7 +17,7 @@ if RUBY_VERSION < "1.9"
   end
   
   class File  #:nodoc:  
-    def self.read_binary(file) 
+    def self.binread(file) 
       File.open(file,"rb") { |f| f.read } 
     end
   end
@@ -27,13 +30,7 @@ if RUBY_VERSION < "1.9"
     false
   end
      
-else
-  
-  class File  #:nodoc:  
-    def self.read_binary(file) 
-      File.open(file,"rb:BINARY") { |f| f.read } 
-    end
-  end  
+else  
  
   def ruby_18  #:nodoc:  
     false  

@@ -1,3 +1,11 @@
+# encoding: utf-8
+
+# annotations.rb : Implements destination support for PDF
+#
+# Copyright November 2008, Jamis Buck. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require 'prawn/name_tree'
 
 module Prawn

@@ -1,14 +1,24 @@
 # encoding: utf-8
 
-require "rubygems"
-require "fastercsv"
 require "benchmark"
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require "prawn"
 
-csv_data = FasterCSV.read("#{Prawn::BASEDIR}/examples/currency.csv") * 
-  (ARGV.first || 1).to_i
+csv_data = nil
+
+ruby_18 do
+  require "rubygems"
+  require "fastercsv"
+  csv_data = FasterCSV.read("#{Prawn::BASEDIR}/examples/table/currency.csv") * 
+    (ARGV.first || 1).to_i
+end
+
+ruby_19 do
+  require "csv"
+  csv_data = CSV.read("#{Prawn::BASEDIR}/examples/table/currency.csv") * 
+    (ARGV.first || 1).to_i
+end
 
 doc = Prawn::Document.new
 

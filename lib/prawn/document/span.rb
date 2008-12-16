@@ -1,3 +1,11 @@
+# encoding: utf-8
+
+# span.rb : Implements text columns
+#
+# Copyright September 2008, Gregory Brown. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Document
     # A span is a special purpose bounding box that allows a column of 

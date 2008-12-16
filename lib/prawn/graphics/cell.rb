@@ -1,6 +1,5 @@
 # encoding: utf-8   
 
-
 # cell.rb : Table support functions
 #
 # Copyright June 2008, Gregory Brown.  All Rights Reserved.
@@ -41,6 +40,7 @@ module Prawn
       # <tt>:point</tt>:: Absolute [x,y] coordinate of the top-left corner of the cell.
       # <tt>:document</tt>:: The Prawn::Document object to render on. 
       # <tt>:text</tt>:: The text to be flowed within the cell
+      # <tt>:text_color</tt>:: The color of the text to be displayed
       # <tt>:width</tt>:: The width in PDF points of the cell.
       # <tt>:height</tt>:: The height in PDF points of the cell.
       # <tt>:horizontal_padding</tt>:: The horizontal padding in PDF points
@@ -50,6 +50,8 @@ module Prawn
       # <tt>:borders</tt>:: An array of sides which should have a border. Any of <tt>:top</tt>, <tt>:left</tt>, <tt>:right</tt>, <tt>:bottom</tt>
       # <tt>:border_width</tt>:: The border line width. Defaults to 1.
       # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>, <tt>:none</tt>, <tt>:bottom_only</tt>. Defaults to :all.
+      # <tt>:border_color</tt>:: The color of the cell border.
+      # <tt>:font_size</tt>:: The font size for the cell text.
       #
       def initialize(options={})
         @point        = options[:point]

@@ -1,9 +1,17 @@
+# encoding: utf-8
+
+# name_tree.rb : Implements NameTree for PDF
+#
+# Copyright November 2008, Jamis Buck. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require 'prawn/literal_string'
 require 'prawn/reference'
 
 module Prawn
   module NameTree
-    class Node
+    class Node #:nodoc:
       attr_reader :children
       attr_reader :limit
       attr_reader :document

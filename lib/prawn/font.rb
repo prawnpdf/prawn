@@ -1,5 +1,10 @@
 # encoding: utf-8
-
+#
+# font.rb : The Prawn font class
+#
+# Copyright May 2008, Gregory Brown / James Healy. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/font/wrapping"       
 require "prawn/font/metrics"
 require "prawn/font/cmap" 
@@ -46,6 +51,7 @@ module Prawn
     # Looks up the given font name. Once a font has been found by that name,
     # it will be cached to subsequent lookups for that font will return the
     # same object.
+    #
     def find_font(name, options={}) #:nodoc:
       if font_families.key?(name)
         family, name = name, font_families[name][options[:style] || :normal]

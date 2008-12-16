@@ -1,7 +1,23 @@
+# encoding: utf-8
+
+# annotations.rb : Implements low-level annotation support for PDF
+#
+# Copyright November 2008, Jamis Buck. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require 'prawn/literal_string'
 
 module Prawn
   class Document
+    
+    # Provides very low-level support for annotations.  Those who are 
+    # interested should check out the text-format branch of sandal/prawn, 
+    # which includes much higher level interfaces to this code currently
+    # being developed by Jamis Buck to be included in a Prawn release soon.
+    #
+    # Feedback is welcome!
+    #
     module Annotations
       # Adds a new annotation (section 8.4 in PDF spec) to the current page.
       # +options+ must be a Hash describing the annotation.

@@ -1,5 +1,11 @@
 # encoding: utf-8
 
+# bounding_box.rb : Implements a mechanism for shifting the coordinate space
+#
+# Copyright May 2008, Gregory Brown. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Document
     
@@ -10,7 +16,7 @@ module Prawn
     #
     # When flowing text, the usage of a bounding box is simple. Text will
     # begin at the point specified, flowing the width of the bounding box.
-    # After the block exits, the text drawing position will be moved to
+    # After the block exits, the cursor position will be moved to
     # the bottom of the bounding box (y - height). If flowing text exceeds
     # the height of the bounding box, the text will be continued on the next
     # page, starting again at the top-left corner of the bounding box.

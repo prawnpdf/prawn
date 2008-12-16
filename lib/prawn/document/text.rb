@@ -11,6 +11,7 @@ require "prawn/document/text/box"
 module Prawn
   class Document
     module Text
+      
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
       # assumed to be pre-formatted to properly fit the page.
@@ -40,22 +41,28 @@ module Prawn
       #
       # === Text Positioning Details:
       #
-      # FIXME: If we go with this of using ascender for TTF and font height
-      # For AFM, we need to document the sucker.
-      #
       # When using the +:at+ parameter, Prawn will position your text by its
       # baseline, and flow along a single line.
       #
-      # When using automatic text flow, Prawn will position your text exactly
-      # font.height *below* the baseline, and space each line of text by 
-      # font.height + options[:spacing] (default 0)
+      # When using automatic text flow, Prawn currently does a bunch of nasty
+      # hacks to get things to position nicely in bounding boxes, table cells,
+      # etc.
       #
-      # Finally, the drawing position will be moved to the baseline of final 
-      # line of text, plus any additional spacing.
+      # For AFM fonts, the first line of text is positioned font.height below
+      # the baseline.
       #
-      # If you wish to position your flowing text by it's baseline rather
-      # than +font.height+ below, simply call <tt>move_up font.height</tt> 
-      # before your call to text()
+      # For TTF fonts, the first line is possitioned font.ascender below the
+      # baseline.
+      #
+      # The issue here is that there are complex issues with determining the
+      # size of the glyphs above and below the baseline in TTF that we haven't
+      # figured out yet, and that AFM and TTF appear to handle things very
+      # differently.
+      #
+      # The moral of the story is that if you want reliable font positioning
+      # for your advanced needs, use +:at+, otherwise, just let Prawn do its
+      # positioning magic for you, or investigate and help us get rid of this 
+      # ugly issue.
       #
       # == Rotation
       #
@@ -143,9 +150,9 @@ module Prawn
           text = font.metrics.naive_wrap(text, bounds.right, font.size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
-          lines = text.lines
+          lines = text.lines.to_a
                                                        
-          lines.each do |e|         
+          lines.each_with_index do |e,i|         
             if font.metrics.type0?     
               move_text_position(font.ascender)
             else                                     
@@ -165,7 +172,7 @@ module Prawn
                                
             add_text_content(e,x,y,options)
             
-            if font.metrics.type0?
+            if font.metrics.type0? && i < lines.length - 1
               move_text_position(font.height - font.ascender)
             end
             
