@@ -41,7 +41,7 @@ module Prawn
       #
       # === Text Positioning Details:
       #
-      # When using the +:at+ parameter, Prawn will position your text by its
+      # When using the :at parameter, Prawn will position your text by its
       # baseline, and flow along a single line.
       #
       # When using automatic text flow, Prawn currently does a bunch of nasty
@@ -60,7 +60,7 @@ module Prawn
       # differently.
       #
       # The moral of the story is that if you want reliable font positioning
-      # for your advanced needs, use +:at+, otherwise, just let Prawn do its
+      # for your advanced needs, use :at, otherwise, just let Prawn do its
       # positioning magic for you, or investigate and help us get rid of this 
       # ugly issue.
       #

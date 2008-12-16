@@ -4,7 +4,7 @@ require 'rake/testtask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
-PRAWN_VERSION = "0.2.99" 
+PRAWN_VERSION = "0.3.99" 
 
 task :default => [:test]
        
@@ -26,7 +26,8 @@ desc "genrates documentation"
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include( "README",
                            "COPYING",
-                           "LICENSE", "lib/" )
+                           "LICENSE", 
+                           "HACKING", "lib/" )
   rdoc.main     = "README"
   rdoc.rdoc_dir = "doc/html"
   rdoc.title    = "Prawn Documentation"

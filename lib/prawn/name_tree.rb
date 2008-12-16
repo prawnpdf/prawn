@@ -10,7 +10,7 @@ require 'prawn/literal_string'
 require 'prawn/reference'
 
 module Prawn
-  module NameTree
+  module NameTree #:nodoc:
     class Node #:nodoc:
       attr_reader :children
       attr_reader :limit
@@ -139,7 +139,7 @@ module Prawn
         end
     end
 
-    class Value
+    class Value #:nodoc:
       include Comparable
 
       attr_reader :name
