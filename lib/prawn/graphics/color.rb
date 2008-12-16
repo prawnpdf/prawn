@@ -1,3 +1,10 @@
+# encoding: utf-8   
+
+# color.rb : Implements color handling
+#
+# Copyright June 2008, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   module Graphics
     module Color   

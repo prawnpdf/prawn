@@ -1,3 +1,11 @@
+# encoding: utf-8
+
+# text/box.rb : Implements simple text boxes
+#
+# Copyright September 2008, Gregory Brown. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Document
     

@@ -1,6 +1,5 @@
 # encoding: utf-8   
 
-
 # cell.rb : Table support functions
 #
 # Copyright June 2008, Gregory Brown.  All Rights Reserved.

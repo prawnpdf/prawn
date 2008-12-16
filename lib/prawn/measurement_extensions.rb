@@ -1,3 +1,10 @@
+# encoding: utf-8
+# measurement_extensions.rb: Core extensions for Prawn::Measurements
+#
+# Copyright December 2008, Florian Witteler.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require 'prawn/measurements'
 
 class Numeric
