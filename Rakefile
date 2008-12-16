@@ -35,35 +35,12 @@ end
 desc "run all examples, and then diff them against reference PDFs"
 task :examples do 
   mkdir_p "output"
-  examples = Dir["examples/*.rb"]
+  examples = Dir["examples/**/*.rb"]
   t = Time.now
   puts "Running Examples"
   examples.each { |file| `ruby -Ilib #{file}` }  
   puts "Ran in #{Time.now - t} s"        
   `mv *.pdf output`                     
-                   
-  unless RUBY_VERSION < "1.9"    
-    puts "Checking for differences..."
-    output = Dir["output/*.pdf"]
-    ref    = Dir["reference_pdfs/*.pdf"]   
-    output.zip(ref).each do |o,r|
-      system "diff -q #{o} #{r}"
-    end                      
-  end
-
-end
-
-task :generate do
-  if File.exists?("examples/#{ENV['example']}.rb")
-    puts "Example already exists"
-  else
-    File.open("examples/#{ENV['example']}.rb", "w") do |f|
-      f << ["$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')",
-            "require 'prawn'\n",
-            "Prawn::Document.generate('#{ENV['example']}.pdf') do\n\nend"].join("\n")
-    end
-    sh "git add examples/#{ENV['example']}.rb"
-  end
 end
 
 spec = Gem::Specification.new do |spec|
