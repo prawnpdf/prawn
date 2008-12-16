@@ -1,3 +1,6 @@
+# Why would we ever use Ruby 1.8.7 when we can backport with something
+# as simple as this?
+#
 # encoding: utf-8
 
 if RUBY_VERSION < "1.9"
