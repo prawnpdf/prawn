@@ -62,7 +62,7 @@ module Prawn
         image_content = file.read
       else      
         raise ArgumentError, "#{file} not found" unless File.file?(file)  
-        image_content =  File.read_binary(file)
+        image_content =  File.binread(file)
       end
       
       image_sha1 = Digest::SHA1.hexdigest(image_content)
