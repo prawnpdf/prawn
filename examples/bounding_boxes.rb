@@ -4,14 +4,16 @@ require 'prawn'
 Prawn::Document.generate("bounding_boxes.pdf") do   
       
   bounding_box [100,600], :width => 200 do
+    move_down 10
     text "The rain in spain falls mainly on the plains " * 5
+    move_down 20
     stroke do
       line bounds.top_left,    bounds.top_right
       line bounds.bottom_left, bounds.bottom_right
     end
   end
 
-  bounding_box [100,500], :width => 200, :height => 200 do
+  bounding_box [100,cursor], :width => 200, :height => 200 do
     stroke do
       circle_at [100,100], :radius => 100
       line bounds.top_left, bounds.bottom_right
@@ -23,7 +25,9 @@ Prawn::Document.generate("bounding_boxes.pdf") do
     end   
   end
       
-end        
+end     
+
+`open bounding_boxes.pdf`   
      
                  
                  

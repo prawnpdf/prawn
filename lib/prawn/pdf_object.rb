@@ -34,7 +34,10 @@ module Prawn
     when Numeric    then String(obj)
     when Array
       "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
-    when String     
+    when Prawn::LiteralString
+      obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+      "(#{obj})"
+    when String
       obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
       "<" << obj.unpack("H*").first << ">"
     when Symbol                                                         
@@ -57,6 +60,10 @@ module Prawn
       output << ">>"  
     when Prawn::Reference
       obj.to_s      
+    when Prawn::NameTree::Node
+      PdfObject(obj.to_hash)
+    when Prawn::NameTree::Value
+      PdfObject(obj.name) + " " + PdfObject(obj.value)
     else
       raise Prawn::Errors::FailedObjectConversion, 
         "This object cannot be serialized to PDF"

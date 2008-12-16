@@ -9,13 +9,15 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'vendor','pdf-inspector','lib')
 require "prawn"
 
+Prawn.debug = true
+
 gem 'pdf-reader', ">=0.7.3"
 require "pdf/reader"          
 require "pdf/inspector"
 
-def create_pdf
-  @pdf = Prawn::Document.new(:left_margin   => 0,
-                             :right_margin  => 0,
-                             :top_margin    => 0,
-                             :bottom_margin => 0)
+def create_pdf(klass=Prawn::Document)
+  @pdf = klass.new(:left_margin   => 0,
+                   :right_margin  => 0,
+                   :top_margin    => 0,
+                   :bottom_margin => 0)
 end    

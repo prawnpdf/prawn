@@ -4,6 +4,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <link href="prawn.css" rel="stylesheet" type="text/css" />
+<link href="twilight.css" rel="stylesheet" type="text/css" />
 </head>
 <body> 
 
@@ -26,7 +27,7 @@
 </div>
 
 <h2>Building printable documents doesn't have to be hard</h2> 
-<img src="/media/prawn_logo.png" style="float: right;">
+<img src="media/prawn_logo.png" style="float: right;">
 <p>
    If you've ever needed to produce PDF documents before, in Ruby or another language, you probably know how much it can suck.  <span style="color: #eeff44"><b><i>Prawn takes the pain out of generating beautiful printable documents</b></i></span>, while still remaining fast, tiny and nimble.  It is also named after a majestic sea creature, and that has to count for something.     
 </p>
@@ -43,8 +44,17 @@ a taste of what Prawn based programs looks like, <span style="color: #eeff44"><b
 Internationalized text in Prawn is as simple as providing UTF-8 strings for it to render, assuming you've got a Unicode aware TTF font handy.  For those who are running on Ruby 1.9, any encoding that can be converted to UTF-8 will work out of the box!
 </p>     
 
-<a href="media/utf8.pdf"><img src="media/utf8.png" style="padding-left: 1.5em;"/></a>
-         
+<a href="media/utf8.pdf">
+<!-- begin dump from pastie.org/311073 -->
+		<pre class="textmate-source"><pre class="sunburst"><span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>Document</span></span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_with-arguments meta_function-call_method_with-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>generate</span></span>(<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;utf8.pdf&quot;</span>) <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+  font <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;<span class='source source_ruby source_ruby_embedded source_ruby_embedded_source'>#{<span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>BASEDIR</span></span>}</span>/data/fonts/DejaVuSans.ttf&quot;</span>
+  text <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει.&quot;</span> <span class='keyword keyword_operator keyword_operator_arithmetic keyword_operator_arithmetic_ruby'>*</span> <span class='constant constant_numeric constant_numeric_ruby'>20</span>
+<span class='keyword keyword_control keyword_control_ruby'>end</span>
+</pre></pre>
+
+<!-- end pastie dump -->
+</a>
+
 <h3>-- Easy image embedding</h3>
   
 <p>
@@ -52,7 +62,22 @@ Prawn makes embedding JPEG and PNG images a breeze.  With support for alpha tran
 including all the graphics you need in your documents.
 </p>  
 
-<a href="media/image.pdf"><img src="media/images.png" style="padding-left: 1.5em;"/></a>  
+<a href="media/image.pdf">
+
+<!-- begin dump from pastie.org/311068 -->
+
+		<pre class="textmate-source"><pre class="sunburst"><span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>Document</span></span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_with-arguments meta_function-call_method_with-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>generate</span></span>(<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;image2.pdf&quot;</span>, <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:page_layout</span> =&gt; <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:landscape</span>) <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do     </span>
+  pigs <span class='keyword keyword_operator keyword_operator_assignment keyword_operator_assignment_ruby'>=</span> <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;<span class='source source_ruby source_ruby_embedded source_ruby_embedded_source'>#{<span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>BASEDIR</span></span>}</span>/data/images/pigs.jpg&quot;</span> 
+  image pigs, <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:at</span> =&gt; [<span class='constant constant_numeric constant_numeric_ruby'>50</span>,<span class='constant constant_numeric constant_numeric_ruby'>450</span>], <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:width</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>450</span>                                      
+
+  dice <span class='keyword keyword_operator keyword_operator_assignment keyword_operator_assignment_ruby'>=</span> <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;<span class='source source_ruby source_ruby_embedded source_ruby_embedded_source'>#{<span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>BASEDIR</span></span>}</span>/data/images/dice.png&quot;</span>
+  image dice, <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:at</span> =&gt; [<span class='constant constant_numeric constant_numeric_ruby'>50</span>, <span class='constant constant_numeric constant_numeric_ruby'>450</span>], <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:scale</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>0.75</span> 
+<span class='keyword keyword_control keyword_control_ruby'>end</span>
+</pre></pre>
+
+<!-- end pastie dump -->
+
+</a>
 
 <h3>-- Flexible table drawing</h3>
 
@@ -63,7 +88,27 @@ documents rather than forcing them to write a ton of low level graphics drawing
 code.
 </p>   
 
-<a href="media/fancy_table.pdf"><img src="media/tables.png" style="padding-left: 1.5em;"/></a>   
+<a href="media/fancy_table.pdf">
+<!-- begin dump from pastie.org/311075 -->  
+
+		<pre class="textmate-source"><pre class="sunburst"><span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>Document</span></span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_with-arguments meta_function-call_method_with-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>generate</span></span>(<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;fancy_table.pdf&quot;</span>) <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+
+  data <span class='keyword keyword_operator keyword_operator_assignment keyword_operator_assignment_ruby'>=</span> [[<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;Gregory Brown&quot;</span>, <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;gregory.t.brown@fakemail.test&quot;</span> ],
+          [<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;James Healy&quot;</span>  , <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;jimmy@fakemail.test&quot;</span>           ],
+          [<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;Ross Perot&quot;</span>   , <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;ross@fakemail.test&quot;</span>            ],
+          [<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;Al Gore&quot;</span>      , <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;al@fakemail.test&quot;</span>              ],
+          [<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;Ralph Nader&quot;</span>  , <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;ralph@fakemail.test&quot;</span>           ]]
+
+  table data,
+    <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:position</span>           =&gt; <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:center</span>,
+    <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:headers</span>            =&gt; [<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;Name&quot;</span>, <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;Email&quot;</span>],
+    <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:row_colors</span>         =&gt; [<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;ffffff&quot;</span>,<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;ffff00&quot;</span>],
+    <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:vertical_padding</span>   =&gt; <span class='constant constant_numeric constant_numeric_ruby'>5</span>,
+    <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:horizontal_padding</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>3</span>
+<span class='keyword keyword_control keyword_control_ruby'>end</span>
+</pre></pre>
+<!-- end pastie dump -->
+</a>   
 
 <h3>-- Simplified content positioning</h3>
                                                         
@@ -74,7 +119,34 @@ Text can also be flowed within these sectioned off bounding boxes, so this
 makes it trivial to generate columns of text on the fly.
 </p>              
 
-<a href="media/bounding_boxes.pdf"><img src="media/bounding_boxes.png"/></a>
+<a href="media/bounding_boxes.pdf">
+  <!-- begin dump from pastie.org/311081 -->    
+  <pre class="textmate-source"><pre class="sunburst"><span class='support support_class support_class_ruby'>Prawn</span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>::<span class='entity entity_name entity_name_function entity_name_function_ruby'>Document</span></span><span class='meta meta_function-call meta_function-call_method meta_function-call_method_with-arguments meta_function-call_method_with-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>generate</span></span>(<span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;bounding_boxes.pdf&quot;</span>) <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do   </span>
+
+  bounding_box [<span class='constant constant_numeric constant_numeric_ruby'>100</span>,<span class='constant constant_numeric constant_numeric_ruby'>600</span>], <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:width</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>200</span> <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+    text <span class='string string_quoted string_quoted_double string_quoted_double_ruby'>&quot;The rain in spain falls mainly on the plains &quot;</span> <span class='keyword keyword_operator keyword_operator_arithmetic keyword_operator_arithmetic_ruby'>*</span> <span class='constant constant_numeric constant_numeric_ruby'>5</span>
+    stroke <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+      line bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>top_left</span></span>,    bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>top_right</span></span>
+      line bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>bottom_left</span></span>, bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>bottom_right</span></span>
+    <span class='keyword keyword_control keyword_control_ruby'>end</span>
+  <span class='keyword keyword_control keyword_control_ruby'>end</span>
+
+  bounding_box [<span class='constant constant_numeric constant_numeric_ruby'>100</span>,<span class='constant constant_numeric constant_numeric_ruby'>500</span>], <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:width</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>200</span>, <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:height</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>200</span> <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+    stroke <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+      circle_at [<span class='constant constant_numeric constant_numeric_ruby'>100</span>,<span class='constant constant_numeric constant_numeric_ruby'>100</span>], <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:radius</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>100</span>
+      line bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>top_left</span></span>, bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>bottom_right</span></span>
+      line bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>top_right</span></span>, bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>bottom_left</span></span>
+    <span class='keyword keyword_control keyword_control_ruby'>end</span>   
+
+    bounding_box [<span class='constant constant_numeric constant_numeric_ruby'>50</span>,<span class='constant constant_numeric constant_numeric_ruby'>150</span>], <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:width</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>100</span>, <span class='constant constant_other constant_other_symbol constant_other_symbol_ruby'>:height</span> =&gt; <span class='constant constant_numeric constant_numeric_ruby'>100</span> <span class='keyword keyword_control keyword_control_ruby keyword_control_ruby_start-block'>do</span>
+      stroke_rectangle bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>top_left</span></span>, bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>width</span></span>, bounds<span class='meta meta_function-call meta_function-call_method meta_function-call_method_without-arguments meta_function-call_method_without-arguments_ruby'>.<span class='entity entity_name entity_name_function entity_name_function_ruby'>height</span></span>
+    <span class='keyword keyword_control keyword_control_ruby'>end</span>   
+  <span class='keyword keyword_control keyword_control_ruby'>end</span>
+<span class='keyword keyword_control keyword_control_ruby'>end</span>
+  </pre></pre>
+
+  <!-- end pastie dump -->  
+</a>
 
 <h3>-- And loads more to come</h3>
 

@@ -37,7 +37,14 @@ module Prawn
     #
     #   end
     #
+    #   Will raise <tt>Prawn::Errors::EmptyTable</tt> given 
+    #   a nil or empty <tt>data</tt> paramater.
+    #
     def table(data,options={})           
+      if data.nil? || data.empty?
+        raise Prawn::Errors::EmptyTable,
+          "data must be a non-empty, non-nil, two dimensional array of Prawn::Cells or strings"
+      end
       Prawn::Document::Table.new(data,self,options).draw
     end
 
@@ -85,12 +92,13 @@ module Prawn
       # <tt>:vertical_padding</tt>:: The vertical cell padding in PDF points [5]
       # <tt>:padding</tt>:: Horizontal and vertical cell padding (overrides both)
       # <tt>:border_width</tt>:: With of border lines in PDF points [1]
-      # <tt>:border_style</tt>:: If set to :grid, fills in all borders.  Otherwise, borders are drawn on columns only, not rows
+      # <tt>:border_style</tt>:: If set to :grid, fills in all borders. If set to :underline_header, underline header only. Otherwise, borders are drawn on columns only, not rows
       # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
       # <tt>:widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
       # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
       # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
-      # <tt>:align_headers</tt>:: Alignment of header text.
+      # <tt>:align_headers</tt>:: Alignment of header text.  Specify for entire header (<tt>:left</tt>) or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the header alignment is the same as the column alignment.
+      # <tt>:minimum_rows</tt>:: The minimum rows to display on a page, including header.
       #
       # Row colors are specified as html encoded values, e.g.
       # ["ffffff","aaaaaa","ccaaff"].  You can also specify 
@@ -110,8 +118,9 @@ module Prawn
         @document = document
         
         Prawn.verify_options [:font_size,:border_style, :border_width,
-         :position, :headers, :row_colors, :align, :align_headers, 
-         :horizontal_padding, :vertical_padding, :padding, :widths ], options     
+         :position, :headers, :row_colors, :align, :align_headers, :header_text_color, :border_color,
+         :horizontal_padding, :vertical_padding, :padding, :widths, 
+         :header_color ], options     
                                             
         configuration.update(options)  
 
@@ -193,10 +202,12 @@ module Prawn
         @document.font.size C(:font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
-            row.each_with_index do |e,i|     
+            
+            col_index = 0
+            row.each do |e|
               case C(:align)
               when Hash
-                align            = C(:align)[i]
+                align            = C(:align)[col_index]
               else
                 align            = C(:align)
               end   
@@ -207,7 +218,7 @@ module Prawn
               case e
               when Prawn::Graphics::Cell
                 e.document = @document
-                e.width    = @col_widths[i]
+                e.width    = @col_widths[col_index]
                 e.horizontal_padding = C(:horizontal_padding)
                 e.vertical_padding   = C(:vertical_padding)    
                 e.border_width       = C(:border_width)
@@ -215,28 +226,42 @@ module Prawn
                 e.align              = align 
                 c << e
               else
+                text = e.is_a?(Hash) ? e[:text] : e.to_s
+                width = if e.is_a?(Hash) && e.has_key?(:colspan)
+                  @col_widths.slice(col_index, e[:colspan]).inject { |sum, width| sum + width }
+                else
+                  @col_widths[col_index]
+                end
+                
                 c << Prawn::Graphics::Cell.new(
                   :document => @document, 
-                  :text     => e.to_s, 
-                  :width    => @col_widths[i],
+                  :text     => text,
+                  :width    => width,
                   :horizontal_padding => C(:horizontal_padding),
                   :vertical_padding   => C(:vertical_padding),
                   :border_width       => C(:border_width),
                   :border_style       => :sides,
                   :align              => align ) 
-              end   
+              end
+              
+              col_index += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1
             end
                                                 
             bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
             if c.height > y_pos - bbox.absolute_bottom
-              draw_page(page_contents)
-              @document.start_new_page
-              if C(:headers)
-                page_contents = [page_contents[0]]
-                y_pos = @document.y - page_contents[0].height
-              else
-                page_contents = []
+              if C(:headers) && page_contents.length == 1
+                @document.start_new_page
                 y_pos = @document.y
+              else
+                draw_page(page_contents)
+                @document.start_new_page
+                if C(:headers) && page_contents.any?
+                  page_contents = [page_contents[0]]
+                  y_pos = @document.y - page_contents[0].height
+                else
+                  page_contents = []
+                  y_pos = @document.y
+                end
               end
             end
 
@@ -254,29 +279,50 @@ module Prawn
 
       def draw_page(contents)
         return if contents.empty?
-
-        if C(:border_style) == :grid || contents.length == 1
+ 
+        if C(:border_style) == :underline_header
+          contents.each { |e| e.border_style = :none }
+          contents.first.border_style = :bottom_only if C(:headers)
+        elsif C(:border_style) == :grid || contents.length == 1
           contents.each { |e| e.border_style = :all }
-        else                            
-          if C(:headers)
-            contents.first.border_style = :all 
-            contents.first.align        = C(:align_headers) || :left
-          else
-            contents.first.border_style  = :no_bottom    
-          end
-          contents.last.border_style  = :no_top
+        else
+          contents.first.border_style = C(:headers) ? :all : :no_bottom
+          contents.last.border_style = :no_top
         end
-
-        contents.each do |x| 
-          x.background_color = next_row_color if C(:row_colors)
+        
+        if C(:headers)
+          contents.first.cells.each_with_index do |e,i|
+            if C(:align_headers)
+              case C(:align_headers)
+                when Hash
+                  align = C(:align_headers)[i]
+                else
+                  align = C(:align_headers)
+                end
+            end
+            e.align = align if align
+            e.text_color = C(:header_text_color) if C(:header_text_color)
+            e.background_color = C(:header_color) if C(:header_color)
+          end
+        end
+        
+        contents.each do |x|
+          unless x.background_color
+            x.background_color = next_row_color if C(:row_colors)
+          end
+          x.border_color = C(:border_color) if C(:border_color)
+          
           x.draw 
         end
-
+ 
         reset_row_colors
       end
 
+
       def next_row_color
-        C(:row_colors).unshift(C(:row_colors).pop).last
+        color = C(:row_colors).shift
+        C(:row_colors).push(color)
+        color
       end
 
       def reset_row_colors    

@@ -18,11 +18,13 @@ module Prawn
     # <tt>file</tt>:: path to file or an object that responds to #read
     #
     # Options:
-    # <tt>:at</tt>:: the location of the top left corner of the image.
+    # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of the image.
     # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
+    # <tt>:vposition</tt>::  One of (:top, :center, :center) or an y-offset    
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
-    # <tt>:scale</tt>:: scale the dimensions of the image proportionally   
+    # <tt>:scale</tt>:: scale the dimensions of the image proportionally
+    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [width,height]
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
     #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
@@ -35,6 +37,11 @@ module Prawn
     # If only one of :width / :height are provided, the image will be scaled
     # proportionally.  When both are provided, the image will be stretched to 
     # fit the dimensions without maintaining the aspect ratio.
+    #
+    #
+    # If :at is provided, the image will be place in the current page but
+    # the text position will not be changed.
+    #
     #
     # If instead of an explicit filename, an object with a read method is
     # passed as +file+, you can embed images from IO objects and things
@@ -50,9 +57,10 @@ module Prawn
     # dimensions of an image object if needed. 
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     # 
-    def image(file, options={})     
-      Prawn.verify_options [:at,:position, :height, :width, :scale], options
-      
+    def image(file, options={})
+      Prawn.verify_options [:at, :position, :vposition, :height, 
+                            :width, :scale, :fit], options
+
       if file.respond_to?(:read)
         image_content = file.read
       else      
@@ -86,7 +94,8 @@ module Prawn
 
       # find where the image will be placed and how big it will be  
       w,h = calc_image_dimensions(info, options)
-      if options[:at]       
+
+      if options[:at]     
         x,y = translate(options[:at]) 
       else                  
         x,y = image_position(w,h,options) 
@@ -109,6 +118,7 @@ module Prawn
     
     def image_position(w,h,options)
       options[:position] ||= :left
+      
       x = case options[:position] 
       when :left
         bounds.absolute_left
@@ -118,8 +128,20 @@ module Prawn
         bounds.absolute_right - w
       when Numeric
         options[:position] + bounds.absolute_left
-      end       
-      
+      end
+
+      y = case options[:vposition]
+      when :top
+        bounds.absolute_top
+      when :center
+        bounds.absolute_top - (bounds.height - h) / 2.0
+      when :bottom
+        bounds.absolute_bottom + h
+      when Numeric
+        bounds.absolute_top - options[:vposition]
+      else
+        self.y
+      end
       return [x,y]
     end
 
@@ -127,10 +149,12 @@ module Prawn
       color_space = case jpg.channels
       when 1
         :DeviceGray
+      when 3
+        :DeviceRGB
       when 4
         :DeviceCMYK
       else
-        :DeviceRGB
+        raise ArgumentError, 'JPG uses an unsupported number of channels'
       end
       obj = ref(:Type       => :XObject,
           :Subtype          => :Image,
@@ -140,6 +164,14 @@ module Prawn
           :Width            => jpg.width,
           :Height           => jpg.height,
           :Length           => data.size ) 
+
+      # add extra decode params for CMYK images. By swapping the
+      # min and max values from the default, we invert the colours. See
+      # section 4.8.4 of the spec.
+      if color_space == :DeviceCMYK
+        obj.data[:Decode] = [ 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 ]
+      end
+
       obj << data
       return obj
     end
@@ -252,7 +284,6 @@ module Prawn
     end
 
     def calc_image_dimensions(info, options)
-      # TODO: allow the image to be aligned in a box
       w = options[:width] || info.width
       h = options[:height] || info.height
 
@@ -267,8 +298,20 @@ module Prawn
       elsif options[:scale] 
         w = info.width * options[:scale]
         h = info.height * options[:scale]
+      elsif options[:fit] 
+        bw, bh = options[:fit]
+        bp = bw / bh.to_f
+        ip = info.width / info.height.to_f
+        if ip > bp
+          w = bw
+          h = bw / ip
+        else
+          h = bh
+          w = bh * ip
+        end
       end
-
+      info.scaled_width = w
+      info.scaled_height = h
       [w,h]
     end
 

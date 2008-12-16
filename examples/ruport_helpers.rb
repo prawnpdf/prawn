@@ -12,6 +12,7 @@ Prawn::Document.generate("ruport.pdf") do
   pad(50) { text "I'm Padded" }
   text "I'm far away"
   stroke_horizontal_line 50, 100
-  stroke_vertical_line_at 300, 50, 250
+  stroke_horizontal_line 50, 100, :at => 300
+  stroke_vertical_line 300, 50, :at => 250
 
 end

@@ -19,6 +19,8 @@ ruby_19 do
 end
                                                                                   
 Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
+  
+  #font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
 
   mask(:y) { table body, :headers      => headers, 
                          :align        => :center,

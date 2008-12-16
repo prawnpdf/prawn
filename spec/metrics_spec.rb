@@ -1,12 +1,13 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")   
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require "iconv"
 
 describe "adobe font metrics" do
   
   setup do
     @times = Prawn::Font::Metrics["Times-Roman"]
-    @iconv = Iconv.new('ISO-8859-1', 'utf-8')
+    @iconv = ::Iconv.new('ISO-8859-1', 'utf-8')
   end
   
   it "should calculate string width taking into account accented characters" do

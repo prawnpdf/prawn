@@ -12,6 +12,9 @@ Website:
 
 http://prawn.majesticseacreature.com
 
+Examples:
+http://github.com/sandal/prawn/tree/master/examples
+
 Bug Tracker / Wiki:
 
 http://prawn.lighthouseapp.com/projects/9398-prawn/home
@@ -34,7 +37,7 @@ NOTES TO DEVELOPERS:
 
 You will need the pdf-reader and test-spec gems to run Prawn.  Be sure to run
 the specs on both Ruby 1.8.6 and the latest Ruby 1.9 snapshot, as both versions
-are supported.  1.8.7 is *not* officially supported.
+are supported.  1.8.7 is not officially supported.
 
 Prawn relies on PDF::Inspector, a collection of PDF::Reader backed classes
 for analyzing PDF output.  This is provided as a submodule in Prawn's git

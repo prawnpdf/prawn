@@ -6,6 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "zlib"
+require "prawn/document/text/box"
 
 module Prawn
   class Document
@@ -37,15 +38,39 @@ module Prawn
       # text will be kerned by default.  You can disable this feature by passing
       # <tt>:kerning => false</tt>.
       #
-      # === Character Encoding Details: 
+      # === Text Positioning Details:
+      #
+      # FIXME: If we go with this of using ascender for TTF and font height
+      # For AFM, we need to document the sucker.
+      #
+      # When using the +:at+ parameter, Prawn will position your text by its
+      # baseline, and flow along a single line.
+      #
+      # When using automatic text flow, Prawn will position your text exactly
+      # font.height *below* the baseline, and space each line of text by 
+      # font.height + options[:spacing] (default 0)
+      #
+      # Finally, the drawing position will be moved to the baseline of final 
+      # line of text, plus any additional spacing.
+      #
+      # If you wish to position your flowing text by it's baseline rather
+      # than +font.height+ below, simply call <tt>move_up font.height</tt> 
+      # before your call to text()
+      #
+      # == Rotation
+      #
+      # Text can be rotated before it is placed on the canvas by specifying the
+      # :rotate option. Rotation occurs counter-clockwise.
+      #
+      # == Encoding
       #
       # Note that strings passed to this function should be encoded as UTF-8.
       # If you get unexpected characters appearing in your rendered document, 
       # check this.
       #
       # If the current font is a built-in one, although the string must be
-      # encoded as UTF-8, only characters that are available in ISO-8859-1
-      # are allowed (transliteration will be attempted).
+      # encoded as UTF-8, only characters that are available in WinAnsi
+      # are allowed.
       #
       # If an empty box is rendered to your PDF instead of the character you 
       # wanted it usually means the current font doesn't include that character.
@@ -67,6 +92,9 @@ module Prawn
           x,y = translate(options[:at])            
           font.size(options[:size]) { add_text_content(text,x,y,options) }
         else
+          if options[:rotate]
+            raise ArgumentError, "Rotated text may only be used with :at" 
+          end
           wrapped_text(text,options)
         end         
 
@@ -86,7 +114,7 @@ module Prawn
       
       def process_text_options(options)
         Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
-                              :spacing, :align ], options                               
+                              :spacing, :align, :rotate ], options                               
         
         if options[:style]  
           raise "Bad font family" unless font.family
@@ -117,8 +145,12 @@ module Prawn
 
           lines = text.lines
                                                        
-          lines.each do |e|                                                   
-            move_text_position( font.height + font.descender )                                 
+          lines.each do |e|         
+            if font.metrics.type0?     
+              move_text_position(font.ascender)
+            else                                     
+              move_text_position(font.height) 
+            end                               
                            
             line_width = font.width_of(e)
             case(options[:align]) 
@@ -132,27 +164,33 @@ module Prawn
             end
                                
             add_text_content(e,x,y,options)
-            move_text_position(options[:spacing] || -font.descender )     
+            
+            if font.metrics.type0?
+              move_text_position(font.height - font.ascender)
+            end
+            
+            move_text_position(options[:spacing]) if options[:spacing]
           end 
         end
       end  
-      
+
       def add_text_content(text, x, y, options)
         text = font.metrics.convert_text(text,options)
 
-        add_content %Q{
-          BT
-          /#{font.identifier} #{font.size} Tf
-          #{x} #{y} Td
-        }  
-
+        add_content "\nBT"
+        add_content "/#{font.identifier} #{font.size} Tf"
+        if options[:rotate]
+          rad = options[:rotate].to_i * Math::PI / 180
+          arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
+          add_content "%.3f %.3f %.3f %.3f %.3f %.3f Tm" % arr
+        else
+          add_content "#{x} #{y} Td"
+        end
+        rad = 1.570796
         add_content Prawn::PdfObject(text, true) <<
-          " #{options[:kerning] ? 'TJ' : 'Tj'}\n"
-
-        add_content %Q{
-          ET
-        }
-      end  
+          " #{options[:kerning] ? 'TJ' : 'Tj'}"
+        add_content "ET\n"
+      end
     end
   end
 end

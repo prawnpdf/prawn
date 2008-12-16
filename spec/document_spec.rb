@@ -1,6 +1,16 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+
+describe "The cursor" do
+  it "should equal pdf.y - bounds.absolute_bottom" do
+    pdf = Prawn::Document.new
+    pdf.cursor.should == pdf.bounds.top
+    
+    pdf.y = 300
+    pdf.cursor.should == pdf.y - pdf.bounds.absolute_bottom 
+  end
+end 
                                
 describe "When creating multi-page documents" do 
  
@@ -38,7 +48,23 @@ describe "When beginning each new page" do
     pdf.render
     
     call_count.should == 3
-  end                   
+  end
+  describe "Background template feature" do
+    before(:each) do
+      @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg"
+      @pdf = Prawn::Document.new(:background => @filename)
+    end
+    it "should place a background image if it is in options block" do
+      output = @pdf.render
+      images = PDF::Inspector::XObject.analyze(output)
+      # there should be 2 images in the page resources
+      images.page_xobjects.first.size.should == 1
+    end
+    it "should place a background image if it is in options block" do
+      @pdf.instance_variable_defined?(:@background).should == true
+      @pdf.instance_variable_get(:@background).should == @filename
+    end
+  end
 
 end
 
@@ -83,6 +109,17 @@ describe "When ending each page" do
     pdf.text "Hi There" * 20
     pdf.render
   end
+
+  it "should result in a smaller file size when compressed" do
+    doc_uncompressed = Prawn::Document.new
+    doc_compressed   = Prawn::Document.new(:compress => true)
+    [doc_compressed, doc_uncompressed].each do |pdf|
+       pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+       pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
+    end
+
+    doc_compressed.render.length.should.be < doc_uncompressed.render.length
+  end 
 
 end                                 
 
