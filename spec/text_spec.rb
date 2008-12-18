@@ -115,7 +115,7 @@ describe "when drawing text" do
        lambda { @pdf.text str }.should.raise(ArgumentError)
      end
      it "should not raise an exception when a shift-jis string is rendered" do 
-       puts "\nFIXME: SJIS not working on 1.9 right now due to TTFunk issue"
+       puts "\nFIXME: SJIS Broken due to TTFunk issue"
        return
        datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"  
        sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets } 
