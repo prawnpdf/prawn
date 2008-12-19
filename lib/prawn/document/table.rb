@@ -182,6 +182,7 @@ module Prawn
       end
 
       def calculate_column_widths(manual_widths=nil)
+
         @col_widths = [0] * @data[0].length    
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
@@ -191,8 +192,20 @@ module Prawn
             @col_widths[i] = length.ceil if length > @col_widths[i]
           end
         end  
-        
-        manual_widths.each { |k,v| @col_widths[k] = v } if manual_widths           
+
+        manual_width = 0
+        manual_widths.each { |k,v| @col_widths[k] = v; manual_width += v } if manual_widths           
+
+        #Ensures that the maximum width of the document is not exceeded
+        #Takes into consideration the manual widths specified (With full manual widths specified, the width can exceed the document width as manual widths are taken as gospel)
+        max_width = @document.margin_box.width
+        calculated_width = @col_widths.inject {|sum,e| sum += e }
+        if calculated_width > max_width
+          shrink_by = (max_width - manual_width) / (calculated_width - manual_width)
+          @col_widths.each_with_index { |c,i| 
+            @col_widths[i] = c * shrink_by if manual_widths.nil? || manual_widths[i].nil? 
+          }
+        end
       end
 
       def renderable_data

@@ -47,6 +47,36 @@ describe "A table's width" do
                               col0_width.ceil + col3_width.ceil
 
   end
+
+  it "should not exceed the maximum width of the margin_box" do
+      
+    pdf = Prawn::Document.new
+    page_width = pdf.margin_box.width
+
+    data = [
+      ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
+    ]
+
+    table = Prawn::Document::Table.new(data, pdf)
+
+    table.width.should == page_width
+
+  end
+
+  it "should not exceed the maximum width of the margin_box even with manual widths specified" do
+      
+    pdf = Prawn::Document.new
+    page_width = pdf.margin_box.width
+
+    data = [
+      ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
+    ]
+
+    table = Prawn::Document::Table.new(data, pdf, :widths => { 1 => 100 })
+
+    table.width.should == page_width
+
+  end
       
 end   
 
