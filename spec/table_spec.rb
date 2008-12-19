@@ -51,7 +51,7 @@ describe "A table's width" do
   it "should not exceed the maximum width of the margin_box" do
       
     pdf = Prawn::Document.new
-    page_width = pdf.margin_box.width
+    expected_width = pdf.margin_box.width
 
     data = [
       ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
@@ -59,14 +59,14 @@ describe "A table's width" do
 
     table = Prawn::Document::Table.new(data, pdf)
 
-    table.width.should == page_width
+    table.width.should == expected_width
 
   end
 
   it "should not exceed the maximum width of the margin_box even with manual widths specified" do
       
     pdf = Prawn::Document.new
-    page_width = pdf.margin_box.width
+    expected_width = pdf.margin_box.width
 
     data = [
       ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
@@ -74,7 +74,51 @@ describe "A table's width" do
 
     table = Prawn::Document::Table.new(data, pdf, :widths => { 1 => 100 })
 
-    table.width.should == page_width
+    table.width.should == expected_width
+
+  end
+
+  it "should be the width of the :width parameter" do
+      
+    pdf = Prawn::Document.new
+    expected_width = 300
+
+    table = Prawn::Document::Table.new( [%w[snake foo b apple], 
+                                         %w[kitten d foobar banana]], pdf,
+                                         :width => expected_width
+                                         )
+
+    table.width.should == expected_width
+
+  end
+
+  it "should not exceed the :width option" do
+      
+    pdf = Prawn::Document.new
+    expected_width = 400
+
+    data = [
+      ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
+    ]
+
+    table = Prawn::Document::Table.new(data, pdf, :width => expected_width)
+
+    table.width.should == expected_width
+
+  end
+
+  it "should not exceed the :width option even with manual widths specified" do
+      
+    pdf = Prawn::Document.new
+    expected_width = 400
+
+    data = [
+      ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
+    ]
+
+    table = Prawn::Document::Table.new(data, pdf, :widths => { 1 => 100 }, :width => expected_width)
+
+    table.width.should == expected_width
 
   end
       
