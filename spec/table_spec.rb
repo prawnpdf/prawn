@@ -3,10 +3,10 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
 
 describe "A table's width" do
-  it "should equal sum(col_widths)" do
+  it "should equal sum(column_widths)" do
     pdf = Prawn::Document.new
     table = Prawn::Document::Table.new( [%w[ a b c ], %w[d e f]], pdf,
-       :widths => { 0 => 50, 1 => 100, 2 => 150 })
+       :column_widths => { 0 => 50, 1 => 100, 2 => 150 })
 
     table.width.should == 300
   end
@@ -40,7 +40,7 @@ describe "A table's width" do
     table = Prawn::Document::Table.new( [%w[snake foo b apple], 
                                          %w[kitten d foobar banana]], pdf,
       :horizontal_padding => hpad, :font_size => fs, 
-      :widths => { 0 => col0_width, 3 => col3_width } )
+      :column_widths => { 0 => col0_width, 3 => col3_width } )
 
         table.width.should == col1_width.ceil + col2_width.ceil + 
                               2*stretchy_columns*hpad + 
@@ -72,7 +72,7 @@ describe "A table's width" do
       ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
     ]
 
-    table = Prawn::Document::Table.new(data, pdf, :widths => { 1 => 100 })
+    table = Prawn::Document::Table.new(data, pdf, :column_widths => { 1 => 100 })
 
     table.width.should == expected_width
 
@@ -116,7 +116,7 @@ describe "A table's width" do
       ['This is a column with a lot of text that should comfortably exceed the width of a normal document margin_box width', 'Some more text', 'and then some more', 'Just a bit more to be extra sure']
     ]
 
-    table = Prawn::Document::Table.new(data, pdf, :widths => { 1 => 100 }, :width => expected_width)
+    table = Prawn::Document::Table.new(data, pdf, :column_widths => { 1 => 100 }, :width => expected_width)
 
     table.width.should == expected_width
 
@@ -163,7 +163,7 @@ describe "A table's content" do
             :border_width       => 0.05,
             :border_style       => :none,
             :row_colors         => %w{ffffff eeeeee},
-            :widths             => {0 =>110},
+            :column_widths      => {0 =>110},
             :position           => :left,
             :headers            => ["exploding header"],
             :align              => :left,

@@ -32,10 +32,10 @@ Prawn::Document.generate("table_widths.pdf") do
   move_down 10
 
   table data,    
-    :position   => :center,
-    :headers    => headers,
-    :width      => margin_box.width,
-    :widths     => {0 => 70, 1 => 70}
+    :position      => :center,
+    :headers       => headers,
+    :width         => margin_box.width,
+    :column_widths => {0 => 70, 1 => 70}
 
 
   move_down 20

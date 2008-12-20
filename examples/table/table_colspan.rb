@@ -14,6 +14,6 @@ Prawn::Document.generate "table_colspan.pdf" do
   table data,
   :position => :center,
   :headers => ['Date', 'Employee', 'Hours', 'Rate', 'Total'],
-  :widths => { 0 => 75, 1 => 100, 2 => 50, 3 => 50, 4 => 50},
+  :column_widths => { 0 => 75, 1 => 100, 2 => 50, 3 => 50, 4 => 50},
   :border_style => :grid
 end

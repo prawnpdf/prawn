@@ -33,7 +33,7 @@ module Prawn
     #
     #     # Grid border style with explicit column widths.
     #     table data, :border_style => :grid,
-    #                 :widths       => { 0 => 100, 1 => 150 }
+    #                 :column_widths       => { 0 => 100, 1 => 150 }
     #
     #   end
     #
@@ -73,7 +73,7 @@ module Prawn
       
       include Prawn::Configurable
 
-      attr_reader :col_widths # :nodoc: 
+      attr_reader :column_widths # :nodoc: 
       
       NUMBER_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+(?:[eE][+-]?\d+)?)?$/ #:nodoc: 
 
@@ -100,7 +100,7 @@ module Prawn
       # <tt>:border_color</tt>:: Sets the color of the borders.
       # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
       # <tt>:width:</tt> A set width for the table, defaults to the sum of all column widths
-      # <tt>:widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
+      # <tt>:column_widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
       # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
       # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
       # <tt>:minimum_rows</tt>:: The minimum rows to display on a page, including header.
@@ -123,9 +123,10 @@ module Prawn
         @document = document
         
         Prawn.verify_options [:font_size,:border_style, :border_width,
-         :position, :headers, :row_colors, :align, :align_headers, :header_text_color, :border_color,
-         :horizontal_padding, :vertical_padding, :padding, :widths, :width,
-         :header_color ], options     
+         :position, :headers, :row_colors, :align, :align_headers, 
+         :header_text_color, :border_color, :horizontal_padding, 
+         :vertical_padding, :padding, :column_widths, :width, :header_color ], 
+         options     
                                             
         configuration.update(options)  
 
@@ -141,15 +142,15 @@ module Prawn
           C(:original_row_colors => C(:row_colors)) 
         end
 
-        calculate_column_widths(options[:widths], options[:width])
+        calculate_column_widths(options[:column_widths], options[:width])
       end                                        
       
-      attr_reader :col_widths #:nodoc:
+      attr_reader :column_widths #:nodoc:
       
       # Width of the table in PDF points
       #
       def width
-         @col_widths.inject(0) { |s,r| s + r }
+         @column_widths.inject(0) { |s,r| s + r }
       end
       
       # Draws the table onto the PDF document
@@ -183,33 +184,40 @@ module Prawn
       end
 
       def calculate_column_widths(manual_widths=nil, width=nil)
-        @col_widths = [0] * @data[0].length    
+        @column_widths = [0] * @data[0].length    
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.to_s.lines.map { |e| 
               @document.font.width_of(e, :size => C(:font_size)) }.max.to_f +
                 2*C(:horizontal_padding)
-            @col_widths[i] = length.ceil if length > @col_widths[i]
+            @column_widths[i] = length.ceil if length > @column_widths[i]
           end
         end  
 
         manual_width = 0
-        manual_widths.each { |k,v| @col_widths[k] = v; manual_width += v } if manual_widths           
+        manual_widths.each { |k,v| 
+          @column_widths[k] = v; manual_width += v } if manual_widths           
 
         #Ensures that the maximum width of the document is not exceeded
-        #Takes into consideration the manual widths specified (With full manual widths specified, the width can exceed the document width as manual widths are taken as gospel)
+        #Takes into consideration the manual widths specified (With full manual 
+        # widths specified, the width can exceed the document width as manual 
+        # widths are taken as gospel)
         max_width = width || @document.margin_box.width
-        calculated_width = @col_widths.inject {|sum,e| sum += e }
+        calculated_width = @column_widths.inject {|sum,e| sum += e }
 
         if calculated_width > max_width
-          shrink_by = (max_width - manual_width).to_f / (calculated_width - manual_width)
-          @col_widths.each_with_index { |c,i| 
-            @col_widths[i] = c * shrink_by if manual_widths.nil? || manual_widths[i].nil? 
+          shrink_by = (max_width - manual_width).to_f / 
+            (calculated_width - manual_width)
+          @column_widths.each_with_index { |c,i| 
+            @column_widths[i] = c * shrink_by if manual_widths.nil? || 
+              manual_widths[i].nil? 
           }
         elsif width && calculated_width < width
-          grow_by = (width - manual_width).to_f / (calculated_width - manual_width)
-          @col_widths.each_with_index { |c,i| 
-            @col_widths[i] = c * grow_by if manual_widths.nil? || manual_widths[i].nil? 
+          grow_by = (width - manual_width).to_f / 
+            (calculated_width - manual_width)
+          @column_widths.each_with_index { |c,i| 
+            @column_widths[i] = c * grow_by if manual_widths.nil? || 
+              manual_widths[i].nil? 
           }
         end
       end
@@ -241,7 +249,7 @@ module Prawn
               case e
               when Prawn::Graphics::Cell
                 e.document = @document
-                e.width    = @col_widths[col_index]
+                e.width    = @column_widths[col_index]
                 e.horizontal_padding = C(:horizontal_padding)
                 e.vertical_padding   = C(:vertical_padding)    
                 e.border_width       = C(:border_width)
@@ -251,9 +259,10 @@ module Prawn
               else
                 text = e.is_a?(Hash) ? e[:text] : e.to_s
                 width = if e.is_a?(Hash) && e.has_key?(:colspan)
-                  @col_widths.slice(col_index, e[:colspan]).inject { |sum, width| sum + width }
+                  @column_widths.slice(col_index, e[:colspan]).inject { 
+                    |sum, width| sum + width }
                 else
-                  @col_widths[col_index]
+                  @column_widths[col_index]
                 end
                 
                 c << Prawn::Graphics::Cell.new(
