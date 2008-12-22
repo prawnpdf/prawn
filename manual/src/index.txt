@@ -676,7 +676,64 @@ key chapter for anyone using Prawn to produce text documents.
 
 == Text Generation and Fonts ==
 
-Not Blank
+If you're working with Prawn, it's likely that you have a need for generating
+text documents.  In this chapter, we'll go over enough details about Prawn's
+text rendering and font embedding capabilities to get you going. 
+
+Before we get into working with fonts and basic styling, we'll cover how to 
+actually put text on the page, starting with the most simple technique and
+moving upwards from there.
+
+=== Absolute Text Positioning ===
+
+The most fundamentally simple way to render text in Prawn is to place it at an
+exact location.  When you do this, Prawn assumes you are rendering a single line
+of text that will fit within the boundaries.  
+
+We already saw this feature used in earlier examples, but let's take a look at 
+it in a little more detail.
+
+-------------------------------------------------------------------------------
+
+  Prawn::Document.generate("foo.pdf") do
+    text "The rain in Spain falls mainly on the plains", :at => [50,100]
+    stroke_horizontal_line 0, bounds.right, :at => 100
+    stroke_vertical_line 0, bounds.top, :at => 50
+  end   
+
+-------------------------------------------------------------------------------
+
+When you look at how the text is positioned relative to the lines, you can see
+that when absolutely positioning text in Prawn, it is vertically positioned by
+the baseline and horizontally positioned by the left edge of the first glyph.
+You can see that this remains true even when you tweak the text size:
+
+-------------------------------------------------------------------------------
+
+  Prawn::Document.generate("foo.pdf") do
+    phrase = "The rain in Spain falls mainly on the plains"
+
+    text phrase, :at => [50,100], :size => 24
+    stroke_horizontal_line 0, bounds.right, :at => 100
+    stroke_vertical_line 0, bounds.top, :at => 50
+  end   
+
+-------------------------------------------------------------------------------
+
+Using +text()+ with the +:at+ option for absolute text positioning is most
+appropriate when you need a whole lot of control over where your text is being
+placed, or if you want to build up custom text rendering systems that behave
+differently than what's already available in Prawn.   However, if you want Prawn
+to do the work of positioning, wrapping, and advancing text for you, you can leave 
+out the +:at+ option.
+
+=== Automatic Text Flowing ===
+
+If you are rendering some paragraphs or other structured bodies of text, you
+might find it convenient to let Prawn handle flowing your text for you.  The
+most basic example of this is to simply pass +text()+ a string to display.
+
+
 
 == Bounding Boxes and Spans ==
 

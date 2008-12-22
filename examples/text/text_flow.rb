@@ -60,7 +60,7 @@ Prawn::Document.generate("flow.pdf") do |pdf|
   pdf.bounding_box([100,450], :width => 300) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
-    pdf.text poem, :size => 12, :spacing => 5
+    pdf.text poem, :size => 10, :spacing => 5
   end
   
   pdf.text "And this text automatically goes below the poem", :size => 18
