@@ -1,9 +1,8 @@
+# coding: utf-8
+#
 # Why would we ever use Ruby 1.8.7 when we can backport with something
 # as simple as this?
 #
-# encoding: utf-8
-
-
 class String  #:nodoc:
   unless "".respond_to?(:lines)
     alias_method :lines, :to_a

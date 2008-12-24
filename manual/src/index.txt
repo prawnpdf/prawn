@@ -674,7 +674,7 @@ embedded fonts. If you are using Prawn for purely graphical operations, you
 might skip to the bounding boxes chapter, but otherwise, what follows will be a
 key chapter for anyone using Prawn to produce text documents.
 
-== Text Generation and Fonts ==
+== Text Generation ==
 
 If you're working with Prawn, it's likely that you have a need for generating
 text documents.  In this chapter, we'll go over enough details about Prawn's
@@ -695,7 +695,7 @@ it in a little more detail.
 
 -------------------------------------------------------------------------------
 
-  Prawn::Document.generate("foo.pdf") do
+  Prawn::Document.generate("absolute_text.pdf") do
     text "The rain in Spain falls mainly on the plains", :at => [50,100]
     stroke_horizontal_line 0, bounds.right, :at => 100
     stroke_vertical_line 0, bounds.top, :at => 50
@@ -710,7 +710,7 @@ You can see that this remains true even when you tweak the text size:
 
 -------------------------------------------------------------------------------
 
-  Prawn::Document.generate("foo.pdf") do
+  Prawn::Document.generate("absolute_text.pdf") do
     phrase = "The rain in Spain falls mainly on the plains"
 
     text phrase, :at => [50,100], :size => 24
@@ -733,15 +733,97 @@ If you are rendering some paragraphs or other structured bodies of text, you
 might find it convenient to let Prawn handle flowing your text for you.  The
 most basic example of this is to simply pass +text()+ a string to display.
 
+-------------------------------------------------------------------------------
+
+  Prawn::Document.generate("wrapping.pdf") do
+    text "The rain in Spain falls mainly on the plains " * 500
+  end  
+
+-------------------------------------------------------------------------------
+
+This text will be split up at the margin using a naive wrapping algorithm.  You
+can specify an alignment for your text as well:
+
+-------------------------------------------------------------------------------
+
+  Prawn::Document.generate("wrapping.pdf") do
+    text "The rain in Spain falls mainly on the plains " * 500, :align => :center
+  end   
+
+-------------------------------------------------------------------------------
+
+Some text cannot meaningfully be split by whitespace, and instead, needs to be
+wrapped by character.  You can enable this by using the +:wrap+ parameter.
+
+-------------------------------------------------------------------------------
+
+  Prawn::Document.generate("wrapping.pdf") do
+    phrase = "The rain in Spain falls mainly on the plains " * 500
+    text phrase, :wrap => :character
+  end   
+
+-------------------------------------------------------------------------------
 
 
-== Bounding Boxes and Spans ==
+Though the text here is English, this will most commonly be used with languages
+which do not use spaces between words, such as Chinese.  Although this may not
+be an optimal formatting solution, it may work good enough for your needs.  
+
+But now that we've covered how to put text on the page, we can now discuss fonts
+and styling a bit. We won't go into a great level of detail, but we'll
+give you enough information to get you off the ground.
+
+== Working With Fonts ==
+
+Prawn supports two types of fonts. The first is the standard Adobe fonts
+specified by the PDF format, which include the following:
+
+  Times−Roman
+  Times−Bold
+  Times−Italic
+  Times−BoldItalic
+  Helvetica
+  Helvetica−Bold
+  Helvetica−Oblique
+  Helvetica−BoldOblique
+  Courier
+  Courier−Bold
+  Courier−Oblique
+  Courier−BoldOblique
+  Symbol
+  ZapfDingbats
+
+These fonts are built in, so you don't need to provide a font file for
+embedding.  However, it is important to keep in mind that although all text
+input must be in UTF-8, these built in fonts only contain glyphs for characters
+found in the WinAnsi character set.  If you have a need for non-latin glyphs,
+you'll need to use TrueType fonts instead.
+
+Prawn has full support for TTF fonts, as a more flexible alternative to the
+built in Adobe fonts.  The drawback is that you actually need to provide a TTF
+file for Prawn to embed.   Although Prawn ships with a couple TTF files, we
+intend for these to be used mainly for demonstration purposes, and therefore do
+not provide a comprehensive set of typefaces for general use.  The benefit of
+using a TTF is that so long as the font is unicode aware and has the glyphs you
+need to render, Prawn will have no trouble producing your text.
+
+=== Selecting Your Font ===
+
+Not Blank
+
+=== Font Families and Styling ===
+
+Not Blank
+
+== Spans and Bounding Boxes ==
 
 Not Blank
 
 == Table Generation ==
 
 Not Blank
+
+== Working With Images ==
 
 == Common Mistakes ==
 
@@ -758,8 +840,10 @@ Gregory Brown's Ruby Mendicant project.  Now, it is developed and maintained
 by an active group of contributors and testers from all over the world.  You
 can see exactly who did what by examining the git log, the Prawn mailing list,
 and our bug tracker.   Special thanks go out to James Healy and Michael Daines
-who assisted with much of the initial development of the project. The official 
-Prawn logo was created by Richard Mason.
+who assisted with much of the initial development of the project.  Jamis Buck
+recently joined the team and is working on a lot of the problems we've been
+avoiding for a while, including text formatting. Finally, thhe official Prawn 
+logo was created by Richard Mason. 
 
 Though I didn't mention many people by name, so many have been instrumental
 in making Prawn's development move along so quickly.  You know who you are,
