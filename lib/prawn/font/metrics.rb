@@ -355,6 +355,53 @@ module Prawn
           end
         end
         
+        # not sure how to compute this for true-type fonts...
+        def stemV
+          0
+        end
+
+        def italic_angle
+          @italic_angle ||= if @ttf.postscript.exists?
+            raw = @ttf.postscript.italic_angle
+            hi, low = raw >> 16, raw & 0xFF
+            hi = -((hi ^ 0xFFFF) + 1) if hi & 0x8000 != 0
+            "#{hi}.#{low}".to_f
+          else
+            0
+          end
+        end
+
+        def cap_height
+          @ttf.os2.exists? && @ttf.os2.cap_height || 0
+        end
+
+        def x_height
+          @ttf.os2.exists? && @ttf.os2.x_height || 0
+        end
+
+        def family_class
+          @family_class ||= (@ttf.os2.exists? && @ttf.os2.family_class || 0) >> 8
+        end
+
+        def serif?
+          @serif ||= [1,2,3,4,5,7].include?(family_class)
+        end
+
+        def script?
+          @script ||= family_class == 10
+        end
+
+        def pdf_flags
+          @flags ||= begin
+            flags = 0
+            flags ||= 0x0001 if @ttf.postscript.fixed_pitch?
+            flags ||= 0x0002 if serif?
+            flags ||= 0x0008 if script?
+            flags ||= 0x0040 if italic_angle != 0
+            flags ||= 0x0004 # assume the font contains at least some non-latin characters
+          end
+        end
+
         private
 
         def hmtx

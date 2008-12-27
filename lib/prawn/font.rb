@@ -324,11 +324,13 @@ module Prawn
                                  :FontName    => basename,
                                  :FontFile2   => fontfile,
                                  :FontBBox    => @metrics.bbox,
-                                 :Flags       => 32, # FIXME: additional flags
-                                 :StemV       => 0,
-                                 :ItalicAngle => 0,
+                                 :Flags       => @metrics.pdf_flags,
+                                 :StemV       => @metrics.stemV,
+                                 :ItalicAngle => @metrics.italic_angle,
                                  :Ascent      => @metrics.ascender,
-                                 :Descent     => @metrics.descender )    
+                                 :Descent     => @metrics.descender,
+                                 :CapHeight   => @metrics.cap_height,
+                                 :XHeight     => @metrics.x_height)
 
       descendant = @document.ref(:Type           => :Font,
                                  :Subtype        => :CIDFontType2, # CID, TTF
