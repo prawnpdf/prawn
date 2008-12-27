@@ -224,11 +224,11 @@ module Prawn
           @glyph_widths     = {}
           @bounding_boxes   = {} 
           @char_widths      = {}   
-          @has_kerning_data = !! @ttf.kern? && @ttf.kern.sub_tables[0]
+          @has_kerning_data = !! @ttf.kerning.exists? && @ttf.kerning.tables.any?
         end
 
         def cmap
-          @cmap ||= @ttf.cmap.formats[4]
+          @cmap ||= @ttf.cmap.unicode.first or raise("no unicode cmap for font")
         end
         
         def string_width(string, font_size, options = {})
@@ -284,37 +284,35 @@ module Prawn
         end
 
         def glyph_widths
-          glyphs = cmap.values.uniq.sort
+          glyphs = cmap.code_map.values.uniq.sort
           first_glyph = glyphs.shift
-          widths = [first_glyph, [Integer(hmtx[first_glyph][0] * scale_factor)]] 
+          widths = [first_glyph, [Integer(hmtx.for(first_glyph).advance_width * scale_factor)]] 
           prev_glyph = first_glyph
           glyphs.each do |glyph|
             unless glyph == prev_glyph + 1
               widths << glyph
               widths << []
             end
-            widths.last << Integer(hmtx[glyph][0] * scale_factor )
+            widths.last << Integer(hmtx.for(glyph).advance_width * scale_factor )
             prev_glyph = glyph
           end
           widths
         end
 
         def bbox
-          [:x_min, :y_min, :x_max, :y_max].map do |atr| 
-            Integer(@ttf.head.send(atr)) * scale_factor
-          end
+          @bbox ||= @ttf.bbox.map { |i| Integer(i * scale_factor) }
         end
 
         def ascender
-          Integer(@ttf.hhea.ascent * scale_factor)
+          @ascender ||= Integer(@ttf.ascent * scale_factor)
         end
 
         def descender
-          Integer(@ttf.hhea.descent * scale_factor)
+          @descender ||= Integer(@ttf.descent * scale_factor)
         end      
         
         def line_gap
-          Integer(@ttf.hhea.line_gap * scale_factor)   
+          @line_gap ||= Integer(@ttf.line_gap * scale_factor)
         end
 
         def basename
@@ -326,7 +324,7 @@ module Prawn
         def to_unicode_cmap
           return @to_unicode if @to_unicode
           @to_unicode = Prawn::Font::CMap.new
-          unicode_for_glyph = cmap.invert
+          unicode_for_glyph = cmap.code_map.invert
           glyphs = unicode_for_glyph.keys.uniq.sort
           glyphs.each do |glyph|
             @to_unicode[unicode_for_glyph[glyph]] = glyph
@@ -335,7 +333,7 @@ module Prawn
         end
         
         def kern_pairs_table
-          @kerning_data ||= has_kerning_data? ? @ttf.kern.sub_tables[0] : {}
+          @kerning_data ||= has_kerning_data? ? @ttf.kerning.tables.first.pairs : {}
         end
 
         def has_kerning_data?
@@ -360,16 +358,16 @@ module Prawn
         private
 
         def hmtx
-          @hmtx ||= @ttf.hmtx.values
-        end         
-        
+          @hmtx ||= @ttf.horizontal_metrics
+        end
+
         def character_width_by_code(code)    
           return 0 unless cmap[code]
-          @char_widths[code] ||= Integer(hmtx[cmap[code]][0] * scale_factor)           
+          @char_widths[code] ||= Integer(hmtx.widths[code] * scale_factor)
         end                   
 
         def scale_factor
-          @scale ||= 1000 * Float(@ttf.head.units_per_em)**-1
+          @scale ||= 1000.0 / @ttf.header.units_per_em
         end
 
       end
