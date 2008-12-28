@@ -27,7 +27,8 @@ module Prawn
         #       from an existing PDF
         # TODO: make this more efficient. The mapping can be specified in
         #       ranges instead of one -> one
-        res =  "12 dict begin\n"
+        res =  "/CIDInit /ProcSet findresource begin\n"
+        res << "12 dict begin\n"
         res << "begincmap\n"
         res << "/CIDSystemInfo\n"
         res << "<< /Registry (Adobe)\n"
@@ -36,23 +37,39 @@ module Prawn
         res << ">> def\n"
         res << "/CMapName /Adobe-Identity-UCS def\n"
         res << "/CMapType 2 def\n"
-        res << "begincodespacerange\n"
+        res << "1 begincodespacerange\n"
         res << "<0000> <ffff>\n"
         res << "endcodespacerange\n"
-        res << "9 beginbfchar\n"
-        @codes.keys.sort.each do |key|
-          val = @codes[key]
-          ccode = val.to_s(16)
-          ccode = ("0" * (4 - ccode.size)) + ccode
-          unicode = key.to_s(16)
-          unicode = ("0" * (4 - unicode.size)) + unicode
-          res << "<#{ccode}> <#{unicode}>\n"
+
+        glyphs = @codes.invert
+        ranges = []
+
+        run = nil
+        glyphs.keys.sort.each do |key|
+          next if key == 0
+          val = glyphs[key]
+
+          if run && val == run[:last]+1
+            run[:end] = key
+            run[:last] = val
+          else
+            if run
+              ranges << "<%04X> <%04X> <%04X>" % [run[:start], run[:end], run[:from]]
+            end
+
+            run = { :start => key, :end => key, :from => val, :last => val }
+          end
         end
-        res << "endbfchar\n"
+
+        ranges << "<%04X> <%04X> <%04X>" % [run[:start], run[:end], run[:from]] if run
+
+        res << "%d beginbfrange\n" % ranges.length
+        res << ranges.join("\n") << "\n"
+        res << "endbfrange\n"
         res << "endcmap\n"
         res << "CMapName currentdict /CMap defineresource pop\n"
         res << "end\n"
-        res << "end\n"
+        res << "end"
       end
     end
   end
