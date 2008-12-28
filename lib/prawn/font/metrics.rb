@@ -271,9 +271,7 @@ module Prawn
             else
               i = r.is_a?(Array) ? r.pack("U*") : r 
               x = if i.is_a?(String)
-                unicode_codepoints = i.unpack("U*")
-                glyph_codes = unicode_codepoints.map { |u| cmap[u] }
-                glyph_codes.pack("n*")
+                i.unpack("U*").pack("n*")
               else
                 i
               end
@@ -291,17 +289,17 @@ module Prawn
         #
         #    [5, [1, 2], 8, 13, 3, 14, [4, 5]]
         def glyph_widths
-          glyphs = cmap.code_map.values.uniq.sort
-          first_glyph = glyphs.shift
-          widths = [first_glyph, [Integer(hmtx.for(first_glyph).advance_width * scale_factor)]] 
-          prev_glyph = first_glyph
-          glyphs.each do |glyph|
-            unless glyph == prev_glyph + 1
-              widths << glyph
+          codes = cmap.code_map.keys.sort
+          first_code = codes.shift
+          widths = [first_code, [Integer(hmtx.for(cmap[first_code]).advance_width * scale_factor)]] 
+          prev_code = first_code
+          codes.each do |code|
+            unless code == prev_code + 1
+              widths << code
               widths << []
             end
-            widths.last << Integer(hmtx.for(glyph).advance_width * scale_factor )
-            prev_glyph = glyph
+            widths.last << Integer(hmtx.for(cmap[code]).advance_width * scale_factor )
+            prev_code = code
           end
           widths
         end
@@ -326,19 +324,6 @@ module Prawn
           @basename ||= @ttf.name.postscript_name
         end
 
-        # TODO: instead of creating a map that contains every glyph in the font,
-        #       only include the glyphs that were used
-        def to_unicode_cmap
-          return @to_unicode if @to_unicode
-          @to_unicode = Prawn::Font::CMap.new
-          unicode_for_glyph = cmap.code_map.invert
-          glyphs = unicode_for_glyph.keys.uniq.sort
-          glyphs.each do |glyph|
-            @to_unicode[unicode_for_glyph[glyph]] = glyph
-          end
-          @to_unicode
-        end
-        
         def kern_pairs_table
           @kerning_data ||= has_kerning_data? ? @ttf.kerning.tables.first.pairs : {}
         end
@@ -356,9 +341,7 @@ module Prawn
           if options[:kerning] 
             kern(text)         
           else     
-            unicode_codepoints = text.unpack("U*")
-            glyph_codes = unicode_codepoints.map { |u| cmap[u] }
-            text = glyph_codes.pack("n*")
+            text.unpack("U*").pack("n*")
           end
         end
         
@@ -407,6 +390,11 @@ module Prawn
             flags |= 0x0040 if italic_angle != 0
             flags |= 0x0004 # assume the font contains at least some non-latin characters
           end
+        end
+
+        def cid_to_gid_map
+          max = cmap.code_map.keys.max
+          (0..max).map { |cid| cmap[cid] }.pack("n*")
         end
 
         private

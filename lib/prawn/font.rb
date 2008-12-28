@@ -7,7 +7,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/font/wrapping"       
 require "prawn/font/metrics"
-require "prawn/font/cmap" 
 
 module Prawn 
   
@@ -293,7 +292,30 @@ module Prawn
                                   :BaseFont => name.to_sym,
                                   :Encoding => :WinAnsiEncoding)                                                   
     end    
-    
+
+    IDENTITY_UNICODE_CMAP = <<-STR.strip.gsub(/^\s*/, "")
+      /CIDInit /ProcSet findresource begin
+      12 dict begin
+      begincmap
+      /CIDSystemInfo
+      << /Registry (Adobe)
+      /Ordering (UCS)
+      /Supplement 0
+      >> def
+      /CMapName /Adobe-Identity-UCS def
+      /CMapType 2 def
+      1 begincodespacerange
+      <0000> <ffff>
+      endcodespacerange
+      1 beginbfrange
+      <0000> <ffff> <0000>
+      endbfrange
+      endcmap
+      CMapName currentdict /CMap defineresource pop
+      end
+      end
+    STR
+
     def embed_ttf(file)
       unless File.file?(file)
         raise ArgumentError, "file #{file} does not exist"
@@ -332,27 +354,29 @@ module Prawn
                                  :CapHeight   => @metrics.cap_height,
                                  :XHeight     => @metrics.x_height)
 
+
+      cid_to_gid_map_data = @metrics.cid_to_gid_map
+      cid_to_gid_map = @document.ref(:Length => cid_to_gid_map_data.length)
+      cid_to_gid_map << cid_to_gid_map_data
+      cid_to_gid_map.compress_stream
+
       descendant = @document.ref(:Type           => :Font,
                                  :Subtype        => :CIDFontType2, # CID, TTF
-                                 :BaseFont       => basename,
+                                 :BaseFont       => basename.to_sym,
                                  :CIDSystemInfo  => { :Registry   => "Adobe",
                                                       :Ordering   => "Identity",
                                                       :Supplement => 0 },
                                  :FontDescriptor => descriptor,
                                  :W              => @metrics.glyph_widths,
-                                 :CIDToGIDMap    => :Identity ) 
+                                 :CIDToGIDMap    => cid_to_gid_map)
 
-      to_unicode_content = @metrics.to_unicode_cmap.to_s
-      compressed_to_unicode = Zlib::Deflate.deflate(to_unicode_content)   
-      
-      to_unicode = @document.ref(:Length  => compressed_to_unicode.size,
-                                 :Length1 => to_unicode_content.size,
-                                 :Filter  => :FlateDecode )
-      to_unicode << compressed_to_unicode
+      to_unicode = @document.ref(:Length => IDENTITY_UNICODE_CMAP.length)
+      to_unicode << IDENTITY_UNICODE_CMAP
+      to_unicode.compress_stream
 
       @reference = @document.ref(:Type            => :Font,
                                  :Subtype         => :Type0,
-                                 :BaseFont        => basename,
+                                 :BaseFont        => basename.to_sym,
                                  :DescendantFonts => [descendant],
                                  :Encoding        => :"Identity-H",
                                  :ToUnicode       => to_unicode)
