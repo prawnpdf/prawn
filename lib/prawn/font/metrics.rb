@@ -221,7 +221,6 @@ module Prawn
         def initialize(font)
           @ttf = TTFunk::File.new(font)
           @attributes       = {}
-          @glyph_widths     = {}
           @bounding_boxes   = {} 
           @char_widths      = {}   
           @has_kerning_data = !! @ttf.kerning.exists? && @ttf.kerning.tables.any?
@@ -283,6 +282,14 @@ module Prawn
           }
         end
 
+        # TODO: optimize resulting array further by compressing identical widths
+        # into a single definition. E.g., turn:
+        #
+        #    [5, [1, 2, 3, 3, 3, 3, 3, 3, 4, 5]]
+        #
+        # into
+        #
+        #    [5, [1, 2], 8, 13, 3, 14, [4, 5]]
         def glyph_widths
           glyphs = cmap.code_map.values.uniq.sort
           first_glyph = glyphs.shift
@@ -394,11 +401,11 @@ module Prawn
         def pdf_flags
           @flags ||= begin
             flags = 0
-            flags ||= 0x0001 if @ttf.postscript.fixed_pitch?
-            flags ||= 0x0002 if serif?
-            flags ||= 0x0008 if script?
-            flags ||= 0x0040 if italic_angle != 0
-            flags ||= 0x0004 # assume the font contains at least some non-latin characters
+            flags |= 0x0001 if @ttf.postscript.fixed_pitch?
+            flags |= 0x0002 if serif?
+            flags |= 0x0008 if script?
+            flags |= 0x0040 if italic_angle != 0
+            flags |= 0x0004 # assume the font contains at least some non-latin characters
           end
         end
 
