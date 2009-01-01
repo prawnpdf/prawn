@@ -242,7 +242,7 @@ module Prawn
     def embed!
       case(name)
       when /\.ttf$/i
-        embed_ttf(name)
+        @reference = @document.ref(:Type => :Font) { |ref| embed_ttf }
       else
         register_builtin(name)
       end  
@@ -316,22 +316,12 @@ module Prawn
       end
     STR
 
-    def embed_ttf(file)
-      unless File.file?(file)
-        raise ArgumentError, "file #{file} does not exist"
-      end
-
+    def embed_ttf
       basename = @metrics.basename
 
       raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-      @encodings = @metrics.cmap
-
-      if @encodings.nil?
-        raise "#{file} missing the required encoding table"
-      end
-
-      font_content = File.open(file,"rb") { |f| f.read }
+      font_content = @metrics.ttf.contents.string
       compressed_font = Zlib::Deflate.deflate(font_content)
 
       fontfile = @document.ref(:Length => compressed_font.size,
@@ -374,13 +364,11 @@ module Prawn
       to_unicode << IDENTITY_UNICODE_CMAP
       to_unicode.compress_stream
 
-      @reference = @document.ref(:Type            => :Font,
-                                 :Subtype         => :Type0,
-                                 :BaseFont        => basename.to_sym,
-                                 :DescendantFonts => [descendant],
-                                 :Encoding        => :"Identity-H",
-                                 :ToUnicode       => to_unicode)
-
+      @reference.data.update(:Subtype         => :Type0,
+                             :BaseFont        => basename.to_sym,
+                             :DescendantFonts => [descendant],
+                             :Encoding        => :"Identity-H",
+                             :ToUnicode       => to_unicode)
     end                              
 
   end
