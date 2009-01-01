@@ -405,7 +405,7 @@ module Prawn
 
         def character_width_by_code(code)    
           return 0 unless cmap[code]
-          @char_widths[code] ||= Integer(hmtx.widths[code] * scale_factor)
+          @char_widths[code] ||= Integer(hmtx.widths[cmap[code]] * scale_factor)
         end                   
 
         def scale_factor
