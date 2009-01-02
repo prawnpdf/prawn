@@ -365,11 +365,15 @@ module Prawn
         end
 
         def cap_height
-          @ttf.os2.exists? && @ttf.os2.cap_height || 0
+          @cap_height ||= begin
+            height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
+            height == 0 ? ascender : height
+          end
         end
 
         def x_height
-          @ttf.os2.exists? && @ttf.os2.x_height || 0
+          # FIXME: ascender/2 is NOT a good way to compute this.
+          @ttf.os2.exists? && @ttf.os2.x_height || ascender/2
         end
 
         def family_class

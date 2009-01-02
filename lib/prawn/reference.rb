@@ -45,6 +45,7 @@ module Prawn
     def compress_stream
       @stream = Zlib::Deflate.deflate(@stream)
       @data[:Filter] = :FlateDecode
+      @data[:Length] ||= @stream.length
       @compressed = true
     end
   end         

@@ -328,7 +328,7 @@ module Prawn
         Integer(hmtx.widths[gid] * scale) }
 
       @references[subset].data.update(:Subtype => :TrueType,
-                             :Basefont => basename.to_sym,
+                             :BaseFont => basename.to_sym,
                              :Encoding => :MacRomanEncoding,
                              :FontDescriptor => descriptor,
                              :FirstChar => 0,
@@ -338,14 +338,17 @@ module Prawn
       if @metrics.subsets[subset].unicode?
         map = @metrics.subsets[subset].to_unicode_map
 
+        # FIXME: beginbfchar and beginbfrange can take no more than 100
+        # items at a time. Thus, we should chunk this into segments of
+        # 100 mappings and emit separate bfchar blocks for each chunk.
         entries = map.length
         lines = map.keys.sort.inject("") do |s, code|
           unicode = map[code]
-          s << "<%02x> <%02x>\n" % [code, unicode]
+          s << "<%04x> <%04x>\n" % [code, unicode]
         end
 
         to_unicode_cmap = UNICODE_CMAP_TEMPLATE % [entries, lines.strip]
-        cmap = @document.ref(:Length => to_unicode_cmap.length)
+        cmap = @document.ref({})
         cmap << to_unicode_cmap
         cmap.compress_stream
 
@@ -365,7 +368,7 @@ module Prawn
       /CMapName /Adobe-Identity-UCS def
       /CMapType 2 def
       1 begincodespacerange
-      <00> <ff>
+      <0000> <ffff>
       endcodespacerange
       %d beginbfchar
       %s
