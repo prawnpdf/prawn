@@ -278,30 +278,6 @@ module Prawn
           a
         end
 
-        # TODO: optimize resulting array further by compressing identical widths
-        # into a single definition. E.g., turn:
-        #
-        #    [5, [1, 2, 3, 3, 3, 3, 3, 3, 4, 5]]
-        #
-        # into
-        #
-        #    [5, [1, 2], 8, 13, 3, 14, [4, 5]]
-        def glyph_widths
-          codes = cmap.code_map.keys.sort
-          first_code = codes.shift
-          widths = [first_code, [Integer(hmtx.for(cmap[first_code]).advance_width * scale_factor)]] 
-          prev_code = first_code
-          codes.each do |code|
-            unless code == prev_code + 1
-              widths << code
-              widths << []
-            end
-            widths.last << Integer(hmtx.for(cmap[code]).advance_width * scale_factor )
-            prev_code = code
-          end
-          widths
-        end
-
         def bbox
           @bbox ||= @ttf.bbox.map { |i| Integer(i * scale_factor) }
         end
@@ -423,8 +399,6 @@ module Prawn
           max = cmap.code_map.keys.max
           (0..max).map { |cid| cmap[cid] }.pack("n*")
         end
-
-        private
 
         def hmtx
           @hmtx ||= @ttf.horizontal_metrics

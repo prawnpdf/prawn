@@ -123,8 +123,6 @@ module Prawn
     # The current font family
     attr_reader :family
   
-    attr_reader  :reference #:nodoc:
-    
     # Sets the size of the current font:
     #
     #   font.size = 16
@@ -142,7 +140,7 @@ module Prawn
       @size       = DEFAULT_SIZE
       @identifier = :"F#{@document.font_registry.size + 1}"
 
-      @reference = nil
+      @references = {}
     end     
 
     def identifier_for(subset)
@@ -235,19 +233,18 @@ module Prawn
     end
                  
     def add_to_current_page(subset) #:nodoc:
-      embed!(subset) unless @reference
-      @document.page_fonts.merge!(identifier_for(subset) => @reference)
+      @document.page_fonts.merge!(identifier_for(subset) => embed(subset))
     end              
     
     private
 
-    def embed!(subset)
-      case(name)
-      when /\.ttf$/i
-        @reference = @document.ref(:Type => :Font) { |ref| embed_ttf(subset) }
-      else
-        register_builtin(name)
-      end  
+    def embed(subset)
+      @references[subset] ||= case(name)
+        when /\.ttf$/i
+          @document.ref(:Type => :Font) { |ref| embed_ttf(subset) }
+        else
+          register_builtin(name)
+        end  
     end
 
     # built-in fonts only work with winansi encoding, so translate the string
@@ -289,23 +286,23 @@ module Prawn
         raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
       end      
       
-      @reference = @document.ref( :Type     => :Font,
-                                  :Subtype  => :Type1,
-                                  :BaseFont => name.to_sym,
-                                  :Encoding => :WinAnsiEncoding)                                                   
-    end    
+      return @document.ref(:Type     => :Font,
+                           :Subtype  => :Type1,
+                           :BaseFont => name.to_sym,
+                           :Encoding => :WinAnsiEncoding)
+    end
 
     def embed_ttf(subset)
-      # FIXME: this is a lot of work to do (parsing the font subset that we just
-      # built) just so we can get the postscript name. Maybe Subset#encode should
-      # return a hash that includes both the encoded contents of the subset, and
-      # the postscript name?
-      font = TTFunk::File.new(@metrics.subsets[subset].encode)
+      font_content = @metrics.subsets[subset].encode
+
+      # FIXME: we need postscript_name and glyph widths from the font
+      # subset. Perhaps this could be done by querying the subset,
+      # rather than by parsing the font that the subset produces?
+      font = TTFunk::File.new(font_content)
       basename = font.name.postscript_name
 
       raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-      font_content = font.contents.string
       compressed_font = Zlib::Deflate.deflate(font_content)
 
       fontfile = @document.ref(:Length => compressed_font.size,
@@ -314,7 +311,7 @@ module Prawn
       fontfile << compressed_font
 
       descriptor = @document.ref(:Type        => :FontDescriptor,
-                                 :FontName    => basename,
+                                 :FontName    => basename.to_sym,
                                  :FontFile2   => fontfile,
                                  :FontBBox    => @metrics.bbox,
                                  :Flags       => @metrics.pdf_flags,
@@ -325,10 +322,18 @@ module Prawn
                                  :CapHeight   => @metrics.cap_height,
                                  :XHeight     => @metrics.x_height)
 
-      @reference.data.update(:Subtype => :TrueType,
+      hmtx = font.horizontal_metrics
+      scale = @metrics.scale_factor
+      widths = font.cmap.tables.first.code_map.map { |gid|
+        Integer(hmtx.widths[gid] * scale) }
+
+      @references[subset].data.update(:Subtype => :TrueType,
                              :Basefont => basename.to_sym,
                              :Encoding => :MacRomanEncoding,
-                             :FontDescriptor => descriptor)
+                             :FontDescriptor => descriptor,
+                             :FirstChar => 0,
+                             :LastChar => 255,
+                             :Widths => @document.ref(widths))
     end                              
 
   end
