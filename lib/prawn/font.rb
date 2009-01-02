@@ -334,7 +334,47 @@ module Prawn
                              :FirstChar => 0,
                              :LastChar => 255,
                              :Widths => @document.ref(widths))
+
+      if @metrics.subsets[subset].unicode?
+        map = @metrics.subsets[subset].to_unicode_map
+
+        entries = map.length
+        lines = map.keys.sort.inject("") do |s, code|
+          unicode = map[code]
+          s << "<%02x> <%02x>\n" % [code, unicode]
+        end
+
+        to_unicode_cmap = UNICODE_CMAP_TEMPLATE % [entries, lines.strip]
+        cmap = @document.ref(:Length => to_unicode_cmap.length)
+        cmap << to_unicode_cmap
+        cmap.compress_stream
+
+        @references[subset].data[:ToUnicode] = cmap
+      end
     end                              
+
+    UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, "")
+      /CIDInit /ProcSet findresource begin
+      12 dict begin
+      begincmap
+      /CIDSystemInfo
+      << /Registry (Adobe)
+      /Ordering (UCS)
+      /Supplement 0
+      >> def
+      /CMapName /Adobe-Identity-UCS def
+      /CMapType 2 def
+      1 begincodespacerange
+      <00> <ff>
+      endcodespacerange
+      %d beginbfchar
+      %s
+      endbfchar
+      endcmap
+      CMapName currentdict /CMap defineresource pop
+      end
+      end
+    STR
 
   end
    
