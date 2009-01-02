@@ -15,7 +15,7 @@ module Prawn
    attr_accessor :gen, :data, :offset
    attr_reader :identifier, :stream
     
-    def initialize(id,data, &block)
+    def initialize(id, data, &block)
       @identifier = id 
       @gen   = 0       
       @data  = data     

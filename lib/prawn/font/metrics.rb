@@ -10,6 +10,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'prawn/encoding'
+require 'ttfunk/subset_collection'
 
 module Prawn
   class Font 
@@ -98,7 +99,7 @@ module Prawn
           
           kerned.map { |r| 
             i = r.is_a?(Array) ? r.pack("C*") : r 
-            i.force_encoding("ISO-8859-1") if i.respond_to?(:force_encoding)
+            i.force_encoding("Windows-1252") if i.respond_to?(:force_encoding)
             i.is_a?(Numeric) ? -i : i
           }                        
         end
@@ -154,13 +155,19 @@ module Prawn
           false
         end
 
-        # perform any changes to the string that need to happen
-        # before it is rendered to the canvas
+        # Perform any changes to the string that need to happen
+        # before it is rendered to the canvas. Returns an array of
+        # subset "chunks", where each chunk is an array of two elements.
+        # The first element is the font subset number, and the second
+        # is either a string or an array (for kerned text).
         #
-        # String *must* be encoded as WinAnsi       
+        # For Adobe fonts, there is only ever a single subset, so
+        # the first element of the array is "0", and the second is
+        # the string itself (or an array, if kerning is performed).
         #
-        def convert_text(text, options={})
-          options[:kerning] ? kern(text) : text
+        # The +text+ parameter must be in WinAnsi encoding (cp1252).
+        def encode_text(text, options={})
+          [[0, options[:kerning] ? kern(text) : text]]
         end
 
         private
@@ -215,11 +222,12 @@ module Prawn
       end
 
       class TTF < Metrics #:nodoc:  
-        
-        attr_accessor :ttf
+
+        attr_reader :ttf, :subsets
         
         def initialize(font)
-          @ttf = TTFunk::File.new(font)
+          @ttf              = TTFunk::File.open(font)
+          @subsets          = TTFunk::SubsetCollection.new(@ttf)
           @attributes       = {}
           @bounding_boxes   = {} 
           @char_widths      = {}   
@@ -230,14 +238,15 @@ module Prawn
           @cmap ||= @ttf.cmap.unicode.first or raise("no unicode cmap for font")
         end
         
+        # +string+ must be UTF8-encoded.
         def string_width(string, font_size, options = {})
           scale = font_size / 1000.0
           if options[:kerning]
-            kern(string,:skip_conversion => true).inject(0) do |s,r|
-              if r.is_a? String  
-                s + string_width(r, font_size, :kerning => false)
-              else 
+            kern(string).inject(0) do |s,r|
+              if r.is_a?(Numeric)
                 s + r * scale
+              else 
+                r.inject(s) { |s, u| s + character_width_by_code(u) } * scale
               end
             end
           else
@@ -247,37 +256,26 @@ module Prawn
           end
         end   
         
-        # TODO: NASTY. 
-        def kern(string,options={})   
+        # +string+ must be UTF8-encoded.
+        #
+        # Returns an array. If an element is a numeric, it represents the
+        # kern amount to inject at that position. Otherwise, the element
+        # is an array of UTF-16 characters.
+        def kern(string)
           a = []
           
           string.unpack("U*").each do |r|
-            if a.last.is_a? Array
-              if kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]] 
-                kern *= scale_factor
-                a << kern << [r]
-              else
-                a.last << r
-              end
-            else
+            if a.empty?
               a << [r]
-            end
-            a
-          end
-          
-          a.map { |r| 
-            if options[:skip_conversion]
-              r.is_a?(Array) ? r.pack("U*") : r
+            elsif (kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]])
+              kern *= scale_factor
+              a << -kern << [r]
             else
-              i = r.is_a?(Array) ? r.pack("U*") : r 
-              x = if i.is_a?(String)
-                i.unpack("U*").pack("n*")
-              else
-                i
-              end
-              x.is_a?(Numeric) ? -x : x 
+              a.last << r
             end
-          }
+          end
+
+          a
         end
 
         # TODO: optimize resulting array further by compressing identical widths
@@ -336,12 +334,41 @@ module Prawn
           true
         end
 
-        def convert_text(text,options)
+        # Perform any changes to the string that need to happen
+        # before it is rendered to the canvas. Returns an array of
+        # subset "chunks", where the even-numbered indices are the
+        # font subset number, and the following entry element is
+        # either a string or an array (for kerned text).
+        #
+        # The +text+ parameter must be UTF8-encoded.
+        def encode_text(text,options={})
           text = text.chomp
-          if options[:kerning] 
-            kern(text)         
-          else     
-            text.unpack("U*").pack("n*")
+
+          if options[:kerning]
+            last_subset = nil
+            kern(text).inject([]) do |result, element| 
+              if element.is_a?(Numeric)
+                result.last[1] = [result.last[1]] unless result.last[1].is_a?(Array)
+                result.last[1] << element
+                result
+              else
+                encoded = @subsets.encode(element)
+
+                if encoded.first[0] == last_subset
+                  result.last[1] << encoded.first[1]
+                  encoded.shift
+                end
+
+                if encoded.any?
+                  last_subset = encoded.last[0]
+                  result + encoded
+                else
+                  result
+                end
+              end
+            end
+          else
+            @subsets.encode(text.unpack("U*"))
           end
         end
         

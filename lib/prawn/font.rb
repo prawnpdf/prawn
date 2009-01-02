@@ -35,8 +35,6 @@ module Prawn
       end
       
       @font = find_font(name, options)
-      @font.add_to_current_page
-     
       @font.size = options[:size] if options[:size]
       
       if block_given?
@@ -125,7 +123,7 @@ module Prawn
     # The current font family
     attr_reader :family
   
-    attr_reader  :identifier, :reference #:nodoc:
+    attr_reader  :reference #:nodoc:
     
     # Sets the size of the current font:
     #
@@ -142,11 +140,15 @@ module Prawn
       
       @document.proc_set :PDF, :Text  
       @size       = DEFAULT_SIZE
-      @identifier = :"F#{@document.font_registry.size + 1}"  
+      @identifier = :"F#{@document.font_registry.size + 1}"
 
       @reference = nil
     end     
-    
+
+    def identifier_for(subset)
+      "#{@identifier}.#{subset}"
+    end
+
     def inspect
       "Prawn::Font< #{name}: #{size} >"
     end
@@ -232,17 +234,17 @@ module Prawn
       end 
     end
                  
-    def add_to_current_page #:nodoc:
-      embed! unless @reference
-      @document.page_fonts.merge!(@identifier => @reference)
+    def add_to_current_page(subset) #:nodoc:
+      embed!(subset) unless @reference
+      @document.page_fonts.merge!(identifier_for(subset) => @reference)
     end              
     
     private
 
-    def embed!
+    def embed!(subset)
       case(name)
       when /\.ttf$/i
-        @reference = @document.ref(:Type => :Font) { |ref| embed_ttf }
+        @reference = @document.ref(:Type => :Font) { |ref| embed_ttf(subset) }
       else
         register_builtin(name)
       end  
@@ -293,35 +295,17 @@ module Prawn
                                   :Encoding => :WinAnsiEncoding)                                                   
     end    
 
-    IDENTITY_UNICODE_CMAP = <<-STR.strip.gsub(/^\s*/, "")
-      /CIDInit /ProcSet findresource begin
-      12 dict begin
-      begincmap
-      /CIDSystemInfo
-      << /Registry (Adobe)
-      /Ordering (UCS)
-      /Supplement 0
-      >> def
-      /CMapName /Adobe-Identity-UCS def
-      /CMapType 2 def
-      1 begincodespacerange
-      <0000> <ffff>
-      endcodespacerange
-      1 beginbfrange
-      <0000> <ffff> <0000>
-      endbfrange
-      endcmap
-      CMapName currentdict /CMap defineresource pop
-      end
-      end
-    STR
-
-    def embed_ttf
-      basename = @metrics.basename
+    def embed_ttf(subset)
+      # FIXME: this is a lot of work to do (parsing the font subset that we just
+      # built) just so we can get the postscript name. Maybe Subset#encode should
+      # return a hash that includes both the encoded contents of the subset, and
+      # the postscript name?
+      font = TTFunk::File.new(@metrics.subsets[subset].encode)
+      basename = font.name.postscript_name
 
       raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-      font_content = @metrics.ttf.contents.string
+      font_content = font.contents.string
       compressed_font = Zlib::Deflate.deflate(font_content)
 
       fontfile = @document.ref(:Length => compressed_font.size,
@@ -329,9 +313,6 @@ module Prawn
                                :Filter => :FlateDecode )
       fontfile << compressed_font
 
-      # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
-      # pick it up. Missing proper StemV and flags
-      #
       descriptor = @document.ref(:Type        => :FontDescriptor,
                                  :FontName    => basename,
                                  :FontFile2   => fontfile,
@@ -344,31 +325,10 @@ module Prawn
                                  :CapHeight   => @metrics.cap_height,
                                  :XHeight     => @metrics.x_height)
 
-
-      cid_to_gid_map_data = @metrics.cid_to_gid_map
-      cid_to_gid_map = @document.ref(:Length => cid_to_gid_map_data.length)
-      cid_to_gid_map << cid_to_gid_map_data
-      cid_to_gid_map.compress_stream
-
-      descendant = @document.ref(:Type           => :Font,
-                                 :Subtype        => :CIDFontType2, # CID, TTF
-                                 :BaseFont       => basename.to_sym,
-                                 :CIDSystemInfo  => { :Registry   => "Adobe",
-                                                      :Ordering   => "Identity",
-                                                      :Supplement => 0 },
-                                 :FontDescriptor => descriptor,
-                                 :W              => @metrics.glyph_widths,
-                                 :CIDToGIDMap    => cid_to_gid_map)
-
-      to_unicode = @document.ref(:Length => IDENTITY_UNICODE_CMAP.length)
-      to_unicode << IDENTITY_UNICODE_CMAP
-      to_unicode.compress_stream
-
-      @reference.data.update(:Subtype         => :Type0,
-                             :BaseFont        => basename.to_sym,
-                             :DescendantFonts => [descendant],
-                             :Encoding        => :"Identity-H",
-                             :ToUnicode       => to_unicode)
+      @reference.data.update(:Subtype => :TrueType,
+                             :Basefont => basename.to_sym,
+                             :Encoding => :MacRomanEncoding,
+                             :FontDescriptor => descriptor)
     end                              
 
   end
