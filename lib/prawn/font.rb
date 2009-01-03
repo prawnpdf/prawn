@@ -338,16 +338,19 @@ module Prawn
       if @metrics.subsets[subset].unicode?
         map = @metrics.subsets[subset].to_unicode_map
 
-        # FIXME: beginbfchar and beginbfrange can take no more than 100
-        # items at a time. Thus, we should chunk this into segments of
-        # 100 mappings and emit separate bfchar blocks for each chunk.
-        entries = map.length
+        ranges = [[]]
         lines = map.keys.sort.inject("") do |s, code|
+          ranges << [] if ranges.last.length >= 100
           unicode = map[code]
-          s << "<%04x> <%04x>\n" % [code, unicode]
+          ranges.last << "<%04x> <%04x>" % [code, unicode]
+        end
+  
+        range_blocks = ranges.inject("") do |s, list|
+          s << "%d beginbfchar\n%s\nendbfchar\n" % [list.length, list.join("\n")]
         end
 
-        to_unicode_cmap = UNICODE_CMAP_TEMPLATE % [entries, lines.strip]
+        to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
+
         cmap = @document.ref({})
         cmap << to_unicode_cmap
         cmap.compress_stream
@@ -370,9 +373,7 @@ module Prawn
       1 begincodespacerange
       <0000> <ffff>
       endcodespacerange
-      %d beginbfchar
       %s
-      endbfchar
       endcmap
       CMapName currentdict /CMap defineresource pop
       end
