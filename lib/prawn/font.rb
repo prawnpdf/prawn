@@ -329,7 +329,6 @@ module Prawn
 
       @references[subset].data.update(:Subtype => :TrueType,
                              :BaseFont => basename.to_sym,
-                             :Encoding => :MacRomanEncoding,
                              :FontDescriptor => descriptor,
                              :FirstChar => 0,
                              :LastChar => 255,
@@ -342,7 +341,7 @@ module Prawn
         lines = map.keys.sort.inject("") do |s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
-          ranges.last << "<%04x> <%04x>" % [code, unicode]
+          ranges.last << "<%02x><%04x>" % [code, unicode]
         end
   
         range_blocks = ranges.inject("") do |s, list|
@@ -356,6 +355,8 @@ module Prawn
         cmap.compress_stream
 
         @references[subset].data[:ToUnicode] = cmap
+      else
+        @references[subset].data[:Encoding] = :MacRomanEncoding
       end
     end                              
 
@@ -363,15 +364,15 @@ module Prawn
       /CIDInit /ProcSet findresource begin
       12 dict begin
       begincmap
-      /CIDSystemInfo
-      << /Registry (Adobe)
-      /Ordering (UCS)
-      /Supplement 0
+      /CIDSystemInfo <<
+        /Registry (Adobe)
+        /Ordering (UCS)
+        /Supplement 0
       >> def
       /CMapName /Adobe-Identity-UCS def
       /CMapType 2 def
       1 begincodespacerange
-      <0000> <ffff>
+      <00><ff>
       endcodespacerange
       %s
       endcmap
