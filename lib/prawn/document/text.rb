@@ -182,9 +182,10 @@ module Prawn
       end  
 
       def add_text_content(text, x, y, options)
-        chunks = font.metrics.encode_text(text,options)
+        text = font.metrics.convert_text(text,options)
 
         add_content "\nBT"
+        add_content "/#{font.identifier} #{font.size} Tf"
         if options[:rotate]
           rad = options[:rotate].to_i * Math::PI / 180
           arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
@@ -192,14 +193,9 @@ module Prawn
         else
           add_content "#{x} #{y} Td"
         end
-
-        chunks.each do |(subset, string)|
-          font.add_to_current_page(subset)
-          add_content "/#{font.identifier_for(subset)} #{font.size} Tf"
-
-          operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
-          add_content Prawn::PdfObject(string, true) << " " << operation
-        end
+        rad = 1.570796
+        add_content Prawn::PdfObject(text, true) <<
+          " #{options[:kerning] ? 'TJ' : 'Tj'}"
         add_content "ET\n"
       end
     end

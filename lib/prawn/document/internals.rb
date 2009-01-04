@@ -17,13 +17,8 @@ module Prawn
     module Internals    
       # Creates a new Prawn::Reference and adds it to the Document's object
       # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.    
-      # 
-      # If a block is given, it will be invoked just before the object is written
-      # out to the PDF document stream. This allows you to do deferred processing
-      # on some references (such as fonts, which you might know all the details
-      # about until the last page of the document is finished).
-      def ref(data, &block)
-        @objects.push(Prawn::Reference.new(@objects.size + 1, data, &block)).last
+      def ref(data)
+        @objects.push(Prawn::Reference.new(@objects.size + 1, data)).last
       end                                               
       
       # Appends a raw string to the current page content.
@@ -108,7 +103,7 @@ module Prawn
         end
       end
 
-      # Write out the PDF Trailer, as per spec 3.4.4
+      # Write out the PDF Body, as per spec 3.4.4
       def render_trailer(output)
         trailer_hash = {:Size => @objects.size + 1, 
                         :Root => @root,

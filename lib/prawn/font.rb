@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/font/wrapping"       
 require "prawn/font/metrics"
+require "prawn/font/cmap" 
 
 module Prawn 
   
@@ -35,6 +36,8 @@ module Prawn
       end
       
       @font = find_font(name, options)
+      @font.add_to_current_page
+     
       @font.size = options[:size] if options[:size]
       
       if block_given?
@@ -123,6 +126,8 @@ module Prawn
     # The current font family
     attr_reader :family
   
+    attr_reader  :identifier, :reference #:nodoc:
+    
     # Sets the size of the current font:
     #
     #   font.size = 16
@@ -138,15 +143,11 @@ module Prawn
       
       @document.proc_set :PDF, :Text  
       @size       = DEFAULT_SIZE
-      @identifier = :"F#{@document.font_registry.size + 1}"
+      @identifier = :"F#{@document.font_registry.size + 1}"  
 
-      @references = {}
+      @reference = nil
     end     
-
-    def identifier_for(subset)
-      "#{@identifier}.#{subset}"
-    end
-
+    
     def inspect
       "Prawn::Font< #{name}: #{size} >"
     end
@@ -232,19 +233,20 @@ module Prawn
       end 
     end
                  
-    def add_to_current_page(subset) #:nodoc:
-      @document.page_fonts.merge!(identifier_for(subset) => embed(subset))
+    def add_to_current_page #:nodoc:
+      embed! unless @reference
+      @document.page_fonts.merge!(@identifier => @reference)
     end              
     
     private
 
-    def embed(subset)
-      @references[subset] ||= case(name)
-        when /\.ttf$/i
-          @document.ref(:Type => :Font) { |ref| embed_ttf(subset) }
-        else
-          register_builtin(name)
-        end  
+    def embed!
+      case(name)
+      when /\.ttf$/i
+        embed_ttf(name)
+      else
+        register_builtin(name)
+      end  
     end
 
     # built-in fonts only work with winansi encoding, so translate the string
@@ -286,23 +288,28 @@ module Prawn
         raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
       end      
       
-      return @document.ref(:Type     => :Font,
-                           :Subtype  => :Type1,
-                           :BaseFont => name.to_sym,
-                           :Encoding => :WinAnsiEncoding)
-    end
+      @reference = @document.ref( :Type     => :Font,
+                                  :Subtype  => :Type1,
+                                  :BaseFont => name.to_sym,
+                                  :Encoding => :WinAnsiEncoding)                                                   
+    end    
+    
+    def embed_ttf(file)
+      unless File.file?(file)
+        raise ArgumentError, "file #{file} does not exist"
+      end
 
-    def embed_ttf(subset)
-      font_content = @metrics.subsets[subset].encode
-
-      # FIXME: we need postscript_name and glyph widths from the font
-      # subset. Perhaps this could be done by querying the subset,
-      # rather than by parsing the font that the subset produces?
-      font = TTFunk::File.new(font_content)
-      basename = font.name.postscript_name
+      basename = @metrics.basename
 
       raise "Can't detect a postscript name for #{file}" if basename.nil?
 
+      @encodings = @metrics.cmap
+
+      if @encodings.nil?
+        raise "#{file} missing the required encoding table"
+      end
+
+      font_content = File.open(file,"rb") { |f| f.read }
       compressed_font = Zlib::Deflate.deflate(font_content)
 
       fontfile = @document.ref(:Length => compressed_font.size,
@@ -310,76 +317,45 @@ module Prawn
                                :Filter => :FlateDecode )
       fontfile << compressed_font
 
+      # TODO: Not sure what to do about CapHeight, as ttf2afm doesn't
+      # pick it up. Missing proper StemV and flags
+      #
       descriptor = @document.ref(:Type        => :FontDescriptor,
-                                 :FontName    => basename.to_sym,
+                                 :FontName    => basename,
                                  :FontFile2   => fontfile,
                                  :FontBBox    => @metrics.bbox,
-                                 :Flags       => @metrics.pdf_flags,
-                                 :StemV       => @metrics.stemV,
-                                 :ItalicAngle => @metrics.italic_angle,
+                                 :Flags       => 32, # FIXME: additional flags
+                                 :StemV       => 0,
+                                 :ItalicAngle => 0,
                                  :Ascent      => @metrics.ascender,
-                                 :Descent     => @metrics.descender,
-                                 :CapHeight   => @metrics.cap_height,
-                                 :XHeight     => @metrics.x_height)
+                                 :Descent     => @metrics.descender )    
 
-      hmtx = font.horizontal_metrics
-      scale = @metrics.scale_factor
-      widths = font.cmap.tables.first.code_map.map { |gid|
-        Integer(hmtx.widths[gid] * scale) }
+      descendant = @document.ref(:Type           => :Font,
+                                 :Subtype        => :CIDFontType2, # CID, TTF
+                                 :BaseFont       => basename,
+                                 :CIDSystemInfo  => { :Registry   => "Adobe",
+                                                      :Ordering   => "Identity",
+                                                      :Supplement => 0 },
+                                 :FontDescriptor => descriptor,
+                                 :W              => @metrics.glyph_widths,
+                                 :CIDToGIDMap    => :Identity ) 
 
-      @references[subset].data.update(:Subtype => :TrueType,
-                             :BaseFont => basename.to_sym,
-                             :FontDescriptor => descriptor,
-                             :FirstChar => 0,
-                             :LastChar => 255,
-                             :Widths => @document.ref(widths))
+      to_unicode_content = @metrics.to_unicode_cmap.to_s
+      compressed_to_unicode = Zlib::Deflate.deflate(to_unicode_content)   
+      
+      to_unicode = @document.ref(:Length  => compressed_to_unicode.size,
+                                 :Length1 => to_unicode_content.size,
+                                 :Filter  => :FlateDecode )
+      to_unicode << compressed_to_unicode
 
-      if @metrics.subsets[subset].unicode?
-        map = @metrics.subsets[subset].to_unicode_map
+      @reference = @document.ref(:Type            => :Font,
+                                 :Subtype         => :Type0,
+                                 :BaseFont        => basename,
+                                 :DescendantFonts => [descendant],
+                                 :Encoding        => :"Identity-H",
+                                 :ToUnicode       => to_unicode)
 
-        ranges = [[]]
-        lines = map.keys.sort.inject("") do |s, code|
-          ranges << [] if ranges.last.length >= 100
-          unicode = map[code]
-          ranges.last << "<%02x><%04x>" % [code, unicode]
-        end
-  
-        range_blocks = ranges.inject("") do |s, list|
-          s << "%d beginbfchar\n%s\nendbfchar\n" % [list.length, list.join("\n")]
-        end
-
-        to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
-
-        cmap = @document.ref({})
-        cmap << to_unicode_cmap
-        cmap.compress_stream
-
-        @references[subset].data[:ToUnicode] = cmap
-      else
-        @references[subset].data[:Encoding] = :MacRomanEncoding
-      end
     end                              
-
-    UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, "")
-      /CIDInit /ProcSet findresource begin
-      12 dict begin
-      begincmap
-      /CIDSystemInfo <<
-        /Registry (Adobe)
-        /Ordering (UCS)
-        /Supplement 0
-      >> def
-      /CMapName /Adobe-Identity-UCS def
-      /CMapType 2 def
-      1 begincodespacerange
-      <00><ff>
-      endcodespacerange
-      %s
-      endcmap
-      CMapName currentdict /CMap defineresource pop
-      end
-      end
-    STR
 
   end
    
