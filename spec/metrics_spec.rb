@@ -45,18 +45,15 @@ describe "ttf font metrics" do
   end
   
   it "should kern a string" do
-    @activa.kern("To").should == ["\0007", 186.0, "\000R"]
+    @activa.kern("To").should == [[84], 186.0, [111]]
     
     # Does activa use kerning classes here? Ruby/TTF doesn't support
     # format 2 kerning tables, so don't bother for now.
     
     # @activa.kern("Télé").should == ["T", -186, "élé"]
     
-    @activa.kern("Technology").should == ["\0007", 186.0, 
-      "\000H\000F\000K\000Q\000R\000O\000R\000J\000\\"]
-    @activa.kern("Technology...").should == ["\0007", 186.0,
-       "\000H\000F\000K\000Q\000R\000O\000R\000J\000\\", 88.0, 
-       "\000\021\000\021\000\021"] 
+    @activa.kern("Technology").should == [[84], 186.0, [101, 99, 104, 110, 111, 108, 111, 103, 121]]
+    @activa.kern("Technology...").should == [[84], 186.0, [101, 99, 104, 110, 111, 108, 111, 103, 121], 88.0, [46, 46, 46]]
   end
   
 end

@@ -239,9 +239,12 @@ module Prawn
     private
 
     def embed(subset)
-      @references[subset] ||= case(name)
-        when /\.ttf$/i
-          @document.ref(:Type => :Font) { |ref| embed_ttf(subset) }
+      @references[subset] ||= if @metrics.type0?
+          # The BaseFont value here is used only for testing. When the font is
+          # actually embedded, we'll replace the BaseFont value with the actual
+          # name of the font subset
+          temp_name = @metrics.ttf.name.postscript_name
+          @document.ref(:Type => :Font, :BaseFont => temp_name) { |ref| embed_ttf(subset) }
         else
           register_builtin(name)
         end  
@@ -311,7 +314,7 @@ module Prawn
       fontfile << compressed_font
 
       descriptor = @document.ref(:Type        => :FontDescriptor,
-                                 :FontName    => basename.to_sym,
+                                 :FontName    => basename,
                                  :FontFile2   => fontfile,
                                  :FontBBox    => @metrics.bbox,
                                  :Flags       => @metrics.pdf_flags,
@@ -328,7 +331,7 @@ module Prawn
         Integer(hmtx.widths[gid] * scale) }
 
       @references[subset].data.update(:Subtype => :TrueType,
-                             :BaseFont => basename.to_sym,
+                             :BaseFont => basename,
                              :FontDescriptor => descriptor,
                              :FirstChar => 0,
                              :LastChar => 255,
