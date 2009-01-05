@@ -342,7 +342,7 @@ Each new page can have its own set of these options:
   Prawn::Document.generate("page_creation.pdf") do
     text "First Page, with default settings"
 
-    start_new_page(:page_layout => :landscape, :page_size => "A4")
+    start_new_page(:layout => :landscape, :size => "A4")
     text "Now on a landscaped A4 page"
   end
 
@@ -809,11 +809,161 @@ need to render, Prawn will have no trouble producing your text.
 
 === Selecting Your Font ===
 
-Not Blank
+By default, Prawn will use Helvetica at size 12.  If you want to use another
+font, you'll need to specify it.  For built in fonts, this is as easy as
+referring to them by name.  Here's a little example that summarizes most of the
+basics:
+
+------------------------------------------------------------------------------
+
+  Prawn::Document.generate("fonts.pdf") do
+    text "A cheer for Helvetica"
+    
+    font "Courier"
+    text "A Couri-yay for Courier"
+    
+    font "Times-Bold", :size => 8
+    text "A little greeting to bold times"
+    
+    font "Helvetica"
+    text "Back to the old grind (at 12pt!)"
+
+    font "Times-Bold"
+    text "Still at 8 point here"
+  end   
+
+------------------------------------------------------------------------------
+
+If we were to use TTF fonts instead, we need to specify a path to the file,
+either absolute or relative to the current working directory.  You'll often see
+us reference some of the files included with Prawn for demonstration purposes
+this way:
+
+------------------------------------------------------------------------------
+
+  Prawn::Document.generate("fonts.pdf") do
+    font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+    text "Hi there"
+  end   
+
+------------------------------------------------------------------------------
+
+Though this is pretty simple stuff, there are a few things you might want to
+make a note of when using +font()+.  The first is that font names are case
+sensitive.  If you use "courier" instead of "Courier", Prawn will become sad
+with you.  Furthermore, when using TTF fonts, your font name must end in the
+.ttf extension, otherwise Prawn will not detect it as a valid font.
+
+The other thing to notice is that current font size is stored by font in Prawn.
+The default size for all fonts is 12, but when we change it in the way shown
+previously, it affects things globally for that particular font.  If you run the
+example, you'll see that the Courier and Helvetica text is rendered at 12 point,
+but the Times-Bold is rendered at 8 point even without explictly specifying it
+the second time around.
+
+If we want to do things in a non-global way, it is possible to do so.  
+
+------------------------------------------------------------------------------
+
+  Prawn::Document.generate("fonts.pdf") do
+    font "Courier" do
+      font.size(20) do
+        text "Some fixed width text with a nice big font"
+      end
+    end
+
+    text "Some 12 point Helvetica here"
+
+    font "Courier" do
+      text "Some 12 point courier here"
+    end
+  end   
+
+------------------------------------------------------------------------------
+
+Note we needed to set the font size in a special way here.  Future versions of
+Prawn will roll back the :size option when passed to +font()+, but this workaround
+is currently needed.
+
+Of course, +font.size+ is useful even within a single font face.  Like +font()+,
+you can use it both globally and transactionally:
+
+------------------------------------------------------------------------------
+
+  Prawn::Document.generate("fonts.pdf") do
+    text "Helvetica 12"
+
+    font.size(16) do
+      text "Helvetica 16"
+      text "Helvetica 32", :size => 32
+    end
+
+    text "Helvetica 12"
+
+    font.size = 40
+
+    text "Helvetica 40"
+  end   
+
+------------------------------------------------------------------------------
+
+Since there a lot of different use cases here, Prawn provides a lot of ways to
+work with font sizes.  Feel free to choose the ones that seem most well suited
+to your needs.
 
 === Font Families and Styling ===
 
-Not Blank
+Setting typefaces and font sizes isn't all you can do in Prawn.  You can also
+group several fonts together to form a family, simplifying some styling tasks.
+Though this support is fairly basic in Prawn 0.3, it is currently being improved 
+and is worth knowing about even in its limited capability.
+
+Prawn automatically groups the built-in fonts into families.  This means you can
+specify the base name of a family and get all of its styles:
+
+------------------------------------------------------------------------------
+
+  Prawn::Document.generate("fonts.pdf") do
+    %w[Helvetica Courier Times-Roman].each do |name|
+      [:normal, :bold, :italic, :bold_italic].each do |s|   
+        font name
+        text "Hello World", :style => s
+      end
+    end
+  end   
+
+------------------------------------------------------------------------------
+
+You can do this globally via +font()+, or per string with +text()+. If you are
+okay with using the built in fonts, this is all you need to know.  However, if
+you want to make use of TTF fonts, you'll need to know how to register a family
+manually.
+
+Luckily, this is quite easy to do.  We literally just match up style names with
+font files.
+
+------------------------------------------------------------------------------
+
+  Prawn::Document.generate("fonts.pdf") do
+    font_families.update(
+     "MyTrueTypeFamily" => { :bold        => "foo-bold.ttf",
+                             :italic      => "foo-italic.ttf",
+                             :bold_italic => "foo-bold-italic.ttf",
+                             :normal      => "foo.ttf" })
+
+
+    font("MyTrueTypeFamily")
+    text "Some bold text", :style => :bold
+    text "Some normal text"
+  end
+
+------------------------------------------------------------------------------
+
+It's also worth mentioning that style names are entirely based on convention.
+If you want to create a style named +:happy_kitten_puppies+, it'd work fine.
+However, by using +:normal+, +:bold+, +:italic+, and +:bold_italic+, you might
+be able to take advantage of some assumptions made by Prawn in other
+places.
 
 == Spans and Bounding Boxes ==
 
@@ -824,6 +974,8 @@ Not Blank
 Not Blank
 
 == Working With Images ==
+
+Not Blank
 
 == Common Mistakes ==
 
