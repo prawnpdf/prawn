@@ -7,7 +7,7 @@ describe "adobe font metrics" do
   
   setup do
     @times = Prawn::Font::Metrics["Times-Roman"]
-    @iconv = ::Iconv.new('ISO-8859-1', 'utf-8')
+    @iconv = ::Iconv.new('Windows-1252', 'utf-8')
   end
   
   it "should calculate string width taking into account accented characters" do
