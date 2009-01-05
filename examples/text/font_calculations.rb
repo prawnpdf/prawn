@@ -9,13 +9,13 @@ require 'prawn'
 
 Prawn::Document.generate('font_calculations.pdf') do
   
-  def demonstration(pos)
+  def demonstration
     move_down 10
 
     stroke_horizontal_rule
 
     text "When using flowing text, Prawn will position text\n" +
-         "starting font.#{pos} below the baseline, and leave\n" +
+         "starting font.height below the baseline, and leave\n" +
          "the y-cursor at the baseline of the next line of text"
 
     stroke_horizontal_rule
@@ -81,11 +81,11 @@ Prawn::Document.generate('font_calculations.pdf') do
   end
   
   text "Using AFM", :size => 20
-  demonstration("height")
+  demonstration
   
   move_down 75
   font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
   text "Using TTF", :size => 20
-  demonstration("ascender")
+  demonstration
   
 end

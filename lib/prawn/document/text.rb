@@ -153,11 +153,7 @@ module Prawn
           lines = text.lines.to_a
                                                        
           lines.each_with_index do |e,i|         
-            if font.metrics.type0?     
-              move_text_position(font.ascender)
-            else                                     
-              move_text_position(font.height) 
-            end                               
+            move_text_position(font.height) 
                            
             line_width = font.width_of(e)
             case(options[:align]) 
@@ -171,10 +167,6 @@ module Prawn
             end
                                
             add_text_content(e,x,y,options)
-            
-            if font.metrics.type0? && i < lines.length - 1
-              move_text_position(font.height - font.ascender)
-            end
             
             move_text_position(options[:spacing]) if options[:spacing]
           end 
