@@ -244,11 +244,11 @@ module Prawn
           if options[:kerning]
             kern(string).inject(0) do |s,r|
               if r.is_a?(Numeric)
-                s + r * scale
+                s + r
               else 
-                r.inject(s) { |s, u| s + character_width_by_code(u) } * scale
+                r.inject(s) { |s2, u| s2 + character_width_by_code(u) }
               end
-            end
+            end * scale
           else
             string.unpack("U*").inject(0) do |s,r|
               s + character_width_by_code(r)
@@ -263,7 +263,7 @@ module Prawn
         # is an array of UTF-16 characters.
         def kern(string)
           a = []
-          
+
           string.unpack("U*").each do |r|
             if a.empty?
               a << [r]
