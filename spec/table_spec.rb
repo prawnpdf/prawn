@@ -144,6 +144,14 @@ describe "A table's content" do
     pdf.table data
     pdf.page_count.should == 3
   end
+  
+  it "should accurately count columns from data" do
+    # First data row may contain colspan which would hide true column count
+    data = [["Name:",{:text => "Some very long name", :colspan => 5}]]
+    pdf = Prawn::Document.new
+    table = Prawn::Document::Table.new data, pdf
+    table.col_widths.length.should == 6
+  end
     
 end
 

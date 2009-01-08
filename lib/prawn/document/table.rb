@@ -182,7 +182,8 @@ module Prawn
       end
 
       def calculate_column_widths(manual_widths=nil)
-        @col_widths = [0] * @data[0].length    
+        @col_widths = [0] * @data[0].inject(0){ |acc, e| 
+          acc += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1 }
         renderable_data.each do |row|
           row.each_with_index do |cell,i|
             length = cell.to_s.lines.map { |e| 
