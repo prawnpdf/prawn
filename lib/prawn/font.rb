@@ -230,7 +230,7 @@ module Prawn
     # as it will only add the font the first time it is called.
     #
     def add_to_current_page(subset)
-      @references[subset] ||= embed(subset)
+      @references[subset] ||= register(subset)
       @document.page_fonts.merge!(identifier_for(subset) => @references[subset])
     end
   end

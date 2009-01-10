@@ -109,7 +109,7 @@ module Prawn
 
       private
 
-      def embed(subset)
+      def register(subset)
         @document.ref(:Type     => :Font,
                       :Subtype  => :Type1,
                       :BaseFont => name.to_sym,

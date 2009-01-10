@@ -225,12 +225,12 @@ module Prawn
         @scale ||= 1000.0 / @ttf.header.units_per_em
       end
 
-      def embed(subset)
+      def register(subset)
         temp_name = @ttf.name.postscript_name
-        @document.ref(:Type => :Font, :BaseFont => temp_name) { |ref| real_embed(ref, subset) }
+        @document.ref(:Type => :Font, :BaseFont => temp_name) { |ref| embed(ref, subset) }
       end
 
-      def real_embed(reference, subset)
+      def embed(reference, subset)
         font_content = @subsets[subset].encode
 
         # FIXME: we need postscript_name and glyph widths from the font
