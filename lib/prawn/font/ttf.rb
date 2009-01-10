@@ -16,6 +16,10 @@ module Prawn
         @bounding_boxes   = {} 
         @char_widths      = {}   
         @has_kerning_data = @ttf.kerning.exists? && @ttf.kerning.tables.any?
+
+        @ascender         = Integer(@ttf.ascent * scale_factor)
+        @descender        = Integer(@ttf.descent * scale_factor)
+        @line_gap         = Integer(@ttf.line_gap * scale_factor)
       end
 
       # +string+ must be UTF8-encoded.
@@ -38,18 +42,6 @@ module Prawn
       
       def bbox
         @bbox ||= @ttf.bbox.map { |i| Integer(i * scale_factor) }
-      end
-
-      def raw_ascender
-        @raw_ascender ||= Integer(@ttf.ascent * scale_factor)
-      end
-
-      def raw_descender
-        @raw_descender ||= Integer(@ttf.descent * scale_factor)
-      end      
-      
-      def raw_line_gap
-        @raw_line_gap ||= Integer(@ttf.line_gap * scale_factor)
       end
 
       def has_kerning_data?

@@ -39,6 +39,10 @@ module Prawn
         file_name = file_name[0] == ?/ ? file_name : find_font(file_name)
 
         parse_afm(file_name)
+
+        @ascender  = @attributes["ascender"].to_i
+        @descender = @attributes["descender"].to_i
+        @line_gap  = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
       end
 
       def bbox
@@ -66,18 +70,6 @@ module Prawn
             s + latin_glyphs_table[r]
           end * scale
         end
-      end
-
-      def raw_ascender
-        @attributes["ascender"].to_i
-      end
-
-      def raw_descender
-        @attributes["descender"].to_i
-      end
-
-      def raw_line_gap
-        @raw_line_gap ||= Float(bbox[3] - bbox[1]) - (raw_ascender - raw_descender)
       end
 
       def has_kerning_data?

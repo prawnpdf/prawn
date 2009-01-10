@@ -141,6 +141,18 @@ module Prawn
       @references = {}
     end
 
+    def ascender
+      @ascender / 1000.0 * @size
+    end
+
+    def descender
+      @descender / 1000.0 * @size
+    end
+
+    def line_gap
+      @line_gap / 1000.0 * @size
+    end
+
     def identifier_for(subset)
       "#{@identifier}.#{subset}"
     end
@@ -198,7 +210,7 @@ module Prawn
     end
 
     def font_height_at(size)
-      (raw_ascender - raw_descender + raw_line_gap) / 1000.0 * size
+      (@ascender - @descender + @line_gap) / 1000.0 * size
     end
 
     # Gets height of current font in PDF points at current font size
