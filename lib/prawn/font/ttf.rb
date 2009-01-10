@@ -24,7 +24,7 @@ module Prawn
         if options[:kerning]
           kern(string).inject(0) do |s,r|
             if r.is_a?(Numeric)
-              s + r
+              s - r
             else 
               r.inject(s) { |s2, u| s2 + character_width_by_code(u) }
             end

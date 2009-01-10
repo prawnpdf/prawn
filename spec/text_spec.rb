@@ -132,4 +132,31 @@ describe "when drawing text" do
      end
    end 
 
+  it "should wrap text" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+
+    text = "Please wrap this text about HERE. More text that should be wrapped"
+    expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
+
+    @pdf.naive_wrap(text, 220, @pdf.font.size).should == expect
+  end
+
+  it "should respect end of line when wrapping text" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    text = "Please wrap only before\nTHIS word. Don't wrap this"
+    @pdf.naive_wrap(text, 220, @pdf.font.size).should == text
+  end
+
+  it "should respect end of line when wrapping text and mode is set to 'character'" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+
+    text = "You can wrap this text HERE"
+    expect = "You can wrap this text HE\nRE"
+
+    @pdf.naive_wrap(text, 180, @pdf.font.size, :mode => :character).should == expect
+  end     
+  
 end

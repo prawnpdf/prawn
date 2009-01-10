@@ -1,46 +1,15 @@
 # encoding: utf-8
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")           
+require 'iconv'
 
-describe "Font Metrics" do  
+describe "Font behavior" do  
 
   it "should default to Helvetica if no font is specified" do
     @pdf = Prawn::Document.new
-    @pdf.font.metrics.should == Prawn::Font::Metrics["Helvetica"]
+    @pdf.font.name.should == "Helvetica"
   end
 
-  it "should use the currently set font for font_metrics" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-    @pdf.font.metrics.should == Prawn::Font::Metrics["Courier"]
-   
-    comicsans = "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
-    @pdf.font(comicsans)
-    @pdf.font.metrics.should == Prawn::Font::Metrics[comicsans]
-  end 
-
-  it "should wrap text" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-    @pdf.font.metrics.naive_wrap("Please wrap this text about HERE. More text that should be wrapped", 220, @pdf.font.size).should ==
-				 "Please wrap this text about\nHERE. More text that should be\nwrapped"
-  end
-
-  it "should respect end of line when wrapping text" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-    text = "Please wrap only before\nTHIS word. Don't wrap this"
-    @pdf.font.metrics.naive_wrap(text, 220, @pdf.font.size).should == text
-  end
-
-  it "should respect end of line when wrapping text and mode is set to 'character'" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-    opts = {:mode => :character}
-    @pdf.font.metrics.naive_wrap("You can wrap this text HERE", 180, @pdf.font.size, opts).should ==
-				 "You can wrap this text HE\nRE"
-  end     
-  
 end    
 
 describe "font style support" do
@@ -79,18 +48,18 @@ describe "Transactional font handling" do
   end
   
   it "should allow temporary setting of a new font using a transaction" do
-    original = @pdf.font
+    @pdf.font "Helvetica", :size => 12
     
     @pdf.font "Courier", :size => 16 do
       @pdf.font.name.should == "Courier"
       @pdf.font.size.should == 16
     end
     
-    @pdf.font.should == original  
+    @pdf.font.name.should == "Helvetica"
+    @pdf.font.size.should == 12
   end
   
 end
-
 
 describe "Document#page_fonts" do
   before(:each) { create_pdf } 
@@ -128,6 +97,70 @@ describe "Document#page_fonts" do
       
 end
     
-    
-    
-    
+describe "AFM fonts" do
+  
+  setup do
+    create_pdf
+    @times = @pdf.find_font "Times-Roman"
+    @iconv = ::Iconv.new('Windows-1252', 'utf-8')
+  end
+  
+  it "should calculate string width taking into account accented characters" do
+    @times.width_of(@iconv.iconv("é"), :size => 12).should == @times.width_of("e", :size => 12)
+  end
+  
+  it "should calculate string width taking into account kerning pairs" do
+    @times.width_of(@iconv.iconv("To"), :size => 12).should == 13.332
+    @times.width_of(@iconv.iconv("To"), :size => 12, :kerning => true).should == 12.372
+    @times.width_of(@iconv.iconv("Tö"), :size => 12, :kerning => true).should == 12.372
+  end
+
+  it "should encode text without kerning by default" do
+    @times.encode_text(@iconv.iconv("To")).should == [[0, "To"]]
+    @times.encode_text(@iconv.iconv("Télé")).should == [[0, @iconv.iconv("Télé")]]
+    @times.encode_text(@iconv.iconv("Technology")).should == [[0, "Technology"]]
+    @times.encode_text(@iconv.iconv("Technology...")).should == [[0, "Technology..."]]
+  end
+
+  it "should encode text with kerning if requested" do
+    @times.encode_text(@iconv.iconv("To"), :kerning => true).should == [[0, ["T", 80, "o"]]]
+    @times.encode_text(@iconv.iconv("Télé"), :kerning => true).should == [[0, ["T", 70, @iconv.iconv("élé")]]]
+    @times.encode_text(@iconv.iconv("Technology"), :kerning => true).should == [[0, ["T", 70, "echnology"]]]
+    @times.encode_text(@iconv.iconv("Technology..."), :kerning => true).should == [[0, ["T", 70, "echnology", 65, "..."]]]
+  end
+  
+end
+
+describe "TTF fonts" do
+  
+  setup do
+    create_pdf
+    @activa = @pdf.find_font "#{Prawn::BASEDIR}/data/fonts/Activa.ttf"
+  end
+  
+  it "should calculate string width taking into account accented characters" do
+    @activa.width_of("é", :size => 12).should == @activa.width_of("e", :size => 12)
+  end
+  
+  it "should calculate string width taking into account kerning pairs" do
+    @activa.width_of("To", :size => 12).should == 15.228
+    @activa.width_of("To", :size => 12, :kerning => true).should == 12.996
+  end
+  
+  it "should encode text without kerning by default" do
+    @activa.encode_text("To").should == [[0, "To"]]
+    @activa.encode_text("Télé").should == [[0, "T\216l\216"]]
+    @activa.encode_text("Technology").should == [[0, "Technology"]]
+    @activa.encode_text("Technology...").should == [[0, "Technology..."]]
+    @activa.encode_text("Teχnology...").should == [[0, "Te"], [1, "!"], [0, "nology..."]]
+  end
+
+  it "should encode text with kerning if requested" do
+    @activa.encode_text("To", :kerning => true).should == [[0, ["T", 186.0, "o"]]]
+    @activa.encode_text("To", :kerning => true).should == [[0, ["T", 186.0, "o"]]]
+    @activa.encode_text("Technology", :kerning => true).should == [[0, ["T", 186.0, "echnology"]]]
+    @activa.encode_text("Technology...", :kerning => true).should == [[0, ["T", 186.0, "echnology", 88.0, "..."]]]
+    @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
+  end
+  
+end
