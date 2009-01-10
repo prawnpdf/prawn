@@ -77,7 +77,7 @@ module Prawn
       end
 
       def raw_line_gap
-        @raw_line_gap ||= Float(bbox[3] - bbox[1]) - (ascender - descender)
+        @raw_line_gap ||= Float(bbox[3] - bbox[1]) - (raw_ascender - raw_descender)
       end
 
       def has_kerning_data?
