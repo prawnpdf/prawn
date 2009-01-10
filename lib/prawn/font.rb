@@ -209,14 +209,14 @@ module Prawn
       @size = size_before_yield
     end
 
-    def font_height_at(size)
+    def height_at(size)
       (@ascender - @descender + @line_gap) / 1000.0 * size
     end
 
     # Gets height of current font in PDF points at current font size
     #
     def height
-      font_height_at(@size)
+      height_at(@size)
     end
 
     # The height of the ascender at the current font size in PDF points

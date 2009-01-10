@@ -19,7 +19,7 @@ module Prawn
         #
         def height_of(string, line_width, font_size=font.size)
           string = naive_wrap(string, line_width, font_size)
-          string.lines.to_a.length * font.font_height_at(font_size)
+          string.lines.to_a.length * font.height_at(font_size)
         end
 
         # TODO: Replace with TeX optimal algorithm
