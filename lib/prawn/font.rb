@@ -152,6 +152,10 @@ module Prawn
       "#{self.class.name}< #{name}: #{size} >"
     end
 
+    def width_of(string, options={})
+      raise NotImplementedError, "subclasses of Prawn::Font must implement #width_of"
+    end
+
     # Sets the default font size for use within a block. Individual overrides
     # can be used as desired. The previous font size will be restored after the
     # block.

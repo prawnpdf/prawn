@@ -110,7 +110,7 @@ module Prawn
       # The height of the text area excluding the vertical padding
       #
       def text_area_height
-        @document.font.height_of(@text, :line_width => text_area_width) 
+        @document.height_of(@text, text_area_width)
       end
 
       # Draws the cell onto the PDF document

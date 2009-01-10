@@ -17,7 +17,7 @@ module Prawn
         # If using an AFM, string *must* be encoded as WinAnsi
         # (Use normalize_encoding to convert)
         #
-        def height_of(string, line_width, font_size=@size)
+        def height_of(string, line_width, font_size=font.size)
           string = naive_wrap(string, line_width, font_size)
           string.lines.to_a.length * font.font_height_at(font_size)
         end
