@@ -109,9 +109,6 @@ module Prawn
 
     DEFAULT_SIZE = 12
 
-    # The font metrics object
-    attr_reader   :metrics
-
     # The current font name
     attr_reader :name
 
