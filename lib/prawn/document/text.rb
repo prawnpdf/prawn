@@ -7,10 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "zlib"
 require "prawn/document/text/box"
+require "prawn/document/text/wrapping"
 
 module Prawn
   class Document
     module Text
+      include Wrapping
       
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
@@ -129,7 +131,7 @@ module Prawn
         end
 
         unless options.key?(:kerning)
-          options[:kerning] = font.metrics.has_kerning_data?
+          options[:kerning] = font.has_kerning_data?
         end                     
 
         options[:size] ||= font.size
@@ -147,7 +149,7 @@ module Prawn
         options[:align] ||= :left      
 
         font.size(options[:size]) do
-          text = font.metrics.naive_wrap(text, bounds.right, font.size, 
+          text = naive_wrap(text, bounds.right, font.size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines.to_a
@@ -174,7 +176,7 @@ module Prawn
       end  
 
       def add_text_content(text, x, y, options)
-        chunks = font.metrics.encode_text(text,options)
+        chunks = font.encode_text(text,options)
 
         add_content "\nBT"
         if options[:rotate]
