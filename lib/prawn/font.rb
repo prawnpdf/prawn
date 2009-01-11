@@ -210,7 +210,8 @@ module Prawn
     end
 
     def height_at(size)
-      (@ascender - @descender + @line_gap) / 1000.0 * size
+      @normalized_height ||= (@ascender - @descender + @line_gap) / 1000.0
+      @normalized_height * size
     end
 
     # Gets height of current font in PDF points at current font size
