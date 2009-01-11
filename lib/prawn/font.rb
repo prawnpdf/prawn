@@ -219,24 +219,6 @@ module Prawn
       height_at(@size)
     end
 
-    # The height of the ascender at the current font size in PDF points
-    #
-    def ascender
-      @ascender ||= raw_ascender / 1000.0 * @size
-    end
-
-    # The height of the descender at the current font size in PDF points
-    #
-    def descender
-      @descender ||= raw_descender / 1000.0 * @size
-    end
-
-    # The height of the line gap at the current font size in PDF points
-    #
-    def line_gap
-      @line_gap ||= raw_line_gap / 1000.0 * @size
-    end
-
     # Registers the given subset of the current font with the current PDF
     # page. This is safe to call multiple times for a given font and subset,
     # as it will only add the font the first time it is called.
