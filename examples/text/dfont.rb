@@ -17,11 +17,16 @@ puts "generating sample document in 'dfont.pdf'..."
 Prawn::Document.generate "dfont.pdf" do       
   fill_color "0000ff"
 
+  font DFONT_FILE, :font => "ActionMan-Bold", :size => 24
+  text "Introducing Action Man!"
+
+  move_text_position 24
+
   font_families["Action Man"] = {
-    :normal      => { :name => DFONT_FILE, :select => "ActionMan" },
-    :bold        => { :name => DFONT_FILE, :select => "ActionMan-Bold" },
-    :italic      => { :name => DFONT_FILE, :select => "ActionMan-Italic" },
-    :bold_italic => { :name => DFONT_FILE, :select => "ActionMan-BoldItalic" }
+    :normal      => { :file => DFONT_FILE, :font => "ActionMan" },
+    :bold        => { :file => DFONT_FILE, :font => "ActionMan-Bold" },
+    :italic      => { :file => DFONT_FILE, :font => "ActionMan-Italic" },
+    :bold_italic => { :file => DFONT_FILE, :font => "ActionMan-BoldItalic" }
   }
 
   font "Action Man", :size => 16

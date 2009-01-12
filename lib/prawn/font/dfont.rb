@@ -24,7 +24,7 @@ module Prawn
       private 
 
       def read_ttf_file
-        TTFunk::File.from_dfont(@name, @options[:select] || 0)
+        TTFunk::File.from_dfont(@name, @options[:font] || 0)
       end
     end
   end

@@ -70,7 +70,7 @@ module Prawn
     #--
     # Challenges involved: the name alone is not sufficient to uniquely identify
     # a font (think dfont suitcases that can hold multiple different fonts in a
-    # single file). Thus, the :select key is included in the cache key.
+    # single file). Thus, the :name key is included in the cache key.
     #
     # It is further complicated, however, since fonts in some formats (like the
     # dfont suitcases) can be identified either by numeric index, OR by their
@@ -87,11 +87,11 @@ module Prawn
 
         if name.is_a?(Hash)
           options = options.merge(name)
-          name = options[:name]
+          name = options[:file]
         end
       end
 
-      key = "#{name}:#{options[:select] || 0}"
+      key = "#{name}:#{options[:font] || 0}"
       font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
     end
 

@@ -40,10 +40,10 @@ describe "font style support" do
   it "should allow font familes to be defined in a single dfont" do
     file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
     @pdf.font_families["Action Man"] = {
-      :normal      => { :name => file, :select => "ActionMan" },
-      :italic      => { :name => file, :select => "ActionMan-Italic" },
-      :bold        => { :name => file, :select => "ActionMan-Bold" },
-      :bold_italic => { :name => file, :select => "ActionMan-BoldItalic" }
+      :normal      => { :file => file, :font => "ActionMan" },
+      :italic      => { :file => file, :font => "ActionMan-Italic" },
+      :bold        => { :file => file, :font => "ActionMan-Bold" },
+      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
     }
 
     @pdf.font "Action Man", :style => :italic
@@ -204,20 +204,20 @@ describe "DFont fonts" do
   end
 
   it "should allow font to be selected by index" do
-    font = @pdf.find_font(@file, :select => 2)
+    font = @pdf.find_font(@file, :font => 2)
     font.basename.should == "ActionMan-Italic"
   end
 
   it "should allow font to be selected by name" do
-    font = @pdf.find_font(@file, :select => "ActionMan-BoldItalic")
+    font = @pdf.find_font(@file, :font => "ActionMan-BoldItalic")
     font.basename.should == "ActionMan-BoldItalic"
   end
 
   it "should cache font object based on selected font" do
-    f1 = @pdf.find_font(@file, :select => "ActionMan")
-    f2 = @pdf.find_font(@file, :select => "ActionMan-Bold")
+    f1 = @pdf.find_font(@file, :font => "ActionMan")
+    f2 = @pdf.find_font(@file, :font => "ActionMan-Bold")
     assert_not_equal f1.object_id, f2.object_id
-    assert_equal f1.object_id, @pdf.find_font(@file, :select => "ActionMan").object_id
-    assert_equal f2.object_id, @pdf.find_font(@file, :select => "ActionMan-Bold").object_id
+    assert_equal f1.object_id, @pdf.find_font(@file, :font => "ActionMan").object_id
+    assert_equal f2.object_id, @pdf.find_font(@file, :font => "ActionMan-Bold").object_id
   end
 end
