@@ -9,7 +9,7 @@ module Prawn
       def initialize(document, name, options={})
         super
 
-        @ttf              = TTFunk::File.open(@name)
+        @ttf              = read_ttf_file
         @subsets          = TTFunk::SubsetCollection.new(@ttf)
 
         @attributes       = {}
@@ -310,6 +310,9 @@ module Prawn
         end
       STR
 
+      def read_ttf_file
+        TTFunk::File.open(@name)
+      end
     end
   end
 end

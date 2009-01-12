@@ -89,25 +89,22 @@ module Prawn
         # original string
         text = text.to_s.dup                      
         
-        # we might also mess with the font
-        original_font  = font.name   
-              
-        options = text_options.merge(options)
-        process_text_options(options) 
-         
-        font.normalize_encoding(text) unless @skip_encoding        
+        save_font do
+          options = text_options.merge(options)
+          process_text_options(options) 
+           
+          font.normalize_encoding(text) unless @skip_encoding        
 
-        if options[:at]                
-          x,y = translate(options[:at])            
-          font.size(options[:size]) { add_text_content(text,x,y,options) }
-        else
-          if options[:rotate]
-            raise ArgumentError, "Rotated text may only be used with :at" 
-          end
-          wrapped_text(text,options)
-        end         
-
-        font(original_font) 
+          if options[:at]                
+            x,y = translate(options[:at])            
+            font.size(options[:size]) { add_text_content(text,x,y,options) }
+          else
+            if options[:rotate]
+              raise ArgumentError, "Rotated text may only be used with :at" 
+            end
+            wrapped_text(text,options)
+          end         
+        end
       end 
                           
       # A hash of configuration options, to be used globally by text().

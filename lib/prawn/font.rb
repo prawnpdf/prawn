@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/font/afm"
 require "prawn/font/ttf"
+require "prawn/font/dfont"
 
 module Prawn
 
@@ -15,7 +16,7 @@ module Prawn
     # it sets the current font.
     #
     # The single parameter must be a string. It can be one of the 14 built-in
-    # fonts supported by PDF, or the location of a TTF file. The BUILT_INS
+    # fonts supported by PDF, or the location of a TTF file. The Font::AFM::BUILT_INS
     # array specifies the valid built in font values.
     #
     #   pdf.font "Times-Roman"
@@ -29,20 +30,38 @@ module Prawn
     def font(name=nil, options={})
       return @font || font("Helvetica") if name.nil?
 
-      if block_given?
-        original_name = font.name
-        original_size = font.size
-      end
-
-      @font = find_font(name, options)
-      @font.size = options[:size] if options[:size]
+      new_font = find_font(name, options)
 
       if block_given?
-        yield
-        font(original_name, :size => original_size)
+        save_font do
+          set_font(new_font, options[:size])
+          yield
+        end
       else
-        @font
+        set_font(new_font, options[:size])
       end
+
+      @font
+    end
+
+    # Sets the font directly, given an actual Font object
+    # and size.
+    def set_font(font, size=nil) # :nodoc:
+      @font = font
+      @font.size = size if size
+    end
+
+    # Saves the current font, and then yields. When the block
+    # finishes, the original font is restored.
+    def save_font
+      if @font
+        original_font = @font
+        original_size = @font.size
+      end
+
+      yield
+    ensure
+      set_font(original_font, original_size) if original_font
     end
 
     # Looks up the given font name. Once a font has been found by that name,
@@ -50,11 +69,19 @@ module Prawn
     # same object.
     #
     def find_font(name, options={}) #:nodoc:
+      style = options[:style] || :normal
+
       if font_families.key?(name)
-        family, name = name, font_families[name][options[:style] || :normal]
+        family, name = name, font_families[name][style]
+
+        if name.is_a?(Hash)
+          options = options.merge(name)
+          name = options[:name]
+        end
       end
 
-      font_registry[name] ||= Font.load(self, name, options.merge(:family => family))
+      key = "#{name}:#{style}"
+      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
     end
 
     # Hash of Font objects keyed by names
@@ -115,6 +142,9 @@ module Prawn
     # The current font family
     attr_reader :family
 
+    # The options hash used to initialize the font
+    attr_reader :options
+
     # Sets the size of the current font:
     #
     #   font.size = 16
@@ -123,15 +153,18 @@ module Prawn
 
     def self.load(document,name,options={})
       case name
-      when /\.ttf$/ then TTF.new(document, name, options)
-      when /\.afm$/ then AFM.new(document, name, options)
-      else               AFM.new(document, name, options)
+      when /\.ttf$/   then TTF.new(document, name, options)
+      when /\.dfont$/ then DFont.new(document, name, options)
+      when /\.afm$/   then AFM.new(document, name, options)
+      else                 AFM.new(document, name, options)
       end
     end
 
     def initialize(document,name,options={}) #:nodoc:
       @document   = document
       @name       = name
+      @options    = options
+
       @family     = options[:family]
 
       @document.proc_set :PDF, :Text
