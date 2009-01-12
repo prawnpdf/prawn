@@ -7,7 +7,7 @@ require "prawn"
 
 DFONT_FILE = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
 puts "There are #{Prawn::Font::DFont.font_count(DFONT_FILE)} fonts in #{DFONT_FILE}:"
-Prawn::Font::DFont.each_named_font(DFONT_FILE) do |name|
+Prawn::Font::DFont.named_fonts(DFONT_FILE).each do |name|
   puts "* #{name}"
 end
 

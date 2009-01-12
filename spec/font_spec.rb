@@ -35,8 +35,26 @@ describe "font style support" do
     text.font_settings.map { |e| e[:name] }.should == 
      [:"Courier-Bold", :"Courier-BoldOblique", :"Courier-Oblique", 
       :Courier, :Helvetica]
- end
-      
+  end
+
+  it "should allow font familes to be defined in a single dfont" do
+    file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+    @pdf.font_families["Action Man"] = {
+      :normal      => { :name => file, :select => "ActionMan" },
+      :italic      => { :name => file, :select => "ActionMan-Italic" },
+      :bold        => { :name => file, :select => "ActionMan-Bold" },
+      :bold_italic => { :name => file, :select => "ActionMan-BoldItalic" }
+    }
+
+    @pdf.font "Action Man", :style => :italic
+    @pdf.text "In ActionMan-Italic"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    name = text.font_settings.map { |e| e[:name] }.first
+    name = name.unpack("n*")[2..-1].pack("U*")
+    name = name.sub(/\w+\+/, "subset+")
+    name.should == "subset+ActionMan-Italic"
+  end
 end
 
 describe "Transactional font handling" do
@@ -163,4 +181,43 @@ describe "TTF fonts" do
     @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
   end
   
+end
+
+describe "DFont fonts" do
+  setup do
+    create_pdf
+    @file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+  end
+
+  it "should list all named fonts" do
+    list = Prawn::Font::DFont.named_fonts(@file)
+    list.sort.should == %w(ActionMan ActionMan-Italic ActionMan-Bold ActionMan-BoldItalic).sort
+  end
+
+  it "should count the number of fonts in the file" do
+    Prawn::Font::DFont.font_count(@file).should == 4
+  end
+
+  it "should default selected font to the first one if not specified" do
+    font = @pdf.find_font(@file)
+    font.basename.should == "ActionMan"
+  end
+
+  it "should allow font to be selected by index" do
+    font = @pdf.find_font(@file, :select => 2)
+    font.basename.should == "ActionMan-Italic"
+  end
+
+  it "should allow font to be selected by name" do
+    font = @pdf.find_font(@file, :select => "ActionMan-BoldItalic")
+    font.basename.should == "ActionMan-BoldItalic"
+  end
+
+  it "should cache font object based on selected font" do
+    f1 = @pdf.find_font(@file, :select => "ActionMan")
+    f2 = @pdf.find_font(@file, :select => "ActionMan-Bold")
+    assert_not_equal f1.object_id, f2.object_id
+    assert_equal f1.object_id, @pdf.find_font(@file, :select => "ActionMan").object_id
+    assert_equal f2.object_id, @pdf.find_font(@file, :select => "ActionMan-Bold").object_id
+  end
 end
