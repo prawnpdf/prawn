@@ -64,15 +64,26 @@ module Prawn
       set_font(original_font, original_size) if original_font
     end
 
-    # Looks up the given font name. Once a font has been found by that name,
-    # it will be cached to subsequent lookups for that font will return the
-    # same object.
+    # Looks up the given font using the given criteria. Once a font has been
+    # found by that matches the criteria, it will be cached to subsequent lookups
+    # for that font will return the same object.
+    #--
+    # Challenges involved: the name alone is not sufficient to uniquely identify
+    # a font (think dfont suitcases that can hold multiple different fonts in a
+    # single file). Thus, the :select key is included in the cache key.
+    #
+    # It is further complicated, however, since fonts in some formats (like the
+    # dfont suitcases) can be identified either by numeric index, OR by their
+    # name within the suitcase, and both should hash to the same font object
+    # (to avoid the font being embedded multiple times). This is not yet implemented,
+    # which means if someone selects a font both by name, and by index, the
+    # font will be embedded twice. Since we do font subsetting, this double
+    # embedding won't be catastrophic, just annoying.
+    # ++
     #
     def find_font(name, options={}) #:nodoc:
-      style = options[:style] || :normal
-
       if font_families.key?(name)
-        family, name = name, font_families[name][style]
+        family, name = name, font_families[name][options[:style] || :normal]
 
         if name.is_a?(Hash)
           options = options.merge(name)
@@ -80,7 +91,7 @@ module Prawn
         end
       end
 
-      key = "#{name}:#{style}"
+      key = "#{name}:#{options[:select] || 0}"
       font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
     end
 
