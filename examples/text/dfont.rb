@@ -1,7 +1,5 @@
 # encoding: utf-8
-#
-# An early example of TTF font embedding.  Mostly kept for nostalgia's sake.
-#
+
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
 require "prawn"
 
