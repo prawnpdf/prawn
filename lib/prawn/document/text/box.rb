@@ -55,8 +55,7 @@ module Prawn
         private
         
         def fit_text_to_box
-          text = @document.font.metrics.naive_wrap(@text,
-            @width, @document.font.size)
+          text = @document.naive_wrap(@text, @width, @document.font.size)
             
           max_lines = (@height / @document.font.height).floor
 

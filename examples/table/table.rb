@@ -46,6 +46,6 @@ Prawn::Document.generate("table.pdf") do
   
   table [[ "Wide", "columns", "streeetch"], 
          ["are","mighty fine", "streeeeeeeech"]],
-    :widths => { 0 => 200, 1 => 250 }, :position => 5
+    :column_widths => { 0 => 200, 1 => 250 }, :position => 5
 
 end

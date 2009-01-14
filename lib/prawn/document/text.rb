@@ -7,10 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "zlib"
 require "prawn/document/text/box"
+require "prawn/document/text/wrapping"
 
 module Prawn
   class Document
     module Text
+      include Wrapping
       
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
@@ -87,25 +89,22 @@ module Prawn
         # original string
         text = text.to_s.dup                      
         
-        # we might also mess with the font
-        original_font  = font.name   
-              
-        options = text_options.merge(options)
-        process_text_options(options) 
-         
-        font.normalize_encoding(text) unless @skip_encoding        
+        save_font do
+          options = text_options.merge(options)
+          process_text_options(options) 
+           
+          font.normalize_encoding(text) unless @skip_encoding        
 
-        if options[:at]                
-          x,y = translate(options[:at])            
-          font.size(options[:size]) { add_text_content(text,x,y,options) }
-        else
-          if options[:rotate]
-            raise ArgumentError, "Rotated text may only be used with :at" 
-          end
-          wrapped_text(text,options)
-        end         
-
-        font(original_font) 
+          if options[:at]                
+            x,y = translate(options[:at])            
+            font.size(options[:size]) { add_text_content(text,x,y,options) }
+          else
+            if options[:rotate]
+              raise ArgumentError, "Rotated text may only be used with :at" 
+            end
+            wrapped_text(text,options)
+          end         
+        end
       end 
                           
       # A hash of configuration options, to be used globally by text().
@@ -129,7 +128,7 @@ module Prawn
         end
 
         unless options.key?(:kerning)
-          options[:kerning] = font.metrics.has_kerning_data?
+          options[:kerning] = font.has_kerning_data?
         end                     
 
         options[:size] ||= font.size
@@ -147,7 +146,7 @@ module Prawn
         options[:align] ||= :left      
 
         font.size(options[:size]) do
-          text = font.metrics.naive_wrap(text, bounds.right, font.size, 
+          text = naive_wrap(text, bounds.right, font.size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines.to_a
@@ -155,7 +154,7 @@ module Prawn
           lines.each_with_index do |e,i|         
             move_text_position(font.height) 
                            
-            line_width = font.width_of(e)
+            line_width = font.width_of(e, :kerning => options[:kerning])
             case(options[:align]) 
             when :left
               x = @bounding_box.absolute_left
@@ -174,7 +173,7 @@ module Prawn
       end  
 
       def add_text_content(text, x, y, options)
-        chunks = font.metrics.encode_text(text,options)
+        chunks = font.encode_text(text,options)
 
         add_content "\nBT"
         if options[:rotate]

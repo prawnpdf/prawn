@@ -11,7 +11,7 @@ Prawn::Document.generate "table_border_color.pdf" do
           ['01/12/2008', 'Jane Doe', '3.2', '75.50', '241.60'] ] * 20,
   :position => :center,
   :headers => ['Date', 'Employee', 'Hours', 'Rate', 'Total'],
-  :widths => { 0 => 75, 1 => 100, 2 => 50, 3 => 50, 4 => 50},
+  :column_widths => { 0 => 75, 1 => 100, 2 => 50, 3 => 50, 4 => 50},
   :border_style => :grid,
   :border_color => "ff0000"
 end

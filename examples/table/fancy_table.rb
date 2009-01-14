@@ -38,7 +38,7 @@ Prawn::Document.generate("fancy_table.pdf", :page_layout => :landscape) do
     :horizontal_padding => 3,
     :font_size        => 10,
     :row_colors       => :pdf_writer,
-    :widths => { 1 => 50 }
+    :column_widths => { 1 => 50 }
 
   move_down 150
 
