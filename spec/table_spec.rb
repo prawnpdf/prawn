@@ -224,7 +224,7 @@ describe "A table's content" do
     data = [["Name:",{:text => "Some very long name", :colspan => 5}]]
     pdf = Prawn::Document.new
     table = Prawn::Document::Table.new data, pdf
-    table.col_widths.length.should == 6
+    table.column_widths.length.should == 6
   end
     
 end
