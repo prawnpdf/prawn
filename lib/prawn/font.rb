@@ -35,10 +35,7 @@ module Prawn
       if block_given?
         save_font do
           set_font(new_font)
-          save_font do
-            @font.size = options[:size] if options[:size]
-            yield
-          end
+          font.size(options[:size]) { yield }
         end
       else
         set_font(new_font, options[:size])
