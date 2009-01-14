@@ -77,7 +77,7 @@ module Prawn
       
       NUMBER_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+(?:[eE][+-]?\d+)?)?$/ #:nodoc: 
 
-     # Creates a new Document::Table object. This is generally called 
+      # Creates a new Document::Table object. This is generally called 
       # indirectly through Document#table but can also be used explictly.
       #
       # The <tt>data</tt> argument is a two dimensional array of strings,
