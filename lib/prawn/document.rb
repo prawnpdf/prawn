@@ -19,14 +19,14 @@ require "prawn/document/destinations"
 module Prawn
   class Document  
            
-    include Prawn::Document::Internals
-    include Prawn::Document::Annotations
-    include Prawn::Document::Destinations
+    include Text                             
+    include PageGeometry  
+    include Internals
+    include Annotations
+    include Destinations
     include Prawn::Graphics    
     include Prawn::Images
-    include Text                             
-    include PageGeometry                             
-    
+
     attr_accessor :y, :margin_box
     attr_reader   :margins, :page_size, :page_layout
       
