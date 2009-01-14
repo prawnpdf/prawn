@@ -76,6 +76,17 @@ describe "Transactional font handling" do
     @pdf.font.name.should == "Helvetica"
     @pdf.font.size.should == 12
   end
+
+  it "should mask font size when using a transacation" do
+    @pdf.font "Courier", :size => 16 do
+      @pdf.font.size.should == 16
+    end
+
+    @pdf.font "Times-Roman"
+    @pdf.font "Courier"
+
+    @pdf.font.size.should == 12
+  end
   
 end
 

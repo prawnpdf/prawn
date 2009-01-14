@@ -22,10 +22,10 @@ module Prawn
     #   pdf.font "Times-Roman"
     #   pdf.font "Chalkboard.ttf"
     #
-    # If a ttf font is specified, the full file will be embedded in the
-    # rendered PDF. This should be your preferred option in most cases.
-    # It will increase the size of the resulting file, but also make it
-    # more portable.
+    # If a ttf font is specified, the glyphs necessary to render your document
+    # will be embedded in the rendered PDF. This should be your preferred option
+    # in most cases. It will increase the size of the resulting file, but also 
+    # make it more portable.
     #
     def font(name=nil, options={})
       return @font || font("Helvetica") if name.nil?
@@ -34,8 +34,11 @@ module Prawn
 
       if block_given?
         save_font do
-          set_font(new_font, options[:size])
-          yield
+          set_font(new_font)
+          save_font do
+            @font.size = options[:size] if options[:size]
+            yield
+          end
         end
       else
         set_font(new_font, options[:size])
