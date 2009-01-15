@@ -54,7 +54,7 @@ module Prawn
       # String *must* be encoded as WinAnsi
       #
       def width_of(string, options={})
-        scale = (options[:size] || @size) / 1000.0
+        scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
           no_kern_opts = options.merge(:kerning => false)

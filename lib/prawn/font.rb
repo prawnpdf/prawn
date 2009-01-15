@@ -48,7 +48,7 @@ module Prawn
     # and size.
     def set_font(font, size=nil) # :nodoc:
       @font = font
-      @font.size = size if size
+      @font_size = size if size
     end
 
     # Saves the current font, and then yields. When the block
@@ -145,8 +145,6 @@ module Prawn
   #
   class Font
 
-    DEFAULT_SIZE = 12
-
     # The current font name
     attr_reader :name
 
@@ -155,12 +153,6 @@ module Prawn
 
     # The options hash used to initialize the font
     attr_reader :options
-
-    # Sets the size of the current font:
-    #
-    #   font.size = 16
-    #
-    attr_writer   :size
 
     def self.load(document,name,options={})
       case name
@@ -179,22 +171,21 @@ module Prawn
       @family     = options[:family]
 
       @document.proc_set :PDF, :Text
-      @size       = DEFAULT_SIZE
       @identifier = :"F#{@document.font_registry.size + 1}"
 
       @references = {}
     end
 
     def ascender
-      @ascender / 1000.0 * @size
+      @ascender / 1000.0 * size
     end
 
     def descender
-      @descender / 1000.0 * @size
+      @descender / 1000.0 * size
     end
 
     def line_gap
-      @line_gap / 1000.0 * @size
+      @line_gap / 1000.0 * size
     end
 
     def identifier_for(subset)
@@ -246,11 +237,11 @@ module Prawn
     # size.
     #
     def size(points=nil)
-      return @size unless points
-      size_before_yield = @size
-      @size = points
+      return @document.font_size unless points
+      size_before_yield = @document.font_size
+      @document.font_size = points
       yield
-      @size = size_before_yield
+      @document.font_size = size_before_yield
     end
 
     def height_at(size)
@@ -261,7 +252,7 @@ module Prawn
     # Gets height of current font in PDF points at current font size
     #
     def height
-      height_at(@size)
+      height_at(size)
     end
 
     # Registers the given subset of the current font with the current PDF

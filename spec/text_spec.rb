@@ -32,14 +32,14 @@ describe "when drawing text" do
    end
    
    it "should allow setting a default font size" do
-     @pdf.font.size = 16
+     @pdf.font_size = 16
      @pdf.text "Blah"
      text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 16
    end
    
    it "should allow overriding default font for a single instance" do
-     @pdf.font.size = 16
+     @pdf.font_size = 16
 
      @pdf.text "Blah", :size => 11
      @pdf.text "Blaz"

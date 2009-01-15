@@ -10,6 +10,7 @@ require 'prawn'
 Prawn::Document.generate('font_calculations.pdf') do
   
   def demonstration
+    self.font_size = 12
     move_down 10
 
     stroke_horizontal_rule
@@ -52,7 +53,7 @@ Prawn::Document.generate('font_calculations.pdf') do
     text "FONT_HEIGHT"
 
     fill_color "000000"
-    font.size = 20
+    self.font_size = 16
 
     move_down 40
 

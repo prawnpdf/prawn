@@ -24,7 +24,7 @@ module Prawn
 
       # +string+ must be UTF8-encoded.
       def width_of(string, options={})
-        scale = (options[:size] || @size) / 1000.0
+        scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).inject(0) do |s,r|
             if r.is_a?(Numeric)

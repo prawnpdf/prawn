@@ -27,7 +27,7 @@ module Prawn
     include Prawn::Graphics    
     include Prawn::Images
 
-    attr_accessor :y, :margin_box
+    attr_accessor :y, :margin_box, :font_size
     attr_reader   :margins, :page_size, :page_layout
       
     # Creates and renders a PDF document. 
@@ -96,6 +96,7 @@ module Prawn
        @compress        = options[:compress] || false                
        @skip_encoding   = options[:skip_encoding]
        @background      = options[:background]
+       @font_size       = 12
        
        text_options.update(options[:text_options] || {}) 
              

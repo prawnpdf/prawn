@@ -9,7 +9,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
 require "prawn"
    
 Prawn::Document.generate("image-flow.pdf", :page_layout => :landscape) do  
-  font.size = 8                           
+  self.font_size = 8                           
   stef = "#{Prawn::BASEDIR}/data/images/stef.jpg"  
   
   text "Image at default position with no arguments"

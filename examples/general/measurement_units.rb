@@ -22,7 +22,7 @@ pdf = Prawn::Document.new(
 :top_margin => 0.1.dm,    # work
 :bottom_margin => 0.01.m) # well
 
-pdf.font.size = 6
+pdf.font_size = 6
 pdf.line_width = 0.05
 
 units_long = %w[Millimeters Centimeters Decimeters Inches Foot Points]

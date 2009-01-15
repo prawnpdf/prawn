@@ -9,7 +9,7 @@ Prawn::Document.generate "font_size.pdf", :page_size => "A4" do
 
   # Explicit global changes
   font 'Helvetica'
-  font.size = 16
+  self.font_size = 16
 
   text 'Font at 16 point'
 
