@@ -120,7 +120,7 @@ module Prawn
       
       def process_text_options(options)
         Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
-                              :spacing, :align, :rotate ], options                               
+                              :spacing, :align, :rotate, :final_gap ], options                               
         
         if options[:style]  
           raise "Bad font family" unless font.family
@@ -150,6 +150,7 @@ module Prawn
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines.to_a
+          last_gap_before = options.fetch(:final_gap, true) ? lines.length : lines.length-1
                                                        
           lines.each_with_index do |e,i|         
             move_text_position(font.ascender)
@@ -167,8 +168,10 @@ module Prawn
                                
             add_text_content(e,x,y,options)
             
-            move_text_position(font.line_gap - font.descender)
-            move_text_position(options[:spacing]) if options[:spacing]
+            if i < last_gap_before
+              move_text_position(font.line_gap - font.descender)
+              move_text_position(options[:spacing]) if options[:spacing]
+            end
           end 
         end
       end  

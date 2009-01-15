@@ -168,7 +168,9 @@ module Prawn
                                  @point[1] - @vertical_padding], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
-          options = {:align => @align}
+          @document.move_down((@document.font.line_gap - @document.font.descender)/2)
+
+          options = {:align => @align, :final_gap => false}
 
           options[:size] = @font_size if @font_size
 

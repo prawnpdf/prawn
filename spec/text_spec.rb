@@ -17,6 +17,17 @@ describe "when drawing text" do
      @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
    end
    
+   it "should advance down the document based on font ascender only if final_gap is given" do
+     position = @pdf.y
+     @pdf.text "Foo", :final_gap => false
+
+     @pdf.y.should.be.close(position - @pdf.font.ascender, 0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz", :final_gap => false
+     @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender, 0.0001)
+   end
+
    it "should default to 12 point helvetica" do
       @pdf.text "Blah", :at => [100,100]              
       text = PDF::Inspector::Text.analyze(@pdf.render)  
