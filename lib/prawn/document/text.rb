@@ -97,7 +97,7 @@ module Prawn
 
           if options[:at]                
             x,y = translate(options[:at])            
-            font.size(options[:size]) { add_text_content(text,x,y,options) }
+            font_size(options[:size]) { add_text_content(text,x,y,options) }
           else
             if options[:rotate]
               raise ArgumentError, "Rotated text may only be used with :at" 
@@ -131,7 +131,7 @@ module Prawn
           options[:kerning] = font.has_kerning_data?
         end                     
 
-        options[:size] ||= font.size
+        options[:size] ||= font_size
      end
 
       def move_text_position(dy)   
@@ -145,8 +145,8 @@ module Prawn
       def wrapped_text(text,options) 
         options[:align] ||= :left      
 
-        font.size(options[:size]) do
-          text = naive_wrap(text, bounds.right, font.size, 
+        font_size(options[:size]) do
+          text = naive_wrap(text, bounds.right, font_size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines.to_a
@@ -187,7 +187,7 @@ module Prawn
 
         chunks.each do |(subset, string)|
           font.add_to_current_page(subset)
-          add_content "/#{font.identifier_for(subset)} #{font.size} Tf"
+          add_content "/#{font.identifier_for(subset)} #{font_size} Tf"
 
           operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
           add_content Prawn::PdfObject(string, true) << " " << operation

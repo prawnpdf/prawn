@@ -17,9 +17,9 @@ module Prawn
         # If using an AFM, string *must* be encoded as WinAnsi
         # (Use normalize_encoding to convert)
         #
-        def height_of(string, line_width, font_size=font.size)
-          string = naive_wrap(string, line_width, font_size)
-          string.lines.to_a.length * font.height_at(font_size)
+        def height_of(string, line_width, size=font_size)
+          string = naive_wrap(string, line_width, size)
+          string.lines.to_a.length * font.height_at(size)
         end
 
         # TODO: Replace with TeX optimal algorithm

@@ -35,13 +35,41 @@ module Prawn
       if block_given?
         save_font do
           set_font(new_font)
-          font.size(options[:size]) { yield }
+          font_size(options[:size]) { yield }
         end
       else
         set_font(new_font, options[:size])
       end
 
       @font
+    end
+
+    # Sets the default font size for use within a block. Individual overrides
+    # can be used as desired. The previous font size will be restored after the
+    # block.
+    #
+    # Prawn::Document.generate("font_size.pdf") do
+    #   font.size = 16
+    #   text "At size 16"
+    #
+    #   font.size(10) do
+    #     text "At size 10"
+    #     text "At size 6", :size => 6
+    #     text "At size 10"
+    #   end
+    #
+    #   text "At size 16"
+    # end
+    #
+    # When called without an argument, this method returns the current font
+    # size.
+    #
+    def font_size(points=nil)
+      return @font_size unless points
+      size_before_yield = @font_size
+      @font_size = points
+      yield
+      @font_size = size_before_yield
     end
 
     # Sets the font directly, given an actual Font object
@@ -56,7 +84,7 @@ module Prawn
     def save_font
       if @font
         original_font = @font
-        original_size = @font.size
+        original_size = @font_size
       end
 
       yield
@@ -216,34 +244,6 @@ module Prawn
       raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
     end
 
-    # Sets the default font size for use within a block. Individual overrides
-    # can be used as desired. The previous font size will be restored after the
-    # block.
-    #
-    # Prawn::Document.generate("font_size.pdf") do
-    #   font.size = 16
-    #   text "At size 16"
-    #
-    #   font.size(10) do
-    #     text "At size 10"
-    #     text "At size 6", :size => 6
-    #     text "At size 10"
-    #   end
-    #
-    #   text "At size 16"
-    # end
-    #
-    # When called without an argument, this method returns the current font
-    # size.
-    #
-    def size(points=nil)
-      return @document.font_size unless points
-      size_before_yield = @document.font_size
-      @document.font_size = points
-      yield
-      @document.font_size = size_before_yield
-    end
-
     def height_at(size)
       @normalized_height ||= (@ascender - @descender + @line_gap) / 1000.0
       @normalized_height * size
@@ -263,6 +263,13 @@ module Prawn
       @references[subset] ||= register(subset)
       @document.page_fonts.merge!(identifier_for(subset) => @references[subset])
     end
+
+    private
+
+    def size
+      @document.font_size
+    end
+
   end
 
 end

@@ -49,7 +49,7 @@ describe "when drawing text" do
    end
    
    it "should allow setting a font size transaction with a block" do
-     @pdf.font.size 16 do
+     @pdf.font_size 16 do
        @pdf.text 'Blah'
      end
 
@@ -62,7 +62,7 @@ describe "when drawing text" do
    
    it "should allow manual setting the font size " +
        "when in a font size block" do
-     @pdf.font.size(16) do
+     @pdf.font_size(16) do
         @pdf.text 'Foo'
         @pdf.text 'Blah', :size => 11
         @pdf.text 'Blaz'
@@ -139,14 +139,14 @@ describe "when drawing text" do
     text = "Please wrap this text about HERE. More text that should be wrapped"
     expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
 
-    @pdf.naive_wrap(text, 220, @pdf.font.size).should == expect
+    @pdf.naive_wrap(text, 220, @pdf.font_size).should == expect
   end
 
   it "should respect end of line when wrapping text" do
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
     text = "Please wrap only before\nTHIS word. Don't wrap this"
-    @pdf.naive_wrap(text, 220, @pdf.font.size).should == text
+    @pdf.naive_wrap(text, 220, @pdf.font_size).should == text
   end
 
   it "should respect end of line when wrapping text and mode is set to 'character'" do
@@ -156,7 +156,7 @@ describe "when drawing text" do
     text = "You can wrap this text HERE"
     expect = "You can wrap this text HE\nRE"
 
-    @pdf.naive_wrap(text, 180, @pdf.font.size, :mode => :character).should == expect
+    @pdf.naive_wrap(text, 180, @pdf.font_size, :mode => :character).should == expect
   end     
   
 end

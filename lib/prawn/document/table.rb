@@ -231,7 +231,7 @@ module Prawn
         page_contents = []
         y_pos = @document.y 
 
-        @document.font.size C(:font_size) do
+        @document.font_size C(:font_size) do
           renderable_data.each_with_index do |row,index|
             c = Prawn::Graphics::CellBlock.new(@document)
             

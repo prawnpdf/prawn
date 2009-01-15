@@ -14,7 +14,7 @@ Prawn::Document.generate "font_size.pdf", :page_size => "A4" do
   text 'Font at 16 point'
 
   # Transactional changes rolled back after block exit
-  font.size 9 do
+  font_size 9 do
     text 'Font at 9 point'
     # single line changes, not persisted.
     text 'Font at manual override 20 point', :size => 20
@@ -24,7 +24,7 @@ Prawn::Document.generate "font_size.pdf", :page_size => "A4" do
   # Transactional changes rolled back after block exit on full fonts.
   font("Times-Roman", :style => :italic, :size => 12) do
     text "Font in times at 12"
-    font.size(16) { text "Font in Times at 16" }
+    font_size(16) { text "Font in Times at 16" }
   end
 
   text 'Font at 16 point'

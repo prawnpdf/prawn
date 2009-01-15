@@ -62,7 +62,7 @@ describe "Transactional font handling" do
   
   it "should allow setting of size directly when font is created" do
     @pdf.font "Courier", :size => 16
-    @pdf.font.size.should == 16 
+    @pdf.font_size.should == 16 
   end
   
   it "should allow temporary setting of a new font using a transaction" do
@@ -70,22 +70,22 @@ describe "Transactional font handling" do
     
     @pdf.font "Courier", :size => 16 do
       @pdf.font.name.should == "Courier"
-      @pdf.font.size.should == 16
+      @pdf.font_size.should == 16
     end
     
     @pdf.font.name.should == "Helvetica"
-    @pdf.font.size.should == 12
+    @pdf.font_size.should == 12
   end
 
   it "should mask font size when using a transacation" do
     @pdf.font "Courier", :size => 16 do
-      @pdf.font.size.should == 16
+      @pdf.font_size.should == 16
     end
 
     @pdf.font "Times-Roman"
     @pdf.font "Courier"
 
-    @pdf.font.size.should == 12
+    @pdf.font_size.should == 12
   end
   
 end
