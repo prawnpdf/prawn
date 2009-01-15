@@ -16,7 +16,7 @@ Prawn::Document.generate('font_calculations.pdf') do
     stroke_horizontal_rule
 
     text "When using flowing text, Prawn will position text\n" +
-         "starting font.height below the baseline, and leave\n" +
+         "starting font.ascender below the baseline, and leave\n" +
          "the y-cursor at the baseline of the next line of text"
 
     stroke_horizontal_rule
