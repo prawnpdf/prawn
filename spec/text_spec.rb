@@ -37,6 +37,11 @@ describe "when drawing text" do
      text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 16
    end
+
+   it "should allow setting font size in DSL style" do
+     @pdf.font_size 20
+     @pdf.font_size.should == 20
+   end
    
    it "should allow overriding default font for a single instance" do
      @pdf.font_size = 16

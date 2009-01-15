@@ -27,8 +27,9 @@ module Prawn
     include Prawn::Graphics    
     include Prawn::Images
 
-    attr_accessor :y, :margin_box, :font_size
+    attr_accessor :y, :margin_box
     attr_reader   :margins, :page_size, :page_layout
+    attr_writer   :font_size
       
     # Creates and renders a PDF document. 
     #

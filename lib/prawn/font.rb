@@ -68,7 +68,7 @@ module Prawn
       return @font_size unless points
       size_before_yield = @font_size
       @font_size = points
-      yield
+      block_given? ? yield : return
       @font_size = size_before_yield
     end
 
