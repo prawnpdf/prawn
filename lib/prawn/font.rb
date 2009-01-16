@@ -34,8 +34,8 @@ module Prawn
 
       if block_given?
         save_font do
-          set_font(new_font)
-          font_size(options[:size]) { yield }
+          set_font(new_font, options[:size])
+          yield
         end
       else
         set_font(new_font, options[:size])
@@ -82,10 +82,9 @@ module Prawn
     # Saves the current font, and then yields. When the block
     # finishes, the original font is restored.
     def save_font
-      if @font
-        original_font = @font
-        original_size = @font_size
-      end
+      @font ||= find_font("Helvetica")
+      original_font = @font
+      original_size = @font_size
 
       yield
     ensure
