@@ -23,7 +23,10 @@ module Prawn
   VERSION = "0.3.0.99"
   
   extend self
-  
+
+  # Whe set to true, Prawn will verify hash options to ensure only valid keys
+  # are used.  Off by default.
+  # 
   attr_accessor :debug
   
   def verify_options(accepted,actual) #:nodoc:

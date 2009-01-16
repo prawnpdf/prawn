@@ -9,26 +9,26 @@
 require "stringio"
 require "prawn/document/page_geometry" 
 require "prawn/document/bounding_box"
-require "prawn/document/text"
-require "prawn/document/table"
 require "prawn/document/internals"
 require "prawn/document/span"
+require "prawn/document/text"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 
 module Prawn
   class Document  
            
-    include Prawn::Document::Internals
-    include Prawn::Document::Annotations
-    include Prawn::Document::Destinations
-    include Prawn::Graphics
+    include Text                             
+    include PageGeometry  
+    include Internals
+    include Annotations
+    include Destinations
+    include Prawn::Graphics    
     include Prawn::Images
-    include Text
-    include PageGeometry
-    
+
     attr_accessor :y, :margin_box
     attr_reader   :margins, :page_size, :page_layout
+    attr_writer   :font_size
       
     # Creates and renders a PDF document. 
     #
@@ -96,6 +96,7 @@ module Prawn
        @compress        = options[:compress] || false                
        @skip_encoding   = options[:skip_encoding]
        @background      = options[:background]
+       @font_size       = 12
        
        text_options.update(options[:text_options] || {}) 
              
@@ -286,7 +287,6 @@ module Prawn
                           :Parent    => @pages, 
                           :MediaBox  => page_dimensions, 
                           :Contents  => @page_content)
-      font.add_to_current_page if @font
       update_colors
     end
     

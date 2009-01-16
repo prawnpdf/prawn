@@ -49,6 +49,6 @@ Prawn::Document.generate("table_with_background_color_problems.pdf") do
 
   table [[ "Wide", "columns", "streeetch"], 
          ["are","mighty fine", "streeeeeeeech"]],
-    :widths => { 0 => 200, 1 => 250 }, :position => 5
+    :column_widths => { 0 => 200, 1 => 250 }, :position => 5
 
 end

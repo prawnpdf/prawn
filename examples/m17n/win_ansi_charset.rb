@@ -31,14 +31,14 @@ Prawn::Document.generate("win-ansi.pdf") do
     code = "%d." % index
     char = index.chr
 
-    width = 1000 * font.metrics.string_width(char, FONT_SIZE) / FONT_SIZE
+    width = 1000 * font.width_of(char, :size => FONT_SIZE) / FONT_SIZE
     size = "%d" % width
 
     data = [code, nil, char, size, nil, name]
     dx = x
     fields.zip(data).each do |(total_width, align), field|
       if field
-        width = font.metrics.string_width(field, FONT_SIZE)
+        width = font.width_of(field, :size => FONT_SIZE)
 
         case align
         when :left then offset = 0

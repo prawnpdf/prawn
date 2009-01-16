@@ -17,6 +17,17 @@ describe "when drawing text" do
      @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
    end
    
+   it "should advance down the document based on font ascender only if final_gap is given" do
+     position = @pdf.y
+     @pdf.text "Foo", :final_gap => false
+
+     @pdf.y.should.be.close(position - @pdf.font.ascender, 0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz", :final_gap => false
+     @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender, 0.0001)
+   end
+
    it "should default to 12 point helvetica" do
       @pdf.text "Blah", :at => [100,100]              
       text = PDF::Inspector::Text.analyze(@pdf.render)  
@@ -32,14 +43,19 @@ describe "when drawing text" do
    end
    
    it "should allow setting a default font size" do
-     @pdf.font.size = 16
+     @pdf.font_size = 16
      @pdf.text "Blah"
      text = PDF::Inspector::Text.analyze(@pdf.render)  
      text.font_settings[0][:size].should == 16
    end
+
+   it "should allow setting font size in DSL style" do
+     @pdf.font_size 20
+     @pdf.font_size.should == 20
+   end
    
    it "should allow overriding default font for a single instance" do
-     @pdf.font.size = 16
+     @pdf.font_size = 16
 
      @pdf.text "Blah", :size => 11
      @pdf.text "Blaz"
@@ -49,7 +65,7 @@ describe "when drawing text" do
    end
    
    it "should allow setting a font size transaction with a block" do
-     @pdf.font.size 16 do
+     @pdf.font_size 16 do
        @pdf.text 'Blah'
      end
 
@@ -62,7 +78,7 @@ describe "when drawing text" do
    
    it "should allow manual setting the font size " +
        "when in a font size block" do
-     @pdf.font.size(16) do
+     @pdf.font_size(16) do
         @pdf.text 'Foo'
         @pdf.text 'Blah', :size => 11
         @pdf.text 'Blaz'
@@ -115,8 +131,6 @@ describe "when drawing text" do
        lambda { @pdf.text str }.should.raise(ArgumentError)
      end
      it "should not raise an exception when a shift-jis string is rendered" do 
-       puts "\nFIXME: SJIS Broken due to TTFunk issue"
-       return
        datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"  
        sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets } 
        @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
@@ -134,4 +148,31 @@ describe "when drawing text" do
      end
    end 
 
+  it "should wrap text" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+
+    text = "Please wrap this text about HERE. More text that should be wrapped"
+    expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
+
+    @pdf.naive_wrap(text, 220, @pdf.font_size).should == expect
+  end
+
+  it "should respect end of line when wrapping text" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    text = "Please wrap only before\nTHIS word. Don't wrap this"
+    @pdf.naive_wrap(text, 220, @pdf.font_size).should == text
+  end
+
+  it "should respect end of line when wrapping text and mode is set to 'character'" do
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+
+    text = "You can wrap this text HERE"
+    expect = "You can wrap this text HE\nRE"
+
+    @pdf.naive_wrap(text, 180, @pdf.font_size, :mode => :character).should == expect
+  end     
+  
 end

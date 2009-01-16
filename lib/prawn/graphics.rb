@@ -7,7 +7,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "enumerator"
-require "prawn/graphics/cell"
 require "prawn/graphics/color"
 
 module Prawn
@@ -84,7 +83,13 @@ module Prawn
       add_content("#{width} w")
     end
 
-    # The current line thickness
+    # When called without an argument, returns the current line thickness.
+    # When called with an argument, sets the line thickness to the specified
+    # value (in PDF points)
+    #
+    #   pdf.line_width #=> 1
+    #   pdf.line_width(5)
+    #   pdf.line_width #=> 5
     #
     def line_width(width=nil)
       if width

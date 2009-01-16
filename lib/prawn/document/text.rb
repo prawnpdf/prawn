@@ -7,10 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "zlib"
 require "prawn/document/text/box"
+require "prawn/document/text/wrapping"
 
 module Prawn
   class Document
     module Text
+      include Wrapping
       
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
@@ -44,25 +46,8 @@ module Prawn
       # When using the :at parameter, Prawn will position your text by its
       # baseline, and flow along a single line.
       #
-      # When using automatic text flow, Prawn currently does a bunch of nasty
-      # hacks to get things to position nicely in bounding boxes, table cells,
-      # etc.
-      #
-      # For AFM fonts, the first line of text is positioned font.height below
-      # the baseline.
-      #
-      # For TTF fonts, the first line is possitioned font.ascender below the
-      # baseline.
-      #
-      # The issue here is that there are complex issues with determining the
-      # size of the glyphs above and below the baseline in TTF that we haven't
-      # figured out yet, and that AFM and TTF appear to handle things very
-      # differently.
-      #
-      # The moral of the story is that if you want reliable font positioning
-      # for your advanced needs, use :at, otherwise, just let Prawn do its
-      # positioning magic for you, or investigate and help us get rid of this 
-      # ugly issue.
+      # Otherwise, the text is positioned at font.ascender below the baseline,
+      # making it easy to use this method within bounding boxes and spans.
       #
       # == Rotation
       #
@@ -87,25 +72,22 @@ module Prawn
         # original string
         text = text.to_s.dup                      
         
-        # we might also mess with the font
-        original_font  = font.name   
-              
-        options = text_options.merge(options)
-        process_text_options(options) 
-         
-        font.normalize_encoding(text) unless @skip_encoding        
+        save_font do
+          options = text_options.merge(options)
+          process_text_options(options) 
+           
+          font.normalize_encoding(text) unless @skip_encoding        
 
-        if options[:at]                
-          x,y = translate(options[:at])            
-          font.size(options[:size]) { add_text_content(text,x,y,options) }
-        else
-          if options[:rotate]
-            raise ArgumentError, "Rotated text may only be used with :at" 
-          end
-          wrapped_text(text,options)
-        end         
-
-        font(original_font) 
+          if options[:at]                
+            x,y = translate(options[:at])            
+            font_size(options[:size]) { add_text_content(text,x,y,options) }
+          else
+            if options[:rotate]
+              raise ArgumentError, "Rotated text may only be used with :at" 
+            end
+            wrapped_text(text,options)
+          end         
+        end
       end 
                           
       # A hash of configuration options, to be used globally by text().
@@ -121,7 +103,7 @@ module Prawn
       
       def process_text_options(options)
         Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
-                              :spacing, :align, :rotate ], options                               
+                              :spacing, :align, :rotate, :final_gap ], options                               
         
         if options[:style]  
           raise "Bad font family" unless font.family
@@ -129,10 +111,10 @@ module Prawn
         end
 
         unless options.key?(:kerning)
-          options[:kerning] = font.metrics.has_kerning_data?
+          options[:kerning] = font.has_kerning_data?
         end                     
 
-        options[:size] ||= font.size
+        options[:size] ||= font_size
      end
 
       def move_text_position(dy)   
@@ -146,20 +128,17 @@ module Prawn
       def wrapped_text(text,options) 
         options[:align] ||= :left      
 
-        font.size(options[:size]) do
-          text = font.metrics.naive_wrap(text, bounds.right, font.size, 
+        font_size(options[:size]) do
+          text = naive_wrap(text, bounds.right, font_size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines.to_a
+          last_gap_before = options.fetch(:final_gap, true) ? lines.length : lines.length-1
                                                        
           lines.each_with_index do |e,i|         
-            if font.metrics.type0?     
-              move_text_position(font.ascender)
-            else                                     
-              move_text_position(font.height) 
-            end                               
+            move_text_position(font.ascender)
                            
-            line_width = font.width_of(e)
+            line_width = font.width_of(e, :kerning => options[:kerning])
             case(options[:align]) 
             when :left
               x = @bounding_box.absolute_left
@@ -172,20 +151,18 @@ module Prawn
                                
             add_text_content(e,x,y,options)
             
-            if font.metrics.type0? && i < lines.length - 1
-              move_text_position(font.height - font.ascender)
+            if i < last_gap_before
+              move_text_position(font.line_gap - font.descender)
+              move_text_position(options[:spacing]) if options[:spacing]
             end
-            
-            move_text_position(options[:spacing]) if options[:spacing]
           end 
         end
       end  
 
       def add_text_content(text, x, y, options)
-        text = font.metrics.convert_text(text,options)
+        chunks = font.encode_text(text,options)
 
         add_content "\nBT"
-        add_content "/#{font.identifier} #{font.size} Tf"
         if options[:rotate]
           rad = options[:rotate].to_i * Math::PI / 180
           arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
@@ -193,9 +170,14 @@ module Prawn
         else
           add_content "#{x} #{y} Td"
         end
-        rad = 1.570796
-        add_content Prawn::PdfObject(text, true) <<
-          " #{options[:kerning] ? 'TJ' : 'Tj'}"
+
+        chunks.each do |(subset, string)|
+          font.add_to_current_page(subset)
+          add_content "/#{font.identifier_for(subset)} #{font_size} Tf"
+
+          operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
+          add_content Prawn::PdfObject(string, true) << " " << operation
+        end
         add_content "ET\n"
       end
     end
