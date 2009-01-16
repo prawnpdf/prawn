@@ -8,9 +8,9 @@
 module Prawn
 
   class Document
-    # Builds and renders a Graphics::Cell.  A cell is essentially a
+    # Builds and renders a Table::Cell.  A cell is essentially a
     # special-purpose bounding box designed for flowing text within a bordered
-    # area.  For available options, see Graphics::Cell#new.
+    # area.  For available options, see Table::Cell#new.
     #
     #    Prawn::Document.generate("cell.pdf") do
     #       cell [100,500], 
@@ -19,7 +19,7 @@ module Prawn
     #    end
     #
     def cell(point, options={})
-      Prawn::Graphics::Cell.new(
+      Prawn::Table::Cell.new(
         options.merge(:document => self, :point => point)).draw
     end
   end

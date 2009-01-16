@@ -6,7 +6,6 @@ require "rubygems"
 require "test/spec"                                                
 require "mocha"
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib') 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'prawn', 'lib')
 
 require "prawn"
 require "prawn/layout"
