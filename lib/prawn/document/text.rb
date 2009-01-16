@@ -46,25 +46,8 @@ module Prawn
       # When using the :at parameter, Prawn will position your text by its
       # baseline, and flow along a single line.
       #
-      # When using automatic text flow, Prawn currently does a bunch of nasty
-      # hacks to get things to position nicely in bounding boxes, table cells,
-      # etc.
-      #
-      # For AFM fonts, the first line of text is positioned font.height below
-      # the baseline.
-      #
-      # For TTF fonts, the first line is possitioned font.ascender below the
-      # baseline.
-      #
-      # The issue here is that there are complex issues with determining the
-      # size of the glyphs above and below the baseline in TTF that we haven't
-      # figured out yet, and that AFM and TTF appear to handle things very
-      # differently.
-      #
-      # The moral of the story is that if you want reliable font positioning
-      # for your advanced needs, use :at, otherwise, just let Prawn do its
-      # positioning magic for you, or investigate and help us get rid of this 
-      # ugly issue.
+      # Otherwise, the text is positioned at font.ascender below the baseline,
+      # making it easy to use this method within bounding boxes and spans.
       #
       # == Rotation
       #

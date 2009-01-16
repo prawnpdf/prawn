@@ -44,22 +44,25 @@ module Prawn
       @font
     end
 
-    # Sets the default font size for use within a block. Individual overrides
-    # can be used as desired. The previous font size will be restored after the
-    # block.
+    # When called with no argument, returns the current font size.
+    # When called with a single argument but no block, sets the current font
+    # size.  When a block is used, the font size is applied transactionally and
+    # is rolled back when the block exits.  You may still change the font size
+    # within a transactional block for individual text segments, or nested calls
+    # to font_size.
     #
-    # Prawn::Document.generate("font_size.pdf") do
-    #   font.size = 16
-    #   text "At size 16"
+    #   Prawn::Document.generate("font_size.pdf") do
+    #     font_size 16
+    #     text "At size 16"
     #
-    #   font.size(10) do
-    #     text "At size 10"
-    #     text "At size 6", :size => 6
-    #     text "At size 10"
+    #     font_size(10) do
+    #       text "At size 10"
+    #       text "At size 6", :size => 6
+    #       text "At size 10"
+    #     end
+    #
+    #     text "At size 16"
     #   end
-    #
-    #   text "At size 16"
-    # end
     #
     # When called without an argument, this method returns the current font
     # size.
