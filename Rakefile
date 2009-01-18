@@ -52,6 +52,8 @@ spec = Gem::Specification.new do |spec|
   spec.files =  Dir.glob("{examples,lib,spec,vendor,data}/**/**/*") +
                       ["Rakefile"]
   spec.require_path = "lib"
+
+  spec.add_dependency('prawn-layout')
   
   spec.test_files = Dir[ "test/*_test.rb" ]
   spec.has_rdoc = true
