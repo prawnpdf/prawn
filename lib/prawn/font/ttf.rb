@@ -229,7 +229,10 @@ module Prawn
         # subset. Perhaps this could be done by querying the subset,
         # rather than by parsing the font that the subset produces?
         font = TTFunk::File.new(font_content)
-        basename = font.name.postscript_name
+
+        # empirically, it looks like Adobe Reader will not display fonts
+        # if their font name is more than 33 bytes long. Strange. But true.
+        basename = font.name.postscript_name[0, 33]
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
