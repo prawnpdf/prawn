@@ -226,10 +226,6 @@ module Prawn
       "#{self.class.name}< #{name}: #{size} >"
     end
 
-    def unscaled_width_of(string)
-      raise NotImplementedError, "subclasses of Prawn::Font must implement #width_of"
-    end
-
     # Returns the width of the given string using the given font. If :size is not
     # specified as one of the options, the string is measured using the current
     # font size. You can also pass :kerning as an option to indicate whether
@@ -239,17 +235,8 @@ module Prawn
     # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
     # UTF-8. You can use the #normalize_encoding method to make sure strings
     # are in an encoding appropriate for the font.
-    # 
     def width_of(string, options={})
-      scale = (options[:size] || size) / 1000.0
-
-      if options[:kerning]
-        strings, numbers = kern(string).partition { |e| e.is_a?(String) }
-        total_kerning_offset = numbers.inject(0.0) { |s,r| s + r }
-        (unscaled_width_of(strings.join) - total_kerning_offset) * scale
-      else
-        unscaled_width_of(string) * scale
-      end
+      raise NotImplementedError, "subclasses of Prawn::Font must implement #width_of"
     end
 
     # Normalizes the encoding of the string to an encoding supported by the font.
