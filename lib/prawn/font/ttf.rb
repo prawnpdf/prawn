@@ -257,39 +257,44 @@ module Prawn
 
         hmtx = font.horizontal_metrics
         widths = font.cmap.tables.first.code_map.map { |gid|
-          Integer(hmtx.widths[gid] * scale_factor) }
+          Integer(hmtx.widths[gid] * scale_factor) }[32..-1]
+
+        # It would be nice to have Encoding set for the macroman subsets,
+        # and only do a ToUnicode cmap for non-encoded unicode subsets.
+        # However, apparently Adobe Reader won't render MacRoman encoded
+        # subsets if original font contains unicode characters. (It has to
+        # be some flag or something that ttfunk is simply copying over...
+        # but I can't figure out which flag that is.)
+        #
+        # For now, it's simplest to just create a unicode cmap for every font.
+        # It offends my inner purist, but it'll do.
+
+        map = @subsets[subset].to_unicode_map
+
+        ranges = [[]]
+        lines = map.keys.sort.inject("") do |s, code|
+          ranges << [] if ranges.last.length >= 100
+          unicode = map[code]
+          ranges.last << "<%02x><%04x>" % [code, unicode]
+        end
+
+        range_blocks = ranges.inject("") do |s, list|
+          s << "%d beginbfchar\n%s\nendbfchar\n" % [list.length, list.join("\n")]
+        end
+
+        to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
+
+        cmap = @document.ref({})
+        cmap << to_unicode_cmap
+        cmap.compress_stream
 
         reference.data.update(:Subtype => :TrueType,
                               :BaseFont => basename,
                               :FontDescriptor => descriptor,
-                              :FirstChar => 0,
+                              :FirstChar => 32,
                               :LastChar => 255,
-                              :Widths => @document.ref(widths))
-
-        if @subsets[subset].unicode?
-          map = @subsets[subset].to_unicode_map
-
-          ranges = [[]]
-          lines = map.keys.sort.inject("") do |s, code|
-            ranges << [] if ranges.last.length >= 100
-            unicode = map[code]
-            ranges.last << "<%02x><%04x>" % [code, unicode]
-          end
-
-          range_blocks = ranges.inject("") do |s, list|
-            s << "%d beginbfchar\n%s\nendbfchar\n" % [list.length, list.join("\n")]
-          end
-
-          to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
-
-          cmap = @document.ref({})
-          cmap << to_unicode_cmap
-          cmap.compress_stream
-
-          @references[subset].data[:ToUnicode] = cmap
-        else
-          @references[subset].data[:Encoding] = :MacRomanEncoding
-        end
+                              :Widths => @document.ref(widths),
+                              :ToUnicode => cmap)
       end
 
       UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, "")
