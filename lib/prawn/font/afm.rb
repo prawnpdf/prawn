@@ -155,23 +155,21 @@ module Prawn
       # String *must* be encoded as WinAnsi
       #
       def kern(string)
-        kerned = string.unpack("C*").inject([]) do |a,r|
-          if a.last.is_a? Array
-            if k = latin_kern_pairs_table[[a.last.last, r]]
-              a << k << [r]
-            else
-              a.last << r
-            end
+        kerned = [[]]
+        last_byte = nil
+
+        string.unpack("C*").each do |byte|
+          if k = last_byte && latin_kern_pairs_table[[last_byte, byte]]
+            kerned << -k << [byte]
           else
-            a << [r]
-          end
-          a
+            kerned.last << byte
+          end         
+          last_byte = byte
         end
 
-        kerned.map { |r|
-          i = r.is_a?(Array) ? r.pack("C*") : r
-          i.force_encoding("Windows-1252") if i.respond_to?(:force_encoding)
-          i.is_a?(Numeric) ? -i : i
+        kerned.map { |e| 
+          e = (Array === e ? e.pack("C*") : e)
+          e.respond_to?(:force_encoding) ? e.force_encoding("Windows-1252") : e  
         }
       end
 
