@@ -191,8 +191,10 @@ module Prawn
       private
       
       def unscaled_width_of(string)
+        glyph_table = latin_glyphs_table
+        
         string.unpack("C*").inject(0) do |s,r|
-          s + latin_glyphs_table[r]
+          s + glyph_table[r]
         end
       end
     end
