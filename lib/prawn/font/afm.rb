@@ -20,7 +20,7 @@ module Prawn
         end
       end
 
-      attr_reader :attributes, :latin_kern_pairs_table, :latin_glyphs_table
+      attr_reader :attributes
 
       def initialize(document, name, options={})
         unless BUILT_INS.include?(name)
@@ -43,9 +43,6 @@ module Prawn
         @ascender  = @attributes["ascender"].to_i
         @descender = @attributes["descender"].to_i
         @line_gap  = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
-
-        create_latin_kern_pairs_table
-        create_latin_glyphs_table
       end
 
       def bbox
@@ -160,7 +157,7 @@ module Prawn
       def kern(string)
         kerned = string.unpack("C*").inject([]) do |a,r|
           if a.last.is_a? Array
-            if k = @latin_kern_pairs_table[[a.last.last, r]]
+            if k = latin_kern_pairs_table[[a.last.last, r]]
               a << k << [r]
             else
               a.last << r
@@ -178,26 +175,26 @@ module Prawn
         }
       end
 
-      
-      private
-
-      def create_latin_kern_pairs_table
-        @latin_kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
+      def latin_kern_pairs_table
+        @kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
           h[p[0].map { |n| Encoding::WinAnsi::CHARACTERS.index(n) }] = p[1]
           h
         end
       end
 
-      def create_latin_glyphs_table
-        @latin_glyphs_table = (0..255).map do |i|
+      def latin_glyphs_table
+        @glyphs_table ||= (0..255).map do |i|
           @glyph_widths[Encoding::WinAnsi::CHARACTERS[i]].to_i
         end
       end
-
+      
+      private
       
       def unscaled_width_of(string)
+        glyph_table = latin_glyphs_table
+        
         string.unpack("C*").inject(0) do |s,r|
-          s + @latin_glyphs_table[r]
+          s + glyph_table[r]
         end
       end
     end
