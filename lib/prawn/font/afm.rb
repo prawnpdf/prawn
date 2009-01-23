@@ -57,18 +57,11 @@ module Prawn
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
-          no_kern_opts = options.merge(:kerning => false)
-          kern(string).inject(0) do |s,r|
-            if r.is_a? String
-              s + width_of(r, no_kern_opts)
-            else
-              s - (r * scale)
-            end
-          end
+          strings, numbers = kern(string).partition { |e| e.is_a?(String) }
+          total_kerning_offset = numbers.inject(0.0) { |s,r| s + r }
+          (unscaled_width_of(strings.join) - total_kerning_offset) * scale
         else
-          string.unpack("C*").inject(0) do |s,r|
-            s + latin_glyphs_table[r]
-          end * scale
+          unscaled_width_of(string) * scale
         end
       end
 
@@ -192,6 +185,14 @@ module Prawn
       def latin_glyphs_table
         @glyphs_table ||= (0..255).map do |i|
           @glyph_widths[Encoding::WinAnsi::CHARACTERS[i]].to_i
+        end
+      end
+      
+      private
+      
+      def unscaled_width_of(string)
+        string.unpack("C*").inject(0) do |s,r|
+          s + latin_glyphs_table[r]
         end
       end
     end
