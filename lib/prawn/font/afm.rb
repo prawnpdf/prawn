@@ -49,6 +49,22 @@ module Prawn
         @bbox ||= @attributes['fontbbox'].split(/\s+/).map { |e| Integer(e) }
       end
 
+      # calculates the width of the supplied string.
+      #
+      # String *must* be encoded as WinAnsi
+      #
+      def width_of(string, options={})
+        scale = (options[:size] || size) / 1000.0
+
+        if options[:kerning]
+          strings, numbers = kern(string).partition { |e| e.is_a?(String) }
+          total_kerning_offset = numbers.inject(0.0) { |s,r| s + r }
+          (unscaled_width_of(strings.join) - total_kerning_offset) * scale
+        else
+          unscaled_width_of(string) * scale
+        end
+      end
+
       def has_kerning_data?
         @kern_pairs.any?
       end
@@ -161,7 +177,8 @@ module Prawn
 
       def latin_kern_pairs_table
         @kern_pairs_table ||= @kern_pairs.inject({}) do |h,p|
-          h[p[0].map { |n| Encoding::WinAnsi::CHARACTERS.index(n) }] = p[1]; h
+          h[p[0].map { |n| Encoding::WinAnsi::CHARACTERS.index(n) }] = p[1]
+          h
         end
       end
 
