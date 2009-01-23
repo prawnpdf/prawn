@@ -158,8 +158,10 @@ module Prawn
         kerned = [[]]
         last_byte = nil
 
+        kern_pairs = latin_kern_pairs_table
+
         string.unpack("C*").each do |byte|
-          if k = last_byte && latin_kern_pairs_table[[last_byte, byte]]
+          if k = last_byte && kern_pairs[[last_byte, byte]]
             kerned << -k << [byte]
           else
             kerned.last << byte
