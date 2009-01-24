@@ -61,7 +61,7 @@ module Prawn
 
           lines = text.lines.to_a
           
-          unless lines.length < max_lines
+          if lines.length > max_lines
             @text = lines[0...max_lines].join
             case(@overflow)
             when :ellipses
