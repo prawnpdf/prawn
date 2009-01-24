@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "tempfile"
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
 
@@ -11,6 +12,17 @@ describe "The cursor" do
     pdf.cursor.should == pdf.y - pdf.bounds.absolute_bottom 
   end
 end 
+
+describe "when generating a document from a subclass" do
+  it "should be an instance_eval of the subclass" do
+    custom_document = Class.new(Prawn::Document)
+    custom_document.generate(Tempfile.new("generate_test").path) do |e| 
+      e.class.should == custom_document
+      assert e.kind_of?(Prawn::Document)
+    end
+  end
+end
+
                                
 describe "When creating multi-page documents" do 
  
