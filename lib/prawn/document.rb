@@ -55,7 +55,7 @@ module Prawn
     #   end                                                
     #
     def self.generate(filename,options={},&block)
-      pdf = Prawn::Document.new(options,&block)          
+      pdf = new(options,&block)          
       pdf.render_file(filename)
     end
           
