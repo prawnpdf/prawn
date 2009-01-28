@@ -193,7 +193,7 @@ module Prawn
       renderable_data.each do |row|
         row.each_with_index do |cell,i|
           length = cell.to_s.lines.map { |e| 
-            @document.font.width_of(e, :size => C(:font_size)) }.max.to_f +
+            @document.width_of(e, :size => C(:font_size)) }.max.to_f +
               2*C(:horizontal_padding)
           @column_widths[i] = length.ceil if length > @column_widths[i]
         end

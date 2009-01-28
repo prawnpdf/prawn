@@ -97,7 +97,7 @@ module Prawn
       # The width of the cell in PDF points
       #
       def width
-        @width || (@document.font.width_of(@text, :size => @font_size)) + 2*@horizontal_padding
+        @width || (@document.width_of(@text, :size => @font_size)) + 2*@horizontal_padding
       end
 
       # The height of the cell in PDF points
