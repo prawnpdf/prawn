@@ -135,13 +135,13 @@ describe "AFM fonts" do
   end
   
   it "should calculate string width taking into account accented characters" do
-    @times.width_of(@iconv.iconv("é"), :size => 12).should == @times.width_of("e", :size => 12)
+    @times.compute_width_of(@iconv.iconv("é"), :size => 12).should == @times.compute_width_of("e", :size => 12)
   end
   
   it "should calculate string width taking into account kerning pairs" do
-    @times.width_of(@iconv.iconv("To"), :size => 12).should == 13.332
-    @times.width_of(@iconv.iconv("To"), :size => 12, :kerning => true).should == 12.372
-    @times.width_of(@iconv.iconv("Tö"), :size => 12, :kerning => true).should == 12.372
+    @times.compute_width_of(@iconv.iconv("To"), :size => 12).should == 13.332
+    @times.compute_width_of(@iconv.iconv("To"), :size => 12, :kerning => true).should == 12.372
+    @times.compute_width_of(@iconv.iconv("Tö"), :size => 12, :kerning => true).should == 12.372
   end
 
   it "should encode text without kerning by default" do
@@ -168,12 +168,12 @@ describe "TTF fonts" do
   end
   
   it "should calculate string width taking into account accented characters" do
-    @activa.width_of("é", :size => 12).should == @activa.width_of("e", :size => 12)
+    @activa.compute_width_of("é", :size => 12).should == @activa.compute_width_of("e", :size => 12)
   end
   
   it "should calculate string width taking into account kerning pairs" do
-    @activa.width_of("To", :size => 12).should == 15.228
-    @activa.width_of("To", :size => 12, :kerning => true).should == 12.996
+    @activa.compute_width_of("To", :size => 12).should == 15.228
+    @activa.compute_width_of("To", :size => 12, :kerning => true).should == 12.996
   end
   
   it "should encode text without kerning by default" do

@@ -53,7 +53,7 @@ module Prawn
       #
       # String *must* be encoded as WinAnsi
       #
-      def width_of(string, options={})
+      def compute_width_of(string, options={})
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]

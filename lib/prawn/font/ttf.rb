@@ -23,7 +23,7 @@ module Prawn
       end
 
       # +string+ must be UTF8-encoded.
-      def width_of(string, options={})
+      def compute_width_of(string, options={})
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).inject(0) do |s,r|

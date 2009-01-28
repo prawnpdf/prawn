@@ -138,7 +138,7 @@ module Prawn
           lines.each_with_index do |e,i|         
             move_text_position(font.ascender)
                            
-            line_width = font.width_of(e, :kerning => options[:kerning])
+            line_width = width_of(e, :kerning => options[:kerning])
             case(options[:align]) 
             when :left
               x = @bounding_box.absolute_left
