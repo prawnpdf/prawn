@@ -42,7 +42,7 @@ module Prawn
     #   Will raise <tt>Prawn::Errors::EmptyTable</tt> given 
     #   a nil or empty <tt>data</tt> paramater.
     #
-    def table(data,options={})           
+    def table(data, options={})           
       if data.nil? || data.empty?
         raise Prawn::Errors::EmptyTable,
           "data must be a non-empty, non-nil, two dimensional array of Prawn::Cells or strings"
@@ -117,7 +117,7 @@ module Prawn
     # See Document#table for typical usage, as directly using this class is
     # not recommended unless you know why you want to do it.
     #
-    def initialize(data, document,options={})     
+    def initialize(data, document, options={})     
       unless data.all? { |e| Array === e }
         raise Prawn::Errors::InvalidTableData,
           "data must be a two dimensional array of Prawn::Cells or strings"
