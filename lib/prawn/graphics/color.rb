@@ -54,6 +54,7 @@ module Prawn
       #
       #    stroke_some_method(*args) #=> some_method(*args); stroke
       #    fill_some_method(*args) #=> some_method(*args); fill
+      #    fill_and_stroke_some_method(*args) #=> some_method(*args); fill_and_stroke
       #
       def method_missing(id,*args,&block)
         case(id.to_s) 
