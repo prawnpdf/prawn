@@ -5,7 +5,7 @@
 
 body {
   font: Verdana, "Lucida Grande", "Lucida Sans", sans-serif;
-  background-color: #101010;
+  background-color: #000000;
   color: #ffff66;    
   margin-bottom: 1em;
 }    
@@ -46,12 +46,21 @@ a img {
 }
 
 #contents { 
+  background-color: #101010;
 	width: 740px;
   margin: 0 auto;
   border: 1px solid #fff;
   margin-top: 1em;
   padding: 1em 1em 1em 3em;
 }    
+
+#sidebar {
+  width: 180px;
+  float: right;
+  padding: 2em 2em 2em 0;
+  font-size: 1.2em;
+}
+
 
 #screenshots { 
 	margin-top: 2em;
