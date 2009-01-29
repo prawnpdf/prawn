@@ -6,7 +6,7 @@
 body {
   font: Verdana, "Lucida Grande", "Lucida Sans", sans-serif;
   background-color: #000000;
-  color: #ffff66;    
+  color: #ffffff;    
   margin-bottom: 1em;
 }    
 
@@ -34,11 +34,11 @@ a {
 }
 
 a:visited { 
-	color: #ffffff;
+	color: #2299ff;
 }
 
 a:hover, a:active { 
-	color: #ffffff;
+	color: #2299ff;
 }
  
 a img {
