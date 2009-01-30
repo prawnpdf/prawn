@@ -45,7 +45,7 @@ task :examples do
 end
 
 spec = Gem::Specification.new do |spec|
-  spec.name = "prawn"
+  spec.name = "prawn-core"
   spec.version = PRAWN_VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
@@ -53,8 +53,6 @@ spec = Gem::Specification.new do |spec|
                       ["Rakefile"]
   spec.require_path = "lib"
 
-  spec.add_dependency('prawn-layout')
-  
   spec.test_files = Dir[ "test/*_test.rb" ]
   spec.has_rdoc = true
   spec.extra_rdoc_files = %w{README LICENSE COPYING}
@@ -73,7 +71,3 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
-
-
-
-
