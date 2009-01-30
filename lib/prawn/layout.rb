@@ -1,4 +1,5 @@
 require "prawn/table"
+require "prawn/layout/page"
 
 module Prawn
   
