@@ -19,6 +19,11 @@ module Prawn
      #
      class InvalidPageLayout < StandardError; end        
      
+     # This error is raised when a method requiring a current page is called 
+     # without being on a page.
+     #
+     class NotOnPage < StandardError; end
+     
      # This error is raised when Prawn cannot find a specified font   
      #
      class UnknownFont < StandardError; end   

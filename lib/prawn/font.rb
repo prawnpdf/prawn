@@ -30,6 +30,7 @@ module Prawn
     def font(name=nil, options={})
       return @font || font("Helvetica") if name.nil?
 
+      raise Errors::NotOnPage unless @current_page
       new_font = find_font(name, options)
 
       if block_given?

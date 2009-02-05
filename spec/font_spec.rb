@@ -15,6 +15,13 @@ end
 describe "font style support" do
   before(:each) { create_pdf }
   
+  it "should complain if there is no @current_page" do
+    pdf_without_page = Prawn::Document.new(:skip_page_creation => true)
+
+    lambda{ pdf_without_page.font "Helvetica" }.
+      should.raise(Prawn::Errors::NotOnPage)
+  end
+  
   it "should allow specifying font style by style name and font family" do    
     @pdf.font "Courier", :style => :bold
     @pdf.text "In Courier bold"    
