@@ -35,12 +35,12 @@ module Prawn
       # If a single argument is provided, it should be a 6 digit HTML color 
       # code.
       # 
-      #   pdf.fill_color "f0ffc1"
+      #   pdf.stroke_color "f0ffc1"
       #
       # If 4 arguments are provided, the color is assumed to be a CMYK value
       # Values range from 0 - 100.
       # 
-      #   pdf.fill_color 0, 99, 95, 0
+      #   pdf.stroke_color 0, 99, 95, 0
       #
       def stroke_color(*color)   
         return @stroke_color if color.empty?
