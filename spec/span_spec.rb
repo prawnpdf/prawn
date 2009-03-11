@@ -29,7 +29,7 @@ describe "drawing span" do
     
   end
 
-  it "should do something" do
+  it "should do create a margin box" do
     y = @pdf.y
     margin_box = @pdf.span(350, :position => :center) do
       @pdf.text "Here's some centered text in a 350 point column. " * 100
