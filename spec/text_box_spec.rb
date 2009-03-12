@@ -9,44 +9,50 @@ describe "A text box" do
     @x      = 100
     @y      = 125
     @width  = 50
-    @height = 75
-    @box = Prawn::Document::Text::Box.new("Oh hai text box. " * 200,
-                                                            :width    => @width, :height => @pdf.font.height * 10,
-                                                            :overflow => :truncate,
-                                                            :at       => [@x, @y],
-                                                            :for      => @pdf)
+    @height = @pdf.font.height * 10
+    @text = "Oh hai text box. " * 200    
   end
 
   it "should have a truncated text" do
+    @overflow = :truncate
+    create_text_box
     @box.render
     @box.text.should == "Oh hai\ntext box.\n" * 5
   end
 
+  it "should have a height equal to @height" do
+    @overflow = :truncate    
+    create_text_box
+    @box.render    
+    @box.height.should == @height     
+  end
+
   it "should add ... to for overflow :ellipses" do
-    @box = Prawn::Document::Text::Box.new("Oh hai text box. " * 200,
-                                                            :width    => 50, :height => @pdf.font.height * 2,
-                                                            :overflow => :ellipses,
-                                                            :at       => [@x, @y],
-                                                            :for      => @pdf)
+    @overflow = :ellipses
+    @height = @pdf.font.height * 2
+    @text = "Oh hai text box.\n" * 4
+    create_text_box
     @box.render
     @box.text.should == "Oh hai\ntext bo..."
   end
 
   it "should not fail if height is smaller than 1 line" do
-    @box = Prawn::Document::Text::Box.new("a b c d e fgi",
-                                                            :width    => 30, :height => @pdf.font.height * 0.5,
-                                                            :overflow => :ellipses,
-                                                            :at       => [@x, @y],
-                                                            :for      => @pdf)
+    @text = "a b c d e fgi"
+    @width = 30
+    @height = @pdf.font.height * 0.5
+    @overflow = :ellipses    
+    create_text_box
     @box.render
     @box.text.should == ""
   end
-
-  it "should have a height equal to @height" do
-    @box.render    
-    @box.height.should == @pdf.font.height * 10     
+  
+  def create_text_box
+    @box = Prawn::Document::Text::Box.new(@text,
+                                          :width    => @width, :height => @height,
+                                          :overflow => @overflow,
+                                          :at       => [@x, @y],
+                                          :for      => @pdf)    
   end
-
 end
 
 describe "drawing bounding boxes" do    
