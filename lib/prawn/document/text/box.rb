@@ -37,7 +37,7 @@ module Prawn
           x,y = @at
           
           if @overflow == :expand
-            @text = @document.naive_wrap(@text, @width, @document.font_size)
+            @text = naive_wrap_text
           else
             original_y = @document.y
             fit_text_to_box            
@@ -54,10 +54,10 @@ module Prawn
           end        
         end
         
-        private
+        private        
         
         def fit_text_to_box
-          text = @document.naive_wrap(@text, @width, @document.font_size)
+          text = naive_wrap_text
             
           max_lines = (@height / @document.font.height).floor
 
@@ -72,6 +72,9 @@ module Prawn
           end 
         end
         
+        def naive_wrap_text
+          @document.naive_wrap(@text, @width, @document.font_size)
+        end
       end
     end
   end
