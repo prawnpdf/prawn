@@ -50,10 +50,9 @@ describe "A text box" do
     @overflow = :expand
     @text = "Oh hai text box.\n" * 4
     @height = 0
-    @width = 0    
     create_text_box
     @box.render
-    @box.text.should == @text
+    @box.text.should == "Oh hai\ntext box.\n" * 4    
     @box.height.should == 0
   end
   

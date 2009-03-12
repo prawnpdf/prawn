@@ -36,9 +36,11 @@ module Prawn
         def render
           x,y = @at
           
-          unless @overflow == :expand
+          if @overflow == :expand
+            @text = @document.naive_wrap(@text, @width, @document.font_size)
+          else
             original_y = @document.y
-            fit_text_to_box
+            fit_text_to_box            
           end
           
           @document.bounding_box([x,@document.bounds.top], 
