@@ -65,7 +65,7 @@ module Prawn
             @text = lines[0...max_lines].join
             case(@overflow)
             when :ellipses
-              @text[-3..-1] = "..."
+              @text[-3..-1] = "..." if @text.size > 3
             end
           end 
         end

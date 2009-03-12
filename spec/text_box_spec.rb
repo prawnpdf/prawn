@@ -22,6 +22,26 @@ describe "A text box" do
     @box.text.should == "Oh hai\ntext box.\n" * 5
   end
 
+  it "should add ... to for overflow :ellipses" do
+    @box = Prawn::Document::Text::Box.new("Oh hai text box. " * 200,
+                                                            :width    => 50, :height => @pdf.font.height * 2,
+                                                            :overflow => :ellipses,
+                                                            :at       => [@x, @y],
+                                                            :for      => @pdf)
+    @box.render
+    @box.text.should == "Oh hai\ntext bo..."
+  end
+
+  it "should not fail if height is smaller than 1 line" do
+    @box = Prawn::Document::Text::Box.new("a b c d e fgi",
+                                                            :width    => 30, :height => @pdf.font.height * 0.5,
+                                                            :overflow => :ellipses,
+                                                            :at       => [@x, @y],
+                                                            :for      => @pdf)
+    @box.render
+    @box.text.should == ""
+  end
+
   it "should have a height equal to @height" do
     @box.render    
     @box.height.should == @pdf.font.height * 10     
