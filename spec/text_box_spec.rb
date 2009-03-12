@@ -45,6 +45,17 @@ describe "A text box" do
     @box.render
     @box.text.should == ""
   end
+
+  it "should keep text intact for overflow :expand" do
+    @overflow = :expand
+    @text = "Oh hai text box.\n" * 4
+    @height = 0
+    @width = 0    
+    create_text_box
+    @box.render
+    @box.text.should == @text
+    @box.height.should == 0
+  end
   
   def create_text_box
     @box = Prawn::Document::Text::Box.new(@text,
