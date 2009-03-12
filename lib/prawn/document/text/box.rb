@@ -11,7 +11,7 @@ module Prawn
     
     # Defines an invisible rectangle which you can flow text in. When the
     # text overflows the box, you can either display :ellipses, :truncate
-    # the text, or allow it to :overflow the bottom boundary.
+    # the text, or allow it to overflow the bottom boundary with :expand.
     #
     #   text_box "Oh hai text box. " * 200, 
     #     :width    => 300, :height => font.height * 5,
