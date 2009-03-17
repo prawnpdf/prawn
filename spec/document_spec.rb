@@ -161,3 +161,18 @@ describe "The render() feature" do
     end
   end
 end
+
+describe "PDF file versions" do
+  it "should default to 1.3" do
+    @pdf = Prawn::Document.new
+    str = @pdf.render
+    str[0,8].should == "%PDF-1.3"
+  end
+
+  it "should allow the default to be changed" do
+    @pdf = Prawn::Document.new
+    @pdf.__send__(:min_version, 1.4)
+    str = @pdf.render
+    str[0,8].should == "%PDF-1.4"
+  end
+end

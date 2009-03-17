@@ -87,6 +87,7 @@ module Prawn
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
          :compress, :skip_encoding, :text_options, :background ], options
          
+       @version = 1.3
        @objects = []
        @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])
