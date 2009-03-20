@@ -107,9 +107,10 @@ module Prawn
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
-    #
+    # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
+
     # Additionally, :page_size can be specified as a simple two value array giving
-    # the width and height of the document you are after in PDF Points.
+    # the width and height of the document you need in PDF Points.
     # 
     # Usage:
     #
@@ -125,13 +126,23 @@ module Prawn
     #   # New document, with background
     #   pdf = Prawn::Document.new(:background => "#{Prawn::BASEDIR}/data/images/pigs.jpg")
     #
-    def initialize(options={},&block)
-       Prawn.verify_options [:page_size, :page_layout, :left_margin,
-         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-         :compress, :skip_encoding, :text_options, :background ], options
+    def initialize(options={},&block)   
+       Prawn.verify_options [:page_size, :page_layout, :left_margin, 
+         :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
+         :compress, :skip_encoding, :text_options, :background, :info], options
+       
+       options[:info] ||= {}
+       options[:Creator] ||= "Prawn"
+       options[:Producer] = "Prawn"
 
+       options[:info].keys.each do |key|
+         if options[:info][key].kind_of?(String)
+           options[:info][key] = Prawn::LiteralString.new(options[:info][key])
+         end
+       end
+          
        @objects = []
-       @info    = ref(:Creator => "Prawn", :Producer => "Prawn")
+       @info    = ref(options[:info])
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])
        @root    = ref(:Type => :Catalog, :Pages => @pages)
        @page_size       = options[:page_size]   || "LETTER"
