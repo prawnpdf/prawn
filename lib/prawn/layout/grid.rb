@@ -12,7 +12,8 @@ module Prawn
         @grid
       else
         g1, g2 = args
-        if g1.class == Array && g2.class == Array && g1.length == 2 && g2.length == 2
+        if(g1.class == Array && g2.class == Array && 
+          g1.length == 2 && g2.length == 2)
           multi_box(single_box(*g1), single_box(*g2))
         else
           single_box(g1, g2)
