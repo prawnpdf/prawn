@@ -2,10 +2,19 @@ puts "REQUIERED #{__FILE__}"
 
 module Prawn
   class Document
+    # Defines the grid system for a particular document.  Takes the number of rows and columns and the
+    # width to use for the gutter as the keys :rows, :columns, :gutter
+    #
     def define_grid(options = {})
       @grid = Grid.new(self, options)
     end
   
+    # A method that can either be used to access a particular grid on the page or interogate the grid 
+    # system directly.
+    #
+    #   @pdf.grid                 # Get the Grid directly
+    #   @pdf.grid([0,1])          # Get the box at [0,1]
+    #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
     def grid(*args)
       @boxes ||= {}
       @boxes[args] ||= if args.empty?
@@ -21,9 +30,11 @@ module Prawn
       end
     end
   
+    # A Grid represents the entire grid system of a Page and calculates the column width and row height
+    # of the base box.
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter
-    
+      # :nodoc
       def initialize(pdf, options = {})
         Prawn.verify_options([:columns, :rows, :gutter], options)
       
@@ -33,14 +44,17 @@ module Prawn
         @gutter = options[:gutter].to_f
       end
 
+      # Calculates the base width of boxes.
       def column_width
         @column_width ||= subdivide(pdf.bounds.width, columns)
       end
     
+      # Calculates the base height of boxes.
       def row_height
        @row_height ||= subdivide(pdf.bounds.height, rows)
       end
 
+      # Diagnostic tool to show all of the grids.  Defaults to gray.
       def show_all(color = "CCCCCC")
         self.rows.times do |i|
           self.columns.times do |j|
@@ -55,6 +69,10 @@ module Prawn
       end
     end
   
+    # A Box is a class that represents a bounded area of a page.  A Grid object has methods that allow 
+    # easy access to the coordinates of its corners, which can be plugged into most existing prawn 
+    # methods.
+    #
     class Box
       attr_reader :pdf
     
@@ -64,62 +82,77 @@ module Prawn
         @j = j
       end
     
+      # Mostly diagnostic method that outputs the name of a box as col_num, row_num
       def name
         "#{@i.to_s},#{@j.to_s}"
       end
-    
+      
+      # :nodoc
       def total_height
         pdf.bounds.height.to_f
       end
-    
+      
+      # Width of a box
       def width
         grid.column_width.to_f
       end
     
+      # Height of a box
       def height
         grid.row_height.to_f
       end
-    
+      
+      # Width of the gutter
       def gutter
         grid.gutter.to_f
       end
-    
+      
+      # x-coordinate of left side
       def left
         @left ||= (width + gutter) * @j.to_f
       end
     
+      # x-coordinate of right side 
       def right
         @right ||= left + width
       end
     
+      # y-coordinate of the top
       def top
         @top ||= total_height - ((height + gutter) * @i.to_f)
       end
     
+      # y-coordinate of the bottom
       def bottom
         @bottom ||= top - height
       end
     
+      # x,y coordinates of top left corner
       def top_left
         [left, top]
       end
     
+      # x,y coordinates of top right corner    
       def top_right
         [right, top]
       end
     
+      # x,y coordinates of bottom left corner
       def bottom_left
         [left, bottom]
       end
     
+      # x,y coordinates of bottom right corner
       def bottom_right
         [right, bottom]
       end
     
+      # Creates a standard bounding box based on the grid box.
       def bounding_box(&blk)
         pdf.bounding_box(top_left, :width => width, :height => height, &blk)
       end
     
+      # Diagnostic method
       def show(grid_color = "CCCCCC")
         self.bounding_box do
           pdf.stroke_color = grid_color
@@ -134,6 +167,7 @@ module Prawn
       end
     end
   
+    # A MultiBox is specified by 2 Boxes and spans the areas between.
     class MultiBox < Box
       def initialize(pdf, b1, b2)
         @pdf = pdf
