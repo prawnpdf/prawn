@@ -1,4 +1,3 @@
-puts "right before require"
 require "prawn/table"
 require "prawn/layout/page"
 require 'prawn/layout/grid'

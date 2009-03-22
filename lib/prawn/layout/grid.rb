@@ -1,5 +1,3 @@
-puts "REQUIERED #{__FILE__}"
-
 module Prawn
   class Document
     # Defines the grid system for a particular document.  Takes the number of rows and columns and the
