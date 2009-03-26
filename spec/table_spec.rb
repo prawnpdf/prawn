@@ -10,6 +10,25 @@ describe "A table's width" do
 
     table.width.should == 300
   end
+  it "should calculate unspecified column widths even " +
+     "with rowspan cells declared" do
+    pdf = Prawn::Document.new
+    hpad, fs = 3, 5
+    columns  = 3
+
+    data = [ [ { :text => 'foo', :colspan => 2 }, "foobar" ],
+             [ "foo", "foo", "foo" ] ]
+    table = Prawn::Table.new( data, pdf,
+      :horizontal_padding => hpad,
+      :font_size => fs )
+
+    col0_width = pdf.width_of("foo",    :size => fs) # cell 1, 0
+    col1_width = pdf.width_of("foo",    :size => fs) # cell 1, 1
+    col2_width = pdf.width_of("foobar", :size => fs) # cell 0, 1 (at col 2)
+
+    table.width.should == col0_width.ceil + col1_width.ceil +
+                          col2_width.ceil + 2*columns*hpad
+  end
 
   it "should calculate unspecified column widths as "+
      "(max(string_width).ceil + 2*horizontal_padding)" do

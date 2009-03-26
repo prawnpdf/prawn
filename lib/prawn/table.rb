@@ -191,11 +191,21 @@ module Prawn
       @column_widths = [0] * @data[0].inject(0){ |acc, e| 
         acc += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1 }
       renderable_data.each do |row|
+        colspan = 0
         row.each_with_index do |cell,i|
-          length = cell.to_s.lines.map { |e| 
+          cell_text = cell.is_a?(Hash) ? cell[:text] : cell.to_s
+          length = cell_text.lines.map { |e|
             @document.width_of(e, :size => C(:font_size)) }.max.to_f +
               2*C(:horizontal_padding)
-          @column_widths[i] = length.ceil if length > @column_widths[i]
+          if length > @column_widths[i+colspan]
+            @column_widths[i+colspan] = length.ceil
+          end
+
+          if cell.is_a?(Hash) && cell[:colspan]
+            colspan += cell[:colspan] - 1
+          elsif cell.is_a?(Prawn::Table::Cell) && cell.colspan
+            colspan += cell.colspan - 1
+          end
         end
       end  
 
