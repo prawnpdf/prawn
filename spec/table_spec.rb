@@ -11,23 +11,50 @@ describe "A table's width" do
     table.width.should == 300
   end
   it "should calculate unspecified column widths even " +
-     "with rowspan cells declared" do
+     "with rowspan cells declared (as hashes)" do
     pdf = Prawn::Document.new
-    hpad, fs = 3, 5
-    columns  = 3
-
+    hpad, fs = 3, 12
+    # +--------------------+
+    # | foo       | foobar |
+    # +--------------------+
+    # | foo | foo | foo    |
+    # +--------------------+
     data = [ [ { :text => 'foo', :colspan => 2 }, "foobar" ],
              [ "foo", "foo", "foo" ] ]
     table = Prawn::Table.new( data, pdf,
       :horizontal_padding => hpad,
-      :font_size => fs )
+      :font_size          => fs )
+    # The relevant cells are:
+    #   - (1, 0) "foo"
+    #   - (1, 1) "foo"
+    #   - (0 ,1) "foobar" [at col 2]
+    cells = %w( foo foo foobar )
 
-    col0_width = pdf.width_of("foo",    :size => fs) # cell 1, 0
-    col1_width = pdf.width_of("foo",    :size => fs) # cell 1, 1
-    col2_width = pdf.width_of("foobar", :size => fs) # cell 0, 1 (at col 2)
+    table.width.should == width_table_for( pdf, hpad, fs, cells )
+  end
 
-    table.width.should == col0_width.ceil + col1_width.ceil +
-                          col2_width.ceil + 2*columns*hpad
+  it "should calculate unspecified column widths even when there is a cell " +
+     "with rowspan attribute and it's bigger than the other cells of " +
+     "these columns" do
+    pdf = Prawn::Document.new
+    hpad, fs = 3, 12
+
+    # +---------------------------------+
+    # | foobar baz waldo waldo | foobar |
+    # +---------------------------------+
+    # | foo       |        foo | foo    |
+    # +---------------------------------+
+    data = [ [ { :text => 'foobar baz waldo waldo', :colspan => 2 }, "foobar" ],
+             [ "foo", "foo", "foo" ] ]
+    table = Prawn::Table.new( data, pdf,
+      :horizontal_padding => hpad,
+      :font_size          => fs )
+    # The relevant cells are:
+    #   - (0, 0) "foobar baz waldo waldo"
+    #   - (0 ,1) "foobar" [at col 2]
+    cells = %w( foobar\ baz\ waldo\ waldo foobar )
+
+    table.width.should == width_table_for( pdf, hpad, fs, cells )
   end
 
   it "should calculate unspecified column widths as "+
@@ -256,6 +283,7 @@ describe "An invalid table" do
   end
   
   it "should raise error when invalid table data is given" do
+
     assert_raises(Prawn::Errors::InvalidTableData) do
       @pdf.table(@bad_data)
     end

@@ -23,3 +23,9 @@ def create_pdf(klass=Prawn::Document)
                    :top_margin    => 0,
                    :bottom_margin => 0)
 end    
+
+def width_table_for( pdf, hpad, fs, cells )
+  cells.inject( 2 * cells.size * hpad ) do |ret, cell|
+    ret + pdf.width_of( cell, :size => fs ).ceil
+  end
+end
