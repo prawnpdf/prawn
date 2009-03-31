@@ -215,9 +215,11 @@ module Prawn
       #
       def pad_left(left_padding, &block)
         @x += left_padding
+        @width -= left_padding
         yield
       ensure
         @x -= left_padding
+        @width += left_padding
       end
       
       # Relative right x-coordinate of the bounding box. (Equal to the box width)
