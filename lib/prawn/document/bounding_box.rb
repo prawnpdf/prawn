@@ -210,6 +210,16 @@ module Prawn
         0
       end
       
+      
+      # Temporarily adjust the @x coordinate to allow for left_padding
+      #
+      def pad_left(left_padding, &block)
+        @x += left_padding
+        yield
+      ensure
+        @x -= left_padding
+      end
+      
       # Relative right x-coordinate of the bounding box. (Equal to the box width)
       # 
       # Example, position some text 3 pts from the right of the containing box:

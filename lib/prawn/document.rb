@@ -347,6 +347,18 @@ module Prawn
       yield
       move_down(y)
     end
+    
+    # Adds left padding to the document
+    # pdf.text "some text"
+    # pdf.pad_left(20) do
+    #   pdf.text "This starts 20 points left of the previous lines left starting point"
+    # end
+    # pdf.text "This starts 20 points right of the above line and at the same left starting point of the first line"
+    #
+    def pad_left(x, &block)
+      bounds.pad_left(x, &block)
+    end
+    
 
     def mask(*fields) # :nodoc:
      # Stores the current state of the named attributes, executes the block, and
