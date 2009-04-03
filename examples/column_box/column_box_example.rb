@@ -5,53 +5,40 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
 require "prawn"
 
-corpus = <<-END
-IN CONGRESS, July 4, 1776.
+paragraphs = []
+paragraphs << <<-ONE
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vivamus vitae risus vitae lorem iaculis placerat. Aliquam sit amet felis. Etiam congue. Donec risus risus, pretium ac, tincidunt eu, tempor eu, quam. Morbi blandit mollis magna. Suspendisse eu tortor. Donec vitae felis nec ligula blandit rhoncus. Ut a pede ac neque mattis facilisis. Nulla nunc ipsum, sodales vitae, hendrerit non, imperdiet ac, ante. Morbi sit amet mi. Ut magna. Curabitur id est. Nulla velit. Sed consectetuer sodales justo. Aliquam dictum gravida libero. Sed eu turpis. Nunc id lorem. Aenean consequat tempor mi. Phasellus in neque. Nunc fermentum convallis ligula.
+ONE
+paragraphs << <<-TWO
+Suspendisse in nulla. Nunc eu ipsum tincidunt risus pellentesque fringilla. Integer iaculis pharetra eros. Nam ut sapien quis arcu ullamcorper cursus. Vestibulum tempor nisi rhoncus eros. Sed iaculis ultricies tellus. Cras pellentesque erat eu urna. Cras malesuada. Quisque congue ultricies neque. Nullam a nisl. Sed convallis turpis a ante. Morbi eu justo sed tortor euismod porttitor. Aenean ut lacus. Maecenas nibh eros, dapibus at, pellentesque in, auctor a, enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam congue pede a ipsum. Sed libero quam, sodales eget, venenatis non, cursus vel, velit. In vulputate.
+TWO
+paragraphs << <<-THREE
+In vehicula. Aenean quam mauris, vehicula non, suscipit at, venenatis sed, arcu. Etiam ornare fermentum felis. Donec ligula metus, placerat quis, blandit at, congue molestie, ante. Donec viverra nibh et dolor. Sed elementum, nunc ac gravida pulvinar, libero ligula vestibulum urna, eget luctus eros ipsum ut velit. Vestibulum at diam. Suspendisse hendrerit. Sed facilisis libero pretium nisl. Morbi eget urna ut mi egestas aliquet. Donec interdum, urna eget semper ultrices, nibh sapien laoreet massa, at laoreet nulla metus sit amet nunc. In augue. Etiam sit amet sapien. Aliquam nulla mi, tincidunt a, ullamcorper pharetra, mollis eu, purus.
+Suspendisse auctor nunc a dolor. Donec elit diam, fringilla nec, cursus a, dapibus ut, justo. Maecenas rhoncus lacinia mi. Sed tempus leo in risus. Quisque vitae est. Integer eu mi vel justo lacinia posuere. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec pretium auctor mauris. Cras at risus. Vestibulum ligula purus, venenatis varius, tincidunt aliquam, volutpat ut, felis. In nulla. Suspendisse magna. Fusce ac tortor. Morbi semper hendrerit purus. Donec scelerisque erat quis magna. Vivamus interdum metus at tellus.
+Nam molestie suscipit arcu. Sed sed leo non sapien lobortis gravida. Mauris ultricies imperdiet lacus. Maecenas semper sapien in mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc euismod odio eget lectus. Vestibulum nonummy pharetra eros. Donec semper venenatis sapien. Phasellus scelerisque lectus quis tortor. Quisque turpis. Etiam rutrum metus eget nisi. Morbi varius ligula id elit. Ut augue.
+Nulla arcu est, rhoncus non, eleifend ut, imperdiet vel, magna. Sed pretium pulvinar augue. Sed sit amet nulla eget lacus viverra sollicitudin. Nulla facilisi. Proin sed ipsum vel lacus faucibus dignissim. Nulla purus. Nullam sapien elit, elementum eget, consequat vitae, vehicula cursus, pede. Sed quis leo. Praesent tincidunt convallis ligula. Sed purus eros, malesuada eget, posuere a, convallis suscipit, tellus. Proin tincidunt. Suspendisse leo. Suspendisse risus nisi, hendrerit in, ullamcorper id, porta in, pede. Maecenas lectus mi, congue vitae, ullamcorper vitae, bibendum sit amet, dui. Ut volutpat, nibh scelerisque malesuada bibendum, ipsum felis elementum lacus, nec pretium libero neque ut elit. Duis enim. Fusce arcu nulla, sodales eget, rhoncus sed, fermentum a, erat. Donec vitae mi.
+Duis sed nunc a justo egestas tincidunt. Morbi elit. Morbi venenatis fermentum erat. Cras purus orci, imperdiet a, sodales vel, aliquet at, quam. Etiam erat diam, ornare a, nonummy ut, accumsan non, felis. Fusce dignissim. Ut in ligula vitae risus varius viverra. Aenean elit diam, dapibus et, imperdiet in, suscipit at, felis. Curabitur vitae nunc ac mauris tincidunt posuere. Morbi id tortor. Nam sagittis. Sed dolor. Nulla imperdiet magna et lectus. Vivamus sapien diam, condimentum at, ultricies nec, vestibulum sit amet, pede. Nunc non orci vel magna lacinia sodales. In ac nunc vel mauris pharetra pharetra.
+Integer quis orci. Nam ultrices, magna nec ullamcorper tincidunt, enim massa semper arcu, sit amet malesuada velit nibh a enim. Phasellus molestie neque eget lorem semper convallis. Duis eget leo. Maecenas commodo vehicula nisi. In viverra massa sed justo. Vestibulum quis velit. Nunc id nulla. Ut eget sem. Nullam congue placerat ante. Mauris ut leo. Cras semper dolor at odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+Vivamus quis velit. Aliquam erat volutpat. Praesent malesuada tincidunt purus. Vestibulum quis pede. Praesent luctus, nunc in eleifend fermentum, risus lacus tristique mi, ac mollis metus mi at lectus. Proin tortor. Phasellus erat. Duis cursus nunc non metus. Vivamus hendrerit neque eu felis. Sed interdum metus a enim. Aliquam aliquet vehicula erat. Vivamus tortor neque, ornare ac, cursus id, nonummy ultricies, turpis. Proin tempor nonummy tellus. Praesent metus neque, accumsan eu, tempor sed, porta facilisis, pede. Cras nec nisl in turpis porta congue.
+Maecenas sollicitudin feugiat urna. Maecenas tellus. Vestibulum semper, lacus in blandit blandit, neque lectus ullamcorper nulla, at viverra elit justo ac lacus. Proin gravida enim non neque ultricies dictum. In vulputate mattis lacus. In mollis nibh a lacus. Aenean a ipsum. Vivamus egestas adipiscing eros. Cras gravida suscipit risus. Maecenas varius sagittis velit. Phasellus rhoncus risus. Nunc quis urna at neque convallis hendrerit. Mauris metus. Integer eleifend eros nec nunc venenatis ultrices. Curabitur placerat. Nam eros dui, semper vitae, tincidunt quis, tincidunt eu, risus. Ut in pede a neque condimentum feugiat. Maecenas dictum tortor non neque.
+THREE
 
-The unanimous Declaration of the thirteen united States of America,
 
-When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.
 
-We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.--That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, --That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience hath shewn, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.--Such has been the patient sufferance of these Colonies; and such is now the necessity which constrains them to alter their former Systems of Government. The history of the present King of Great Britain is a history of repeated injuries and usurpations, all having in direct object the establishment of an absolute Tyranny over these States. To prove this, let Facts be submitted to a candid world.
-
-He has refused his Assent to Laws, the most wholesome and necessary for the public good.
-He has forbidden his Governors to pass Laws of immediate and pressing importance, unless suspended in their operation till his Assent should be obtained; and when so suspended, he has utterly neglected to attend to them.
-He has refused to pass other Laws for the accommodation of large districts of people, unless those people would relinquish the right of Representation in the Legislature, a right inestimable to them and formidable to tyrants only.
-He has called together legislative bodies at places unusual, uncomfortable, and distant from the depository of their public Records, for the sole purpose of fatiguing them into compliance with his measures.
-He has dissolved Representative Houses repeatedly, for opposing with manly firmness his invasions on the rights of the people.
-He has refused for a long time, after such dissolutions, to cause others to be elected; whereby the Legislative powers, incapable of Annihilation, have returned to the People at large for their exercise; the State remaining in the mean time exposed to all the dangers of invasion from without, and convulsions within.
-He has endeavoured to prevent the population of these States; for that purpose obstructing the Laws for Naturalization of Foreigners; refusing to pass others to encourage their migrations hither, and raising the conditions of new Appropriations of Lands.
-He has obstructed the Administration of Justice, by refusing his Assent to Laws for establishing Judiciary powers.
-He has made Judges dependent on his Will alone, for the tenure of their offices, and the amount and payment of their salaries.
-He has erected a multitude of New Offices, and sent hither swarms of Officers to harrass our people, and eat out their substance.
-He has kept among us, in times of peace, Standing Armies without the Consent of our legislatures.
-He has affected to render the Military independent of and superior to the Civil power.
-He has combined with others to subject us to a jurisdiction foreign to our constitution, and unacknowledged by our laws; giving his Assent to their Acts of pretended Legislation:
-For Quartering large bodies of armed troops among us:
-For protecting them, by a mock Trial, from punishment for any Murders which they should commit on the Inhabitants of these States:
-For cutting off our Trade with all parts of the world:
-For imposing Taxes on us without our Consent:
-For depriving us in many cases, of the benefits of Trial by Jury:
-For transporting us beyond Seas to be tried for pretended offences
-For abolishing the free System of English Laws in a neighbouring Province, establishing therein an Arbitrary government, and enlarging its Boundaries so as to render it at once an example and fit instrument for introducing the same absolute rule into these Colonies:
-For taking away our Charters, abolishing our most valuable Laws, and altering fundamentally the Forms of our Governments:
-For suspending our own Legislatures, and declaring themselves invested with power to legislate for us in all cases whatsoever.
-He has abdicated Government here, by declaring us out of his Protection and waging War against us.
-He has plundered our seas, ravaged our Coasts, burnt our towns, and destroyed the lives of our people.
-He is at this time transporting large Armies of foreign Mercenaries to compleat the works of death, desolation and tyranny, already begun with circumstances of Cruelty & perfidy scarcely paralleled in the most barbarous ages, and totally unworthy the Head of a civilized nation.
-He has constrained our fellow Citizens taken Captive on the high Seas to bear Arms against their Country, to become the executioners of their friends and Brethren, or to fall themselves by their Hands.
-He has excited domestic insurrections amongst us, and has endeavoured to bring on the inhabitants of our frontiers, the merciless Indian Savages, whose known rule of warfare, is an undistinguished destruction of all ages, sexes and conditions.
-
-In every stage of these Oppressions We have Petitioned for Redress in the most humble terms: Our repeated Petitions have been answered only by repeated injury. A Prince whose character is thus marked by every act which may define a Tyrant, is unfit to be the ruler of a free people.
-
-Nor have We been wanting in attentions to our Brittish brethren. We have warned them from time to time of attempts by their legislature to extend an unwarrantable jurisdiction over us. We have reminded them of the circumstances of our emigration and settlement here. We have appealed to their native justice and magnanimity, and we have conjured them by the ties of our common kindred to disavow these usurpations, which, would inevitably interrupt our connections and correspondence. They too have been deaf to the voice of justice and of consanguinity. We must, therefore, acquiesce in the necessity, which denounces our Separation, and hold them, as we hold the rest of mankind, Enemies in War, in Peace Friends.
-
-We, therefore, the Representatives of the united States of America, in General Congress, Assembled, appealing to the Supreme Judge of the world for the rectitude of our intentions, do, in the Name, and by Authority of the good People of these Colonies, solemnly publish and declare, That these United Colonies are, and of Right ought to be Free and Independent States; that they are Absolved from all Allegiance to the British Crown, and that all political connection between them and the State of Great Britain, is and ought to be totally dissolved; and that as Free and Independent States, they have full Power to levy War, conclude Peace, contract Alliances, establish Commerce, and to do all other Acts and Things which Independent States may of right do. And for the support of this Declaration, with a firm reliance on the protection of divine Providence, we mutually pledge to each other our Lives, our Fortunes and our sacred Honor.
-END
-
-Prawn::Document.generate "column_box.pdf" do       
-   column_box(bounds.top_left, :width => bounds.width, :height => bounds.height) do
-      text corpus
+Prawn::Document.generate "column_box.pdf" do
+  font "Helvetica", :size => 12
+   column_box([0,750], :columns => 2, :spacer => 3, :width => bounds.width, :height => 100) do
+      text paragraphs.shift
+   end
+   
+   font "Courier", :size => 10
+   column_box([0,600], :width => bounds.width, :height => 100) do
+      text paragraphs.shift
+   end
+   
+   font "Times-Roman", :size => 16
+   column_box([0,450], :columns => 4, :spacer => font_size * 3, :width => bounds.width) do
+      text paragraphs.shift
    end
 end
 
