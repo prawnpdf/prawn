@@ -269,15 +269,18 @@ module Prawn
                 @column_widths[col_index]
               end
               
-              c << Prawn::Table::Cell.new(
-                :document => @document, 
+              cell_options = {:document => @document, 
                 :text     => text,
                 :width    => width,
                 :horizontal_padding => C(:horizontal_padding),
                 :vertical_padding   => C(:vertical_padding),
                 :border_width       => C(:border_width),
                 :border_style       => :sides,
-                :align              => align ) 
+                :align              => align}
+              cell_options[:font_style] = e[:font_style] if e.is_a?(Hash) && e.has_key?(:font_style)
+              cell_options[:font_size] = e[:font_size] if e.is_a?(Hash) && e.has_key?(:font_size)
+
+              c << Prawn::Table::Cell.new(cell_options)
             end
             
             col_index += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1

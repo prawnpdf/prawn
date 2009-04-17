@@ -67,6 +67,7 @@ module Prawn
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
         @font_size        = options[:font_size]
+        @font_style       = options[:font_style]
 
         @horizontal_padding = options[:horizontal_padding] || 0
         @vertical_padding   = options[:vertical_padding]   || 0
@@ -78,7 +79,7 @@ module Prawn
 
       attr_accessor :point, :border_style, :border_width, :background_color,
                     :document, :horizontal_padding, :vertical_padding, :align,
-                    :borders, :text_color, :border_color
+                    :borders, :text_color, :border_color, :font_size, :font_style
                     
       attr_writer   :height, :width #:nodoc:   
            
@@ -109,7 +110,15 @@ module Prawn
       # The height of the text area excluding the vertical padding
       #
       def text_area_height
-        @document.height_of(@text, text_area_width)
+        text_height = 0
+        if @font_size
+          @document.font_size(@font_size) do
+            text_height = @document.height_of(@text, text_area_width)
+          end
+        else
+          text_height = @document.height_of(@text, text_area_width)
+        end
+        text_height
       end
 
       # Draws the cell onto the PDF document
@@ -173,6 +182,7 @@ module Prawn
           options = {:align => @align, :final_gap => false}
 
           options[:size] = @font_size if @font_size
+          options[:style] = @font_style if @font_style
 
           @document.mask(:fill_color) do
             @document.fill_color @text_color if @text_color                        
