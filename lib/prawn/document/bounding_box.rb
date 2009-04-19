@@ -9,6 +9,9 @@
 module Prawn
   class Document
     
+    # :call-seq: 
+    #   bounding_box(point, options={}, &block) 
+    #
     # A bounding box serves two important purposes:
     # * Provide bounds for flowing text, starting at a given point
     # * Translate the origin (0,0) for graphics primitives, for the purposes
