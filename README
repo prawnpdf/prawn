@@ -73,6 +73,8 @@ Or reading it from an IO stream:
 Prawn deals exclusively in PDF points... which work out to about 2.83464567mm... 
 don't try and do it in your head, instead, let Prawn help you:
 
+ require "prawn/measurement_extensions"
+
  Prawn::Document.generate(:page_layout => :portrait, 
                      :left_margin => 10.mm,    # different
                      :right_margin => 1.cm,    # units
