@@ -11,7 +11,7 @@ module Prawn
 
   module Images
 
-    # add the image at filename to the current page. Currently only
+    # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported.
     #
     # Arguments:
