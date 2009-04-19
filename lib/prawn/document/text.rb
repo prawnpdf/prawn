@@ -76,7 +76,7 @@ module Prawn
           options = text_options.merge(options)
           process_text_options(options) 
            
-          font.normalize_encoding(text) unless @skip_encoding        
+          font.normalize_encoding!(text) unless @skip_encoding        
 
           if options[:at]                
             x,y = translate(options[:at])            

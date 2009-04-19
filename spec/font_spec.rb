@@ -164,6 +164,22 @@ describe "AFM fonts" do
     @times.encode_text(@iconv.iconv("Technology"), :kerning => true).should == [[0, ["T", 70, "echnology"]]]
     @times.encode_text(@iconv.iconv("Technology..."), :kerning => true).should == [[0, ["T", 70, "echnology", 65, "..."]]]
   end
+
+  describe "when normalizing encoding" do
+
+    it "should not modify the original string when normalize_encoding() is used" do
+      original = "Foo"
+      normalized = @times.normalize_encoding(original)
+      assert ! original.equal?(normalized)
+    end
+
+    it "should modify the original string when normalize_encoding!() is used" do
+      original = "Foo"
+      normalized = @times.normalize_encoding!(original)
+      assert original.equal?(normalized)
+    end
+
+  end
   
 end
 
@@ -198,6 +214,23 @@ describe "TTF fonts" do
     @activa.encode_text("Technology...", :kerning => true).should == [[0, ["T", 186.0, "echnology", 88.0, "..."]]]
     @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
   end
+
+  describe "when normalizing encoding" do
+
+    it "should not modify the original string when normalize_encoding() is used" do
+      original = "Foo"
+      normalized = @activa.normalize_encoding(original)
+      assert ! original.equal?(normalized)
+    end
+
+    it "should modify the original string when normalize_encoding!() is used" do
+      original = "Foo"
+      normalized = @activa.normalize_encoding!(original)
+      assert original.equal?(normalized)
+    end
+
+  end
+
   
 end
 

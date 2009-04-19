@@ -147,7 +147,7 @@ module Prawn
           # if we're running under a M17n aware VM, ensure the string provided is
           # UTF-8 (by converting it if necessary)
           begin
-            text.encode!("UTF-8")
+            text.encode("UTF-8")
           rescue
             raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
             "#{text.encoding} can not be transparently converted to UTF-8. " +

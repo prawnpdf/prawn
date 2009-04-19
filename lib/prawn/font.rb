@@ -257,6 +257,10 @@ module Prawn
       raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
     end
 
+    def normalize_encoding!(str)
+      str.replace(normalize_encoding(str))
+    end
+
     def height_at(size)
       @normalized_height ||= (@ascender - @descender + @line_gap) / 1000.0
       @normalized_height * size

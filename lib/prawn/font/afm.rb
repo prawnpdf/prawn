@@ -74,7 +74,7 @@ module Prawn
       # is replaced with a string in WinAnsi encoding.
       def normalize_encoding(text)
         enc = Prawn::Encoding::WinAnsi.new
-        text.replace text.unpack("U*").collect { |i| enc[i] }.pack("C*")
+        text.unpack("U*").collect { |i| enc[i] }.pack("C*")
       end
 
       # Perform any changes to the string that need to happen
