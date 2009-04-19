@@ -355,7 +355,19 @@ module Prawn
       def stretchy?
         !@height 
       end
-      
+
+      def left_side
+         absolute_left
+      end
+
+      def right_side
+         absolute_right
+      end
+
+      def move_past_bottom
+         @parent.start_new_page
+      end
+
     end    
     
   end

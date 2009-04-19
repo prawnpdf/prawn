@@ -120,7 +120,8 @@ module Prawn
       def move_text_position(dy)   
          bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
                                             @bounding_box.absolute_bottom
-         start_new_page if (y - dy) < bottom
+
+         @bounding_box.move_past_bottom if (y - dy) < bottom
          
          self.y -= dy       
       end
@@ -129,7 +130,7 @@ module Prawn
         options[:align] ||= :left      
 
         font_size(options[:size]) do
-          text = naive_wrap(text, bounds.right, font_size, 
+          text = naive_wrap(text, bounds.width, font_size, 
             :kerning => options[:kerning], :mode => options[:wrap]) 
 
           lines = text.lines.to_a
@@ -141,12 +142,12 @@ module Prawn
             line_width = width_of(e, :kerning => options[:kerning])
             case(options[:align]) 
             when :left
-              x = @bounding_box.absolute_left
+              x = @bounding_box.left_side
             when :center
-              x = @bounding_box.absolute_left + 
+              x = @bounding_box.left_side +
                 (@bounding_box.width - line_width) / 2.0
             when :right
-              x = @bounding_box.absolute_right - line_width 
+              x = @bounding_box.right_side - line_width
             end
                                
             add_text_content(e,x,y,options)
