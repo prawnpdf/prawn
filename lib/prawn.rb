@@ -9,9 +9,16 @@
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/#{dep}")
 end
- 
-require 'ttfunk'
- 
+
+begin
+  require 'ttfunk'
+rescue LoadError
+  puts "Failed to load ttfunk. If you are running Prawn from git:"
+  puts "  git submodule init"
+  puts "  git submodule update"
+  exit
+end
+
 module Prawn
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)
