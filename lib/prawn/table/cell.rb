@@ -52,6 +52,7 @@ module Prawn
       # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>, <tt>:none</tt>, <tt>:bottom_only</tt>. Defaults to :all.
       # <tt>:border_color</tt>:: The color of the cell border.
       # <tt>:font_size</tt>:: The font size for the cell text.
+      # <tt>:font_style</tt>:: The font style for the cell text.
       #
       def initialize(options={})
         @point        = options[:point]
