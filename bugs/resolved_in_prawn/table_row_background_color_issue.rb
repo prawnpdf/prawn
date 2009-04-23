@@ -7,8 +7,10 @@
 # Because this almost appears to be a feature display-wise, we will leave it 
 # alone for now.
 #
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
+require "rubygems"
 require "prawn"
+require "prawn/layout"
 
 Prawn::Document.generate("table_with_background_color_problems.pdf") do 
   font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"

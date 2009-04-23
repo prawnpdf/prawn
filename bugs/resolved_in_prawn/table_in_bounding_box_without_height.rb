@@ -9,8 +9,10 @@
 # boxes.  Ideally, this would instead use the nesting bounding box dimensions
 # [#80] , but this works for now.
 #
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
+require "rubygems"
 require "prawn"
+require "prawn/layout"
 
 Prawn::Document.generate("table_in_bounding_box_without_height.pdf") do 
   bounding_box bounds.top_left, :width => 200 do

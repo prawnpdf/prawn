@@ -6,8 +6,10 @@
 # Simple rounding of string_width floats seems to fix this issue, see the patch
 # in 09c837466c31bb715f1276118c606e20477577df.
 #
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
+require "rubygems"
 require "prawn"
+require "prawn/layout"
 
 Prawn::Document.generate("broken_table.pdf") do 
   font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"

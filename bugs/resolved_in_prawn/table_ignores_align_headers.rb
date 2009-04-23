@@ -12,8 +12,10 @@
 #
 $DEBUG = true
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..', 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
+require "rubygems"
 require "prawn"
+require "prawn/layout"
 
 Prawn::Document.generate("table_ignores_align_headers.pdf") do
   left  = "Left justified"

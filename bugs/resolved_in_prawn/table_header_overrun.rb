@@ -3,8 +3,10 @@
 #
 # Resolved in: 9c357bc488d26e7bbc2e442606106106d349e232
 #
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
-require 'prawn'
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
+require "rubygems"
+require "prawn"
+require "prawn/layout"
 
 @prawn_document_options = {
   :page_layout => :landscape,
