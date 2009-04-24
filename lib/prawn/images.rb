@@ -71,8 +71,6 @@ module Prawn
       proc_set :ImageC
 
       # if this image has already been embedded, just reuse it
-      image_obj = image_registry[image_sha1]
-
       if image_registry[image_sha1]
         info = image_registry[image_sha1][:info]
         image_obj = image_registry[image_sha1][:obj]
