@@ -141,6 +141,7 @@ module Prawn
          end
        end
           
+       @version = 1.3
        @objects = []
        @info    = ref(options[:info])
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])
