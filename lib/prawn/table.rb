@@ -202,8 +202,6 @@ module Prawn
 
           if cell.is_a?(Hash) && cell[:colspan]
             colspan += cell[:colspan] - 1
-          elsif cell.is_a?(Prawn::Table::Cell) && cell.colspan
-            colspan += cell.colspan - 1
           end
         end
       end  
