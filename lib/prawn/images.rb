@@ -83,6 +83,8 @@ module Prawn
         when :png then
           info = Prawn::Images::PNG.new(image_content)
           build_png_object(image_content, info)
+        else
+          raise Errors::UnsupportedImageType, "image file is an unrecognised format"
         end
         image_registry[image_sha1] = {:obj => image_obj, :info => info}
       end
@@ -174,19 +176,19 @@ module Prawn
     def build_png_object(data, png)
 
       if png.compression_method != 0
-        raise ArgumentError, 'PNG uses an unsupported compression method'
+        raise Errors::UnsupportedImageType, 'PNG uses an unsupported compression method'
       end
 
       if png.filter_method != 0
-        raise ArgumentError, 'PNG uses an unsupported filter method'
+        raise Errors::UnsupportedImageType, 'PNG uses an unsupported filter method'
       end
 
       if png.interlace_method != 0
-        raise ArgumentError, 'PNG uses unsupported interlace method'
+        raise Errors::UnsupportedImageType, 'PNG uses unsupported interlace method'
       end
 
       if png.bits > 8
-        raise ArgumentError, 'PNG uses more than 8 bits'
+        raise Errors::UnsupportedImageType, 'PNG uses more than 8 bits'
       end
 
       # some PNG types store the colour and alpha channel data together,

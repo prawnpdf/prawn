@@ -40,6 +40,11 @@ module Prawn
      # what you have specified. 
      #
      class UnknownOption < StandardError; end
-     
+
+     # this error is raised when a user attempts to embed an image of an unsupported
+     # type. This can either a completely unsupported format, or a dialect of a
+     # supported format (ie. some types of PNG)
+     class UnsupportedImageType < StandardError; end
+
   end
 end   

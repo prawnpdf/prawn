@@ -8,7 +8,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
 require "prawn"
    
 Prawn::Document.generate("basic_images.pdf", :page_layout => :landscape) do     
-  pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
+  pigs = "#{Prawn::BASEDIR}/data/images/dice_interlaced.png" 
   image pigs, :at => [50,450], :scale => 0.5                                       
   
   stef = "#{Prawn::BASEDIR}/data/images/stef.jpg"
