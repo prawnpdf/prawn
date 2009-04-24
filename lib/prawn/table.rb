@@ -189,6 +189,7 @@ module Prawn
     def calculate_column_widths(manual_widths=nil, width=nil)
       @column_widths = [0] * @data[0].inject(0){ |acc, e| 
         acc += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1 }
+
       renderable_data.each do |row|
         colspan = 0
         row.each_with_index do |cell,i|
@@ -206,6 +207,10 @@ module Prawn
         end
       end  
 
+      fit_within_bounds(manual_widths, width)
+    end
+
+    def fit_within_bounds(manual_widths, width)
       manual_width = 0
       manual_widths.each { |k,v| 
         @column_widths[k] = v; manual_width += v } if manual_widths           
@@ -233,6 +238,7 @@ module Prawn
         }
       end
     end
+
 
     def renderable_data
       C(:headers) ? [C(:headers)] + @data : @data
