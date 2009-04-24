@@ -35,6 +35,21 @@ describe "the image() function" do
     
     info.height.should == 453
   end
+
+  it "should raise an UnsupportedImageType if passed a BMP" do
+    filename = "#{Prawn::BASEDIR}/data/images/tru256.bmp"
+    lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
+  end
+
+  it "should raise an UnsupportedImageType if passed an interlaced PNG" do
+    filename = "#{Prawn::BASEDIR}/data/images/dice_interlaced.png"
+    lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
+  end
+
+  it "should raise an UnsupportedImageType if passed a 16 bit PNG" do
+    filename = "#{Prawn::BASEDIR}/data/images/16bit.png"
+    lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
+  end
   
   describe ":fit option" do
     it "should fit inside the defined constraints" do

@@ -83,8 +83,6 @@ module Prawn
         when :png then
           info = Prawn::Images::PNG.new(image_content)
           build_png_object(image_content, info)
-        else
-          raise Errors::UnsupportedImageType, "image file is an unrecognised format"
         end
         image_registry[image_sha1] = {:obj => image_obj, :info => info}
       end
@@ -324,7 +322,7 @@ module Prawn
       elsif top[0, 8]  == "\x89PNG\x0d\x0a\x1a\x0a"
         return :png
       else
-        raise ArgumentError, "Unsupported Image Type"
+        raise Errors::UnsupportedImageType, "image file is an unrecognised format"
       end
     end
 
