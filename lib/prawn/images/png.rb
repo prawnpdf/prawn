@@ -86,9 +86,6 @@ module Prawn
 
           data.read(4)  # Skip the CRC
         end
-
-        # if our img_data contains alpha channel data, split it out
-        unfilter_image_data if alpha_channel?
       end
 
       def pixel_bytes
@@ -96,6 +93,10 @@ module Prawn
         when 0, 3, 4 then 1
         when 1, 2, 6 then 3
         end
+      end
+
+      def split_alpha_channel!
+        unfilter_image_data if alpha_channel?
       end
 
       private

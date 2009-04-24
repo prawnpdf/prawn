@@ -188,7 +188,11 @@ module Prawn
       if png.bits > 8
         raise ArgumentError, 'PNG uses more than 8 bits'
       end
-      
+
+      # some PNG types store the colour and alpha channel data together,
+      # which the PDF spec doesn't like, so split it out.
+      png.split_alpha_channel!
+
       case png.pixel_bytes
       when 1
         color = :DeviceGray
