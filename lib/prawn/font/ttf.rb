@@ -143,7 +143,7 @@ module Prawn
       end
 
       def normalize_encoding(text)
-        if text.respond_to?(:encode!)
+        if text.respond_to?(:encode)
           # if we're running under a M17n aware VM, ensure the string provided is
           # UTF-8 (by converting it if necessary)
           begin
@@ -160,6 +160,7 @@ module Prawn
           # though.
           begin
             text.unpack("U*")
+            return text.dup
           rescue
             raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
               "are attempting to render is not encoded in valid UTF-8."
