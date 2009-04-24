@@ -189,75 +189,32 @@ module Prawn
     def calculate_column_widths(manual_widths=nil, width=nil)
       @column_widths = [0] * @data[0].inject(0){ |acc, e| 
         acc += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1 }
-
-      cells_width = lambda { |cell|
-        cell_text = cell.is_a?(Hash) ? cell[:text] : cell.to_s
-        cell_text.lines.map do |e|
-          @document.width_of(e, :size => C(:font_size))
-        end.max.to_f + 2*C(:horizontal_padding)
-      }
-      cells_colspan = lambda { |cell|
-        if cell.is_a?( Hash ) && cell[:colspan]
-          cell[:colspan]
-        elsif cell.respond_to?( :colspan )
-          cell.colspan
-        end
-      }
-      # Firstly, calculate column widths for cells without colspan attribute
       renderable_data.each do |row|
         colspan = 0
-        row.each_with_index do |cell, i|
-          current_colspan = cells_colspan.call( cell )
-          if current_colspan.nil?
-            length = cells_width.call( cell ).ceil
-            index  = i + colspan
-            @column_widths[ index ] = length if length > @column_widths[ index ]
-          else
-            colspan += current_colspan - 1
+        row.each_with_index do |cell,i|
+          cell_text = cell.is_a?(Hash) ? cell[:text] : cell.to_s
+          length = cell_text.lines.map { |e|
+            @document.width_of(e, :size => C(:font_size)) }.max.to_f +
+              2*C(:horizontal_padding)
+          if length > @column_widths[i+colspan]
+            @column_widths[i+colspan] = length.ceil
+          end
+
+          if cell.is_a?(Hash) && cell[:colspan]
+            colspan += cell[:colspan] - 1
+          elsif cell.is_a?(Prawn::Table::Cell) && cell.colspan
+            colspan += cell.colspan - 1
           end
         end
-      end
+      end  
 
-      # Secondly, calculate column widths for cells with colspan attribute
-      renderable_data.each do |row|
-        colspan = 0
-        row.each_with_index do |cell, i|
-          current_colspan = cells_colspan.call( cell )
-          index           = i + colspan
-          unless current_colspan.nil?
-            calculate_width = @column_widths.slice( index, current_colspan ).
-                                             inject( 0 ) { |t, w| t + w }
-            length = cells_width.call( cell ).ceil
-            if length > calculate_width
-              # This is a little tricky, we have to increase each column
-              # that the actual colspan cell use, by a proportional part
-              # so the sum of these widths will be equal to the actual width
-              # of our colspan cell
-              difference  = length - calculate_width
-              increase    = ( difference / current_colspan ).floor
-              increase_by = [ increase ] * current_colspan
-              # it's important to sum, in total, the difference, so if
-              # difference is, e.g., 3 and current_colspan is 2, increase_by
-              # will be [ 1, 1 ], but actually we want to be [ 2, 1 ]
-              extra_dif   = difference - increase * current_colspan
-              extra_dif.times { |n| increase_by[n] += 1 }
-              current_colspan.times do |j|
-                @column_widths[ index + j ] += increase_by[j]
-              end
-            end
-            colspan += current_colspan - 1
-          end # if current_colspan
-        end # row.each_with_inedx
-      end
-
-      # Thridly, stablish manual column widths
       manual_width = 0
       manual_widths.each { |k,v| 
         @column_widths[k] = v; manual_width += v } if manual_widths           
 
-      # Finally, ensures that the maximum width of the document is not exceeded.
-      # Takes into consideration the manual widths specified (With full manual
-      # widths specified, the width can exceed the document width as manual
+      #Ensures that the maximum width of the document is not exceeded
+      #Takes into consideration the manual widths specified (With full manual 
+      # widths specified, the width can exceed the document width as manual 
       # widths are taken as gospel)
       max_width = width || @document.margin_box.width
       calculated_width = @column_widths.inject {|sum,e| sum += e }
