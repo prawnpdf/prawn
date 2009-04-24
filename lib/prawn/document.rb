@@ -130,10 +130,10 @@ module Prawn
        Prawn.verify_options [:page_size, :page_layout, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
          :compress, :skip_encoding, :text_options, :background, :info], options
-       
+      
        options[:info] ||= {}
-       options[:Creator] ||= "Prawn"
-       options[:Producer] = "Prawn"
+       options[:info][:Creator] ||= "Prawn"
+       options[:info][:Producer] = "Prawn"
 
        options[:info].keys.each do |key|
          if options[:info][key].kind_of?(String)
