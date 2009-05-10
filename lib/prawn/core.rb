@@ -7,7 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
            
 %w[ttfunk/lib].each do |dep|
-  $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../vendor/#{dep}")
+  $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
 end
 
 begin
@@ -25,7 +25,7 @@ module Prawn
   dir = File.dirname(file)
                           
   # The base source directory for Prawn as installed on the system
-  BASEDIR = File.expand_path(File.join(dir, '..'))
+  BASEDIR = File.expand_path(File.join(dir, '..', '..'))
   
   extend self
 
