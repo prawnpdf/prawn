@@ -219,7 +219,7 @@ module Prawn
       end
 
       def register(subset)
-        temp_name = @ttf.name.postscript_name
+        temp_name = @ttf.name.postscript_name.to_sym
         @document.ref(:Type => :Font, :BaseFont => temp_name) { |ref| embed(ref, subset) }
       end
 
@@ -245,7 +245,7 @@ module Prawn
         fontfile << compressed_font
 
         descriptor = @document.ref(:Type        => :FontDescriptor,
-                                   :FontName    => basename,
+                                   :FontName    => basename.to_sym,
                                    :FontFile2   => fontfile,
                                    :FontBBox    => bbox,
                                    :Flags       => pdf_flags,
@@ -290,7 +290,7 @@ module Prawn
         cmap.compress_stream
 
         reference.data.update(:Subtype => :TrueType,
-                              :BaseFont => basename,
+                              :BaseFont => basename.to_sym,
                               :FontDescriptor => descriptor,
                               :FirstChar => 32,
                               :LastChar => 255,
