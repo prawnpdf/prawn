@@ -208,12 +208,12 @@ module Prawn
                 :BitsPerComponent => png.bits,
                 :Length           => png.img_data.size,
                 :Filter           => :FlateDecode
-                
                )
 
       unless png.alpha_channel
         obj.data[:DecodeParms] = {:Predictor => 15,
                                   :Colors    => png.pixel_bytes,
+                                  :BitsPerComponent => png.bits,
                                   :Columns   => png.width}
       end
 
