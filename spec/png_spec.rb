@@ -14,7 +14,7 @@ describe "When reading a greyscale PNG file (color type 0)" do
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/web-links.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/web-links.dat"
-    @img_data = File.binread(@filename) 
+    @img_data = File.binread(@filename)
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -105,7 +105,7 @@ describe "When reading an indexed color PNG file (color type 3)" do
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/rails.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/rails.dat"
-    @img_data = File.binread(@filename) 
+    @img_data = File.binread(@filename)
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -158,7 +158,7 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@alpha_data_filename) 
+    data = File.binread(@alpha_data_filename)
     png.alpha_channel.should == data
   end
 end
@@ -169,7 +169,7 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
     @filename = "#{Prawn::BASEDIR}/data/images/dice.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/dice.dat"
     @alpha_data_filename = "#{Prawn::BASEDIR}/data/images/dice.alpha"
-    @img_data = File.binread(@filename)  
+    @img_data = File.binread(@filename)
   end
 
   it "should read the attributes from the header chunk correctly" do
@@ -187,7 +187,43 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@data_filename)   
+    data = File.binread(@data_filename)
+    png.img_data.should == data
+  end
+
+  it "should correctly extract the alpha channel data from the image data chunk" do
+    png = Prawn::Images::PNG.new(@img_data)
+    png.split_alpha_channel!
+    data = File.binread(@alpha_data_filename)
+    png.alpha_channel.should == data
+  end
+end
+
+describe "When reading a 16bit RGB+alpha PNG file (color type 6)" do
+
+  before(:each) do
+    @filename = "#{Prawn::BASEDIR}/data/images/16bit.png"
+    @data_filename = "#{Prawn::BASEDIR}/data/images/16bit.dat"
+    @alpha_data_filename = "#{Prawn::BASEDIR}/data/images/16bit.alpha"
+    @img_data = File.binread(@filename)
+  end
+
+  it "should read the attributes from the header chunk correctly" do
+    png = Prawn::Images::PNG.new(@img_data)
+
+    png.width.should == 32
+    png.height.should == 32
+    png.bits.should == 16
+    png.color_type.should == 6
+    png.compression_method.should == 0
+    png.filter_method.should == 0
+    png.interlace_method.should == 0
+  end
+
+  it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
+    png = Prawn::Images::PNG.new(@img_data)
+    png.split_alpha_channel!
+    data = File.binread(@data_filename)
     png.img_data.should == data
   end
 
