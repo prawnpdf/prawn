@@ -5,9 +5,9 @@ puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 require "rubygems"
 require "test/spec"                                                
 require "mocha"
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib') 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'vendor','pdf-inspector','lib')
-require "prawn"
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib') 
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor','pdf-inspector','lib')
+require "prawn/core"
 
 Prawn.debug = true
 
