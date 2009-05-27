@@ -33,7 +33,7 @@ module Prawn
           @overflow  = options[:overflow] || :truncate
         end
 
-        attr_reader :text, :width, :height, :overflow;
+        attr_reader :text, :width, :height, :overflow
         
         def render
           x,y = @at
