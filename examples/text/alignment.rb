@@ -4,7 +4,7 @@
 # Available options are :left, :right, and :center, with :left as default.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate("alignment.pdf") do
   text "This text should be left aligned"
