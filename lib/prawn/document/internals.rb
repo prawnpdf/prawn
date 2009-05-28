@@ -125,7 +125,7 @@ module Prawn
         output << Prawn::PdfObject(trailer_hash) << "\n"
         output << "startxref\n" 
         output << @xref_offset << "\n"
-        output << "%%EOF"
+        output << "%%EOF" << "\n"
       end
                  
     end
