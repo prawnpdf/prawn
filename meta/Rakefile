@@ -8,12 +8,12 @@ require "rake/gempackagetask"
 
 spec = Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = "0.4.99.2"
+  spec.version = "0.5.0.1"
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.add_dependency('prawn-core', '>= 0.4.99')
-  spec.add_dependency('prawn-layout')
-  spec.add_dependency('prawn-format')
+  spec.add_dependency('prawn-core', '~> 0.5.0')
+  spec.add_dependency('prawn-layout', '~> 0.2.0')
+  spec.add_dependency('prawn-format', '~> 0.2.0')
   spec.files = Dir.glob("lib/*")
   spec.require_path = "lib"
   spec.author = "Gregory Brown"
@@ -21,6 +21,34 @@ spec = Gem::Specification.new do |spec|
   spec.rubyforge_project = "prawn"
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = "Prawn is a fast, tiny, and nimble PDF generator for Ruby"
+  spec.post_install_message = %{
+  Welcome to Prawn, the best pure-Ruby PDF solution ever!
+  This is version 0.5 RC1
+   
+  Please note that you have downloaded a pre-release candidate gem,
+  which has some bugs, ugly spots, other bad things in it.  This gem is also
+  not fully backwards compatible, and may break existing code.
+
+  If you wish to revert until a stable release is ready, uninstall prawn 0.5.0,
+  prawn-core 0.5.0, prawn-layout 0.2.0 and prawn-format 0.2.0
+
+  For details on what has changed, see:
+    http://prawn.majesticseacreature.com/notes/0.5
+
+  If you have questions, contact us at:
+    http://groups.google.com/group/prawn-ruby
+
+  To submit a patch or report a bug: 
+    http://github.com/sandal/prawn
+
+  Prawn is meant for experienced Ruby hackers, so if you are new to Ruby, you
+  might want to wait until you've had some practice with the language before
+  expecting Prawn to work for you.  Things may change after 1.0, but for now
+  if you're not ready to read source code and patch bugs or missing features 
+  yourself (with our help), Prawn might not be the right fit.
+
+  But if you know what you're getting yourself into, enjoy!
+  }
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
