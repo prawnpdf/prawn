@@ -14,13 +14,13 @@ module Prawn
   module Images
     # A convenience class that wraps the logic for extracting the parts
     # of a PNG image that we need to embed them in a PDF
-    class PNG 
+    class PNG
       attr_reader :palette, :img_data, :transparency
       attr_reader :width, :height, :bits
       attr_reader :color_type, :compression_method, :filter_method
       attr_reader :interlace_method, :alpha_channel
       attr_accessor :scaled_width, :scaled_height
-      
+
       # Process a new PNG image
       #
       # <tt>data</tt>:: A string containing a full PNG file
@@ -88,13 +88,30 @@ module Prawn
         end
       end
 
-      def pixel_bytes
-        @pixel_bytes ||= case @color_type
-        when 0, 3, 4 then 1
-        when 1, 2, 6 then 3
+      # number of color components to each pixel
+      #
+      def colors
+        case self.color_type
+        when 0, 3, 4
+          return 1
+        when 2, 6
+          return 3
         end
       end
 
+      # number of bits used per pixel
+      #
+      def pixel_bitlength
+        if alpha_channel?
+          self.bits * (self.colors + 1)
+        else
+          self.bits * self.colors
+        end
+      end
+
+      # split the alpha channel data from the raw image data in images
+      # where it's required.
+      #
       def split_alpha_channel!
         unfilter_image_data if alpha_channel?
       end
@@ -110,11 +127,10 @@ module Prawn
         @img_data = ""
         @alpha_channel = ""
 
-        # each pixel has the color bytes, plus a byte of alpha channel
-        pixel_length = pixel_bytes + 1
-        scanline_length = pixel_length * @width + 1 # for filter
+        pixel_bytes     = pixel_bitlength / 8
+        scanline_length = pixel_bytes * self.width + 1
         row = 0
-        pixels = []    
+        pixels = []
         paeth, pa, pb, pc = nil
         until data.empty? do
           row_data = data.slice! 0, scanline_length
@@ -123,42 +139,42 @@ module Prawn
           when 0 # None
           when 1 # Sub
             row_data.each_with_index do |byte, index|
-              left = index < pixel_length ? 0 : row_data[index - pixel_length]
+              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
               row_data[index] = (byte + left) % 256
               #p [byte, left, row_data[index]]
             end
           when 2 # Up
             row_data.each_with_index do |byte, index|
-              col = index / pixel_length
-              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_length]
+              col = index / pixel_bytes
+              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
               row_data[index] = (upper + byte) % 256
             end
           when 3  # Average
             row_data.each_with_index do |byte, index|
-              col = index / pixel_length
-              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_length]
-              left = index < pixel_length ? 0 : row_data[index - pixel_length]
+              col = index / pixel_bytes
+              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
+              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
 
               row_data[index] = (byte + ((left + upper)/2).floor) % 256
             end
           when 4 # Paeth
             left = upper = upper_left = nil
             row_data.each_with_index do |byte, index|
-              col = index / pixel_length
+              col = index / pixel_bytes
 
-              left = index < pixel_length ? 0 : row_data[index - pixel_length]
+              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
               if row.zero?
                 upper = upper_left = 0
               else
-                upper = pixels[row-1][col][index % pixel_length]
+                upper = pixels[row-1][col][index % pixel_bytes]
                 upper_left = col.zero? ? 0 :
-                  pixels[row-1][col-1][index % pixel_length]
+                  pixels[row-1][col-1][index % pixel_bytes]
               end
 
               p = left + upper - upper_left
               pa = (p - left).abs
               pb = (p - upper).abs
-              pc = (p - upper_left).abs  
+              pc = (p - upper_left).abs
 
               paeth = if pa <= pb && pa <= pc
                 left
@@ -167,16 +183,15 @@ module Prawn
               else
                 upper_left
               end
-              
+
               row_data[index] = (byte + paeth) % 256
-              #p [byte, paeth, row_data[index]]
             end
           else
             raise ArgumentError, "Invalid filter algorithm #{filter}"
           end
 
           s = []
-          row_data.each_slice pixel_length do |slice|
+          row_data.each_slice pixel_bytes do |slice|
             s << slice
           end
           pixels << s
@@ -184,10 +199,12 @@ module Prawn
         end
 
         # convert the pixel data to seperate strings for colours and alpha
+        color_byte_size = self.colors * self.bits / 8
+        alpha_byte_size = self.bits / 8
         pixels.each do |row|
           row.each do |pixel|
-            @img_data << pixel[0,pixel_bytes].pack("C*")
-            @alpha_channel << pixel.last
+            @img_data << pixel[0, color_byte_size].pack("C*")
+            @alpha_channel << pixel[color_byte_size, alpha_byte_size].pack("C*")
           end
         end
 
