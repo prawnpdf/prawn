@@ -4,7 +4,7 @@
 # Mostly kept for nostalgia.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate "simple_text.pdf" do       
   fill_color "0000ff"

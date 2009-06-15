@@ -5,7 +5,7 @@
 # size, and will not be rescaled.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 img = "#{Prawn::BASEDIR}/data/images/letterhead.jpg"
 

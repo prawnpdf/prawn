@@ -5,7 +5,7 @@
 # the aspect ratio.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
    
 Prawn::Document.generate("image_fit.pdf", :page_layout => :landscape) do
 

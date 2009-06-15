@@ -4,7 +4,7 @@
 # It allows one to specify no standard properties
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate "metadata-info.pdf",
   :info => {

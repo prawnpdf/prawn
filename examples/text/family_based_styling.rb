@@ -5,7 +5,7 @@
 # documentation for Document#font_families and register your fonts with it.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate("family_style.pdf") do
   ["Courier","Helvetica","Times-Roman"].each do |f|

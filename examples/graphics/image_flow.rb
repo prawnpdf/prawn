@@ -6,7 +6,7 @@
 # position of the image is not known ahead of time.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
    
 Prawn::Document.generate("image-flow.pdf", :page_layout => :landscape) do  
   self.font_size = 8                           

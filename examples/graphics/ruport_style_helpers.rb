@@ -4,7 +4,7 @@
 # directly in Prawn.   Run the example to see how they work.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 # Demonstrates some features stolen from Ruport::Formatter::PDF
 Prawn::Document.generate("ruport.pdf") do

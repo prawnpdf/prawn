@@ -3,7 +3,7 @@
 # Demonstrates vertical and horizontal positioning of images.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
    
 Prawn::Document.generate("image_position.pdf", :page_layout => :landscape) do
 

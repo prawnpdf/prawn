@@ -4,7 +4,7 @@
 # old example, mostly retained for nostalgia.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 content = <<-EOS
 How does

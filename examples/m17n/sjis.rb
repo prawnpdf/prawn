@@ -11,7 +11,7 @@
 #       will be raised.
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 begin
   ruby_19 do  

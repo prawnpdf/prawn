@@ -9,7 +9,7 @@
 # go away.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate "euro.pdf" do
   text "A Euro! € ©", :size => 32

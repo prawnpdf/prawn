@@ -9,7 +9,7 @@
 # http://github.com/joshknowles/pt/tree/master
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn'
+require 'prawn/core'
 
 Prawn::Document.generate("stroke_bounds.pdf") do 
   stroke_bounds

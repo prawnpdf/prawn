@@ -4,7 +4,7 @@
 # columns of text.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate("span.pdf") do
   

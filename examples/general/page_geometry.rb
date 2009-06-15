@@ -5,7 +5,7 @@
 # multi_page_layout.rb for a more modern example.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 def pdf(*options)  
   Prawn::Document.new(*options)

@@ -4,7 +4,7 @@
 # removing the margin_box via Document#canvas()
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate("canvas.pdf") do
   canvas do

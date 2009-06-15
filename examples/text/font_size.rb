@@ -3,7 +3,7 @@
 # This example shows the many ways of setting font sizes in Prawn
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate "font_size.pdf", :page_size => "A4" do
 

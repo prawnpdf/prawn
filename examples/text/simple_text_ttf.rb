@@ -3,7 +3,7 @@
 # An early example of TTF font embedding.  Mostly kept for nostalgia's sake.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate "simple_text_ttf.pdf" do       
   fill_color "0000ff"

@@ -4,7 +4,7 @@
 # files.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 require "open-uri"
 
 Prawn::Document.generate("remote_images.pdf") do 

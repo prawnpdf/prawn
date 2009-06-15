@@ -3,7 +3,7 @@
 # Demonstration of enabling and disabling kerning support
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate "kerning.pdf" do
   text "To kern?", :at => [200,720], :size => 24, :kerning => true

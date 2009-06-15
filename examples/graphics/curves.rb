@@ -3,7 +3,7 @@
 # Demonstrates simple curve and circle usage
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 pdf = Prawn::Document.new
 pdf.move_to [100,100]
