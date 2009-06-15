@@ -6,7 +6,7 @@
 # ellipses, or set to expand beyond the bottom boundary.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn'
+require 'prawn/core'
 
 Prawn::Document.generate("text_box.pdf") do
 

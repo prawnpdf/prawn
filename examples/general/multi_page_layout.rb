@@ -4,7 +4,7 @@
 # each individual page, via Document#start_new_page()
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate("multi-layout.pdf", :page_layout => :landscape) do |pdf|
    pdf.text "This is on a landscaped page" 

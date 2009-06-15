@@ -3,7 +3,7 @@
 # The very first Prawn example.  Here for nostalgia's sake.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
  
 pdf = Prawn::Document.new   
 pdf.line_width = 10    

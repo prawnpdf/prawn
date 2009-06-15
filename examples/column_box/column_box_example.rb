@@ -3,7 +3,7 @@
 # Text should flow between columns before wrapping to the next page, like a printed newspaper.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 paragraphs = []
 paragraphs << <<-ONE

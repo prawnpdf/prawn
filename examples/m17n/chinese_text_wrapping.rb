@@ -4,7 +4,7 @@
 # spaces.  This example shows how to wrap by character instead.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 start = Time.now
 Prawn::Document.generate("chinese_flow.pdf") do  

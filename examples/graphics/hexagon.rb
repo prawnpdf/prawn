@@ -3,7 +3,7 @@
 # Draws and fills a Hexagon using Document#polygon
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 pdf = Prawn::Document.new
                         

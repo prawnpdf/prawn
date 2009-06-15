@@ -5,7 +5,7 @@
 # example.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
    
 Prawn::Document.generate("basic_images.pdf", :page_layout => :landscape) do     
   pigs = "#{Prawn::BASEDIR}/data/images/dice_interlaced.png" 

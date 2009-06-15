@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 DFONT_FILE = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
 puts "There are #{Prawn::Font::DFont.font_count(DFONT_FILE)} fonts in #{DFONT_FILE}:"

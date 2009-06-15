@@ -4,7 +4,7 @@
 # one of each type as proof that they all work.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 images = [
           ["Type 0", "#{Prawn::BASEDIR}/data/images/web-links.png"],

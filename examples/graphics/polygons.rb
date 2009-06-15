@@ -3,7 +3,7 @@
 # Basic polygon drawing example.  See also: hexagon.rb
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn"
+require "prawn/core"
 
 pdf = Prawn::Document.new
 

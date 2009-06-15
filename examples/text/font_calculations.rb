@@ -5,7 +5,7 @@
 # Run the example for a clearer picture of how things work
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn'
+require 'prawn/core'
 
 Prawn::Document.generate('font_calculations.pdf') do
   
