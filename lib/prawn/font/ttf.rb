@@ -219,7 +219,7 @@ module Prawn
       end
 
       def register(subset)
-        temp_name = @ttf.name.postscript_name.to_sym
+        temp_name = @ttf.name.postscript_name.gsub("\0","").to_sym
         @document.ref(:Type => :Font, :BaseFont => temp_name) { |ref| embed(ref, subset) }
       end
 
@@ -233,7 +233,7 @@ module Prawn
 
         # empirically, it looks like Adobe Reader will not display fonts
         # if their font name is more than 33 bytes long. Strange. But true.
-        basename = font.name.postscript_name[0, 33]
+        basename = font.name.postscript_name[0, 33].gsub("\0","")
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
