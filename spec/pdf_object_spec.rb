@@ -19,6 +19,11 @@ describe "PDF Object Serialization" do
     Prawn::PdfObject(1.214112421).should == "1.214112421" 
   end
   
+  it "should convert a Ruby time object to a PDF timestamp" do
+    t = Time.now
+    Prawn::PdfObject(t).should == t.strftime("(D:%Y%m%d%H%M%S%z").chop.chop + "'00')"
+  end
+  
   it "should convert a Ruby string to PDF string when inside a content stream" do       
     s = "I can has a string"
     PDF::Inspector.parse(Prawn::PdfObject(s, true)).should == s

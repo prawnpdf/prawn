@@ -5,8 +5,8 @@
 
 body {
   font: Verdana, "Lucida Grande", "Lucida Sans", sans-serif;
-  background-color: #141414;
-  color: #ffff66;    
+  background-color: #000000;
+  color: #ffffff;    
   margin-bottom: 1em;
 }    
 
@@ -18,7 +18,7 @@ h2 {
 }
 
 h2, h3 { 
-	color: #ffccdd;
+	color: #00bb77;
 }               
 
 h1 {
@@ -38,7 +38,7 @@ a:visited {
 }
 
 a:hover, a:active { 
-	color: #ffffff;
+	color: #2299ff;
 }
  
 a img {
@@ -46,12 +46,21 @@ a img {
 }
 
 #contents { 
+  background-color: #101010;
 	width: 740px;
   margin: 0 auto;
   border: 1px solid #fff;
   margin-top: 1em;
   padding: 1em 1em 1em 3em;
 }    
+
+#sidebar {
+  width: 180px;
+  float: right;
+  padding: 2em 2em 2em 0;
+  font-size: 1.2em;
+}
+
 
 #screenshots { 
 	margin-top: 2em;

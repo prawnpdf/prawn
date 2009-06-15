@@ -1,40 +1,121 @@
+= Prawn: Fast, Nimble PDF Generation For Ruby
+
 Prawn is a PDF writing library for Ruby designed to be tiny, fast, and nimble,
 just like the majestic sea creature.
 
 Development on this library is made possible thanks to the many people who
-donated to the Ruby Mendicant project:
+donated to the Ruby Mendicant project, http://rubymendicant.wikidot.com and
+continues today with the dedicated work of the Prawn pack.
 
-http://rubymendicant.wikidot.com   
+== Quick Start
 
-RESOURCES:
+Getting started with Prawn can be as simple as:
 
-Website:
+ require 'prawn'
+ pdf = Prawn::Document.new
+ pdf.text("Prawn Rocks")
+ pdf.render_file('prawn.pdf')
+
+But prawn can do a lot more:
+
+===Any page size you can think of
+
+ Prawn::Document.new('A0')
+
+...gives you an _really_ big page.
+
+ Prawn::Document.new(:size => [11.32, 8.49],
+                     :page_orientation => :portrait)
+
+...giving you a postage stamp.
+
+{Learn more}[link:classes/Prawn/Document.html]
+
+===Multiple Font Handling with UTF-8 Support
+
+ pdf.text("Prawn Rocks")
+ pdf.font("/myfont.ttf")
+ pdf.text("Prawn still rocks in a different font")
+
+...allowing you to use any font you want.
+
+{Learn more}[link:classes/Prawn/Font.html]
+
+===Drawing graphics directly into the page
+
+Simple shapes:
+
+ pdf.stroke do
+   pdf.circle_at [100,100], :radius => 25
+   pdf.rectangle [300,300], 100, 200
+ end
+
+(note, you need to stroke the path to put "ink" there)
+
+{Learn more}[link:classes/Prawn/Graphics.html]
+
+===Embedding JPEG and PNG Images Natively
+
+Reading an image directly from a file:
+
+ prawn_logo = "#{Prawn::BASEDIR}/data/images/prawn_logo.png"
+ pdf.image prawn_logo, :at => [50,450], :width => 450
+
+Or reading it from an IO stream:
+
+ require "open-uri"
+ pdf.image open("http://prawn.majesticseacreature.com/media/prawn_logo.png")
+
+{Learn more}[link:classes/Prawn/Images.html]
+
+===Measurement Conversion Tools for Your Sanity
+
+Prawn deals exclusively in PDF points... which work out to about 2.83464567mm... 
+don't try and do it in your head, instead, let Prawn help you:
+
+ require "prawn/measurement_extensions"
+
+ Prawn::Document.generate(:page_layout => :portrait, 
+                     :left_margin => 10.mm,    # different
+                     :right_margin => 1.cm,    # units
+                     :top_margin => 0.1.dm,    # work
+                     :bottom_margin => 0.01.m, # well 
+                     :page_size => 'A4') do
+   text "Prawn Rocks"
+ end
+
+{Learn more}[link:classes/Prawn/Measurements.html]
+
+== Resources
+
+=== Website:
 
 http://prawn.majesticseacreature.com
 
-Examples:
+=== Examples:
+
 http://github.com/sandal/prawn/tree/master/examples
 
 (or gem unpack prawn, if you want to run them locally)
 
-Bug Tracker / Wiki:
+=== Bug Tracker / Wiki:
 
-http://prawn.lighthouseapp.com/projects/9398-prawn/home
+http://github.com/sandal/prawn/issues
 
-GitHub:
+=== GitHub:
 
 http://github.com/sandal/prawn
 
-Mailing List:
+=== Mailing List:
 
 http://groups.google.com/group/prawn-ruby
 
-IRC:
+=== IRC:
 
 Find us in #prawn on irc.freenode.net
   Gregory Brown: <sandal>
   James Healy: <yob>               
   
-NOTES TO DEVELOPERS: 
+== Notes to Developers: 
 
 See HACKING file for details on getting set up with a local build.

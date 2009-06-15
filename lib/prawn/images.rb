@@ -11,7 +11,7 @@ module Prawn
 
   module Images
 
-    # add the image at filename to the current page. Currently only
+    # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported.
     #
     # Arguments:
@@ -74,8 +74,6 @@ module Prawn
       proc_set :ImageC
 
       # if this image has already been embedded, just reuse it
-      image_obj = image_registry[image_sha1]
-
       if image_registry[image_sha1]
         info = image_registry[image_sha1][:info]
         image_obj = image_registry[image_sha1][:obj]
@@ -179,21 +177,25 @@ module Prawn
     def build_png_object(data, png)
 
       if png.compression_method != 0
-        raise ArgumentError, 'PNG uses an unsupported compression method'
+        raise Errors::UnsupportedImageType, 'PNG uses an unsupported compression method'
       end
 
       if png.filter_method != 0
-        raise ArgumentError, 'PNG uses an unsupported filter method'
+        raise Errors::UnsupportedImageType, 'PNG uses an unsupported filter method'
       end
 
       if png.interlace_method != 0
-        raise ArgumentError, 'PNG uses unsupported interlace method'
+        raise Errors::UnsupportedImageType, 'PNG uses unsupported interlace method'
       end
 
       if png.bits > 8
-        raise ArgumentError, 'PNG uses more than 8 bits'
+        raise Errors::UnsupportedImageType, 'PNG uses more than 8 bits'
       end
-      
+
+      # some PNG types store the colour and alpha channel data together,
+      # which the PDF spec doesn't like, so split it out.
+      png.split_alpha_channel!
+
       case png.pixel_bytes
       when 1
         color = :DeviceGray
@@ -323,7 +325,7 @@ module Prawn
       elsif top[0, 8]  == "\x89PNG\x0d\x0a\x1a\x0a"
         return :png
       else
-        raise ArgumentError, "Unsupported Image Type"
+        raise Errors::UnsupportedImageType, "image file is an unrecognised format"
       end
     end
 

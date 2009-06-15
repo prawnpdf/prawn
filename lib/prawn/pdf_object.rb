@@ -37,6 +37,10 @@ module Prawn
     when Prawn::LiteralString
       obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
       "(#{obj})"
+    when Time
+      obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
+      obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+      "(#{obj})"
     when String
       obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
       "<" << obj.unpack("H*").first << ">"

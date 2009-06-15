@@ -79,10 +79,17 @@ module Prawn
         @page_content.data[:Length] = @page_content.stream.size
       end
 
+      # raise the PDF version of the file we're going to generate.
+      # A private method, designed for internal use when the user adds a feature
+      # to their document that requires a particular version.
+      def min_version(min)
+        @version = min if min > @version
+      end
+
       # Write out the PDF Header, as per spec 3.4.1
       def render_header(output)
         # pdf version
-        output << "%PDF-1.3\n"
+        output << "%PDF-#{@version}\n"
 
         # 4 binary chars, as recommended by the spec
         output << "\xFF\xFF\xFF\xFF\n"
@@ -118,7 +125,7 @@ module Prawn
         output << Prawn::PdfObject(trailer_hash) << "\n"
         output << "startxref\n" 
         output << @xref_offset << "\n"
-        output << "%%EOF"
+        output << "%%EOF" << "\n"
       end
                  
     end

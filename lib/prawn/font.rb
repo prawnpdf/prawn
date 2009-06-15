@@ -30,6 +30,7 @@ module Prawn
     def font(name=nil, options={})
       return @font || font("Helvetica") if name.nil?
 
+      raise Errors::NotOnPage unless @current_page
       new_font = find_font(name, options)
 
       if block_given?
@@ -169,6 +170,29 @@ module Prawn
                              :normal       => "Helvetica" }
         })
     end
+
+    # Returns the width of the given string using the given font. If :size is not
+    # specified as one of the options, the string is measured using the current
+    # font size. You can also pass :kerning as an option to indicate whether
+    # kerning should be used when measuring the width (defaults to +false+).
+    #
+    # Note that the string _must_ be encoded properly for the font being used.
+    # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
+    # UTF-8. You can use the Font#normalize_encoding method to make sure strings
+    # are in an encoding appropriate for the current font.
+    #--
+    # For the record, this method used to be a method of Font (and still delegates
+    # to width computations on Font). However, having the primary interface for
+    # calculating string widths exist on Font made it tricky to write extensions
+    # for Prawn in which widths are computed differently (e.g., taking formatting
+    # tags into account, or the like).
+    #
+    # By putting width_of here, on Document itself, extensions may easily override
+    # it and redefine the width calculation behavior.
+    #++
+    def width_of(string, options={})
+      font.compute_width_of(string, options)
+    end
   end
 
   # Provides font information and helper functions.
@@ -226,24 +250,15 @@ module Prawn
       "#{self.class.name}< #{name}: #{size} >"
     end
 
-    # Returns the width of the given string using the given font. If :size is not
-    # specified as one of the options, the string is measured using the current
-    # font size. You can also pass :kerning as an option to indicate whether
-    # kerning should be used when measuring the width (defaults to +false+).
-    #
-    # Note that the string _must_ be encoded properly for the font being used.
-    # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
-    # UTF-8. You can use the #normalize_encoding method to make sure strings
-    # are in an encoding appropriate for the font.
-    def width_of(string, options={})
-      raise NotImplementedError, "subclasses of Prawn::Font must implement #width_of"
-    end
-
     # Normalizes the encoding of the string to an encoding supported by the font.
     # The string is expected to be UTF-8 going in, and will be reencoded in-place
     # (the argument will be modified directly). The return value is not defined.
     def normalize_encoding(string)
       raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
+    end
+
+    def normalize_encoding!(str)
+      str.replace(normalize_encoding(str))
     end
 
     def height_at(size)

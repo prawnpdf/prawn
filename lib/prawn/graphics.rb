@@ -210,8 +210,8 @@ module Prawn
     #
     def polygon(*points)
       move_to points[0]
-      (points << points[0]).each_cons(2) do |p1,p2|
-        line_to(*p2)
+      (points[1..-1] << points[0]).each do |point|
+        line_to(*point)
       end
     end
 

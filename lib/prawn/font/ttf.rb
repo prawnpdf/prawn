@@ -23,7 +23,7 @@ module Prawn
       end
 
       # +string+ must be UTF8-encoded.
-      def width_of(string, options={})
+      def compute_width_of(string, options={})
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).inject(0) do |s,r|
@@ -143,11 +143,11 @@ module Prawn
       end
 
       def normalize_encoding(text)
-        if text.respond_to?(:encode!)
+        if text.respond_to?(:encode)
           # if we're running under a M17n aware VM, ensure the string provided is
           # UTF-8 (by converting it if necessary)
           begin
-            text.encode!("UTF-8")
+            text.encode("UTF-8")
           rescue
             raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
             "#{text.encoding} can not be transparently converted to UTF-8. " +
@@ -160,6 +160,7 @@ module Prawn
           # though.
           begin
             text.unpack("U*")
+            return text.dup
           rescue
             raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
               "are attempting to render is not encoded in valid UTF-8."

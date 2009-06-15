@@ -47,20 +47,6 @@ end
 
 describe "When beginning each new page" do
 
-  it "should execute codeblock given to Document#header" do
-    call_count = 0    
-   
-    pdf = Prawn::Document.new      
-    pdf.header(pdf.margin_box.top_left) do 
-      call_count += 1   
-    end
-    
-    pdf.start_new_page 
-    pdf.start_new_page 
-    pdf.render
-    
-    call_count.should == 3
-  end
   describe "Background template feature" do
     before(:each) do
       @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg"
@@ -81,22 +67,6 @@ describe "When beginning each new page" do
 end
 
 describe "When ending each page" do
-
-  it "should execute codeblock given to Document#footer" do
-   
-    call_count = 0    
-   
-    pdf = Prawn::Document.new      
-    pdf.footer([pdf.margin_box.left, pdf.margin_box.bottom + 50]) do 
-      call_count += 1   
-    end
-    
-    pdf.start_new_page 
-    pdf.start_new_page 
-    pdf.render
-    
-    call_count.should == 3
-  end
 
   it "should not compress the page content stream if compression is disabled" do
 
@@ -189,5 +159,20 @@ describe "The render() feature" do
       str = @pdf.render
       str.encoding.to_s.should == "ASCII-8BIT"
     end
+  end
+end
+
+describe "PDF file versions" do
+  it "should default to 1.3" do
+    @pdf = Prawn::Document.new
+    str = @pdf.render
+    str[0,8].should == "%PDF-1.3"
+  end
+
+  it "should allow the default to be changed" do
+    @pdf = Prawn::Document.new
+    @pdf.__send__(:min_version, 1.4)
+    str = @pdf.render
+    str[0,8].should == "%PDF-1.4"
   end
 end

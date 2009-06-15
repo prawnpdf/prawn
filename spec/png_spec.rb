@@ -150,12 +150,14 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
 
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
+    png.split_alpha_channel!
     data = File.binread(@data_filename)
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
+    png.split_alpha_channel!
     data = File.binread(@alpha_data_filename) 
     png.alpha_channel.should == data
   end
@@ -184,12 +186,14 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
 
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
+    png.split_alpha_channel!
     data = File.binread(@data_filename)   
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
+    png.split_alpha_channel!
     data = File.binread(@alpha_data_filename)
     png.alpha_channel.should == data
   end

@@ -32,7 +32,7 @@ module Prawn
             segments = line.scan(scan_pattern)
                                           
             segments.each do |segment|    
-              segment_width = font.width_of(segment, :size => font_size, :kerning => options[:kerning]) 
+              segment_width = width_of(segment, :size => font_size, :kerning => options[:kerning]) 
         
               if (accumulated_width + segment_width).round > line_width.round
                 output = "#{output.sub(/[ \t]*\n?(\n*)\z/, "\n\\1")}"

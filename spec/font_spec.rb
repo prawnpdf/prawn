@@ -15,6 +15,13 @@ end
 describe "font style support" do
   before(:each) { create_pdf }
   
+  it "should complain if there is no @current_page" do
+    pdf_without_page = Prawn::Document.new(:skip_page_creation => true)
+
+    lambda{ pdf_without_page.font "Helvetica" }.
+      should.raise(Prawn::Errors::NotOnPage)
+  end
+  
   it "should allow specifying font style by style name and font family" do    
     @pdf.font "Courier", :style => :bold
     @pdf.text "In Courier bold"    
@@ -135,13 +142,13 @@ describe "AFM fonts" do
   end
   
   it "should calculate string width taking into account accented characters" do
-    @times.width_of(@iconv.iconv("é"), :size => 12).should == @times.width_of("e", :size => 12)
+    @times.compute_width_of(@iconv.iconv("é"), :size => 12).should == @times.compute_width_of("e", :size => 12)
   end
   
   it "should calculate string width taking into account kerning pairs" do
-    @times.width_of(@iconv.iconv("To"), :size => 12).should == 13.332
-    @times.width_of(@iconv.iconv("To"), :size => 12, :kerning => true).should == 12.372
-    @times.width_of(@iconv.iconv("Tö"), :size => 12, :kerning => true).should == 12.372
+    @times.compute_width_of(@iconv.iconv("To"), :size => 12).should == 13.332
+    @times.compute_width_of(@iconv.iconv("To"), :size => 12, :kerning => true).should == 12.372
+    @times.compute_width_of(@iconv.iconv("Tö"), :size => 12, :kerning => true).should == 12.372
   end
 
   it "should encode text without kerning by default" do
@@ -157,6 +164,22 @@ describe "AFM fonts" do
     @times.encode_text(@iconv.iconv("Technology"), :kerning => true).should == [[0, ["T", 70, "echnology"]]]
     @times.encode_text(@iconv.iconv("Technology..."), :kerning => true).should == [[0, ["T", 70, "echnology", 65, "..."]]]
   end
+
+  describe "when normalizing encoding" do
+
+    it "should not modify the original string when normalize_encoding() is used" do
+      original = "Foo"
+      normalized = @times.normalize_encoding(original)
+      assert ! original.equal?(normalized)
+    end
+
+    it "should modify the original string when normalize_encoding!() is used" do
+      original = "Foo"
+      normalized = @times.normalize_encoding!(original)
+      assert original.equal?(normalized)
+    end
+
+  end
   
 end
 
@@ -168,12 +191,12 @@ describe "TTF fonts" do
   end
   
   it "should calculate string width taking into account accented characters" do
-    @activa.width_of("é", :size => 12).should == @activa.width_of("e", :size => 12)
+    @activa.compute_width_of("é", :size => 12).should == @activa.compute_width_of("e", :size => 12)
   end
   
   it "should calculate string width taking into account kerning pairs" do
-    @activa.width_of("To", :size => 12).should == 15.228
-    @activa.width_of("To", :size => 12, :kerning => true).should == 12.996
+    @activa.compute_width_of("To", :size => 12).should == 15.228
+    @activa.compute_width_of("To", :size => 12, :kerning => true).should == 12.996
   end
   
   it "should encode text without kerning by default" do
@@ -191,6 +214,23 @@ describe "TTF fonts" do
     @activa.encode_text("Technology...", :kerning => true).should == [[0, ["T", 186.0, "echnology", 88.0, "..."]]]
     @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
   end
+
+  describe "when normalizing encoding" do
+
+    it "should not modify the original string when normalize_encoding() is used" do
+      original = "Foo"
+      normalized = @activa.normalize_encoding(original)
+      assert ! original.equal?(normalized)
+    end
+
+    it "should modify the original string when normalize_encoding!() is used" do
+      original = "Foo"
+      normalized = @activa.normalize_encoding!(original)
+      assert original.equal?(normalized)
+    end
+
+  end
+
   
 end
 

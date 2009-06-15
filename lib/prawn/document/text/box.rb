@@ -11,7 +11,7 @@ module Prawn
     
     # Defines an invisible rectangle which you can flow text in. When the
     # text overflows the box, you can either display :ellipses, :truncate
-    # the text, or allow it to :overflow the bottom boundary.
+    # the text, or allow it to overflow the bottom boundary with :expand.
     #
     #   text_box "Oh hai text box. " * 200, 
     #     :width    => 300, :height => font.height * 5,
@@ -32,13 +32,17 @@ module Prawn
           @height    = options[:height]
           @overflow  = options[:overflow] || :truncate
         end
+
+        attr_reader :text, :width, :height, :overflow
         
         def render
           x,y = @at
           
-          unless @overflow == :expand
+          if @overflow == :expand
+            @text = naive_wrap_text
+          else
             original_y = @document.y
-            fit_text_to_box
+            fit_text_to_box            
           end
           
           @document.bounding_box([x,@document.bounds.top], 
@@ -52,10 +56,10 @@ module Prawn
           end        
         end
         
-        private
+        private        
         
         def fit_text_to_box
-          text = @document.naive_wrap(@text, @width, @document.font_size)
+          text = naive_wrap_text
             
           max_lines = (@height / @document.font.height).floor
 
@@ -65,11 +69,14 @@ module Prawn
             @text = lines[0...max_lines].join
             case(@overflow)
             when :ellipses
-              @text[-3..-1] = "..."
+              @text[-3..-1] = "..." if @text.size > 3
             end
           end 
         end
         
+        def naive_wrap_text
+          @document.naive_wrap(@text, @width, @document.font_size)
+        end
       end
     end
   end

@@ -9,10 +9,38 @@
 module Prawn
   class Document
     
+    # :call-seq: 
+    #   bounding_box(point, options={}, &block) 
+    #
     # A bounding box serves two important purposes:
     # * Provide bounds for flowing text, starting at a given point
     # * Translate the origin (0,0) for graphics primitives, for the purposes
     # of simplifying coordinate math.
+    # 
+    # ==Positioning
+    # 
+    # Bounding boxes are positioned relative to their top left corner and
+    # the width measurement is towards the right and height measurement is
+    # downwards.
+    # 
+    # Usage:
+    # 
+    # * Bounding box 100pt x 100pt in the absolutle bottom left of the containing
+    # box:
+    # 
+    #  pdf.bounding_box([0,100], :width => 100, :height => 100)
+    #    stroke_bounds
+    #  end
+    # 
+    # * Bounding box 200pt x 400pt high in the center of the page:
+    # 
+    #  x_pos = ((bounds.width / 2) - 150)
+    #  y_pos = ((bounds.height / 2) + 200)
+    #  pdf.bounding_box([x_pos, y_pos], :width => 300, :height => 400) do
+    #    stroke_bounds
+    #  end
+    #
+    # ==Flowing Text
     #
     # When flowing text, the usage of a bounding box is simple. Text will
     # begin at the point specified, flowing the width of the bounding box.
@@ -21,12 +49,16 @@ module Prawn
     # the height of the bounding box, the text will be continued on the next
     # page, starting again at the top-left corner of the bounding box.
     #
+    # Usage:
+    #
     #   pdf.bounding_box([100,500], :width => 100, :height => 300) do
     #     pdf.text "This text will flow in a very narrow box starting" +
     #      "from [100,500]. The pointer will then be moved to [100,200]" +
     #      "and return to the margin_box"
     #   end
     #
+    # ==Translating Coordinates
+    # 
     # When translating coordinates, the idea is to allow the user to draw
     # relative to the origin, and then translate their drawing to a specified
     # area of the document, rather than adjust all their drawing coordinates
@@ -56,8 +88,10 @@ module Prawn
     # Using the [200,200] example:
     #
     #   pdf.bounding_box([200,450], :width => 200, :height => 250) do
-    #     pdf.polygon [0,250], [0,0], [150,100]
-    #     pdf.polygon [100,0], [150,100], [200,0]
+    #     pdf.stroke do
+    #       pdf.polygon [0,250], [0,0], [150,100]
+    #       pdf.polygon [100,0], [150,100], [200,0]
+    #     end
     #   end
     #
     # Notice that the drawing is still relative to the origin. If we want to
@@ -65,25 +99,51 @@ module Prawn
     # top-left corner of the rectangular bounding-box, and all of our graphics
     # calls remain unmodified.
     # 
+    # ==Nesting Bounding Boxes
+    # 
     # By default, bounding boxes are specified relative to the document's 
     # margin_box (which is itself a bounding box).  You can also nest bounding
     # boxes, allowing you to build components which are relative to each other
     #
-    # pdf.bouding_box([200,450], :width => 200, :height => 250) do
-    #   pdf.bounding_box([50,200], :width => 50, :height => 50) do
-    #     # a 50x50 bounding box that starts 50 pixels left and 50 pixels down 
-    #     # the parent bounding box.
-    #   end
-    # end
-    #
+    # Usage:
+    # 
+    #  pdf.bounding_box([200,450], :width => 200, :height => 250) do
+    #    pdf.stroke_bounds   # Show the containing bounding box 
+    #    pdf.bounding_box([50,200], :width => 50, :height => 50) do
+    #      # a 50x50 bounding box that starts 50 pixels left and 50 pixels down 
+    #      # the parent bounding box.
+    #      pdf.stroke_bounds
+    #    end
+    #  end
+    # 
+    # ==Stretchyness
+    # 
+    # If you do not specify a height to a boundng box, it will become stretchy
+    # and it's height will be calculated according to the last drawing position
+    # within the bounding box:
+    # 
+    #  pdf.bounding_box([100,400], :width => 400) do
+    #    pdf.text("The height of this box is #{pdf.bounds.height}")
+    #    pdf.text('this is some text')
+    #    pdf.text('this is some more text')
+    #    pdf.text('and finally a bit more')
+    #    pdf.text("Now the height of this box is #{pdf.bounds.height}")
+    #  end
+    # 
+    # ==Absolute Positioning
+    # 
     # If you wish to position the bounding boxes at absolute coordinates rather
     # than relative to the margins or other bounding boxes, you can use canvas()
     #
-    #   pdf.canvas do
-    #     pdf.bounding_box([200,450], :width => 200, :height => 250) do
-    #       # positioned at 'real' (200,450)
-    #     end
-    #   end
+    #  pdf.bounding_box([50,500], :width => 200, :height => 300) do
+    #    pdf.stroke_bounds
+    #    pdf.canvas do
+    #      pdf.bounding_box([300,450], :width => 200, :height => 200) do
+    #        # Positioned outside the containing box at the 'real' (300,450)
+    #        pdf.stroke_bounds
+    #      end
+    #    end
+    #  end
     #
     # Of course, if you use canvas, you will be responsible for ensuring that
     # you remain within the printable area of your document.
@@ -94,38 +154,7 @@ module Prawn
         @bounding_box = BoundingBox.new(self, *args)   
       end
     end 
-    
         
-    # A LazyBoundingBox is simply a BoundingBox with an action tied to it to be 
-    # executed later.  The lazy_bounding_box method takes the same arguments as
-    # bounding_box, but returns a LazyBoundingBox object instead of executing
-    # the code block directly.
-    #
-    # You can then call LazyBoundingBox#draw at any time (or multiple times if 
-    # you wish), and the contents of the block will then be run. This can be
-    # useful for assembling repeating page elements or reusable components.
-    #
-    #  file = "lazy_bounding_boxes.pdf"
-    #  Prawn::Document.generate(file, :skip_page_creation => true) do                    
-    #    point = [bounds.right-50, bounds.bottom + 25]
-    #    page_counter = lazy_bounding_box(point, :width => 50) do   
-    #      text "Page: #{page_count}"
-    #    end 
-    #
-    #    10.times do         
-    #     start_new_page
-    #      text "Some text"  
-    #      page_counter.draw
-    #    end
-    #  end
-    #
-    def lazy_bounding_box(*args,&block)
-      translate!(args[0])  
-      box = LazyBoundingBox.new(self,*args)
-      box.action(&block)
-      return box 
-    end
-    
     # A shortcut to produce a bounding box which is mapped to the document's
     # absolute coordinates, regardless of how things are nested or margin sizes.
     #
@@ -141,46 +170,7 @@ module Prawn
         ) 
       end
     end  
-    
-    # A bounding box with the same dimensions of its parents, minus a margin
-    # on all sides
-    #
-    def padded_box(margin, &block)
-      bounding_box [bounds.left + margin, bounds.top - margin],
-        :width  => bounds.width - (margin * 2), 
-        :height => bounds.height - (margin * 2), &block 
-    end
-       
-    # A header is a LazyBoundingBox drawn relative to the margins that can be
-    # repeated on every page of the document.
-    #
-    # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
-    # width and height are used.   
-    #
-    #   header margin_box.top_left do 
-    #    text "Here's My Fancy Header", :size => 25, :align => :center   
-    #    stroke_horizontal_rule
-    #  end
-    #
-    def header(top_left,options={},&block)   
-      @header = repeating_page_element(top_left,options,&block)
-    end
         
-    # A footer is a LazyBoundingBox drawn relative to the margins that can be
-    # repeated on every page of the document.
-    #
-    # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
-    # width and height are used.
-    #
-    #   footer [margin_box.left, margin_box.bottom + 25] do
-    #     stroke_horizontal_rule
-    #     text "And here's a sexy footer", :size => 16
-    #   end    
-    #
-    def footer(top_left,options={},&block)       
-      @footer = repeating_page_element(top_left,options,&block)
-    end
-    
     private
     
     def init_bounding_box(user_block, options={}, &init_block)
@@ -194,14 +184,6 @@ module Prawn
 
       @bounding_box = parent_box 
     end   
-    
-    def repeating_page_element(top_left,options={},&block)   
-      r = LazyBoundingBox.new(self, translate(top_left),
-        :width  => options[:width]  || margin_box.width, 
-        :height => options[:height] || margin_box.height )
-      r.action(&block)
-      return r
-    end  
  
     class BoundingBox
       
@@ -219,12 +201,20 @@ module Prawn
       end
       
       # Relative left x-coordinate of the bounding box. (Always 0)
+      # 
+      # Example, position some text 3 pts from the left of the containing box:
+      # 
+      #  text('hello', :at => [(bounds.left + 3), 0])
       #
       def left
         0
       end
       
       # Relative right x-coordinate of the bounding box. (Equal to the box width)
+      # 
+      # Example, position some text 3 pts from the right of the containing box:
+      # 
+      #  text('hello', :at => [(bounds.right - 3), 0])
       #
       def right
         @width
@@ -232,11 +222,19 @@ module Prawn
       
       # Relative top y-coordinate of the bounding box. (Equal to the box height)
       #
+      # Example, position some text 3 pts from the top of the containing box:
+      # 
+      #  text('hello', :at => [0, (bounds.top - 3)])
+      #
       def top
         height
       end
       
       # Relative bottom y-coordinate of the bounding box (Always 0)
+      #
+      # Example, position some text 3 pts from the bottom of the containing box:
+      # 
+      #  text('hello', :at => [0, (bounds.bottom + 3)])
       #
       def bottom
         0
@@ -244,11 +242,25 @@ module Prawn
 
       # Relative top-left point of the bounding_box
       #
+      # Example, draw a line from the top left of the box diagonally to the 
+      # bottom right:
+      # 
+      #  stroke do
+      #    line(bounds., bounds.bottom_right)
+      #  end
+      #
       def top_left
         [left,top]
       end
 
       # Relative top-right point of the bounding box
+      #
+      # Example, draw a line from the top_right of the box diagonally to the 
+      # bottom left:
+      # 
+      #  stroke do
+      #    line(bounds.top_right, bounds.bottom_left)
+      #  end
       #
       def top_right
         [right,top]
@@ -256,11 +268,23 @@ module Prawn
 
       # Relative bottom-right point of the bounding box
       #
+      # Example, draw a line along the right hand side of the page:
+      # 
+      #  stroke do
+      #    line(bounds.bottom_right, bounds.top_right)
+      #  end
+      #
       def bottom_right
         [right,bottom]
       end
 
       # Relative bottom-left point of the bounding box
+      #
+      # Example, draw a line along the left hand side of the page:
+      # 
+      #  stroke do
+      #    line(bounds.bottom_left, bounds.top_left)
+      #  end
       #
       def bottom_left
         [left,bottom]
@@ -334,35 +358,20 @@ module Prawn
       def stretchy?
         !@height 
       end
-      
-    end    
-       
-    class LazyBoundingBox < BoundingBox
-       
-       # Defines the block to be executed by LazyBoundingBox#draw. 
-       # Usually, this will be used via a higher level interface.  
-       # See the documentation for Document#lazy_bounding_box, Document#header,
-       # and Document#footer
-       #
-       def action(&block)
-         @action = block
-       end
-       
-       # Sets Document#bounds to use the LazyBoundingBox for its bounds,
-       # runs the block specified by LazyBoundingBox#action,
-       # and then restores the original bounds of the document.
-       #
-       def draw
-         @parent.mask(:y) do  
-           parent_box = @parent.bounds  
-           @parent.bounds = self    
-           @parent.y = absolute_top
-           @action.call   
-           @parent.bounds = parent_box
-         end
-       end
 
-    end
+      def left_side
+         absolute_left
+      end
+
+      def right_side
+         absolute_right
+      end
+
+      def move_past_bottom
+         @parent.start_new_page
+      end
+
+    end    
     
   end
 end

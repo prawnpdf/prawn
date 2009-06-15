@@ -53,7 +53,7 @@ module Prawn
       #
       # String *must* be encoded as WinAnsi
       #
-      def width_of(string, options={})
+      def compute_width_of(string, options={})
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
@@ -74,7 +74,7 @@ module Prawn
       # is replaced with a string in WinAnsi encoding.
       def normalize_encoding(text)
         enc = Prawn::Encoding::WinAnsi.new
-        text.replace text.unpack("U*").collect { |i| enc[i] }.pack("C*")
+        text.unpack("U*").collect { |i| enc[i] }.pack("C*")
       end
 
       # Perform any changes to the string that need to happen
