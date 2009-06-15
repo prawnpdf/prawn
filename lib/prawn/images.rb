@@ -188,19 +188,17 @@ module Prawn
         raise Errors::UnsupportedImageType, 'PNG uses unsupported interlace method'
       end
 
-      if png.bits > 8
-        raise Errors::UnsupportedImageType, 'PNG uses more than 8 bits'
-      end
-
       # some PNG types store the colour and alpha channel data together,
       # which the PDF spec doesn't like, so split it out.
       png.split_alpha_channel!
 
-      case png.pixel_bytes
+      case png.colors
       when 1
         color = :DeviceGray
       when 3
         color = :DeviceRGB
+      else
+        raise Errors::UnsupportedImageType, "PNG uses an unsupported number of colors (#{png.colors})"
       end
 
       # build the image dict
@@ -211,12 +209,12 @@ module Prawn
                 :BitsPerComponent => png.bits,
                 :Length           => png.img_data.size,
                 :Filter           => :FlateDecode
-                
                )
 
       unless png.alpha_channel
         obj.data[:DecodeParms] = {:Predictor => 15,
-                                  :Colors    => png.pixel_bytes,
+                                  :Colors    => png.colors,
+                                  :BitsPerComponent => png.bits,
                                   :Columns   => png.width}
       end
 
@@ -272,7 +270,7 @@ module Prawn
                         :Subtype          => :Image,
                         :Height           => png.height,
                         :Width            => png.width,
-                        :BitsPerComponent => 8,
+                        :BitsPerComponent => png.bits,
                         :Length           => png.alpha_channel.size,
                         :Filter           => :FlateDecode,
                         :ColorSpace       => :DeviceGray,
