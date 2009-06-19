@@ -159,8 +159,8 @@ module Prawn
 
               if borders.include?(:top)
                 @document.stroke_line(
-                  [ rel_point[0] + @margin, rel_point[1] ], 
-                  [ rel_point[0] - @margin + width, rel_point[1] ])
+                  [ rel_point[0], rel_point[1] ], 
+                  [ rel_point[0] + width, rel_point[1] ])
               end
 
               if borders.include?(:bottom)
