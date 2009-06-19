@@ -125,16 +125,17 @@ module Prawn
       # Draws the cell onto the PDF document
       # 
       def draw
-        rel_point = @point                
+        rel_point = @point
+        margin    = @border_width / 2.0
         
         if @background_color    
           @document.mask(:fill_color) do
             @document.fill_color @background_color  
             h  = borders.include?(:bottom) ? 
-              height - border_width : height + border_width / 2.0
-            @document.fill_rectangle [rel_point[0] + border_width / 2.0, 
-                                      rel_point[1] - border_width / 2.0 ], 
-                width - border_width, h  
+              height - ( 2 * margin ) : height + margin
+            @document.fill_rectangle [rel_point[0], 
+                                      rel_point[1] ], 
+                width, h  
           end
         end
 
@@ -146,20 +147,20 @@ module Prawn
               @document.stroke_color @border_color if @border_color
 
               if borders.include?(:left)
-                @document.stroke_line [rel_point[0], rel_point[1] + (@border_width / 2.0)], 
-                  [rel_point[0], rel_point[1] - height - @border_width / 2.0 ]
+                @document.stroke_line [rel_point[0], rel_point[1] + margin], 
+                  [rel_point[0], rel_point[1] - height - margin ]
               end
 
               if borders.include?(:right)
                 @document.stroke_line( 
-                  [rel_point[0] + width, rel_point[1] + (@border_width / 2.0)],
-                  [rel_point[0] + width, rel_point[1] - height - @border_width / 2.0] )
+                  [rel_point[0] + width, rel_point[1] + margin],
+                  [rel_point[0] + width, rel_point[1] - height - margin] )
               end
 
               if borders.include?(:top)
                 @document.stroke_line(
-                  [ rel_point[0] + @border_width / 2.0, rel_point[1] ], 
-                  [ rel_point[0] - @border_width / 2.0 + width, rel_point[1] ])
+                  [ rel_point[0] + @margin, rel_point[1] ], 
+                  [ rel_point[0] - @margin + width, rel_point[1] ])
               end
 
               if borders.include?(:bottom)
