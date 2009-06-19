@@ -76,6 +76,7 @@ module Prawn
         if options[:padding]
           @horizontal_padding = @vertical_padding = options[:padding]
         end
+        
       end
 
       attr_accessor :point, :border_style, :border_width, :background_color,
@@ -125,16 +126,15 @@ module Prawn
       # Draws the cell onto the PDF document
       # 
       def draw
-        rel_point = @point
-        margin    = @border_width / 2.0
+        margin = @border_width / 2.0
         
         if @background_color    
           @document.mask(:fill_color) do
             @document.fill_color @background_color  
             h  = borders.include?(:bottom) ? 
               height - ( 2 * margin ) : height + margin
-            @document.fill_rectangle [rel_point[0], 
-                                      rel_point[1] ], 
+            @document.fill_rectangle [x, 
+                                      y ], 
                 width, h  
           end
         end
@@ -147,25 +147,25 @@ module Prawn
               @document.stroke_color @border_color if @border_color
 
               if borders.include?(:left)
-                @document.stroke_line [rel_point[0], rel_point[1] + margin], 
-                  [rel_point[0], rel_point[1] - height - margin ]
+                @document.stroke_line [x, y + margin], 
+                  [x, y - height - margin ]
               end
 
               if borders.include?(:right)
                 @document.stroke_line( 
-                  [rel_point[0] + width, rel_point[1] + margin],
-                  [rel_point[0] + width, rel_point[1] - height - margin] )
+                  [x + width, y + margin],
+                  [x + width, y - height - margin] )
               end
 
               if borders.include?(:top)
                 @document.stroke_line(
-                  [ rel_point[0], rel_point[1] ], 
-                  [ rel_point[0] + width, rel_point[1] ])
+                  [ x, y ], 
+                  [ x + width, y ])
               end
 
               if borders.include?(:bottom)
-                @document.stroke_line [rel_point[0], rel_point[1] - height ],
-                                    [rel_point[0] + width, rel_point[1] - height]
+                @document.stroke_line [x, y - height ],
+                                    [x + width, y - height]
               end
             end
 
@@ -175,8 +175,8 @@ module Prawn
 
         end
 
-        @document.bounding_box( [@point[0] + @horizontal_padding, 
-                                 @point[1] - @vertical_padding], 
+        @document.bounding_box( [x + @horizontal_padding, 
+                                 y - @vertical_padding], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
           @document.move_down((@document.font.line_gap - @document.font.descender)/2)
@@ -194,6 +194,16 @@ module Prawn
       end
 
       private
+      
+      # x-position of the cell
+      def x
+        @point[0]
+      end
+      
+      # y-position of the cell
+      def y
+        @point[1]
+      end
 
       def borders
         @borders ||= case @border_style
