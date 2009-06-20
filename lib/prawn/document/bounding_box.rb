@@ -213,7 +213,7 @@ module Prawn
       
       # Temporarily adjust the @x coordinate to allow for left_padding
       #
-      def pad_left(left_padding, &block)
+      def indent(left_padding, &block)
         @x += left_padding
         @width -= left_padding
         yield

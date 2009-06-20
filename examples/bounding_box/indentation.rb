@@ -6,30 +6,30 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
 require 'prawn/core'
 
-Prawn::Document.generate("left_padding.pdf") do
+Prawn::Document.generate("indentation.pdf") do
 
-  text "No Padding"
-  pad_left(20) do
-    text "Some padding"
+  text "No indentation"
+  indent(20) do
+    text "Some indentation"
     # Generates a box with a top-left of [100,600] and a top-right of [300,600]
     # The box automatically expands as the cursor moves down the page.  Notice
     # that the final coordinates are outlined by a top and bottom line drawn
     # relatively using calculations from +bounds+.
     #
     bounding_box [100,600], :width => 200 do
-      text "A little more padding"
-      pad_left(20) do
-        text "And some more padding"
-        pad_left(20) do
-          text "And some deeper padding"
+      text "A little more indentation"
+      indent(20) do
+        text "And some more indentation"
+        indent(20) do
+          text "And some deeper indentation"
         end
       end
     end
-    text "Some padding"
+    text "Some indentation"
   end
-  pad_left(10) do
-    text "A bit of padding"
+  indent(10) do
+    text "A bit of indentation"
   end
   
-  text "No padding"
+  text "No indentation"
 end

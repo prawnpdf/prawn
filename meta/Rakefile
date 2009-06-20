@@ -11,7 +11,7 @@ spec = Gem::Specification.new do |spec|
   spec.version = "0.5.0.2"
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.add_dependency('prawn-core', '~> 0.5.0')
+  spec.add_dependency('prawn-core', '> 0.5.0.1', '< 0.6')
   spec.add_dependency('prawn-layout', '~> 0.2.0')
   spec.add_dependency('prawn-format', '~> 0.2.0')
   spec.files = Dir.glob("lib/*")
@@ -23,7 +23,7 @@ spec = Gem::Specification.new do |spec|
   spec.description = "Prawn is a fast, tiny, and nimble PDF generator for Ruby"
   spec.post_install_message = %{
   Welcome to Prawn, the best pure-Ruby PDF solution ever!
-  This is version 0.5 RC1
+  This is version 0.5 RC2
    
   Please note that you have downloaded a pre-release candidate gem,
   which has some bugs, ugly spots, other bad things in it.  This gem is also

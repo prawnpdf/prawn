@@ -349,17 +349,17 @@ module Prawn
     end
     
     
-    # Adds left padding to the document
+    # Indents the specified number of PDF points for the duration of the block
     #
     #  pdf.text "some text"
-    #  pdf.pad_left(20) do
+    #  pdf.indent(20) do
     #    pdf.text "This is indented 20 points"
     #  end
     #  pdf.text "This starts 20 points left of the above line " +
     #           "and is flush with the first line"
     #
-    def pad_left(x, &block)
-      bounds.pad_left(x, &block)
+    def indent(x, &block)
+      bounds.indent(x, &block)
     end
     
 
