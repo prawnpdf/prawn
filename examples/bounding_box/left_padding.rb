@@ -4,7 +4,7 @@
 # Note that top level bounding boxes are positioned relative to the margin_box.
 #
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn'
+require 'prawn/core'
 
 Prawn::Document.generate("left_padding.pdf") do
 
