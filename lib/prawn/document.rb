@@ -153,7 +153,7 @@ module Prawn
        @background      = options[:background]
        @font_size       = 12
 
-       text_options.update(options[:text_options] || {})
+       @text_options = options[:text_options] || {}
 
        @margins = { :left   => options[:left_margin]   || 36,
                     :right  => options[:right_margin]  || 36,
