@@ -3,8 +3,7 @@
 # This demonstrates that Prawn can modify page size, margins and layout for 
 # each individual page, via Document#start_new_page()
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("multi-layout.pdf", :page_layout => :landscape) do |pdf|
    pdf.text "This is on a landscaped page" 

@@ -5,8 +5,7 @@
 # its particular implementation, though some might find that interesting as
 # well.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 require "prawn/measurement_extensions"
 

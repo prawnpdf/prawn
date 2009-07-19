@@ -3,8 +3,7 @@
 # This example demonstrates usage of Document#text with the :align option.
 # Available options are :left, :right, and :center, with :left as default.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("alignment.pdf") do
   text "This text should be left aligned"

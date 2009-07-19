@@ -3,8 +3,7 @@
 # These helpers will be familiar to Ruport users, and now are supported
 # directly in Prawn.   Run the example to see how they work.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 # Demonstrates some features stolen from Ruport::Formatter::PDF
 Prawn::Document.generate("ruport.pdf") do

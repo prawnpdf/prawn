@@ -3,8 +3,8 @@
 # Demonstrates how to use open-uri and Document#image to embed remote image
 # files.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
+
 require "open-uri"
 
 Prawn::Document.generate("remote_images.pdf") do 

@@ -4,8 +4,7 @@
 # can simplify calculations.  See the other files in examples/bounding_box
 # for more basic uses.
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn/core'
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 class Array
   def combine(arr)

@@ -4,8 +4,7 @@
 # documents.  The style used here is a bit out of date, see 
 # multi_page_layout.rb for a more modern example.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 def pdf(*options)  
   Prawn::Document.new(*options)

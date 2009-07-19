@@ -4,8 +4,7 @@
 # For positioning images alongside flowing text, see the image_flow.rb
 # example.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
    
 Prawn::Document.generate("basic_images.pdf", :page_layout => :landscape) do     
   stef = "#{Prawn::BASEDIR}/data/images/stef.jpg"

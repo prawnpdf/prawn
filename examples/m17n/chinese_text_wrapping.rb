@@ -3,8 +3,7 @@
 # Some text is not usefully wrapped by our naive_wrap which depends on 
 # spaces.  This example shows how to wrap by character instead.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 start = Time.now
 Prawn::Document.generate("chinese_flow.pdf") do  
