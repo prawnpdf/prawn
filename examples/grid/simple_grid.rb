@@ -1,9 +1,6 @@
 # encoding: utf-8    
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "rubygems"
-require "prawn"   
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate('simple_grid.pdf') do |p|
   p.define_grid(:columns => 5, :rows => 8, :gutter => 10)

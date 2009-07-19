@@ -4,11 +4,7 @@
 # Although this does not show all of the options available to table, the most
 # common are used here.  See fancy_table.rb for a more comprehensive example.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-
-require "rubygems"
-require "prawn"
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("table_widths.pdf") do 
 

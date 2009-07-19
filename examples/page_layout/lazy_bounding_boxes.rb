@@ -10,10 +10,7 @@
 # location each time it is redrawn, regardless of the bounds 
 # LazyBoundingBox#draw is in.
 # 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "rubygems"
-require "prawn"   
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 file = "lazy_bounding_boxes.pdf"
 Prawn::Document.generate(file, :skip_page_creation => true) do

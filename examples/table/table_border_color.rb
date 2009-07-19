@@ -3,11 +3,7 @@
 # Demonstrates how to set the table border color with the :border_color
 # attribute.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-
-require "rubygems"
-require "prawn"
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate "table_border_color.pdf" do
   table [ ['01/01/2008', 'John Doe', '4.2', '125.00', '525.00'], 

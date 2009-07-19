@@ -2,11 +2,7 @@
 #
 # Demonstrates various table and cell features.  
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-
-require "rubygems"
-require "prawn"
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
    
 headers, body = nil, nil  
 

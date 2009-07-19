@@ -2,11 +2,7 @@
 #
 # Demonstrates the use of the :col_span option when using Document#table
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-
-require "rubygems"
-require "prawn"
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate "table_colspan.pdf" do
   data = [ ['01/01/2008', 'John Doe', '4.2', '125.00', '525.00'], 

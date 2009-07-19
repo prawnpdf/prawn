@@ -7,10 +7,7 @@
 # Feature borrowed from Josh Knowle's pt at:
 # http://github.com/joshknowles/pt/tree/master
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "rubygems"
-require "prawn"   
-require "prawn/layout"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate('padded_box.pdf') do
   stroke_bounds
