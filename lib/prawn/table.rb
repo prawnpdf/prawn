@@ -295,9 +295,9 @@ module Prawn
               }
 
               if e.is_a?(Hash) 
-                cell_options[:font_style] = e[:font_style] if e.has_key?(:font_style)
-                cell_options[:font_size]  = e[:font_size]  if e.has_key?(:font_size)
-                cell_options[:align] = e[:align] if e.has_key?(:align)
+                opts = e.dup
+                opts.delete(:colspan)
+                cell_options.update(opts)
               end
 
               c << Prawn::Table::Cell.new(cell_options)
