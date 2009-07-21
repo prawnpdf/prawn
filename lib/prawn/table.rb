@@ -283,16 +283,22 @@ module Prawn
                 @column_widths[col_index]
               end
               
-              cell_options = {:document => @document, 
+              cell_options = {
+                :document => @document, 
                 :text     => text,
                 :width    => width,
                 :horizontal_padding => C(:horizontal_padding),
                 :vertical_padding   => C(:vertical_padding),
                 :border_width       => C(:border_width),
                 :border_style       => :sides,
-                :align              => align}
-              cell_options[:font_style] = e[:font_style] if e.is_a?(Hash) && e.has_key?(:font_style)
-              cell_options[:font_size] = e[:font_size] if e.is_a?(Hash) && e.has_key?(:font_size)
+                :align              => align 
+              }
+
+              if e.is_a?(Hash) 
+                cell_options[:font_style] = e[:font_style] if e.has_key?(:font_style)
+                cell_options[:font_size]  = e[:font_size]  if e.has_key?(:font_size)
+                cell_options[:align] = e[:align] if e.has_key?(:align)
+              end
 
               c << Prawn::Table::Cell.new(cell_options)
             end

@@ -8,7 +8,7 @@ Prawn::Document.generate "table_colspan.pdf" do
   data = [ ['01/01/2008', 'John Doe', '4.2', '125.00', '525.00'], 
            ['01/12/2008', 'Jane Doe', '3.2', '75.50', '241.60'] ] * 5
   
-  data << [{:text => 'Total', :colspan => 2}, '37.0', '1002.5', '3833']
+  data << [{:text => 'Total', :colspan => 2, :align => :center}, '37.0', '1002.5', '3833']
   
   table data,
   :position => :center,
