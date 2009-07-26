@@ -31,25 +31,25 @@ module Prawn
     # A Grid represents the entire grid system of a Page and calculates the column width and row height
     # of the base box.
     class Grid
-      attr_reader :pdf, :columns, :rows, :gutter
+      attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       # :nodoc
       def initialize(pdf, options = {})
-        Prawn.verify_options([:columns, :rows, :gutter], options)
+        Prawn.verify_options([:columns, :rows, :gutter, :row_gutter, :column_gutter], options)
       
         @pdf = pdf
         @columns = options[:columns]
         @rows = options[:rows]
-        @gutter = options[:gutter].to_f
+        set_gutter(options)
       end
 
       # Calculates the base width of boxes.
       def column_width
-        @column_width ||= subdivide(pdf.bounds.width, columns)
+        @column_width ||= subdivide(pdf.bounds.width, columns, column_gutter)
       end
     
       # Calculates the base height of boxes.
       def row_height
-       @row_height ||= subdivide(pdf.bounds.height, rows)
+       @row_height ||= subdivide(pdf.bounds.height, rows, row_gutter)
       end
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
@@ -62,8 +62,18 @@ module Prawn
       end
 
       private
-      def subdivide(total, num)
+      def subdivide(total, num, gutter)
         (total.to_f - (gutter * (num - 1).to_f)) / num.to_f
+      end
+      
+      def set_gutter(options)
+        if options.has_key?(:gutter)
+          @gutter = options[:gutter].to_f
+          @row_gutter, @column_gutter = @gutter, @gutter
+        else
+          @row_gutter, @column_gutter = options[:row_gutter].to_f, options[:column_gutter].to_f
+          @gutter = 0
+        end
       end
     end
   
@@ -107,7 +117,7 @@ module Prawn
       
       # x-coordinate of left side
       def left
-        @left ||= (width + gutter) * @j.to_f
+        @left ||= (width + grid.column_gutter) * @j.to_f
       end
     
       # x-coordinate of right side 
@@ -117,7 +127,7 @@ module Prawn
     
       # y-coordinate of the top
       def top
-        @top ||= total_height - ((height + gutter) * @i.to_f)
+        @top ||= total_height - ((height + grid.row_gutter) * @i.to_f)
       end
     
       # y-coordinate of the bottom
