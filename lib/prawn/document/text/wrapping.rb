@@ -53,6 +53,9 @@ module Prawn
           output
         end
         
+        def naive_unwrap(string)
+          string.gsub(/(\S)\n/, '\1 ')
+        end
       end  
     end
   end
