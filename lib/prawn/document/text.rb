@@ -73,7 +73,7 @@ module Prawn
         text = text.to_s.dup                      
         
         save_font do
-          options = text_options.merge(options)
+          options = @text_options.merge(options)
           process_text_options(options) 
            
           font.normalize_encoding!(text) unless @skip_encoding        
@@ -89,21 +89,12 @@ module Prawn
           end         
         end
       end 
-                          
-      # A hash of configuration options, to be used globally by text().
-      # 
-      #   pdf.text_options.update(:size => 16, :align => :right)   
-      #   pdf.text "Hello World" #=> Size 16 w. right alignment
-      #
-      def text_options
-        @text_options ||= {}
-      end 
-                       
+
       private 
-      
+                        
       def process_text_options(options)
         Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
-                              :spacing, :align, :rotate, :final_gap ], options                               
+                              :leading, :align, :rotate, :final_gap ], options                               
         
         if options[:style]  
           raise "Bad font family" unless font.family
@@ -154,7 +145,7 @@ module Prawn
             
             if i < last_gap_before
               move_text_position(font.line_gap - font.descender)
-              move_text_position(options[:spacing]) if options[:spacing]
+              move_text_position(options[:leading]) if options[:leading]
             end
           end 
         end

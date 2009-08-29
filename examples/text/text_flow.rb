@@ -3,8 +3,7 @@
 # Basic text flowing example including the use of bounding boxes.  A somewhat
 # old example, mostly retained for nostalgia.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 content = <<-EOS
 How does
@@ -60,7 +59,7 @@ Prawn::Document.generate("flow.pdf") do |pdf|
   pdf.bounding_box([100,450], :width => 300) do
     pdf.stroke_line [pdf.bounds.left,  pdf.bounds.top],
                     [pdf.bounds.right, pdf.bounds.top]
-    pdf.text poem, :size => 10, :spacing => 5
+    pdf.text poem, :size => 10, :leading => 5
   end
   
   pdf.text "And this text automatically goes below the poem", :size => 18

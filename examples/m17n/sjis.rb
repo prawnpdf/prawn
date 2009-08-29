@@ -10,8 +10,7 @@
 #       font to include japanese glyphs. On 1.8.x comaptible VMs, an exception
 #       will be raised.
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 begin
   ruby_19 do  

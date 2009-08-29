@@ -1,12 +1,11 @@
 # encoding: utf-8
 #
 # A text box is positioned by a top-left corner, width, and height and is
-# essentially an invisible rectangle that the text wil lflow within.  If the
+# essentially an invisible rectangle that the text will flow within.  If the
 # text exceeds the boundaries, it is either truncated, replaced with some
 # ellipses, or set to expand beyond the bottom boundary.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn/core'
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("text_box.pdf") do
 

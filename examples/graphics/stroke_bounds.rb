@@ -8,8 +8,7 @@
 # Feature borrowed from Josh Knowle's pt at:
 # http://github.com/joshknowles/pt/tree/master
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require 'prawn/core'
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("stroke_bounds.pdf") do 
   stroke_bounds

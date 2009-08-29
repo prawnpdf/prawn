@@ -3,8 +3,7 @@
 # PNG files come in different flavours - 5 of them. This example embeds
 # one of each type as proof that they all work.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 images = [
           ["Type 0", "#{Prawn::BASEDIR}/data/images/web-links.png"],

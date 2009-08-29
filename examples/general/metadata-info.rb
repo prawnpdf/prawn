@@ -3,8 +3,7 @@
 # Demonstrates how to set metadata properties via the info option
 # It allows one to specify no standard properties
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate "metadata-info.pdf",
   :info => {

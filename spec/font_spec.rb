@@ -57,8 +57,7 @@ describe "font style support" do
     @pdf.text "In ActionMan-Italic"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    name = text.font_settings.map { |e| e[:name] }.first
-    name = name.unpack("n*")[2..-1].pack("U*")
+    name = text.font_settings.map { |e| e[:name] }.first.to_s
     name = name.sub(/\w+\+/, "subset+")
     name.should == "subset+ActionMan-Italic"
   end

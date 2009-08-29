@@ -2,8 +2,7 @@
 #
 # The very first Prawn example.  Here for nostalgia's sake.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
  
 pdf = Prawn::Document.new   
 pdf.line_width = 10    

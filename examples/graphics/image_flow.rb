@@ -5,8 +5,7 @@
 # useful when used in combination with flowing text, where the exact final
 # position of the image is not known ahead of time.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
    
 Prawn::Document.generate("image-flow.pdf", :page_layout => :landscape) do  
   self.font_size = 8                           

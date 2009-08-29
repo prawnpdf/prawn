@@ -128,6 +128,41 @@ describe "drawing bounding boxes" do
   
 end
 
+describe "Indentation" do
+  before(:each) { create_pdf }
+
+  it "should temporarily shift the x coordinate and width" do
+    @pdf.bounding_box([100,100], :width => 200) do
+      @pdf.indent(20) do
+        @pdf.bounds.absolute_left.should == 120
+        @pdf.bounds.width.should == 180
+      end
+    end
+  end
+
+  it "should restore the x coordinate and width after block exits" do
+    @pdf.bounding_box([100,100], :width => 200) do
+      @pdf.indent(20) do
+        # no-op
+      end
+      @pdf.bounds.absolute_left.should == 100
+      @pdf.bounds.width.should == 200
+    end
+  end
+
+  it "should restore the x coordinate and width on error" do
+    @pdf.bounding_box([100,100], :width => 200) do
+      begin
+        @pdf.indent(20) { raise }
+      rescue
+        @pdf.bounds.absolute_left.should == 100
+        @pdf.bounds.width.should == 200
+      end
+    end
+  end
+
+end
+
 describe "A canvas" do
   before(:each) { create_pdf }
   

@@ -153,7 +153,7 @@ module Prawn
        @background      = options[:background]
        @font_size       = 12
 
-       text_options.update(options[:text_options] || {})
+       @text_options = options[:text_options] || {}
 
        @margins = { :left   => options[:left_margin]   || 36,
                     :right  => options[:right_margin]  || 36,
@@ -347,6 +347,21 @@ module Prawn
       yield
       move_down(y)
     end
+    
+    
+    # Indents the specified number of PDF points for the duration of the block
+    #
+    #  pdf.text "some text"
+    #  pdf.indent(20) do
+    #    pdf.text "This is indented 20 points"
+    #  end
+    #  pdf.text "This starts 20 points left of the above line " +
+    #           "and is flush with the first line"
+    #
+    def indent(x, &block)
+      bounds.indent(x, &block)
+    end
+    
 
     def mask(*fields) # :nodoc:
      # Stores the current state of the named attributes, executes the block, and

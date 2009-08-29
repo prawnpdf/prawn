@@ -8,8 +8,7 @@
 # If you need precision spacing, use a TTF file instead and the issue will
 # go away.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate "euro.pdf" do
   text "A Euro! € ©", :size => 32

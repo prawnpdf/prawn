@@ -17,10 +17,10 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
   
 == Patch process 
 
-  1. File a ticket in Lighthouse describing your feature with 'request'
+  1. File a ticket: http://github.com/sandal/prawn/issues
   2. Fork Prawn on Github, make your changes
   3. Submit pull request so Gregory is notified
-  4. Link your commits on Lighthouse
+  4. Include your ticket number in commit messages       
   
   If you are working on a ticket that has already been created, skip step 1.
   

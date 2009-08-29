@@ -4,17 +4,20 @@
 # generating a new Document.  Image is assumed to be pre-fit for your page
 # size, and will not be rescaled.
 #
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
-require "prawn/core"
+require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 img = "#{Prawn::BASEDIR}/data/images/letterhead.jpg"
 
 Prawn::Document.generate("background.pdf", :background => img) do
-  text_options.update(:size => 18, :align => :right)
-  text "My report caption"
-  text_options.update(:size => 12, :align => :left, :spacing => 2)
+  text "My report caption", :size => 18, :align => :right
+
   move_down font.height * 2
-  text "Here is my text explaning this report. " * 20
+
+  text "Here is my text explaning this report. " * 20, 
+    :size => 12, :align => :left, :leading => 2
+
   move_down font.height
-  text "I'm using a soft background. " * 40
+
+  text "I'm using a soft background. " * 40,
+    :size => 12, :align => :left, :leading => 2
 end
