@@ -16,16 +16,9 @@ module Prawn
 
     protected
     
-#     require 'pp'
     # Takes a current snapshot of the document's state, sufficient to
     # reconstruct it after it was amended.
     def take_snapshot
-#       puts "  --- Snapshotting current page:"
-#       pp current_page
-
-#       puts "  --- Snapshotting page content:"
-#       pp page_content
-
       {:page_content    => Marshal.load(Marshal.dump(page_content)),
        :page_content_id => @page_content,
        :current_page    => Marshal.load(Marshal.dump(current_page)),
@@ -35,16 +28,11 @@ module Prawn
        :dests           => names.data[:Dests]}
     end
 
+    # Rolls the page state back to the state of the given snapshot.
     def restore_snapshot(shot)
-      # TODO: delete the old refs?? This is churning the old refs.
+      # TODO: delete the old refs?? This is churning the old refs. Use page_content_id etc. for the old ones.
       @page_content = dup_ref(shot[:page_content])
       @current_page = dup_ref(shot[:current_page])
-
-#       puts "  --- Rolled back current page:"
-#       pp current_page
-
-#       puts "  --- Rolled back page content:"
-#       pp page_content
 
       # current_page still holds a Contents pointer to its old contents; fix that up
       current_page.data[:Contents] = page_content
