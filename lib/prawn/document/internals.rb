@@ -23,7 +23,7 @@ module Prawn
       # on some references (such as fonts, which you might know all the details
       # about until the last page of the document is finished).
       def ref(data, &block)
-        @objects.push(Prawn::Reference.new(@objects.size + 1, data, &block)).last
+        @objects.push(@objects.size + 1, data, &block)
       end                                               
       
       # Appends a raw string to the current page content.

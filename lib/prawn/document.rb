@@ -142,7 +142,7 @@ module Prawn
        end
           
        @version = 1.3
-       @objects = []
+       @objects = ObjectStore.new
        @info    = ref(options[:info])
        @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])
        @root    = ref(:Type => :Catalog, :Pages => @pages)

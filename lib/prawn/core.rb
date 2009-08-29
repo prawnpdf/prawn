@@ -66,6 +66,7 @@ end
 require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
+require "prawn/object_store"
 require "prawn/graphics"
 require "prawn/images"
 require "prawn/images/jpg"
