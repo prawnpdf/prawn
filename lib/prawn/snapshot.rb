@@ -17,6 +17,22 @@ module Prawn
       @snapshots.pop
     end
 
+    OverflowedPage = Class.new(StandardError)
+    def group_on_page
+      checkpoint
+      
+      def @bounding_box.move_past_bottom
+        raise OverflowedPage
+      end
+
+      yield
+      commit
+    rescue OverflowedPage
+      rollback
+      start_new_page
+      retry
+    end
+
     protected
     
     # Takes a current snapshot of the document's state, sufficient to
