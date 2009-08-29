@@ -1,17 +1,20 @@
 module Prawn
   class Document
+    NoSavedCheckpoint = Class.new(StandardError)
 
     def checkpoint
       (@snapshots ||= []).push(take_snapshot)
     end
 
     def rollback
-      snap = @snapshots.pop || raise("No checkpoint to rollback!")
+      raise NoSavedCheckpoint if !@snapshots || @snapshots.empty?
+      snap = @snapshots.pop
       restore_snapshot(snap)
     end
 
     def commit
-      @snapshots.pop || raise("No checkpoint to commit!")
+      raise NoSavedCheckpoint if !@snapshots || @snapshots.empty?
+      @snapshots.pop
     end
 
     protected
