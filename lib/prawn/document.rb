@@ -142,10 +142,8 @@ module Prawn
        end
           
        @version = 1.3
-       @objects = ObjectStore.new
-       @info    = ref(options[:info])
-       @pages   = ref(:Type => :Pages, :Count => 0, :Kids => [])
-       @root    = ref(:Type => :Catalog, :Pages => @pages)
+       @store = ObjectStore.new(options[:info])
+
        @page_size       = options[:page_size]   || "LETTER"
        @page_layout     = options[:page_layout] || :portrait
        @compress        = options[:compress] || false
@@ -193,8 +191,8 @@ module Prawn
        finish_page_content if @page_content
        build_new_page_content
 
-       @pages.data[:Kids] << @current_page
-       @pages.data[:Count] += 1
+       @store.pages.data[:Kids] << current_page
+       @store.pages.data[:Count] += 1
 
        add_content "q"
 
@@ -211,7 +209,7 @@ module Prawn
     #   pdf.page_count #=> 4
     #
     def page_count
-      @pages.data[:Count]
+      @store.pages.data[:Count]
     end
 
     # The current y drawing position relative to the innermost bounding box,
@@ -389,9 +387,9 @@ module Prawn
       @page_content = ref(:Length => 0)
 
       @current_page = ref(:Type      => :Page,
-                          :Parent    => @pages,
+                          :Parent    => @store.pages,
                           :MediaBox  => page_dimensions,
-                          :Contents  => @page_content)
+                          :Contents  => page_content)
       update_colors
     end
 

@@ -113,7 +113,7 @@ module Prawn
 
         def new_node(parent=nil)
           node = Node.new(document, limit, parent)
-          node.ref = document.ref(node)
+          node.ref = document.ref!(node)
           return node
         end
 
