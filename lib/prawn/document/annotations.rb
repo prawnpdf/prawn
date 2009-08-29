@@ -22,9 +22,9 @@ module Prawn
       # Adds a new annotation (section 8.4 in PDF spec) to the current page.
       # +options+ must be a Hash describing the annotation.
       def annotate(options)
-        @current_page.data[:Annots] ||= []
+        current_page.data[:Annots] ||= []
         options = sanitize_annotation_hash(options)
-        @current_page.data[:Annots] << ref(options)
+        current_page.data[:Annots] << ref(options)
         return options
       end
 

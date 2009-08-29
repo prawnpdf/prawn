@@ -23,8 +23,21 @@ module Prawn
       # on some references (such as fonts, which you might know all the details
       # about until the last page of the document is finished).
       def ref(data, &block)
-        @objects.push(Prawn::Reference.new(@objects.size + 1, data, &block)).last
+        ref!(data, &block).identifier
       end                                               
+
+      # Like ref, but returns the actual reference instead of its identifier.
+      def ref!(data, &block)
+        @store.ref(data, &block)
+      end
+
+      def page_content
+        @store[@page_content]
+      end
+
+      def current_page
+        @store[@current_page]
+      end
       
       # Appends a raw string to the current page content.
       #                               
@@ -35,20 +48,20 @@ module Prawn
       #  pdf.add_content("S") # stroke                    
       #
       def add_content(str)
-       @page_content << str << "\n"
+        page_content << str << "\n"
       end  
 
       # Add a new type to the current pages ProcSet 
       #
       def proc_set(*types)
-        @current_page.data[:ProcSet] ||= ref([])
-        @current_page.data[:ProcSet].data |= types
+        current_page.data[:ProcSet] ||= ref!([])
+        current_page.data[:ProcSet].data |= types
       end
              
       # The Resources dictionary for the current page
       #
       def page_resources
-        @current_page.data[:Resources] ||= {}
+        current_page.data[:Resources] ||= {}
       end
       
       # The Font dictionary for the current page
@@ -66,7 +79,7 @@ module Prawn
       # lazily initialized, so that documents that do not need a name
       # dictionary do not incur the additional overhead.
       def names
-        @root.data[:Names] ||= ref(:Type => :Names)
+        @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
 
       private      
@@ -75,8 +88,8 @@ module Prawn
         @header.draw if @header      
         @footer.draw if @footer
         add_content "Q"
-        @page_content.compress_stream if compression_enabled?
-        @page_content.data[:Length] = @page_content.stream.size
+        page_content.compress_stream if compression_enabled?
+        page_content.data[:Length] = page_content.stream.size
       end
 
       # raise the PDF version of the file we're going to generate.
@@ -97,7 +110,7 @@ module Prawn
 
       # Write out the PDF Body, as per spec 3.4.2
       def render_body(output)
-        @objects.each do |ref|
+        @store.each do |ref|
           ref.offset = output.size
           output << ref.object
         end
@@ -107,9 +120,9 @@ module Prawn
       def render_xref(output)
         @xref_offset = output.size
         output << "xref\n"
-        output << "0 #{@objects.size + 1}\n"
+        output << "0 #{@store.size + 1}\n"
         output << "0000000000 65535 f \n"
-        @objects.each do |ref|
+        @store.each do |ref|
           output.printf("%010d", ref.offset)
           output << " 00000 n \n"
         end
@@ -117,9 +130,9 @@ module Prawn
 
       # Write out the PDF Trailer, as per spec 3.4.4
       def render_trailer(output)
-        trailer_hash = {:Size => @objects.size + 1, 
-                        :Root => @root,
-                        :Info => @info}
+        trailer_hash = {:Size => @store.size + 1, 
+                        :Root => @store.root,
+                        :Info => @store.info}
 
         output << "trailer\n"
         output << Prawn::PdfObject(trailer_hash) << "\n"
