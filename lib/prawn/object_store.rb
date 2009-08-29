@@ -7,11 +7,11 @@ module Prawn
       @identifiers = []
     end
 
-    def push(*args)
+    def push(*args, &block)
       reference = if args.first.is_a?(Prawn::Reference)
               args.first
             else
-              Prawn::Reference.new(*args)
+              Prawn::Reference.new(*args, &block)
             end
       @objects[reference.identifier] = reference
       @identifiers << reference.identifier
