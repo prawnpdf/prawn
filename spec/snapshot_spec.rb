@@ -43,7 +43,7 @@ describe "document snapshots" do
     end
 
   end
-  
+
 end
 
   
