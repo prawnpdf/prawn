@@ -40,6 +40,20 @@ describe "Prawn::Document#transaction" do
     text.strings.should == ["This is shown", "and this is"]
   end
 
+  it "should allow rollback of multiple pages" do
+    pdf = Prawn::Document.new do
+      transaction do
+        5.times { start_new_page }
+        text "way out there and will never be shown"
+        raise Prawn::Document::RollbackTransaction
+      end
+      text "This is the real text, only one page"
+    end
+
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 1
+  end
+
 end
 
   
