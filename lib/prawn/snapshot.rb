@@ -43,8 +43,7 @@ module Prawn
       {:page_content    => Marshal.load(Marshal.dump(page_content)),
        :current_page    => Marshal.load(Marshal.dump(current_page)),
        :page_kids       => @store.pages.data[:Kids].map{|kid| kid.identifier},
-       # TODO: do dests need to be deep copied?
-       :dests           => names.data[:Dests]}
+       :dests           => Marshal.load(Marshal.dump(names.data[:Dests]))}
     end
 
     # Rolls the page state back to the state of the given snapshot.
