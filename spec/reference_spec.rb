@@ -39,4 +39,31 @@ describe "A Reference object" do
       "compressed stream expected to be smaller than source but wasn't"
     cref.data[:Filter].should == :FlateDecode
   end
+
+  it "should copy the data and stream from another ref on #replace" do
+    from = Prawn::Reference(3, {:foo => 'bar'})
+    from << "has a stream too"
+
+    to = Prawn::Reference(4, {:foo => 'baz'})
+    to.replace from
+
+    # should preserve identifier but copy data and stream
+    to.identifier.should == 4
+    to.data.should == from.data
+    to.stream.should == from.stream
+  end
+
+  it "should copy a compressed stream from a compressed ref on #replace" do
+    from = Prawn::Reference(5, {:foo => 'bar'})
+    from << "has a stream too " * 20
+    from.compress_stream
+
+    to = Prawn::Reference(6, {:foo => 'baz'})
+    to.replace from
+
+    to.identifier.should == 6
+    to.data.should == from.data
+    to.stream.should == from.stream
+    to.compressed?.should == true
+  end
 end
