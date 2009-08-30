@@ -1,36 +1,38 @@
+require 'delegate'
+
 module Prawn
   class Document
-    NoSavedCheckpoint = Class.new(StandardError)
 
-    def checkpoint
-      (@snapshots ||= []).push(take_snapshot)
-    end
+    RollbackTransaction = Class.new(StandardError)
 
-    def rollback
-      raise NoSavedCheckpoint if !@snapshots || @snapshots.empty?
-      snap = @snapshots.pop
+    def transaction
+      snap = take_snapshot
+      yield
+      true
+    rescue RollbackTransaction
       restore_snapshot(snap)
+      false
     end
 
-    def commit
-      raise NoSavedCheckpoint if !@snapshots || @snapshots.empty?
-      @snapshots.pop
-    end
+    CannotGroupOnPage = Class.new(StandardError)
 
-    OverflowedPage = Class.new(StandardError)
-    def group_on_page
-      checkpoint
-      
+    def group_on_page(second_attempt=false)
+      old_bounding_box = @bounding_box
+      @bounding_box = SimpleDelegator.new(@bounding_box)
+
       def @bounding_box.move_past_bottom
-        raise OverflowedPage
+        raise RollbackTransaction
       end
 
-      yield
-      commit
-    rescue OverflowedPage
-      rollback
-      start_new_page
-      retry
+      success = transaction { yield }
+
+      unless success
+        raise CannotGroupOnPage if second_attempt
+        start_new_page
+        group_on_page(second_attempt=true) { yield }
+      end 
+
+      @bounding_box = old_bounding_box
     end
 
     protected
