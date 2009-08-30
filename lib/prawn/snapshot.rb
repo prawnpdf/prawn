@@ -1,3 +1,10 @@
+# encoding: utf-8
+
+# snapshot.rb : Implements transactional rendering for Prawn
+#
+# Copyright August 2008, Brad Ediger.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 require 'delegate'
 
 module Prawn
