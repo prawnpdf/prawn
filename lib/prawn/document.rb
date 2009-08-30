@@ -15,6 +15,7 @@ require "prawn/document/internals"
 require "prawn/document/span"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
+require "prawn/document/snapshot"
 
 module Prawn
   # The Prawn::Document class is how you start creating a PDF document.
@@ -56,6 +57,7 @@ module Prawn
     include Internals
     include Annotations
     include Destinations
+    include Snapshot
     include Prawn::Graphics
     include Prawn::Images
 
@@ -369,6 +371,27 @@ module Prawn
       fields.each { |f| stored[f] = send(f) }
       yield
       fields.each { |f| send("#{f}=", stored[f]) }
+    end
+
+    CannotGroupOnPage = Class.new(StandardError)
+
+    def group_on_page(second_attempt=false)
+      old_bounding_box = @bounding_box
+      @bounding_box = SimpleDelegator.new(@bounding_box)
+
+      def @bounding_box.move_past_bottom
+        raise RollbackTransaction
+      end
+
+      success = transaction { yield }
+
+      unless success
+        raise CannotGroupOnPage if second_attempt
+        start_new_page
+        group_on_page(second_attempt=true) { yield }
+      end 
+
+      @bounding_box = old_bounding_box
     end
 
     # Returns true if content streams will be compressed before rendering,
