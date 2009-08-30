@@ -11,8 +11,18 @@ module Prawn
   class Document
     module Snapshot
 
+      # Call this within a +transaction+ block to roll back the transaction and
+      # prevent any of its data from being rendered. You must reset the
+      # y-position yourself if you have performed any drawing operations that
+      # modify it.
       RollbackTransaction = Class.new(StandardError)
 
+      # Run a block of drawing operations, to be completed atomically. If a
+      # RollbackTransaction exception is raised inside the block, all actions
+      # taken inside the block will be rolled back (with the exception of
+      # y-position, which you must restore yourself).
+      #
+      # Returns true on success, or false if the transaction was rolled back.
       def transaction
         snap = take_snapshot
         yield

@@ -373,8 +373,16 @@ module Prawn
       fields.each { |f| send("#{f}=", stored[f]) }
     end
 
+    # Raised if group_on_page is called with a block that is too big to be
+    # rendered on one page.
     CannotGroupOnPage = Class.new(StandardError)
 
+    # Attempts to group the given block onto the same page. First attempts to
+    # render it in the current position on the current page. If that attempt
+    # overflows, it is tried anew on the next page.
+    #
+    # Raises CannotGroupOnPage if the provided content is too large to fit on a
+    # single page by itself.
     def group_on_page(second_attempt=false)
       old_bounding_box = @bounding_box
       @bounding_box = SimpleDelegator.new(@bounding_box)
