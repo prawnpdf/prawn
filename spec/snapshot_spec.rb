@@ -14,11 +14,11 @@ describe "Prawn::Document#transaction" do
     text.strings.should == ["This is shown"]
   end
 
-  it "should not display text if RollbackTransaction is raised" do
+  it "should not display text if transaction is rolled back" do
     pdf = Prawn::Document.new do
       transaction do
         text "This is not shown"
-        raise Prawn::Document::RollbackTransaction
+        rollback
       end
     end
     text = PDF::Inspector::Text.analyze(pdf.render)
@@ -31,7 +31,7 @@ describe "Prawn::Document#transaction" do
         text "This is shown"
         transaction do
           text "and this is not"
-          raise Prawn::Document::RollbackTransaction
+          rollback
         end
         text "and this is"
       end
@@ -45,7 +45,7 @@ describe "Prawn::Document#transaction" do
       transaction do
         5.times { start_new_page }
         text "way out there and will never be shown"
-        raise Prawn::Document::RollbackTransaction
+        rollback
       end
       text "This is the real text, only one page"
     end
