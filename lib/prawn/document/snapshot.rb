@@ -45,18 +45,13 @@ module Prawn
 
       # Rolls the page state back to the state of the given snapshot.
       def restore_snapshot(shot)
-        update_ref(page_content, shot[:page_content])
-        update_ref(current_page, shot[:current_page])
+        page_content.replace shot[:page_content]
+        current_page.replace shot[:current_page]
 
         @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
         @store.pages.data[:Count] = shot[:page_kids].size
 
         names.data[:Dests] = shot[:dests]
-      end
-
-      def update_ref(copy_to, copy_from)
-        copy_to.data = copy_from.data
-        copy_to.stream = copy_from.stream
       end
 
     end
