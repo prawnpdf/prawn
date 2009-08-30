@@ -12,8 +12,8 @@ module Prawn
   
   class Reference #:nodoc:
              
-   attr_accessor :gen, :data, :offset
-   attr_reader :identifier, :stream
+   attr_accessor :gen, :data, :offset, :stream
+   attr_reader :identifier
     
     def initialize(id, data, &block)
       @identifier = id 
