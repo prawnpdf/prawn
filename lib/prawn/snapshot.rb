@@ -51,7 +51,7 @@ module Prawn
       update_ref(page_content, shot[:page_content])
       update_ref(current_page, shot[:current_page])
 
-      @store.pages.data[:Kids] = shot[:page_kids][0..-2].map{|id| @store[id]} + [current_page]
+      @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
       @store.pages.data[:Count] = shot[:page_kids].size
 
       names.data[:Dests] = shot[:dests]
