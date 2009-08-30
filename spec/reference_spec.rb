@@ -66,4 +66,17 @@ describe "A Reference object" do
     to.stream.should == from.stream
     to.compressed?.should == true
   end
+
+  describe "generated via Prawn::Document" do
+    it "should return a proper reference on ref!" do
+      pdf = Prawn::Document.new
+      pdf.ref!({}).is_a?(Prawn::Reference).should == true
+    end
+
+    it "should return an identifier on ref" do
+      pdf = Prawn::Document.new
+      r = pdf.ref({})
+      r.is_a?(Integer).should == true
+    end
+  end
 end
