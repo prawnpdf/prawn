@@ -1,0 +1,26 @@
+= Prawn/Security: Popular Password Protection & Permissions for Prawn PDFs
+
+Prawn/Security adds encryption, password protection, and permissions to Prawn. 
+
+== Usage
+
+See the examples/ directory and/or the RDoc for detailed info. Basically, it's
+as simple as the first example:
+
+  Prawn::Document.generate("hello_foo.pdf") do
+    text "Hello, world!"
+    encrypt_document :user_password => 'foo', :owner_password => 'bar',
+      :permissions => { :print_document => false }
+  end
+
+This creates a document that requires the password 'foo' to be opened,
+and cannot be printed without entering the owner password 'bar'.
+
+If you want to prohibit most anyone from performing a certain activity, you can
+pass :owner_password => :random to generate a probably-unguessable owner 
+password.
+
+== Contributors
+
+Brad Ediger <brad.ediger@madriska.com>
+
