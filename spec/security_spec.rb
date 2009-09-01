@@ -7,7 +7,7 @@ describe "Document encryption" do
 
   describe "Password padding" do
 
-    include Prawn::Document::Encryption
+    include Prawn::Document::Security
 
     it "should truncate long passwords" do
       pw = "Long long string" * 30
@@ -20,14 +20,14 @@ describe "Document encryption" do
       pw = "abcd"
       padded = pad_password(pw)
       padded.length.should == 32
-      padded.should == pw + Prawn::Document::Encryption::PasswordPadding[0, 28]
+      padded.should == pw + Prawn::Document::Security::PasswordPadding[0, 28]
     end
 
     it "should fully pad null passwords" do
       pw = ""
       padded = pad_password(pw)
       padded.length.should == 32
-      padded.should == Prawn::Document::Encryption::PasswordPadding
+      padded.should == Prawn::Document::Security::PasswordPadding
     end
 
   end

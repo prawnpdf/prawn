@@ -212,7 +212,7 @@ module Prawn
       "(#{obj})"
     when String
       PdfObject(
-        ByteString.new(Document::Encryption.encrypt_string(obj, key, id, gen)),
+        ByteString.new(Document::Security.encrypt_string(obj, key, id, gen)),
         in_content_stream)
     when Hash
       output = "<< "
@@ -243,7 +243,7 @@ module Prawn
                Prawn::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
       if @stream
         output << "stream\n" <<
-          Document::Encryption.encrypt_string(@stream, key, @identifier, gen) <<
+          Document::Security.encrypt_string(@stream, key, @identifier, gen) <<
           "\nendstream\n"
       end
       output << "endobj\n"
