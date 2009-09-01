@@ -7,6 +7,8 @@ Prawn/Security adds encryption, password protection, and permissions to Prawn.
 See the examples/ directory and/or the RDoc for detailed info. Basically, it's
 as simple as the first example:
 
+  require 'prawn/security'
+
   Prawn::Document.generate("hello_foo.pdf") do
     text "Hello, world!"
     encrypt_document :user_password => 'foo', :owner_password => 'bar',
