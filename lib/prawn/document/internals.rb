@@ -120,7 +120,7 @@ module Prawn
         output << "%PDF-#{@version}\n"
 
         # 4 binary chars, as recommended by the spec
-        output << "\xFF\xFF\xFF\xFF\n"
+        output << "%\xFF\xFF\xFF\xFF\n"
       end
 
       # Write out the PDF Body, as per spec 3.4.2
