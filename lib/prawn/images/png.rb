@@ -9,6 +9,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'stringio'
+require 'enumerator'
 
 module Prawn
   module Images
