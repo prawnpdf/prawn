@@ -6,7 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "enumerator"
 require "prawn/graphics/color"
 
 module Prawn
