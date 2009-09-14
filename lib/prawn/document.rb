@@ -144,12 +144,15 @@ module Prawn
        @version = 1.3
        @store = ObjectStore.new(options[:info])
 
-       @page_size       = options[:page_size]   || "LETTER"
-       @page_layout     = options[:page_layout] || :portrait
-       @compress        = options[:compress] || false
-       @skip_encoding   = options[:skip_encoding]
-       @background      = options[:background]
-       @font_size       = 12
+       @page_size     = options[:page_size]   || "LETTER"
+       @page_layout   = options[:page_layout] || :portrait
+       @compress      = options[:compress] || false
+       @skip_encoding = options[:skip_encoding]
+       @background    = options[:background]
+       @font_size     = 12
+       @page_content  = nil
+       @bounding_box  = nil
+       @margin_box    = nil
 
        @text_options = options[:text_options] || {}
 

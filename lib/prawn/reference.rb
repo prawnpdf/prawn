@@ -17,10 +17,11 @@ module Prawn
     
     def initialize(id, data, &block)
       @identifier = id 
-      @gen   = 0       
-      @data  = data     
+      @gen        = 0       
+      @data       = data     
       @compressed = false
-      @on_encode = block
+      @on_encode  = block
+      @stream     = nil
     end            
     
     def object 
