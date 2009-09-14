@@ -65,6 +65,7 @@ end
  
 require "prawn/compatibility"
 require "prawn/errors"
+require "prawn/extendable"
 require "prawn/pdf_object"
 require "prawn/object_store"
 require "prawn/snapshot"

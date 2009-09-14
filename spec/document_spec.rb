@@ -3,6 +3,12 @@ require "tempfile"
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
 
+describe "Prawn Document" do
+  it "should be Extendable" do
+    assert_kind_of(Extendable, Prawn::Document)
+  end
+end 
+
 describe "The cursor" do
   it "should equal pdf.y - bounds.absolute_bottom" do
     pdf = Prawn::Document.new

@@ -50,7 +50,8 @@ module Prawn
   # 
   # See the new and generate methods for further details on the above.
   class Document
-
+    
+    extend  Extendable
     include Text
     include PageGeometry
     include Internals
