@@ -23,6 +23,8 @@ module Prawn
     end
     
     module Text 
+      # FIXME: requires documentation
+      #
       class Box #:nodoc:
         def initialize(text,options={})
           @document  = options[:for]

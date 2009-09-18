@@ -16,25 +16,39 @@ module Prawn
     #
     module Internals    
       # Creates a new Prawn::Reference and adds it to the Document's object
-      # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.    
+      # list.  The +data+ argument is anything that Prawn::PdfObject() can convert. 
+      #
+      # Returns the identifier which points to the reference in the ObjectStore   
       # 
       # If a block is given, it will be invoked just before the object is written
       # out to the PDF document stream. This allows you to do deferred processing
       # on some references (such as fonts, which you might know all the details
       # about until the last page of the document is finished).
+      #
       def ref(data, &block)
         ref!(data, &block).identifier
       end                                               
 
       # Like ref, but returns the actual reference instead of its identifier.
+      # 
+      # While you can use this to build up nested references within the object
+      # tree, it is recommended to persist only identifiers, and them provide
+      # helper methods to look up the actual references in the ObjectStore
+      # if needed.  If you take this approach, Prawn::Document::Snapshot
+      # will probably work with your extension
+      #
       def ref!(data, &block)
         @store.ref(data, &block)
       end
 
+      # Grabs the reference for the current page content
+      #
       def page_content
         @store[@page_content]
       end
 
+      # Grabs the reference for the current page
+      #
       def current_page
         @store[@current_page]
       end
@@ -100,6 +114,7 @@ module Prawn
       end
 
       # Write out the PDF Header, as per spec 3.4.1
+      #
       def render_header(output)
         # pdf version
         output << "%PDF-#{@version}\n"
@@ -109,6 +124,7 @@ module Prawn
       end
 
       # Write out the PDF Body, as per spec 3.4.2
+      #
       def render_body(output)
         @store.each do |ref|
           ref.offset = output.size
@@ -117,6 +133,7 @@ module Prawn
       end
 
       # Write out the PDF Cross Reference Table, as per spec 3.4.3
+      #
       def render_xref(output)
         @xref_offset = output.size
         output << "xref\n"
@@ -129,6 +146,7 @@ module Prawn
       end
 
       # Write out the PDF Trailer, as per spec 3.4.4
+      #
       def render_trailer(output)
         trailer_hash = {:Size => @store.size + 1, 
                         :Root => @store.root,

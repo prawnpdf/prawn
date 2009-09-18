@@ -1,11 +1,11 @@
 # encoding: utf-8
  
-# prawn.rb : A library for PDF generation in Ruby
+# Prawn : A library for PDF generation in Ruby
 #
 # Copyright April 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-           
+#           
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
 end
@@ -31,7 +31,13 @@ module Prawn
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
   # are used.  Off by default.
-  # 
+  #
+  # Example:
+  #   >> Prawn::Document.new(:tomato => "Juicy")
+  #   Prawn::Errors::UnknownOption: 
+  #   Detected unknown option(s): [:tomato]
+  #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
+  #
   attr_accessor :debug
   
   def verify_options(accepted,actual) #:nodoc:
