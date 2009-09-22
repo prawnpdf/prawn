@@ -23,17 +23,13 @@ spec = Gem::Specification.new do |spec|
   spec.description = "Prawn is a fast, tiny, and nimble PDF generator for Ruby"
   spec.post_install_message = %{
   Welcome to Prawn, the best pure-Ruby PDF solution ever!
-  This is version 0.5 RC2
+  This is version 0.5.1
    
-  Please note that you have downloaded a pre-release candidate gem,
-  which has some bugs, ugly spots, other bad things in it.  This gem is also
-  not fully backwards compatible, and may break existing code.
-
-  If you wish to revert until a stable release is ready, uninstall prawn 0.5.0,
-  prawn-core 0.5.0, prawn-layout 0.2.0 and prawn-format 0.2.0
+  For those coming from Prawn 0.4.x or earlier, note that this release has
+  several API breaking changes as well as many new features.
 
   For details on what has changed, see:
-    http://prawn.majesticseacreature.com/notes/0.5
+    http://wiki.github.com/sandal/prawn/changelog
 
   If you have questions, contact us at:
     http://groups.google.com/group/prawn-ruby
