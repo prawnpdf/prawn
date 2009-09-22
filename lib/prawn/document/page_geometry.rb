@@ -77,8 +77,7 @@ module Prawn
     # LEGAL:: => 612.00 x 1008.00
     # LETTER:: => 612.00 x 792.00
     # TABLOID:: => 792.00 x 1224.00 
-    
-    
+    #
     module PageGeometry
 
       SIZES = { "4A0" => [4767.87, 6740.79],
@@ -132,7 +131,12 @@ module Prawn
              "LETTER" => [612.00, 792.00],
             "TABLOID" => [792.00, 1224.00] }
 
-      def page_dimensions #:nodoc:
+
+      # Returns the width and height of the current page in PDF points.
+      # Usually, you'll want the dimensions of the bounding_box or 
+      # margin_box instead.
+      #
+      def page_dimensions
         coords = SIZES[page_size] || page_size
         [0,0] + case(page_layout)
         when :portrait
