@@ -103,8 +103,8 @@ module Prawn
     # <tt>:border_style</tt>:: If set to :grid, fills in all borders. If set to :underline_header, underline header only. Otherwise, borders are drawn on columns only, not rows
     # <tt>:border_color</tt>:: Sets the color of the borders.
     # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
-    # <tt>:width:</tt> A set width for the table, defaults to the sum of all column widths
-    # <tt>:column_widths:</tt> A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
+    # <tt>:width</tt>:: A set width for the table, defaults to the sum of all column widths
+    # <tt>:column_widths</tt>:: A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
     # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
     # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
     #
