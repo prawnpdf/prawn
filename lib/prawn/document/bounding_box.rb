@@ -14,8 +14,7 @@ module Prawn
     #
     # A bounding box serves two important purposes:
     # * Provide bounds for flowing text, starting at a given point
-    # * Translate the origin (0,0) for graphics primitives, for the purposes
-    # of simplifying coordinate math.
+    # * Translate the origin (0,0) for graphics primitives
     # 
     # ==Positioning
     # 
@@ -25,20 +24,20 @@ module Prawn
     # 
     # Usage:
     # 
-    # * Bounding box 100pt x 100pt in the absolutle bottom left of the containing
-    # box:
+    # * Bounding box 100pt x 100pt in the absolute bottom left of the 
+    # containing box:
     # 
-    #  pdf.bounding_box([0,100], :width => 100, :height => 100)
-    #    stroke_bounds
-    #  end
+    #   pdf.bounding_box([0,100], :width => 100, :height => 100)
+    #     stroke_bounds
+    #   end
     # 
     # * Bounding box 200pt x 400pt high in the center of the page:
     # 
-    #  x_pos = ((bounds.width / 2) - 150)
-    #  y_pos = ((bounds.height / 2) + 200)
-    #  pdf.bounding_box([x_pos, y_pos], :width => 300, :height => 400) do
-    #    stroke_bounds
-    #  end
+    #   x_pos = ((bounds.width / 2) - 150)
+    #   y_pos = ((bounds.height / 2) + 200)
+    #   pdf.bounding_box([x_pos, y_pos], :width => 300, :height => 400) do
+    #     stroke_bounds
+    #   end
     #
     # ==Flowing Text
     #
@@ -57,6 +56,10 @@ module Prawn
     #      "and return to the margin_box"
     #   end
     #
+    # Note that this is a low level tool and is designed primarily for 
+    # building other abstractions.  If you just want to flow some text on
+    # a page, look into span() or text_box()
+    # 
     # ==Translating Coordinates
     # 
     # When translating coordinates, the idea is to allow the user to draw
@@ -101,7 +104,7 @@ module Prawn
     # 
     # ==Nesting Bounding Boxes
     # 
-    # By default, bounding boxes are specified relative to the document's 
+    # At the top level, bounding boxes are specified relative to the document's 
     # margin_box (which is itself a bounding box).  You can also nest bounding
     # boxes, allowing you to build components which are relative to each other
     #
@@ -118,8 +121,8 @@ module Prawn
     # 
     # ==Stretchyness
     # 
-    # If you do not specify a height to a boundng box, it will become stretchy
-    # and it's height will be calculated according to the last drawing position
+    # If you do not specify a height to a bounding box, it will become stretchy
+    # and its height will be calculated according to the last drawing position
     # within the bounding box:
     # 
     #  pdf.bounding_box([100,400], :width => 400) do
@@ -184,7 +187,12 @@ module Prawn
 
       @bounding_box = parent_box 
     end   
- 
+
+    # Low level layout helper that simplifies coordinate math.
+    #
+    # See Prawn::Document#bounding_box for a description of what this class
+    # is used for.
+    #
     class BoundingBox
       
       def initialize(parent, point, options={}) #:nodoc:   
@@ -369,18 +377,6 @@ module Prawn
       #
       def stretchy?
         !@height 
-      end
-
-      def left_side
-         absolute_left
-      end
-
-      def right_side
-         absolute_right
-      end
-
-      def move_past_bottom
-         @parent.start_new_page
       end
 
     end    

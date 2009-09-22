@@ -40,6 +40,21 @@ module Prawn
 
       @bounding_box = parent_box
     end
+    
+    # Template methods to support ColumnBox extensions
+    class BoundingBox
+      def left_side
+         absolute_left
+      end
+
+      def right_side
+         absolute_right
+      end
+
+      def move_past_bottom
+         @parent.start_new_page
+      end
+    end
 
     class ColumnBox < BoundingBox
 
