@@ -50,6 +50,7 @@ module Prawn
   # that you want to immediately save or render out.
   # 
   # See the new and generate methods for further details on the above.
+  #
   class Document
 
     include Text
@@ -109,6 +110,7 @@ module Prawn
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
+    # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
 
     # Additionally, :page_size can be specified as a simple two value array giving
     # the width and height of the document you need in PDF Points.
@@ -405,7 +407,8 @@ module Prawn
         :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
       )
 
-      # update bounding box if not flowing from the previous page
+      # we must update bounding box if not flowing from the previous page
+      #
       # FIXME: This may have a bug where the old margin is restored
       # when the bounding box exits.
       @bounding_box = @margin_box if old_margin_box == @bounding_box
