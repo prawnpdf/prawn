@@ -52,7 +52,7 @@ module Prawn
       # == Rotation
       #
       # Text can be rotated before it is placed on the canvas by specifying the
-      # :rotate option. Rotation occurs counter-clockwise.
+      # +:rotate+ option with a given angle. Rotation occurs counter-clockwise.
       #
       # == Encoding
       #
