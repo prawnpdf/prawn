@@ -1,11 +1,11 @@
 # encoding: utf-8
- 
-# prawn.rb : A library for PDF generation in Ruby
+# 
+# Prawn : A library for PDF generation in Ruby
 #
 # Copyright April 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-           
+        
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
 end
