@@ -17,6 +17,7 @@ require "prawn/document/annotations"
 require "prawn/document/destinations"
 
 module Prawn
+  
   # The Prawn::Document class is how you start creating a PDF document.
   # 
   # There are three basic ways you can instantiate PDF Documents in Prawn, they 
