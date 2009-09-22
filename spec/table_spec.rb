@@ -271,6 +271,22 @@ describe "A table's content" do
     pdf.table(data, :row_colors => ['cccccc', 'ffffff'])
   end
     
+  it "should allow hash syntax for :row_colors" do
+    data = [["foo"], ["bar"], ['baz']]
+    pdf = Prawn::Document.new
+    
+    # fill_color() is used to retrieve fill color; ignore it
+    pdf.stubs(:fill_color)
+
+    # Verify that fill_color is called in proper sequence for row colors.
+    seq = sequence('row_colors')
+    %w[cccccc dddddd eeeeee].each do |color|
+      pdf.expects(:fill_color).with(color).in_sequence(seq)
+    end
+
+    pdf.table(data, :row_colors => {0 => 'cccccc', 1 => 'dddddd', 
+                                    2 => 'eeeeee'})
+  end
 end
 
 describe "An invalid table" do

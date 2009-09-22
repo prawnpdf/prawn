@@ -105,13 +105,15 @@ module Prawn
     # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
     # <tt>:width</tt>:: A set width for the table, defaults to the sum of all column widths
     # <tt>:column_widths</tt>:: A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
-    # <tt>:row_colors</tt>:: An array of row background colors which are used cyclicly.   
+    # <tt>:row_colors</tt>:: Used to specify background colors for rows. See below for usage.
     # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
     #
-    # Row colors are specified as html encoded values, e.g.
-    # ["ffffff","aaaaaa","ccaaff"].  You can also specify 
-    # <tt>:row_colors => :pdf_writer</tt> if you wish to use the default color
-    # scheme from the PDF::Writer library.
+    # Row colors (<tt>:row_colors</tt>) are specified as HTML hex color values, 
+    # e.g., "ccaaff". They can take several forms:
+    # 
+    # * An array of colors, used cyclically to "zebra stripe" the table: <tt>['ffffff', 'cccccc', '336699']</tt>.
+    # * A hash taking 0-based row numbers to colors: <tt>{ 0 => 'ffffff', 2 => 'cccccc'}</tt>.
+    # * The symbol <tt>:pdf_writer</tt>, for PDF::Writer's default color scheme.
     #
     # See Document#table for typical usage, as directly using this class is
     # not recommended unless you know why you want to do it.
@@ -252,6 +254,13 @@ module Prawn
         renderable_data.each_with_index do |row,index|
           c = Prawn::Table::CellBlock.new(@document)
           
+          if C(:row_colors).is_a?(Hash)
+            real_index = index
+            real_index -= 1 if C(:headers)
+            color = C(:row_colors)[real_index]
+            c.background_color = color if color
+          end
+          
           col_index = 0
           row.each do |e|
             case C(:align)
@@ -379,6 +388,8 @@ module Prawn
 
 
     def next_row_color
+      return if C(:row_colors).is_a?(Hash)
+
       color = C(:row_colors).shift
       C(:row_colors).push(color)
       color
