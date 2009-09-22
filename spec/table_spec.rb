@@ -254,6 +254,22 @@ describe "A table's content" do
     table = Prawn::Table.new data, pdf
     table.column_widths.length.should == 6
   end
+
+  it "should allow array syntax for :row_colors" do
+    data = [["foo"], ["bar"], ['baz']]
+    pdf = Prawn::Document.new
+    
+    # fill_color() is used to retrieve fill color; ignore it
+    pdf.stubs(:fill_color)
+
+    # Verify that fill_color is called in proper sequence for row colors.
+    seq = sequence('row_colors')
+    %w[cccccc ffffff cccccc].each do |color|
+      pdf.expects(:fill_color).with(color).in_sequence(seq)
+    end
+
+    pdf.table(data, :row_colors => ['cccccc', 'ffffff'])
+  end
     
 end
 
