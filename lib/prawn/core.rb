@@ -33,7 +33,14 @@ module Prawn
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
   # are used.  Off by default.
-  # 
+  #
+  # Example:
+  #
+  #   >> Prawn::Document.new(:tomato => "Juicy")  
+  #   Prawn::Errors::UnknownOption:   
+  #   Detected unknown option(s): [:tomato] 
+  #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]  
+  #
   attr_accessor :debug
   
   def verify_options(accepted,actual) #:nodoc:
