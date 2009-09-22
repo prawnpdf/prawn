@@ -23,6 +23,7 @@ module Prawn
       end
 
       # +string+ must be UTF8-encoded.
+      #
       def compute_width_of(string, options={})
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
@@ -55,6 +56,7 @@ module Prawn
       # either a string or an array (for kerned text).
       #
       # The +text+ parameter must be UTF8-encoded.
+      #
       def encode_text(text,options={})
         text = text.chomp
 

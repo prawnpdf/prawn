@@ -78,6 +78,7 @@ module Prawn
 
     # Sets the font directly, given an actual Font object
     # and size.
+    #
     def set_font(font, size=nil) # :nodoc:
       @font = font
       @font_size = size if size
@@ -85,6 +86,7 @@ module Prawn
 
     # Saves the current font, and then yields. When the block
     # finishes, the original font is restored.
+    #
     def save_font
       @font ||= find_font("Helvetica")
       original_font = @font
