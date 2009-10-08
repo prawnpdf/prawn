@@ -151,11 +151,11 @@ describe "The mask() feature" do
   end
 end
 
-describe "The group_on_page() feature" do
-  it "should group its block on a single page" do
+describe "The group() feature" do
+  it "should group a simple block on a single page" do
     pdf = Prawn::Document.new do
       self.y = 50
-      group_on_page do
+      group do
         text "Hello"
         text "World"
       end
@@ -165,6 +165,34 @@ describe "The group_on_page() feature" do
     pages.size.should == 2
     pages[0][:strings].should == []
     pages[1][:strings].should == ["Hello", "World"]
+  end
+
+  it "should raise CannotGroup if the content is too tall" do
+    assert_raises(Prawn::Document::CannotGroup) do
+      Prawn::Document.new do
+        group do
+          100.times { text "Too long" }
+        end
+      end.render
+    end
+  end
+
+  it "should group within individual column boxes" do
+    pdf = Prawn::Document.new do
+      # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
+      # of the height of one page / column, so each column should get its own
+      # group (every column should start with zero).
+      column_box([0, bounds.top], :width => bounds.width, :columns => 7) do
+        10.times do
+          group { 50.times { |i| text(i.to_s) } }
+        end
+      end
+    end
+
+    # Second page should start with a 0 because it's a new group.
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 2
+    pages[1][:strings].first.should == '0'
   end
 end
 

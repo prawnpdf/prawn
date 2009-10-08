@@ -376,17 +376,20 @@ module Prawn
       fields.each { |f| send("#{f}=", stored[f]) }
     end
 
-    # Raised if group_on_page is called with a block that is too big to be
-    # rendered on one page.
-    CannotGroupOnPage = Class.new(StandardError)
-
-    # Attempts to group the given block onto the same page. First attempts to
-    # render it in the current position on the current page. If that attempt
-    # overflows, it is tried anew on the next page.
+    # Raised if group() is called with a block that is too big to be
+    # rendered in the current context.
     #
-    # Raises CannotGroupOnPage if the provided content is too large to fit on a
-    # single page by itself.
-    def group_on_page(second_attempt=false)
+    CannotGroup = Class.new(StandardError)
+
+    # Attempts to group the given block vertically within the current context.
+    # First attempts to render it in the current position on the current page.
+    # If that attempt overflows, it is tried anew after starting a new context
+    # (page or column).
+    #
+    # Raises CannotGroup if the provided content is too large to fit alone in
+    # the current page or column.
+    #
+    def group(second_attempt=false)
       old_bounding_box = @bounding_box
       @bounding_box = SimpleDelegator.new(@bounding_box)
 
@@ -397,9 +400,9 @@ module Prawn
       success = transaction { yield }
 
       unless success
-        raise CannotGroupOnPage if second_attempt
-        start_new_page
-        group_on_page(second_attempt=true) { yield }
+        raise CannotGroup if second_attempt
+        old_bounding_box.move_past_bottom
+        group(second_attempt=true) { yield }
       end 
 
       @bounding_box = old_bounding_box
