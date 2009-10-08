@@ -151,6 +151,23 @@ describe "The mask() feature" do
   end
 end
 
+describe "The group_on_page() feature" do
+  it "should group its block on a single page" do
+    pdf = Prawn::Document.new do
+      self.y = 50
+      group_on_page do
+        text "Hello"
+        text "World"
+      end
+    end
+    
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == []
+    pages[1][:strings].should == ["Hello", "World"]
+  end
+end
+
 describe "The render() feature" do
   if "spec".respond_to?(:encode!)
     it "should return a 8 bit encoded string on a m17n aware VM" do

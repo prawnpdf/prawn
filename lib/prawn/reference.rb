@@ -48,6 +48,18 @@ module Prawn
       @data[:Length] ||= @stream.length
       @compressed = true
     end
+
+    def compressed?
+      @compressed
+    end
+    
+    # Replaces the data and stream with that of other_ref. Preserves compressed
+    # status.
+    def replace(other_ref)
+      @data       = other_ref.data
+      @stream     = other_ref.stream
+      @compressed = other_ref.compressed?
+    end
   end         
 
   module_function
