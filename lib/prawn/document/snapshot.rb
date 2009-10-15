@@ -50,7 +50,14 @@ module Prawn
 
       # Rolls the page state back to the state of the given snapshot.
       def restore_snapshot(shot)
+        # Because these objects are referenced by identifier from the Pages
+        # dictionary, we can't just restore them over the current refs in
+        # page_content and current_page. We have to restore them over the old
+        # ones.
+        @page_content = shot[:page_content].identifier
         page_content.replace shot[:page_content]
+
+        @current_page = shot[:current_page].identifier
         current_page.replace shot[:current_page]
 
         @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}

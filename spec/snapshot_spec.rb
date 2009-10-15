@@ -64,6 +64,25 @@ describe "Prawn::Document#transaction" do
     pages.size.should == 1
   end
 
+  # Because the Pages object, when restored, points to the snapshotted pages
+  # by identifier, we have to restore the snapshot into the same page objects,
+  # or else old pages will appear in the post-rollback document.
+  it "should restore the pages into the same objects" do
+    Prawn::Document.new do
+      old_page_object_id = current_page.identifier
+      old_page_content_id = page_content.identifier
+
+      transaction do
+        start_new_page
+        rollback
+      end
+
+      current_page.identifier.should == old_page_object_id
+      page_content.identifier.should == old_page_content_id
+    end
+
+
+  end
 
 end
 
