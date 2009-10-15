@@ -25,6 +25,16 @@ describe "Prawn::Document#transaction" do
     text.strings.should == []
   end 
 
+  it "should return true/false value indicating success of the transaction" do
+    Prawn::Document.new do
+      success = transaction { }
+      success.should == true
+
+      success = transaction { rollback }
+      success.should == false
+    end
+  end
+  
   it "should support nested transactions" do
     pdf = Prawn::Document.new do
       transaction do
@@ -53,6 +63,7 @@ describe "Prawn::Document#transaction" do
     pages = PDF::Inspector::Page.analyze(pdf.render).pages
     pages.size.should == 1
   end
+
 
 end
 
