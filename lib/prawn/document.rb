@@ -104,6 +104,7 @@ module Prawn
     #
     # <tt>:page_size</tt>:: One of the Document::PageGeometry sizes [LETTER]
     # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
+    # <tt>:margin</tt>:: Sets the margin on all sides in points [0.5 inch]
     # <tt>:left_margin</tt>:: Sets the left margin in points [0.5 inch]
     # <tt>:right_margin</tt>:: Sets the right margin in points [0.5 inch]
     # <tt>:top_margin</tt>:: Sets the top margin in points [0.5 inch]
@@ -113,7 +114,10 @@ module Prawn
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
-
+    #
+    # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
+    # of 100 points on every side except for the left, where it will be 50.
+    #
     # Additionally, :page_size can be specified as a simple two value array giving
     # the width and height of the document you need in PDF Points.
     # 
@@ -132,7 +136,7 @@ module Prawn
     #   pdf = Prawn::Document.new(:background => "#{Prawn::BASEDIR}/data/images/pigs.jpg")
     #
     def initialize(options={},&block)   
-       Prawn.verify_options [:page_size, :page_layout, :left_margin, 
+       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
          :compress, :skip_encoding, :text_options, :background, :info], options
       
@@ -158,10 +162,11 @@ module Prawn
 
        @text_options = options[:text_options] || {}
 
-       @margins = { :left   => options[:left_margin]   || 36,
-                    :right  => options[:right_margin]  || 36,
-                    :top    => options[:top_margin]    || 36,
-                    :bottom => options[:bottom_margin] || 36  }
+       default_margin = 36  # 0.5 inch
+       @margins = { :left   => options[:left_margin]   || options[:margin] || default_margin,
+                    :right  => options[:right_margin]  || options[:margin] || default_margin,
+                    :top    => options[:top_margin]    || options[:margin] || default_margin,
+                    :bottom => options[:bottom_margin] || options[:margin] || default_margin  }
 
        generate_margin_box
 
