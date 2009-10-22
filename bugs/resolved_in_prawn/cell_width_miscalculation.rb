@@ -11,14 +11,14 @@ require "rubygems"
 require "prawn"
 require "prawn/layout"
 
-Prawn::Document.generate("broken_table.pdf") do 
+Prawn::Document.generate("broken_table.pdf") do
   font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
   table [["foo",    "baaar",             "1" ],
          ["This is","a sample",          "2" ],
          ["Table",  "dont\ncha\nknow?",  "3" ]],
-    :font_size => 30, 
-    :padding   => 10, 
-    :border    => 2, 
+    :font_size => 30,
+    :padding   => 10,
+    :border    => 2,
     :position  => :center
 end
- 
+

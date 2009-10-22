@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # cell.rb : Table support functions
 #
@@ -13,7 +13,7 @@ module Prawn
     # area.  For available options, see Table::Cell#new.
     #
     #    Prawn::Document.generate("cell.pdf") do
-    #       cell [100,500], 
+    #       cell [100,500],
     #         :width => 200,
     #         :text  => "The rain in Spain falls mainly on the plains"
     #    end
@@ -38,7 +38,7 @@ module Prawn
       # Document#cell shortcut, the <tt>:document</tt> must also be provided.
       #
       # <tt>:point</tt>:: Absolute [x,y] coordinate of the top-left corner of the cell.
-      # <tt>:document</tt>:: The Prawn::Document object to render on. 
+      # <tt>:document</tt>:: The Prawn::Document object to render on.
       # <tt>:text</tt>:: The text to be flowed within the cell
       # <tt>:text_color</tt>:: The color of the text to be displayed
       # <tt>:width</tt>:: The width in PDF points of the cell.
@@ -63,9 +63,9 @@ module Prawn
         @height       = options[:height]
         @borders      = options[:borders]
         @border_width = options[:border_width] || 1
-        @border_style = options[:border_style] || :all               
+        @border_style = options[:border_style] || :all
         @border_color = options[:border_color]
-        @background_color = options[:background_color] 
+        @background_color = options[:background_color]
         @align            = options[:align] || :left
         @font_size        = options[:font_size]
         @font_style       = options[:font_style]
@@ -76,15 +76,15 @@ module Prawn
         if options[:padding]
           @horizontal_padding = @vertical_padding = options[:padding]
         end
-        
+
       end
 
       attr_accessor :point, :border_style, :border_width, :background_color,
                     :document, :horizontal_padding, :vertical_padding, :align,
                     :borders, :text_color, :border_color, :font_size, :font_style
-                    
-      attr_writer   :height, :width #:nodoc:   
-           
+
+      attr_writer   :height, :width #:nodoc:
+
       # Returns the cell's text as a string.
       #
       def to_s
@@ -105,7 +105,7 @@ module Prawn
 
       # The height of the cell in PDF points
       #
-      def height  
+      def height
         @height || text_area_height + 2*@vertical_padding
       end
 
@@ -124,18 +124,18 @@ module Prawn
       end
 
       # Draws the cell onto the PDF document
-      # 
+      #
       def draw
         margin = @border_width / 2.0
-        
-        if @background_color    
+
+        if @background_color
           @document.mask(:fill_color) do
-            @document.fill_color @background_color  
-            h  = borders.include?(:bottom) ? 
+            @document.fill_color @background_color
+            h  = borders.include?(:bottom) ?
               height - ( 2 * margin ) : height + margin
-            @document.fill_rectangle [x, 
-                                      y ], 
-                width, h  
+            @document.fill_rectangle [x,
+                                      y ],
+                width, h
           end
         end
 
@@ -147,19 +147,19 @@ module Prawn
               @document.stroke_color @border_color if @border_color
 
               if borders.include?(:left)
-                @document.stroke_line [x, y + margin], 
+                @document.stroke_line [x, y + margin],
                   [x, y - height - margin ]
               end
 
               if borders.include?(:right)
-                @document.stroke_line( 
+                @document.stroke_line(
                   [x + width, y + margin],
                   [x + width, y - height - margin] )
               end
 
               if borders.include?(:top)
                 @document.stroke_line(
-                  [ x, y ], 
+                  [ x, y ],
                   [ x + width, y ])
               end
 
@@ -170,13 +170,13 @@ module Prawn
             end
 
           end
-          
+
           borders
 
         end
 
-        @document.bounding_box( [x + @horizontal_padding, 
-                                 y - @vertical_padding], 
+        @document.bounding_box( [x + @horizontal_padding,
+                                 y - @vertical_padding],
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
           @document.move_down((@document.font.line_gap - @document.font.descender)/2)
@@ -187,19 +187,19 @@ module Prawn
           options[:style] = @font_style if @font_style
 
           @document.mask(:fill_color) do
-            @document.fill_color @text_color if @text_color                        
+            @document.fill_color @text_color if @text_color
             @document.text @text, options
           end
         end
       end
 
       private
-      
+
       # x-position of the cell
       def x
         @point[0]
       end
-      
+
       # y-position of the cell
       def y
         @point[1]
@@ -240,7 +240,7 @@ module Prawn
 
       def <<(cell)
         @cells << cell
-        @height = cell.height if cell.height > @height 
+        @height = cell.height if cell.height > @height
         @width += cell.width
         self
       end
@@ -250,7 +250,7 @@ module Prawn
         x = @document.bounds.absolute_left
 
         @cells.each do |e|
-          e.point  = [x - @document.bounds.absolute_left, 
+          e.point  = [x - @document.bounds.absolute_left,
                       y - @document.bounds.absolute_bottom]
           e.height = @height
           e.background_color ||= @background_color
@@ -259,7 +259,7 @@ module Prawn
           e.draw
           x += e.width
         end
-        
+
         @document.y = y - @height
       end
 
@@ -269,17 +269,17 @@ module Prawn
 
       def border_style=(s)
         @cells.each { |e| e.border_style = s }
-      end    
-      
-      def align=(align) 
-        @cells.each { |e| e.align = align } 
-      end           
-      
+      end
+
+      def align=(align)
+        @cells.each { |e| e.align = align }
+      end
+
       def border_style
         @cells[0].border_style
       end
 
     end
   end
- 
+
 end

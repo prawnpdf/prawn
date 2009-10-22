@@ -9,8 +9,8 @@
 require "prawn/table/cell"
 
 module Prawn
-  class Document    
-    
+  class Document
+
     # Builds and renders a Document::Table object from raw data.
     # For details on the options that can be passed, see
     # Document::Table.new
@@ -18,7 +18,7 @@ module Prawn
     #   data = [["Gregory","Brown"],["James","Healy"],["Jia","Wu"]]
     #
     #   Prawn::Document.generate("table.pdf") do
-    #     
+    #
     #     # Default table, without headers
     #     table(data)
     #
@@ -39,10 +39,10 @@ module Prawn
     #
     #   end
     #
-    #   Will raise <tt>Prawn::Errors::EmptyTable</tt> given 
+    #   Will raise <tt>Prawn::Errors::EmptyTable</tt> given
     #   a nil or empty <tt>data</tt> paramater.
     #
-    def table(data, options={})           
+    def table(data, options={})
       if data.nil? || data.empty?
         raise Prawn::Errors::EmptyTable,
           "data must be a non-empty, non-nil, two dimensional array of " +
@@ -54,7 +54,7 @@ module Prawn
 
 
   # This class implements simple PDF table generation.
-  # 
+  #
   # Prawn tables have the following features:
   #
   #   * Can be generated with or without headers
@@ -63,7 +63,7 @@ module Prawn
   #   * Can be positioned by bounding boxes (left/center aligned) or an
   #     absolute x position
   #   * Automated page-breaking as needed
-  #   * Column widths can be calculated automatically or defined explictly on a 
+  #   * Column widths can be calculated automatically or defined explictly on a
   #     column by column basis
   #   * Text alignment can be set for the whole table or by column
   #
@@ -74,15 +74,15 @@ module Prawn
   # Tables will be revisited before the end of the Ruby Mendicant project and
   # the most commonly needed functionality will likely be added.
   #
-  class Table  
-    
+  class Table
+
     include Prawn::Configurable
 
-    attr_reader :column_widths # :nodoc: 
-    
-    NUMBER_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+(?:[eE][+-]?\d+)?)?$/ #:nodoc: 
+    attr_reader :column_widths # :nodoc:
 
-    # Creates a new Document::Table object. This is generally called 
+    NUMBER_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+(?:[eE][+-]?\d+)?)?$/ #:nodoc:
+
+    # Creates a new Document::Table object. This is generally called
     # indirectly through Document#table but can also be used explictly.
     #
     # The <tt>data</tt> argument is a two dimensional array of strings,
@@ -109,9 +109,9 @@ module Prawn
     # <tt>:row_colors</tt>:: Used to specify background colors for rows. See below for usage.
     # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
     #
-    # Row colors (<tt>:row_colors</tt>) are specified as HTML hex color values, 
+    # Row colors (<tt>:row_colors</tt>) are specified as HTML hex color values,
     # e.g., "ccaaff". They can take several forms:
-    # 
+    #
     # * An array of colors, used cyclically to "zebra stripe" the table: <tt>['ffffff', 'cccccc', '336699']</tt>.
     # * A hash taking 0-based row numbers to colors: <tt>{ 0 => 'ffffff', 2 => 'cccccc'}</tt>.
     # * The symbol <tt>:pdf_writer</tt>, for PDF::Writer's default color scheme.
@@ -119,59 +119,59 @@ module Prawn
     # See Document#table for typical usage, as directly using this class is
     # not recommended unless you know why you want to do it.
     #
-    def initialize(data, document, options={})     
+    def initialize(data, document, options={})
       unless data.all? { |e| Array === e }
         raise Prawn::Errors::InvalidTableData,
           "data must be a two dimensional array of Prawn::Cells or strings"
       end
-      
-      @data     = data        
+
+      @data     = data
       @document = document
-      
+
       Prawn.verify_options [:font_size, :border_style, :border_width,
-       :position, :headers, :row_colors, :align, :align_headers, 
-       :header_text_color, :border_color, :horizontal_padding, 
-       :vertical_padding, :padding, :column_widths, :width, :header_color ], 
-       options     
-                                          
-      configuration.update(options)  
+       :position, :headers, :row_colors, :align, :align_headers,
+       :header_text_color, :border_color, :horizontal_padding,
+       :vertical_padding, :padding, :column_widths, :width, :header_color ],
+       options
+
+      configuration.update(options)
 
       if padding = options[:padding]
-        C(:horizontal_padding => padding, :vertical_padding => padding) 
+        C(:horizontal_padding => padding, :vertical_padding => padding)
       end
-       
-      if options[:row_colors] == :pdf_writer 
-        C(:row_colors => ["ffffff","cccccc"])  
+
+      if options[:row_colors] == :pdf_writer
+        C(:row_colors => ["ffffff","cccccc"])
       end
-      
+
       if options[:row_colors]
-        C(:original_row_colors => C(:row_colors)) 
+        C(:original_row_colors => C(:row_colors))
       end
 
       calculate_column_widths(options[:column_widths], options[:width])
-    end                                        
-    
+    end
+
     attr_reader :column_widths #:nodoc:
-    
+
     # Width of the table in PDF points
     #
     def width
        @column_widths.inject(0) { |s,r| s + r }
     end
-    
+
     # Draws the table onto the PDF document
     #
-    def draw  
-      @parent_bounds = @document.bounds  
-      case C(:position) 
+    def draw
+      @parent_bounds = @document.bounds
+      case C(:position)
       when :center
         x = (@document.bounds.width - width) / 2.0
         dy = @document.bounds.absolute_top - @document.y
-        @document.bounding_box [x, @parent_bounds.top], :width => width do 
+        @document.bounding_box [x, @parent_bounds.top], :width => width do
           @document.move_down(dy)
           generate_table
         end
-      when Numeric     
+      when Numeric
         x, y = C(:position), @document.y - @document.bounds.absolute_bottom
         @document.bounding_box([x,y], :width => width) { generate_table }
       else
@@ -180,17 +180,17 @@ module Prawn
     end
 
     private
-    
-    def default_configuration     
-      { :font_size           => 12, 
-        :border_width        => 1, 
+
+    def default_configuration
+      { :font_size           => 12,
+        :border_width        => 1,
         :position            => :left,
         :horizontal_padding  => 5,
-        :vertical_padding    => 5 } 
+        :vertical_padding    => 5 }
     end
 
     def calculate_column_widths(manual_widths=nil, width=nil)
-      @column_widths = [0] * @data[0].inject(0){ |acc, e| 
+      @column_widths = [0] * @data[0].inject(0){ |acc, e|
         acc += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1 }
 
       renderable_data.each do |row|
@@ -208,36 +208,36 @@ module Prawn
             colspan += cell[:colspan] - 1
           end
         end
-      end  
+      end
 
       fit_within_bounds(manual_widths, width)
     end
 
     def fit_within_bounds(manual_widths, width)
       manual_width = 0
-      manual_widths.each { |k,v| 
-        @column_widths[k] = v; manual_width += v } if manual_widths           
+      manual_widths.each { |k,v|
+        @column_widths[k] = v; manual_width += v } if manual_widths
 
       #Ensures that the maximum width of the document is not exceeded
-      #Takes into consideration the manual widths specified (With full manual 
-      # widths specified, the width can exceed the document width as manual 
+      #Takes into consideration the manual widths specified (With full manual
+      # widths specified, the width can exceed the document width as manual
       # widths are taken as gospel)
       max_width = width || @document.margin_box.width
       calculated_width = @column_widths.inject {|sum,e| sum += e }
 
       if calculated_width > max_width
-        shrink_by = (max_width - manual_width).to_f / 
+        shrink_by = (max_width - manual_width).to_f /
           (calculated_width - manual_width)
-        @column_widths.each_with_index { |c,i| 
-          @column_widths[i] = c * shrink_by if manual_widths.nil? || 
-            manual_widths[i].nil? 
+        @column_widths.each_with_index { |c,i|
+          @column_widths[i] = c * shrink_by if manual_widths.nil? ||
+            manual_widths[i].nil?
         }
       elsif width && calculated_width < width
-        grow_by = (width - manual_width).to_f / 
+        grow_by = (width - manual_width).to_f /
           (calculated_width - manual_width)
-        @column_widths.each_with_index { |c,i| 
-          @column_widths[i] = c * grow_by if manual_widths.nil? || 
-            manual_widths[i].nil? 
+        @column_widths.each_with_index { |c,i|
+          @column_widths[i] = c * grow_by if manual_widths.nil? ||
+            manual_widths[i].nil?
         }
       end
     end
@@ -247,21 +247,21 @@ module Prawn
       C(:headers) ? [C(:headers)] + @data : @data
     end
 
-    def generate_table    
+    def generate_table
       page_contents = []
-      y_pos = @document.y 
+      y_pos = @document.y
 
       @document.font_size C(:font_size) do
         renderable_data.each_with_index do |row,index|
           c = Prawn::Table::CellBlock.new(@document)
-          
+
           if C(:row_colors).is_a?(Hash)
             real_index = index
             real_index -= 1 if C(:headers)
             color = C(:row_colors)[real_index]
             c.background_color = color if color
           end
-          
+
           col_index = 0
           row.each do |e|
             case C(:align)
@@ -269,41 +269,41 @@ module Prawn
               align            = C(:align)[col_index]
             else
               align            = C(:align)
-            end   
-            
-            align ||= e.to_s =~ NUMBER_PATTERN ? :right : :left 
-            
+            end
+
+            align ||= e.to_s =~ NUMBER_PATTERN ? :right : :left
+
             case e
             when Prawn::Table::Cell
               e.document = @document
               e.width    = @column_widths[col_index]
               e.horizontal_padding = C(:horizontal_padding)
-              e.vertical_padding   = C(:vertical_padding)    
+              e.vertical_padding   = C(:vertical_padding)
               e.border_width       = C(:border_width)
               e.border_style       = :sides
-              e.align              = align 
+              e.align              = align
               c << e
             else
               text = e.is_a?(Hash) ? e[:text] : e.to_s
               width = if e.is_a?(Hash) && e.has_key?(:colspan)
-                @column_widths.slice(col_index, e[:colspan]).inject { 
+                @column_widths.slice(col_index, e[:colspan]).inject {
                   |sum, width| sum + width }
               else
                 @column_widths[col_index]
               end
-              
+
               cell_options = {
-                :document           => @document, 
+                :document           => @document,
                 :text               => text,
                 :width              => width,
                 :horizontal_padding => C(:horizontal_padding),
                 :vertical_padding   => C(:vertical_padding),
                 :border_width       => C(:border_width),
                 :border_style       => :sides,
-                :align              => align 
+                :align              => align
               }
 
-              if e.is_a?(Hash) 
+              if e.is_a?(Hash)
                 opts = e.dup
                 opts.delete(:colspan)
                 cell_options.update(opts)
@@ -311,10 +311,10 @@ module Prawn
 
               c << Prawn::Table::Cell.new(cell_options)
             end
-            
+
             col_index += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1
           end
-                                              
+
           bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
           if c.height > y_pos - bbox.absolute_bottom
             if C(:headers) && page_contents.length == 1
@@ -357,7 +357,7 @@ module Prawn
         contents.first.border_style = C(:headers) ? :all : :no_bottom
         contents.last.border_style = :no_top
       end
-      
+
       if C(:headers)
         contents.first.cells.each_with_index do |e,i|
           if C(:align_headers)
@@ -373,14 +373,14 @@ module Prawn
           e.background_color = C(:header_color) if C(:header_color)
         end
       end
-      
+
       contents.each do |x|
         unless x.background_color
           x.background_color = next_row_color if C(:row_colors)
         end
         x.border_color = C(:border_color) if C(:border_color)
-        
-        x.draw 
+
+        x.draw
       end
 
       reset_row_colors
@@ -395,7 +395,7 @@ module Prawn
       color
     end
 
-    def reset_row_colors    
+    def reset_row_colors
       C(:row_colors => C(:original_row_colors).dup) if C(:row_colors)
     end
 

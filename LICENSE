@@ -1,4 +1,4 @@
-Prawn::Layout is copyrighted free software produced by Gregory Brown along with 
+Prawn::Layout is copyrighted free software produced by Gregory Brown along with
 many community contributions (see git log for attribution).
 
 Licensing terms follow (License of Ruby 1.8):
@@ -42,11 +42,11 @@ You can redistribute Prawn::Layout and/or modify it under either the terms of th
        d) make other distribution arrangements with the author.
 
   4. You may modify and include the part of the software into any other
-     software (possibly commercial). 
+     software (possibly commercial).
 
-  5. The scripts and library files supplied as input to or produced as 
+  5. The scripts and library files supplied as input to or produced as
      output from the software do not automatically fall under the
-     copyright of the software, but belong to whomever generated them, 
+     copyright of the software, but belong to whomever generated them,
      and may be sold commercially, and may be aggregated with this
      software.
 

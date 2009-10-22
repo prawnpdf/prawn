@@ -6,7 +6,7 @@
 #
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
-Prawn::Document.generate("table_widths.pdf") do 
+Prawn::Document.generate("table_widths.pdf") do
 
   data = [
     %w(one two three four),
@@ -20,7 +20,7 @@ Prawn::Document.generate("table_widths.pdf") do
   text "A table with a specified width of the document width (within margins)"
   move_down 10
 
-  table data,    
+  table data,
     :position   => :center,
     :headers    => headers,
     :width      => margin_box.width
@@ -30,7 +30,7 @@ Prawn::Document.generate("table_widths.pdf") do
   text "A table with a specified width of the document width (within margins) and two fixed width columns"
   move_down 10
 
-  table data,    
+  table data,
     :position      => :center,
     :headers       => headers,
     :width         => margin_box.width,
@@ -41,7 +41,7 @@ Prawn::Document.generate("table_widths.pdf") do
   text "A table with a specified width of 300"
   move_down 10
 
-  table data,    
+  table data,
     :position   => :center,
     :headers    => headers,
     :width      => 300
@@ -53,7 +53,7 @@ Prawn::Document.generate("table_widths.pdf") do
 
   data << ['some text', 'A long piece of text that will make this cell too wide for the page', 'some more text', 'And more text']
 
-  table data,    
+  table data,
     :position   => :center,
     :headers    => headers
 
