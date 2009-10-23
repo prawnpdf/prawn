@@ -428,7 +428,7 @@ module Prawn
                           :MediaBox  => page_dimensions,
                           :Contents  => page_content)
       update_colors
-      clear_stroke_dash if dashed_stroke?
+      undash if dashed?
     end
 
     def generate_margin_box

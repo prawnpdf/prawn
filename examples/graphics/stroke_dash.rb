@@ -9,34 +9,34 @@ Prawn::Document.generate("stroke_dash.pdf") do
   base_y = bounds.top
 
   100.times do |i|
-    solid = i / 4 + 1
-    # space same length as solid
-    space = solid
-    # start with solid
+    length = i / 4 + 1
+    # space between dashes same length as dash
+    space = length
+    # start with dash
     phase = 0
     case i % 4
     when 0
       base_y -= 10
     when 1
-      # start with space
-      phase = solid
+      # start with space between dashes
+      phase = length
     when 2
       base_y -= 10
-      # space half as long as solid
-      space = solid * 0.5
+      # space between dashes half as long as dash
+      space = length * 0.5
     when 3
-      # space half as long as solid
-      space = solid * 0.5
-      # start with space
-      phase = solid
+      # space between dashes half as long as dash
+      space = length * 0.5
+      # start with space between dashes
+      phase = length
     end
-    set_stroke_dash(solid, space, phase)
+    dash(length, :space => space, :phase => phase)
     points = [bounds.left, base_y - 2 * i, bounds.right, base_y - 2 * i]
     stroke_line(points)
   end
   i = 100
   base_y -= 10
-  clear_stroke_dash
+  undash
   points = [bounds.left, base_y - 2 * i, bounds.right, base_y - 2 * i]
   stroke_line(points)
 end

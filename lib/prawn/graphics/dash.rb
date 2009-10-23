@@ -9,48 +9,55 @@
 module Prawn
   module Graphics
     module Dash
-      # Sets the stroking dash pattern. The first argument is the
-      # length, in current units, of the dash. The second argument is
-      # the length of the space between dashes. The third argument is
-      # the phase, that is, where in the dash-space cycle the dashing
-      # will begin. Integer or float values may be used for the dash
-      # and space lengths. Integer for the phase.
+      # Sets the dash pattern for stroked lines and curves
       #
-      # If only one argument is provided, the empty space will be the
-      # same length as the solid dash
+      #   length is the length of the dash. If options is not present,
+      #   or options[:space] is nil, then length is also the length of
+      #   the space between dashes
+      #
+      #   options may contain :space and :phase
+      #      :space is the space between the dashes
+      #      :phase is where in the cycle to begin dashing. For
+      #             example, a phase of 0 starts at the beginning of
+      #             the dash; whereas, if the phase is equal to the
+      #             length of the dash, then stroking will begin at
+      #             the beginning of the space. Default is 0
+      #
+      #   integers or floats may be used for length and the options
+      #
+      #   per the PDF specification, dash units are the current "user space units"
 
-      def set_stroke_dash(dash_length=nil, space_length=dash_length, phase=0)
-        @stroke_dash = { :dash => dash_length, :space => space_length, :phase => phase }
+      def dash(length=nil, options={})
+        return @dash || undash_hash if length.nil?
+        @dash = { :dash => length, :space => options[:space] || length, :phase => options[:phase] || 0 }
         write_stroke_dash
       end
       
+      alias_method :dash=, :dash
+
       # Restores solid stroking
-      def clear_stroke_dash
-        set_stroke_dash(nil)
+      def undash
+        @dash = undash_hash
+        write_stroke_dash
       end
       
       # Returns true iff the stroke is dashed
-      def dashed_stroke?
-        stroke_dash != solid_stroke_hash
-      end
-
-      # Returns the hash defining the current dash settings
-      def stroke_dash
-        return @stroke_dash || solid_stroke_hash
+      def dashed?
+        dash != undash_hash
       end
 
       private
 
-      def solid_stroke_hash
+      def undash_hash
         { :dash => nil, :space => nil, :phase => 0 }
       end
 
       def write_stroke_dash
-        if @stroke_dash[:dash].nil?
+        if @dash[:dash].nil?
           add_content "[] 0 d"
           return
         end
-        add_content "[#{@stroke_dash[:dash]} #{@stroke_dash[:space]}] #{@stroke_dash[:phase]} d"
+        add_content "[#{@dash[:dash]} #{@dash[:space]}] #{@dash[:phase]} d"
       end     
     end
   end
