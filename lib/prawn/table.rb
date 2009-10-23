@@ -147,7 +147,6 @@ module Prawn
           "Hashes, and Strings"
       end
 
-      @data     = data
       @document = document
 
       Prawn.verify_options [:font_size, :border_style, :border_width,
@@ -170,6 +169,12 @@ module Prawn
         C(:original_row_colors => C(:row_colors))
       end
 
+      unless options[:align_headers]
+        C(:align_headers => C(:align))
+      end
+
+      @headers = C(:headers) ? convert_headers_to_cells(C(:headers)) : nil
+      @data = convert_raw_data_to_cells(data)
       calculate_column_widths(options[:column_widths], options[:width])
     end
 
@@ -212,22 +217,20 @@ module Prawn
     end
 
     def calculate_column_widths(manual_widths=nil, width=nil)
-      @column_widths = [0] * @data[0].inject(0){ |acc, e|
-        acc += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1 }
+      @column_widths = [0] * @data[0].column_count
 
       renderable_data.each do |row|
-        colspan = 0
-        row.each_with_index do |cell,i|
-          cell_text = cell.is_a?(Hash) ? cell[:text] : cell.to_s
-          length = cell_text.lines.map { |e|
-            @document.width_of(e, :size => C(:font_size)) }.max.to_f +
-              2*C(:horizontal_padding)
-          if length > @column_widths[i+colspan]
-            @column_widths[i+colspan] = length.ceil
-          end
-
-          if cell.is_a?(Hash) && cell[:colspan]
-            colspan += cell[:colspan] - 1
+        col_index = 0
+        row.cells.each do |cell|
+          if cell.colspan
+            # not sure what to do here.  Just ignore colspan cells for width
+            # calculations, for now.
+            col_index += cell.colspan
+          else
+            if cell.padded_natural_width > @column_widths[col_index]
+              @column_widths[col_index] = cell.padded_natural_width.ceil
+            end
+            col_index += 1
           end
         end
       end
@@ -264,9 +267,72 @@ module Prawn
       end
     end
 
-
     def renderable_data
-      C(:headers) ? [C(:headers)] + @data : @data
+      @headers ? [ @headers ] + @data : @data
+    end
+
+    # Convert a row of data elements (which may be String or Hash objects
+    # rather than Cells) to Cells within CellBlocks.  This is done before we
+    # calculate the width of table columns, so we create the Cells without any
+    # width specified.  We will fill in cell widths later.
+    def convert_data_to_cell_block(row_data, color_index, header_row = false)
+      cb = Prawn::Table::CellBlock.new(@document)
+      if C(:row_colors).is_a?(Hash)
+        color = C(:row_colors)[color_index]
+        cb.background_color = color if color
+      end
+      row_data.each_with_index do |e, col_index|
+        options = {}
+        if header_row
+          align_symbol = :align_headers
+          options[:text_color] = C(:header_text_color) if C(:header_text_color)
+          options[:background_color] = C(:header_color) if C(:header_color)
+        else
+          align_symbol = :align
+        end
+
+        case C(align_symbol)
+        when Hash
+          align = C(align_symbol)[col_index]
+        else
+          align = C(align_symbol)
+        end
+        align ||= e.to_s =~ NUMBER_PATTERN ? :right : :left
+        options[:align] = align
+        options[:font_size] = C(:font_size) if C(:font_size)
+
+        cell = case e
+               when Prawn::Table::Cell
+                 e.font_size ||= C(:font_size)
+                 e
+               when Hash
+                 Prawn::Table::Cell.new(options.merge(e))
+               else
+                 options[:text] = e.to_s
+                 Prawn::Table::Cell.new(options)
+               end
+
+        cell.document           = @document
+        cell.width              = nil
+        cell.horizontal_padding = C(:horizontal_padding)
+        cell.vertical_padding   = C(:vertical_padding)
+        cell.border_width       = C(:border_width)
+        cell.border_style       = :sides
+        cb << cell
+      end
+      cb
+    end
+
+    def convert_headers_to_cells(header_data)
+      convert_data_to_cell_block(header_data, -1, true)
+    end
+
+    def convert_raw_data_to_cells(raw_data)
+      row_blocks = []
+      raw_data.each_with_index do |row,index|
+        row_blocks << convert_data_to_cell_block(row, index)
+      end
+      row_blocks
     end
 
     def generate_table
@@ -275,70 +341,20 @@ module Prawn
 
       @document.font_size C(:font_size) do
         renderable_data.each_with_index do |row,index|
-          c = Prawn::Table::CellBlock.new(@document)
-
-          if C(:row_colors).is_a?(Hash)
-            real_index = index
-            real_index -= 1 if C(:headers)
-            color = C(:row_colors)[real_index]
-            c.background_color = color if color
-          end
-
           col_index = 0
-          row.each do |e|
-            case C(:align)
-            when Hash
-              align            = C(:align)[col_index]
+          row.cells.each do |e|
+            if e.colspan
+              columns = @column_widths.slice(col_index, e.colspan)
+              e.width = columns.inject(0) { |sum, col_width| sum + col_width }
+              col_index += e.colspan
             else
-              align            = C(:align)
+              e.width = @column_widths[col_index]
+              col_index += 1
             end
-
-            align ||= e.to_s =~ NUMBER_PATTERN ? :right : :left
-
-            case e
-            when Prawn::Table::Cell
-              e.document = @document
-              e.width    = @column_widths[col_index]
-              e.horizontal_padding = C(:horizontal_padding)
-              e.vertical_padding   = C(:vertical_padding)
-              e.border_width       = C(:border_width)
-              e.border_style       = :sides
-              e.align              = align
-              c << e
-            else
-              text = e.is_a?(Hash) ? e[:text] : e.to_s
-              width = if e.is_a?(Hash) && e.has_key?(:colspan)
-                @column_widths.slice(col_index, e[:colspan]).inject {
-                  |sum, width| sum + width }
-              else
-                @column_widths[col_index]
-              end
-
-              cell_options = {
-                :document           => @document,
-                :text               => text,
-                :width              => width,
-                :horizontal_padding => C(:horizontal_padding),
-                :vertical_padding   => C(:vertical_padding),
-                :border_width       => C(:border_width),
-                :border_style       => :sides,
-                :align              => align
-              }
-
-              if e.is_a?(Hash)
-                opts = e.dup
-                opts.delete(:colspan)
-                cell_options.update(opts)
-              end
-
-              c << Prawn::Table::Cell.new(cell_options)
-            end
-
-            col_index += (e.is_a?(Hash) && e.has_key?(:colspan)) ? e[:colspan] : 1
           end
 
           bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
-          if c.height > y_pos - bbox.absolute_bottom
+          if row.height > y_pos - bbox.absolute_bottom
             if C(:headers) && page_contents.length == 1
               @document.start_new_page
               y_pos = @document.y
@@ -355,9 +371,9 @@ module Prawn
             end
           end
 
-          page_contents << c
+          page_contents << row
 
-          y_pos -= c.height
+          y_pos -= row.height
 
           if index == renderable_data.length - 1
             draw_page(page_contents)
@@ -378,22 +394,6 @@ module Prawn
       else
         contents.first.border_style = C(:headers) ? :all : :no_bottom
         contents.last.border_style = :no_top
-      end
-
-      if C(:headers)
-        contents.first.cells.each_with_index do |e,i|
-          if C(:align_headers)
-            case C(:align_headers)
-              when Hash
-                align = C(:align_headers)[i]
-              else
-                align = C(:align_headers)
-              end
-          end
-          e.align = align if align
-          e.text_color = C(:header_text_color) if C(:header_text_color)
-          e.background_color = C(:header_color) if C(:header_color)
-        end
       end
 
       contents.each do |x|
