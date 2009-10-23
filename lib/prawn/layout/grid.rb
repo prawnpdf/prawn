@@ -1,14 +1,15 @@
 module Prawn
   class Document
-    # Defines the grid system for a particular document.  Takes the number of rows and columns and the
-    # width to use for the gutter as the keys :rows, :columns, :gutter
+    # Defines the grid system for a particular document.  Takes the number of
+    # rows and columns and the width to use for the gutter as the keys :rows,
+    # :columns, :gutter
     #
     def define_grid(options = {})
       @grid = Grid.new(self, options)
     end
 
-    # A method that can either be used to access a particular grid on the page or interogate the grid
-    # system directly.
+    # A method that can either be used to access a particular grid on the page
+    # or interogate the grid system directly.
     #
     #   @pdf.grid                 # Get the Grid directly
     #   @pdf.grid([0,1])          # Get the box at [0,1]
@@ -28,8 +29,8 @@ module Prawn
       end
     end
 
-    # A Grid represents the entire grid system of a Page and calculates the column width and row height
-    # of the base box.
+    # A Grid represents the entire grid system of a Page and calculates the
+    # column width and row height of the base box.
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       # :nodoc
@@ -77,9 +78,9 @@ module Prawn
       end
     end
 
-    # A Box is a class that represents a bounded area of a page.  A Grid object has methods that allow
-    # easy access to the coordinates of its corners, which can be plugged into most existing prawn
-    # methods.
+    # A Box is a class that represents a bounded area of a page.  A Grid object
+    # has methods that allow easy access to the coordinates of its corners,
+    # which can be plugged into most existing prawn methods.
     #
     class Box
       attr_reader :pdf
@@ -90,7 +91,8 @@ module Prawn
         @j = j
       end
 
-      # Mostly diagnostic method that outputs the name of a box as col_num, row_num
+      # Mostly diagnostic method that outputs the name of a box as col_num,
+      # row_num
       def name
         "#{@i.to_s},#{@j.to_s}"
       end
