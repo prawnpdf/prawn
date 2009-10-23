@@ -185,6 +185,73 @@ describe "When setting colors" do
 
 end
 
+describe "With solid stroke" do
+  before(:each) { create_pdf }
+  it "dashed_stroke? should be false" do
+    @pdf.should_not be_dashed_stroke
+  end
+end
+
+describe "With stroke dash" do
+  before(:each) { create_pdf }
+
+  it "dashed_stroke? should be true" do
+    @pdf.set_stroke_dash(2, 1)
+    @pdf.should be_dashed_stroke
+  end
+
+  it "should set stroke dash" do
+    @pdf.set_stroke_dash(2, 1)
+    dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+    dashes.stroke_dash.should == [[2, 1], 0]
+  end
+
+  it "should set stroke dash" do
+    @pdf.set_stroke_dash(2, 1)
+    dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+    dashes.stroke_dash.should == [[2, 1], 0]
+  end
+
+  describe "with one argument" do
+    it "should create dash with space the same length as the dash" do
+      @pdf.set_stroke_dash(2)
+      dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+      dashes.stroke_dash.should == [[2, 2], 0]
+    end
+  end
+
+  describe "with the third argument being non-zero" do
+    it "should include a non-zero phase" do
+      @pdf.set_stroke_dash(2, 3, 1)
+      dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+      dashes.stroke_dash.should == [[2, 3], 1]
+    end
+  end
+
+  describe "clearing stroke dash" do
+    it "should restore solid line" do
+      @pdf.set_stroke_dash(2)
+      @pdf.clear_stroke_dash
+      dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+      dashes.stroke_dash.should == [[], 0]
+    end
+  end
+
+  it "should reset the stroke dash on each new page if it has been defined" do
+    @pdf.start_new_page
+    @pdf.set_stroke_dash(2)
+    dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+    dashes.stroke_dash_count.should == 1
+
+    @pdf.start_new_page
+    dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+    dashes.stroke_dash_count.should == 2
+    dashes.stroke_dash.should == [[], 0]
+    @pdf.stroke_dash.should == { :dash => nil, :space => nil, :phase => 0 }
+  end
+
+end
+
 describe "When using painting shortcuts" do
   before(:each) { create_pdf }
 

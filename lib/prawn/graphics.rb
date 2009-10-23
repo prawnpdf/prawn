@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "prawn/graphics/color"
+require "prawn/graphics/dash"
 
 module Prawn
 
@@ -19,6 +20,7 @@ module Prawn
   module Graphics
 
     include Color
+    include Dash
 
     #######################################################################
     # Low level drawing operations must translate to absolute coords!     #
