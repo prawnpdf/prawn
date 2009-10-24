@@ -1,5 +1,8 @@
-# cell attributes aren't taken into account while
+# prawn-layout issue 10: cell attributes aren't taken into account while
 # auto-calculating widths
+#
+# Resolved in fa1be5fe4f0900acc072ae6793430d058f63a940.
+#
 
 require 'rubygems'
 require 'prawn'
