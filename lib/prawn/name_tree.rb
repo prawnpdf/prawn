@@ -79,6 +79,7 @@ module Prawn
           split! if children.length > limit
         else
           fit = children.detect { |child| child >= value }
+          fit = children.last unless fit
           fit << value
         end
 
