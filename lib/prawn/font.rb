@@ -252,13 +252,16 @@ module Prawn
       "#{self.class.name}< #{name}: #{size} >"
     end
 
-    # Normalizes the encoding of the string to an encoding supported by the font.
-    # The string is expected to be UTF-8 going in, and will be reencoded in-place
-    # (the argument will be modified directly). The return value is not defined.
+    # Normalizes the encoding of the string to an encoding supported by the
+    # font. The string is expected to be UTF-8 going in. It will be re-encoded
+    # and the new string will be returned. For an in-place (destructive)
+    # version, see normalize_encoding!.
     def normalize_encoding(string)
       raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
     end
 
+    # Destructive version of normalize_encoding; normalizes the encoding of a
+    # string in place.
     def normalize_encoding!(str)
       str.replace(normalize_encoding(str))
     end
