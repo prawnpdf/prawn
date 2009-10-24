@@ -188,7 +188,7 @@ end
 describe "With solid stroke" do
   before(:each) { create_pdf }
   it "dashed? should be false" do
-    @pdf.should_not be_dashed
+    @pdf.should.not.be.dashed
   end
 end
 
@@ -197,7 +197,7 @@ describe "With stroke dash" do
 
   it "dashed? should be true" do
     @pdf.dash(2, :space => 1)
-    @pdf.should be_dashed
+    @pdf.should.be.dashed
   end
 
   it "should set stroke dash" do
