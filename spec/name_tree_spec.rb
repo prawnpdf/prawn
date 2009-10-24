@@ -68,6 +68,13 @@ describe "Name Tree" do
     tree_dump(node).should == "[[[eight=8,five=5],[four=4,one=1]],[[seven=7,six=6],[three=3,two=2]]]"
   end
 
+  it "should maintain order of already properly ordered nodes" do
+    node = Prawn::NameTree::Node.new(@pdf, 3)
+    tree_add(node, ["eight", 8], ["five", 5], ["four", 4], ["one", 1])
+    tree_add(node, ['seven', 7], ['six', 6], ['three', 3], ['two', 2])
+    tree_dump(node).should == "[[[eight=8,five=5],[four=4,one=1]],[[seven=7,six=6],[three=3,two=2]]]"
+  end
+
   it "should emit only :Names key with to_hash if root is only node" do
     node = Prawn::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3])
