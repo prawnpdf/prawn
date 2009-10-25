@@ -118,6 +118,15 @@ module Prawn
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
     # of 100 points on every side except for the left, where it will be 50.
     #
+    # The :margin can also be an array much like CSS shorthand:
+    #
+    #   # Top and bottom are 20, left and right are 100.
+    #   :margin => [20, 100]
+    #   # Top is 50, left and right are 100, bottom is 20.
+    #   :margin => [50, 100, 20]
+    #   # Top is 10, right is 20, bottom is 30, left is 40.
+    #   :margin => [10, 20, 30, 40]
+    #
     # Additionally, :page_size can be specified as a simple two value array giving
     # the width and height of the document you need in PDF Points.
     # 
@@ -161,12 +170,14 @@ module Prawn
        @font_size       = 12
 
        @text_options = options[:text_options] || {}
+       
+       apply_margin_option(options)  # :margin
 
        default_margin = 36  # 0.5 inch
-       @margins = { :left   => options[:left_margin]   || options[:margin] || default_margin,
-                    :right  => options[:right_margin]  || options[:margin] || default_margin,
-                    :top    => options[:top_margin]    || options[:margin] || default_margin,
-                    :bottom => options[:bottom_margin] || options[:margin] || default_margin  }
+       @margins = { :left   => options[:left_margin]   || default_margin,
+                    :right  => options[:right_margin]  || default_margin,
+                    :top    => options[:top_margin]    || default_margin,
+                    :bottom => options[:bottom_margin] || default_margin  }
 
        generate_margin_box
 
@@ -192,10 +203,12 @@ module Prawn
      def start_new_page(options = {})
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
+       
+       apply_margin_option(options) if options[:margin]
 
        [:left,:right,:top,:bottom].each do |side|
-         if custom_margin = (options[:"#{side}_margin"] || options[:margin])
-           @margins[side] = custom_margin
+         if margin = options[:"#{side}_margin"]
+           @margins[side] = margin
          end
        end
 
@@ -451,6 +464,33 @@ module Prawn
       # FIXME: This may have a bug where the old margin is restored
       # when the bounding box exits.
       @bounding_box = @margin_box if old_margin_box == @bounding_box
+    end
+    
+    def apply_margin_option(options)
+      # Treat :margin as CSS shorthand with 1-4 values.
+      margin = Array(options[:margin])
+      case margin.length
+      when 4  # top right bottom left
+        options[:top_margin]    ||= margin[0]
+        options[:right_margin]  ||= margin[1]
+        options[:bottom_margin] ||= margin[2]
+        options[:left_margin]   ||= margin[3]
+      when 3  # top left+right bottom
+        options[:top_margin]    ||= margin[0]
+        options[:left_margin]   ||= margin[1]
+        options[:right_margin]  ||= margin[1]
+        options[:bottom_margin] ||= margin[2]
+      when 2  # top+bottom left+right
+        options[:top_margin]    ||= margin[0]
+        options[:bottom_margin] ||= margin[0]
+        options[:left_margin]   ||= margin[1]
+        options[:right_margin]  ||= margin[1]
+      when 1  # top+right+bottom+left
+        options[:top_margin]    ||= margin[0]
+        options[:right_margin]  ||= margin[0]
+        options[:bottom_margin] ||= margin[0]
+        options[:left_margin]   ||= margin[0]
+      end
     end
 
   end
