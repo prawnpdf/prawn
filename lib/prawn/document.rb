@@ -187,14 +187,15 @@ module Prawn
      #   pdf.start_new_page #=> Starts new page keeping current values
      #   pdf.start_new_page(:size => "LEGAL", :layout => :landscape)
      #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
+     #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
 
        [:left,:right,:top,:bottom].each do |side|
-         if options[:"#{side}_margin"]
-           @margins[side] = options[:"#{side}_margin"]
+         if custom_margin = (options[:"#{side}_margin"] || options[:margin])
+           @margins[side] = custom_margin
          end
        end
 
