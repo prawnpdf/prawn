@@ -45,8 +45,7 @@ module Prawn
     def table(data, options={})           
       if data.nil? || data.empty?
         raise Prawn::Errors::EmptyTable,
-          "data must be a non-empty, non-nil, two dimensional array of " +
-          "Prawn::Table::Cells, Hashes, and Strings"
+          "data must be a non-empty, non-nil, two dimensional array of Prawn::Cells or strings"
       end
       Prawn::Table.new(data,self,options).draw
     end
@@ -128,7 +127,7 @@ module Prawn
       @data     = data        
       @document = document
       
-      Prawn.verify_options [:font_size, :border_style, :border_width,
+      Prawn.verify_options [:font_size,:border_style, :border_width,
        :position, :headers, :row_colors, :align, :align_headers, 
        :header_text_color, :border_color, :horizontal_padding, 
        :vertical_padding, :padding, :column_widths, :width, :header_color ], 
@@ -271,6 +270,7 @@ module Prawn
               align            = C(:align)
             end   
             
+            
             align ||= e.to_s =~ NUMBER_PATTERN ? :right : :left 
             
             case e
@@ -293,9 +293,9 @@ module Prawn
               end
               
               cell_options = {
-                :document           => @document, 
-                :text               => text,
-                :width              => width,
+                :document => @document, 
+                :text     => text,
+                :width    => width,
                 :horizontal_padding => C(:horizontal_padding),
                 :vertical_padding   => C(:vertical_padding),
                 :border_width       => C(:border_width),

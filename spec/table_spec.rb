@@ -10,7 +10,6 @@ describe "A table's width" do
 
     table.width.should == 300
   end
-
   it "should calculate unspecified column widths even " +
      "with colspan cells declared" do
     pdf = Prawn::Document.new
@@ -31,7 +30,7 @@ describe "A table's width" do
                           col2_width.ceil + 2*columns*hpad
   end
 
-  it "should calculate unspecified column widths as " +
+  it "should calculate unspecified column widths as "+
      "(max(string_width).ceil + 2*horizontal_padding)" do
     pdf = Prawn::Document.new
     hpad, fs = 3, 12
@@ -43,29 +42,6 @@ describe "A table's width" do
     col1_width = pdf.width_of("foobar", :size => fs)
 
     table.width.should == col0_width.ceil + col1_width.ceil + 2*columns*hpad
-  end
-
-  it "should take font styles into account while autocalculating widths" do
-    pdf = Prawn::Document.new
-    pdf.font 'Helvetica'
-    cell1 = { :text => 'nnnnnnnnnnnnnnnnnnnnnn', :font_style => :normal }
-    cell2 = { :text => 'nnnnnnnnnnnnnnnnnnnnnn', :font_style => :bold_italic }
-    table1 = Prawn::Table.new([[cell1]], pdf)
-    table2 = Prawn::Table.new([[cell2]], pdf)
-    table1.width.should.not == table2.width
-  end
-
-  it "should take font size into account while autocalculating widths" do
-    pdf = Prawn::Document.new
-    pdf.font 'Helvetica'
-    cell1 = { :text => 'nnnnnnnnnnnnnnnnnnnnnn', :font_size => 8 }
-    cell2 = { :text => 'nnnnnnnnnnnnnnnnnnnnnn' }
-    cell3 = { :text => 'nnnnnnnnnnnnnnnnnnnnnn', :font_size => 24 }
-    table1 = Prawn::Table.new([[cell1]], pdf)
-    table2 = Prawn::Table.new([[cell2]], pdf)
-    table3 = Prawn::Table.new([[cell3]], pdf)
-    table1.width.should < table2.width
-    table2.width.should < table3.width
   end
 
   it "should allow mixing autocalculated and preset"+
@@ -108,8 +84,7 @@ describe "A table's width" do
 
   end
 
-  it "should not exceed the maximum width of the margin_box " +
-     "even with manual widths specified" do
+  it "should not exceed the maximum width of the margin_box even with manual widths specified" do
       
     pdf = Prawn::Document.new
     expected_width = pdf.margin_box.width
@@ -202,8 +177,7 @@ end
 
 describe "A table's content" do
 
-  it "should not cause an error if rendering the very first "+
-     "row causes a page break" do
+  it "should not cause an error if rendering the very first row causes a page break" do
     Prawn::Document.new( :page_layout => :portrait ) do
       arr = Array(1..5).collect{|i| ["cell #{i}"] }
 
