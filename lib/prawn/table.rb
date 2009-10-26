@@ -82,59 +82,38 @@ module Prawn
 
     NUMBER_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+(?:[eE][+-]?\d+)?)?$/ #:nodoc:
 
-    # Creates a new Document::Table object. This is generally called indirectly
-    # through Document#table but can also be used explictly.
+    # Creates a new Document::Table object. This is generally called
+    # indirectly through Document#table but can also be used explictly.
     #
     # The <tt>data</tt> argument is a two dimensional array of strings,
     # organized by row, e.g. [["r1-col1","r1-col2"],["r2-col2","r2-col2"]].
     # As with all Prawn text drawing operations, strings must be UTF-8 encoded.
-    # Hashes can be used instead of Strings, in which case they are
-    # interpreted as Cell options (see Cell#new), and Cells can be used
-    # directly in table data as well.
     #
     # The following options are available for customizing your tables, with
     # defaults shown in [] at the end of each description.
     #
-    # <tt>:headers</tt>::
-    #   An array of table headers, either strings or Cells. [Empty]
-    # <tt>:align_headers</tt>::
-    #   Alignment of header text.  Specify for entire header (<tt>:left</tt>)
-    #   or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the
-    #   header alignment is the same as the column alignment.
+    # <tt>:headers</tt>:: An array of table headers, either strings or Cells. [Empty]
+    # <tt>:align_headers</tt>:: Alignment of header text.  Specify for entire header (<tt>:left</tt>) or by column (<tt>{ 0 => :right, 1 => :left}</tt>). If omitted, the header alignment is the same as the column alignment.
     # <tt>:header_text_color</tt>:: Sets the text color of the headers
     # <tt>:header_color</tt>:: Manually sets the header color
-    # <tt>:font_size</tt>:: The default font size for the text cells. [12]
-    # <tt>:horizontal_padding</tt>::
-    #   The horizontal cell padding in PDF points [5]
+    # <tt>:font_size</tt>:: The font size for the text cells . [12]
+    # <tt>:horizontal_padding</tt>:: The horizontal cell padding in PDF points [5]
     # <tt>:vertical_padding</tt>:: The vertical cell padding in PDF points [5]
     # <tt>:padding</tt>:: Horizontal and vertical cell padding (overrides both)
     # <tt>:border_width</tt>:: With of border lines in PDF points [1]
-    # <tt>:border_style</tt>::
-    #   If set to :grid, fills in all borders. If set to :underline_header,
-    #   underline header only. Otherwise, borders are drawn on columns only,
-    #   not rows
+    # <tt>:border_style</tt>:: If set to :grid, fills in all borders. If set to :underline_header, underline header only. Otherwise, borders are drawn on columns only, not rows
     # <tt>:border_color</tt>:: Sets the color of the borders.
-    # <tt>:position</tt>::
-    #   One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt>
-    #   is an x-offset from the left edge of the current bounding box
-    # <tt>:width</tt>::
-    #   A set width for the table, defaults to the sum of all column widths
-    # <tt>:column_widths</tt>::
-    #   A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 =>
-    #   100 }</tt>
-    # <tt>:row_colors</tt>::
-    #   Used to specify background colors for rows. See below for usage.
-    # <tt>:align</tt>::
-    #   Alignment of text in columns, for entire table (<tt>:center</tt>) or by
-    #   column (<tt>{ 0 => :left, 1 => :center}</tt>)
+    # <tt>:position</tt>:: One of <tt>:left</tt>, <tt>:center</tt> or <tt>n</tt>, where <tt>n</tt> is an x-offset from the left edge of the current bounding box
+    # <tt>:width</tt>:: A set width for the table, defaults to the sum of all column widths
+    # <tt>:column_widths</tt>:: A hash of indices and widths in PDF points.  E.g. <tt>{ 0 => 50, 1 => 100 }</tt>
+    # <tt>:row_colors</tt>:: Used to specify background colors for rows. See below for usage.
+    # <tt>:align</tt>:: Alignment of text in columns, for entire table (<tt>:center</tt>) or by column (<tt>{ 0 => :left, 1 => :center}</tt>)
     #
     # Row colors (<tt>:row_colors</tt>) are specified as HTML hex color values,
     # e.g., "ccaaff". They can take several forms:
     #
-    # * An array of colors, used cyclically to "zebra stripe" the table:
-    #   <tt>['ffffff', 'cccccc', '336699']</tt>.
-    # * A hash taking 0-based row numbers to colors: <tt>{ 0 => 'ffffff', 2 =>
-    #   'cccccc'}</tt>.
+    # * An array of colors, used cyclically to "zebra stripe" the table: <tt>['ffffff', 'cccccc', '336699']</tt>.
+    # * A hash taking 0-based row numbers to colors: <tt>{ 0 => 'ffffff', 2 => 'cccccc'}</tt>.
     # * The symbol <tt>:pdf_writer</tt>, for PDF::Writer's default color scheme.
     #
     # See Document#table for typical usage, as directly using this class is
@@ -143,8 +122,7 @@ module Prawn
     def initialize(data, document, options={})
       unless data.all? { |e| Array === e }
         raise Prawn::Errors::InvalidTableData,
-          "data must be a two dimensional array of Prawn::Table::Cells, " +
-          "Hashes, and Strings"
+          "data must be a two dimensional array of Prawn::Cells or strings"
       end
 
       @data     = data
@@ -240,8 +218,8 @@ module Prawn
       manual_widths.each { |k,v|
         @column_widths[k] = v; manual_width += v } if manual_widths
 
-      # Ensures that the maximum width of the document is not exceeded.  Takes
-      # into consideration the manual widths specified. (With full manual
+      #Ensures that the maximum width of the document is not exceeded
+      #Takes into consideration the manual widths specified (With full manual
       # widths specified, the width can exceed the document width as manual
       # widths are taken as gospel)
       max_width = width || @document.margin_box.width
@@ -407,6 +385,7 @@ module Prawn
 
       reset_row_colors
     end
+
 
     def next_row_color
       return if C(:row_colors).is_a?(Hash)

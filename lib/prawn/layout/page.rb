@@ -53,7 +53,7 @@ module Prawn
     # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
     # width and height are used.
     #
-    #  header margin_box.top_left do
+    #   header margin_box.top_left do
     #    text "Here's My Fancy Header", :size => 25, :align => :center
     #    stroke_horizontal_rule
     #  end
