@@ -114,31 +114,16 @@ module Prawn
         @text
       end
 
-      # The width of the cell's text (in the appropriate font and
-      # style), excluding the horizonal padding.
+      # The width of the text area excluding the horizonal padding
       #
-      def natural_width
-        with_cell_font do
-          lengths = @text.lines.map { |e| @document.width_of(e) }
-          return lengths.max.to_f
-        end
-      end
-
-      # The width of the cell's text including horizontal padding.
-      #
-      def padded_natural_width
-        natural_width + (2 * @horizontal_padding)
-      end
-
-      # The width of the cell's text excluding horizontal padding.
       def text_area_width
-        width - (2 * @horizontal_padding)
+        width - 2*@horizontal_padding
       end
 
       # The width of the cell in PDF points
       #
       def width
-        @width || padded_natural_width
+        @width || (@document.width_of(@text, :size => @font_size)) + 2*@horizontal_padding
       end
 
       # The height of the cell in PDF points
@@ -150,9 +135,15 @@ module Prawn
       # The height of the text area excluding the vertical padding
       #
       def text_area_height
-	with_cell_font do
-          return @document.height_of(@text, text_area_width)
+        text_height = 0
+        if @font_size
+          @document.font_size(@font_size) do
+            text_height = @document.height_of(@text, text_area_width)
+          end
+        else
+          text_height = @document.height_of(@text, text_area_width)
         end
+        text_height
       end
 
       # Draws the cell onto the PDF document
@@ -227,20 +218,6 @@ module Prawn
 
       private
 
-      # run a block with the document font set properly based on cell
-      # attributes.
-      #
-      def with_cell_font
-        @document.save_font do
-          options = {}
-          options[:style] = @font_style if @font_style
-          font = @document.find_font(@document.font.name, options)
-          @document.set_font(font)
-          @document.font_size(@font_size) if @font_size
-          yield
-        end
-      end
-
       # x-position of the cell
       def x
         @point[0]
@@ -277,24 +254,18 @@ module Prawn
       def initialize(document)
         @document = document
         @cells    = []
+        @width    = 0
+        @height   = 0
       end
 
-      attr_reader :cells
+      attr_reader :width, :height, :cells
       attr_accessor :background_color, :text_color, :border_color
 
       def <<(cell)
         @cells << cell
+        @height = cell.height if cell.height > @height
+        @width += cell.width
         self
-      end
-
-      # Once the widths of the cells in the CellBlock are set, the CellBlock
-      # can figure out how high it should be.
-      def height
-        @cells.map { |c| c.height }.max
-      end
-
-      def column_count
-        @cells.inject(0) { |acc, e| acc += e.colspan ? e.colspan : 1 }
       end
 
       def draw
@@ -304,7 +275,7 @@ module Prawn
         @cells.each do |e|
           e.point  = [x - @document.bounds.absolute_left,
                       y - @document.bounds.absolute_bottom]
-          e.height = height
+          e.height = @height
           e.background_color ||= @background_color
           e.text_color ||= @text_color
           e.border_color ||= @border_color
@@ -312,7 +283,7 @@ module Prawn
           x += e.width
         end
 
-        @document.y = y - height
+        @document.y = y - @height
       end
 
       def border_width
