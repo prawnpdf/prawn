@@ -14,7 +14,6 @@ module Prawn
     #   @pdf.grid                 # Get the Grid directly
     #   @pdf.grid([0,1])          # Get the box at [0,1]
     #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
-    # 
     def grid(*args)
       @boxes ||= {}
       @boxes[args] ||= if args.empty?
@@ -32,10 +31,10 @@ module Prawn
 
     # A Grid represents the entire grid system of a Page and calculates the
     # column width and row height of the base box.
-    #
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
-      def initialize(pdf, options = {}) # :nodoc:
+      # :nodoc
+      def initialize(pdf, options = {})
         Prawn.verify_options([:columns, :rows, :gutter, :row_gutter, :column_gutter], options)
 
         @pdf = pdf
@@ -98,7 +97,8 @@ module Prawn
         "#{@i.to_s},#{@j.to_s}"
       end
 
-      def total_height # :nodoc:
+      # :nodoc
+      def total_height
         pdf.bounds.height.to_f
       end
 

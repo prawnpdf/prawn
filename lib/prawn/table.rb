@@ -39,8 +39,8 @@ module Prawn
     #
     #   end
     #
-    # Will raise <tt>Prawn::Errors::EmptyTable</tt> given
-    # a nil or empty <tt>data</tt> paramater.
+    #   Will raise <tt>Prawn::Errors::EmptyTable</tt> given
+    #   a nil or empty <tt>data</tt> paramater.
     #
     def table(data, options={})
       if data.nil? || data.empty?
