@@ -1,10 +1,10 @@
-# encoding: utf-8
+# encoding: utf-8    
 
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate('simple_grid.pdf') do |p|
   p.define_grid(:columns => 5, :rows => 8, :gutter => 10)
-
+  
   p.grid.rows.times do |i|
     p.grid.columns.times do |j|
       b = p.grid(i,j)

@@ -11,6 +11,6 @@ require "prawn/layout"
 Prawn::Document.generate("table_supresses_newlines.pdf") do
   table [["test\n\naaaa","test\n\nbbbb"],
         ["test\n\ncccc", "test\n\ndddd"]],  :border_style => :grid
-
+    
   cell [100,100], :text => "test\n\naaaa"
 end

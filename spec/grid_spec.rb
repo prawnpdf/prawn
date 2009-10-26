@@ -1,46 +1,46 @@
 # encoding: utf-8
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
 
 describe "A document's grid" do
   before do
     @pdf = Prawn::Document.new
   end
-
+  
   it "should allow definition of a grid" do
     @pdf.define_grid(:columns => 5, :rows => 8, :gutter => 0.1)
     @pdf.grid.columns.should == 5
     @pdf.grid.rows.should == 8
     @pdf.grid.gutter.should == 0.1
   end
-
+  
   describe "when a grid is defined" do
     before do
       @num_columns = 5
       @num_rows = 8
       @gutter = 10.0
       @pdf.define_grid(
-        :columns => @num_columns,
-        :rows => @num_rows,
+        :columns => @num_columns, 
+        :rows => @num_rows, 
         :gutter => @gutter
       )
     end
-
+    
     it "should compute the column width" do
-      (@pdf.grid.column_width * @num_columns.to_f +
+      (@pdf.grid.column_width * @num_columns.to_f + 
         @gutter * (@num_columns - 1).to_f).should == @pdf.bounds.width
     end
-
+    
     it "should compute the row height" do
-      (@pdf.grid.row_height * @num_rows.to_f +
+      (@pdf.grid.row_height * @num_rows.to_f + 
         @gutter * (@num_rows - 1).to_f).should == @pdf.bounds.height
     end
 
     it "should give the edges of a grid box" do
-      grid_width = (@pdf.bounds.width.to_f -
+      grid_width = (@pdf.bounds.width.to_f - 
         (@gutter * (@num_columns - 1).to_f )) / @num_columns.to_f
-      grid_height = (@pdf.bounds.height.to_f -
+      grid_height = (@pdf.bounds.height.to_f - 
         (@gutter * (@num_rows - 1).to_f ))/ @num_rows.to_f
-
+      
       exp_tl_x = (grid_width + @gutter.to_f) * 4.0
       exp_tl_y = @pdf.bounds.height.to_f - (grid_height + @gutter.to_f)
 

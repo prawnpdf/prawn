@@ -6,7 +6,7 @@
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate "table_header_color.pdf" do
-  table [ ['01/01/2008', 'John Doe', '4.2', '125.00', '525.00'],
+  table [ ['01/01/2008', 'John Doe', '4.2', '125.00', '525.00'], 
           ['01/12/2008', 'Jane Doe', '3.2', '75.50', '241.60'] ] * 20,
   :position => :center,
   :headers => ['Date', 'Employee', 'Hours', 'Rate', 'Total'],

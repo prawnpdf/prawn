@@ -7,7 +7,7 @@
 #
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
-Prawn::Document.generate("cell.pdf") do
+Prawn::Document.generate("cell.pdf") do 
   cell = Prawn::Table::Cell.new(
     :border_width => 3, :padding => 10, :width => 75,
     :text => "You know that kittens are made of mud!", :document => self)
@@ -23,15 +23,15 @@ Prawn::Document.generate("cell.pdf") do
       cellblock << cell << cell2 << cell3
       cellblock.draw
     end
-
-  move_down(20)
-
+    
+  move_down(20)  
+    
   cellblock = Prawn::Table::CellBlock.new(self)
   cellblock << Prawn::Table::Cell.new(
-    :border_width => 3,
-    :padding => 10,
+    :border_width => 3, 
+    :padding => 10, 
     :borders => [:left, :top],
-    :width => 100,
+    :width => 100, 
     :text => "This is simply the way of the world", :document => self)
   cellblock.draw
 
