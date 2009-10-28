@@ -62,6 +62,7 @@ module Prawn
     include Snapshot
     include Prawn::Graphics
     include Prawn::Images
+    include Prawn::Transparency
 
     attr_accessor :y, :margin_box
     attr_reader   :margins, :page_size, :page_layout
