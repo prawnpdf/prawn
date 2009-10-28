@@ -14,7 +14,7 @@ module Prawn
     end
     
     def stamp_at(user_defined_name, point)
-      filter_user_defined_name(user_defined_name)
+      raise Prawn::Errors::InvalidName if user_defined_name.empty?
       unless stamp_dictionary_registry[user_defined_name]
         raise Prawn::Errors::UndefinedObjectName
       end
@@ -29,14 +29,9 @@ module Prawn
       add_content "Q"
       page_xobjects.merge!(stamp_dictionary_name => stamp_dictionary)
     end
-
-    def filter_user_defined_name(string)
-      string.gsub!(/[^a-zA-Z0-9]/, "")
-      raise Prawn::Errors::InvalidName if string.empty? || string =~ /^[0-9]/
-    end
     
     def create_stamp(user_defined_name="", &block)
-      filter_user_defined_name(user_defined_name)
+      raise Prawn::Errors::InvalidName if user_defined_name.empty?
       if stamp_dictionary_registry[user_defined_name]
         raise Prawn::Errors::NameTaken
       end

@@ -16,20 +16,6 @@ describe "Document with a stamp" do
     }.should raise_error(Prawn::Errors::InvalidName)
   end
   
-  it "should raise InvalidName error when attempt to create stamp with only non-alphanumeric characters" do
-    create_pdf
-    lambda {
-      @pdf.create_stamp("_*!@")
-    }.should raise_error(Prawn::Errors::InvalidName)
-  end
-  
-  it "should raise InvalidName error when attempt to create stamp with number as first character" do
-    create_pdf
-    lambda {
-      @pdf.create_stamp("7MyStamp")
-    }.should raise_error(Prawn::Errors::InvalidName)
-  end
-  
   it "a new XObject should be defined for each stamp created" do
     create_pdf
     @pdf.create_stamp("MyStamp")
