@@ -23,8 +23,9 @@ module Prawn
         
         opacity_dictionary_name = "Tr#{next_opacity_dictionary_id}"
         opacity_dictionary_registry[key] = { :name => opacity_dictionary_name, :obj => opacity_dictionary }
-        page_extgstates.merge!(opacity_dictionary_name => opacity_dictionary)
       end
+
+      page_extgstates.merge!(opacity_dictionary_name => opacity_dictionary)
 
       # push a new graphics context onto the graphics context stack
       add_content "q"

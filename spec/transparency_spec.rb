@@ -41,14 +41,14 @@ describe "Document with transparency" do
   end
   
   describe "with more than one page" do
-    it "transparency settings set on the first page should be accessible from subsequent pages without creating an additional extended graphic state" do
+    it "the extended graphic state resource should be added to both pages" do
       create_pdf
       @pdf.transparent(0.5, 0.2)
       @pdf.start_new_page
       @pdf.transparent(0.5, 0.2)
       extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
       extgstate = extgstates[0]
-      extgstates.length.should == 1
+      extgstates.length.should == 2
       extgstate[:opacity].should == 0.5
       extgstate[:stroke_opacity].should == 0.2
     end

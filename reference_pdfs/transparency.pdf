@@ -307,7 +307,10 @@ Q
 endstream
 endobj
 10 0 obj
-<< /Parent 2 0 R
+<< /Resources << /ExtGState << /Tr0 6 0 R
+>>
+>>
+/Parent 2 0 R
 /MediaBox [0 0 612.0 792.0]
 /Contents 9 0 R
 /Type /Page
@@ -332,5 +335,5 @@ trailer
 /Info 1 0 R
 >>
 startxref
-7550
+7595
 %%EOF
