@@ -23,7 +23,8 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     @pdf.stamp("AnotherStamp")
     
-    xobjects = PDF::Inspector::XObject.analyze(@pdf.render).page_xobjects.last
+    inspector = PDF::Inspector::XObject.analyze(@pdf.render)
+    xobjects = inspector.page_xobjects.last
     xobjects.length.should == 2
   end
 
@@ -41,48 +42,10 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     @pdf.stamp("MyStamp")
     @pdf.stamp("MyStamp")
-    PDF::Inspector::XObject.analyze(@pdf.render).xobjects_drawn_on_this_page.should == 3
+    # I had modified PDF::Inspector::XObject to receive the
+    # invoke_xobject message and count the number of times it was
+    # called, but it was only called once, so I reverted checking the
+    # output with a regular expression
+    @pdf.render.should =~ /(\/Stamp1 Do.*?){3}/m
   end
-
-#   it "" do
-#     create_pdf
-#     @pdf.create_stamp("MyStamp")
-#   end
-
-#   it "" do
-#     create_pdf
-#     @pdf.create_stamp("MyStamp")
-#   end
-
-#   it "" do
-#     create_pdf
-#     @pdf.create_stamp("MyStamp")
-#   end
-
-#   it "" do
-#     create_pdf
-#     @pdf.create_stamp("MyStamp")
-#   end
-
-#   it "setting the transparency with a numerical parameter and a :stroke should set the fill transparency to the numerical parameter and the stroke transparency to the option" do
-#     create_pdf
-#     @pdf.transparent(0.5, 0.2)
-#     extgstate = PDF::Inspector::XObject.analyze(@pdf.render).extgstates[0]
-#     extgstate[:opacity].should == 0.5
-#     extgstate[:stroke_opacity].should == 0.2
-#   end
-  
-#   describe "with more than one page" do
-#     it "the extended graphic state resource should be added to both pages" do
-#       create_pdf
-#       @pdf.transparent(0.5, 0.2)
-#       @pdf.start_new_page
-#       @pdf.transparent(0.5, 0.2)
-#       extgstates = PDF::Inspector::XObject.analyze(@pdf.render).extgstates
-#       extgstate = extgstates[0]
-#       extgstates.length.should == 2
-#       extgstate[:opacity].should == 0.5
-#       extgstate[:stroke_opacity].should == 0.2
-#     end
-#   end
 end

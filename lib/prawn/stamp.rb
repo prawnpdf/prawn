@@ -25,7 +25,7 @@ module Prawn
       add_content translate_position
       stamp_dictionary_name = stamp_dictionary_registry[user_defined_name][:stamp_dictionary_name]
       stamp_dictionary = stamp_dictionary_registry[user_defined_name][:stamp_dictionary]
-      add_content "#{stamp_dictionary_name} Do"
+      add_content "/#{stamp_dictionary_name} Do"
       add_content "Q"
       page_xobjects.merge!(stamp_dictionary_name => stamp_dictionary)
     end
@@ -36,7 +36,8 @@ module Prawn
         raise Prawn::Errors::NameTaken
       end
       stamp_dictionary = ref!(:Type    => :XObject,
-                              :Subtype => :Form)
+                              :Subtype => :Form,
+                              :BBox => [0, 0, bounds.width, bounds.height])
       stamp_dictionary_name = "Stamp#{next_stamp_dictionary_id}"
       stamp_dictionary_registry[user_defined_name] = { :stamp_dictionary_name =>  stamp_dictionary_name, :stamp_dictionary => stamp_dictionary}
 
@@ -44,10 +45,14 @@ module Prawn
       @active_stamp_stream = ""
       @active_stamp_dictionary = stamp_dictionary
       yield if block_given?
-      stamp_dictionary.data[:Length] = @active_stamp_stream.length
+      stamp_dictionary.data[:Length] = @active_stamp_stream.length + 1
       stamp_dictionary << @active_stamp_stream
       @active_stamp_stream = nil
+      procs = @active_stamp_dictionary.data[:ProcSet]
+      @active_stamp_dictionary.data.delete(:ProcSet)
       @active_stamp_dictionary = nil
+      # The ProcSet needs to be assigned at the page level
+      proc_set(procs) if procs
     end
 
     def page_content
@@ -65,7 +70,7 @@ module Prawn
     end
 
     def next_stamp_dictionary_id
-      stamp_dictionary_registry.count
+      stamp_dictionary_registry.count + 1
     end
   end
 end
