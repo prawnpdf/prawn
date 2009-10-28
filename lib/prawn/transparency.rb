@@ -9,12 +9,7 @@
 
 module Prawn
   module Transparency
-    # , &block
-    #  raise "block required" unless block_given?
-    def restore_opacity
-      add_content "Q"
-    end
-    def set_opacity(opacity, stroke_opacity=opacity)
+    def transparent(opacity, stroke_opacity=opacity, &block)
       min_version(1.4)
       key = "#{opacity}_#{stroke_opacity}"
       if opacity_dictionary_registry[key]
@@ -34,6 +29,8 @@ module Prawn
       # push a new graphics context onto the graphics context stack
       add_content "q"
       add_content "/#{opacity_dictionary_name} gs"
+      yield if block_given?
+      add_content "Q"
     end
 
     private
