@@ -18,7 +18,7 @@ describe "when generating a document from a subclass" do
     custom_document = Class.new(Prawn::Document)
     custom_document.generate(Tempfile.new("generate_test").path) do |e| 
       e.class.should == custom_document
-      e.should be_kind_of(Prawn::Document)
+      e.should.be.kind_of(Prawn::Document)
     end
   end
 end
@@ -174,7 +174,7 @@ describe "The group() feature" do
           100.times { text "Too long" }
         end
       end.render
-    }.should raise_error(Prawn::Document::CannotGroup)
+    }.should.raise(Prawn::Document::CannotGroup)
   end
 
   it "should group within individual column boxes" do

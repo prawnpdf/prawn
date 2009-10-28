@@ -6,14 +6,14 @@ describe "Document with a stamp" do
     @pdf.create_stamp("MyStamp")
     lambda {
       @pdf.create_stamp("MyStamp")
-    }.should raise_error(Prawn::Errors::NameTaken)
+    }.should.raise(Prawn::Errors::NameTaken)
   end
   
   it "should raise InvalidName error when attempt to create stamp with a blank name" do
     create_pdf
     lambda {
       @pdf.create_stamp("")
-    }.should raise_error(Prawn::Errors::InvalidName)
+    }.should.raise(Prawn::Errors::InvalidName)
   end
   
   it "a new XObject should be defined for each stamp created" do
@@ -33,7 +33,7 @@ describe "Document with a stamp" do
     @pdf.create_stamp("MyStamp")
     lambda {
       @pdf.stamp("OtherStamp")
-    }.should raise_error(Prawn::Errors::UndefinedObjectName)
+    }.should.raise(Prawn::Errors::UndefinedObjectName)
   end
 
   it "stamp should be drawn into the document each time stamp is called" do
