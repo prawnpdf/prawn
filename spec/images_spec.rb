@@ -24,7 +24,7 @@ describe "the image() function" do
   it "should return the image info object" do
     info =  @pdf.image(@filename)
     
-    assert info.kind_of?(Prawn::Images::JPG)
+    info.should be_kind_of(Prawn::Images::JPG)
     
     info.height.should == 453
   end
