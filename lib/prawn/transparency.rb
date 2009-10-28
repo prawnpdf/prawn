@@ -41,7 +41,7 @@ module Prawn
     end
 
     def next_opacity_dictionary_id
-      opacity_dictionary_registry.count
+      opacity_dictionary_registry.length
     end
   end
 end

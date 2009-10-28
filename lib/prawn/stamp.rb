@@ -76,7 +76,7 @@ module Prawn
     end
 
     def next_stamp_dictionary_id
-      stamp_dictionary_registry.count + 1
+      stamp_dictionary_registry.length + 1
     end
   end
 end
