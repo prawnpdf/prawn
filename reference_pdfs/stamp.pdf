@@ -445,12 +445,12 @@ endobj
 endobj
 6 0 obj
 << /Type /XObject
-/Length 206
+/Subtype /Form
 /Resources << /Font << /F1.0 8 0 R
 >>
 >>
 /BBox [0 0 540.0 720.0]
-/Subtype /Form
+/Length 206
 >>
 stream
 
@@ -476,8 +476,8 @@ endobj
 8 0 obj
 << /BaseFont /Helvetica
 /Type /Font
-/Encoding /WinAnsiEncoding
 /Subtype /Type1
+/Encoding /WinAnsiEncoding
 >>
 endobj
 9 0 obj
@@ -485,12 +485,12 @@ endobj
 endobj
 10 0 obj
 << /Type /XObject
-/Length 214
+/Subtype /Form
 /Resources << /Font << /F1.0 8 0 R
 >>
 >>
 /BBox [0 0 540.0 720.0]
-/Subtype /Form
+/Length 214
 >>
 stream
 
@@ -512,12 +512,12 @@ endstream
 endobj
 11 0 obj
 << /Type /XObject
-/Length 242
+/Subtype /Form
 /Resources << /Font << /F1.0 8 0 R
 >>
 >>
 /BBox [0 0 540.0 720.0]
-/Subtype /Form
+/Length 242
 >>
 stream
 
@@ -539,9 +539,9 @@ endstream
 endobj
 12 0 obj
 << /Type /XObject
-/Length 463
-/BBox [0 0 540.0 720.0]
 /Subtype /Form
+/BBox [0 0 540.0 720.0]
+/Length 463
 >>
 stream
 1.000 0.000 0.000 rg
