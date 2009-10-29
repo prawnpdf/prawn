@@ -62,7 +62,6 @@ module Prawn
     include Snapshot
     include Prawn::Graphics
     include Prawn::Images
-    include Prawn::Transparency
     include Prawn::Stamp
 
     attr_accessor :y, :margin_box

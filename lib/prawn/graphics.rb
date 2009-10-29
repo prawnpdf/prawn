@@ -8,6 +8,7 @@
 
 require "prawn/graphics/color"
 require "prawn/graphics/dash"
+require "prawn/graphics/transparency"
 
 module Prawn
 
@@ -21,6 +22,7 @@ module Prawn
 
     include Color
     include Dash
+    include Transparency
 
     #######################################################################
     # Low level drawing operations must translate to absolute coords!     #

@@ -89,7 +89,7 @@ module Prawn
         page_resources[:XObject] ||= {}
       end
 
-      def page_extgstates
+      def page_ext_gstates
         page_resources[:ExtGState] ||= {}
       end
       
