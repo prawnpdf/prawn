@@ -42,7 +42,7 @@ module Prawn
       end
 
       def next_opacity_dictionary_id
-        opacity_dictionary_registry.length
+        opacity_dictionary_registry.length + 1
       end
     end
   end
