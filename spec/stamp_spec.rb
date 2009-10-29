@@ -48,4 +48,46 @@ describe "Document with a stamp" do
     # output with a regular expression
     @pdf.render.should =~ /(\/Stamp1 Do.*?){3}/m
   end
+
+  it "resources added during stamp creation should be added to the stamp XObject, not the page" do
+    create_pdf
+    @pdf.create_stamp("MyStamp") do
+      @pdf.transparent(0.5) { @pdf.circle_at([100, 100], :radius => 10)}
+    end
+    @pdf.stamp("MyStamp")
+
+    # Inspector::XObject does not give information about resources, so
+    # resorting to string matching
+
+    output = @pdf.render
+    objects = output.split("endobj")
+    objects.each do |object|
+      if object =~ /\/Type \/Page$/
+        object.should.not =~ /\/ExtGState/
+      elsif object =~ /\/Type \/XObject$/
+        object.should =~ /\/ExtGState/
+      end
+    end
+  end
+
+  it "if ProcSet changes are made, they should be added to the Page object, not the stamp XObject" do
+    create_pdf
+    @pdf.create_stamp("MyStamp") do
+      @pdf.text("hello")
+    end
+    @pdf.stamp("MyStamp")
+
+    # Inspector::XObject does not give information about ProcSet, so
+    # resorting to string matching
+
+    output = @pdf.render
+    objects = output.split("endobj")
+    objects.each do |object|
+      if object =~ /\/Type \/Page$/
+        object.should =~ /\/ProcSet/
+      elsif object =~ /\/Type \/XObject$/
+        object.should.not =~ /\/ProcSet/
+      end
+    end
+  end
 end
