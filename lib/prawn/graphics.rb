@@ -8,6 +8,8 @@
 
 require "prawn/graphics/color"
 require "prawn/graphics/dash"
+require "prawn/graphics/cap_style"
+require "prawn/graphics/join_style"
 require "prawn/graphics/transparency"
 
 module Prawn
@@ -22,6 +24,8 @@ module Prawn
 
     include Color
     include Dash
+    include CapStyle
+    include JoinStyle
     include Transparency
 
     #######################################################################
