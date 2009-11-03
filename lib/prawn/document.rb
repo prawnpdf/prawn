@@ -171,7 +171,7 @@ module Prawn
 
        @text_options = options[:text_options] || {}
        
-       apply_margin_option(options)  # :margin
+       apply_margin_option(options) if options[:margin]
 
        default_margin = 36  # 0.5 inch
        @margins = { :left   => options[:left_margin]   || default_margin,
@@ -469,27 +469,11 @@ module Prawn
     def apply_margin_option(options)
       # Treat :margin as CSS shorthand with 1-4 values.
       margin = Array(options[:margin])
-      case margin.length
-      when 4  # top right bottom left
-        options[:top_margin]    ||= margin[0]
-        options[:right_margin]  ||= margin[1]
-        options[:bottom_margin] ||= margin[2]
-        options[:left_margin]   ||= margin[3]
-      when 3  # top left+right bottom
-        options[:top_margin]    ||= margin[0]
-        options[:left_margin]   ||= margin[1]
-        options[:right_margin]  ||= margin[1]
-        options[:bottom_margin] ||= margin[2]
-      when 2  # top+bottom left+right
-        options[:top_margin]    ||= margin[0]
-        options[:bottom_margin] ||= margin[0]
-        options[:left_margin]   ||= margin[1]
-        options[:right_margin]  ||= margin[1]
-      when 1  # top+right+bottom+left
-        options[:top_margin]    ||= margin[0]
-        options[:right_margin]  ||= margin[0]
-        options[:bottom_margin] ||= margin[0]
-        options[:left_margin]   ||= margin[0]
+      positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
+                    2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
+
+      [:top, :right, :bottom, :left].zip(positions).each do |p,i|
+        options[:"#{p}_margin"] ||= margin[i]
       end
     end
 
