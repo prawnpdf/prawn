@@ -9,6 +9,7 @@
 
 module Prawn
   module Stamp
+
     def stamp(user_defined_name)
       stamp_at(user_defined_name, [0, 0])
     end
