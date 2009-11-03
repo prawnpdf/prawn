@@ -74,20 +74,6 @@ module Prawn
       proc_set(procs) if procs
     end
     
-    # Overriding page_content and current_page because while rendering
-    # the block passed to create_stamp, any resources need to be added
-    # to the stamp dictionary, not the page dictionary
-    def page_content
-      @active_stamp_stream || @store[@page_content]
-    end
-
-    # Overriding page_content and current_page because while rendering
-    # the block passed to create_stamp, any resources need to be added
-    # to the stamp dictionary, not the page dictionary
-    def current_page
-      @active_stamp_dictionary || @store[@current_page]
-    end
-
     private
 
     def stamp_dictionary_registry
