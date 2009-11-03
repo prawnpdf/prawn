@@ -8,7 +8,8 @@ describe "Document with transparency" do
     str[0,8].should == "%PDF-1.4"
   end
   
-  it "a new extended graphics state should be created for each unique transparency setting" do
+  it "a new extended graphics state should be created for "+
+     "each unique transparency setting" do
     create_pdf
     @pdf.transparent(0.5, 0.2)
     @pdf.transparent(0.5, 0.75)
@@ -16,7 +17,8 @@ describe "Document with transparency" do
     extgstates.length.should == 2
   end
   
-  it "a new extended graphics state should not be created for each duplicate transparency setting" do
+  it "a new extended graphics state should not be created for "+
+     "each duplicate transparency setting" do
     create_pdf
     @pdf.transparent(0.5, 0.75)
     @pdf.transparent(0.5, 0.75)
@@ -24,7 +26,8 @@ describe "Document with transparency" do
     extgstates.length.should == 1
   end
 
-  it "setting the transparency with only one parameter sets the transparency for both the fill and the stroke" do
+  it "setting the transparency with only one parameter sets the transparency"+
+     " for both the fill and the stroke" do
     create_pdf
     @pdf.transparent(0.5)
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates[0]
@@ -32,7 +35,9 @@ describe "Document with transparency" do
     extgstate[:stroke_opacity].should == 0.5
   end
 
-  it "setting the transparency with a numerical parameter and a :stroke should set the fill transparency to the numerical parameter and the stroke transparency to the option" do
+  it "setting the transparency with a numerical parameter and "+
+     "a :stroke should set the fill transparency to the numerical parameter "+
+     "and the stroke transparency to the option" do
     create_pdf
     @pdf.transparent(0.5, 0.2)
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates[0]
