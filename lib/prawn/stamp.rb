@@ -38,7 +38,6 @@ module Prawn
     end
     
     def create_stamp(user_defined_name="", &block)
-
       raise Prawn::Errors::InvalidName if user_defined_name.empty?
 
       if stamp_dictionary_registry[user_defined_name]
@@ -83,5 +82,6 @@ module Prawn
     def next_stamp_dictionary_id
       stamp_dictionary_registry.length + 1
     end
+
   end
 end
