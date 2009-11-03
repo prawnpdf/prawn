@@ -24,6 +24,7 @@ module Prawn
       x,y = point
       translate_position = "1 0 0 1 %.3f %.3f cm" % [x, y]
       add_content translate_position
+
       dict = stamp_dictionary_registry[user_defined_name]
 
       stamp_dictionary_name = dict[:stamp_dictionary_name]
