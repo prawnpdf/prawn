@@ -5,7 +5,7 @@
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("stroke_dash.pdf") do
-  line_width = 1
+  self.line_width = 1
   base_y = bounds.top
 
   100.times do |i|

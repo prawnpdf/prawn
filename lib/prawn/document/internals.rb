@@ -87,7 +87,11 @@ module Prawn
       # The XObject dictionary for the current page
       def page_xobjects
         page_resources[:XObject] ||= {}
-      end  
+      end
+
+      def page_ext_gstates
+        page_resources[:ExtGState] ||= {}
+      end
       
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
       # lazily initialized, so that documents that do not need a name
