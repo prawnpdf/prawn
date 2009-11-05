@@ -257,7 +257,7 @@ module Prawn::Document::Internals
   # Prawn/Security patches render_body so that it spits out encrypted content
   # iff the document is encrypted.
   def render_body(output)
-    @objects.each do |ref|
+    @store.each do |ref|
       ref.offset = output.size
       output << (@encrypted ? ref.encrypted_object(user_encryption_key) : 
                               ref.object)
