@@ -7,7 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'digest/md5'
-require 'arcfour'
+require 'prawn/arcfour'
 require 'prawn/byte_string'
 
 module Prawn
