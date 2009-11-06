@@ -21,6 +21,19 @@ describe "Prawn::ObjectStore" do
     store.size.should == 5
   end
 
+  it "should point to existing roots when importing objects from an existing PDF" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.info.class.should == Prawn::Core::Reference
+    store.root.class.should == Prawn::Core::Reference
+  end
+
+  it "should initialize with pages when importing objects from an existing PDF" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.pages.data[:Count].should == 1
+  end
+
   it "should add to its objects when ref() is called" do
     count = @store.size
     @store.ref("blah")
