@@ -18,7 +18,7 @@ end
 
 ExampleClass.extensions << ExampleExtension
 
-describe "Extenable" do
+describe "Extendable" do
   it "should add extension management to a class" do
     assert_kind_of(Extendable, ExampleClass)
     assert_instance_of(Array, ExampleClass.extensions)
