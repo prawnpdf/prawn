@@ -53,8 +53,7 @@ module Prawn
   # See the new and generate methods for further details on the above.
   #
   class Document
-    
-    extend  Extendable
+
     include Text
     include PageGeometry
     include Internals
@@ -68,6 +67,11 @@ module Prawn
     attr_accessor :margin_box
     attr_reader   :margins, :page_size, :page_layout, :y
     attr_writer   :font_size
+
+
+    def self.extensions
+      @extensions ||= []
+    end
 
     # Creates and renders a PDF document.
     #
@@ -150,6 +154,8 @@ module Prawn
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
          :compress, :skip_encoding, :text_options, :background, :info], options
+
+       self.class.extensions.reverse_each { |e| extend e }
       
        options[:info] ||= {}
        options[:info][:Creator] ||= "Prawn"
