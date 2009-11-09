@@ -83,9 +83,9 @@ module Prawn
       end
     end
   
-    # A Box is a class that represents a bounded area of a page.  A Grid object has methods that allow 
-    # easy access to the coordinates of its corners, which can be plugged into most existing prawn 
-    # methods.
+    # A Box is a class that represents a bounded area of a page.  
+    # A Grid object has methods that allow easy access to the coordinates of 
+    # its corners, which can be plugged into most existing prawnmethods.
     #
     class Box
       attr_reader :pdf
@@ -96,7 +96,9 @@ module Prawn
         @j = j
       end
     
-      # Mostly diagnostic method that outputs the name of a box as col_num, row_num
+      # Mostly diagnostic method that outputs the name of a box as 
+      # col_num, row_num
+      #
       def name
         "#{@i.to_s},#{@j.to_s}"
       end
