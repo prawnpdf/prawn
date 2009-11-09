@@ -17,7 +17,8 @@ describe "when drawing text" do
      @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
    end
    
-   it "should advance down the document based on font ascender only if final_gap is given" do
+   it "should advance down the document based on font ascender only "+
+      "if final_gap is given" do
      position = @pdf.y
      @pdf.text "Foo", :final_gap => false
 
@@ -26,6 +27,12 @@ describe "when drawing text" do
      position = @pdf.y
      @pdf.text "Foo\nBar\nBaz", :final_gap => false
      @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender, 0.0001)
+   end
+
+   it "should not accept :align alongside :at" do
+     assert_raises(ArgumentError) do
+       @pdf.text "What could this mean?", :at => [100, 100], :align => :center
+     end
    end
 
    it "should default to 12 point helvetica" do
