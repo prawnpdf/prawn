@@ -111,8 +111,8 @@ module Prawn
       private      
       
       def finish_page_content     
-        @header.draw if @header      
-        @footer.draw if @footer
+        @header.draw if defined?(@header) and @header
+        @footer.draw if defined?(@footer) and @footer
         add_content "Q"
         page_content.compress_stream if compression_enabled?
         page_content.data[:Length] = page_content.stream.size

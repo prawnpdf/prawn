@@ -102,7 +102,7 @@ module Prawn
       if width
         self.line_width = width
       else
-        @line_width || 1
+        (defined?(@line_width) && @line_width) || 1
       end
     end
 

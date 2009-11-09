@@ -8,11 +8,12 @@ PRAWN_VERSION = "0.6.0.0"
 
 task :default => [:test]
        
-desc "Run all tests, test-spec and mocha required"
+desc "Run all tests, test-spec, mocha, and pdf-reader required"
 Rake::TestTask.new do |test|
-  test.libs << "spec"
-  test.test_files = Dir[ "spec/*_spec.rb" ]
-  test.verbose = true
+  # test.ruby_opts  << "-w"  # .should == true triggers a lot of warnings
+  test.libs       << "spec"
+  test.test_files =  Dir[ "spec/*_spec.rb" ]
+  test.verbose    =  true
 end
 
 desc "Show library's code statistics"
