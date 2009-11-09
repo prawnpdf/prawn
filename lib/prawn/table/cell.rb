@@ -133,9 +133,7 @@ module Prawn
             @document.fill_color @background_color  
             h  = borders.include?(:bottom) ? 
               height - ( 2 * margin ) : height + margin
-            @document.fill_rectangle [x, 
-                                      y ], 
-                width, h  
+            @document.fill_rectangle [x, y ], width, h  
           end
         end
 

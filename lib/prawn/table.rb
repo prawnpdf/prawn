@@ -45,7 +45,8 @@ module Prawn
     def table(data, options={})           
       if data.nil? || data.empty?
         raise Prawn::Errors::EmptyTable,
-          "data must be a non-empty, non-nil, two dimensional array of Prawn::Cells or strings"
+          "data must be a non-empty, non-nil, two dimensional array " +
+          "of Prawn::Cells or strings"
       end
       Prawn::Table.new(data,self,options).draw
     end
