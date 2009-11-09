@@ -1,18 +1,21 @@
 module Prawn
   class Document
-    # Defines the grid system for a particular document.  Takes the number of rows and columns and the
-    # width to use for the gutter as the keys :rows, :columns, :gutter
+    
+    # Defines the grid system for a particular document.  Takes the number of 
+    # rows and columns and the width to use for the gutter as the 
+    # keys :rows, :columns, :gutter
     #
     def define_grid(options = {})
       @grid = Grid.new(self, options)
     end
   
-    # A method that can either be used to access a particular grid on the page or interogate the grid 
-    # system directly.
+    # A method that can either be used to access a particular grid on the page 
+    # or work with the grid system directly.
     #
     #   @pdf.grid                 # Get the Grid directly
     #   @pdf.grid([0,1])          # Get the box at [0,1]
     #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
+    #
     def grid(*args)
       @boxes ||= {}
       @boxes[args] ||= if args.empty?
@@ -28,13 +31,14 @@ module Prawn
       end
     end
   
-    # A Grid represents the entire grid system of a Page and calculates the column width and row height
-    # of the base box.
+    # A Grid represents the entire grid system of a Page and calculates 
+    # the column width and row height of the base box.
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       # :nodoc
       def initialize(pdf, options = {})
-        Prawn.verify_options([:columns, :rows, :gutter, :row_gutter, :column_gutter], options)
+        valid_options = [:columns, :rows, :gutter, :row_gutter, :column_gutter]
+        Prawn.verify_options valid_options, options
       
         @pdf = pdf
         @columns = options[:columns]
@@ -62,6 +66,7 @@ module Prawn
       end
 
       private
+      
       def subdivide(total, num, gutter)
         (total.to_f - (gutter * (num - 1).to_f)) / num.to_f
       end
@@ -71,7 +76,8 @@ module Prawn
           @gutter = options[:gutter].to_f
           @row_gutter, @column_gutter = @gutter, @gutter
         else
-          @row_gutter, @column_gutter = options[:row_gutter].to_f, options[:column_gutter].to_f
+          @row_gutter    = options[:row_gutter].to_f
+          @column_gutter = options[:column_gutter].to_f
           @gutter = 0
         end
       end
