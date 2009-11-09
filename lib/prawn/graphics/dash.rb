@@ -9,6 +9,7 @@
 module Prawn
   module Graphics
     module Dash
+
       # Sets the dash pattern for stroked lines and curves
       #
       #   length is the length of the dash. If options is not present,
@@ -25,11 +26,15 @@ module Prawn
       #
       #   integers or floats may be used for length and the options
       #
-      #   per the PDF specification, dash units are the current "user space units"
-
+      #   dash units are in PDF points ( 1/72 in )
+      #   
       def dash(length=nil, options={})
         return @dash || undash_hash if length.nil?
-        @dash = { :dash => length, :space => options[:space] || length, :phase => options[:phase] || 0 }
+
+        @dash = { :dash  => length, 
+                  :space => options[:space] || length, 
+                  :phase => options[:phase] || 0 }
+
         write_stroke_dash
       end
       
