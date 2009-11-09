@@ -369,7 +369,8 @@ module Prawn
       # the box to the current drawing position.
       #
       def height  
-        @height || absolute_top - @parent.y
+        return @height if @height
+        @stretched_height = [(absolute_top - @parent.y), @stretched_height.to_f].max
       end    
        
       # Returns +false+ when the box has a defined height, +true+ when the height
