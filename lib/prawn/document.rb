@@ -162,6 +162,7 @@ module Prawn
           
        @version = 1.3
        @store = ObjectStore.new(options[:info])
+       @trailer = {}
 
        @page_size       = options[:page_size]   || "LETTER"
        @page_layout     = options[:page_layout] || :portrait
