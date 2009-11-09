@@ -249,6 +249,13 @@ module Prawn
       y - bounds.absolute_bottom
     end
 
+
+    # Moves to the specified y position in relative terms to the bottom margin.
+    # 
+    def move_cursor_to(new_y)
+      self.y = new_y + bounds.absolute_bottom
+    end
+
     # Renders the PDF document to string, useful for example in a Rails 
     # application where you want to stream out the PDF to a web browser:
     # 
