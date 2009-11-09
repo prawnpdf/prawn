@@ -7,7 +7,8 @@ require "test/spec"
 require "mocha"
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib') 
 
-require "prawn"
+$LOAD_PATH << File.join(File.dirname(__FILE__), %w[.. vendor prawn-core lib])
+require "prawn/core"
 require "prawn/layout"
 $LOAD_PATH << File.join(Prawn::BASEDIR, 'vendor','pdf-inspector','lib')
 
