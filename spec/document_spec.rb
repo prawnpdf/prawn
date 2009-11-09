@@ -5,7 +5,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Prawn Document" do
   it "should be Extendable" do
-    assert_kind_of(Extendable, Prawn::Document)
+    assert_kind_of(Prawn::Extendable, Prawn::Document)
   end
 end 
 

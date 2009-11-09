@@ -3,7 +3,7 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
 
 class ExampleClass
-  extend Extendable
+  extend Prawn::Extendable
   
   def example
     :example
@@ -20,7 +20,7 @@ ExampleClass.extensions << ExampleExtension
 
 describe "Extendable" do
   it "should add extension management to a class" do
-    assert_kind_of(Extendable, ExampleClass)
+    assert_kind_of(Prawn::Extendable, ExampleClass)
     assert_instance_of(Array, ExampleClass.extensions)
   end
 
