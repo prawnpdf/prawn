@@ -445,6 +445,35 @@ module Prawn
       @bounding_box = old_bounding_box
     end
 
+    # Specify a template for page numbering.  This should be called
+    # towards the end of document creation, after all your content is already in
+    # place.  In your template string, <page> refers to the current page, and
+    # <total> refers to the total amount of pages in the doucment.
+    #
+    # Example:
+    #
+    #   Prawn::Document.generate("page_with_numbering.pdf") do
+    #     text "Hai"
+    #     start_new_page
+    #     text "bai"
+    #     start_new_page
+    #     text "-- Hai again"
+    #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]  
+    #   end
+    def number_pages(string, position)
+      page_count.times do |i|
+        go_to_page(i)
+        str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
+        text str, :at => position
+      end
+    end
+
+    def go_to_page(k) # :nodoc:
+      jump_to = @store.pages.data[:Kids][k]
+      @current_page = jump_to.identifier
+      @page_content = jump_to.data[:Contents].identifier
+    end
+
     # Returns true if content streams will be compressed before rendering,
     # false otherwise
     #
