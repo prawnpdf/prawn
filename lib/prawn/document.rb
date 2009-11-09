@@ -65,8 +65,8 @@ module Prawn
     include Prawn::Images
     include Prawn::Stamp
 
-    attr_accessor :y, :margin_box
-    attr_reader   :margins, :page_size, :page_layout
+    attr_accessor :margin_box
+    attr_reader   :margins, :page_size, :page_layout, :y
     attr_writer   :font_size
 
     # Creates and renders a PDF document.
@@ -240,6 +240,11 @@ module Prawn
     #
     def page_count
       @store.pages.data[:Count]
+    end
+
+    def y=(new_y)
+      @y = new_y
+      bounds.update_height
     end
 
     # The current y drawing position relative to the innermost bounding box,

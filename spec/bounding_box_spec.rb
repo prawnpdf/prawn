@@ -125,6 +125,15 @@ describe "drawing bounding boxes" do
     
     @pdf.y.should.be.close 458.384, 0.001 
   end
+
+  it "should keep track of the max height the box was stretched to" do
+    box = @pdf.bounding_box(@pdf.bounds.top_left, :width => 100) do
+      @pdf.move_down 100
+      @pdf.move_up 15
+    end
+
+    assert_equal 100, box.height
+  end
   
 end
 
