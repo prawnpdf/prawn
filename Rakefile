@@ -57,7 +57,7 @@ spec = Gem::Specification.new do |spec|
 
   spec.test_files = Dir[ "test/*_test.rb" ]
   spec.has_rdoc = true
-  spec.extra_rdoc_files = %w{README LICENSE COPYING}
+  spec.extra_rdoc_files = %w{HACKING README LICENSE COPYING}
   spec.rdoc_options << '--title' << 'Prawn Documentation' <<
                        '--main'  << 'README' << '-q'
   spec.author = "Gregory Brown"
