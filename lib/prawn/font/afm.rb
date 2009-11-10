@@ -95,7 +95,7 @@ module Prawn
       private
 
       def register(subset)
-        @document.ref(:Type     => :Font,
+        @document.ref!(:Type     => :Font,
                       :Subtype  => :Type1,
                       :BaseFont => name.to_sym,
                       :Encoding => :WinAnsiEncoding)

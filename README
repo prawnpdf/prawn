@@ -27,8 +27,8 @@ But prawn can do a lot more:
 
 ...gives you an _really_ big page.
 
- Prawn::Document.new(:size => [11.32, 8.49],
-                     :page_orientation => :portrait)
+ Prawn::Document.new(:page_size   => [11.32, 8.49],
+                     :page_layout => :portrait)
 
 ...giving you a postage stamp.
 

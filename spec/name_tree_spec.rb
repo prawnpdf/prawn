@@ -19,7 +19,9 @@ def tree_value(name, value)
 end
 
 class RefExposingDocument < Prawn::Document
-  attr_reader :objects
+  def object_store
+    @store
+  end
 end
 
 describe "Name Tree" do     
@@ -43,26 +45,33 @@ describe "Name Tree" do
   end
 
   it "should create a two new references when root is split" do
-    ref_count = @pdf.objects.length
+    ref_count = @pdf.object_store.length
     node = Prawn::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
-    @pdf.objects.length.should.equal ref_count+2
+    @pdf.object_store.length.should.equal ref_count+2
   end
   
   it "should create a one new reference when subtree is split" do
     node = Prawn::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
 
-    ref_count = @pdf.objects.length # save when root is split
+    ref_count = @pdf.object_store.length # save when root is split
     tree_add(node, ["five", 5], ["six", 6], ["seven", 7])
     tree_dump(node).should == "[[five=5,four=4,one=1],[seven=7,six=6],[three=3,two=2]]"
-    @pdf.objects.length.should.equal ref_count+1
+    @pdf.object_store.length.should.equal ref_count+1
   end
 
   it "should keep tree balanced when subtree split cascades to root" do
     node = Prawn::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
     tree_add(node, ["five", 5], ["six", 6], ["seven", 7], ["eight", 8])
+    tree_dump(node).should == "[[[eight=8,five=5],[four=4,one=1]],[[seven=7,six=6],[three=3,two=2]]]"
+  end
+
+  it "should maintain order of already properly ordered nodes" do
+    node = Prawn::NameTree::Node.new(@pdf, 3)
+    tree_add(node, ["eight", 8], ["five", 5], ["four", 4], ["one", 1])
+    tree_add(node, ['seven', 7], ['six', 6], ['three', 3], ['two', 2])
     tree_dump(node).should == "[[[eight=8,five=5],[four=4,one=1]],[[seven=7,six=6],[three=3,two=2]]]"
   end
 

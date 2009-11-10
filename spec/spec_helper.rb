@@ -16,8 +16,5 @@ require "pdf/reader"
 require "pdf/inspector"
 
 def create_pdf(klass=Prawn::Document)
-  @pdf = klass.new(:left_margin   => 0,
-                   :right_margin  => 0,
-                   :top_margin    => 0,
-                   :bottom_margin => 0)
+  @pdf = klass.new(:margin => 0)
 end    

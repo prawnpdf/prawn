@@ -20,6 +20,32 @@ describe "A text box" do
     @box.text.should == "Oh hai\ntext box.\n" * 5
   end
 
+  it "render should return truncated text (NOTE: which may have had its whitespace mangled by wrap/unwrap)" do
+    @text = "Oh hai text box. " * 25
+    @overflow = :truncate
+    create_text_box
+    excess_text = @box.render
+    excess_text.should == "Oh hai text box. " * 20
+  end
+
+  it "render should attempt to preserve double newlines in excess text before returning it" do
+    line  = "Oh hai text box. "
+    @text = line * 10 + "\n\n" + line * 10
+    @overflow = :truncate
+    create_text_box
+    excess_text = @box.render
+    excess_text.should == line * 5 + "\n\n" + line * 10
+  end
+
+  it "render should attempt to preserve single newlines in excess text before returning it" do
+    line  = "Oh hai text box. "
+    @text = line * 10 + "\n" + line * 10
+    @overflow = :truncate
+    create_text_box
+    excess_text = @box.render
+    excess_text.should == line * 5 + "\n" + line * 10
+  end
+
   it "should have a height equal to @height" do
     @overflow = :truncate    
     create_text_box

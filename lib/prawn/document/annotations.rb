@@ -14,15 +14,16 @@ module Prawn
     # Provides very low-level support for annotations.  These extensions are
     # mainly for use by prawn-format, so be sure to check that out if all
     # you need is basic internal or external links.
+    #
     module Annotations
       
       # Adds a new annotation (section 8.4 in PDF spec) to the current page.
       # +options+ must be a Hash describing the annotation.
       #
       def annotate(options)
-        @current_page.data[:Annots] ||= []
+        current_page.data[:Annots] ||= []
         options = sanitize_annotation_hash(options)
-        @current_page.data[:Annots] << ref(options)
+        current_page.data[:Annots] << ref(options)
         return options
       end
 

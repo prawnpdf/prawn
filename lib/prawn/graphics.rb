@@ -7,6 +7,10 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "prawn/graphics/color"
+require "prawn/graphics/dash"
+require "prawn/graphics/cap_style"
+require "prawn/graphics/join_style"
+require "prawn/graphics/transparency"
 
 module Prawn
 
@@ -19,6 +23,10 @@ module Prawn
   module Graphics
 
     include Color
+    include Dash
+    include CapStyle
+    include JoinStyle
+    include Transparency
 
     #######################################################################
     # Low level drawing operations must translate to absolute coords!     #
@@ -94,7 +102,7 @@ module Prawn
       if width
         self.line_width = width
       else
-        @line_width || 1
+        (defined?(@line_width) && @line_width) || 1
       end
     end
 

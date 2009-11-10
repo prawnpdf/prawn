@@ -79,6 +79,7 @@ module Prawn
           split! if children.length > limit
         else
           fit = children.detect { |child| child >= value }
+          fit = children.last unless fit
           fit << value
         end
 
@@ -113,7 +114,7 @@ module Prawn
 
         def new_node(parent=nil)
           node = Node.new(document, limit, parent)
-          node.ref = document.ref(node)
+          node.ref = document.ref!(node)
           return node
         end
 

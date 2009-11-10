@@ -11,6 +11,14 @@ describe "The cursor" do
     pdf.y = 300
     pdf.cursor.should == pdf.y - pdf.bounds.absolute_bottom 
   end
+
+  it "should be able to move relative to the bottom margin" do
+    pdf = Prawn::Document.new
+    pdf.move_cursor_to(10)
+
+    pdf.cursor.should == 10
+    pdf.y.should == pdf.cursor + pdf.bounds.absolute_bottom
+  end
 end 
 
 describe "when generating a document from a subclass" do
@@ -18,7 +26,7 @@ describe "when generating a document from a subclass" do
     custom_document = Class.new(Prawn::Document)
     custom_document.generate(Tempfile.new("generate_test").path) do |e| 
       e.class.should == custom_document
-      assert e.kind_of?(Prawn::Document)
+      e.should.be.kind_of(Prawn::Document)
     end
   end
 end
@@ -71,11 +79,11 @@ describe "When ending each page" do
   it "should not compress the page content stream if compression is disabled" do
 
     pdf = Prawn::Document.new(:compress => false)
-    content_stub = pdf.ref({})
+    content_stub = pdf.ref!({})
     content_stub.stubs(:compress_stream).returns(true)
     content_stub.expects(:compress_stream).never
 
-    pdf.instance_variable_set("@page_content", content_stub)
+    pdf.instance_variable_set("@page_content", content_stub.identifier)
     pdf.text "Hi There" * 20
     pdf.render
   end
@@ -83,11 +91,11 @@ describe "When ending each page" do
   it "should compress the page content stream if compression is enabled" do
 
     pdf = Prawn::Document.new(:compress => true)
-    content_stub = pdf.ref({})
+    content_stub = pdf.ref!({})
     content_stub.stubs(:compress_stream).returns(true)
     content_stub.expects(:compress_stream).once
 
-    pdf.instance_variable_set("@page_content", content_stub)
+    pdf.instance_variable_set("@page_content", content_stub.identifier)
     pdf.text "Hi There" * 20
     pdf.render
   end
@@ -148,6 +156,51 @@ describe "The mask() feature" do
     end
     @pdf.y.should == y
     @pdf.line_width.should == line_width 
+  end
+end
+
+describe "The group() feature" do
+  it "should group a simple block on a single page" do
+    pdf = Prawn::Document.new do
+      self.y = 50
+      group do
+        text "Hello"
+        text "World"
+      end
+    end
+    
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == []
+    pages[1][:strings].should == ["Hello", "World"]
+  end
+
+  it "should raise CannotGroup if the content is too tall" do
+    lambda {
+      Prawn::Document.new do
+        group do
+          100.times { text "Too long" }
+        end
+      end.render
+    }.should.raise(Prawn::Document::CannotGroup)
+  end
+
+  it "should group within individual column boxes" do
+    pdf = Prawn::Document.new do
+      # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
+      # of the height of one page / column, so each column should get its own
+      # group (every column should start with zero).
+      column_box([0, bounds.top], :width => bounds.width, :columns => 7) do
+        10.times do
+          group { 50.times { |i| text(i.to_s) } }
+        end
+      end
+    end
+
+    # Second page should start with a 0 because it's a new group.
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 2
+    pages[1][:strings].first.should == '0'
   end
 end
 

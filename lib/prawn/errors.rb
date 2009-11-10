@@ -45,5 +45,17 @@ module Prawn
      # type. This can either a completely unsupported format, or a dialect of a
      # supported format (ie. some types of PNG)
      UnsupportedImageType = Class.new(StandardError)
+
+    # This error is raised when a named element has alredy been
+    # created. For example, in the stamp module, stamps must have
+    # unique names within a document
+    NameTaken = Class.new(StandardError)
+
+    # This error is raised when a name is not a valid format
+    InvalidName = Class.new(StandardError)
+
+    # This error is raised when an object is attempted to be
+    # referenced by name, but no such name is associated with an object
+    UndefinedObjectName = Class.new(StandardError)
   end
 end   

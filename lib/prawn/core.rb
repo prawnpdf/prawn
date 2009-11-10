@@ -1,11 +1,9 @@
 # encoding: utf-8
-# 
 # Prawn : A library for PDF generation in Ruby
 #
 # Copyright April 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-        
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
 end
@@ -35,11 +33,10 @@ module Prawn
   # are used.  Off by default.
   #
   # Example:
-  #
-  #   >> Prawn::Document.new(:tomato => "Juicy")  
-  #   Prawn::Errors::UnknownOption:   
-  #   Detected unknown option(s): [:tomato] 
-  #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]  
+  #   >> Prawn::Document.new(:tomato => "Juicy")
+  #   Prawn::Errors::UnknownOption: 
+  #   Detected unknown option(s): [:tomato]
+  #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
   #
   attr_accessor :debug
   
@@ -75,10 +72,12 @@ end
 require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
+require "prawn/object_store"
 require "prawn/graphics"
 require "prawn/images"
 require "prawn/images/jpg"
 require "prawn/images/png"
+require "prawn/stamp"
 require "prawn/document"
 require "prawn/reference"
 require "prawn/font"

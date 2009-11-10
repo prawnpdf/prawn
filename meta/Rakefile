@@ -8,12 +8,21 @@ require "rake/gempackagetask"
 
 spec = Gem::Specification.new do |spec|
   spec.name = "prawn"
+<<<<<<< HEAD:meta/Rakefile
   spec.version = "0.5.1"
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
   spec.add_dependency('prawn-core', '>= 0.5.1', '< 0.6')
   spec.add_dependency('prawn-layout', '>= 0.2.1')
   spec.add_dependency('prawn-format', '>= 0.2.1')
+=======
+  spec.version = "0.6.0.0"
+  spec.platform = Gem::Platform::RUBY
+  spec.summary = "A fast and nimble PDF generator for Ruby"
+  spec.add_dependency('prawn-core', '>= 0.6.0.0', '< 0.7')
+  spec.add_dependency('prawn-layout', '~> 0.2.0')
+  spec.add_dependency('prawn-format', '~> 0.2.0')
+>>>>>>> dc2eb2adab2fe9f354c243ee57f6179f50decbde:meta/Rakefile
   spec.files = Dir.glob("lib/*")
   spec.require_path = "lib"
   spec.author = "Gregory Brown"

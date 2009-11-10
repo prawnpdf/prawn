@@ -25,7 +25,7 @@ module Prawn
     # Usage:
     # 
     # * Bounding box 100pt x 100pt in the absolute bottom left of the 
-    # containing box:
+    #   containing box:
     # 
     #   pdf.bounding_box([0,100], :width => 100, :height => 100)
     #     stroke_bounds
@@ -56,10 +56,10 @@ module Prawn
     #      "and return to the margin_box"
     #   end
     #
-    # Note that this is a low level tool and is designed primarily for 
-    # building other abstractions.  If you just want to flow some text on
-    # a page, look into span() or text_box()
-    # 
+    # Note, this is a low level tool and is designed primarily for building
+    # other abstractions.  If you just need to flow text on the page, you
+    # will want to look at span() and text_box() instead
+    #
     # ==Translating Coordinates
     # 
     # When translating coordinates, the idea is to allow the user to draw
@@ -122,8 +122,8 @@ module Prawn
     # ==Stretchyness
     # 
     # If you do not specify a height to a bounding box, it will become stretchy
-    # and its height will be calculated according to the last drawing position
-    # within the bounding box:
+    # and its height will be calculated automatically as you stretch the box
+    # downwards.
     # 
     #  pdf.bounding_box([100,400], :width => 400) do
     #    pdf.text("The height of this box is #{pdf.bounds.height}")
@@ -141,8 +141,8 @@ module Prawn
     #  pdf.bounding_box([50,500], :width => 200, :height => 300) do
     #    pdf.stroke_bounds
     #    pdf.canvas do
+    #      Positioned outside the containing box at the 'real' (300,450)
     #      pdf.bounding_box([300,450], :width => 200, :height => 200) do
-    #        # Positioned outside the containing box at the 'real' (300,450)
     #        pdf.stroke_bounds
     #      end
     #    end
@@ -185,7 +185,9 @@ module Prawn
       user_block.call   
       self.y = @bounding_box.absolute_bottom unless options[:hold_position]
 
-      @bounding_box = parent_box 
+      created_box, @bounding_box = @bounding_box, parent_box
+
+      return created_box
     end   
 
     # Low level layout helper that simplifies coordinate math.
@@ -369,8 +371,11 @@ module Prawn
       # the box to the current drawing position.
       #
       def height  
-        @height || absolute_top - @parent.y
+        return @height if @height
+        @stretched_height = [(absolute_top - @parent.y), @stretched_height.to_f].max
       end    
+
+      alias_method :update_height, :height
        
       # Returns +false+ when the box has a defined height, +true+ when the height
       # is being calculated on the fly based on the current vertical position.

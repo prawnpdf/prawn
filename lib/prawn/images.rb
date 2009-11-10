@@ -154,7 +154,7 @@ module Prawn
       else
         raise ArgumentError, 'JPG uses an unsupported number of channels'
       end
-      obj = ref(:Type       => :XObject,
+      obj = ref!(:Type       => :XObject,
           :Subtype          => :Image,
           :Filter           => :DCTDecode,
           :ColorSpace       => color_space,
@@ -202,7 +202,7 @@ module Prawn
       end
 
       # build the image dict
-      obj = ref(:Type             => :XObject,
+      obj = ref!(:Type             => :XObject,
                 :Subtype          => :Image,
                 :Height           => png.height,
                 :Width            => png.width,
@@ -226,7 +226,7 @@ module Prawn
         obj.data[:ColorSpace] = color
       else
         # embed the colour palette in the PDF as a object stream
-        palette_obj = ref(:Length => png.palette.size)
+        palette_obj = ref!(:Length => png.palette.size)
         palette_obj << png.palette
 
         # build the color space array for the image
@@ -266,7 +266,7 @@ module Prawn
       # channel mixed in with the main image data. The PNG class seperates
       # it out for us and makes it available via the alpha_channel attribute
       if png.alpha_channel
-        smask_obj = ref(:Type             => :XObject,
+        smask_obj = ref!(:Type             => :XObject,
                         :Subtype          => :Image,
                         :Height           => png.height,
                         :Width            => png.width,

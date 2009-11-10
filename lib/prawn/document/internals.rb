@@ -17,7 +17,9 @@ module Prawn
     module Internals    
       
       # Creates a new Prawn::Reference and adds it to the Document's object
-      # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.    
+      # list.  The +data+ argument is anything that Prawn::PdfObject() can convert. 
+      #
+      # Returns the identifier which points to the reference in the ObjectStore   
       # 
       # If a block is given, it will be invoked just before the object is written
       # out to the PDF document stream. This allows you to do deferred processing
@@ -25,8 +27,40 @@ module Prawn
       # about until the last page of the document is finished).
       #
       def ref(data, &block)
-        @objects.push(Prawn::Reference.new(@objects.size + 1, data, &block)).last
+        ref!(data, &block).identifier
       end                                               
+
+      # Like ref, but returns the actual reference instead of its identifier.
+      # 
+      # While you can use this to build up nested references within the object
+      # tree, it is recommended to persist only identifiers, and them provide
+      # helper methods to look up the actual references in the ObjectStore
+      # if needed.  If you take this approach, Prawn::Document::Snapshot
+      # will probably work with your extension
+      #
+      def ref!(data, &block)
+        @store.ref(data, &block)
+      end
+
+      def page_content
+        @store[@page_content]
+      end
+
+      def current_page
+        @store[@current_page]
+      end
+
+      # Grabs the reference for the current page content
+      #
+      def page_content
+        @active_stamp_stream || @store[@page_content]
+      end
+
+      # Grabs the reference for the current page
+      #
+      def current_page
+        @active_stamp_dictionary || @store[@current_page]
+      end
       
       # Appends a raw string to the current page content.
       #                               
@@ -37,20 +71,20 @@ module Prawn
       #  pdf.add_content("S") # stroke                    
       #
       def add_content(str)
-       @page_content << str << "\n"
+        page_content << str << "\n"
       end  
 
       # Add a new type to the current pages ProcSet 
       #
       def proc_set(*types)
-        @current_page.data[:ProcSet] ||= ref([])
-        @current_page.data[:ProcSet].data |= types
+        current_page.data[:ProcSet] ||= ref!([])
+        current_page.data[:ProcSet].data |= types
       end
              
       # The Resources dictionary for the current page
       #
       def page_resources
-        @current_page.data[:Resources] ||= {}
+        current_page.data[:Resources] ||= {}
       end
       
       # The Font dictionary for the current page
@@ -63,24 +97,28 @@ module Prawn
       #
       def page_xobjects
         page_resources[:XObject] ||= {}
-      end  
+      end
+
+      def page_ext_gstates
+        page_resources[:ExtGState] ||= {}
+      end
       
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
       # lazily initialized, so that documents that do not need a name
       # dictionary do not incur the additional overhead.
       #
       def names
-        @root.data[:Names] ||= ref(:Type => :Names)
+        @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
 
       private      
       
       def finish_page_content     
-        @header.draw if @header      
-        @footer.draw if @footer
+        @header.draw if defined?(@header) and @header
+        @footer.draw if defined?(@footer) and @footer
         add_content "Q"
-        @page_content.compress_stream if compression_enabled?
-        @page_content.data[:Length] = @page_content.stream.size
+        page_content.compress_stream if compression_enabled?
+        page_content.data[:Length] = page_content.stream.size
       end
 
       # raise the PDF version of the file we're going to generate.
@@ -91,6 +129,7 @@ module Prawn
       end
 
       # Write out the PDF Header, as per spec 3.4.1
+      #
       def render_header(output)
         # pdf version
         output << "%PDF-#{@version}\n"
@@ -100,30 +139,34 @@ module Prawn
       end
 
       # Write out the PDF Body, as per spec 3.4.2
+      #
       def render_body(output)
-        @objects.each do |ref|
+        @store.each do |ref|
           ref.offset = output.size
           output << ref.object
         end
       end
 
       # Write out the PDF Cross Reference Table, as per spec 3.4.3
+      #
       def render_xref(output)
         @xref_offset = output.size
         output << "xref\n"
-        output << "0 #{@objects.size + 1}\n"
+        output << "0 #{@store.size + 1}\n"
         output << "0000000000 65535 f \n"
-        @objects.each do |ref|
+        @store.each do |ref|
           output.printf("%010d", ref.offset)
           output << " 00000 n \n"
         end
       end
 
       # Write out the PDF Trailer, as per spec 3.4.4
+      #
       def render_trailer(output)
-        trailer_hash = {:Size => @objects.size + 1, 
-                        :Root => @root,
-                        :Info => @info}
+        trailer_hash = {:Size => @store.size + 1, 
+                        :Root => @store.root,
+                        :Info => @store.info}
+        trailer_hash.merge!(@trailer) if @trailer
 
         output << "trailer\n"
         output << Prawn::PdfObject(trailer_hash) << "\n"

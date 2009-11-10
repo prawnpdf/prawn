@@ -89,9 +89,7 @@ module Prawn
         absolute_right - (width_of_column * columns_from_right)
       end
 
-      # Wrap position to the next column, starting a new page if necessary
-      #
-      def move_past_bottom
+      def move_past_bottom #:nodoc:
         @current_column = (@current_column + 1) % @columns
         @parent.y = @y
         if 0 == @current_column
