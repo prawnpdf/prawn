@@ -6,11 +6,6 @@ require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("stamp.pdf") do
 
-  create_stamp("page_template") do
-    text("This is my page template", :at => [0, bounds.top - 4 * font.height] )
-    text("This is also in my page template", :at => [0, 0] )
-  end
-
   create_stamp("odd_page_template") do
     text("This is the odd page template", :at => [0, bounds.top - 4 * font.height] )
     text("This is also in the odd page template", :at => [0, 0] )
