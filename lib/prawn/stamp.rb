@@ -64,13 +64,7 @@ module Prawn
       stamp_dictionary << @active_stamp_stream
 
       @active_stamp_stream = nil
-      # The ProcSet needs to be assigned at the page level
-      procs = @active_stamp_dictionary.data[:ProcSet]
-      @active_stamp_dictionary.data.delete(:ProcSet)
       @active_stamp_dictionary = nil
-
-      # The ProcSet needs to be assigned at the page level
-      proc_set(procs) if procs
     end
     
     private

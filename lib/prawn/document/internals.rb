@@ -41,14 +41,6 @@ module Prawn
         @store.ref(data, &block)
       end
 
-      def page_content
-        @store[@page_content]
-      end
-
-      def current_page
-        @store[@current_page]
-      end
-
       # Grabs the reference for the current page content
       #
       def page_content
