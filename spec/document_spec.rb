@@ -11,6 +11,14 @@ describe "The cursor" do
     pdf.y = 300
     pdf.cursor.should == pdf.y - pdf.bounds.absolute_bottom 
   end
+
+  it "should be able to move relative to the bottom margin" do
+    pdf = Prawn::Document.new
+    pdf.move_cursor_to(10)
+
+    pdf.cursor.should == 10
+    pdf.y.should == pdf.cursor + pdf.bounds.absolute_bottom
+  end
 end 
 
 describe "when generating a document from a subclass" do

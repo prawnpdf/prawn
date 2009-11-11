@@ -17,7 +17,9 @@ module Prawn
       # style is one of :butt, :round, or :projecting_square
       def cap_style(style=nil)
         return @cap_style || :butt if style.nil?
+
         @cap_style = style
+
         write_stroke_cap_style
       end
       

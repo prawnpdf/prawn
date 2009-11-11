@@ -17,7 +17,9 @@ module Prawn
       # style is one of :miter, :round, or :bevel
       def join_style(style=nil)
         return @join_style || :miter if style.nil?
+
         @join_style = style
+
         write_stroke_join_style
       end
       

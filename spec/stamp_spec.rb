@@ -1,7 +1,8 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
 
 describe "Document with a stamp" do
-  it "should raise NameTaken error when attempt to create stamp with same name as an existing stamp" do
+  it "should raise NameTaken error when attempt to create stamp "+
+     "with same name as an existing stamp" do
     create_pdf
     @pdf.create_stamp("MyStamp")
     lambda {
@@ -9,7 +10,8 @@ describe "Document with a stamp" do
     }.should.raise(Prawn::Errors::NameTaken)
   end
   
-  it "should raise InvalidName error when attempt to create stamp with a blank name" do
+  it "should raise InvalidName error when attempt to create "+
+     "stamp with a blank name" do
     create_pdf
     lambda {
       @pdf.create_stamp("")
@@ -28,7 +30,8 @@ describe "Document with a stamp" do
     xobjects.length.should == 2
   end
 
-  it "calling stamp with a name that does not match an existing stamp should raise UndefinedObjectName" do
+  it "calling stamp with a name that does not match an existing stamp "+
+     "should raise UndefinedObjectName" do
     create_pdf
     @pdf.create_stamp("MyStamp")
     lambda {
@@ -49,7 +52,8 @@ describe "Document with a stamp" do
     @pdf.render.should =~ /(\/Stamp1 Do.*?){3}/m
   end
 
-  it "resources added during stamp creation should be added to the stamp XObject, not the page" do
+  it "resources added during stamp creation should be added to the "+
+     "stamp XObject, not the page" do
     create_pdf
     @pdf.create_stamp("MyStamp") do
       @pdf.transparent(0.5) { @pdf.circle_at([100, 100], :radius => 10)}
@@ -70,7 +74,8 @@ describe "Document with a stamp" do
     end
   end
 
-  it "if ProcSet changes are made, they should be added to the Page object, not the stamp XObject" do
+  it "if ProcSet changes are made, they should be added to the Page "+
+     "object, not the stamp XObject" do
     create_pdf
     @pdf.create_stamp("MyStamp") do
       @pdf.text("hello")

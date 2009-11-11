@@ -6,6 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require 'prawn/byte_string'
+
 # Top level Module
 #
 module Prawn 
@@ -41,6 +43,8 @@ module Prawn
       obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
       obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
       "(#{obj})"
+    when Prawn::ByteString
+      "<" << obj.unpack("H*").first << ">"
     when String
       obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
       "<" << obj.unpack("H*").first << ">"

@@ -56,6 +56,8 @@ module Prawn
           unless @overflow == :expand
             @document.y = y + @document.bounds.absolute_bottom - @height  
           end        
+
+          @excess_text
         end
         
         private        
@@ -73,6 +75,9 @@ module Prawn
             when :ellipses
               @text[-3..-1] = "..." if @text.size > 3
             end
+            @excess_text = @document.naive_unwrap(lines[max_lines..-1].join)
+          else
+            @excess_text = ""
           end 
         end
         

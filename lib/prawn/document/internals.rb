@@ -41,16 +41,24 @@ module Prawn
         @store.ref(data, &block)
       end
 
+      def page_content
+        @store[@page_content]
+      end
+
+      def current_page
+        @store[@current_page]
+      end
+
       # Grabs the reference for the current page content
       #
       def page_content
-        @store[@page_content]
+        @active_stamp_stream || @store[@page_content]
       end
 
       # Grabs the reference for the current page
       #
       def current_page
-        @store[@current_page]
+        @active_stamp_dictionary || @store[@current_page]
       end
       
       # Appends a raw string to the current page content.
@@ -103,8 +111,8 @@ module Prawn
       private      
       
       def finish_page_content     
-        @header.draw if @header      
-        @footer.draw if @footer
+        @header.draw if defined?(@header) and @header
+        @footer.draw if defined?(@footer) and @footer
         add_content "Q"
         page_content.compress_stream if compression_enabled?
         page_content.data[:Length] = page_content.stream.size
@@ -155,6 +163,7 @@ module Prawn
         trailer_hash = {:Size => @store.size + 1, 
                         :Root => @store.root,
                         :Info => @store.info}
+        trailer_hash.merge!(@trailer) if @trailer
 
         output << "trailer\n"
         output << Prawn::PdfObject(trailer_hash) << "\n"

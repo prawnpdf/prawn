@@ -43,8 +43,10 @@ module Prawn
       #
       # === Text Positioning Details:
       #
-      # When using the :at parameter, Prawn will position your text by its
-      # baseline, and flow along a single line.
+      # When using the :at parameter, Prawn will position your text by the
+      # left-most edge of its baseline, and flow along a single line.  (This
+      # means that :align will not work)
+      # 
       #
       # Otherwise, the text is positioned at font.ascender below the baseline,
       # making it easy to use this method within bounding boxes and spans.
@@ -79,6 +81,11 @@ module Prawn
           font.normalize_encoding!(text) unless @skip_encoding        
 
           if options[:at]                
+
+            if options[:align]
+              raise ArgumentError, "The :align option does not work with :at" 
+            end
+
             x,y = translate(options[:at])            
             font_size(options[:size]) { add_text_content(text,x,y,options) }
           else

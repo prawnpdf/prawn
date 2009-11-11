@@ -34,6 +34,11 @@ describe "PDF Object Serialization" do
     s_utf16 = "\xFE\xFF" + s.unpack("U*").pack("n*")
     PDF::Inspector.parse(Prawn::PdfObject(s, false)).should == s_utf16
   end                      
+
+  it "should pass through bytes regardless of content stream status for ByteString" do
+    Prawn::PdfObject(Prawn::ByteString.new("\xDE\xAD\xBE\xEF")).upcase.
+      should == "<DEADBEEF>"
+  end
   
   it "should escape parens when converting from Ruby string to PDF" do
     s =  'I )(can has a string'      

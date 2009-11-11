@@ -8,11 +8,12 @@ PRAWN_VERSION = "0.6.0.0"
 
 task :default => [:test]
        
-desc "Run all tests, test-spec and mocha required"
+desc "Run all tests, test-spec, mocha, and pdf-reader required"
 Rake::TestTask.new do |test|
-  test.libs << "spec"
-  test.test_files = Dir[ "spec/*_spec.rb" ]
-  test.verbose = true
+  # test.ruby_opts  << "-w"  # .should == true triggers a lot of warnings
+  test.libs       << "spec"
+  test.test_files =  Dir[ "spec/*_spec.rb" ]
+  test.verbose    =  true
 end
 
 desc "Show library's code statistics"
@@ -56,7 +57,7 @@ spec = Gem::Specification.new do |spec|
 
   spec.test_files = Dir[ "test/*_test.rb" ]
   spec.has_rdoc = true
-  spec.extra_rdoc_files = %w{README LICENSE COPYING}
+  spec.extra_rdoc_files = %w{HACKING README LICENSE COPYING}
   spec.rdoc_options << '--title' << 'Prawn Documentation' <<
                        '--main'  << 'README' << '-q'
   spec.author = "Gregory Brown"
