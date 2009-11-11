@@ -4,7 +4,7 @@
 #
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
-Prawn::Document.generate("stamp.pdf") do
+Prawn::Document.generate("stamp.pdf", :skip_page_creation => true) do
 
   create_stamp("odd_page_template") do
     text "This is the odd page template", 
@@ -18,6 +18,7 @@ Prawn::Document.generate("stamp.pdf") do
     text "This is also in the even page template", :at => [0, 0] 
   end
   
+  start_new_page
   stamp("odd_page_template")
 
   create_stamp("MyStamp") do
