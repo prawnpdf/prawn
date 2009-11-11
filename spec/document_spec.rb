@@ -74,16 +74,14 @@ describe "When beginning each new page" do
 
 end
 
-describe "When ending each page" do
+describe "Document compression" do
 
   it "should not compress the page content stream if compression is disabled" do
 
     pdf = Prawn::Document.new(:compress => false)
-    content_stub = pdf.ref!({})
-    content_stub.stubs(:compress_stream).returns(true)
-    content_stub.expects(:compress_stream).never
+    pdf.page_content.stubs(:compress_stream).returns(true)
+    pdf.page_content.expects(:compress_stream).never
 
-    pdf.instance_variable_set("@page_content", content_stub.identifier)
     pdf.text "Hi There" * 20
     pdf.render
   end
@@ -91,11 +89,9 @@ describe "When ending each page" do
   it "should compress the page content stream if compression is enabled" do
 
     pdf = Prawn::Document.new(:compress => true)
-    content_stub = pdf.ref!({})
-    content_stub.stubs(:compress_stream).returns(true)
-    content_stub.expects(:compress_stream).once
+    pdf.page_content.stubs(:compress_stream).returns(true)
+    pdf.page_content.expects(:compress_stream).once
 
-    pdf.instance_variable_set("@page_content", content_stub.identifier)
     pdf.text "Hi There" * 20
     pdf.render
   end
@@ -112,6 +108,23 @@ describe "When ending each page" do
   end 
 
 end                                 
+
+describe "When reopening pages" do
+  it "should modify the content stream size" do
+    @pdf = Prawn::Document.new do |pdf|
+      pdf.text "Page 1"
+      pdf.start_new_page
+      pdf.text "Page 2"
+      pdf.go_to_page 0
+      pdf.text "More for page 1"
+    end
+    
+    # MalformedPDFError raised if content stream actual length does not match
+    # dictionary length
+    lambda{ PDF::Inspector::Page.analyze(@pdf.render) }.
+      should.not.raise(PDF::Reader::MalformedPDFError)
+  end
+end
 
 describe "When setting page size" do
   it "should default to LETTER" do

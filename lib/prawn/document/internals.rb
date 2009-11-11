@@ -108,14 +108,23 @@ module Prawn
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
 
+      def go_to_page(k) # :nodoc:
+        jump_to = @store.pages.data[:Kids][k]
+        @current_page = jump_to.identifier
+        @page_content = jump_to.data[:Contents].identifier
+      end
+
       private      
-      
-      def finish_page_content     
-        @header.draw if defined?(@header) and @header
-        @footer.draw if defined?(@footer) and @footer
-        add_content "Q"
-        page_content.compress_stream if compression_enabled?
-        page_content.data[:Length] = page_content.stream.size
+
+      def finalize_all_page_contents
+        page_count.times do |i|
+          go_to_page i
+          @header.draw if defined?(@header) and @header
+          @footer.draw if defined?(@footer) and @footer
+          add_content "Q"
+          page_content.compress_stream if compression_enabled?
+          page_content.data[:Length] = page_content.stream.size
+        end
       end
 
       # raise the PDF version of the file we're going to generate.

@@ -224,7 +224,6 @@ module Prawn
          end
        end
 
-       finish_page_content if @page_content
        build_new_page_content
 
        @store.pages.data[:Kids] << current_page
@@ -279,7 +278,7 @@ module Prawn
     #
     def render
       output = StringIO.new
-      finish_page_content
+      finalize_all_page_contents
 
       render_header(output)
       render_body(output)
@@ -472,12 +471,6 @@ module Prawn
         str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
         text str, :at => position
       end
-    end
-
-    def go_to_page(k) # :nodoc:
-      jump_to = @store.pages.data[:Kids][k]
-      @current_page = jump_to.identifier
-      @page_content = jump_to.data[:Contents].identifier
     end
 
     # Returns true if content streams will be compressed before rendering,
