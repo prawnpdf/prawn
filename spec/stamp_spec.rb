@@ -1,4 +1,15 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+
+describe "create_stamp before any page is added" do
+  it "should work with the font class" do
+    @pdf = Prawn::Document.new(:skip_page_creation => true)
+    lambda {
+      @pdf.create_stamp("my_stamp") do
+        @pdf.font.height
+      end
+    }.should.not.raise(Prawn::Errors::NotOnPage)
+  end
+end
 
 describe "Document with a stamp" do
   it "should raise NameTaken error when attempt to create stamp "+
@@ -70,28 +81,6 @@ describe "Document with a stamp" do
         object.should.not =~ /\/ExtGState/
       elsif object =~ /\/Type \/XObject$/
         object.should =~ /\/ExtGState/
-      end
-    end
-  end
-
-  it "if ProcSet changes are made, they should be added to the Page "+
-     "object, not the stamp XObject" do
-    create_pdf
-    @pdf.create_stamp("MyStamp") do
-      @pdf.text("hello")
-    end
-    @pdf.stamp("MyStamp")
-
-    # Inspector::XObject does not give information about ProcSet, so
-    # resorting to string matching
-
-    output = @pdf.render
-    objects = output.split("endobj")
-    objects.each do |object|
-      if object =~ /\/Type \/Page$/
-        object.should =~ /\/ProcSet/
-      elsif object =~ /\/Type \/XObject$/
-        object.should.not =~ /\/ProcSet/
       end
     end
   end
