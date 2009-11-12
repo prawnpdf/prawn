@@ -2,7 +2,7 @@
 
 # object_store.rb : Implements PDF object repository for Prawn
 #
-# Copyright August 2008, Brad Ediger.  All Rights Reserved.
+# Copyright August 2009, Brad Ediger.  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
