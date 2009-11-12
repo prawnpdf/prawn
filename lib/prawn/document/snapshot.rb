@@ -59,6 +59,7 @@ module Prawn
 
         @current_page = shot[:current_page].identifier
         current_page.replace shot[:current_page]
+        current_page.data[:Contents] = page_content
 
         @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
         @store.pages.data[:Count] = shot[:page_kids].size
