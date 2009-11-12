@@ -70,9 +70,6 @@ module Prawn
       
       image_sha1 = Digest::SHA1.hexdigest(image_content)
 
-      # register the fact that the current page uses images
-      proc_set :ImageC
-
       # if this image has already been embedded, just reuse it
       if image_registry[image_sha1]
         info = image_registry[image_sha1][:info]

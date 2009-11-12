@@ -66,13 +66,6 @@ module Prawn
         page_content << str << "\n"
       end  
 
-      # Add a new type to the current pages ProcSet 
-      #
-      def proc_set(*types)
-        current_page.data[:ProcSet] ||= ref!([])
-        current_page.data[:ProcSet].data |= types
-      end
-             
       # The Resources dictionary for the current page
       #
       def page_resources

@@ -492,6 +492,11 @@ module Prawn
                           :Parent    => @store.pages,
                           :MediaBox  => page_dimensions,
                           :Contents  => page_content)
+
+      # include all proc sets, all the time (recommended by PDF 1.4 Reference 
+      # section 9.1)
+      page_resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
+
       update_colors
       undash if dashed?
     end

@@ -226,7 +226,6 @@ module Prawn
 
       @family     = options[:family]
 
-      @document.proc_set :PDF, :Text
       @identifier = :"F#{@document.font_registry.size + 1}"
 
       @references = {}
