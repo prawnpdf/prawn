@@ -96,6 +96,10 @@ module Prawn
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
 
+      def names?
+        @store.root.data[:Names]
+      end
+
       def go_to_page(k) # :nodoc:
         jump_to = @store.pages.data[:Kids][k]
         @current_page = jump_to.identifier
