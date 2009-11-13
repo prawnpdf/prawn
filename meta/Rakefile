@@ -8,10 +8,10 @@ require "rake/gempackagetask"
 
 spec = Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = "0.6.1"
+  spec.version = "0.6.2"
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.add_dependency('prawn-core', '>= 0.6.1', '< 0.7')
+  spec.add_dependency('prawn-core', '>= 0.6.2', '< 0.7')
   spec.add_dependency('prawn-layout', '>= 0.3.1', '< 0.4')
   spec.add_dependency('prawn-format', '>= 0.2.2', '< 0.3')
   spec.add_dependency('prawn-security', '>= 0.1.1', '< 0.2')
@@ -24,9 +24,9 @@ spec = Gem::Specification.new do |spec|
   spec.description = "Prawn is a fast, tiny, and nimble PDF generator for Ruby"
   spec.post_install_message = %{
   Welcome to Prawn, the best pure-Ruby PDF solution ever!
-  This is version 0.6.1
+  This is version 0.6
    
-  For those coming from Prawn 0.5.x or earlier, note that this release has
+  For those coming from Prawn 0.5 or earlier, note that this release has
   some API breaking changes as well as many new features.  *** You'll want 
   to know about these changes, as we will no longer be supporting
   Prawn 0.5 or any earlier version of Prawn***
