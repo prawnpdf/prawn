@@ -139,6 +139,7 @@ module Prawn
       # Write out the PDF Body, as per spec 3.4.2
       #
       def render_body(output)
+        @store.compact
         @store.each do |ref|
           ref.offset = output.size
           output << ref.object

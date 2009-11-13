@@ -11,9 +11,8 @@ require 'zlib'
 module Prawn  
   
   class Reference #:nodoc:
-             
-   attr_accessor :gen, :data, :offset, :stream
-   attr_reader :identifier
+
+    attr_accessor :gen, :data, :offset, :stream, :live, :identifier
     
     def initialize(id, data, &block)
       @identifier = id 
@@ -61,6 +60,29 @@ module Prawn
       @stream     = other_ref.stream
       @compressed = other_ref.compressed?
     end
+
+    # Marks this and all referenced objects live, recursively.
+    def mark_live
+      return if @live
+      @live = true
+      referenced_objects.each { |o| o.mark_live }
+    end
+
+    private
+
+    # All objects referenced by this one. Used for GC.
+    def referenced_objects(obj=@data)
+      case obj
+      when Reference
+        []
+      when Hash
+        obj.values.map{|v| [v] + referenced_objects(v) }
+      when Array
+        obj.map{|v| [v] + referenced_objects(v) }
+      else []
+      end.flatten.grep(Reference)
+    end
+
   end         
 
   module_function
