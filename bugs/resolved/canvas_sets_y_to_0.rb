@@ -5,7 +5,7 @@
 # This was resolved in 998a5c3fad40c9e0a79e1468e3a83815ed948a74 [#88]
 #
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
-require "prawn"
+require "prawn/core"
 
 Prawn::Document.generate("canvas_sets_y_to_0.pdf") do
   
