@@ -230,6 +230,33 @@ describe "TTF fonts" do
 
   end
 
+  describe "when used with snapshots or transactions" do
+    
+    it "should allow TTF fonts to be used alongside document transactions" do
+      lambda {
+        Prawn::Document.new do
+          font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+          text "Hi there"
+          transaction { text "Nice, thank you" }
+        end
+      }.should.not.raise
+    end
+
+    it "should allow TTF fonts to be used inside transactions" do
+      pdf = Prawn::Document.new do
+        transaction do
+          font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+          text "Hi there"
+        end
+      end
+
+      text = PDF::Inspector::Text.analyze(pdf.render)
+      name = text.font_settings.map { |e| e[:name] }.first.to_s
+      name = name.sub(/\w+\+/, "subset+")
+      name.should == "subset+DejaVuSans"
+    end
+
+  end
   
 end
 

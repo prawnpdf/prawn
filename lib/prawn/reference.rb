@@ -15,17 +15,15 @@ module Prawn
    attr_accessor :gen, :data, :offset, :stream
    attr_reader :identifier
     
-    def initialize(id, data, &block)
+    def initialize(id, data)
       @identifier = id 
       @gen        = 0       
       @data       = data     
       @compressed = false
-      @on_encode  = block
       @stream     = nil
     end            
     
     def object 
-      @on_encode.call(self) if @on_encode
       output = "#{@identifier} #{gen} obj\n" <<
                Prawn::PdfObject(data) << "\n"
       if @stream
