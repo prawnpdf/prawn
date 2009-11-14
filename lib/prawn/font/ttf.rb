@@ -222,7 +222,13 @@ module Prawn
 
       def register(subset)
         temp_name = @ttf.name.postscript_name.gsub("\0","").to_sym
-        @document.ref!(:Type => :Font, :BaseFont => temp_name) { |ref| embed(ref, subset) }
+        ref = @document.ref!(:Type => :Font, :BaseFont => temp_name)
+
+        # Embed the font metrics in the document after everything has been 
+        # drawn, just before the document is emitted.
+        @document.before_render { |doc| embed(ref, subset) }
+
+        ref
       end
 
       def embed(reference, subset)

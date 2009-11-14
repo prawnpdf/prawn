@@ -226,6 +226,22 @@ describe "The render() feature" do
       str.encoding.to_s.should == "ASCII-8BIT"
     end
   end
+
+  it "should trigger before_render callbacks just before rendering" do
+    pdf = Prawn::Document.new
+    
+    seq = sequence("callback_order")
+
+    # Verify the order: finalize -> fire callbacks -> render body
+    pdf.expects(:finalize_all_page_contents).in_sequence(seq)
+    trigger = mock()
+    trigger.expects(:fire).in_sequence(seq)
+    pdf.expects(:render_body).in_sequence(seq)
+
+    pdf.before_render{ trigger.fire }
+
+    pdf.render
+  end
 end
 
 describe "PDF file versions" do
