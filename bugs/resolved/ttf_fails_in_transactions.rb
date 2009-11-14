@@ -12,6 +12,8 @@
 # But whoever tackles this patch should take care to ensure we
 # don't break TTF subsetting support, adding specs if necessary.
 #
+# Resolved in 36ef89c2bc21e504df623f61d918c5bfdc1fdab1.
+#
 require 'prawn/core' 
 
 Prawn::Document.generate("err.pdf") do
