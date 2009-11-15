@@ -23,7 +23,7 @@ module Prawn
       def annotate(options)
         current_page.data[:Annots] ||= []
         options = sanitize_annotation_hash(options)
-        current_page.data[:Annots] << ref(options)
+        current_page.data[:Annots] << ref!(options)
         return options
       end
 
