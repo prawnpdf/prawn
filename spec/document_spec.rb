@@ -22,13 +22,37 @@ describe "The cursor" do
 end 
 
 describe "when generating a document from a subclass" do
-  it "should be an instance_eval of the subclass" do
+  it "should be an instance of the subclass" do
     custom_document = Class.new(Prawn::Document)
     custom_document.generate(Tempfile.new("generate_test").path) do |e| 
       e.class.should == custom_document
       e.should.be.kind_of(Prawn::Document)
     end
   end
+
+  it "should retain any extensions found on Prawn::Document" do
+    mod1 = Module.new { attr_reader :test_extensions1 }
+    mod2 = Module.new { attr_reader :test_extensions2 }
+
+    Prawn::Document.extensions << mod1 << mod2
+
+    custom_document = Class.new(Prawn::Document)
+    assert_equal [mod1, mod2], custom_document.extensions
+
+    # remove the extensions we added to prawn document
+    Prawn::Document.extensions.delete(mod1)
+    Prawn::Document.extensions.delete(mod2)
+
+    assert ! Prawn::Document.new.respond_to?(:test_extensions1)
+    assert ! Prawn::Document.new.respond_to?(:test_extensions2)
+
+    # verify these still exist on custom class
+    assert_equal [mod1, mod2], custom_document.extensions
+
+    assert custom_document.new.respond_to?(:test_extensions1)
+    assert custom_document.new.respond_to?(:test_extensions2)
+  end
+
 end
 
                                
