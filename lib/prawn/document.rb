@@ -73,6 +73,10 @@ module Prawn
       @extensions ||= []
     end
 
+    def self.inherited(base)
+      extensions.each { |e| base.extensions << e }
+    end
+
     # Creates and renders a PDF document.
     #
     # When using the implicit block form, Prawn will evaluate the block
