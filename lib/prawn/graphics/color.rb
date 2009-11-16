@@ -104,30 +104,89 @@ module Prawn
         end
       end
 
-      def set_fill_color
-        case @fill_color
+      def color_type(color)
+        case color
         when String
-          r,g,b = hex2rgb(@fill_color)
-          add_content "%.3f %.3f %.3f rg" %
-             [r / 255.0, g / 255.0, b / 255.0]
+          :RGB
         when Array
-          c,m,y,k = *@fill_color
-          add_content "%.3f %.3f %.3f %.3f k" %
-            [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
+          :CMYK
         end
       end
 
-      def set_stroke_color
-        case @stroke_color
-        when String
-          r,g,b = hex2rgb(@stroke_color)
-          add_content "%.3f %.3f %.3f RG" %
-            [r / 255.0, g / 255.0, b / 255.0]
-        when Array
-          c,m,y,k = *@stroke_color
-          add_content "%.3f %.3f %.3f %.3f K" %
-            [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
+      def normalize_color(color)
+        case color_type(color)
+        when :RGB
+          r,g,b = hex2rgb(color)
+          [r / 255.0, g / 255.0, b / 255.0]
+        when :CMYK
+          c,m,y,k = *color
+          [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
         end
+      end
+
+      def color_to_s(color)
+        normalize_color(color).map { |c| '%.3f' % c }.join(' ')
+      end
+
+      def color_space(color)
+        case color_type(color)
+        when :RGB
+          :DeviceRGB
+        when :CMYK
+          :DeviceCMYK
+        end
+      end
+
+      COLOR_SPACES = [:DeviceRGB, :DeviceCMYK, :Pattern]
+
+      def set_color_space(type, color_space)
+        # don't set the same color space again
+        @color_space ||= {}
+        return if @color_space[type] == color_space
+        @color_space[type] = color_space
+
+        unless COLOR_SPACES.include?(color_space)
+          raise ArgumentError, "unknown color space: '#{color_space}'"
+        end
+
+        operator = case type
+        when :fill
+          'cs'
+        when :stroke
+          'CS'
+        else
+          raise ArgumentError, "unknown type '#{type}'"
+        end
+
+        add_content "/#{color_space} #{operator}"
+      end
+
+      def set_color(type, color, options = {})
+        operator = case type
+        when :fill
+          'scn'
+        when :stroke
+          'SCN'
+        else
+          raise ArgumentError, "unknown type '#{type}'"
+        end
+
+        if options[:pattern]
+          set_color_space type, :Pattern
+          add_content "/#{color} #{operator}"
+        else
+          set_color_space type, color_space(color)
+          color = color_to_s(color)
+          add_content "#{color} #{operator}"
+        end
+      end
+
+      def set_fill_color
+        set_color :fill, @fill_color
+      end
+
+      def set_stroke_color
+        set_color :stroke, @stroke_color
       end
 
       def update_colors
