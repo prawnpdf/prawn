@@ -108,7 +108,8 @@ module Prawn
           font(font.family,:style => options[:style])
         end
 
-        unless options.key?(:kerning)
+        # must compare against false to keep kerning on as default
+        unless options[:kerning] == false
           options[:kerning] = font.has_kerning_data?
         end                     
 
