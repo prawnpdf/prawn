@@ -167,13 +167,25 @@ module Prawn
       when :center
         x = (@document.bounds.width - width) / 2.0
         dy = @document.bounds.absolute_top - @document.y
+        final_pos = nil
+
         @document.bounding_box [x, @parent_bounds.top], :width => width do 
           @document.move_down(dy)
           generate_table
+          final_pos = @document.y
         end
+
+        @document.y = final_pos
       when Numeric     
-        x, y = C(:position), @document.y - @document.bounds.absolute_bottom
-        @document.bounding_box([x,y], :width => width) { generate_table }
+        x, y = C(:position), @document.cursor
+        final_pos = nil
+
+        @document.bounding_box([x,y], :width => width) do
+          generate_table
+          final_pos = @document.y 
+        end
+
+        @document.y = final_pos
       else
         generate_table
       end
