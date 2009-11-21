@@ -67,4 +67,12 @@ describe "Document built from a template" do
     all_text.include?("Adding some text").should == true
   end
 
+  it "should copy the PDF version from the template file" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/version_1_6.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename)
+    str = @pdf.render
+    str[0,8].should == "%PDF-1.6"
+  end
+
 end
