@@ -7,12 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "zlib"
 require "prawn/document/text/box"
-require "prawn/document/text/wrapping"
 
 module Prawn
   class Document
     module Text
-      include Wrapping
+      attr_reader :text_options
+      attr_reader :skip_encoding
       
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
@@ -70,35 +70,34 @@ module Prawn
       # wanted it usually means the current font doesn't include that character.
       #
       def text(text,options={})            
-        # we'll be messing with the strings encoding, don't change the users
-        # original string
-        text = text.to_s.dup                      
-        
-        save_font do
-          options = @text_options.merge(options)
-          process_text_options(options) 
-           
-          font.normalize_encoding!(text) unless @skip_encoding        
+        if options[:at]
+          # we'll be messing with the strings encoding, don't change the users
+          # original string
+          text = text.to_s.dup
+          save_font do
+            options = @text_options.merge(options)
+            process_text_options(options)
 
-          if options[:at]                
+            font.normalize_encoding!(text) unless @skip_encoding
 
             if options[:align]
               raise ArgumentError, "The :align option does not work with :at" 
             end
-
-            x,y = translate(options[:at])            
-            font_size(options[:size]) { add_text_content(text,x,y,options) }
-          else
-            if options[:rotate]
-              raise ArgumentError, "Rotated text may only be used with :at" 
-            end
-            wrapped_text(text,options)
+            text_at(text, options)
           end         
+        else
+          if options[:rotate]
+            raise ArgumentError, "Rotated text may only be used with :at"
+          end
+          text_box(text, options)
         end
-      end 
+      end
 
-      private 
-                        
+      def text_at(text, options)
+        x,y = translate(options[:at])
+        font_size(options[:size]) { add_text_content(text,x,y,options) }
+      end
+
       def process_text_options(options)
         Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
                               :leading, :align, :rotate, :final_gap ], options                               
@@ -115,6 +114,8 @@ module Prawn
 
         options[:size] ||= font_size
      end
+
+      private
 
       def move_text_position(dy)   
          bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
