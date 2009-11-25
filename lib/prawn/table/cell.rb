@@ -47,6 +47,7 @@ module Prawn
       # <tt>:vertical_padding</tt>:: The vertical padding in PDF points
       # <tt>:padding</tt>:: Overrides both horizontal and vertical padding
       # <tt>:align</tt>:: One of <tt>:left</tt>, <tt>:right</tt>, <tt>:center</tt>
+      # <tt>:valign</tt>:: One of <tt>:top</tt> (the default), <tt>:middle</tt>, or <tt>:bottom</tt>
       # <tt>:borders</tt>:: An array of sides which should have a border. Any of <tt>:top</tt>, <tt>:left</tt>, <tt>:right</tt>, <tt>:bottom</tt>
       # <tt>:border_width</tt>:: The border line width. Defaults to 1.
       # <tt>:border_style</tt>:: One of <tt>:all</tt>, <tt>:no_top</tt>, <tt>:no_bottom</tt>, <tt>:sides</tt>, <tt>:none</tt>, <tt>:bottom_only</tt>. Defaults to :all.
@@ -67,6 +68,7 @@ module Prawn
         @border_color = options[:border_color]
         @background_color = options[:background_color] 
         @align            = options[:align] || :left
+        @valign           = options[:valign] || :top
         @font_size        = options[:font_size]
         @font_style       = options[:font_style]
 
@@ -175,8 +177,14 @@ module Prawn
 
         end
 
+        ypos = case @valign
+               when :top then y - @vertical_padding
+               when :middle then y - ((height - text_area_height)/2.0)
+               when :bottom then y - height + @vertical_padding
+               end
+
         @document.bounding_box( [x + @horizontal_padding, 
-                                 y - @vertical_padding], 
+                                 ypos], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
           @document.move_down((@document.font.line_gap - @document.font.descender)/2)
