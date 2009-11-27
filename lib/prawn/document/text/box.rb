@@ -52,13 +52,16 @@ module Prawn
         attr_reader :text
         attr_reader :at
 
+        def valid_options
+          Text::VALID_TEXT_OPTIONS.dup.concat([:for, :height, :min_font_size,
+                                           :overflow, :width,])
+        end
+
         def initialize(text, options={})
-          Prawn.verify_options([:for, :width, :height, :at, :size,
-                                :overflow, :leading, :kerning,
-                                :align, :min_font_size, :final_gap], options)
-          options        = options.clone
+          Prawn.verify_options(valid_options, options)
+          options        = options.dup
           @overflow      = options[:overflow] || :truncate
-          # we'll be messing with the strings encoding, don't change the users
+          # we'll be messing with the strings encoding, don't change the user's
           # original string
           @text_to_print = text.dup.strip
           @text          = nil

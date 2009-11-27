@@ -112,9 +112,11 @@ module Prawn
         add_text_content(text,x,y,options)
       end
 
+      VALID_TEXT_OPTIONS = [:align, :at, :final_gap, :kerning, :leading,
+                            :rotate, :size, :style, :wrap ]
+
       def process_text_options(options)
-        Prawn.verify_options [:style, :kerning, :size, :at, :wrap, 
-                              :leading, :align, :rotate, :final_gap ], options                               
+        Prawn.verify_options(VALID_TEXT_OPTIONS, options)
         
         if options[:style]  
           raise "Bad font family" unless font.family
