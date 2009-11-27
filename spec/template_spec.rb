@@ -75,4 +75,20 @@ describe "Document built from a template" do
     str[0,8].should == "%PDF-1.6"
   end
 
+  it "should correctly add a TTF font to a template that has existing fonts" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/contains_ttf_font.pdf"
+    @pdf = Prawn::Document.new(:template => filename)
+    @pdf.font "#{Prawn::BASEDIR}/data/fonts/Chalkboard.ttf"
+    @pdf.move_down(40)
+    @pdf.text "Hi There"
+
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    page_dict = hash.values.detect{ |obj| obj.is_a?(Hash) && obj[:Type] == :Page }
+    resources = page_dict[:Resources]
+    fonts = resources[:Font]
+    fonts.size.should == 2
+  end
+
 end
