@@ -22,9 +22,9 @@ module Prawn
       #       bounded by :at and the lower right corner of the
       #       document bounds
       #
-      #     :overflow is :truncate, :shrink_to_fit, or :ellipses, denoting the
-      #       behavior when the amount of text exceeds the available
-      #       space. Defaults to :truncate.
+      #     :overflow is :truncate, :shrink_to_fit, :expand, or :ellipses,
+      #       denoting the behavior when the amount of text exceeds the
+      #       available space. Defaults to :truncate.
       #
       #     :leading is the amount of space between lines. Defaults to 0
       #
@@ -50,12 +50,14 @@ module Prawn
       class Box #:nodoc:
         VERSION = '0.3.2'
         attr_reader :text
+        attr_reader :at
 
         def initialize(text, options={})
           Prawn.verify_options([:for, :width, :height, :at, :size,
                                 :overflow, :leading, :kerning,
                                 :align, :min_font_size, :final_gap], options)
           options = options.clone
+          @overflow      = options[:overflow] || :truncate
           # we'll be messing with the strings encoding, don't change the users
           # original string
           @text_to_print = text.dup.strip
@@ -64,10 +66,8 @@ module Prawn
           @document      = options[:for]
           @at            = options[:at] || [@document.bounds.left, @document.y]
           @width         = options[:width] || @document.bounds.right - @at[0]
-          @height        = options[:height] ||
-                           @at[1] - @document.bounds.bottom
-          @center        = @at[0] + @width * 0.5
-          @overflow      = options[:overflow] || :truncate
+          @height        = options[:height] || @at[1] - @document.bounds.bottom
+          @center        = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
           @final_gap     = options[:final_gap].nil? ? true : options[:final_gap]
           if @overflow == :expand
             # if set to expand, then we simply set the bottom
@@ -82,7 +82,7 @@ module Prawn
                                                   :kerning => options[:kerning],
                                                   :align   => options[:align])
         end
-
+        
         def render
           unprinted_text = ''
           @document.save_font do
@@ -198,13 +198,13 @@ module Prawn
 
           case(@align)
           when :left
-            x = @center - @width * 0.5
+            x = @center[0] - @width * 0.5
           when :center
             line_width = @document.width_of(line_to_print, :kerning => @kerning)
-            x = @center - line_width * 0.5
+            x = @center[0] - line_width * 0.5
           when :right
             line_width = @document.width_of(line_to_print, :kerning => @kerning)
-            x = @center + @width * 0.5 - line_width
+            x = @center[0] + @width * 0.5 - line_width
           end
           
           y = @at[1] + @baseline_y

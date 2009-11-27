@@ -2,93 +2,193 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-describe "A text box" do
 
-  before(:each) do
-    create_pdf    
-    @x      = 100
-    @y      = 125
-    @width  = 50
-    @height = @pdf.font.height * 10
-    @text = "Oh hai text box. " * 200    
-  end
-
-  it "should have a truncated text" do
-    @overflow = :truncate
-    create_text_box
-    @box.render
-    @box.text.should == ("Oh hai\ntext box.\n" * 5).rstrip
-  end
-
-  it "render should return truncated text (NOTE: which may have had its whitespace mangled by wrap/unwrap)" do
-    @text = "Oh hai text box. " * 25
-    @overflow = :truncate
-    create_text_box
-    excess_text = @box.render
-    excess_text.should == ("Oh hai text box. " * 20).rstrip
-  end
-
-  it "render should attempt to preserve double newlines in excess text before returning it" do
-    line  = "Oh hai text box. "
-    @text = line * 10 + "\n\n" + line * 10
-    @overflow = :truncate
-    create_text_box
-    excess_text = @box.render
-    excess_text.should == (line * 5 + "\n\n" + line * 10).rstrip
-  end
-
-  it "render should attempt to preserve single newlines in excess text before returning it" do
-    line  = "Oh hai text box. "
-    @text = line * 10 + "\n" + line * 10
-    @overflow = :truncate
-    create_text_box
-    excess_text = @box.render
-    excess_text.should == (line * 5 + "\n" + line * 10).rstrip
-  end
-
-  it "should have a height equal to @height" do
-    @overflow = :truncate    
-    create_text_box
-    @box.render    
-    @box.height.should.be.close(@height, 0.0001)
-  end
-
-  it "should add ... to for overflow :ellipses" do
-    @overflow = :ellipses
-    @height = @pdf.font.height * 2
-    @text = "Oh hai text box.\n" * 4
-    create_text_box
-    @box.render
-    @box.text.should == "Oh hai\ntext b..."
-  end
-
+describe "Text::Box" do
   it "should not fail if height is smaller than 1 line" do
-    @text = "a b c d e fgi"
-    @width = 30
-    @height = @pdf.font.height * 0.5
-    @overflow = :ellipses    
-    create_text_box
-    @box.render
-    @box.text.should == ""
-  end
-
-  it "should keep text intact for overflow :expand" do
-    @overflow = :expand
-    @text = "Oh hai text box.\n" * 4
-    @height = 0
-    create_text_box
-    @box.render
-    @box.text.should == ("Oh hai\ntext box.\n" * 4).rstrip
-  end
-  
-  def create_text_box
-    @box = Prawn::Document::Text::Box.new(@text,
-                                          :width    => @width, :height => @height,
-                                          :overflow => @overflow,
-                                          :at       => [@x, @y],
-                                          :for      => @pdf)    
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :height => @pdf.font.height * 0.5,
+      :for  =>  @pdf
+    }
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.text.should == ""
   end
 end
+
+describe "Text::Box default height" do
+  it "should be the height from the bottom bound to document.y" do
+    create_pdf
+    target_height = @pdf.y - @pdf.bounds.bottom
+    @text = "Oh hai text rect. " * 100
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :for  =>  @pdf
+    }
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.height.should.be.close(target_height, @pdf.font.height)
+  end
+end
+
+describe "Text::Box default at" do
+  it "should be the left corner of the bounds, and the current document.y" do
+    create_pdf
+    target_at = [@pdf.bounds.left, @pdf.y]
+    @text = "Oh hai text rect. " * 100
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :for  =>  @pdf
+    }
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.at.should == target_at
+  end
+end
+
+describe "Text::Box with text than can fit in the box" do
+  before(:each) do
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :height => 162.0,
+      :for  =>  @pdf
+    }
+  end
+  
+  it "printed text should match requested text, except for trailing or leading white space and that spaces may be replaced by newlines" do
+    @options[:overflow] = :truncate
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.text.gsub("\n", " ").should == @text.strip
+  end
+  
+  it "render should return an empty string because no text remains unprinted" do
+    @options[:overflow] = :truncate
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render.should == ""
+  end
+
+  it "should be truncated when the leading is set high enough to prevent all the lines from being printed" do
+    @options[:leading] = 40
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.text.gsub("\n", " ").should.not == @text.strip
+  end
+end
+
+describe "Text::Box with more text than can fit in the box" do
+  before(:each) do
+    create_pdf    
+    @text = "Oh hai text rect. " * 30
+    @bounding_height = 162.0
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :height => @bounding_height,
+      :for  =>  @pdf
+    }
+  end
+  
+  context "truncated overflow" do
+    before(:each) do
+      @options[:overflow] = :truncate
+      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+    end
+    it "should not display ellipses" do
+      @text_box.render
+      @text_box.text.should.not =~ /\.\.\./
+    end
+    it "should be truncated" do
+      @text_box.render
+      @text_box.text.gsub("\n", " ").should.not == @text.strip
+    end
+    it "render should not return an empty string because some text remains unprinted" do
+      @text_box.render.should.not == ""
+    end
+    it "#height should be no taller than the specified height" do
+      @text_box.render
+      @text_box.height.should.be <= @bounding_height
+    end
+    it "#height should be within one font height of the specified height" do
+      @text_box.render
+      @bounding_height.should.be.close(@text_box.height, @pdf.font.height)
+    end
+  end
+  
+  context "ellipses overflow" do
+    before(:each) do
+      @options[:overflow] = :ellipses
+      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+    end
+    it "should display ellipses" do
+      @text_box.render
+      @text_box.text.should =~ /\.\.\./
+    end
+    it "render should not return an empty string because some text remains unprinted" do
+      @text_box.render.should.not == ""
+    end
+  end
+
+  context "expand overflow" do
+    before(:each) do
+      @options[:overflow] = :expand
+      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+    end
+    it "height should expand to encompass all the text (but not exceed the height of the page)" do
+      @text_box.render
+      @text_box.height.should > @bounding_height
+    end
+    it "should display the entire string (as long as there was space remaining on the page to print all the text)" do
+      @text_box.render
+      @text_box.text.gsub("\n", " ").should == @text.strip
+    end
+    it "render should return an empty string because no text remains unprinted(as long as there was space remaining on the page to print all the text)" do
+      @text_box.render.should == ""
+    end
+  end
+
+  context "shrink_to_fit overflow" do
+    before(:each) do
+      @options[:overflow] = :shrink_to_fit
+      @options[:min_font_size] = 2
+      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+    end
+    it "should display the entire text" do
+      @text_box.render
+      @text_box.text.gsub("\n", " ").should == @text.strip
+    end
+    it "render should return an empty string because no text remains unprinted" do
+      @text_box.render.should == ""
+    end
+  end
+end
+
+describe "Text::Box with a solid block of Chinese characters" do
+  it "printed text should match requested text, except for newlines" do
+    create_pdf
+    @text = "写中国字" * 10
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :height => 162.0,
+      :for  =>  @pdf
+    }
+    @pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    @options[:overflow] = :truncate
+    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.text.gsub("\n", "").should == @text.strip
+  end
+end
+
 
 describe "drawing bounding boxes" do    
   
@@ -106,15 +206,6 @@ describe "drawing bounding boxes" do
 end
 
   
-
-
-
-
-
-
-
-
-
 describe 'Text::Box wrapping' do
   
 
@@ -124,12 +215,12 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Document::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :for      => @pdf)
-    @box.render
-    @box.text.should == expect
+    @text_box.render
+    @text_box.text.should == expect
   end
 
   it "should respect end of line when wrapping text" do
@@ -138,12 +229,12 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Document::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :for      => @pdf)
-    @box.render
-    @box.text.should == expect
+    @text_box.render
+    @text_box.text.should == expect
   end
 
   it "should respect multiple newlines when wrapping text" do
@@ -152,12 +243,12 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Document::Text::Box.new(text,
                                           :width    => 200,
                                           :overflow => :expand,
                                           :for      => @pdf)
-    @box.render
-    @box.text.should == expect
+    @text_box.render
+    @text_box.text.should == expect
   end
 
   it "should respect multiple newlines when wrapping text when those newlines coincide with a line break" do
@@ -166,12 +257,12 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Document::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :for      => @pdf)
-    @box.render
-    @box.text.should == expect
+    @text_box.render
+    @text_box.text.should == expect
   end
 
   it "should wrap lines comprised of a single word of the bounds when wrapping text" do
@@ -180,12 +271,12 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Document::Text::Box.new(text,
                                           :width    => 180,
                                           :overflow => :expand,
                                           :for      => @pdf)
-    @box.render
-    @box.text.should == expect
+    @text_box.render
+    @text_box.text.should == expect
   end     
   
 end

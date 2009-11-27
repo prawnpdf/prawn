@@ -71,7 +71,7 @@ module Prawn
       #
       def text(text,options={})            
         if options[:at]
-          # we'll be messing with the strings encoding, don't change the users
+          # we'll be messing with the strings encoding, don't change the user's
           # original string
           text = text.to_s.dup
           save_font do
@@ -81,15 +81,27 @@ module Prawn
             font.normalize_encoding!(text) unless @skip_encoding
 
             if options[:align]
-              raise ArgumentError, "The :align option does not work with :at" 
+              raise ArgumentError, "The :align option does not work with :at"
             end
             text_at(text, options)
-          end         
+          end
         else
           if options[:rotate]
             raise ArgumentError, "Rotated text may only be used with :at"
           end
-          text_box(text, options)
+          # Don't modify the user's options hash
+          options = options.clone
+          bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
+                                             @bounding_box.absolute_bottom
+          options[:height] = y - bottom
+          remaining_text = text_box(text, options)
+          while remaining_text.length > 0
+            @bounding_box.move_past_bottom
+            options[:height] = nil
+            previous_remaining_text = remaining_text
+            remaining_text = text_box(text, options)
+            break if remaining_text == previous_remaining_text
+          end
         end
       end
 
@@ -113,7 +125,7 @@ module Prawn
         end                     
 
         options[:size] ||= font_size
-     end
+      end
 
       private
 
@@ -125,40 +137,6 @@ module Prawn
          
          self.y -= dy       
       end
-
-      def wrapped_text(text,options) 
-        options[:align] ||= :left      
-
-        font_size(options[:size]) do
-          text = naive_wrap(text, bounds.width, font_size, 
-            :kerning => options[:kerning], :mode => options[:wrap]) 
-
-          lines = text.lines.to_a
-          last_gap_before = options.fetch(:final_gap, true) ? lines.length : lines.length-1
-                                                       
-          lines.each_with_index do |e,i|         
-            move_text_position(font.ascender)
-                           
-            line_width = width_of(e, :kerning => options[:kerning])
-            case(options[:align]) 
-            when :left
-              x = @bounding_box.left_side
-            when :center
-              x = @bounding_box.left_side +
-                (@bounding_box.width - line_width) / 2.0
-            when :right
-              x = @bounding_box.right_side - line_width
-            end
-                               
-            add_text_content(e,x,y,options)
-            
-            if i < last_gap_before
-              move_text_position(font.line_gap - font.descender)
-              move_text_position(options[:leading]) if options[:leading]
-            end
-          end 
-        end
-      end  
 
       def add_text_content(text, x, y, options)
         chunks = font.encode_text(text,options)

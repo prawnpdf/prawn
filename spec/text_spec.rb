@@ -153,5 +153,15 @@ describe "when drawing text" do
        sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
        lambda { @pdf.text sjis_str }.should.raise(ArgumentError)
      end
-   end 
+   end
+
+  it "should call move_past_bottom when printing more text than can fit between the current document.y and bounds.bottom" do
+    @pdf.y = 25
+    @pdf.text "Hello"
+    @pdf.text "World"
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == ["Hello"]
+    pages[1][:strings].should == ["World"]
+  end
 end
