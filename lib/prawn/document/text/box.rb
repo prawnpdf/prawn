@@ -56,7 +56,7 @@ module Prawn
           Prawn.verify_options([:for, :width, :height, :at, :size,
                                 :overflow, :leading, :kerning,
                                 :align, :min_font_size, :final_gap], options)
-          options = options.clone
+          options        = options.clone
           @overflow      = options[:overflow] || :truncate
           # we'll be messing with the strings encoding, don't change the users
           # original string
@@ -91,22 +91,9 @@ module Prawn
             unless @document.skip_encoding
               @document.font.normalize_encoding!(@text_to_print)
             end
-            
-            unless @overflow == :shrink_to_fit
-              @document.font_size(@font_size) do
-                unprinted_text = _render(@text_to_print)
-              end
-              break
-            end
-            
-            # Decrease the font size until the text fits or the min font
-            # size is reached
-            while (unprinted_text = _render(@text_to_print, false)).length > 0 &&
-                @font_size > @min_font_size
-              @font_size -= 0.5
-            end
-            
+
             @document.font_size(@font_size) do
+              shrink_to_fit if @overflow == :shrink_to_fit
               unprinted_text = _render(@text_to_print)
             end
           end
@@ -123,6 +110,15 @@ module Prawn
         end
 
         private
+
+        # Decrease the font size until the text fits or the min font
+        # size is reached
+        def shrink_to_fit
+          while (unprinted_text = _render(@text_to_print, false)).length > 0 &&
+              @font_size > @min_font_size
+            @font_size -= 0.5
+          end
+        end
 
         def process_options
           # must be performed within a save_font bock because

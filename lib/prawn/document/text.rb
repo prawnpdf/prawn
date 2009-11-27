@@ -83,7 +83,7 @@ module Prawn
             if options[:align]
               raise ArgumentError, "The :align option does not work with :at"
             end
-            text_at(text, options)
+            font_size(options[:size]) { text_at(text, options) }
           end
         else
           if options[:rotate]
@@ -105,9 +105,11 @@ module Prawn
         end
       end
 
+      # Low level text placement method. All font and size alterations
+      # should already be set
       def text_at(text, options)
         x,y = translate(options[:at])
-        font_size(options[:size]) { add_text_content(text,x,y,options) }
+        add_text_content(text,x,y,options)
       end
 
       def process_text_options(options)
