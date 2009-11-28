@@ -32,12 +32,7 @@ module Prawn
     #
     #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
     #   pdf.text "This will be centered", :align => :center
-    #   pdf.text "This will be right aligned", :align => :right     
-    #
-    #  Wrapping is done by splitting words by spaces by default.  If your text
-    #  does not contain spaces, you can wrap based on characters instead:
-    #
-    #   pdf.text "This will be wrapped by character", :wrap => :character  
+    #   pdf.text "This will be right aligned", :align => :right
     #
     # If your font contains kerning pairs data that Prawn can parse, the 
     # text will be kerned by default.  You can disable this feature by passing
