@@ -13,7 +13,7 @@ describe "Text::Box" do
       :height => @pdf.font.height * 0.5,
       :for  =>  @pdf
     }
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.text.should == ""
   end
@@ -29,7 +29,7 @@ describe "Text::Box default height" do
       :width => 162.0,
       :for  =>  @pdf
     }
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.height.should.be.close(target_height, @pdf.font.height)
   end
@@ -45,7 +45,7 @@ describe "Text::Box default at" do
       :width => 162.0,
       :for  =>  @pdf
     }
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.at.should == target_at
   end
@@ -65,20 +65,20 @@ describe "Text::Box with text than can fit in the box" do
   
   it "printed text should match requested text, except for trailing or leading white space and that spaces may be replaced by newlines" do
     @options[:overflow] = :truncate
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.text.gsub("\n", " ").should == @text.strip
   end
   
   it "render should return an empty string because no text remains unprinted" do
     @options[:overflow] = :truncate
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render.should == ""
   end
 
   it "should be truncated when the leading is set high enough to prevent all the lines from being printed" do
     @options[:leading] = 40
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.text.gsub("\n", " ").should.not == @text.strip
   end
@@ -96,7 +96,7 @@ describe "Text::Box with text than can fit in the box with :ellipses overflow an
       :vertical_align => :bottom,
       :for  =>  @pdf
     }
-    @text_box = Prawn::Document::Text::Box.new(@text, @options)
+    @text_box = Prawn::Text::Box.new(@text, @options)
     @text_box.render
     @text_box.text.should.not =~ /\.\.\./
   end
@@ -118,7 +118,7 @@ describe "Text::Box with more text than can fit in the box" do
   context "truncated overflow" do
     before(:each) do
       @options[:overflow] = :truncate
-      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+      @text_box = Prawn::Text::Box.new(@text, @options)
     end
     it "should not display ellipses" do
       @text_box.render
@@ -144,7 +144,7 @@ describe "Text::Box with more text than can fit in the box" do
   context "ellipses overflow" do
     before(:each) do
       @options[:overflow] = :ellipses
-      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+      @text_box = Prawn::Text::Box.new(@text, @options)
     end
     it "should display ellipses" do
       @text_box.render
@@ -158,7 +158,7 @@ describe "Text::Box with more text than can fit in the box" do
   context "expand overflow" do
     before(:each) do
       @options[:overflow] = :expand
-      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+      @text_box = Prawn::Text::Box.new(@text, @options)
     end
     it "height should expand to encompass all the text (but not exceed the height of the page)" do
       @text_box.render
@@ -177,7 +177,7 @@ describe "Text::Box with more text than can fit in the box" do
     before(:each) do
       @options[:overflow] = :shrink_to_fit
       @options[:min_font_size] = 2
-      @text_box = Prawn::Document::Text::Box.new(@text, @options)
+      @text_box = Prawn::Text::Box.new(@text, @options)
     end
     it "should display the entire text" do
       @text_box.render
@@ -201,7 +201,7 @@ describe "Text::Box with a solid block of Chinese characters" do
     }
     @pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
     @options[:overflow] = :truncate
-    text_box = Prawn::Document::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.text.gsub("\n", "").should == @text.strip
   end
@@ -233,7 +233,7 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :for      => @pdf)
@@ -247,7 +247,7 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :for      => @pdf)
@@ -261,7 +261,7 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Text::Box.new(text,
                                           :width    => 200,
                                           :overflow => :expand,
                                           :for      => @pdf)
@@ -275,7 +275,7 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :for      => @pdf)
@@ -289,7 +289,7 @@ describe 'Text::Box wrapping' do
 
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Document::Text::Box.new(text,
+    @text_box = Prawn::Text::Box.new(text,
                                           :width    => 180,
                                           :overflow => :expand,
                                           :for      => @pdf)

@@ -12,7 +12,6 @@ require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"
 require "prawn/document/span"
-require "prawn/document/text"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
@@ -60,6 +59,7 @@ module Prawn
     include Annotations
     include Destinations
     include Snapshot
+    include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
