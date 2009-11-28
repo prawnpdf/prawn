@@ -13,6 +13,9 @@ module Prawn
     module Text
       attr_reader :text_options
       attr_reader :skip_encoding
+
+      VALID_TEXT_OPTIONS = [:at, :kerning, :leading,
+                            :rotate, :size, :style]
       
       # Draws text on the page. If a point is specified via the +:at+
       # option the text will begin exactly at that point, and the string is
@@ -71,6 +74,10 @@ module Prawn
       #
       def text(text,options={})            
         if options[:at]
+          if options[:align]
+            raise ArgumentError, "The :align option does not work with :at"
+          end
+          Prawn.verify_options(VALID_TEXT_OPTIONS, options)
           # we'll be messing with the strings encoding, don't change the user's
           # original string
           text = text.to_s.dup
@@ -79,10 +86,6 @@ module Prawn
             process_text_options(options)
 
             font.normalize_encoding!(text) unless @skip_encoding
-
-            if options[:align]
-              raise ArgumentError, "The :align option does not work with :at"
-            end
             font_size(options[:size]) { text_at(text, options) }
           end
         else
@@ -112,12 +115,7 @@ module Prawn
         add_text_content(text,x,y,options)
       end
 
-      VALID_TEXT_OPTIONS = [:align, :at, :final_gap, :kerning, :leading,
-                            :rotate, :size, :style, :wrap ]
-
       def process_text_options(options)
-        Prawn.verify_options(VALID_TEXT_OPTIONS, options)
-        
         if options[:style]  
           raise "Bad font family" unless font.family
           font(font.family,:style => options[:style])

@@ -1,30 +1,27 @@
 # encoding: utf-8
 
-# text/rectangle.rb : Implements text rectangles
+# text/rectangle.rb : Implements text boxes
 #
-# Copyright October 2009, Daniel Nelson. All Rights Reserved.
+# Copyright November 2009, Daniel Nelson. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
   class Document
     module Text
-      # Draws the requested text into a rectangle. When the text overflows
+      # Draws the requested text into a box. When the text overflows
       # the rectangle, you can display ellipses, shrink to fit, or
       # truncate the text
       #   acceptable options:
       #
       #     :at is a two element array denoting the upper left corner
-      #       of the rectangle
+      #       of the rectangle. It defaults to the current document.y
+      #       and document.bounds.left
       #
       #     :width and :height are the width and height of the
       #       rectangle, respectively. They default to the rectangle
       #       bounded by :at and the lower right corner of the
       #       document bounds
-      #
-      #     :overflow is :truncate, :shrink_to_fit, :expand, or :ellipses,
-      #       denoting the behavior when the amount of text exceeds the
-      #       available space. Defaults to :truncate.
       #
       #     :leading is the amount of space between lines. Defaults to 0
       #
@@ -34,27 +31,33 @@ module Prawn
       #   
       #     :align is :center, :left, or :right. Defaults to :left
       #
+      #     :overflow is :truncate, :shrink_to_fit, :expand, or :ellipses,
+      #       denoting the behavior when the amount of text exceeds the
+      #       available space. Defaults to :truncate.
+      #
       #     :min_font_size is the minimum font-size to use when
       #       :overflow is set to :shrink_to_fit (ie: the font size
       #       will not be reduced to less than this value, even if it
       #       means that some text will be cut off). Defaults to 5
-
-      # +text+ must be UTF8-encoded.
       #
+      #     :wrap_block is a block that is passed a single line and
+      #       options consisting of :document (the pdf object),
+      #       :kerning, :size (the font size), and :width (the width
+      #       available for the current line of text)
+
       def text_box(text, options)
         Text::Box.new(text, options.merge(:for => self)).render
       end
 
-      # Provides rectangle shaped text capacity
-      #
       class Box #:nodoc:
         VERSION = '0.3.2'
         attr_reader :text
         attr_reader :at
 
         def valid_options
-          Text::VALID_TEXT_OPTIONS.dup.concat([:for, :height, :min_font_size,
-                                           :overflow, :width,])
+          Text::VALID_TEXT_OPTIONS.dup.concat([:align, :final_gap, :for,
+                                               :height, :min_font_size,
+                                               :overflow, :width, :wrap_block])
         end
 
         def initialize(text, options={})
@@ -80,6 +83,7 @@ module Prawn
             @overflow = :truncate
           end
           @min_font_size = options[:min_font_size] || 5
+          @wrap_block    = options [:wrap_block] || default_wrap_block
           @options = @document.text_options.merge(:size    => options[:size],
                                                   :leading => options[:leading],
                                                   :kerning => options[:kerning],
@@ -133,41 +137,25 @@ module Prawn
           @align     = @options[:align] || :left
         end
 
-        def _render(text_to_print, do_the_print=true)
+        def _render(remaining_text, do_the_print=true)
           @line_height = @document.font.height
           @ascender = @document.font.ascender
-          # font.descender returns a negative value, which confuses
-          # things later on, so get its absolute value
           @descender = @document.font.descender.abs
+          @baseline_y = -@line_height + @descender
           
-          # we store the text printed on each line in an array, then
-          # join the array with newlines, thereby representing the
-          # simulated effect of what was actually printed
           printed_text = []
           
-          # baseline_y starts one line height below the top of the
-          # rectangle
-          @baseline_y = -@line_height + @descender
-
-          # while there is text remaining to display, and the bottom
-          # of the next line does not extend below the bottom of the rectangle
-          while text_to_print && text_to_print.length > 0 && @baseline_y > -@height
-            # print a single line
-            line_to_print = text_that_will_fit_on_current_line(text_to_print)
-
-            # update the remaining text to print to that which was not
-            # yet printed.
-            text_to_print = text_to_print.slice(line_to_print.length..text_to_print.length)
-
-            # Print the line (strip first to avoid interfering with alignment)
-            # Record the text that was actually printed
-            printed_text << print_line(line_to_print.strip, do_the_print)
-
-            # move to the next line
+          while remaining_text && remaining_text.length > 0 && @baseline_y > -@height
+            line_to_print = @wrap_block.call(remaining_text.first_line,
+                                             :document => @document,
+                                             :kerning => @kerning,
+                                             :size => @font_size,
+                                             :width => @width)
+            remaining_text = remaining_text.slice(line_to_print.length..remaining_text.length)
+            printed_text << print_line(line_to_print, do_the_print)
             @baseline_y -= (@line_height + @leading)
           end
 
-          remaining_text = text_to_print
           if do_the_print
             @text = printed_text.join("\n")
             @document.y = @at[1] + @baseline_y + @line_height + @leading - @descender
@@ -175,25 +163,12 @@ module Prawn
           end
           remaining_text
         end
-          
-        # When overflow is set to ellipses, we only want to print
-        # ellipses at the end of the last line, so we need to know
-        # whether this is the last line
-        def last_line?
-          @baseline_y < -@height + @line_height
-        end
 
         def print_line(line_to_print, do_the_print)
-          # strip so that trailing white space doesn't interfere with alignment
-          line_to_print.rstrip!
+          # strip so that trailing and preceding white space don't interfere with alignment
+          line_to_print.strip!
           
-          if last_line? && @overflow == :ellipses
-            if @document.width_of(line_to_print + "...", :kerning => @kerning) < @width
-              line_to_print.insert(-1, "...")
-            else
-              line_to_print[-3..-1] = "..." if line_to_print.length > 3
-            end
-          end
+          insert_elipses(line_to_print) if @overflow == :ellipses && last_line?
 
           case(@align)
           when :left
@@ -212,49 +187,68 @@ module Prawn
           
           line_to_print
         end
-        
-        def text_that_will_fit_on_current_line(string)
-          scan_pattern = /\S+|\s+/
           
-          output = ""
+        def last_line?
+          @baseline_y < -@height + @line_height
+        end
 
-          string.each_line do |line|
+        def insert_elipses(line_to_print)
+          if @document.width_of(line_to_print + "...", :kerning => @kerning) < @width
+            line_to_print.insert(-1, "...")
+          else
+            line_to_print[-3..-1] = "..." if line_to_print.length > 3
+          end
+        end
+
+        def default_wrap_block
+          lambda do |line, options|
+            scan_pattern = /\S+|\s+/
+            output = ""
             accumulated_width = 0
             line.scan(scan_pattern).each do |segment|
-              segment_width = @document.width_of(segment, :size => @font_size, :kerning => @kerning)
+              segment_width = options[:document].width_of(segment,
+                               :size => options[:size], :kerning => options[:kerning])
         
-              if accumulated_width + segment_width <= @width
+              if accumulated_width + segment_width <= options[:width]
                 accumulated_width += segment_width
                 output << segment
               else
                 # if the line contains white space, don't split the
                 # final word that doesn't fit, just return what fits nicely
-                return output if output =~ /\s/
+                break if output =~ /\s/
                 
-                # if there is no white space, then just print
-                # whatever part of the last segment that will fit on the line
+                # if there is no white space on the curren tline, then just
+                # print whatever part of the last segment that will fit on the
+                # line
                 begin
                   segment.unpack("U*").each do |char_int|
                     char = [char_int].pack("U")
-                    accumulated_width += @document.width_of(char, :size => @font_size, :kerning => @kerning)
-                    return output if accumulated_width >= @width
+                    accumulated_width += options[:document].width_of(char,
+                                          :size => options[:size], :kerning => options[:kerning])
+                    break if accumulated_width >= options[:width]
                     output << char
                   end
                 rescue
                   segment.each_char do |char|
-                    accumulated_width += @document.width_of(char, :size => @font_size, :kerning => @kerning)
-                    return output if accumulated_width >= @width
+                    accumulated_width += options[:document].width_of(char,
+                                          :size => options[:size], :kerning => options[:kerning])
+                    break if accumulated_width >= options[:width]
                     output << char
                   end
                 end
               end
             end
-            return output
+            output
           end
-
-          output
         end
       end
     end
+  end
+end
+
+
+class String
+  def first_line
+    self.each_line { |line| return line }
   end
 end
