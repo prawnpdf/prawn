@@ -10,7 +10,9 @@ module Prawn
   module Text
     # Draws the requested text into a box. When the text overflows
     # the rectangle, you can display ellipses, shrink to fit, or
-    # truncate the text
+    # truncate the text. Text boxes are independent of the document
+    # y position
+    # 
     #   acceptable options:
     #
     #     :at is a two element array denoting the upper left corner
@@ -56,8 +58,8 @@ module Prawn
       attr_reader :at
 
       def valid_options
-        Text::VALID_TEXT_OPTIONS.dup.concat([:align, :final_gap, :for,
-                                             :height, :min_font_size,
+        Text::VALID_TEXT_OPTIONS.dup.concat([:align, :for, :height,
+                                             :min_font_size,
                                              :overflow, :vertical_align,
                                              :width, :wrap_block])
       end
@@ -72,14 +74,16 @@ module Prawn
         @text          = nil
         
         @document      = options[:for]
-        @at            = options[:at] || [@document.bounds.left, @document.y]
-        @width         = options[:width] || @document.bounds.right - @at[0]
-        @height        = options[:height] || @at[1] - @document.bounds.bottom
+        @at            = options[:at] ||
+                         [@document.bounds.left, @document.bounds.top]
+        @width         = options[:width] ||
+                         @document.bounds.right - @at[0]
+        @height        = options[:height] ||
+                         @document.bounds.top - @document.bounds.bottom
         @center        = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
         @align         = options[:align] || :left
         @vertical_align = options[:vertical_align] || :top
 
-        @final_gap     = options[:final_gap].nil? ? true : options[:final_gap]
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
           # as the bottom of the document bounds, since that
@@ -156,13 +160,14 @@ module Prawn
 
       def _render(remaining_text, do_the_print=true)
         @line_height = @document.font.height
-        @ascender = @document.font.ascender
         @descender = @document.font.descender.abs
-        @baseline_y = -@line_height + @descender
+        @baseline_y = -@document.font.ascender
         
         printed_text = []
         
-        while remaining_text && remaining_text.length > 0 && @baseline_y > -@height
+        while remaining_text &&
+              remaining_text.length > 0 &&
+              @baseline_y.abs + @descender <= @height
           line_to_print = @wrap_block.call(remaining_text.first_line,
                                            :document => @document,
                                            :kerning => @kerning,
@@ -174,11 +179,8 @@ module Prawn
           @baseline_y -= (@line_height + @leading)
         end
 
-        if do_the_print
-          @text = printed_text.join("\n")
-          @document.y = @at[1] + @baseline_y + @line_height + @leading - @descender
-          @document.y += @line_height - @ascender unless @final_gap
-        end
+        @text = printed_text.join("\n") if do_the_print
+          
         remaining_text
       end
 
@@ -186,7 +188,7 @@ module Prawn
         # strip so that trailing and preceding white space don't interfere with alignment
         line_to_print.strip!
         
-        insert_elipses(line_to_print) if print_ellipses
+        insert_ellipses(line_to_print) if print_ellipses
 
         case(@align)
         when :left
@@ -202,15 +204,15 @@ module Prawn
         y = @at[1] + @baseline_y
 
         @document.text_at(line_to_print, :at => [x, y], :size => @font_size, :kerning => @kerning) if do_the_print
-        
+
         line_to_print
       end
       
       def last_line?
-        @baseline_y < -@height + @line_height
+        @baseline_y.abs + @descender > @height - @line_height
       end
 
-      def insert_elipses(line_to_print)
+      def insert_ellipses(line_to_print)
         if @document.width_of(line_to_print + "...", :kerning => @kerning) < @width
           line_to_print.insert(-1, "...")
         else

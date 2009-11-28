@@ -156,7 +156,7 @@ describe "when drawing text" do
    end
 
   it "should call move_past_bottom when printing more text than can fit between the current document.y and bounds.bottom" do
-    @pdf.y = 25
+    @pdf.y = @pdf.font.height
     @pdf.text "Hello"
     @pdf.text "World"
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages

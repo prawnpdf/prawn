@@ -13,7 +13,7 @@ module Prawn
     attr_reader :text_options
     attr_reader :skip_encoding
 
-    VALID_TEXT_OPTIONS = [:at, :kerning, :leading,
+    VALID_TEXT_OPTIONS = [:at, :final_gap, :kerning, :leading,
                           :rotate, :size, :style]
 
     # Draws text on the page. If a point is specified via the +:at+
@@ -91,17 +91,12 @@ module Prawn
         if options[:rotate]
           raise ArgumentError, "Rotated text may only be used with :at"
         end
-        # Don't modify the user's options hash
-        options = options.clone
-        bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
-          @bounding_box.absolute_bottom
-        options[:height] = y - bottom
-        remaining_text = text_box(text, options)
+
+        remaining_text = fill_text_box(text, options)
         while remaining_text.length > 0
           @bounding_box.move_past_bottom
-          options[:height] = nil
           previous_remaining_text = remaining_text
-          remaining_text = text_box(text, options)
+          remaining_text = fill_text_box(remaining_text, options)
           break if remaining_text == previous_remaining_text
         end
       end
@@ -129,6 +124,21 @@ module Prawn
     end
 
     private
+
+    def fill_text_box(text, options)
+      options = options.merge(:for => self)
+      bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
+                                         @bounding_box.absolute_bottom
+      options[:height] = y - bottom
+      options[:at] = [0, y - @bounding_box.absolute_bottom]
+      final_gap  = options[:final_gap].nil? ? true :
+                                              options[:final_gap]
+      box = Text::Box.new(text, options)
+      remaining_text = box.render
+      self.y -= box.height + font.descender
+      self.y -= font.height - font.ascender if final_gap
+      remaining_text
+    end
 
     def move_text_position(dy)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
