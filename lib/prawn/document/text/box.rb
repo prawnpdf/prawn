@@ -31,6 +31,8 @@ module Prawn
       #   
       #     :align is :center, :left, or :right. Defaults to :left
       #
+      #     :vertical_align is :center, :top, or :bottom. Defaults to :top
+      #
       #     :overflow is :truncate, :shrink_to_fit, :expand, or :ellipses,
       #       denoting the behavior when the amount of text exceeds the
       #       available space. Defaults to :truncate.
@@ -57,7 +59,8 @@ module Prawn
         def valid_options
           Text::VALID_TEXT_OPTIONS.dup.concat([:align, :final_gap, :for,
                                                :height, :min_font_size,
-                                               :overflow, :width, :wrap_block])
+                                               :overflow, :vertical_align,
+                                               :width, :wrap_block])
         end
 
         def initialize(text, options={})
@@ -74,6 +77,9 @@ module Prawn
           @width         = options[:width] || @document.bounds.right - @at[0]
           @height        = options[:height] || @at[1] - @document.bounds.bottom
           @center        = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
+          @align         = options[:align] || :left
+          @vertical_align = options[:vertical_align] || :top
+
           @final_gap     = options[:final_gap].nil? ? true : options[:final_gap]
           if @overflow == :expand
             # if set to expand, then we simply set the bottom
@@ -86,8 +92,7 @@ module Prawn
           @wrap_block    = options [:wrap_block] || default_wrap_block
           @options = @document.text_options.merge(:size    => options[:size],
                                                   :leading => options[:leading],
-                                                  :kerning => options[:kerning],
-                                                  :align   => options[:align])
+                                                  :kerning => options[:kerning])
         end
         
         def render
@@ -101,6 +106,7 @@ module Prawn
 
             @document.font_size(@font_size) do
               shrink_to_fit if @overflow == :shrink_to_fit
+              process_vertical_alignment
               unprinted_text = _render(@text_to_print)
             end
           end
@@ -118,12 +124,25 @@ module Prawn
 
         private
 
+        def process_vertical_alignment
+          return if @vertical_align == :top
+          _render(@text_to_print, false)
+          case @vertical_align
+          when :center
+            @at[1] = @at[1] - (@height - height) * 0.5
+          when :bottom
+            @at[1] = @at[1] - (@height - height)
+          end
+          @height = height
+        end
+
         # Decrease the font size until the text fits or the min font
         # size is reached
         def shrink_to_fit
           while (unprinted_text = _render(@text_to_print, false)).length > 0 &&
               @font_size > @min_font_size
             @font_size -= 0.5
+            @document.font_size = @font_size
           end
         end
 
@@ -134,7 +153,6 @@ module Prawn
           @font_size = @options[:size]
           @leading   = @options[:leading] || 0
           @kerning   = @options[:kerning]
-          @align     = @options[:align] || :left
         end
 
         def _render(remaining_text, do_the_print=true)
@@ -152,7 +170,8 @@ module Prawn
                                              :size => @font_size,
                                              :width => @width)
             remaining_text = remaining_text.slice(line_to_print.length..remaining_text.length)
-            printed_text << print_line(line_to_print, do_the_print)
+            print_ellipses = (@overflow == :ellipses && last_line? && remaining_text.length > 0)
+            printed_text << print_line(line_to_print, do_the_print, print_ellipses)
             @baseline_y -= (@line_height + @leading)
           end
 
@@ -164,11 +183,11 @@ module Prawn
           remaining_text
         end
 
-        def print_line(line_to_print, do_the_print)
+        def print_line(line_to_print, do_the_print, print_ellipses)
           # strip so that trailing and preceding white space don't interfere with alignment
           line_to_print.strip!
           
-          insert_elipses(line_to_print) if @overflow == :ellipses && last_line?
+          insert_elipses(line_to_print) if print_ellipses
 
           case(@align)
           when :left

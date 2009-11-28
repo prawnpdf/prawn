@@ -84,6 +84,24 @@ describe "Text::Box with text than can fit in the box" do
   end
 end
 
+describe "Text::Box with text than can fit in the box with :ellipses overflow and :bottom :vertical_alignment" do
+  it "should not print ellipses" do
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = {
+      :align => :left,
+      :width => 162.0,
+      :height => 162.0,
+      :overflow => :ellipses,
+      :vertical_align => :bottom,
+      :for  =>  @pdf
+    }
+    @text_box = Prawn::Document::Text::Box.new(@text, @options)
+    @text_box.render
+    @text_box.text.should.not =~ /\.\.\./
+  end
+end
+
 describe "Text::Box with more text than can fit in the box" do
   before(:each) do
     create_pdf    
