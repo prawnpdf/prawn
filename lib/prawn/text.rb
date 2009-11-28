@@ -129,8 +129,9 @@ module Prawn
       options = options.merge(:for => self)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
                                          @bounding_box.absolute_bottom
-      options[:height] = y - bottom
-      options[:at] = [0, y - @bounding_box.absolute_bottom]
+      options[:height] = y - bottom - font.descender
+      options[:width] = bounds.width
+      options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left, y - @bounding_box.absolute_bottom]
       final_gap  = options[:final_gap].nil? ? true :
                                               options[:final_gap]
       box = Text::Box.new(text, options)

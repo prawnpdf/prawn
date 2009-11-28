@@ -70,7 +70,7 @@ module Prawn
         @overflow      = options[:overflow] || :truncate
         # we'll be messing with the strings encoding, don't change the user's
         # original string
-        @text_to_print = text.dup.strip
+        @text_to_print = text.dup
         @text          = nil
         
         @document      = options[:for]
@@ -83,6 +83,7 @@ module Prawn
         @center        = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
         @align         = options[:align] || :left
         @vertical_align = options[:vertical_align] || :top
+        @leading        = options[:leading] || 0
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -93,9 +94,9 @@ module Prawn
         end
         @min_font_size = options[:min_font_size] || 5
         @wrap_block    = options [:wrap_block] || default_wrap_block
-        @options = @document.text_options.merge(:size    => options[:size],
-                                                :leading => options[:leading],
-                                                :kerning => options[:kerning])
+        @options = @document.text_options.merge(:kerning => options[:kerning],
+                                                :size    => options[:size],
+                                                :style   => options[:style])
       end
       
       def render
@@ -122,7 +123,7 @@ module Prawn
         # line, so we need to subtract line line_height and leading,
         # but we need to add in the descender since baseline is
         # above the descender
-        -@baseline_y + @descender - @line_height - @leading
+        @baseline_y.abs + @descender - @line_height - @leading
       end
 
       private
@@ -154,7 +155,6 @@ module Prawn
         # document.process_text_options sets the font
         @document.process_text_options(@options)
         @font_size = @options[:size]
-        @leading   = @options[:leading] || 0
         @kerning   = @options[:kerning]
       end
 

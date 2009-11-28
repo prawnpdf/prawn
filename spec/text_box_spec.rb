@@ -64,14 +64,12 @@ describe "Text::Box with text than can fit in the box" do
   end
   
   it "printed text should match requested text, except for trailing or leading white space and that spaces may be replaced by newlines" do
-    @options[:overflow] = :truncate
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.text.gsub("\n", " ").should == @text.strip
   end
   
   it "render should return an empty string because no text remains unprinted" do
-    @options[:overflow] = :truncate
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render.should == ""
   end
@@ -271,6 +269,20 @@ describe 'Text::Box wrapping' do
 
   it "should respect multiple newlines when wrapping text when those newlines coincide with a line break" do
     text = "Please wrap only before\n\nTHIS word. Don't wrap this"
+    expect = text
+
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    @text_box = Prawn::Text::Box.new(text,
+                                          :width    => 220,
+                                          :overflow => :expand,
+                                          :for      => @pdf)
+    @text_box.render
+    @text_box.text.should == expect
+  end
+
+  it "should respect initial newlines" do
+    text = "\nThis should be on line 2"
     expect = text
 
     @pdf = Prawn::Document.new
