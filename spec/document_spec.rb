@@ -287,3 +287,24 @@ describe "PDF file versions" do
     str[0,8].should == "%PDF-1.4"
   end
 end
+
+describe "The outlines option" do
+  before(:each) do 
+    @pdf = Prawn::Document.new(:outlines => "First Page")
+    @output = @pdf.render
+  end
+  it "should add a root outlines dictionary reference to the catalog" do
+    @output.should.match /\/Outlines\s\d+\s0/
+  end
+  
+  it "should add a root outline dictionary" do
+    @output.should.match '/Type /Outlines'
+  end
+  
+  it "should add an initial outline dictionary item" do
+    @output.should.match "/Title (First Page)"
+  end
+  
+end 
+
+

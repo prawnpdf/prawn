@@ -157,7 +157,7 @@ module Prawn
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options, :background, :info], options
+         :compress, :skip_encoding, :text_options, :background, :info, :outlines], options
 
        self.class.extensions.reverse_each { |e| extend e }
       
@@ -185,9 +185,10 @@ module Prawn
        @page_content  = nil
        @bounding_box  = nil
        @margin_box    = nil
+       @initial_outline_title = options[:outlines]
 
        @text_options = options[:text_options] || {}
-       
+              
        apply_margin_option(options) if options[:margin]
 
        default_margin = 36  # 0.5 inch
@@ -201,6 +202,8 @@ module Prawn
        @bounding_box = @margin_box
 
        start_new_page unless options[:skip_page_creation]
+       
+       add_outline_dictionary if options[:outlines]
 
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
@@ -239,6 +242,15 @@ module Prawn
        @y = @bounding_box.absolute_top
 
        image(@background, :at => [0,@y]) if @background
+    end
+    
+    def add_outline_dictionary
+      root_outline = ref!(:Type => :Outlines, :Count => 1)
+      initial_item = ref!(:Title => Prawn::LiteralString.new(@initial_outline_title), 
+                         :Parent => root_outline)
+      root_outline.data.merge!({:First => initial_item, 
+                                :Last => initial_item })
+      @store.root.data.merge!({:Outlines => root_outline})
     end
 
     # Returns the number of pages in the document

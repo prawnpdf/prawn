@@ -8,6 +8,7 @@
 module Prawn
   class ObjectStore
     include Enumerable
+    BASE_OBJECTS = %w[info pages root]
 
     def initialize(info={})
       @objects = {}
@@ -16,7 +17,13 @@ module Prawn
       # Create required PDF roots
       @info    = ref(info).identifier
       @pages   = ref(:Type => :Pages, :Count => 0, :Kids => []).identifier
-      @root    = ref(:Type => :Catalog, :Pages => pages).identifier
+      @root    = root_ref(info[:outlines]).identifier
+    end
+    
+    def root_ref(outlines = nil)
+      root_hash = {:Type => :Catalog, :Pages => pages }
+      root_hash.merge(:Outlines => "")if outlines
+      ref(root_hash)
     end
 
     def ref(data, &block)
