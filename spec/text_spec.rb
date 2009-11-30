@@ -4,13 +4,39 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "when drawing text" do     
    
-   before(:each) { create_pdf } 
+   before(:each) { create_pdf }
 
    it "should advance down the document based on font_height" do
      position = @pdf.y
      @pdf.text "Foo"
 
      @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz"
+     @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+   end
+
+   it "should advance down the document based on font_height" +
+      " with size option" do
+     position = @pdf.y
+     @pdf.text "Foo", :size => 15
+
+     @pdf.font_size = 15
+     @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz"
+     @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+   end
+
+   it "should advance down the document based on font_height" +
+      " with leading option" do
+     position = @pdf.y
+     leading = 2
+     @pdf.text "Foo", :leading => leading
+
+     @pdf.y.should.be.close(position - @pdf.font.height - leading, 0.0001)
 
      position = @pdf.y
      @pdf.text "Foo\nBar\nBaz"

@@ -126,19 +126,20 @@ module Prawn
                                          @bounding_box.absolute_bottom
       options[:height] = y - bottom - font.descender
       options[:width] = bounds.width
-      options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left, y - @bounding_box.absolute_bottom]
-      final_gap  = options[:final_gap].nil? ? true :
-                                              options[:final_gap]
+      options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left,
+                      y - @bounding_box.absolute_bottom]
+
       box = Text::Box.new(text, options)
       remaining_text = box.render
-      self.y -= box.height + font.descender
-      self.y -= font.height - font.ascender if final_gap
+      self.y -= box.height - box.descender
+      final_gap = options[:final_gap].nil? ? true : options[:final_gap]
+      self.y -= box.line_height + box.leading - box.ascender if final_gap
       remaining_text
     end
 
     def move_text_position(dy)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
-        @bounding_box.absolute_bottom
+                                         @bounding_box.absolute_bottom
 
       @bounding_box.move_past_bottom if (y - dy) < bottom
 

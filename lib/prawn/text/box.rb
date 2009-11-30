@@ -56,6 +56,10 @@ module Prawn
       VERSION = '0.3.2'
       attr_reader :text
       attr_reader :at
+      attr_reader :line_height
+      attr_reader :ascender
+      attr_reader :descender
+      attr_reader :leading
 
       def valid_options
         Text::VALID_TEXT_OPTIONS.dup.concat([:align, :for, :height,
@@ -160,8 +164,9 @@ module Prawn
 
       def _render(remaining_text, do_the_print=true)
         @line_height = @document.font.height
-        @descender = @document.font.descender.abs
-        @baseline_y = -@document.font.ascender
+        @descender   = @document.font.descender.abs
+        @ascender    = @document.font.ascender
+        @baseline_y  = -@ascender
         
         printed_text = []
         
