@@ -71,10 +71,13 @@ module Prawn
         if options[:align]
           raise ArgumentError, "The :align option does not work with :at"
         end
+
         Prawn.verify_options(VALID_TEXT_OPTIONS, options)
+
         # we'll be messing with the strings encoding, don't change the user's
         # original string
         text = text.to_s.dup
+
         save_font do
           options = @text_options.merge(options)
           process_text_options(options)
@@ -88,6 +91,7 @@ module Prawn
         end
 
         remaining_text = fill_text_box(text, options)
+
         while remaining_text.length > 0
           @bounding_box.move_past_bottom
           previous_remaining_text = remaining_text
@@ -124,6 +128,7 @@ module Prawn
       options = options.merge(:for => self)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
                                          @bounding_box.absolute_bottom
+
       options[:height] = y - bottom - font.descender
       options[:width] = bounds.width
       options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left,
@@ -131,9 +136,12 @@ module Prawn
 
       box = Text::Box.new(text, options)
       remaining_text = box.render
+
       self.y -= box.height - box.descender
+
       final_gap = options[:final_gap].nil? ? true : options[:final_gap]
       self.y -= box.line_height + box.leading - box.ascender if final_gap
+
       remaining_text
     end
 
@@ -150,6 +158,7 @@ module Prawn
       chunks = font.encode_text(text,options)
 
       add_content "\nBT"
+
       if options[:rotate]
         rad = options[:rotate].to_i * Math::PI / 180
         arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
@@ -165,6 +174,7 @@ module Prawn
         operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
         add_content Prawn::PdfObject(string, true) << " " << operation
       end
+
       add_content "ET\n"
     end
   end
