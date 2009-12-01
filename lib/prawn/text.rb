@@ -137,9 +137,9 @@ module Prawn
       box = Text::Box.new(text, options)
       remaining_text = box.render
 
-      self.y -= box.height - box.descender
-
       final_gap = options[:final_gap].nil? ? true : options[:final_gap]
+
+      self.y -= box.height - box.descender
       self.y -= box.line_height + box.leading - box.ascender if final_gap
 
       remaining_text
