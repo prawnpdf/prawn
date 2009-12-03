@@ -12,7 +12,7 @@ meetings = []
 end
 
 Prawn::Document.generate('context_sensitive_headers.pdf', :margin => [100, 100], :skip_page_creation => true) do
-  meetings.each do |meeting|
+  meetings.each_with_index do |meeting,i|
     
     on_page_create do
 
@@ -28,7 +28,7 @@ Prawn::Document.generate('context_sensitive_headers.pdf', :margin => [100, 100],
     start_new_page
 
     #simulate some meetings with content over multiple pages
-    rand(100).times do |i|
+    (15 + 20*i).times do |i|
       text "#{meeting} attendee #{i}"
     end
     
