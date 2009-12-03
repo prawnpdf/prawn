@@ -238,12 +238,13 @@ module Prawn
         
        add_content "q"
        
-       @on_page_create_callback.call(self) if @on_page_create_callback
-
        @y = @bounding_box.absolute_top
 
        image(@background, :at => [0,@y]) if @background
        
+       float do
+         @on_page_create_callback.call(self) if @on_page_create_callback 
+       end
     end
 
     # Returns the number of pages in the document
