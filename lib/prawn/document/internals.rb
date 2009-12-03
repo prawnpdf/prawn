@@ -99,8 +99,12 @@ module Prawn
 
       # Defines a block to be called just before a new page is started.
       #
-      def before_new_page(&block)
-        @before_new_page_callbacks << block
+      def on_page_create(&block)
+         if block_given?
+            @on_page_create_callback = block
+         else
+            @on_page_create_callback = nil
+         end
       end
       
       def go_to_page(k) # :nodoc:

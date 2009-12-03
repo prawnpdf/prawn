@@ -101,43 +101,57 @@ describe "When beginning each new page" do
   
 end
 
-describe "before_new_page callbacks" do
+describe "on_page_create callback" do
   before do
     create_pdf 
   end
 
-  it "should invoke callback passing document" do
+  it "should be invoked with document" do
     called_with = nil
 
-    @pdf.before_new_page { |*args| called_with = args }
+    @pdf.on_page_create { |*args| called_with = args }
 
     @pdf.start_new_page
 
     called_with.should == [@pdf]
   end
 
-  it "should invoke each registered callback in the order registered" do
-    seq = sequence("callback_order")
+  it "should be invoked for each new page" do
+    trigger = mock()
+    trigger.expects(:fire).times(5)
 
-    trigger1 = mock()
-    trigger1.expects(:fire).in_sequence(seq)
-
-    trigger2 = mock()
-    trigger2.expects(:fire).in_sequence(seq)
-
-    @pdf.before_new_page { trigger1.fire }
-    @pdf.before_new_page { trigger2.fire }
-
-    @pdf.start_new_page
-  end
-
-  it "should invoke callback for each new page" do
-    trigger1 = mock()
-    trigger1.expects(:fire).times(5)
-
-    @pdf.before_new_page { trigger1.fire }
+    @pdf.on_page_create { trigger.fire }
 
     5.times { @pdf.start_new_page }
+  end
+  
+  it "should be replaceable" do
+      trigger1 = mock()
+      trigger1.expects(:fire).times(1)
+      
+      trigger2 = mock()
+      trigger2.expects(:fire).times(1)
+
+      @pdf.on_page_create { trigger1.fire }
+      
+      @pdf.start_new_page
+      
+      @pdf.on_page_create { trigger2.fire }
+      
+      @pdf.start_new_page
+  end
+  
+  it "should be clearable by calling on_page_create without a block" do
+      trigger = mock()
+      trigger.expects(:fire).times(1)
+
+      @pdf.on_page_create { trigger.fire }
+
+      @pdf.start_new_page 
+      
+      @pdf.on_page_create
+      
+      @pdf.start_new_page 
   end
 
 end

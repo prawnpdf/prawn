@@ -12,31 +12,27 @@ meetings = []
 end
 
 Prawn::Document.generate('context_sensitive_headers.pdf', :margin => [100, 100], :skip_page_creation => true) do
-  @page2header = {}
-  
-  before_new_page do
-    @page2header[page_count + 1] = @current_meeting
-  end
-  
   meetings.each do |meeting|
-    @current_meeting = meeting
     
-    repeat lambda {|pn| @page2header[pn] == meeting } do
+    on_page_create do
+
       canvas do
-        bounding_box([bounds.left + 50, bounds.top - 20], :height => 50, :width => margin_box.width) do
-          text "header for #{meeting}"
-        end
+        text_box("header for #{meeting}",
+          :at => [bounds.left + 50, bounds.top - 20],
+          :height => 50,
+          :width => margin_box.width)
       end
 
     end
-    
+
     start_new_page
-    
+
     #simulate some meetings with content over multiple pages
     rand(100).times do |i|
       text "#{meeting} attendee #{i}"
     end
+    
   end
-  
+
 end
 

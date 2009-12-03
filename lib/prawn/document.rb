@@ -175,7 +175,7 @@ module Prawn
        @store = ObjectStore.new(options[:info])
        @trailer = {}
        @before_render_callbacks = []
-       @before_new_page_callbacks = []
+       @on_page_create_callback = nil
 
        @page_size     = options[:page_size]   || "LETTER"
        @page_layout   = options[:page_layout] || :portrait
@@ -219,7 +219,6 @@ module Prawn
      #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
-       @before_new_page_callbacks.each{ |c| c.call(self) }
        
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
@@ -233,15 +232,18 @@ module Prawn
        end
 
        build_new_page_content
-
+       
        @store.pages.data[:Kids] << current_page
        @store.pages.data[:Count] += 1
-
+        
        add_content "q"
+       
+       @on_page_create_callback.call(self) if @on_page_create_callback
 
        @y = @bounding_box.absolute_top
 
        image(@background, :at => [0,@y]) if @background
+       
     end
 
     # Returns the number of pages in the document
