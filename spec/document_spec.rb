@@ -104,7 +104,6 @@ end
 describe "before_new_page callbacks" do
   before do
     create_pdf 
-
   end
 
   it "should invoke callback passing document" do
@@ -117,7 +116,7 @@ describe "before_new_page callbacks" do
     called_with.should == [@pdf]
   end
 
-  it "should invoke each registered callbacks in the order registered" do
+  it "should invoke each registered callback in the order registered" do
     seq = sequence("callback_order")
 
     trigger1 = mock()
