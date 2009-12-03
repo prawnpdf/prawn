@@ -97,6 +97,12 @@ module Prawn
         @before_render_callbacks << block
       end
 
+      # Defines a block to be called just before a new page is started.
+      #
+      def before_new_page(&block)
+        @before_new_page_callbacks << block
+      end
+      
       def go_to_page(k) # :nodoc:
         jump_to = @store.pages.data[:Kids][k-1]
         @current_page = jump_to.identifier

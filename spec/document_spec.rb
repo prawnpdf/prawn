@@ -94,6 +94,51 @@ describe "When beginning each new page" do
       @pdf.instance_variable_defined?(:@background).should == true
       @pdf.instance_variable_get(:@background).should == @filename
     end
+    
+    
+  end
+  
+  
+end
+
+describe "before_new_page callbacks" do
+  before do
+    create_pdf 
+
+  end
+
+  it "should invoke callback passing document" do
+    called_with = nil
+
+    @pdf.before_new_page { |*args| called_with = args }
+
+    @pdf.start_new_page
+
+    called_with.should == [@pdf]
+  end
+
+  it "should invoke each registered callbacks in the order registered" do
+    seq = sequence("callback_order")
+
+    trigger1 = mock()
+    trigger1.expects(:fire).in_sequence(seq)
+
+    trigger2 = mock()
+    trigger2.expects(:fire).in_sequence(seq)
+
+    @pdf.before_new_page { trigger1.fire }
+    @pdf.before_new_page { trigger2.fire }
+
+    @pdf.start_new_page
+  end
+
+  it "should invoke callback for each new page" do
+    trigger1 = mock()
+    trigger1.expects(:fire).times(5)
+
+    @pdf.before_new_page { trigger1.fire }
+
+    5.times { @pdf.start_new_page }
   end
 
 end
