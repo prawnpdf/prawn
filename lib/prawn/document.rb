@@ -271,6 +271,11 @@ module Prawn
       self.y = new_y + bounds.absolute_bottom
     end
 
+    # Executes a block and then restores the original y position
+    def float 
+      mask(:y) { yield }
+    end
+
     # Renders the PDF document to string, useful for example in a Rails 
     # application where you want to stream out the PDF to a web browser:
     # 
