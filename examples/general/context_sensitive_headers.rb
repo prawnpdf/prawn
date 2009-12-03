@@ -1,30 +1,30 @@
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
-# Generating a roster of students for a set of classes. Content for 
-# each class may overflow to multiple pages but each class should 
-# start on a separate page. Each page should have header for correct
-# class.
+# Ex. Generate a roster of meeting attendees given a set of meetings.
+# Attendees for a meeting may overflow to accross page boundaries but 
+# each meeting starts on a separate page. Each page for any given
+# meeting will have the heading for that meeting. 
 
-#dummying up some classes
-classes = []
+#dummying up some meetings
+meetings = []
 5.times do |i|
-  classes << "Class number #{i}"
+  meetings << "Meeting number #{i}"
 end
 
 Prawn::Document.generate('context_sensitive_headers.pdf', :margin => [100, 100], :skip_page_creation => true) do
   @page2header = {}
   
   before_new_page do
-    @page2header[page_count + 1] = @current_class
+    @page2header[page_count + 1] = @current_meeting
   end
   
-  classes.each do |klass|
-    @current_class = klass
+  meetings.each do |meeting|
+    @current_meeting = meeting
     
-    repeat lambda {|pn| @page2header[pn] == klass } do
+    repeat lambda {|pn| @page2header[pn] == meeting } do
       canvas do
         bounding_box([bounds.left + 50, bounds.top - 20], :height => 50, :width => margin_box.width) do
-          text "header for #{klass}"
+          text "header for #{meeting}"
         end
       end
 
@@ -32,11 +32,9 @@ Prawn::Document.generate('context_sensitive_headers.pdf', :margin => [100, 100],
     
     start_new_page
     
-    
-
-    #simulate some classes with content over multiple pages
+    #simulate some meetings with content over multiple pages
     rand(100).times do |i|
-      text "#{klass} student #{i}"
+      text "#{meeting} attendee #{i}"
     end
   end
   
