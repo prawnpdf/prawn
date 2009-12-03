@@ -260,10 +260,15 @@ describe "The render() feature" do
     pdf.expects(:finalize_all_page_contents).in_sequence(seq)
     trigger = mock()
     trigger.expects(:fire).in_sequence(seq)
+    
+    # Store away the render_body method to be called below
+    render_body = pdf.method(:render_body)
     pdf.expects(:render_body).in_sequence(seq)
 
     pdf.before_render{ trigger.fire }
 
+    # Render the body to set up object offsets
+    render_body.call(StringIO.new)
     pdf.render
   end
 end
