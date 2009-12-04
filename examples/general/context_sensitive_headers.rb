@@ -14,16 +14,15 @@ end
 Prawn::Document.generate('context_sensitive_headers.pdf', :margin => [100, 100], :skip_page_creation => true) do
   meetings.each_with_index do |meeting,i|
     
-    on_page_create do
-
+    create_stamp(meeting.to_s) do
       canvas do
         text_box("header for #{meeting}",
           :at => [bounds.left + 50, bounds.top - 20],
           :height => 50,
           :width => margin_box.width)
       end
-
     end
+    on_page_create { stamp(meeting.to_s) }
 
     start_new_page
 
