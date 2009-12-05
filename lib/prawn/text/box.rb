@@ -103,7 +103,9 @@ module Prawn
                                                 :style   => options[:style])
       end
       
-      def render
+      # Render text to the document based on the settings defined in initialize
+      # accepts a hash with
+      def render(do_the_print=true)
         unprinted_text = ''
         @document.save_font do
           process_options
@@ -115,7 +117,7 @@ module Prawn
           @document.font_size(@font_size) do
             shrink_to_fit if @overflow == :shrink_to_fit
             process_vertical_alignment
-            unprinted_text = _render(@text_to_print)
+            unprinted_text = _render(@text_to_print, do_the_print)
           end
         end
         unprinted_text
@@ -178,9 +180,13 @@ module Prawn
                                            :kerning => @kerning,
                                            :size => @font_size,
                                            :width => @width)
-          remaining_text = remaining_text.slice(line_to_print.length..remaining_text.length)
-          print_ellipses = (@overflow == :ellipses && last_line? && remaining_text.length > 0)
-          printed_text << print_line(line_to_print, do_the_print, print_ellipses)
+          remaining_text = remaining_text.slice(line_to_print.length..
+                                                remaining_text.length)
+          print_ellipses = (@overflow == :ellipses && last_line? &&
+                            remaining_text.length > 0)
+          printed_text << print_line(line_to_print,
+                                     do_the_print,
+                                     print_ellipses)
           @baseline_y -= (@line_height + @leading)
         end
 
@@ -190,7 +196,8 @@ module Prawn
       end
 
       def print_line(line_to_print, do_the_print, print_ellipses)
-        # strip so that trailing and preceding white space don't interfere with alignment
+        # strip so that trailing and preceding white space don't
+        # interfere with alignment
         line_to_print.strip!
         
         insert_ellipses(line_to_print) if print_ellipses
@@ -207,9 +214,12 @@ module Prawn
         end
         
         y = @at[1] + @baseline_y
-
-        @document.text_at(line_to_print, :at => [x, y], :size => @font_size, :kerning => @kerning) if do_the_print
-
+        
+        if do_the_print
+          @document.text_at(line_to_print, :at => [x, y],
+                            :size => @font_size, :kerning => @kerning)
+        end
+        
         line_to_print
       end
       
@@ -218,7 +228,8 @@ module Prawn
       end
 
       def insert_ellipses(line_to_print)
-        if @document.width_of(line_to_print + "...", :kerning => @kerning) < @width
+        if @document.width_of(line_to_print + "...",
+                              :kerning => @kerning) < @width
           line_to_print.insert(-1, "...")
         else
           line_to_print[-3..-1] = "..." if line_to_print.length > 3
@@ -232,7 +243,8 @@ module Prawn
           accumulated_width = 0
           line.scan(scan_pattern).each do |segment|
             segment_width = options[:document].width_of(segment,
-                                                        :size => options[:size], :kerning => options[:kerning])
+                                                  :size => options[:size],
+                                                  :kerning => options[:kerning])
             
             if accumulated_width + segment_width <= options[:width]
               accumulated_width += segment_width
@@ -249,14 +261,16 @@ module Prawn
                 segment.unpack("U*").each do |char_int|
                   char = [char_int].pack("U")
                   accumulated_width += options[:document].width_of(char,
-                                                                   :size => options[:size], :kerning => options[:kerning])
+                                                  :size => options[:size],
+                                                  :kerning => options[:kerning])
                   break if accumulated_width >= options[:width]
                   output << char
                 end
               rescue
                 segment.each_char do |char|
                   accumulated_width += options[:document].width_of(char,
-                                                                   :size => options[:size], :kerning => options[:kerning])
+                                                  :size => options[:size],
+                                                  :kerning => options[:kerning])
                   break if accumulated_width >= options[:width]
                   output << char
                 end
