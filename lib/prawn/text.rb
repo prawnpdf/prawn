@@ -16,6 +16,22 @@ module Prawn
     VALID_TEXT_OPTIONS = [:at, :final_gap, :kerning, :leading,
                           :rotate, :size, :style]
 
+
+    ruby_18 { $KCODE="U" }
+
+    # Gets height of text in PDF points at current font size.
+    # Text +:line_width+ must be specified in PDF points.
+    #
+    def height_of(string, width, size=font_size)
+      box = Text::Box.new(string,
+                          :width => width,
+                          :height => 100000000,
+                          :size => size,
+                          :for => self)
+      box.render(false)
+      box.height
+    end
+
     # Draws text on the page. If a point is specified via the +:at+
     # option the text will begin exactly at that point, and the string is
     # assumed to be pre-formatted to properly fit the page.
