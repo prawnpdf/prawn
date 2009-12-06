@@ -16,6 +16,7 @@ require "prawn/document/text"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
+require "prawn/document/outline"
 
 module Prawn
   
@@ -60,6 +61,7 @@ module Prawn
     include Annotations
     include Destinations
     include Snapshot
+    include Outline
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
