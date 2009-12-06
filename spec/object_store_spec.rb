@@ -40,3 +40,36 @@ describe "Prawn::ObjectStore" do
     @store.map{|ref| ref.identifier}[-3..-1].should == [10, 11, 12]
   end
 end
+
+describe "Prawn::ObjectStore#compact" do
+  it "should do nothing to an ObjectStore with all live refs" do
+    store = Prawn::ObjectStore.new
+    store.info.data[:Blah] = store.ref(:some => "structure")
+    old_size = store.size
+    store.compact
+
+    store.size.should == old_size
+  end
+
+  it "should remove dead objects, renumbering live objects from 1" do
+    store = Prawn::ObjectStore.new
+    store.ref(:some => "structure")
+    old_size = store.size
+    store.compact
+    
+    store.size.should.be < old_size
+    store.map{ |o| o.identifier }.should == (1..store.size).to_a
+  end
+
+  it "should detect and remove dead objects that were once live" do
+    store = Prawn::ObjectStore.new
+    store.info.data[:Blah] = store.ref(:some => "structure")
+    store.info.data[:Blah] = :overwritten
+    old_size = store.size
+    store.compact
+    
+    store.size.should.be < old_size
+    store.map{ |o| o.identifier }.should == (1..store.size).to_a
+  end
+end
+
