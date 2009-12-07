@@ -29,7 +29,9 @@ module Prawn
                           :size     => size,
                           :document => self)
       box.render(:dry_run => true)
-      box.height
+      height = box.height - box.descender
+      height += box.line_height + box.leading - box.ascender # if final_gap
+      height
     end
 
     # Draws text on the page. If a point is specified via the +:at+

@@ -1,6 +1,18 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")      
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+
+describe "#height_of" do
+  before(:each) { create_pdf }
+
+  it "should return the height that would be required to print a" +
+    "particular string of text" do
+    original_y = @pdf.y
+    @pdf.text("Foo")
+    new_y = @pdf.y
+    @pdf.height_of("Foo", 300).should.be.close(original_y - new_y, 0.0001)
+  end
+end
 
 describe "when drawing text" do     
    
