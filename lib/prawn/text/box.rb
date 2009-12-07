@@ -53,7 +53,6 @@ module Prawn
     end
 
     class Box #:nodoc:
-      VERSION = '0.3.2'
       attr_reader :text
       attr_reader :at
       attr_reader :line_height
