@@ -145,7 +145,7 @@ module Prawn
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
                                          @bounding_box.absolute_bottom
 
-      options[:height] = y - bottom - font.descender
+      options[:height] = y - bottom
       options[:width] = bounds.width
       options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left,
                       y - @bounding_box.absolute_bottom]
