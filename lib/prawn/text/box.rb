@@ -49,7 +49,7 @@ module Prawn
     #       available for the current line of text)
 
     def text_box(text, options)
-      Text::Box.new(text, options.merge(:for => self)).render
+      Text::Box.new(text, options.merge(:document => self)).render
     end
 
     class Box #:nodoc:
@@ -62,13 +62,14 @@ module Prawn
       attr_reader :leading
 
       def valid_options
-        Text::VALID_TEXT_OPTIONS.dup.concat([:align, :for, :height,
+        Text::VALID_TEXT_OPTIONS.dup.concat([:align, :document, :height,
                                              :min_font_size,
                                              :overflow, :vertical_align,
                                              :width, :wrap_block])
       end
 
       def initialize(text, options={})
+        @inked = false
         Prawn.verify_options(valid_options, options)
         options        = options.dup
         @overflow      = options[:overflow] || :truncate
@@ -77,7 +78,7 @@ module Prawn
         @text_to_print = text.dup
         @text          = nil
         
-        @document      = options[:for]
+        @document      = options[:document]
         @at            = options[:at] ||
                          [@document.bounds.left, @document.bounds.top]
         @width         = options[:width] ||
@@ -104,8 +105,12 @@ module Prawn
       end
       
       # Render text to the document based on the settings defined in initialize
-      # accepts a hash with
-      def render(do_the_print=true)
+      # If :dry_run => true is passed as a parameter, then everything
+      # is executed as if rendering, with the exception that nothing
+      # is drawn on the page. Useful for look-ahead computations of
+      # height, unprinted text, etc.
+      #
+      def render(flags={})
         unprinted_text = ''
         @document.save_font do
           process_options
@@ -117,7 +122,9 @@ module Prawn
           @document.font_size(@font_size) do
             shrink_to_fit if @overflow == :shrink_to_fit
             process_vertical_alignment
-            unprinted_text = _render(@text_to_print, do_the_print)
+            @inked = true unless flags[:dry_run]
+            unprinted_text = _render(@text_to_print)
+            @inked = false
           end
         end
         unprinted_text
@@ -136,7 +143,7 @@ module Prawn
 
       def process_vertical_alignment
         return if @vertical_align == :top
-        _render(@text_to_print, false)
+        _render(@text_to_print)
         case @vertical_align
         when :center
           @at[1] = @at[1] - (@height - height) * 0.5
@@ -149,7 +156,7 @@ module Prawn
       # Decrease the font size until the text fits or the min font
       # size is reached
       def shrink_to_fit
-        while (unprinted_text = _render(@text_to_print, false)).length > 0 &&
+        while (unprinted_text = _render(@text_to_print)).length > 0 &&
             @font_size > @min_font_size
           @font_size -= 0.5
           @document.font_size = @font_size
@@ -164,7 +171,7 @@ module Prawn
         @kerning   = @options[:kerning]
       end
 
-      def _render(remaining_text, do_the_print=true)
+      def _render(remaining_text)
         @line_height = @document.font.height
         @descender   = @document.font.descender.abs
         @ascender    = @document.font.ascender
@@ -184,18 +191,16 @@ module Prawn
                                                 remaining_text.length)
           print_ellipses = (@overflow == :ellipses && last_line? &&
                             remaining_text.length > 0)
-          printed_text << print_line(line_to_print,
-                                     do_the_print,
-                                     print_ellipses)
+          printed_text << print_line(line_to_print, print_ellipses)
           @baseline_y -= (@line_height + @leading)
         end
 
-        @text = printed_text.join("\n") if do_the_print
+        @text = printed_text.join("\n") if @inked
           
         remaining_text
       end
 
-      def print_line(line_to_print, do_the_print, print_ellipses)
+      def print_line(line_to_print, print_ellipses)
         # strip so that trailing and preceding white space don't
         # interfere with alignment
         line_to_print.strip!
@@ -215,7 +220,7 @@ module Prawn
         
         y = @at[1] + @baseline_y
         
-        if do_the_print
+        if @inked
           @document.text_at(line_to_print, :at => [x, y],
                             :size => @font_size, :kerning => @kerning)
         end

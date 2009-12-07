@@ -8,10 +8,8 @@ describe "Text::Box" do
     create_pdf
     @text = "Oh hai text rect. " * 10
     @options = {
-      :align => :left,
-      :width => 162.0,
       :height => @pdf.font.height * 0.5,
-      :for  =>  @pdf
+      :document => @pdf
     }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
@@ -19,16 +17,36 @@ describe "Text::Box" do
   end
 end
 
+describe "Text::Box#render" do
+  it "should draw content to the page" do
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = { :document => @pdf }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render()
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.should.not.be.empty
+  end
+end
+
+describe "Text::Box#render(:dry_run => true)" do
+  it "should not draw any content to the page" do
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = { :document => @pdf }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render(:dry_run => true)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.should.be.empty
+  end
+end
+
 describe "Text::Box default height" do
   it "should be the height from the bottom bound to document.y" do
     create_pdf
     target_height = @pdf.y - @pdf.bounds.bottom
-    @text = "Oh hai text rect. " * 100
-    @options = {
-      :align => :left,
-      :width => 162.0,
-      :for  =>  @pdf
-    }
+    @text = "Oh hai\n" * 60
+    @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.height.should.be.close(target_height, @pdf.font.height)
@@ -40,11 +58,7 @@ describe "Text::Box default at" do
     create_pdf
     target_at = [@pdf.bounds.left, @pdf.y]
     @text = "Oh hai text rect. " * 100
-    @options = {
-      :align => :left,
-      :width => 162.0,
-      :for  =>  @pdf
-    }
+    @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.at.should == target_at
@@ -56,10 +70,9 @@ describe "Text::Box with text than can fit in the box" do
     create_pdf
     @text = "Oh hai text rect. " * 10
     @options = {
-      :align => :left,
       :width => 162.0,
       :height => 162.0,
-      :for  =>  @pdf
+      :document => @pdf
     }
   end
   
@@ -87,12 +100,11 @@ describe "Text::Box with text than can fit in the box with :ellipses overflow an
     create_pdf
     @text = "Oh hai text rect. " * 10
     @options = {
-      :align => :left,
       :width => 162.0,
       :height => 162.0,
       :overflow => :ellipses,
       :vertical_align => :bottom,
-      :for  =>  @pdf
+      :document => @pdf
     }
     @text_box = Prawn::Text::Box.new(@text, @options)
     @text_box.render
@@ -106,10 +118,9 @@ describe "Text::Box with more text than can fit in the box" do
     @text = "Oh hai text rect. " * 30
     @bounding_height = 162.0
     @options = {
-      :align => :left,
       :width => 162.0,
       :height => @bounding_height,
-      :for  =>  @pdf
+      :document => @pdf
     }
   end
   
@@ -192,10 +203,9 @@ describe "Text::Box with a solid block of Chinese characters" do
     create_pdf
     @text = "写中国字" * 10
     @options = {
-      :align => :left,
       :width => 162.0,
       :height => 162.0,
-      :for  =>  @pdf
+      :document => @pdf
     }
     @pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
     @options[:overflow] = :truncate
@@ -234,7 +244,7 @@ describe 'Text::Box wrapping' do
     @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
-                                          :for      => @pdf)
+                                          :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
   end
@@ -248,7 +258,7 @@ describe 'Text::Box wrapping' do
     @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
-                                          :for      => @pdf)
+                                          :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
   end
@@ -262,7 +272,7 @@ describe 'Text::Box wrapping' do
     @text_box = Prawn::Text::Box.new(text,
                                           :width    => 200,
                                           :overflow => :expand,
-                                          :for      => @pdf)
+                                          :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
   end
@@ -276,7 +286,7 @@ describe 'Text::Box wrapping' do
     @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
-                                          :for      => @pdf)
+                                          :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
   end
@@ -290,7 +300,7 @@ describe 'Text::Box wrapping' do
     @text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
-                                          :for      => @pdf)
+                                          :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
   end
@@ -304,7 +314,7 @@ describe 'Text::Box wrapping' do
     @text_box = Prawn::Text::Box.new(text,
                                           :width    => 180,
                                           :overflow => :expand,
-                                          :for      => @pdf)
+                                          :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
   end     

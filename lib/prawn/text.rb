@@ -24,11 +24,11 @@ module Prawn
     #
     def height_of(string, width, size=font_size)
       box = Text::Box.new(string,
-                          :width => width,
-                          :height => 100000000,
-                          :size => size,
-                          :for => self)
-      box.render(false)
+                          :width    => width,
+                          :height   => 100000000,
+                          :size     => size,
+                          :document => self)
+      box.render(:dry_run => true)
       box.height
     end
 
@@ -141,7 +141,7 @@ module Prawn
     private
 
     def fill_text_box(text, options)
-      options = options.merge(:for => self)
+      options = options.merge(:document => self)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
                                          @bounding_box.absolute_bottom
 
