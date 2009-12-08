@@ -177,7 +177,8 @@ module Prawn
                                  y - @vertical_padding], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
-          @document.move_down((@document.font.line_gap - @document.font.descender)/2)
+          @document.move_down((@document.font.line_gap +
+                               @document.font.descender) / 2)
 
           options = {:align => @align, :final_gap => false}
 
