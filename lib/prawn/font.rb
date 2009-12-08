@@ -236,7 +236,7 @@ module Prawn
     end
 
     def descender
-      @descender / 1000.0 * size
+      -@descender / 1000.0 * size
     end
 
     def line_gap

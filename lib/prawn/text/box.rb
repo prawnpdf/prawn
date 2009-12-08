@@ -172,7 +172,7 @@ module Prawn
 
       def _render(remaining_text)
         @line_height = @document.font.height
-        @descender   = @document.font.descender.abs
+        @descender   = @document.font.descender
         @ascender    = @document.font.ascender
         @baseline_y  = -@ascender
         

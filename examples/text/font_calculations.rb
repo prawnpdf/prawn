@@ -64,17 +64,17 @@ Prawn::Document.generate('font_calculations.pdf') do
     stroke_line [0, bl + font.ascender], [bounds.width, bl + font.ascender]
 
     stroke_color colors[:descender]
-    stroke_line [0,bl], [0, bl + font.descender]
-    stroke_line [0, bl + font.descender], [bounds.width, bl + font.descender]
+    stroke_line [0,bl], [0, bl - font.descender]
+    stroke_line [0, bl - font.descender], [bounds.width, bl - font.descender]
 
     stroke_color colors[:line_gap]
-    stroke_line [0, bl + font.descender], [0,bl + font.descender - font.line_gap]
-    stroke_line [0, bl + font.descender - font.line_gap], 
-                [bounds.width,bl + font.descender - font.line_gap]
+    stroke_line [0, bl - font.descender], [0,bl - font.descender - font.line_gap]
+    stroke_line [0, bl - font.descender - font.line_gap], 
+                [bounds.width,bl - font.descender - font.line_gap]
 
     stroke_color colors[:font_height]
     stroke_line [bounds.width, bl + font.ascender],
-                [bounds.width, bl + font.descender - font.line_gap]
+                [bounds.width, bl - font.descender - font.line_gap]
                 
     stroke_color "000000"
     fill_color "000000"
