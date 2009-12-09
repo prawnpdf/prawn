@@ -115,10 +115,10 @@ module Prawn
         text_height = 0
         if @font_size
           @document.font_size(@font_size) do
-            text_height = @document.height_of(@text, text_area_width)
+            text_height = @document.height_of(@text, :width => text_area_width)
           end
         else
-          text_height = @document.height_of(@text, text_area_width)
+          text_height = @document.height_of(@text, :width => text_area_width)
         end
         text_height
       end
