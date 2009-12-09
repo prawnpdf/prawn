@@ -33,6 +33,13 @@ module Prawn
     # raises <tt>Prawn::Errors::UndefinedObjectName</tt> if no stamp
     # has been created with this name
     #
+    # Example:
+    #   pdf.create_stamp("my_stamp") {
+    #     pdf.fill_circle_at([10, 15], :radius => 5)
+    #     pdf.text("hello world", :at => [20, 10])
+    #   }
+    #   pdf.stamp("my_stamp")
+    #
     def stamp(name)
       raise Prawn::Errors::InvalidName if name.empty?
       unless stamp_dictionary_registry[name]
@@ -54,7 +61,9 @@ module Prawn
     # created
     #
     # Example:
-    #   pdf.create_stamp("circle") { pdf.circle_at([0, 0], :radius => 25) }
+    #   pdf.create_stamp("circle") do
+    #     pdf.fill_circle_at([0, 0], :radius => 25)
+    #   end
     #   # draws a circle at 100, 100
     #   pdf.stamp_at("circle", [100, 100])
     #
@@ -81,6 +90,12 @@ module Prawn
     # raises <tt>Prawn::Errors::NameTaken</tt> if a stamp already
     # exists in this document with this name
     # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?
+    #
+    # Example:
+    #   pdf.create_stamp("my_stamp") {
+    #     pdf.fill_circle_at([10, 15], :radius => 5)
+    #     pdf.text("hello world", :at => [20, 10])
+    #   }
     #
     def create_stamp(name, &block)
       raise Prawn::Errors::InvalidName if name.empty?
