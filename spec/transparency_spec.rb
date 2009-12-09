@@ -44,6 +44,20 @@ describe "Document with transparency" do
     extgstate[:opacity].should == 0.5
     extgstate[:stroke_opacity].should == 0.2
   end
+
+  it "should enforce the valid range of 0.0 to 1.0" do
+    create_pdf
+    @pdf.transparent(-0.5, -0.2)
+    @pdf.transparent(2.0, 3.0)
+    extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
+    extgstate = extgstates[0]
+    extgstate[:opacity].should == 0.0
+    extgstate[:stroke_opacity].should == 0.0
+
+    extgstate = extgstates[1]
+    extgstate[:opacity].should == 1.0
+    extgstate[:stroke_opacity].should == 1.0
+  end
   
   describe "with more than one page" do
     it "the extended graphic state resource should be added to both pages" do

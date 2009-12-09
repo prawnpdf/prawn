@@ -9,10 +9,53 @@
 
 module Prawn
   module Graphics
+
+    # The Prawn::Transparency module is used to place transparent
+    # content on the page. It has the capacity for separate
+    # transparency values for stroked content and all other content.
+    #
+    # Example:
+    #   # both the fill and stroke will be at 50% opacity
+    #   pdf.transparent(0.5) do
+    #     pdf.text("hello world")
+    #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+    #   end
+    #
+    #   # the fill will be at 50% opacity, but the stroke will
+    #   # be at 75% opacity
+    #   pdf.transparent(0.5, 0.75) do
+    #     pdf.text("hello world")
+    #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+    #   end
+    #
     module Transparency
 
+      # Sets the <tt>opacity</tt> and <tt>stroke_opacity</tt> for all
+      # the content within the <tt>block</tt>
+      # If <tt>stroke_opacity</tt> is not provided, then it takes on
+      # the same value as <tt>opacity</tt>
+      #
+      # Valid ranges for both paramters are 0.0 to 1.0
+      #
+      # Example:
+      #   # both the fill and stroke will be at 50% opacity
+      #   pdf.transparent(0.5) do
+      #     pdf.text("hello world")
+      #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+      #   end
+      #
+      #   # the fill will be at 50% opacity, but the stroke will
+      #   # be at 75% opacity
+      #   pdf.transparent(0.5, 0.75) do
+      #     pdf.text("hello world")
+      #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+      #   end
+      #
       def transparent(opacity, stroke_opacity=opacity, &block)
         min_version(1.4)
+
+        opacity        = [[opacity, 0.0].max, 1.0].min
+        stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min
 
         key = "#{opacity}_#{stroke_opacity}"
 
