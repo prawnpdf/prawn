@@ -62,11 +62,12 @@ module Prawn
         { :stamp_dictionary_name => stamp_dictionary_name, 
           :stamp_dictionary      => stamp_dictionary}
 
-      
       @active_stamp_stream = ""
       @active_stamp_dictionary = stamp_dictionary
 
+      update_colors
       yield if block_given?
+      update_colors
 
       stamp_dictionary.data[:Length] = @active_stamp_stream.length + 1
       stamp_dictionary << @active_stamp_stream

@@ -9,6 +9,14 @@ describe "create_stamp before any page is added" do
       end
     }.should.not.raise(Prawn::Errors::NotOnPage)
   end
+  it "should work with setting color" do
+    @pdf = Prawn::Document.new(:skip_page_creation => true)
+    lambda {
+      @pdf.create_stamp("my_stamp") do
+        @pdf.fill_color = 'ff0000'
+      end
+    }.should.not.raise(Prawn::Errors::NotOnPage)
+  end
 end
 
 describe "Document with a stamp" do
