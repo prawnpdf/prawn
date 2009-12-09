@@ -8,15 +8,38 @@
 #
 
 module Prawn
+
+  # The Prawn::Stamp module is used to create content that will be
+  # included multiple times in a document. Using a stamp has three
+  # advantages over creating content anew each time it is placed on
+  # the page:
+  #   i.   faster document creation
+  #   ii.  smaller final document
+  #   iii. faster display on subsequent displays of the repeated
+  #   element because the viewer application can cache the rendered
+  #   results
+  #
+  # Example:
+  #   pdf.create_stamp("my_stamp") {
+  #     pdf.fill_circle_at([10, 15], :radius => 5)
+  #     pdf.text("hello world", :at => [20, 10])
+  #   }
+  #   pdf.stamp("my_stamp")
+  #
   module Stamp
 
-    def stamp(user_defined_name)
-      raise Prawn::Errors::InvalidName if user_defined_name.empty?
-      unless stamp_dictionary_registry[user_defined_name]
+    # Renders the stamp named <tt>name</tt> to the page
+    # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?
+    # raises <tt>Prawn::Errors::UndefinedObjectName</tt> if no stamp
+    # has been created with this name
+    #
+    def stamp(name)
+      raise Prawn::Errors::InvalidName if name.empty?
+      unless stamp_dictionary_registry[name]
         raise Prawn::Errors::UndefinedObjectName
       end
       
-      dict = stamp_dictionary_registry[user_defined_name]
+      dict = stamp_dictionary_registry[name]
 
       stamp_dictionary_name = dict[:stamp_dictionary_name]
       stamp_dictionary = dict[:stamp_dictionary]
@@ -25,8 +48,19 @@ module Prawn
       
       page_xobjects.merge!(stamp_dictionary_name => stamp_dictionary)
     end
-    
-    def stamp_at(user_defined_name, point)
+
+    # Renders the stamp named <tt>name</tt> at a position offset from
+    # the initial coords at which the elements of the stamp was
+    # created
+    #
+    # Example:
+    #   pdf.create_stamp("circle") { pdf.circle_at([0, 0], :radius => 25) }
+    #   # draws a circle at 100, 100
+    #   pdf.stamp_at("circle", [100, 100])
+    #
+    # See stamp() for exceptions that might be raised
+    #
+    def stamp_at(name, point)
       # Save the graphics state
       add_content "q"
 
@@ -36,16 +70,22 @@ module Prawn
       add_content translate_position
       
       # Draw the stamp in the now translated user space
-      stamp(user_defined_name)
+      stamp(name)
       
       # Restore the graphics state to remove the translation
       add_content "Q"
     end
-    
-    def create_stamp(user_defined_name="", &block)
-      raise Prawn::Errors::InvalidName if user_defined_name.empty?
 
-      if stamp_dictionary_registry[user_defined_name]
+    # Creates a re-usable stamp named <tt>name</tt>
+    #
+    # raises <tt>Prawn::Errors::NameTaken</tt> if a stamp already
+    # exists in this document with this name
+    # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?
+    #
+    def create_stamp(name, &block)
+      raise Prawn::Errors::InvalidName if name.empty?
+
+      if stamp_dictionary_registry[name]
         raise Prawn::Errors::NameTaken
       end
 
@@ -58,7 +98,7 @@ module Prawn
 
       stamp_dictionary_name = "Stamp#{next_stamp_dictionary_id}"
 
-      stamp_dictionary_registry[user_defined_name] = 
+      stamp_dictionary_registry[name] = 
         { :stamp_dictionary_name => stamp_dictionary_name, 
           :stamp_dictionary      => stamp_dictionary}
 
