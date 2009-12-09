@@ -22,12 +22,10 @@ module Prawn
     # Gets height of text in PDF points at current font size.
     # Text +:line_width+ must be specified in PDF points.
     #
-    def height_of(string, width, size=font_size)
+    def height_of(string, options={})
       box = Text::Box.new(string,
-                          :width    => width,
-                          :height   => 100000000,
-                          :size     => size,
-                          :document => self)
+                          options.merge(:height   => 100000000,
+                                        :document => self))
       box.render(:dry_run => true)
       height = box.height - box.descender
       height += box.line_height + box.leading - box.ascender # if final_gap
@@ -84,7 +82,7 @@ module Prawn
     # If an empty box is rendered to your PDF instead of the character you 
     # wanted it usually means the current font doesn't include that character.
     #
-    def text(text,options={})
+    def text(text, options={})
       if options[:at]
         if options[:align]
           raise ArgumentError, "The :align option does not work with :at"

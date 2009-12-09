@@ -10,7 +10,7 @@ describe "#height_of" do
     original_y = @pdf.y
     @pdf.text("Foo")
     new_y = @pdf.y
-    @pdf.height_of("Foo", 300).should.be.close(original_y - new_y, 0.0001)
+    @pdf.height_of("Foo", :width => 300).should.be.close(original_y - new_y, 0.0001)
   end
 end
 
