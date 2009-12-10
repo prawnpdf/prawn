@@ -229,7 +229,7 @@ describe "When reopening pages" do
 
   it "should insert pages after the current page when calling start_new_page" do
     pdf = Prawn::Document.new
-    3.times { |i| pdf.text "Page #{i}"; pdf.start_new_page }
+    3.times { |i| pdf.text "Old page #{i+1}"; pdf.start_new_page }
     pdf.go_to_page 1
     pdf.start_new_page
     pdf.text "New page 2"
@@ -239,6 +239,7 @@ describe "When reopening pages" do
     pages = PDF::Inspector::Page.analyze(pdf.render).pages
     pages.size.should == 5
     pages[1][:strings].should == ["New page 2"]
+    pages[2][:strings].should == ["Old page 2"]
   end
 end
 
