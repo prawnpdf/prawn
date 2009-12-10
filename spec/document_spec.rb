@@ -101,6 +101,26 @@ describe "When beginning each new page" do
   
 end
 
+describe "The page_number method" do
+  it "should be 1 for a new document" do
+    pdf = Prawn::Document.new
+    pdf.page_number.should == 1
+  end
+
+  it "should be 0 for documents with no pages" do
+    pdf = Prawn::Document.new(:skip_page_creation => true)
+    pdf.page_number.should == 0
+  end
+
+  it "should be changed by go_to_page" do
+    pdf = Prawn::Document.new
+    10.times { pdf.start_new_page }
+    pdf.go_to_page 3
+    pdf.page_number.should == 3
+  end
+
+end
+
 describe "on_page_create callback" do
   before do
     create_pdf 
@@ -205,6 +225,21 @@ describe "When reopening pages" do
     # dictionary length
     lambda{ PDF::Inspector::Page.analyze(@pdf.render) }.
       should.not.raise(PDF::Reader::MalformedPDFError)
+  end
+
+  it "should insert pages after the current page when calling start_new_page" do
+    pdf = Prawn::Document.new
+    3.times { |i| pdf.text "Old page #{i+1}"; pdf.start_new_page }
+    pdf.go_to_page 1
+    pdf.start_new_page
+    pdf.text "New page 2"
+
+    pdf.page_number.should == 2
+
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 5
+    pages[1][:strings].should == ["New page 2"]
+    pages[2][:strings].should == ["Old page 2"]
   end
 end
 
