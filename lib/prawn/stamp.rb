@@ -99,33 +99,19 @@ module Prawn
     #
     def create_stamp(name, &block)
       raise Prawn::Errors::InvalidName if name.empty?
+      raise Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
 
-      if stamp_dictionary_registry[name]
-        raise Prawn::Errors::NameTaken
-      end
-
-      # BBox origin is the lower left margin of the page, so we need
-      # it to be the full dimension of the page, or else things that
-      # should appear near the top or right margin are invisible
-      stamp_dictionary = ref!(:Type    => :XObject,
-                              :Subtype => :Form,
-                              :BBox => [0, 0, page_dimensions[2], page_dimensions[3]])
-
-      stamp_dictionary_name = "Stamp#{next_stamp_dictionary_id}"
-
-      stamp_dictionary_registry[name] = 
-        { :stamp_dictionary_name => stamp_dictionary_name, 
-          :stamp_dictionary      => stamp_dictionary}
+      dictionary = stamp_dictionary(name)
 
       @active_stamp_stream = ""
-      @active_stamp_dictionary = stamp_dictionary
+      @active_stamp_dictionary = dictionary
 
       update_colors
       yield if block_given?
       update_colors
 
-      stamp_dictionary.data[:Length] = @active_stamp_stream.length + 1
-      stamp_dictionary << @active_stamp_stream
+      dictionary.data[:Length] = @active_stamp_stream.length + 1
+      dictionary << @active_stamp_stream
 
       @active_stamp_stream = nil
       @active_stamp_dictionary = nil
@@ -139,6 +125,24 @@ module Prawn
 
     def next_stamp_dictionary_id
       stamp_dictionary_registry.length + 1
+    end
+
+    def stamp_dictionary(name)
+      # BBox origin is the lower left margin of the page, so we need
+      # it to be the full dimension of the page, or else things that
+      # should appear near the top or right margin are invisible
+      dictionary = ref!(:Type    => :XObject,
+                        :Subtype => :Form,
+                        :BBox    => [0, 0,
+                                     page_dimensions[2], page_dimensions[3]])
+
+      dictionary_name = "Stamp#{next_stamp_dictionary_id}"
+
+      stamp_dictionary_registry[name] = {
+                                      :stamp_dictionary_name => dictionary_name,
+                                      :stamp_dictionary      => dictionary
+                                         }
+      dictionary
     end
 
   end
