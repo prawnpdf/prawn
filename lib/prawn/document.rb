@@ -200,6 +200,7 @@ module Prawn
        generate_margin_box
 
        @bounding_box = @margin_box
+       @page_number = 0
 
        start_new_page unless options[:skip_page_creation]
 
@@ -233,8 +234,9 @@ module Prawn
 
        build_new_page_content
        
-       @store.pages.data[:Kids] << current_page
+       @store.pages.data[:Kids].insert(@page_number, current_page)
        @store.pages.data[:Count] += 1
+       @page_number += 1
         
        add_content "q"
        
@@ -256,6 +258,26 @@ module Prawn
     #
     def page_count
       @store.pages.data[:Count]
+    end
+
+    # Returns the 1-based page number of the current page. Returns 0 if the
+    # document has no pages.
+    #
+    def page_number
+      @page_number
+    end
+
+    # Re-opens the page with the given (1-based) page number so that you can
+    # draw on it. Does not restore page state such as margins, page orientation,
+    # or paper size, so you'll have to handle that yourself.
+    #
+    # See Prawn::Document#number_pages for a sample usage of this capability.
+    #
+    def go_to_page(k)
+      @page_number = k
+      jump_to = @store.pages.data[:Kids][k-1]
+      @current_page = jump_to.identifier
+      @page_content = jump_to.data[:Contents].identifier
     end
 
     def y=(new_y)

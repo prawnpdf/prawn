@@ -107,12 +107,6 @@ module Prawn
          end
       end
       
-      def go_to_page(k) # :nodoc:
-        jump_to = @store.pages.data[:Kids][k-1]
-        @current_page = jump_to.identifier
-        @page_content = jump_to.data[:Contents].identifier
-      end
-
       private      
 
       def finalize_all_page_contents
