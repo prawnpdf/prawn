@@ -8,46 +8,51 @@
 
 module Prawn
   module Text
+
     # Draws the requested text into a box. When the text overflows
     # the rectangle, you can display ellipses, shrink to fit, or
     # truncate the text. Text boxes are independent of the document
     # y position
-    # 
-    #   acceptable options:
     #
-    #     :at is a two element array denoting the upper left corner
-    #       of the rectangle. It defaults to the current document.y
-    #       and document.bounds.left
+    # The following options are available for all text (with the default 
+    # values marked in [])::
     #
-    #     :width and :height are the width and height of the
-    #       rectangle, respectively. They default to the rectangle
-    #       bounded by :at and the lower right corner of the
-    #       document bounds
+    # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
+    # is available with the current font) [true]
+    # <tt>:size</tt>:: <tt>number</tt>. The font size to use. If omitted, the
+    # current font size is used
+    # <tt>:style</tt>:: The style to use. The requested style must be part of
+    # the current font familly. If ommitted, then the current style is used
     #
-    #     :leading is the amount of space between lines. Defaults to 0
+    # <tt>:at</tt>:: <tt>[x, y]</tt>. The upper left corner of the box
+    # [@document.bounds.left, @document.bounds.top]
+    # <tt>:width</tt>:: <tt>number</tt>. The width of the box
+    # [@document.bounds.right - @at[0]]
+    # <tt>:height</tt>:: <tt>number</tt>. The height of the box
+    # [@at[1] - @document.bounds.bottom]
+    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, or </tt>:right</tt>.
+    # Alignment within the bounding box [:left]
+    # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or </tt>:bottom</tt>.
+    # Vertical alignment within the bounding box [:left]
+    # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
+    # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
+    # <tt>:expand</tt>, or <tt>:ellipses</tt>. This controls the behavior when
+    # the amount of text exceeds the available space [:truncate]
+    # <tt>:min_font_size</tt>:: <tt>number</tt>. The minimum font size to use
+    # when :overflow is set to :shrink_to_fit (that is the font size will not be
+    # reduced to less than this value, even if it  means that some text will be
+    # cut off). [5]
+    # <tt>:wrap_block</tt>:: <tt>proc</tt>. A proc used for custom line
+    # wrapping. The proc must accept a single <tt>line</tt> of text and an
+    # <tt>options</tt> hash and return the string from that single line that can
+    # fit on the line under the conditions defined by <tt>options</tt>. If
+    # omitted, the default wrapping proc is used. The options hash passed into
+    # the wrap_block proc includes the following options:
+    #   <tt>:width</tt> (the width available for the current line of text)
+    #   <tt>:document</tt> (the pdf object)
+    #   <tt>:kerning</tt> (boolean)
+    #   <tt>:size</tt> (the font size)
     #
-    #     :kerning is a boolean. Defaults to true. Note that if
-    #       kerning is on, it will result in slower width
-    #       computations
-    #   
-    #     :align is :center, :left, or :right. Defaults to :left
-    #
-    #     :valign is :center, :top, or :bottom. Defaults to :top
-    #
-    #     :overflow is :truncate, :shrink_to_fit, :expand, or :ellipses,
-    #       denoting the behavior when the amount of text exceeds the
-    #       available space. Defaults to :truncate.
-    #
-    #     :min_font_size is the minimum font-size to use when
-    #       :overflow is set to :shrink_to_fit (ie: the font size
-    #       will not be reduced to less than this value, even if it
-    #       means that some text will be cut off). Defaults to 5
-    #
-    #     :wrap_block is a block that is passed a single line and
-    #       options consisting of :document (the pdf object),
-    #       :kerning, :size (the font size), and :width (the width
-    #       available for the current line of text)
-
     def text_box(text, options)
       Text::Box.new(text, options.merge(:document => self)).render
     end
@@ -61,10 +66,12 @@ module Prawn
       attr_reader :leading
 
       def valid_options
-        Text::VALID_TEXT_OPTIONS.dup.concat([:align, :document, :height,
-                                             :min_font_size,
-                                             :overflow, :valign,
-                                             :width, :wrap_block])
+        Text::VALID_TEXT_OPTIONS.dup.concat([:at, :height, :width,
+                                             :align, :valign,
+                                             :overflow, :min_font_size,
+                                             :wrap_block,
+                                             :leading,
+                                             :document])
       end
 
       def initialize(text, options={})
@@ -83,7 +90,7 @@ module Prawn
         @width         = options[:width] ||
                          @document.bounds.right - @at[0]
         @height        = options[:height] ||
-                         @document.bounds.top - @document.bounds.bottom
+                         @at[1] - @document.bounds.bottom
         @center        = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
         @align         = options[:align] || :left
         @vertical_align = options[:valign] || :top

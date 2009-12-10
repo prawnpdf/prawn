@@ -13,10 +13,6 @@ module Prawn
     attr_reader :text_options
     attr_reader :skip_encoding
 
-    VALID_TEXT_OPTIONS = [:at, :final_gap, :kerning, :leading,
-                          :rotate, :size, :style]
-
-
     ruby_18 { $KCODE="U" }
 
     # Gets height of text in PDF points at current font size.
@@ -32,6 +28,11 @@ module Prawn
       height
     end
 
+    # If you want text to flow onto a new page or between columns, this is the
+    # method to use. If, instead, if you want to place bounded text outside of
+    # the flow of a document (for captions, labels, charts, etc.), use Text::Box
+    # or its convenience method text_box.
+    # 
     # Draws text on the page. If a point is specified via the +:at+
     # option the text will begin exactly at that point, and the string is
     # assumed to be pre-formatted to properly fit the page.
@@ -60,7 +61,6 @@ module Prawn
     # left-most edge of its baseline, and flow along a single line.  (This
     # means that :align will not work)
     # 
-    #
     # Otherwise, the text is positioned at font.ascender below the baseline,
     # making it easy to use this method within bounding boxes and spans.
     #
@@ -68,6 +68,7 @@ module Prawn
     #
     # Text can be rotated before it is placed on the canvas by specifying the
     # +:rotate+ option with a given angle. Rotation occurs counter-clockwise.
+    # Note that +:rotate+ is only compatible when using the +:at+ option
     #
     # == Encoding
     #
@@ -82,32 +83,65 @@ module Prawn
     # If an empty box is rendered to your PDF instead of the character you 
     # wanted it usually means the current font doesn't include that character.
     #
+    # The following options are available for all text (with the default 
+    # values marked in [])::
+    #
+    # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
+    # is available with the current font) [true]
+    # <tt>:size</tt>:: <tt>number</tt>. The font size to use. If omitted, the
+    # current font size is used
+    # <tt>:style</tt>:: The style to use. The requested style must be part of
+    # the current font familly. If ommitted, then the current style is used
+    #
+    # The following options are available if the +:at+ option is _provided_: (with
+    # the default values marked in [])::
+    #
+    # <tt>:at</tt>:: <tt>[x, y]</tt>. The position at which to start the text
+    # <tt>:rotate</tt>:: <tt>number</tt>. The angle to which to rotate text
+    #
+    # The following options are available if the +:at+ option is _omitted_: (with
+    # the default values marked in [])::
+    #
+    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, or </tt>:right</tt>.
+    # Alignment within the bounding box [:left]
+    # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or </tt>:bottom</tt>.
+    # Vertical alignment within the bounding box [:left]
+    # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
+    # <tt>:final_gap</tt>:: <tt>boolean</tt>. If true, then the space between
+    # each line is included below the last line; otherwise, document.y is left
+    # just below the descender of the last line printed [true]
+    # <tt>:wrap_block</tt>:: <tt>proc</tt>. A proc used for custom line
+    # wrapping. The proc must accept a single <tt>line</tt> of text and an
+    # <tt>options</tt> hash and return the string from that single line that can
+    # fit on the line under the conditions defined by <tt>options</tt>. If
+    # omitted, the default wrapping proc is used. The options hash passed into
+    # the wrap_block proc includes the following options:
+    #   <tt>:width</tt> (the width available for the current line of text)
+    #   <tt>:document</tt> (the pdf object)
+    #   <tt>:kerning</tt> (boolean)
+    #   <tt>:size</tt> (the font size)
+    #
+    # Raises <tt>ArgumentError</tt> if both <tt>:at</tt> and <tt>:align</tt>
+    # options included
+    # Raises <tt>ArgumentError</tt> if <tt>:rotate</tt> option included, but
+    # <tt>:at</tt> option omitted
+    #
     def text(text, options={})
+      # we might modify the options. don't change the user's hash
+      options = options.dup
       if options[:at]
-        if options[:align]
-          raise ArgumentError, "The :align option does not work with :at"
-        end
-
-        Prawn.verify_options(VALID_TEXT_OPTIONS, options)
-
+        inspect_options_for_text_at(options)
         # we'll be messing with the strings encoding, don't change the user's
         # original string
         text = text.to_s.dup
-
+        options = @text_options.merge(options)
         save_font do
-          options = @text_options.merge(options)
           process_text_options(options)
-
           font.normalize_encoding!(text) unless @skip_encoding
           font_size(options[:size]) { text_at(text, options) }
         end
       else
-        if options[:rotate]
-          raise ArgumentError, "Rotated text may only be used with :at"
-        end
-
         remaining_text = fill_text_box(text, options)
-
         while remaining_text.length > 0
           @bounding_box.move_past_bottom
           previous_remaining_text = remaining_text
@@ -124,10 +158,15 @@ module Prawn
       add_text_content(text,x,y,options)
     end
 
+    # These should be used as a base. Extensions may build on this list
+    VALID_TEXT_OPTIONS = [:kerning, :size, :style]
+
+    # Low level call to set the current font style and extract text options from
+    # an options hash. Should be called from within a save_font block
     def process_text_options(options)
       if options[:style]
         raise "Bad font family" unless font.family
-        font(font.family,:style => options[:style])
+        font(font.family, :style => options[:style])
       end
 
       # must compare against false to keep kerning on as default
@@ -141,7 +180,7 @@ module Prawn
     private
 
     def fill_text_box(text, options)
-      options = options.merge(:document => self)
+      final_gap = inspect_options_for_text_box(options)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
                                          @bounding_box.absolute_bottom
 
@@ -153,12 +192,28 @@ module Prawn
       box = Text::Box.new(text, options)
       remaining_text = box.render
 
-      final_gap = options[:final_gap].nil? ? true : options[:final_gap]
-
       self.y -= box.height - box.descender
       self.y -= box.line_height + box.leading - box.ascender if final_gap
 
       remaining_text
+    end
+
+    def inspect_options_for_text_at(options)
+      if options[:align]
+        raise ArgumentError, "The :align option does not work with :at"
+      end
+      valid_options = VALID_TEXT_OPTIONS.dup.concat([:at, :rotate])
+      Prawn.verify_options(valid_options, options)
+    end
+
+    def inspect_options_for_text_box(options)
+      if options[:rotate]
+        raise ArgumentError, "Rotated text may only be used with :at"
+      end
+      options.merge!(:document => self)
+      final_gap = options[:final_gap].nil? ? true : options[:final_gap]
+      options.delete(:final_gap)
+      final_gap
     end
 
     def move_text_position(dy)
