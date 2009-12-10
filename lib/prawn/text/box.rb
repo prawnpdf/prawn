@@ -32,7 +32,7 @@ module Prawn
     #   
     #     :align is :center, :left, or :right. Defaults to :left
     #
-    #     :vertical_align is :center, :top, or :bottom. Defaults to :top
+    #     :valign is :center, :top, or :bottom. Defaults to :top
     #
     #     :overflow is :truncate, :shrink_to_fit, :expand, or :ellipses,
     #       denoting the behavior when the amount of text exceeds the
@@ -63,7 +63,7 @@ module Prawn
       def valid_options
         Text::VALID_TEXT_OPTIONS.dup.concat([:align, :document, :height,
                                              :min_font_size,
-                                             :overflow, :vertical_align,
+                                             :overflow, :valign,
                                              :width, :wrap_block])
       end
 
@@ -86,7 +86,7 @@ module Prawn
                          @document.bounds.top - @document.bounds.bottom
         @center        = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
         @align         = options[:align] || :left
-        @vertical_align = options[:vertical_align] || :top
+        @vertical_align = options[:valign] || :top
         @leading        = options[:leading] || 0
 
         if @overflow == :expand

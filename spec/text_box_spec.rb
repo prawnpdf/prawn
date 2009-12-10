@@ -95,7 +95,7 @@ describe "Text::Box with text than can fit in the box" do
   end
 end
 
-describe "Text::Box with text than can fit in the box with :ellipses overflow and :bottom :vertical_alignment" do
+describe "Text::Box with text than can fit in the box with :ellipses overflow and :valign => :bottom" do
   it "should not print ellipses" do
     create_pdf
     @text = "Oh hai text rect. " * 10
@@ -103,7 +103,7 @@ describe "Text::Box with text than can fit in the box with :ellipses overflow an
       :width => 162.0,
       :height => 162.0,
       :overflow => :ellipses,
-      :vertical_align => :bottom,
+      :valign => :bottom,
       :document => @pdf
     }
     @text_box = Prawn::Text::Box.new(@text, @options)
