@@ -63,6 +63,7 @@ module Prawn
 
         yield if block_given?
 
+        # restore the previous graphics context
         add_content "Q"
       end
 
