@@ -41,19 +41,9 @@ module Prawn
     #   pdf.stamp("my_stamp")
     #
     def stamp(name)
-      raise Prawn::Errors::InvalidName if name.empty?
-      unless stamp_dictionary_registry[name]
-        raise Prawn::Errors::UndefinedObjectName
-      end
-      
-      dict = stamp_dictionary_registry[name]
-
-      stamp_dictionary_name = dict[:stamp_dictionary_name]
-      stamp_dictionary = dict[:stamp_dictionary]
-
-      add_content "/#{stamp_dictionary_name} Do"
-      
-      page_xobjects.merge!(stamp_dictionary_name => stamp_dictionary)
+      dictionary_name, dictionary = stamp_dictionary(name)
+      add_content "/#{dictionary_name} Do"
+      page_xobjects.merge!(dictionary_name => dictionary)
     end
 
     # Renders the stamp named <tt>name</tt> at a position offset from
@@ -98,10 +88,7 @@ module Prawn
     #   }
     #
     def create_stamp(name, &block)
-      raise Prawn::Errors::InvalidName if name.empty?
-      raise Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
-
-      dictionary = stamp_dictionary(name)
+      dictionary = create_stamp_dictionary(name)
 
       @active_stamp_stream = ""
       @active_stamp_dictionary = dictionary
@@ -128,6 +115,21 @@ module Prawn
     end
 
     def stamp_dictionary(name)
+      raise Prawn::Errors::InvalidName if name.empty?
+      if stamp_dictionary_registry[name].nil?
+        raise Prawn::Errors::UndefinedObjectName
+      end
+
+      dict = stamp_dictionary_registry[name]
+
+      dictionary_name = dict[:stamp_dictionary_name]
+      dictionary = dict[:stamp_dictionary]
+      [dictionary_name, dictionary]
+    end
+
+    def create_stamp_dictionary(name)
+      raise Prawn::Errors::InvalidName if name.empty?
+      raise Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
       # BBox origin is the lower left margin of the page, so we need
       # it to be the full dimension of the page, or else things that
       # should appear near the top or right margin are invisible
