@@ -57,30 +57,13 @@ module Prawn
         opacity        = [[opacity, 0.0].max, 1.0].min
         stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min
 
-        key = "#{opacity}_#{stroke_opacity}"
-
-        if opacity_dictionary_registry[key]
-          opacity_dictionary =  opacity_dictionary_registry[key][:obj]
-          opacity_dictionary_name =  opacity_dictionary_registry[key][:name]
-        else
-          opacity_dictionary = ref!(:Type => :ExtGState,
-                                    :CA   => stroke_opacity,
-                                    :ca   => opacity
-                                    )
-
-          opacity_dictionary_name = "Tr#{next_opacity_dictionary_id}"
-          opacity_dictionary_registry[key] = { :name => opacity_dictionary_name, 
-                                               :obj  => opacity_dictionary }
-        end
-
-        page_ext_gstates.merge!(opacity_dictionary_name => opacity_dictionary)
-
         # push a new graphics context onto the graphics context stack
         add_content "q"
-        add_content "/#{opacity_dictionary_name} gs"
+        add_content "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
 
         yield if block_given?
 
+        # restore the previous graphics context
         add_content "Q"
       end
 
@@ -92,6 +75,27 @@ module Prawn
 
       def next_opacity_dictionary_id
         opacity_dictionary_registry.length + 1
+      end
+
+      def opacity_dictionary_name(opacity, stroke_opacity)
+        key = "#{opacity}_#{stroke_opacity}"
+
+        if opacity_dictionary_registry[key]
+          dictionary =  opacity_dictionary_registry[key][:obj]
+          dictionary_name =  opacity_dictionary_registry[key][:name]
+        else
+          dictionary = ref!(:Type => :ExtGState,
+                                    :CA   => stroke_opacity,
+                                    :ca   => opacity
+                                    )
+
+          dictionary_name = "Tr#{next_opacity_dictionary_id}"
+          opacity_dictionary_registry[key] = { :name => dictionary_name, 
+                                               :obj  => dictionary }
+        end
+
+        page_ext_gstates.merge!(dictionary_name => dictionary)
+        dictionary_name
       end
 
     end

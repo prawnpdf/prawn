@@ -39,13 +39,13 @@ Prawn::Document.generate("text_box.pdf") do
     
     case i
     when 0
-      options[:vertical_align] = :top if j == 0
+      options[:valign] = :top if j == 0
     when 1
       options[:align] = :center
-      options[:vertical_align] = :center if j == 0
+      options[:valign] = :center if j == 0
     when 2
       options[:align] = :right
-      options[:vertical_align] = :bottom if j == 0
+      options[:valign] = :bottom if j == 0
     end
     
     case j
