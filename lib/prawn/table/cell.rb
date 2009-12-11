@@ -20,10 +20,13 @@ module Prawn
 
       attr_reader :padding
 
+      attr_writer :width, :height
+
       def initialize(pdf, point, options={})
         @pdf       = pdf
         @point     = point
         @width     = options[:width]
+        @height    = options[:height]
         @padding   = interpret_padding(options[:padding])
         @content   = options[:content]
       end
@@ -31,22 +34,48 @@ module Prawn
       # Returns the cell's width in points, inclusive of padding.
       #
       def width
-        @width ||= (content_width + @padding[1] + @padding[3])
+        @width ||= (content_width + left_padding + right_padding)
       end
-      
+
+      # Returns the width of the bare content in the cell, excluding padding.
+      #
       def content_width
         if @width # manually set
-          return @width - @padding[1] - @padding[3]
+          return @width - left_padding - right_padding
         end
 
         @pdf.width_of(@content)
       end
 
+      # Returns the cell's height in points, inclusive of padding.
+      #
+      def height
+        @height ||= (content_height + top_padding + bottom_padding)
+      end
+
+      # Returns the height of the bare content in the cell, excluding padding.
+      #
+      def content_height
+        if @height # manually set
+          return @height - top_padding - bottom_padding
+        end
+
+        @pdf.height_of(@content, :width => content_width)
+      end
+
       def draw
-        # TODO
+        draw_content
       end
 
       private
+
+      def draw_content
+        @pdf.bounding_box([left_padding, top_padding], 
+                          :width  => content_width,
+                          :height => content_height) do
+          # TODO: draw it
+        end
+      end
 
       def interpret_padding(pad)
         case
@@ -64,6 +93,21 @@ module Prawn
         end
       end
 
+      def top_padding
+        @padding[0]
+      end
+
+      def right_padding
+        @padding[1]
+      end
+
+      def bottom_padding
+        @padding[2]
+      end
+
+      def left_padding
+        @padding[3]
+      end
 
     end
   end
