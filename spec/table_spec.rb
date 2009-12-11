@@ -9,17 +9,13 @@ describe "Table cells" do
       @pdf = Prawn::Document.new
     end
 
-    def cell(options={})
-      Prawn::Table::Cell.new(@pdf, [0, @pdf.cursor], options)
-    end
-
     it "should be calculated for text" do
-      c = cell(:content => "text")
+      c = @pdf.cell(:content => "text")
       c.width.should == @pdf.width_of("text")
     end
 
     it "should be overridden by manual :width" do
-      c = cell(:content => "text", :width => 400)
+      c = @pdf.cell(:content => "text", :width => 400)
       c.width.should == 400
     end
 

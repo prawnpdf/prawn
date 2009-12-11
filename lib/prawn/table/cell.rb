@@ -6,6 +6,13 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
+  class Document
+    def cell(options={})
+      at = options[:at] || [0, cursor]
+      Table::Cell.new(self, at, options)
+    end
+  end
+
   class Table
     class Cell
 
