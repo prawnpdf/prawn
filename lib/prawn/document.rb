@@ -505,7 +505,7 @@ module Prawn
     #   end
     def number_pages(string, position)
       page_count.times do |i|
-        go_to_page(i)
+        go_to_page(i+1)
         str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
         text str, :at => position
       end
