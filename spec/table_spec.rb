@@ -34,6 +34,16 @@ describe "Prawn::Table::Cell" do
       c.width.should.be.close(@pdf.width_of("text") + 6, 0.01)
     end
 
+    it "content_width should exclude padding" do
+      c = @pdf.cell(:content => "text", :padding => 10)
+      c.content_width.should == @pdf.width_of("text")
+    end
+
+    it "content_width should exclude padding even with manual :width" do
+      c = @pdf.cell(:content => "text", :padding => 10, :width => 400)
+      c.content_width.should.be.close(380, 0.01)
+    end
+
   end
 
   describe "cell padding" do

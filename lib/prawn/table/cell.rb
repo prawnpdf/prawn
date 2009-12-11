@@ -21,15 +21,25 @@ module Prawn
       attr_reader :padding
 
       def initialize(pdf, point, options={})
-        @pdf     = pdf
-        @point   = point
-        @content = options[:content]
-        @width   = options[:width]
-        @padding = interpret_padding(options[:padding])
+        @pdf       = pdf
+        @point     = point
+        @width     = options[:width]
+        @padding   = interpret_padding(options[:padding])
+        @content   = options[:content]
       end
 
+      # Returns the cell's width in points, inclusive of padding.
+      #
       def width
-        @width ||= (@pdf.width_of(@content) + @padding[1] + @padding[3])
+        @width ||= (content_width + @padding[1] + @padding[3])
+      end
+      
+      def content_width
+        if @width # manually set
+          return @width - @padding[1] - @padding[3]
+        end
+
+        @pdf.width_of(@content)
       end
 
       def draw
