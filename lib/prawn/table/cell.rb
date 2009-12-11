@@ -117,10 +117,10 @@ module Prawn
         text_height = 0
         if @font_size
           @document.font_size(@font_size) do
-            text_height = @document.height_of(@text, text_area_width)
+            text_height = @document.height_of(@text, :width => text_area_width)
           end
         else
-          text_height = @document.height_of(@text, text_area_width)
+          text_height = @document.height_of(@text, :width => text_area_width)
         end
         text_height
       end
@@ -135,9 +135,7 @@ module Prawn
             @document.fill_color @background_color  
             h  = borders.include?(:bottom) ? 
               height - ( 2 * margin ) : height + margin
-            @document.fill_rectangle [x, 
-                                      y ], 
-                width, h  
+            @document.fill_rectangle [x, y ], width, h  
           end
         end
 
@@ -187,7 +185,8 @@ module Prawn
                                  ypos], 
                                 :width   => text_area_width,
                                 :height  => height - @vertical_padding) do
-          @document.move_down((@document.font.line_gap - @document.font.descender)/2)
+          @document.move_down((@document.font.line_gap +
+                               @document.font.descender) / 2)
 
           options = {:align => @align, :final_gap => false}
 

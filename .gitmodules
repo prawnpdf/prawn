@@ -1,0 +1,3 @@
+[submodule "vendor/prawn-core"]
+	path = vendor/prawn-core
+	url = git://github.com/sandal/prawn.git
