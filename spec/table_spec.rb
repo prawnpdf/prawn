@@ -29,6 +29,39 @@ describe "Prawn::Table::Cell" do
       c.width.should == 400
     end
 
+    it "should incorporate padding when specified" do
+      c = @pdf.cell(:content => "text", :padding => [1, 2, 3, 4])
+      c.width.should.be.close(@pdf.width_of("text") + 6, 0.01)
+    end
+
+  end
+
+  describe "cell padding" do
+    it "should default to zero" do
+      c = @pdf.cell(:content => "text")
+      c.padding.should == [0, 0, 0, 0]
+    end
+
+    it "should accept a numeric value, setting all padding" do
+      c = @pdf.cell(:content => "text", :padding => 10)
+      c.padding.should == [10, 10, 10, 10]
+    end
+
+    it "should accept [v,h]" do
+      c = @pdf.cell(:content => "text", :padding => [20, 30])
+      c.padding.should == [20, 30, 20, 30]
+    end
+
+    it "should accept [t,l,b,r]" do
+      c = @pdf.cell(:content => "text", :padding => [10, 20, 30, 40])
+      c.padding.should == [10, 20, 30, 40]
+    end
+
+    it "should reject other formats" do
+      lambda{
+        @pdf.cell(:content => "text", :padding => [10])
+      }.should.raise(ArgumentError)
+    end
   end
 
 end
