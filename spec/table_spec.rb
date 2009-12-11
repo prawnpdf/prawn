@@ -2,13 +2,23 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
 
-describe "Table cells" do
+describe "Prawn::Table::Cell" do
+  before(:each) do
+    @pdf = Prawn::Document.new
+  end
 
-  describe "cell width" do
-    before(:each) do
-      @pdf = Prawn::Document.new
+  describe "Prawn::Document#cell" do
+    it "should draw the cell" do
+      Prawn::Table::Cell.any_instance.expects(:draw).once
+      @pdf.cell(:content => "text")
     end
 
+    it "should return a Cell" do
+      @pdf.cell(:content => "text").should.be.an.instance_of Prawn::Table::Cell
+    end
+  end
+
+  describe "cell width" do
     it "should be calculated for text" do
       c = @pdf.cell(:content => "text")
       c.width.should == @pdf.width_of("text")

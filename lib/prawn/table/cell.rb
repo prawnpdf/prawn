@@ -9,7 +9,9 @@ module Prawn
   class Document
     def cell(options={})
       at = options[:at] || [0, cursor]
-      Table::Cell.new(self, at, options)
+      cell = Table::Cell.new(self, at, options)
+      cell.draw
+      cell
     end
   end
 
@@ -25,6 +27,10 @@ module Prawn
 
       def width
         @width ||= @pdf.width_of(@content)
+      end
+
+      def draw
+        # TODO
       end
 
 
