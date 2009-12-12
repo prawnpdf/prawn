@@ -119,6 +119,9 @@ module Prawn
         @pdf.bounding_box([x + left_padding, y - top_padding], 
                           :width  => content_width,
                           :height => content_height) do
+          
+          @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
+
           text_options = {}
           text_options[:size] = @font_size if @font_size
           text_options[:style] = @font_style if @font_style
