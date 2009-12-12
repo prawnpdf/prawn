@@ -43,7 +43,9 @@ module Prawn
       # Returns the cell's width in points, inclusive of padding.
       #
       def width
-        @width ||= (content_width + left_padding + right_padding)
+        # We can't ||= here because the FP error accumulates on the round-trip
+        # from #content_width.
+        @width || (content_width + left_padding + right_padding)
       end
 
       # Returns the width of the bare content in the cell, excluding padding.
@@ -61,7 +63,9 @@ module Prawn
       # Returns the cell's height in points, inclusive of padding.
       #
       def height
-        @height ||= (content_height + top_padding + bottom_padding)
+        # We can't ||= here because the FP error accumulates on the round-trip
+        # from #content_height.
+        @height || (content_height + top_padding + bottom_padding)
       end
 
       # Returns the height of the bare content in the cell, excluding padding.
@@ -111,11 +115,9 @@ module Prawn
       end
 
       def draw_content
-        puts "width: #{content_width}, height: #{content_height}"
         @pdf.bounding_box([x + left_padding, y - top_padding], 
                           :width  => content_width,
                           :height => content_height) do
-          @pdf.stroke_bounds # testing
 
           @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
 
