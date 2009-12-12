@@ -2,7 +2,7 @@
 
 # cell.rb: Table cell drawing.
 #
-# Copyright December 2009, Brad Ediger. All Rights Reserved.
+# Copyright December 2009, Gregory Brown and Brad Ediger. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
@@ -25,9 +25,13 @@ module Prawn
       def initialize(pdf, point, options={})
         @pdf       = pdf
         @point     = point
+
         @width     = options[:width]
         @height    = options[:height]
         @padding   = interpret_padding(options[:padding])
+
+        @font_size = options[:font_size]
+
         @content   = options[:content]
       end
 
@@ -44,7 +48,7 @@ module Prawn
           return @width - left_padding - right_padding
         end
 
-        @pdf.width_of(@content)
+        @pdf.width_of(@content, :size => @font_size)
       end
 
       # Returns the cell's height in points, inclusive of padding.
@@ -60,7 +64,17 @@ module Prawn
           return @height - top_padding - bottom_padding
         end
 
-        @pdf.height_of(@content, :width => content_width)
+        height = nil
+
+        if @font_size
+          @pdf.font_size(@font_size) do
+            height = @pdf.height_of(@content, :width => content_width)
+          end
+        else
+          height = @pdf.height_of(@content, :width => content_width)
+        end
+
+        height
       end
 
       def draw
@@ -70,11 +84,21 @@ module Prawn
       private
 
       def draw_content
-        @pdf.bounding_box([left_padding, top_padding], 
+        @pdf.bounding_box([x + left_padding, y - top_padding], 
                           :width  => content_width,
                           :height => content_height) do
-          # TODO: draw it
+          text_options = {}
+          text_options[:size] = @font_size if @font_size
+          @pdf.text(@content, text_options)
         end
+      end
+
+      def x
+        @point[0]
+      end
+
+      def y
+        @point[1]
       end
 
       def interpret_padding(pad)

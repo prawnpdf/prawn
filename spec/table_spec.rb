@@ -54,7 +54,11 @@ describe "Prawn::Table::Cell" do
       c.width.should == 400
     end
 
-    # TODO: font_size
+    it "should return proper width with font_size set" do
+      text = "text " * 4
+      c = cell(:content => text, :font_size => 7)
+      c.width.should == @pdf.width_of(text, :size => 7)
+    end
 
     it "content_width should exclude padding" do
       c = cell(:content => "text", :padding => 10)
@@ -95,7 +99,23 @@ describe "Prawn::Table::Cell" do
       c.height.should == 400
     end
 
-    # TODO: font_size
+    it "should return proper height for blocks of text" do
+      content = "words " * 10
+      c = cell(:content => content, :width => 100)
+      c.height.should == @pdf.height_of(content, :width => 100)
+    end
+
+    it "should return proper height for blocks of text with font_size set" do
+      content = "words " * 10
+      c = cell(:content => content, :width => 100, :font_size => 7)
+
+      correct_height = nil
+      @pdf.font_size(7) do
+        correct_height = @pdf.height_of(content, :width => 100)
+      end
+
+      c.height.should == correct_height
+    end
 
     it "content_height should exclude padding" do
       c = cell(:content => "text", :padding => 10)
