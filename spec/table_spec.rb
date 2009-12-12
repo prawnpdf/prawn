@@ -170,4 +170,37 @@ describe "Prawn::Table::Cell" do
     end
   end
 
+  describe "Font handling" do
+    include CellHelpers
+
+    it "should allow only :font_style to be specified, defaulting to the" +
+       "document's font" do
+      c = cell(:content => "text", :font_style => :bold)
+      c.font.name.should == 'Helvetica-Bold'
+    end
+
+    it "should accept a Prawn::Font for :font" do
+      font = @pdf.find_font('Helvetica-Bold')
+      c = cell(:content => "text", :font => font)
+      c.font.should == font
+    end
+
+    it "should accept a font name for :font" do
+      c = cell(:content => "text", :font => 'Helvetica-Bold')
+      c.font.name.should == 'Helvetica-Bold'
+    end
+
+    it "should default to the document's font, if none is specified" do
+      c = cell(:content => "text")
+      c.font.should == @pdf.font
+    end
+
+    it "should use the metrics of the selected font (even if it is a variant " +
+       "of the document's font) to calculate width" do
+      c = cell(:content => "text", :font_style => :bold)
+      font = @pdf.find_font('Helvetica-Bold')
+      c.content_width.should == font.compute_width_of("text")
+    end
+  end
+
 end

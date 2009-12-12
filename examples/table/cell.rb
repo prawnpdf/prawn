@@ -8,5 +8,5 @@
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 Prawn::Document.generate("cell.pdf") do 
-  cell :content => "test", :padding => 10
+  cell :content => "test", :padding => 10, :font_style => :bold
 end

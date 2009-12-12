@@ -18,8 +18,7 @@ module Prawn
   class Table
     class Cell
 
-      attr_reader :padding
-
+      attr_reader :padding, :font
       attr_writer :width, :height
 
       def initialize(pdf, point, options={})
@@ -32,6 +31,7 @@ module Prawn
 
         @font_size  = options[:font_size]
         @font_style = options[:font_style]
+        @font       = load_font(options[:font])
 
         @borders      = options[:borders] || [:top, :bottom, :left, :right]
         @border_width = options[:border_width] || 1
@@ -53,7 +53,9 @@ module Prawn
           return @width - left_padding - right_padding
         end
 
-        @pdf.width_of(@content, :size => @font_size)
+        # We have to use the font's width here, not the document's, to account 
+        # for :font_style
+        @font.compute_width_of(@content, :size => @font_size)
       end
 
       # Returns the cell's height in points, inclusive of padding.
@@ -69,17 +71,10 @@ module Prawn
           return @height - top_padding - bottom_padding
         end
 
-        height = nil
-
-        if @font_size
-          @pdf.font_size(@font_size) do
-            height = @pdf.height_of(@content, :width => content_width)
-          end
-        else
-          height = @pdf.height_of(@content, :width => content_width)
+        @pdf.save_font do
+          @pdf.set_font(@font, @font_size)
+          @pdf.height_of(@content, :width => content_width)
         end
-
-        height
       end
 
       # Draws the cell onto the document.
@@ -116,10 +111,12 @@ module Prawn
       end
 
       def draw_content
+        puts "width: #{content_width}, height: #{content_height}"
         @pdf.bounding_box([x + left_padding, y - top_padding], 
                           :width  => content_width,
                           :height => content_height) do
-          
+          @pdf.stroke_bounds # testing
+
           @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
 
           text_options = {}
@@ -167,6 +164,15 @@ module Prawn
 
       def left_padding
         @padding[3]
+      end
+
+      def load_font(font)
+        case font
+        when Prawn::Font then font
+        when String then @pdf.find_font(font)
+        when nil then @pdf.find_font(@pdf.font.family, :style => @font_style)
+        else @pdf.font
+        end
       end
 
     end
