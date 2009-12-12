@@ -33,6 +33,10 @@ module Prawn
         @font_size  = options[:font_size]
         @font_style = options[:font_style]
 
+        @borders      = options[:borders] || [:top, :bottom, :left, :right]
+        @border_width = options[:border_width] || 1
+        @border_color = options[:border_color]
+
         @content   = options[:content]
       end
 
@@ -78,11 +82,38 @@ module Prawn
         height
       end
 
+      # Draws the cell onto the document.
+      #
       def draw
+        draw_borders
         draw_content
       end
 
       private
+
+      def draw_borders
+        return if @border_width <= 0
+        margin = @border_width / 2
+
+        @pdf.mask(:line_width, :stroke_color) do
+          @pdf.line_width   = @border_width
+          @pdf.stroke_color = @border_color if @border_color
+
+          @borders.each do |border|
+            from, to = case border
+                       when :top
+                         [[x, y], [x+width, y]]
+                       when :bottom
+                         [[x, y-height], [x+width, y-height]]
+                       when :left
+                         [[x, y+margin], [x, y-height-margin]]
+                       when :right
+                         [[x+width, y+margin], [x+width, y-height+margin]]
+                       end
+            @pdf.stroke_line(from, to)
+          end
+        end
+      end
 
       def draw_content
         @pdf.bounding_box([x + left_padding, y - top_padding], 
