@@ -307,4 +307,53 @@ describe "The outlines option" do
   
 end 
 
+describe "Outline#generate_outline" do 
+  before(:each) do
+    file = Prawn::Document.generate('outlines.pdf') do
+      text "Page 1. This is the first Chapter. "
+      start_new_page
+      text "Page 2. More in the first Chapter. "
+      start_new_page
+      text "Page 3. This is the second Chapter. It has a subsection. "
+      start_new_page
+      text  "Page 4. More in the second Chapter. "
+      generate_outline do
+        section ['Chapter 1', 0] do 
+          page ['Page 1', 0]
+          page ['Page 2', 1]
+        end
+        section ['Chapter 2', 2] do 
+          section ['Chapter 2 Subsection', 2] do
+            page ['Page 3', 2]
+          end
+          page ['Page 4', 3]
+        end
+      end
+    end
+    file = File.new('outlines.pdf', 'r')
+    @hash = PDF::Hash.new(file)
+    @outline_root = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Outlines}
+    @pages = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
+    @first = @hash[@outline_root[:First]]
+  end
+  
+  it "the outline root should have a count of 7" do
+    @outline_root[:Count].should == 7
+  end
+  
+  it "the first outline item should have a Chapter 1 title" do
+    @first[:Title].should == 'Chapter 1'
+  end
+  
+  it "the first outline item's last item should have a destination of Page 2" do
+   last = @first[:Last]
+   @hash[last][:Dest][0].should == @pages[1]
+  end
+  
+  it "page 3's great gran parent should be the outline_root" do
+    page_3 = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Title] == 'Page 3'}
+    @great_grand_parent = [1, 2].inject(page_3[:Parent]) { |parent, d| @hash[parent][:Parent] } 
+    @hash[@great_grand_parent].should == @outline_root
+  end
 
+end

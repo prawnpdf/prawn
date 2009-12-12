@@ -6,14 +6,14 @@
 >>
 endobj
 2 0 obj
-<< /Type /Pages
+<< /Kids [5 0 R 8 0 R 10 0 R 12 0 R]
+/Type /Pages
 /Count 4
-/Kids [5 0 R 8 0 R 10 0 R 12 0 R]
 >>
 endobj
 3 0 obj
-<< /Outlines 13 0 R
-/Type /Catalog
+<< /Type /Catalog
+/Outlines 13 0 R
 /Pages 2 0 R
 >>
 endobj
@@ -38,20 +38,20 @@ Q
 endstream
 endobj
 5 0 obj
-<< /Type /Page
+<< /MediaBox [0 0 612.0 792.0]
+/Contents 4 0 R
 /Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
 /Font << /F1.0 6 0 R
 >>
 >>
+/Type /Page
 /Parent 2 0 R
-/MediaBox [0 0 612.0 792.0]
-/Contents 4 0 R
 >>
 endobj
 6 0 obj
-<< /Encoding /WinAnsiEncoding
+<< /Subtype /Type1
+/Encoding /WinAnsiEncoding
 /Type /Font
-/Subtype /Type1
 /BaseFont /Helvetica
 >>
 endobj
@@ -74,14 +74,14 @@ Q
 endstream
 endobj
 8 0 obj
-<< /Type /Page
+<< /MediaBox [0 0 612.0 792.0]
+/Contents 7 0 R
 /Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
 /Font << /F1.0 6 0 R
 >>
 >>
+/Type /Page
 /Parent 2 0 R
-/MediaBox [0 0 612.0 792.0]
-/Contents 7 0 R
 >>
 endobj
 9 0 obj
@@ -103,14 +103,14 @@ Q
 endstream
 endobj
 10 0 obj
-<< /Type /Page
+<< /MediaBox [0 0 612.0 792.0]
+/Contents 9 0 R
 /Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
 /Font << /F1.0 6 0 R
 >>
 >>
+/Type /Page
 /Parent 2 0 R
-/MediaBox [0 0 612.0 792.0]
-/Contents 9 0 R
 >>
 endobj
 11 0 obj
@@ -132,82 +132,82 @@ Q
 endstream
 endobj
 12 0 obj
-<< /Type /Page
+<< /MediaBox [0 0 612.0 792.0]
+/Contents 11 0 R
 /Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
 /Font << /F1.0 6 0 R
 >>
 >>
+/Type /Page
 /Parent 2 0 R
-/MediaBox [0 0 612.0 792.0]
-/Contents 11 0 R
 >>
 endobj
 13 0 obj
-<< /Type /Outlines
-/Count 7
+<< /Last 17 0 R
+/Type /Outlines
 /First 14 0 R
-/Last 17 0 R
+/Count 7
 >>
 endobj
 14 0 obj
-<< /Title (Chapter 1)
-/Dest [5 0 R /Fit]
-/Parent 13 0 R
+<< /Last 16 0 R
 /Next 17 0 R
-/Count 2
+/Dest [5 0 R /Fit]
 /First 15 0 R
-/Last 16 0 R
+/Count 2
+/Parent 13 0 R
+/Title (Chapter 1)
 >>
 endobj
 15 0 obj
-<< /Title (Page 1)
+<< /Next 16 0 R
 /Dest [5 0 R /Fit]
-/Parent 14 0 R
-/Next 16 0 R
 /Count 0
+/Parent 14 0 R
+/Title (Page 1)
 >>
 endobj
 16 0 obj
-<< /Title (Page 2)
-/Prev 15 0 R
-/Dest [8 0 R /Fit]
-/Parent 14 0 R
+<< /Dest [8 0 R /Fit]
 /Count 0
+/Parent 14 0 R
+/Title (Page 2)
+/Prev 15 0 R
 >>
 endobj
 17 0 obj
-<< /Title (Chapter 2)
-/Prev 14 0 R
+<< /Last 20 0 R
 /Dest [10 0 R /Fit]
-/Parent 13 0 R
-/Count 3
 /First 18 0 R
-/Last 20 0 R
+/Count 3
+/Parent 13 0 R
+/Title (Chapter 2)
+/Prev 14 0 R
 >>
 endobj
 18 0 obj
-<< /Title (Chapter 2 Subsection)
-/Dest [10 0 R /Fit]
-/Parent 17 0 R
+<< /Last 19 0 R
 /Next 20 0 R
-/Count 1
+/Dest [10 0 R /Fit]
 /First 19 0 R
-/Last 19 0 R
+/Count 1
+/Parent 17 0 R
+/Title (Chapter 2 Subsection)
 >>
 endobj
 19 0 obj
-<< /Title (Page 3)
-/Dest [10 0 R /Fit]
-/Parent 18 0 R
+<< /Dest [10 0 R /Fit]
 /Count 0
+/Parent 18 0 R
+/Title (Page 3)
 >>
 endobj
 20 0 obj
-<< /Title (Page 4)
-/Prev 18 0 R
-/Dest [12 0 R /Fit]
-/Parent 17 0 R
+<< /Dest [12 0 R /Fit]
 /Count 0
+/Parent 17 0 R
+/Title (Page 4)
+/Prev 18 0 R
 >>
 endobj
 xref

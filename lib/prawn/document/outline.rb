@@ -15,7 +15,9 @@ module Prawn
         @store.root.data.merge!({:Outlines => root_outline})
         @parent = root_outline
         @prev = nil
-        block.call if block
+        if block
+          block.arity < 1 ? instance_eval(&block) : block[self]
+        end
       end
   
   private
