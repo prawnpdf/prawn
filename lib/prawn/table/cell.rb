@@ -30,7 +30,8 @@ module Prawn
         @height    = options[:height]
         @padding   = interpret_padding(options[:padding])
 
-        @font_size = options[:font_size]
+        @font_size  = options[:font_size]
+        @font_style = options[:font_style]
 
         @content   = options[:content]
       end
@@ -89,6 +90,7 @@ module Prawn
                           :height => content_height) do
           text_options = {}
           text_options[:size] = @font_size if @font_size
+          text_options[:style] = @font_style if @font_style
           @pdf.text(@content, text_options)
         end
       end

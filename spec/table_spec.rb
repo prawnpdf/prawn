@@ -26,6 +26,18 @@ describe "Prawn::Table::Cell" do
     it "should return a Cell" do
       @pdf.cell(:content => "text").should.be.an.instance_of Prawn::Table::Cell
     end
+
+    it "should draw text at the given point plus padding, with the given " +
+       "size and style" do
+      @pdf.expects(:bounding_box).with{ |at, options| at == [50, -10] }.yields
+      @pdf.expects(:text).with("hello world", :size => 7, :style => :bold)
+
+      @pdf.cell(:content => "hello world", 
+                :at => [10, 20],
+                :padding => [30, 40],
+                :font_size => 7, 
+                :font_style => :bold)
+    end
   end
 
   describe "cell width" do
