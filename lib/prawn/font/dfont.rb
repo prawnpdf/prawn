@@ -11,16 +11,16 @@ module Prawn
       # list is not necessarily the font at index 0 in the file.
       #
       def self.named_fonts(file)
-        TTFunk::ResourceFile.open(file) do |file|
-          return file.resources_for("sfnt")
+        TTFunk::ResourceFile.open(file) do |f|
+          return f.resources_for("sfnt")
         end
       end
 
       # Returns the number of fonts contained in the dfont file.
       #
       def self.font_count(file)
-        TTFunk::ResourceFile.open(file) do |file|
-          return file.map["sfnt"][:list].length
+        TTFunk::ResourceFile.open(file) do |f|
+          return f.map["sfnt"][:list].length
         end
       end
 

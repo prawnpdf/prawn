@@ -201,6 +201,7 @@ module Prawn
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
+	@stretched_height = nil
       end     
       
       # The translated origin (x,y-height) which describes the location

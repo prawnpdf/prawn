@@ -251,7 +251,7 @@ module Prawn
         # - An array with N elements, where N is two times the number of color
         #   components.
         rgb = png.transparency[:rgb]
-        obj.data[:Mask] = rgb.collect { |val| [val,val] }.flatten
+        obj.data[:Mask] = rgb.collect { |x| [x,x] }.flatten
       elsif png.transparency[:indexed]
         # TODO: broken. I was attempting to us Color Key Masking, but I think
         #       we need to construct an SMask i think. Maybe do it inside
