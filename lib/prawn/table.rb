@@ -6,7 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "prawn/table/cell"
+require 'prawn/table/cell'
+require 'prawn/table/cell/text'
 
 module Prawn
 
