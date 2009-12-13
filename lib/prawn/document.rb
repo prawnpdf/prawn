@@ -280,10 +280,6 @@ module Prawn
       @page_number
     end
     
-    def page_identifier(k)
-      @store.pages.data[:Kids][k-1]
-    end
-
     # Re-opens the page with the given (1-based) page number so that you can
     # draw on it. Does not restore page state such as margins, page orientation,
     # or paper size, so you'll have to handle that yourself.

@@ -95,6 +95,10 @@ module Prawn
         @store.root.data[:Outlines] ||= ref!(outline_root)
       end
       
+      def page_identifier(k)
+        @store.pages.data[:Kids][k-1]
+      end
+      
       # Defines a block to be called just before the document is rendered.
       #
       def before_render(&block)
