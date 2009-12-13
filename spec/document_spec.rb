@@ -411,15 +411,15 @@ describe "Outline#generate_outline" do
       start_new_page
       text  "Page 4. More in the second Chapter. "
       render_outline do
-        section ['Chapter 1', 0] do 
-          page ['Page 1', 0]
-          page ['Page 2', 1]
+        section ['Chapter 1', 1] do 
+          page ['Page 1', 1]
+          page ['Page 2', 2]
         end
-        section ['Chapter 2', 2] do 
-          section ['Chapter 2 Subsection', 2] do
-            page ['Page 3', 2]
+        section ['Chapter 2', 3] do 
+          section ['Chapter 2 Subsection', 3] do
+            page ['Page 3', 3]
           end
-          page ['Page 4', 3]
+          page ['Page 4', 4]
         end
       end
     end
