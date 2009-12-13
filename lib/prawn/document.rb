@@ -12,7 +12,6 @@ require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"
 require "prawn/document/span"
-require "prawn/document/text"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
@@ -62,6 +61,7 @@ module Prawn
     include Destinations
     include Snapshot
     include Outline
+    include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
@@ -177,6 +177,7 @@ module Prawn
        @store = ObjectStore.new(options[:info])
        @trailer = {}
        @before_render_callbacks = []
+       @on_page_create_callback = nil
 
        @page_size     = options[:page_size]   || "LETTER"
        @page_layout   = options[:page_layout] || :portrait
@@ -202,6 +203,7 @@ module Prawn
        generate_margin_box
 
        @bounding_box = @margin_box
+       @page_number = 0
 
        start_new_page unless options[:skip_page_creation]
        
@@ -223,6 +225,7 @@ module Prawn
      #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
+       
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
        
@@ -235,15 +238,20 @@ module Prawn
        end
 
        build_new_page_content
-
-       @store.pages.data[:Kids] << current_page
+       
+       @store.pages.data[:Kids].insert(@page_number, current_page)
        @store.pages.data[:Count] += 1
-
+       @page_number += 1
+        
        add_content "q"
-
+       
        @y = @bounding_box.absolute_top
 
        image(@background, :at => [0,@y]) if @background
+       
+       float do
+         @on_page_create_callback.call(self) if @on_page_create_callback 
+       end
     end
     
     def add_outline_dictionary
@@ -266,6 +274,26 @@ module Prawn
       @store.pages.data[:Count]
     end
 
+    # Returns the 1-based page number of the current page. Returns 0 if the
+    # document has no pages.
+    #
+    def page_number
+      @page_number
+    end
+
+    # Re-opens the page with the given (1-based) page number so that you can
+    # draw on it. Does not restore page state such as margins, page orientation,
+    # or paper size, so you'll have to handle that yourself.
+    #
+    # See Prawn::Document#number_pages for a sample usage of this capability.
+    #
+    def go_to_page(k)
+      @page_number = k
+      jump_to = @store.pages.data[:Kids][k-1]
+      @current_page = jump_to.identifier
+      @page_content = jump_to.data[:Contents].identifier
+    end
+
     def y=(new_y)
       @y = new_y
       bounds.update_height
@@ -283,6 +311,11 @@ module Prawn
     # 
     def move_cursor_to(new_y)
       self.y = new_y + bounds.absolute_bottom
+    end
+
+    # Executes a block and then restores the original y position
+    def float 
+      mask(:y) { yield }
     end
 
     # Renders the PDF document to string, useful for example in a Rails 
@@ -486,7 +519,7 @@ module Prawn
     #   end
     def number_pages(string, position)
       page_count.times do |i|
-        go_to_page(i)
+        go_to_page(i+1)
         str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
         text str, :at => position
       end

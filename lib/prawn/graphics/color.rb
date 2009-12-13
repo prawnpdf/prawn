@@ -141,7 +141,6 @@ module Prawn
 
       def set_color_space(type, color_space)
         # don't set the same color space again
-        @color_space ||= {}
         return if @color_space[type] == color_space
         @color_space[type] = color_space
 
@@ -190,6 +189,7 @@ module Prawn
       end
 
       def update_colors
+        @color_space  = {}
         @fill_color   ||= "000000"
         @stroke_color ||= "000000"
         set_fill_color

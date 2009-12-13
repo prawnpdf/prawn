@@ -97,19 +97,22 @@ module Prawn
         @before_render_callbacks << block
       end
 
-      def go_to_page(k) # :nodoc:
-        jump_to = @store.pages.data[:Kids][k]
-        @current_page = jump_to.identifier
-        @page_content = jump_to.data[:Contents].identifier
+      # Defines a block to be called just before a new page is started.
+      #
+      def on_page_create(&block)
+         if block_given?
+            @on_page_create_callback = block
+         else
+            @on_page_create_callback = nil
+         end
       end
-
+      
       private      
 
       def finalize_all_page_contents
-        page_count.times do |i|
+        (1..page_count).each do |i|
           go_to_page i
-          @header.draw if defined?(@header) and @header
-          @footer.draw if defined?(@footer) and @footer
+          repeaters.each { |r| r.run(i) }
           add_content "Q"
           page_content.compress_stream if compression_enabled?
           page_content.data[:Length] = page_content.stream.size
