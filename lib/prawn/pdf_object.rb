@@ -72,6 +72,8 @@ module Prawn
       PdfObject(obj.to_hash)
     when Prawn::NameTree::Value
       PdfObject(obj.name) + " " + PdfObject(obj.value)
+    when Prawn::OutlineRoot, Prawn::OutlineItem
+      PdfObject(obj.to_hash)
     else
       raise Prawn::Errors::FailedObjectConversion, 
         "This object cannot be serialized to PDF"

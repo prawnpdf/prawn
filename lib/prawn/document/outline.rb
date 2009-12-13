@@ -8,17 +8,17 @@ module Prawn
     
     attr_accessor :parent
     attr_accessor :prev
-    attr_accessor :pdf
+    attr_accessor :document
+    attr_accessor :outline_root
     
-    def initialize(pdf)
-      self.pdf = pdf
+    def initialize(document)
+      @document = document
+      @outline_root = document.outline(OutlineRoot.new)
+      @parent = outline_root
+      @prev = nil
     end
     
     def generate_outline(&block)
-      root_outline = pdf.ref!(:Type => :Outlines, :Count => 0)
-      pdf.instance_eval {@store.root.data.merge!({:Outlines => root_outline})}
-      @parent = root_outline
-      @prev = nil
       if block
         block.arity < 1 ? instance_eval(&block) : block[self]
       end
@@ -38,39 +38,76 @@ module Prawn
     alias :page :section
     
     def create_outline_item(item_array)
-      outline_item = {:Title => Prawn::LiteralString.new(item_array[0]), 
-                        :Parent => parent, :Count => 0}
-      outline_item.merge!(:Dest => [pdf.instance_eval{@store.pages.data[:Kids][item_array[1]]}, 
-                          :Fit]) if item_array[1]
-      outline_item.merge!({:Prev => prev}) if prev
-      outline_item = pdf.ref!(outline_item)
+      outline_item = OutlineItem.new(item_array[0], parent)
+      outline_item.dest = [document.page_identifier(item_array[1]), :Fit] if item_array[1]
+      outline_item.prev if prev
+      document.ref!(outline_item)
     end
     
     def set_relations(outline_item)
-      prev.data.merge!({:Next => outline_item}) if prev
-      parent.data.merge!({:First => outline_item}) unless prev
-      parent.data.merge!({:Last => outline_item})
+      prev.data.next = outline_item if prev
+      parent.data.first = outline_item unless prev
+      parent.data.last = outline_item
     end
     
     def increase_count
       counting_parent = parent
-      while counting_parent 
-        counting_parent.data[:Count] += 1
-        counting_parent = counting_parent.data[:Parent]
+      while counting_parent
+        counting_parent.data.count += 1
+        if counting_parent == outline_root
+          counting_parent = nil
+        else
+          counting_parent = counting_parent.data.parent
+        end
       end
     end
     
     def set_variables_for_block(outline_item, block)
-      @prev = block ? nil : outline_item
-      @parent = outline_item if block
+      self.prev = block ? nil : outline_item
+      self.parent = outline_item if block
     end
     
     def reset_parent(outline_item)
       if parent == outline_item
-        @prev = outline_item
-        @parent = outline_item.data[:Parent]
+        self.prev = outline_item
+        self.parent = outline_item.data.parent
       end
     end
   end
+  
+  class OutlineRoot
+    attr_accessor :count, :first, :last
+    
+    def initialize
+      @count = 0
+    end
+        
+    def to_hash
+      {:Type => :Outlines, :Count => count, :First => first, :Last => last}
+    end
+  end
+  
+  class OutlineItem
+    attr_accessor :count, :first, :last, :next, :prev, :parent, :title, :dest
+  
+    def initialize(title, parent)
+      @title = title
+      @parent = parent
+      @count = 0
+    end
+  
+    def to_hash
+      hash = { :Title => Prawn::LiteralString.new(title),
+               :Parent => parent,
+               :Count => count }
+      [{:First => first}, {:Last => last}, {:Next => @next}, 
+       {:Prev => prev}, {:Dest => dest}].each do |h|
+        unless h.values.first.nil?
+          hash.merge!(h)
+        end
+      end
+      hash 
+    end
+  end    
 end
      

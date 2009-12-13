@@ -60,7 +60,6 @@ module Prawn
     include Annotations
     include Destinations
     include Snapshot
-    #include Outline
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
@@ -279,6 +278,10 @@ module Prawn
     #
     def page_number
       @page_number
+    end
+    
+    def page_identifier(k)
+      @store.pages.data[:Kids][k-1]
     end
 
     # Re-opens the page with the given (1-based) page number so that you can

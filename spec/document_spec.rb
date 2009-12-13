@@ -402,7 +402,7 @@ end
 
 describe "Outline#generate_outline" do 
   before(:each) do
-    file = Prawn::Document.generate('outlines.pdf') do
+    pdf = Prawn::Document.new() do
       text "Page 1. This is the first Chapter. "
       start_new_page
       text "Page 2. More in the first Chapter. "
@@ -410,7 +410,7 @@ describe "Outline#generate_outline" do
       text "Page 3. This is the second Chapter. It has a subsection. "
       start_new_page
       text  "Page 4. More in the second Chapter. "
-      generate_outline do
+      render_outline do
         section ['Chapter 1', 0] do 
           page ['Page 1', 0]
           page ['Page 2', 1]
@@ -423,8 +423,8 @@ describe "Outline#generate_outline" do
         end
       end
     end
-    file = File.new('outlines.pdf', 'r')
-    @hash = PDF::Hash.new(file)
+    output = StringIO.new(pdf.render, 'r+')
+    @hash = PDF::Hash.new(output)
     @outline_root = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Outlines}
     @pages = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
     @first = @hash[@outline_root[:First]]

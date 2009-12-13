@@ -90,7 +90,11 @@ module Prawn
       def names
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
-
+      
+      def outline(outline_root)
+        @store.root.data[:Outlines] ||= ref!(outline_root)
+      end
+      
       # Defines a block to be called just before the document is rendered.
       #
       def before_render(&block)
