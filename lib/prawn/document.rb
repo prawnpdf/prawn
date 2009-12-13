@@ -60,7 +60,7 @@ module Prawn
     include Annotations
     include Destinations
     include Snapshot
-    include Outline
+    #include Outline
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
@@ -578,6 +578,10 @@ module Prawn
       [:top, :right, :bottom, :left].zip(positions).each do |p,i|
         options[:"#{p}_margin"] ||= margin[i]
       end
+    end
+    
+    def render_outline(&block)
+      Outline.new(self).generate_outline(&block)
     end
 
   end
