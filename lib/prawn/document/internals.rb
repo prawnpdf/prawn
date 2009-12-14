@@ -91,8 +91,12 @@ module Prawn
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
       
-      def outline(outline_root)
+      def outline_root(outline_root)
         @store.root.data[:Outlines] ||= ref!(outline_root)
+      end
+      
+      def outline
+        @outline ||= Outline.new(self)
       end
       
       def page_identifier(k)

@@ -13,7 +13,7 @@ module Prawn
     
     def initialize(document)
       @document = document
-      @outline_root = document.outline(OutlineRoot.new)
+      @outline_root = document.outline_root(OutlineRoot.new)
       @parent = outline_root
       @prev = nil
     end
@@ -23,11 +23,19 @@ module Prawn
         block.arity < 1 ? instance_eval(&block) : block[self]
       end
     end
+    
+    def add_section(&block)
+      @parent = outline_root
+      @prev = outline_root.data.last
+      if block
+        block.arity < 1 ? instance_eval(&block) : block[self]
+      end      
+    end
 
   private
     
-    def section(item_array, &block)
-      outline_item = create_outline_item(item_array)
+    def section(title, options = {}, &block)
+      outline_item = create_outline_item(title, options)
       set_relations(outline_item)
       increase_count
       set_variables_for_block(outline_item, block)
@@ -37,9 +45,9 @@ module Prawn
     
     alias :page :section
     
-    def create_outline_item(item_array)
-      outline_item = OutlineItem.new(item_array[0], parent)
-      outline_item.dest = [document.page_identifier(item_array[1]), :Fit] if item_array[1]
+    def create_outline_item(title, options)
+      outline_item = OutlineItem.new(title, parent, options)
+      outline_item.dest = [document.page_identifier(options[:page]), :Fit] if options[:page]
       outline_item.prev if prev
       document.ref!(outline_item)
     end
@@ -88,9 +96,10 @@ module Prawn
   end
   
   class OutlineItem
-    attr_accessor :count, :first, :last, :next, :prev, :parent, :title, :dest
+    attr_accessor :count, :first, :last, :next, :prev, :parent, :title, :dest, :closed
   
-    def initialize(title, parent)
+    def initialize(title, parent, options)
+      @closed = options[:closed]
       @title = title
       @parent = parent
       @count = 0
@@ -99,7 +108,7 @@ module Prawn
     def to_hash
       hash = { :Title => Prawn::LiteralString.new(title),
                :Parent => parent,
-               :Count => count }
+               :Count => closed ? -count : count }
       [{:First => first}, {:Last => last}, {:Next => @next}, 
        {:Prev => prev}, {:Dest => dest}].each do |h|
         unless h.values.first.nil?
