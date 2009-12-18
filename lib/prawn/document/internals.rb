@@ -91,6 +91,12 @@ module Prawn
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
 
+      # Returns true if the Names dictionary is in use for this document.
+      # 
+      def names?
+        @store.root.data[:Names]
+      end
+
       # Defines a block to be called just before the document is rendered.
       #
       def before_render(&block)
@@ -141,6 +147,7 @@ module Prawn
       # Write out the PDF Body, as per spec 3.4.2
       #
       def render_body(output)
+        @store.compact if @optimize_objects
         @store.each do |ref|
           ref.offset = output.size
           output << ref.object
