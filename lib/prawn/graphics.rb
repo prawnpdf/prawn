@@ -249,6 +249,18 @@ module Prawn
       add_content "b"
     end
 
+    def save_graphics_state
+      add_content "q"
+      if block_given?
+        yield
+        restore_graphics_state
+      end
+    end
+
+    def restore_graphics_state
+      add_content "Q"
+    end
+    
     private
 
     def translate(*point)
