@@ -254,6 +254,25 @@ module Prawn
       add_content "#{values} cm"
     end
     
+    def rotate(angle)
+      rad = degree_to_rad(angle)
+      cos = Math.cos(rad)
+      sin = Math.sin(rad)
+      transformation_matrix(cos, sin, -sin, cos, 0, 0)
+    end
+    
+    def translate(x, y)
+      transformation_matrix(1, 0, 0, 1, x, y)
+    end
+    
+    def scale(factor)
+      transformation_matrix(factor, 0, 0, factor, 0, 0)
+    end
+    
+    def skew(a, b)
+      transformation_matrix(1, Math.tan(degree_to_rad(a)), Math.tan(degree_to_rad(b)), 1, 0, 0)
+    end
+    
     def save_graphics_state
       add_content "q"
       if block_given?
@@ -277,5 +296,8 @@ module Prawn
       point.replace(map_to_absolute(point))
     end
 
+    def degree_to_rad(angle)
+       angle * Math::PI / 180
+    end
   end
 end

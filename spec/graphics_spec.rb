@@ -259,3 +259,33 @@ describe "When using transformation matrix" do
     matrices.matrices.should == [[1, 0, 0, -1, 5.5, 20]]
   end
 end
+
+describe "When using transformations shortcuts" do
+  before(:each) { create_pdf }
+
+  it "should rotate" do
+    angle = 12.32
+    cos = Math.cos(angle * Math::PI / 180)
+    sin = Math.sin(angle * Math::PI / 180)
+    @pdf.expects(:transformation_matrix).with(cos, sin, -sin, cos, 0, 0)
+    @pdf.rotate(angle)
+  end
+
+  it "should translate" do
+    x, y = 12, 54.32
+    @pdf.expects(:transformation_matrix).with(1, 0, 0, 1, x, y)
+    @pdf.translate(x, y)
+  end
+
+  it "should scale" do
+    factor = 0.12
+    @pdf.expects(:transformation_matrix).with(factor, 0, 0, factor, 0, 0)
+    @pdf.scale(factor)
+  end
+
+  it "should skew" do
+    a, b = 30, 50.2
+    @pdf.expects(:transformation_matrix).with(1, Math.tan(a * Math::PI / 180), Math.tan(b * Math::PI / 180), 1, 0, 0)
+    @pdf.skew(a, b)
+  end
+end
