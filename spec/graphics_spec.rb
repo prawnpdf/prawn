@@ -252,4 +252,10 @@ describe "When using transformation matrix" do
     @pdf.expects(:add_content).with("#{string} cm")
     @pdf.transformation_matrix *values
   end
+    
+  it "should be received by the inspector" do
+    @pdf.transformation_matrix 1, 0, 0, -1, 5.5, 20
+    matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+    matrices.matrices.should == [[1, 0, 0, -1, 5.5, 20]]
+  end
 end
