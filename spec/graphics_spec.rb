@@ -234,3 +234,22 @@ describe "When using graphics states" do
     end
   end
 end
+
+describe "When using transformation matrix" do
+  before(:each) { create_pdf }
+
+  # Note: The (approximate) number of significant decimal digits of precision in fractional
+  # part is 5 (PDF Reference, Third Edition, p. 706)
+  
+  it "should send the right content on transformation_matrix" do
+    @pdf.expects(:add_content).with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
+    @pdf.transformation_matrix 1, 0, 0.123456789, -1.0, 5.5, 20
+  end
+    
+  it "should use fixed digits with very small number" do
+    values = Array.new(6, 0.000000000001)
+    string = Array.new(6, "0.00000").join " "
+    @pdf.expects(:add_content).with("#{string} cm")
+    @pdf.transformation_matrix *values
+  end
+end

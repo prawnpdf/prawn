@@ -249,6 +249,11 @@ module Prawn
       add_content "b"
     end
 
+    def transformation_matrix(a, b, c, d, e, f)
+      values = [a, b, c, d, e, f].map { |x| "%.5f" % x }.join(" ")
+      add_content "#{values} cm"
+    end
+    
     def save_graphics_state
       add_content "q"
       if block_given?
