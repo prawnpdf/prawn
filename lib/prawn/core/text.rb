@@ -11,7 +11,7 @@ module Prawn
       # should already be set
       #
       def draw_text(text, options)
-        x,y = translate(options[:at])
+        x,y = map_to_absolute(options[:at])
         add_text_content(text,x,y,options)
       end
 

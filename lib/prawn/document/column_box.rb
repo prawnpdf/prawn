@@ -22,7 +22,7 @@ module Prawn
      # Under PDF::Writer, "spacer" was known as "gutter"
     def column_box(*args, &block)
       init_column_box(block) do |_|
-        translate!(args[0])
+        map_to_absolute!(args[0])
         @bounding_box = ColumnBox.new(self, *args)
       end
     end

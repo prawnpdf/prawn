@@ -153,7 +153,7 @@ module Prawn
     #
     def bounding_box(*args, &block)    
       init_bounding_box(block) do |_|
-        translate!(args[0])     
+        map_to_absolute!(args[0])     
         @bounding_box = BoundingBox.new(self, *args)   
       end
     end 

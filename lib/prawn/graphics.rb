@@ -29,7 +29,7 @@ module Prawn
     include Transparency
 
     #######################################################################
-    # Low level drawing operations must translate to absolute coords!     #
+    # Low level drawing operations must map the point to absolute coords! #
     #######################################################################
 
     # Moves the drawing position to a given point.  The point can be
@@ -39,7 +39,7 @@ module Prawn
     #   pdf.move_to(100,50)
     #
     def move_to(*point)
-      x,y = translate(point)
+      x,y = map_to_absolute(point)
       add_content("%.3f %.3f m" % [ x, y ])
     end
 
@@ -50,7 +50,7 @@ module Prawn
     #   pdf.line_to(50,50)
     #
     def line_to(*point)
-      x,y = translate(point)
+      x,y = map_to_absolute(point)
       add_content("%.3f %.3f l" % [ x, y ])
     end
 
@@ -64,7 +64,7 @@ module Prawn
          "Bounding points for bezier curve must be specified "+
          "as :bounds => [[x1,y1],[x2,y2]]"
 
-       curve_points = (options[:bounds] << dest).map { |e| translate(e) }
+       curve_points = (options[:bounds] << dest).map { |e| map_to_absolute(e) }
        add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" %
                      curve_points.flatten )
     end
@@ -75,7 +75,7 @@ module Prawn
     #    pdf.rectangle [300,300], 100, 200
     #
     def rectangle(point,width,height)
-      x,y = translate(point)
+      x,y = map_to_absolute(point)
       add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
     end
 
@@ -268,13 +268,13 @@ module Prawn
     
     private
 
-    def translate(*point)
+    def map_to_absolute(*point)
       x,y = point.flatten
       [@bounding_box.absolute_left + x, @bounding_box.absolute_bottom + y]
     end
 
-    def translate!(point)
-      point.replace(translate(point))
+    def map_to_absolute!(point)
+      point.replace(map_to_absolute(point))
     end
 
   end
