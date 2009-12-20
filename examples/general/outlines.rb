@@ -36,5 +36,17 @@ Prawn::Document.generate('outlines.pdf') do
       page 'Page 6', :page => 6
     end
   end
+  go_to_page 4
+  start_new_page 
+  text "inserted before the Appendix"
+  insert_section_after :title => 'Chapter 2' do
+    page "Pre-Appendix", :page => page_number
+  end
+  go_to_page 7
+  start_new_page
+  text "One last page"
+  insert_section_after :title => 'Page 6' do 
+    page "Inserted after 6", :page => page_number
+  end
   
 end

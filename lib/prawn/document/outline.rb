@@ -10,12 +10,14 @@ module Prawn
     attr_accessor :prev
     attr_accessor :document
     attr_accessor :outline_root
+    attr_accessor :items
     
     def initialize(document)
       @document = document
       @outline_root = document.outline_root(OutlineRoot.new)
       @parent = outline_root
       @prev = nil
+      @items = {}
     end
     
     def generate_outline(&block)
@@ -31,6 +33,21 @@ module Prawn
         block.arity < 1 ? instance_eval(&block) : block[self]
       end      
     end
+    
+    def insert_section_after(options = {}, &block)
+      @prev = items[options[:title]]
+      @parent = @prev.data.parent
+      nxt = @prev.data.next
+      if block
+        block.arity < 1 ? instance_eval(&block) : block[self]
+      end
+      adjust_relations(nxt)
+    end
+    
+    def method_missing(method,*args,&block) 
+      return document.send(method)
+      super 
+    end 
 
   private
     
@@ -48,8 +65,8 @@ module Prawn
     def create_outline_item(title, options)
       outline_item = OutlineItem.new(title, parent, options)
       outline_item.dest = [document.page_identifier(options[:page]), :Fit] if options[:page]
-      outline_item.prev if prev
-      document.ref!(outline_item)
+      outline_item.prev = prev if @prev
+      items[title] = document.ref!(outline_item)
     end
     
     def set_relations(outline_item)
@@ -81,6 +98,16 @@ module Prawn
         self.parent = outline_item.data.parent
       end
     end
+    
+    def adjust_relations(nxt)
+      if nxt 
+        nxt.data.prev = @prev
+        @prev.data.next = nxt
+      else 
+        @parent.data.last = @prev
+      end
+    end
+    
   end
   
   class OutlineRoot

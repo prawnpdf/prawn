@@ -579,5 +579,9 @@ module Prawn
     def add_outline_section(&block)
       outline.add_section(&block)
     end
+    
+    def insert_section_after(options = {}, &block)
+      outline.insert_section_after(options, &block)
+    end
   end
 end
