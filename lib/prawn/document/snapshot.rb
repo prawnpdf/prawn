@@ -45,7 +45,8 @@ module Prawn
         {:page_content    => Marshal.load(Marshal.dump(page_content)),
          :current_page    => Marshal.load(Marshal.dump(current_page)),
          :page_kids       => @store.pages.data[:Kids].map{|kid| kid.identifier},
-         :dests           => Marshal.load(Marshal.dump(names.data[:Dests]))}
+         :dests           => names? && 
+                             Marshal.load(Marshal.dump(names.data[:Dests]))}
       end
 
       # Rolls the page state back to the state of the given snapshot.
@@ -64,7 +65,9 @@ module Prawn
         @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
         @store.pages.data[:Count] = shot[:page_kids].size
 
-        names.data[:Dests] = shot[:dests]
+        if shot[:dests]
+          names.data[:Dests] = shot[:dests] 
+        end
       end
 
     end

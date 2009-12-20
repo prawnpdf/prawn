@@ -122,6 +122,7 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
+    # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
@@ -158,7 +159,8 @@ module Prawn
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options, :background, :info], options
+         :compress, :skip_encoding, :text_options, :background, :info,
+         :optimize_objects], options
 
        self.class.extensions.reverse_each { |e| extend e }
       
@@ -181,6 +183,7 @@ module Prawn
        @page_size     = options[:page_size]   || "LETTER"
        @page_layout   = options[:page_layout] || :portrait
        @compress      = options[:compress] || false
+       @optimize_objects = options.fetch(:optimize_objects, false)
        @skip_encoding = options[:skip_encoding]
        @background    = options[:background]
        @font_size     = 12
