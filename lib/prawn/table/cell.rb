@@ -19,7 +19,7 @@ module Prawn
   class Table
     class Cell
 
-      attr_reader :padding, :font
+      attr_reader :padding, :font, :content
       attr_writer :width, :height
 
       def initialize(pdf, point, options={})
