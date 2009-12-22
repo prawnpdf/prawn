@@ -78,5 +78,35 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "layout" do
+    setup do
+      @pdf = Prawn::Document.new
+      @long_text = "The quick brown fox jumped over the lazy dogs. " * 30
+    end
+
+    it "should accept the natural width for small tables" do
+      @table = @pdf.table([["a"]])
+      @table.width.should == @table.cells[0, 0].natural_content_width
+    end
+
+    it "should limit tables to the width of the page by default" do
+      @table = @pdf.table([[@long_text]])
+      @table.width.should == @pdf.bounds.width
+    end
+
+    it "should accept manual values for table width, even beyond page bounds" do
+      width = @pdf.bounds.width + 100
+      @table = @pdf.table([[@long_text]], :width => width)
+      @table.width.should == width
+    end
+
+    it "should allow width to be reset even after it has been calculated" do
+      @table = @pdf.table([[@long_text]])
+      @table.width
+      @table.width = 100
+      @table.width.should == 100
+    end
+  end
+
 end
 

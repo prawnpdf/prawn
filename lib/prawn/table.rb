@@ -27,11 +27,22 @@ module Prawn
     def initialize(data, document, options={})     
       @pdf = document
       @cells = make_cells(data)
-      @options = options
+      options.each { |k, v| send("#{k}=", v) }
     end                                        
+
+    attr_writer :width
     
+    def width
+      @width ||= [natural_width, @pdf.bounds.width].min
+    end
 
     protected
+
+    # Returns the width the table would assume if no cells were wrapped.
+    #
+    def natural_width
+      @cells.map { |c| c.width }.max
+    end
 
     def make_cells(data)
       cells = []
