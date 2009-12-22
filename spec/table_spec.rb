@@ -106,6 +106,16 @@ describe "Prawn::Table" do
       @table.width = 100
       @table.width.should == 100
     end
+
+    it "should shrink columns evenly when two equal columns compete" do
+      @table = @pdf.table([["foo", @long_text], [@long_text, "foo"]])
+      @table.cells[0, 0].width.should == @table.cells[0, 1].width
+    end
+
+    it "should grow columns evenly when equal deficient columns compete" do
+      @table = @pdf.table([["foo", "foobar"], ["foobar", "foo"]], :width => 500)
+      @table.cells[0, 0].width.should == @table.cells[0, 1].width
+    end
   end
 
 end

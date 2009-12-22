@@ -28,6 +28,7 @@ module Prawn
       @pdf = document
       @cells = make_cells(data)
       options.each { |k, v| send("#{k}=", v) }
+      set_column_widths
     end                                        
 
     attr_writer :width
@@ -38,17 +39,11 @@ module Prawn
 
     protected
 
-    # Returns the width the table would assume if no cells were wrapped.
-    #
-    def natural_width
-      @cells.map { |c| c.width }.max
-    end
-
     def make_cells(data)
       cells = []
       data.each_with_index do |row_cells, row_number|
         row_cells.each_with_index do |cell_data, column_number|
-          # TODO: differentiate based on context
+          # TODO: differentiate based on content
           # TODO: :at
           cell = Cell::Text.new(@pdf, [0, 0], :content => cell_data)
           cell.extend(Cell::InTable)
@@ -60,6 +55,35 @@ module Prawn
       cells
     end
 
+    def natural_column_widths
+      @natural_column_widths ||= (@cells.inject([]) do |ary, c| 
+        ary[c.column] ||= 0
+        ary[c.column] = [ary[c.column], c.width].max
+        ary
+      end)
+    end
+
+    def natural_width
+      @natural_width ||= natural_column_widths.inject(0) { |sum, w| sum + w }
+    end
+
+    def set_column_widths
+      widths = natural_column_widths
+
+      overflow = (widths.inject { |sum, w| sum + w }) - width
+      if overflow > 0
+        # Shrink columns to bring natural width to width.
+        # TODO: only shrink shrinkable columns; exclude non-shrinkable (images?)
+        # and manually specified widths
+        widths.map! { |w| w * (width.to_f / natural_width) }
+      elsif overflow < 0
+        # Grow columns to bring natural width to width.
+        # TODO: only expandable columns. Exclude non-expandable and manual widths.
+        widths.map! { |w| w * (width.to_f / natural_width) }
+      end
+
+      widths.each_with_index { |w, col_num| column(col_num).width = w }
+    end
 
   end
 
