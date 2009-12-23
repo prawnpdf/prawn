@@ -44,6 +44,12 @@ describe "Prawn::Table" do
       pdf.table([["a"]]){ |doc|
         doc.should.be.an.instance_of(Prawn::Table); initializer.kick }
     end
+
+    it "should proxy cell methods to #cells" do
+      pdf = Prawn::Document.new
+      table = pdf.table([["a"]], :padding => 11)
+      table.cells[0, 0].padding.should == [11, 11, 11, 11]
+    end
   end
 
   describe "cell accessors" do
@@ -160,7 +166,7 @@ describe "Prawn::Table" do
     end
 
     it "should set the y-position of each cell based on heights" do
-      y = @pdf.y
+      y = @pdf.cursor
       @table = @pdf.table([["foo"], ["bar"], ["baz"]])
 
       (0..2).each do |row|

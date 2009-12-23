@@ -15,7 +15,11 @@ module Prawn
 
   class Document
     
-    # TODO: doc
+    # Set up and draw a table on this document. A block can be given, which will
+    # be run prior to layout and drawing.
+    #
+    # See Prawn::Table#initialize for details on options.
+    #
     def table(data, options={}, &block)
       t = Table.new(data, self, options, &block)
       t.draw
@@ -68,6 +72,12 @@ module Prawn
     #
     def width
       @width ||= [natural_width, @pdf.bounds.width].min
+    end
+
+    # Sets padding for all cells.
+    #
+    def padding=(val)
+      cells.padding = val
     end
 
     # Draws the table onto the document.
@@ -152,7 +162,7 @@ module Prawn
         ary << (ary.last + x); ary }[0..-2]
       x_positions.each_with_index { |x, i| column(i).x = x }
 
-      y_positions = row_heights.inject([@pdf.y]) { |ary, y|
+      y_positions = row_heights.inject([@pdf.cursor]) { |ary, y|
         ary << (ary.last - y); ary}[0..-2]
       y_positions.each_with_index { |y, i| row(i).y = y }
     end
