@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   class Document
+    # TODO: doc
     def cell(options={})
       at = options.delete(:at) || [0, cursor]
       # TODO: create appropriate class depending on content
@@ -17,6 +18,7 @@ module Prawn
   end
 
   class Table
+    # TODO: doc
     class Cell
 
       attr_reader :padding, :font
@@ -24,6 +26,7 @@ module Prawn
       attr_accessor :borders, :border_width, :border_color, :content, 
         :background_color
 
+      # TODO: doc
       def initialize(pdf, point, options={})
         @pdf   = pdf
         @point = point
@@ -55,6 +58,9 @@ module Prawn
         natural_content_width
       end
 
+      # Returns the width this cell would naturally take on, absent other
+      # constraints. Must be implemented in subclasses.
+      #
       def natural_content_width
         raise NotImplementedError, 
           "subclasses must implement natural_content_width"
@@ -78,6 +84,9 @@ module Prawn
         natural_content_height
       end
 
+      # Returns the height this cell would naturally take on, absent
+      # constraints. Must be implemented in subclasses.
+      #
       def natural_content_height
         raise NotImplementedError, 
           "subclasses must implement natural_content_height"
@@ -157,6 +166,11 @@ module Prawn
         end
       end
 
+      # Draws borders around the cell. Borders are centered on the bounds of
+      # the cell outside of any padding, so the caller is responsible for
+      # setting appropriate padding to ensure the border does not overlap with
+      # cell content.
+      #
       def draw_borders
         return if @border_width <= 0
         margin = @border_width / 2
@@ -181,6 +195,9 @@ module Prawn
         end
       end
 
+      # Draws cell content within the cell's bounding box. Must be implemented
+      # in subclasses.
+      #
       def draw_content
         raise NotImplementedError, "subclasses must implement draw_content"
       end

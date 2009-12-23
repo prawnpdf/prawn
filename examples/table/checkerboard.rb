@@ -1,5 +1,8 @@
 # encoding: utf-8
-#
+
+# Shows how to use the style() method with a block to style each cell with
+# custom code.
+
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
  
 Prawn::Document.generate("checkerboard.pdf") do 
