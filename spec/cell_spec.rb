@@ -182,6 +182,22 @@ describe "Prawn::Table::Cell" do
     end
   end
 
+  describe "background_color" do
+    include CellHelpers
+
+    it "should fill a rectangle with the given background color" do
+      @pdf.stubs(:mask).yields
+      @pdf.expects(:mask).with(:fill_color).yields
+
+      @pdf.stubs(:fill_color)
+      @pdf.expects(:fill_color).with('123456')
+      @pdf.expects(:fill_rectangle).with do |(x, y), w, h|
+        close?(x, 0) && close?(y, @pdf.cursor) && 
+          close?(w, 19.344) && close?(h, 13.872)
+      end
+      @pdf.cell(:content => "text", :background_color => '123456')
+    end
+  end
 
   describe "Borders" do
     it "should draw all borders by default" do

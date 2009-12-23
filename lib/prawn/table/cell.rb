@@ -21,7 +21,8 @@ module Prawn
 
       attr_reader :padding, :font
       attr_writer :width, :height
-      attr_accessor :borders, :border_width, :border_color, :content
+      attr_accessor :borders, :border_width, :border_color, :content, 
+        :background_color
 
       def initialize(pdf, point, options={})
         @pdf   = pdf
@@ -85,6 +86,7 @@ module Prawn
       # Draws the cell onto the document.
       #
       def draw
+        draw_background
         draw_borders
         @pdf.bounding_box([x + left_padding, y - top_padding], 
                           :width  => content_width,
@@ -140,6 +142,20 @@ module Prawn
       end
 
       private
+
+      # Draws the cell's background color.
+      #
+      def draw_background
+        margin = @border_width / 2
+        if @background_color
+          @pdf.mask(:fill_color) do
+            @pdf.fill_color @background_color
+            h = @borders.include?(:bottom) ? height - (2*margin) : 
+                                             height + margin
+            @pdf.fill_rectangle [x, y], width, h
+          end
+        end
+      end
 
       def draw_borders
         return if @border_width <= 0
