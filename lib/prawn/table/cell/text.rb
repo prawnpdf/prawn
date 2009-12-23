@@ -5,12 +5,18 @@ module Prawn
     class Cell
       # TODO: doc
       class Text < Cell
+
+        attr_writer :font_size, :font_style
         
         def initialize(pdf, point, options={})
           super
-          @font_size  = options[:font_size]
-          @font_style = options[:font_style]
-          @font       = load_font(options[:font])
+          @font ||= load_font(nil)
+        end
+
+        # Use the given font (a Prawn::Font object or font name).
+        #
+        def font=(font)
+          @font = load_font(font)
         end
 
         def natural_content_width

@@ -81,7 +81,7 @@ describe "Prawn::Table" do
   describe "layout" do
     setup do
       @pdf = Prawn::Document.new
-      @long_text = "The quick brown fox jumped over the lazy dogs. " * 30
+      @long_text = "The quick brown fox jumped over the lazy dogs. " * 5
     end
 
     it "should accept the natural width for small tables" do
@@ -115,6 +115,39 @@ describe "Prawn::Table" do
     it "should grow columns evenly when equal deficient columns compete" do
       @table = @pdf.table([["foo", "foobar"], ["foobar", "foo"]], :width => 500)
       @table.cells[0, 0].width.should == @table.cells[0, 1].width
+    end
+
+    it "should set all cells in a row to the same height" do
+      @table = @pdf.table([["foo", @long_text]])
+      @table.cells[0, 0].height.should == @table.cells[0, 1].height
+    end
+  end
+
+  describe "inking" do
+    setup do
+      @pdf = Prawn::Document.new
+    end
+
+    it "should set the x-position of each cell based on widths" do
+      @table = @pdf.table([["foo", "bar", "baz"]])
+      
+      x = 0
+      (0..2).each do |col|
+        cell = @table.cells[0, col]
+        cell.x.should == x
+        x += cell.width
+      end
+    end
+
+    it "should set the y-position of each cell based on heights" do
+      y = @pdf.y
+      @table = @pdf.table([["foo"], ["bar"], ["baz"]])
+
+      (0..2).each do |row|
+        cell = @table.cells[row, 0]
+        cell.y.should == y
+        y -= cell.height
+      end
     end
   end
 

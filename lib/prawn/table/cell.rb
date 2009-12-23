@@ -8,7 +8,7 @@
 module Prawn
   class Document
     def cell(options={})
-      at = options[:at] || [0, cursor]
+      at = options.delete(:at) || [0, cursor]
       # TODO: create appropriate class depending on content
       cell = Table::Cell::Text.new(self, at, options)
       cell.draw
@@ -19,22 +19,21 @@ module Prawn
   class Table
     class Cell
 
-      attr_reader :padding, :font, :content
+      attr_reader :padding, :font
       attr_writer :width, :height
+      attr_accessor :borders, :border_width, :border_color, :content
 
       def initialize(pdf, point, options={})
-        @pdf       = pdf
-        @point     = point
+        @pdf   = pdf
+        @point = point
 
-        @width     = options[:width]
-        @height    = options[:height]
-        @padding   = interpret_padding(options[:padding])
+        # Set defaults; these can be changed by options
+        @padding      = [0, 0, 0, 0]
+        @borders      = [:top, :bottom, :left, :right]
+        @border_width = 1
+        @border_color = '000000'
 
-        @borders      = options[:borders] || [:top, :bottom, :left, :right]
-        @border_width = options[:border_width] || 1
-        @border_color = options[:border_color]
-
-        @content   = options[:content]
+        options.each { |k, v| send("#{k}=", v) }
       end
 
       # Returns the cell's width in points, inclusive of padding.
@@ -94,6 +93,52 @@ module Prawn
         end
       end
 
+      # x-position of the cell within the parent bounds.
+      #
+      def x
+        @point[0]
+      end
+
+      # Set the x-position of the cell within the parent bounds.
+      #
+      def x=(val)
+        @point[0] = val
+      end
+
+      # y-position of the cell within the parent bounds.
+      #
+      def y
+        @point[1]
+      end
+
+      # Set the y-position of the cell within the parent bounds.
+      #
+      def y=(val)
+        @point[1] = val
+      end
+
+      # Sets padding on this cell. The argument can be one of:
+      #
+      # * an integer (sets all padding)
+      # * a two-element array [vertical_padding, horizontal_padding]
+      # * a four-element array [top, right, bottom, left]
+      #
+      def padding=(pad)
+        @padding = case
+        when pad.nil?
+          [0, 0, 0, 0]
+        when Numeric === pad # all padding
+          [pad, pad, pad, pad]
+        when pad.length == 2 # vert, horiz
+          [pad[0], pad[1], pad[0], pad[1]]
+        when pad.length == 4 # top, right, bottom, left
+          [pad[0], pad[1], pad[2], pad[3]]
+        else
+          raise ArgumentError, ":padding must be a number or an array [v,h] " +
+            "or [t,r,b,l]"
+        end
+      end
+
       private
 
       def draw_borders
@@ -122,30 +167,6 @@ module Prawn
 
       def draw_content
         raise NotImplementedError, "subclasses must implement draw_content"
-      end
-
-      def x
-        @point[0]
-      end
-
-      def y
-        @point[1]
-      end
-
-      def interpret_padding(pad)
-        case
-        when pad.nil?
-          [0, 0, 0, 0]
-        when Numeric === pad # all padding
-          [pad, pad, pad, pad]
-        when pad.length == 2 # vert, horiz
-          [pad[0], pad[1], pad[0], pad[1]]
-        when pad.length == 4 # top, right, bottom, left
-          [pad[0], pad[1], pad[2], pad[3]]
-        else
-          raise ArgumentError, ":padding must be a number or an array [v,h] " +
-            "or [t,r,b,l]"
-        end
       end
 
       def top_padding

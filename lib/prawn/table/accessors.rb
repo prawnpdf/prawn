@@ -49,8 +49,11 @@ module Prawn
         CellProxy.new(@cells.select(&b))
       end
 
-      def style(options)
-        @cells.each { |c| options.each { |k, v| c.send("#{k}=", v) } }
+      def style(options={}, &block)
+        @cells.each do |cell| 
+          options.each { |k, v| cell.send("#{k}=", v) }
+          block.call(cell) if block
+        end
       end
 
       def method_missing(id, *args, &block)
