@@ -26,6 +26,26 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "#initialize" do
+    it "should instance_eval a 0-arg block" do
+      pdf = Prawn::Document.new
+      initializer = mock()
+      initializer.expects(:kick).once
+
+      pdf.table([["a"]]){
+        self.should.be.an.instance_of(Prawn::Table); initializer.kick }
+    end
+
+    it "should call a 1-arg block with the document as the argument" do
+      pdf = Prawn::Document.new
+      initializer = mock()
+      initializer.expects(:kick).once
+
+      pdf.table([["a"]]){ |doc|
+        doc.should.be.an.instance_of(Prawn::Table); initializer.kick }
+    end
+  end
+
   describe "cell accessors" do
     setup do
       @pdf = Prawn::Document.new
