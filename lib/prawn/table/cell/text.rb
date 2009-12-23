@@ -1,9 +1,17 @@
 # encoding: utf-8   
 
+# text.rb: Text table cells.
+#
+# Copyright December 2009, Gregory Brown and Brad Ediger. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   class Table
     class Cell
-      # TODO: doc
+
+      # A Cell that contains text. Has some limited options to set font family,
+      # size, and style.
+      #
       class Text < Cell
 
         attr_writer :font_size, :font_style
@@ -19,12 +27,17 @@ module Prawn
           @font = load_font(font)
         end
 
+        # Returns the width of this text with no wrapping.
+        #
         def natural_content_width
           # We have to use the font's width here, not the document's, to account
           # for :font_style
           @font.compute_width_of(@content, :size => @font_size)
         end
 
+        # Returns the natural height of this block of text, wrapped to the
+        # preset width.
+        #
         def natural_content_height
           @pdf.save_font do
             @pdf.set_font(@font, @font_size)
@@ -32,6 +45,8 @@ module Prawn
           end
         end
 
+        # Draws the text content into its bounding box.
+        #
         def draw_content
           @pdf.save_font do
             @pdf.set_font(@font, @font_size)
