@@ -263,6 +263,12 @@ describe "Prawn::Table::Cell" do
       c.font.name.should == 'Helvetica-Bold'
     end
 
+    it "should allow font_style to be changed after initialize" do
+      c = cell(:content => "text")
+      c.font_style = :bold
+      c.font.name.should == 'Helvetica-Bold'
+    end
+
     it "should default to the document's font, if none is specified" do
       c = cell(:content => "text")
       c.font.should == @pdf.font

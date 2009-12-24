@@ -14,7 +14,7 @@ module Prawn
       #
       class Text < Cell
 
-        attr_writer :font_size, :font_style
+        attr_writer :font_size
         
         def initialize(pdf, point, options={})
           super
@@ -25,6 +25,16 @@ module Prawn
         #
         def font=(font)
           @font = load_font(font)
+        end
+
+        # Set the font style to the given variant (:normal, :bold, :italic,
+        # :bold_italic, etc.)
+        #
+        def font_style=(style)
+          @font ||= @pdf.font
+          @font_style = style
+          # Update Font object if variant is changed
+          @font = @pdf.find_font(@font.family, :style => style)
         end
 
         # Returns the width of this text with no wrapping.
