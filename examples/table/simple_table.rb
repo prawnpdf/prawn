@@ -5,7 +5,7 @@ require "#{File.dirname(__FILE__)}/../example_helper.rb"
 Prawn::Document.generate("simple_table.pdf") do 
 
   table([["foo", "bar " * 15, "baz"], 
-         ["baz", "bar", "foo " * 15]], :padding => 12) do |t|
+         ["baz", "bar", "foo " * 15]], :cell_style => { :padding => 12 }) do |t|
     t.cells.borders = []
 
     # Use the row() and style() methods to select and style a row.

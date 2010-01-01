@@ -40,8 +40,12 @@ module Prawn
     # The data array can contain any combination of:
     #
     # * String: Produces a text cell.
+    # TODO: more types
     #
-    # TODO: expand docs
+    # Options can include:
+    #
+    # * cell_style: A hash of style options to style all cells. See the
+    # documentation on Prawn::Table::Cell for all cell style options.
     #
     def initialize(data, document, options={}, &block)
       @pdf = document
@@ -74,10 +78,12 @@ module Prawn
       @width ||= [natural_width, @pdf.bounds.width].min
     end
 
-    # Sets padding for all cells.
+    # Sets styles for all cells.
     #
-    def padding=(val)
-      cells.padding = val
+    #   pdf.table(data, :cell_style => { :borders => [:left, :right] })
+    #
+    def cell_style=(style_hash)
+      cells.style(style_hash)
     end
 
     # Draws the table onto the document.

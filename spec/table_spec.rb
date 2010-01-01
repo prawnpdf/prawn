@@ -47,7 +47,7 @@ describe "Prawn::Table" do
 
     it "should proxy cell methods to #cells" do
       pdf = Prawn::Document.new
-      table = pdf.table([["a"]], :padding => 11)
+      table = pdf.table([["a"]], :cell_style => { :padding => 11 })
       table.cells[0, 0].padding.should == [11, 11, 11, 11]
     end
   end
