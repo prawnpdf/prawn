@@ -124,7 +124,10 @@ module Prawn
       #
       def width
         column_widths = {}
-        @cells.each { |cell| column_widths[cell.column] = cell.width }
+        @cells.each do |cell| 
+          column_widths[cell.column] = 
+            [column_widths[cell.column], cell.width].compact.max
+        end
         column_widths.values.inject(0) { |sum, width| sum + width }
       end
 
@@ -132,7 +135,10 @@ module Prawn
       #
       def height
         row_heights = {}
-        @cells.each { |cell| row_heights[cell.row] = cell.height }
+        @cells.each do |cell| 
+          row_heights[cell.row] = 
+            [row_heights[cell.row], cell.height].compact.max
+        end
         row_heights.values.inject(0) { |sum, width| sum + width }
       end
 

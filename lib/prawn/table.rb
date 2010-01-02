@@ -122,12 +122,7 @@ module Prawn
     end
 
     def natural_column_widths
-      # TODO: it would be nice to have columns.map { |c| c.width }; same for heights
-      @natural_column_widths ||= (@cells.inject([]) do |ary, c| 
-        ary[c.column] ||= 0
-        ary[c.column] = [ary[c.column], c.width].max
-        ary
-      end)
+      @natural_column_widths ||= (0...column_length).map { |c| column(c).width }
     end
 
     def natural_width
@@ -155,11 +150,7 @@ module Prawn
     end
 
     def row_heights
-      @natural_row_heights ||= (@cells.inject([]) do |ary, c|
-        ary[c.row] ||= 0
-        ary[c.row] = [ary[c.row], c.height].max
-        ary
-      end)
+      @natural_row_heights ||= (0...row_length).map{ |r| row(r).height }
     end
 
     def set_column_widths
