@@ -50,6 +50,13 @@ describe "Prawn::Table" do
       table = pdf.table([["a"]], :cell_style => { :padding => 11 })
       table.cells[0, 0].padding.should == [11, 11, 11, 11]
     end
+
+    it "should set row and column length" do
+      pdf = Prawn::Document.new
+      table = pdf.table([["a", "b", "c"], ["d", "e", "f"]])
+      table.row_length.should == 2
+      table.column_length.should == 3
+    end
   end
 
   describe "cell accessors" do

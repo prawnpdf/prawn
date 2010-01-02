@@ -67,6 +67,14 @@ module Prawn
       position_cells
     end                                        
 
+    # Number of rows in the table.
+    #
+    attr_reader :row_length
+
+    # Number of columns in the table.
+    #
+    attr_reader :column_length
+
     # Manually set the width of the table. This is the only way to get a table
     # wider than the document's bounds.
     #
@@ -96,6 +104,10 @@ module Prawn
 
     def make_cells(data)
       cells = []
+      
+      @row_length = data.length
+      @column_length = data.map{ |r| r.length }.max
+
       data.each_with_index do |row_cells, row_number|
         row_cells.each_with_index do |cell_data, column_number|
           # TODO: differentiate based on content
