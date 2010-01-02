@@ -57,5 +57,9 @@ module Prawn
     # This error is raised when an object is attempted to be
     # referenced by name, but no such name is associated with an object
     UndefinedObjectName = Class.new(StandardError)
+    
+    # This error is raised when a required option has not been set
+    RequiredOption = Class.new(StandardError)
+    
   end
 end   

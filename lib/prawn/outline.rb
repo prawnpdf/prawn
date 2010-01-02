@@ -26,7 +26,7 @@ module Prawn
       end
     end
     
-    def add_section(&block)
+    def add_outline_section(&block)
       @parent = outline_root
       @prev = outline_root.data.last
       if block
@@ -52,15 +52,29 @@ module Prawn
   private
     
     def section(title, options = {}, &block)
+      add_outline_item(title, options, &block)
+    end 
+    
+    def page(page, options = {}, &block)
+      if options[:title]
+        title = options[:title] 
+        options[:page] = page
+      else
+        raise Prawn::Errors::RequiredOption, 
+          "\nTitle is a required option for page"
+      end
+      add_outline_item(title, options, &block)
+    end
+     
+    def add_outline_item(title, options, &block)
       outline_item = create_outline_item(title, options)
       set_relations(outline_item)
       increase_count
       set_variables_for_block(outline_item, block)
       block.call if block
       reset_parent(outline_item)
-    end 
-    
-    alias :page :section
+    end
+      
     
     def create_outline_item(title, options)
       outline_item = OutlineItem.new(title, parent, options)
@@ -103,6 +117,7 @@ module Prawn
       if nxt 
         nxt.data.prev = @prev
         @prev.data.next = nxt
+        @parent.data.last = nxt
       else 
         @parent.data.last = @prev
       end

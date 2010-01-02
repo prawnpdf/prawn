@@ -15,7 +15,7 @@ require "prawn/document/span"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
-require "prawn/document/outline"
+require "prawn/outline"
 
 module Prawn
   
@@ -523,6 +523,18 @@ module Prawn
     def compression_enabled?
       !!@compress
     end
+    
+    def render_outline(&block)
+      outline.generate_outline(&block)
+    end
+
+    def add_outline_section(&block)
+      outline.add_outline_section(&block)
+    end
+    
+    def insert_section_after(options = {}, &block)
+      outline.insert_section_after(options, &block)
+    end
 
     private
 
@@ -571,17 +583,6 @@ module Prawn
         options[:"#{p}_margin"] ||= margin[i]
       end
     end
-    
-    def render_outline(&block)
-      outline.generate_outline(&block)
-    end
 
-    def add_outline_section(&block)
-      outline.add_section(&block)
-    end
-    
-    def insert_section_after(options = {}, &block)
-      outline.insert_section_after(options, &block)
-    end
   end
 end
