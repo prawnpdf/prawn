@@ -101,7 +101,7 @@ module Prawn
     #     style(column(0)) { |c| c.border_width += 1 }
     #   end
     #
-    def style(stylable, style_hash, &block)
+    def style(stylable, style_hash={}, &block)
       stylable.style(style_hash, &block)
     end
 

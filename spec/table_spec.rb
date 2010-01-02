@@ -192,6 +192,15 @@ describe "Prawn::Table" do
         table([["x"]]) { style(stylable, :foo => :bar) { block.kick } }
       end
     end
+
+    it "should default to {} for the hash argument" do
+      stylable = stub()
+      stylable.expects(:style).with({}).once
+      
+      Prawn::Document.new do
+        table([["x"]]) { style(stylable) }
+      end
+    end
   end
 
   describe "inking" do
