@@ -94,6 +94,17 @@ module Prawn
       cells.style(style_hash)
     end
 
+    # Allows generic stylable content.
+    #
+    #   pdf.table(data) do
+    #     style(row(0), :background_color => 'ff00ff')
+    #     style(column(0)) { |c| c.border_width += 1 }
+    #   end
+    #
+    def style(stylable, style_hash, &block)
+      stylable.style(style_hash, &block)
+    end
+
     # Draws the table onto the document.
     #
     def draw

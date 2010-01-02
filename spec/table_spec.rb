@@ -178,6 +178,22 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "#style" do
+    it "should send #style to its first argument, passing the style hash and" +
+        " block" do
+
+      stylable = stub()
+      stylable.expects(:style).with(:foo => :bar).once.yields
+
+      block = stub()
+      block.expects(:kick).once
+
+      Prawn::Document.new do
+        table([["x"]]) { style(stylable, :foo => :bar) { block.kick } }
+      end
+    end
+  end
+
   describe "inking" do
     setup do
       @pdf = Prawn::Document.new
