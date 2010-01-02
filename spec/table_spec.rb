@@ -102,6 +102,28 @@ describe "Prawn::Table" do
       @table.cells[1, 0].height.should == 200
       @table.cells[1, 0].width.should == 100
     end
+
+    it "should return the width of selected columns for #width" do
+      c0_width = @table.column(0).map{ |c| c.width }.max
+      c1_width = @table.column(1).map{ |c| c.width }.max
+
+      @table.column(0).width.should == c0_width
+      @table.column(1).width.should == c1_width
+
+      @table.columns(0..1).width.should == c0_width + c1_width
+      @table.cells.width.should == c0_width + c1_width
+    end
+
+    it "should return the height of selected rows for #height" do
+      r0_height = @table.row(0).map{ |c| c.height }.max
+      r1_height = @table.row(1).map{ |c| c.height }.max
+
+      @table.row(0).height.should == r0_height
+      @table.row(1).height.should == r1_height
+
+      @table.rows(0..1).height.should == r0_height + r1_height
+      @table.cells.height.should == r0_height + r1_height
+    end
   end
 
   describe "layout" do

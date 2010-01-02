@@ -120,6 +120,22 @@ module Prawn
         end
       end
 
+      # Returns the total width of all columns in the selected set.
+      #
+      def width
+        column_widths = {}
+        @cells.each { |cell| column_widths[cell.column] = cell.width }
+        column_widths.values.inject(0) { |sum, width| sum + width }
+      end
+
+      # Returns the total height of all rows in the selected set.
+      #
+      def height
+        row_heights = {}
+        @cells.each { |cell| row_heights[cell.row] = cell.height }
+        row_heights.values.inject(0) { |sum, width| sum + width }
+      end
+
       # Supports setting arbitrary properties on a group of cells.
       #
       #   table.cells.row(3..6).background_color = 'cc0000'
