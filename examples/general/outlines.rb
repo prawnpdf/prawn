@@ -30,7 +30,7 @@ Prawn::Document.generate('outlines.pdf') do
   text "Page 5. Appendix"
   start_new_page 
   text "Page 6. More in the Appendix"
-  add_outline_section do
+  outline.add_section do
     section 'Appendix', :page => 5 do
       page 5, :title => 'Page 5'
       page 6, :title => 'Page 6'
@@ -39,13 +39,13 @@ Prawn::Document.generate('outlines.pdf') do
   go_to_page 4
   start_new_page 
   text "inserted before the Appendix"
-  insert_outline_section_after 'Chapter 2' do
+  outline.insert_section_after 'Chapter 2' do
     page page_number, :title => "Pre-Appendix"
   end
   go_to_page 7
   start_new_page
   text "One last page"
-  insert_outline_section_after 'Page 6' do 
+  outline.insert_section_after 'Page 6' do 
     page page_number, :title => "Inserted after 6"
   end
   

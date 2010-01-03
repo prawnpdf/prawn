@@ -208,8 +208,6 @@ module Prawn
 
        start_new_page unless options[:skip_page_creation]
        
-       add_outline_dictionary if options[:outlines]
-
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
        end
@@ -524,89 +522,7 @@ module Prawn
       !!@compress
     end
     
-    # Defines an outline for the document.
-    # The outline is an optional nested index that appears on the side of a PDF 
-    # document usually with direct links to pages. The outline DSL is defined by nested 
-    # blocks involving two methods: section and page.
-    #
-    # section(title, options{}, &block)
-    #   title: the outline text that appears for the section.
-    #   options: page - optional integer defining the page number for a destination link.
-    #                 - currently only :FIT destination supported with link to top of page.
-    #            closed - whether the section should show its nested outline elements.
-    #                   - defaults to false.
-    # page(page, options{})
-    #   page: integer defining the page number for the destination link.
-    #         currently only :FIT destination supported with link to top of page.
-    #         set to nil if destination link is not desired.
-    #   options: title - the outline text that appears for the section.
-    #            closed - whether the section should show its nested outline elements.
-    #                   - defaults to false.
-    #
-    # The syntax is best illustrated with an example:
-    #
-    # Prawn::Document.generate(outlined document) do
-    #   text "Page 1. This is the first Chapter. "
-    #   start_new_page
-    #   text "Page 2. More in the first Chapter. "
-    #   start_new_page
-    #   render_outline do
-    #     section 'Chapter 1', :page => 1, :closed => true do 
-    #       page 1, :title => 'Page 1'
-    #       page 2, :title => 'Page 2'
-    #     end
-    #   end
-    # end
-    # 
-    # It should be noted that not defining a title for a page element will raise
-    # a RequiredOption error
-    #
-    def define_outline(&block)
-      outline.define_outline(&block)
-    end
-
-    # Adds an outine section to the outline tree (see define_outline).
-    # Although you will probably choose to exclusively use define_outline so 
-    # that your outline tree is contained and easy to manage, this method
-    # gives you the option to add sections to the outline tree at any point
-    # during document generation. Note that the section will be added at the 
-    # top level at the end of the outline. For more a more flexible API try
-    # using insert_outline_section_after.
-    #
-    # block uses the same DSL syntax as define_outline, for example: 
-    #
-    #   add_outline_section do
-    #     section 'Added Section', :page => 3 do
-    #       page 3, :title => 'Page 3'
-    #     end
-    #   end
-    def add_outline_section(&block)
-      outline.add_outline_section(&block)
-    end
-    
-    # Inserts an outline section to the outline tree (see define_outline).
-    # Although you will probably choose to exclusively use define_outline so 
-    # that your outline tree is contained and easy to manage, this method
-    # gives you the option to insert sections to the outline tree at any point
-    # during document generation. Unlike add_outline_section, this method allows 
-    # you to enter a section after any other item at any level in the outline tree. 
-    # Currently the only way to locate the place of entry is with the title for the 
-    # item. If your titles names are not unique consider using define_outline.
-    #
-    # block uses the same DSL syntax as define_outline, for example: 
-    # 
-    #   go_to_page 2
-    #   start_new_page
-    #   text "Inserted Page"
-    #   insert_outline_section_after :title => 'Page 2' do 
-    #     page page_number, :title => "Inserted Page"
-    #   end
-    #
-    def insert_outline_section_after(options = {}, &block)
-      outline.insert_section_after(options, &block)
-    end
-
-    private
+  private
 
     # See Prawn::Document::Internals for low-level PDF functions
 

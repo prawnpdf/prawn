@@ -91,19 +91,6 @@ module Prawn
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
       
-      # The Outline dictionary (12.3.3) for this document.  It is
-      # lazily initialized, so that documents that do not have an outline
-      # do not incur the additional overhead.
-      def outline_root(outline_root)
-        @store.root.data[:Outlines] ||= ref!(outline_root)
-      end
-      
-      # Lazily instantiates an Outline object for document. This is used as point of entry
-      # to methods to build the outline tree.
-      def outline
-        @outline ||= Outline.new(self)
-      end
-      
       # Returns the page object reference for a given page number.
       # Used by Outline to generate destination links.
       def page_identifier(k)

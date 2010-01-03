@@ -21,7 +21,7 @@ describe "Outline" do
     end
   
     it "should create a root outline dictionary item" do
-      @outline_root.should_not be_nil
+      assert_not_nil @outline_root
     end
     
     it "should set the first and last top items of the root outline dictionary item" do
@@ -31,7 +31,7 @@ describe "Outline" do
   
     describe "#create_outline_item" do
       it "should create outline items for each section and page" do
-        [@section_1, @page_1, @page_2].each {|item| item.should_not be_nil}
+        [@section_1, @page_1, @page_2].each {|item| assert_not_nil item}
       end
     end
   
@@ -72,11 +72,11 @@ describe "Outline" do
 
   end
   
-  describe "#add_outline_section" do
+  describe "#outline.add_section" do
     before(:each) do
       @pdf.start_new_page
       @pdf.text "Page 3. An added section "
-      @pdf.add_outline_section do
+      @pdf.outline.add_section do
         section 'Added Section', :page => 3 do
           page 3, :title => 'Page 3'
         end
@@ -85,7 +85,7 @@ describe "Outline" do
     end
     
     it "should add new outline items to document" do
-      [@section_2, @page_3].each {|item| item.should_not be_nil}
+      [@section_2, @page_3].each { |item| assert_not_nil item}
     end
     
     it "should reset the last items for root outline dictionary" do
@@ -107,20 +107,20 @@ describe "Outline" do
       
   end
   
-  describe "#insert_outline_section_after" do
+  describe "#outline.insert_section_after" do
     describe "inserting in the middle of another section" do
       before(:each) do
         @pdf.go_to_page 1
         @pdf.start_new_page
         @pdf.text "Inserted Page"
-        @pdf.insert_outline_section_after 'Page 1' do 
+        @pdf.outline.insert_section_after 'Page 1' do 
           page page_number, :title => "Inserted Page"
         end
         render_and_find_objects
       end
 
       it "should insert new outline items to document" do
-        @inserted_page.should_not be_nil
+        assert_not_nil @inserted_page
       end
 
       it "should adjust the count of all ancestors" do    
@@ -154,7 +154,7 @@ describe "Outline" do
         @pdf.go_to_page 2
          @pdf.start_new_page
          @pdf.text "Inserted Page"
-         @pdf.insert_outline_section_after 'Page 2' do 
+         @pdf.outline.insert_section_after 'Page 2' do 
            page page_number, :title => "Inserted Page"
          end
          render_and_find_objects
@@ -167,7 +167,7 @@ describe "Outline" do
         end
 
         it "should set the sibling relation of added item to adjoining items" do
-          referenced_object(@inserted_page[:Next]).should be_nil
+          assert_nil referenced_object(@inserted_page[:Next])
           referenced_object(@inserted_page[:Prev]).should == @page_2
         end
         
@@ -179,29 +179,29 @@ describe "Outline" do
     end
     
     it "should require an existing title" do 
-      lambda do
+      assert_raise Prawn::Errors::UnknownOutlineTitle do
         @pdf.go_to_page 1
         @pdf.start_new_page
         @pdf.text "Inserted Page"
-        @pdf.insert_outline_section_after 'Wrong page' do 
+        @pdf.outline.insert_section_after 'Wrong page' do 
           page page_number, :title => "Inserted Page"
         end
         render_and_find_objects
-      end.should raise_error(Prawn::Errors::UnknownOutlineTitle) 
+      end
     end
     
   end
   
   describe "#page" do
     it "should require a title option to be set" do
-      lambda do
+      assert_raise Prawn::Errors::RequiredOption do
         @pdf = Prawn::Document.new() do
           text "Page 1. This is the first Chapter. "
           define_outline do
             page 1, :title => nil
           end
         end
-      end.should raise_error(Prawn::Errors::RequiredOption) 
+      end
     end
   end
 end

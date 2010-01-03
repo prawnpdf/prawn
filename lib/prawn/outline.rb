@@ -3,7 +3,32 @@
 # generates outline dictionary and items for document
 #
 # Author Jonathan Greenberg
+
+require 'forwardable'
+
 module Prawn
+  
+  class Document
+
+    # See Outline#define below for documentation
+    def define_outline(&block)
+      outline.define(&block)
+    end
+
+    # The Outline dictionary (12.3.3) for this document.  It is
+    # lazily initialized, so that documents that do not have an outline
+    # do not incur the additional overhead.
+    def outline_root(outline_root)
+      @store.root.data[:Outlines] ||= ref!(outline_root)
+    end
+
+    # Lazily instantiates an Outline object for document. This is used as point of entry
+    # to methods to build the outline tree.
+    def outline
+      @outline ||= Outline.new(self)
+    end
+
+  end
   
   # The Outline class organizes the outline tree items for the document.
   # Note that the prev and parent instance variables are adjusted while navigating 
@@ -16,6 +41,9 @@ module Prawn
   # particular the way in which the OutlineItems are finally rendered into document 
   # objects in PdfObject through a hash.
   class Outline
+    
+    extend Forwardable
+    def_delegator :@document, :page_number
     
     attr_accessor :parent
     attr_accessor :prev
@@ -31,14 +59,65 @@ module Prawn
       @items = {}
     end
     
-    # Note
-    def define_outline(&block)
+    # Defines an outline for the document.
+    # The outline is an optional nested index that appears on the side of a PDF 
+    # document usually with direct links to pages. The outline DSL is defined by nested 
+    # blocks involving two methods: section and page.
+    #
+    # section(title, options{}, &block)
+    #   title: the outline text that appears for the section.
+    #   options: page - optional integer defining the page number for a destination link.
+    #                 - currently only :FIT destination supported with link to top of page.
+    #            closed - whether the section should show its nested outline elements.
+    #                   - defaults to false.
+    # page(page, options{})
+    #   page: integer defining the page number for the destination link.
+    #         currently only :FIT destination supported with link to top of page.
+    #         set to nil if destination link is not desired.
+    #   options: title - the outline text that appears for the section.
+    #            closed - whether the section should show its nested outline elements.
+    #                   - defaults to false.
+    #
+    # The syntax is best illustrated with an example:
+    #
+    # Prawn::Document.generate(outlined document) do
+    #   text "Page 1. This is the first Chapter. "
+    #   start_new_page
+    #   text "Page 2. More in the first Chapter. "
+    #   start_new_page
+    #   define_outline do
+    #     section 'Chapter 1', :page => 1, :closed => true do 
+    #       page 1, :title => 'Page 1'
+    #       page 2, :title => 'Page 2'
+    #     end
+    #   end
+    # end
+    # 
+    # It should be noted that not defining a title for a page element will raise
+    # a RequiredOption error
+    #
+    def define(&block)
       if block
         block.arity < 1 ? instance_eval(&block) : block[self]
       end
     end
-    
-    def add_outline_section(&block)
+     
+    # Adds an outine section to the outline tree (see define_outline).
+    # Although you will probably choose to exclusively use define_outline so 
+    # that your outline tree is contained and easy to manage, this method
+    # gives you the option to add sections to the outline tree at any point
+    # during document generation. Note that the section will be added at the 
+    # top level at the end of the outline. For more a more flexible API try
+    # using outline.insert_section_after.
+    #
+    # block uses the same DSL syntax as define_outline, for example: 
+    #
+    #   outline.add_section do
+    #     section 'Added Section', :page => 3 do
+    #       page 3, :title => 'Page 3'
+    #     end
+    #   end
+    def add_section(&block)
       @parent = outline_root
       @prev = outline_root.data.last
       if block
@@ -46,6 +125,24 @@ module Prawn
       end      
     end
     
+    # Inserts an outline section to the outline tree (see define_outline).
+    # Although you will probably choose to exclusively use define_outline so 
+    # that your outline tree is contained and easy to manage, this method
+    # gives you the option to insert sections to the outline tree at any point
+    # during document generation. Unlike outline.add_section, this method allows 
+    # you to enter a section after any other item at any level in the outline tree. 
+    # Currently the only way to locate the place of entry is with the title for the 
+    # item. If your titles names are not unique consider using define_outline.
+    #
+    # block uses the same DSL syntax as define_outline, for example: 
+    # 
+    #   go_to_page 2
+    #   start_new_page
+    #   text "Inserted Page"
+    #   outline.insert_section_after :title => 'Page 2' do 
+    #     page page_number, :title => "Inserted Page"
+    #   end
+    #
     def insert_section_after(title, &block)
       @prev = items[title]
       if @prev
@@ -60,11 +157,6 @@ module Prawn
           "\n No outline item with title: '#{title}' exists in the outline tree"
       end
     end
-    
-    def method_missing(method,*args,&block) 
-      return document.send(method)
-      super 
-    end 
 
   private
     
