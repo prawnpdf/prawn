@@ -27,8 +27,8 @@ module Prawn
     def span(width, options={})
       Prawn.verify_options [:position], options
       original_position = self.y      
-      
-      # FIXME: How many effing times do I want to write this same code?
+     
+      # FIXME: Any way to move this upstream?
       left_boundary = case(options[:position] || :left)
       when :left
         margin_box.absolute_left

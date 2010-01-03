@@ -9,12 +9,15 @@
 module Prawn
   module Graphics
     module CapStyle
-      # Sets the cap_style for stroked lines and curves
-      #
 
       CAP_STYLES = { :butt => 0, :round => 1, :projecting_square => 2 }
       
+      # Sets the cap style for stroked lines and curves
+      #
       # style is one of :butt, :round, or :projecting_square
+      #
+      # NOTE: If this method is never called, :butt will be used by default.
+      #
       def cap_style(style=nil)
         return @cap_style || :butt if style.nil?
 

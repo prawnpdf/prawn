@@ -167,6 +167,7 @@ module Prawn
       end
 
       # The height actually used during the previous <tt>render</tt>
+      # 
       def height
         return 0 if @baseline_y.nil? || @descender.nil?
         # baseline is already pushed down one line below the current

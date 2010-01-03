@@ -69,11 +69,31 @@ module Prawn
     attr_writer   :font_size
 
 
+    # Any module added to this array will be included into instances of
+    # Prawn::Document at the per-object level.  These will also be inherited by
+    # any subclasses.
+    #
+    # Example:
+    #
+    #   module MyFancyModule
+    #    
+    #     def party!
+    #       text "It's a big party!"
+    #     end
+    #   
+    #   end
+    #
+    #   Prawn::Document.extensions << MyFancyModule
+    #
+    #   Prawn::Document.generate("foo.pdf") do
+    #     party!
+    #   end
+    #
     def self.extensions
       @extensions ||= []
     end
 
-    def self.inherited(base)
+    def self.inherited(base) #:nodoc:
       extensions.each { |e| base.extensions << e }
     end
 
@@ -303,19 +323,21 @@ module Prawn
     end
 
     # Executes a block and then restores the original y position
+    #
+    #   pdf.text "A"
+    #
+    #   pdf.float do
+    #     pdf.move_down 100
+    #     pdf.text "C"
+    #   end
+    #
+    #   pdf.text "B" 
+    #   
     def float 
       mask(:y) { yield }
     end
 
-    # Renders the PDF document to string, useful for example in a Rails 
-    # application where you want to stream out the PDF to a web browser:
-    # 
-    #  def show
-    #    pdf = Prawn::Document.new do
-    #      text "Putting PDF generation code in a controller is _BAD_"
-    #    end
-    #    send(pdf.render, :filename => 'silly.pdf', :type => 'application/pdf', :disposition => 'inline)
-    #  end
+    # Renders the PDF document to string
     #
     def render
       output = StringIO.new
@@ -462,7 +484,7 @@ module Prawn
     # Raised if group() is called with a block that is too big to be
     # rendered in the current context.
     #
-    CannotGroup = Class.new(StandardError)
+    CannotGroup = Class.new(StandardError) #FIXME: should be in prawn/errors.rb
 
     # Attempts to group the given block vertically within the current context.
     # First attempts to render it in the current position on the current page.
@@ -506,6 +528,7 @@ module Prawn
     #     text "-- Hai again"
     #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]  
     #   end
+    #
     def number_pages(string, position)
       page_count.times do |i|
         go_to_page(i+1)
@@ -524,7 +547,7 @@ module Prawn
     private
 
     # See Prawn::Document::Internals for low-level PDF functions
-
+    #
     def build_new_page_content
       generate_margin_box
       @page_content = ref(:Length => 0)

@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
-  class ObjectStore
+  class ObjectStore #:nodoc:
     include Enumerable
 
     def initialize(info={})

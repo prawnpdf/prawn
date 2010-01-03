@@ -40,13 +40,15 @@ module Prawn
       
       alias_method :dash=, :dash
 
-      # Restores solid stroking
+      # Stops dashing, restoring solid stroked lines and curves
+      #
       def undash
         @dash = undash_hash
         write_stroke_dash
       end
       
-      # Returns true iff the stroke is dashed
+      # Returns when stroke is dashed, false otherwise
+      #
       def dashed?
         dash != undash_hash
       end

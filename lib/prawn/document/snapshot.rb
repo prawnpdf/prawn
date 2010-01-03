@@ -17,6 +17,7 @@ module Prawn
       # prevent any of its data from being rendered. You must reset the
       # y-position yourself if you have performed any drawing operations that
       # modify it.
+      #
       def rollback
         raise RollbackTransaction
       end
@@ -28,6 +29,7 @@ module Prawn
       # yourself). 
       #
       # Returns true on success, or false if the transaction was rolled back.
+      #
       def transaction
         snap = take_snapshot
         yield

@@ -79,6 +79,8 @@ module Prawn
         page_resources[:XObject] ||= {}
       end
 
+      # The ExtGState dictionary for the current page
+      #
       def page_ext_gstates
         page_resources[:ExtGState] ||= {}
       end

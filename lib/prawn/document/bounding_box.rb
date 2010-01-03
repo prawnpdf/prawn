@@ -223,6 +223,15 @@ module Prawn
       
       # Temporarily adjust the @x coordinate to allow for left_padding
       #
+      # Example:
+      #
+      #  indent 20 do
+      #     text "20 points in"
+      #     indent 30 do
+      #       text "50 points in"
+      #     end
+      #   end
+      #
       def indent(left_padding, &block)
         @x += left_padding
         @width -= left_padding

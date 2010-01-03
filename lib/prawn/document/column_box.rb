@@ -43,22 +43,29 @@ module Prawn
     
     # Template methods to support ColumnBox extensions
     class BoundingBox
+      
+      # an alias for absolute_left
       def left_side
          absolute_left
       end
 
+      # an alias for absolute_right
       def right_side
          absolute_right
       end
 
+      # starts a new page
       def move_past_bottom
          @parent.start_new_page
       end
     end
 
+    # Implements the necessary functionality to allow Document#column_box to
+    # work.
+    #
     class ColumnBox < BoundingBox
 
-      def initialize(parent, point, options={})
+      def initialize(parent, point, options={}) #:nodoc:
         super
         @columns = options[:columns] || 3
         @spacer  = options[:spacer]  || @parent.font_size
@@ -72,6 +79,8 @@ module Prawn
         super / @columns - @spacer
       end
 
+      # Column width including the spacer.
+      #
       def width_of_column
         width + @spacer
       end
@@ -89,7 +98,9 @@ module Prawn
         absolute_right - (width_of_column * columns_from_right)
       end
 
-      def move_past_bottom #:nodoc:
+      # Moves to the next column or starts a new page if currently positioned at
+      # the rightmost column.
+      def move_past_bottom 
         @current_column = (@current_column + 1) % @columns
         @parent.y = @y
         if 0 == @current_column
