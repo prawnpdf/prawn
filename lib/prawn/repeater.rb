@@ -13,14 +13,14 @@ module Prawn
   class Document
 
     # A list of all repeaters in the document.
-    # See repeat() for details
+    # See Document#repeat for details
     #
     def repeaters
       @repeaters ||= []
     end
 
     # Provides a way to execute a block of code repeatedly based on a
-    # page_filter.  Since Stamp is under the hood, this method is very space
+    # page_filter.  Since Stamp is used under the hood, this method is very space
     # efficient.
     #
     # Available page filters are:
