@@ -116,7 +116,8 @@ module Prawn
     def find_font(name, options={}) #:nodoc: 
       if font_families.key?(name) 
         family, name = name, font_families[name][options[:style] || :normal] 
-        if name.is_a?(Hash) options = options.merge(name) 
+        if name.is_a?(Hash) 
+          options = options.merge(name) 
           name = options[:file] 
         end 
       end 
