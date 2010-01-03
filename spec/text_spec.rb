@@ -1,16 +1,54 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")      
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+
+describe "#height_of" do
+  before(:each) { create_pdf }
+
+  it "should return the height that would be required to print a" +
+    "particular string of text" do
+    original_y = @pdf.y
+    @pdf.text("Foo")
+    new_y = @pdf.y
+    @pdf.height_of("Foo", :width => 300).should.be.close(original_y - new_y, 0.0001)
+  end
+end
 
 describe "when drawing text" do     
    
-   before(:each) { create_pdf } 
+   before(:each) { create_pdf }
 
    it "should advance down the document based on font_height" do
      position = @pdf.y
      @pdf.text "Foo"
 
      @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz"
+     @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+   end
+
+   it "should advance down the document based on font_height" +
+      " with size option" do
+     position = @pdf.y
+     @pdf.text "Foo", :size => 15
+
+     @pdf.font_size = 15
+     @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
+
+     position = @pdf.y
+     @pdf.text "Foo\nBar\nBaz"
+     @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+   end
+
+   it "should advance down the document based on font_height" +
+      " with leading option" do
+     position = @pdf.y
+     leading = 2
+     @pdf.text "Foo", :leading => leading
+
+     @pdf.y.should.be.close(position - @pdf.font.height - leading, 0.0001)
 
      position = @pdf.y
      @pdf.text "Foo\nBar\nBaz"
@@ -153,33 +191,15 @@ describe "when drawing text" do
        sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
        lambda { @pdf.text sjis_str }.should.raise(ArgumentError)
      end
-   end 
+   end
 
-  it "should wrap text" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-
-    text = "Please wrap this text about HERE. More text that should be wrapped"
-    expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
-
-    @pdf.naive_wrap(text, 220, @pdf.font_size).should == expect
+  it "should call move_past_bottom when printing more text than can fit between the current document.y and bounds.bottom" do
+    @pdf.y = @pdf.font.height
+    @pdf.text "Hello"
+    @pdf.text "World"
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == ["Hello"]
+    pages[1][:strings].should == ["World"]
   end
-
-  it "should respect end of line when wrapping text" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-    text = "Please wrap only before\nTHIS word. Don't wrap this"
-    @pdf.naive_wrap(text, 220, @pdf.font_size).should == text
-  end
-
-  it "should respect end of line when wrapping text and mode is set to 'character'" do
-    @pdf = Prawn::Document.new
-    @pdf.font "Courier"
-
-    text = "You can wrap this text HERE"
-    expect = "You can wrap this text HE\nRE"
-
-    @pdf.naive_wrap(text, 180, @pdf.font_size, :mode => :character).should == expect
-  end     
-  
 end

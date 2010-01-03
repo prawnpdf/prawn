@@ -25,7 +25,7 @@ module Prawn
   # The base source directory for Prawn as installed on the system
   BASEDIR = File.expand_path(File.join(dir, '..', '..'))
   
-  VERSION = "0.6.3"
+  VERSION = "0.7.1"
   
   extend self
 
@@ -73,6 +73,7 @@ require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
 require "prawn/object_store"
+require "prawn/text"
 require "prawn/graphics"
 require "prawn/images"
 require "prawn/images/jpg"
@@ -83,3 +84,4 @@ require "prawn/reference"
 require "prawn/font"
 require "prawn/encoding"
 require "prawn/measurements"
+require "prawn/repeater"

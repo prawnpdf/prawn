@@ -79,6 +79,8 @@ module Prawn
         page_resources[:XObject] ||= {}
       end
 
+      # The ExtGState dictionary for the current page
+      #
       def page_ext_gstates
         page_resources[:ExtGState] ||= {}
       end
@@ -89,6 +91,12 @@ module Prawn
       #
       def names
         @store.root.data[:Names] ||= ref!(:Type => :Names)
+      end
+
+      # Returns true if the Names dictionary is in use for this document.
+      # 
+      def names?
+        @store.root.data[:Names]
       end
 
       # Defines a block to be called just before the document is rendered.
@@ -103,13 +111,22 @@ module Prawn
         @page_content = jump_to.data[:Contents].identifier
       end
 
+      # Defines a block to be called just before a new page is started.
+      #
+      def on_page_create(&block)
+         if block_given?
+            @on_page_create_callback = block
+         else
+            @on_page_create_callback = nil
+         end
+      end
+      
       private      
 
       def finalize_all_page_contents
-        page_count.times do |i|
+        (1..page_count).each do |i|
           go_to_page i
-          @header.draw if defined?(@header) and @header
-          @footer.draw if defined?(@footer) and @footer
+          repeaters.each { |r| r.run(i) }
           add_content "Q"
           page_content.compress_stream if compression_enabled?
           page_content.data[:Length] = page_content.stream.size
@@ -138,6 +155,7 @@ module Prawn
       # Write out the PDF Body, as per spec 3.4.2
       #
       def render_body(output)
+        @store.compact if @optimize_objects
         @store.each do |ref|
           ref.offset = output.size
           output << ref.object

@@ -12,7 +12,6 @@ require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"
 require "prawn/document/span"
-require "prawn/document/text"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
@@ -60,6 +59,7 @@ module Prawn
     include Annotations
     include Destinations
     include Snapshot
+    include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
@@ -69,11 +69,31 @@ module Prawn
     attr_writer   :font_size
 
 
+    # Any module added to this array will be included into instances of
+    # Prawn::Document at the per-object level.  These will also be inherited by
+    # any subclasses.
+    #
+    # Example:
+    #
+    #   module MyFancyModule
+    #    
+    #     def party!
+    #       text "It's a big party!"
+    #     end
+    #   
+    #   end
+    #
+    #   Prawn::Document.extensions << MyFancyModule
+    #
+    #   Prawn::Document.generate("foo.pdf") do
+    #     party!
+    #   end
+    #
     def self.extensions
       @extensions ||= []
     end
 
-    def self.inherited(base)
+    def self.inherited(base) #:nodoc:
       extensions.each { |e| base.extensions << e }
     end
 
@@ -121,6 +141,7 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
+    # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
@@ -157,7 +178,8 @@ module Prawn
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options, :background, :info], options
+         :compress, :skip_encoding, :text_options, :background, :info,
+         :optimize_objects], options
 
        self.class.extensions.reverse_each { |e| extend e }
       
@@ -175,10 +197,12 @@ module Prawn
        @store = ObjectStore.new(options[:info])
        @trailer = {}
        @before_render_callbacks = []
+       @on_page_create_callback = nil
 
        @page_size     = options[:page_size]   || "LETTER"
        @page_layout   = options[:page_layout] || :portrait
        @compress      = options[:compress] || false
+       @optimize_objects = options.fetch(:optimize_objects, false)
        @skip_encoding = options[:skip_encoding]
        @background    = options[:background]
        @font_size     = 12
@@ -199,6 +223,7 @@ module Prawn
        generate_margin_box
 
        @bounding_box = @margin_box
+       @page_number = 0
 
        start_new_page unless options[:skip_page_creation]
 
@@ -218,6 +243,7 @@ module Prawn
      #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
+       
        @page_size   = options[:size] if options[:size]
        @page_layout = options[:layout] if options[:layout]
        
@@ -230,15 +256,20 @@ module Prawn
        end
 
        build_new_page_content
-
-       @store.pages.data[:Kids] << current_page
+       
+       @store.pages.data[:Kids].insert(@page_number, current_page)
        @store.pages.data[:Count] += 1
-
+       @page_number += 1
+        
        add_content "q"
-
+       
        @y = @bounding_box.absolute_top
 
        image(@background, :at => [0,@y]) if @background
+       
+       float do
+         @on_page_create_callback.call(self) if @on_page_create_callback 
+       end
     end
 
     # Returns the number of pages in the document
@@ -250,6 +281,26 @@ module Prawn
     #
     def page_count
       @store.pages.data[:Count]
+    end
+
+    # Returns the 1-based page number of the current page. Returns 0 if the
+    # document has no pages.
+    #
+    def page_number
+      @page_number
+    end
+
+    # Re-opens the page with the given (1-based) page number so that you can
+    # draw on it. Does not restore page state such as margins, page orientation,
+    # or paper size, so you'll have to handle that yourself.
+    #
+    # See Prawn::Document#number_pages for a sample usage of this capability.
+    #
+    def go_to_page(k)
+      @page_number = k
+      jump_to = @store.pages.data[:Kids][k-1]
+      @current_page = jump_to.identifier
+      @page_content = jump_to.data[:Contents].identifier
     end
 
     def y=(new_y)
@@ -271,15 +322,22 @@ module Prawn
       self.y = new_y + bounds.absolute_bottom
     end
 
-    # Renders the PDF document to string, useful for example in a Rails 
-    # application where you want to stream out the PDF to a web browser:
-    # 
-    #  def show
-    #    pdf = Prawn::Document.new do
-    #      text "Putting PDF generation code in a controller is _BAD_"
-    #    end
-    #    send(pdf.render, :filename => 'silly.pdf', :type => 'application/pdf', :disposition => 'inline)
-    #  end
+    # Executes a block and then restores the original y position
+    #
+    #   pdf.text "A"
+    #
+    #   pdf.float do
+    #     pdf.move_down 100
+    #     pdf.text "C"
+    #   end
+    #
+    #   pdf.text "B" 
+    #   
+    def float 
+      mask(:y) { yield }
+    end
+
+    # Renders the PDF document to string
     #
     def render
       output = StringIO.new
@@ -426,7 +484,7 @@ module Prawn
     # Raised if group() is called with a block that is too big to be
     # rendered in the current context.
     #
-    CannotGroup = Class.new(StandardError)
+    CannotGroup = Class.new(StandardError) #FIXME: should be in prawn/errors.rb
 
     # Attempts to group the given block vertically within the current context.
     # First attempts to render it in the current position on the current page.
@@ -470,9 +528,10 @@ module Prawn
     #     text "-- Hai again"
     #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]  
     #   end
+    #
     def number_pages(string, position)
       page_count.times do |i|
-        go_to_page(i)
+        go_to_page(i+1)
         str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
         text str, :at => position
       end
@@ -488,7 +547,7 @@ module Prawn
     private
 
     # See Prawn::Document::Internals for low-level PDF functions
-
+    #
     def build_new_page_content
       generate_margin_box
       @page_content = ref(:Length => 0)

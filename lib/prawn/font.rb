@@ -113,21 +113,18 @@ module Prawn
     # font will be embedded twice. Since we do font subsetting, this double
     # embedding won't be catastrophic, just annoying.
     # ++
-    #
-    def find_font(name, options={}) #:nodoc:
-      if font_families.key?(name)
-        family, name = name, font_families[name][options[:style] || :normal]
-
-        if name.is_a?(Hash)
-          options = options.merge(name)
-          name = options[:file]
-        end
-      end
-
-      key = "#{name}:#{options[:font] || 0}"
-      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
-    end
-
+    def find_font(name, options={}) #:nodoc: 
+      if font_families.key?(name) 
+        family, name = name, font_families[name][options[:style] || :normal] 
+        if name.is_a?(Hash) 
+          options = options.merge(name) 
+          name = options[:file] 
+        end 
+      end 
+      key = "#{name}:#{options[:font] || 0}" 
+      font_registry[key] ||= Font.load(self, name, options.merge(:family => family)) 
+    end 
+    
     # Hash of Font objects keyed by names
     #
     def font_registry #:nodoc:
@@ -210,6 +207,10 @@ module Prawn
     # The options hash used to initialize the font
     attr_reader :options
 
+    # Shortcut interface for constructing a font object.  Filenames of the form
+    # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
+    # will be passed through to Font::AFM.new()
+    #
     def self.load(document,name,options={})
       case name
       when /\.ttf$/   then TTF.new(document, name, options)
@@ -231,24 +232,22 @@ module Prawn
       @references = {}
     end
 
+    # The size of the font ascender in PDF points 
+    #
     def ascender
       @ascender / 1000.0 * size
     end
 
+    # The size of the font descender in PDF points
+    #
     def descender
-      @descender / 1000.0 * size
+      -@descender / 1000.0 * size
     end
 
+    # The size of the recommended gap between lines of text in PDF points
+    #
     def line_gap
       @line_gap / 1000.0 * size
-    end
-
-    def identifier_for(subset)
-      "#{@identifier}.#{subset}"
-    end
-
-    def inspect
-      "#{self.class.name}< #{name}: #{size} >"
     end
 
     # Normalizes the encoding of the string to an encoding supported by the
@@ -261,10 +260,13 @@ module Prawn
 
     # Destructive version of normalize_encoding; normalizes the encoding of a
     # string in place.
+    #
     def normalize_encoding!(str)
       str.replace(normalize_encoding(str))
     end
 
+    # Gets height of current font in PDF points at the given font size
+    #
     def height_at(size)
       @normalized_height ||= (@ascender - @descender + @line_gap) / 1000.0
       @normalized_height * size
@@ -283,6 +285,14 @@ module Prawn
     def add_to_current_page(subset)
       @references[subset] ||= register(subset)
       @document.page_fonts.merge!(identifier_for(subset) => @references[subset])
+    end
+
+    def identifier_for(subset) #:nodoc:
+      "#{@identifier}.#{subset}"
+    end
+
+    def inspect #:nodoc:
+      "#{self.class.name}< #{name}: #{size} >"
     end
 
     private

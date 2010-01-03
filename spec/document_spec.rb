@@ -55,7 +55,6 @@ describe "when generating a document from a subclass" do
 
 end
 
-                               
 describe "When creating multi-page documents" do 
  
   before(:each) { create_pdf }
@@ -94,6 +93,84 @@ describe "When beginning each new page" do
       @pdf.instance_variable_defined?(:@background).should == true
       @pdf.instance_variable_get(:@background).should == @filename
     end
+    
+    
+  end
+  
+  
+end
+
+describe "The page_number method" do
+  it "should be 1 for a new document" do
+    pdf = Prawn::Document.new
+    pdf.page_number.should == 1
+  end
+
+  it "should be 0 for documents with no pages" do
+    pdf = Prawn::Document.new(:skip_page_creation => true)
+    pdf.page_number.should == 0
+  end
+
+  it "should be changed by go_to_page" do
+    pdf = Prawn::Document.new
+    10.times { pdf.start_new_page }
+    pdf.go_to_page 3
+    pdf.page_number.should == 3
+  end
+
+end
+
+describe "on_page_create callback" do
+  before do
+    create_pdf 
+  end
+
+  it "should be invoked with document" do
+    called_with = nil
+
+    @pdf.on_page_create { |*args| called_with = args }
+
+    @pdf.start_new_page
+
+    called_with.should == [@pdf]
+  end
+
+  it "should be invoked for each new page" do
+    trigger = mock()
+    trigger.expects(:fire).times(5)
+
+    @pdf.on_page_create { trigger.fire }
+
+    5.times { @pdf.start_new_page }
+  end
+  
+  it "should be replaceable" do
+      trigger1 = mock()
+      trigger1.expects(:fire).times(1)
+      
+      trigger2 = mock()
+      trigger2.expects(:fire).times(1)
+
+      @pdf.on_page_create { trigger1.fire }
+      
+      @pdf.start_new_page
+      
+      @pdf.on_page_create { trigger2.fire }
+      
+      @pdf.start_new_page
+  end
+  
+  it "should be clearable by calling on_page_create without a block" do
+      trigger = mock()
+      trigger.expects(:fire).times(1)
+
+      @pdf.on_page_create { trigger.fire }
+
+      @pdf.start_new_page 
+      
+      @pdf.on_page_create
+      
+      @pdf.start_new_page 
   end
 
 end
@@ -147,6 +224,21 @@ describe "When reopening pages" do
     # dictionary length
     lambda{ PDF::Inspector::Page.analyze(@pdf.render) }.
       should.not.raise(PDF::Reader::MalformedPDFError)
+  end
+
+  it "should insert pages after the current page when calling start_new_page" do
+    pdf = Prawn::Document.new
+    3.times { |i| pdf.text "Old page #{i+1}"; pdf.start_new_page }
+    pdf.go_to_page 1
+    pdf.start_new_page
+    pdf.text "New page 2"
+
+    pdf.page_number.should == 2
+
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 5
+    pages[1][:strings].should == ["New page 2"]
+    pages[2][:strings].should == ["Old page 2"]
   end
 end
 
@@ -255,16 +347,45 @@ describe "The render() feature" do
     pdf = Prawn::Document.new
     
     seq = sequence("callback_order")
-
+ 
     # Verify the order: finalize -> fire callbacks -> render body
     pdf.expects(:finalize_all_page_contents).in_sequence(seq)
     trigger = mock()
     trigger.expects(:fire).in_sequence(seq)
+    
+    # Store away the render_body method to be called below
+    render_body = pdf.method(:render_body)
     pdf.expects(:render_body).in_sequence(seq)
-
+ 
     pdf.before_render{ trigger.fire }
-
+ 
+    # Render the body to set up object offsets
+    render_body.call(StringIO.new)
     pdf.render
+  end
+
+end
+
+describe "The :optimize_objects option" do
+  before(:all) do
+    @wasteful_doc = lambda do
+      transaction { start_new_page; text "Hidden text"; rollback }
+      text "Hello world"
+    end
+  end
+
+  it "should result in fewer objects when enabled" do
+    wasteful_pdf = Prawn::Document.new(&@wasteful_doc)
+    frugal_pdf   = Prawn::Document.new(:optimize_objects => true,
+                                       &@wasteful_doc)
+    frugal_pdf.render.size.should.be < wasteful_pdf.render.size
+  end
+
+  it "should default to :false" do
+    default_pdf  = Prawn::Document.new(&@wasteful_doc)
+    wasteful_pdf = Prawn::Document.new(:optimize_objects => false, 
+                                       &@wasteful_doc)
+    default_pdf.render.size.should == wasteful_pdf.render.size
   end
 end
 
