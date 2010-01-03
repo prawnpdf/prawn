@@ -7,7 +7,7 @@ describe "Outline" do
       start_new_page
       text "Page 2. More in the first Chapter. "
       start_new_page
-      render_outline do
+      define_outline do
         section 'Chapter 1', :page => 1, :closed => true do 
           page 1, :title => 'Page 1'
           page 2, :title => 'Page 2'
@@ -107,13 +107,13 @@ describe "Outline" do
       
   end
   
-  describe "#insert_section_after" do
+  describe "#insert_outline_section_after" do
     describe "inserting in the middle of another section" do
       before(:each) do
         @pdf.go_to_page 1
         @pdf.start_new_page
         @pdf.text "Inserted Page"
-        @pdf.insert_section_after :title => 'Page 1' do 
+        @pdf.insert_outline_section_after 'Page 1' do 
           page page_number, :title => "Inserted Page"
         end
         render_and_find_objects
@@ -147,7 +147,6 @@ describe "Outline" do
         
       end
       
-
     end
     
     describe "inserting at the end of another section" do
@@ -155,7 +154,7 @@ describe "Outline" do
         @pdf.go_to_page 2
          @pdf.start_new_page
          @pdf.text "Inserted Page"
-         @pdf.insert_section_after :title => 'Page 2' do 
+         @pdf.insert_outline_section_after 'Page 2' do 
            page page_number, :title => "Inserted Page"
          end
          render_and_find_objects
@@ -178,6 +177,19 @@ describe "Outline" do
 
       end
     end
+    
+    it "should require an existing title" do 
+      lambda do
+        @pdf.go_to_page 1
+        @pdf.start_new_page
+        @pdf.text "Inserted Page"
+        @pdf.insert_outline_section_after 'Wrong page' do 
+          page page_number, :title => "Inserted Page"
+        end
+        render_and_find_objects
+      end.should raise_error(Prawn::Errors::UnknownOutlineTitle) 
+    end
+    
   end
   
   describe "#page" do
@@ -185,7 +197,7 @@ describe "Outline" do
       lambda do
         @pdf = Prawn::Document.new() do
           text "Page 1. This is the first Chapter. "
-          render_outline do
+          define_outline do
             page 1, :title => nil
           end
         end

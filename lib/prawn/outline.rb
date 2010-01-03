@@ -4,6 +4,17 @@
 #
 # Author Jonathan Greenberg
 module Prawn
+  
+  # The Outline class organizes the outline tree items for the document.
+  # Note that the prev and parent instance variables are adjusted while navigating 
+  # through the nested blocks. These variables along with the presence or absense 
+  # of blocks are the primary means by which the relations for the various
+  # OutlineItems and the OutlineRoot are set. Unfortunately, the best way to
+  # understand how this works is to follow the method calls through a real example.
+  #
+  # Some ideas for the organization of this class were gleaned from name_tree. In 
+  # particular the way in which the OutlineItems are finally rendered into document 
+  # objects in PdfObject through a hash.
   class Outline
     
     attr_accessor :parent
@@ -20,7 +31,8 @@ module Prawn
       @items = {}
     end
     
-    def generate_outline(&block)
+    # Note
+    def define_outline(&block)
       if block
         block.arity < 1 ? instance_eval(&block) : block[self]
       end
@@ -34,14 +46,19 @@ module Prawn
       end      
     end
     
-    def insert_section_after(options = {}, &block)
-      @prev = items[options[:title]]
-      @parent = @prev.data.parent
-      nxt = @prev.data.next
-      if block
-        block.arity < 1 ? instance_eval(&block) : block[self]
+    def insert_section_after(title, &block)
+      @prev = items[title]
+      if @prev
+        @parent = @prev.data.parent
+        nxt = @prev.data.next
+        if block
+          block.arity < 1 ? instance_eval(&block) : block[self]
+        end
+        adjust_relations(nxt)
+      else
+        raise Prawn::Errors::UnknownOutlineTitle, 
+          "\n No outline item with title: '#{title}' exists in the outline tree"
       end
-      adjust_relations(nxt)
     end
     
     def method_missing(method,*args,&block) 
@@ -55,7 +72,7 @@ module Prawn
       add_outline_item(title, options, &block)
     end 
     
-    def page(page, options = {}, &block)
+    def page(page = nil, options = {})
       if options[:title]
         title = options[:title] 
         options[:page] = page
@@ -63,7 +80,7 @@ module Prawn
         raise Prawn::Errors::RequiredOption, 
           "\nTitle is a required option for page"
       end
-      add_outline_item(title, options, &block)
+      add_outline_item(title, options)
     end
      
     def add_outline_item(title, options, &block)
@@ -74,7 +91,6 @@ module Prawn
       block.call if block
       reset_parent(outline_item)
     end
-      
     
     def create_outline_item(title, options)
       outline_item = OutlineItem.new(title, parent, options)

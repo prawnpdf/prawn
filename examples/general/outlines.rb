@@ -14,14 +14,14 @@ Prawn::Document.generate('outlines.pdf') do
   text "Page 3. This is the second Chapter. It has a subsection. "
   start_new_page
   text  "Page 4. More in the second Chapter. "
-  render_outline do
+  define_outline do
     section 'Chapter 1', :page => 1, :closed => true do 
       page 1, :title => 'Page 1'
       page 2, :title => 'Page 2'
     end
     section 'Chapter 2', :page => 3 do 
       section 'Chapter 2 Subsection' do
-        page 3, :title => 'Page 3'
+        page nil,  :title => 'Page 3'
       end
       page 4, :title => 'Page 4'
     end
@@ -39,13 +39,13 @@ Prawn::Document.generate('outlines.pdf') do
   go_to_page 4
   start_new_page 
   text "inserted before the Appendix"
-  insert_section_after :title => 'Chapter 2' do
+  insert_outline_section_after 'Chapter 2' do
     page page_number, :title => "Pre-Appendix"
   end
   go_to_page 7
   start_new_page
   text "One last page"
-  insert_section_after :title => 'Page 6' do 
+  insert_outline_section_after 'Page 6' do 
     page page_number, :title => "Inserted after 6"
   end
   
