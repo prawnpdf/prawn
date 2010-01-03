@@ -129,12 +129,13 @@ module Prawn
         margin = @border_width / 2.0
         
         if @background_color    
-          @document.mask(:fill_color) do
-            @document.fill_color @background_color  
-            h  = borders.include?(:bottom) ? 
-              height - ( 2 * margin ) : height + margin
-            @document.fill_rectangle [x, y ], width, h  
-          end
+          old_color = @document.fill_color || "000000"
+          @document.fill_color(@background_color)
+          h  = borders.include?(:bottom) ? 
+          height - ( 2 * margin ) : height + margin
+          @document.fill_rectangle [x, y ], width, h  
+
+          @document.fill_color(old_color)
         end
 
         if @border_width > 0
@@ -185,10 +186,10 @@ module Prawn
           options[:size] = @font_size if @font_size
           options[:style] = @font_style if @font_style
 
-          @document.mask(:fill_color) do
-            @document.fill_color @text_color if @text_color                        
-            @document.text @text, options
-          end
+          old_color = @document.fill_color || "000000"
+          @document.fill_color @text_color if @text_color                        
+          @document.text @text, options
+          @document.fill_color "000000"
         end
       end
 
