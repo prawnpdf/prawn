@@ -40,6 +40,7 @@ module Prawn
   # Some ideas for the organization of this class were gleaned from name_tree. In 
   # particular the way in which the OutlineItems are finally rendered into document 
   # objects in PdfObject through a hash.
+  #
   class Outline
     
     extend Forwardable
@@ -233,7 +234,7 @@ module Prawn
     
   end
   
-  class OutlineRoot
+  class OutlineRoot #:nodoc:
     attr_accessor :count, :first, :last
     
     def initialize
@@ -245,7 +246,7 @@ module Prawn
     end
   end
   
-  class OutlineItem
+  class OutlineItem #:nodoc:
     attr_accessor :count, :first, :last, :next, :prev, :parent, :title, :dest, :closed
   
     def initialize(title, parent, options)

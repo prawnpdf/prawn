@@ -5,7 +5,6 @@
 #
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
-
 Prawn::Document.generate('outlines.pdf') do
   text "Page 1. This is the first Chapter. "
   start_new_page
@@ -48,5 +47,4 @@ Prawn::Document.generate('outlines.pdf') do
   outline.insert_section_after 'Page 6' do 
     page page_number, :title => "Inserted after 6"
   end
-  
 end
