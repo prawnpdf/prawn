@@ -1,6 +1,7 @@
 # encoding: utf-8
 #
 # As of 9e48a6 (2009.01.03), this code fails to recognize fill_color in tables.
+# Resolved in 664760 (2009.01.05)
 #
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..','lib')
 require "prawn/core"
