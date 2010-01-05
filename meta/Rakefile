@@ -8,13 +8,12 @@ require "rake/gempackagetask"
 
 spec = Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = "0.6.1"
+  spec.version = "0.8.0"
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.add_dependency('prawn-core', '>= 0.6.1', '< 0.7')
-  spec.add_dependency('prawn-layout', '>= 0.3.1', '< 0.4')
-  spec.add_dependency('prawn-format', '>= 0.2.2', '< 0.3')
-  spec.add_dependency('prawn-security', '>= 0.1.1', '< 0.2')
+  spec.add_dependency('prawn-core',   '= 0.8.0')
+  spec.add_dependency('prawn-layout', '= 0.8.0')
+  spec.add_dependency('prawn-security''= 0.8.0')
   spec.files = Dir.glob("lib/*")
   spec.require_path = "lib"
   spec.author = "Gregory Brown"
@@ -24,32 +23,10 @@ spec = Gem::Specification.new do |spec|
   spec.description = "Prawn is a fast, tiny, and nimble PDF generator for Ruby"
   spec.post_install_message = %{
   Welcome to Prawn, the best pure-Ruby PDF solution ever!
-  This is version 0.6.1
-   
-  For those coming from Prawn 0.5.x or earlier, note that this release has
-  some API breaking changes as well as many new features.  *** You'll want 
-  to know about these changes, as we will no longer be supporting
-  Prawn 0.5 or any earlier version of Prawn***
+  This is the bleeding edge of 0.8.  You probably shouldn't be using it.
 
-  For details on what has changed, see:
-    http://wiki.github.com/sandal/prawn/changelog
-
-  If you have questions, contact us at:
-    http://groups.google.com/group/prawn-ruby
-
-  To submit a patch or report a bug, select the appropriate package below: 
-    http://github.com/sandal/prawn
-    http://github.com/sandal/prawn-layout
-    http://github.com/sandal/prawn-format
-    http://github.com/madriska/prawn-security
-
-  Prawn is meant for experienced Ruby hackers, so if you are new to Ruby, you
-  might want to wait until you've had some practice with the language before
-  expecting Prawn to work for you.  Things may change after 1.0, but for now
-  if you're not ready to read source code and patch bugs or missing features 
-  yourself (with our help), Prawn might not be the right fit.
-
-  But if you know what you're getting yourself into, enjoy!
+  Try the latest stable release instead, or the stable branch at:
+  http://github.com/sandal/prawn
   }
 end
 
