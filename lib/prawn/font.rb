@@ -13,19 +13,36 @@ module Prawn
 
   class Document
     # Without arguments, this returns the currently selected font. Otherwise,
-    # it sets the current font.
+    # it sets the current font. When a block is used, the font is applied
+    # transactionally and is rolled back when the block exits.
     #
-    # The single parameter must be a string. It can be one of the 14 built-in
+    #   Prawn::Document.generate("font.pdf") do
+    #     text "Default font is Helvetica"
+    #
+    #     font "Times-Roman"
+    #     text "Now using Times-Roman"
+    #
+    #     font("Chalkboard.ttf") do
+    #       text "Using TTF font from file Chalkboard.ttf"
+    #       font "Courier", :style => :bold
+    #       text "You see this in bold Courier"
+    #     end
+    #
+    #     text "Times-Roman, again"
+    #   end
+    #
+    # The :name parameter must be a string. It can be one of the 14 built-in
     # fonts supported by PDF, or the location of a TTF file. The Font::AFM::BUILT_INS
     # array specifies the valid built in font values.
-    #
-    #   pdf.font "Times-Roman"
-    #   pdf.font "Chalkboard.ttf"
     #
     # If a ttf font is specified, the glyphs necessary to render your document
     # will be embedded in the rendered PDF. This should be your preferred option
     # in most cases. It will increase the size of the resulting file, but also 
     # make it more portable.
+    #
+    # The options parameter is an optional hash providing size and style. To use
+    # the :style option you need to map those font styles to their respective font files.
+    # See font_families for more information.
     #
     def font(name=nil, options={})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
@@ -131,7 +148,7 @@ module Prawn
       @font_registry ||= {}
     end
 
-    # Hash that maps font family names to their styled individual font names
+    # Hash that maps font family names to their styled individual font names.
     #
     # To add support for another font family, append to this hash, e.g:
     #
@@ -150,6 +167,12 @@ module Prawn
     #
     # This assumes that you have appropriate TTF fonts for each style you
     # wish to support.
+    #
+    # By default the styles :bold, :italic, :bold_italic, and :normal are
+    # defined for fonts "Courier", "Times-Roman" and "Helvetica".
+    #
+    # You probably want to provide those four styles, but are free to define
+    # custom ones, like :thin, and use them in font calls.
     #
     def font_families
       @font_families ||= Hash.new { |h,k| h[k] = {} }.merge!(
