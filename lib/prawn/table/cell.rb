@@ -189,7 +189,7 @@ module Prawn
           old_color = @document.fill_color || "000000"
           @document.fill_color @text_color if @text_color                        
           @document.text @text, options
-          @document.fill_color "000000"
+          @document.fill_color old_color
         end
       end
 

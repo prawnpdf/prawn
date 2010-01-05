@@ -2,7 +2,7 @@
 #
 # As of 9e48a6 (2009.01.03), this code fails to recognize fill_color in tables.
 #
-$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..','lib')
 require "prawn/core"
 require "prawn/layout"
 
