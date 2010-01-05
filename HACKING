@@ -22,7 +22,7 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
 
    http://github.com/sandal/prawn/issues
    http://github.com/sandal/prawn-layout/issues
-   http://github.com/sandal/prawn-format/issues
+   http://github.com/sandal/prawn-security/issues
 
   2. Fork any necessary repositories on Github, make your changes
   3. Submit pull request so Gregory is notified
