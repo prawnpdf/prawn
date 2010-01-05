@@ -10,7 +10,9 @@ module Prawn
   module Graphics
     module Color
 
-      # Sets the fill color.
+      # Sets or returns the fill color.
+      #
+      # When called with no argument, it returns the current fill color.
       #
       # If a single argument is provided, it should be a 6 digit HTML color
       # code.
@@ -30,7 +32,9 @@ module Prawn
 
       alias_method :fill_color=, :fill_color
 
-      # Sets the line stroking color.  6 digit HTML color codes are used.
+      # Sets or returns the line stroking color.
+      #
+      # When called with no argument, it returns the current stroking color.
       #
       # If a single argument is provided, it should be a 6 digit HTML color
       # code.
