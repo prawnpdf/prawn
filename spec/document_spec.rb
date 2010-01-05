@@ -404,3 +404,5 @@ describe "PDF file versions" do
     str[0,8].should == "%PDF-1.4"
   end
 end
+
+

@@ -92,7 +92,13 @@ module Prawn
       def names
         @store.root.data[:Names] ||= ref!(:Type => :Names)
       end
-
+      
+      # Returns the page object reference for a given page number.
+      # Used by Outline to generate destination links.
+      def page_identifier(k)
+        @store.pages.data[:Kids][k-1]
+      end
+      
       # Returns true if the Names dictionary is in use for this document.
       # 
       def names?

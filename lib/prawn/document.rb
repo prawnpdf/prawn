@@ -15,6 +15,7 @@ require "prawn/document/span"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
+require "prawn/outline"
 
 module Prawn
   
@@ -211,7 +212,7 @@ module Prawn
        @margin_box    = nil
 
        @text_options = options[:text_options] || {}
-       
+              
        apply_margin_option(options) if options[:margin]
 
        default_margin = 36  # 0.5 inch
@@ -226,7 +227,7 @@ module Prawn
        @page_number = 0
 
        start_new_page unless options[:skip_page_creation]
-
+       
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
        end
@@ -289,7 +290,7 @@ module Prawn
     def page_number
       @page_number
     end
-
+    
     # Re-opens the page with the given (1-based) page number so that you can
     # draw on it. Does not restore page state such as margins, page orientation,
     # or paper size, so you'll have to handle that yourself.
@@ -543,8 +544,8 @@ module Prawn
     def compression_enabled?
       !!@compress
     end
-
-    private
+    
+  private
 
     # See Prawn::Document::Internals for low-level PDF functions
     #
