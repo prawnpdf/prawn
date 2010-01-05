@@ -107,7 +107,7 @@ For encryption, password protection, and permissions:
 
 http://github.com/madriska/prawn-security/tree/stable/examples
 
-(or gem unpack prawn-core, prawn-format, prawn-security and prawn-layout if you want to run them locally)
+(or gem unpack prawn-core, prawn-security and prawn-layout if you want to run them locally)
 
 === Bug Tracker / Wiki:
 
