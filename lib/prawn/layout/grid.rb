@@ -3,7 +3,7 @@ module Prawn
     
     # Defines the grid system for a particular document.  Takes the number of 
     # rows and columns and the width to use for the gutter as the 
-    # keys :rows, :columns, :gutter
+    # keys :rows, :columns, :gutter, :row_gutter, :column_gutter
     #
     def define_grid(options = {})
       @grid = Grid.new(self, options)
