@@ -58,15 +58,23 @@ describe "A document's grid" do
       @pdf.grid([1,3], [2,5]).bottom_right.should == [650.0, 456.25]
     end
 
-    it "should draw outlines without changing global color settings" do
+    it "should draw outlines without changing global default colors to grid color" do
+      @pdf.grid.show_all('cccccc')
+
+      colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+      colors.fill_color.should.not   == [0.8,0.8,0.8]
+      colors.stroke_color.should.not == [0.8,0.8,0.8]
+    end
+
+    it "should draw outlines without curent color settings" do
       @pdf.fill_color "ccff00"
       @pdf.stroke_color "ffcc00"
 
       @pdf.grid.show_all
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-      colors.fill_color.should    == [0.8,1.0,0.0]
-      colors.stroke_color.should  == [1.0,0.8,0.0]
+      colors.fill_color.should   == [0.8,1.0,0.0]
+      colors.stroke_color.should == [1.0,0.8,0.0]
     end
   end
 end
