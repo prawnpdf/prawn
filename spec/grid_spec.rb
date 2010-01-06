@@ -64,6 +64,11 @@ describe "A document's grid" do
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
       colors.fill_color.should.not   == [0.8,0.8,0.8]
       colors.stroke_color.should.not == [0.8,0.8,0.8]
+      
+      # Hardcoded default color as I haven't been able to come up with a stable converter
+      # between fill_color without lots code.
+      colors.fill_color.should   == [0.0,0.0,0.0]
+      colors.stroke_color.should == [0.0,0.0,0.0]
     end
 
     it "should draw outlines without curent color settings" do
