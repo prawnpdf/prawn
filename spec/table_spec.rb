@@ -319,3 +319,19 @@ describe "An invalid table" do
   end   
 
 end
+
+describe "A table, in a column box" do
+
+  it "should flow to the next column rather than always the next page" do
+    pdf = Prawn::Document.new do
+      column_box [0, cursor], :width => bounds.width, :columns => 2 do
+        # 35 rows fit on two columns but not one
+        table [["data"]] * 35
+      end
+    end
+
+    pdf.page_count.should == 1
+  end
+
+end
+

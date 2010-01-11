@@ -247,7 +247,7 @@ module Prawn
 
       def draw
         y = @document.y
-        x = @document.bounds.absolute_left
+        x = @document.bounds.left_side
 
         @cells.each do |e|
           e.point  = [x - @document.bounds.absolute_left, 

@@ -331,11 +331,11 @@ module Prawn
           bbox = @parent_bounds.stretchy? ? @document.margin_box : @parent_bounds
           if c.height > y_pos - bbox.absolute_bottom
             if C(:headers) && page_contents.length == 1
-              @document.start_new_page
+              @parent_bounds.move_past_bottom
               y_pos = @document.y
             else
               draw_page(page_contents)
-              @document.start_new_page
+              @parent_bounds.move_past_bottom
               if C(:headers) && page_contents.any?
                 page_contents = [page_contents[0]]
                 y_pos = @document.y - page_contents[0].height
