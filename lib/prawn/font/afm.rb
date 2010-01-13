@@ -98,10 +98,18 @@ module Prawn
       private
 
       def register(subset)
-        @document.ref!(:Type     => :Font,
-                      :Subtype  => :Type1,
-                      :BaseFont => name.to_sym,
-                      :Encoding => :WinAnsiEncoding)
+        font_dict = {:Type     => :Font,
+                     :Subtype  => :Type1,
+                     :BaseFont => name.to_sym}
+
+        # Symbolic AFM fonts (Symbol, ZapfDingbats) have their own encodings
+        font_dict.merge!(:Encoding => :WinAnsiEncoding) unless symbolic?
+
+        @document.ref!(font_dict)
+      end
+
+      def symbolic?
+        attributes["characterset"] == "Special"
       end
 
       def find_font(file)
