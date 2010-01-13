@@ -17,15 +17,9 @@ module Prawn
       # Create required PDF roots
       @info    = ref(info).identifier
       @pages   = ref(:Type => :Pages, :Count => 0, :Kids => []).identifier
-      @root    = root_ref(info[:outlines]).identifier
+      @root    = ref(:Type => :Catalog, :Pages => pages).identifier
     end
-    
-    def root_ref(outlines = nil)
-      root_hash = {:Type => :Catalog, :Pages => pages }
-      root_hash.merge(:Outlines => "")if outlines
-      ref(root_hash)
-    end
-
+ 
     def ref(data, &block)
       push(size + 1, data, &block)
     end                                               
