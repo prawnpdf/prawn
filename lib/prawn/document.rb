@@ -65,7 +65,7 @@ module Prawn
     include Prawn::Stamp
 
     attr_accessor :margin_box, :page
-    attr_reader   :margins, :page_size, :page_layout, :y, :store, :pages
+    attr_reader   :margins, :y, :store, :pages
     attr_writer   :font_size
 
 
