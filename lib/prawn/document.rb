@@ -282,9 +282,7 @@ module Prawn
 
          save_graphics_state
          
-         @y = @bounding_box.absolute_top
-
-         image(@background, :at => [0,@y]) if @background
+         canvas { image(@background, :at => @bounding_box.absolute_top_left) } if @background 
          
          float do
            @on_page_create_callback.call(self) if @on_page_create_callback 
