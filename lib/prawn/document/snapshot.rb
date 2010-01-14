@@ -59,8 +59,10 @@ module Prawn
         # page_content and current_page. We have to restore them over the old
         # ones.
         page.content = shot[:page_content].identifier
+        page.content.replace shot[:page_content]
 
         page.dictionary = shot[:current_page].identifier
+        page.dictionary.replace shot[:current_page]
         page.dictionary.data[:Contents] = page.content
 
         @page_number = shot[:page_number]
