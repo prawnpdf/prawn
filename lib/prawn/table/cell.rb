@@ -32,7 +32,7 @@ module Prawn
         @point = point
 
         # Set defaults; these can be changed by options
-        @padding      = [0, 0, 0, 0]
+        @padding      = [5, 5, 5, 5]
         @borders      = [:top, :bottom, :left, :right]
         @border_width = 1
         @border_color = '000000'
