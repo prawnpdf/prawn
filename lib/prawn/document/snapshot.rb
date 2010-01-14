@@ -46,6 +46,7 @@ module Prawn
       def take_snapshot
         {:page_content    => Marshal.load(Marshal.dump(page_content)),
          :current_page    => Marshal.load(Marshal.dump(current_page)),
+         :page_number     => @page_number,
          :page_kids       => @store.pages.data[:Kids].map{|kid| kid.identifier},
          :dests           => names? && 
                              Marshal.load(Marshal.dump(names.data[:Dests]))}
@@ -63,6 +64,8 @@ module Prawn
         @current_page = shot[:current_page].identifier
         current_page.replace shot[:current_page]
         current_page.data[:Contents] = page_content
+
+        @page_number = shot[:page_number]
 
         @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
         @store.pages.data[:Count] = shot[:page_kids].size
