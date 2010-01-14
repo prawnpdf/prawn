@@ -18,8 +18,8 @@ module Prawn
                                    :MediaBox    => dimensions,
                                    :Contents    => content)
 
-        @stamp_stream       = nil
-        @stamp_dictionary   = nil
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
       end
 
       attr_accessor :size, :layout, :margins, :document, :content, :dictionary
@@ -29,18 +29,18 @@ module Prawn
       end
 
       def stamp_stream(dictionary)
-         @stamp_stream     = ""
-         @stamp_dictionary = dictionary
+        @stamp_stream     = ""
+        @stamp_dictionary = dictionary
 
-         document.send(:update_colors)
-         yield if block_given?
-         document.send(:update_colors)
+        document.send(:update_colors)
+        yield if block_given?
+        document.send(:update_colors)
 
-         @stamp_dictionary.data[:Length] = @stamp_stream.length + 1
-         @stamp_dictionary << @stamp_stream
+        @stamp_dictionary.data[:Length] = @stamp_stream.length + 1
+        @stamp_dictionary << @stamp_stream
 
-         @stamp_stream      = nil
-         @stamp_dictionary  = nil
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
       end
 
       def dimensions

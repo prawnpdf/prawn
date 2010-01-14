@@ -299,7 +299,7 @@ module Prawn
     #   pdf.page_count #=> 4
     #
     def page_count
-      @store.pages.data[:Count]
+      pages.length
     end
 
     # Returns the 1-based page number of the current page. Returns 0 if the
@@ -318,10 +318,6 @@ module Prawn
     def go_to_page(k)
       @page_number = k
       self.page = pages[k-1]
-
-      #jump_to = @store.pages.data[:Kids][k-1]
-      #@current_page = jump_to.identifier
-      #@page_content = jump_to.data[:Contents].identifier
     end
 
     def y=(new_y)
