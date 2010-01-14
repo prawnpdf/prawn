@@ -86,6 +86,12 @@ module Prawn
       @width ||= [natural_width, @pdf.bounds.width].min
     end
 
+    # Returns the height of the table in PDF points.
+    #
+    def height
+      cells.height
+    end
+
     # Sets styles for all cells.
     #
     #   pdf.table(data, :cell_style => { :borders => [:left, :right] })
@@ -108,7 +114,9 @@ module Prawn
     # Draws the table onto the document.
     #
     def draw
+      top = @pdf.y
       @cells.each { |c| c.draw }
+      @pdf.y = top - height
     end
 
     protected
