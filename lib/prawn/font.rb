@@ -47,7 +47,7 @@ module Prawn
     def font(name=nil, options={})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
-      raise Errors::NotOnPage unless page
+      raise Errors::NotOnPage if pages.empty? && !page.in_stamp_stream?
       new_font = find_font(name, options)
 
       if block_given?

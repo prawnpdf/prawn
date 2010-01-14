@@ -183,7 +183,7 @@ module Prawn
 
 
        # need to fix, as the refactoring breaks this
-       raise NotImplementedError if options[:skip_page_creation]
+       # raise NotImplementedError if options[:skip_page_creation]
 
        self.class.extensions.reverse_each { |e| extend e }
       
@@ -200,6 +200,7 @@ module Prawn
        @version = 1.3
        @store = ObjectStore.new(options[:info])
        @trailer = {}
+
        @before_render_callbacks = []
        @on_page_create_callback = nil
 
@@ -211,9 +212,6 @@ module Prawn
 
        @pages            = []
        @page             = nil
-       #@page_size     = options[:page_size]   || "LETTER"
-       #@page_layout   = options[:page_layout] || :portrait
-       #@page_content  = nil
 
        @bounding_box  = nil
        @margin_box    = nil
@@ -225,7 +223,12 @@ module Prawn
        options[:size] = options.delete(:page_size)
        options[:layout] = options.delete(:page_layout)
 
-       start_new_page(options)
+       if options[:skip_page_creation]
+         start_new_page(options.merge(:orphan => true))
+       else
+         start_new_page(options)
+       end
+       
        @bounding_box = @margin_box
        
        if block
@@ -244,7 +247,6 @@ module Prawn
      #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
-
        if last_page = page
          last_page_size    = last_page.size
          last_page_layout  = last_page.layout
@@ -264,22 +266,28 @@ module Prawn
          end
        end
 
-       build_new_page_content
-       
-       pages.insert(@page_number, page)
-       @store.pages.data[:Kids].insert(@page_number, page.dictionary)
-       @store.pages.data[:Count] += 1
-       @page_number += 1
+       generate_margin_box
+       page.resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
 
-        
-       add_content "q"
-       
-       @y = @bounding_box.absolute_top
+       update_colors
+       undash if dashed?
+      
+       unless options[:orphan]
+         pages.insert(@page_number, page)
+         @store.pages.data[:Kids].insert(@page_number, page.dictionary)
+         @store.pages.data[:Count] += 1
+         @page_number += 1
 
-       image(@background, :at => [0,@y]) if @background
-       
-       float do
-         @on_page_create_callback.call(self) if @on_page_create_callback 
+          
+         add_content "q"
+         
+         @y = @bounding_box.absolute_top
+
+         image(@background, :at => [0,@y]) if @background
+         
+         float do
+           @on_page_create_callback.call(self) if @on_page_create_callback 
+         end
        end
     end
 
@@ -562,12 +570,7 @@ module Prawn
     # See Prawn::Document::Internals for low-level PDF functions
     #
     def build_new_page_content
-      generate_margin_box
-      page.resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
-
-      update_colors
-      undash if dashed?
-    end
+   end
 
     def generate_margin_box
       old_margin_box = @margin_box

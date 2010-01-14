@@ -17,9 +17,31 @@ module Prawn
                                    :Parent      => document.store.pages,
                                    :MediaBox    => dimensions,
                                    :Contents    => content)
+
+        @stamp_stream       = nil
+        @stamp_dictionary   = nil
       end
 
       attr_accessor :size, :layout, :margins, :document, :content, :dictionary
+
+      def in_stamp_stream?
+        !!@stamp_stream
+      end
+
+      def stamp_stream(dictionary)
+         @stamp_stream     = ""
+         @stamp_dictionary = dictionary
+
+         document.send(:update_colors)
+         yield if block_given?
+         document.send(:update_colors)
+
+         @stamp_dictionary.data[:Length] = @stamp_stream.length + 1
+         @stamp_dictionary << @stamp_stream
+
+         @stamp_stream      = nil
+         @stamp_dictionary  = nil
+      end
 
       def dimensions
         coords = Prawn::Document::PageGeometry::SIZES[size] || size
@@ -35,11 +57,11 @@ module Prawn
       end
 
       def content
-        document.store[@content]
+        @stamp_stream || document.store[@content]
       end
 
       def dictionary
-        document.store[@dictionary]
+        @stamp_dictionary || document.store[@dictionary]
       end
 
       def resources

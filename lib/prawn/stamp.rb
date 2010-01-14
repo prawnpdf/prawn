@@ -90,18 +90,7 @@ module Prawn
     def create_stamp(name, &block)
       dictionary = create_stamp_dictionary(name)
 
-      @active_stamp_stream = ""
-      @active_stamp_dictionary = dictionary
-
-      update_colors
-      yield if block_given?
-      update_colors
-
-      dictionary.data[:Length] = @active_stamp_stream.length + 1
-      dictionary << @active_stamp_stream
-
-      @active_stamp_stream = nil
-      @active_stamp_dictionary = nil
+      page.stamp_stream(dictionary, &block)
     end
     
     private
