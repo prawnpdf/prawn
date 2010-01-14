@@ -154,14 +154,25 @@ module Prawn
 
         overflow = (widths.inject { |sum, w| sum + w }) - width
         if overflow > 0
+          # Expand table width to min width if needed.
+          min_width = cells.min_width
+          self.width = min_width if width < min_width
+
           # Shrink columns to bring natural width to width.
-          # TODO: only shrink shrinkable columns; exclude non-shrinkable (images?)
-          # and manually specified widths
-          widths.map! { |w| w * (width.to_f / natural_width) }
+          widths.each_with_index do |col_width, i|
+            # TODO: should we shrink large columns more than narrow ones?
+            widths[i] = col_width * (width.to_f / natural_width)
+          end
         elsif overflow < 0
+          # Shrink table to max width if needed.
+          max_width = cells.max_width
+          self.width = max_width if width > max_width
+
           # Grow columns to bring natural width to width.
-          # TODO: only expandable columns. Exclude non-expandable and manual widths.
-          widths.map! { |w| w * (width.to_f / natural_width) }
+          widths.each_with_index do |col_width, i|
+            # TODO: should we grow columns discriminately?
+            widths[i] = col_width * (width.to_f / natural_width)
+          end
         end
 
         widths

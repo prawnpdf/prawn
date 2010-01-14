@@ -131,6 +131,28 @@ module Prawn
         column_widths.values.inject(0) { |sum, width| sum + width }
       end
 
+      # Returns minimum width required to contain cells in the set.
+      #
+      def min_width
+        column_min_widths = {}
+        @cells.each do |cell| 
+          column_min_widths[cell.column] = 
+            [column_min_widths[cell.column], cell.min_width].compact.max
+        end
+        column_min_widths.values.inject(0) { |sum, width| sum + width }
+      end
+
+      # Returns maximum width that can contain cells in the set.
+      #
+      def max_width
+        column_max_widths = {}
+        @cells.each do |cell| 
+          column_max_widths[cell.column] = 
+            [column_max_widths[cell.column], cell.max_width].compact.min
+        end
+        column_max_widths.values.inject(0) { |sum, width| sum + width }
+      end
+
       # Returns the total height of all rows in the selected set.
       #
       def height

@@ -22,7 +22,8 @@ module Prawn
     class Cell
 
       attr_reader :padding, :font
-      attr_writer :width, :height
+      attr_reader :min_width, :max_width
+      attr_writer :height
       attr_accessor :borders, :border_width, :border_color, :content, 
         :background_color
 
@@ -38,6 +39,11 @@ module Prawn
         @border_color = '000000'
 
         options.each { |k, v| send("#{k}=", v) }
+
+        # Sensible defaults for min / max.
+        # TODO: see how well these work with shrink / grow. 
+        @min_width = left_padding + right_padding
+        @max_width = @pdf.bounds.width
       end
 
       # Returns the cell's width in points, inclusive of padding.
@@ -46,6 +52,12 @@ module Prawn
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_width.
         @width || (content_width + left_padding + right_padding)
+      end
+
+      # Manually sets the cell's width.
+      #
+      def width=(w)
+        @width = @min_width = @max_width = w
       end
 
       # Returns the width of the bare content in the cell, excluding padding.

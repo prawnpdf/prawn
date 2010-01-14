@@ -45,6 +45,11 @@ module Prawn
           @font.compute_width_of(@content, :size => @font_size)
         end
 
+        # TODO: should this include some content width based on @content?
+        def min_width
+          left_padding + right_padding
+        end
+
         # Returns the natural height of this block of text, wrapped to the
         # preset width.
         #

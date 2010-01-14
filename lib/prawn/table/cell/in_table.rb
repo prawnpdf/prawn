@@ -7,8 +7,7 @@ module Prawn
     class Cell
 
       module InTable
-        attr_accessor :row
-        attr_accessor :column
+        attr_accessor :row, :column
       end
 
     end
