@@ -123,5 +123,16 @@ describe "Prawn::Document#transaction" do
 
   end
 
+  it "should restore page_number on rollback" do
+    Prawn::Document.new do
+      transaction do
+        5.times { start_new_page }
+        rollback
+      end
+
+      page_number.should == 1
+    end
+  end
+
 end
 
