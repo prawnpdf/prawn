@@ -140,8 +140,9 @@ describe "Prawn::Table" do
     end
 
     it "should accept the natural width for small tables" do
+      pad = 10 # default padding
       @table = @pdf.table([["a"]])
-      @table.width.should == @table.cells[0, 0].natural_content_width
+      @table.width.should == @table.cells[0, 0].natural_content_width + pad
     end
 
     it "should limit tables to the width of the page by default" do
@@ -172,9 +173,16 @@ describe "Prawn::Table" do
       @table.cells[0, 0].width.should == @table.cells[0, 1].width
     end
 
-    it "should set all cells in a row to the same height" do
-      @table = @pdf.table([["foo", @long_text]])
-      @table.cells[0, 0].height.should == @table.cells[0, 1].height
+# TODO: this is a bad spec
+#     it "should set all cells in a row to the same height" do
+#       @table = @pdf.table([["foo", @long_text]])
+#       @table.cells[0, 0].height.should == @table.cells[0, 1].height
+#     end
+
+    it "should move y-position to the bottom of the table after drawing" do
+      old_y = @pdf.y
+      table = @pdf.table([["foo"]])
+      @pdf.y.should == old_y - table.height
     end
   end
 
