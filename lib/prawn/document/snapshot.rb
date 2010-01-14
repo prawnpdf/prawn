@@ -44,8 +44,8 @@ module Prawn
       # Takes a current snapshot of the document's state, sufficient to
       # reconstruct it after it was amended.
       def take_snapshot
-        {:page_content    => Marshal.load(Marshal.dump(page_content)),
-         :current_page    => Marshal.load(Marshal.dump(current_page)),
+        {:page_content    => Marshal.load(Marshal.dump(page.content)),
+         :current_page    => Marshal.load(Marshal.dump(page.dictionary)),
          :page_number     => @page_number,
          :page_kids       => @store.pages.data[:Kids].map{|kid| kid.identifier},
          :dests           => names? && 
@@ -58,12 +58,10 @@ module Prawn
         # dictionary, we can't just restore them over the current refs in
         # page_content and current_page. We have to restore them over the old
         # ones.
-        @page_content = shot[:page_content].identifier
-        page_content.replace shot[:page_content]
+        page.content = shot[:page_content].identifier
 
-        @current_page = shot[:current_page].identifier
-        current_page.replace shot[:current_page]
-        current_page.data[:Contents] = page_content
+        page.dictionary = shot[:current_page].identifier
+        page.dictionary.data[:Contents] = page.content
 
         @page_number = shot[:page_number]
 

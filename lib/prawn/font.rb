@@ -47,7 +47,7 @@ module Prawn
     def font(name=nil, options={})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
-      raise Errors::NotOnPage unless current_page
+      raise Errors::NotOnPage unless page
       new_font = find_font(name, options)
 
       if block_given?
@@ -307,7 +307,7 @@ module Prawn
     #
     def add_to_current_page(subset)
       @references[subset] ||= register(subset)
-      @document.page_fonts.merge!(identifier_for(subset) => @references[subset])
+      @document.page.fonts.merge!(identifier_for(subset) => @references[subset])
     end
 
     def identifier_for(subset) #:nodoc:

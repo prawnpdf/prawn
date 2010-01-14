@@ -69,16 +69,16 @@ describe "Prawn::Document#transaction" do
   # or else old pages will appear in the post-rollback document.
   it "should restore the pages into the same objects" do
     Prawn::Document.new do
-      old_page_object_id = current_page.identifier
-      old_page_content_id = page_content.identifier
+      old_page_object_id = page.dictionary.identifier
+      old_page_content_id = page.content.identifier
 
       transaction do
         start_new_page
         rollback
       end
 
-      current_page.identifier.should == old_page_object_id
-      page_content.identifier.should == old_page_content_id
+      page.dictionary.identifier.should == old_page_object_id
+      page.content.identifier.should == old_page_content_id
     end
 
   end
@@ -92,7 +92,7 @@ describe "Prawn::Document#transaction" do
       end
 
       # should be the exact same object, not a clone
-      current_page.data[:Contents].should == page_content
+      page.dictionary.data[:Contents].should == page.content
     end
 
   end

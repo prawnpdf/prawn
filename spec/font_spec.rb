@@ -115,7 +115,7 @@ describe "Document#page_fonts" do
   end    
   
   def page_includes_font?(font)
-    @pdf.page_fonts.values.map { |e| e.data[:BaseFont] }.include?(font.to_sym)
+    @pdf.page.fonts.values.map { |e| e.data[:BaseFont] }.include?(font.to_sym)
   end                             
   
   def page_should_include_font(font)    

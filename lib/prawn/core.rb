@@ -67,6 +67,7 @@ module Prawn
   end
 end
  
+require "prawn/core/page"
 require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
@@ -83,3 +84,4 @@ require "prawn/font"
 require "prawn/encoding"
 require "prawn/measurements"
 require "prawn/repeater"
+require "prawn/outline"
