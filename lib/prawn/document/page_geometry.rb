@@ -131,23 +131,6 @@ module Prawn
              "LETTER" => [612.00, 792.00],
             "TABLOID" => [792.00, 1224.00] }
 
-
-      # Returns the width and height of the current page in PDF points.
-      # Usually, you'll want the dimensions of the bounding_box or 
-      # margin_box instead.
-      #
-      def page_dimensions
-        coords = SIZES[page_size] || page_size
-        [0,0] + case(page_layout)
-        when :portrait
-          coords
-        when :landscape
-          coords.reverse
-        else
-          raise Prawn::Errors::InvalidPageLayout,
-            "Layout must be either :portrait or :landscape"
-        end
-      end
-    end
+   end
   end
 end

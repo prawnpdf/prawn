@@ -17,6 +17,7 @@ module Prawn
       # prevent any of its data from being rendered. You must reset the
       # y-position yourself if you have performed any drawing operations that
       # modify it.
+      #
       def rollback
         raise RollbackTransaction
       end
@@ -28,6 +29,7 @@ module Prawn
       # yourself). 
       #
       # Returns true on success, or false if the transaction was rolled back.
+      #
       def transaction
         snap = take_snapshot
         yield
@@ -42,10 +44,12 @@ module Prawn
       # Takes a current snapshot of the document's state, sufficient to
       # reconstruct it after it was amended.
       def take_snapshot
-        {:page_content    => Marshal.load(Marshal.dump(page_content)),
-         :current_page    => Marshal.load(Marshal.dump(current_page)),
+        {:page_content    => Marshal.load(Marshal.dump(page.content)),
+         :current_page    => Marshal.load(Marshal.dump(page.dictionary)),
+         :page_number     => @page_number,
          :page_kids       => @store.pages.data[:Kids].map{|kid| kid.identifier},
-         :dests           => Marshal.load(Marshal.dump(names.data[:Dests]))}
+         :dests           => names? && 
+                             Marshal.load(Marshal.dump(names.data[:Dests]))}
       end
 
       # Rolls the page state back to the state of the given snapshot.
@@ -54,17 +58,21 @@ module Prawn
         # dictionary, we can't just restore them over the current refs in
         # page_content and current_page. We have to restore them over the old
         # ones.
-        @page_content = shot[:page_content].identifier
-        page_content.replace shot[:page_content]
+        page.content = shot[:page_content].identifier
+        page.content.replace shot[:page_content]
 
-        @current_page = shot[:current_page].identifier
-        current_page.replace shot[:current_page]
-        current_page.data[:Contents] = page_content
+        page.dictionary = shot[:current_page].identifier
+        page.dictionary.replace shot[:current_page]
+        page.dictionary.data[:Contents] = page.content
+
+        @page_number = shot[:page_number]
 
         @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
         @store.pages.data[:Count] = shot[:page_kids].size
 
-        names.data[:Dests] = shot[:dests]
+        if shot[:dests]
+          names.data[:Dests] = shot[:dests] 
+        end
       end
 
     end

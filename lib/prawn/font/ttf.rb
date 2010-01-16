@@ -22,9 +22,8 @@ module Prawn
         @line_gap         = Integer(@ttf.line_gap * scale_factor)
       end
 
-      # +string+ must be UTF8-encoded.
-      #
-      def compute_width_of(string, options={})
+      # NOTE: +string+ must be UTF8-encoded.
+      def compute_width_of(string, options={}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).inject(0) do |s,r|
@@ -40,11 +39,14 @@ module Prawn
           end * scale
         end
       end   
-      
+     
+      # The font bbox, as an array of integers
+      # 
       def bbox
         @bbox ||= @ttf.bbox.map { |i| Integer(i * scale_factor) }
       end
 
+      # Returns true if the font has kerning data, false otherwise
       def has_kerning_data?
         @has_kerning_data 
       end

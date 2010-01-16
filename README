@@ -103,28 +103,22 @@ For tables and grid based layout:
 
 http://github.com/sandal/prawn-layout/tree/stable/examples
 
-For inline styling and advanced formatting:
-
-http://github.com/sandal/prawn-format/tree/stable/examples
-
 For encryption, password protection, and permissions:
 
 http://github.com/madriska/prawn-security/tree/stable/examples
 
-(or gem unpack prawn-core, prawn-format, prawn-security and prawn-layout if you want to run them locally)
+(or gem unpack prawn-core, prawn-security and prawn-layout if you want to run them locally)
 
 === Bug Tracker / Wiki:
 
 http://github.com/sandal/prawn/issues
 http://github.com/sandal/prawn-layout/issues
-http://github.com/sandal/prawn-format/issues
 http://github.com/madriska/prawn-security/issues
 
 === Source Code:
 
 http://github.com/sandal/prawn
 http://github.com/sandal/prawn-layout
-http://github.com/sandal/prawn-format
 http://github.com/madriska/prawn-security
 
 === Mailing List:

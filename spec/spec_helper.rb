@@ -11,7 +11,7 @@ require "prawn/core"
 
 Prawn.debug = true
 
-gem 'pdf-reader', ">=0.7.3"
+gem 'pdf-reader', ">=0.8"
 require "pdf/reader"          
 require "pdf/inspector"
 

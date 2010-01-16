@@ -20,9 +20,9 @@ module Prawn
         end
       end
 
-      attr_reader :attributes
+      attr_reader :attributes #:nodoc:
 
-      def initialize(document, name, options={})
+      def initialize(document, name, options={}) #:nodoc:
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end
@@ -45,15 +45,14 @@ module Prawn
         @line_gap  = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
       end
 
+      # The font bbox, as an array of integers
+      #
       def bbox
         @bbox ||= @attributes['fontbbox'].split(/\s+/).map { |e| Integer(e) }
       end
 
-      # calculates the width of the supplied string.
-      #
-      # String *must* be encoded as WinAnsi
-      #
-      def compute_width_of(string, options={})
+      # NOTE: String *must* be encoded as WinAnsi
+      def compute_width_of(string, options={}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
@@ -65,6 +64,8 @@ module Prawn
         end
       end
 
+      # Returns true if the font has kerning data, false otherwise
+      #
       def has_kerning_data?
         @kern_pairs.any?
       end
@@ -72,6 +73,7 @@ module Prawn
       # built-in fonts only work with winansi encoding, so translate the
       # string. Changes the encoding in-place, so the argument itself
       # is replaced with a string in WinAnsi encoding.
+      #
       def normalize_encoding(text)
         enc = Prawn::Encoding::WinAnsi.new
         text.unpack("U*").collect { |i| enc[i] }.pack("C*")
@@ -88,6 +90,7 @@ module Prawn
       # the string itself (or an array, if kerning is performed).
       #
       # The +text+ parameter must be in WinAnsi encoding (cp1252).
+      #
       def encode_text(text, options={})
         [[0, options[:kerning] ? kern(text) : text]]
       end
@@ -95,10 +98,18 @@ module Prawn
       private
 
       def register(subset)
-        @document.ref!(:Type     => :Font,
-                      :Subtype  => :Type1,
-                      :BaseFont => name.to_sym,
-                      :Encoding => :WinAnsiEncoding)
+        font_dict = {:Type     => :Font,
+                     :Subtype  => :Type1,
+                     :BaseFont => name.to_sym}
+
+        # Symbolic AFM fonts (Symbol, ZapfDingbats) have their own encodings
+        font_dict.merge!(:Encoding => :WinAnsiEncoding) unless symbolic?
+
+        @document.ref!(font_dict)
+      end
+
+      def symbolic?
+        attributes["characterset"] == "Special"
       end
 
       def find_font(file)

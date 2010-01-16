@@ -181,8 +181,8 @@ describe "Document compression" do
   it "should not compress the page content stream if compression is disabled" do
 
     pdf = Prawn::Document.new(:compress => false)
-    pdf.page_content.stubs(:compress_stream).returns(true)
-    pdf.page_content.expects(:compress_stream).never
+    pdf.page.content.stubs(:compress_stream).returns(true)
+    pdf.page.content.expects(:compress_stream).never
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -191,8 +191,8 @@ describe "Document compression" do
   it "should compress the page content stream if compression is enabled" do
 
     pdf = Prawn::Document.new(:compress => true)
-    pdf.page_content.stubs(:compress_stream).returns(true)
-    pdf.page_content.expects(:compress_stream).once
+    pdf.page.content.stubs(:compress_stream).returns(true)
+    pdf.page.content.expects(:compress_stream).once
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -366,6 +366,30 @@ describe "The render() feature" do
   end
 end
 
+describe "The :optimize_objects option" do
+  before(:all) do
+    @wasteful_doc = lambda do
+      transaction { start_new_page; text "Hidden text"; rollback }
+      text "Hello world"
+    end
+  end
+
+  it "should result in fewer objects when enabled" do
+    wasteful_pdf = Prawn::Document.new(&@wasteful_doc)
+    frugal_pdf   = Prawn::Document.new(:optimize_objects => true,
+                                       &@wasteful_doc)
+    frugal_pdf.render.size.should.be < wasteful_pdf.render.size
+  end
+
+  it "should default to :false" do
+    default_pdf  = Prawn::Document.new(&@wasteful_doc)
+    wasteful_pdf = Prawn::Document.new(:optimize_objects => false, 
+                                       &@wasteful_doc)
+    default_pdf.render.size.should == wasteful_pdf.render.size
+  end
+
+end
+
 describe "PDF file versions" do
   it "should default to 1.3" do
     @pdf = Prawn::Document.new
@@ -380,3 +404,5 @@ describe "PDF file versions" do
     str[0,8].should == "%PDF-1.4"
   end
 end
+
+

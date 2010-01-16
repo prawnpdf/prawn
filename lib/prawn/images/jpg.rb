@@ -22,7 +22,7 @@ module Prawn
 
       # Process a new JPG image
       #
-      # <tt>:data</tt>:: A string containing a full PNG file
+      # <tt>:data</tt>:: A binary string of JPEG data
       #
       def initialize(data)
         data = StringIO.new(data.dup)

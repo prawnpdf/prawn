@@ -13,24 +13,41 @@ module Prawn
 
   class Document
     # Without arguments, this returns the currently selected font. Otherwise,
-    # it sets the current font.
+    # it sets the current font. When a block is used, the font is applied
+    # transactionally and is rolled back when the block exits.
     #
-    # The single parameter must be a string. It can be one of the 14 built-in
+    #   Prawn::Document.generate("font.pdf") do
+    #     text "Default font is Helvetica"
+    #
+    #     font "Times-Roman"
+    #     text "Now using Times-Roman"
+    #
+    #     font("Chalkboard.ttf") do
+    #       text "Using TTF font from file Chalkboard.ttf"
+    #       font "Courier", :style => :bold
+    #       text "You see this in bold Courier"
+    #     end
+    #
+    #     text "Times-Roman, again"
+    #   end
+    #
+    # The :name parameter must be a string. It can be one of the 14 built-in
     # fonts supported by PDF, or the location of a TTF file. The Font::AFM::BUILT_INS
     # array specifies the valid built in font values.
-    #
-    #   pdf.font "Times-Roman"
-    #   pdf.font "Chalkboard.ttf"
     #
     # If a ttf font is specified, the glyphs necessary to render your document
     # will be embedded in the rendered PDF. This should be your preferred option
     # in most cases. It will increase the size of the resulting file, but also 
     # make it more portable.
     #
+    # The options parameter is an optional hash providing size and style. To use
+    # the :style option you need to map those font styles to their respective font files.
+    # See font_families for more information.
+    #
     def font(name=nil, options={})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
-      raise Errors::NotOnPage unless current_page
+      raise Errors::NotOnPage if pages.empty? && !page.in_stamp_stream?
       new_font = find_font(name, options)
 
       if block_given?
@@ -113,28 +130,25 @@ module Prawn
     # font will be embedded twice. Since we do font subsetting, this double
     # embedding won't be catastrophic, just annoying.
     # ++
-    #
-    def find_font(name, options={}) #:nodoc:
-      if font_families.key?(name)
-        family, name = name, font_families[name][options[:style] || :normal]
-
-        if name.is_a?(Hash)
-          options = options.merge(name)
-          name = options[:file]
-        end
-      end
-
-      key = "#{name}:#{options[:font] || 0}"
-      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
-    end
-
+    def find_font(name, options={}) #:nodoc: 
+      if font_families.key?(name) 
+        family, name = name, font_families[name][options[:style] || :normal] 
+        if name.is_a?(Hash) 
+          options = options.merge(name) 
+          name = options[:file] 
+        end 
+      end 
+      key = "#{name}:#{options[:font] || 0}" 
+      font_registry[key] ||= Font.load(self, name, options.merge(:family => family)) 
+    end 
+    
     # Hash of Font objects keyed by names
     #
     def font_registry #:nodoc:
       @font_registry ||= {}
     end
 
-    # Hash that maps font family names to their styled individual font names
+    # Hash that maps font family names to their styled individual font names.
     #
     # To add support for another font family, append to this hash, e.g:
     #
@@ -153,6 +167,12 @@ module Prawn
     #
     # This assumes that you have appropriate TTF fonts for each style you
     # wish to support.
+    #
+    # By default the styles :bold, :italic, :bold_italic, and :normal are
+    # defined for fonts "Courier", "Times-Roman" and "Helvetica".
+    #
+    # You probably want to provide those four styles, but are free to define
+    # custom ones, like :thin, and use them in font calls.
     #
     def font_families
       @font_families ||= Hash.new { |h,k| h[k] = {} }.merge!(
@@ -210,6 +230,10 @@ module Prawn
     # The options hash used to initialize the font
     attr_reader :options
 
+    # Shortcut interface for constructing a font object.  Filenames of the form
+    # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
+    # will be passed through to Font::AFM.new()
+    #
     def self.load(document,name,options={})
       case name
       when /\.ttf$/   then TTF.new(document, name, options)
@@ -231,24 +255,22 @@ module Prawn
       @references = {}
     end
 
+    # The size of the font ascender in PDF points 
+    #
     def ascender
       @ascender / 1000.0 * size
     end
 
+    # The size of the font descender in PDF points
+    #
     def descender
       -@descender / 1000.0 * size
     end
 
+    # The size of the recommended gap between lines of text in PDF points
+    #
     def line_gap
       @line_gap / 1000.0 * size
-    end
-
-    def identifier_for(subset)
-      "#{@identifier}.#{subset}"
-    end
-
-    def inspect
-      "#{self.class.name}< #{name}: #{size} >"
     end
 
     # Normalizes the encoding of the string to an encoding supported by the
@@ -261,10 +283,13 @@ module Prawn
 
     # Destructive version of normalize_encoding; normalizes the encoding of a
     # string in place.
+    #
     def normalize_encoding!(str)
       str.replace(normalize_encoding(str))
     end
 
+    # Gets height of current font in PDF points at the given font size
+    #
     def height_at(size)
       @normalized_height ||= (@ascender - @descender + @line_gap) / 1000.0
       @normalized_height * size
@@ -282,7 +307,15 @@ module Prawn
     #
     def add_to_current_page(subset)
       @references[subset] ||= register(subset)
-      @document.page_fonts.merge!(identifier_for(subset) => @references[subset])
+      @document.page.fonts.merge!(identifier_for(subset) => @references[subset])
+    end
+
+    def identifier_for(subset) #:nodoc:
+      "#{@identifier}.#{subset}"
+    end
+
+    def inspect #:nodoc:
+      "#{self.class.name}< #{name}: #{size} >"
     end
 
     private

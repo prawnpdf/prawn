@@ -48,7 +48,7 @@ module Prawn
     when String
       obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
       "<" << obj.unpack("H*").first << ">"
-    when Symbol                                                         
+     when Symbol                                                         
        if (obj = obj.to_s) =~ /\s/
          raise Prawn::Errors::FailedObjectConversion, 
            "A PDF Name cannot contain whitespace"  
@@ -57,14 +57,14 @@ module Prawn
        end 
     when Hash           
       output = "<< "
-      obj.each do |k,v|                                                        
+      obj.each do |k,v|  
         unless String === k || Symbol === k
           raise Prawn::Errors::FailedObjectConversion, 
             "A PDF Dictionary must be keyed by names"
         end                          
         output << PdfObject(k.to_sym, in_content_stream) << " " << 
                   PdfObject(v, in_content_stream) << "\n"
-      end   
+      end  
       output << ">>"  
     when Prawn::Reference
       obj.to_s      
@@ -72,6 +72,8 @@ module Prawn
       PdfObject(obj.to_hash)
     when Prawn::NameTree::Value
       PdfObject(obj.name) + " " + PdfObject(obj.value)
+    when Prawn::OutlineRoot, Prawn::OutlineItem
+      PdfObject(obj.to_hash)
     else
       raise Prawn::Errors::FailedObjectConversion, 
         "This object cannot be serialized to PDF"

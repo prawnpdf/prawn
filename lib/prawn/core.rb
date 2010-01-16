@@ -25,8 +25,6 @@ module Prawn
   # The base source directory for Prawn as installed on the system
   BASEDIR = File.expand_path(File.join(dir, '..', '..'))
   
-  VERSION = "0.6.1"
-  
   extend self
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
@@ -69,6 +67,7 @@ module Prawn
   end
 end
  
+require "prawn/core/page"
 require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/pdf_object"
@@ -85,3 +84,4 @@ require "prawn/font"
 require "prawn/encoding"
 require "prawn/measurements"
 require "prawn/repeater"
+require "prawn/outline"

@@ -64,16 +64,36 @@ module Prawn
     include Prawn::Images
     include Prawn::Stamp
 
-    attr_accessor :margin_box
-    attr_reader   :margins, :page_size, :page_layout, :y
+    attr_accessor :margin_box, :page
+    attr_reader   :margins, :y, :store, :pages
     attr_writer   :font_size
 
 
+    # Any module added to this array will be included into instances of
+    # Prawn::Document at the per-object level.  These will also be inherited by
+    # any subclasses.
+    #
+    # Example:
+    #
+    #   module MyFancyModule
+    #    
+    #     def party!
+    #       text "It's a big party!"
+    #     end
+    #   
+    #   end
+    #
+    #   Prawn::Document.extensions << MyFancyModule
+    #
+    #   Prawn::Document.generate("foo.pdf") do
+    #     party!
+    #   end
+    #
     def self.extensions
       @extensions ||= []
     end
 
-    def self.inherited(base)
+    def self.inherited(base) #:nodoc:
       extensions.each { |e| base.extensions << e }
     end
 
@@ -121,6 +141,7 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
+    # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
@@ -157,7 +178,12 @@ module Prawn
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options, :background, :info], options
+         :compress, :skip_encoding, :text_options, :background, :info,
+         :optimize_objects], options
+
+
+       # need to fix, as the refactoring breaks this
+       # raise NotImplementedError if options[:skip_page_creation]
 
        self.class.extensions.reverse_each { |e| extend e }
       
@@ -174,36 +200,37 @@ module Prawn
        @version = 1.3
        @store = ObjectStore.new(options[:info])
        @trailer = {}
+
        @before_render_callbacks = []
        @on_page_create_callback = nil
 
-       @page_size     = options[:page_size]   || "LETTER"
-       @page_layout   = options[:page_layout] || :portrait
-       @compress      = options[:compress] || false
-       @skip_encoding = options[:skip_encoding]
-       @background    = options[:background]
-       @font_size     = 12
-       @page_content  = nil
+       @compress         = options[:compress] || false
+       @optimize_objects = options.fetch(:optimize_objects, false)
+       @skip_encoding    = options[:skip_encoding]
+       @background       = options[:background]
+       @font_size        = 12
+
+       @pages            = []
+       @page             = nil
+
        @bounding_box  = nil
        @margin_box    = nil
 
        @text_options = options[:text_options] || {}
-       
-       apply_margin_option(options) if options[:margin]
 
-       default_margin = 36  # 0.5 inch
-       @margins = { :left   => options[:left_margin]   || default_margin,
-                    :right  => options[:right_margin]  || default_margin,
-                    :top    => options[:top_margin]    || default_margin,
-                    :bottom => options[:bottom_margin] || default_margin  }
-
-       generate_margin_box
-
-       @bounding_box = @margin_box
        @page_number = 0
 
-       start_new_page unless options[:skip_page_creation]
+       options[:size] = options.delete(:page_size)
+       options[:layout] = options.delete(:page_layout)
 
+       if options[:skip_page_creation]
+         start_new_page(options.merge(:orphan => true))
+       else
+         start_new_page(options)
+       end
+       
+       @bounding_box = @margin_box
+       
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
        end
@@ -220,32 +247,47 @@ module Prawn
      #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
-       
-       @page_size   = options[:size] if options[:size]
-       @page_layout = options[:layout] if options[:layout]
+       if last_page = page
+         last_page_size    = last_page.size
+         last_page_layout  = last_page.layout
+         last_page_margins = last_page.margins
+       end
+
+       self.page = Prawn::Core::Page.new(self, :size    => options[:size] || last_page_size, 
+                                               :layout  => options[:layout] || last_page_layout,
+                                               :margins => last_page_margins)
+  
        
        apply_margin_option(options) if options[:margin]
 
        [:left,:right,:top,:bottom].each do |side|
          if margin = options[:"#{side}_margin"]
-           @margins[side] = margin
+           page.margins[side] = margin
          end
        end
 
-       build_new_page_content
-       
-       @store.pages.data[:Kids].insert(@page_number, current_page)
-       @store.pages.data[:Count] += 1
-       @page_number += 1
-        
-       add_content "q"
-       
-       @y = @bounding_box.absolute_top
+       generate_margin_box
+       page.resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
 
-       image(@background, :at => [0,@y]) if @background
-       
-       float do
-         @on_page_create_callback.call(self) if @on_page_create_callback 
+       update_colors
+       undash if dashed?
+      
+       unless options[:orphan]
+         pages.insert(@page_number, page)
+         @store.pages.data[:Kids].insert(@page_number, page.dictionary)
+         @store.pages.data[:Count] += 1
+         @page_number += 1
+
+          
+         add_content "q"
+         
+         @y = @bounding_box.absolute_top
+
+         image(@background, :at => [0,@y]) if @background
+         
+         float do
+           @on_page_create_callback.call(self) if @on_page_create_callback 
+         end
        end
     end
 
@@ -257,7 +299,7 @@ module Prawn
     #   pdf.page_count #=> 4
     #
     def page_count
-      @store.pages.data[:Count]
+      pages.length
     end
 
     # Returns the 1-based page number of the current page. Returns 0 if the
@@ -266,7 +308,7 @@ module Prawn
     def page_number
       @page_number
     end
-
+    
     # Re-opens the page with the given (1-based) page number so that you can
     # draw on it. Does not restore page state such as margins, page orientation,
     # or paper size, so you'll have to handle that yourself.
@@ -275,9 +317,7 @@ module Prawn
     #
     def go_to_page(k)
       @page_number = k
-      jump_to = @store.pages.data[:Kids][k-1]
-      @current_page = jump_to.identifier
-      @page_content = jump_to.data[:Contents].identifier
+      self.page = pages[k-1]
     end
 
     def y=(new_y)
@@ -300,19 +340,21 @@ module Prawn
     end
 
     # Executes a block and then restores the original y position
+    #
+    #   pdf.text "A"
+    #
+    #   pdf.float do
+    #     pdf.move_down 100
+    #     pdf.text "C"
+    #   end
+    #
+    #   pdf.text "B" 
+    #   
     def float 
       mask(:y) { yield }
     end
 
-    # Renders the PDF document to string, useful for example in a Rails 
-    # application where you want to stream out the PDF to a web browser:
-    # 
-    #  def show
-    #    pdf = Prawn::Document.new do
-    #      text "Putting PDF generation code in a controller is _BAD_"
-    #    end
-    #    send(pdf.render, :filename => 'silly.pdf', :type => 'application/pdf', :disposition => 'inline)
-    #  end
+    # Renders the PDF document to string
     #
     def render
       output = StringIO.new
@@ -459,7 +501,7 @@ module Prawn
     # Raised if group() is called with a block that is too big to be
     # rendered in the current context.
     #
-    CannotGroup = Class.new(StandardError)
+    CannotGroup = Class.new(StandardError) #FIXME: should be in prawn/errors.rb
 
     # Attempts to group the given block vertically within the current context.
     # First attempts to render it in the current position on the current page.
@@ -503,6 +545,7 @@ module Prawn
     #     text "-- Hai again"
     #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]  
     #   end
+    #
     def number_pages(string, position)
       page_count.times do |i|
         go_to_page(i+1)
@@ -517,35 +560,21 @@ module Prawn
     def compression_enabled?
       !!@compress
     end
-
-    private
+    
+  private
 
     # See Prawn::Document::Internals for low-level PDF functions
-
+    #
     def build_new_page_content
-      generate_margin_box
-      @page_content = ref(:Length => 0)
-
-      @current_page = ref(:Type      => :Page,
-                          :Parent    => @store.pages,
-                          :MediaBox  => page_dimensions,
-                          :Contents  => page_content)
-
-      # include all proc sets, all the time (recommended by PDF 1.4 Reference 
-      # section 9.1)
-      page_resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
-
-      update_colors
-      undash if dashed?
-    end
+   end
 
     def generate_margin_box
       old_margin_box = @margin_box
       @margin_box = BoundingBox.new(
         self,
-        [ @margins[:left], page_dimensions[-1] - @margins[:top] ] ,
-        :width => page_dimensions[-2] - (@margins[:left] + @margins[:right]),
-        :height => page_dimensions[-1] - (@margins[:top] + @margins[:bottom])
+        [ page.margins[:left], page.dimensions[-1] - page.margins[:top] ] ,
+        :width => page.dimensions[-2] - (page.margins[:left] + page.margins[:right]),
+        :height => page.dimensions[-1] - (page.margins[:top] + page.margins[:bottom])
       )
 
       # we must update bounding box if not flowing from the previous page

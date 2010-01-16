@@ -43,7 +43,7 @@ module Prawn
     def stamp(name)
       dictionary_name, dictionary = stamp_dictionary(name)
       add_content "/#{dictionary_name} Do"
-      page_xobjects.merge!(dictionary_name => dictionary)
+      page.xobjects.merge!(dictionary_name => dictionary)
     end
 
     # Renders the stamp named <tt>name</tt> at a position offset from
@@ -90,18 +90,7 @@ module Prawn
     def create_stamp(name, &block)
       dictionary = create_stamp_dictionary(name)
 
-      @active_stamp_stream = ""
-      @active_stamp_dictionary = dictionary
-
-      update_colors
-      yield if block_given?
-      update_colors
-
-      dictionary.data[:Length] = @active_stamp_stream.length + 1
-      dictionary << @active_stamp_stream
-
-      @active_stamp_stream = nil
-      @active_stamp_dictionary = nil
+      page.stamp_stream(dictionary, &block)
     end
     
     private
@@ -136,7 +125,7 @@ module Prawn
       dictionary = ref!(:Type    => :XObject,
                         :Subtype => :Form,
                         :BBox    => [0, 0,
-                                     page_dimensions[2], page_dimensions[3]])
+                                     page.dimensions[2], page.dimensions[3]])
 
       dictionary_name = "Stamp#{next_stamp_dictionary_id}"
 

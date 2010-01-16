@@ -37,18 +37,6 @@ module Prawn
         @store.ref(data)
       end
 
-      # Grabs the reference for the current page content
-      #
-      def page_content
-        @active_stamp_stream || @store[@page_content]
-      end
-
-      # Grabs the reference for the current page
-      #
-      def current_page
-        @active_stamp_dictionary || @store[@current_page]
-      end
-      
       # Appends a raw string to the current page content.
       #                               
       #  # Raw line drawing example:           
@@ -58,30 +46,8 @@ module Prawn
       #  pdf.add_content("S") # stroke                    
       #
       def add_content(str)
-        page_content << str << "\n"
+        page.content << str << "\n"
       end  
-
-      # The Resources dictionary for the current page
-      #
-      def page_resources
-        current_page.data[:Resources] ||= {}
-      end
-      
-      # The Font dictionary for the current page
-      #
-      def page_fonts
-        page_resources[:Font] ||= {}
-      end
-       
-      # The XObject dictionary for the current page
-      #
-      def page_xobjects
-        page_resources[:XObject] ||= {}
-      end
-
-      def page_ext_gstates
-        page_resources[:ExtGState] ||= {}
-      end
       
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
       # lazily initialized, so that documents that do not need a name
@@ -89,6 +55,18 @@ module Prawn
       #
       def names
         @store.root.data[:Names] ||= ref!(:Type => :Names)
+      end
+
+      # Returns the page object reference for a given page number.
+      # Used by Outline to generate destination links.
+      def page_identifier(k)
+        @store.pages.data[:Kids][k-1]
+      end
+      
+      # Returns true if the Names dictionary is in use for this document.
+      # 
+      def names?
+        @store.root.data[:Names]
       end
 
       # Defines a block to be called just before the document is rendered.
@@ -114,8 +92,8 @@ module Prawn
           go_to_page i
           repeaters.each { |r| r.run(i) }
           add_content "Q"
-          page_content.compress_stream if compression_enabled?
-          page_content.data[:Length] = page_content.stream.size
+          page.content.compress_stream if compression_enabled?
+          page.content.data[:Length] = page.content.stream.size
         end
       end
 
@@ -141,6 +119,7 @@ module Prawn
       # Write out the PDF Body, as per spec 3.4.2
       #
       def render_body(output)
+        @store.compact if @optimize_objects
         @store.each do |ref|
           ref.offset = output.size
           output << ref.object

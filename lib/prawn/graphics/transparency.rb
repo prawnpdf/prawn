@@ -94,7 +94,7 @@ module Prawn
                                                :obj  => dictionary }
         end
 
-        page_ext_gstates.merge!(dictionary_name => dictionary)
+        page.ext_gstates.merge!(dictionary_name => dictionary)
         dictionary_name
       end
 

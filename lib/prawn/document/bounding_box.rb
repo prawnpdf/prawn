@@ -167,9 +167,9 @@ module Prawn
     #
     def canvas(&block)     
       init_bounding_box(block, :hold_position => true) do |_|
-        @bounding_box = BoundingBox.new(self, [0,page_dimensions[3]], 
-          :width => page_dimensions[2], 
-          :height => page_dimensions[3] 
+        @bounding_box = BoundingBox.new(self, [0,page.dimensions[3]], 
+          :width => page.dimensions[2], 
+          :height => page.dimensions[3] 
         ) 
       end
     end  
@@ -223,6 +223,15 @@ module Prawn
       
       
       # Temporarily adjust the @x coordinate to allow for left_padding
+      #
+      # Example:
+      #
+      #  indent 20 do
+      #     text "20 points in"
+      #     indent 30 do
+      #       text "50 points in"
+      #     end
+      #   end
       #
       def indent(left_padding, &block)
         @x += left_padding

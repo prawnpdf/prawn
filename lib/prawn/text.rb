@@ -154,6 +154,7 @@ module Prawn
 
     # Low level text placement method. All font and size alterations
     # should already be set
+    #
     def text_at(text, options)
       x,y = translate(options[:at])
       add_text_content(text,x,y,options)
@@ -164,6 +165,7 @@ module Prawn
 
     # Low level call to set the current font style and extract text options from
     # an options hash. Should be called from within a save_font block
+    #
     def process_text_options(options)
       if options[:style]
         raise "Bad font family" unless font.family
