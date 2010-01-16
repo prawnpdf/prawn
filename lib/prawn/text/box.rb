@@ -268,7 +268,7 @@ module Prawn
         y = @at[1] + @baseline_y
         
         if @inked
-          @document.text_at(line_to_print, :at => [x, y],
+          @document.draw_text_at(line_to_print, :at => [x, y],
                             :size => @font_size, :kerning => @kerning)
         end
         
