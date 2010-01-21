@@ -395,7 +395,7 @@ module Prawn
     # Sets Document#bounds to the BoundingBox provided.  See above for a brief
     # description of what a bounding box is.  This function is useful if you 
     # really need to change the bounding box manually, but usually, just entering
-    # and existing bounding box code blocks is good enough.
+    # and exiting bounding box code blocks is good enough.
     #
     def bounds=(bounding_box)
       @bounding_box = bounding_box
