@@ -14,7 +14,7 @@ module Prawn
     # CellProxy documentation for things you can do with cells.
     #
     def cells
-      CellProxy.new(@cells)
+      @cell_proxy ||= CellProxy.new(@cells)
     end
 
     # Selects the given rows (0-based) for styling. Returns a CellProxy -- see
