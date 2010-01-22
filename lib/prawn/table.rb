@@ -114,9 +114,24 @@ module Prawn
     # Draws the table onto the document.
     #
     def draw
-      top = @pdf.y
-      @cells.each { |c| c.draw }
-      @pdf.y = top - height
+      # The cell y-positions are based on an infinitely long canvas. The offset
+      # keeps track of how much we have to add to the original, theoretical
+      # y-position to get to the actual position on the current page.
+      offset = 0
+
+      bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
+      @cells.each do |cell|
+        if (cell.y + offset) - cell.height < bounds.bottom
+          # start a new page
+          bounds.move_past_bottom
+          offset = @pdf.cursor - cell.y
+        end
+
+        cell.y += offset
+        cell.draw
+      end
+
+      @pdf.move_cursor_to(@cells.last.y - @cells.last.height)
     end
 
     protected
@@ -150,11 +165,17 @@ module Prawn
 
     def column_widths
       @column_widths ||= begin
-        if width < cells.min_width || width > cells.max_width
-          raise Errors::CannotFit
+        if width < cells.min_width
+          raise Errors::CannotFit,
+            "Table's width was set too small to contain its contents"
         end
 
-        if width <= natural_width
+        if width > cells.max_width
+          raise Errors::CannotFit,
+            "Table's width was set larger than its contents' maximum width"
+        end
+
+        if width < natural_width
           # Shrink the table to fit the requested width.
           f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
 
@@ -162,7 +183,7 @@ module Prawn
             min, nat = column(c).min_width, column(c).width
             (f * (nat - min)) + min
           end
-        else
+        elsif width > natural_width
           # Expand the table to fit the requested width.
           f = (width - cells.width).to_f / (cells.max_width - cells.width)
 
@@ -170,6 +191,8 @@ module Prawn
             nat, max = column(c).width, column(c).max_width
             (f * (max - nat)) + nat
           end
+        else
+          natural_column_widths
         end
       end
     end
@@ -179,7 +202,15 @@ module Prawn
     end
 
     def set_column_widths
-      column_widths.each_with_index { |w, col_num| column(col_num).width = w }
+      column_widths.each_with_index do |w, col_num| 
+        # Believe it or not, this unless statement actually prevents a whole
+        # host of FP rounding errors. Doing "x.width = x.content_width +
+        # x.padding" (in effect, what this code does if the widths aren't being
+        # touched) introduces FP errors.
+        unless column(col_num).width == w
+          column(col_num).width = w
+        end
+      end
     end
 
     def set_row_heights
@@ -195,6 +226,8 @@ module Prawn
         ary << (ary.last + x); ary }[0..-2]
       x_positions.each_with_index { |x, i| column(i).x = x }
 
+      # y-positions assume an infinitely long canvas -- this is corrected for
+      # in Table#draw, and page breaks are properly inserted.
       y_positions = row_heights.inject([@pdf.cursor]) { |ary, y|
         ary << (ary.last - y); ary}[0..-2]
       y_positions.each_with_index { |y, i| row(i).y = y }

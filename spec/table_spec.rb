@@ -197,6 +197,21 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "Multi-page tables" do
+    it "should flow to the next page when hitting the bottom of the bounds" do
+      Prawn::Document.new { table([["foo"]] * 30) }.page_count.should == 1
+      Prawn::Document.new { table([["foo"]] * 31) }.page_count.should == 2
+    end
+
+    it "should respect the containing bounds" do
+      Prawn::Document.new do
+        bounding_box([0, cursor], :width => bounds.width, :height => 72) do
+          table([["foo"]] * 4)
+        end
+      end.page_count.should == 2
+    end
+  end
+
   describe "#style" do
     it "should send #style to its first argument, passing the style hash and" +
         " block" do
