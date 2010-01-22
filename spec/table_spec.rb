@@ -177,6 +177,14 @@ describe "Prawn::Table" do
       @table.cells[0, 0].width.should == @table.cells[0, 1].width
     end
 
+    it "should respect manual widths" do
+      @table = @pdf.table([%w[foo bar baz], %w[baz bar foo]], :width => 500) do
+        column(1).width = 60
+      end
+      @table.column(1).width.should == 60
+      @table.column(0).width.should == @table.column(2).width
+    end
+
     it "should set all cells in a row to the same height" do
       @table = @pdf.table([["foo", @long_text]])
       @table.cells[0, 0].height.should == @table.cells[0, 1].height
