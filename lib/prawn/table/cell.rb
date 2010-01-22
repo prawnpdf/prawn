@@ -5,6 +5,7 @@
 # Copyright December 2009, Gregory Brown and Brad Ediger. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Document
 
@@ -62,7 +63,6 @@ module Prawn
         options.each { |k, v| send("#{k}=", v) }
 
         # Sensible defaults for min / max.
-        # TODO: see how well these work with shrink / grow. 
         @min_width = left_padding + right_padding
         @max_width = @pdf.bounds.width
       end
