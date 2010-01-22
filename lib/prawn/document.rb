@@ -53,7 +53,6 @@ module Prawn
   #
   class Document
 
-    include Text
     include PageGeometry
     include Internals
     include Annotations
