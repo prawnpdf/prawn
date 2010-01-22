@@ -173,7 +173,6 @@ describe "Prawn::Table" do
       @table.cells[0, 0].width.should == @table.cells[0, 1].width
     end
 
-# TODO: this is a bad spec
 #     it "should set all cells in a row to the same height" do
 #       @table = @pdf.table([["foo", @long_text]])
 #       @table.cells[0, 0].height.should == @table.cells[0, 1].height

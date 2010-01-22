@@ -95,6 +95,17 @@ describe "Prawn::Table::Cell" do
       c.content_width.should.be.close(380, 0.01)
     end
 
+    it "should have a reasonable minimum width that can fit @content" do
+      c = cell(:content => "text", :padding => 10)
+      min_content_width = c.min_width - c.padding[1] - c.padding[3]
+
+      lambda { @pdf.height_of("text", :width => min_content_width) }.
+        should.not.raise(Prawn::Errors::CannotFit)
+
+      @pdf.height_of("text", :width => min_content_width).should.be <
+        (5 * @pdf.height_of("text"))
+    end
+
   end
 
   describe "cell height" do

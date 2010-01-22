@@ -45,9 +45,13 @@ module Prawn
           @font.compute_width_of(@content, :size => @font_size)
         end
 
-        # TODO: should this include some content width based on @content?
+        # Returns a reasonable minimum width. If the cell has any content, make
+        # sure we have enough width to be at least one character wide. This is
+        # a bit of a hack, but it should work well enough.
+        #
         def min_width
-          left_padding + right_padding
+          min_content_width = [@pdf.width_of(@content), @pdf.width_of("W")].min
+          left_padding + right_padding + min_content_width
         end
 
         # Returns the natural height of this block of text, wrapped to the
