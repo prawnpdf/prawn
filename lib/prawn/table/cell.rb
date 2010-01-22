@@ -7,14 +7,19 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 module Prawn
   class Document
-    # TODO: doc
+
+    # Instantiates and draws a cell on the document. 
+    #
+    #   cell(:content => "Hello world!", :at => [12, 34])
+    #
+    # See Prawn::Table::Cell.make for full options.
+    #
     def cell(options={})
-      at = options.delete(:at) || [0, cursor]
-      # TODO: create appropriate class depending on content
-      cell = Table::Cell::Text.new(self, at, options)
+      cell = Table::Cell.make(self, options.delete(:content), options)
       cell.draw
       cell
     end
+
   end
 
   class Table
@@ -26,6 +31,22 @@ module Prawn
       attr_writer :height
       attr_accessor :borders, :border_width, :border_color, :content, 
         :background_color
+
+      # Instantiates a Cell based on the given options. The particular class of
+      # cell returned depends on the :content argument.
+      #
+      def self.make(pdf, content, options={})
+        at = options.delete(:at) || [0, pdf.cursor]
+        options[:content] = content
+
+        case content
+        when String
+          Cell::Text.new(pdf, at, options)
+        else
+          # TODO: other types of content
+          raise ArgumentError, "Content type not recognized: #{content.inspect}"
+        end
+      end
 
       # TODO: doc
       def initialize(pdf, point, options={})

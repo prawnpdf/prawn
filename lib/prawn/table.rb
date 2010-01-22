@@ -144,8 +144,7 @@ module Prawn
 
       data.each_with_index do |row_cells, row_number|
         row_cells.each_with_index do |cell_data, column_number|
-          # TODO: differentiate based on content
-          cell = Cell::Text.new(@pdf, [0, 0], :content => cell_data)
+          cell = Cell.make(@pdf, cell_data)
           cell.extend(Cell::InTable)
           cell.row = row_number
           cell.column = column_number
