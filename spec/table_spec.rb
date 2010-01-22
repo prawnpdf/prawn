@@ -139,6 +139,16 @@ describe "Prawn::Table" do
       @long_text = "The quick brown fox jumped over the lazy dogs. " * 5
     end
 
+    it "should raise an error if the given width is outside of range" do
+      lambda do
+        @pdf.table([["foo"]], :width => 1)
+      end.should.raise(Prawn::Errors::CannotFit)
+
+      lambda do
+        @pdf.table([[@long_text]], :width => @pdf.bounds.width + 100)
+      end.should.raise(Prawn::Errors::CannotFit)
+    end
+
     it "should accept the natural width for small tables" do
       pad = 10 # default padding
       @table = @pdf.table([["a"]])
@@ -148,12 +158,6 @@ describe "Prawn::Table" do
     it "should limit tables to the width of the page by default" do
       @table = @pdf.table([[@long_text]])
       @table.width.should == @pdf.bounds.width
-    end
-
-    it "should accept manual values for table width, even beyond page bounds" do
-      width = @pdf.bounds.width + 100
-      @table = @pdf.table([[@long_text]], :width => width)
-      @table.width.should == width
     end
 
     it "should allow width to be reset even after it has been calculated" do
@@ -173,10 +177,10 @@ describe "Prawn::Table" do
       @table.cells[0, 0].width.should == @table.cells[0, 1].width
     end
 
-#     it "should set all cells in a row to the same height" do
-#       @table = @pdf.table([["foo", @long_text]])
-#       @table.cells[0, 0].height.should == @table.cells[0, 1].height
-#     end
+    it "should set all cells in a row to the same height" do
+      @table = @pdf.table([["foo", @long_text]])
+      @table.cells[0, 0].height.should == @table.cells[0, 1].height
+    end
 
     it "should move y-position to the bottom of the table after drawing" do
       old_y = @pdf.y

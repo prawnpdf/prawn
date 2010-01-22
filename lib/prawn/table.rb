@@ -150,32 +150,27 @@ module Prawn
 
     def column_widths
       @column_widths ||= begin
-        widths = natural_column_widths
-
-        overflow = (widths.inject { |sum, w| sum + w }) - width
-        if overflow > 0
-          # Expand table width to min width if needed.
-          min_width = cells.min_width
-          self.width = min_width if width < min_width
-
-          # Shrink columns to bring natural width to width.
-          widths.each_with_index do |col_width, i|
-            # TODO: should we shrink large columns more than narrow ones?
-            widths[i] = col_width * (width.to_f / natural_width)
-          end
-        elsif overflow < 0
-          # Shrink table to max width if needed.
-          max_width = cells.max_width
-          self.width = max_width if width > max_width
-
-          # Grow columns to bring natural width to width.
-          widths.each_with_index do |col_width, i|
-            # TODO: should we grow columns discriminately?
-            widths[i] = col_width * (width.to_f / natural_width)
-          end
+        if width < cells.min_width || width > cells.max_width
+          raise Errors::CannotFit
         end
 
-        widths
+        if width <= natural_width
+          # Shrink the table to fit the requested width.
+          f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
+
+          (0...column_length).map do |c|
+            min, nat = column(c).min_width, column(c).width
+            (f * (nat - min)) + min
+          end
+        else
+          # Expand the table to fit the requested width.
+          f = (width - cells.width).to_f / (cells.max_width - cells.width)
+
+          (0...column_length).map do |c|
+            nat, max = column(c).width, column(c).max_width
+            (f * (max - nat)) + nat
+          end
+        end
       end
     end
 

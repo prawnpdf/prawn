@@ -16,4 +16,9 @@ Prawn::Document.generate("simple_table.pdf") do
     style(columns(0..1)) { |cell| cell.borders |= [:right] }
   end
 
+  move_down 12
+
+  table([%w[foo bar bazbaz], %w[baz bar foofoo]], 
+        :cell_style => { :padding => 12 }, :width => bounds.width)
+
 end
