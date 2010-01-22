@@ -28,6 +28,10 @@ module Prawn
      #
      UnknownFont = Class.new(StandardError)   
 
+     # Raised when Prawn is asked to draw something into a too-small box
+     #
+     CannotFit = Class.new(StandardError)
+
      # This error is raised when Prawn is being used on a M17N aware VM,
      # and the user attempts to add text that isn't compatible with UTF-8
      # to their document

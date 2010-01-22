@@ -12,6 +12,12 @@ describe "#height_of" do
     new_y = @pdf.y
     @pdf.height_of("Foo", :width => 300).should.be.close(original_y - new_y, 0.0001)
   end
+
+  it "should raise CannotFit if a too-small width is given" do
+    lambda do
+      @pdf.height_of("text", :width => 1)
+    end.should.raise(Prawn::Errors::CannotFit)
+  end
 end
 
 describe "when drawing text" do     
