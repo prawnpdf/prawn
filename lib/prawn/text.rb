@@ -12,7 +12,7 @@ require "zlib"
 module Prawn
   module Text
 
-    include Core::Text
+    include Prawn::Core::Text
 
     # Gets height of text in PDF points. See text() for valid options.
     #
