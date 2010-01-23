@@ -241,14 +241,14 @@ describe "Prawn::Table::Cell" do
 
     it "should draw left border when requested" do
       @pdf.expects(:stroke_line).with { |*from_and_to|
-        from_and_to.flatten.map{|x| x.round} == [0, 720, 0, 696]
+        from_and_to.flatten.map{|x| x.round} == [0, 721, 0, 696]
       }
       @pdf.cell(:content => "text", :borders => [:left])
     end
 
     it "should draw right border when requested" do
       @pdf.expects(:stroke_line).with { |*from_and_to|
-        from_and_to.flatten.map{|x| x.round} == [29, 720, 29, 696]
+        from_and_to.flatten.map{|x| x.round} == [29, 721, 29, 696]
       }
       @pdf.cell(:content => "text", :borders => [:right])
     end
