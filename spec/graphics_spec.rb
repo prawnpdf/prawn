@@ -258,6 +258,21 @@ describe "When using transformation matrix" do
     matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
     matrices.matrices.should == [[1, 0, 0, -1, 5.5, 20]]
   end
+
+  it "should save the graphics state inside the given block" do
+    values = Array.new(6, 0.000000000001)
+    string = Array.new(6, "0.00000").join " "
+    process = sequence "process"
+    
+    @pdf.expects(:save_graphics_state).with().in_sequence(process)
+    @pdf.expects(:add_content).with("#{string} cm").in_sequence(process)
+    @pdf.expects(:do_something).with().in_sequence(process)
+    @pdf.expects(:restore_graphics_state).with().in_sequence(process)
+    @pdf.transformation_matrix(*values) do
+      @pdf.do_something
+    end
+  end
+    
 end
 
 describe "When using transformations shortcuts" do

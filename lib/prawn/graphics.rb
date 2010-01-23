@@ -251,26 +251,31 @@ module Prawn
 
     def transformation_matrix(a, b, c, d, e, f)
       values = [a, b, c, d, e, f].map { |x| "%.5f" % x }.join(" ")
+      save_graphics_state if block_given?
       add_content "#{values} cm"
+      if block_given?
+        yield
+        restore_graphics_state
+      end
     end
     
-    def rotate(angle)
+    def rotate(angle, &block)
       rad = degree_to_rad(angle)
       cos = Math.cos(rad)
       sin = Math.sin(rad)
-      transformation_matrix(cos, sin, -sin, cos, 0, 0)
+      transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
     end
     
-    def translate(x, y)
-      transformation_matrix(1, 0, 0, 1, x, y)
+    def translate(x, y, &block)
+      transformation_matrix(1, 0, 0, 1, x, y, &block)
     end
     
-    def scale(factor)
-      transformation_matrix(factor, 0, 0, factor, 0, 0)
+    def scale(factor, &block)
+      transformation_matrix(factor, 0, 0, factor, 0, 0, &block)
     end
     
-    def skew(a, b)
-      transformation_matrix(1, Math.tan(degree_to_rad(a)), Math.tan(degree_to_rad(b)), 1, 0, 0)
+    def skew(a, b, &block)
+      transformation_matrix(1, Math.tan(degree_to_rad(a)), Math.tan(degree_to_rad(b)), 1, 0, 0, &block)
     end
     
     def save_graphics_state
