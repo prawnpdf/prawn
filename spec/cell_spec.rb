@@ -36,11 +36,7 @@ describe "Prawn::Table::Cell" do
 
     it "should draw text at the given point plus padding, with the given " +
        "size and style" do
-      @pdf.expects(:bounding_box).with{ |at, options| 
-        at == [50, -10] && 
-          close?(options[:height], 8.33) && 
-          close?(options[:width], 36.953)
-      }.yields
+      @pdf.expects(:bounding_box).yields
       @pdf.expects(:move_down).with{ |x| close?(x, 1.652) }
       @pdf.expects(:text).with("hello world")
 

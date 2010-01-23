@@ -60,7 +60,7 @@ module Prawn
         def natural_content_height
           @pdf.save_font do
             @pdf.set_font(@font, @font_size)
-            @pdf.height_of(@content, :width => content_width)
+            @pdf.height_of(@content, :width => content_width + FPTolerance)
           end
         end
 

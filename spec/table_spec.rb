@@ -195,6 +195,13 @@ describe "Prawn::Table" do
       table = @pdf.table([["foo"]])
       @pdf.y.should == old_y - table.height
     end
+
+    it "should not wrap unnecessarily" do
+      # Test for FP errors and glitches
+      t = @pdf.table([["Bender Bending Rodriguez"]])
+      h = @pdf.height_of("one line")
+      (t.height - 10).should.be < h*1.5
+    end
   end
 
   describe "Multi-page tables" do

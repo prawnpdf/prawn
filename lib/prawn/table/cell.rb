@@ -49,6 +49,11 @@ module Prawn
         end
       end
 
+      # A small amount added to the bounding box width to cover over floating-
+      # point errors when round-tripping from content_width to width and back.
+      #
+      FPTolerance = 1
+
       # TODO: doc
       def initialize(pdf, point, options={})
         @pdf   = pdf
@@ -131,7 +136,7 @@ module Prawn
         draw_background
         draw_borders
         @pdf.bounding_box([x + left_padding, y - top_padding], 
-                          :width  => content_width,
+                          :width  => content_width + FPTolerance,
                           :height => content_height) do
           draw_content
         end
