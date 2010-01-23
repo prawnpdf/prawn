@@ -234,6 +234,11 @@ module Prawn
                                            :kerning => @kerning,
                                            :size => @font_size,
                                            :width => @width)
+
+          if line_to_print.empty? && remaining_text.length > 0
+            raise Errors::CannotFit
+          end
+
           remaining_text = remaining_text.slice(line_to_print.length..
                                                 remaining_text.length)
           print_ellipses = (@overflow == :ellipses && last_line? &&
@@ -268,7 +273,7 @@ module Prawn
         y = @at[1] + @baseline_y
         
         if @inked
-          @document.text_at(line_to_print, :at => [x, y],
+          @document.draw_text_at(line_to_print, :at => [x, y],
                             :size => @font_size, :kerning => @kerning)
         end
         
