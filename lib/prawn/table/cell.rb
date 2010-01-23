@@ -213,7 +213,7 @@ module Prawn
       #
       def draw_borders
         return if @border_width <= 0
-        margin = @border_width / 2
+        margin = @border_width / 2.0
 
         @pdf.mask(:line_width, :stroke_color) do
           @pdf.line_width   = @border_width
