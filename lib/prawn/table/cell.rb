@@ -43,6 +43,8 @@ module Prawn
         case content
         when String
           Cell::Text.new(pdf, at, options)
+        when Prawn::Table
+          Cell::Subtable.new(pdf, at, options)
         else
           # TODO: other types of content
           raise ArgumentError, "Content type not recognized: #{content.inspect}"

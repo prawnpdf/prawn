@@ -10,6 +10,7 @@ require 'prawn/table/accessors'
 require 'prawn/table/cell'
 require 'prawn/table/cell/in_table'
 require 'prawn/table/cell/text'
+require 'prawn/table/cell/subtable'
 
 module Prawn
 
@@ -123,7 +124,7 @@ module Prawn
       # The cell y-positions are based on an infinitely long canvas. The offset
       # keeps track of how much we have to add to the original, theoretical
       # y-position to get to the actual position on the current page.
-      offset = 0
+      offset = @pdf.cursor
 
       bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
       @cells.each do |cell|
@@ -238,9 +239,9 @@ module Prawn
         ary << (ary.last + x); ary }[0..-2]
       x_positions.each_with_index { |x, i| column(i).x = x }
 
-      # y-positions assume an infinitely long canvas -- this is corrected for
-      # in Table#draw, and page breaks are properly inserted.
-      y_positions = row_heights.inject([@pdf.cursor]) { |ary, y|
+      # y-positions assume an infinitely long canvas starting at zero -- this
+      # is corrected for in Table#draw, and page breaks are properly inserted.
+      y_positions = row_heights.inject([0]) { |ary, y|
         ary << (ary.last - y); ary}[0..-2]
       y_positions.each_with_index { |y, i| row(i).y = y }
     end
