@@ -50,6 +50,7 @@ module Prawn
     def initialize(data, document, options={}, &block)
       @pdf = document
       @cells = make_cells(data)
+      @header = false
       options.each { |k, v| send("#{k}=", v) }
 
       # Evaluate the block before laying out the table, to support things like:
@@ -79,7 +80,7 @@ module Prawn
     # wider than the document's bounds.
     #
     attr_writer :width
-    
+
     # Returns the width of the table in PDF points.
     #
     def width
@@ -91,6 +92,11 @@ module Prawn
     def height
       cells.height
     end
+
+    # If true, designates the first row as a header row to be repeated on every
+    # page.
+    #
+    attr_writer :header
 
     # Sets styles for all cells.
     #
@@ -124,6 +130,7 @@ module Prawn
         if (cell.y + offset) - cell.height < bounds.bottom
           # start a new page
           bounds.move_past_bottom
+          draw_header
           offset = @pdf.cursor - cell.y
         end
 
@@ -152,6 +159,17 @@ module Prawn
         end
       end
       cells
+    end
+
+    def draw_header
+      if @header
+        y = @pdf.cursor
+        row(0).each do |cell|
+          cell.y = y
+          cell.draw
+        end
+        @pdf.move_cursor_to(y - row(0).height)
+      end
     end
 
     def natural_column_widths
@@ -202,13 +220,8 @@ module Prawn
 
     def set_column_widths
       column_widths.each_with_index do |w, col_num| 
-        # Believe it or not, this unless statement actually prevents a whole
-        # host of FP rounding errors. Doing "x.width = x.content_width +
-        # x.padding" (in effect, what this code does if the widths aren't being
-        # touched) introduces FP errors.
-        unless column(col_num).width == w
-          column(col_num).width = w
-        end
+        # TODO: fix the rounding problems
+        column(col_num).width = w
       end
     end
 
