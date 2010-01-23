@@ -213,6 +213,8 @@ module Prawn
       #
       def draw_borders
         return if @border_width <= 0
+        # Draw left / right borders one-half border width beyond the center of
+        # the corner, so that the corners end up square.
         margin = @border_width / 2.0
 
         @pdf.mask(:line_width, :stroke_color) do
@@ -228,7 +230,7 @@ module Prawn
                        when :left
                          [[x, y+margin], [x, y-height-margin]]
                        when :right
-                         [[x+width, y+margin], [x+width, y-height+margin]]
+                         [[x+width, y+margin], [x+width, y-height-margin]]
                        end
             @pdf.stroke_line(from, to)
           end
