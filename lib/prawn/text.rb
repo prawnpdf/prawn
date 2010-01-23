@@ -138,7 +138,7 @@ module Prawn
         save_font do
           process_text_options(options)
           font.normalize_encoding!(text) unless @skip_encoding
-          font_size(options[:size]) { draw_text_at(text, options) }
+          font_size(options[:size]) { draw_text(text, options) }
         end
       else
         remaining_text = fill_text_box(text, options)
