@@ -45,6 +45,9 @@ module Prawn
           Cell::Text.new(pdf, at, options)
         when Prawn::Table
           Cell::Subtable.new(pdf, at, options)
+        when Array
+          subtable = Prawn::Table.new(options[:content], pdf, {})
+          Cell::Subtable.new(pdf, at, options.merge(:content => subtable))
         else
           # TODO: other types of content
           raise ArgumentError, "Content type not recognized: #{content.inspect}"

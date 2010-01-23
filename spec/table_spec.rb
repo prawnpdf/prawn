@@ -266,9 +266,16 @@ describe "Prawn::Table" do
 
       (0..2).each do |row|
         cell = @table.cells[row, 0]
-        cell.y.should == y
+        cell.y.should.be.close(y, 0.01)
         y -= cell.height
       end
+    end
+  end
+
+  describe "nested tables" do
+    it "can be created from an Array" do
+      cell = Prawn::Table::Cell.make(:content => [["foo"]])
+      cell.should.be.an.instance_of(Prawn::Table::Cell::Subtable)
     end
   end
 
