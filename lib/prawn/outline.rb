@@ -187,7 +187,12 @@ module Prawn
     
     def create_outline_item(title, options)
       outline_item = OutlineItem.new(title, parent, options)
-      outline_item.dest = [document.page_identifier(options[:page]), :Fit] if options[:page]
+
+      if options[:page]
+        page_index = options[:page] - 1
+        outline_item.dest = [document.pages[page_index].dictionary, :Fit] 
+      end
+
       outline_item.prev = prev if @prev
       items[title] = document.ref!(outline_item)
     end

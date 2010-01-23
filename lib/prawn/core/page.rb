@@ -18,6 +18,8 @@ module Prawn
                                    :MediaBox    => dimensions,
                                    :Contents    => content)
 
+        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
+
         @stamp_stream      = nil
         @stamp_dictionary  = nil
       end

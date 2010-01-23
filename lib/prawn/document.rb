@@ -253,9 +253,10 @@ module Prawn
          last_page_margins = last_page.margins
        end
 
-       self.page = Prawn::Core::Page.new(self, :size    => options[:size] || last_page_size, 
-                                               :layout  => options[:layout] || last_page_layout,
-                                               :margins => last_page_margins)
+       self.page = Prawn::Core::Page.new(self, 
+         :size    => options[:size]   || last_page_size, 
+         :layout  => options[:layout] || last_page_layout,
+         :margins => last_page_margins )
   
        
        apply_margin_option(options) if options[:margin]
@@ -267,7 +268,6 @@ module Prawn
        end
 
        generate_margin_box
-       page.resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
 
        update_colors
        undash if dashed?
