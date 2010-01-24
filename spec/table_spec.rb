@@ -6,7 +6,7 @@ require 'set'
 describe "Prawn::Table" do
 
   describe "converting data to Cell objects" do
-    setup do
+    before(:each) do
       @pdf = Prawn::Document.new
       @table = @pdf.table([%w[R0C0 R0C1], %w[R1C0 R1C1]])
     end
@@ -60,7 +60,7 @@ describe "Prawn::Table" do
   end
 
   describe "cell accessors" do
-    setup do
+    before(:each) do
       @pdf = Prawn::Document.new
       @table = @pdf.table([%w[R0C0 R0C1], %w[R1C0 R1C1]])
     end
@@ -134,7 +134,7 @@ describe "Prawn::Table" do
   end
 
   describe "layout" do
-    setup do
+    before(:each) do
       @pdf = Prawn::Document.new
       @long_text = "The quick brown fox jumped over the lazy dogs. " * 5
     end
@@ -245,7 +245,7 @@ describe "Prawn::Table" do
   end
 
   describe "inking" do
-    setup do
+    before(:each) do
       @pdf = Prawn::Document.new
     end
 
@@ -273,11 +273,31 @@ describe "Prawn::Table" do
   end
 
   describe "nested tables" do
-    it "can be created from an Array" do
-      pdf = Prawn::Document.new
-      cell = Prawn::Table::Cell.make(pdf, [["foo"]])
-      cell.should.be.an.instance_of(Prawn::Table::Cell::Subtable)
+    before(:each) do
+      @pdf = Prawn::Document.new
+      @subtable = Prawn::Table.new([["foo"]], @pdf)
+      @table = @pdf.table([[@subtable, "bar"]])
     end
+
+    it "can be created from an Array" do
+      cell = Prawn::Table::Cell.make(@pdf, [["foo"]])
+      cell.should.be.an.instance_of(Prawn::Table::Cell::Subtable)
+      cell.subtable.should.be.an.instance_of(Prawn::Table)
+    end
+
+    it "defaults its padding to zero" do
+      @table.cells[0, 0].padding.should == [0, 0, 0, 0]
+    end
+
+    it "has a subtable accessor" do
+      @table.cells[0, 0].subtable.should == @subtable
+    end
+    
+    it "determines its dimensions from the subtable" do
+      @table.cells[0, 0].width.should == @subtable.width
+      @table.cells[0, 0].height.should == @subtable.height
+    end
+
   end
 
 end

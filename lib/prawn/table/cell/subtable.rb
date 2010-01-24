@@ -13,6 +13,8 @@ module Prawn
       #
       class Subtable < Cell
 
+        attr_reader :subtable
+
         def initialize(pdf, point, options={})
           super
           @subtable = options[:content]
