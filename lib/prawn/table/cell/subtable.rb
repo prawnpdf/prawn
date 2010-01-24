@@ -19,14 +19,6 @@ module Prawn
 
           # Subtable padding defaults to zero
           @padding = [0, 0, 0, 0]
-
-          # Remove duplicate outer borders
-          @subtable.row(0).style { |c| c.borders -= [:left] }
-          @subtable.row(@subtable.row_length-1).
-            style { |c| c.borders -= [:right] }
-          @subtable.column(0).style { |c| c.borders -= [:top] }
-          @subtable.column(@subtable.column_length-1).
-            style { |c| c.borders -= [:bottom] }
         end
 
         def natural_content_width
