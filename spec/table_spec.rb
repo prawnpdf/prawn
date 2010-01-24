@@ -274,7 +274,8 @@ describe "Prawn::Table" do
 
   describe "nested tables" do
     it "can be created from an Array" do
-      cell = Prawn::Table::Cell.make(:content => [["foo"]])
+      pdf = Prawn::Document.new
+      cell = Prawn::Table::Cell.make(pdf, [["foo"]])
       cell.should.be.an.instance_of(Prawn::Table::Cell::Subtable)
     end
   end
