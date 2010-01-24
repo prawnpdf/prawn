@@ -142,7 +142,7 @@ module Prawn
         draw_borders
         @pdf.bounding_box([x + left_padding, y - top_padding], 
                           :width  => content_width + FPTolerance,
-                          :height => content_height) do
+                          :height => content_height + FPTolerance) do
           draw_content
         end
       end
