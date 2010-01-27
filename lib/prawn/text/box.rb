@@ -232,42 +232,28 @@ module Prawn
 
       def render_rotated(text_to_print)
         unprinted_text = ''
-        x = @at[0]
-        y = @at[1]
-        half_width = @width * 0.5
-        half_height = @height * 0.5
-
-        @document.save_graphics_state
 
         case @rotate_around
         when :center
-          @at[0] = -half_width
-          @at[1] = half_height
-          @document.translate(x + half_width, y - half_height)
-        when :upper_left
-          @at[0] = 0
-          @at[1] = 0
-          @document.translate(x, y)
+          x = @at[0] + @width * 0.5
+          y = @at[1] - @height * 0.5
         when :upper_right
-          @at[0] = -@width
-          @at[1] = 0
-          @document.translate(x + @width, y)
+          x = @at[0] + @width
+          y = @at[1]
         when :lower_right
-          @at[0] = -@width
-          @at[1] = @height
-          @document.translate(x + @width, y - @height)
+          x = @at[0] + @width
+          y = @at[1] - @height
         when :lower_left
-          @at[0] = 0
-          @at[1] = @height
-          @document.translate(x, y - @height)
+          x = @at[0]
+          y = @at[1] - @height
+        else
+          x = @at[0]
+          y = @at[1]
         end
 
-        @document.rotate(@rotation)
-        unprinted_text = _render(text_to_print)
-        @document.restore_graphics_state
-
-        @at[0] = x
-        @at[1] = y
+        @document.rotate(@rotation, :origin => [x, y]) do
+          unprinted_text = _render(text_to_print)
+        end
         unprinted_text
       end
 

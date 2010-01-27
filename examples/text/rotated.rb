@@ -18,17 +18,10 @@ Prawn::Document.generate "rotated_text.pdf", :margin => 0 do |pdf|
   x = pdf.bounds.width / 2 - half_width
   y = pdf.bounds.height / 2 + half_height
 
-  # reference rectangle
   pdf.stroke_rectangle([x, y], width, height)
-
-  # rotated rectangle
-  pdf.translate(x + half_width, y - half_height) do
-    pdf.rotate(angle) do
-      pdf.stroke_rectangle([-half_width, half_height], width, height)
-    end
+  pdf.rotate(angle, :origin => [x + half_width, y - half_height]) do
+    pdf.stroke_rectangle([x, y], width, height)
   end
-
-  # rotated text
   pdf.text_box("rotated around the center " * 10,
                :at => [x, y],
                :width => width,
@@ -42,17 +35,10 @@ Prawn::Document.generate "rotated_text.pdf", :margin => 0 do |pdf|
   x = pdf.bounds.width - width
   y = height
 
-  # reference rectangle
   pdf.stroke_rectangle([x, y], width, height)
-
-  # rotated rectangle
-  pdf.translate(x, y) do
-    pdf.rotate(angle) do
-      pdf.stroke_rectangle([0, 0], width, height)
-    end
+  pdf.rotate(angle, :origin => [x, y]) do
+    pdf.stroke_rectangle([x, y], width, height)
   end
-
-  # rotated text
   pdf.text_box("rotated around upper left corner " * 10,
                :at => [x, y],
                :width => width,
@@ -65,17 +51,10 @@ Prawn::Document.generate "rotated_text.pdf", :margin => 0 do |pdf|
   x = 0
   y = height
 
-  # reference rectangle
   pdf.stroke_rectangle([x, y], width, height)
-
-  # rotated rectangle
-  pdf.translate(x + width, y) do
-    pdf.rotate(angle) do
-      pdf.stroke_rectangle([-width, 0], width, height)
-    end
+  pdf.rotate(angle, :origin => [x + width, y]) do
+    pdf.stroke_rectangle([x, y], width, height)
   end
-
-  # rotated text
   pdf.text_box("rotated around upper right corner " * 10,
                :at => [x, y],
                :width => width,
@@ -89,17 +68,10 @@ Prawn::Document.generate "rotated_text.pdf", :margin => 0 do |pdf|
   x = 0
   y = pdf.bounds.height
 
-  # reference rectangle
   pdf.stroke_rectangle([x, y], width, height)
-
-  # rotated rectangle
-  pdf.translate(x + width, y - height) do
-    pdf.rotate(angle) do
-      pdf.stroke_rectangle([-width, height], width, height)
-    end
+  pdf.rotate(angle, :origin => [x + width, y - height]) do
+    pdf.stroke_rectangle([x, y], width, height)
   end
-
-  # rotated text
   pdf.text_box("rotated around lower right corner " * 10,
                :at => [x, y],
                :width => width,
@@ -113,17 +85,10 @@ Prawn::Document.generate "rotated_text.pdf", :margin => 0 do |pdf|
   x = pdf.bounds.width - width
   y = pdf.bounds.height
 
-  # reference rectangle
   pdf.stroke_rectangle([x, y], width, height)
-
-  # rotated rectangle
-  pdf.translate(x, y - height) do
-    pdf.rotate(angle) do
-      pdf.stroke_rectangle([0, height], width, height)
-    end
+  pdf.rotate(angle, :origin => [x, y - height]) do
+    pdf.stroke_rectangle([x, y], width, height)
   end
-
-  # rotated text
   pdf.text_box("rotated around lower left corner " * 10,
                :at => [x, y],
                :width => width,

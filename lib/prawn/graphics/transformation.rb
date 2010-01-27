@@ -12,10 +12,15 @@ module Prawn
   module Graphics
     module Transformation
       
-      # Rotate the user space around point (0, 0)
+      # Rotate the user space.  If a block is not provided, then you must save
+      # and restore the graphics state yourself.
       #
-      # Note that if a block is not passed, then you must save and restore the
-      # graphics state yourself
+      # == Options
+      # <tt>:origin</tt>:: <tt>[number, number]</tt>. The point around which to
+      #                    rotate. A block must be provided if using the :origin
+      #
+      # raises <tt>Prawn::Errors::BlockRequired</tt> if an :origin option is
+      # provided, but no block is given
       #
       # Example without a block:
       #   
@@ -24,26 +29,34 @@ module Prawn
       #   text "rotated text"
       #   restore_graphics_state
       #
-      # Example with a block: drawing a rectangle with its upper-left corner at
-      #                       point x, y that is rotated around its upper-left
-      #                       corner
+      # Example with a block: rotating a rectangle around its upper-left corner
       #
       #   x = 300
       #   y = 300
       #   width = 150
       #   height = 200
       #   angle = 30
-      #   pdf.translate(x, y) do
-      #     pdf.rotate(angle) do
-      #       pdf.stroke_rectangle([0, 0], width, height)
-      #     end
+      #   pdf.rotate(angle, :origin => [x, y]) do
+      #     pdf.stroke_rectangle([x, y], width, height)
       #   end
       #
-      def rotate(angle, &block)
+      def rotate(angle, options={}, &block)
+        Prawn.verify_options(:origin, options)
         rad = degree_to_rad(angle)
         cos = Math.cos(rad)
         sin = Math.sin(rad)
-        transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
+        if options[:origin].nil?
+          transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
+        else
+          raise Prawn::Errors::BlockRequired unless block_given?
+          x = options[:origin][0]
+          y = options[:origin][1]
+          x_prime = x * cos - y * sin
+          y_prime = x * sin + y * cos
+          translate(x - x_prime, y - y_prime) do
+            transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
+          end
+        end
       end
 
       # Translate the user space (see notes for rotate regarding graphics state)

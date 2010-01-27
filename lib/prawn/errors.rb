@@ -66,7 +66,10 @@ module Prawn
     RequiredOption = Class.new(StandardError)
     
     # This error is raised when a requested outline item with a given title does not exist
-    UnknownOutlineTitle = Class.new(StandardError) 
+    UnknownOutlineTitle = Class.new(StandardError)
+
+    # This error is raised when a block is required, but not provided
+    BlockRequired = Class.new(StandardError)
     
   end
 end   

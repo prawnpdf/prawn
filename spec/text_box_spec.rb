@@ -55,6 +55,8 @@ describe "Text::Box#render with :rotation option of 30)" do
     @y = 70
     @width = 100
     @height = 50
+    @cos = Math.cos(rotation * Math::PI / 180)
+    @sin = Math.sin(rotation * Math::PI / 180)
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf,
                  :rotation => rotation,
@@ -69,8 +71,17 @@ describe "Text::Box#render with :rotation option of 30)" do
       text_box.render()
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-      matrices.matrices[0].should == [1, 0, 0, 1, @x + @width / 2, @y - @height / 2]
-      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+      x = @x + @width / 2
+      y = @y - @height / 2
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.strings.should.not.be.empty
@@ -83,8 +94,17 @@ describe "Text::Box#render with :rotation option of 30)" do
       text_box.render()
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-      matrices.matrices[0].should == [1, 0, 0, 1, @x, @y]
-      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+      x = @x
+      y = @y
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.strings.should.not.be.empty
@@ -92,13 +112,21 @@ describe "Text::Box#render with :rotation option of 30)" do
   end
   context "default :rotate_around" do
     it "should draw content to the page rotated about the upper left corner of the text" do
-      @options[:rotate_around] = :upper_left
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render()
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-      matrices.matrices[0].should == [1, 0, 0, 1, @x, @y]
-      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+      x = @x
+      y = @y
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.strings.should.not.be.empty
@@ -111,8 +139,17 @@ describe "Text::Box#render with :rotation option of 30)" do
       text_box.render()
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-      matrices.matrices[0].should == [1, 0, 0, 1, @x + @width, @y]
-      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+      x = @x + @width
+      y = @y
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.strings.should.not.be.empty
@@ -125,8 +162,17 @@ describe "Text::Box#render with :rotation option of 30)" do
       text_box.render()
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-      matrices.matrices[0].should == [1, 0, 0, 1, @x + @width, @y - @height]
-      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+      x = @x + @width
+      y = @y - @height
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.strings.should.not.be.empty
@@ -139,8 +185,17 @@ describe "Text::Box#render with :rotation option of 30)" do
       text_box.render()
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-      matrices.matrices[0].should == [1, 0, 0, 1, @x, @y - @height]
-      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+      x = @x
+      y = @y - @height
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.strings.should.not.be.empty
@@ -442,4 +497,8 @@ describe 'Text::Box wrapping' do
     @text_box.text.should == expect
   end     
   
+end
+
+def reduce_precision(float)
+  ("%.5f" % float).to_f
 end
