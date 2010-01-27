@@ -11,6 +11,7 @@ require "prawn/graphics/dash"
 require "prawn/graphics/cap_style"
 require "prawn/graphics/join_style"
 require "prawn/graphics/transparency"
+require "prawn/graphics/transformation"
 
 module Prawn
 
@@ -27,6 +28,7 @@ module Prawn
     include CapStyle
     include JoinStyle
     include Transparency
+    include Transformation
 
     #######################################################################
     # Low level drawing operations must map the point to absolute coords! #
@@ -247,47 +249,6 @@ module Prawn
     def fill_and_stroke
       yield if block_given?
       add_content "b"
-    end
-
-    def transformation_matrix(a, b, c, d, e, f)
-      values = [a, b, c, d, e, f].map { |x| "%.5f" % x }.join(" ")
-      save_graphics_state if block_given?
-      add_content "#{values} cm"
-      if block_given?
-        yield
-        restore_graphics_state
-      end
-    end
-    
-    def rotate(angle, &block)
-      rad = degree_to_rad(angle)
-      cos = Math.cos(rad)
-      sin = Math.sin(rad)
-      transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
-    end
-    
-    def translate(x, y, &block)
-      transformation_matrix(1, 0, 0, 1, x, y, &block)
-    end
-    
-    def scale(factor, &block)
-      transformation_matrix(factor, 0, 0, factor, 0, 0, &block)
-    end
-    
-    def skew(a, b, &block)
-      transformation_matrix(1, Math.tan(degree_to_rad(a)), Math.tan(degree_to_rad(b)), 1, 0, 0, &block)
-    end
-    
-    def save_graphics_state
-      add_content "q"
-      if block_given?
-        yield
-        restore_graphics_state
-      end
-    end
-
-    def restore_graphics_state
-      add_content "Q"
     end
     
     private

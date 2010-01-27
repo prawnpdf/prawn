@@ -60,19 +60,7 @@ module Prawn
     # See stamp() for exceptions that might be raised
     #
     def stamp_at(name, point)
-      # Save the graphics state
-      add_content "q"
-
-      # Translate the user space
-      x,y = point
-      translate_position = "1 0 0 1 %.3f %.3f cm" % [x, y]
-      add_content translate_position
-      
-      # Draw the stamp in the now translated user space
-      stamp(name)
-      
-      # Restore the graphics state to remove the translation
-      add_content "Q"
+      translate(point[0], point[1]) { stamp(name) }
     end
 
     # Creates a re-usable stamp named <tt>name</tt>

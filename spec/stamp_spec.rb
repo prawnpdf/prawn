@@ -19,6 +19,19 @@ describe "create_stamp before any page is added" do
   end
 end
 
+describe "#stamp_at" do
+  it "should work" do
+    create_pdf
+    @pdf.create_stamp("MyStamp")
+    @pdf.stamp_at("MyStamp", [100, 200])
+    # I had modified PDF::Inspector::XObject to receive the
+    # invoke_xobject message and count the number of times it was
+    # called, but it was only called once, so I reverted checking the
+    # output with a regular expression
+    @pdf.render.should =~ /\/Stamp1 Do.*?/m
+  end
+end
+
 describe "Document with a stamp" do
   it "should raise NameTaken error when attempt to create stamp "+
      "with same name as an existing stamp" do

@@ -15,6 +15,7 @@ require "prawn/document/span"
 require "prawn/document/annotations"
 require "prawn/document/destinations"
 require "prawn/document/snapshot"
+require "prawn/document/graphics_state"
 
 module Prawn
   
@@ -58,10 +59,12 @@ module Prawn
     include Annotations
     include Destinations
     include Snapshot
+    include GraphicsState
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
+    
 
     attr_accessor :margin_box, :page
     attr_reader   :margins, :y, :store, :pages
@@ -277,8 +280,7 @@ module Prawn
          @store.pages.data[:Count] += 1
          @page_number += 1
 
-          
-         add_content "q"
+         save_graphics_state
          
          @y = @bounding_box.absolute_top
 

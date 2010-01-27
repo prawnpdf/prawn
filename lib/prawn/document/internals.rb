@@ -85,7 +85,7 @@ module Prawn
         (1..page_count).each do |i|
           go_to_page i
           repeaters.each { |r| r.run(i) }
-          add_content "Q"
+          restore_graphics_state
           page.content.compress_stream if compression_enabled?
           page.content.data[:Length] = page.content.stream.size
         end
