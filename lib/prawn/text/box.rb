@@ -46,6 +46,11 @@ module Prawn
     #                   Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
     #                    Vertical alignment within the bounding box [:top]
+    # <tt>:rotation</tt>:: <tt>number</tt>. The angle to rotate the text
+    # <tt>:rotate_around</tt>:: <tt>:center</tt>, <tt>:upper_left</tt>,
+    #                           <tt>:upper_right</tt>, <tt>:lower_right</tt>,
+    #                           or <tt>:lower_left</tt>. The point around which
+    #                           to rotate the text [:upper_left]
     # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
     # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
     #                      <tt>:expand</tt>, or <tt>:ellipses</tt>. This
@@ -117,10 +122,11 @@ module Prawn
                           @document.bounds.right - @at[0]
         @height         = options[:height] ||
                           @at[1] - @document.bounds.bottom
-        @center         = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
         @align          = options[:align] || :left
         @vertical_align = options[:valign] || :top
         @leading        = options[:leading] || 0
+        @rotation       = options[:rotation] || 0
+        @rotate_around  = options[:rotate_around] || :upper_left
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -159,7 +165,11 @@ module Prawn
             shrink_to_fit if @overflow == :shrink_to_fit
             process_vertical_alignment
             @inked = true unless flags[:dry_run]
-            unprinted_text = _render(@text_to_print)
+            if @rotation != 0 && @inked
+              unprinted_text = render_rotated(@text_to_print)
+            else
+              unprinted_text = _render(@text_to_print)
+            end
             @inked = false
           end
         end
@@ -185,7 +195,9 @@ module Prawn
                                              :overflow, :min_font_size,
                                              :wrap_block,
                                              :leading,
-                                             :document])
+                                             :document,
+                                             :rotation,
+                                             :rotate_around])
       end
 
       def process_vertical_alignment
@@ -216,6 +228,47 @@ module Prawn
         @document.process_text_options(@options)
         @font_size = @options[:size]
         @kerning   = @options[:kerning]
+      end
+
+      def render_rotated(text_to_print)
+        unprinted_text = ''
+        x = @at[0]
+        y = @at[1]
+        half_width = @width * 0.5
+        half_height = @height * 0.5
+
+        @document.save_graphics_state
+
+        case @rotate_around
+        when :center
+          @at[0] = -half_width
+          @at[1] = half_height
+          @document.translate(x + half_width, y - half_height)
+        when :upper_left
+          @at[0] = 0
+          @at[1] = 0
+          @document.translate(x, y)
+        when :upper_right
+          @at[0] = -@width
+          @at[1] = 0
+          @document.translate(x + @width, y)
+        when :lower_right
+          @at[0] = -@width
+          @at[1] = @height
+          @document.translate(x + @width, y - @height)
+        when :lower_left
+          @at[0] = 0
+          @at[1] = @height
+          @document.translate(x, y - @height)
+        end
+
+        @document.rotate(@rotation)
+        unprinted_text = _render(text_to_print)
+        @document.restore_graphics_state
+
+        @at[0] = x
+        @at[1] = y
+        unprinted_text
       end
 
       def _render(remaining_text)
@@ -261,13 +314,13 @@ module Prawn
 
         case(@align)
         when :left
-          x = @center[0] - @width * 0.5
+          x = @at[0]
         when :center
           line_width = @document.width_of(line_to_print, :kerning => @kerning)
-          x = @center[0] - line_width * 0.5
+          x = @at[0] + @width * 0.5 - line_width * 0.5
         when :right
           line_width = @document.width_of(line_to_print, :kerning => @kerning)
-          x = @center[0] + @width * 0.5 - line_width
+          x = @at[0] + @width - line_width
         end
         
         y = @at[1] + @baseline_y

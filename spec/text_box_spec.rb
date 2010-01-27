@@ -41,6 +41,107 @@ describe "Text::Box#render(:dry_run => true)" do
   end
 end
 
+describe "Text::Box#render with :rotation option of 30)" do
+  before(:each) do
+    create_pdf
+    rotation = 30
+    @x = 300
+    @y = 70
+    @width = 100
+    @height = 50
+    @text = "Oh hai text rect. " * 10
+    @options = { :document => @pdf,
+                 :rotation => rotation,
+                 :at => [@x, @y],
+                 :width => @width,
+                 :height => @height }
+  end
+  context ":rotate_around option of :center" do
+    it "should draw content to the page rotated about the center of the text" do
+      @options[:rotate_around] = :center
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render()
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, @x + @width / 2, @y - @height / 2]
+      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.should.not.be.empty
+    end
+  end
+  context ":rotate_around option of :upper_left" do
+    it "should draw content to the page rotated about the upper left corner of the text" do
+      @options[:rotate_around] = :upper_left
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render()
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, @x, @y]
+      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.should.not.be.empty
+    end
+  end
+  context "default :rotate_around" do
+    it "should draw content to the page rotated about the upper left corner of the text" do
+      @options[:rotate_around] = :upper_left
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render()
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, @x, @y]
+      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.should.not.be.empty
+    end
+  end
+  context ":rotate_around option of :upper_right" do
+    it "should draw content to the page rotated about the upper right corner of the text" do
+      @options[:rotate_around] = :upper_right
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render()
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, @x + @width, @y]
+      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.should.not.be.empty
+    end
+  end
+  context ":rotate_around option of :lower_right" do
+    it "should draw content to the page rotated about the lower right corner of the text" do
+      @options[:rotate_around] = :lower_right
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render()
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, @x + @width, @y - @height]
+      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.should.not.be.empty
+    end
+  end
+  context ":rotate_around option of :lower_left" do
+    it "should draw content to the page rotated about the lower left corner of the text" do
+      @options[:rotate_around] = :lower_left
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render()
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, @x, @y - @height]
+      matrices.matrices[1].should == [0.86603, 0.5, -0.5, 0.86603, 0.0, 0.0]
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.should.not.be.empty
+    end
+  end
+end
+
 describe "Text::Box default height" do
   it "should be the height from the bottom bound to document.y" do
     create_pdf
@@ -147,6 +248,22 @@ describe "Text::Box with more text than can fit in the box" do
     it "#height should be within one font height of the specified height" do
       @text_box.render
       @bounding_height.should.be.close(@text_box.height, @pdf.font.height)
+    end
+    context "with :rotation option" do
+      it "unrendered text should be the same as when not rotated" do
+        remaining_text = @text_box.render
+
+        rotation = 30
+        x = 300
+        y = 70
+        width = @options[:width]
+        height = @options[:height]
+        @options[:document] = @pdf
+        @options[:rotation] = rotation
+        @options[:at] = [x, y]
+        rotated_text_box = Prawn::Text::Box.new(@text, @options)
+        rotated_text_box.render.should == remaining_text
+      end
     end
   end
   
