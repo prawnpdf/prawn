@@ -4,7 +4,7 @@
 #
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
-Prawn::Document.generate "rotated_text.pdf", :margin => 0 do |pdf|
+Prawn::Document.generate "rotated_text.pdf" do |pdf|
   pdf.line_width = 1
   width = 150
   height = 200
