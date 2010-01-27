@@ -3,7 +3,7 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 
-describe "Text::Box" do
+describe "Text::Box#render" do
   it "should not fail if height is smaller than 1 line" do
     create_pdf
     @text = "Oh hai text rect. " * 10
@@ -15,9 +15,6 @@ describe "Text::Box" do
     text_box.render
     text_box.text.should == ""
   end
-end
-
-describe "Text::Box#render" do
   it "should draw content to the page" do
     create_pdf
     @text = "Oh hai text rect. " * 10
@@ -26,6 +23,15 @@ describe "Text::Box#render" do
     text_box.render()
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.should.not.be.empty
+  end
+  it "should not draw a transformation matrix" do
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = { :document => @pdf }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render()
+    matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+    matrices.matrices.length.should == 0
   end
 end
 
