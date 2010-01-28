@@ -4,8 +4,21 @@
 # as simple as this?
 #
 class String  #:nodoc:
+  def first_line
+    self.each_line { |line| return line }
+  end
   unless "".respond_to?(:lines)
     alias_method :lines, :to_a
+  end
+  unless "".respond_to?(:each_char)
+    def each_char
+      # copied from jcode
+      if block_given?
+        scan(/./m) { |x| yield x }
+      else
+        scan(/./m)
+      end
+    end
   end
 end
 
