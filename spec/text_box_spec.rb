@@ -319,7 +319,7 @@ describe 'Text::Box wrapping' do
     @text_box.text.should == expect
   end
 
-  it "should wrap lines comprised of a single word of the bounds when wrapping text" do
+  it "should not raise error when each_char is called" do
     text = '©' * 30
     expect = "\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\n\251\251\251\251\251"
 
