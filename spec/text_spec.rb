@@ -208,4 +208,19 @@ describe "when drawing text" do
     pages[0][:strings].should == ["Hello"]
     pages[1][:strings].should == ["World"]
   end
+
+  it "should be able to use a custom word-wrap object" do
+    hello = "hello " * 25
+    world = "world " * 25
+    @pdf.text(hello + "\n" + world, :wrap_object => TestWordWrap.new)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == hello.strip
+    text.strings[1].should == world.strip
+  end
+end
+
+class TestWordWrap
+  def wrap_line(line, options)
+    line
+  end
 end
