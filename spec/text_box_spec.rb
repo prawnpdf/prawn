@@ -319,15 +319,21 @@ describe 'Text::Box wrapping' do
     @text_box.text.should == expect
   end
 
-  it "should not raise error when each_char is called" do
+  it "should wrap lines comprised of a single word of the bounds when wrapping text" do
     text = '©' * 30
+
     @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
-                                          :width    => 180,
-                                          :overflow => :expand,
-                                          :document => @pdf)
-    lambda { @text_box.render }.should.not.raise(NoMethodError)
-  end     
+    @text_box = Prawn::Text::Box.new(text, :width => 180,
+                                           :overflow => :expand,
+                                           :document => @pdf)
+
+    @text_box.render
+
+    expected = '©'*25 + "\n" + '©' * 5
+    @pdf.font.normalize_encoding!(expected)
+
+    @text_box.text.should == expected
+  end
   
 end
