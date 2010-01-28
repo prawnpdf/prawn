@@ -334,7 +334,8 @@ module Prawn
 
       def default_wrap_block
         lambda do |line, options|
-          scan_pattern = /\S+|\s+/
+          scan_pattern = options[:document].font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
+          space_scan_pattern = options[:document].font.unicode? ? /\s/ : /\s/n
           output = ""
           accumulated_width = 0
           line.scan(scan_pattern).each do |segment|
@@ -348,7 +349,7 @@ module Prawn
             else
               # if the line contains white space, don't split the
               # final word that doesn't fit, just return what fits nicely
-              break if output =~ /\s/
+              break if output =~ space_scan_pattern
               
               # if there is no white space on the current line, then just
               # print whatever part of the last segment that will fit on the
