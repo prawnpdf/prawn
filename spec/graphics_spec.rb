@@ -282,6 +282,7 @@ describe "When using transformations shortcuts" do
     @angle = 12.32
     @cos = Math.cos(@angle * Math::PI / 180)
     @sin = Math.sin(@angle * Math::PI / 180)
+    @factor = 0.12
   end
 
   describe "#rotate" do
@@ -313,8 +314,8 @@ describe "When using transformations shortcuts" do
 
       @pdf.rotate(@angle, :origin => [@x, @y]) { @pdf.text('hello world') }
 
-      y = @y + @pdf.bounds.absolute_bottom
       x = @x + @pdf.bounds.absolute_left
+      y = @y + @pdf.bounds.absolute_bottom
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
 
@@ -349,17 +350,57 @@ describe "When using transformations shortcuts" do
 
   describe "#scale" do
     it "should scale" do
-      factor = 0.12
-      @pdf.expects(:transformation_matrix).with(factor, 0, 0, factor, 0, 0)
-      @pdf.scale(factor)
+      @pdf.expects(:transformation_matrix).with(@factor, 0, 0, @factor, 0, 0)
+      @pdf.scale(@factor)
     end
   end
 
-  describe "skew" do
-    it "should skew" do
-      a, b = 30, 50.2
-      @pdf.expects(:transformation_matrix).with(1, Math.tan(a * Math::PI / 180), Math.tan(b * Math::PI / 180), 1, 0, 0)
-      @pdf.skew(a, b)
+  describe "#scale with :origin option" do
+    it "should scale from the origin" do
+      x_prime = @factor * @x
+      y_prime = @factor * @y
+
+      @pdf.scale(@factor, :origin => [@x, @y]) { @pdf.text('hello world') }
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(@x - x_prime),
+                                      reduce_precision(@y - y_prime)]
+      matrices.matrices[1].should == [@factor, 0, 0, @factor, 0, 0]
+    end
+
+    it "should scale from the origin in a document with a margin" do
+      @pdf = Prawn::Document.new
+      x = @x + @pdf.bounds.absolute_left
+      y = @y + @pdf.bounds.absolute_bottom
+      x_prime = @factor * x
+      y_prime = @factor * y
+
+      @pdf.scale(@factor, :origin => [@x, @y]) { @pdf.text('hello world') }
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [@factor, 0, 0, @factor, 0, 0]
+    end
+
+    it "should raise BlockRequired if no block is given" do
+      lambda {
+        @pdf.scale(@factor, :origin => [@x, @y])
+      }.should.raise(Prawn::Errors::BlockRequired)
+    end
+
+    def reduce_precision(float)
+      ("%.5f" % float).to_f
     end
   end
+
+  # describe "skew" do
+  #   it "should skew" do
+  #     a, b = 30, 50.2
+  #     @pdf.expects(:transformation_matrix).with(1, Math.tan(a * Math::PI / 180), Math.tan(b * Math::PI / 180), 1, 0, 0)
+  #     @pdf.skew(a, b)
+  #   end
+  # end
 end
