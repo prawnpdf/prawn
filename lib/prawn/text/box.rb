@@ -350,7 +350,7 @@ module Prawn
               # final word that doesn't fit, just return what fits nicely
               break if output =~ /\s/
               
-              # if there is no white space on the curren tline, then just
+              # if there is no white space on the current line, then just
               # print whatever part of the last segment that will fit on the
               # line
               begin
@@ -363,6 +363,7 @@ module Prawn
                   output << char
                 end
               rescue
+                # not valid unicode
                 segment.each_char do |char|
                   accumulated_width += options[:document].width_of(char,
                                                   :size => options[:size],
@@ -377,12 +378,5 @@ module Prawn
         end
       end
     end
-  end
-end
-
-
-class String
-  def first_line
-    self.each_line { |line| return line }
   end
 end

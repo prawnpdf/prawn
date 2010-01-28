@@ -495,6 +495,20 @@ describe 'Text::Box wrapping' do
                                           :document => @pdf)
     @text_box.render
     @text_box.text.should == expect
+  end
+
+  it "should wrap lines comprised of a single word of the bounds when wrapping text" do
+    text = '©' * 30
+    expect = "\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\251\n\251\251\251\251\251"
+
+    @pdf = Prawn::Document.new
+    @pdf.font "Courier"
+    @text_box = Prawn::Text::Box.new(text,
+                                          :width    => 180,
+                                          :overflow => :expand,
+                                          :document => @pdf)
+    @text_box.render
+    @text_box.text.should == expect
   end     
   
 end
