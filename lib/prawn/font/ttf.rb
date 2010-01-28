@@ -5,6 +5,10 @@ module Prawn
   class Font
     class TTF < Font
       attr_reader :ttf, :subsets
+
+      def unicode?
+        true
+      end
       
       def initialize(document, name, options={})
         super

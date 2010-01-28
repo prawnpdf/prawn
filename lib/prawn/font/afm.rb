@@ -8,6 +8,10 @@ module Prawn
                       Times-Bold Times-Italic Times-BoldItalic
                       Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique ]
 
+      def unicode?
+        false
+      end
+
       def self.metrics_path
         if m = ENV['METRICS']
           @metrics_path ||= m.split(':')
