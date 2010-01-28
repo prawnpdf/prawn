@@ -233,107 +233,118 @@ end
 
   
 describe 'Text::Box wrapping' do
-  
+  before(:each) do
+    create_pdf
+  end
 
   it "should wrap text" do
     text = "Please wrap this text about HERE. More text that should be wrapped"
     expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
+    text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :document => @pdf)
-    @text_box.render
-    @text_box.text.should == expect
+    text_box.render
+    text_box.text.should == expect
   end
 
   it "should respect end of line when wrapping text" do
     text = "Please wrap only before\nTHIS word. Don't wrap this"
     expect = text
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
+    text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :document => @pdf)
-    @text_box.render
-    @text_box.text.should == expect
+    text_box.render
+    text_box.text.should == expect
   end
 
   it "should respect multiple newlines when wrapping text" do
     text = "Please wrap only before THIS\n\nword. Don't wrap this"
     expect= "Please wrap only before\nTHIS\n\nword. Don't wrap this"
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
+    text_box = Prawn::Text::Box.new(text,
                                           :width    => 200,
                                           :overflow => :expand,
                                           :document => @pdf)
-    @text_box.render
-    @text_box.text.should == expect
+    text_box.render
+    text_box.text.should == expect
   end
 
   it "should respect multiple newlines when wrapping text when those newlines coincide with a line break" do
     text = "Please wrap only before\n\nTHIS word. Don't wrap this"
     expect = text
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
+    text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :document => @pdf)
-    @text_box.render
-    @text_box.text.should == expect
+    text_box.render
+    text_box.text.should == expect
   end
 
   it "should respect initial newlines" do
     text = "\nThis should be on line 2"
     expect = text
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
+    text_box = Prawn::Text::Box.new(text,
                                           :width    => 220,
                                           :overflow => :expand,
                                           :document => @pdf)
-    @text_box.render
-    @text_box.text.should == expect
+    text_box.render
+    text_box.text.should == expect
   end
 
   it "should wrap lines comprised of a single word of the bounds when wrapping text" do
     text = "You_can_wrap_this_text_HERE"
     expect = "You_can_wrap_this_text_HE\nRE"
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text,
+    text_box = Prawn::Text::Box.new(text,
                                           :width    => 180,
                                           :overflow => :expand,
                                           :document => @pdf)
-    @text_box.render
-    @text_box.text.should == expect
+    text_box.render
+    text_box.text.should == expect
   end
 
   it "should wrap lines comprised of a single word of the bounds when wrapping text" do
     text = '©' * 30
 
-    @pdf = Prawn::Document.new
     @pdf.font "Courier"
-    @text_box = Prawn::Text::Box.new(text, :width => 180,
+    text_box = Prawn::Text::Box.new(text, :width => 180,
                                            :overflow => :expand,
                                            :document => @pdf)
 
-    @text_box.render
+    text_box.render
 
     expected = '©'*25 + "\n" + '©' * 5
     @pdf.font.normalize_encoding!(expected)
 
-    @text_box.text.should == expected
+    text_box.text.should == expected
+  end
+
+  it "should wrap non-unicode strings using single-byte word-wrapping" do
+    text = "continúa esforzandote " * 5
+    text_box = Prawn::Text::Box.new(text, :width => 180,
+                                     :document => @pdf)
+    text_box.render
+    results_with_accent = text_box.text
+
+    text = "continua esforzandote " * 5
+    text_box = Prawn::Text::Box.new(text, :width => 180,
+                                     :document => @pdf)
+    text_box.render
+    results_without_accent = text_box.text
+
+    results_with_accent.first_line.length.should == results_without_accent.first_line.length
   end
   
 end
