@@ -9,8 +9,6 @@
 module Prawn
   module Text
 
-    attr_accessor :default_line_wrap
-
     # Draws the requested text into a box. When the text overflows
     # the rectangle, you can display ellipses, shrink to fit, or
     # truncate the text. Text boxes are independent of the document
