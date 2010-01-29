@@ -9,6 +9,8 @@
 module Prawn
   module Text
 
+    attr_accessor :default_line_wrap
+
     # Draws the requested text into a box. When the text overflows
     # the rectangle, you can display ellipses, shrink to fit, or
     # truncate the text. Text boxes are independent of the document
@@ -62,13 +64,16 @@ module Prawn
     #                           the font size will not be 
     #                           reduced to less than this value, even if it
     #                           means that some text will be cut off). [5]
-    # <tt>:wrap_object</tt>:: <tt>object</tt>. An object used for custom line
-    #                        wrapping. The object must have a line_wrap method
-    #                        that accept a single <tt>line</tt> of text and an 
+    # <tt>:line_wrap</tt>:: <tt>object</tt>. An object used for custom line
+    #                        wrapping on a case by case basis. Note that if you
+    #                        want to change wrapping document-wide, do
+    #                        pdf.default_line_wrap = MyLineWrap.new. Your custom
+    #                        object must have a wrap_line method that accept a
+    #                        single <tt>line</tt> of text and an
     #                        <tt>options</tt> hash and returns the string from 
     #                        that single line that can fit on the line under 
     #                        the conditions defined by <tt>options</tt>. If 
-    #                        omitted, the default wrapping object is used.
+    #                        omitted, the line wrap object is used.
     #                        The options hash passed into the wrap_object proc
     #                        includes the following options: 
     #                        <tt>:width</tt>:: the width available for the
@@ -137,7 +142,7 @@ module Prawn
           @overflow = :truncate
         end
         @min_font_size  = options[:min_font_size] || 5
-        @wrap_object    = options [:wrap_object] || DefaultLineWrap.new
+        @line_wrap    = options [:line_wrap] || @document.default_line_wrap
         @options = @document.text_options.merge(:kerning => options[:kerning],
                                                 :size    => options[:size],
                                                 :style   => options[:style])
@@ -194,7 +199,7 @@ module Prawn
         Text::VALID_TEXT_OPTIONS.dup.concat([:at, :height, :width,
                                              :align, :valign,
                                              :overflow, :min_font_size,
-                                             :wrap_object,
+                                             :line_wrap,
                                              :leading,
                                              :document,
                                              :rotation,
@@ -269,7 +274,7 @@ module Prawn
         while remaining_text &&
               remaining_text.length > 0 &&
               @baseline_y.abs + @descender <= @height
-          line_to_print = @wrap_object.wrap_line(remaining_text.first_line,
+          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
                                                  :document => @document,
                                                  :kerning => @kerning,
                                                  :size => @font_size,
@@ -334,7 +339,7 @@ module Prawn
       end
     end
 
-    class DefaultLineWrap
+    class LineWrap
       def wrap_line(line, options)
         @document = options[:document]
         @size = options[:size]

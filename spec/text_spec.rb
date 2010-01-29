@@ -212,7 +212,17 @@ describe "when drawing text" do
   it "should be able to use a custom word-wrap object" do
     hello = "hello " * 25
     world = "world " * 25
-    @pdf.text(hello + "\n" + world, :wrap_object => TestWordWrap.new)
+    @pdf.text(hello + "\n" + world, :line_wrap => TestWordWrap.new)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == hello.strip
+    text.strings[1].should == world.strip
+  end
+
+  it "should be able to globally set the custom word-wrap object" do
+    hello = "hello " * 25
+    world = "world " * 25
+    @pdf.default_line_wrap = TestWordWrap.new
+    @pdf.text(hello + "\n" + world)
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings[0].should == hello.strip
     text.strings[1].should == world.strip

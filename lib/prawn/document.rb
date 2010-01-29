@@ -219,6 +219,7 @@ module Prawn
        @margin_box    = nil
 
        @text_options = options[:text_options] || {}
+       @default_line_wrap = Prawn::Text::LineWrap.new
 
        @page_number = 0
 
