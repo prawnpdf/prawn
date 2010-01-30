@@ -1,1 +1,18 @@
-More to come
+
+
+
+== Differences from prawn-layout 0.7
+
+- Colspan and rowspan are not yet supported.
+
+- Floating-point calculation of column widths is handled differently than in
+  0.7. In prawn-layout 0.7, column widths were calculated by rounding up to
+  the nearest integral PDF point. In the refactor, exact widths are honored
+  (up to floating-point error), but cell bounding boxes have one point added
+  to their width and height to compensate for floating-point roundoff error.
+
+  For example, given two columns, each of width 12.5 pt with no cell
+  padding, the table width would be 25.0 pt (in 0.7, it would be 13 + 13 =
+  26 pt). The first cell bounding box is anchored at x=0 and is 13.5 pt
+  wide; the second bounding box is anchored at x=12.5 and is 13.5 pt wide. 
+

@@ -155,9 +155,74 @@ describe "Prawn::Table" do
       @table.width.should == @table.cells[0, 0].natural_content_width + pad
     end
 
-    it "should limit tables to the width of the page by default" do
-      @table = @pdf.table([[@long_text]])
-      @table.width.should == @pdf.bounds.width
+    it "width should equal sum(column_widths)" do
+      table = Prawn::Table.new([%w[ a b c ], %w[d e f]], @pdf) do
+        column(0).width = 50
+        column(1).width = 100
+        column(2).width = 150
+      end
+      table.width.should == 300
+    end
+
+    it "should calculate unspecified column widths as "+
+       "(max(string_width) + 2*horizontal_padding)" do
+      hpad, fs = 3, 12
+      columns = 2
+      table = Prawn::Table.new( [%w[ foo b ], %w[d foobar]], @pdf,
+        :cell_style => { :padding => hpad, :font_size => fs } )
+
+      col0_width = @pdf.width_of("foo", :size => fs)
+      col1_width = @pdf.width_of("foobar", :size => fs)
+
+      table.width.should == col0_width + col1_width + 2*columns*hpad
+    end
+
+    it "should allow mixing autocalculated and preset"+
+       "column widths within a single table" do
+      hpad, fs = 10, 6
+      stretchy_columns = 2
+      
+      col0_width = 50
+      col1_width = @pdf.width_of("foo", :size => fs)
+      col2_width = @pdf.width_of("foobar", :size => fs)
+      col3_width = 150
+
+      table = Prawn::Table.new( [%w[snake foo b apple], 
+                                 %w[kitten d foobar banana]], @pdf,
+        :cell_style => { :padding => hpad, :font_size => fs }) do
+
+        column(0).width = col0_width
+        column(3).width = col3_width
+      end
+
+      table.width.should == col1_width + col2_width + 
+                            2*stretchy_columns*hpad + 
+                            col0_width + col3_width
+    end
+
+    it "should not exceed the maximum width of the margin_box" do
+      expected_width = @pdf.margin_box.width
+      data = [
+        ['This is a column with a lot of text that should comfortably exceed '+
+        'the width of a normal document margin_box width', 'Some more text', 
+        'and then some more', 'Just a bit more to be extra sure']
+      ]
+      table = Prawn::Table.new(data, @pdf)
+
+      table.width.should == expected_width
+    end
+
+    it "should not exceed the maximum width of the margin_box even with" +
+      "manual widths specified" do
+      expected_width = @pdf.margin_box.width
+      data = [
+        ['This is a column with a lot of text that should comfortably exceed '+
+        'the width of a normal document margin_box width', 'Some more text', 
+        'and then some more', 'Just a bit more to be extra sure']
+      ]
+      table = Prawn::Table.new(data, @pdf) { column(1).width = 100 }
+
+      table.width.should == expected_width
     end
 
     it "should allow width to be reset even after it has been calculated" do
@@ -202,6 +267,42 @@ describe "Prawn::Table" do
       h = @pdf.height_of("one line")
       (t.height - 10).should.be < h*1.5
     end
+
+    it "should be the width of the :width parameter" do
+      expected_width = 300
+      table = Prawn::Table.new( [%w[snake foo b apple], 
+                                 %w[kitten d foobar banana]], @pdf,
+                               :width => expected_width)
+
+      table.width.should == expected_width
+    end
+
+    it "should not exceed the :width option" do
+      expected_width = 400
+      data = [
+        ['This is a column with a lot of text that should comfortably exceed '+
+        'the width of a normal document margin_box width', 'Some more text', 
+        'and then some more', 'Just a bit more to be extra sure']
+      ]
+      table = Prawn::Table.new(data, @pdf, :width => expected_width)
+
+      table.width.should == expected_width
+    end
+
+    it "should not exceed the :width option even with manual widths specified" do
+      expected_width = 400
+      data = [
+        ['This is a column with a lot of text that should comfortably exceed '+
+        'the width of a normal document margin_box width', 'Some more text', 
+        'and then some more', 'Just a bit more to be extra sure']
+      ]
+      table = Prawn::Table.new(data, @pdf, :width => expected_width) do
+        column(1).width = 100
+      end
+
+      table.width.should == expected_width
+    end
+
   end
 
   describe "Multi-page tables" do
