@@ -62,14 +62,18 @@ module Prawn
     #                           the font size will not be 
     #                           reduced to less than this value, even if it
     #                           means that some text will be cut off). [5]
-    # <tt>:wrap_block</tt>:: <tt>proc</tt>. A proc used for custom line
-    #                        wrapping. The proc must accept a single
-    #                        <tt>line</tt> of text and an <tt>options</tt> hash
-    #                        and return the string from that single line that
-    #                        can fit on the line under the conditions defined by
-    #                        <tt>options</tt>. If omitted, the default wrapping
-    #                        proc is used. The options hash passed into the
-    #                        wrap_block proc includes the following options: 
+    # <tt>:line_wrap</tt>:: <tt>object</tt>. An object used for custom line
+    #                        wrapping on a case by case basis. Note that if you
+    #                        want to change wrapping document-wide, do
+    #                        pdf.default_line_wrap = MyLineWrap.new. Your custom
+    #                        object must have a wrap_line method that accept a
+    #                        single <tt>line</tt> of text and an
+    #                        <tt>options</tt> hash and returns the string from 
+    #                        that single line that can fit on the line under 
+    #                        the conditions defined by <tt>options</tt>. If 
+    #                        omitted, the line wrap object is used.
+    #                        The options hash passed into the wrap_object proc
+    #                        includes the following options: 
     #                        <tt>:width</tt>:: the width available for the
     #                                          current line of text
     #                        <tt>:document</tt>:: the pdf object
@@ -136,7 +140,7 @@ module Prawn
           @overflow = :truncate
         end
         @min_font_size  = options[:min_font_size] || 5
-        @wrap_block     = options [:wrap_block] || default_wrap_block
+        @line_wrap    = options [:line_wrap] || @document.default_line_wrap
         @options = @document.text_options.merge(:kerning => options[:kerning],
                                                 :size    => options[:size],
                                                 :style   => options[:style])
@@ -193,7 +197,7 @@ module Prawn
         Text::VALID_TEXT_OPTIONS.dup.concat([:at, :height, :width,
                                              :align, :valign,
                                              :overflow, :min_font_size,
-                                             :wrap_block,
+                                             :line_wrap,
                                              :leading,
                                              :document,
                                              :rotation,
@@ -268,11 +272,11 @@ module Prawn
         while remaining_text &&
               remaining_text.length > 0 &&
               @baseline_y.abs + @descender <= @height
-          line_to_print = @wrap_block.call(remaining_text.first_line,
-                                           :document => @document,
-                                           :kerning => @kerning,
-                                           :size => @font_size,
-                                           :width => @width)
+          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
+                                                 :document => @document,
+                                                 :kerning => @kerning,
+                                                 :size => @font_size,
+                                                 :width => @width)
 
           if line_to_print.empty? && remaining_text.length > 0
             raise Errors::CannotFit
@@ -331,53 +335,68 @@ module Prawn
           line_to_print[-3..-1] = "..." if line_to_print.length > 3
         end
       end
+    end
 
-      def default_wrap_block
-        lambda do |line, options|
-          scan_pattern = options[:document].font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
-          space_scan_pattern = options[:document].font.unicode? ? /\s/ : /\s/n
-          output = ""
-          accumulated_width = 0
-          line.scan(scan_pattern).each do |segment|
-            segment_width = options[:document].width_of(segment,
-                                                  :size => options[:size],
-                                                  :kerning => options[:kerning])
-            
-            if accumulated_width + segment_width <= options[:width]
-              accumulated_width += segment_width
-              output << segment
-            else
-              # if the line contains white space, don't split the
-              # final word that doesn't fit, just return what fits nicely
-              break if output =~ space_scan_pattern
-              
-              # if there is no white space on the current line, then just
-              # print whatever part of the last segment that will fit on the
-              # line
-              begin
-                segment.unpack("U*").each do |char_int|
-                  char = [char_int].pack("U")
-                  accumulated_width += options[:document].width_of(char,
-                                                  :size => options[:size],
-                                                  :kerning => options[:kerning])
-                  break if accumulated_width >= options[:width]
-                  output << char
-                end
-              rescue
-                # not valid unicode
-                segment.each_char do |char|
-                  accumulated_width += options[:document].width_of(char,
-                                                  :size => options[:size],
-                                                  :kerning => options[:kerning])
-                  break if accumulated_width >= options[:width]
-                  output << char
-                end
-              end
-            end
+    class LineWrap
+      def wrap_line(line, options)
+        @document = options[:document]
+        @size = options[:size]
+        @kerning = options[:kerning]
+        @width = options[:width]
+        @accumulated_width = 0
+        @output = ""
+
+        scan_pattern = @document.font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
+        space_scan_pattern = @document.font.unicode? ? /\s/ : /\s/n
+
+        line.scan(scan_pattern).each do |segment|
+          # yes, this block could be split out into another method, but it is
+          # called on every word printed, so I'm keeping it here for speed
+
+          segment_width = @document.width_of(segment,
+                                             :size => @size,
+                                             :kerning => @kerning)
+
+          if @accumulated_width + segment_width <= @width
+            @accumulated_width += segment_width
+            @output << segment
+          else
+            # if the line contains white space, don't split the
+            # final word that doesn't fit, just return what fits nicely
+            break if @output =~ space_scan_pattern
+            wrap_by_char(segment)
+            break
           end
-          output
+        end
+        @output
+      end
+
+      private
+
+      def wrap_by_char(segment)
+        if @document.font.unicode?
+          segment.unpack("U*").each do |char_int|
+            return unless append_char([char_int].pack("U"))
+          end
+        else
+          segment.each_char do |char|
+            return unless append_char(char)
+          end
+        end
+      end
+
+      def append_char(char)
+        @accumulated_width += @document.width_of(char,
+                                                 :size => @size,
+                                                 :kerning => @kerning)
+        if @accumulated_width >= @width
+          false
+        else
+          @output << char
+          true
         end
       end
     end
+
   end
 end
