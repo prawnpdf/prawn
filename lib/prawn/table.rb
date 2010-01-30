@@ -145,6 +145,8 @@ module Prawn
     protected
 
     def make_cells(data)
+      assert_proper_table_data(data)
+
       cells = []
       
       @row_length = data.length
@@ -160,6 +162,19 @@ module Prawn
         end
       end
       cells
+    end
+
+    def assert_proper_table_data(data)
+      if data.nil? || data.empty?
+        raise Prawn::Errors::EmptyTable,
+          "data must be a non-empty, non-nil, two dimensional array " +
+          "of cell-convertible objects"
+      end
+
+      unless data.all? { |e| Array === e }
+        raise Prawn::Errors::InvalidTableData,
+          "data must be a two dimensional array of Prawn::Cells or strings"
+      end
     end
 
     def draw_header
