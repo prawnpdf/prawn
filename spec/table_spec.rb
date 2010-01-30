@@ -139,168 +139,172 @@ describe "Prawn::Table" do
       @long_text = "The quick brown fox jumped over the lazy dogs. " * 5
     end
 
-    it "should raise an error if the given width is outside of range" do
-      lambda do
-        @pdf.table([["foo"]], :width => 1)
-      end.should.raise(Prawn::Errors::CannotFit)
+    describe "width" do
+      it "should raise an error if the given width is outside of range" do
+        lambda do
+          @pdf.table([["foo"]], :width => 1)
+        end.should.raise(Prawn::Errors::CannotFit)
 
-      lambda do
-        @pdf.table([[@long_text]], :width => @pdf.bounds.width + 100)
-      end.should.raise(Prawn::Errors::CannotFit)
-    end
-
-    it "should accept the natural width for small tables" do
-      pad = 10 # default padding
-      @table = @pdf.table([["a"]])
-      @table.width.should == @table.cells[0, 0].natural_content_width + pad
-    end
-
-    it "width should equal sum(column_widths)" do
-      table = Prawn::Table.new([%w[ a b c ], %w[d e f]], @pdf) do
-        column(0).width = 50
-        column(1).width = 100
-        column(2).width = 150
-      end
-      table.width.should == 300
-    end
-
-    it "should calculate unspecified column widths as "+
-       "(max(string_width) + 2*horizontal_padding)" do
-      hpad, fs = 3, 12
-      columns = 2
-      table = Prawn::Table.new( [%w[ foo b ], %w[d foobar]], @pdf,
-        :cell_style => { :padding => hpad, :font_size => fs } )
-
-      col0_width = @pdf.width_of("foo", :size => fs)
-      col1_width = @pdf.width_of("foobar", :size => fs)
-
-      table.width.should == col0_width + col1_width + 2*columns*hpad
-    end
-
-    it "should allow mixing autocalculated and preset"+
-       "column widths within a single table" do
-      hpad, fs = 10, 6
-      stretchy_columns = 2
-      
-      col0_width = 50
-      col1_width = @pdf.width_of("foo", :size => fs)
-      col2_width = @pdf.width_of("foobar", :size => fs)
-      col3_width = 150
-
-      table = Prawn::Table.new( [%w[snake foo b apple], 
-                                 %w[kitten d foobar banana]], @pdf,
-        :cell_style => { :padding => hpad, :font_size => fs }) do
-
-        column(0).width = col0_width
-        column(3).width = col3_width
+        lambda do
+          @pdf.table([[@long_text]], :width => @pdf.bounds.width + 100)
+        end.should.raise(Prawn::Errors::CannotFit)
       end
 
-      table.width.should == col1_width + col2_width + 
-                            2*stretchy_columns*hpad + 
-                            col0_width + col3_width
-    end
-
-    it "should not exceed the maximum width of the margin_box" do
-      expected_width = @pdf.margin_box.width
-      data = [
-        ['This is a column with a lot of text that should comfortably exceed '+
-        'the width of a normal document margin_box width', 'Some more text', 
-        'and then some more', 'Just a bit more to be extra sure']
-      ]
-      table = Prawn::Table.new(data, @pdf)
-
-      table.width.should == expected_width
-    end
-
-    it "should not exceed the maximum width of the margin_box even with" +
-      "manual widths specified" do
-      expected_width = @pdf.margin_box.width
-      data = [
-        ['This is a column with a lot of text that should comfortably exceed '+
-        'the width of a normal document margin_box width', 'Some more text', 
-        'and then some more', 'Just a bit more to be extra sure']
-      ]
-      table = Prawn::Table.new(data, @pdf) { column(1).width = 100 }
-
-      table.width.should == expected_width
-    end
-
-    it "should allow width to be reset even after it has been calculated" do
-      @table = @pdf.table([[@long_text]])
-      @table.width
-      @table.width = 100
-      @table.width.should == 100
-    end
-
-    it "should shrink columns evenly when two equal columns compete" do
-      @table = @pdf.table([["foo", @long_text], [@long_text, "foo"]])
-      @table.cells[0, 0].width.should == @table.cells[0, 1].width
-    end
-
-    it "should grow columns evenly when equal deficient columns compete" do
-      @table = @pdf.table([["foo", "foobar"], ["foobar", "foo"]], :width => 500)
-      @table.cells[0, 0].width.should == @table.cells[0, 1].width
-    end
-
-    it "should respect manual widths" do
-      @table = @pdf.table([%w[foo bar baz], %w[baz bar foo]], :width => 500) do
-        column(1).width = 60
-      end
-      @table.column(1).width.should == 60
-      @table.column(0).width.should == @table.column(2).width
-    end
-
-    it "should set all cells in a row to the same height" do
-      @table = @pdf.table([["foo", @long_text]])
-      @table.cells[0, 0].height.should == @table.cells[0, 1].height
-    end
-
-    it "should move y-position to the bottom of the table after drawing" do
-      old_y = @pdf.y
-      table = @pdf.table([["foo"]])
-      @pdf.y.should == old_y - table.height
-    end
-
-    it "should not wrap unnecessarily" do
-      # Test for FP errors and glitches
-      t = @pdf.table([["Bender Bending Rodriguez"]])
-      h = @pdf.height_of("one line")
-      (t.height - 10).should.be < h*1.5
-    end
-
-    it "should be the width of the :width parameter" do
-      expected_width = 300
-      table = Prawn::Table.new( [%w[snake foo b apple], 
-                                 %w[kitten d foobar banana]], @pdf,
-                               :width => expected_width)
-
-      table.width.should == expected_width
-    end
-
-    it "should not exceed the :width option" do
-      expected_width = 400
-      data = [
-        ['This is a column with a lot of text that should comfortably exceed '+
-        'the width of a normal document margin_box width', 'Some more text', 
-        'and then some more', 'Just a bit more to be extra sure']
-      ]
-      table = Prawn::Table.new(data, @pdf, :width => expected_width)
-
-      table.width.should == expected_width
-    end
-
-    it "should not exceed the :width option even with manual widths specified" do
-      expected_width = 400
-      data = [
-        ['This is a column with a lot of text that should comfortably exceed '+
-        'the width of a normal document margin_box width', 'Some more text', 
-        'and then some more', 'Just a bit more to be extra sure']
-      ]
-      table = Prawn::Table.new(data, @pdf, :width => expected_width) do
-        column(1).width = 100
+      it "should accept the natural width for small tables" do
+        pad = 10 # default padding
+        @table = @pdf.table([["a"]])
+        @table.width.should == @table.cells[0, 0].natural_content_width + pad
       end
 
-      table.width.should == expected_width
+      it "width should equal sum(column_widths)" do
+        table = Prawn::Table.new([%w[ a b c ], %w[d e f]], @pdf) do
+          column(0).width = 50
+          column(1).width = 100
+          column(2).width = 150
+        end
+        table.width.should == 300
+      end
+
+      it "should calculate unspecified column widths as "+
+         "(max(string_width) + 2*horizontal_padding)" do
+        hpad, fs = 3, 12
+        columns = 2
+        table = Prawn::Table.new( [%w[ foo b ], %w[d foobar]], @pdf,
+          :cell_style => { :padding => hpad, :font_size => fs } )
+
+        col0_width = @pdf.width_of("foo", :size => fs)
+        col1_width = @pdf.width_of("foobar", :size => fs)
+
+        table.width.should == col0_width + col1_width + 2*columns*hpad
+      end
+
+      it "should allow mixing autocalculated and preset"+
+         "column widths within a single table" do
+        hpad, fs = 10, 6
+        stretchy_columns = 2
+        
+        col0_width = 50
+        col1_width = @pdf.width_of("foo", :size => fs)
+        col2_width = @pdf.width_of("foobar", :size => fs)
+        col3_width = 150
+
+        table = Prawn::Table.new( [%w[snake foo b apple], 
+                                   %w[kitten d foobar banana]], @pdf,
+          :cell_style => { :padding => hpad, :font_size => fs }) do
+
+          column(0).width = col0_width
+          column(3).width = col3_width
+        end
+
+        table.width.should == col1_width + col2_width + 
+                              2*stretchy_columns*hpad + 
+                              col0_width + col3_width
+      end
+
+      it "should not exceed the maximum width of the margin_box" do
+        expected_width = @pdf.margin_box.width
+        data = [
+          ['This is a column with a lot of text that should comfortably exceed '+
+          'the width of a normal document margin_box width', 'Some more text', 
+          'and then some more', 'Just a bit more to be extra sure']
+        ]
+        table = Prawn::Table.new(data, @pdf)
+
+        table.width.should == expected_width
+      end
+
+      it "should not exceed the maximum width of the margin_box even with" +
+        "manual widths specified" do
+        expected_width = @pdf.margin_box.width
+        data = [
+          ['This is a column with a lot of text that should comfortably exceed '+
+          'the width of a normal document margin_box width', 'Some more text', 
+          'and then some more', 'Just a bit more to be extra sure']
+        ]
+        table = Prawn::Table.new(data, @pdf) { column(1).width = 100 }
+
+        table.width.should == expected_width
+      end
+
+      it "should allow width to be reset even after it has been calculated" do
+        @table = @pdf.table([[@long_text]])
+        @table.width
+        @table.width = 100
+        @table.width.should == 100
+      end
+
+      it "should shrink columns evenly when two equal columns compete" do
+        @table = @pdf.table([["foo", @long_text], [@long_text, "foo"]])
+        @table.cells[0, 0].width.should == @table.cells[0, 1].width
+      end
+
+      it "should grow columns evenly when equal deficient columns compete" do
+        @table = @pdf.table([["foo", "foobar"], ["foobar", "foo"]], :width => 500)
+        @table.cells[0, 0].width.should == @table.cells[0, 1].width
+      end
+
+      it "should respect manual widths" do
+        @table = @pdf.table([%w[foo bar baz], %w[baz bar foo]], :width => 500) do
+          column(1).width = 60
+        end
+        @table.column(1).width.should == 60
+        @table.column(0).width.should == @table.column(2).width
+      end
+
+      it "should be the width of the :width parameter" do
+        expected_width = 300
+        table = Prawn::Table.new( [%w[snake foo b apple], 
+                                   %w[kitten d foobar banana]], @pdf,
+                                 :width => expected_width)
+
+        table.width.should == expected_width
+      end
+
+      it "should not exceed the :width option" do
+        expected_width = 400
+        data = [
+          ['This is a column with a lot of text that should comfortably exceed '+
+          'the width of a normal document margin_box width', 'Some more text', 
+          'and then some more', 'Just a bit more to be extra sure']
+        ]
+        table = Prawn::Table.new(data, @pdf, :width => expected_width)
+
+        table.width.should == expected_width
+      end
+
+      it "should not exceed the :width option even with manual widths specified" do
+        expected_width = 400
+        data = [
+          ['This is a column with a lot of text that should comfortably exceed '+
+          'the width of a normal document margin_box width', 'Some more text', 
+          'and then some more', 'Just a bit more to be extra sure']
+        ]
+        table = Prawn::Table.new(data, @pdf, :width => expected_width) do
+          column(1).width = 100
+        end
+
+        table.width.should == expected_width
+      end
+    end
+
+    describe "height" do
+      it "should set all cells in a row to the same height" do
+        @table = @pdf.table([["foo", @long_text]])
+        @table.cells[0, 0].height.should == @table.cells[0, 1].height
+      end
+
+      it "should move y-position to the bottom of the table after drawing" do
+        old_y = @pdf.y
+        table = @pdf.table([["foo"]])
+        @pdf.y.should == old_y - table.height
+      end
+
+      it "should not wrap unnecessarily" do
+        # Test for FP errors and glitches
+        t = @pdf.table([["Bender Bending Rodriguez"]])
+        h = @pdf.height_of("one line")
+        (t.height - 10).should.be < h*1.5
+      end
     end
 
   end
