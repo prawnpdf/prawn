@@ -202,7 +202,9 @@ module Prawn
         @x, @y = point
         @width, @height = options[:width], options[:height]
 	      @stretched_height = nil
-      end     
+      end
+
+      attr_reader :parent
       
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box
