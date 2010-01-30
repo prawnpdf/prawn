@@ -305,6 +305,22 @@ describe "Prawn::Table" do
         h = @pdf.height_of("one line")
         (t.height - 10).should.be < h*1.5
       end
+
+      it "should have a height of n rows" do  
+        data = [["foo"],["bar"],["baaaz"]]
+           
+        vpad = 4
+        origin = @pdf.y
+        @pdf.table data, :cell_style => { :padding => vpad }
+
+        table_height = origin - @pdf.y
+        font_height = @pdf.font.height
+
+        num_rows = data.length
+        table_height.should.be.close(
+          num_rows*font_height + 2*vpad*num_rows, 0.001 )
+      end
+
     end
 
   end
