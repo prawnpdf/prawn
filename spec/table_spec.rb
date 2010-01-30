@@ -421,36 +421,49 @@ describe "Prawn::Table" do
 
   end
 
-end
+  describe "An invalid table" do
+    
+    before(:each) do
+      @pdf = Prawn::Document.new
+      @bad_data = ["Single Nested Array"]
+    end
+    
+    it "should raise error when invalid table data is given" do
+      assert_raises(Prawn::Errors::InvalidTableData) do
+        @pdf.table(@bad_data)
+      end
+    end
 
-describe "An invalid table" do
-  
-  before(:each) do
-    @pdf = Prawn::Document.new
-    @bad_data = ["Single Nested Array"]
+    it "should raise an EmptyTableError with empty table data" do
+      lambda {
+        data = []
+        @pdf = Prawn::Document.new
+        @pdf.table(data)
+      }.should.raise( Prawn::Errors::EmptyTable )
+    end   
+
+    it "should raise an EmptyTableError with nil table data" do
+      lambda {
+        data = nil
+        @pdf = Prawn::Document.new
+        @pdf.table(data)
+      }.should.raise( Prawn::Errors::EmptyTable )
+    end   
+
   end
-  
-  it "should raise error when invalid table data is given" do
-    assert_raises(Prawn::Errors::InvalidTableData) do
-      @pdf.table(@bad_data)
+
+  describe "in a column box" do
+    it "should flow to the next column, not the next page" do
+      pdf = Prawn::Document.new do
+        column_box [0, cursor], :width => bounds.width, :columns => 2 do
+          # 35 rows fit on two columns but not one
+          table [["data"]] * 35
+        end
+      end
+
+      pdf.page_count.should == 1
     end
   end
-
-  it "should raise an EmptyTableError with empty table data" do
-    lambda {
-      data = []
-      @pdf = Prawn::Document.new
-      @pdf.table(data)
-    }.should.raise( Prawn::Errors::EmptyTable )
-  end   
-
-  it "should raise an EmptyTableError with nil table data" do
-    lambda {
-      data = nil
-      @pdf = Prawn::Document.new
-      @pdf.table(data)
-    }.should.raise( Prawn::Errors::EmptyTable )
-  end   
 
 end
 

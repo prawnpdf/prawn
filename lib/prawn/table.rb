@@ -124,18 +124,27 @@ module Prawn
       # The cell y-positions are based on an infinitely long canvas. The offset
       # keeps track of how much we have to add to the original, theoretical
       # y-position to get to the actual position on the current page.
-      offset = @pdf.cursor
+      offset = @pdf.y
 
-      bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
+      # Reference bounds are the non-stretchy bounds used to decide when to
+      # flow to a new column / page.
+      ref_bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
+
       @cells.each do |cell|
-        if (cell.y + offset) - cell.height < bounds.bottom
-          # start a new page
-          bounds.move_past_bottom
+        if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom
+          # start a new page or column
+          @pdf.bounds.move_past_bottom
           draw_header
-          offset = @pdf.cursor - cell.y
+          offset = @pdf.y - cell.y
         end
+ 
+        cell.y += offset 
 
-        cell.y += offset
+        # Translate coordinates to the bounds we are in, since drawing is 
+        # relative to the cursor, not ref_bounds.
+        cell.x += @pdf.bounds.left_side - @pdf.bounds.absolute_left
+        cell.y -= @pdf.bounds.absolute_bottom
+
         cell.draw
       end
 
@@ -144,6 +153,7 @@ module Prawn
 
     protected
 
+    
     def make_cells(data)
       assert_proper_table_data(data)
 
