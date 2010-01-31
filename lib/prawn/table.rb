@@ -124,6 +124,10 @@ module Prawn
     #
     attr_writer :header
 
+    # Accepts an Array of alternating row colors to stripe the table.
+    #
+    attr_writer :row_colors
+
     # Sets styles for all cells.
     #
     #   pdf.table(data, :cell_style => { :borders => [:left, :right] })
@@ -174,6 +178,12 @@ module Prawn
         # relative to the cursor, not ref_bounds.
         x += @pdf.bounds.left_side - @pdf.bounds.absolute_left
         y -= @pdf.bounds.absolute_bottom
+
+        # Set background color, if any.
+        if @row_colors && (!@header || cell.row > 0)
+          index = @header ? (cell.row - 1) : cell.row
+          cell.background_color = @row_colors[index % @row_colors.length]
+        end
 
         cell.draw([x, y])
         last_y = y

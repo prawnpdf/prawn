@@ -405,37 +405,23 @@ describe "Prawn::Table" do
   end
 
   describe "row_colors" do
-    xit "should allow array syntax for :row_colors" do
-      data = [["foo"], ["bar"], ['baz']]
+    it "should allow array syntax for :row_colors" do
+      data = [["foo"], ["bar"], ["baz"]]
       pdf = Prawn::Document.new
-      
-      # fill_color() is used to retrieve fill color; ignore it
-      pdf.stubs(:fill_color)
-
-      # Verify that fill_color is called in proper sequence for row colors.
-      seq = sequence('row_colors')
-      %w[cccccc ffffff cccccc].each do |color|
-        pdf.expects(:fill_color).with(color).in_sequence(seq)
-      end
-
-      pdf.table(data, :row_colors => ['cccccc', 'ffffff'])
+      t = pdf.table(data, :row_colors => ['cccccc', 'ffffff'])
+      t.cells.map{|x| x.background_color}.should == %w[cccccc ffffff cccccc]
     end
-      
-    xit "should allow hash syntax for :row_colors" do
-      data = [["foo"], ["bar"], ['baz']]
-      pdf = Prawn::Document.new
-      
-      # fill_color() is used to retrieve fill color; ignore it
-      pdf.stubs(:fill_color)
 
-      # Verify that fill_color is called in proper sequence for row colors.
-      seq = sequence('row_colors')
-      %w[cccccc dddddd eeeeee].each do |color|
-        pdf.expects(:fill_color).with(color).in_sequence(seq)
+    it "should ignore headers" do
+      data = [["header"], ["foo"], ["bar"], ["baz"]]
+      pdf = Prawn::Document.new
+      t = pdf.table(data, :header => true, 
+                    :row_colors => ['cccccc', 'ffffff']) do
+        row(0).background_color = '333333'
       end
 
-      pdf.table(data, :row_colors => {0 => 'cccccc', 1 => 'dddddd', 
-                                      2 => 'eeeeee'})
+      t.cells.map{|x| x.background_color}.should == 
+        %w[333333 cccccc ffffff cccccc]
     end
   end
 
