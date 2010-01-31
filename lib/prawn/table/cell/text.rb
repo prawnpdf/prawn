@@ -14,7 +14,7 @@ module Prawn
       #
       class Text < Cell
 
-        attr_writer :font_size
+        attr_writer :font_size, :color
         
         def initialize(pdf, point, options={})
           super
@@ -73,7 +73,10 @@ module Prawn
             # This could be cleaner pending prawn changes 
             # (bradediger/prawn@font_size) moving size onto Font.
             @pdf.move_down((@font.line_gap + @font.descender)/2)
+            old_color = @pdf.fill_color || '000000'
+            @pdf.fill_color(@color) if @color
             @pdf.text(@content)
+            @pdf.fill_color(old_color)
           end
         end
 
