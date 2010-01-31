@@ -211,17 +211,17 @@ describe "Prawn::Table::Cell" do
   end
 
   describe "color" do
-    it "should set fill color when :color is provided" do
+    it "should set fill color when :text_color is provided" do
       pdf = Prawn::Document.new
       pdf.stubs(:fill_color)
       pdf.expects(:fill_color).with('555555')
-      pdf.cell :content => 'foo', :color => '555555'
+      pdf.cell :content => 'foo', :text_color => '555555'
     end
 
     it "should reset the fill color to the original one" do
       pdf = Prawn::Document.new
       pdf.fill_color = '333333'
-      pdf.cell :content => 'foo', :color => '555555'
+      pdf.cell :content => 'foo', :text_color => '555555'
       pdf.fill_color.should == '333333'
     end
   end

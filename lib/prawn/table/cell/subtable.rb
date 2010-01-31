@@ -23,6 +23,10 @@ module Prawn
           @padding = [0, 0, 0, 0]
         end
 
+        def text_color=(color)
+          @subtable.cells.text_color = color
+        end
+
         def natural_content_width
           @subtable.cells.width
         end
