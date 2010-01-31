@@ -27,6 +27,13 @@ module Prawn
       t
     end
 
+    # Set up, but do not draw, a table. Useful for creating subtables to be
+    # inserted into another Table. Call #draw on the resulting Table to ink it.
+    #
+    def make_table(data, options={}, &block)
+      Table.new(data, self, options, &block)
+    end
+
   end
 
   class Table  
@@ -86,6 +93,25 @@ module Prawn
     #
     def width
       @width ||= [natural_width, @pdf.bounds.width].min
+    end
+
+    # Sets column widths given:
+    #
+    # * Array: [w0, w1, w2, ...]
+    # * Hash: {0 => w0, 1 => w1, ...]
+    # * Numeric: 72
+    #
+    def column_widths=(widths)
+      case widths
+      when Array
+        widths.each_with_index { |w, i| column(i).width = w }
+      when Hash
+        widths.each { |i, w| column(i).width = w }
+      when Numeric
+        columns.width = widths
+      else
+        raise ArgumentError, "cannot interpret column widths"
+      end
     end
 
     # Returns the height of the table in PDF points.
@@ -246,7 +272,6 @@ module Prawn
 
     def set_column_widths
       column_widths.each_with_index do |w, col_num| 
-        # TODO: fix the rounding problems
         column(col_num).width = w
       end
     end
