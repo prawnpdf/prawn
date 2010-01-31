@@ -24,6 +24,22 @@ describe "Prawn::Table" do
       c.row.should == 0
       c.column.should == 0
     end
+
+    it "should allow empty fields" do
+      lambda {
+        data = [["foo","bar"],["baz",""]]
+        @pdf.table(data)
+      }.should.not.raise
+    end   
+
+    # TODO: pending colspan
+    xit "should accurately count columns from data" do
+      # First data row may contain colspan which would hide true column count
+      data = [["Name:",{:text => "Some very long name", :colspan => 5}]]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf
+      table.column_widths.length.should == 6
+    end
   end
 
   describe "#initialize" do
@@ -285,6 +301,27 @@ describe "Prawn::Table" do
 
         table.width.should == expected_width
       end
+
+      # TODO: pending colspan
+      xit "should calculate unspecified column widths even " +
+         "with colspan cells declared" do
+        pdf = Prawn::Document.new
+        hpad, fs = 3, 5
+        columns  = 3
+
+        data = [ [ { :text => 'foo', :colspan => 2 }, "foobar" ],
+                 [ "foo", "foo", "foo" ] ]
+        table = Prawn::Table.new( data, pdf,
+          :horizontal_padding => hpad,
+          :font_size => fs )
+
+        col0_width = pdf.width_of("foo",    :size => fs) # cell 1, 0
+        col1_width = pdf.width_of("foo",    :size => fs) # cell 1, 1
+        col2_width = pdf.width_of("foobar", :size => fs) # cell 0, 1 (at col 2)
+
+        table.width.should == col0_width.ceil + col1_width.ceil +
+                              col2_width.ceil + 2*columns*hpad
+      end
     end
 
     describe "height" do
@@ -329,6 +366,8 @@ describe "Prawn::Table" do
     it "should flow to the next page when hitting the bottom of the bounds" do
       Prawn::Document.new { table([["foo"]] * 30) }.page_count.should == 1
       Prawn::Document.new { table([["foo"]] * 31) }.page_count.should == 2
+      Prawn::Document.new { table([["foo"]] * 31); table([["foo"]] * 31) }.
+        page_count.should == 3
     end
 
     it "should respect the containing bounds" do
@@ -365,6 +404,41 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "row_colors" do
+    xit "should allow array syntax for :row_colors" do
+      data = [["foo"], ["bar"], ['baz']]
+      pdf = Prawn::Document.new
+      
+      # fill_color() is used to retrieve fill color; ignore it
+      pdf.stubs(:fill_color)
+
+      # Verify that fill_color is called in proper sequence for row colors.
+      seq = sequence('row_colors')
+      %w[cccccc ffffff cccccc].each do |color|
+        pdf.expects(:fill_color).with(color).in_sequence(seq)
+      end
+
+      pdf.table(data, :row_colors => ['cccccc', 'ffffff'])
+    end
+      
+    xit "should allow hash syntax for :row_colors" do
+      data = [["foo"], ["bar"], ['baz']]
+      pdf = Prawn::Document.new
+      
+      # fill_color() is used to retrieve fill color; ignore it
+      pdf.stubs(:fill_color)
+
+      # Verify that fill_color is called in proper sequence for row colors.
+      seq = sequence('row_colors')
+      %w[cccccc dddddd eeeeee].each do |color|
+        pdf.expects(:fill_color).with(color).in_sequence(seq)
+      end
+
+      pdf.table(data, :row_colors => {0 => 'cccccc', 1 => 'dddddd', 
+                                      2 => 'eeeeee'})
+    end
+  end
+
   describe "inking" do
     before(:each) do
       @pdf = Prawn::Document.new
@@ -390,6 +464,47 @@ describe "Prawn::Table" do
         cell.y.should.be.close(y, 0.01)
         y -= cell.height
       end
+    end
+
+    it "should output content cell by cell, row by row" do
+      data = [["foo","bar"],["baz","bang"]]
+      @pdf = Prawn::Document.new
+      @pdf.table(data)
+      output = PDF::Inspector::Text.analyze(@pdf.render)
+      output.strings.should == data.flatten
+    end
+
+    it "should not cause an error if rendering the very first row causes a " +
+      "page break" do
+      Prawn::Document.new do
+        arr = Array(1..5).collect{|i| ["cell #{i}"] }
+
+        move_down( y - (bounds.absolute_bottom + 3) )
+
+        lambda {
+          table(arr)
+        }.should.not.raise
+      end
+    end
+  end
+
+  describe "headers" do
+    it "should add headers to output when specified" do
+      data = [["a", "b"], ["foo","bar"],["baz","bang"]]
+      @pdf = Prawn::Document.new
+      @pdf.table(data, :header => true)
+      output = PDF::Inspector::Text.analyze(@pdf.render)   
+      output.strings.should == data.flatten
+    end
+
+    it "should repeat headers across pages" do
+      data = [["foo","bar"]]*30
+      headers = ["baz","foobar"]
+      @pdf = Prawn::Document.new
+      @pdf.table([headers] + data, :header => true)
+      output = PDF::Inspector::Text.analyze(@pdf.render)   
+      output.strings.should == headers + data.flatten[0..-3] + headers +
+        data.flatten[-2..-1]
     end
   end
 
@@ -466,4 +581,6 @@ describe "Prawn::Table" do
   end
 
 end
+
+
 

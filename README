@@ -3,6 +3,10 @@
 
 == Differences from prawn-layout 0.7
 
+- Headers, if any, are included as the first row of table data. The option
+  :header => true indicates that the first row of data should be treated as a
+  header and repeated on every page.
+
 - Colspan and rowspan are not yet supported.
 
 - Floating-point calculation of column widths is handled differently than in
