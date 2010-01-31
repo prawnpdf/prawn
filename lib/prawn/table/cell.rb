@@ -135,12 +135,13 @@ module Prawn
           "subclasses must implement natural_content_height"
       end
 
-      # Draws the cell onto the document.
+      # Draws the cell onto the document. Pass in a point [x,y] to override the
+      # location at which the cell is drawn.
       #
-      def draw
-        draw_background
-        draw_borders
-        @pdf.bounding_box([x + left_padding, y - top_padding], 
+      def draw(pt=[x, y])
+        draw_background(pt)
+        draw_borders(pt)
+        @pdf.bounding_box([pt[0] + left_padding, pt[1] - top_padding], 
                           :width  => content_width + FPTolerance,
                           :height => content_height + FPTolerance) do
           draw_content
@@ -197,7 +198,8 @@ module Prawn
 
       # Draws the cell's background color.
       #
-      def draw_background
+      def draw_background(pt)
+        x, y = pt
         margin = @border_width / 2
         if @background_color
           @pdf.mask(:fill_color) do
@@ -214,7 +216,8 @@ module Prawn
       # setting appropriate padding to ensure the border does not overlap with
       # cell content.
       #
-      def draw_borders
+      def draw_borders(pt)
+        x, y = pt
         return if @border_width <= 0
         # Draw left / right borders one-half border width beyond the center of
         # the corner, so that the corners end up square.

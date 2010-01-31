@@ -456,8 +456,8 @@ describe "Prawn::Table" do
     end
 
     it "should set the y-position of each cell based on heights" do
-      y = @pdf.cursor
-      @table = @pdf.table([["foo"], ["bar"], ["baz"]])
+      y = 0
+      @table = @pdf.make_table([["foo"], ["bar"], ["baz"]])
 
       (0..2).each do |row|
         cell = @table.cells[row, 0]
@@ -485,6 +485,21 @@ describe "Prawn::Table" do
           table(arr)
         }.should.not.raise
       end
+    end
+
+    it "should allow multiple inkings of the same table" do
+      pdf = Prawn::Document.new
+      t = Prawn::Table.new([["foo"]], pdf)
+
+      pdf.expects(:bounding_box).with{|(x, y), options| y.to_i == 495}.yields
+      pdf.expects(:bounding_box).with{|(x, y), options| y.to_i == 395}.yields
+      pdf.expects(:text).with("foo").twice
+
+      pdf.move_cursor_to(500)
+      t.draw
+
+      pdf.move_cursor_to(400)
+      t.draw
     end
   end
 

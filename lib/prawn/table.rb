@@ -84,8 +84,7 @@ module Prawn
     #
     attr_reader :column_length
 
-    # Manually set the width of the table. This is the only way to get a table
-    # wider than the document's bounds.
+    # Manually set the width of the table.
     #
     attr_writer :width
 
@@ -156,6 +155,7 @@ module Prawn
       # flow to a new column / page.
       ref_bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
 
+      last_y = @pdf.y
       @cells.each do |cell|
         if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom
           # start a new page or column
@@ -164,17 +164,22 @@ module Prawn
           offset = @pdf.y - cell.y
         end
  
-        cell.y += offset 
+        # Don't modify cell.x / cell.y here, as we want to reuse the original
+        # values when re-inking the table. #draw should be able to be called
+        # multiple times.
+        x, y = cell.x, cell.y
+        y += offset 
 
         # Translate coordinates to the bounds we are in, since drawing is 
         # relative to the cursor, not ref_bounds.
-        cell.x += @pdf.bounds.left_side - @pdf.bounds.absolute_left
-        cell.y -= @pdf.bounds.absolute_bottom
+        x += @pdf.bounds.left_side - @pdf.bounds.absolute_left
+        y -= @pdf.bounds.absolute_bottom
 
-        cell.draw
+        cell.draw([x, y])
+        last_y = y
       end
 
-      @pdf.move_cursor_to(@cells.last.y - @cells.last.height)
+      @pdf.move_cursor_to(last_y - @cells.last.height)
     end
 
     protected
