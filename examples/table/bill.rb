@@ -12,7 +12,6 @@ Prawn::Document.generate("bill.pdf") do
 
   head = make_table([Headers]) do |t|
     t.column_widths = Widths
-    t.cells.background_color = 'cccccc'
   end
 
   data = []
@@ -26,7 +25,7 @@ Prawn::Document.generate("bill.pdf") do
 
     make_table(rows) do |t|
       t.column_widths = Widths
-      t.cells.style :borders => [], :padding => 2
+      t.cells.style :borders => [:left, :right], :padding => 2
     end
   end
 
@@ -39,6 +38,11 @@ Prawn::Document.generate("bill.pdf") do
 
   # Wrap head and each data element in an Array -- the outer table has only one
   # column.
-  table([[head], *(data.map{|d| [d]})], :header => true)
+  table([[head], *(data.map{|d| [d]})], :header => true,
+        :row_colors => %w[cccccc ffffff]) do
+    
+    row(0).style :background_color => '000000', :text_color => 'ffffff'
+    cells.style :borders => []
+  end
 
 end
