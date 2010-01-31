@@ -8,7 +8,7 @@ the many people who donated to the Ruby Mendicant project:
 http://rubymendicant.wikidot.com 
 
 The project is currently maintained by Gregory Brown, with lots of help from
-the community.
+Prawn's core developers and the community.
 
 == Quick Start
 
@@ -131,6 +131,7 @@ Find us in #prawn on irc.freenode.net
   Gregory Brown: <sandal>
   James Healy: <yob>               
   Brad Ediger: <bradediger>
+  Daniel Nelson: <bluejade>
   
 == Notes to Developers: 
 
