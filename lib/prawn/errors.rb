@@ -71,5 +71,8 @@ module Prawn
     # This error is raised when a block is required, but not provided
     BlockRequired = Class.new(StandardError)
     
+    # This error is rased when a graphics method is called with improper arguments
+    InvalidGraphicsPath = Class.new(StandardError)
+    
   end
 end   
