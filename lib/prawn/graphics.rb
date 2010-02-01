@@ -91,20 +91,23 @@ module Prawn
     # polygon_rounded though that method might take some thoughtful mathematics to create.
     def rectangle_rounded(point,width,height,radius)
       x,y = point
+      w, h = width, height
       l1 = radius * KAPPA
-      y1 = y-radius+l1
-      x1 = x+radius-l1
-      x2 = x+width-radius+l1
-      y2 = y-height+radius-l1
-      move_to [x+radius, y]
-      line_to [x+width-radius,y]
-      curve_to [x+width,y-radius], :bounds => [[x2,y],[x+width,y1]]
-      line_to [x+width,y-height+radius]
-      curve_to [x+width-radius,y-height], :bounds => [[x+width,y2],[x2,y-height]]
-      line_to [x+radius,y-height]
-      curve_to [x,y-height+radius], :bounds => [[x1,y-height],[x,y2]]
-      line_to [x,y-radius]
-      curve_to [x+radius,y], :bounds => [[x,y1],[x1,y]]
+      xl, xr = x + radius, x + w - radius
+      x1, x2 = xl - l1, xr + l1
+      yt, yb = y - radius, y - h + radius
+      y1, y2 = yt + l1, yb - l1
+      p1, p2, p3, p4, p5, p6, p7, p8 = [xl, y], [xr, y], [x + w, yt], [x + w, yb], 
+                                       [xr, y - h], [xl, y - h], [x, yb], [x, yt]
+      move_to p1
+      line_to p2
+      curve_to p3, :bounds => [[x2,y],[x + w,y1]]
+      line_to p4
+      curve_to p5, :bounds => [[x + w,y2],[x2,y - h]]
+      line_to p6
+      curve_to p7, :bounds => [[x1,y - h],[x,y2]]
+      line_to p8
+      curve_to p1, :bounds => [[x,y1],[x1,y]]
     end
 
     ###########################################################
