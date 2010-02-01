@@ -80,6 +80,32 @@ module Prawn
       x,y = map_to_absolute(point)
       add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
     end
+    
+    # Draws a rounded rectanle given <tt>point</tt>, <tt>width</tt> and
+    # <tt>height</tt> and <tt>radius</tt> for the rounded corner. The rectangle 
+    # is bounded by its upper-left corner.
+    #
+    #    pdf.rectangle_rounded [300,300], 100, 200, 10
+    #
+    # TODO: It is possible that this could actually become a subset of a potential method
+    # polygon_rounded though that method might take some thoughtful mathematics to create.
+    def rectangle_rounded(point,width,height,radius)
+      x,y = point
+      l1 = radius * KAPPA
+      y1 = y-radius+l1
+      x1 = x+radius-l1
+      x2 = x+width-radius+l1
+      y2 = y-height+radius-l1
+      move_to [x+radius, y]
+      line_to [x+width-radius,y]
+      curve_to [x+width,y-radius], :bounds => [[x2,y],[x+width,y1]]
+      line_to [x+width,y-height+radius]
+      curve_to [x+width-radius,y-height], :bounds => [[x+width,y2],[x2,y-height]]
+      line_to [x+radius,y-height]
+      curve_to [x,y-height+radius], :bounds => [[x1,y-height],[x,y2]]
+      line_to [x,y-radius]
+      curve_to [x+radius,y], :bounds => [[x,y1],[x1,y]]
+    end
 
     ###########################################################
     #  Higher level functions: May use relative coords        #
