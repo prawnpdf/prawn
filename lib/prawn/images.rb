@@ -263,6 +263,7 @@ module Prawn
       # channel mixed in with the main image data. The PNG class seperates
       # it out for us and makes it available via the alpha_channel attribute
       if png.alpha_channel
+        min_version 1.4
         smask_obj = ref!(:Type             => :XObject,
                         :Subtype          => :Image,
                         :Height           => png.height,
