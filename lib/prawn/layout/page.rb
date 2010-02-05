@@ -32,7 +32,7 @@ module Prawn
     #  end
     #
     def lazy_bounding_box(*args,&block)
-      map_to_absolute(args[0])  
+      map_to_absolute!(args[0])  
       box = LazyBoundingBox.new(self,*args)
       box.action(&block)
       return box 
