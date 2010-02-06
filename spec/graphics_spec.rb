@@ -131,18 +131,18 @@ describe "When drawing a rounded rectangle" do
     line_points.shift
     @all_coords = []
     line_points.zip(curves).flatten.each_slice(2) {|p| @all_coords << p }
-    @all_coords.unshift original_point
+    @all_coords.unshift @original_point
   end
   
   it "should draw a rectangle by connecting lines with rounded bezier curves" do
-    @all_coords.should == [[90.0, 550.0], [95.523, 550.0], [100.0, 545.523], [100.0, 540.0], 
+    @all_coords.should == [[60.0, 550.0],[90.0, 550.0], [95.523, 550.0], [100.0, 545.523], [100.0, 540.0], 
                            [100.0, 460.0], [100.0, 454.477], [95.523, 450.0], [90.0, 450.0], 
                            [60.0, 450.0], [54.477, 450.0], [50.0, 454.477], [50.0, 460.0], 
                            [50.0, 540.0], [50.0, 545.523], [54.477, 550.0], [60.0, 550.0]]
   end
   
   it "should start and end with the same point" do
-    @originam_point.should == @all_coords.last
+    @original_point.should == @all_coords.last
   end
      
   
