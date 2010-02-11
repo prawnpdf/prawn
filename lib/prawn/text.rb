@@ -32,8 +32,8 @@ module Prawn
     # or its convenience method text_box.
     # 
     # Draws text on the page. Prawn attempts to wrap the text to fit within your
-    # current bounding box (or margin_box if no bounding box is being used
-    # ). Text will flow onto the next page when it reaches the bottom of the
+    # current bounding box (or margin_box if no bounding box is being used).
+    # Text will flow onto the next page when it reaches the bottom of the
     # bounding box. Text wrap in Prawn does not re-flow linebreaks, so if you
     # want fully automated text wrapping, be sure to remove newlines before
     # attempting to draw your string.
@@ -168,7 +168,7 @@ module Prawn
       save_font do
         process_text_options(options)
         font.normalize_encoding!(text) unless @skip_encoding
-        font_size(options[:size]) { draw_text(text, options) }
+        font_size(options[:size]) { draw_text!(text, options) }
       end
     end
 
