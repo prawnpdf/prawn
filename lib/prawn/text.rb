@@ -72,6 +72,9 @@ module Prawn
     #                  size]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
+    # <tt>:indented_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
+    #                                 first line of each paragraph. Omit this
+    #                                 option if you do not want indenting
     # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, or <tt>:right</tt>.
     #                   Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
@@ -97,16 +100,25 @@ module Prawn
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
     #
-    def text(text, options={})
+    def text(string, options={})
       # we modify the options. don't change the user's hash
       options = options.dup
       inspect_options_for_text(options)
-      remaining_text = fill_text_box(text, options)
-      while remaining_text.length > 0
-        @bounding_box.move_past_bottom
-        previous_remaining_text = remaining_text
-        remaining_text = fill_text_box(remaining_text, options)
-        break if remaining_text == previous_remaining_text
+
+      if options[:indent_paragraphs].nil?
+        remaining_text = fill_text_box(string, options)
+        draw_remaining_text_on_new_pages(remaining_text, options)
+      else
+        string.split("\n").each do |paragraph|
+          remaining_text = draw_indented_line(paragraph, options)
+          if remaining_text == paragraph
+            # we were too close to the bottom of the page to print even one line
+            @bounding_box.move_past_bottom
+            remaining_text = draw_indented_line(paragraph, options)
+          end
+          remaining_text = fill_text_box(remaining_text, options)
+          draw_remaining_text_on_new_pages(remaining_text, options)
+        end
       end
     end
 
@@ -173,6 +185,21 @@ module Prawn
     end
 
     private
+
+    def draw_remaining_text_on_new_pages(remaining_text, options)
+      while remaining_text.length > 0
+        @bounding_box.move_past_bottom
+        previous_remaining_text = remaining_text
+        remaining_text = fill_text_box(remaining_text, options)
+        break if remaining_text == previous_remaining_text
+      end
+    end
+
+    def draw_indented_line(string, options)
+      indent(options[:indent_paragraphs]) do
+        fill_text_box(string, options.dup.merge(:single_line => true))
+      end
+    end
 
     def fill_text_box(text, options)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :

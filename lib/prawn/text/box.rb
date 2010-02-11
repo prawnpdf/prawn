@@ -129,6 +129,7 @@ module Prawn
         @leading         = options[:leading] || 0
         @rotation        = options[:rotation] || 0
         @rotate_around   = options[:rotate_around] || :upper_left
+        @single_line     = options[:single_line]
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -201,7 +202,8 @@ module Prawn
                                              :leading,
                                              :document,
                                              :rotation,
-                                             :rotate_around])
+                                             :rotate_around,
+                                             :single_line])
       end
 
       def process_vertical_alignment(string)
@@ -288,6 +290,7 @@ module Prawn
                             remaining_text.length > 0)
           printed_text << print_line(line_to_print, print_ellipses)
           @baseline_y -= (@line_height + @leading)
+          break if @single_line
         end
 
         @text = printed_text.join("\n") if @inked

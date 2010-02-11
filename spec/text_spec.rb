@@ -220,6 +220,49 @@ describe "#text" do
     text.strings[0].should == hello.strip
     text.strings[1].should == world.strip
   end
+
+  describe "with :indent_paragraphs option" do
+    it "should indent the paragraphs" do
+      hello = "hello " * 50
+      hello2 = "hello " * 50
+      @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings[0].should == ("hello " * 19).strip
+      text.strings[1].should == ("hello " * 21).strip
+      text.strings[3].should == ("hello " * 19).strip
+      text.strings[4].should == ("hello " * 21).strip
+    end
+    describe "when wrap to new page, and first line of new page" +
+             " is not the start of a new paragraph, that line should" +
+             " not be indented" do
+      it "should indent the paragraphs" do
+        hello = "hello " * 50
+        hello2 = "hello " * 50
+        @pdf.y = @pdf.font.height + @pdf.bounds.absolute_bottom
+        @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
+        text = PDF::Inspector::Text.analyze(@pdf.render)
+        text.strings[0].should == ("hello " * 19).strip
+        text.strings[1].should == ("hello " * 21).strip
+        text.strings[3].should == ("hello " * 19).strip
+        text.strings[4].should == ("hello " * 21).strip
+      end
+    end
+    describe "when wrap to new page, and first line of new page" +
+             " is the start of a new paragraph, that line should" +
+             " be indented" do
+      it "should indent the paragraphs" do
+        hello = "hello " * 50
+        hello2 = "hello " * 50
+        @pdf.y = @pdf.font.height * 3 + @pdf.bounds.absolute_bottom
+        @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
+        text = PDF::Inspector::Text.analyze(@pdf.render)
+        text.strings[0].should == ("hello " * 19).strip
+        text.strings[1].should == ("hello " * 21).strip
+        text.strings[3].should == ("hello " * 19).strip
+        text.strings[4].should == ("hello " * 21).strip
+      end
+    end
+  end
 end
 
 class TestWordWrap

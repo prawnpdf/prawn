@@ -35,6 +35,19 @@ describe "Text::Box#render" do
   end
 end
 
+describe "Text::Box#render(:single_line => true)" do
+  it "should draw only one line to the page" do
+    create_pdf
+    @text = "Oh hai text rect. " * 10
+    @options = { :document => @pdf,
+                 :single_line => true }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render()
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.length.should == 1
+  end
+end
+
 describe "Text::Box#render(:dry_run => true)" do
   it "should not draw any content to the page" do
     create_pdf
