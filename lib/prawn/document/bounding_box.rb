@@ -217,7 +217,7 @@ module Prawn
       # 
       # Example, position some text 3 pts from the left of the containing box:
       # 
-      #  text_at('hello', :at => [(bounds.left + 3), 0])
+      #  draw_text('hello', :at => [(bounds.left + 3), 0])
       #
       def left
         0
@@ -248,7 +248,7 @@ module Prawn
       # 
       # Example, position some text 3 pts from the right of the containing box:
       # 
-      #  text_at('hello', :at => [(bounds.right - 3), 0])
+      #  draw_text('hello', :at => [(bounds.right - 3), 0])
       #
       def right
         @width
@@ -258,7 +258,7 @@ module Prawn
       #
       # Example, position some text 3 pts from the top of the containing box:
       # 
-      #  text_at('hello', :at => [0, (bounds.top - 3)])
+      #  draw_text('hello', :at => [0, (bounds.top - 3)])
       #
       def top
         height
@@ -268,7 +268,7 @@ module Prawn
       #
       # Example, position some text 3 pts from the bottom of the containing box:
       # 
-      #  text_at('hello', :at => [0, (bounds.bottom + 3)])
+      #  draw_text('hello', :at => [0, (bounds.bottom + 3)])
       #
       def bottom
         0

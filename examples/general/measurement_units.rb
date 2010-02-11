@@ -34,13 +34,13 @@ units.each_with_index do |unit, unit_index| #iterate through all units that make
   temp << "1#{unit} => #{one_unit_in_pt}pt\n" #puts converted unit in points
   
   offset = offset_multiplier * unit_index
-  pdf.text_at units[unit_index], :at => [offset + 0.5.mm, pdf.bounds.top - 2.mm]
+  pdf.draw_text units[unit_index], :at => [offset + 0.5.mm, pdf.bounds.top - 2.mm]
   
   pdf.stroke_line(offset, pdf.bounds.top, offset, pdf.bounds.bottom)
   
   0.upto(((pdf.bounds.height - 5.mm) / one_unit_in_pt).to_i) do |i| # checks, how many strokes can be drawn
     pdf.stroke_line(offset, i * one_unit_in_pt, (i % 5 == 0 ? 6.mm : 3.mm) + offset, i * one_unit_in_pt) # every fifth stroke is twice as large like on a real ruler
-    pdf.text_at "#{i}#{unit}", :at => [7.mm + offset, i * one_unit_in_pt] unless unit == "mm" && i % 5 != 0 || unit == "pt" && i % 10 != 0 # avoid text too close to each other
+    pdf.draw_text "#{i}#{unit}", :at => [7.mm + offset, i * one_unit_in_pt] unless unit == "mm" && i % 5 != 0 || unit == "pt" && i % 10 != 0 # avoid text too close to each other
   end    
 end
 

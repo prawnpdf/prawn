@@ -113,8 +113,8 @@ module Prawn
     # Draws text on the page, beginning at the point specified by the :at option
     # the string is assumed to be pre-formatted to properly fit the page.
     # 
-    #   pdf.text_at "Hello World", :at => [100,100]
-    #   pdf.text_at "Goodbye World", :at => [50,50], :size => 16
+    #   pdf.draw_text "Hello World", :at => [100,100]
+    #   pdf.draw_text "Goodbye World", :at => [50,50], :size => 16
     #
     # If your font contains kerning pairs data that Prawn can parse, the 
     # text will be kerned by default.  You can disable this feature by passing
@@ -158,10 +158,10 @@ module Prawn
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option omitted
     # Raises <tt>ArgumentError</tt> if <tt>:align</tt> option included
     #
-    def text_at(text, options)
+    def draw_text(text, options)
       # we modify the options. don't change the user's hash
       options = options.dup
-      inspect_options_for_text_at(options)
+      inspect_options_for_draw_text(options)
       # dup because normalize_encoding changes the string
       text = text.to_s.dup
       options = @text_options.merge(options)
@@ -193,11 +193,11 @@ module Prawn
       remaining_text
     end
 
-    def inspect_options_for_text_at(options)
+    def inspect_options_for_draw_text(options)
       if options[:at].nil?
-        raise ArgumentError, "The :at option is required for text_at"
+        raise ArgumentError, "The :at option is required for draw_text"
       elsif options[:align]
-        raise ArgumentError, "The :align option does not work with text_at"
+        raise ArgumentError, "The :align option does not work with draw_text"
       end
       valid_options = VALID_TEXT_OPTIONS.dup.concat([:at, :rotate])
       Prawn.verify_options(valid_options, options)
@@ -206,7 +206,7 @@ module Prawn
     def inspect_options_for_text(options)
       if options[:at]
         raise ArgumentError, ":at is no longer a valid option with text." +
-                             "use text_at or text_box instead"
+                             "use draw_text or text_box instead"
       end
       options[:final_gap] = options[:final_gap].nil? || options[:final_gap]
       options[:document] = self

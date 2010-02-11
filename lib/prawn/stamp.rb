@@ -22,7 +22,7 @@ module Prawn
   # Example:
   #   pdf.create_stamp("my_stamp") {
   #     pdf.fill_circle_at([10, 15], :radius => 5)
-  #     pdf.text_at("hello world", :at => [20, 10])
+  #     pdf.draw_text("hello world", :at => [20, 10])
   #   }
   #   pdf.stamp("my_stamp")
   #
@@ -72,7 +72,7 @@ module Prawn
     # Example:
     #   pdf.create_stamp("my_stamp") {
     #     pdf.fill_circle_at([10, 15], :radius => 5)
-    #     pdf.text_at("hello world", :at => [20, 10])
+    #     pdf.draw_text("hello world", :at => [20, 10])
     #   }
     #
     def create_stamp(name, &block)

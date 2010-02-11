@@ -112,7 +112,7 @@ module Prawn
     #     # self here is set to the newly instantiated Prawn::Document
     #     # and so any variables in the outside scope are unavailable
     #     font "Times-Roman"
-    #     text_at "Hello World", :at => [200,720], :size => 32
+    #     draw_text "Hello World", :at => [200,720], :size => 32
     #   end
     #
     # If you need to access your local and instance variables, use the explicit
@@ -124,7 +124,7 @@ module Prawn
     #   Prawn::Document.generate "example.pdf" do |pdf|
     #     # self here is left alone
     #     pdf.font "Times-Roman"
-    #     pdf.text_at content, :at => [200,720], :size => 32
+    #     pdf.draw_text content, :at => [200,720], :size => 32
     #   end
     #
     def self.generate(filename,options={},&block)
@@ -552,7 +552,7 @@ module Prawn
       page_count.times do |i|
         go_to_page(i+1)
         str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
-        text_at str, :at => position
+        draw_text str, :at => position
       end
     end
 
