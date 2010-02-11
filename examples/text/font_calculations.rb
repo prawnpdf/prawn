@@ -25,9 +25,9 @@ Prawn::Document.generate('font_calculations.pdf') do
     bl = y - bounds.absolute_bottom
 
     stroke_horizontal_rule
-    text "When using text positioned with :at, the baseline is used", :at => [0, bl]
+    text_at "When using text positioned with :at, the baseline is used", :at => [0, bl]
 
-    text "(and the Y-cursor is not moved)", :at => [350, bl]
+    text_at "(and the Y-cursor is not moved)", :at => [350, bl]
 
     colors = { :ascender    => "ff0000", 
                :descender   => "00ff00",
@@ -57,7 +57,7 @@ Prawn::Document.generate('font_calculations.pdf') do
     move_down 40
 
     bl = y - bounds.absolute_bottom
-    text "The quick brown fox jumps over the lazy dog.", :at => [0, bl]
+    text_at "The quick brown fox jumps over the lazy dog.", :at => [0, bl]
 
     stroke_color colors[:ascender]
     stroke_line [0, bl], [0, bl + font.ascender]

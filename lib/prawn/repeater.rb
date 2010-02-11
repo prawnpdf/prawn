@@ -36,32 +36,32 @@ module Prawn
     #   Prawn::Document.generate("repeat.pdf", :skip_page_creation => true) do
     #
     #     repeat :all do
-    #       text "ALLLLLL", :at => bounds.top_left
+    #       text_at "ALLLLLL", :at => bounds.top_left
     #     end
     #
     #     repeat :odd do
-    #       text "ODD", :at => [0,0]
+    #       text_at "ODD", :at => [0,0]
     #     end
     #
     #     repeat :even do
-    #       text "EVEN", :at => [0,0]
+    #       text_at "EVEN", :at => [0,0]
     #     end
     # 
     #     repeat [1,2] do 
-    #       text "[1,2]", :at => [100,0]
+    #       text_at "[1,2]", :at => [100,0]
     #     end
     #
     #     repeat 2..4 do
-    #       text "2..4", :at => [200,0]
+    #       text_at "2..4", :at => [200,0]
     #     end
     #
     #     repeat(lambda { |pg| pg % 3 == 0 }) do
-    #       text "Every third", :at => [250, 20]
+    #       text_at "Every third", :at => [250, 20]
     #     end
     #
     #     10.times do 
     #       start_new_page
-    #       text "A wonderful page", :at => [400,400]
+    #       text_at "A wonderful page", :at => [400,400]
     #     end
     #
     #   end

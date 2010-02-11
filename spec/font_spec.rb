@@ -12,6 +12,14 @@ describe "Font behavior" do
 
 end    
 
+describe "#font_size" do
+  it "should allow setting font size in DSL style" do
+    create_pdf
+    @pdf.font_size 20
+    @pdf.font_size.should == 20
+  end
+end
+
 describe "font style support" do
   before(:each) { create_pdf }
   

@@ -13,7 +13,7 @@ Prawn::Document.generate("basic_images.pdf", :page_layout => :landscape) do
   stef = "#{Prawn::BASEDIR}/data/images/stef.jpg"
   image stef, :at => [500, 400], :width => 200, :height => 200 
   
-  text "Please enjoy the pigs", :size => 36, :at => [200,15]   
+  text_at "Please enjoy the pigs", :size => 36, :at => [200,15]   
   
   ruport = "#{Prawn::BASEDIR}/data/images/ruport.png"  
   image ruport, :at => [400,200], :width => 150 

@@ -16,7 +16,7 @@ module Prawn
       end
 
       # These should be used as a base. Extensions may build on this list
-      VALID_TEXT_OPTIONS = [:kerning, :size, :style]
+      VALID_TEXT_OPTIONS = [:kerning, :size, :style, :final_gap]
 
       # Low level call to set the current font style and extract text options from
       # an options hash. Should be called from within a save_font block

@@ -7,15 +7,15 @@ require "#{File.dirname(__FILE__)}/../example_helper.rb"
 Prawn::Document.generate("stamp.pdf", :skip_page_creation => true) do
 
   create_stamp("odd_page_template") do
-    text "This is the odd page template", 
-      :at => [0, bounds.top - font.height] 
-    text "This is also in the odd page template", :at => [0, 0] 
+    text_at "This is the odd page template", 
+            :at => [0, bounds.top - font.height] 
+    text_at "This is also in the odd page template", :at => [0, 0] 
   end
 
   create_stamp("even_page_template") do
-    text "This is the even page template", 
-      :at => [0, bounds.top - font.height] 
-    text "This is also in the even page template", :at => [0, 0] 
+    text_at "This is the even page template", 
+            :at => [0, bounds.top - font.height] 
+    text_at "This is also in the even page template", :at => [0, 0] 
   end
   
   start_new_page

@@ -101,7 +101,7 @@ describe "Prawn::Document#transaction" do
 
     it "should properly commit if no error is raised" do
       pdf = Prawn::Document.new do
-        create_stamp("test_stamp") { text "This is shown", :at => [0,0] }
+        create_stamp("test_stamp") { text_at "This is shown", :at => [0,0] }
         transaction do
           stamp("test_stamp")
         end
@@ -111,7 +111,7 @@ describe "Prawn::Document#transaction" do
 
     it "should properly rollback when #rollback is called" do
       pdf = Prawn::Document.new do
-        create_stamp("test_stamp") { text "This is not shown", :at => [0,0] }
+        create_stamp("test_stamp") { text_at "This is not shown", :at => [0,0] }
 
         transaction do
           stamp("test_stamp")

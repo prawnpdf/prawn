@@ -45,7 +45,7 @@ Prawn::Document.generate("win-ansi.pdf") do
         when :center then offset = (total_width - width)/2
         end
 
-        text(field, :at => [dx + offset, y])
+        text_at(field, :at => [dx + offset, y])
       end
 
       dx += total_width
