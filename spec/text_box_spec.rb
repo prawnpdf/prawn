@@ -45,6 +45,14 @@ describe "Text::Box#render(:dry_run => true)" do
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.should.be.empty
   end
+  it "subsequent calls to render should not raise an ArgumentError exception" do
+    create_pdf
+    @text = "™©"
+    @options = { :document => @pdf }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render(:dry_run => true)
+    lambda { text_box.render }.should.not.raise(ArgumentError)
+  end
 end
 
 describe "Text::Box#render with :rotation option of 30)" do

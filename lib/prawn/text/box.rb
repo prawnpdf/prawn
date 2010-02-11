@@ -82,8 +82,8 @@ module Prawn
     #
     # Returns any text that did not print under the current settings
     #
-    def text_box(text, options)
-      Text::Box.new(text, options.merge(:document => self)).render
+    def text_box(string, options)
+      Text::Box.new(string, options.merge(:document => self)).render
     end
 
     # Generally, one would use the text_box convenience method. However, using
@@ -109,28 +109,26 @@ module Prawn
 
       # See Prawn::Text#text_box for valid options
       #
-      def initialize(text, options={})
+      def initialize(string, options={})
         @inked          = false
         Prawn.verify_options(valid_options, options)
-        options         = options.dup
-        @overflow       = options[:overflow] || :truncate
-        # we'll be messing with the strings encoding, don't change the user's
-        # original string
-        @text_to_print  = text.dup
-        @text           = nil
+        options          = options.dup
+        @overflow        = options[:overflow] || :truncate
+        @original_string = string
+        @text            = nil
         
-        @document       = options[:document]
-        @at             = options[:at] ||
-                          [@document.bounds.left, @document.bounds.top]
-        @width          = options[:width] ||
-                          @document.bounds.right - @at[0]
-        @height         = options[:height] ||
-                          @at[1] - @document.bounds.bottom
-        @align          = options[:align] || :left
-        @vertical_align = options[:valign] || :top
-        @leading        = options[:leading] || 0
-        @rotation       = options[:rotation] || 0
-        @rotate_around  = options[:rotate_around] || :upper_left
+        @document        = options[:document]
+        @at              = options[:at] ||
+                           [@document.bounds.left, @document.bounds.top]
+        @width           = options[:width] ||
+                           @document.bounds.right - @at[0]
+        @height          = options[:height] ||
+                           @at[1] - @document.bounds.bottom
+        @align           = options[:align] || :left
+        @vertical_align  = options[:valign] || :top
+        @leading         = options[:leading] || 0
+        @rotation        = options[:rotation] || 0
+        @rotate_around   = options[:rotate_around] || :upper_left
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -157,22 +155,24 @@ module Prawn
       # Returns any text that did not print under the current settings
       #
       def render(flags={})
+        # dup because normalize_encoding changes the string
+        string = @original_string.dup
         unprinted_text = ''
         @document.save_font do
           process_options
 
           unless @document.skip_encoding
-            @document.font.normalize_encoding!(@text_to_print)
+            @document.font.normalize_encoding!(string)
           end
 
           @document.font_size(@font_size) do
-            shrink_to_fit if @overflow == :shrink_to_fit
-            process_vertical_alignment
+            shrink_to_fit(string) if @overflow == :shrink_to_fit
+            process_vertical_alignment(string)
             @inked = true unless flags[:dry_run]
             if @rotation != 0 && @inked
-              unprinted_text = render_rotated(@text_to_print)
+              unprinted_text = render_rotated(string)
             else
-              unprinted_text = _render(@text_to_print)
+              unprinted_text = _render(string)
             end
             @inked = false
           end
@@ -204,9 +204,9 @@ module Prawn
                                              :rotate_around])
       end
 
-      def process_vertical_alignment
+      def process_vertical_alignment(string)
         return if @vertical_align == :top
-        _render(@text_to_print)
+        _render(string)
         case @vertical_align
         when :center
           @at[1] = @at[1] - (@height - height) * 0.5
@@ -218,8 +218,8 @@ module Prawn
 
       # Decrease the font size until the text fits or the min font
       # size is reached
-      def shrink_to_fit
-        while (unprinted_text = _render(@text_to_print)).length > 0 &&
+      def shrink_to_fit(string)
+        while (unprinted_text = _render(string)).length > 0 &&
             @font_size > @min_font_size
           @font_size -= 0.5
           @document.font_size = @font_size
@@ -234,7 +234,7 @@ module Prawn
         @kerning   = @options[:kerning]
       end
 
-      def render_rotated(text_to_print)
+      def render_rotated(string)
         unprinted_text = ''
 
         case @rotate_around
@@ -256,7 +256,7 @@ module Prawn
         end
 
         @document.rotate(@rotation, :origin => [x, y]) do
-          unprinted_text = _render(text_to_print)
+          unprinted_text = _render(string)
         end
         unprinted_text
       end
