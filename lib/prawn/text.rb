@@ -14,15 +14,21 @@ module Prawn
 
     include Prawn::Core::Text
 
-    # Gets height of text in PDF points. See text() for valid options.
+    # Gets height of text in PDF points.
+    # Same options as text(), except as noted.
+    # Not compatible with :indent_paragraphs option
+    #
+    # Raises <tt>Prawn::Errors::UnknownOption</tt> if
+    # <tt>:indent_paragraphs</tt> option included and debug flag is set
     #
     def height_of(string, options={})
+      process_final_gap_option(options)
       box = Text::Box.new(string,
                           options.merge(:height   => 100000000,
                                         :document => self))
       box.render(:dry_run => true)
       height = box.height - box.descender
-      height += box.line_height + box.leading - box.ascender # if final_gap
+      height += box.line_height + box.leading - box.ascender if @final_gap
       height
     end
 
@@ -235,11 +241,19 @@ module Prawn
         raise ArgumentError, ":at is no longer a valid option with text." +
                              "use draw_text or text_box instead"
       end
+      process_final_gap_option(options)
+      process_indent_paragraphs_option(options)
+      options[:document] = self
+    end
+
+    def process_final_gap_option(options)
       @final_gap = options[:final_gap].nil? || options[:final_gap]
       options.delete(:final_gap)
+    end
+
+    def process_indent_paragraphs_option(options)
       @indent_paragraphs = options[:indent_paragraphs]
       options.delete(:indent_paragraphs)
-      options[:document] = self
     end
 
     def move_text_position(dy)
