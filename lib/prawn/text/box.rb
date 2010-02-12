@@ -52,6 +52,8 @@ module Prawn
     #                           or <tt>:lower_left</tt>. The point around which
     #                           to rotate the text [:upper_left]
     # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
+    # <tt>:single_line</tt>:: <tt>boolean</tt>. If true, then only the first
+    #                         line will be drawn [false]
     # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
     #                      <tt>:expand</tt>, or <tt>:ellipses</tt>. This
     #                      controls the behavior when 

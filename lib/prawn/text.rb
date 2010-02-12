@@ -72,9 +72,9 @@ module Prawn
     #                  size]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
-    # <tt>:indented_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
-    #                                 first line of each paragraph. Omit this
-    #                                 option if you do not want indenting
+    # <tt>:indent_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
+    #                               first line of each paragraph. Omit this
+    #                               option if you do not want indenting
     # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, or <tt>:right</tt>.
     #                   Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
@@ -105,10 +105,7 @@ module Prawn
       options = options.dup
       inspect_options_for_text(options)
 
-      if options[:indent_paragraphs].nil?
-        remaining_text = fill_text_box(string, options)
-        draw_remaining_text_on_new_pages(remaining_text, options)
-      else
+      if @indent_paragraphs
         string.split("\n").each do |paragraph|
           remaining_text = draw_indented_line(paragraph, options)
           if remaining_text == paragraph
@@ -119,6 +116,9 @@ module Prawn
           remaining_text = fill_text_box(remaining_text, options)
           draw_remaining_text_on_new_pages(remaining_text, options)
         end
+      else
+        remaining_text = fill_text_box(string, options)
+        draw_remaining_text_on_new_pages(remaining_text, options)
       end
     end
 
@@ -196,7 +196,7 @@ module Prawn
     end
 
     def draw_indented_line(string, options)
-      indent(options[:indent_paragraphs]) do
+      indent(@indent_paragraphs) do
         fill_text_box(string, options.dup.merge(:single_line => true))
       end
     end
@@ -214,7 +214,7 @@ module Prawn
       remaining_text = box.render
 
       self.y -= box.height - box.descender
-      if options[:final_gap]
+      if @final_gap
         self.y -= box.line_height + box.leading - box.ascender
       end
       remaining_text
@@ -235,7 +235,10 @@ module Prawn
         raise ArgumentError, ":at is no longer a valid option with text." +
                              "use draw_text or text_box instead"
       end
-      options[:final_gap] = options[:final_gap].nil? || options[:final_gap]
+      @final_gap = options[:final_gap].nil? || options[:final_gap]
+      options.delete(:final_gap)
+      @indent_paragraphs = options[:indent_paragraphs]
+      options.delete(:indent_paragraphs)
       options[:document] = self
     end
 

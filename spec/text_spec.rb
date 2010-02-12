@@ -238,7 +238,7 @@ describe "#text" do
       it "should indent the paragraphs" do
         hello = "hello " * 50
         hello2 = "hello " * 50
-        @pdf.y = @pdf.font.height + @pdf.bounds.absolute_bottom
+        @pdf.move_cursor_to(@pdf.font.height)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
         text.strings[0].should == ("hello " * 19).strip
@@ -253,7 +253,7 @@ describe "#text" do
       it "should indent the paragraphs" do
         hello = "hello " * 50
         hello2 = "hello " * 50
-        @pdf.y = @pdf.font.height * 3 + @pdf.bounds.absolute_bottom
+        @pdf.move_cursor_to(@pdf.font.height * 3)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
         text.strings[0].should == ("hello " * 19).strip
