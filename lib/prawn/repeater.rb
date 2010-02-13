@@ -67,14 +67,14 @@ module Prawn
     #       draw_text "A wonderful page", :at => [400,400]
     #     end
     #     
-    #     repeat(:all, :dynamic ) do
+    #     repeat(:all, :dynamic => true) do
     #       text page_number, :at => [500, 0]
     #     end
     #
     #   end
     #
-    def repeat(page_filter, dynamic = false, &block)
-      repeaters << Prawn::Repeater.new(self, page_filter, !!dynamic, &block)
+    def repeat(page_filter, options={}, &block)
+      repeaters << Prawn::Repeater.new(self, page_filter, !!options[:dynamic], &block)
     end
   end
 

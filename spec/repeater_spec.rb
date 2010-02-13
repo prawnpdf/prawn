@@ -74,7 +74,11 @@ describe "Repeaters" do
   
   it "must render the block in context of page when dynamic is selected" do
     doc = sample_document
-    doc.repeat(:all, true){text page_number, :at => [500, 0]}
+
+    doc.repeat(:all, :dynamic => true) do 
+      draw_text page_number, :at => [500, 0]
+    end
+
     text = PDF::Inspector::Text.analyze(doc.render)  
     assert_equal (1..10).to_a.map{|p| p.to_s}, text.strings 
   end

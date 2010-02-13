@@ -33,8 +33,8 @@ Prawn::Document.generate("repeat.pdf", :skip_page_creation => true) do
     draw_text "Every third", :at => [250, 20]
   end
   
-  repeat(:all, :dynamic ) do
-    text page_number, :at => [500, 0]
+  repeat(:all, :dynamic => true) do
+    draw_text page_number, :at => [500, 0]
   end
 
   10.times do 
