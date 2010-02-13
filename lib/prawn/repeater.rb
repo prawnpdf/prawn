@@ -31,6 +31,9 @@ module Prawn
     #   some_range  -- repeats on every page included in the range
     #   some_lambda -- yields page number and repeats for true return values 
     #
+    # Also accepts an optional second argument for dynamic content which executes the code 
+    # in the context of the filtered pages without using a Stamp. 
+    #
     # Example:
     #
     #   Prawn::Document.generate("repeat.pdf", :skip_page_creation => true) do
@@ -63,11 +66,15 @@ module Prawn
     #       start_new_page
     #       draw_text "A wonderful page", :at => [400,400]
     #     end
+    #     
+    #     repeat(:all, :dynamic ) do
+    #       text page_number, :at => [500, 0]
+    #     end
     #
     #   end
     #
-    def repeat(page_filter, &block)
-      repeaters << Prawn::Repeater.new(self, page_filter, &block)
+    def repeat(page_filter, dynamic = false, &block)
+      repeaters << Prawn::Repeater.new(self, page_filter, !!dynamic, &block)
     end
   end
 
@@ -82,12 +89,13 @@ module Prawn
 
     attr_reader :name
 
-    def initialize(document, page_filter, &block)
+    def initialize(document, page_filter, dynamic = false, &block)
       @document    = document
       @page_filter = page_filter
+      @dynamic = dynamic
       @stamp_name  = "prawn_repeater(#{Repeater.count})"
-
-      @document.create_stamp(@stamp_name, &block)
+      @document.create_stamp(@stamp_name, &block) unless dynamic
+      @block = block if dynamic
 
       Repeater.count += 1
     end
@@ -108,7 +116,11 @@ module Prawn
     end
 
     def run(page_number)
-      @document.stamp(@stamp_name) if match?(page_number)
+      if !@dynamic
+        @document.stamp(@stamp_name) if match?(page_number)
+      elsif @block
+        @block.arity < 1 ? @document.instance_eval(&@block) : @block[@document]
+      end
     end
 
   end

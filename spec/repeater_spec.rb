@@ -64,11 +64,24 @@ describe "Repeaters" do
     doc.expects(:stamp).never
     repeater(doc, :odd).run(2)
   end
+  
+  it "must not try to run a stamp if dynamic is selected" do
+    doc = sample_document
+
+    doc.expects(:stamp).never
+    (1..10).each { |p| repeater(doc, :all, true){:do_nothing}.run(p) }
+  end
+  
+  it "must render the block in context of page when dynamic is selected" do
+    doc = sample_document
+    doc.repeat(:all, true){text page_number, :at => [500, 0]}
+    text = PDF::Inspector::Text.analyze(doc.render)  
+    assert_equal (1..10).to_a.map{|p| p.to_s}, text.strings 
+  end
 
   def sample_document
     doc = Prawn::Document.new(:skip_page_creation => true)
     10.times { |e| doc.start_new_page }
-    
     doc
   end
 
