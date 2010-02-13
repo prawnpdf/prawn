@@ -4,10 +4,14 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "drawing span" do    
   
-  before(:each) {
+  def setup
     Prawn.debug = false
     create_pdf
-  }   
+  end
+
+  def teardown
+    Prawn.debug = true
+  end
 
   it "should only accept :position as option in debug mode" do
     Prawn.debug = true
