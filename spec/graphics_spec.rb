@@ -120,7 +120,7 @@ end
 describe "When drawing a rounded rectangle" do
   before(:each) do
     create_pdf
-    @pdf.rectangle_rounded([50, 550], 50, 100, 10)
+    @pdf.rounded_rectangle([50, 550], 50, 100, 10)
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     curve_points = []
     curve.coords.each_slice(2) {|p| curve_points << p}

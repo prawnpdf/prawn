@@ -81,13 +81,13 @@ module Prawn
       add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
     end
     
-    # Draws a rounded rectanle given <tt>point</tt>, <tt>width</tt> and
+    # Draws a rounded rectangle given <tt>point</tt>, <tt>width</tt> and
     # <tt>height</tt> and <tt>radius</tt> for the rounded corner. The rectangle 
     # is bounded by its upper-left corner.
     #
-    #    pdf.rectangle_rounded [300,300], 100, 200, 10
+    #    pdf.rounded_rectangle [300,300], 100, 200, 10
     #
-    def rectangle_rounded(point,width,height,radius)
+    def rounded_rectangle(point,width,height,radius)
       x, y = point
       rounded_polygon(radius, point, [x + width, y], [x + width, y - height], [x, y - height])
     end
