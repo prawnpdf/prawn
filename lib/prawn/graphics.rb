@@ -80,6 +80,18 @@ module Prawn
       x,y = map_to_absolute(point)
       add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
     end
+    
+    # Draws a rounded rectanle given <tt>point</tt>, <tt>width</tt> and
+    # <tt>height</tt> and <tt>radius</tt> for the rounded corner. The rectangle 
+    # is bounded by its upper-left corner.
+    #
+    #    pdf.rectangle_rounded [300,300], 100, 200, 10
+    #
+    def rectangle_rounded(point,width,height,radius)
+      x, y = point
+      rounded_polygon(radius, point, [x + width, y], [x + width, y - height], [x, y - height])
+    end
+    
 
     ###########################################################
     #  Higher level functions: May use relative coords        #
@@ -223,6 +235,34 @@ module Prawn
         line_to(*point)
       end
     end
+    
+    # Draws a rounded polygon from specified points using the radius to define bezier curves
+    #
+    #  # draws a rounded filled in polygon
+    #   pdf.fill_and_stroke_rounded_polygon(10, [100, 250], [200, 300], [300, 250],
+    #                 [300, 150], [200, 100], [100, 150])
+    def rounded_polygon(radius, *points)
+      move_to point_on_line(radius, points[1], points[0])
+      sides = points.size
+      points << points[0] << points[1]
+      (sides).times do |i|
+        rounded_vertex(radius, points[i], points[i + 1], points[i + 2])
+      end
+    end
+    
+    
+    # Creates a rounded vertex for a line segment used for building a rounded polygon
+    # requires a radius to define bezier curve and three points. The first two points define
+    # the line segment and the third point helps define the curve for the vertex.
+    def rounded_vertex(radius, *points)
+      x0,y0,x1,y1,x2,y2 = points.flatten
+      radial_point_1 = point_on_line(radius, points[0], points[1])
+      bezier_point_1 = point_on_line((radius - radius*KAPPA), points[0], points[1] )
+      radial_point_2 = point_on_line(radius, points[2], points[1])
+      bezier_point_2 = point_on_line((radius - radius*KAPPA), points[2], points[1])
+      line_to(radial_point_1)
+      curve_to(radial_point_2, :bounds => [bezier_point_1, bezier_point_2])
+    end      
 
     # Strokes and closes the current path. See Graphic::Color for color details
     #
@@ -265,5 +305,17 @@ module Prawn
     def degree_to_rad(angle)
        angle * Math::PI / 180
     end
+    
+    # Returns the coordinates for a point on a line that is a given distance away from the second
+    # point defining the line segement
+    def point_on_line(distance_from_end, *points)
+      x0,y0,x1,y1 = points.flatten
+      length = Math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
+      p = (length - distance_from_end) / length
+      xr = x0 + p*(x1 - x0)
+      yr = y0 + p*(y1 - y0)
+      [xr, yr]
+    end
+    
   end
 end
