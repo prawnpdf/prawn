@@ -32,6 +32,11 @@ module Prawn
      #
      CannotFit = Class.new(StandardError)
 
+     # Raised if group() is called with a block that is too big to be
+     # rendered in the current context.
+     #
+     CannotGroup = Class.new(StandardError) 
+
      # This error is raised when Prawn is being used on a M17N aware VM,
      # and the user attempts to add text that isn't compatible with UTF-8
      # to their document
@@ -70,6 +75,9 @@ module Prawn
 
     # This error is raised when a block is required, but not provided
     BlockRequired = Class.new(StandardError)
+    
+    # This error is rased when a graphics method is called with improper arguments
+    InvalidGraphicsPath = Class.new(StandardError)
     
   end
 end   

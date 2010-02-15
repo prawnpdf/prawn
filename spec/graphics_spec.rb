@@ -113,7 +113,39 @@ describe "When drawing a curve" do
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     curve.coords.should == [100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0]
   end
+  
 
+end
+
+describe "When drawing a rounded rectangle" do
+  before(:each) do
+    create_pdf
+    @pdf.rounded_rectangle([50, 550], 50, 100, 10)
+    curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
+    curve_points = []
+    curve.coords.each_slice(2) {|p| curve_points << p}
+    @original_point = curve_points.shift
+    curves = []
+    curve_points.each_slice(3) {|c| curves << c}
+    line_points = PDF::Inspector::Graphics::Line.analyze(@pdf.render).points
+    line_points.shift
+    @all_coords = []
+    line_points.zip(curves).flatten.each_slice(2) {|p| @all_coords << p }
+    @all_coords.unshift @original_point
+  end
+  
+  it "should draw a rectangle by connecting lines with rounded bezier curves" do
+    @all_coords.should == [[60.0, 550.0],[90.0, 550.0], [95.523, 550.0], [100.0, 545.523], [100.0, 540.0], 
+                           [100.0, 460.0], [100.0, 454.477], [95.523, 450.0], [90.0, 450.0], 
+                           [60.0, 450.0], [54.477, 450.0], [50.0, 454.477], [50.0, 460.0], 
+                           [50.0, 540.0], [50.0, 545.523], [54.477, 550.0], [60.0, 550.0]]
+  end
+  
+  it "should start and end with the same point" do
+    @original_point.should == @all_coords.last
+  end
+     
+  
 end
 
 describe "When drawing an ellipse" do

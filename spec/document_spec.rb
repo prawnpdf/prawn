@@ -312,7 +312,7 @@ describe "The group() feature" do
           100.times { text "Too long" }
         end
       end.render
-    }.should.raise(Prawn::Document::CannotGroup)
+    }.should.raise(Prawn::Errors::CannotGroup)
   end
 
   it "should group within individual column boxes" do

@@ -500,11 +500,6 @@ module Prawn
       fields.each { |f| send("#{f}=", stored[f]) }
     end
 
-    # Raised if group() is called with a block that is too big to be
-    # rendered in the current context.
-    #
-    CannotGroup = Class.new(StandardError) #FIXME: should be in prawn/errors.rb
-
     # Attempts to group the given block vertically within the current context.
     # First attempts to render it in the current position on the current page.
     # If that attempt overflows, it is tried anew after starting a new context
@@ -524,7 +519,7 @@ module Prawn
       success = transaction { yield }
 
       unless success
-        raise CannotGroup if second_attempt
+        raise Prawn::Errors::CannotGroup if second_attempt
         old_bounding_box.move_past_bottom
         group(second_attempt=true) { yield }
       end 
