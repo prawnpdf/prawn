@@ -54,6 +54,7 @@ module Prawn
     # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
     # <tt>:single_line</tt>:: <tt>boolean</tt>. If true, then only the first
     #                         line will be drawn [false]
+    # <tt>:skip_encoding</tt>:: <tt>boolean</tt> [false]
     # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
     #                      <tt>:expand</tt>, or <tt>:ellipses</tt>. This
     #                      controls the behavior when 
@@ -82,7 +83,11 @@ module Prawn
     #                        <tt>:kerning</tt>:: boolean
     #                        <tt>:size</tt>:: the font size
     #
-    # Returns any text that did not print under the current settings
+    # Returns any text that did not print under the current settings.
+    # NOTE: if an AFM font is used, then the returned text is encoded in
+    # WinAnsi. Subsequent calls to text_box that pass this returned text back
+    # into text box must include a :skip_encoding => true option. This is
+    # unnecessary when using TTF fonts because those operate on UTF-8 encoding.
     #
     def text_box(string, options)
       Text::Box.new(string, options.merge(:document => self)).render
@@ -132,6 +137,7 @@ module Prawn
         @rotation        = options[:rotation] || 0
         @rotate_around   = options[:rotate_around] || :upper_left
         @single_line     = options[:single_line]
+        @skip_encoding   = options[:skip_encoding] || @document.skip_encoding
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -164,7 +170,7 @@ module Prawn
         @document.save_font do
           process_options
 
-          unless @document.skip_encoding
+          unless @skip_encoding
             @document.font.normalize_encoding!(string)
           end
 
@@ -205,7 +211,8 @@ module Prawn
                                              :document,
                                              :rotation,
                                              :rotate_around,
-                                             :single_line])
+                                             :single_line,
+                                             :skip_encoding])
       end
 
       def process_vertical_alignment(string)

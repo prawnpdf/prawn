@@ -295,6 +295,56 @@ describe "Text::Box with text than can fit in the box with :ellipses overflow an
   end
 end
 
+
+
+describe "Text::Box printing UTF-8 string with higher bit characters" do
+  before(:each) do
+    create_pdf    
+    @text = "©"
+    # not enough height to print any text, so we can directly compare against
+    # the input string
+    bounding_height = 1.0
+    options = {
+      :height => bounding_height,
+      :document => @pdf
+    }
+    @text_box = Prawn::Text::Box.new(@text, options)
+  end
+  describe "when using a TTF font" do
+    it "unprinted text should be in UTF-8 encoding" do
+      @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+      remaining_text = @text_box.render
+      remaining_text.should == @text
+    end
+    it "subsequent calls to Text::Box need not include the" +
+       " :skip_encoding => true option" do
+      @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+      remaining_text = @text_box.render
+      lambda {
+        @pdf.text_box(remaining_text, :document => @pdf)
+      }.should.not.raise(ArgumentError)
+    end
+  end
+  describe "when using an AFM font" do
+    it "unprinted text should be in WinAnsi encoding" do
+      remaining_text = @text_box.render
+      remaining_text.should == @pdf.font.normalize_encoding(@text)
+    end
+    it "subsequent calls to Text::Box must include the" +
+       " :skip_encoding => true option" do
+      remaining_text = @text_box.render
+      lambda {
+        @pdf.text_box(remaining_text, :document => @pdf)
+      }.should.raise(ArgumentError)
+      lambda {
+        @pdf.text_box(remaining_text, :skip_encoding => true,
+                                      :document => @pdf)
+      }.should.not.raise(ArgumentError)
+    end
+  end
+end
+          
+
 describe "Text::Box with more text than can fit in the box" do
   before(:each) do
     create_pdf    

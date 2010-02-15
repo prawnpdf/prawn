@@ -180,6 +180,28 @@ describe "#text" do
     text.strings.first.should == str
   end
 
+  it "should correctly render a string with higher bit characters across" +
+     " a page break when using a built-in font" do
+    str = "©"
+    @pdf.move_cursor_to(@pdf.font.height)
+    @pdf.text(str + "\n" + str)
+
+    # grab the text from the rendered PDF and ensure it matches
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[1].should == str.strip
+  end
+
+  it "should correctly render a string with higher bit characters across" +
+    " a page break when using a built-in font and :indent_paragraphs option" do
+    str = "©"
+    @pdf.move_cursor_to(@pdf.font.height)
+    @pdf.text(str + "\n" + str, :indent_paragraphs => 20)
+
+    # grab the text from the rendered PDF and ensure it matches
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[1].should == str.strip
+  end
+
   if "spec".respond_to?(:encode!)
     # Handle non utf-8 string encodings in a sane way on M17N aware VMs
     it "should raise an exception when a utf-8 incompatible string is rendered" do

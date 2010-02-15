@@ -113,7 +113,9 @@ module Prawn
 
       if @indent_paragraphs
         string.split("\n").each do |paragraph|
+          options[:skip_encoding] = false
           remaining_text = draw_indented_line(paragraph, options)
+          options[:skip_encoding] = true
           if remaining_text == paragraph
             # we were too close to the bottom of the page to print even one line
             @bounding_box.move_past_bottom
@@ -124,6 +126,7 @@ module Prawn
         end
       else
         remaining_text = fill_text_box(string, options)
+        options[:skip_encoding] = true
         draw_remaining_text_on_new_pages(remaining_text, options)
       end
     end
