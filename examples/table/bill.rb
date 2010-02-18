@@ -16,8 +16,12 @@ Prawn::Document.generate("bill.pdf") do
 
   def row(date, pt, charges, portion_due, balance)
     rows = charges.map { |c| ["", "", c[0], c[1], "", ""] }
+
+    # Date and Patient Name go on the first line.
     rows[0][0] = date
     rows[0][1] = pt
+
+    # Due and Balance go on the last line.
     rows[-1][4] = portion_due
     rows[-1][5] = balance
 

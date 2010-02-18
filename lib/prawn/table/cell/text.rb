@@ -38,7 +38,8 @@ module Prawn
           @font = @pdf.find_font(@font.family, :style => style)
         end
 
-        # Returns the width of this text with no wrapping.
+        # Returns the width of this text with no wrapping. This will be far off
+        # from the final width if the text is long.
         #
         def natural_content_width
           # We have to use the font's width here, not the document's, to account
@@ -81,7 +82,7 @@ module Prawn
           end
         end
 
-        private
+        protected
 
         # Returns a Font object given a Font, a font name, or, if +font+ is nil,
         # the variant of the current font identified by @font_style.

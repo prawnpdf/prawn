@@ -24,17 +24,66 @@ module Prawn
   end
 
   class Table
-    # TODO: doc
+    
+    # A Cell is a rectangular area of the page into which content is drawn. It
+    # has a framework for sizing itself and adding padding and simple styling.
+    # There are several standard Cell subclasses that handle things like text,
+    # Tables, and (in the future) stamps, images, and arbitrary content.
+    #
+    # Cells are a basic building block for table support (see Prawn::Table).
+    #
+    # Please subclass me if you want new content types! I'm designed to be very
+    # extensible. See the different standard Cell subclasses in
+    # lib/prawn/table/cell/*.rb for a template.
+    #
     class Cell
 
+      # Amount of dead space (in PDF points) inside the borders but outside the
+      # content. Padding defaults to 5pt.
+      #
       attr_reader :padding
-      attr_reader :min_width, :max_width
+
+      # If provided, the minimum width that this cell will permit.
+      # 
+      attr_reader :min_width
+      
+      # If provided, the maximum width that this cell can be drawn in.
+      #
+      attr_reader :max_width
+
+      # Manually specify the cell's height.
+      #
       attr_writer :height
-      attr_accessor :borders, :border_width, :border_color, :content, 
-        :background_color
+
+      # Specifies which borders to enable. Must be an array of zero or more of:
+      # <tt>[:left, :right, :top, :bottom]</tt>.
+      #
+      attr_accessor :borders
+
+      # Specifies the width, in PDF points, of the cell's borders.
+      #
+      attr_accessor :border_width
+
+      # Specifies the color of the cell borders. Given in HTML RGB format, e.g.,
+      # "ccffff".
+      #
+      attr_accessor :border_color
+
+      # Specifies the content for the cell. Must be a "cellable" object. See the
+      # "Data" section of the Prawn::Table documentation for details on cellable
+      # objects.
+      #
+      attr_accessor :content 
+
+      # The background color, if any, for this cell. Specified in HTML RGB
+      # format, e.g., "ccffff". The background is drawn under the whole cell,
+      # including any padding.
+      #
+      attr_accessor :background_color
 
       # Instantiates a Cell based on the given options. The particular class of
-      # cell returned depends on the :content argument.
+      # cell returned depends on the :content argument. See the Prawn::Table
+      # documentation under "Data" for allowable content types.
       #
       def self.make(pdf, content, options={})
         at = options.delete(:at) || [0, pdf.cursor]
@@ -58,10 +107,18 @@ module Prawn
 
       # A small amount added to the bounding box width to cover over floating-
       # point errors when round-tripping from content_width to width and back.
+      # This does not change cell positioning; it only slightly expands each
+      # cell's bounding box width so that rounding error does not prevent a cell
+      # from rendering.
       #
       FPTolerance = 1
 
-      # TODO: doc
+      # Sets up a cell on the document +pdf+, at the given x/y location +point+,
+      # with the given +options+. Cell, like Table, follows the "options set
+      # accessors" paradigm (see "Options" under the Table documentation), so
+      # any cell accessor <tt>cell.foo = :bar</tt> can be set by providing the
+      # option <tt>:foo => :bar</tt> here.
+      #
       def initialize(pdf, point, options={})
         @pdf   = pdf
         @point = point
@@ -87,7 +144,7 @@ module Prawn
         @width || (content_width + left_padding + right_padding)
       end
 
-      # Manually sets the cell's width.
+      # Manually sets the cell's width, inclusive of padding.
       #
       def width=(w)
         @width = @min_width = @max_width = w
@@ -196,7 +253,7 @@ module Prawn
         end
       end
 
-      private
+      protected
 
       # Draws the cell's background color.
       #

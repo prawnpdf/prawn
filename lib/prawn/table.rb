@@ -17,9 +17,9 @@ module Prawn
   class Document
     
     # Set up and draw a table on this document. A block can be given, which will
-    # be run prior to layout and drawing.
+    # be run after cell setup but before layout and drawing.
     #
-    # See Prawn::Table#initialize for details on options.
+    # See the documentation on Prawn::Table for details on the arguments.
     #
     def table(data, options={}, &block)
       t = Table.new(data, self, options, &block)
@@ -28,7 +28,9 @@ module Prawn
     end
 
     # Set up, but do not draw, a table. Useful for creating subtables to be
-    # inserted into another Table. Call #draw on the resulting Table to ink it.
+    # inserted into another Table. Call +draw+ on the resulting Table to ink it.
+    #
+    # See the documentation on Prawn::Table for details on the arguments.
     #
     def make_table(data, options={}, &block)
       Table.new(data, self, options, &block)
@@ -36,24 +38,84 @@ module Prawn
 
   end
 
+  # Next-generation table drawing for Prawn.
+  #
+  # = Data
+  #
+  # Data, for a Prawn table, is a two-dimensional array of objects that can be
+  # converted to cells ("cellable" objects). Cellable objects can be:
+  #
+  # String::
+  #   Produces a text cell. This is the most common usage.
+  # Prawn::Table::Cell::
+  #   If you have already built a Cell or have a custom subclass of Cell you
+  #   want to use in a table, you can pass through Cell objects. 
+  # Prawn::Table::
+  #   Creates a subtable (a table within a cell). You can use
+  #   Prawn::Document#make_table to create a table for use as a subtable
+  #   without immediately drawing it. See examples/table/bill.rb for a
+  #   somewhat complex use of subtables.
+  # Array::
+  #   Creates a simple subtable. Create a Table object using make_table (see
+  #   above) if you need more control over the subtable's styling.
+  #
+  # = Options
+  #
+  # Prawn/Layout provides many options to control style and layout of your
+  # table. These options are implemented with a uniform interface: the +:foo+
+  # option always sets the +foo=+ accessor. See the accessor and method
+  # documentation for full details on the options you can pass. Some
+  # highlights:
+  #
+  # +cell_style+::
+  #   A hash of style options to style all cells. See the documentation on
+  #   Prawn::Table::Cell for all cell style options.
+  # +header+::
+  #   If set to +true+, the first row will be repeated on every page. The
+  #   header must be included as the first row of your data. Row numbering
+  #   (for styling and other row-specific options) always indexes based on
+  #   your data array. Whether or not you have a header, row(n) always refers
+  #   to the nth element (starting from 0) of the +data+ array.
+  # +column_widths+:: 
+  #   Sets widths for individual columns. Manually setting widths can give
+  #   better results than letting Prawn guess at them, as Prawn's algorithm
+  #   for defaulting widths is currently pretty boneheaded. If you experience
+  #   problems like weird column widths or CannotFit errors, try manually
+  #   setting widths on more columns.
+  #
+  # = Initializer Block
+  #
+  # If a block is passed to methods that initialize a table
+  # (Prawn::Table.new, Prawn::Document#table, Prawn::Document#make_table), it
+  # will be called after cell setup but before layout. This is a very flexible
+  # way to specify styling and layout constraints. This code sets up a table
+  # where the second through the fourth rows (1-3, indexed from 0) are each one
+  # inch (72 pt) wide:
+  #
+  #   pdf.table(data) do |table|
+  #     table.rows(1..3).width = 72
+  #   end
+  # 
+  # As with Prawn::Document#initialize, if the block has no arguments, it will
+  # be evaluated in the context of the object itself. The above code could be
+  # rewritten as:
+  #
+  #   pdf.table(data) do
+  #     rows(1..3).width = 72
+  #   end
+  #
   class Table  
 
     # Set up a table on the given document. Arguments:
     #
-    # * data: A two-dimensional array of cell-like objects. See below for 
-    # options for this argument.
-    # * document: The Prawn::Document instance on which to draw the table.
-    # * options: A hash of attributes and values for the table. 
-    #
-    # The data array can contain any combination of:
-    #
-    # * String: Produces a text cell.
-    # TODO: more types
-    #
-    # Options can include:
-    #
-    # * cell_style: A hash of style options to style all cells. See the
-    # documentation on Prawn::Table::Cell for all cell style options.
+    # +data+::
+    #   A two-dimensional array of cell-like objects. See the "Data" section
+    #   above for the types of objects that can be put in a table.
+    # +document+::
+    #   The Prawn::Document instance on which to draw the table.
+    # +options+::
+    #   A hash of attributes and values for the table. See the "Options" block
+    #   above for details on available options.
     #
     def initialize(data, document, options={}, &block)
       @pdf = document
@@ -61,12 +123,6 @@ module Prawn
       @header = false
       options.each { |k, v| send("#{k}=", v) }
 
-      # Evaluate the block before laying out the table, to support things like:
-      #
-      #   pdf.table(data) do |table|
-      #     table.rows(1..3).width = 72
-      #   end
-      #
       if block
         block.arity < 1 ? instance_eval(&block) : block[self]
       end
@@ -94,11 +150,16 @@ module Prawn
       @width ||= [natural_width, @pdf.bounds.width].min
     end
 
-    # Sets column widths given:
+    # Sets column widths for the table. The argument can be one of the following
+    # types:
     #
-    # * Array: [w0, w1, w2, ...]
-    # * Hash: {0 => w0, 1 => w1, ...]
-    # * Numeric: 72
+    # +Array+:: 
+    #   <tt>[w0, w1, w2, ...]</tt> (specify a width for each column)
+    # +Hash+:: 
+    #   <tt>{0 => w0, 1 => w1, ...}</tt> (keys are column names, values are
+    #   widths)
+    # +Numeric+::
+    #   +72+ (sets width for all columns)
     #
     def column_widths=(widths)
       case widths
@@ -119,8 +180,9 @@ module Prawn
       cells.height
     end
 
-    # If true, designates the first row as a header row to be repeated on every
-    # page.
+    # If +true+, designates the first row as a header row to be repeated on
+    # every page. Does not change row numbering -- row numbers always index into
+    # the data array provided, with no modification.
     #
     attr_writer :header
 
@@ -136,18 +198,26 @@ module Prawn
       cells.style(style_hash)
     end
 
-    # Allows generic stylable content.
+    # Allows generic stylable content. This is an alternate syntax that some
+    # prefer to the attribute-based syntax. This code using style:
     #
     #   pdf.table(data) do
     #     style(row(0), :background_color => 'ff00ff')
     #     style(column(0)) { |c| c.border_width += 1 }
     #   end
     #
+    # is equivalent to:
+    #
+    #   pdf.table(data) do
+    #     row(0).style :background_color => 'ff00ff'
+    #     column(0).style { |c| c.border_width += 1 }
+    #   end
+    #
     def style(stylable, style_hash={}, &block)
       stylable.style(style_hash, &block)
     end
 
-    # Draws the table onto the document.
+    # Draws the table onto the document at the document's current y-position.
     #
     def draw
       # The cell y-positions are based on an infinitely long canvas. The offset
@@ -194,7 +264,10 @@ module Prawn
 
     protected
 
-    
+    # Converts the array of cellable objects given into instances of
+    # Prawn::Table::Cell, and sets up their in-table properties so that they
+    # know their own position in the table.
+    #
     def make_cells(data)
       assert_proper_table_data(data)
 
@@ -215,6 +288,9 @@ module Prawn
       cells
     end
 
+    # Raises an error if the data provided cannot be converted into a valid
+    # table.
+    #
     def assert_proper_table_data(data)
       if data.nil? || data.empty?
         raise Prawn::Errors::EmptyTable,
@@ -224,10 +300,12 @@ module Prawn
 
       unless data.all? { |e| Array === e }
         raise Prawn::Errors::InvalidTableData,
-          "data must be a two dimensional array of Prawn::Cells or strings"
+          "data must be a two dimensional array of cellable objects"
       end
     end
 
+    # If the table has a header, draw it at the current position.
+    #
     def draw_header
       if @header
         y = @pdf.cursor
@@ -239,14 +317,30 @@ module Prawn
       end
     end
 
+    # Returns an array of each column's natural (unconstrained) width.
+    #
     def natural_column_widths
       @natural_column_widths ||= (0...column_length).map { |c| column(c).width }
     end
 
+    # Returns the "natural" (unconstrained) width of the table. This may be
+    # extremely silly; for example, the unconstrained width of a paragraph of
+    # text is the width it would assume if it were not wrapped at all. Could be
+    # a mile long.
+    #
     def natural_width
       @natural_width ||= natural_column_widths.inject(0) { |sum, w| sum + w }
     end
 
+    # Calculate and return the constrained column widths, taking into account
+    # each cell's min_width, max_width, and any user-specified constraints on
+    # the table or column size.
+    #
+    # Because the natural widths can be silly, this does not always work so well
+    # at guessing a good size for columns that have vastly different content. If
+    # you see weird problems like CannotFit errors or shockingly bad column
+    # sizes, you should specify more column widths manually.
+    #
     def column_widths
       @column_widths ||= begin
         if width < cells.min_width
@@ -281,16 +375,26 @@ module Prawn
       end
     end
 
+    # Returns an array with the height of each row.
+    #
     def row_heights
       @natural_row_heights ||= (0...row_length).map{ |r| row(r).height }
     end
 
+    # Assigns the calculated column widths to each cell. This ensures that each
+    # cell in a column is the same width. After this method is called,
+    # subsequent calls to column_widths and width should return the finalized
+    # values that will be used to ink the table.
+    #
     def set_column_widths
       column_widths.each_with_index do |w, col_num| 
         column(col_num).width = w
       end
     end
 
+    # Assigns the row heights to each cell. This ensures that every cell in a
+    # row is the same height.
+    #
     def set_row_heights
       row_heights.each_with_index { |h, row_num| row(row_num).height = h }
     end

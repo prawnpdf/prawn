@@ -23,26 +23,38 @@ module Prawn
           @padding = [0, 0, 0, 0]
         end
 
+        # Sets the text color of the entire subtable.
+        #
         def text_color=(color)
           @subtable.cells.text_color = color
         end
 
+        # Proxied to subtable.
+        #
         def natural_content_width
           @subtable.cells.width
         end
 
+        # Proxied to subtable.
+        #
         def min_width
           @subtable.cells.min_width
         end
 
+        # Proxied to subtable.
+        #
         def max_width
           @subtable.cells.max_width
         end
 
+        # Proxied to subtable. 
+        #
         def natural_content_height
           @subtable.cells.height
         end
 
+        # Draws the subtable.
+        #
         def draw_content
           @subtable.draw
         end
