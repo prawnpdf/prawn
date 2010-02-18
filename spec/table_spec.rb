@@ -43,35 +43,46 @@ describe "Prawn::Table" do
   end
 
   describe "#initialize" do
+    before(:each) do
+      @pdf = Prawn::Document.new
+    end
+
     it "should instance_eval a 0-arg block" do
-      pdf = Prawn::Document.new
       initializer = mock()
       initializer.expects(:kick).once
 
-      pdf.table([["a"]]){
+      @pdf.table([["a"]]){
         self.should.be.an.instance_of(Prawn::Table); initializer.kick }
     end
 
     it "should call a 1-arg block with the document as the argument" do
-      pdf = Prawn::Document.new
       initializer = mock()
       initializer.expects(:kick).once
 
-      pdf.table([["a"]]){ |doc|
+      @pdf.table([["a"]]){ |doc|
         doc.should.be.an.instance_of(Prawn::Table); initializer.kick }
     end
 
     it "should proxy cell methods to #cells" do
-      pdf = Prawn::Document.new
-      table = pdf.table([["a"]], :cell_style => { :padding => 11 })
+      table = @pdf.table([["a"]], :cell_style => { :padding => 11 })
       table.cells[0, 0].padding.should == [11, 11, 11, 11]
     end
 
     it "should set row and column length" do
-      pdf = Prawn::Document.new
-      table = pdf.table([["a", "b", "c"], ["d", "e", "f"]])
+      table = @pdf.table([["a", "b", "c"], ["d", "e", "f"]])
       table.row_length.should == 2
       table.column_length.should == 3
+    end
+
+    it "should generate a text cell based on a String" do
+      t = @pdf.table([["foo"]])
+      t.cells[0,0].should.be.a.kind_of(Prawn::Table::Cell::Text)
+    end
+
+    it "should pass through a text cell" do
+      c = Prawn::Table::Cell::Text.new(@pdf, [0,0], :content => "foo")
+      t = @pdf.table([[c]])
+      t.cells[0,0].should == c
     end
   end
 

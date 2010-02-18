@@ -41,6 +41,8 @@ module Prawn
         options[:content] = content
 
         case content
+        when Prawn::Table::Cell
+          content
         when String
           Cell::Text.new(pdf, at, options)
         when Prawn::Table
