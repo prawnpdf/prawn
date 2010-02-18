@@ -10,9 +10,7 @@ Prawn::Document.generate("bill.pdf") do
   Headers = ["Date", "Patient Name", "Description", "Charges / Payments", 
              "Patient Portion Due", "Balance"]
 
-  head = make_table([Headers]) do |t|
-    t.column_widths = Widths
-  end
+  head = make_table([Headers], :column_widths => Widths)
 
   data = []
 
@@ -23,10 +21,18 @@ Prawn::Document.generate("bill.pdf") do
     rows[-1][4] = portion_due
     rows[-1][5] = balance
 
-    make_table(rows) do |t|
-      t.column_widths = Widths
-      t.cells.style :borders => [:left, :right], :padding => 2
-    end
+    # Return a Prawn::Table object to be used as a subtable.
+    make_table(rows, :column_widths => Widths, :cell_style => {
+      :borders => [:left, :right], :padding => 2
+    })
+
+    # Equivalent make_table syntax using the attributes API:
+    #
+    # make_table(rows) do
+    #   t.column_widths = Widths
+    #   t.cells.style :borders => [:left, :right], :padding => 2
+    # end
+
   end
 
   data << row("1/1/2010", "", [["Balance Forward", ""]], "0.00", "0.00")
