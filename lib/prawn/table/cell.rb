@@ -27,7 +27,7 @@ module Prawn
     # TODO: doc
     class Cell
 
-      attr_reader :padding, :font
+      attr_reader :padding
       attr_reader :min_width, :max_width
       attr_writer :height
       attr_accessor :borders, :border_width, :border_color, :content, 

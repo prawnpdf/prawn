@@ -14,6 +14,7 @@ module Prawn
       #
       class Text < Cell
 
+        attr_reader :font
         attr_writer :font_size, :text_color
         
         def initialize(pdf, point, options={})
