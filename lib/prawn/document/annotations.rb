@@ -21,9 +21,9 @@ module Prawn
       # +options+ must be a Hash describing the annotation.
       #
       def annotate(options)
-        page.dictionary.data[:Annots] ||= []
+        state.page.dictionary.data[:Annots] ||= []
         options = sanitize_annotation_hash(options)
-        page.dictionary.data[:Annots] << ref!(options)
+        state.page.dictionary.data[:Annots] << ref!(options)
         return options
       end
 
