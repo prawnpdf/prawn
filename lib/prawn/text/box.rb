@@ -99,6 +99,14 @@ module Prawn
     # vertical space was consumed by the printed text
     #
     class Box
+
+      VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + 
+        [:at, :height, :width, :align, :valign,
+         :overflow, :min_font_size, :line_wrap,
+         :leading, :document, :rotation, :rotate_around,
+         :single_line, :skip_encoding]
+
+
       
       # The text that was successfully printed (or, if <tt>dry_run</tt> was
       # used, the test that would have been successfully printed)
@@ -118,7 +126,7 @@ module Prawn
       #
       def initialize(string, options={})
         @inked          = false
-        Prawn.verify_options(valid_options, options)
+        Prawn.verify_options(VALID_OPTIONS, options)
         options          = options.dup
         @overflow        = options[:overflow] || :truncate
         @original_string = string
@@ -201,19 +209,6 @@ module Prawn
       end
 
       private
-
-      def valid_options
-        Text::VALID_TEXT_OPTIONS.dup.concat([:at, :height, :width,
-                                             :align, :valign,
-                                             :overflow, :min_font_size,
-                                             :line_wrap,
-                                             :leading,
-                                             :document,
-                                             :rotation,
-                                             :rotate_around,
-                                             :single_line,
-                                             :skip_encoding])
-      end
 
       def process_vertical_alignment(string)
         return if @vertical_align == :top

@@ -14,6 +14,8 @@ module Prawn
 
     include Prawn::Core::Text
 
+    VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + [:at, :rotate]
+
     # Gets height of text in PDF points.
     # Same options as text(), except as noted.
     # Not compatible with :indent_paragraphs option
@@ -235,8 +237,7 @@ module Prawn
       elsif options[:align]
         raise ArgumentError, "The :align option does not work with draw_text"
       end
-      valid_options = VALID_TEXT_OPTIONS.dup.concat([:at, :rotate])
-      Prawn.verify_options(valid_options, options)
+      Prawn.verify_options(VALID_OPTIONS, options)
     end
 
     def inspect_options_for_text(options)
