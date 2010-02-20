@@ -201,7 +201,7 @@ module Prawn
        end
           
        @version = 1.3
-       @store = ObjectStore.new(options[:info])
+       @store = Prawn::Core::ObjectStore.new(options[:info])
        @trailer = {}
 
        @before_render_callbacks = []

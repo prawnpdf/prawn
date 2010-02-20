@@ -67,11 +67,11 @@ module Prawn
   end
 end
  
-require "prawn/core/page"
 require "prawn/compatibility"
 require "prawn/errors"
+require "prawn/core/page"
+require "prawn/core/object_store"
 require "prawn/pdf_object"
-require "prawn/object_store"
 require "prawn/text"
 require "prawn/graphics"
 require "prawn/images"
