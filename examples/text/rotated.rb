@@ -26,7 +26,7 @@ Prawn::Document.generate "rotated_text.pdf" do |pdf|
                :at => [x, y],
                :width => width,
                :height => height,
-               :rotation => angle,
+               :rotate => angle,
                :rotate_around => :center)
 
   
@@ -43,7 +43,7 @@ Prawn::Document.generate "rotated_text.pdf" do |pdf|
                :at => [x, y],
                :width => width,
                :height => height,
-               :rotation => angle)
+               :rotate => angle)
 
   
   # AROUND THE UPPER_RIGHT_CORNER
@@ -59,7 +59,7 @@ Prawn::Document.generate "rotated_text.pdf" do |pdf|
                :at => [x, y],
                :width => width,
                :height => height,
-               :rotation => angle,
+               :rotate => angle,
                :rotate_around => :upper_right)
 
   
@@ -76,7 +76,7 @@ Prawn::Document.generate "rotated_text.pdf" do |pdf|
                :at => [x, y],
                :width => width,
                :height => height,
-               :rotation => angle,
+               :rotate => angle,
                :rotate_around => :lower_right)
 
   
@@ -93,6 +93,6 @@ Prawn::Document.generate "rotated_text.pdf" do |pdf|
                :at => [x, y],
                :width => width,
                :height => height,
-               :rotation => angle,
+               :rotate => angle,
                :rotate_around => :lower_left)
 end
