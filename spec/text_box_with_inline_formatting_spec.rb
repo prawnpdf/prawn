@@ -2,14 +2,14 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-
-describe "Text::Box#render" do
+describe "Text::Box#render with inline styling" do
   it "should not fail if height is smaller than 1 line" do
     create_pdf
     @text = "Oh hai text rect. " * 10
     @options = {
       :height => @pdf.font.height * 0.5,
-      :document => @pdf
+      :document => @pdf,
+      :inline_format => true
     }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
@@ -18,16 +18,38 @@ describe "Text::Box#render" do
   it "should draw content to the page" do
     create_pdf
     @text = "Oh hai text rect. " * 10
-    @options = { :document => @pdf }
+    @options = { :document => @pdf,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render()
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.should.not.be.empty
   end
+  it "should not draw leading spaces" do
+    create_pdf
+    @text = " " * 500 + "Oh hai text rect."
+    @options = { :document => @pdf,
+                 :inline_format => true }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render()
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.first.should == @text.lstrip
+  end
+  it "should not draw trailing spaces" do
+    create_pdf
+    @text = "Oh hai text rect." + " " * 500
+    @options = { :document => @pdf,
+                 :inline_format => true }
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render()
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.first.should == @text.rstrip
+  end
   it "should not draw a transformation matrix" do
     create_pdf
     @text = "Oh hai text rect. " * 10
-    @options = { :document => @pdf }
+    @options = { :document => @pdf,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render()
     matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
@@ -35,12 +57,13 @@ describe "Text::Box#render" do
   end
 end
 
-describe "Text::Box#render(:single_line => true)" do
+describe "Text::Box#render(:single_line => true) with inline styling" do
   it "should draw only one line to the page" do
     create_pdf
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf,
-                 :single_line => true }
+                 :single_line => true,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render()
     text = PDF::Inspector::Text.analyze(@pdf.render)
@@ -48,11 +71,12 @@ describe "Text::Box#render(:single_line => true)" do
   end
 end
 
-describe "Text::Box#render(:dry_run => true)" do
+describe "Text::Box#render(:dry_run => true) with inline styling" do
   it "should not draw any content to the page" do
     create_pdf
     @text = "Oh hai text rect. " * 10
-    @options = { :document => @pdf }
+    @options = { :document => @pdf,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
     text = PDF::Inspector::Text.analyze(@pdf.render)
@@ -61,14 +85,77 @@ describe "Text::Box#render(:dry_run => true)" do
   it "subsequent calls to render should not raise an ArgumentError exception" do
     create_pdf
     @text = "™©"
-    @options = { :document => @pdf }
+    @options = { :document => @pdf,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
     lambda { text_box.render }.should.not.raise(ArgumentError)
   end
 end
 
-describe "Text::Box#render with :rotation option of 30)" do
+describe "Text::Box#render(:inline_format => true) with inline styling" do
+  it "should be able to set bold" do
+    create_pdf
+    string = "this contains <b>bold</b> text"
+    @pdf.text_box(string, :inline_format => true, :document => @pdf)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    fonts = text.font_settings.map { |e| e[:name] }
+    fonts.should == [:Helvetica, :"Helvetica-Bold", :Helvetica]
+    text.strings[0].should == "this contains "
+    text.strings[1].should == "bold"
+    text.strings[2].should == " text"
+  end
+  it "should be able to set italics" do
+    create_pdf
+    string = "this contains <i>italic</i> text"
+    @pdf.text_box(string, :inline_format => true, :document => @pdf)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    fonts = text.font_settings.map { |e| e[:name] }
+    fonts.should == [:Helvetica, :"Helvetica-Oblique", :Helvetica]
+  end
+  it "should be able to set italics nested within bold" do
+    create_pdf
+    string = "this contains <b><i>bold italic</i></b> text"
+    @pdf.text_box(string, :inline_format => true, :document => @pdf)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    fonts = text.font_settings.map { |e| e[:name] }
+    fonts.should == [:Helvetica, :"Helvetica-BoldOblique", :Helvetica]
+  end
+  it "should be able to set bold nested within italics" do
+    create_pdf
+    string = "this contains <i><b>italic bold</b></i> text"
+    @pdf.text_box(string, :inline_format => true, :document => @pdf)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    fonts = text.font_settings.map { |e| e[:name] }
+    fonts.should == [:Helvetica, :"Helvetica-BoldOblique", :Helvetica]
+  end
+  it "should be able to set underline" do
+  end
+  it "should be able to set strikethrough" do
+  end
+  it "should be able to set links" do
+  end
+  it "should be able to set font size" do
+  end
+  it "should be able to set color" do
+  end
+  it "should work with :align => :right" do
+  end
+  it "should work with :align => :center" do
+  end
+  it "should not carry styles over between calls even when a tag is" +
+     " not closed" do
+  end
+  it "should convert &lt; &gt;, and &amp; to <, >, and &, respectively" do
+    create_pdf
+    string = "&lt;, &gt;, and &amp;"
+    @pdf.text_box(string, :inline_format => true, :document => @pdf)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.first.should == "<, >, and &"
+  end
+end
+
+describe "Text::Box#render with :rotation option of 30) with inline styling" do
   before(:each) do
     create_pdf
     rotation = 30
@@ -83,7 +170,8 @@ describe "Text::Box#render with :rotation option of 30)" do
                  :rotation => rotation,
                  :at => [@x, @y],
                  :width => @width,
-                 :height => @height }
+                 :height => @height,
+                 :inline_format => true }
   end
   context ":rotate_around option of :center" do
     it "should draw content to the page rotated about the center of the text" do
@@ -109,7 +197,8 @@ describe "Text::Box#render with :rotation option of 30)" do
     end
   end
   context ":rotate_around option of :upper_left" do
-    it "should draw content to the page rotated about the upper left corner of the text" do
+    it "should draw content to the page rotated about the upper left corner of" +
+       " the text" do
       @options[:rotate_around] = :upper_left
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render()
@@ -132,7 +221,8 @@ describe "Text::Box#render with :rotation option of 30)" do
     end
   end
   context "default :rotate_around" do
-    it "should draw content to the page rotated about the upper left corner of the text" do
+    it "should draw content to the page rotated about the upper left corner of" +
+       " the text" do
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render()
 
@@ -154,7 +244,8 @@ describe "Text::Box#render with :rotation option of 30)" do
     end
   end
   context ":rotate_around option of :upper_right" do
-    it "should draw content to the page rotated about the upper right corner of the text" do
+    it "should draw content to the page rotated about the upper right corner of" +
+       " the text" do
       @options[:rotate_around] = :upper_right
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render()
@@ -177,7 +268,8 @@ describe "Text::Box#render with :rotation option of 30)" do
     end
   end
   context ":rotate_around option of :lower_right" do
-    it "should draw content to the page rotated about the lower right corner of the text" do
+    it "should draw content to the page rotated about the lower right corner of" +
+        " the text" do
       @options[:rotate_around] = :lower_right
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render()
@@ -200,7 +292,8 @@ describe "Text::Box#render with :rotation option of 30)" do
     end
   end
   context ":rotate_around option of :lower_left" do
-    it "should draw content to the page rotated about the lower left corner of the text" do
+    it "should draw content to the page rotated about the lower left corner of" +
+       " the text" do
       @options[:rotate_around] = :lower_left
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render()
@@ -224,42 +317,46 @@ describe "Text::Box#render with :rotation option of 30)" do
   end
 end
 
-describe "Text::Box default height" do
+describe "Text::Box default height with inline styling" do
   it "should be the height from the bottom bound to document.y" do
     create_pdf
     target_height = @pdf.y - @pdf.bounds.bottom
     @text = "Oh hai\n" * 60
-    @options = { :document => @pdf }
+    @options = { :document => @pdf,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.height.should.be.close(target_height, @pdf.font.height)
   end
 end
 
-describe "Text::Box default at" do
+describe "Text::Box default at with inline styling" do
   it "should be the left corner of the bounds, and the current document.y" do
     create_pdf
     target_at = [@pdf.bounds.left, @pdf.y]
     @text = "Oh hai text rect. " * 100
-    @options = { :document => @pdf }
+    @options = { :document => @pdf,
+                 :inline_format => true }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.at.should == target_at
   end
 end
 
-describe "Text::Box with text than can fit in the box" do
+describe "Text::Box with text than can fit in the box with inline styling" do
   before(:each) do
     create_pdf
     @text = "Oh hai text rect. " * 10
     @options = {
       :width => 162.0,
       :height => 162.0,
-      :document => @pdf
+      :document => @pdf,
+      :inline_format => true
     }
   end
   
-  it "printed text should match requested text, except for trailing or leading white space and that spaces may be replaced by newlines" do
+  it "printed text should match requested text, except for trailing or" +
+     " leading white space and that spaces may be replaced by newlines" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text_box.text.gsub("\n", " ").should == @text.strip
@@ -270,7 +367,8 @@ describe "Text::Box with text than can fit in the box" do
     text_box.render.should == ""
   end
 
-  it "should be truncated when the leading is set high enough to prevent all the lines from being printed" do
+  it "should be truncated when the leading is set high enough to prevent all" +
+     " the lines from being printed" do
     @options[:leading] = 40
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
@@ -278,26 +376,8 @@ describe "Text::Box with text than can fit in the box" do
   end
 end
 
-describe "Text::Box with text than can fit in the box with :ellipses overflow and :valign => :bottom" do
-  it "should not print ellipses" do
-    create_pdf
-    @text = "Oh hai text rect. " * 10
-    @options = {
-      :width => 162.0,
-      :height => 162.0,
-      :overflow => :ellipses,
-      :valign => :bottom,
-      :document => @pdf
-    }
-    @text_box = Prawn::Text::Box.new(@text, @options)
-    @text_box.render
-    @text_box.text.should.not =~ /\.\.\./
-  end
-end
-
-
-
-describe "Text::Box printing UTF-8 string with higher bit characters" do
+describe "Text::Box printing UTF-8 string with higher bit characters with" +
+         " inline styling" do
   before(:each) do
     create_pdf    
     @text = "©"
@@ -306,18 +386,21 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
     bounding_height = 1.0
     options = {
       :height => bounding_height,
-      :document => @pdf
-    }
-    file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
-    @pdf.font_families["Action Man"] = {
-      :normal      => { :file => file, :font => "ActionMan" },
-      :italic      => { :file => file, :font => "ActionMan-Italic" },
-      :bold        => { :file => file, :font => "ActionMan-Bold" },
-      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+      :document => @pdf,
+      :inline_format => true
     }
     @text_box = Prawn::Text::Box.new(@text, options)
   end
   describe "when using a TTF font" do
+    before(:each) do
+      file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+      @pdf.font_families["Action Man"] = {
+        :normal      => { :file => file, :font => "ActionMan" },
+        :italic      => { :file => file, :font => "ActionMan-Italic" },
+        :bold        => { :file => file, :font => "ActionMan-Bold" },
+        :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+      }
+    end
     it "unprinted text should be in UTF-8 encoding" do
       @pdf.font("Action Man")
       remaining_text = @text_box.render
@@ -332,7 +415,7 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       }.should.not.raise(ArgumentError)
     end
   end
-  describe "when using an AFM font" do
+  describe "when using an AFM font with inline styling" do
     it "unprinted text should be in WinAnsi encoding" do
       remaining_text = @text_box.render
       remaining_text.should == @pdf.font.normalize_encoding(@text)
@@ -352,7 +435,7 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
 end
           
 
-describe "Text::Box with more text than can fit in the box" do
+describe "Text::Box with more text than can fit in the box with inline styling" do
   before(:each) do
     create_pdf    
     @text = "Oh hai text rect. " * 30
@@ -360,7 +443,8 @@ describe "Text::Box with more text than can fit in the box" do
     @options = {
       :width => 162.0,
       :height => @bounding_height,
-      :document => @pdf
+      :document => @pdf,
+      :inline_format => true
     }
   end
   
@@ -369,15 +453,12 @@ describe "Text::Box with more text than can fit in the box" do
       @options[:overflow] = :truncate
       @text_box = Prawn::Text::Box.new(@text, @options)
     end
-    it "should not display ellipses" do
-      @text_box.render
-      @text_box.text.should.not =~ /\.\.\./
-    end
     it "should be truncated" do
       @text_box.render
       @text_box.text.gsub("\n", " ").should.not == @text.strip
     end
-    it "render should not return an empty string because some text remains unprinted" do
+    it "render should not return an empty string because some text remains" +
+       " unprinted" do
       @text_box.render.should.not == ""
     end
     it "#height should be no taller than the specified height" do
@@ -407,16 +488,9 @@ describe "Text::Box with more text than can fit in the box" do
   end
   
   context "ellipses overflow" do
-    before(:each) do
+    it "should raise ArgumentError" do
       @options[:overflow] = :ellipses
-      @text_box = Prawn::Text::Box.new(@text, @options)
-    end
-    it "should display ellipses" do
-      @text_box.render
-      @text_box.text.should =~ /\.\.\./
-    end
-    it "render should not return an empty string because some text remains unprinted" do
-      @text_box.render.should.not == ""
+      lambda { Prawn::Text::Box.new(@text, @options) }.should.raise(ArgumentError)
     end
   end
 
@@ -425,15 +499,19 @@ describe "Text::Box with more text than can fit in the box" do
       @options[:overflow] = :expand
       @text_box = Prawn::Text::Box.new(@text, @options)
     end
-    it "height should expand to encompass all the text (but not exceed the height of the page)" do
+    it "height should expand to encompass all the text (but not exceed the" +
+       "height of the page)" do
       @text_box.render
       @text_box.height.should > @bounding_height
     end
-    it "should display the entire string (as long as there was space remaining on the page to print all the text)" do
+    it "should display the entire string (as long as there was space" +
+       " remaining on the page to print all the text)" do
       @text_box.render
       @text_box.text.gsub("\n", " ").should == @text.strip
     end
-    it "render should return an empty string because no text remains unprinted(as long as there was space remaining on the page to print all the text)" do
+    it "render should return an empty string because no text remains" +
+      " unprinted(as long as there was space remaining on the page to" +
+      " print all the text)" do
       @text_box.render.should == ""
     end
   end
@@ -448,54 +526,22 @@ describe "Text::Box with more text than can fit in the box" do
       @text_box.render
       @text_box.text.gsub("\n", " ").should == @text.strip
     end
-    it "render should return an empty string because no text remains unprinted" do
+    it "render should return an empty string because no text" +
+       " remains unprinted" do
       @text_box.render.should == ""
     end
   end
 end
 
-describe "Text::Box with a solid block of Chinese characters" do
-  it "printed text should match requested text, except for newlines" do
-    create_pdf
-    @text = "写中国字" * 10
-    @options = {
-      :width => 162.0,
-      :height => 162.0,
-      :document => @pdf
-    }
-    @pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
-    @options[:overflow] = :truncate
-    text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render
-    text_box.text.gsub("\n", "").should == @text.strip
-  end
-end
-
-
-describe "drawing bounding boxes" do    
-  
-  before(:each) { create_pdf }   
-
-  it "should restore the margin box when bounding box exits" do
-    margin_box = @pdf.bounds
-
-    @pdf.text_box "Oh hai text box. " * 11, :height => @pdf.font.height * 10
-
-    @pdf.bounds.should == margin_box
-
-  end
-  
-end
-
-  
-describe 'Text::Box wrapping' do
+describe 'Text::Box wrapping with inline styling' do
   before(:each) do
     create_pdf
   end
 
   it "should wrap text" do
     text = "Please wrap this text about HERE. More text that should be wrapped"
-    expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
+    expect = "Please wrap this text about\nHERE. " +
+             "More text that should be\nwrapped"
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
@@ -532,7 +578,8 @@ describe 'Text::Box wrapping' do
     text_box.text.should == expect
   end
 
-  it "should respect multiple newlines when wrapping text when those newlines coincide with a line break" do
+  it "should respect multiple newlines when wrapping text when those newlines" +
+     " coincide with a line break" do
     text = "Please wrap only before\n\nTHIS word. Don't wrap this"
     expect = text
 
@@ -558,7 +605,8 @@ describe 'Text::Box wrapping' do
     text_box.text.should == expect
   end
 
-  it "should wrap lines comprised of a single word of the bounds when wrapping text" do
+  it "should wrap lines comprised of a single word of the bounds when" +
+     " wrapping text" do
     text = "You_can_wrap_this_text_HERE"
     expect = "You_can_wrap_this_text_HE\nRE"
 
@@ -571,7 +619,8 @@ describe 'Text::Box wrapping' do
     text_box.text.should == expect
   end
 
-  it "should wrap lines comprised of a single word of the bounds when wrapping text" do
+  it "should wrap lines comprised of a single word of the bounds when" +
+     " wrapping text" do
     text = '©' * 30
 
     @pdf.font "Courier"
@@ -598,9 +647,9 @@ describe 'Text::Box wrapping' do
     text_box = Prawn::Text::Box.new(text, :width => 180,
                                      :document => @pdf)
     text_box.render
-    results_without_accent = text_box.text
+    no_accent = text_box.text
 
-    results_with_accent.first_line.length.should == results_without_accent.first_line.length
+    results_with_accent.first_line.length.should == no_accent.first_line.length
   end
   
 end
