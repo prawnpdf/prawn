@@ -68,19 +68,19 @@ describe "Text::Box#render(:dry_run => true)" do
   end
 end
 
-describe "Text::Box#render with :rotation option of 30)" do
+describe "Text::Box#render with :rotate option of 30)" do
   before(:each) do
     create_pdf
-    rotation = 30
+    rotate = 30
     @x = 300
     @y = 70
     @width = 100
     @height = 50
-    @cos = Math.cos(rotation * Math::PI / 180)
-    @sin = Math.sin(rotation * Math::PI / 180)
+    @cos = Math.cos(rotate * Math::PI / 180)
+    @sin = Math.sin(rotate * Math::PI / 180)
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf,
-                 :rotation => rotation,
+                 :rotate => rotate,
                  :at => [@x, @y],
                  :width => @width,
                  :height => @height }
@@ -381,17 +381,17 @@ describe "Text::Box with more text than can fit in the box" do
       @text_box.render
       @bounding_height.should.be.close(@text_box.height, @pdf.font.height)
     end
-    context "with :rotation option" do
+    context "with :rotate option" do
       it "unrendered text should be the same as when not rotated" do
         remaining_text = @text_box.render
 
-        rotation = 30
+        rotate = 30
         x = 300
         y = 70
         width = @options[:width]
         height = @options[:height]
         @options[:document] = @pdf
-        @options[:rotation] = rotation
+        @options[:rotate] = rotate
         @options[:at] = [x, y]
         rotated_text_box = Prawn::Text::Box.new(@text, @options)
         rotated_text_box.render.should == remaining_text

@@ -46,7 +46,7 @@ module Prawn
     #                   Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
     #                    Vertical alignment within the bounding box [:top]
-    # <tt>:rotation</tt>:: <tt>number</tt>. The angle to rotate the text
+    # <tt>:rotate</tt>:: <tt>number</tt>. The angle to rotate the text
     # <tt>:rotate_around</tt>:: <tt>:center</tt>, <tt>:upper_left</tt>,
     #                           <tt>:upper_right</tt>, <tt>:lower_right</tt>,
     #                           or <tt>:lower_left</tt>. The point around which
@@ -103,7 +103,7 @@ module Prawn
       VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + 
         [:at, :height, :width, :align, :valign,
          :overflow, :min_font_size, :line_wrap,
-         :leading, :document, :rotation, :rotate_around,
+         :leading, :document, :rotate, :rotate_around,
          :single_line, :skip_encoding]
 
 
@@ -142,7 +142,7 @@ module Prawn
         @align           = options[:align] || :left
         @vertical_align  = options[:valign] || :top
         @leading         = options[:leading] || 0
-        @rotation        = options[:rotation] || 0
+        @rotate          = options[:rotate] || 0
         @rotate_around   = options[:rotate_around] || :upper_left
         @single_line     = options[:single_line]
         @skip_encoding   = options[:skip_encoding] || @document.skip_encoding
@@ -186,7 +186,7 @@ module Prawn
             shrink_to_fit(string) if @overflow == :shrink_to_fit
             process_vertical_alignment(string)
             @inked = true unless flags[:dry_run]
-            if @rotation != 0 && @inked
+            if @rotate != 0 && @inked
               unprinted_text = render_rotated(string)
             else
               unprinted_text = _render(string)
@@ -261,7 +261,7 @@ module Prawn
           y = @at[1]
         end
 
-        @document.rotate(@rotation, :origin => [x, y]) do
+        @document.rotate(@rotate, :origin => [x, y]) do
           unprinted_text = _render(string)
         end
         unprinted_text
