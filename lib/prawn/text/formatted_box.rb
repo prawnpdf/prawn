@@ -59,6 +59,56 @@ module Prawn
       end
 
       def _render(array)
+        initialize_inner_render(array)
+
+        move_baseline = true
+        while @inline_format.unfinished?
+          printed_fragments = []
+
+          @line_wrap.wrap_line(:document => @document,
+                               :kerning => @kerning,
+                               :width => @width,
+                               :inline_format => @inline_format)
+
+          move_baseline = false
+          break unless enough_space_for_this_line?
+          move_baseline_down
+
+          accumulated_width = 0
+          while fragment = @inline_format.retrieve_string
+            if fragment == "\n"
+              printed_fragments << "\n" if @printed_lines.last == ""
+              break
+            end
+            printed_fragments << fragment
+            draw_fragment(fragment, accumulated_width)
+            accumulated_width += @inline_format.last_retrieved_width
+          end
+          @printed_lines << printed_fragments.join("")
+          break if @single_line
+          move_baseline = true unless @inline_format.finished?
+        end
+        move_baseline_down if move_baseline
+        @text = @printed_lines.join("\n")
+
+        @inline_format.unconsumed
+      end
+
+      def enough_space_for_this_line?
+        @line_height = @inline_format.max_line_height
+        @descender   = @inline_format.max_descender
+        @ascender    = @inline_format.max_ascender
+        required_space = @baseline_y == 0 ? @line_height : @line_height + @descender
+        if @baseline_y.abs + required_space > @height
+          # no room for the full height of this line
+          @inline_format.repack_unretrieved
+          false
+        else
+          true
+        end
+      end
+
+      def initialize_inner_render(array)
         @text = nil
         @inline_format.format_array = array
 
@@ -68,47 +118,7 @@ module Prawn
         @ascender    = 0
         @baseline_y  = 0
 
-        printed_lines = []
-
-        baseline_moved = false
-        while @inline_format.unfinished?
-          printed_fragments = []
-
-          @line_wrap.wrap_line(:document => @document,
-                               :kerning => @kerning,
-                               :width => @width,
-                               :inline_format => @inline_format)
-
-          @line_height = @inline_format.max_line_height
-          @descender   = @inline_format.max_descender
-          @ascender    = @inline_format.max_ascender
-          baseline_moved = true
-          required_space = @baseline_y == 0 ? @line_height : @line_height + @descender
-          if @baseline_y.abs + required_space > @height
-            # no room for the full height of this line
-            @inline_format.repack_unretrieved
-            break
-          end
-          move_baseline_down
-
-          accumulated_width = 0
-          while fragment = @inline_format.retrieve_string
-            if fragment == "\n"
-              printed_fragments << "\n" if printed_lines.last == ""
-              break
-            end
-            printed_fragments << fragment
-            draw_fragment(fragment, accumulated_width)
-            accumulated_width += @inline_format.last_retrieved_width
-          end
-          printed_lines << printed_fragments.join("")
-          break if @single_line
-          baseline_moved = false unless @inline_format.finished?
-        end
-        move_baseline_down unless baseline_moved
-        @text = printed_lines.join("\n")
-
-        @inline_format.unconsumed
+        @printed_lines = []
       end
 
       def draw_fragment(fragment, accumulated_width)
