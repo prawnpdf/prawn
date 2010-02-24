@@ -62,7 +62,7 @@ describe "#text" do
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+    @pdf.y.should.be.close(position - 3 * @pdf.font.height, 0.0001)
   end
 
   it "should advance down the document based on font_height" +
@@ -88,6 +88,13 @@ describe "#text" do
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz", :final_gap => false
     @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender, 0.0001)
+  end
+
+  it "should be able to print text starting at the last line of a page" do
+    @pdf.move_cursor_to(@pdf.font.height)
+    @pdf.text("hello world")
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 1
   end
 
   it "should default to 12 point helvetica" do

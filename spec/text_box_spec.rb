@@ -3,6 +3,29 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 
+describe "Text::Box#height without leading" do
+  it "should equal the sum of the height of each line" do
+    create_pdf
+    text = "Oh hai text rect.\nOh hai text rect."
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Box.new(text, options)
+    text_box.render
+    text_box.height.should == @pdf.font.height * 2
+  end
+end
+
+describe "Text::Box#height with leading" do
+  it "should equal the sum of the height of each line" do
+    create_pdf
+    text = "Oh hai text rect.\nOh hai text rect."
+    leading = 12
+    options = { :document => @pdf, :leading => leading }
+    text_box = Prawn::Text::Box.new(text, options)
+    text_box.render
+    text_box.height.should == @pdf.font.height * 2 + leading
+  end
+end
+
 describe "Text::Box#render" do
   it "should not fail if height is smaller than 1 line" do
     create_pdf

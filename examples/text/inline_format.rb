@@ -7,7 +7,7 @@ require "#{File.dirname(__FILE__)}/../example_helper.rb"
 Prawn::Document.generate "inline_format.pdf" do |pdf|
   pdf.text("hello <b>world\nhow <i>are</i></b> you?",
        :inline_format => true)
-  pdf.text("hello <b>world how <i>are</i></b> you? " * 20,
+  pdf.text("hello <b>world <font size='28'>how</font> <i>are</i></b> you? " * 20,
        :inline_format => true)
   pdf.text("hello <b>world how <i>are</i></b> you? " * 2,
        :inline_format => true,

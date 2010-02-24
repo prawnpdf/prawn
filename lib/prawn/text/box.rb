@@ -5,6 +5,7 @@
 # Copyright November 2009, Daniel Nelson. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+require "prawn/text/line_wrap"
 
 module Prawn
   module Text
@@ -58,8 +59,7 @@ module Prawn
     # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
     #                      <tt>:expand</tt>, or <tt>:ellipses</tt>. This
     #                      controls the behavior when  the amount of text
-    #                      exceeds the available space. <tt>:ellipses</tt> is
-    #                      not available with <tt>:inline_styling</tt>
+    #                      exceeds the available space. <tt>:ellipses</tt>
     #                      [:truncate]
     # <tt>:min_font_size</tt>:: <tt>number</tt>. The minimum font size to use
     #                           when :overflow is set to :shrink_to_fit (that is
@@ -104,8 +104,6 @@ module Prawn
     #
     # Raises <tt>ArgumentError</tt> if <tt>:ellipses</tt> <tt>overflow</tt>
     # option included
-    # Raises <tt>Errors::CannotFit</tt> if not enough width exists to drawn even
-    # a single character
     # Raises "Bad font family" if <tt>:inline_format</tt> used, but no font
     # family is defined for the current font
     #
@@ -124,7 +122,7 @@ module Prawn
         [:at, :height, :width, :align, :valign,
          :overflow, :min_font_size, :line_wrap,
          :leading, :document, :rotate, :rotate_around,
-         :single_line, :skip_encoding, :inline_format]
+         :single_line, :skip_encoding]
 
       
       # The text that was successfully printed (or, if <tt>dry_run</tt> was
@@ -143,12 +141,13 @@ module Prawn
 
       # See Prawn::Text#text_box for valid options
       #
-      def initialize(string, options={})
+      def initialize(text, options={})
         @inked          = false
         Prawn.verify_options(VALID_OPTIONS, options)
         options          = options.dup
         @overflow        = options[:overflow] || :truncate
-        @original_string = string
+
+        self.original_text = text
         @text            = nil
         
         @document        = options[:document]
@@ -165,14 +164,6 @@ module Prawn
         @rotate_around   = options[:rotate_around] || :upper_left
         @single_line     = options[:single_line]
         @skip_encoding   = options[:skip_encoding] || @document.skip_encoding
-        if options[:inline_format]
-          if @overflow == :ellipses
-            raise ArgumentError, "ellipses overflow unavailable with" +
-                                 "inline formatting"
-          end
-          @inline_format   = InlineFormatter.new
-        end
-
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -199,22 +190,24 @@ module Prawn
       # Returns any text that did not print under the current settings
       #
       def render(flags={})
-        # dup because normalize_encoding changes the string
-        string = @original_string.dup
         unprinted_text = ''
         @document.save_font do
           process_options
 
-          @document.font.normalize_encoding!(string) unless @skip_encoding
+          if @skip_encoding
+            text = original_text
+          else
+            text = normalize_encoding
+          end
 
           @document.font_size(@font_size) do
-            shrink_to_fit(string) if @overflow == :shrink_to_fit
-            process_vertical_alignment(string)
+            shrink_to_fit(text) if @overflow == :shrink_to_fit
+            process_vertical_alignment(text)
             @inked = true unless flags[:dry_run]
             if @rotate != 0 && @inked
-              unprinted_text = render_rotated(string)
+              unprinted_text = render_rotated(text)
             else
-              unprinted_text = _render(string)
+              unprinted_text = _render(text)
             end
             @inked = false
           end
@@ -230,14 +223,26 @@ module Prawn
         # line, so we need to subtract line line_height and leading,
         # but we need to add in the descender since baseline is
         # above the descender
-        @baseline_y.abs + @descender - @line_height - @leading
+        @baseline_y.abs - @ascender - @leading
       end
 
       private
 
-      def process_vertical_alignment(string)
+      def normalize_encoding
+        @document.font.normalize_encoding(@original_string)
+      end
+
+      def original_text
+        @original_string
+      end
+
+      def original_text=(string)
+        @original_string = string
+      end
+
+      def process_vertical_alignment(text)
         return if @vertical_align == :top
-        _render(string)
+        _render(text)
         case @vertical_align
         when :center
           @at[1] = @at[1] - (@height - height) * 0.5
@@ -249,8 +254,8 @@ module Prawn
 
       # Decrease the font size until the text fits or the min font
       # size is reached
-      def shrink_to_fit(string)
-        while (unprinted_text = _render(string)).length > 0 &&
+      def shrink_to_fit(text)
+        while (unprinted_text = _render(text)).length > 0 &&
             @font_size > @min_font_size
           @font_size -= 0.5
           @document.font_size = @font_size
@@ -265,7 +270,7 @@ module Prawn
         @kerning   = @options[:kerning]
       end
 
-      def render_rotated(string)
+      def render_rotated(text)
         unprinted_text = ''
 
         case @rotate_around
@@ -287,21 +292,14 @@ module Prawn
         end
 
         @document.rotate(@rotate, :origin => [x, y]) do
-          unprinted_text = _render(string)
+          unprinted_text = _render(text)
         end
         unprinted_text
       end
 
-      def _render(string)
-        if @inline_format
-          render_formatted(string)
-        else
-          render_unformatted(string)
-        end
-      end
-
-      def render_unformatted(string)
-        remaining_text = string
+      def _render(text)
+        @text = nil
+        remaining_text = text
         @line_height = @document.font.height
         @descender   = @document.font.descender
         @ascender    = @document.font.ascender
@@ -318,9 +316,7 @@ module Prawn
                                              :kerning => @kerning,
                                              :width => @width)
 
-          if line_to_print.empty? && remaining_text.length > 0
-            raise Errors::CannotFit
-          end
+          break if line_to_print.empty? && remaining_text.length > 0
 
           remaining_text = remaining_text.slice(line_to_print.length..
                                                 remaining_text.length)
@@ -331,63 +327,9 @@ module Prawn
           break if @single_line
         end
 
-        @text = printed_lines.join("\n") if @inked
+        @text = printed_lines.join("\n")
           
         remaining_text
-      end
-
-      def render_formatted(string)
-        @inline_format.tokenize_string(string)
-
-        # these values will depend on the maximum value within a given line
-        @line_height = 0
-        @descender   = 0
-        @ascender    = 0
-        @baseline_y  = 0
-
-        printed_lines = []
-
-        while @inline_format.unfinished? &&
-              @baseline_y.abs + @descender <= @height
-
-          printed_fragments = []
-
-          line_to_print = @line_wrap.wrap_line(:document => @document,
-                                               :kerning => @kerning,
-                                               :width => @width,
-                                               :inline_format => @inline_format)
-          if line_to_print.empty? && @inline_format.consumed_strings.length > 0
-            raise Errors::CannotFit
-          end
-
-          @line_height = @inline_format.max_line_height
-          @descender   = @inline_format.max_descender
-          @ascender    = @inline_format.max_ascender
-          @baseline_y  = -@ascender if @baseline_y == 0
-          if @baseline_y.abs + @descender > @height
-            @inline_format.repack_unretrieved_strings
-            break
-          end
-
-          accumulated_width = 0
-          while fragment = @inline_format.retrieve_string
-            raise "Bad font family" unless @document.font.family
-            @document.font(@document.font.family,
-                       :style => @inline_format.last_retrieved_font_style) do
-              printed_fragments << print_formatted_line(fragment,
-                                                        accumulated_width,
-                                                        @line_wrap.width)
-            end
-            accumulated_width += @inline_format.last_retrieved_width
-          end
-          printed_lines << printed_fragments.join("")
-          @baseline_y -= (@line_height + @leading)
-          break if @single_line
-        end
-
-        @text = printed_lines.join("\n") if @inked
-
-        @inline_format.unconsumed_string
       end
 
       def print_line(line_to_print, print_ellipses)
@@ -417,28 +359,6 @@ module Prawn
         
         line_to_print
       end
-
-      def print_formatted_line(line_to_print, accumulated_width, line_width)
-        case(@align)
-        when :left
-          x = @at[0]
-        when :center
-          x = @at[0] + @width * 0.5 - line_width * 0.5
-        when :right
-          x = @at[0] + @width - line_width
-        end
-
-        x += accumulated_width
-
-        y = @at[1] + @baseline_y
-
-        if @inked
-          @document.draw_text!(line_to_print, :at => [x, y],
-                                              :kerning => @kerning)
-        end
-
-        line_to_print
-      end
       
       def last_line?
         @baseline_y.abs + @descender > @height - @line_height
@@ -450,286 +370,6 @@ module Prawn
           line_to_print.insert(-1, "...")
         else
           line_to_print[-3..-1] = "..." if line_to_print.length > 3
-        end
-      end
-    end
-
-
-
-
-    class InlineFormatter
-      attr_reader :current_format_state
-      attr_reader :consumed_strings
-      attr_reader :tokens
-      attr_reader :max_line_height
-      attr_reader :max_descender
-      attr_reader :max_ascender
-      attr_reader :last_retrieved_width
-
-      def initialize
-        @retrieved_format_state = []
-        @current_format_state = []
-        @consumed_strings = []
-        @consumed_tags = []
-      end
-
-      def tokenize_string(string)
-        @max_line_height = 0
-        @max_descender = 0
-        @max_ascender = 0
-        regex_string = "\n|<b>|</b>|<i>|</i>|<u>|</u>|<strikethrough>|" +
-                       "</strikethrough>|<a[^>]*>|</a>|<color[^>]*>|</color>|[^<\n]*"
-        regex = Regexp.new(regex_string, Regexp::MULTILINE)
-        @tokens = string.scan(regex)
-        @tokens.delete("")
-        @tokens
-      end
-
-      def finished?
-        @tokens.length == 0
-      end
-
-      def unfinished?
-        @tokens.length > 0
-      end
-
-      def unconsumed_string
-        @tokens.join("")
-      end
-
-      def repack_unretrieved_strings
-        new_tokens = []
-        while string = retrieve_string
-          new_tokens.concat(@consumed_tags)
-          new_tokens << string
-        end
-        new_tokens.concat(@tokens)
-        @tokens = new_tokens
-      end
-
-      def next_string
-        string = ""
-        
-        while token = @tokens.shift
-          @consumed_tags << token
-          case token
-          when "\n", "", nil
-            string = token
-            @consumed_tags = []
-            break
-          when "<b>"
-            @current_format_state << :bold
-          when "<i>"
-            @current_format_state << :italic
-          when "<u>"
-            @current_format_state << :underline
-          when "<strikethrough>"
-            @current_format_state << :strikethrough
-          when "</b>", "</i>", "</u>", "</strikethrough>", "</a>", "</color>"
-            @current_format_state.pop
-          else
-            if token =~ /^a[^>]*>$/
-              # @current_format_state << 
-            elsif token =~ /^<color[^>]*>$/
-              # @current_format_state <<
-            else
-              string = token.gsub("&lt;", "<").gsub("&gt;", ">").gsub("&amp;", "&")
-              @consumed_tags.pop
-              @consumed_strings << { :string => string,
-                                     :format => @current_format_state.dup,
-                                     :tags => @consumed_tags}
-              @consumed_tags = []
-              break
-            end
-          end
-        end
-        string
-      end
-
-      def set_last_string_size_data(options)
-        @consumed_strings.last[:width] = options[:width]
-        @max_line_height = [@max_line_height, options[:line_height]].max
-        @max_descender = [@max_descender, options[:descender]].max
-        @max_ascender = [@max_ascender, options[:ascender]].max
-      end
-
-      def update_last_string(printed, unprinted="")
-        if printed.nil? || printed.empty? || printed =~ /^ +$/
-          @consumed_strings.pop
-        else
-          @consumed_strings.last[:string] = printed
-        end
-        unless unprinted.nil? || unprinted.empty? || unprinted =~ /^ +$/
-          @tokens.unshift(unprinted)
-        end
-      end
-
-      def retrieve_string
-        hash = @consumed_strings.shift
-        if hash.nil?
-          @retrieved_format_state = nil
-          @last_retrieved_width = 0
-          @consumed_tags = []
-          nil
-        else
-          @retrieved_format_state = hash[:format]
-          @last_retrieved_width = hash[:width]
-          @consumed_tags = hash[:tags]
-          hash[:string]
-        end
-      end
-
-      def last_retrieved_font_style
-        if @retrieved_format_state.include?(:bold) && @retrieved_format_state.include?(:italic)
-          :bold_italic
-        elsif @retrieved_format_state.include?(:bold)
-          :bold
-        elsif @retrieved_format_state.include?(:italic)
-          :italic
-        else
-          :normal
-        end
-      end
-
-      def current_font_style
-        if @current_format_state.include?(:bold) && @current_format_state.include?(:italic)
-          :bold_italic
-        elsif @current_format_state.include?(:bold)
-          :bold
-        elsif @current_format_state.include?(:italic)
-          :italic
-        else
-          :normal
-        end
-      end
-
-    end
-
-
-    class LineWrap
-
-      def width
-        @accumulated_width || 0
-      end
-
-      def wrap_line(options)
-        @document = options[:document]
-        @kerning = options[:kerning]
-        @width = options[:width]
-        @inline_format = options[:inline_format]
-        @accumulated_width = 0
-        @fragment_width = 0
-        @output = ""
-        scan_pattern = @document.font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
-        space_scan_pattern = @document.font.unicode? ? /\s/ : /\s/n
-
-        if @inline_format
-          formatted_wrap_line(scan_pattern, space_scan_pattern)
-        else
-          unformatted_wrap_line(options[:line], scan_pattern, space_scan_pattern)
-        end
-        
-        @output
-      end
-
-      private
-
-      def unformatted_wrap_line(line, scan_pattern, space_scan_pattern)
-        line.scan(scan_pattern).each do |segment|
-          segment_width = @document.width_of(segment, :kerning => @kerning)
-
-          if @accumulated_width + segment_width <= @width
-            @accumulated_width += segment_width
-            @output += segment
-          else
-            # if the line contains white space, don't split the
-            # final word that doesn't fit, just return what fits nicely
-            wrap_by_char(segment) unless @output =~ space_scan_pattern
-            break
-          end
-        end
-      end
-
-      def formatted_wrap_line(scan_pattern, space_scan_pattern)
-        line_output = ""
-        finished_this_line = false
-        while fragment = @inline_format.next_string
-          @output = ""
-          if fragment == "\n" || fragment == ""
-            finished_this_line = true
-          else
-            fragment.lstrip! if line_output.empty?
-
-            @fragment_width = 0
-            fragment.scan(scan_pattern).each do |segment|
-              raise "Bad font family" unless @document.font.family
-              @document.font(@document.font.family,
-                             :style => @inline_format.current_font_style) do
-
-                segment_width = @document.width_of(segment, :kerning => @kerning)
-
-                if @accumulated_width + segment_width <= @width
-                  @accumulated_width += segment_width
-                  @fragment_width += segment_width
-                  @output += segment
-                else
-                  # if the line contains white space, don't split the
-                  # final word that doesn't fit, just return what fits nicely
-                  unless (line_output + @output) =~ space_scan_pattern
-                    wrap_by_char(segment)
-                  end
-                  finished_this_line = true
-                  break
-                end
-              end
-            end
-          end
-          unless @output.empty?
-            @output.rstrip! if finished_this_line || @inline_format.finished?
-            remaining_text = fragment.slice(@output.length..fragment.length)
-            raise "Bad font family" unless @document.font.family
-            @document.font(@document.font.family,
-                           :style => @inline_format.current_font_style) do
-              @fragment_width = @document.width_of(@output, :kerning => @kerning)
-            end
-            @inline_format.update_last_string(@output, remaining_text)
-            line_output += @output
-          end
-          set_last_string_size_data
-          break if finished_this_line
-        end
-        @output = line_output
-      end
-
-      def set_last_string_size_data
-        @inline_format.set_last_string_size_data(:width => @fragment_width,
-                                                 :line_height => @document.font.height,
-                                                 :descender => @document.font.descender,
-                                                 :ascender => @document.font.ascender)
-      end
-
-      def wrap_by_char(segment)
-        if @document.font.unicode?
-          segment.unpack("U*").each do |char_int|
-            return unless append_char([char_int].pack("U"))
-          end
-        else
-          segment.each_char do |char|
-            return unless append_char(char)
-          end
-        end
-      end
-
-      def append_char(char)
-        char_width = @document.width_of(char, :kerning => @kerning)
-        @accumulated_width += char_width
-        @fragment_width += char_width
-
-        if @accumulated_width >= @width
-          false
-        else
-          @output << char
-          true
         end
       end
     end

@@ -7,6 +7,8 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/core/text"
 require "prawn/text/box"
+require "prawn/text/formatted_box"
+require "prawn/text/inline_formatted_text_parser"
 require "zlib"
 
 module Prawn
@@ -22,14 +24,18 @@ module Prawn
     #
     # Raises <tt>Prawn::Errors::UnknownOption</tt> if
     # <tt>:indent_paragraphs</tt> option included and debug flag is set
+    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # any text
     #
     def height_of(string, options={})
       process_final_gap_option(options)
       box = Text::Box.new(string,
                           options.merge(:height   => 100000000,
                                         :document => self))
-      box.render(:dry_run => true)
-      height = box.height - box.descender
+      printed = box.render(:dry_run => true)
+      raise Errors::CannotFit if box.text.empty? && !string.empty?
+
+      height = box.height - (box.line_height - box.ascender)
       height += box.line_height + box.leading - box.ascender if @final_gap
       height
     end
@@ -221,10 +227,17 @@ module Prawn
       options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left,
                       y - @bounding_box.absolute_bottom]
 
-      box = Text::Box.new(text, options)
-      remaining_text = box.render
+      if @inline_format
+        array = Text::InlineFormattedTextParser.to_array(text)
+        box = Text::FormattedBox.new(array, options)
+        array = box.render
+        remaining_text = Text::InlineFormattedTextParser.to_string(array)
+      else
+        box = Text::Box.new(text, options)
+        remaining_text = box.render
+      end
 
-      self.y -= box.height - box.descender
+      self.y -= box.height - (box.line_height - box.ascender)
       if @final_gap
         self.y -= box.line_height + box.leading - box.ascender
       end
@@ -247,6 +260,7 @@ module Prawn
       end
       process_final_gap_option(options)
       process_indent_paragraphs_option(options)
+      process_inline_format_option(options)
       options[:document] = self
     end
 
@@ -258,6 +272,11 @@ module Prawn
     def process_indent_paragraphs_option(options)
       @indent_paragraphs = options[:indent_paragraphs]
       options.delete(:indent_paragraphs)
+    end
+
+    def process_inline_format_option(options)
+      @inline_format = options[:inline_format]
+      options.delete(:inline_format)
     end
 
     def move_text_position(dy)
