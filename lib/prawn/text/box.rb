@@ -66,31 +66,27 @@ module Prawn
     #                           the font size will not be 
     #                           reduced to less than this value, even if it
     #                           means that some text will be cut off). [5]
-    # <tt>:line_wrap</tt>:: <tt>object</tt>. An object used for custom line
-    #                        wrapping on a case by case basis. Note that if you
-    #                        want to change wrapping document-wide, do
-    #                        pdf.default_line_wrap = MyLineWrap.new. Your custom
-    #                        object must have a wrap_line method that accepts an
-    #                        <tt>options</tt> hash and returns the string from 
-    #                        that single line that can fit on the line under 
-    #                        the conditions defined by <tt>options</tt>. If 
-    #                        omitted, the line wrap object is used.
-    #                        The options hash passed into the wrap_object proc
-    #                        includes the following options:
+    #
+    # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
+    #                        custom line wrapping on a case by case basis. Note
+    #                        that if you want to change wrapping document-wide,
+    #                        do pdf.default_unformatted_line_wrap =
+    #                        MyLineWrap.new.  Your custom object must have a
+    #                        wrap_line method that accepts an <tt>options</tt>
+    #                        hash and returns the string from that single line
+    #                        that can fit on the line under the conditions
+    #                        defined by <tt>options</tt>. If omitted, the line
+    #                        wrap object is used. The options hash passed into
+    #                        the wrap_object proc includes the following
+    #                        options:
+    #
     #                        <tt>:width</tt>:: the width available for the
     #                                          current line of text
     #                        <tt>:document</tt>:: the pdf object
     #                        <tt>:kerning</tt>:: boolean
-    #                        <tt>:line</tt>:: the line of text to print. Note
-    #                        that this option is not provided when inline
-    #                        formatting is being used
+    #                        <tt>:line</tt>:: the line of text to print
     #                        <tt>:inline_format</tt>:: an InlineFormatter
-    #                        object. Note that this is only provided when
-    #                        inline formatting is being used
-    #                        Note that you need not support both line and
-    #                        inline_format options if you intend on using your
-    #                        custom word wrap object only with formatted or only
-    #                        with unformatted text
+    #                        object
     #
     #                        The line wrap object should have a <tt>width</tt>
     #                        method that returns the width of the last line
@@ -120,7 +116,8 @@ module Prawn
 
       VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + 
         [:at, :height, :width, :align, :valign,
-         :overflow, :min_font_size, :line_wrap,
+         :overflow, :min_font_size,
+         :unformatted_line_wrap, :formatted_line_wrap,
          :leading, :document, :rotate, :rotate_around,
          :single_line, :skip_encoding]
 
@@ -173,7 +170,8 @@ module Prawn
           @overflow = :truncate
         end
         @min_font_size  = options[:min_font_size] || 5
-        @line_wrap    = options [:line_wrap] || @document.default_line_wrap
+        @line_wrap    = options [:unformatted_line_wrap] ||
+                          @document.default_unformatted_line_wrap
         @options = @document.text_options.merge(:kerning => options[:kerning],
                                                 :size    => options[:size],
                                                 :style   => options[:style])

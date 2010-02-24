@@ -356,12 +356,12 @@ describe "Text::InlineFormatter#repack_unretrieved" do
   end
 end
 
-describe "Text::FormattedBox#render" do
+describe "Text::Formatted::Box#render" do
   it "should handle newlines" do
     create_pdf
     array = [{ :text => "hello\nworld"}]
     options = { :document => @pdf }
-    text_box = Prawn::Text::FormattedBox.new(array, options)
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\nworld"
   end
@@ -369,7 +369,7 @@ describe "Text::FormattedBox#render" do
     create_pdf
     array = [{ :text => " hello\n world"}]
     options = { :document => @pdf }
-    text_box = Prawn::Text::FormattedBox.new(array, options)
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\nworld"
   end
@@ -377,26 +377,26 @@ describe "Text::FormattedBox#render" do
     create_pdf
     array = [{ :text => "hello \nworld "}]
     options = { :document => @pdf }
-    text_box = Prawn::Text::FormattedBox.new(array, options)
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\nworld"
   end
 end
 
-describe "Text::FormattedBox#height without leading" do
+describe "Text::Formatted::Box#height without leading" do
   it "should equal the sum of the height of each line" do
     create_pdf
     format_array = [{ :text => "line 1" },
                     { :text => "\n" },
                     { :text => "line 2" }]
     options = { :document => @pdf }
-    text_box = Prawn::Text::FormattedBox.new(format_array, options)
+    text_box = Prawn::Text::Formatted::Box.new(format_array, options)
     text_box.render
     text_box.height.should == @pdf.font.height * 2
   end
 end
 
-describe "Text::FormattedBox#height with leading" do
+describe "Text::Formatted::Box#height with leading" do
   it "should equal the sum of the height of each line" +
      " plus all but the last leading" do
     create_pdf
@@ -405,33 +405,33 @@ describe "Text::FormattedBox#height with leading" do
                     { :text => "line 2" }]
     leading = 12
     options = { :document => @pdf, :leading => leading }
-    text_box = Prawn::Text::FormattedBox.new(format_array, options)
+    text_box = Prawn::Text::Formatted::Box.new(format_array, options)
     text_box.render
     text_box.height.should == @pdf.font.height * 2 + leading
   end
 end
 
-describe "Text::FormattedBox#render(:single_line => true)" do
+describe "Text::Formatted::Box#render(:single_line => true)" do
   it "should draw only one line to the page" do
     create_pdf
     text = "Oh hai text rect. " * 10
     format_array = [:text => text]
     options = { :document => @pdf,
                  :single_line => true }
-    text_box = Prawn::Text::FormattedBox.new(format_array, options)
+    text_box = Prawn::Text::Formatted::Box.new(format_array, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.strings.length.should == 1
   end
 end
 
-describe "Text::FormattedBox#render(:dry_run => true)" do
+describe "Text::Formatted::Box#render(:dry_run => true)" do
   it "should not draw any content to the page" do
     create_pdf
     text = "Oh hai text rect. " * 10
     format_array = [:text => text]
     options = { :document => @pdf }
-    text_box = Prawn::Text::FormattedBox.new(format_array, options)
+    text_box = Prawn::Text::Formatted::Box.new(format_array, options)
     text_box.render(:dry_run => true)
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.strings.should.be.empty
@@ -441,13 +441,13 @@ describe "Text::FormattedBox#render(:dry_run => true)" do
     text = "™©"
     format_array = [:text => text]
     options = { :document => @pdf }
-    text_box = Prawn::Text::FormattedBox.new(format_array, options)
+    text_box = Prawn::Text::Formatted::Box.new(format_array, options)
     text_box.render(:dry_run => true)
     lambda { text_box.render }.should.not.raise(ArgumentError)
   end
 end
 
-describe "Text::FormattedBox#render" do
+describe "Text::Formatted::Box#render" do
   it "should be able to set bold" do
     create_pdf
     array = [{ :text => "this contains " },
@@ -503,7 +503,7 @@ describe "Text::FormattedBox#render" do
     array = [{ :text => "this contains " },
              { :text => "sized", :size => 24 },
              { :text => " text" }]
-    text_box = Prawn::Text::FormattedBox.new(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     @pdf.font_size(24) do
       text_box.height.should.be.close(@pdf.font.height, 0.001)
@@ -513,7 +513,7 @@ describe "Text::FormattedBox#render" do
   end
 end
 
-describe "Text::FormattedBox with text than can fit in the box" do
+describe "Text::Formatted::Box with text than can fit in the box" do
   before(:each) do
     create_pdf
     @text = "Oh hai text rect. " * 10
@@ -527,26 +527,26 @@ describe "Text::FormattedBox with text than can fit in the box" do
   
   it "printed text should match requested text, except for trailing or" +
      " leading white space and that spaces may be replaced by newlines" do
-    text_box = Prawn::Text::FormattedBox.new(@format_array, @options)
+    text_box = Prawn::Text::Formatted::Box.new(@format_array, @options)
     text_box.render
     text_box.text.gsub("\n", " ").should == @text.strip
   end
   
   it "render should return an empty array because no text remains unprinted" do
-    text_box = Prawn::Text::FormattedBox.new(@format_array, @options)
+    text_box = Prawn::Text::Formatted::Box.new(@format_array, @options)
     text_box.render.should == []
   end
 
   it "should be truncated when the leading is set high enough to prevent all" +
      " the lines from being printed" do
     @options[:leading] = 40
-    text_box = Prawn::Text::FormattedBox.new(@format_array, @options)
+    text_box = Prawn::Text::Formatted::Box.new(@format_array, @options)
     text_box.render
     text_box.text.gsub("\n", " ").should.not == @text.strip
   end
 end
 
-describe "Text::FormattedBox printing UTF-8 string with higher bit characters with" +
+describe "Text::Formatted::Box printing UTF-8 string with higher bit characters with" +
          " inline styling" do
   before(:each) do
     create_pdf    
@@ -559,7 +559,7 @@ describe "Text::FormattedBox printing UTF-8 string with higher bit characters wi
       :height => bounding_height,
       :document => @pdf
     }
-    @text_box = Prawn::Text::FormattedBox.new(format_array, options)
+    @text_box = Prawn::Text::Formatted::Box.new(format_array, options)
   end
   describe "when using a TTF font" do
     before(:each) do
@@ -576,7 +576,7 @@ describe "Text::FormattedBox printing UTF-8 string with higher bit characters wi
       remaining_text = @text_box.render
       remaining_text.first[:text].should == @text
     end
-    it "subsequent calls to Text::FormattedBox need not include the" +
+    it "subsequent calls to Text::Formatted::Box need not include the" +
        " :skip_encoding => true option" do
       @pdf.font("Action Man")
       remaining_text = @text_box.render
@@ -590,7 +590,7 @@ describe "Text::FormattedBox printing UTF-8 string with higher bit characters wi
       remaining_text = @text_box.render
       remaining_text.first[:text].should == @pdf.font.normalize_encoding(@text)
     end
-    it "subsequent calls to Text::FormattedBox must include the" +
+    it "subsequent calls to Text::Formatted::Box must include the" +
        " :skip_encoding => true option" do
       remaining_text = @text_box.render
       lambda {
@@ -605,7 +605,7 @@ describe "Text::FormattedBox printing UTF-8 string with higher bit characters wi
 end
           
 
-describe "Text::FormattedBox with more text than can fit in the box" do
+describe "Text::Formatted::Box with more text than can fit in the box" do
   before(:each) do
     create_pdf    
     @text = "Oh hai text rect. " * 30
@@ -621,7 +621,7 @@ describe "Text::FormattedBox with more text than can fit in the box" do
   context "truncated overflow" do
     before(:each) do
       @options[:overflow] = :truncate
-      @text_box = Prawn::Text::FormattedBox.new(@format_array, @options)
+      @text_box = Prawn::Text::Formatted::Box.new(@format_array, @options)
     end
     it "should be truncated" do
       @text_box.render
@@ -645,7 +645,7 @@ describe "Text::FormattedBox with more text than can fit in the box" do
     it "should raise NotImplementedError" do
       @options[:overflow] = :ellipses
       lambda {
-        Prawn::Text::FormattedBox.new(@format_array, @options)
+        Prawn::Text::Formatted::Box.new(@format_array, @options)
       }.should.raise(NotImplementedError)
     end
   end
@@ -653,7 +653,7 @@ describe "Text::FormattedBox with more text than can fit in the box" do
   context "expand overflow" do
     before(:each) do
       @options[:overflow] = :expand
-      @text_box = Prawn::Text::FormattedBox.new(@format_array, @options)
+      @text_box = Prawn::Text::Formatted::Box.new(@format_array, @options)
     end
     it "height should expand to encompass all the text (but not exceed the" +
       "height of the page)" do
@@ -676,7 +676,7 @@ describe "Text::FormattedBox with more text than can fit in the box" do
     before(:each) do
       @options[:overflow] = :shrink_to_fit
       @options[:min_font_size] = 2
-      @text_box = Prawn::Text::FormattedBox.new(@format_array, @options)
+      @text_box = Prawn::Text::Formatted::Box.new(@format_array, @options)
     end
     it "should display the entire text" do
       @text_box.render
@@ -689,7 +689,7 @@ describe "Text::FormattedBox with more text than can fit in the box" do
   end
 end
 
-describe 'Text::FormattedBox wrapping' do
+describe 'Text::Formatted::Box wrapping' do
   before(:each) do
     create_pdf
   end
@@ -701,7 +701,7 @@ describe 'Text::FormattedBox wrapping' do
       "More text that should be\nwrapped"
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array,
+    text_box = Prawn::Text::Formatted::Box.new(format_array,
                                              :width    => 220,
                                              :overflow => :expand,
                                              :document => @pdf)
@@ -715,7 +715,7 @@ describe 'Text::FormattedBox wrapping' do
     expect = text
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array,
+    text_box = Prawn::Text::Formatted::Box.new(format_array,
                                              :width    => 220,
                                              :overflow => :expand,
                                              :document => @pdf)
@@ -729,7 +729,7 @@ describe 'Text::FormattedBox wrapping' do
     expect= "Please wrap only before\nTHIS\n\nword. Don't wrap this"
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array,
+    text_box = Prawn::Text::Formatted::Box.new(format_array,
                                              :width    => 200,
                                              :overflow => :expand,
                                              :document => @pdf)
@@ -744,7 +744,7 @@ describe 'Text::FormattedBox wrapping' do
     expect = text
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array,
+    text_box = Prawn::Text::Formatted::Box.new(format_array,
                                              :width    => 220,
                                              :overflow => :expand,
                                              :document => @pdf)
@@ -758,7 +758,7 @@ describe 'Text::FormattedBox wrapping' do
     expect = text
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array,
+    text_box = Prawn::Text::Formatted::Box.new(format_array,
                                              :width    => 220,
                                              :overflow => :expand,
                                              :document => @pdf)
@@ -773,7 +773,7 @@ describe 'Text::FormattedBox wrapping' do
     expect = "You_can_wrap_this_text_HE\nRE"
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array,
+    text_box = Prawn::Text::Formatted::Box.new(format_array,
                                              :width    => 180,
                                              :overflow => :expand,
                                              :document => @pdf)
@@ -787,7 +787,7 @@ describe 'Text::FormattedBox wrapping' do
     format_array = [:text => text]
 
     @pdf.font "Courier"
-    text_box = Prawn::Text::FormattedBox.new(format_array, :width => 180,
+    text_box = Prawn::Text::Formatted::Box.new(format_array, :width => 180,
                                              :overflow => :expand,
                                              :document => @pdf)
 
@@ -802,14 +802,14 @@ describe 'Text::FormattedBox wrapping' do
   it "should wrap non-unicode strings using single-byte word-wrapping" do
     text = "continúa esforzandote " * 5
     format_array = [:text => text]
-    text_box = Prawn::Text::FormattedBox.new(format_array, :width => 180,
+    text_box = Prawn::Text::Formatted::Box.new(format_array, :width => 180,
                                              :document => @pdf)
     text_box.render
     results_with_accent = text_box.text
 
     text = "continua esforzandote " * 5
     format_array = [:text => text]
-    text_box = Prawn::Text::FormattedBox.new(format_array, :width => 180,
+    text_box = Prawn::Text::Formatted::Box.new(format_array, :width => 180,
                                              :document => @pdf)
     text_box.render
     no_accent = text_box.text

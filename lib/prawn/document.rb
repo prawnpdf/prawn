@@ -69,7 +69,8 @@ module Prawn
     attr_accessor :margin_box, :page
     attr_reader   :margins, :y, :store, :pages
     attr_writer   :font_size
-    attr_accessor :default_line_wrap
+    attr_accessor :default_formatted_line_wrap
+    attr_accessor :default_unformatted_line_wrap
 
 
     # Any module added to this array will be included into instances of
@@ -220,7 +221,8 @@ module Prawn
        @margin_box    = nil
 
        @text_options = options[:text_options] || {}
-       @default_line_wrap = Prawn::Text::LineWrap.new
+       @default_unformatted_line_wrap = Prawn::Text::LineWrap.new
+       @default_formatted_line_wrap = Prawn::Text::Formatted::LineWrap.new
 
        @page_number = 0
 

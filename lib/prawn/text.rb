@@ -7,14 +7,14 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/core/text"
 require "prawn/text/box"
-require "prawn/text/formatted_box"
-require "prawn/text/inline_formatted_text_parser"
+require "prawn/text/formatted"
 require "zlib"
 
 module Prawn
   module Text
 
     include Prawn::Core::Text
+    include Prawn::Text::Formatted
 
     VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + [:at, :rotate]
 
@@ -228,10 +228,10 @@ module Prawn
                       y - @bounding_box.absolute_bottom]
 
       if @inline_format
-        array = Text::InlineFormattedTextParser.to_array(text)
-        box = Text::FormattedBox.new(array, options)
+        array = Text::Formatted::Parser.to_array(text)
+        box = Text::Formatted::Box.new(array, options)
         array = box.render
-        remaining_text = Text::InlineFormattedTextParser.to_string(array)
+        remaining_text = Text::Formatted::Parser.to_string(array)
       else
         box = Text::Box.new(text, options)
         remaining_text = box.render
