@@ -3,9 +3,9 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 
-describe "Text::InlineFormatter#format_array" do
+describe "Text::FormatArrayManager#format_array" do
   it "should populate unconsumed array" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -19,7 +19,7 @@ describe "Text::InlineFormatter#format_array" do
     formatter.unconsumed[3].should == { :text => " you?" }
   end
   it "should split newlines into their own elements" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "\nhello\nworld" }]
     formatter.format_array = array
     formatter.unconsumed[0].should == { :text => "\n" }
@@ -28,24 +28,24 @@ describe "Text::InlineFormatter#format_array" do
     formatter.unconsumed[3].should == { :text => "world" }
   end
 end
-describe "Text::InlineFormatter#preview_next_string" do
+describe "Text::FormatArrayManager#preview_next_string" do
   it "should not populate the consumed array" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello" }]
     formatter.format_array = array
     formatter.preview_next_string
     formatter.consumed.should == []
   end
   it "should not consumed array" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello" }]
     formatter.format_array = array
     formatter.preview_next_string.should == "hello"
   end
 end
-describe "Text::InlineFormatter#next_string" do
+describe "Text::FormatArrayManager#next_string" do
   it "should populate consumed array" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -61,7 +61,7 @@ describe "Text::InlineFormatter#next_string" do
     formatter.consumed[3].should == { :text => " you?" }
   end
   it "should populate current_format_state array" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -83,7 +83,7 @@ describe "Text::InlineFormatter#next_string" do
     end
   end
   it "should update current_font_style" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -106,9 +106,9 @@ describe "Text::InlineFormatter#next_string" do
   end
 end
 
-describe "Text::InlineFormatter#retrieve_string" do
+describe "Text::FormatArrayManager#retrieve_string" do
   it "should never return an empty string" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello\nworld\n\n\nhow are you?" },
              { :text => "\n" },
              { :text => "\n" },
@@ -129,7 +129,7 @@ describe "Text::InlineFormatter#retrieve_string" do
   it "should return the consumed strings in order of consumption and update" +
      " the retrieved_fontstyle to the state it was in at the time each" +
      " string was consumed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -150,7 +150,7 @@ describe "Text::InlineFormatter#retrieve_string" do
     formatter.last_retrieved_font_style.should == :normal
   end
   it "should not alter the current font style" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -164,7 +164,7 @@ describe "Text::InlineFormatter#retrieve_string" do
     formatter.current_font_style.should == :normal
   end
   it "should update last_retrieved_width" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -184,9 +184,9 @@ describe "Text::InlineFormatter#retrieve_string" do
   end
 end
 
-describe "Text::InlineFormatter#set_last_string_size_data" do
+describe "Text::FormatArrayManager#set_last_string_size_data" do
   it "should set the width of the last consumed string" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -213,7 +213,7 @@ describe "Text::InlineFormatter#set_last_string_size_data" do
   end
   it "should set the components of the line height to the maximum" +
      "values set since calling tokenize_string" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -233,10 +233,10 @@ describe "Text::InlineFormatter#set_last_string_size_data" do
   end
 end
 
-describe "Text::InlineFormatter#update_last_string" do
+describe "Text::FormatArrayManager#update_last_string" do
   it "should update the last retrieved string with what actually fit on" +
      "the line and the list of unconsumed with what did not" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -252,7 +252,7 @@ describe "Text::InlineFormatter#update_last_string" do
   end
   context "when the entire string was used" do
     it "should not push empty string onto unconsumed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -266,9 +266,9 @@ describe "Text::InlineFormatter#update_last_string" do
   end
 end
 
-describe "Text::InlineFormatter#unconsumed" do
+describe "Text::FormatArrayManager#unconsumed" do
   it "should return the original array if nothing was consumed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -277,7 +277,7 @@ describe "Text::InlineFormatter#unconsumed" do
     formatter.unconsumed.should == array
   end
   it "should return an empty array if everything was consumed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -289,9 +289,9 @@ describe "Text::InlineFormatter#unconsumed" do
   end
 end
 
-describe "Text::InlineFormatter#finished" do
+describe "Text::FormatArrayManager#finished" do
   it "should be false if anything was not printed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -303,7 +303,7 @@ describe "Text::InlineFormatter#finished" do
     formatter.should.not.be.finished
   end
   it "should be false if everything was printed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -315,9 +315,9 @@ describe "Text::InlineFormatter#finished" do
   end
 end
 
-describe "Text::InlineFormatter#unfinished" do
+describe "Text::FormatArrayManager#unfinished" do
   it "should be false if anything was not printed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -329,7 +329,7 @@ describe "Text::InlineFormatter#unfinished" do
     formatter.should.be.unfinished
   end
   it "should be false if everything was printed" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -341,9 +341,9 @@ describe "Text::InlineFormatter#unfinished" do
   end
 end
 
-describe "Text::InlineFormatter.max_line_height" do
+describe "Text::FormatArrayManager.max_line_height" do
   it "should be the height of the maximum consumed fragment" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },
@@ -356,9 +356,9 @@ describe "Text::InlineFormatter.max_line_height" do
   end
 end
 
-describe "Text::InlineFormatter#repack_unretrieved" do
+describe "Text::FormatArrayManager#repack_unretrieved" do
   it "should restore part of the original string" do
-    formatter = Prawn::Text::InlineFormatter.new
+    formatter = Prawn::Text::FormatArrayManager.new
     array = [{ :text => "hello " },
              { :text => "world how ", :style => [:bold] },
              { :text => "are", :style => [:bold, :italic] },

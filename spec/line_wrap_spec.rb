@@ -6,7 +6,7 @@ describe "Text::Formatted::Wrap" do
   it "should only return an empty string if nothing fit or there" +
      "was nothing to wrap" do
     create_pdf
-    inline_format = Prawn::Text::Formatted::InlineFormatter.new
+    format_array_manager = Prawn::Text::Formatted::FormatArrayManager.new
     array = [{ :text => "hello\nworld\n\n\nhow are you?" },
              { :text => "\n" },
              { :text => "\n" },
@@ -15,15 +15,15 @@ describe "Text::Formatted::Wrap" do
              { :text => "" },
              { :text => "\n" },
              { :text => "" }]
-    inline_format.format_array = array
+    format_array_manager.format_array = array
     line_wrap = Prawn::Text::Formatted::LineWrap.new
     8.times do
-      line = line_wrap.wrap_line(:inline_format => inline_format,
+      line = line_wrap.wrap_line(:format_array_manager => format_array_manager,
                                  :width => 300,
                                  :document => @pdf)
       line.should.not.be.empty
     end
-    line = line_wrap.wrap_line(:inline_format => inline_format,
+    line = line_wrap.wrap_line(:format_array_manager => format_array_manager,
                                :width => 300,
                                :document => @pdf)
     line.should.be.empty

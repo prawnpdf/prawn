@@ -85,8 +85,6 @@ module Prawn
     #                        <tt>:document</tt>:: the pdf object
     #                        <tt>:kerning</tt>:: boolean
     #                        <tt>:line</tt>:: the line of text to print
-    #                        <tt>:inline_format</tt>:: an InlineFormatter
-    #                        object
     #
     #                        The line wrap object should have a <tt>width</tt>
     #                        method that returns the width of the last line
@@ -100,8 +98,6 @@ module Prawn
     #
     # Raises <tt>ArgumentError</tt> if <tt>:ellipses</tt> <tt>overflow</tt>
     # option included
-    # Raises "Bad font family" if <tt>:inline_format</tt> used, but no font
-    # family is defined for the current font
     #
     def text_box(string, options)
       Text::Box.new(string, options.merge(:document => self)).render

@@ -12,7 +12,7 @@ module Prawn
           @document = options[:document]
           @kerning = options[:kerning]
           @width = options[:width]
-          @inline_format = options[:inline_format]
+          @format_array_manager = options[:format_array_manager]
           @accumulated_width = 0
           @fragment_width = 0
           @output = ""
@@ -27,9 +27,9 @@ module Prawn
         private
 
         def _wrap_line
-          @inline_format.initialize_line
+          @format_array_manager.initialize_line
           @line_output = ""
-          while fragment = @inline_format.next_string
+          while fragment = @format_array_manager.next_string
             @output = ""
             fragment.lstrip! if @line_output.empty? && fragment != "\n"
             @fragment_width = 0
@@ -38,7 +38,7 @@ module Prawn
               break
             end
             
-            preview = @inline_format.preview_next_string
+            preview = @format_array_manager.preview_next_string
             fragment_finished(fragment, preview == "\n" || preview.nil?)
           end
           @output = @line_output
@@ -59,7 +59,7 @@ module Prawn
           remaining_text = fragment.slice(@output.length..fragment.length)
           @output.rstrip! if finished_line
           @fragment_width = single_format_text_width(@output)
-          @inline_format.update_last_string(@output, remaining_text)
+          @format_array_manager.update_last_string(@output, remaining_text)
         end
 
         def single_format_text_width(text)
@@ -100,7 +100,7 @@ module Prawn
 
         def set_last_fragment_size_data
           apply_current_font_settings do
-            @inline_format.set_last_string_size_data(
+            @format_array_manager.set_last_string_size_data(
                                          :width => @fragment_width,
                                          :line_height => @document.font.height,
                                          :descender => @document.font.descender,
@@ -111,8 +111,8 @@ module Prawn
 
         def apply_current_font_settings
           @document.font(@document.font.family,
-                         :style => @inline_format.current_font_style) do
-            @document.font_size(@inline_format.current_font_size ||
+                         :style => @format_array_manager.current_font_style) do
+            @document.font_size(@format_array_manager.current_font_size ||
                                 @document.font_size) do
               yield
             end

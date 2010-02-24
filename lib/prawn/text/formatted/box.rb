@@ -32,12 +32,14 @@ module Prawn
       #                                         current line of text
       #                       <tt>:document</tt>:: the pdf object
       #                       <tt>:kerning</tt>:: boolean
-      #                       <tt>:inline_format</tt>:: an InlineFormatter
-      #                       object
+      #                       <tt>:format_array_manager</tt>:: a FormatArrayManager
+      #                                                        object
       #
       #                        The line wrap object should have a <tt>width</tt>
       #                        method that returns the width of the last line
       #                        printed
+      #
+      # Raises "Bad font family" if no fontfamily is defined for the current font
       #
       def formatted_text_box(array, options)
         Text::Formatted::Box.new(array, options.merge(:document => self)).render
@@ -50,7 +52,7 @@ module Prawn
       #
       class Box < Prawn::Text::Box
         def initialize(array, options={})
-          @inline_format = InlineFormatter.new
+          @format_array_manager = FormatArrayManager.new
           super(array, options)
           @line_wrap     = options[:formatted_line_wrap] ||
                              @document.default_formatted_line_wrap
@@ -89,13 +91,13 @@ module Prawn
           initialize_inner_render(array)
 
           move_baseline = true
-          while @inline_format.unfinished?
+          while @format_array_manager.unfinished?
             printed_fragments = []
 
             line_to_print = @line_wrap.wrap_line(:document => @document,
                                                 :kerning => @kerning,
                                                 :width => @width,
-                                                :inline_format => @inline_format)
+                                 :format_array_manager => @format_array_manager)
 
             break if line_to_print.empty?
 
@@ -104,33 +106,33 @@ module Prawn
             move_baseline_down
 
             accumulated_width = 0
-            while fragment = @inline_format.retrieve_string
+            while fragment = @format_array_manager.retrieve_string
               if fragment == "\n"
                 printed_fragments << "\n" if @printed_lines.last == ""
                 break
               end
               printed_fragments << fragment
               draw_fragment(fragment, accumulated_width)
-              accumulated_width += @inline_format.last_retrieved_width
+              accumulated_width += @format_array_manager.last_retrieved_width
             end
             @printed_lines << printed_fragments.join("")
             break if @single_line
-            move_baseline = true unless @inline_format.finished?
+            move_baseline = true unless @format_array_manager.finished?
           end
           move_baseline_down if move_baseline
           @text = @printed_lines.join("\n")
 
-          @inline_format.unconsumed
+          @format_array_manager.unconsumed
         end
 
         def enough_space_for_this_line?
-          @line_height = @inline_format.max_line_height
-          @descender   = @inline_format.max_descender
-          @ascender    = @inline_format.max_ascender
+          @line_height = @format_array_manager.max_line_height
+          @descender   = @format_array_manager.max_descender
+          @ascender    = @format_array_manager.max_ascender
           required_space = @baseline_y == 0 ? @line_height : @line_height + @descender
           if @baseline_y.abs + required_space > @height
             # no room for the full height of this line
-            @inline_format.repack_unretrieved
+            @format_array_manager.repack_unretrieved
             false
           else
             true
@@ -139,7 +141,7 @@ module Prawn
 
         def initialize_inner_render(array)
           @text = nil
-          @inline_format.format_array = array
+          @format_array_manager.format_array = array
 
           # these values will depend on the maximum value within a given line
           @line_height = 0
@@ -153,8 +155,8 @@ module Prawn
         def draw_fragment(fragment, accumulated_width)
           raise "Bad font family" unless @document.font.family
           @document.font(@document.font.family,
-                         :style => @inline_format.last_retrieved_font_style) do
-            @document.font_size(@inline_format.last_retrieved_font_size ||
+                         :style => @format_array_manager.last_retrieved_font_style) do
+            @document.font_size(@format_array_manager.last_retrieved_font_size ||
                                 @document.font_size) do
               print_fragment(fragment, accumulated_width, @line_wrap.width)
             end
@@ -192,7 +194,7 @@ module Prawn
       end
 
 
-      class InlineFormatter
+      class FormatArrayManager
         attr_reader :consumed
         attr_reader :unconsumed
         attr_reader :current_format_state
