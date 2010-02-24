@@ -92,10 +92,12 @@ module Prawn
           while @inline_format.unfinished?
             printed_fragments = []
 
-            @line_wrap.wrap_line(:document => @document,
-                                 :kerning => @kerning,
-                                 :width => @width,
-                                 :inline_format => @inline_format)
+            line_to_print = @line_wrap.wrap_line(:document => @document,
+                                                :kerning => @kerning,
+                                                :width => @width,
+                                                :inline_format => @inline_format)
+
+            break if line_to_print.empty?
 
             move_baseline = false
             break unless enough_space_for_this_line?

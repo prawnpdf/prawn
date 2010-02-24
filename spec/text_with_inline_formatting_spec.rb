@@ -2,47 +2,46 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-# describe "#height_of with inline styling" do
-#   before(:each) { create_pdf }
+describe "#height_of_formatted with inline styling" do
+  before(:each) { create_pdf }
 
-#   it "should return the height that would be required to print a" +
-#     "particular string of text" do
-#     original_y = @pdf.y
-#     @pdf.text("Foo")
-#     new_y = @pdf.y
-#     @pdf.height_of("Foo", :width => 300,
-#                      :inline_format => true).should.be.close(original_y - new_y, 0.0001)
-#   end
+  it "should return the height that would be required to print a" +
+    "particular string of text" do
+    original_y = @pdf.y
+    array = [:text => "Foo"]
+    @pdf.formatted_text(array)
+    new_y = @pdf.y
+    @pdf.height_of_formatted(array,
+            :width => 300).should.be.close(original_y - new_y, 0.0001)
+  end
 
-#   it "should raise CannotFit if a too-small width is given" do
-#     lambda do
-#       @pdf.height_of("text", :width => 1,
-#                      :inline_format => true)
-#     end.should.raise(Prawn::Errors::CannotFit)
-#   end
+  it "should raise CannotFit if a too-small width is given" do
+    lambda do
+      @pdf.height_of_formatted([:text => "text"], :width => 1)
+    end.should.raise(Prawn::Errors::CannotFit)
+  end
 
-#   it "should raise Prawn::Errors::UnknownOption if :indent_paragraphs option is provided" do
-#     lambda {
-#       @pdf.height_of("hai", :width => 300,
-#                      :indent_paragraphs => 60,
-#                      :inline_format => true)
-#     }.should.raise(Prawn::Errors::UnknownOption)
-#   end
+  it "should raise Prawn::Errors::UnknownOption if :indent_paragraphs option is provided" do
+    lambda {
+      @pdf.height_of_formatted([:text => "hai"], :width => 300,
+                               :indent_paragraphs => 60)
+    }.should.raise(Prawn::Errors::UnknownOption)
+  end
 
-#   it "should not raise Prawn::Errors::UnknownOption if :final_gap option is provided" do
-#     lambda {
-#       @pdf.height_of("hai", :width => 300,
-#                      :final_gap => true,
-#                      :inline_format => true)
-#     }.should.not.raise(Prawn::Errors::UnknownOption)
-#   end
-# end
+  it "should not raise Prawn::Errors::UnknownOption if :final_gap option is provided" do
+    lambda {
+      @pdf.height_of_formatted([:text => "hai"], :width => 300,
+                               :final_gap => true)
+    }.should.not.raise(Prawn::Errors::UnknownOption)
+  end
+end
 
 describe "#formatted_text" do
   it "should draw text" do
     create_pdf
     string = "hello world"
-    @pdf.text string, :inline_format => true
+    format_array = [:text => string]
+    @pdf.formatted_text(format_array)
     # grab the text from the rendered PDF and ensure it matches
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.first.should == string

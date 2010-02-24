@@ -107,6 +107,25 @@ describe "Text::InlineFormatter#next_string" do
 end
 
 describe "Text::InlineFormatter#retrieve_string" do
+  it "should never return an empty string" do
+    formatter = Prawn::Text::InlineFormatter.new
+    array = [{ :text => "hello\nworld\n\n\nhow are you?" },
+             { :text => "\n" },
+             { :text => "\n" },
+             { :text => "\n" },
+             { :text => "" },
+             { :text => "fine, thanks." },
+             { :text => "" },
+             { :text => "\n" },
+             { :text => "" }]
+    formatter.format_array = array
+    while !formatter.next_string.nil?
+    end
+    while string = formatter.retrieve_string
+      string.should.not.be.empty
+    end
+    formatter.consumed.should.be.empty
+  end
   it "should return the consumed strings in order of consumption and update" +
      " the retrieved_fontstyle to the state it was in at the time each" +
      " string was consumed" do

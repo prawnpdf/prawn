@@ -314,7 +314,7 @@ module Prawn
                                              :kerning => @kerning,
                                              :width => @width)
 
-          break if line_to_print.empty? && remaining_text.length > 0
+          break if line_to_print.empty? && !remaining_text.empty?
 
           remaining_text = remaining_text.slice(line_to_print.length..
                                                 remaining_text.length)

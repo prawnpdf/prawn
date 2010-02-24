@@ -40,6 +40,19 @@ module Prawn
       height
     end
 
+    def height_of_formatted(array, options={})
+      process_final_gap_option(options)
+      box = Text::Formatted::Box.new(array,
+                          options.merge(:height   => 100000000,
+                                        :document => self))
+      printed = box.render(:dry_run => true)
+      raise Errors::CannotFit if box.text.empty? && !array.empty?
+
+      height = box.height - (box.line_height - box.ascender)
+      height += box.line_height + box.leading - box.ascender if @final_gap
+      height
+    end
+
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of
     # the flow of a document (for captions, labels, charts, etc.), use Text::Box
@@ -137,6 +150,11 @@ module Prawn
         options[:skip_encoding] = true
         draw_remaining_text_on_new_pages(remaining_text, options)
       end
+    end
+
+    def formatted_text(array, options={})
+      html_string = Text::Formatted::Parser.to_string(array)
+      text(html_string, options)
     end
 
     # Draws text on the page, beginning at the point specified by the :at option

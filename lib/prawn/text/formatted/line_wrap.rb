@@ -46,6 +46,7 @@ module Prawn
 
         def fragment_finished(fragment, finished_line)
           if fragment == "\n"
+            @line_output = "\n" if @line_output.empty?
             set_last_fragment_size_data
           else
             update_output_based_on_last_fragment(fragment, finished_line)
