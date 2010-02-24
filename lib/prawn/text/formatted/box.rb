@@ -10,10 +10,22 @@ module Prawn
   module Text
     module Formatted
 
-      # Draws the requested text into a box. When the text overflows
-      # the rectangle, you can display ellipses, shrink to fit, or
-      # truncate the text. Text boxes are independent of the document
-      # y position.
+      # Draws the requested formatted text into a box. When the text overflows
+      # the rectangle shrink to fit or truncate the text. Text boxes are
+      # independent of the document y position.
+      #
+      # Formatted text is comprised of an array of hashes, where each hash
+      # defines text and format information. As of the time of writing, the
+      # following hash options are supported:
+      #
+      # <tt>:text</tt> the text to format according to the other hash options
+      # <tt>:style</tt> an array of styles to apply to this text. As of now,
+      #                 :italic and :bold are supported, with the intention of
+      #                 also supporting :underline and :strikethrough
+      # <tt>:size</tt> an integer denoting the font size to apply to this text
+      # <tt>:font</tt> as yet unsupported
+      # <tt>:color</tt> as yet unsupported
+      # <tt>:link</tt> as yet unsupported
       #
       # <tt>:formatted_line_wrap</tt>:: <tt>object</tt>. An object used for
       #                       custom line wrapping on a case by case basis. Note
@@ -45,10 +57,11 @@ module Prawn
         Text::Formatted::Box.new(array, options.merge(:document => self)).render
       end
 
-      # Generally, one would use the formatted_text_box convenience method. However, using
-      # Text::Formatted::Box.new in conjunction with render() enables one to do look-ahead
-      # calculations prior to placing text on the page, or to determine how much
-      # vertical space was consumed by the printed text
+      # Generally, one would use the formatted_text_box convenience
+      # method. However, using Text::Formatted::Box.new in conjunction with
+      # render(:dry_run => true) enables one to do look-ahead calculations prior
+      # to placing text on the page, or to determine how much vertical space was
+      # consumed by the printed text
       #
       class Box < Prawn::Text::Box
         def initialize(array, options={})
@@ -102,7 +115,7 @@ module Prawn
             break if line_to_print.empty?
 
             move_baseline = false
-            break unless enough_space_for_this_line?
+            break unless enough_height_for_this_line?
             move_baseline_down
 
             accumulated_width = 0
@@ -125,7 +138,7 @@ module Prawn
           @format_array_manager.unconsumed
         end
 
-        def enough_space_for_this_line?
+        def enough_height_for_this_line?
           @line_height = @format_array_manager.max_line_height
           @descender   = @format_array_manager.max_descender
           @ascender    = @format_array_manager.max_ascender

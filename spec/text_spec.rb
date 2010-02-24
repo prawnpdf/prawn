@@ -19,11 +19,11 @@ describe "#height_of" do
     end.should.raise(Prawn::Errors::CannotFit)
   end
 
-  it "should raise Prawn::Errors::UnknownOption if :indent_paragraphs option is provided" do
+  it "should raise NotImplementedError if :indent_paragraphs option is provided" do
     lambda {
       @pdf.height_of("hai", :width => 300,
                      :indent_paragraphs => 60)
-    }.should.raise(Prawn::Errors::UnknownOption)
+    }.should.raise(NotImplementedError)
   end
 
   it "should not raise Prawn::Errors::UnknownOption if :final_gap option is provided" do

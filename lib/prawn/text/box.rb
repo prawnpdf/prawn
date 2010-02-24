@@ -84,7 +84,7 @@ module Prawn
     #                                          current line of text
     #                        <tt>:document</tt>:: the pdf object
     #                        <tt>:kerning</tt>:: boolean
-    #                        <tt>:line</tt>:: the line of text to print
+    #                        <tt>:line</tt>:: the line of text to wrap
     #
     #                        The line wrap object should have a <tt>width</tt>
     #                        method that returns the width of the last line
@@ -104,9 +104,9 @@ module Prawn
     end
 
     # Generally, one would use the text_box convenience method. However, using
-    # Text::Box.new in conjunction with render() enables one to do look-ahead
-    # calculations prior to placing text on the page, or to determine how much
-    # vertical space was consumed by the printed text
+    # Text::Box.new in conjunction with render(:dry_run => true) enables one to
+    # do look-ahead calculations prior to placing text on the page, or to
+    # determine how much vertical space was consumed by the printed text
     #
     class Box
 

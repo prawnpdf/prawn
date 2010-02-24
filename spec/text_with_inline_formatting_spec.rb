@@ -21,14 +21,16 @@ describe "#height_of_formatted with inline styling" do
     end.should.raise(Prawn::Errors::CannotFit)
   end
 
-  it "should raise Prawn::Errors::UnknownOption if :indent_paragraphs option is provided" do
+  it "should raise NotImplementedError if :indent_paragraphs option is" +
+     "provided" do
     lambda {
       @pdf.height_of_formatted([:text => "hai"], :width => 300,
                                :indent_paragraphs => 60)
-    }.should.raise(Prawn::Errors::UnknownOption)
+    }.should.raise(NotImplementedError)
   end
 
-  it "should not raise Prawn::Errors::UnknownOption if :final_gap option is provided" do
+  it "should not raise Prawn::Errors::UnknownOption if :final_gap option" +
+     "is provided" do
     lambda {
       @pdf.height_of_formatted([:text => "hai"], :width => 300,
                                :final_gap => true)

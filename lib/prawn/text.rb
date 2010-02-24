@@ -16,43 +16,6 @@ module Prawn
     include Prawn::Core::Text
     include Prawn::Text::Formatted
 
-    VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + [:at, :rotate]
-
-    # Gets height of text in PDF points.
-    # Same options as text(), except as noted.
-    # Not compatible with :indent_paragraphs option
-    #
-    # Raises <tt>Prawn::Errors::UnknownOption</tt> if
-    # <tt>:indent_paragraphs</tt> option included and debug flag is set
-    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
-    # any text
-    #
-    def height_of(string, options={})
-      process_final_gap_option(options)
-      box = Text::Box.new(string,
-                          options.merge(:height   => 100000000,
-                                        :document => self))
-      printed = box.render(:dry_run => true)
-      raise Errors::CannotFit if box.text.empty? && !string.empty?
-
-      height = box.height - (box.line_height - box.ascender)
-      height += box.line_height + box.leading - box.ascender if @final_gap
-      height
-    end
-
-    def height_of_formatted(array, options={})
-      process_final_gap_option(options)
-      box = Text::Formatted::Box.new(array,
-                          options.merge(:height   => 100000000,
-                                        :document => self))
-      printed = box.render(:dry_run => true)
-      raise Errors::CannotFit if box.text.empty? && !array.empty?
-
-      height = box.height - (box.line_height - box.ascender)
-      height += box.line_height + box.leading - box.ascender if @final_gap
-      height
-    end
-
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of
     # the flow of a document (for captions, labels, charts, etc.), use Text::Box
@@ -110,20 +73,30 @@ module Prawn
     # <tt>:final_gap</tt>:: <tt>boolean</tt>. If true, then the space between
     #                       each line is included below the last line;
     #                       otherwise, document.y is placed just below the
-    #                       descender of the last line printed [true] 
-    # <tt>:wrap_block</tt>:: <tt>proc</tt>. A proc used for custom line
-    #                        wrapping. The proc must accept a single
-    #                        <tt>line</tt> of text and an <tt>options</tt> hash
-    #                        and return the string from that single line that
-    #                        can fit on the line under the conditions defined by
-    #                        <tt>options</tt>. If omitted, the default wrapping
-    #                        proc is used. The options hash passed into the
-    #                        wrap_block proc includes the following options: 
+    #                       descender of the last line printed [true]
+    #
+    # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
+    #                        custom line wrapping on a case by case basis. Note
+    #                        that if you want to change wrapping document-wide,
+    #                        do pdf.default_unformatted_line_wrap =
+    #                        MyLineWrap.new.  Your custom object must have a
+    #                        wrap_line method that accepts an <tt>options</tt>
+    #                        hash and returns the string from that single line
+    #                        that can fit on the line under the conditions
+    #                        defined by <tt>options</tt>. If omitted, the line
+    #                        wrap object is used. The options hash passed into
+    #                        the wrap_object proc includes the following
+    #                        options:
+    #
     #                        <tt>:width</tt>:: the width available for the
     #                                          current line of text
     #                        <tt>:document</tt>:: the pdf object
     #                        <tt>:kerning</tt>:: boolean
-    #                        <tt>:size</tt>:: the font size
+    #                        <tt>:line</tt>:: the line of text to wrap
+    #
+    #                        The line wrap object should have a <tt>width</tt>
+    #                        method that returns the width of the last line
+    #                        printed
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
     #
@@ -152,6 +125,55 @@ module Prawn
       end
     end
 
+
+    # Draws formatted text to the page.
+    # Formatted text is comprised of an array of hashes, where each hash defines
+    # text and format information. As of the time of writing, the following hash
+    # options are supported:
+    #
+    # <tt>:text</tt> the text to format according to the other hash options
+    # <tt>:style</tt> an array of styles to apply to this text. As of now,
+    #                 :italic and :bold are supported, with the intention of
+    #                 also supporting :underline and :strikethrough
+    # <tt>:size</tt> an integer denoting the font size to apply to this text
+    # <tt>:font</tt> as yet unsupported
+    # <tt>:color</tt> as yet unsupported
+    # <tt>:link</tt> as yet unsupported
+    #
+    # For information on options, see documentation for text(). The only
+    # difference in options is that if you want to provide a custom wrap object,
+    # the option is :formatted_line_wrap, rather than :unformatted_line_wrap
+    #
+    # <tt>:formatted_line_wrap</tt>:: <tt>object</tt>. An object used for
+    #                       custom line wrapping on a case by case basis. Note
+    #                       that if you want to change wrapping document-wide,
+    #                       do pdf.default_unformatted_line_wrap =
+    #                       MyLineWrap.new.  Your custom object must have a
+    #                       wrap_line method that accepts an <tt>options</tt>
+    #                       hash and returns the string from that single line
+    #                       that can fit on the line under the conditions
+    #                       defined by <tt>options</tt>. If omitted, the line
+    #                       wrap object is used. The options hash passed into
+    #                       the wrap_object proc includes the following
+    #                       options:
+    #
+    #                       <tt>:width</tt>:: the width available for the
+    #                                         current line of text
+    #                       <tt>:document</tt>:: the pdf object
+    #                       <tt>:kerning</tt>:: boolean
+    #                       <tt>:format_array_manager</tt>:: a FormatArrayManager
+    #                                                        object
+    #
+    #                        The line wrap object should have a <tt>width</tt>
+    #                        method that returns the width of the last line
+    #                        printed 
+    #
+    # Example:
+    #   text([{ :text => "hello" },
+    #         { :text => "world",
+    #           :size => 24,
+    #           :style => [:bold, :italic] }])
+    #
     def formatted_text(array, options={})
       html_string = Text::Formatted::Parser.to_string(array)
       text(html_string, options)
@@ -219,6 +241,61 @@ module Prawn
       end
     end
 
+    # Gets height of text in PDF points.
+    # Same options as text(), except as noted.
+    # Not compatible with :indent_paragraphs option
+    #
+    # Example:
+    #   height_of("hello\nworld")
+    #
+    # Raises <tt>NotImplementedError</tt> if <tt>:indent_paragraphs</tt>
+    # option included
+    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # any text
+    #
+    def height_of(string, options={})
+      if options[:indent_paragraphs]
+        raise NotImplementedError, ":indent_paragraphs option not available" +
+          "with height_of"
+      end
+      process_final_gap_option(options)
+      box = Text::Box.new(string,
+                          options.merge(:height   => 100000000,
+                                        :document => self))
+      printed = box.render(:dry_run => true)
+      raise Errors::CannotFit if box.text.empty? && !string.empty?
+
+      height = box.height - (box.line_height - box.ascender)
+      height += box.line_height + box.leading - box.ascender if @final_gap
+      height
+    end
+
+    # Gets height of formatted text in PDF points.
+    # See documentation for height_of.
+    #
+    # Example:
+    #   height_of_formatted([{ :text => "hello" },
+    #                        { :text => "world",
+    #                          :size => 24,
+    #                          :style => [:bold, :italic] }])
+    #
+    def height_of_formatted(array, options={})
+      if options[:indent_paragraphs]
+        raise NotImplementedError, ":indent_paragraphs option not available" +
+          "with height_of"
+      end
+      process_final_gap_option(options)
+      box = Text::Formatted::Box.new(array,
+                          options.merge(:height   => 100000000,
+                                        :document => self))
+      printed = box.render(:dry_run => true)
+      raise Errors::CannotFit if box.text.empty? && !array.empty?
+
+      height = box.height - (box.line_height - box.ascender)
+      height += box.line_height + box.leading - box.ascender if @final_gap
+      height
+    end
+
     private
 
     def draw_remaining_text_on_new_pages(remaining_text, options)
@@ -268,7 +345,8 @@ module Prawn
       elsif options[:align]
         raise ArgumentError, "The :align option does not work with draw_text"
       end
-      Prawn.verify_options(VALID_OPTIONS, options)
+      valid_options = Prawn::Core::Text::VALID_OPTIONS + [:at, :rotate]
+      Prawn.verify_options(valid_options, options)
     end
 
     def inspect_options_for_text(options)
