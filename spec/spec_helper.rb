@@ -7,7 +7,6 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor',
                              'pdf-inspector','lib')
 require "prawn"
-require "prawn/layout"
 
 Prawn.debug = true
 

@@ -56,6 +56,7 @@ module Prawn
     include Prawn::Core::Destinations
     include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
+    include Prawn::Document::Security
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images

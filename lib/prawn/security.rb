@@ -258,20 +258,3 @@ module Prawn
   end
 end
 
-class Prawn::Core::DocumentState
-  
-  # Prawn/Security patches render_body so that it spits out encrypted content
-  # iff the document is encrypted.
-  def render_body(output)
-    store.compact if optimize_objects
-    store.each do |ref|
-      ref.offset = output.size
-      output << (@encrypted ? ref.encrypted_object(user_encryption_key) : 
-                              ref.object)
-    end
-  end
-
-end
-
-Prawn::Document.send(:include, Prawn::Document::Security)
-

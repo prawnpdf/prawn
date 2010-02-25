@@ -56,7 +56,8 @@ module Prawn
         store.compact if optimize_objects
         store.each do |ref|
           ref.offset = output.size
-          output << ref.object
+          output << (@encrypted ? ref.encrypted_object(user_encryption_key) : 
+                                  ref.object)
         end
       end
 
