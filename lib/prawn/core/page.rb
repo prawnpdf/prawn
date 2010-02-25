@@ -1,16 +1,24 @@
+# encoding: utf-8
+
+# prawn/core/page.rb : Implements low-level representation of a PDF page
+#
+# Copyright February 2010, Gregory Brown.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 module Prawn
   module Core
-    class Page
+    class Page #:nodoc:
       def initialize(document, options={})
         @document = document
-        @size     = options[:size]   ||  "LETTER" 
+        @size     = options[:size]    ||  "LETTER" 
 
-        @layout   = options[:layout] || :portrait 
+        @layout   = options[:layout]  || :portrait 
 
         @margins  = options[:margins] || { :left    => 36,
                                            :right   => 36,
                                            :top     => 36,
-                                           :bottom  => 36 }
+                                           :bottom  => 36  }
 
         @content    = document.ref(:Length      => 0)
         @dictionary = document.ref(:Type        => :Page,
