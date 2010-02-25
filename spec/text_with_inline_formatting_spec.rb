@@ -17,7 +17,7 @@ describe "#height_of_formatted with inline styling" do
 
   it "should raise CannotFit if a too-small width is given" do
     lambda do
-      @pdf.height_of_formatted([:text => "text"], :width => 1)
+      @pdf.height_of_formatted([:text => "hai"], :width => 1)
     end.should.raise(Prawn::Errors::CannotFit)
   end
 
@@ -179,11 +179,5 @@ describe "#text with inline styling" do
       lambda { @pdf.text sjis_str,
           :inline_format => true }.should.raise(ArgumentError)
     end
-  end
-end
-
-class TestWordWrap
-  def wrap_line(options)
-    options[:line]
   end
 end

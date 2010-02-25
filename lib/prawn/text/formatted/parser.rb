@@ -1,3 +1,13 @@
+# encoding: utf-8
+
+# text/formatted/parser.rb : Implements a bi-directional parser between a subset
+#                            of html and formatted text arrays
+#
+# Copyright February 2010, Daniel Nelson. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
+
 module Prawn
   module Text
     module Formatted

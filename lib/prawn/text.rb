@@ -65,8 +65,8 @@ module Prawn
     # <tt>:indent_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
     #                               first line of each paragraph. Omit this
     #                               option if you do not want indenting
-    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, or <tt>:right</tt>.
-    #                   Alignment within the bounding box [:left]
+    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
+    #                   <tt>:justify</tt> Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
     #                    Vertical alignment within the bounding box [:top]
     # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
@@ -76,27 +76,9 @@ module Prawn
     #                       descender of the last line printed [true]
     #
     # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-    #                        custom line wrapping on a case by case basis. Note
-    #                        that if you want to change wrapping document-wide,
-    #                        do pdf.default_unformatted_line_wrap =
-    #                        MyLineWrap.new.  Your custom object must have a
-    #                        wrap_line method that accepts an <tt>options</tt>
-    #                        hash and returns the string from that single line
-    #                        that can fit on the line under the conditions
-    #                        defined by <tt>options</tt>. If omitted, the line
-    #                        wrap object is used. The options hash passed into
-    #                        the wrap_object proc includes the following
-    #                        options:
-    #
-    #                        <tt>:width</tt>:: the width available for the
-    #                                          current line of text
-    #                        <tt>:document</tt>:: the pdf object
-    #                        <tt>:kerning</tt>:: boolean
-    #                        <tt>:line</tt>:: the line of text to wrap
-    #
-    #                        The line wrap object should have a <tt>width</tt>
-    #                        method that returns the width of the last line
-    #                        printed
+    #                                   custom line wrapping on a case by case
+    #                                   basis. See notes for Text::Box#text_box
+    #                        
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
     #
@@ -145,28 +127,9 @@ module Prawn
     # the option is :formatted_line_wrap, rather than :unformatted_line_wrap
     #
     # <tt>:formatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-    #                       custom line wrapping on a case by case basis. Note
-    #                       that if you want to change wrapping document-wide,
-    #                       do pdf.default_unformatted_line_wrap =
-    #                       MyLineWrap.new.  Your custom object must have a
-    #                       wrap_line method that accepts an <tt>options</tt>
-    #                       hash and returns the string from that single line
-    #                       that can fit on the line under the conditions
-    #                       defined by <tt>options</tt>. If omitted, the line
-    #                       wrap object is used. The options hash passed into
-    #                       the wrap_object proc includes the following
-    #                       options:
+    #                                 custom line wrapping on a case by case
+    #                                 basis. See notes for Text::Box#text_box
     #
-    #                       <tt>:width</tt>:: the width available for the
-    #                                         current line of text
-    #                       <tt>:document</tt>:: the pdf object
-    #                       <tt>:kerning</tt>:: boolean
-    #                       <tt>:format_array_manager</tt>:: a FormatArrayManager
-    #                                                        object
-    #
-    #                        The line wrap object should have a <tt>width</tt>
-    #                        method that returns the width of the last line
-    #                        printed 
     #
     # Example:
     #   text([{ :text => "hello" },
@@ -263,7 +226,6 @@ module Prawn
                           options.merge(:height   => 100000000,
                                         :document => self))
       printed = box.render(:dry_run => true)
-      raise Errors::CannotFit if box.text.empty? && !string.empty?
 
       height = box.height - (box.line_height - box.ascender)
       height += box.line_height + box.leading - box.ascender if @final_gap
@@ -289,7 +251,6 @@ module Prawn
                           options.merge(:height   => 100000000,
                                         :document => self))
       printed = box.render(:dry_run => true)
-      raise Errors::CannotFit if box.text.empty? && !array.empty?
 
       height = box.height - (box.line_height - box.ascender)
       height += box.line_height + box.leading - box.ascender if @final_gap

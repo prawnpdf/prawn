@@ -5,6 +5,7 @@
 # Copyright November 2009, Daniel Nelson. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+#
 require "prawn/text/line_wrap"
 
 module Prawn
@@ -43,8 +44,8 @@ module Prawn
     #                   [@document.bounds.right - @at[0]]
     # <tt>:height</tt>:: <tt>number</tt>. The height of the box [@at[1] -
     #                    @document.bounds.bottom]
-    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, or <tt>:right</tt>.
-    #                   Alignment within the bounding box [:left]
+    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
+    #                   <tt>:justify</tt> Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
     #                    Vertical alignment within the bounding box [:top]
     # <tt>:rotate</tt>:: <tt>number</tt>. The angle to rotate the text
@@ -72,23 +73,31 @@ module Prawn
     #                        that if you want to change wrapping document-wide,
     #                        do pdf.default_unformatted_line_wrap =
     #                        MyLineWrap.new.  Your custom object must have a
-    #                        wrap_line method that accepts an <tt>options</tt>
-    #                        hash and returns the string from that single line
-    #                        that can fit on the line under the conditions
-    #                        defined by <tt>options</tt>. If omitted, the line
-    #                        wrap object is used. The options hash passed into
-    #                        the wrap_object proc includes the following
-    #                        options:
+    #                        wrap_line method that accepts a single line (no
+    #                        newlines) and an <tt>options</tt> hash and returns
+    #                        the part of that string that can fit on a single
+    #                        line under the conditions defined by
+    #                        <tt>options</tt> (see the line wrap specs). If
+    #                        omitted, the Prawn default line wrap object is
+    #                        used. The options hash passed into the wrap_object
+    #                        proc includes the following options:
     #
     #                        <tt>:width</tt>:: the width available for the
     #                                          current line of text
     #                        <tt>:document</tt>:: the pdf object
     #                        <tt>:kerning</tt>:: boolean
-    #                        <tt>:line</tt>:: the line of text to wrap
     #
     #                        The line wrap object should have a <tt>width</tt>
     #                        method that returns the width of the last line
-    #                        printed
+    #                        printed, a <tt>space_count</tt> method that returns
+    #                        the number of spaces in the last line, and a
+    #                        <tt>consumed_char_count</tt> that returns the
+    #                        number of characters used from the original line,
+    #                        which may be more than the number of characters
+    #                        returned by the <tt>wrap_line</tt> method because
+    #                        preceding and trailing spaces should not be
+    #                        returned by wrap_line
+    # 
     #
     # Returns any text that did not print under the current settings.
     # NOTE: if an AFM font is used, then the returned text is encoded in
@@ -231,7 +240,7 @@ module Prawn
       end
 
       def original_text=(string)
-        @original_string = string
+        @original_string = string.dup
       end
 
       def process_vertical_alignment(text)
@@ -304,15 +313,12 @@ module Prawn
         while remaining_text &&
               remaining_text.length > 0 &&
               @baseline_y.abs + @descender <= @height
-          line_to_print = @line_wrap.wrap_line(
-                                             :line => remaining_text.first_line,
-                                             :document => @document,
-                                             :kerning => @kerning,
-                                             :width => @width)
+          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
+                                               :document => @document,
+                                               :kerning => @kerning,
+                                               :width => @width)
 
-          break if line_to_print.empty? && !remaining_text.empty?
-
-          remaining_text = remaining_text.slice(line_to_print.length..
+          remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..
                                                 remaining_text.length)
           print_ellipses = (@overflow == :ellipses && last_line? &&
                             remaining_text.length > 0)
@@ -326,27 +332,35 @@ module Prawn
         remaining_text
       end
 
+      def justification_computation
+        if @line_wrap.width.to_f / @width.to_f < 0.75
+          @word_spacing = 0
+        else
+          @word_spacing = (@width - @line_wrap.width) / @line_wrap.space_count
+        end
+      end
+
       def print_line(line_to_print, print_ellipses)
-        # strip so that trailing and preceding white space don't
-        # interfere with alignment
-        line_to_print.strip!
-        
         insert_ellipses(line_to_print) if print_ellipses
 
         case(@align)
-        when :left
+        when :left, :justify
           x = @at[0]
         when :center
-          line_width = @document.width_of(line_to_print, :kerning => @kerning)
-          x = @at[0] + @width * 0.5 - line_width * 0.5
+          x = @at[0] + @width * 0.5 - @line_wrap.width * 0.5
         when :right
-          line_width = @document.width_of(line_to_print, :kerning => @kerning)
-          x = @at[0] + @width - line_width
+          x = @at[0] + @width - @line_wrap.width
         end
         
         y = @at[1] + @baseline_y
         
-        if @inked
+        if @inked && @align == :justify
+          justification_computation
+          @document.word_spacing(@word_spacing) {
+            @document.draw_text!(line_to_print, :at => [x, y],
+                                                :kerning => @kerning)
+          }
+        elsif @inked
           @document.draw_text!(line_to_print, :at => [x, y],
                                               :kerning => @kerning)
         end

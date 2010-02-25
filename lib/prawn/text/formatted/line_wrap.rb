@@ -1,89 +1,91 @@
+# encoding: utf-8
+
+# text/formatted/line_wrap.rb : Implements individual line wrapping of formatted
+#                               text
+#
+# Copyright February 2010, Daniel Nelson. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
+
 module Prawn
   module Text
     module Formatted
       
       class LineWrap < Prawn::Text::LineWrap
 
-        def width
-          @accumulated_width || 0
-        end
-
         def wrap_line(options)
           @document = options[:document]
           @kerning = options[:kerning]
           @width = options[:width]
-          @format_array_manager = options[:format_array_manager]
+          @arranger = options[:arranger]
           @accumulated_width = 0
-          @fragment_width = 0
-          @output = ""
           @scan_pattern = @document.font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
           @space_scan_pattern = @document.font.unicode? ? /\s/ : /\s/n
 
           _wrap_line
-          
-          @output
+
+          @arranger.finalize_line
+          @accumulated_width = @arranger.line_width
+          @space_count = @arranger.space_count
+          @arranger.line
         end
 
         private
 
         def _wrap_line
-          @format_array_manager.initialize_line
+          @arranger.initialize_line
           @line_output = ""
-          while fragment = @format_array_manager.next_string
+          while fragment = @arranger.next_string
             @output = ""
+            preview = @arranger.preview_next_string
+
             fragment.lstrip! if @line_output.empty? && fragment != "\n"
-            @fragment_width = 0
+            if @line_output.empty? && fragment.empty? && preview == "\n"
+              # this line was just whitespace followed by a newline, which is
+              # equivalent to just a newline
+              @arranger.update_last_string("", "")
+              next
+            end
+            
             if !add_fragment_to_line(fragment)
               fragment_finished(fragment, true)
               break
             end
             
-            preview = @format_array_manager.preview_next_string
             fragment_finished(fragment, preview == "\n" || preview.nil?)
           end
-          @output = @line_output
         end
 
         def fragment_finished(fragment, finished_line)
           if fragment == "\n"
             @line_output = "\n" if @line_output.empty?
-            set_last_fragment_size_data
           else
             update_output_based_on_last_fragment(fragment, finished_line)
             @line_output += @output
-            set_last_fragment_size_data
           end
         end
 
         def update_output_based_on_last_fragment(fragment, finished_line)
           remaining_text = fragment.slice(@output.length..fragment.length)
           @output.rstrip! if finished_line
-          @fragment_width = single_format_text_width(@output)
-          @format_array_manager.update_last_string(@output, remaining_text)
-        end
-
-        def single_format_text_width(text)
-          raise "Bad font family" unless @document.font.family
-          width = 0
-          apply_current_font_settings do
-            width = @document.width_of(text, :kerning => @kerning)
-          end
-          width
+          raise Errors::CannotFit if finished_line && @line_output.empty? &&
+                                     @output.empty? && !fragment.strip.empty?
+          @arranger.update_last_string(@output, remaining_text)
         end
 
         # returns true iff all text was printed without running into the end of
         # the line
         #
         def add_fragment_to_line(fragment)
+          return true if fragment == ""
           return false if fragment == "\n"
           fragment.scan(@scan_pattern).each do |segment|
-            raise "Bad font family" unless @document.font.family
-            apply_current_font_settings do
+            @arranger.apply_font_settings(@arranger.current_format_state) do
               segment_width = @document.width_of(segment, :kerning => @kerning)
 
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
-                @fragment_width += segment_width
                 @output += segment
               else
                 # if the line contains white space, don't split the
@@ -96,27 +98,6 @@ module Prawn
             end
           end
           true
-        end
-
-        def set_last_fragment_size_data
-          apply_current_font_settings do
-            @format_array_manager.set_last_string_size_data(
-                                         :width => @fragment_width,
-                                         :line_height => @document.font.height,
-                                         :descender => @document.font.descender,
-                                         :ascender => @document.font.ascender
-                                                     )
-          end
-        end
-
-        def apply_current_font_settings
-          @document.font(@document.font.family,
-                         :style => @format_array_manager.current_font_style) do
-            @document.font_size(@format_array_manager.current_font_size ||
-                                @document.font_size) do
-              yield
-            end
-          end
         end
 
       end

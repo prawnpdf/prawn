@@ -310,9 +310,18 @@ end
 
 class TestWordWrap
   def width
-    0
+    @width
   end
-  def wrap_line(options)
-    options[:line]
+  def space_count
+    @line.count(" ")
+  end
+  def consumed_char_count
+    @consumed_char_count
+  end
+  def wrap_line(line, options)
+    @consumed_char_count = line.length
+    @line = line.strip
+    @width = options[:document].width_of(@line, :kerning => options[:kerning])
+    @line
   end
 end

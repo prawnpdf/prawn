@@ -3,6 +3,18 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 
+describe "Text::Box#render with :align => :justify" do
+  it "should draw the character spacing to the document" do
+    create_pdf
+    string = "hello world " * 10
+    options = { :document => @pdf, :align => :justify }
+    text_box = Prawn::Text::Box.new(string, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.word_spacing[0].should.be > 0
+  end
+end
+
 describe "Text::Box#height without leading" do
   it "should equal the sum of the height of each line" do
     create_pdf
@@ -43,7 +55,7 @@ describe "Text::Box#render" do
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render()
+    text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.should.not.be.empty
   end
@@ -52,7 +64,7 @@ describe "Text::Box#render" do
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render()
+    text_box.render
     matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
     matrices.matrices.length.should == 0
   end
@@ -65,7 +77,7 @@ describe "Text::Box#render(:single_line => true)" do
     @options = { :document => @pdf,
                  :single_line => true }
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render()
+    text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.length.should == 1
   end
@@ -112,7 +124,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the center of the text" do
       @options[:rotate_around] = :center
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x + @width / 2
@@ -135,7 +147,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the upper left corner of the text" do
       @options[:rotate_around] = :upper_left
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x
@@ -157,7 +169,7 @@ describe "Text::Box#render with :rotate option of 30)" do
   context "default :rotate_around" do
     it "should draw content to the page rotated about the upper left corner of the text" do
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x
@@ -180,7 +192,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the upper right corner of the text" do
       @options[:rotate_around] = :upper_right
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x + @width
@@ -203,7 +215,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the lower right corner of the text" do
       @options[:rotate_around] = :lower_right
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x + @width
@@ -226,7 +238,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the lower left corner of the text" do
       @options[:rotate_around] = :lower_left
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x
