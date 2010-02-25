@@ -15,6 +15,9 @@ module Prawn
     # A bounding box serves two important purposes:
     # * Provide bounds for flowing text, starting at a given point
     # * Translate the origin (0,0) for graphics primitives
+    #
+    # A point and :width must be provided. :height is optional. 
+    # (See stretchyness below)
     # 
     # ==Positioning
     # 
@@ -198,6 +201,10 @@ module Prawn
     class BoundingBox
       
       def initialize(parent, point, options={}) #:nodoc:   
+        unless options[:width]
+          raise ArgumentError, "BoundingBox needs the :width option to be set"
+        end
+
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
