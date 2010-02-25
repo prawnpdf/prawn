@@ -89,6 +89,25 @@ don't try and do it in your head, instead, let Prawn help you:
 
 {Learn more}[link:classes/Prawn/Measurements.html]
 
+===Document Security, Permissions, and Encryption
+
+See examples/security/ for example code, such as this:
+
+  require 'prawn/security'
+
+  Prawn::Document.generate("hello_foo.pdf") do
+    text "Hello, world!"
+    encrypt_document :user_password => 'foo', :owner_password => 'bar',
+      :permissions => { :print_document => false }
+  end
+
+This creates a document that requires the password 'foo' to be opened,
+and cannot be printed without entering the owner password 'bar'.
+
+If you want to prohibit most anyone from performing a certain activity, you can
+pass :owner_password => :random to generate a probably-unguessable owner 
+password.
+
 == Resources
 
 === Website:
@@ -136,3 +155,4 @@ Find us in #prawn on irc.freenode.net
 == Notes to Developers: 
 
 See HACKING file for details on getting set up with a local build.
+

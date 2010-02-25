@@ -4,6 +4,7 @@ require 'rake/testtask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
+# Version numbering: http://wiki.github.com/sandal/prawn/development-roadmap
 PRAWN_VERSION = "0.9.0" 
 
 task :default => [:test]
@@ -73,3 +74,4 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
+

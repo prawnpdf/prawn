@@ -10,7 +10,7 @@ require "prawn"
 Prawn.debug = true
 
 ruby_19 do
- gem "test-unit", "=1.2.3"
+  gem "test-unit", "=1.2.3"
 end
 require "test/spec"
 require "mocha"
@@ -22,3 +22,4 @@ require "pdf/inspector"
 def create_pdf(klass=Prawn::Document)
   @pdf = klass.new(:margin => 0)
 end    
+
