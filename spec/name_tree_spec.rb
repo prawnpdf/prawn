@@ -20,7 +20,7 @@ end
 
 class RefExposingDocument < Prawn::Document
   def object_store
-    @store
+    state.store
   end
 end
 

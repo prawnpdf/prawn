@@ -34,7 +34,7 @@ module Prawn
       # will probably work with your extension
       #
       def ref!(data)
-        @store.ref(data)
+        state.store.ref(data)
       end
 
       # Appends a raw string to the current page content.
@@ -46,7 +46,7 @@ module Prawn
       #  pdf.add_content("S") # stroke                    
       #
       def add_content(str)
-        page.content << str << "\n"
+        state.page.content << str << "\n"
       end  
       
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
@@ -54,28 +54,28 @@ module Prawn
       # dictionary do not incur the additional overhead.
       #
       def names
-        @store.root.data[:Names] ||= ref!(:Type => :Names)
+        state.store.root.data[:Names] ||= ref!(:Type => :Names)
       end
 
       # Returns true if the Names dictionary is in use for this document.
       # 
       def names?
-        @store.root.data[:Names]
+        state.store.root.data[:Names]
       end
 
       # Defines a block to be called just before the document is rendered.
       #
       def before_render(&block)
-        @before_render_callbacks << block
+        state.before_render_callbacks << block
       end
 
       # Defines a block to be called just before a new page is started.
       #
       def on_page_create(&block)
          if block_given?
-            @on_page_create_callback = block
+            state.on_page_create_callback = block
          else
-            @on_page_create_callback = nil
+            state.on_page_create_callback = nil
          end
       end
       
@@ -86,8 +86,7 @@ module Prawn
           go_to_page i
           repeaters.each { |r| r.run(i) }
           restore_graphics_state
-          page.content.compress_stream if compression_enabled?
-          page.content.data[:Length] = page.content.stream.size
+          state.page.finalize
         end
       end
 
@@ -96,16 +95,16 @@ module Prawn
       # to their document that requires a particular version.
       #
       def min_version(min)
-        @version = min if min > @version
+        state.version = min if min > state.version
       end
 
       # Write out the PDF Header, as per spec 3.4.1
       #
       def render_header(output)
-        @before_render_callbacks.each{ |c| c.call(self) }
+        state.before_render_actions(self)
 
         # pdf version
-        output << "%PDF-#{@version}\n"
+        output << "%PDF-#{state.version}\n"
 
         # 4 binary chars, as recommended by the spec
         output << "%\xFF\xFF\xFF\xFF\n"
@@ -114,11 +113,7 @@ module Prawn
       # Write out the PDF Body, as per spec 3.4.2
       #
       def render_body(output)
-        @store.compact if @optimize_objects
-        @store.each do |ref|
-          ref.offset = output.size
-          output << ref.object
-        end
+        state.render_body(output)
       end
 
       # Write out the PDF Cross Reference Table, as per spec 3.4.3
@@ -126,9 +121,9 @@ module Prawn
       def render_xref(output)
         @xref_offset = output.size
         output << "xref\n"
-        output << "0 #{@store.size + 1}\n"
+        output << "0 #{state.store.size + 1}\n"
         output << "0000000000 65535 f \n"
-        @store.each do |ref|
+        state.store.each do |ref|
           output.printf("%010d", ref.offset)
           output << " 00000 n \n"
         end
@@ -137,10 +132,10 @@ module Prawn
       # Write out the PDF Trailer, as per spec 3.4.4
       #
       def render_trailer(output)
-        trailer_hash = {:Size => @store.size + 1, 
-                        :Root => @store.root,
-                        :Info => @store.info}
-        trailer_hash.merge!(@trailer) if @trailer
+        trailer_hash = {:Size => state.store.size + 1, 
+                        :Root => state.store.root,
+                        :Info => state.store.info}
+        trailer_hash.merge!(state.trailer) if state.trailer
 
         output << "trailer\n"
         output << Prawn::PdfObject(trailer_hash) << "\n"
