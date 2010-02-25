@@ -5,11 +5,9 @@
 # Copyright November 2008, Jamis Buck. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-
-require 'prawn/literal_string'
-
+#
 module Prawn
-  class Document
+  module Core
     
     # Provides very low-level support for annotations.  These extensions are
     # mainly for use by prawn-format, so be sure to check that out if all
@@ -54,7 +52,7 @@ module Prawn
         options = options.merge(:Type => :Annot)
 
         if options[:Dest].is_a?(String)
-          options[:Dest] = Prawn::LiteralString.new(options[:Dest])
+          options[:Dest] = Prawn::Core::LiteralString.new(options[:Dest])
         end
 
         options

@@ -1,15 +1,13 @@
 # encoding: utf-8
 
-# annotations.rb : Implements destination support for PDF
+# prawn/core/destinations.rb : Implements destination support for PDF
 #
 # Copyright November 2008, Jamis Buck. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-#
-require 'prawn/name_tree'
 
 module Prawn
-  class Document
+  module Core
     module Destinations
       
       # The maximum number of children to fit into a single node in the Dests tree.
@@ -20,7 +18,7 @@ module Prawn
       # (For more on name trees, see section 3.8.4 in the PDF spec.)
       #
       def dests
-        names.data[:Dests] ||= ref!(Prawn::NameTree::Node.new(self, NAME_TREE_CHILDREN_LIMIT))
+        names.data[:Dests] ||= ref!(Prawn::Core::NameTree::Node.new(self, NAME_TREE_CHILDREN_LIMIT))
       end
 
       # Adds a new destination to the dests name tree (see #dests). The
@@ -28,7 +26,7 @@ module Prawn
       # it is not already one.
       #
       def add_dest(name, reference)
-        reference = ref!(reference) unless reference.is_a?(Prawn::Reference)
+        reference = ref!(reference) unless reference.is_a?(Prawn::Core::Reference)
         dests.data.add(name, reference)
       end
 

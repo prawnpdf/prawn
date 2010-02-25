@@ -29,7 +29,7 @@ module Prawn
 
         info.keys.each do |key|
           if info[key].kind_of?(String)
-            info[key] = Prawn::LiteralString.new(info[key])
+            info[key] = Prawn::Core::LiteralString.new(info[key])
           end
         end
       end

@@ -5,7 +5,7 @@ puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 require "rubygems"
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib') 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor','pdf-inspector','lib')
-require "prawn/core"
+require "prawn"
 
 Prawn.debug = true
 

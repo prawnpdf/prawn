@@ -22,7 +22,7 @@ describe "Prawn::ObjectStore" do
   end
 
   it "should accept push with a Prawn::Reference" do
-    r = Prawn::Reference(123, "blah")
+    r = Prawn::Core::Reference(123, "blah")
     @store.push(r)
     @store[r.identifier].should == r
   end

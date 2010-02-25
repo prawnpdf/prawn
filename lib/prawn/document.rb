@@ -12,8 +12,6 @@ require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"
 require "prawn/document/span"
-require "prawn/document/annotations"
-require "prawn/document/destinations"
 require "prawn/document/snapshot"
 require "prawn/document/graphics_state"
 
@@ -53,17 +51,15 @@ module Prawn
   # See the new and generate methods for further details on the above.
   #
   class Document
-
-    include Internals
-    include Annotations
-    include Destinations
-    include Snapshot
-    include GraphicsState
+    include Prawn::Document::Internals
+    include Prawn::Core::Annotations
+    include Prawn::Core::Destinations
+    include Prawn::Document::Snapshot
+    include Prawn::Document::GraphicsState
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
-    
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by

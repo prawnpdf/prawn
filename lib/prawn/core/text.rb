@@ -64,7 +64,7 @@ module Prawn
           add_content "/#{font.identifier_for(subset)} #{font_size} Tf"
 
           operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
-          add_content Prawn::PdfObject(string, true) << " " << operation
+          add_content Prawn::Core::PdfObject(string, true) << " " << operation
         end
 
         add_content "ET\n"

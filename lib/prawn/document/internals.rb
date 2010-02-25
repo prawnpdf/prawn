@@ -138,7 +138,7 @@ module Prawn
         trailer_hash.merge!(state.trailer) if state.trailer
 
         output << "trailer\n"
-        output << Prawn::PdfObject(trailer_hash) << "\n"
+        output << Prawn::Core::PdfObject(trailer_hash) << "\n"
         output << "startxref\n" 
         output << @xref_offset << "\n"
         output << "%%EOF" << "\n"
