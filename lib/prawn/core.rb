@@ -31,7 +31,7 @@ module Prawn
   #
   BASEDIR = File.expand_path(File.join(dir, '..', '..'))
   
-  VERSION = "0.8.1"
+  VERSION = "0.8.4"
   
   extend self
 
