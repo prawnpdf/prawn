@@ -4,7 +4,7 @@ require 'rake/testtask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
-PRAWN_VERSION = "0.8.1" 
+PRAWN_VERSION = "0.8.3" 
 
 task :default => [:test]
        

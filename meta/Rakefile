@@ -8,18 +8,19 @@ require "rake/gempackagetask"
 
 spec = Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = "0.8.1"
+  spec.version = "0.8.3"
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.add_dependency('prawn-core',   '>= 0.8.1'. "< 0.9")
-  spec.add_dependency('prawn-layout', '>= 0.8.1', "< 0.9")
-  spec.add_dependency('prawn-security''>= 0.8.1', "< 0.9")
+  spec.add_dependency('prawn-core',   '>= 0.8.3', "< 0.9")
+  spec.add_dependency('prawn-layout', '>= 0.8.3', "< 0.9")
+  spec.add_dependency('prawn-security', '>= 0.8.3', "< 0.9")
   spec.files = Dir.glob("lib/*")
   spec.require_path = "lib"
   spec.author = "Gregory Brown"
   spec.email = "  gregory.t.brown@gmail.com"
   spec.homepage = "http://wiki.github.com/sandal/prawn"
   spec.description = "Prawn is a fast, tiny, and nimble PDF generator for Ruby"
+  spec.rubyforge_project = "prawn"
   spec.post_install_message = %{
   Welcome to Prawn, the best pure-Ruby PDF solution ever!
   This is version 0.8
