@@ -15,6 +15,9 @@ module Prawn
     # A bounding box serves two important purposes:
     # * Provide bounds for flowing text, starting at a given point
     # * Translate the origin (0,0) for graphics primitives
+    #
+    # A point and :width must be provided. :height is optional. 
+    # (See stretchyness below)
     # 
     # ==Positioning
     # 
@@ -153,7 +156,7 @@ module Prawn
     #
     def bounding_box(*args, &block)    
       init_bounding_box(block) do |_|
-        translate!(args[0])     
+        map_to_absolute!(args[0])     
         @bounding_box = BoundingBox.new(self, *args)   
       end
     end 
@@ -167,9 +170,9 @@ module Prawn
     #
     def canvas(&block)     
       init_bounding_box(block, :hold_position => true) do |_|
-        @bounding_box = BoundingBox.new(self, [0,page_dimensions[3]], 
-          :width => page_dimensions[2], 
-          :height => page_dimensions[3] 
+        @bounding_box = BoundingBox.new(self, [0,page.dimensions[3]], 
+          :width => page.dimensions[2], 
+          :height => page.dimensions[3] 
         ) 
       end
     end  
@@ -198,10 +201,17 @@ module Prawn
     class BoundingBox
       
       def initialize(parent, point, options={}) #:nodoc:   
+        unless options[:width]
+          raise ArgumentError, "BoundingBox needs the :width option to be set"
+        end
+
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
-      end     
+	      @stretched_height = nil
+      end
+
+      attr_reader :parent
       
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box
@@ -214,7 +224,7 @@ module Prawn
       # 
       # Example, position some text 3 pts from the left of the containing box:
       # 
-      #  text('hello', :at => [(bounds.left + 3), 0])
+      #  draw_text('hello', :at => [(bounds.left + 3), 0])
       #
       def left
         0
@@ -245,7 +255,7 @@ module Prawn
       # 
       # Example, position some text 3 pts from the right of the containing box:
       # 
-      #  text('hello', :at => [(bounds.right - 3), 0])
+      #  draw_text('hello', :at => [(bounds.right - 3), 0])
       #
       def right
         @width
@@ -255,7 +265,7 @@ module Prawn
       #
       # Example, position some text 3 pts from the top of the containing box:
       # 
-      #  text('hello', :at => [0, (bounds.top - 3)])
+      #  draw_text('hello', :at => [0, (bounds.top - 3)])
       #
       def top
         height
@@ -265,7 +275,7 @@ module Prawn
       #
       # Example, position some text 3 pts from the bottom of the containing box:
       # 
-      #  text('hello', :at => [0, (bounds.bottom + 3)])
+      #  draw_text('hello', :at => [0, (bounds.bottom + 3)])
       #
       def bottom
         0

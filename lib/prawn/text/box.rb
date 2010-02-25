@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-# text/rectangle.rb : Implements text boxes
+# text/box.rb : Implements text boxes
 #
 # Copyright November 2009, Daniel Nelson. All Rights Reserved.
 #
@@ -46,7 +46,15 @@ module Prawn
     #                   Alignment within the bounding box [:left]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
     #                    Vertical alignment within the bounding box [:top]
+    # <tt>:rotate</tt>:: <tt>number</tt>. The angle to rotate the text
+    # <tt>:rotate_around</tt>:: <tt>:center</tt>, <tt>:upper_left</tt>,
+    #                           <tt>:upper_right</tt>, <tt>:lower_right</tt>,
+    #                           or <tt>:lower_left</tt>. The point around which
+    #                           to rotate the text [:upper_left]
     # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
+    # <tt>:single_line</tt>:: <tt>boolean</tt>. If true, then only the first
+    #                         line will be drawn [false]
+    # <tt>:skip_encoding</tt>:: <tt>boolean</tt> [false]
     # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
     #                      <tt>:expand</tt>, or <tt>:ellipses</tt>. This
     #                      controls the behavior when 
@@ -57,24 +65,33 @@ module Prawn
     #                           the font size will not be 
     #                           reduced to less than this value, even if it
     #                           means that some text will be cut off). [5]
-    # <tt>:wrap_block</tt>:: <tt>proc</tt>. A proc used for custom line
-    #                        wrapping. The proc must accept a single
-    #                        <tt>line</tt> of text and an <tt>options</tt> hash
-    #                        and return the string from that single line that
-    #                        can fit on the line under the conditions defined by
-    #                        <tt>options</tt>. If omitted, the default wrapping
-    #                        proc is used. The options hash passed into the
-    #                        wrap_block proc includes the following options: 
+    # <tt>:line_wrap</tt>:: <tt>object</tt>. An object used for custom line
+    #                        wrapping on a case by case basis. Note that if you
+    #                        want to change wrapping document-wide, do
+    #                        pdf.default_line_wrap = MyLineWrap.new. Your custom
+    #                        object must have a wrap_line method that accept a
+    #                        single <tt>line</tt> of text and an
+    #                        <tt>options</tt> hash and returns the string from 
+    #                        that single line that can fit on the line under 
+    #                        the conditions defined by <tt>options</tt>. If 
+    #                        omitted, the line wrap object is used.
+    #                        The options hash passed into the wrap_object proc
+    #                        includes the following options: 
     #                        <tt>:width</tt>:: the width available for the
     #                                          current line of text
     #                        <tt>:document</tt>:: the pdf object
     #                        <tt>:kerning</tt>:: boolean
     #                        <tt>:size</tt>:: the font size
     #
-    # Returns any text that did not print under the current settings
+    # Returns any text that did not print under the current settings.
     #
-    def text_box(text, options)
-      Text::Box.new(text, options.merge(:document => self)).render
+    # NOTE: if an AFM font is used, then the returned text is encoded in
+    # WinAnsi. Subsequent calls to text_box that pass this returned text back
+    # into text box must include a :skip_encoding => true option. This is
+    # unnecessary when using TTF fonts because those operate on UTF-8 encoding.
+    #
+    def text_box(string, options)
+      Text::Box.new(string, options.merge(:document => self)).render
     end
 
     # Generally, one would use the text_box convenience method. However, using
@@ -83,6 +100,14 @@ module Prawn
     # vertical space was consumed by the printed text
     #
     class Box
+
+      VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + 
+        [:at, :height, :width, :align, :valign,
+         :overflow, :min_font_size, :line_wrap,
+         :leading, :document, :rotate, :rotate_around,
+         :single_line, :skip_encoding]
+
+
       
       # The text that was successfully printed (or, if <tt>dry_run</tt> was
       # used, the test that would have been successfully printed)
@@ -100,27 +125,28 @@ module Prawn
 
       # See Prawn::Text#text_box for valid options
       #
-      def initialize(text, options={})
+      def initialize(string, options={})
         @inked          = false
-        Prawn.verify_options(valid_options, options)
-        options         = options.dup
-        @overflow       = options[:overflow] || :truncate
-        # we'll be messing with the strings encoding, don't change the user's
-        # original string
-        @text_to_print  = text.dup
-        @text           = nil
+        Prawn.verify_options(VALID_OPTIONS, options)
+        options          = options.dup
+        @overflow        = options[:overflow] || :truncate
+        @original_string = string
+        @text            = nil
         
-        @document       = options[:document]
-        @at             = options[:at] ||
-                          [@document.bounds.left, @document.bounds.top]
-        @width          = options[:width] ||
-                          @document.bounds.right - @at[0]
-        @height         = options[:height] ||
-                          @at[1] - @document.bounds.bottom
-        @center         = [@at[0] + @width * 0.5, @at[1] + @height * 0.5]
-        @align          = options[:align] || :left
-        @vertical_align = options[:valign] || :top
-        @leading        = options[:leading] || 0
+        @document        = options[:document]
+        @at              = options[:at] ||
+                           [@document.bounds.left, @document.bounds.top]
+        @width           = options[:width] ||
+                           @document.bounds.right - @at[0]
+        @height          = options[:height] ||
+                           @at[1] - @document.bounds.bottom
+        @align           = options[:align] || :left
+        @vertical_align  = options[:valign] || :top
+        @leading         = options[:leading] || 0
+        @rotate          = options[:rotate] || 0
+        @rotate_around   = options[:rotate_around] || :upper_left
+        @single_line     = options[:single_line]
+        @skip_encoding   = options[:skip_encoding] || @document.skip_encoding
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -130,7 +156,7 @@ module Prawn
           @overflow = :truncate
         end
         @min_font_size  = options[:min_font_size] || 5
-        @wrap_block     = options [:wrap_block] || default_wrap_block
+        @line_wrap    = options [:line_wrap] || @document.default_line_wrap
         @options = @document.text_options.merge(:kerning => options[:kerning],
                                                 :size    => options[:size],
                                                 :style   => options[:style])
@@ -147,19 +173,25 @@ module Prawn
       # Returns any text that did not print under the current settings
       #
       def render(flags={})
+        # dup because normalize_encoding changes the string
+        string = @original_string.dup
         unprinted_text = ''
         @document.save_font do
           process_options
 
-          unless @document.skip_encoding
-            @document.font.normalize_encoding!(@text_to_print)
+          unless @skip_encoding
+            @document.font.normalize_encoding!(string)
           end
 
           @document.font_size(@font_size) do
-            shrink_to_fit if @overflow == :shrink_to_fit
-            process_vertical_alignment
+            shrink_to_fit(string) if @overflow == :shrink_to_fit
+            process_vertical_alignment(string)
             @inked = true unless flags[:dry_run]
-            unprinted_text = _render(@text_to_print)
+            if @rotate != 0 && @inked
+              unprinted_text = render_rotated(string)
+            else
+              unprinted_text = _render(string)
+            end
             @inked = false
           end
         end
@@ -179,18 +211,9 @@ module Prawn
 
       private
 
-      def valid_options
-        Text::VALID_TEXT_OPTIONS.dup.concat([:at, :height, :width,
-                                             :align, :valign,
-                                             :overflow, :min_font_size,
-                                             :wrap_block,
-                                             :leading,
-                                             :document])
-      end
-
-      def process_vertical_alignment
+      def process_vertical_alignment(string)
         return if @vertical_align == :top
-        _render(@text_to_print)
+        _render(string)
         case @vertical_align
         when :center
           @at[1] = @at[1] - (@height - height) * 0.5
@@ -202,8 +225,8 @@ module Prawn
 
       # Decrease the font size until the text fits or the min font
       # size is reached
-      def shrink_to_fit
-        while (unprinted_text = _render(@text_to_print)).length > 0 &&
+      def shrink_to_fit(string)
+        while (unprinted_text = _render(string)).length > 0 &&
             @font_size > @min_font_size
           @font_size -= 0.5
           @document.font_size = @font_size
@@ -218,6 +241,33 @@ module Prawn
         @kerning   = @options[:kerning]
       end
 
+      def render_rotated(string)
+        unprinted_text = ''
+
+        case @rotate_around
+        when :center
+          x = @at[0] + @width * 0.5
+          y = @at[1] - @height * 0.5
+        when :upper_right
+          x = @at[0] + @width
+          y = @at[1]
+        when :lower_right
+          x = @at[0] + @width
+          y = @at[1] - @height
+        when :lower_left
+          x = @at[0]
+          y = @at[1] - @height
+        else
+          x = @at[0]
+          y = @at[1]
+        end
+
+        @document.rotate(@rotate, :origin => [x, y]) do
+          unprinted_text = _render(string)
+        end
+        unprinted_text
+      end
+
       def _render(remaining_text)
         @line_height = @document.font.height
         @descender   = @document.font.descender
@@ -229,11 +279,11 @@ module Prawn
         while remaining_text &&
               remaining_text.length > 0 &&
               @baseline_y.abs + @descender <= @height
-          line_to_print = @wrap_block.call(remaining_text.first_line,
-                                           :document => @document,
-                                           :kerning => @kerning,
-                                           :size => @font_size,
-                                           :width => @width)
+          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
+                                                 :document => @document,
+                                                 :kerning => @kerning,
+                                                 :size => @font_size,
+                                                 :width => @width)
 
           if line_to_print.empty? && remaining_text.length > 0
             raise Errors::CannotFit
@@ -245,6 +295,7 @@ module Prawn
                             remaining_text.length > 0)
           printed_text << print_line(line_to_print, print_ellipses)
           @baseline_y -= (@line_height + @leading)
+          break if @single_line
         end
 
         @text = printed_text.join("\n") if @inked
@@ -261,19 +312,19 @@ module Prawn
 
         case(@align)
         when :left
-          x = @center[0] - @width * 0.5
+          x = @at[0]
         when :center
           line_width = @document.width_of(line_to_print, :kerning => @kerning)
-          x = @center[0] - line_width * 0.5
+          x = @at[0] + @width * 0.5 - line_width * 0.5
         when :right
           line_width = @document.width_of(line_to_print, :kerning => @kerning)
-          x = @center[0] + @width * 0.5 - line_width
+          x = @at[0] + @width - line_width
         end
         
         y = @at[1] + @baseline_y
         
         if @inked
-          @document.text_at(line_to_print, :at => [x, y],
+          @document.draw_text!(line_to_print, :at => [x, y],
                             :size => @font_size, :kerning => @kerning)
         end
         
@@ -292,53 +343,68 @@ module Prawn
           line_to_print[-3..-1] = "..." if line_to_print.length > 3
         end
       end
+    end
 
-      def default_wrap_block
-        lambda do |line, options|
-          scan_pattern = options[:document].font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
-          space_scan_pattern = options[:document].font.unicode? ? /\s/ : /\s/n
-          output = ""
-          accumulated_width = 0
-          line.scan(scan_pattern).each do |segment|
-            segment_width = options[:document].width_of(segment,
-                                                  :size => options[:size],
-                                                  :kerning => options[:kerning])
-            
-            if accumulated_width + segment_width <= options[:width]
-              accumulated_width += segment_width
-              output << segment
-            else
-              # if the line contains white space, don't split the
-              # final word that doesn't fit, just return what fits nicely
-              break if output =~ space_scan_pattern
-              
-              # if there is no white space on the current line, then just
-              # print whatever part of the last segment that will fit on the
-              # line
-              begin
-                segment.unpack("U*").each do |char_int|
-                  char = [char_int].pack("U")
-                  accumulated_width += options[:document].width_of(char,
-                                                  :size => options[:size],
-                                                  :kerning => options[:kerning])
-                  break if accumulated_width >= options[:width]
-                  output << char
-                end
-              rescue
-                # not valid unicode
-                segment.each_char do |char|
-                  accumulated_width += options[:document].width_of(char,
-                                                  :size => options[:size],
-                                                  :kerning => options[:kerning])
-                  break if accumulated_width >= options[:width]
-                  output << char
-                end
-              end
-            end
+    class LineWrap
+      def wrap_line(line, options)
+        @document = options[:document]
+        @size = options[:size]
+        @kerning = options[:kerning]
+        @width = options[:width]
+        @accumulated_width = 0
+        @output = ""
+
+        scan_pattern = @document.font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
+        space_scan_pattern = @document.font.unicode? ? /\s/ : /\s/n
+
+        line.scan(scan_pattern).each do |segment|
+          # yes, this block could be split out into another method, but it is
+          # called on every word printed, so I'm keeping it here for speed
+
+          segment_width = @document.width_of(segment,
+                                             :size => @size,
+                                             :kerning => @kerning)
+
+          if @accumulated_width + segment_width <= @width
+            @accumulated_width += segment_width
+            @output << segment
+          else
+            # if the line contains white space, don't split the
+            # final word that doesn't fit, just return what fits nicely
+            break if @output =~ space_scan_pattern
+            wrap_by_char(segment)
+            break
           end
-          output
+        end
+        @output
+      end
+
+      private
+
+      def wrap_by_char(segment)
+        if @document.font.unicode?
+          segment.unpack("U*").each do |char_int|
+            return unless append_char([char_int].pack("U"))
+          end
+        else
+          segment.each_char do |char|
+            return unless append_char(char)
+          end
+        end
+      end
+
+      def append_char(char)
+        @accumulated_width += @document.width_of(char,
+                                                 :size => @size,
+                                                 :kerning => @kerning)
+        if @accumulated_width >= @width
+          false
+        else
+          @output << char
+          true
         end
       end
     end
+
   end
 end

@@ -4,6 +4,9 @@
 # Copyright April 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
+require "set"
+
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
 end
@@ -18,14 +21,17 @@ rescue LoadError
 end
 
 module Prawn
+  extend self
+
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)
-  dir = File.dirname(file)
+  dir  = File.dirname(file)
                           
   # The base source directory for Prawn as installed on the system
+  #
   BASEDIR = File.expand_path(File.join(dir, '..', '..'))
   
-  VERSION = "0.7.2"
+  VERSION = "0.8.1"
   
   extend self
 
@@ -40,9 +46,8 @@ module Prawn
   #
   attr_accessor :debug
   
-  def verify_options(accepted,actual) #:nodoc:
+  def verify_options(accepted, actual) #:nodoc:
     return unless debug || $DEBUG
-    require "set"
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
       raise Prawn::Errors::UnknownOption,
         "\nDetected unknown option(s): #{(act - acc).to_a.inspect}\n" <<
@@ -71,8 +76,9 @@ end
  
 require "prawn/compatibility"
 require "prawn/errors"
+require "prawn/core/page"
+require "prawn/core/object_store"
 require "prawn/pdf_object"
-require "prawn/object_store"
 require "prawn/text"
 require "prawn/graphics"
 require "prawn/images"
@@ -85,3 +91,4 @@ require "prawn/font"
 require "prawn/encoding"
 require "prawn/measurements"
 require "prawn/repeater"
+require "prawn/outline"

@@ -180,8 +180,8 @@ describe "Document compression" do
   it "should not compress the page content stream if compression is disabled" do
 
     pdf = Prawn::Document.new(:compress => false)
-    pdf.page_content.stubs(:compress_stream).returns(true)
-    pdf.page_content.expects(:compress_stream).never
+    pdf.page.content.stubs(:compress_stream).returns(true)
+    pdf.page.content.expects(:compress_stream).never
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -190,8 +190,8 @@ describe "Document compression" do
   it "should compress the page content stream if compression is enabled" do
 
     pdf = Prawn::Document.new(:compress => true)
-    pdf.page_content.stubs(:compress_stream).returns(true)
-    pdf.page_content.expects(:compress_stream).once
+    pdf.page.content.stubs(:compress_stream).returns(true)
+    pdf.page.content.expects(:compress_stream).once
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -311,7 +311,7 @@ describe "The group() feature" do
           100.times { text "Too long" }
         end
       end.render
-    }.should.raise(Prawn::Document::CannotGroup)
+    }.should.raise(Prawn::Errors::CannotGroup)
   end
 
   it "should group within individual column boxes" do
@@ -403,3 +403,5 @@ describe "PDF file versions" do
     str[0,8].should == "%PDF-1.4"
   end
 end
+
+

@@ -4,11 +4,11 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Prawn::ObjectStore" do
   before(:each) do
-    @store = Prawn::ObjectStore.new
+    @store = Prawn::Core::ObjectStore.new
   end
 
   it "should create required roots by default, including info passed to new" do
-    store = Prawn::ObjectStore.new(:Test => 3)
+    store = Prawn::Core::ObjectStore.new(:Test => 3)
     store.size.should == 3 # 3 default roots
     store.info.data[:Test].should == 3
     store.pages.data[:Count].should == 0
@@ -43,7 +43,7 @@ end
 
 describe "Prawn::ObjectStore#compact" do
   it "should do nothing to an ObjectStore with all live refs" do
-    store = Prawn::ObjectStore.new
+    store = Prawn::Core::ObjectStore.new
     store.info.data[:Blah] = store.ref(:some => "structure")
     old_size = store.size
     store.compact
@@ -52,7 +52,7 @@ describe "Prawn::ObjectStore#compact" do
   end
 
   it "should remove dead objects, renumbering live objects from 1" do
-    store = Prawn::ObjectStore.new
+    store = Prawn::Core::ObjectStore.new
     store.ref(:some => "structure")
     old_size = store.size
     store.compact
@@ -62,7 +62,7 @@ describe "Prawn::ObjectStore#compact" do
   end
 
   it "should detect and remove dead objects that were once live" do
-    store = Prawn::ObjectStore.new
+    store = Prawn::Core::ObjectStore.new
     store.info.data[:Blah] = store.ref(:some => "structure")
     store.info.data[:Blah] = :overwritten
     old_size = store.size

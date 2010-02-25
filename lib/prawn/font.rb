@@ -5,6 +5,7 @@
 # Copyright May 2008, Gregory Brown / James Healy. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+#
 require "prawn/font/afm"
 require "prawn/font/ttf"
 require "prawn/font/dfont"
@@ -47,7 +48,7 @@ module Prawn
     def font(name=nil, options={})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
-      raise Errors::NotOnPage unless current_page
+      raise Errors::NotOnPage if pages.empty? && !page.in_stamp_stream?
       new_font = find_font(name, options)
 
       if block_given?
@@ -277,6 +278,7 @@ module Prawn
     # font. The string is expected to be UTF-8 going in. It will be re-encoded
     # and the new string will be returned. For an in-place (destructive)
     # version, see normalize_encoding!.
+    #
     def normalize_encoding(string)
       raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
     end
@@ -307,7 +309,7 @@ module Prawn
     #
     def add_to_current_page(subset)
       @references[subset] ||= register(subset)
-      @document.page_fonts.merge!(identifier_for(subset) => @references[subset])
+      @document.page.fonts.merge!(identifier_for(subset) => @references[subset])
     end
 
     def identifier_for(subset) #:nodoc:

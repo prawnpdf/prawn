@@ -9,7 +9,7 @@ Benchmark.bmbm do |x|
     Prawn::Document.new {  
       N.times do                                     
         (1..5).each do |i|
-          text "Hello Prawn", :at => [200, i * 100]
+          draw_text "Hello Prawn", :at => [200, i * 100]
         end 
         start_new_page     
       end  

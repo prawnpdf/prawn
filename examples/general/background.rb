@@ -8,7 +8,7 @@ require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
 img = "#{Prawn::BASEDIR}/data/images/letterhead.jpg"
 
-Prawn::Document.generate("background.pdf", :background => img) do
+Prawn::Document.generate("background.pdf", :background => img, :margin => 100) do
   text "My report caption", :size => 18, :align => :right
 
   move_down font.height * 2

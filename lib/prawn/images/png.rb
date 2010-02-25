@@ -203,8 +203,8 @@ module Prawn
         # convert the pixel data to seperate strings for colours and alpha
         color_byte_size = self.colors * self.bits / 8
         alpha_byte_size = self.bits / 8
-        pixels.each do |row|
-          row.each do |pixel|
+        pixels.each do |this_row|
+          this_row.each do |pixel|
             @img_data << pixel[0, color_byte_size].pack("C*")
             @alpha_channel << pixel[color_byte_size, alpha_byte_size].pack("C*")
           end

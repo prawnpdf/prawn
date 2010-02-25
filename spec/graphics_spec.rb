@@ -113,7 +113,39 @@ describe "When drawing a curve" do
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     curve.coords.should == [100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0]
   end
+  
 
+end
+
+describe "When drawing a rounded rectangle" do
+  before(:each) do
+    create_pdf
+    @pdf.rounded_rectangle([50, 550], 50, 100, 10)
+    curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
+    curve_points = []
+    curve.coords.each_slice(2) {|p| curve_points << p}
+    @original_point = curve_points.shift
+    curves = []
+    curve_points.each_slice(3) {|c| curves << c}
+    line_points = PDF::Inspector::Graphics::Line.analyze(@pdf.render).points
+    line_points.shift
+    @all_coords = []
+    line_points.zip(curves).flatten.each_slice(2) {|p| @all_coords << p }
+    @all_coords.unshift @original_point
+  end
+  
+  it "should draw a rectangle by connecting lines with rounded bezier curves" do
+    @all_coords.should == [[60.0, 550.0],[90.0, 550.0], [95.523, 550.0], [100.0, 545.523], [100.0, 540.0], 
+                           [100.0, 460.0], [100.0, 454.477], [95.523, 450.0], [90.0, 450.0], 
+                           [60.0, 450.0], [54.477, 450.0], [50.0, 454.477], [50.0, 460.0], 
+                           [50.0, 540.0], [50.0, 545.523], [54.477, 550.0], [60.0, 550.0]]
+  end
+  
+  it "should start and end with the same point" do
+    @original_point.should == @all_coords.last
+  end
+     
+  
 end
 
 describe "When drawing an ellipse" do
@@ -206,4 +238,201 @@ describe "When using painting shortcuts" do
     lambda { @pdf.i_have_a_pretty_girlfriend_named_jia }.
       should.raise(NoMethodError)
   end
+end
+
+describe "When using graphics states" do
+  before(:each) { create_pdf }
+  
+  it "should add the right content on save_graphics_state" do
+    @pdf.expects(:add_content).with('q')
+    
+    @pdf.save_graphics_state
+  end
+
+  it "should add the right content on restore_graphics_state" do
+    @pdf.expects(:add_content).with('Q')
+    
+    @pdf.restore_graphics_state
+  end
+  
+  it "should save and restore when save_graphics_state is used with a block" do
+    state = sequence "state"
+    @pdf.expects(:add_content).with('q').in_sequence(state)
+    @pdf.expects(:foo).in_sequence(state)
+    @pdf.expects(:add_content).with('Q').in_sequence(state)
+    
+    @pdf.save_graphics_state do
+      @pdf.foo
+    end
+  end
+end
+
+describe "When using transformation matrix" do
+  before(:each) { create_pdf }
+
+  # Note: The (approximate) number of significant decimal digits of precision in fractional
+  # part is 5 (PDF Reference, Third Edition, p. 706)
+  
+  it "should send the right content on transformation_matrix" do
+    @pdf.expects(:add_content).with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
+    @pdf.transformation_matrix 1, 0, 0.123456789, -1.0, 5.5, 20
+  end
+    
+  it "should use fixed digits with very small number" do
+    values = Array.new(6, 0.000000000001)
+    string = Array.new(6, "0.00000").join " "
+    @pdf.expects(:add_content).with("#{string} cm")
+    @pdf.transformation_matrix *values
+  end
+    
+  it "should be received by the inspector" do
+    @pdf.transformation_matrix 1, 0, 0, -1, 5.5, 20
+    matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+    matrices.matrices.should == [[1, 0, 0, -1, 5.5, 20]]
+  end
+
+  it "should save the graphics state inside the given block" do
+    values = Array.new(6, 0.000000000001)
+    string = Array.new(6, "0.00000").join " "
+    process = sequence "process"
+    
+    @pdf.expects(:save_graphics_state).with().in_sequence(process)
+    @pdf.expects(:add_content).with("#{string} cm").in_sequence(process)
+    @pdf.expects(:do_something).with().in_sequence(process)
+    @pdf.expects(:restore_graphics_state).with().in_sequence(process)
+    @pdf.transformation_matrix(*values) do
+      @pdf.do_something
+    end
+  end
+    
+end
+
+describe "When using transformations shortcuts" do
+  before(:each) do
+    create_pdf
+    @x, @y = 12, 54.32
+    @angle = 12.32
+    @cos = Math.cos(@angle * Math::PI / 180)
+    @sin = Math.sin(@angle * Math::PI / 180)
+    @factor = 0.12
+  end
+
+  describe "#rotate" do
+    it "should rotate" do
+      @pdf.expects(:transformation_matrix).with(@cos, @sin, -@sin, @cos, 0, 0)
+      @pdf.rotate(@angle)
+    end
+  end
+
+  describe "#rotate with :origin option" do
+    it "should rotate around the origin" do
+      x_prime = @x * @cos - @y * @sin
+      y_prime = @x * @sin + @y * @cos
+
+      @pdf.rotate(@angle, :origin => [@x, @y]) { @pdf.text('hello world') }
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(@x - x_prime),
+                                      reduce_precision(@y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
+    end
+
+    it "should rotate around the origin in a document with a margin" do
+      @pdf = Prawn::Document.new
+
+      @pdf.rotate(@angle, :origin => [@x, @y]) { @pdf.text('hello world') }
+
+      x = @x + @pdf.bounds.absolute_left
+      y = @y + @pdf.bounds.absolute_bottom
+      x_prime = x * @cos - y * @sin
+      y_prime = x * @sin + y * @cos
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [reduce_precision(@cos),
+                                      reduce_precision(@sin),
+                                      reduce_precision(-@sin),
+                                      reduce_precision(@cos), 0, 0]
+    end
+
+    it "should raise BlockRequired if no block is given" do
+      lambda {
+        @pdf.rotate(@angle, :origin => [@x, @y])
+      }.should.raise(Prawn::Errors::BlockRequired)
+    end
+
+    def reduce_precision(float)
+      ("%.5f" % float).to_f
+    end
+  end
+
+  describe "#translate" do
+    it "should translate" do
+      x, y = 12, 54.32
+      @pdf.expects(:transformation_matrix).with(1, 0, 0, 1, x, y)
+      @pdf.translate(x, y)
+    end
+  end
+
+  describe "#scale" do
+    it "should scale" do
+      @pdf.expects(:transformation_matrix).with(@factor, 0, 0, @factor, 0, 0)
+      @pdf.scale(@factor)
+    end
+  end
+
+  describe "#scale with :origin option" do
+    it "should scale from the origin" do
+      x_prime = @factor * @x
+      y_prime = @factor * @y
+
+      @pdf.scale(@factor, :origin => [@x, @y]) { @pdf.text('hello world') }
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(@x - x_prime),
+                                      reduce_precision(@y - y_prime)]
+      matrices.matrices[1].should == [@factor, 0, 0, @factor, 0, 0]
+    end
+
+    it "should scale from the origin in a document with a margin" do
+      @pdf = Prawn::Document.new
+      x = @x + @pdf.bounds.absolute_left
+      y = @y + @pdf.bounds.absolute_bottom
+      x_prime = @factor * x
+      y_prime = @factor * y
+
+      @pdf.scale(@factor, :origin => [@x, @y]) { @pdf.text('hello world') }
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1,
+                                      reduce_precision(x - x_prime),
+                                      reduce_precision(y - y_prime)]
+      matrices.matrices[1].should == [@factor, 0, 0, @factor, 0, 0]
+    end
+
+    it "should raise BlockRequired if no block is given" do
+      lambda {
+        @pdf.scale(@factor, :origin => [@x, @y])
+      }.should.raise(Prawn::Errors::BlockRequired)
+    end
+
+    def reduce_precision(float)
+      ("%.5f" % float).to_f
+    end
+  end
+
+  # describe "skew" do
+  #   it "should skew" do
+  #     a, b = 30, 50.2
+  #     @pdf.expects(:transformation_matrix).with(1, Math.tan(a * Math::PI / 180), Math.tan(b * Math::PI / 180), 1, 0, 0)
+  #     @pdf.skew(a, b)
+  #   end
+  # end
 end

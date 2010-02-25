@@ -12,6 +12,14 @@ describe "Font behavior" do
 
 end    
 
+describe "#font_size" do
+  it "should allow setting font size in DSL style" do
+    create_pdf
+    @pdf.font_size 20
+    @pdf.font_size.should == 20
+  end
+end
+
 describe "font style support" do
   before(:each) { create_pdf }
   
@@ -115,7 +123,7 @@ describe "Document#page_fonts" do
   end    
   
   def page_includes_font?(font)
-    @pdf.page_fonts.values.map { |e| e.data[:BaseFont] }.include?(font.to_sym)
+    @pdf.page.fonts.values.map { |e| e.data[:BaseFont] }.include?(font.to_sym)
   end                             
   
   def page_should_include_font(font)    

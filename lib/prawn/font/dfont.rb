@@ -1,3 +1,11 @@
+# encoding: utf-8
+#
+# font.rb : The Prawn font class
+#
+# Copyright November 2008, Jamis Buck. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require 'prawn/font/ttf'
 
 module Prawn
@@ -11,16 +19,16 @@ module Prawn
       # list is not necessarily the font at index 0 in the file.
       #
       def self.named_fonts(file)
-        TTFunk::ResourceFile.open(file) do |file|
-          return file.resources_for("sfnt")
+        TTFunk::ResourceFile.open(file) do |f|
+          return f.resources_for("sfnt")
         end
       end
 
       # Returns the number of fonts contained in the dfont file.
       #
       def self.font_count(file)
-        TTFunk::ResourceFile.open(file) do |file|
-          return file.map["sfnt"][:list].length
+        TTFunk::ResourceFile.open(file) do |f|
+          return f.map["sfnt"][:list].length
         end
       end
 

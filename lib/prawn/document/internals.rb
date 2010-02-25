@@ -37,18 +37,6 @@ module Prawn
         @store.ref(data)
       end
 
-      # Grabs the reference for the current page content
-      #
-      def page_content
-        @active_stamp_stream || @store[@page_content]
-      end
-
-      # Grabs the reference for the current page
-      #
-      def current_page
-        @active_stamp_dictionary || @store[@current_page]
-      end
-      
       # Appends a raw string to the current page content.
       #                               
       #  # Raw line drawing example:           
@@ -58,32 +46,8 @@ module Prawn
       #  pdf.add_content("S") # stroke                    
       #
       def add_content(str)
-        page_content << str << "\n"
+        page.content << str << "\n"
       end  
-
-      # The Resources dictionary for the current page
-      #
-      def page_resources
-        current_page.data[:Resources] ||= {}
-      end
-      
-      # The Font dictionary for the current page
-      #
-      def page_fonts
-        page_resources[:Font] ||= {}
-      end
-       
-      # The XObject dictionary for the current page
-      #
-      def page_xobjects
-        page_resources[:XObject] ||= {}
-      end
-
-      # The ExtGState dictionary for the current page
-      #
-      def page_ext_gstates
-        page_resources[:ExtGState] ||= {}
-      end
       
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
       # lazily initialized, so that documents that do not need a name
@@ -127,15 +91,16 @@ module Prawn
         (1..page_count).each do |i|
           go_to_page i
           repeaters.each { |r| r.run(i) }
-          add_content "Q"
-          page_content.compress_stream if compression_enabled?
-          page_content.data[:Length] = page_content.stream.size
+          restore_graphics_state
+          page.content.compress_stream if compression_enabled?
+          page.content.data[:Length] = page.content.stream.size
         end
       end
 
       # raise the PDF version of the file we're going to generate.
       # A private method, designed for internal use when the user adds a feature
       # to their document that requires a particular version.
+      #
       def min_version(min)
         @version = min if min > @version
       end

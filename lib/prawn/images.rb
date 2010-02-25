@@ -91,7 +91,7 @@ module Prawn
       w,h = calc_image_dimensions(info, options)
 
       if options[:at]     
-        x,y = translate(options[:at]) 
+        x,y = map_to_absolute(options[:at]) 
       else                  
         x,y = image_position(w,h,options) 
         move_text_position h   
@@ -100,7 +100,7 @@ module Prawn
       # add a reference to the image object to the current page
       # resource list and give it a label
       label = "I#{next_image_id}"
-      page_xobjects.merge!( label => image_obj )
+      page.xobjects.merge!( label => image_obj )
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
@@ -251,7 +251,7 @@ module Prawn
         # - An array with N elements, where N is two times the number of color
         #   components.
         rgb = png.transparency[:rgb]
-        obj.data[:Mask] = rgb.collect { |val| [val,val] }.flatten
+        obj.data[:Mask] = rgb.collect { |x| [x,x] }.flatten
       elsif png.transparency[:indexed]
         # TODO: broken. I was attempting to us Color Key Masking, but I think
         #       we need to construct an SMask i think. Maybe do it inside
@@ -263,6 +263,7 @@ module Prawn
       # channel mixed in with the main image data. The PNG class seperates
       # it out for us and makes it available via the alpha_channel attribute
       if png.alpha_channel
+        min_version 1.4
         smask_obj = ref!(:Type             => :XObject,
                         :Subtype          => :Image,
                         :Height           => png.height,

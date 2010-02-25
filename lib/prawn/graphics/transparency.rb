@@ -57,14 +57,10 @@ module Prawn
         opacity        = [[opacity, 0.0].max, 1.0].min
         stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min
 
-        # push a new graphics context onto the graphics context stack
-        add_content "q"
+        save_graphics_state
         add_content "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
-
         yield if block_given?
-
-        # restore the previous graphics context
-        add_content "Q"
+        restore_graphics_state
       end
 
       private
@@ -94,7 +90,7 @@ module Prawn
                                                :obj  => dictionary }
         end
 
-        page_ext_gstates.merge!(dictionary_name => dictionary)
+        page.ext_gstates.merge!(dictionary_name => dictionary)
         dictionary_name
       end
 
