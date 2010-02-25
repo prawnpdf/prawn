@@ -99,9 +99,10 @@ module Prawn
 
         self.permissions = options.delete(:permissions) || {}
 
-        # Shove the necessary entries in the trailer.
+        # Shove the necessary entries in the trailer and enable encryption.
         state.trailer[:Encrypt] = encryption_dictionary
-        @encrypted = true
+        state.encrypt = true
+        state.encryption_key = user_encryption_key
       end
       
       # Encrypts the given string under the given key, also requiring the
@@ -237,24 +238,25 @@ module Prawn
         PdfObject(obj, in_content_stream)
       end
     end
-  end
 
-  class Reference
+    class Reference
 
-    # Returns the object definition for the object this references, keyed from
-    # +key+.
-    def encrypted_object(key)
-      @on_encode.call(self) if @on_encode
-      output = "#{@identifier} #{gen} obj\n" <<
-        Prawn::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
-      if @stream
-        output << "stream\n" <<
-          Document::Security.encrypt_string(@stream, key, @identifier, gen) <<
-          "\nendstream\n"
+      # Returns the object definition for the object this references, keyed from
+      # +key+.
+      def encrypted_object(key)
+        @on_encode.call(self) if @on_encode
+        output = "#{@identifier} #{gen} obj\n" <<
+          Prawn::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
+        if @stream
+          output << "stream\n" <<
+            Document::Security.encrypt_string(@stream, key, @identifier, gen) <<
+            "\nendstream\n"
+        end
+        output << "endobj\n"
       end
-      output << "endobj\n"
-    end
 
+    end
   end
+
 end
 
