@@ -594,5 +594,3 @@ describe "Prawn::Table" do
 
 end
 
-
-

@@ -3,7 +3,7 @@ module Prawn
     
     # Defines the grid system for a particular document.  Takes the number of 
     # rows and columns and the width to use for the gutter as the 
-    # keys :rows, :columns, :gutter
+    # keys :rows, :columns, :gutter, :row_gutter, :column_gutter
     #
     def define_grid(options = {})
       @grid = Grid.new(self, options)
@@ -171,9 +171,13 @@ module Prawn
       # Diagnostic method
       def show(grid_color = "CCCCCC")
         self.bounding_box do
+          original_stroke_color = pdf.stroke_color
+
           pdf.stroke_color = grid_color
           pdf.text self.name
           pdf.stroke_bounds
+          
+          pdf.stroke_color = original_stroke_color
         end
       end
     

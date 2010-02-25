@@ -32,7 +32,7 @@ module Prawn
     #  end
     #
     def lazy_bounding_box(*args,&block)
-      translate!(args[0])  
+      map_to_absolute!(args[0])  
       box = LazyBoundingBox.new(self,*args)
       box.action(&block)
       return box 
@@ -47,46 +47,6 @@ module Prawn
         :height => bounds.height - (margin * 2), &block 
     end
        
-    # A header is a LazyBoundingBox drawn relative to the margins that can be
-    # repeated on every page of the document.
-    #
-    # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
-    # width and height are used.   
-    #
-    #   header margin_box.top_left do 
-    #    text "Here's My Fancy Header", :size => 25, :align => :center   
-    #    stroke_horizontal_rule
-    #  end
-    #
-    def header(top_left,options={},&block)   
-      @header = repeating_page_element(top_left,options,&block)
-    end
-        
-    # A footer is a LazyBoundingBox drawn relative to the margins that can be
-    # repeated on every page of the document.
-    #
-    # Unless <tt>:width</tt> or <tt>:height</tt> are specified, the margin_box
-    # width and height are used.
-    #
-    #   footer [margin_box.left, margin_box.bottom + 25] do
-    #     stroke_horizontal_rule
-    #     text "And here's a sexy footer", :size => 16
-    #   end    
-    #
-    def footer(top_left,options={},&block)       
-      @footer = repeating_page_element(top_left,options,&block)
-    end
-
-    private
-
-    def repeating_page_element(top_left,options={},&block)   
-      r = LazyBoundingBox.new(self, translate(top_left),
-        :width  => options[:width]  || margin_box.width, 
-        :height => options[:height] || margin_box.height )
-      r.action(&block)
-      return r
-    end  
-
     class LazyBoundingBox < BoundingBox
        
       # Defines the block to be executed by LazyBoundingBox#draw. 
