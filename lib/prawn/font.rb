@@ -5,6 +5,7 @@
 # Copyright May 2008, Gregory Brown / James Healy. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+#
 require "prawn/font/afm"
 require "prawn/font/ttf"
 require "prawn/font/dfont"

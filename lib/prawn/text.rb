@@ -5,6 +5,7 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
 require "prawn/core/text"
 require "prawn/text/box"
 require "zlib"

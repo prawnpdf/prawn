@@ -5,6 +5,7 @@
 # Copyright August 2009, Brad Ediger.  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
 require 'delegate'
 
 module Prawn
@@ -43,6 +44,7 @@ module Prawn
       
       # Takes a current snapshot of the document's state, sufficient to
       # reconstruct it after it was amended.
+      #
       def take_snapshot
         {:page_content    => Marshal.load(Marshal.dump(page.content)),
          :current_page    => Marshal.load(Marshal.dump(page.dictionary)),
@@ -53,6 +55,7 @@ module Prawn
       end
 
       # Rolls the page state back to the state of the given snapshot.
+      #
       def restore_snapshot(shot)
         # Because these objects are referenced by identifier from the Pages
         # dictionary, we can't just restore them over the current refs in

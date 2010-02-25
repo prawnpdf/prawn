@@ -94,6 +94,7 @@ module Prawn
       # raise the PDF version of the file we're going to generate.
       # A private method, designed for internal use when the user adds a feature
       # to their document that requires a particular version.
+      #
       def min_version(min)
         @version = min if min > @version
       end

@@ -54,7 +54,6 @@ module Prawn
   #
   class Document
 
-    include PageGeometry
     include Internals
     include Annotations
     include Destinations
@@ -558,12 +557,7 @@ module Prawn
       !!@compress
     end
     
-  private
-
-    # See Prawn::Document::Internals for low-level PDF functions
-    #
-    def build_new_page_content
-   end
+    private
 
     def generate_margin_box
       old_margin_box = @margin_box
@@ -591,6 +585,5 @@ module Prawn
         options[:"#{p}_margin"] ||= margin[i]
       end
     end
-
   end
 end

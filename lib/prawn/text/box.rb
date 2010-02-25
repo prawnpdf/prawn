@@ -84,6 +84,7 @@ module Prawn
     #                        <tt>:size</tt>:: the font size
     #
     # Returns any text that did not print under the current settings.
+    #
     # NOTE: if an AFM font is used, then the returned text is encoded in
     # WinAnsi. Subsequent calls to text_box that pass this returned text back
     # into text box must include a :skip_encoding => true option. This is
