@@ -19,7 +19,7 @@ module Prawn
     # lazily initialized, so that documents that do not have an outline
     # do not incur the additional overhead.
     def outline_root(outline_root)
-      @store.root.data[:Outlines] ||= ref!(outline_root)
+      state.store.root.data[:Outlines] ||= ref!(outline_root)
     end
 
     # Lazily instantiates an Outline object for document. This is used as point of entry
@@ -190,7 +190,7 @@ module Prawn
 
       if options[:page]
         page_index = options[:page] - 1
-        outline_item.dest = [document.pages[page_index].dictionary, :Fit] 
+        outline_item.dest = [document.state.pages[page_index].dictionary, :Fit] 
       end
 
       outline_item.prev = prev if @prev
@@ -262,7 +262,7 @@ module Prawn
     end
   
     def to_hash
-      hash = { :Title => Prawn::LiteralString.new(title),
+      hash = { :Title => Prawn::Core::LiteralString.new(title),
                :Parent => parent,
                :Count => closed ? -count : count }
       [{:First => first}, {:Last => last}, {:Next => @next}, 

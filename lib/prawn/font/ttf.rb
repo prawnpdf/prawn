@@ -1,3 +1,12 @@
+# encoding: utf-8
+
+# prawn/font/ttf.rb : Implements AFM font support for Prawn
+#
+# Copyright May 2008, Gregory Brown / James Healy / Jamis Buck  
+# All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require 'ttfunk'
 require 'ttfunk/subset_collection'
 

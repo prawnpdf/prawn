@@ -1,11 +1,23 @@
+# encoding: utf-8
+
+# prawn/core/text.rb : Implements low level text helpers for Prawn
+#
+# Copyright January 2010, Daniel Nelson.  All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
+ruby_18 { $KCODE="U" }
+
 module Prawn
   module Core
-    module Text
+    module Text #:nodoc:
+
+      # These should be used as a base. Extensions may build on this list
+      #
+      VALID_OPTIONS = [:kerning, :size, :style]
 
       attr_reader :text_options
       attr_reader :skip_encoding
-
-      ruby_18 { $KCODE="U" }
 
       # Low level text placement method. All font and size alterations
       # should already be set
@@ -14,9 +26,6 @@ module Prawn
         x,y = map_to_absolute(options[:at])
         add_text_content(text,x,y,options)
       end
-
-      # These should be used as a base. Extensions may build on this list
-      VALID_OPTIONS = [:kerning, :size, :style]
 
       # Low level call to set the current font style and extract text options from
       # an options hash. Should be called from within a save_font block
@@ -81,11 +90,12 @@ module Prawn
           add_content "/#{font.identifier_for(subset)} #{font_size} Tf"
 
           operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
-          add_content Prawn::PdfObject(string, true) << " " << operation
+          add_content Prawn::Core::PdfObject(string, true) << " " << operation
         end
 
         add_content "ET\n"
       end
     end
+
   end
 end

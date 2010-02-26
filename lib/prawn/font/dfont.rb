@@ -1,3 +1,11 @@
+# encoding: utf-8
+#
+# font.rb : The Prawn font class
+#
+# Copyright November 2008, Jamis Buck. All Rights Reserved.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require 'prawn/font/ttf'
 
 module Prawn

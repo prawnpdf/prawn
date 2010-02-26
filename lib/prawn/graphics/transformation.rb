@@ -6,7 +6,6 @@
 # Copyright January 2010, Michael Witrant. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-#
 
 module Prawn
   module Graphics

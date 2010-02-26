@@ -4,6 +4,9 @@
 # Copyright April 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
+require "set"
+
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
 end
@@ -18,14 +21,15 @@ rescue LoadError
 end
 
 module Prawn
+  extend self
+
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)
-  dir = File.dirname(file)
+  dir  = File.dirname(file)
                           
   # The base source directory for Prawn as installed on the system
+  #
   BASEDIR = File.expand_path(File.join(dir, '..', '..'))
-  
-  extend self
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
   # are used.  Off by default.
@@ -38,9 +42,8 @@ module Prawn
   #
   attr_accessor :debug
   
-  def verify_options(accepted,actual) #:nodoc:
+  def verify_options(accepted, actual) #:nodoc:
     return unless debug || $DEBUG
-    require "set"
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
       raise Prawn::Errors::UnknownOption,
         "\nDetected unknown option(s): #{(act - acc).to_a.inspect}\n" <<
@@ -69,19 +72,14 @@ end
  
 require "prawn/compatibility"
 require "prawn/errors"
+require "prawn/core/pdf_object"
+require "prawn/core/reference"
 require "prawn/core/page"
 require "prawn/core/object_store"
-require "prawn/pdf_object"
-require "prawn/text"
-require "prawn/graphics"
-require "prawn/images"
-require "prawn/images/jpg"
-require "prawn/images/png"
-require "prawn/stamp"
-require "prawn/document"
-require "prawn/reference"
-require "prawn/font"
-require "prawn/encoding"
-require "prawn/measurements"
-require "prawn/repeater"
-require "prawn/outline"
+require "prawn/core/document_state"
+require "prawn/core/literal_string"
+require "prawn/core/byte_string"
+require "prawn/core/name_tree"
+require "prawn/core/annotations"
+require "prawn/core/destinations"
+

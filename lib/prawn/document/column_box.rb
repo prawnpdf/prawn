@@ -9,17 +9,18 @@ require "prawn/document/bounding_box"
 module Prawn
   class Document
 
-     # A column box is a bounding box with the additional property that when
-     # text flows past the bottom, it will wrap first to another column on the
-     # same page, and only flow to the next page when all the columns are
-     # filled.
-     #
-     # column_box accepts the same parameters as bounding_box, as well as the
-     # number of :columns and a :spacer (in points) between columns.
-     #
-     # Defaults are :columns = 3 and :spacer = font_size
-     # 
-     # Under PDF::Writer, "spacer" was known as "gutter"
+    # A column box is a bounding box with the additional property that when
+    # text flows past the bottom, it will wrap first to another column on the
+    # same page, and only flow to the next page when all the columns are
+    # filled.
+    #
+    # column_box accepts the same parameters as bounding_box, as well as the
+    # number of :columns and a :spacer (in points) between columns.
+    #
+    # Defaults are :columns = 3 and :spacer = font_size
+    # 
+    # Under PDF::Writer, "spacer" was known as "gutter"
+    # 
     def column_box(*args, &block)
       init_column_box(block) do |_|
         map_to_absolute!(args[0])

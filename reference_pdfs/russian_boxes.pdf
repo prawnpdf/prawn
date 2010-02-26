@@ -17,11 +17,13 @@ endobj
 >>
 endobj
 4 0 obj
-<< /Length 45462
+<< /Length 45492
 >>
 stream
-0.000 0.000 0.000 rg
-0.000 0.000 0.000 RG
+/DeviceRGB cs
+0.000 0.000 0.000 scn
+/DeviceRGB CS
+0.000 0.000 0.000 SCN
 q
 41.000 398.500 262.500 352.500 re
 S
@@ -2760,6 +2762,8 @@ endobj
 /Parent 2 0 R
 /MediaBox [0 0 612.0 792.0]
 /Contents 4 0 R
+/Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+>>
 >>
 endobj
 xref
@@ -2769,12 +2773,12 @@ xref
 0000000071 00000 n 
 0000000128 00000 n 
 0000000177 00000 n 
-0000045692 00000 n 
+0000045722 00000 n 
 trailer
 << /Size 6
 /Root 3 0 R
 /Info 1 0 R
 >>
 startxref
-45783
+45876
 %%EOF
