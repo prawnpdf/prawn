@@ -128,17 +128,13 @@ http://github.com/madriska/prawn-security/tree/stable/examples
 
 (or gem unpack prawn-core, prawn-security and prawn-layout if you want to run them locally)
 
-=== Bug Tracker / Wiki:
+=== Bug Tracker:
 
 http://github.com/sandal/prawn/issues
-http://github.com/sandal/prawn-layout/issues
-http://github.com/madriska/prawn-security/issues
 
 === Source Code:
 
 http://github.com/sandal/prawn
-http://github.com/sandal/prawn-layout
-http://github.com/madriska/prawn-security
 
 === Mailing List:
 
