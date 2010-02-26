@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Prawn::Table</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Prawn::Table</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/prawn/table_rb.html">
+                lib/prawn/table.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/table/cell_rb.html">
+                lib/prawn/table/cell.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/table/cell/in_table_rb.html">
+                lib/prawn/table/cell/in_table.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/table/cell/text_rb.html">
+                lib/prawn/table/cell/text.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/table/cell/subtable_rb.html">
+                lib/prawn/table/cell/subtable.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/table/accessors_rb.html">
+                lib/prawn/table/accessors.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Next-generation table drawing for <a href="../Prawn.html">Prawn</a>.
+</p>
+<h1>Data</h1>
+<p>
+Data, for a <a href="../Prawn.html">Prawn</a> table, is a two-dimensional
+array of objects that can be converted to <a
+href="Table.html#M000148">cells</a> (&quot;cellable&quot; objects).
+Cellable objects can be:
+</p>
+<table>
+<tr><td valign="top">String:</td><td>Produces a text cell. This is the most common usage.
+
+</td></tr>
+<tr><td valign="top"><a href="Table/Cell.html">Prawn::Table::Cell</a>:</td><td>If you have already built a <a href="Table/Cell.html">Cell</a> or have a
+custom subclass of <a href="Table/Cell.html">Cell</a> you want to use in a
+table, you can pass through <a href="Table/Cell.html">Cell</a> objects.
+
+</td></tr>
+<tr><td valign="top"><a href="Table.html">Prawn::Table</a>:</td><td>Creates a subtable (a table within a cell). You can use <a
+href="Document.html#M000279">Prawn::Document#make_table</a> to create a
+table for use as a subtable without immediately drawing it. See
+examples/table/bill.rb for a somewhat complex use of subtables.
+
+</td></tr>
+<tr><td valign="top">Array:</td><td>Creates a simple subtable. Create a <a href="Table.html">Table</a> object
+using make_table (see above) if you need more control over the
+subtable&#8216;s styling.
+
+</td></tr>
+</table>
+<h1>Options</h1>
+<p>
+<a href="../Prawn.html">Prawn</a>/<a href="Layout.html">Layout</a> provides
+many options to control <a href="Table.html#M000136">style</a> and layout
+of your table. These options are implemented with a uniform interface: the
++:foo+ option always sets the +foo=+ accessor. See the accessor and method
+documentation for full details on the options you can pass. Some
+highlights:
+</p>
+<table>
+<tr><td valign="top"><tt>cell_style</tt>:</td><td>A hash of <a href="Table.html#M000136">style</a> options to <a
+href="Table.html#M000136">style</a> all <a
+href="Table.html#M000148">cells</a>. See the documentation on <a
+href="Table/Cell.html">Prawn::Table::Cell</a> for all cell <a
+href="Table.html#M000136">style</a> options.
+
+</td></tr>
+<tr><td valign="top"><tt>header</tt>:</td><td>If set to <tt>true</tt>, the first <a href="Table.html#M000150">row</a>
+will be repeated on every page. The header must be included as the first <a
+href="Table.html#M000150">row</a> of your data. Row numbering (for styling
+and other <a href="Table.html#M000150">row</a>-specific options) always
+indexes based on your data array. Whether or not you have a header, <a
+href="Table.html#M000150">row</a>(n) always refers to the nth element
+(starting from 0) of the <tt>data</tt> array.
+
+</td></tr>
+<tr><td valign="top"><tt><a href="Table.html#M000143">column_widths</a></tt>:</td><td>Sets widths for individual <a href="Table.html#M000151">columns</a>.
+Manually setting widths can give better results than letting <a
+href="../Prawn.html">Prawn</a> guess at them, as <a
+href="../Prawn.html">Prawn</a>&#8216;s algorithm for defaulting widths is
+currently pretty boneheaded. If you experience problems like weird <a
+href="Table.html#M000152">column</a> widths or CannotFit errors, try
+manually setting widths on more <a href="Table.html#M000151">columns</a>.
+
+</td></tr>
+</table>
+<h1>Initializer Block</h1>
+<p>
+If a block is passed to methods that initialize a table (<a
+href="Table.html#M000131">Prawn::Table.new</a>, <a
+href="Document.html#M000278">Prawn::Document#table</a>, <a
+href="Document.html#M000279">Prawn::Document#make_table</a>), it will be
+called after cell setup but before layout. This is a very flexible way to
+specify styling and layout constraints. This code sets up a table where the
+second through the fourth <a href="Table.html#M000149">rows</a> (1-3,
+indexed from 0) are each one inch (72 pt) wide:
+</p>
+<pre>
+  pdf.table(data) do |table|
+    table.rows(1..3).width = 72
+  end
+</pre>
+<p>
+As with Prawn::Document#initialize, if the block has no arguments, it will
+be evaluated in the context of the object itself. The above code could be
+rewritten as:
+</p>
+<pre>
+  pdf.table(data) do
+    rows(1..3).width = 72
+  end
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000139">assert_proper_table_data</a>&nbsp;&nbsp;
+      <a href="#M000135">cell_style=</a>&nbsp;&nbsp;
+      <a href="#M000148">cells</a>&nbsp;&nbsp;
+      <a href="#M000152">column</a>&nbsp;&nbsp;
+      <a href="#M000143">column_widths</a>&nbsp;&nbsp;
+      <a href="#M000133">column_widths=</a>&nbsp;&nbsp;
+      <a href="#M000151">columns</a>&nbsp;&nbsp;
+      <a href="#M000137">draw</a>&nbsp;&nbsp;
+      <a href="#M000140">draw_header</a>&nbsp;&nbsp;
+      <a href="#M000134">height</a>&nbsp;&nbsp;
+      <a href="#M000138">make_cells</a>&nbsp;&nbsp;
+      <a href="#M000141">natural_column_widths</a>&nbsp;&nbsp;
+      <a href="#M000142">natural_width</a>&nbsp;&nbsp;
+      <a href="#M000131">new</a>&nbsp;&nbsp;
+      <a href="#M000147">position_cells</a>&nbsp;&nbsp;
+      <a href="#M000150">row</a>&nbsp;&nbsp;
+      <a href="#M000144">row_heights</a>&nbsp;&nbsp;
+      <a href="#M000149">rows</a>&nbsp;&nbsp;
+      <a href="#M000145">set_column_widths</a>&nbsp;&nbsp;
+      <a href="#M000146">set_row_heights</a>&nbsp;&nbsp;
+      <a href="#M000136">style</a>&nbsp;&nbsp;
+      <a href="#M000132">width</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Table/Cell.html" class="link">Prawn::Table::Cell</a><br />
+Class <a href="Table/CellProxy.html" class="link">Prawn::Table::CellProxy</a><br />
+
+    </div>
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">column_length</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Number of <a href="Table.html#M000151">columns</a> in the table.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">header</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc">
+If <tt>true</tt>, designates the first <a href="Table.html#M000150">row</a>
+as a header <a href="Table.html#M000150">row</a> to be repeated on every
+page. Does not change <a href="Table.html#M000150">row</a> numbering
+&#8212; <a href="Table.html#M000150">row</a> numbers always index into the
+data array provided, with no modification.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">row_colors</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc">
+Accepts an Array of alternating <a href="Table.html#M000150">row</a> colors
+to stripe the table.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">row_length</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Number of <a href="Table.html#M000149">rows</a> in the table.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">width</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc">
+Manually set the <a href="Table.html#M000132">width</a> of the table.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000131" class="method-detail">
+        <a name="M000131"></a>
+
+        <div class="method-heading">
+          <a href="#M000131" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(data, document, options={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Set up a table on the given document. Arguments:
+</p>
+<table>
+<tr><td valign="top"><tt>data</tt>:</td><td>A two-dimensional array of cell-like objects. See the &quot;Data&quot;
+section above for the types of objects that can be put in a table.
+
+</td></tr>
+<tr><td valign="top"><tt>document</tt>:</td><td>The <a href="Document.html">Prawn::Document</a> instance on which to <a
+href="Table.html#M000137">draw</a> the table.
+
+</td></tr>
+<tr><td valign="top"><tt>options</tt>:</td><td>A hash of attributes and values for the table. See the &quot;Options&quot;
+block above for details on available options.
+
+</td></tr>
+</table>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000131-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000131-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 120</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">document</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+      <span class="ruby-ivar">@pdf</span> = <span class="ruby-identifier">document</span>
+      <span class="ruby-ivar">@cells</span> = <span class="ruby-identifier">make_cells</span>(<span class="ruby-identifier">data</span>)
+      <span class="ruby-ivar">@header</span> = <span class="ruby-keyword kw">false</span>
+      <span class="ruby-identifier">options</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{k}=&quot;</span>, <span class="ruby-identifier">v</span>) }
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+        <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">block</span>[<span class="ruby-keyword kw">self</span>]
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-identifier">set_column_widths</span>
+      <span class="ruby-identifier">set_row_heights</span>
+      <span class="ruby-identifier">position_cells</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000135" class="method-detail">
+        <a name="M000135"></a>
+
+        <div class="method-heading">
+          <a href="#M000135" class="method-signature">
+          <span class="method-name">cell_style=</span><span class="method-args">(style_hash)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets styles for all <a href="Table.html#M000148">cells</a>.
+</p>
+<pre>
+  pdf.table(data, :cell_style =&gt; { :borders =&gt; [:left, :right] })
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000135-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000135-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 197</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cell_style=</span>(<span class="ruby-identifier">style_hash</span>)
+      <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">style</span>(<span class="ruby-identifier">style_hash</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000148" class="method-detail">
+        <a name="M000148"></a>
+
+        <div class="method-heading">
+          <a href="#M000148" class="method-signature">
+          <span class="method-name">cells</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a <a href="Table/CellProxy.html">CellProxy</a> that can be used to
+select and <a href="Table.html#M000136">style</a> <a
+href="Table.html#M000148">cells</a>. See the <a
+href="Table/CellProxy.html">CellProxy</a> documentation for things you can
+do with <a href="Table.html#M000148">cells</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000148-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000148-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table/accessors.rb, line 16</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cells</span>
+      <span class="ruby-ivar">@cell_proxy</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">CellProxy</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@cells</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000152" class="method-detail">
+        <a name="M000152"></a>
+
+        <div class="method-heading">
+          <span class="method-name">column</span><span class="method-args">(col_spec)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="Table.html#M000151">columns</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000133" class="method-detail">
+        <a name="M000133"></a>
+
+        <div class="method-heading">
+          <a href="#M000133" class="method-signature">
+          <span class="method-name">column_widths=</span><span class="method-args">(widths)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets <a href="Table.html#M000152">column</a> widths for the table. The
+argument can be one of the following types:
+</p>
+<table>
+<tr><td valign="top"><tt>Array</tt>:</td><td><tt>[w0, w1, w2, &#8230;]</tt> (specify a <a
+href="Table.html#M000132">width</a> for each <a
+href="Table.html#M000152">column</a>)
+
+</td></tr>
+<tr><td valign="top"><tt>Hash</tt>:</td><td><tt>{0 =&gt; w0, 1 =&gt; w1, &#8230;}</tt> (keys are <a
+href="Table.html#M000152">column</a> names, values are widths)
+
+</td></tr>
+<tr><td valign="top"><tt><a href="../Numeric.html">Numeric</a></tt>:</td><td>+72+ (sets <a href="Table.html#M000132">width</a> for all <a
+href="Table.html#M000151">columns</a>)
+
+</td></tr>
+</table>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000133-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000133-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 164</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">column_widths=</span>(<span class="ruby-identifier">widths</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">widths</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Array</span>
+        <span class="ruby-identifier">widths</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">w</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">column</span>(<span class="ruby-identifier">i</span>).<span class="ruby-identifier">width</span> = <span class="ruby-identifier">w</span> }
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Hash</span>
+        <span class="ruby-identifier">widths</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span>, <span class="ruby-identifier">w</span><span class="ruby-operator">|</span> <span class="ruby-identifier">column</span>(<span class="ruby-identifier">i</span>).<span class="ruby-identifier">width</span> = <span class="ruby-identifier">w</span> }
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Numeric</span>
+        <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">width</span> = <span class="ruby-identifier">widths</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;cannot interpret column widths&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000151" class="method-detail">
+        <a name="M000151"></a>
+
+        <div class="method-heading">
+          <a href="#M000151" class="method-signature">
+          <span class="method-name">columns</span><span class="method-args">(col_spec)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Selects the given <a href="Table.html#M000151">columns</a> (0-based) for
+styling. Returns a <a href="Table/CellProxy.html">CellProxy</a> &#8212; see
+the documentation on <a href="Table/CellProxy.html">CellProxy</a> for
+things you can do with <a href="Table.html#M000148">cells</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000151-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000151-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table/accessors.rb, line 31</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">columns</span>(<span class="ruby-identifier">col_spec</span>)
+      <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">columns</span>(<span class="ruby-identifier">col_spec</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000137" class="method-detail">
+        <a name="M000137"></a>
+
+        <div class="method-heading">
+          <a href="#M000137" class="method-signature">
+          <span class="method-name">draw</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws the table onto the document at the document&#8216;s current
+y-position.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000137-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000137-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 222</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw</span>
+      <span class="ruby-comment cmt"># The cell y-positions are based on an infinitely long canvas. The offset</span>
+      <span class="ruby-comment cmt"># keeps track of how much we have to add to the original, theoretical</span>
+      <span class="ruby-comment cmt"># y-position to get to the actual position on the current page.</span>
+      <span class="ruby-identifier">offset</span> = <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">y</span>
+
+      <span class="ruby-comment cmt"># Reference bounds are the non-stretchy bounds used to decide when to</span>
+      <span class="ruby-comment cmt"># flow to a new column / page.</span>
+      <span class="ruby-identifier">ref_bounds</span> = <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">stretchy?</span> <span class="ruby-value">? </span><span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">margin_box</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>
+
+      <span class="ruby-identifier">last_y</span> = <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">y</span>
+      <span class="ruby-ivar">@cells</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">offset</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">ref_bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+          <span class="ruby-comment cmt"># start a new page or column</span>
+          <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">move_past_bottom</span>
+          <span class="ruby-identifier">draw_header</span>
+          <span class="ruby-identifier">offset</span> = <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">y</span>
+        <span class="ruby-keyword kw">end</span>
+ 
+        <span class="ruby-comment cmt"># Don't modify cell.x / cell.y here, as we want to reuse the original</span>
+        <span class="ruby-comment cmt"># values when re-inking the table. #draw should be able to be called</span>
+        <span class="ruby-comment cmt"># multiple times.</span>
+        <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> = <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">y</span>
+        <span class="ruby-identifier">y</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">offset</span> 
+
+        <span class="ruby-comment cmt"># Translate coordinates to the bounds we are in, since drawing is </span>
+        <span class="ruby-comment cmt"># relative to the cursor, not ref_bounds.</span>
+        <span class="ruby-identifier">x</span> <span class="ruby-operator">+=</span> <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left_side</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_left</span>
+        <span class="ruby-identifier">y</span> <span class="ruby-operator">-=</span> <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+
+        <span class="ruby-comment cmt"># Set background color, if any.</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@row_colors</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span><span class="ruby-ivar">@header</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
+          <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@header</span> <span class="ruby-operator">?</span> (<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span>
+          <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">background_color</span> = <span class="ruby-ivar">@row_colors</span>[<span class="ruby-identifier">index</span> <span class="ruby-operator">%</span> <span class="ruby-ivar">@row_colors</span>.<span class="ruby-identifier">length</span>]
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">draw</span>([<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>])
+        <span class="ruby-identifier">last_y</span> = <span class="ruby-identifier">y</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">move_cursor_to</span>(<span class="ruby-identifier">last_y</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@cells</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">height</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000134" class="method-detail">
+        <a name="M000134"></a>
+
+        <div class="method-heading">
+          <a href="#M000134" class="method-signature">
+          <span class="method-name">height</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="Table.html#M000134">height</a> of the table in PDF
+points.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000134-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000134-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 179</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>
+      <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">height</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000150" class="method-detail">
+        <a name="M000150"></a>
+
+        <div class="method-heading">
+          <span class="method-name">row</span><span class="method-args">(row_spec)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="Table.html#M000149">rows</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000149" class="method-detail">
+        <a name="M000149"></a>
+
+        <div class="method-heading">
+          <a href="#M000149" class="method-signature">
+          <span class="method-name">rows</span><span class="method-args">(row_spec)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Selects the given <a href="Table.html#M000149">rows</a> (0-based) for
+styling. Returns a <a href="Table/CellProxy.html">CellProxy</a> &#8212; see
+the documentation on <a href="Table/CellProxy.html">CellProxy</a> for
+things you can do with <a href="Table.html#M000148">cells</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000149-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000149-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table/accessors.rb, line 23</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rows</span>(<span class="ruby-identifier">row_spec</span>)
+      <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">rows</span>(<span class="ruby-identifier">row_spec</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000136" class="method-detail">
+        <a name="M000136"></a>
+
+        <div class="method-heading">
+          <a href="#M000136" class="method-signature">
+          <span class="method-name">style</span><span class="method-args">(stylable, style_hash={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Allows generic stylable content. This is an alternate syntax that some
+prefer to the attribute-based syntax. This code using <a
+href="Table.html#M000136">style</a>:
+</p>
+<pre>
+  pdf.table(data) do
+    style(row(0), :background_color =&gt; 'ff00ff')
+    style(column(0)) { |c| c.border_width += 1 }
+  end
+</pre>
+<p>
+is equivalent to:
+</p>
+<pre>
+  pdf.table(data) do
+    row(0).style :background_color =&gt; 'ff00ff'
+    column(0).style { |c| c.border_width += 1 }
+  end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000136-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000136-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 216</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">style</span>(<span class="ruby-identifier">stylable</span>, <span class="ruby-identifier">style_hash</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+      <span class="ruby-identifier">stylable</span>.<span class="ruby-identifier">style</span>(<span class="ruby-identifier">style_hash</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000132" class="method-detail">
+        <a name="M000132"></a>
+
+        <div class="method-heading">
+          <a href="#M000132" class="method-signature">
+          <span class="method-name">width</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="Table.html#M000132">width</a> of the table in PDF
+points.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000132-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000132-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 149</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width</span>
+      <span class="ruby-ivar">@width</span> <span class="ruby-operator">||=</span> [<span class="ruby-identifier">natural_width</span>, <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>].<span class="ruby-identifier">min</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000139" class="method-detail">
+        <a name="M000139"></a>
+
+        <div class="method-heading">
+          <a href="#M000139" class="method-signature">
+          <span class="method-name">assert_proper_table_data</span><span class="method-args">(data)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Raises an error if the data provided cannot be converted into a valid
+table.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000139-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000139-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 294</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assert_proper_table_data</span>(<span class="ruby-identifier">data</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">EmptyTable</span>,
+          <span class="ruby-value str">&quot;data must be a non-empty, non-nil, two dimensional array &quot;</span> <span class="ruby-operator">+</span>
+          <span class="ruby-value str">&quot;of cell-convertible objects&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-constant">Array</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">e</span> }
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidTableData</span>,
+          <span class="ruby-value str">&quot;data must be a two dimensional array of cellable objects&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000143" class="method-detail">
+        <a name="M000143"></a>
+
+        <div class="method-heading">
+          <a href="#M000143" class="method-signature">
+          <span class="method-name">column_widths</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calculate and return the constrained <a
+href="Table.html#M000152">column</a> widths, taking into account each
+cell&#8216;s min_width, max_width, and any user-specified constraints on
+the table or <a href="Table.html#M000152">column</a> size.
+</p>
+<p>
+Because the natural widths can be silly, this does not always work so well
+at guessing a good size for <a href="Table.html#M000151">columns</a> that
+have vastly different content. If you see weird problems like CannotFit
+errors or shockingly bad <a href="Table.html#M000152">column</a> sizes, you
+should specify more <a href="Table.html#M000152">column</a> widths
+manually.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000143-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000143-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 344</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">column_widths</span>
+      <span class="ruby-ivar">@column_widths</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">width</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">min_width</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">CannotFit</span>,
+            <span class="ruby-value str">&quot;Table's width was set too small to contain its contents&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">width</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">max_width</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">CannotFit</span>,
+            <span class="ruby-value str">&quot;Table's width was set larger than its contents' maximum width&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">width</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">natural_width</span>
+          <span class="ruby-comment cmt"># Shrink the table to fit the requested width.</span>
+          <span class="ruby-identifier">f</span> = (<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">min_width</span>).<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> (<span class="ruby-identifier">natural_width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">min_width</span>)
+
+          (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">column_length</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">min</span>, <span class="ruby-identifier">nat</span> = <span class="ruby-identifier">column</span>(<span class="ruby-identifier">c</span>).<span class="ruby-identifier">min_width</span>, <span class="ruby-identifier">column</span>(<span class="ruby-identifier">c</span>).<span class="ruby-identifier">width</span>
+            (<span class="ruby-identifier">f</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">nat</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">min</span>)) <span class="ruby-operator">+</span> <span class="ruby-identifier">min</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">width</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">natural_width</span>
+          <span class="ruby-comment cmt"># Expand the table to fit the requested width.</span>
+          <span class="ruby-identifier">f</span> = (<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">width</span>).<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> (<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">max_width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">width</span>)
+
+          (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">column_length</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">nat</span>, <span class="ruby-identifier">max</span> = <span class="ruby-identifier">column</span>(<span class="ruby-identifier">c</span>).<span class="ruby-identifier">width</span>, <span class="ruby-identifier">column</span>(<span class="ruby-identifier">c</span>).<span class="ruby-identifier">max_width</span>
+            (<span class="ruby-identifier">f</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">max</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">nat</span>)) <span class="ruby-operator">+</span> <span class="ruby-identifier">nat</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">natural_column_widths</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000140" class="method-detail">
+        <a name="M000140"></a>
+
+        <div class="method-heading">
+          <a href="#M000140" class="method-signature">
+          <span class="method-name">draw_header</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+If the table has a header, <a href="Table.html#M000137">draw</a> it at the
+current position.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000140-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000140-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 309</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw_header</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@header</span>
+        <span class="ruby-identifier">y</span> = <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">cursor</span>
+        <span class="ruby-identifier">row</span>(<span class="ruby-value">0</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span>
+          <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">draw</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">move_cursor_to</span>(<span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">row</span>(<span class="ruby-value">0</span>).<span class="ruby-identifier">height</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000138" class="method-detail">
+        <a name="M000138"></a>
+
+        <div class="method-heading">
+          <a href="#M000138" class="method-signature">
+          <span class="method-name">make_cells</span><span class="method-args">(data)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Converts the array of cellable objects given into instances of <a
+href="Table/Cell.html">Prawn::Table::Cell</a>, and sets up their in-table
+properties so that they know their own position in the table.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000138-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000138-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 271</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">make_cells</span>(<span class="ruby-identifier">data</span>)
+      <span class="ruby-identifier">assert_proper_table_data</span>(<span class="ruby-identifier">data</span>)
+
+      <span class="ruby-identifier">cells</span> = []
+      
+      <span class="ruby-ivar">@row_length</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-ivar">@column_length</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">length</span> }.<span class="ruby-identifier">max</span>
+
+      <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row_cells</span>, <span class="ruby-identifier">row_number</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">row_cells</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell_data</span>, <span class="ruby-identifier">column_number</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">cell</span> = <span class="ruby-constant">Cell</span>.<span class="ruby-identifier">make</span>(<span class="ruby-ivar">@pdf</span>, <span class="ruby-identifier">cell_data</span>)
+          <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">InTable</span>)
+          <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span> = <span class="ruby-identifier">row_number</span>
+          <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span> = <span class="ruby-identifier">column_number</span>
+          <span class="ruby-identifier">cells</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cell</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">cells</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000141" class="method-detail">
+        <a name="M000141"></a>
+
+        <div class="method-heading">
+          <a href="#M000141" class="method-signature">
+          <span class="method-name">natural_column_widths</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array of each <a href="Table.html#M000152">column</a>&#8216;s
+natural (unconstrained) <a href="Table.html#M000132">width</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000141-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000141-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 322</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">natural_column_widths</span>
+      <span class="ruby-ivar">@natural_column_widths</span> <span class="ruby-operator">||=</span> (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">column_length</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">column</span>(<span class="ruby-identifier">c</span>).<span class="ruby-identifier">width</span> }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000142" class="method-detail">
+        <a name="M000142"></a>
+
+        <div class="method-heading">
+          <a href="#M000142" class="method-signature">
+          <span class="method-name">natural_width</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the &quot;natural&quot; (unconstrained) <a
+href="Table.html#M000132">width</a> of the table. This may be extremely
+silly; for example, the unconstrained <a
+href="Table.html#M000132">width</a> of a paragraph of text is the <a
+href="Table.html#M000132">width</a> it would assume if it were not wrapped
+at all. Could be a mile long.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000142-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000142-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 331</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">natural_width</span>
+      <span class="ruby-ivar">@natural_width</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">natural_column_widths</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">w</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sum</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">w</span> }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000147" class="method-detail">
+        <a name="M000147"></a>
+
+        <div class="method-heading">
+          <a href="#M000147" class="method-signature">
+          <span class="method-name">position_cells</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Set each cell&#8216;s position based on the widths and heights of <a
+href="Table.html#M000148">cells</a> preceding it.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000147-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000147-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 405</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">position_cells</span>
+      <span class="ruby-comment cmt"># Calculate x- and y-positions as running sums of widths / heights.</span>
+      <span class="ruby-identifier">x_positions</span> = <span class="ruby-identifier">column_widths</span>.<span class="ruby-identifier">inject</span>([<span class="ruby-value">0</span>]) { <span class="ruby-operator">|</span><span class="ruby-identifier">ary</span>, <span class="ruby-identifier">x</span><span class="ruby-operator">|</span> 
+        <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">ary</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">x</span>); <span class="ruby-identifier">ary</span> }[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+      <span class="ruby-identifier">x_positions</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">column</span>(<span class="ruby-identifier">i</span>).<span class="ruby-identifier">x</span> = <span class="ruby-identifier">x</span> }
+
+      <span class="ruby-comment cmt"># y-positions assume an infinitely long canvas starting at zero -- this</span>
+      <span class="ruby-comment cmt"># is corrected for in Table#draw, and page breaks are properly inserted.</span>
+      <span class="ruby-identifier">y_positions</span> = <span class="ruby-identifier">row_heights</span>.<span class="ruby-identifier">inject</span>([<span class="ruby-value">0</span>]) { <span class="ruby-operator">|</span><span class="ruby-identifier">ary</span>, <span class="ruby-identifier">y</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">ary</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">y</span>); <span class="ruby-identifier">ary</span>}[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+      <span class="ruby-identifier">y_positions</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>(<span class="ruby-identifier">i</span>).<span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span> }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000144" class="method-detail">
+        <a name="M000144"></a>
+
+        <div class="method-heading">
+          <a href="#M000144" class="method-signature">
+          <span class="method-name">row_heights</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array with the <a href="Table.html#M000134">height</a> of each
+<a href="Table.html#M000150">row</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000144-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000144-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 380</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">row_heights</span>
+      <span class="ruby-ivar">@natural_row_heights</span> <span class="ruby-operator">||=</span> (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">row_length</span>).<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>(<span class="ruby-identifier">r</span>).<span class="ruby-identifier">height</span> }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000145" class="method-detail">
+        <a name="M000145"></a>
+
+        <div class="method-heading">
+          <a href="#M000145" class="method-signature">
+          <span class="method-name">set_column_widths</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Assigns the calculated <a href="Table.html#M000152">column</a> widths to
+each cell. This ensures that each cell in a <a
+href="Table.html#M000152">column</a> is the same <a
+href="Table.html#M000132">width</a>. After this method is called,
+subsequent calls to <a href="Table.html#M000143">column_widths</a> and <a
+href="Table.html#M000132">width</a> should return the finalized values that
+will be used to ink the table.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000145-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000145-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 389</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_column_widths</span>
+      <span class="ruby-identifier">column_widths</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">w</span>, <span class="ruby-identifier">col_num</span><span class="ruby-operator">|</span> 
+        <span class="ruby-identifier">column</span>(<span class="ruby-identifier">col_num</span>).<span class="ruby-identifier">width</span> = <span class="ruby-identifier">w</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000146" class="method-detail">
+        <a name="M000146"></a>
+
+        <div class="method-heading">
+          <a href="#M000146" class="method-signature">
+          <span class="method-name">set_row_heights</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Assigns the <a href="Table.html#M000150">row</a> heights to each cell. This
+ensures that every cell in a <a href="Table.html#M000150">row</a> is the
+same <a href="Table.html#M000134">height</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000146-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000146-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/table.rb, line 398</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_row_heights</span>
+      <span class="ruby-identifier">row_heights</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">row_num</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>(<span class="ruby-identifier">row_num</span>).<span class="ruby-identifier">height</span> = <span class="ruby-identifier">h</span> }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

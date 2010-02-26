@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Prawn::Font::DFont</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Prawn::Font::DFont</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/prawn/font/dfont_rb.html">
+                lib/prawn/font/dfont.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="TTF.html">
+                TTF
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000217">font_count</a>&nbsp;&nbsp;
+      <a href="#M000216">named_fonts</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000217" class="method-detail">
+        <a name="M000217"></a>
+
+        <div class="method-heading">
+          <a href="#M000217" class="method-signature">
+          <span class="method-name">font_count</span><span class="method-args">(file)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the number of fonts contained in the dfont file.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000217-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000217-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/dfont.rb, line 29</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">font_count</span>(<span class="ruby-identifier">file</span>)
+        <span class="ruby-constant">TTFunk</span><span class="ruby-operator">::</span><span class="ruby-constant">ResourceFile</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">map</span>[<span class="ruby-value str">&quot;sfnt&quot;</span>][<span class="ruby-identifier">:list</span>].<span class="ruby-identifier">length</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000216" class="method-detail">
+        <a name="M000216"></a>
+
+        <div class="method-heading">
+          <a href="#M000216" class="method-signature">
+          <span class="method-name">named_fonts</span><span class="method-args">(file)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a list of the names of all named fonts in the given dfont file.
+Note that fonts are not required to be named in a dfont file, so the list
+may be empty even if the file does contain fonts. Also, note that the list
+is returned in no particular order, so the first font in the list is not
+necessarily the font at index 0 in the file.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000216-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000216-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/dfont.rb, line 21</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">named_fonts</span>(<span class="ruby-identifier">file</span>)
+        <span class="ruby-constant">TTFunk</span><span class="ruby-operator">::</span><span class="ruby-constant">ResourceFile</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">resources_for</span>(<span class="ruby-value str">&quot;sfnt&quot;</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

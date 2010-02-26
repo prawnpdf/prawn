@@ -114,25 +114,9 @@ module Prawn
           @baseline_y.abs + @line_height - @ascender
         end
 
-        private
-
-        def original_text
-          @original_array.collect { |hash| hash.dup }
-        end
-
-        def original_text=(array)
-          @original_array = array
-        end
-
-        def normalize_encoding
-          array = original_text
-          array.each do |hash|
-            hash[:text] = @document.font.normalize_encoding(hash[:text])
-          end
-          array
-        end
-
-        def _render(array)
+        # See the developer documentation for Text::Box#_render
+        #
+        def _render(array) # :nodoc:
           initialize_inner_render(array)
 
           move_baseline = true
@@ -170,6 +154,24 @@ module Prawn
           @text = @printed_lines.join("\n")
 
           @arranger.unconsumed
+        end
+
+        private
+
+        def original_text
+          @original_array.collect { |hash| hash.dup }
+        end
+
+        def original_text=(array)
+          @original_array = array
+        end
+
+        def normalize_encoding
+          array = original_text
+          array.each do |hash|
+            hash[:text] = @document.font.normalize_encoding(hash[:text])
+          end
+          array
         end
 
         def enough_height_for_this_line?

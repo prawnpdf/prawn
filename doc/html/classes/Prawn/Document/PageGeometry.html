@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Prawn::Document::PageGeometry</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Prawn::Document::PageGeometry</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/prawn/document/page_geometry_rb.html">
+                lib/prawn/document/page_geometry.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Dimensions pulled from PDF::Writer, rubyforge.org/projects/ruby-pdf
+</p>
+<p>
+All of these dimensions are in PDF Points, see <a
+href="../Measurements.html">Prawn::Measurements</a> for conversion
+utilities.
+</p>
+<p>
+Additionally, if the size you are after is not listed below, you can always
+specify your size by passing an array of width and height to <a
+href="../Document.html#M000248">Prawn::Document.new</a> like:
+</p>
+<pre>
+ Prawn::Document.new(:page_size =&gt; [1000, 20000])
+</pre>
+<p>
+The sizes below can be used by passing the appropriate string to :size:
+</p>
+<pre>
+ Prawn::Document.new(:page_size =&gt; '2A0')
+</pre>
+<h3>Inbuilt Sizes:</h3>
+<table>
+<tr><td valign="top">4A0:</td><td>=&gt; 4767.87 x 6740.79
+
+</td></tr>
+<tr><td valign="top">2A0:</td><td>=&gt; 3370.39 x 4767.87
+
+</td></tr>
+<tr><td valign="top">A0:</td><td>=&gt; 2383.94 x 3370.39
+
+</td></tr>
+<tr><td valign="top">A1:</td><td>=&gt; 1683.78 x 2383.94
+
+</td></tr>
+<tr><td valign="top">A2:</td><td>=&gt; 1190.55 x 1683.78
+
+</td></tr>
+<tr><td valign="top">A3:</td><td>=&gt; 841.89 x 1190.55
+
+</td></tr>
+<tr><td valign="top">A4:</td><td>=&gt; 595.28 x 841.89
+
+</td></tr>
+<tr><td valign="top">A5:</td><td>=&gt; 419.53 x 595.28
+
+</td></tr>
+<tr><td valign="top">A6:</td><td>=&gt; 297.64 x 419.53
+
+</td></tr>
+<tr><td valign="top">A7:</td><td>=&gt; 209.76 x 297.64
+
+</td></tr>
+<tr><td valign="top">A8:</td><td>=&gt; 147.40 x 209.76
+
+</td></tr>
+<tr><td valign="top">A9:</td><td>=&gt; 104.88 x 147.40
+
+</td></tr>
+<tr><td valign="top">A10:</td><td>=&gt; 73.70 x 104.88
+
+</td></tr>
+<tr><td valign="top">B0:</td><td>=&gt; 2834.65 x 4008.19
+
+</td></tr>
+<tr><td valign="top">B1:</td><td>=&gt; 2004.09 x 2834.65
+
+</td></tr>
+<tr><td valign="top">B2:</td><td>=&gt; 1417.32 x 2004.09
+
+</td></tr>
+<tr><td valign="top">B3:</td><td>=&gt; 1000.63 x 1417.32
+
+</td></tr>
+<tr><td valign="top">B4:</td><td>=&gt; 708.66 x 1000.63
+
+</td></tr>
+<tr><td valign="top">B5:</td><td>=&gt; 498.90 x 708.66
+
+</td></tr>
+<tr><td valign="top">B6:</td><td>=&gt; 354.33 x 498.90
+
+</td></tr>
+<tr><td valign="top">B7:</td><td>=&gt; 249.45 x 354.33
+
+</td></tr>
+<tr><td valign="top">B8:</td><td>=&gt; 175.75 x 249.45
+
+</td></tr>
+<tr><td valign="top">B9:</td><td>=&gt; 124.72 x 175.75
+
+</td></tr>
+<tr><td valign="top">B10:</td><td>=&gt; 87.87 x 124.72
+
+</td></tr>
+<tr><td valign="top">C0:</td><td>=&gt; 2599.37 x 3676.54
+
+</td></tr>
+<tr><td valign="top">C1:</td><td>=&gt; 1836.85 x 2599.37
+
+</td></tr>
+<tr><td valign="top">C2:</td><td>=&gt; 1298.27 x 1836.85
+
+</td></tr>
+<tr><td valign="top">C3:</td><td>=&gt; 918.43 x 1298.27
+
+</td></tr>
+<tr><td valign="top">C4:</td><td>=&gt; 649.13 x 918.43
+
+</td></tr>
+<tr><td valign="top">C5:</td><td>=&gt; 459.21 x 649.13
+
+</td></tr>
+<tr><td valign="top">C6:</td><td>=&gt; 323.15 x 459.21
+
+</td></tr>
+<tr><td valign="top">C7:</td><td>=&gt; 229.61 x 323.15
+
+</td></tr>
+<tr><td valign="top">C8:</td><td>=&gt; 161.57 x 229.61
+
+</td></tr>
+<tr><td valign="top">C9:</td><td>=&gt; 113.39 x 161.57
+
+</td></tr>
+<tr><td valign="top">C10:</td><td>=&gt; 79.37 x 113.39
+
+</td></tr>
+<tr><td valign="top">RA0:</td><td>=&gt; 2437.80 x 3458.27
+
+</td></tr>
+<tr><td valign="top">RA1:</td><td>=&gt; 1729.13 x 2437.80
+
+</td></tr>
+<tr><td valign="top">RA2:</td><td>=&gt; 1218.90 x 1729.13
+
+</td></tr>
+<tr><td valign="top">RA3:</td><td>=&gt; 864.57 x 1218.90
+
+</td></tr>
+<tr><td valign="top">RA4:</td><td>=&gt; 609.45 x 864.57
+
+</td></tr>
+<tr><td valign="top">SRA0:</td><td>=&gt; 2551.18 x 3628.35
+
+</td></tr>
+<tr><td valign="top">SRA1:</td><td>=&gt; 1814.17 x 2551.18
+
+</td></tr>
+<tr><td valign="top">SRA2:</td><td>=&gt; 1275.59 x 1814.17
+
+</td></tr>
+<tr><td valign="top">SRA3:</td><td>=&gt; 907.09 x 1275.59
+
+</td></tr>
+<tr><td valign="top">SRA4:</td><td>=&gt; 637.80 x 907.09
+
+</td></tr>
+<tr><td valign="top">EXECUTIVE:</td><td>=&gt; 521.86 x 756.00
+
+</td></tr>
+<tr><td valign="top">FOLIO:</td><td>=&gt; 612.00 x 936.00
+
+</td></tr>
+<tr><td valign="top">LEGAL:</td><td>=&gt; 612.00 x 1008.00
+
+</td></tr>
+<tr><td valign="top">LETTER:</td><td>=&gt; 612.00 x 792.00
+
+</td></tr>
+<tr><td valign="top">TABLOID:</td><td>=&gt; 792.00 x 1224.00
+
+</td></tr>
+</table>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">SIZES</td>
+          <td>=</td>
+          <td class="context-item-value">{ &quot;4A0&quot; =&gt; [4767.87, 6740.79],                 &quot;2A0&quot; =&gt; [3370.39, 4767.87],                  &quot;A0&quot; =&gt; [2383.94, 3370.39],                  &quot;A1&quot; =&gt; [1683.78, 2383.94],                  &quot;A2&quot; =&gt; [1190.55, 1683.78],                  &quot;A3&quot; =&gt; [841.89, 1190.55],                  &quot;A4&quot; =&gt; [595.28, 841.89],                  &quot;A5&quot; =&gt; [419.53, 595.28],                  &quot;A6&quot; =&gt; [297.64, 419.53],                  &quot;A7&quot; =&gt; [209.76, 297.64],                  &quot;A8&quot; =&gt; [147.40, 209.76],                  &quot;A9&quot; =&gt; [104.88, 147.40],                 &quot;A10&quot; =&gt; [73.70, 104.88],                  &quot;B0&quot; =&gt; [2834.65, 4008.19],                  &quot;B1&quot; =&gt; [2004.09, 2834.65],                  &quot;B2&quot; =&gt; [1417.32, 2004.09],                  &quot;B3&quot; =&gt; [1000.63, 1417.32],                  &quot;B4&quot; =&gt; [708.66, 1000.63],                  &quot;B5&quot; =&gt; [498.90, 708.66],                  &quot;B6&quot; =&gt; [354.33, 498.90],                  &quot;B7&quot; =&gt; [249.45, 354.33],                  &quot;B8&quot; =&gt; [175.75, 249.45],                  &quot;B9&quot; =&gt; [124.72, 175.75],                 &quot;B10&quot; =&gt; [87.87, 124.72],                  &quot;C0&quot; =&gt; [2599.37, 3676.54],                  &quot;C1&quot; =&gt; [1836.85, 2599.37],                  &quot;C2&quot; =&gt; [1298.27, 1836.85],                  &quot;C3&quot; =&gt; [918.43, 1298.27],                  &quot;C4&quot; =&gt; [649.13, 918.43],                  &quot;C5&quot; =&gt; [459.21, 649.13],                  &quot;C6&quot; =&gt; [323.15, 459.21],                  &quot;C7&quot; =&gt; [229.61, 323.15],                  &quot;C8&quot; =&gt; [161.57, 229.61],                  &quot;C9&quot; =&gt; [113.39, 161.57],                 &quot;C10&quot; =&gt; [79.37, 113.39],                 &quot;RA0&quot; =&gt; [2437.80, 3458.27],                 &quot;RA1&quot; =&gt; [1729.13, 2437.80],                 &quot;RA2&quot; =&gt; [1218.90, 1729.13],                 &quot;RA3&quot; =&gt; [864.57, 1218.90],                 &quot;RA4&quot; =&gt; [609.45, 864.57],                &quot;SRA0&quot; =&gt; [2551.18, 3628.35],                &quot;SRA1&quot; =&gt; [1814.17, 2551.18],                &quot;SRA2&quot; =&gt; [1275.59, 1814.17],                &quot;SRA3&quot; =&gt; [907.09, 1275.59],                &quot;SRA4&quot; =&gt; [637.80, 907.09],           &quot;EXECUTIVE&quot; =&gt; [521.86, 756.00],               &quot;FOLIO&quot; =&gt; [612.00, 936.00],               &quot;LEGAL&quot; =&gt; [612.00, 1008.00],              &quot;LETTER&quot; =&gt; [612.00, 792.00],             &quot;TABLOID&quot; =&gt; [792.00, 1224.00] }</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

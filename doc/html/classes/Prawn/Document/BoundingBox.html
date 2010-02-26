@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Prawn::Document::BoundingBox</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Prawn::Document::BoundingBox</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/prawn/document/column_box_rb.html">
+                lib/prawn/document/column_box.rb
+                </a>
+        <br />
+                <a href="../../../files/lib/prawn/document/bounding_box_rb.html">
+                lib/prawn/document/bounding_box.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Low level layout helper that simplifies coordinate math.
+</p>
+<p>
+See <a href="../Document.html#M000283">Prawn::Document#bounding_box</a> for
+a description of what this class is used for.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000339">absolute_bottom</a>&nbsp;&nbsp;
+      <a href="#M000342">absolute_bottom_left</a>&nbsp;&nbsp;
+      <a href="#M000343">absolute_bottom_right</a>&nbsp;&nbsp;
+      <a href="#M000336">absolute_left</a>&nbsp;&nbsp;
+      <a href="#M000337">absolute_right</a>&nbsp;&nbsp;
+      <a href="#M000338">absolute_top</a>&nbsp;&nbsp;
+      <a href="#M000340">absolute_top_left</a>&nbsp;&nbsp;
+      <a href="#M000341">absolute_top_right</a>&nbsp;&nbsp;
+      <a href="#M000326">anchor</a>&nbsp;&nbsp;
+      <a href="#M000331">bottom</a>&nbsp;&nbsp;
+      <a href="#M000335">bottom_left</a>&nbsp;&nbsp;
+      <a href="#M000334">bottom_right</a>&nbsp;&nbsp;
+      <a href="#M000345">height</a>&nbsp;&nbsp;
+      <a href="#M000328">indent</a>&nbsp;&nbsp;
+      <a href="#M000327">left</a>&nbsp;&nbsp;
+      <a href="#M000323">left_side</a>&nbsp;&nbsp;
+      <a href="#M000325">move_past_bottom</a>&nbsp;&nbsp;
+      <a href="#M000329">right</a>&nbsp;&nbsp;
+      <a href="#M000324">right_side</a>&nbsp;&nbsp;
+      <a href="#M000347">stretchy?</a>&nbsp;&nbsp;
+      <a href="#M000330">top</a>&nbsp;&nbsp;
+      <a href="#M000332">top_left</a>&nbsp;&nbsp;
+      <a href="#M000333">top_right</a>&nbsp;&nbsp;
+      <a href="#M000346">update_height</a>&nbsp;&nbsp;
+      <a href="#M000344">width</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">parent</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000339" class="method-detail">
+        <a name="M000339"></a>
+
+        <div class="method-heading">
+          <a href="#M000339" class="method-signature">
+          <span class="method-name">absolute_bottom</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000331">bottom</a> y-coordinate of the
+<a href="BoundingBox.html#M000331">bottom</a> box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000339-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000339-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 354</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom</span>
+        <span class="ruby-ivar">@y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000342" class="method-detail">
+        <a name="M000342"></a>
+
+        <div class="method-heading">
+          <a href="#M000342" class="method-signature">
+          <span class="method-name">absolute_bottom_left</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000331">bottom</a>-<a
+href="BoundingBox.html#M000327">left</a> point of the bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000342-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000342-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 372</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom_left</span>
+        [<span class="ruby-identifier">absolute_left</span>, <span class="ruby-identifier">absolute_bottom</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000343" class="method-detail">
+        <a name="M000343"></a>
+
+        <div class="method-heading">
+          <a href="#M000343" class="method-signature">
+          <span class="method-name">absolute_bottom_right</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000331">bottom</a>-<a
+href="BoundingBox.html#M000327">left</a> point of the bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000343-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000343-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 378</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom_right</span>
+        [<span class="ruby-identifier">absolute_right</span>, <span class="ruby-identifier">absolute_bottom</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000336" class="method-detail">
+        <a name="M000336"></a>
+
+        <div class="method-heading">
+          <a href="#M000336" class="method-signature">
+          <span class="method-name">absolute_left</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000327">left</a> x-coordinate of the
+bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000336-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000336-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 336</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_left</span>
+        <span class="ruby-ivar">@x</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000337" class="method-detail">
+        <a name="M000337"></a>
+
+        <div class="method-heading">
+          <a href="#M000337" class="method-signature">
+          <span class="method-name">absolute_right</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000329">right</a> x-coordinate of the
+bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000337-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000337-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 342</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_right</span>
+        <span class="ruby-ivar">@x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000338" class="method-detail">
+        <a name="M000338"></a>
+
+        <div class="method-heading">
+          <a href="#M000338" class="method-signature">
+          <span class="method-name">absolute_top</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000330">top</a> y-coordinate of the
+bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000338-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000338-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 348</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top</span>
+        <span class="ruby-ivar">@y</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000340" class="method-detail">
+        <a name="M000340"></a>
+
+        <div class="method-heading">
+          <a href="#M000340" class="method-signature">
+          <span class="method-name">absolute_top_left</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000330">top</a>-<a
+href="BoundingBox.html#M000327">left</a> point of the bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000340-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000340-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 360</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top_left</span>
+        [<span class="ruby-identifier">absolute_left</span>, <span class="ruby-identifier">absolute_top</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000341" class="method-detail">
+        <a name="M000341"></a>
+
+        <div class="method-heading">
+          <a href="#M000341" class="method-signature">
+          <span class="method-name">absolute_top_right</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Absolute <a href="BoundingBox.html#M000330">top</a>-<a
+href="BoundingBox.html#M000329">right</a> point of the bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000341-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000341-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 366</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top_right</span>
+        [<span class="ruby-identifier">absolute_right</span>, <span class="ruby-identifier">absolute_top</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000326" class="method-detail">
+        <a name="M000326"></a>
+
+        <div class="method-heading">
+          <a href="#M000326" class="method-signature">
+          <span class="method-name">anchor</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The translated origin (x,y-<a href="BoundingBox.html#M000345">height</a>)
+which describes the location of the <a
+href="BoundingBox.html#M000331">bottom</a> <a
+href="BoundingBox.html#M000327">left</a> corner of the bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000326-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000326-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 219</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">anchor</span>
+        [<span class="ruby-ivar">@x</span>, <span class="ruby-ivar">@y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000331" class="method-detail">
+        <a name="M000331"></a>
+
+        <div class="method-heading">
+          <a href="#M000331" class="method-signature">
+          <span class="method-name">bottom</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000331">bottom</a> y-coordinate of the
+bounding box (Always 0)
+</p>
+<p>
+Example, position some text 3 pts from the <a
+href="BoundingBox.html#M000331">bottom</a> of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [0, (bounds.bottom + 3)])
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000331-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000331-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 280</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom</span>
+        <span class="ruby-value">0</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000335" class="method-detail">
+        <a name="M000335"></a>
+
+        <div class="method-heading">
+          <a href="#M000335" class="method-signature">
+          <span class="method-name">bottom_left</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000331">bottom</a>-<a
+href="BoundingBox.html#M000327">left</a> point of the bounding box
+</p>
+<p>
+Example, draw a line along the <a href="BoundingBox.html#M000327">left</a>
+hand side of the page:
+</p>
+<pre>
+ stroke do
+   line(bounds.bottom_left, bounds.top_left)
+ end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000335-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000335-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 330</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom_left</span>
+        [<span class="ruby-identifier">left</span>,<span class="ruby-identifier">bottom</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000334" class="method-detail">
+        <a name="M000334"></a>
+
+        <div class="method-heading">
+          <a href="#M000334" class="method-signature">
+          <span class="method-name">bottom_right</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000331">bottom</a>-<a
+href="BoundingBox.html#M000329">right</a> point of the bounding box
+</p>
+<p>
+Example, draw a line along the <a href="BoundingBox.html#M000329">right</a>
+hand side of the page:
+</p>
+<pre>
+ stroke do
+   line(bounds.bottom_right, bounds.top_right)
+ end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000334-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000334-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 318</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom_right</span>
+        [<span class="ruby-identifier">right</span>,<span class="ruby-identifier">bottom</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000345" class="method-detail">
+        <a name="M000345"></a>
+
+        <div class="method-heading">
+          <a href="#M000345" class="method-signature">
+          <span class="method-name">height</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Height of the bounding box. If the box is &#8216;stretchy&#8217;
+(unspecified <a href="BoundingBox.html#M000345">height</a> attribute), <a
+href="BoundingBox.html#M000345">height</a> is calculated as the distance
+from the <a href="BoundingBox.html#M000330">top</a> of the box to the
+current drawing position.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000345-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000345-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 392</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>  
+        <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@height</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@height</span>
+        <span class="ruby-ivar">@stretched_height</span> = [(<span class="ruby-identifier">absolute_top</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@parent</span>.<span class="ruby-identifier">y</span>), <span class="ruby-ivar">@stretched_height</span>.<span class="ruby-identifier">to_f</span>].<span class="ruby-identifier">max</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000328" class="method-detail">
+        <a name="M000328"></a>
+
+        <div class="method-heading">
+          <a href="#M000328" class="method-signature">
+          <span class="method-name">indent</span><span class="method-args">(left_padding) {|| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Temporarily adjust the @x coordinate to allow for left_padding
+</p>
+<p>
+Example:
+</p>
+<pre>
+ indent 20 do
+    text &quot;20 points in&quot;
+    indent 30 do
+      text &quot;50 points in&quot;
+    end
+  end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000328-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000328-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 245</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">indent</span>(<span class="ruby-identifier">left_padding</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+        <span class="ruby-ivar">@x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">left_padding</span>
+        <span class="ruby-ivar">@width</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">left_padding</span>
+        <span class="ruby-keyword kw">yield</span>
+      <span class="ruby-keyword kw">ensure</span>
+        <span class="ruby-ivar">@x</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">left_padding</span>
+        <span class="ruby-ivar">@width</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">left_padding</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000327" class="method-detail">
+        <a name="M000327"></a>
+
+        <div class="method-heading">
+          <a href="#M000327" class="method-signature">
+          <span class="method-name">left</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000327">left</a> x-coordinate of the
+bounding box. (Always 0)
+</p>
+<p>
+Example, position some text 3 pts from the <a
+href="BoundingBox.html#M000327">left</a> of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [(bounds.left + 3), 0])
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000327-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000327-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 229</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">left</span>
+        <span class="ruby-value">0</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000323" class="method-detail">
+        <a name="M000323"></a>
+
+        <div class="method-heading">
+          <a href="#M000323" class="method-signature">
+          <span class="method-name">left_side</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+an alias for <a href="BoundingBox.html#M000336">absolute_left</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000323-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000323-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 49</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">left_side</span>
+         <span class="ruby-identifier">absolute_left</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000325" class="method-detail">
+        <a name="M000325"></a>
+
+        <div class="method-heading">
+          <a href="#M000325" class="method-signature">
+          <span class="method-name">move_past_bottom</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+starts a new page
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000325-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000325-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 59</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_past_bottom</span>
+         <span class="ruby-ivar">@parent</span>.<span class="ruby-identifier">start_new_page</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000329" class="method-detail">
+        <a name="M000329"></a>
+
+        <div class="method-heading">
+          <a href="#M000329" class="method-signature">
+          <span class="method-name">right</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000329">right</a> x-coordinate of the
+bounding box. (Equal to the box <a
+href="BoundingBox.html#M000344">width</a>)
+</p>
+<p>
+Example, position some text 3 pts from the <a
+href="BoundingBox.html#M000329">right</a> of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [(bounds.right - 3), 0])
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000329-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000329-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 260</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right</span>
+        <span class="ruby-ivar">@width</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000324" class="method-detail">
+        <a name="M000324"></a>
+
+        <div class="method-heading">
+          <a href="#M000324" class="method-signature">
+          <span class="method-name">right_side</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+an alias for <a href="BoundingBox.html#M000337">absolute_right</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000324-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000324-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 54</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right_side</span>
+         <span class="ruby-identifier">absolute_right</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000347" class="method-detail">
+        <a name="M000347"></a>
+
+        <div class="method-heading">
+          <a href="#M000347" class="method-signature">
+          <span class="method-name">stretchy?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>false</tt> when the box has a defined <a
+href="BoundingBox.html#M000345">height</a>, <tt>true</tt> when the <a
+href="BoundingBox.html#M000345">height</a> is being calculated on the fly
+based on the current vertical position.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000347-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000347-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 402</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stretchy?</span>
+        <span class="ruby-operator">!</span><span class="ruby-ivar">@height</span> 
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000330" class="method-detail">
+        <a name="M000330"></a>
+
+        <div class="method-heading">
+          <a href="#M000330" class="method-signature">
+          <span class="method-name">top</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000330">top</a> y-coordinate of the
+bounding box. (Equal to the box <a
+href="BoundingBox.html#M000345">height</a>)
+</p>
+<p>
+Example, position some text 3 pts from the <a
+href="BoundingBox.html#M000330">top</a> of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [0, (bounds.top - 3)])
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000330-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000330-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 270</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top</span>
+        <span class="ruby-identifier">height</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000332" class="method-detail">
+        <a name="M000332"></a>
+
+        <div class="method-heading">
+          <a href="#M000332" class="method-signature">
+          <span class="method-name">top_left</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000330">top</a>-<a
+href="BoundingBox.html#M000327">left</a> point of the bounding_box
+</p>
+<p>
+Example, draw a line from the <a href="BoundingBox.html#M000330">top</a> <a
+href="BoundingBox.html#M000327">left</a> of the box diagonally to the <a
+href="BoundingBox.html#M000331">bottom</a> <a
+href="BoundingBox.html#M000329">right</a>:
+</p>
+<pre>
+ stroke do
+   line(bounds., bounds.bottom_right)
+ end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000332-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000332-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 293</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top_left</span>
+        [<span class="ruby-identifier">left</span>,<span class="ruby-identifier">top</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000333" class="method-detail">
+        <a name="M000333"></a>
+
+        <div class="method-heading">
+          <a href="#M000333" class="method-signature">
+          <span class="method-name">top_right</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Relative <a href="BoundingBox.html#M000330">top</a>-<a
+href="BoundingBox.html#M000329">right</a> point of the bounding box
+</p>
+<p>
+Example, draw a line from the <a
+href="BoundingBox.html#M000333">top_right</a> of the box diagonally to the
+<a href="BoundingBox.html#M000331">bottom</a> <a
+href="BoundingBox.html#M000327">left</a>:
+</p>
+<pre>
+ stroke do
+   line(bounds.top_right, bounds.bottom_left)
+ end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000333-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000333-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 306</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top_right</span>
+        [<span class="ruby-identifier">right</span>,<span class="ruby-identifier">top</span>]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000346" class="method-detail">
+        <a name="M000346"></a>
+
+        <div class="method-heading">
+          <span class="method-name">update_height</span><span class="method-args">()</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="BoundingBox.html#M000345">height</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000344" class="method-detail">
+        <a name="M000344"></a>
+
+        <div class="method-heading">
+          <a href="#M000344" class="method-signature">
+          <span class="method-name">width</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Width of the bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000344-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000344-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 384</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width</span>
+        <span class="ruby-ivar">@width</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

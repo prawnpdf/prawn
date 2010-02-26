@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Prawn::Images</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Prawn::Images</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/prawn/images_rb.html">
+                lib/prawn/images.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/images/png_rb.html">
+                lib/prawn/images/png.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/images/jpg_rb.html">
+                lib/prawn/images/jpg.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000034">image</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Images/JPG.html" class="link">Prawn::Images::JPG</a><br />
+Class <a href="Images/PNG.html" class="link">Prawn::Images::PNG</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
+
+        <div class="method-heading">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">image</span><span class="method-args">(file, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add the <a href="Images.html#M000034">image</a> at filename to the current
+page. Currently only <a href="Images/JPG.html">JPG</a> and <a
+href="Images/PNG.html">PNG</a> files are supported.
+</p>
+<p>
+Arguments:
+</p>
+<table>
+<tr><td valign="top"><tt>file</tt>:</td><td>path to file or an object that responds to read
+
+</td></tr>
+</table>
+<p>
+Options:
+</p>
+<table>
+<tr><td valign="top"><tt>:at</tt>:</td><td>an array [x,y] with the location of the top left corner of the <a
+href="Images.html#M000034">image</a>.
+
+</td></tr>
+<tr><td valign="top"><tt>:position</tt>:</td><td>One of (:left, :center, :right) or an x-offset
+
+</td></tr>
+<tr><td valign="top"><tt>:vposition</tt>:</td><td>One of (:top, :center, :center) or an y-offset
+
+</td></tr>
+<tr><td valign="top"><tt>:height</tt>:</td><td>the height of the <a href="Images.html#M000034">image</a> [actual height of
+the <a href="Images.html#M000034">image</a>]
+
+</td></tr>
+<tr><td valign="top"><tt>:width</tt>:</td><td>the width of the <a href="Images.html#M000034">image</a> [actual width of
+the <a href="Images.html#M000034">image</a>]
+
+</td></tr>
+<tr><td valign="top"><tt>:scale</tt>:</td><td>scale the dimensions of the <a href="Images.html#M000034">image</a>
+proportionally
+
+</td></tr>
+<tr><td valign="top"><tt>:fit</tt>:</td><td>scale the dimensions of the <a href="Images.html#M000034">image</a>
+proportionally to fit inside [width,height]
+
+</td></tr>
+</table>
+<pre>
+  Prawn::Document.generate(&quot;image2.pdf&quot;, :page_layout =&gt; :landscape) do
+    pigs = &quot;#{Prawn::BASEDIR}/data/images/pigs.jpg&quot;
+    image pigs, :at =&gt; [50,450], :width =&gt; 450
+
+    dice = &quot;#{Prawn::BASEDIR}/data/images/dice.png&quot;
+    image dice, :at =&gt; [50, 450], :scale =&gt; 0.75
+  end
+</pre>
+<p>
+If only one of :width / :height are provided, the <a
+href="Images.html#M000034">image</a> will be scaled proportionally. When
+both are provided, the <a href="Images.html#M000034">image</a> will be
+stretched to fit the dimensions without maintaining the aspect ratio.
+</p>
+<p>
+If :at is provided, the <a href="Images.html#M000034">image</a> will be
+place in the current page but the text position will not be changed.
+</p>
+<p>
+If instead of an explicit filename, an object with a read method is passed
+as <tt>file</tt>, you can embed images from IO objects and things that act
+like them (including Tempfiles and open-uri objects).
+</p>
+<pre>
+  require &quot;open-uri&quot;
+
+  Prawn::Document.generate(&quot;remote_images.pdf&quot;) do
+    image open(&quot;http://prawn.majesticseacreature.com/media/prawn_logo.png&quot;)
+  end
+</pre>
+<p>
+This method returns an <a href="Images.html#M000034">image</a> info object
+which can be used to check the dimensions of an <a
+href="Images.html#M000034">image</a> object if needed. (See also: <a
+href="Images/PNG.html">Prawn::Images::PNG</a> , <a
+href="Images/JPG.html">Prawn::Images::JPG</a>)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/images.rb, line 60</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-constant">Prawn</span>.<span class="ruby-identifier">verify_options</span> [<span class="ruby-identifier">:at</span>, <span class="ruby-identifier">:position</span>, <span class="ruby-identifier">:vposition</span>, <span class="ruby-identifier">:height</span>, 
+                            <span class="ruby-identifier">:width</span>, <span class="ruby-identifier">:scale</span>, <span class="ruby-identifier">:fit</span>], <span class="ruby-identifier">options</span>
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:read</span>)
+        <span class="ruby-identifier">image_content</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>
+      <span class="ruby-keyword kw">else</span>      
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;#{file} not found&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">file</span>)  
+        <span class="ruby-identifier">image_content</span> =  <span class="ruby-constant">File</span>.<span class="ruby-identifier">binread</span>(<span class="ruby-identifier">file</span>)
+      <span class="ruby-keyword kw">end</span>
+      
+      <span class="ruby-identifier">image_sha1</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">image_content</span>)
+
+      <span class="ruby-comment cmt"># if this image has already been embedded, just reuse it</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>]
+        <span class="ruby-identifier">info</span> = <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>][<span class="ruby-identifier">:info</span>]
+        <span class="ruby-identifier">image_obj</span> = <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>][<span class="ruby-identifier">:obj</span>]
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-comment cmt"># build the image object and embed the raw data</span>
+        <span class="ruby-identifier">image_obj</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">detect_image_format</span>(<span class="ruby-identifier">image_content</span>)
+        <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:jpg</span> <span class="ruby-keyword kw">then</span>
+          <span class="ruby-identifier">info</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Images</span><span class="ruby-operator">::</span><span class="ruby-constant">JPG</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">image_content</span>)
+          <span class="ruby-identifier">build_jpg_object</span>(<span class="ruby-identifier">image_content</span>, <span class="ruby-identifier">info</span>)
+        <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:png</span> <span class="ruby-keyword kw">then</span>
+          <span class="ruby-identifier">info</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Images</span><span class="ruby-operator">::</span><span class="ruby-constant">PNG</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">image_content</span>)
+          <span class="ruby-identifier">build_png_object</span>(<span class="ruby-identifier">image_content</span>, <span class="ruby-identifier">info</span>)
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>] = {<span class="ruby-identifier">:obj</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">image_obj</span>, <span class="ruby-identifier">:info</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">info</span>}
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-comment cmt"># find where the image will be placed and how big it will be  </span>
+      <span class="ruby-identifier">w</span>,<span class="ruby-identifier">h</span> = <span class="ruby-identifier">calc_image_dimensions</span>(<span class="ruby-identifier">info</span>, <span class="ruby-identifier">options</span>)
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:at</span>]     
+        <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">map_to_absolute</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:at</span>]) 
+      <span class="ruby-keyword kw">else</span>                  
+        <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">image_position</span>(<span class="ruby-identifier">w</span>,<span class="ruby-identifier">h</span>,<span class="ruby-identifier">options</span>) 
+        <span class="ruby-identifier">move_text_position</span> <span class="ruby-identifier">h</span>   
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-comment cmt"># add a reference to the image object to the current page</span>
+      <span class="ruby-comment cmt"># resource list and give it a label</span>
+      <span class="ruby-identifier">label</span> = <span class="ruby-node">&quot;I#{next_image_id}&quot;</span>
+      <span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">xobjects</span>.<span class="ruby-identifier">merge!</span>( <span class="ruby-identifier">label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">image_obj</span> )
+
+      <span class="ruby-comment cmt"># add the image to the current page</span>
+      <span class="ruby-identifier">instruct</span> = <span class="ruby-value str">&quot;\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ&quot;</span>
+      <span class="ruby-identifier">add_content</span> <span class="ruby-identifier">instruct</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">w</span>, <span class="ruby-identifier">h</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">h</span>, <span class="ruby-identifier">label</span> ]
+      
+      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">info</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

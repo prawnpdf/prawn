@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Prawn::Font::AFM</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Prawn::Font::AFM</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/prawn/font/afm_rb.html">
+                lib/prawn/font/afm.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Font
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000235">bbox</a>&nbsp;&nbsp;
+      <a href="#M000238">encode_text</a>&nbsp;&nbsp;
+      <a href="#M000236">has_kerning_data?</a>&nbsp;&nbsp;
+      <a href="#M000234">metrics_path</a>&nbsp;&nbsp;
+      <a href="#M000237">normalize_encoding</a>&nbsp;&nbsp;
+      <a href="#M000233">unicode?</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">BUILT_INS</td>
+          <td>=</td>
+          <td class="context-item-value">%w[ Courier Helvetica Times-Roman Symbol ZapfDingbats                       Courier-Bold Courier-Oblique Courier-BoldOblique                       Times-Bold Times-Italic Times-BoldItalic                       Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique ]</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000234" class="method-detail">
+        <a name="M000234"></a>
+
+        <div class="method-heading">
+          <a href="#M000234" class="method-signature">
+          <span class="method-name">metrics_path</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000234-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000234-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/afm.rb, line 23</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">metrics_path</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">m</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'METRICS'</span>]
+          <span class="ruby-ivar">@metrics_path</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">':'</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-ivar">@metrics_path</span> <span class="ruby-operator">||=</span> [
+            <span class="ruby-value str">&quot;.&quot;</span>, <span class="ruby-value str">&quot;/usr/lib/afm&quot;</span>,
+            <span class="ruby-value str">&quot;/usr/local/lib/afm&quot;</span>,
+            <span class="ruby-value str">&quot;/usr/openwin/lib/fonts/afm/&quot;</span>,
+             <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">BASEDIR</span><span class="ruby-operator">+</span><span class="ruby-value str">'/data/fonts/'</span>]
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000235" class="method-detail">
+        <a name="M000235"></a>
+
+        <div class="method-heading">
+          <a href="#M000235" class="method-signature">
+          <span class="method-name">bbox</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The font <a href="AFM.html#M000235">bbox</a>, as an array of integers
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000235-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000235-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/afm.rb, line 62</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bbox</span>
+        <span class="ruby-ivar">@bbox</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@attributes</span>[<span class="ruby-value str">'fontbbox'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">/\s+/</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-constant">Integer</span>(<span class="ruby-identifier">e</span>) }
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000238" class="method-detail">
+        <a name="M000238"></a>
+
+        <div class="method-heading">
+          <a href="#M000238" class="method-signature">
+          <span class="method-name">encode_text</span><span class="method-args">(text, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Perform any changes to the string that need to happen before it is rendered
+to the canvas. Returns an array of subset &quot;chunks&quot;, where each
+chunk is an array of two elements. The first element is the font subset
+number, and the second is either a string or an array (for kerned text).
+</p>
+<p>
+For Adobe fonts, there is only ever a single subset, so the first element
+of the array is &quot;0&quot;, and the second is the string itself (or an
+array, if kerning is performed).
+</p>
+<p>
+The <tt>text</tt> parameter must be in WinAnsi encoding (cp1252).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000238-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000238-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/afm.rb, line 106</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encode_text</span>(<span class="ruby-identifier">text</span>, <span class="ruby-identifier">options</span>={})
+        [[<span class="ruby-value">0</span>, <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:kerning</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">kern</span>(<span class="ruby-identifier">text</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">text</span>]]
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000236" class="method-detail">
+        <a name="M000236"></a>
+
+        <div class="method-heading">
+          <a href="#M000236" class="method-signature">
+          <span class="method-name">has_kerning_data?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the font has kerning data, false otherwise
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000236-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000236-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/afm.rb, line 81</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_kerning_data?</span>
+        <span class="ruby-ivar">@kern_pairs</span>.<span class="ruby-identifier">any?</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000237" class="method-detail">
+        <a name="M000237"></a>
+
+        <div class="method-heading">
+          <a href="#M000237" class="method-signature">
+          <span class="method-name">normalize_encoding</span><span class="method-args">(text)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+built-in fonts only work with winansi encoding, so translate the string.
+Changes the encoding in-place, so the argument itself is replaced with a
+string in WinAnsi encoding.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000237-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000237-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/afm.rb, line 89</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">normalize_encoding</span>(<span class="ruby-identifier">text</span>)
+        <span class="ruby-identifier">enc</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span><span class="ruby-operator">::</span><span class="ruby-constant">WinAnsi</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-identifier">text</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;U*&quot;</span>).<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">enc</span>[<span class="ruby-identifier">i</span>] }.<span class="ruby-identifier">pack</span>(<span class="ruby-value str">&quot;C*&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000233" class="method-detail">
+        <a name="M000233"></a>
+
+        <div class="method-heading">
+          <a href="#M000233" class="method-signature">
+          <span class="method-name">unicode?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000233-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000233-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/font/afm.rb, line 19</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unicode?</span>
+        <span class="ruby-keyword kw">false</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

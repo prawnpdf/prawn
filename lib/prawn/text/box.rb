@@ -187,7 +187,7 @@ module Prawn
       # Render text to the document based on the settings defined in initialize.
       #
       # In order to facilitate look-ahead calculations, <tt>render</tt> accepts
-      # a <tt>:dry_run => true</tt> option. If provided then everything is
+      # a <tt>:dry_run => true</tt> option. If provided, then everything is
       # executed as if rendering, with the exception that nothing is drawn on
       # the page. Useful for look-ahead computations of height, unprinted text,
       # etc.
@@ -229,6 +229,51 @@ module Prawn
         # but we need to add in the descender since baseline is
         # above the descender
         @baseline_y.abs - @ascender - @leading
+      end
+
+      # _render is part of the developer API. Override it in extensions to Prawn
+      # that inherit Text::Box but need a different placement algorithm.
+      # _render is where the actual placement of text happens. If @inked is
+      # false, then all the placement computations should be performed, and
+      # unprinted text returned, but no text should actually be drawn to the
+      # PDF. This enables look-ahead computations that need to know whether all
+      # the text was printed under a set of conditions or how tall the text was
+      # under certain conditions.
+      #
+      # _render is called from several places within box.rb and relies on
+      # certain conditions established by render. Do not call _render from
+      # outside of Text::Box or its descendants.
+      #
+      def _render(text) # :nodoc:
+        @text = nil
+        remaining_text = text
+        @line_height = @document.font.height
+        @descender   = @document.font.descender
+        @ascender    = @document.font.ascender
+        @baseline_y  = -@ascender
+
+        printed_lines = []
+
+        while remaining_text &&
+              remaining_text.length > 0 &&
+              @baseline_y.abs + @descender <= @height
+          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
+                                               :document => @document,
+                                               :kerning => @kerning,
+                                               :width => @width)
+
+          remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..
+                                                remaining_text.length)
+          print_ellipses = (@overflow == :ellipses && last_line? &&
+                            remaining_text.length > 0)
+          printed_lines << print_line(line_to_print, print_ellipses)
+          @baseline_y -= (@line_height + @leading)
+          break if @single_line
+        end
+
+        @text = printed_lines.join("\n")
+
+        remaining_text
       end
 
       private
@@ -300,38 +345,6 @@ module Prawn
           unprinted_text = _render(text)
         end
         unprinted_text
-      end
-
-      def _render(text)
-        @text = nil
-        remaining_text = text
-        @line_height = @document.font.height
-        @descender   = @document.font.descender
-        @ascender    = @document.font.ascender
-        @baseline_y  = -@ascender
-        
-        printed_lines = []
-        
-        while remaining_text &&
-              remaining_text.length > 0 &&
-              @baseline_y.abs + @descender <= @height
-          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
-                                               :document => @document,
-                                               :kerning => @kerning,
-                                               :width => @width)
-
-          remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..
-                                                remaining_text.length)
-          print_ellipses = (@overflow == :ellipses && last_line? &&
-                            remaining_text.length > 0)
-          printed_lines << print_line(line_to_print, print_ellipses)
-          @baseline_y -= (@line_height + @leading)
-          break if @single_line
-        end
-
-        @text = printed_lines.join("\n")
-          
-        remaining_text
       end
 
       def justification_computation

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Fri Feb 26 12:49:46 -0600 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="../classes/Prawn.html">Prawn</a>: Fast, Nimble PDF Generation For Ruby</h1>
+<p>
+<a href="../classes/Prawn.html">Prawn</a> is a PDF writing library for Ruby
+designed to be tiny, fast, and nimble, just like the majestic sea creature.
+</p>
+<p>
+Development on this library was initially made possible thanks to the many
+people who donated to the Ruby Mendicant project: <a
+href="http://rubymendicant.wikidot.com">rubymendicant.wikidot.com</a>
+</p>
+<p>
+The project is currently maintained by Gregory Brown, with lots of help
+from <a href="../classes/Prawn.html">Prawn</a>&#8216;s core developers and
+the community.
+</p>
+<h2>Quick Start</h2>
+<p>
+Getting started with <a href="../classes/Prawn.html">Prawn</a> can be as
+simple as:
+</p>
+<pre>
+ require 'prawn'
+ pdf = Prawn::Document.new
+ pdf.text(&quot;Prawn Rocks&quot;)
+ pdf.render_file('prawn.pdf')
+</pre>
+<p>
+But prawn can do a lot more:
+</p>
+<h3>Any page size you can think of</h3>
+<pre>
+ Prawn::Document.new('A0')
+</pre>
+<p>
+&#8230;gives you an <em>really</em> big page.
+</p>
+<pre>
+ Prawn::Document.new(:page_size   =&gt; [11.32, 8.49],
+                     :page_layout =&gt; :portrait)
+</pre>
+<p>
+&#8230;giving you a postage stamp.
+</p>
+<p>
+<a href="../classes/Prawn/Document.html">Learn more</a>
+</p>
+<h3>Multiple Font Handling with UTF-8 Support</h3>
+<pre>
+ pdf.text(&quot;Prawn Rocks&quot;)
+ pdf.font(&quot;/myfont.ttf&quot;)
+ pdf.text(&quot;Prawn still rocks in a different font&quot;)
+</pre>
+<p>
+&#8230;allowing you to use any font you want.
+</p>
+<p>
+<a href="../classes/Prawn/Font.html">Learn more</a>
+</p>
+<h3>Drawing graphics directly into the page</h3>
+<p>
+Simple shapes:
+</p>
+<pre>
+ pdf.stroke do
+   pdf.circle_at [100,100], :radius =&gt; 25
+   pdf.rectangle [300,300], 100, 200
+ end
+</pre>
+<p>
+(note, you need to stroke the path to put &quot;ink&quot; there)
+</p>
+<p>
+<a href="../classes/Prawn/Graphics.html">Learn more</a>
+</p>
+<h3>Embedding JPEG and PNG Images Natively</h3>
+<p>
+Reading an image directly from a file:
+</p>
+<pre>
+ prawn_logo = &quot;#{Prawn::BASEDIR}/data/images/prawn_logo.png&quot;
+ pdf.image prawn_logo, :at =&gt; [50,450], :width =&gt; 450
+</pre>
+<p>
+Or reading it from an IO stream:
+</p>
+<pre>
+ require &quot;open-uri&quot;
+ pdf.image open(&quot;http://prawn.majesticseacreature.com/media/prawn_logo.png&quot;)
+</pre>
+<p>
+<a href="../classes/Prawn/Images.html">Learn more</a>
+</p>
+<h3>Measurement Conversion Tools for Your Sanity</h3>
+<p>
+<a href="../classes/Prawn.html">Prawn</a> deals exclusively in PDF
+points&#8230; which work out to about 2.83464567mm&#8230; don&#8216;t try
+and do it in your head, instead, let <a
+href="../classes/Prawn.html">Prawn</a> help you:
+</p>
+<pre>
+ require &quot;prawn/measurement_extensions&quot;
+
+ Prawn::Document.generate(:page_layout =&gt; :portrait,
+                     :left_margin =&gt; 10.mm,    # different
+                     :right_margin =&gt; 1.cm,    # units
+                     :top_margin =&gt; 0.1.dm,    # work
+                     :bottom_margin =&gt; 0.01.m, # well
+                     :page_size =&gt; 'A4') do
+   text &quot;Prawn Rocks&quot;
+ end
+</pre>
+<p>
+<a href="../classes/Prawn/Measurements.html">Learn more</a>
+</p>
+<h3>Document Security, Permissions, and Encryption</h3>
+<p>
+See examples/security/ for example code, such as this:
+</p>
+<pre>
+  require 'prawn/security'
+
+  Prawn::Document.generate(&quot;hello_foo.pdf&quot;) do
+    text &quot;Hello, world!&quot;
+    encrypt_document :user_password =&gt; 'foo', :owner_password =&gt; 'bar',
+      :permissions =&gt; { :print_document =&gt; false }
+  end
+</pre>
+<p>
+This creates a document that requires the password &#8216;foo&#8217; to be
+opened, and cannot be printed without entering the owner password
+&#8216;bar&#8217;.
+</p>
+<p>
+If you want to prohibit most anyone from performing a certain activity, you
+can pass :owner_password =&gt; :random to generate a probably-unguessable
+owner password.
+</p>
+<h2>Resources</h2>
+<h3>Website:</h3>
+<p>
+<a
+href="http://prawn.majesticseacreature.com">prawn.majesticseacreature.com</a>
+</p>
+<h3>Examples:</h3>
+<p>
+<a
+href="http://github.com/sandal/prawn/tree/stable/examples">github.com/sandal/prawn/tree/stable/examples</a>
+</p>
+<p>
+For tables and grid based layout:
+</p>
+<p>
+<a
+href="http://github.com/sandal/prawn-layout/tree/stable/examples">github.com/sandal/prawn-layout/tree/stable/examples</a>
+</p>
+<p>
+For encryption, password protection, and permissions:
+</p>
+<p>
+<a
+href="http://github.com/madriska/prawn-security/tree/stable/examples">github.com/madriska/prawn-security/tree/stable/examples</a>
+</p>
+<p>
+(or gem unpack prawn-core, prawn-security and prawn-layout if you want to
+run them locally)
+</p>
+<h3>Bug Tracker:</h3>
+<p>
+<a
+href="http://github.com/sandal/prawn/issues">github.com/sandal/prawn/issues</a>
+</p>
+<h3>Source Code:</h3>
+<p>
+<a href="http://github.com/sandal/prawn">github.com/sandal/prawn</a>
+</p>
+<h3>Mailing List:</h3>
+<p>
+<a
+href="http://groups.google.com/group/prawn-ruby">groups.google.com/group/prawn-ruby</a>
+</p>
+<h3>IRC:</h3>
+<p>
+Find us in prawn on irc.freenode.net
+</p>
+<pre>
+  Gregory Brown: &lt;sandal&gt;
+  James Healy: &lt;yob&gt;
+  Brad Ediger: &lt;bradediger&gt;
+  Daniel Nelson: &lt;bluejade&gt;
+</pre>
+<h2>Notes to Developers:</h2>
+<p>
+See HACKING file for details on getting set up with a local build.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

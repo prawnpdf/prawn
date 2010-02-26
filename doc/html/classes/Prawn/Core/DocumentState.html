@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Prawn::Core::DocumentState</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Prawn::Core::DocumentState</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/prawn/core/document_state_rb.html">
+                lib/prawn/core/document_state.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000031">before_render_actions</a>&nbsp;&nbsp;
+      <a href="#M000029">insert_page</a>&nbsp;&nbsp;
+      <a href="#M000027">new</a>&nbsp;&nbsp;
+      <a href="#M000028">normalize_metadata</a>&nbsp;&nbsp;
+      <a href="#M000030">on_page_create_action</a>&nbsp;&nbsp;
+      <a href="#M000032">page_count</a>&nbsp;&nbsp;
+      <a href="#M000033">render_body</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">before_render_callbacks</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">compress</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">encrypt</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">encryption_key</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">on_page_create_callback</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">optimize_objects</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">page</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">pages</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">skip_encoding</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">store</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">trailer</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">version</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="#M000027" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(options)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000027-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000027-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 4</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">normalize_metadata</span>(<span class="ruby-identifier">options</span>)
+
+        <span class="ruby-ivar">@store</span>   = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Core</span><span class="ruby-operator">::</span><span class="ruby-constant">ObjectStore</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:info</span>])
+
+        <span class="ruby-ivar">@version</span>                 = <span class="ruby-value">1.3</span>
+        <span class="ruby-ivar">@pages</span>                   = []
+        <span class="ruby-ivar">@page</span>                    = <span class="ruby-keyword kw">nil</span>
+        <span class="ruby-ivar">@trailer</span>                 = {}
+        <span class="ruby-ivar">@compress</span>                = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">:compress</span>, <span class="ruby-keyword kw">false</span>)
+        <span class="ruby-ivar">@encrypt</span>                 = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">:encrypt</span>, <span class="ruby-keyword kw">false</span>)
+        <span class="ruby-ivar">@encryption_key</span>          = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:encryption_key</span>]
+        <span class="ruby-ivar">@optimize_objects</span>        = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">:optimize_objects</span>, <span class="ruby-keyword kw">false</span>)
+        <span class="ruby-ivar">@skip_encoding</span>           = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">:skip_encoding</span>, <span class="ruby-keyword kw">false</span>)
+        <span class="ruby-ivar">@before_render_callbacks</span> = []
+        <span class="ruby-ivar">@on_page_create_callback</span> = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">before_render_actions</span><span class="method-args">(doc)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 50</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">before_render_actions</span>(<span class="ruby-identifier">doc</span>)
+        <span class="ruby-identifier">before_render_callbacks</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword kw">self</span>) }
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="#M000029" class="method-signature">
+          <span class="method-name">insert_page</span><span class="method-args">(page, page_number)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000029-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000029-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 40</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">insert_page</span>(<span class="ruby-identifier">page</span>, <span class="ruby-identifier">page_number</span>)
+        <span class="ruby-identifier">pages</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">page_number</span>, <span class="ruby-identifier">page</span>)
+        <span class="ruby-identifier">store</span>.<span class="ruby-identifier">pages</span>.<span class="ruby-identifier">data</span>[<span class="ruby-identifier">:Kids</span>].<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">page_number</span>, <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dictionary</span>)
+        <span class="ruby-identifier">store</span>.<span class="ruby-identifier">pages</span>.<span class="ruby-identifier">data</span>[<span class="ruby-identifier">:Count</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="#M000028" class="method-signature">
+          <span class="method-name">normalize_metadata</span><span class="method-args">(options)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000028-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 26</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">normalize_metadata</span>(<span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:info</span>] <span class="ruby-operator">||=</span> {}
+        <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:info</span>][<span class="ruby-identifier">:Creator</span>] <span class="ruby-operator">||=</span> <span class="ruby-value str">&quot;Prawn&quot;</span>
+        <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:info</span>][<span class="ruby-identifier">:Producer</span>] = <span class="ruby-value str">&quot;Prawn&quot;</span>
+
+        <span class="ruby-identifier">info</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:info</span>]
+
+        <span class="ruby-identifier">info</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">info</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>)
+            <span class="ruby-identifier">info</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Core</span><span class="ruby-operator">::</span><span class="ruby-constant">LiteralString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">info</span>[<span class="ruby-identifier">key</span>])
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="#M000030" class="method-signature">
+          <span class="method-name">on_page_create_action</span><span class="method-args">(doc)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 46</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_page_create_action</span>(<span class="ruby-identifier">doc</span>)
+        <span class="ruby-identifier">on_page_create_callback</span>[<span class="ruby-identifier">doc</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">on_page_create_callback</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">page_count</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 54</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">page_count</span>
+        <span class="ruby-identifier">pages</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">render_body</span><span class="method-args">(output)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/core/document_state.rb, line 58</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_body</span>(<span class="ruby-identifier">output</span>)
+        <span class="ruby-identifier">store</span>.<span class="ruby-identifier">compact</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">optimize_objects</span>
+        <span class="ruby-identifier">store</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ref</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">ref</span>.<span class="ruby-identifier">offset</span> = <span class="ruby-identifier">output</span>.<span class="ruby-identifier">size</span>
+          <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-ivar">@encrypt</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">ref</span>.<span class="ruby-identifier">encrypted_object</span>(<span class="ruby-ivar">@encryption_key</span>) <span class="ruby-operator">:</span> 
+                                <span class="ruby-identifier">ref</span>.<span class="ruby-identifier">object</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

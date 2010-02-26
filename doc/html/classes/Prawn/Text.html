@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Prawn::Text</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Prawn::Text</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/prawn/text_rb.html">
+                lib/prawn/text.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/text/formatted/arranger_rb.html">
+                lib/prawn/text/formatted/arranger.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/text/formatted/line_wrap_rb.html">
+                lib/prawn/text/formatted/line_wrap.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/text/formatted/parser_rb.html">
+                lib/prawn/text/formatted/parser.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/text/formatted/box_rb.html">
+                lib/prawn/text/formatted/box.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/text/line_wrap_rb.html">
+                lib/prawn/text/line_wrap.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/text/box_rb.html">
+                lib/prawn/text/box.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000096">draw_text</a>&nbsp;&nbsp;
+      <a href="#M000095">formatted_text</a>&nbsp;&nbsp;
+      <a href="#M000097">height_of</a>&nbsp;&nbsp;
+      <a href="#M000098">height_of_formatted</a>&nbsp;&nbsp;
+      <a href="#M000094">text</a>&nbsp;&nbsp;
+      <a href="#M000099">text_box</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">Prawn::Core::Text</span>
+        <span class="include-name"><a href="Text/Formatted.html">Prawn::Text::Formatted</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="Text/Formatted.html" class="link">Prawn::Text::Formatted</a><br />
+Class <a href="Text/Box.html" class="link">Prawn::Text::Box</a><br />
+Class <a href="Text/LineWrap.html" class="link">Prawn::Text::LineWrap</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000096" class="method-detail">
+        <a name="M000096"></a>
+
+        <div class="method-heading">
+          <a href="#M000096" class="method-signature">
+          <span class="method-name">draw_text</span><span class="method-args">(text, options)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws <a href="Text.html#M000094">text</a> on the page, beginning at the
+point specified by the :at option the string is assumed to be pre-formatted
+to properly fit the page.
+</p>
+<pre>
+  pdf.draw_text &quot;Hello World&quot;, :at =&gt; [100,100]
+  pdf.draw_text &quot;Goodbye World&quot;, :at =&gt; [50,50], :size =&gt; 16
+</pre>
+<p>
+If your font contains kerning pairs data that <a
+href="../Prawn.html">Prawn</a> can parse, the <a
+href="Text.html#M000094">text</a> will be kerned by default. You can
+disable this feature by passing <tt>:kerning =&gt; false</tt>.
+</p>
+<h3><a href="Text.html">Text</a> Positioning Details:</h3>
+<p>
+<a href="../Prawn.html">Prawn</a> will position your <a
+href="Text.html#M000094">text</a> by the left-most edge of its baseline,
+and flow along a single line. (This means that :align will not work)
+</p>
+<h2>Rotation</h2>
+<p>
+<a href="Text.html">Text</a> can be rotated before it is placed on the
+canvas by specifying the <tt>:rotate</tt> option with a given angle.
+Rotation occurs counter-clockwise.
+</p>
+<h2><a href="Encoding.html">Encoding</a></h2>
+<p>
+Note that strings passed to this function should be encoded as UTF-8. If
+you get unexpected characters appearing in your rendered document, check
+this.
+</p>
+<p>
+If the current font is a built-in one, although the string must be encoded
+as UTF-8, only characters that are available in WinAnsi are allowed.
+</p>
+<p>
+If an empty box is rendered to your PDF instead of the character you wanted
+it usually means the current font doesn&#8216;t include that character.
+</p>
+<h2>Options (default values marked in [])</h2>
+<table>
+<tr><td valign="top"><tt>:at</tt>:</td><td><tt>[x, y]</tt>(required). The position at which to start the <a
+href="Text.html#M000094">text</a>
+
+</td></tr>
+<tr><td valign="top"><tt>:kerning</tt>:</td><td><tt>boolean</tt>. Whether or not to use kerning (if it is available with
+the current font) [true]
+
+</td></tr>
+<tr><td valign="top"><tt>:size</tt>:</td><td><tt>number</tt>. The font size to use. [current font size]
+
+</td></tr>
+<tr><td valign="top"><tt>:style</tt>:</td><td>The style to use. The requested style must be part of the current font
+familly. [current style]
+
+</td></tr>
+<tr><td valign="top"><tt>:rotate</tt>:</td><td><tt>number</tt>. The angle to which to rotate <a
+href="Text.html#M000094">text</a>
+
+</td></tr>
+</table>
+<h2>Exceptions</h2>
+<p>
+Raises <tt>ArgumentError</tt> if <tt>:at</tt> option omitted
+</p>
+<p>
+Raises <tt>ArgumentError</tt> if <tt>:align</tt> option included
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000096-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000096-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/text.rb, line 225</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw_text</span>(<span class="ruby-identifier">text</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-comment cmt"># we modify the options. don't change the user's hash</span>
+      <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">inspect_options_for_draw_text</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-comment cmt"># dup because normalize_encoding changes the string</span>
+      <span class="ruby-identifier">text</span> = <span class="ruby-identifier">text</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@text_options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">save_font</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">process_text_options</span>(<span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">font</span>.<span class="ruby-identifier">normalize_encoding!</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@skip_encoding</span>
+        <span class="ruby-identifier">font_size</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:size</span>]) { <span class="ruby-identifier">draw_text!</span>(<span class="ruby-identifier">text</span>, <span class="ruby-identifier">options</span>) }
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000095" class="method-detail">
+        <a name="M000095"></a>
+
+        <div class="method-heading">
+          <a href="#M000095" class="method-signature">
+          <span class="method-name">formatted_text</span><span class="method-args">(array, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws formatted <a href="Text.html#M000094">text</a> to the page. <a
+href="Text/Formatted.html">Formatted</a> <a
+href="Text.html#M000094">text</a> is comprised of an array of hashes, where
+each hash defines <a href="Text.html#M000094">text</a> and format
+information. See <a
+href="Text/Formatted.html#M000100">Text::Formatted#formatted_text_box</a>
+for more information on the structure of this array
+</p>
+<h2>Example</h2>
+<pre>
+  text([{ :text =&gt; &quot;hello&quot; },
+        { :text =&gt; &quot;world&quot;,
+          :size =&gt; 24,
+          :style =&gt; [:bold, :italic] }])
+</pre>
+<h2>Options</h2>
+<p>
+Accepts the same options as <a href="Text.html#M000094">text</a> with the
+below exceptions
+</p>
+<table>
+<tr><td valign="top"><tt>:formatted_line_wrap</tt>:</td><td><tt>object</tt>. An object used for custom line wrapping on a case by case
+basis. See notes for Text::Box#text_box
+
+</td></tr>
+</table>
+<h2>Exceptions</h2>
+<p>
+Same as for <a href="Text.html#M000094">text</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000095-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000095-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/text.rb, line 169</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">formatted_text</span>(<span class="ruby-identifier">array</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-identifier">html_string</span> = <span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatted</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">to_string</span>(<span class="ruby-identifier">array</span>)
+      <span class="ruby-identifier">text</span>(<span class="ruby-identifier">html_string</span>, <span class="ruby-identifier">options</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000097" class="method-detail">
+        <a name="M000097"></a>
+
+        <div class="method-heading">
+          <a href="#M000097" class="method-signature">
+          <span class="method-name">height_of</span><span class="method-args">(string, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Gets height of <a href="Text.html#M000094">text</a> in PDF points. Same
+options as <a href="Text.html#M000094">text</a>, except as noted. Not
+compatible with :indent_paragraphs option
+</p>
+<h2>Example</h2>
+<pre>
+  height_of(&quot;hello\nworld&quot;)
+</pre>
+<h2>Exceptions</h2>
+<p>
+Raises <tt>NotImplementedError</tt> if <tt>:indent_paragraphs</tt> option
+included
+</p>
+<p>
+Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print any
+<a href="Text.html#M000094">text</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000097-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000097-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/text.rb, line 255</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height_of</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:indent_paragraphs</span>]
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-value str">&quot;:indent_paragraphs option not available&quot;</span> <span class="ruby-operator">+</span>
+          <span class="ruby-value str">&quot;with height_of&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">process_final_gap_option</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">box</span> = <span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Box</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">string</span>,
+                          <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:height</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-value">100000000</span>,
+                                        <span class="ruby-identifier">:document</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>))
+      <span class="ruby-identifier">printed</span> = <span class="ruby-identifier">box</span>.<span class="ruby-identifier">render</span>(<span class="ruby-identifier">:dry_run</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>)
+
+      <span class="ruby-identifier">height</span> = <span class="ruby-identifier">box</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">box</span>.<span class="ruby-identifier">line_height</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">ascender</span>)
+      <span class="ruby-identifier">height</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">line_height</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">leading</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">ascender</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@final_gap</span>
+      <span class="ruby-identifier">height</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000098" class="method-detail">
+        <a name="M000098"></a>
+
+        <div class="method-heading">
+          <a href="#M000098" class="method-signature">
+          <span class="method-name">height_of_formatted</span><span class="method-args">(array, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Gets height of formatted <a href="Text.html#M000094">text</a> in PDF
+points. See documentation for <a href="Text.html#M000097">height_of</a>.
+</p>
+<h2>Example</h2>
+<pre>
+  height_of_formatted([{ :text =&gt; &quot;hello&quot; },
+                       { :text =&gt; &quot;world&quot;,
+                         :size =&gt; 24,
+                         :style =&gt; [:bold, :italic] }])
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000098-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000098-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/text.rb, line 281</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height_of_formatted</span>(<span class="ruby-identifier">array</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:indent_paragraphs</span>]
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-value str">&quot;:indent_paragraphs option not available&quot;</span> <span class="ruby-operator">+</span>
+          <span class="ruby-value str">&quot;with height_of&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">process_final_gap_option</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">box</span> = <span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatted</span><span class="ruby-operator">::</span><span class="ruby-constant">Box</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">array</span>,
+                          <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:height</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-value">100000000</span>,
+                                        <span class="ruby-identifier">:document</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>))
+      <span class="ruby-identifier">printed</span> = <span class="ruby-identifier">box</span>.<span class="ruby-identifier">render</span>(<span class="ruby-identifier">:dry_run</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>)
+
+      <span class="ruby-identifier">height</span> = <span class="ruby-identifier">box</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">box</span>.<span class="ruby-identifier">line_height</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">ascender</span>)
+      <span class="ruby-identifier">height</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">line_height</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">leading</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">box</span>.<span class="ruby-identifier">ascender</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@final_gap</span>
+      <span class="ruby-identifier">height</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000094" class="method-detail">
+        <a name="M000094"></a>
+
+        <div class="method-heading">
+          <a href="#M000094" class="method-signature">
+          <span class="method-name">text</span><span class="method-args">(string, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+If you want <a href="Text.html#M000094">text</a> to flow onto a new page or
+between columns, this is the method to use. If, instead, if you want to
+place bounded <a href="Text.html#M000094">text</a> outside of the flow of a
+document (for captions, labels, charts, etc.), use <a
+href="Text/Box.html">Text::Box</a> or its convenience method <a
+href="Text.html#M000099">text_box</a>.
+</p>
+<p>
+Draws <a href="Text.html#M000094">text</a> on the page. <a
+href="../Prawn.html">Prawn</a> attempts to wrap the <a
+href="Text.html#M000094">text</a> to fit within your current bounding box
+(or margin_box if no bounding box is being used). <a
+href="Text.html">Text</a> will flow onto the next page when it reaches the
+bottom of the bounding box. <a href="Text.html">Text</a> wrap in <a
+href="../Prawn.html">Prawn</a> does not re-flow linebreaks, so if you want
+fully automated <a href="Text.html#M000094">text</a> wrapping, be sure to
+remove newlines before attempting to draw your string.
+</p>
+<h2>Examples</h2>
+<pre>
+  pdf.text &quot;Will be wrapped when it hits the edge of your bounding box&quot;
+  pdf.text &quot;This will be centered&quot;, :align =&gt; :center
+  pdf.text &quot;This will be right aligned&quot;, :align =&gt; :right
+  pdf.text &quot;This &lt;i&gt;includes &lt;b&gt;inline&lt;/b&gt;&lt;/i&gt; &lt;font size='24'&gt;&quot; +
+           &quot;formatting&lt;/font&gt;&quot;, :inline_format =&gt; true
+</pre>
+<p>
+If your font contains kerning pairs data that <a
+href="../Prawn.html">Prawn</a> can parse, the <a
+href="Text.html#M000094">text</a> will be kerned by default. You can
+disable this feature by passing <tt>:kerning =&gt; false</tt>.
+</p>
+<h3><a href="Text.html">Text</a> Positioning Details</h3>
+<p>
+The <a href="Text.html#M000094">text</a> is positioned at font.ascender
+below the baseline, making it easy to use this method within bounding boxes
+and spans.
+</p>
+<h2><a href="Encoding.html">Encoding</a></h2>
+<p>
+Note that strings passed to this function should be encoded as UTF-8. If
+you get unexpected characters appearing in your rendered document, check
+this.
+</p>
+<p>
+If the current font is a built-in one, although the string must be encoded
+as UTF-8, only characters that are available in WinAnsi are allowed.
+</p>
+<p>
+If an empty box is rendered to your PDF instead of the character you wanted
+it usually means the current font doesn&#8216;t include that character.
+</p>
+<h2>Options (default values marked in [])</h2>
+<table>
+<tr><td valign="top"><tt>:inline_format</tt>:</td><td><tt>boolean</tt>. If true, then the string parameter is interpreted as a
+HTML-esque string that recognizes the following tags:
+
+<table>
+<tr><td valign="top"><tt>&lt;b&gt;&lt;/b&gt;</tt>:</td><td>bold
+
+</td></tr>
+<tr><td valign="top"><tt>&lt;i&gt;&lt;/i&gt;</tt>:</td><td>italic
+
+</td></tr>
+<tr><td valign="top"><tt>&lt;font&gt;&lt;/font&gt;</tt>:</td><td>with the following attributes
+
+<pre>
+  &lt;tt&gt;size=&quot;24&quot; or size='24'&lt;/tt&gt;::
+      attribute for setting size
+  &lt;tt&gt;name=&quot;Helvetica&quot; or name='Helvetica'&lt;/tt&gt;::
+      attribute for setting the font. The font name must be an
+      AFM font with the desired faces or must be a font that is
+      registered using #font_families (not yet implemented)
+</pre>
+</td></tr>
+</table>
+<p>
+Planned, but as yet unsupported tags are:
+</p>
+<table>
+<tr><td valign="top"><tt>&lt;u&gt;&lt;/u&gt;</tt>:</td><td>underline
+
+</td></tr>
+<tr><td valign="top"><tt>&lt;strikethrough&gt;&lt;/strikethrough&gt;</tt>:</td><td>strikethrough
+
+</td></tr>
+<tr><td valign="top"><tt>&lt;color&gt;&lt;/color&gt;</tt>:</td><td>with the following attributes
+
+<pre>
+  &lt;tt&gt;r=&quot;255&quot; g=&quot;255&quot; b=&quot;255&quot; or r='255' g='255' b='255'&lt;/tt&gt;::
+  &lt;tt&gt;rgb=&quot;#ffffff&quot; or rgb='#ffffff'&lt;/tt&gt;::
+  &lt;tt&gt;c=&quot;100&quot; m=&quot;100&quot; y=&quot;100&quot; k=&quot;100&quot; or c=&quot;100&quot; m=&quot;100&quot; y=&quot;100&quot; k=&quot;100&quot;&lt;/tt&gt;::
+</pre>
+</td></tr>
+</table>
+</td></tr>
+<tr><td valign="top"><tt>:kerning</tt>:</td><td><tt>boolean</tt>. Whether or not to use kerning (if it is available with
+the current font) [true]
+
+</td></tr>
+<tr><td valign="top"><tt>:size</tt>:</td><td><tt>number</tt>. The font size to use. [current font size]
+
+</td></tr>
+<tr><td valign="top"><tt>:style</tt>:</td><td>The style to use. The requested style must be part of the current font
+familly. [current style]
+
+</td></tr>
+<tr><td valign="top"><tt>:indent_paragraphs</tt>:</td><td><tt>number</tt>. The amount to indent the first line of each paragraph.
+Omit this option if you do not want indenting
+
+</td></tr>
+<tr><td valign="top"><tt>:align</tt>:</td><td><tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or <tt>:justify</tt>
+Alignment within the bounding box [:left]
+
+</td></tr>
+<tr><td valign="top"><tt>:valign</tt>:</td><td><tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical alignment
+within the bounding box [:top]
+
+</td></tr>
+<tr><td valign="top"><tt>:leading</tt>:</td><td><tt>number</tt>. Additional space between lines [0]
+
+</td></tr>
+<tr><td valign="top"><tt>:final_gap</tt>:</td><td><tt>boolean</tt>. If true, then the space between each line is included
+below the last line; otherwise, document.y is placed just below the
+descender of the last line printed [true]
+
+</td></tr>
+<tr><td valign="top"><tt>:unformatted_line_wrap</tt>:</td><td><tt>object</tt>. An object used for custom line wrapping on a case by case
+basis. See notes for Text::Box#text_box
+
+</td></tr>
+</table>
+<h2>Exceptions</h2>
+<p>
+Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
+</p>
+<p>
+Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print any
+<a href="Text.html#M000094">text</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000094-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000094-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/text.rb, line 119</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-comment cmt"># we modify the options. don't change the user's hash</span>
+      <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">inspect_options_for_text</span>(<span class="ruby-identifier">options</span>)
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@indent_paragraphs</span>
+        <span class="ruby-identifier">string</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;\n&quot;</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">paragraph</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:skip_encoding</span>] = <span class="ruby-keyword kw">false</span>
+          <span class="ruby-identifier">remaining_text</span> = <span class="ruby-identifier">draw_indented_line</span>(<span class="ruby-identifier">paragraph</span>, <span class="ruby-identifier">options</span>)
+          <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:skip_encoding</span>] = <span class="ruby-keyword kw">true</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">remaining_text</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">paragraph</span>
+            <span class="ruby-comment cmt"># we were too close to the bottom of the page to print even one line</span>
+            <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">move_past_bottom</span>
+            <span class="ruby-identifier">remaining_text</span> = <span class="ruby-identifier">draw_indented_line</span>(<span class="ruby-identifier">paragraph</span>, <span class="ruby-identifier">options</span>)
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-identifier">remaining_text</span> = <span class="ruby-identifier">fill_text_box</span>(<span class="ruby-identifier">remaining_text</span>, <span class="ruby-identifier">options</span>)
+          <span class="ruby-identifier">draw_remaining_text_on_new_pages</span>(<span class="ruby-identifier">remaining_text</span>, <span class="ruby-identifier">options</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">remaining_text</span> = <span class="ruby-identifier">fill_text_box</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:skip_encoding</span>] = <span class="ruby-keyword kw">true</span>
+        <span class="ruby-identifier">draw_remaining_text_on_new_pages</span>(<span class="ruby-identifier">remaining_text</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000099" class="method-detail">
+        <a name="M000099"></a>
+
+        <div class="method-heading">
+          <a href="#M000099" class="method-signature">
+          <span class="method-name">text_box</span><span class="method-args">(string, options)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws the requested <a href="Text.html#M000094">text</a> into a box. When
+the <a href="Text.html#M000094">text</a> overflows the rectangle, you can
+display ellipses, shrink to fit, or truncate the <a
+href="Text.html#M000094">text</a>. <a href="Text.html">Text</a> boxes are
+independent of the document y position.
+</p>
+<h2><a href="Encoding.html">Encoding</a></h2>
+<p>
+Note that strings passed to this function should be encoded as UTF-8. If
+you get unexpected characters appearing in your rendered document, check
+this.
+</p>
+<p>
+If the current font is a built-in one, although the string must be encoded
+as UTF-8, only characters that are available in WinAnsi are allowed.
+</p>
+<p>
+If an empty box is rendered to your PDF instead of the character you wanted
+it usually means the current font doesn&#8216;t include that character.
+</p>
+<h2>Options (default values marked in [])</h2>
+<table>
+<tr><td valign="top"><tt>:kerning</tt>:</td><td><tt>boolean</tt>. Whether or not to use kerning (if it is available with
+the current font) [true]
+
+</td></tr>
+<tr><td valign="top"><tt>:size</tt>:</td><td><tt>number</tt>. The font size to use. [current font size]
+
+</td></tr>
+<tr><td valign="top"><tt>:style</tt>:</td><td>The style to use. The requested style must be part of the current font
+familly. [current style]
+
+</td></tr>
+<tr><td valign="top"><tt>:at</tt>:</td><td><tt>[x, y]</tt>. The upper left corner of the box [@document.bounds.left,
+@document.bounds.top]
+
+</td></tr>
+<tr><td valign="top"><tt>:width</tt>:</td><td><tt>number</tt>. The width of the box [@document.bounds.right - @at[0]]
+
+</td></tr>
+<tr><td valign="top"><tt>:height</tt>:</td><td><tt>number</tt>. The height of the box [@at[1] - @document.bounds.bottom]
+
+</td></tr>
+<tr><td valign="top"><tt>:align</tt>:</td><td><tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or <tt>:justify</tt>
+Alignment within the bounding box [:left]
+
+</td></tr>
+<tr><td valign="top"><tt>:valign</tt>:</td><td><tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical alignment
+within the bounding box [:top]
+
+</td></tr>
+<tr><td valign="top"><tt>:rotate</tt>:</td><td><tt>number</tt>. The angle to rotate the <a
+href="Text.html#M000094">text</a>
+
+</td></tr>
+<tr><td valign="top"><tt>:rotate_around</tt>:</td><td><tt>:center</tt>, <tt>:upper_left</tt>, <tt>:upper_right</tt>,
+<tt>:lower_right</tt>, or <tt>:lower_left</tt>. The point around which to
+rotate the <a href="Text.html#M000094">text</a> [:upper_left]
+
+</td></tr>
+<tr><td valign="top"><tt>:leading</tt>:</td><td><tt>number</tt>. Additional space between lines [0]
+
+</td></tr>
+<tr><td valign="top"><tt>:single_line</tt>:</td><td><tt>boolean</tt>. If true, then only the first line will be drawn [false]
+
+</td></tr>
+<tr><td valign="top"><tt>:skip_encoding</tt>:</td><td><tt>boolean</tt> [false]
+
+</td></tr>
+<tr><td valign="top"><tt>:overflow</tt>:</td><td><tt>:truncate</tt>, <tt>:shrink_to_fit</tt>, <tt>:expand</tt>, or
+<tt>:ellipses</tt>. This controls the behavior when the amount of <a
+href="Text.html#M000094">text</a> exceeds the available space.
+<tt>:ellipses</tt> [:truncate]
+
+</td></tr>
+<tr><td valign="top"><tt>:min_font_size</tt>:</td><td><tt>number</tt>. The minimum font size to use when :overflow is set to
+:shrink_to_fit (that is the font size will not be reduced to less than this
+value, even if it means that some <a href="Text.html#M000094">text</a> will
+be cut off). [5]
+
+</td></tr>
+<tr><td valign="top"><tt>:unformatted_line_wrap</tt>:</td><td><tt>object</tt>. An object used for custom line wrapping on a case by case
+basis. Note that if you want to change wrapping document-wide, do
+pdf.default_unformatted_line_wrap = MyLineWrap.new. Your custom object must
+have a wrap_line method that accepts a single line (no newlines) and an
+<tt>options</tt> hash and returns the part of that string that can fit on a
+single line under the conditions defined by <tt>options</tt> (see the line
+wrap specs). If omitted, the <a href="../Prawn.html">Prawn</a> default line
+wrap object is used. The options hash passed into the wrap_object proc
+includes the following options:
+
+<table>
+<tr><td valign="top"><tt>:width</tt>:</td><td>the width available for the current line of <a
+href="Text.html#M000094">text</a>
+
+</td></tr>
+<tr><td valign="top"><tt>:document</tt>:</td><td>the pdf object
+
+</td></tr>
+<tr><td valign="top"><tt>:kerning</tt>:</td><td>boolean
+
+</td></tr>
+</table>
+<p>
+The line wrap object should have a <tt>width</tt> method that returns the
+width of the last line printed, a <tt>space_count</tt> method that returns
+the number of spaces in the last line, and a <tt>consumed_char_count</tt>
+that returns the number of characters used from the original line, which
+may be more than the number of characters returned by the
+<tt>wrap_line</tt> method because preceding and trailing spaces should not
+be returned by wrap_line
+</p>
+</td></tr>
+</table>
+<h2>Returns</h2>
+<p>
+Returns any <a href="Text.html#M000094">text</a> that did not print under
+the current settings.
+</p>
+<p>
+NOTE: if an AFM font is used, then the returned <a
+href="Text.html#M000094">text</a> is encoded in WinAnsi. Subsequent calls
+to <a href="Text.html#M000099">text_box</a> that pass this returned <a
+href="Text.html#M000094">text</a> back into <a
+href="Text.html#M000094">text</a> box must include a :skip_encoding =&gt;
+true option. This is unnecessary when using TTF fonts because those operate
+on UTF-8 encoding.
+</p>
+<h2>Exceptions</h2>
+<p>
+Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print any
+<a href="Text.html#M000094">text</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000099-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000099-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/text/box.rb, line 112</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text_box</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Box</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:document</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>)).<span class="ruby-identifier">render</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

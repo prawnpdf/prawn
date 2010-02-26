@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Prawn</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Prawn</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/prawn/font_rb.html">
+                lib/prawn/font.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/errors_rb.html">
+                lib/prawn/errors.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/layout_rb.html">
+                lib/prawn/layout.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/repeater_rb.html">
+                lib/prawn/repeater.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/security_rb.html">
+                lib/prawn/security.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document_rb.html">
+                lib/prawn/document.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text_rb.html">
+                lib/prawn/text.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/outline_rb.html">
+                lib/prawn/outline.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text/formatted/arranger_rb.html">
+                lib/prawn/text/formatted/arranger.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text/formatted/line_wrap_rb.html">
+                lib/prawn/text/formatted/line_wrap.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text/formatted/parser_rb.html">
+                lib/prawn/text/formatted/parser.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text/formatted/box_rb.html">
+                lib/prawn/text/formatted/box.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text/line_wrap_rb.html">
+                lib/prawn/text/line_wrap.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/text/box_rb.html">
+                lib/prawn/text/box.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/layout/page_rb.html">
+                lib/prawn/layout/page.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/layout/grid_rb.html">
+                lib/prawn/layout/grid.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/images_rb.html">
+                lib/prawn/images.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics/join_style_rb.html">
+                lib/prawn/graphics/join_style.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics/cap_style_rb.html">
+                lib/prawn/graphics/cap_style.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics/transformation_rb.html">
+                lib/prawn/graphics/transformation.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics/color_rb.html">
+                lib/prawn/graphics/color.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics/dash_rb.html">
+                lib/prawn/graphics/dash.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics/transparency_rb.html">
+                lib/prawn/graphics/transparency.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/stamp_rb.html">
+                lib/prawn/stamp.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/font/afm_rb.html">
+                lib/prawn/font/afm.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/font/dfont_rb.html">
+                lib/prawn/font/dfont.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/font/ttf_rb.html">
+                lib/prawn/font/ttf.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/measurements_rb.html">
+                lib/prawn/measurements.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/table_rb.html">
+                lib/prawn/table.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/graphics_rb.html">
+                lib/prawn/graphics.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/table/cell_rb.html">
+                lib/prawn/table/cell.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/table/cell/in_table_rb.html">
+                lib/prawn/table/cell/in_table.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/table/cell/text_rb.html">
+                lib/prawn/table/cell/text.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/table/cell/subtable_rb.html">
+                lib/prawn/table/cell/subtable.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/table/accessors_rb.html">
+                lib/prawn/table/accessors.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/images/png_rb.html">
+                lib/prawn/images/png.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/images/jpg_rb.html">
+                lib/prawn/images/jpg.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/destinations_rb.html">
+                lib/prawn/core/destinations.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/byte_string_rb.html">
+                lib/prawn/core/byte_string.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/object_store_rb.html">
+                lib/prawn/core/object_store.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/page_rb.html">
+                lib/prawn/core/page.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/annotations_rb.html">
+                lib/prawn/core/annotations.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/text_rb.html">
+                lib/prawn/core/text.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/document_state_rb.html">
+                lib/prawn/core/document_state.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/reference_rb.html">
+                lib/prawn/core/reference.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/name_tree_rb.html">
+                lib/prawn/core/name_tree.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/pdf_object_rb.html">
+                lib/prawn/core/pdf_object.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core/literal_string_rb.html">
+                lib/prawn/core/literal_string.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/core_rb.html">
+                lib/prawn/core.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/page_geometry_rb.html">
+                lib/prawn/document/page_geometry.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/snapshot_rb.html">
+                lib/prawn/document/snapshot.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/column_box_rb.html">
+                lib/prawn/document/column_box.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/internals_rb.html">
+                lib/prawn/document/internals.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/span_rb.html">
+                lib/prawn/document/span.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/graphics_state_rb.html">
+                lib/prawn/document/graphics_state.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/document/bounding_box_rb.html">
+                lib/prawn/document/bounding_box.rb
+                </a>
+        <br />
+                <a href="../files/lib/prawn/encoding_rb.html">
+                lib/prawn/encoding.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+encoding: utf-8
+</p>
+<p>
+Copyright September 2008, Gregory Brown, James Healy All Rights Reserved.
+</p>
+<p>
+This is free software. Please see the LICENSE and COPYING files for
+details.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="Prawn/Core.html" class="link">Prawn::Core</a><br />
+Module <a href="Prawn/Encoding.html" class="link">Prawn::Encoding</a><br />
+Module <a href="Prawn/Errors.html" class="link">Prawn::Errors</a><br />
+Module <a href="Prawn/Graphics.html" class="link">Prawn::Graphics</a><br />
+Module <a href="Prawn/Images.html" class="link">Prawn::Images</a><br />
+Module <a href="Prawn/Layout.html" class="link">Prawn::Layout</a><br />
+Module <a href="Prawn/Measurements.html" class="link">Prawn::Measurements</a><br />
+Module <a href="Prawn/Stamp.html" class="link">Prawn::Stamp</a><br />
+Module <a href="Prawn/Text.html" class="link">Prawn::Text</a><br />
+Class <a href="Prawn/Document.html" class="link">Prawn::Document</a><br />
+Class <a href="Prawn/Font.html" class="link">Prawn::Font</a><br />
+Class <a href="Prawn/Outline.html" class="link">Prawn::Outline</a><br />
+Class <a href="Prawn/Table.html" class="link">Prawn::Table</a><br />
+
+    </div>
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">BASEDIR</td>
+          <td>=</td>
+          <td class="context-item-value">File.expand_path(File.join(dir, '..', '..'))</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+The base source directory for <a href="Prawn.html">Prawn</a> as installed
+on the system
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">debug</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+Whe set to true, <a href="Prawn.html">Prawn</a> will verify hash options to
+ensure only valid keys are used. Off by default.
+
+<p>
+Example:
+</p>
+<pre>
+  &gt;&gt; Prawn::Document.new(:tomato =&gt; &quot;Juicy&quot;)
+  Prawn::Errors::UnknownOption:
+  Detected unknown option(s): [:tomato]
+  Accepted options are: [:page_size, :page_layout, :left_margin, ...]
+</pre>
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

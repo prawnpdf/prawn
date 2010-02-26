@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Prawn::Graphics</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Prawn::Graphics</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/prawn/graphics/join_style_rb.html">
+                lib/prawn/graphics/join_style.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/graphics/cap_style_rb.html">
+                lib/prawn/graphics/cap_style.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/graphics/transformation_rb.html">
+                lib/prawn/graphics/transformation.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/graphics/color_rb.html">
+                lib/prawn/graphics/color.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/graphics/dash_rb.html">
+                lib/prawn/graphics/dash.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/graphics/transparency_rb.html">
+                lib/prawn/graphics/transparency.rb
+                </a>
+        <br />
+                <a href="../../files/lib/prawn/graphics_rb.html">
+                lib/prawn/graphics.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Implements the drawing facilities for <a
+href="Document.html">Prawn::Document</a>. Use this to draw the most
+beautiful imaginable things.
+</p>
+<p>
+This file lifts and modifies several of PDF::Writer&#8216;s graphics
+functions ruby-pdf.rubyforge.org
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000065">circle_at</a>&nbsp;&nbsp;
+      <a href="#M000064">curve</a>&nbsp;&nbsp;
+      <a href="#M000055">curve_to</a>&nbsp;&nbsp;
+      <a href="#M000066">ellipse_at</a>&nbsp;&nbsp;
+      <a href="#M000072">fill</a>&nbsp;&nbsp;
+      <a href="#M000073">fill_and_stroke</a>&nbsp;&nbsp;
+      <a href="#M000061">horizontal_line</a>&nbsp;&nbsp;
+      <a href="#M000062">horizontal_rule</a>&nbsp;&nbsp;
+      <a href="#M000060">line</a>&nbsp;&nbsp;
+      <a href="#M000054">line_to</a>&nbsp;&nbsp;
+      <a href="#M000059">line_width</a>&nbsp;&nbsp;
+      <a href="#M000058">line_width=</a>&nbsp;&nbsp;
+      <a href="#M000053">move_to</a>&nbsp;&nbsp;
+      <a href="#M000067">polygon</a>&nbsp;&nbsp;
+      <a href="#M000056">rectangle</a>&nbsp;&nbsp;
+      <a href="#M000068">rounded_polygon</a>&nbsp;&nbsp;
+      <a href="#M000057">rounded_rectangle</a>&nbsp;&nbsp;
+      <a href="#M000069">rounded_vertex</a>&nbsp;&nbsp;
+      <a href="#M000070">stroke</a>&nbsp;&nbsp;
+      <a href="#M000071">stroke_bounds</a>&nbsp;&nbsp;
+      <a href="#M000063">vertical_line</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="Graphics/Color.html">Color</a></span>
+        <span class="include-name"><a href="Graphics/Dash.html">Dash</a></span>
+        <span class="include-name"><a href="Graphics/CapStyle.html">CapStyle</a></span>
+        <span class="include-name"><a href="Graphics/JoinStyle.html">JoinStyle</a></span>
+        <span class="include-name"><a href="Graphics/Transparency.html">Transparency</a></span>
+        <span class="include-name"><a href="Graphics/Transformation.html">Transformation</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="Graphics/CapStyle.html" class="link">Prawn::Graphics::CapStyle</a><br />
+Module <a href="Graphics/Color.html" class="link">Prawn::Graphics::Color</a><br />
+Module <a href="Graphics/Dash.html" class="link">Prawn::Graphics::Dash</a><br />
+Module <a href="Graphics/JoinStyle.html" class="link">Prawn::Graphics::JoinStyle</a><br />
+Module <a href="Graphics/Transformation.html" class="link">Prawn::Graphics::Transformation</a><br />
+Module <a href="Graphics/Transparency.html" class="link">Prawn::Graphics::Transparency</a><br />
+
+    </div>
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">KAPPA</td>
+          <td>=</td>
+          <td class="context-item-value">4.0 * ((Math.sqrt(2) - 1.0) / 3.0)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+This constant is used to approximate a symmetrical arc using a cubic Bezier
+<a href="Graphics.html#M000064">curve</a>.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000065" class="method-detail">
+        <a name="M000065"></a>
+
+        <div class="method-heading">
+          <a href="#M000065" class="method-signature">
+          <span class="method-name">circle_at</span><span class="method-args">(point, options)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a circle of radius <tt>:radius</tt> with the centre-point at
+<tt>point</tt> as a complete subpath. The drawing point will be moved to
+the centre-point upon completion of the drawing the circle.
+</p>
+<pre>
+   pdf.circle_at [100,100], :radius =&gt; 25
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000065-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000065-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 188</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">circle_at</span>(<span class="ruby-identifier">point</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">point</span>
+      <span class="ruby-identifier">ellipse_at</span> [<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>], <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:radius</span>]
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000064" class="method-detail">
+        <a name="M000064"></a>
+
+        <div class="method-heading">
+          <a href="#M000064" class="method-signature">
+          <span class="method-name">curve</span><span class="method-args">(origin,dest, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a Bezier <a href="Graphics.html#M000064">curve</a> between two
+points, bounded by two additional points
+</p>
+<pre>
+   pdf.curve [50,100], [100,100], :bounds =&gt; [[90,90],[75,75]]
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000064-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000064-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 172</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">curve</span>(<span class="ruby-identifier">origin</span>,<span class="ruby-identifier">dest</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-identifier">move_to</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">origin</span>)
+      <span class="ruby-identifier">curve_to</span>(<span class="ruby-identifier">dest</span>,<span class="ruby-identifier">options</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
+
+        <div class="method-heading">
+          <a href="#M000055" class="method-signature">
+          <span class="method-name">curve_to</span><span class="method-args">(dest,options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a Bezier <a href="Graphics.html#M000064">curve</a> from the current
+drawing position to the specified point, bounded by two additional points.
+</p>
+<pre>
+  pdf.curve_to [100,100], :bounds =&gt; [[90,90],[75,75]]
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000055-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000055-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 64</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">curve_to</span>(<span class="ruby-identifier">dest</span>,<span class="ruby-identifier">options</span>={})
+       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:bounds</span>] <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidGraphicsPath</span>,
+         <span class="ruby-value str">&quot;Bounding points for bezier curve must be specified &quot;</span><span class="ruby-operator">+</span>
+         <span class="ruby-value str">&quot;as :bounds =&gt; [[x1,y1],[x2,y2]]&quot;</span>
+
+       <span class="ruby-identifier">curve_points</span> = (<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:bounds</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">dest</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">map_to_absolute</span>(<span class="ruby-identifier">e</span>) }
+       <span class="ruby-identifier">add_content</span>(<span class="ruby-value str">&quot;%.3f %.3f %.3f %.3f %.3f %.3f c&quot;</span> <span class="ruby-operator">%</span>
+                     <span class="ruby-identifier">curve_points</span>.<span class="ruby-identifier">flatten</span> )
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000066" class="method-detail">
+        <a name="M000066"></a>
+
+        <div class="method-heading">
+          <a href="#M000066" class="method-signature">
+          <span class="method-name">ellipse_at</span><span class="method-args">(point, r1, r2 = r1)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws an ellipse of <tt>x</tt> radius <tt>r1</tt> and <tt>y</tt> radius
+<tt>r2</tt> with the centre-point at <tt>point</tt> as a complete subpath.
+The drawing point will be moved to the centre-point upon completion of the
+drawing the ellipse.
+</p>
+<pre>
+   # draws an ellipse with x-radius 25 and y-radius 50
+   pdf.ellipse_at [100,100], 25, 50
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000066-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000066-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 201</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ellipse_at</span>(<span class="ruby-identifier">point</span>, <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">r2</span> = <span class="ruby-identifier">r1</span>)
+      <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> = <span class="ruby-identifier">point</span>
+      <span class="ruby-identifier">l1</span> = <span class="ruby-identifier">r1</span> <span class="ruby-operator">*</span> <span class="ruby-constant">KAPPA</span>
+      <span class="ruby-identifier">l2</span> = <span class="ruby-identifier">r2</span> <span class="ruby-operator">*</span> <span class="ruby-constant">KAPPA</span>
+
+      <span class="ruby-identifier">move_to</span>(<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span>)
+
+      <span class="ruby-comment cmt"># Upper right hand corner</span>
+      <span class="ruby-identifier">curve_to</span> [<span class="ruby-identifier">x</span>,  <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r2</span>],
+        <span class="ruby-identifier">:bounds</span> =<span class="ruby-operator">&gt;</span> [[<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">l1</span>], [<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">l2</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r2</span>]]
+
+      <span class="ruby-comment cmt"># Upper left hand corner</span>
+      <span class="ruby-identifier">curve_to</span> [<span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span>],
+        <span class="ruby-identifier">:bounds</span> =<span class="ruby-operator">&gt;</span> [[<span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">l2</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r2</span>], [<span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">l1</span>]]
+
+      <span class="ruby-comment cmt"># Lower left hand corner</span>
+      <span class="ruby-identifier">curve_to</span> [<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r2</span>],
+        <span class="ruby-identifier">:bounds</span> =<span class="ruby-operator">&gt;</span> [[<span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">l1</span>], [<span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">l2</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r2</span>]]
+
+      <span class="ruby-comment cmt"># Lower right hand corner</span>
+      <span class="ruby-identifier">curve_to</span> [<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span>],
+        <span class="ruby-identifier">:bounds</span> =<span class="ruby-operator">&gt;</span> [[<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">l2</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r2</span>], [<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">r1</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">l1</span>]]
+
+      <span class="ruby-identifier">move_to</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000072" class="method-detail">
+        <a name="M000072"></a>
+
+        <div class="method-heading">
+          <a href="#M000072" class="method-signature">
+          <span class="method-name">fill</span><span class="method-args">() {|if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Fills and closes the current path. See Graphic::Color for color details
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000072-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000072-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 282</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fill</span>
+      <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-identifier">add_content</span> <span class="ruby-value str">&quot;f&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000073" class="method-detail">
+        <a name="M000073"></a>
+
+        <div class="method-heading">
+          <a href="#M000073" class="method-signature">
+          <span class="method-name">fill_and_stroke</span><span class="method-args">() {|if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Fills, strokes, and closes the current path. See Graphic::Color for color
+details
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000073-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000073-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 289</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fill_and_stroke</span>
+      <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-identifier">add_content</span> <span class="ruby-value str">&quot;b&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="#M000061" class="method-signature">
+          <span class="method-name">horizontal_line</span><span class="method-args">(x1,x2,options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a horizontal <a href="Graphics.html#M000060">line</a> from
+<tt>x1</tt> to <tt>x2</tt> at the current <tt>y</tt> position, or the
+position specified by the :at option.
+</p>
+<pre>
+ # draw a line from [25, 75] to [100, 75]
+ horizontal_line 25, 100, :at =&gt; 75
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000061-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000061-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 141</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">horizontal_line</span>(<span class="ruby-identifier">x1</span>,<span class="ruby-identifier">x2</span>,<span class="ruby-identifier">options</span>={})
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:at</span>]
+        <span class="ruby-identifier">y1</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:at</span>]
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">y1</span> = <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+      <span class="ruby-keyword kw">end</span>
+      
+      <span class="ruby-identifier">line</span>(<span class="ruby-identifier">x1</span>,<span class="ruby-identifier">y1</span>,<span class="ruby-identifier">x2</span>,<span class="ruby-identifier">y1</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="#M000062" class="method-signature">
+          <span class="method-name">horizontal_rule</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a horizontal <a href="Graphics.html#M000060">line</a> from the left
+border to the right border of the bounding box at the current <tt>y</tt>
+position.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000062-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000062-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 154</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">horizontal_rule</span>
+      <span class="ruby-identifier">horizontal_line</span>(<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">right</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
+
+        <div class="method-heading">
+          <a href="#M000060" class="method-signature">
+          <span class="method-name">line</span><span class="method-args">(*points)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a <a href="Graphics.html#M000060">line</a> from one point to another.
+Points may be specified as tuples or flattened argument list:
+</p>
+<pre>
+  pdf.line [100,100], [200,250]
+  pdf.line(100,100,200,250)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000060-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000060-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 129</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">line</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">points</span>)
+      <span class="ruby-identifier">x0</span>,<span class="ruby-identifier">y0</span>,<span class="ruby-identifier">x1</span>,<span class="ruby-identifier">y1</span> = <span class="ruby-identifier">points</span>.<span class="ruby-identifier">flatten</span>
+      <span class="ruby-identifier">move_to</span>(<span class="ruby-identifier">x0</span>, <span class="ruby-identifier">y0</span>)
+      <span class="ruby-identifier">line_to</span>(<span class="ruby-identifier">x1</span>, <span class="ruby-identifier">y1</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000054" class="method-detail">
+        <a name="M000054"></a>
+
+        <div class="method-heading">
+          <a href="#M000054" class="method-signature">
+          <span class="method-name">line_to</span><span class="method-args">(*point)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a <a href="Graphics.html#M000060">line</a> from the current drawing
+position to the specified point. The destination may be described as a
+tuple or a flattened list:
+</p>
+<pre>
+  pdf.line_to [50,50]
+  pdf.line_to(50,50)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000054-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000054-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 54</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">line_to</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">point</span>)
+      <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">map_to_absolute</span>(<span class="ruby-identifier">point</span>)
+      <span class="ruby-identifier">add_content</span>(<span class="ruby-value str">&quot;%.3f %.3f l&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> ])
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
+
+        <div class="method-heading">
+          <a href="#M000059" class="method-signature">
+          <span class="method-name">line_width</span><span class="method-args">(width=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+When called without an argument, returns the current <a
+href="Graphics.html#M000060">line</a> thickness. When called with an
+argument, sets the <a href="Graphics.html#M000060">line</a> thickness to
+the specified value (in PDF points)
+</p>
+<pre>
+  pdf.line_width #=&gt; 1
+  pdf.line_width(5)
+  pdf.line_width #=&gt; 5
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000059-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000059-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 115</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">line_width</span>(<span class="ruby-identifier">width</span>=<span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">width</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">line_width</span> = <span class="ruby-identifier">width</span>
+      <span class="ruby-keyword kw">else</span>
+        (<span class="ruby-keyword kw">defined?</span>(<span class="ruby-ivar">@line_width</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@line_width</span>) <span class="ruby-operator">||</span> <span class="ruby-value">1</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="#M000058" class="method-signature">
+          <span class="method-name">line_width=</span><span class="method-args">(width)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets <a href="Graphics.html#M000060">line</a> thickness to the
+<tt>width</tt> specified.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000058-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000058-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 102</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">line_width=</span>(<span class="ruby-identifier">width</span>)
+      <span class="ruby-ivar">@line_width</span> = <span class="ruby-identifier">width</span>
+      <span class="ruby-identifier">add_content</span>(<span class="ruby-node">&quot;#{width} w&quot;</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
+
+        <div class="method-heading">
+          <a href="#M000053" class="method-signature">
+          <span class="method-name">move_to</span><span class="method-args">(*point)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Moves the drawing position to a given point. The point can be specified as
+a tuple or a flattened argument list
+</p>
+<pre>
+  pdf.move_to [100,50]
+  pdf.move_to(100,50)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000053-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000053-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 43</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_to</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">point</span>)
+      <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">map_to_absolute</span>(<span class="ruby-identifier">point</span>)
+      <span class="ruby-identifier">add_content</span>(<span class="ruby-value str">&quot;%.3f %.3f m&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> ])
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000067" class="method-detail">
+        <a name="M000067"></a>
+
+        <div class="method-heading">
+          <a href="#M000067" class="method-signature">
+          <span class="method-name">polygon</span><span class="method-args">(*points)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a <a href="Graphics.html#M000067">polygon</a> from the specified
+points.
+</p>
+<pre>
+   # draws a snazzy triangle
+   pdf.polygon [100,100], [100,200], [200,200]
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000067-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000067-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 232</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">polygon</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">points</span>)
+      <span class="ruby-identifier">move_to</span> <span class="ruby-identifier">points</span>[<span class="ruby-value">0</span>]
+      (<span class="ruby-identifier">points</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">points</span>[<span class="ruby-value">0</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">line_to</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">point</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="#M000056" class="method-signature">
+          <span class="method-name">rectangle</span><span class="method-args">(point,width,height)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a <a href="Graphics.html#M000056">rectangle</a> given <tt>point</tt>,
+<tt>width</tt> and <tt>height</tt>. The <a
+href="Graphics.html#M000056">rectangle</a> is bounded by its upper-left
+corner.
+</p>
+<pre>
+   pdf.rectangle [300,300], 100, 200
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000056-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000056-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 79</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rectangle</span>(<span class="ruby-identifier">point</span>,<span class="ruby-identifier">width</span>,<span class="ruby-identifier">height</span>)
+      <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">map_to_absolute</span>(<span class="ruby-identifier">point</span>)
+      <span class="ruby-identifier">add_content</span>(<span class="ruby-value str">&quot;%.3f %.3f %.3f %.3f re&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>, <span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span> ])
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000068" class="method-detail">
+        <a name="M000068"></a>
+
+        <div class="method-heading">
+          <a href="#M000068" class="method-signature">
+          <span class="method-name">rounded_polygon</span><span class="method-args">(radius, *points)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a rounded <a href="Graphics.html#M000067">polygon</a> from specified
+points using the radius to define bezier curves
+</p>
+<pre>
+ # draws a rounded filled in polygon
+  pdf.fill_and_stroke_rounded_polygon(10, [100, 250], [200, 300], [300, 250],
+                [300, 150], [200, 100], [100, 150])
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000068-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000068-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 244</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rounded_polygon</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">points</span>)
+      <span class="ruby-identifier">move_to</span> <span class="ruby-identifier">point_on_line</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">points</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">points</span>[<span class="ruby-value">0</span>])
+      <span class="ruby-identifier">sides</span> = <span class="ruby-identifier">points</span>.<span class="ruby-identifier">size</span>
+      <span class="ruby-identifier">points</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">points</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">points</span>[<span class="ruby-value">1</span>]
+      (<span class="ruby-identifier">sides</span>).<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">rounded_vertex</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">points</span>[<span class="ruby-identifier">i</span>], <span class="ruby-identifier">points</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>], <span class="ruby-identifier">points</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">2</span>])
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="#M000057" class="method-signature">
+          <span class="method-name">rounded_rectangle</span><span class="method-args">(point,width,height,radius)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a rounded <a href="Graphics.html#M000056">rectangle</a> given
+<tt>point</tt>, <tt>width</tt> and <tt>height</tt> and <tt>radius</tt> for
+the rounded corner. The <a href="Graphics.html#M000056">rectangle</a> is
+bounded by its upper-left corner.
+</p>
+<pre>
+   pdf.rounded_rectangle [300,300], 100, 200, 10
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000057-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000057-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 90</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rounded_rectangle</span>(<span class="ruby-identifier">point</span>,<span class="ruby-identifier">width</span>,<span class="ruby-identifier">height</span>,<span class="ruby-identifier">radius</span>)
+      <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> = <span class="ruby-identifier">point</span>
+      <span class="ruby-identifier">rounded_polygon</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">point</span>, [<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span>, <span class="ruby-identifier">y</span>], [<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>], [<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>])
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000069" class="method-detail">
+        <a name="M000069"></a>
+
+        <div class="method-heading">
+          <a href="#M000069" class="method-signature">
+          <span class="method-name">rounded_vertex</span><span class="method-args">(radius, *points)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a rounded vertex for a <a href="Graphics.html#M000060">line</a>
+segment used for building a rounded <a
+href="Graphics.html#M000067">polygon</a> requires a radius to define bezier
+<a href="Graphics.html#M000064">curve</a> and three points. The first two
+points define the <a href="Graphics.html#M000060">line</a> segment and the
+third point helps define the <a href="Graphics.html#M000064">curve</a> for
+the vertex.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000069-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000069-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 257</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rounded_vertex</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">points</span>)
+      <span class="ruby-identifier">x0</span>,<span class="ruby-identifier">y0</span>,<span class="ruby-identifier">x1</span>,<span class="ruby-identifier">y1</span>,<span class="ruby-identifier">x2</span>,<span class="ruby-identifier">y2</span> = <span class="ruby-identifier">points</span>.<span class="ruby-identifier">flatten</span>
+      <span class="ruby-identifier">radial_point_1</span> = <span class="ruby-identifier">point_on_line</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">points</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">points</span>[<span class="ruby-value">1</span>])
+      <span class="ruby-identifier">bezier_point_1</span> = <span class="ruby-identifier">point_on_line</span>((<span class="ruby-identifier">radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">radius</span><span class="ruby-operator">*</span><span class="ruby-constant">KAPPA</span>), <span class="ruby-identifier">points</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">points</span>[<span class="ruby-value">1</span>] )
+      <span class="ruby-identifier">radial_point_2</span> = <span class="ruby-identifier">point_on_line</span>(<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">points</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">points</span>[<span class="ruby-value">1</span>])
+      <span class="ruby-identifier">bezier_point_2</span> = <span class="ruby-identifier">point_on_line</span>((<span class="ruby-identifier">radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">radius</span><span class="ruby-operator">*</span><span class="ruby-constant">KAPPA</span>), <span class="ruby-identifier">points</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">points</span>[<span class="ruby-value">1</span>])
+      <span class="ruby-identifier">line_to</span>(<span class="ruby-identifier">radial_point_1</span>)
+      <span class="ruby-identifier">curve_to</span>(<span class="ruby-identifier">radial_point_2</span>, <span class="ruby-identifier">:bounds</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">bezier_point_1</span>, <span class="ruby-identifier">bezier_point_2</span>])
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000070" class="method-detail">
+        <a name="M000070"></a>
+
+        <div class="method-heading">
+          <a href="#M000070" class="method-signature">
+          <span class="method-name">stroke</span><span class="method-args">() {|if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Strokes and closes the current path. See Graphic::Color for color details
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000070-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000070-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 269</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stroke</span>
+      <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-identifier">add_content</span> <span class="ruby-value str">&quot;S&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000071" class="method-detail">
+        <a name="M000071"></a>
+
+        <div class="method-heading">
+          <a href="#M000071" class="method-signature">
+          <span class="method-name">stroke_bounds</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws and strokes a <a href="Graphics.html#M000056">rectangle</a>
+represented by the current bounding box
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000071-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000071-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 276</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stroke_bounds</span>
+      <span class="ruby-identifier">stroke_rectangle</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top_left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
+
+        <div class="method-heading">
+          <a href="#M000063" class="method-signature">
+          <span class="method-name">vertical_line</span><span class="method-args">(y1,y2,params)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Draws a vertical <a href="Graphics.html#M000060">line</a> at the x
+cooordinate given by :at from y1 to y2.
+</p>
+<pre>
+  # draw a line from [25, 100] to [25, 300]
+  vertical_line 100, 300, :at =&gt; 25
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000063-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000063-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/prawn/graphics.rb, line 163</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">vertical_line</span>(<span class="ruby-identifier">y1</span>,<span class="ruby-identifier">y2</span>,<span class="ruby-identifier">params</span>)
+      <span class="ruby-identifier">line</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:at</span>],<span class="ruby-identifier">y1</span>,<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:at</span>],<span class="ruby-identifier">y2</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
