@@ -18,7 +18,7 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
   
 == Patch process 
 
-  1. File a ticket in the bug tracker describing your feature
+  1. File a ticket in the bug tracker describing a defect or feature
 
    http://github.com/sandal/prawn/issues
 
