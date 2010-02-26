@@ -16,61 +16,84 @@ module Prawn
       # the rectangle shrink to fit or truncate the text. Text boxes are
       # independent of the document y position.
       #
+      # == Formatted Text Array
+      #
       # Formatted text is comprised of an array of hashes, where each hash
       # defines text and format information. As of the time of writing, the
       # following hash options are supported:
       #
-      # <tt>:text</tt> the text to format according to the other hash options
-      # <tt>:style</tt> an array of styles to apply to this text. As of now,
-      #                 :italic and :bold are supported, with the intention of
-      #                 also supporting :underline and :strikethrough
-      # <tt>:size</tt> an integer denoting the font size to apply to this text
-      # <tt>:font</tt> as yet unsupported
-      # <tt>:color</tt> as yet unsupported
-      # <tt>:link</tt> as yet unsupported
+      # <tt>:text</tt>::
+      #     the text to format according to the other hash options
+      # <tt>:style</tt>::
+      #     an array of styles to apply to this text. As of now, :italic and
+      #     :bold are supported, with the intention of also supporting
+      #     :underline and :strikethrough
+      # <tt>:size</tt>::
+      #     an integer denoting the font size to apply to this text
+      # <tt>:font</tt>::
+      #     as yet unsupported
+      # <tt>:color</tt>::
+      #     as yet unsupported
+      # <tt>:link</tt>::
+      #     as yet unsupported
       #
-      # Example:
+      # == Example
+      #
       #   formatted_text_box([{ :text => "hello" },
       #                       { :text => "world",
       #                         :size => 24,
       #                         :style => [:bold, :italic] }])
       #
-      # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-      #                        custom line wrapping on a case by case
-      #                        basis. Note that if you want to change wrapping
-      #                        document-wide, do
-      #                        pdf.default_formatted_line_wrap =
-      #                        MyLineWrap.new.  Your custom object must have a
-      #                        wrap_line method that accepts an <tt>options</tt>
-      #                        hash and returns the part of that string that can
-      #                        fit on a single line under the conditions defined
-      #                        by <tt>options</tt> (see the line wrap specs). If
-      #                        omitted, the Prawn default line wrap object is
-      #                        used. The options hash passed into the
-      #                        wrap_object proc includes the following options:
+      # == Options
       #
-      #                        <tt>:width</tt>:: the width available for the
-      #                                          current line of text
-      #                        <tt>:document</tt>:: the pdf object
-      #                        <tt>:kerning</tt>:: boolean
-      #                        <tt>:arranger</tt>:: a Formatted::Arranger object
+      # Accepts the same options as Text::Box with the below exceptions
       #
-      #                        The line wrap object should have a <tt>width</tt>
-      #                        method that returns the width of the last line
-      #                        printed and a <tt>space_count</tt> method that
-      #                        returns the number of spaces in the last line
+      # <tt>:formatted_line_wrap</tt>::
+      #     <tt>object</tt>. An object used for custom line wrapping on a case
+      #     by case basis. Note that if you want to change wrapping
+      #     document-wide, do pdf.default_formatted_line_wrap = MyLineWrap.new.
+      #     Your custom object must have a wrap_line method that accepts an
+      #     <tt>options</tt> hash and returns the part of that string that can
+      #     fit on a single line under the conditions defined by
+      #     <tt>options</tt> (see the line wrap specs). If omitted, the Prawn
+      #     default line wrap object is used. The options hash passed into the
+      #     wrap_object proc includes the following options: <tt>:width</tt>::
+      #     the width available for the current line of text
+      #     <tt>:document</tt>:: the pdf object
+      #     <tt>:kerning</tt>:: boolean
+      #     <tt>:arranger</tt>:: a Formatted::Arranger object
       #
-      # Raises "Bad font family" if no fontfamily is defined for the current font
+      #     The line wrap object should have a <tt>width</tt> method that
+      #     returns the width of the last line printed and a
+      #     <tt>space_count</tt> method that returns the number of spaces in
+      #     the last line
+      # <tt>:overflow</tt>::
+      #     does not accept :ellipses
+      #
+      # == Returns
+      #
+      # Returns a formatted text array representing any text that did not print
+      # under the current settings.
+      #
+      # == Exceptions
+      #
+      # Raises "Bad font family" if no font family is defined for the current font
+      #
+      # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+      # any text
+      #
+      # Raises <tt>NotImplementedError</tt> if <tt>:ellipses</tt> <tt>overflow</tt>
+      # option included
       #
       def formatted_text_box(array, options)
         Text::Formatted::Box.new(array, options.merge(:document => self)).render
       end
 
-      # Generally, one would use the formatted_text_box convenience
-      # method. However, using Text::Formatted::Box.new in conjunction with
-      # render(:dry_run => true) enables one to do look-ahead calculations prior
-      # to placing text on the page, or to determine how much vertical space was
-      # consumed by the printed text
+      # Generally, one would use the Prawn::Text::Formatted#formatted_text_box
+      # convenience method. However, using Text::Formatted::Box.new in
+      # conjunction with #render(:dry_run => true) enables one to do look-ahead
+      # calculations prior to placing text on the page, or to determine how much
+      # vertical space was consumed by the printed text
       #
       class Box < Prawn::Text::Box
         def initialize(array, options={})

@@ -38,66 +38,64 @@ module Prawn
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
     #
-    # <tt>:at</tt>:: <tt>[x, y]</tt>. The upper left corner of the box
-    #                [@document.bounds.left, @document.bounds.top]
-    # <tt>:width</tt>:: <tt>number</tt>. The width of the box
-    #                   [@document.bounds.right - @at[0]]
-    # <tt>:height</tt>:: <tt>number</tt>. The height of the box [@at[1] -
-    #                    @document.bounds.bottom]
-    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
-    #                   <tt>:justify</tt> Alignment within the bounding box [:left]
-    # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
-    #                    Vertical alignment within the bounding box [:top]
-    # <tt>:rotate</tt>:: <tt>number</tt>. The angle to rotate the text
-    # <tt>:rotate_around</tt>:: <tt>:center</tt>, <tt>:upper_left</tt>,
-    #                           <tt>:upper_right</tt>, <tt>:lower_right</tt>,
-    #                           or <tt>:lower_left</tt>. The point around which
-    #                           to rotate the text [:upper_left]
-    # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
-    # <tt>:single_line</tt>:: <tt>boolean</tt>. If true, then only the first
-    #                         line will be drawn [false]
-    # <tt>:skip_encoding</tt>:: <tt>boolean</tt> [false]
-    # <tt>:overflow</tt>:: <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>,
-    #                      <tt>:expand</tt>, or <tt>:ellipses</tt>. This
-    #                      controls the behavior when  the amount of text
-    #                      exceeds the available space. <tt>:ellipses</tt>
-    #                      [:truncate]
-    # <tt>:min_font_size</tt>:: <tt>number</tt>. The minimum font size to use
-    #                           when :overflow is set to :shrink_to_fit (that is
-    #                           the font size will not be 
-    #                           reduced to less than this value, even if it
-    #                           means that some text will be cut off). [5]
+    # <tt>:at</tt>::
+    #     <tt>[x, y]</tt>. The upper left corner of the box
+    #     [@document.bounds.left, @document.bounds.top]
+    # <tt>:width</tt>::
+    #     <tt>number</tt>. The width of the box [@document.bounds.right - @at[0]]
+    # <tt>:height</tt>::
+    #     <tt>number</tt>. The height of the box [@at[1] - @document.bounds.bottom]
+    # <tt>:align</tt>::
+    #     <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
+    #     <tt>:justify</tt> Alignment within the bounding box [:left]
+    # <tt>:valign</tt>::
+    #     <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical
+    #     alignment within the bounding box [:top]
+    #                   
+    # <tt>:rotate</tt>::
+    #     <tt>number</tt>. The angle to rotate the text
+    # <tt>:rotate_around</tt>::
+    #     <tt>:center</tt>, <tt>:upper_left</tt>, <tt>:upper_right</tt>,
+    #     <tt>:lower_right</tt>, or <tt>:lower_left</tt>. The point around which
+    #     to rotate the text [:upper_left]
+    # <tt>:leading</tt>::
+    #     <tt>number</tt>. Additional space between lines [0]
+    # <tt>:single_line</tt>::
+    #     <tt>boolean</tt>. If true, then only the first line will be drawn [false]
+    # <tt>:skip_encoding</tt>::
+    #     <tt>boolean</tt> [false]
+    # <tt>:overflow</tt>::
+    #     <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>, <tt>:expand</tt>, or
+    #     <tt>:ellipses</tt>. This controls the behavior when the amount of text
+    #     exceeds the available space. <tt>:ellipses</tt> [:truncate]
+    # <tt>:min_font_size</tt>::
+    #     <tt>number</tt>. The minimum font size to use when :overflow is set to
+    #     :shrink_to_fit (that is the font size will not be reduced to less than
+    #     this value, even if it means that some text will be cut off). [5]
     #
-    # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-    #                        custom line wrapping on a case by case basis. Note
-    #                        that if you want to change wrapping document-wide,
-    #                        do pdf.default_unformatted_line_wrap =
-    #                        MyLineWrap.new.  Your custom object must have a
-    #                        wrap_line method that accepts a single line (no
-    #                        newlines) and an <tt>options</tt> hash and returns
-    #                        the part of that string that can fit on a single
-    #                        line under the conditions defined by
-    #                        <tt>options</tt> (see the line wrap specs). If
-    #                        omitted, the Prawn default line wrap object is
-    #                        used. The options hash passed into the wrap_object
-    #                        proc includes the following options:
+    # <tt>:unformatted_line_wrap</tt>::
+    #     <tt>object</tt>. An object used for custom line wrapping on a case by
+    #     case basis. Note that if you want to change wrapping document-wide, do
+    #     pdf.default_unformatted_line_wrap = MyLineWrap.new.  Your custom
+    #     object must have a wrap_line method that accepts a single line (no
+    #     newlines) and an <tt>options</tt> hash and returns the part of that
+    #     string that can fit on a single line under the conditions defined by
+    #     <tt>options</tt> (see the line wrap specs). If omitted, the Prawn
+    #     default line wrap object is used. The options hash passed into the
+    #     wrap_object proc includes the following options:
+    #     <tt>:width</tt>:: the width available for the current line of text
+    #     <tt>:document</tt>:: the pdf object
+    #     <tt>:kerning</tt>:: boolean
     #
-    #                        <tt>:width</tt>:: the width available for the
-    #                                          current line of text
-    #                        <tt>:document</tt>:: the pdf object
-    #                        <tt>:kerning</tt>:: boolean
+    #     The line wrap object should have a <tt>width</tt> method that returns
+    #     the width of the last line printed, a <tt>space_count</tt> method that
+    #     returns the number of spaces in the last line, and a
+    #     <tt>consumed_char_count</tt> that returns the number of characters
+    #     used from the original line, which may be more than the number of
+    #     characters returned by the <tt>wrap_line</tt> method because preceding
+    #     and trailing spaces should not be returned by wrap_line
     #
-    #                        The line wrap object should have a <tt>width</tt>
-    #                        method that returns the width of the last line
-    #                        printed, a <tt>space_count</tt> method that returns
-    #                        the number of spaces in the last line, and a
-    #                        <tt>consumed_char_count</tt> that returns the
-    #                        number of characters used from the original line,
-    #                        which may be more than the number of characters
-    #                        returned by the <tt>wrap_line</tt> method because
-    #                        preceding and trailing spaces should not be
-    #                        returned by wrap_line
-    # 
+    # == Returns
     #
     # Returns any text that did not print under the current settings.
     # NOTE: if an AFM font is used, then the returned text is encoded in
@@ -105,17 +103,20 @@ module Prawn
     # into text box must include a :skip_encoding => true option. This is
     # unnecessary when using TTF fonts because those operate on UTF-8 encoding.
     #
-    # Raises <tt>ArgumentError</tt> if <tt>:ellipses</tt> <tt>overflow</tt>
-    # option included
+    # == Exceptions
+    #
+    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # any text
     #
     def text_box(string, options)
       Text::Box.new(string, options.merge(:document => self)).render
     end
 
-    # Generally, one would use the text_box convenience method. However, using
-    # Text::Box.new in conjunction with render(:dry_run => true) enables one to
-    # do look-ahead calculations prior to placing text on the page, or to
-    # determine how much vertical space was consumed by the printed text
+    # Generally, one would use the Prawn::Text#text_box convenience
+    # method. However, using Text::Box.new in conjunction with 
+    # #render(:dry_run=> true) enables one to do look-ahead calculations prior
+    # to placing text on the page, or to determine how much vertical space was
+    # consumed by the printed text
     #
     class Box
 

@@ -28,15 +28,19 @@ module Prawn
     # want fully automated text wrapping, be sure to remove newlines before
     # attempting to draw your string.
     #
+    # == Examples
+    #
     #   pdf.text "Will be wrapped when it hits the edge of your bounding box"
     #   pdf.text "This will be centered", :align => :center
     #   pdf.text "This will be right aligned", :align => :right
+    #   pdf.text "This <i>includes <b>inline</b></i> <font size='24'>" +
+    #            "formatting</font>", :inline_format => true
     #
     # If your font contains kerning pairs data that Prawn can parse, the 
     # text will be kerned by default.  You can disable this feature by passing
     # <tt>:kerning => false</tt>.
     #
-    # === Text Positioning Details:
+    # === Text Positioning Details
     # 
     # The text is positioned at font.ascender below the baseline,
     # making it easy to use this method within bounding boxes and spans.
@@ -55,6 +59,31 @@ module Prawn
     # wanted it usually means the current font doesn't include that character.
     #
     # == Options (default values marked in [])
+    #
+    # <tt>:inline_format</tt>::
+    #      <tt>boolean</tt>. If true, then the string parameter is interpreted
+    #      as a HTML-esque string that recognizes the following tags:
+    #      <tt>\<b></b></tt>:: bold
+    #      <tt>\<i></i></tt>:: italic
+    #      <tt>\<font></font></tt>::
+    #          with the following attributes
+    #            <tt>size="24" or size='24'</tt>::
+    #                attribute for setting size
+    #            <tt>name="Helvetica" or name='Helvetica'</tt>::
+    #                attribute for setting the font. The font name must be an
+    #                AFM font with the desired faces or must be a font that is
+    #                registered using #font_families (not yet implemented)
+    #
+    #      Planned, but as yet unsupported tags are:
+    #
+    #      <tt>\<u></u></tt>:: underline
+    #      <tt>\<strikethrough></strikethrough></tt>:: strikethrough
+    #      <tt>\<color></color></tt>::
+    #          with the following attributes
+    #            <tt>r="255" g="255" b="255" or r='255' g='255' b='255'</tt>::
+    #            <tt>rgb="#ffffff" or rgb='#ffffff'</tt>::
+    #            <tt>c="100" m="100" y="100" k="100" or c="100" m="100" y="100" k="100"</tt>::
+    #
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
     #                     is available with the current font) [true]
@@ -79,8 +108,12 @@ module Prawn
     #                                   custom line wrapping on a case by case
     #                                   basis. See notes for Text::Box#text_box
     #                        
+    # == Exceptions
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
+    #
+    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # any text
     #
     def text(string, options={})
       # we modify the options. don't change the user's hash
@@ -110,32 +143,27 @@ module Prawn
 
     # Draws formatted text to the page.
     # Formatted text is comprised of an array of hashes, where each hash defines
-    # text and format information. As of the time of writing, the following hash
-    # options are supported:
+    # text and format information. See Text::Formatted#formatted_text_box for
+    # more information on the structure of this array
     #
-    # <tt>:text</tt> the text to format according to the other hash options
-    # <tt>:style</tt> an array of styles to apply to this text. As of now,
-    #                 :italic and :bold are supported, with the intention of
-    #                 also supporting :underline and :strikethrough
-    # <tt>:size</tt> an integer denoting the font size to apply to this text
-    # <tt>:font</tt> as yet unsupported
-    # <tt>:color</tt> as yet unsupported
-    # <tt>:link</tt> as yet unsupported
+    # == Example
     #
-    # For information on options, see documentation for text(). The only
-    # difference in options is that if you want to provide a custom wrap object,
-    # the option is :formatted_line_wrap, rather than :unformatted_line_wrap
-    #
-    # <tt>:formatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-    #                                 custom line wrapping on a case by case
-    #                                 basis. See notes for Text::Box#text_box
-    #
-    #
-    # Example:
     #   text([{ :text => "hello" },
     #         { :text => "world",
     #           :size => 24,
     #           :style => [:bold, :italic] }])
+    #
+    # == Options
+    #
+    # Accepts the same options as #text with the below exceptions
+    #
+    # <tt>:formatted_line_wrap</tt>::
+    #     <tt>object</tt>. An object used for custom line wrapping on a case by
+    #     case basis. See notes for Text::Box#text_box
+    #
+    # == Exceptions
+    #
+    # Same as for #text
     #
     def formatted_text(array, options={})
       html_string = Text::Formatted::Parser.to_string(array)
@@ -187,7 +215,10 @@ module Prawn
     #
     # <tt>:rotate</tt>:: <tt>number</tt>. The angle to which to rotate text
     #
+    # == Exceptions
+    #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option omitted
+    #
     # Raises <tt>ArgumentError</tt> if <tt>:align</tt> option included
     #
     def draw_text(text, options)
@@ -205,14 +236,18 @@ module Prawn
     end
 
     # Gets height of text in PDF points.
-    # Same options as text(), except as noted.
+    # Same options as #text, except as noted.
     # Not compatible with :indent_paragraphs option
     #
-    # Example:
+    # ==Example
+    #
     #   height_of("hello\nworld")
+    #
+    # == Exceptions
     #
     # Raises <tt>NotImplementedError</tt> if <tt>:indent_paragraphs</tt>
     # option included
+    #
     # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
     # any text
     #
@@ -233,9 +268,10 @@ module Prawn
     end
 
     # Gets height of formatted text in PDF points.
-    # See documentation for height_of.
+    # See documentation for #height_of.
     #
-    # Example:
+    # ==Example
+    #
     #   height_of_formatted([{ :text => "hello" },
     #                        { :text => "world",
     #                          :size => 24,
