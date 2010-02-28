@@ -3,6 +3,41 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 
+describe "Text::Box#render with :align => :justify" do
+  it "should draw the character spacing to the document" do
+    create_pdf
+    string = "hello world " * 10
+    options = { :document => @pdf, :align => :justify }
+    text_box = Prawn::Text::Box.new(string, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.word_spacing[0].should.be > 0
+  end
+end
+
+describe "Text::Box#height without leading" do
+  it "should equal the sum of the height of each line" do
+    create_pdf
+    text = "Oh hai text rect.\nOh hai text rect."
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Box.new(text, options)
+    text_box.render
+    text_box.height.should == @pdf.font.height * 2
+  end
+end
+
+describe "Text::Box#height with leading" do
+  it "should equal the sum of the height of each line" do
+    create_pdf
+    text = "Oh hai text rect.\nOh hai text rect."
+    leading = 12
+    options = { :document => @pdf, :leading => leading }
+    text_box = Prawn::Text::Box.new(text, options)
+    text_box.render
+    text_box.height.should == @pdf.font.height * 2 + leading
+  end
+end
+
 describe "Text::Box#render" do
   it "should not fail if height is smaller than 1 line" do
     create_pdf
@@ -20,7 +55,7 @@ describe "Text::Box#render" do
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render()
+    text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.should.not.be.empty
   end
@@ -29,7 +64,7 @@ describe "Text::Box#render" do
     @text = "Oh hai text rect. " * 10
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render()
+    text_box.render
     matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
     matrices.matrices.length.should == 0
   end
@@ -42,7 +77,7 @@ describe "Text::Box#render(:single_line => true)" do
     @options = { :document => @pdf,
                  :single_line => true }
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render()
+    text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.length.should == 1
   end
@@ -89,7 +124,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the center of the text" do
       @options[:rotate_around] = :center
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x + @width / 2
@@ -112,7 +147,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the upper left corner of the text" do
       @options[:rotate_around] = :upper_left
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x
@@ -134,7 +169,7 @@ describe "Text::Box#render with :rotate option of 30)" do
   context "default :rotate_around" do
     it "should draw content to the page rotated about the upper left corner of the text" do
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x
@@ -157,7 +192,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the upper right corner of the text" do
       @options[:rotate_around] = :upper_right
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x + @width
@@ -180,7 +215,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the lower right corner of the text" do
       @options[:rotate_around] = :lower_right
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x + @width
@@ -203,7 +238,7 @@ describe "Text::Box#render with :rotate option of 30)" do
     it "should draw content to the page rotated about the lower left corner of the text" do
       @options[:rotate_around] = :lower_left
       text_box = Prawn::Text::Box.new(@text, @options)
-      text_box.render()
+      text_box.render
 
       matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
       x = @x
@@ -308,17 +343,24 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       :height => bounding_height,
       :document => @pdf
     }
+    file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+    @pdf.font_families["Action Man"] = {
+      :normal      => { :file => file, :font => "ActionMan" },
+      :italic      => { :file => file, :font => "ActionMan-Italic" },
+      :bold        => { :file => file, :font => "ActionMan-Bold" },
+      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+    }
     @text_box = Prawn::Text::Box.new(@text, options)
   end
   describe "when using a TTF font" do
     it "unprinted text should be in UTF-8 encoding" do
-      @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+      @pdf.font("Action Man")
       remaining_text = @text_box.render
       remaining_text.should == @text
     end
     it "subsequent calls to Text::Box need not include the" +
        " :skip_encoding => true option" do
-      @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+      @pdf.font("Action Man")
       remaining_text = @text_box.render
       lambda {
         @pdf.text_box(remaining_text, :document => @pdf)

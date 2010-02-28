@@ -1,6 +1,7 @@
 = Hacking on Prawn
 
-A stub file that'll eventually get bigger
+While we hope to have more extensive documentation for contributors in time, for
+now, here is the bare minimum to get you up and running
 
 == NOTES 
 
@@ -17,16 +18,16 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
   
 == Patch process 
 
-  1. File a ticket in the tracker that contains the code your issue is
-     related to:
+  1. File a ticket in the bug tracker describing a defect or feature
 
    http://github.com/sandal/prawn/issues
-   http://github.com/sandal/prawn-layout/issues
-   http://github.com/sandal/prawn-security/issues
 
-  2. Fork any necessary repositories on Github, make your changes
-  3. Submit pull request so Gregory is notified
-  4. Include your ticket number in commit messages       
+  2. Fork us on Github, make your changes.  Bug fixes or tiny enhancements can
+  be done on your master branch, everything else should be done on its own topic
+  branch.
+
+  3. Post a comment to the ticket telling us where your fork is, and what
+  patches we should be looking at.
   
   If you are working on a ticket that has already been created, skip step 1.
   
@@ -39,8 +40,10 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
 == Support
 
   Find us in #prawn on irc.freenode.net
-  <sandal> - Gregory Brown
-  <yob>    - James Healy
+  <sandal>     - Gregory Brown
+  <yob>        - James Healy
+  <bluejade>   - Daniel Nelson
+  <bradediger> - Brad Ediger
   
   Otherwise, use the mailing list:
   http://groups.google.com/group/prawn-ruby

@@ -1,0 +1,18 @@
+PDF::Inspector : A tool for analyzing PDF output
+
+This library provides a number of PDF::Reader[0] based tools for use in testing
+PDF output.  Presently, the primary purpose of this tool is to support the 
+tests found in Prawn[1], a pure Ruby PDF generation library.
+
+However, it may be useful to others, so we have made it available on Github[2]
+
+Questions can be directed to the Prawn mailing list[3], but please remember
+that this code is not necessarily suitable for production and has no officially
+planned release date.  
+
+That having been said, patches are welcome!
+
+[0] http://github.com/yob/pdf-reader                                         
+[1] http://github.com/sandal/prawn                                           
+[2] http://github.com/sandal/pdf-inspector              
+[3] http://groups.google.com/group/prawn-ruby

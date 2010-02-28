@@ -44,6 +44,32 @@ module Prawn
         options[:size] ||= font_size
       end
 
+      # Increases or decreases the space between characters.
+      # For horizontal text, a positive value will increase the space.
+      # For veritical text, a positive value will decrease the space.
+      #
+      def character_spacing(amount=nil)
+        return @character_spacing || 0 if amount.nil?
+        @character_spacing = amount
+        add_content "\n%.3f Tc" % amount
+        yield
+        add_content "\n0 Tc"
+        @character_spacing = 0
+      end
+
+      # Increases or decreases the space between words.
+      # For horizontal text, a positive value will increase the space.
+      # For veritical text, a positive value will decrease the space.
+      #
+      def word_spacing(amount=nil)
+        return @word_spacing || 0 if amount.nil?
+        @word_spacing = amount
+        add_content "\n%.3f Tw" % amount
+        yield
+        add_content "\n0 Tw"
+        @word_spacing = 0
+      end
+
       private
 
       def add_text_content(text, x, y, options)

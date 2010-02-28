@@ -56,6 +56,7 @@ module Prawn
     include Prawn::Core::Destinations
     include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
+    include Prawn::Document::Security
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
@@ -186,7 +187,8 @@ module Prawn
        @margin_box    = nil
 
        @text_options = options[:text_options] || {}
-       @default_line_wrap = Prawn::Text::LineWrap.new
+       @default_unformatted_line_wrap = Prawn::Text::LineWrap.new
+       @default_formatted_line_wrap = Prawn::Text::Formatted::LineWrap.new
 
        @page_number = 0
 
@@ -209,7 +211,8 @@ module Prawn
      attr_accessor :margin_box
      attr_reader   :margins, :y
      attr_writer   :font_size
-     attr_accessor :default_line_wrap
+     attr_accessor :default_formatted_line_wrap
+     attr_accessor :default_unformatted_line_wrap
      attr_accessor :page_number
 
 
