@@ -96,22 +96,13 @@ module Prawn
 
         def apply_color_and_font_settings(hash, &block)
           if hash[:rgb] || hash[:cmyk]
-            pre_fill_color = @document.fill_color
-            pre_stroke_color = @document.stroke_color
-            if hash[:rgb]
-              @document.fill_color(hash[:rgb])
-              @document.stroke_color(hash[:rgb])
-            elsif hash[:cmyk]
-              c = hash[:cmyk][0]
-              m = hash[:cmyk][1]
-              y = hash[:cmyk][2]
-              k = hash[:cmyk][3]
-              @document.fill_color(c, m, y, k)
-              @document.stroke_color(c, m, y, k)
-            end
+            original_fill_color = @document.fill_color
+            original_stroke_color = @document.stroke_color
+            @document.fill_color(hash[:rgb] || hash[:cmyk])
+            @document.stroke_color(hash[:rgb] || hash[:cmyk])
             apply_font_settings(hash, &block)
-            @document.stroke_color = pre_stroke_color
-            @document.fill_color = pre_fill_color
+            @document.stroke_color = original_stroke_color
+            @document.fill_color = original_fill_color
           else
             apply_font_settings(hash, &block)
           end

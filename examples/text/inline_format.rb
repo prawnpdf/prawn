@@ -29,6 +29,9 @@ Prawn::Document.generate "inline_format.pdf" do |pdf|
   pdf.text("<color rgb='00ff00'>link: <font size='24'>please make</font> <color rgb='#0000ff'><u><link href='http://wiki.github.com/sandal/prawn/'>this</link></u></color> clickable</color>",
        :inline_format => true)
 
+  pdf.text("<color c='100' m='0' y='0' k='0'><font size='24'>CMYK</font></color>",
+       :inline_format => true)
+
   file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
   pdf.font_families["Action Man"] = {
     :normal      => { :file => file, :font => "ActionMan" },
