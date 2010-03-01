@@ -41,7 +41,7 @@ describe "When drawing a line" do
     @pdf.line_width(10)
     @pdf.start_new_page
     line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-    line.widths.count.should == 2
+    line.widths.length.should == 2
     line.widths[1].should == 10
   end
 
