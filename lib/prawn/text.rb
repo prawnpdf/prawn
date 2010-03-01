@@ -80,6 +80,13 @@ module Prawn
     #          with the following attributes
     #            <tt>rgb="ffffff" or rgb='ffffff' or rgb="#ffffff" or rgb='#ffffff'</tt>::
     #            <tt>c="100" m="100" y="100" k="100" or c="100" m="100" y="100" k="100"</tt>::
+    #          Warning: while it is perfectly okay to nest rgb colors within rgb
+    #          colors, and cmyk within cmyk, do not nest cmyk within rgb or vice
+    #          versa. That is, <color rgb="00ff00">a<color rgb="0000ff">
+    #          b</color></color> is okay, but
+    #          <color rgb="00ff00">a<color c="100" m="0" y="0" k="0">
+    #          b</color></color> is not.
+    #
     #
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
