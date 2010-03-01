@@ -37,6 +37,14 @@ describe "When drawing a line" do
      line.widths.first.should == 10
   end
 
+  it "should carry the current line width settings over to new pages" do
+    @pdf.line_width(10)
+    @pdf.start_new_page
+    line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line.widths.count.should == 2
+    line.widths[1].should == 10
+  end
+
   describe "(Horizontally)" do
     it "should draw from [x1,pdf.y],[x2,pdf.y]" do
       @pdf.horizontal_line(100,150)

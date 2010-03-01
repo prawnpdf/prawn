@@ -257,8 +257,7 @@ module Prawn
 
        generate_margin_box
 
-       update_colors
-       undash if dashed?
+       use_graphic_settings
       
        unless options[:orphan]
          state.insert_page(state.page, @page_number)
@@ -534,6 +533,14 @@ module Prawn
     end
     
     private
+
+    def use_graphic_settings
+      update_colors
+      line_width(line_width) unless line_width == 1
+      cap_style(cap_style) unless cap_style == :butt
+      join_style(join_style) unless join_style == :miter
+      dash(dash[:dash], dash) if dashed?
+    end
 
     def generate_margin_box
       old_margin_box = @margin_box
