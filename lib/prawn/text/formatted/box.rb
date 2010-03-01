@@ -31,11 +31,27 @@ module Prawn
       # <tt>:size</tt>::
       #     an integer denoting the font size to apply to this text
       # <tt>:font</tt>::
-      #     as yet unsupported
-      # <tt>:color</tt>::
-      #     as yet unsupported
+      #     the name of a font. The name must be an AFM font with the desired
+      #     faces or must be a font that is already registered using
+      #     Prawn::Document#font_families
+      # <tt>:rgb</tt>::
+      #     a six digit hexidecimal string compatible with
+      #     Prawn::Graphics::Color#fill_color and
+      #     Prawn::Graphics::Color#stroke_color
+      # <tt>:cmyk</tt>::
+      #     a four element array representing CMYK color values. Each color can
+      #     range from 0 to 100. If RGB is also set, then the RGB value takes
+      #     precedence over the CMYK value
       # <tt>:link</tt>::
-      #     as yet unsupported
+      #     a URL to which to create a link. A clickable link will be created
+      #     to that URL. Note that you must explicitly underline and color using
+      #     the appropriate tags if you which to draw attention to the link
+      # <tt>:anchor</tt>::
+      #     a destination that has already been or will be registered using
+      #     Prawn::Core::Destinations#add_dest. A clickable link will be
+      #     created to that destination. Note that you must explicitly underline
+      #     and color using the appropriate tags if you which to draw attention
+      #     to the link
       #
       # == Example
       #
@@ -202,8 +218,8 @@ module Prawn
         end
 
         def draw_fragment(fragment, accumulated_width)
-          @arranger.apply_font_settings(@arranger.retrieved_format_state) do
-            print_fragment(fragment, accumulated_width)
+          @arranger.apply_color_and_font_settings(@arranger.retrieved_format_state) do
+            _draw_fragment(fragment, accumulated_width)
           end
         end
 
@@ -215,7 +231,44 @@ module Prawn
           end
         end
 
-        def print_fragment(fragment, accumulated_width)
+        def absolute_fragment_box(fragment, left, baseline)
+          box = fragment_box(fragment, left, baseline)
+          box[0] += @document.bounds.absolute_left
+          box[2] += @document.bounds.absolute_left
+          box[1] += @document.bounds.absolute_bottom
+          box[3] += @document.bounds.absolute_bottom
+          box
+        end
+
+        def fragment_box(fragment, left, baseline)
+          hash = @arranger.retrieved_format_state
+          width = hash[:width]
+          if @align == :justify
+            width += @word_spacing * fragment.count(" ")
+          end
+          ascender = hash[:ascender]
+          descender = hash[:descender]
+          [left, baseline - descender, left + width, baseline + ascender]
+        end
+
+        def underline_points(fragment, left, baseline)
+          box = fragment_box(fragment, left, baseline)
+          y = baseline - 1.25
+          p1 = [box[0], y]
+          p2 = [box[2], y]
+          [p1, p2]
+        end
+
+        def strikethrough_points(fragment, left, baseline)
+          box = fragment_box(fragment, left, baseline)
+          ascender = @arranger.retrieved_format_state[:ascender]
+          y = baseline + ascender * 0.3
+          p1 = [box[0], y]
+          p2 = [box[2], y]
+          [p1, p2]
+        end
+
+        def _draw_fragment(fragment, accumulated_width)
           case(@align)
           when :left, :justify
             x = @at[0]
@@ -238,7 +291,53 @@ module Prawn
             @document.draw_text!(fragment, :at => [x, y],
                                  :kerning => @kerning)
           end
+          draw_fragment_overlays(fragment, x, y) if @inked
         end
+
+        def draw_fragment_overlays(fragment, left, baseline)
+          hash = @arranger.retrieved_format_state
+
+          if hash[:style]
+            draw_fragment_overlay_styles(hash[:style], fragment, left, baseline)
+          end
+
+          if hash[:link]
+            draw_fragment_overlay_link(hash[:link], fragment, left, baseline)
+          end
+
+          if hash[:anchor]
+            draw_fragment_overlay_anchor(hash[:anchor], fragment, left, baseline)
+          end
+        end
+
+        def draw_fragment_overlay_link(link, fragment, left, baseline)
+          box = absolute_fragment_box(fragment, left, baseline)
+          @document.link_annotation(box,
+                                    :Border => [0, 0, 0],
+                                    :A => { :Type => :Action,
+                                            :S => :URI,
+                          :URI => Prawn::Core::LiteralString.new(link) })
+        end
+
+        def draw_fragment_overlay_anchor(anchor, fragment, left, baseline)
+            box = absolute_fragment_box(fragment, left, baseline)
+            @document.link_annotation(box,
+                                      :Border => [0, 0, 0],
+                                      :Dest => anchor)
+        end
+
+        def draw_fragment_overlay_styles(styles, fragment, left, baseline)
+          underline = styles.include?(:underline)
+          if underline
+            @document.stroke_line(underline_points(fragment, left, baseline))
+          end
+          
+          strikethrough = styles.include?(:strikethrough)
+          if strikethrough
+            @document.stroke_line(strikethrough_points(fragment, left, baseline))
+          end
+        end
+
       end
 
     end

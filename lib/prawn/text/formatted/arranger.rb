@@ -94,20 +94,38 @@ module Prawn
           end
         end
 
-        def apply_font_settings(hash)
-          raise "Bad font family" unless @document.font.family
+        def apply_color_and_font_settings(hash, &block)
+          if hash[:rgb] || hash[:cmyk]
+            pre_fill_color = @document.fill_color
+            pre_stroke_color = @document.stroke_color
+            if hash[:rgb]
+              @document.fill_color(hash[:rgb])
+              @document.stroke_color(hash[:rgb])
+            elsif hash[:cmyk]
+              c = hash[:cmyk][0]
+              m = hash[:cmyk][1]
+              y = hash[:cmyk][2]
+              k = hash[:cmyk][3]
+              @document.fill_color(c, m, y, k)
+              @document.stroke_color(c, m, y, k)
+            end
+            apply_font_settings(hash, &block)
+            @document.stroke_color = pre_stroke_color
+            @document.fill_color = pre_fill_color
+          else
+            apply_font_settings(hash, &block)
+          end
+        end
+
+        def apply_font_settings(hash, &block)
           style = font_style(hash)
-          size = hash[:size] || @document.font_size
-          if style == :normal
-            @document.font_size(size) do
-              yield
+          if hash[:font] || style != :normal
+            raise "Bad font family" unless @document.font.family
+            @document.font(hash[:font] || @document.font.family, :style => style) do
+              apply_font_size(hash, &block)
             end
           else
-            @document.font(@document.font.family, :style => style) do
-              @document.font_size(size) do
-                yield
-              end
-            end
+            apply_font_size(hash, &block)
           end
         end
 
@@ -147,6 +165,15 @@ module Prawn
         end
 
         private
+
+        def apply_font_size(hash)
+          size = hash[:size]
+          if size.nil?
+            yield
+          else
+            @document.font_size(size) { yield }
+          end
+        end
 
         def font_style(hash)
           styles = hash[:style]

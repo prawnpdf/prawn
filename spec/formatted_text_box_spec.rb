@@ -114,12 +114,29 @@ describe "Text::Formatted::Box#render(:dry_run => true)" do
 end
 
 describe "Text::Formatted::Box#render" do
+  it "should be able to set the font" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "Times-Bold",
+               :style => [:bold],
+               :font => "Times-Roman" },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    fonts = contents.font_settings.map { |e| e[:name] }
+    fonts.should == [:Helvetica, :"Times-Bold", :Helvetica]
+    contents.strings[0].should == "this contains "
+    contents.strings[1].should == "Times-Bold"
+    contents.strings[2].should == " text"
+  end
   it "should be able to set bold" do
     create_pdf
     array = [{ :text => "this contains " },
              { :text => "bold", :style => [:bold] },
              { :text => " text" }]
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-Bold", :Helvetica]
@@ -132,7 +149,8 @@ describe "Text::Formatted::Box#render" do
     array = [{ :text => "this contains " },
              { :text => "italic", :style => [:italic] },
              { :text => " text" }]
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-Oblique", :Helvetica]
@@ -142,24 +160,58 @@ describe "Text::Formatted::Box#render" do
     array = [{ :text => "this contains " },
              { :text => "bold italic", :style => [:bold, :italic] },
              { :text => " text" }]
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-BoldOblique", :Helvetica]
   end
-  it "should be able to set underline" do
+  it "should be able to underline" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "underlined", :style => [:underline] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line_drawing.points.count.should == 2
   end
-  it "should be able to set strikethrough" do
+  it "should be able to strikethrough" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "struckthrough", :style => [:strikethrough] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line_drawing.points.count.should == 2
   end
-  it "should be able to set links" do
+  it "should be able to add URL links" do
+    create_pdf
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+           :A => { :Type => :Action, :S => :URI, :URI => "http://example.com" })
+    array = [{ :text => "click " },
+             { :text => "here", :link => "http://example.com" },
+             { :text => " to visit" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+  end
+  it "should be able to add destination links" do
+    create_pdf
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+                                        :Dest => "ToC")
+    array = [{ :text => "Go to the " },
+             { :text => "Table of Contents", :anchor => "ToC" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
   end
   it "should be able to set font size" do
     create_pdf
     array = [{ :text => "this contains " },
              { :text => "sized", :size => 24 },
              { :text => " text" }]
-    @pdf.move_cursor_to(@pdf.font.height)
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
     contents.font_settings[1][:size].should == 24
@@ -175,7 +227,25 @@ describe "Text::Formatted::Box#render" do
       text_box.height.should.be.close(@pdf.font.height, 0.001)
     end
   end
-  it "should be able to set color" do
+  it "should be able to set color via :rgb" do
+    create_pdf
+    array = [{ :text => "rgb",
+               :rgb => "ff0000" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    colors.fill_color_count.should == 3
+    colors.stroke_color_count.should == 3
+  end
+  it "should be able to set color via :cmyk" do
+    create_pdf
+    array = [{ :text => "cmyk",
+               :cmyk => [100, 0, 0, 0] }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    colors.fill_color_count.should == 3
+    colors.stroke_color_count.should == 3
   end
 end
 

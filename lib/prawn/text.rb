@@ -66,6 +66,8 @@ module Prawn
     #      as a HTML-esque string that recognizes the following tags:
     #      <tt>\<b></b></tt>:: bold
     #      <tt>\<i></i></tt>:: italic
+    #      <tt>\<u></u></tt>:: underline
+    #      <tt>\<strikethrough></strikethrough></tt>:: strikethrough
     #      <tt>\<font></font></tt>::
     #          with the following attributes
     #            <tt>size="24" or size='24'</tt>::
@@ -73,16 +75,10 @@ module Prawn
     #            <tt>name="Helvetica" or name='Helvetica'</tt>::
     #                attribute for setting the font. The font name must be an
     #                AFM font with the desired faces or must be a font that is
-    #                registered using #font_families (not yet implemented)
-    #
-    #      Planned, but as yet unsupported tags are:
-    #
-    #      <tt>\<u></u></tt>:: underline
-    #      <tt>\<strikethrough></strikethrough></tt>:: strikethrough
+    #                already registered using Prawn::Document#font_families
     #      <tt>\<color></color></tt>::
     #          with the following attributes
-    #            <tt>r="255" g="255" b="255" or r='255' g='255' b='255'</tt>::
-    #            <tt>rgb="#ffffff" or rgb='#ffffff'</tt>::
+    #            <tt>rgb="ffffff" or rgb='ffffff' or rgb="#ffffff" or rgb='#ffffff'</tt>::
     #            <tt>c="100" m="100" y="100" k="100" or c="100" m="100" y="100" k="100"</tt>::
     #
     #
