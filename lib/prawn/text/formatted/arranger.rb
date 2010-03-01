@@ -95,11 +95,11 @@ module Prawn
         end
 
         def apply_color_and_font_settings(hash, &block)
-          if hash[:rgb] || hash[:cmyk]
+          if hash[:color]
             original_fill_color = @document.fill_color
             original_stroke_color = @document.stroke_color
-            @document.fill_color(hash[:rgb] || hash[:cmyk])
-            @document.stroke_color(hash[:rgb] || hash[:cmyk])
+            @document.fill_color(hash[:color])
+            @document.stroke_color(hash[:color])
             apply_font_settings(hash, &block)
             @document.stroke_color = original_stroke_color
             @document.fill_color = original_fill_color

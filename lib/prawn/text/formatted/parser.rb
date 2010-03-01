@@ -50,18 +50,33 @@ module Prawn
                 suffix = suffixes[style] + suffix
               end
             end
+
             font = hash[:font] ? " name='#{hash[:font]}'" : nil
             size = hash[:size] ? " size='#{hash[:size]}'" : nil
             if font || size
               prefix = prefix + "<font#{font}#{size}>"
               suffix = "</font>"
             end
+
             link = hash[:link] ? " href='#{hash[:link]}'" : nil
             anchor = hash[:anchor] ? " anchor='#{hash[:anchor]}'" : nil
             if link || anchor
               prefix = prefix + "<link#{link}#{anchor}>"
               suffix = "</link>"
             end
+
+            if hash[:color]
+              if hash[:color].kind_of?(Array)
+                prefix = prefix + "<color c='#{hash[:color][0]}'" +
+                                        " m='#{hash[:color][1]}'" +
+                                        " y='#{hash[:color][2]}'" +
+                                        " k='#{hash[:color][3]}'>"
+              else
+                prefix = prefix + "<color rgb='#{hash[:color]}'>"
+              end
+              suffix = "</color>"
+            end
+
             string = hash[:text].gsub("&", "&amp;").gsub(">", "&gt;").gsub("<", "&lt;")
             prefix + string + suffix
           end.join("")
@@ -72,8 +87,7 @@ module Prawn
         def self.array_from_tokens(tokens)
           array = []
           styles = []
-          rgbs = []
-          cmyks = []
+          colors = []
           link = nil
           anchor = nil
           fonts = []
@@ -101,8 +115,7 @@ module Prawn
               link = nil
               anchor = nil
             when "</color>"
-              rgbs.pop
-              cmyks.pop
+              colors.pop
             when "</font>"
               fonts.pop
               sizes.pop
@@ -115,11 +128,11 @@ module Prawn
                 anchor = matches[1] unless matches.nil?
               elsif token =~ /^<color[^>]*>$/
                 matches = /rgb="#?([^"]*)"/.match(token) || /rgb='#?([^']*)'/.match(token)
-                rgbs << matches[1] if matches
+                colors << matches[1] if matches
 
                 matches = /c="#?([^"]*)" +m="#?([^"]*)" +y="#?([^"]*)" +k="#?([^"]*)"/.match(token) ||
                           /c='#?([^']*)' +m='#?([^']*)' +y='#?([^']*)' +k='#?([^']*)'/.match(token)
-                cmyks << [matches[1].to_i, matches[2].to_i, matches[3].to_i, matches[4].to_i] if matches
+                colors << [matches[1].to_i, matches[2].to_i, matches[3].to_i, matches[4].to_i] if matches
 
                 # intend to support rgb="#ffffff" or rgb='#ffffff',
                 # r="255" g="255" b="255" or r='255' g='255' b='255',
@@ -138,8 +151,7 @@ module Prawn
                 string = token.gsub("&lt;", "<").gsub("&gt;", ">").gsub("&amp;", "&")
                 array << { :text => string,
                            :style => styles.dup,
-                           :rgb => rgbs.last,
-                           :cmyk => cmyks.last,
+                           :color => colors.last,
                            :link => link,
                            :anchor => anchor,
                            :font => fonts.last,

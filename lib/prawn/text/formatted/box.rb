@@ -34,14 +34,9 @@ module Prawn
       #     the name of a font. The name must be an AFM font with the desired
       #     faces or must be a font that is already registered using
       #     Prawn::Document#font_families
-      # <tt>:rgb</tt>::
-      #     a six digit hexidecimal string compatible with
-      #     Prawn::Graphics::Color#fill_color and
+      # <tt>:color</tt>::
+      #     anything compatible with Prawn::Graphics::Color#fill_color and
       #     Prawn::Graphics::Color#stroke_color
-      # <tt>:cmyk</tt>::
-      #     a four element array representing CMYK color values. Each color can
-      #     range from 0 to 100. If RGB is also set, then the RGB value takes
-      #     precedence over the CMYK value
       # <tt>:link</tt>::
       #     a URL to which to create a link. A clickable link will be created
       #     to that URL. Note that you must explicitly underline and color using

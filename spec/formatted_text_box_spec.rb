@@ -227,20 +227,20 @@ describe "Text::Formatted::Box#render" do
       text_box.height.should.be.close(@pdf.font.height, 0.001)
     end
   end
-  it "should be able to set color via :rgb" do
+  it "should be able to set color via an rgb hex string" do
     create_pdf
     array = [{ :text => "rgb",
-               :rgb => "ff0000" }]
+               :color => "ff0000" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
     colors.fill_color_count.should == 3
     colors.stroke_color_count.should == 3
   end
-  it "should be able to set color via :cmyk" do
+  it "should be able to set color using a cmyk array" do
     create_pdf
     array = [{ :text => "cmyk",
-               :cmyk => [100, 0, 0, 0] }]
+               :color => [100, 0, 0, 0] }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
