@@ -174,7 +174,7 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-    line_drawing.points.count.should == 2
+    line_drawing.points.length.should == 2
   end
   it "should be able to strikethrough" do
     create_pdf
@@ -184,7 +184,7 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-    line_drawing.points.count.should == 2
+    line_drawing.points.length.should == 2
   end
   it "should be able to add URL links" do
     create_pdf
