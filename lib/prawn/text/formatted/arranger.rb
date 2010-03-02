@@ -12,41 +12,60 @@ module Prawn
     module Formatted
 
       class Arranger
-        attr_reader :consumed
-        attr_reader :unconsumed
-        attr_reader :current_format_state
-        attr_reader :retrieved_format_state
         attr_reader :max_line_height
         attr_reader :max_descender
         attr_reader :max_ascender
-        attr_reader :last_retrieved_width
+
+        # The following present only for testing purposes
+        attr_reader :unconsumed
+        attr_reader :consumed
+        attr_reader :fragments
+        attr_reader :current_format_state
 
         def initialize(document)
           @document = document
-          @retrieved_format_state = []
-          @current_format_state = {}
-          @consumed = []
+          @fragments = []
+          @unconsumed = []
         end
 
         def space_count
-          return 0 if @consumed.empty?
-          @consumed.inject(0) { |sum, hash| sum + hash[:text].count(" ") }
+          if @unfinalized_line
+            raise "Lines must be finalized before calling #space_count"
+          end
+          @fragments.inject(0) do |sum, fragment|
+            sum + fragment.text.count(" ")
+          end
         end
 
         def line_width
-          return 0 if @consumed.empty?
-          @consumed.inject(0) do |sum, hash|
-            sum + (hash[:width] || 0)
+          if @unfinalized_line
+            raise "Lines must be finalized before calling #line_width"
+          end
+          @fragments.inject(0) do |sum, fragment|
+            sum + fragment.width
           end
         end
 
         def line
-          @consumed.collect { |hash| hash[:text] }.join("")
+          if @unfinalized_line
+            raise "Lines must be finalized before calling #line"
+          end
+          @fragments.collect { |fragment| fragment.text }.join("")
         end
 
         def finalize_line
-          remove_trailing_whitespace
-          @consumed.each { |hash| set_size_data(hash) }
+          @unfinalized_line = false
+          remove_trailing_whitespace_from_consumed
+          @fragments = []
+          @consumed.each do |hash|
+            text = hash[:text]
+            format_state = hash.dup
+            format_state.delete(:text)
+            fragment = Formatted::Fragment.new(text, format_state, @document)
+            @fragments << fragment
+            set_fragment_measurements(fragment)
+            set_line_measurement_maximums(fragment)
+          end
         end
 
         def format_array=(array)
@@ -60,9 +79,12 @@ module Prawn
         end
 
         def initialize_line
+          @unfinalized_line = true
           @max_line_height = 0
           @max_descender = 0
           @max_ascender = 0
+          @consumed = []
+          @fragments = []
         end
 
         def finished?
@@ -74,6 +96,9 @@ module Prawn
         end
 
         def next_string
+          unless @unfinalized_line
+            raise "Lines must not be finalized when calling #next_string"
+          end
           hash = @unconsumed.shift
           if hash.nil?
             nil
@@ -87,36 +112,44 @@ module Prawn
 
         def preview_next_string
           hash = @unconsumed.first
-          if hash.nil?
-            nil
-          else
-            hash[:text]
+          if hash.nil? then nil
+          else hash[:text]
           end
         end
 
-        def apply_color_and_font_settings(hash, &block)
-          if hash[:color]
+        def apply_color_and_font_settings(fragment, &block)
+          if fragment.color
             original_fill_color = @document.fill_color
             original_stroke_color = @document.stroke_color
-            @document.fill_color(*hash[:color])
-            @document.stroke_color(*hash[:color])
-            apply_font_settings(hash, &block)
+            @document.fill_color(*fragment.color)
+            @document.stroke_color(*fragment.color)
+            apply_font_settings(fragment, &block)
             @document.stroke_color = original_stroke_color
             @document.fill_color = original_fill_color
           else
-            apply_font_settings(hash, &block)
+            apply_font_settings(fragment, &block)
           end
         end
 
-        def apply_font_settings(hash, &block)
-          style = font_style(hash)
-          if hash[:font] || style != :normal
+        def apply_font_settings(fragment=nil, &block)
+          if fragment.nil?
+            font = current_format_state[:font]
+            size = current_format_state[:size]
+            styles = current_format_state[:styles]
+            font_style = font_style(styles)
+          else
+            font = fragment.font
+            size = fragment.size
+            styles = fragment.styles
+            font_style = font_style(styles)
+          end
+          if font || font_style != :normal
             raise "Bad font family" unless @document.font.family
-            @document.font(hash[:font] || @document.font.family, :style => style) do
-              apply_font_size(hash, &block)
+            @document.font(font || @document.font.family, :style => font_style) do
+              apply_font_size(size, styles, &block)
             end
           else
-            apply_font_size(hash, &block)
+            apply_font_size(size, styles, &block)
           end
         end
 
@@ -133,43 +166,25 @@ module Prawn
           end
         end
 
-        def retrieve_string
-          hash = @consumed.shift
-          if hash.nil?
-            @retrieved_format_state = nil
-            @last_retrieved_width = 0
-            nil
-          else
-            @retrieved_format_state = hash.dup
-            @retrieved_format_state.delete(:text)
-            @last_retrieved_width = hash[:width]
-            hash[:text]
+        def retrieve_fragment
+          if @unfinalized_line
+            raise "Lines must be finalized before fragments can be retrieved"
           end
+          @fragments.shift
         end
 
         def repack_unretrieved
           new_unconsumed = []
-          while string = retrieve_string
-            new_unconsumed << @retrieved_format_state.merge(:text => string)
+          while fragment = retrieve_fragment
+            new_unconsumed << fragment.format_state.merge(:text => fragment.text)
           end
           @unconsumed = new_unconsumed.concat(@unconsumed)
         end
 
-        private
-
-        def apply_font_size(hash)
-          size = hash[:size]
-          if size.nil?
-            yield
-          else
-            @document.font_size(size) { yield }
-          end
-        end
-
-        def font_style(hash)
-          styles = hash[:style]
-          return :normal if styles.nil?
-          if styles.include?(:bold) && styles.include?(:italic)
+        def font_style(styles)
+          if styles.nil?
+            :normal
+          elsif styles.include?(:bold) && styles.include?(:italic)
             :bold_italic
           elsif styles.include?(:bold)
             :bold
@@ -180,19 +195,32 @@ module Prawn
           end
         end
 
-        def set_size_data(hash)
-          apply_font_settings(hash) do
-            hash[:width] = @document.width_of(hash[:text], :kerning => @kerning)
-            hash[:line_height] = @document.font.height
-            hash[:descender] = @document.font.descender
-            hash[:ascender] = @document.font.ascender
+        private
+
+        def apply_font_size(size, styles)
+          if subscript?(styles) || superscript?(styles)
+            size = @document.font_size * 0.583
           end
-          @max_line_height = [@max_line_height, hash[:line_height]].max
-          @max_descender = [@max_descender, hash[:descender]].max
-          @max_ascender = [@max_ascender, hash[:ascender]].max
+          if size.nil?
+            yield
+          else
+            @document.font_size(size) { yield }
+          end
         end
 
-        def remove_trailing_whitespace
+        def subscript?(styles)
+          if styles.nil? then false
+          else styles.include?(:subscript)
+          end
+        end
+
+        def superscript?(styles)
+          if styles.nil? then false
+          else styles.include?(:superscript)
+          end
+        end
+
+        def remove_trailing_whitespace_from_consumed
           @consumed.reverse_each do |hash|
             if hash[:text] == "\n"
               break
@@ -204,6 +232,23 @@ module Prawn
             end
           end
         end
+
+        def set_fragment_measurements(fragment)
+          apply_font_settings(fragment) do
+            fragment.width = @document.width_of(fragment.text,
+                                                :kerning => @kerning)
+            fragment.line_height = @document.font.height
+            fragment.descender = @document.font.descender
+            fragment.ascender = @document.font.ascender
+          end
+        end
+
+        def set_line_measurement_maximums(fragment)
+          @max_line_height = [@max_line_height, fragment.line_height].max
+          @max_descender = [@max_descender, fragment.descender].max
+          @max_ascender = [@max_ascender, fragment.ascender].max
+        end
+        
       end
 
     end

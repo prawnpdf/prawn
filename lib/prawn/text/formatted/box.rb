@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 require "prawn/text/formatted/arranger"
+require "prawn/text/formatted/fragment"
 
 module Prawn
   module Text
@@ -24,10 +25,10 @@ module Prawn
       #
       # <tt>:text</tt>::
       #     the text to format according to the other hash options
-      # <tt>:style</tt>::
-      #     an array of styles to apply to this text. As of now, :italic and
-      #     :bold are supported, with the intention of also supporting
-      #     :underline and :strikethrough
+      # <tt>:styles</tt>::
+      #     an array of styles to apply to this text. Available styles include
+      #     :bold, :italic, :underline, :strikethrough, :subscript, and
+      #     :superscript
       # <tt>:size</tt>::
       #     an integer denoting the font size to apply to this text
       # <tt>:font</tt>::
@@ -53,7 +54,7 @@ module Prawn
       #   formatted_text_box([{ :text => "hello" },
       #                       { :text => "world",
       #                         :size => 24,
-      #                         :style => [:bold, :italic] }])
+      #                         :styles => [:bold, :italic] }])
       #
       # == Options
       #
@@ -145,17 +146,14 @@ module Prawn
 
             accumulated_width = 0
             justification_computation if @align == :justify
-            while fragment = @arranger.retrieve_string
-              if fragment == "\n"
+            while fragment = @arranger.retrieve_fragment
+              if fragment.text == "\n"
                 printed_fragments << "\n" if @printed_lines.last == ""
                 break
               end
-              printed_fragments << fragment
-              draw_fragment(fragment, accumulated_width)
-              accumulated_width += @arranger.last_retrieved_width
-              if @align == :justify
-                accumulated_width += @word_spacing * fragment.count(" ")
-              end
+              printed_fragments << fragment.text
+              print_fragment(fragment, accumulated_width)
+              accumulated_width += fragment.width(:word_spacing => @word_spacing)
             end
             @printed_lines << printed_fragments.join("")
             break if @single_line
@@ -212,9 +210,9 @@ module Prawn
           @printed_lines = []
         end
 
-        def draw_fragment(fragment, accumulated_width)
-          @arranger.apply_color_and_font_settings(@arranger.retrieved_format_state) do
-            _draw_fragment(fragment, accumulated_width)
+        def print_fragment(fragment, accumulated_width)
+          @arranger.apply_color_and_font_settings(fragment) do
+            _print_fragment(fragment, accumulated_width)
           end
         end
 
@@ -226,44 +224,7 @@ module Prawn
           end
         end
 
-        def absolute_fragment_box(fragment, left, baseline)
-          box = fragment_box(fragment, left, baseline)
-          box[0] += @document.bounds.absolute_left
-          box[2] += @document.bounds.absolute_left
-          box[1] += @document.bounds.absolute_bottom
-          box[3] += @document.bounds.absolute_bottom
-          box
-        end
-
-        def fragment_box(fragment, left, baseline)
-          hash = @arranger.retrieved_format_state
-          width = hash[:width]
-          if @align == :justify
-            width += @word_spacing * fragment.count(" ")
-          end
-          ascender = hash[:ascender]
-          descender = hash[:descender]
-          [left, baseline - descender, left + width, baseline + ascender]
-        end
-
-        def underline_points(fragment, left, baseline)
-          box = fragment_box(fragment, left, baseline)
-          y = baseline - 1.25
-          p1 = [box[0], y]
-          p2 = [box[2], y]
-          [p1, p2]
-        end
-
-        def strikethrough_points(fragment, left, baseline)
-          box = fragment_box(fragment, left, baseline)
-          ascender = @arranger.retrieved_format_state[:ascender]
-          y = baseline + ascender * 0.3
-          p1 = [box[0], y]
-          p2 = [box[2], y]
-          [p1, p2]
-        end
-
-        def _draw_fragment(fragment, accumulated_width)
+        def _print_fragment(fragment, accumulated_width)
           case(@align)
           when :left, :justify
             x = @at[0]
@@ -277,59 +238,55 @@ module Prawn
 
           y = @at[1] + @baseline_y
 
+          y += fragment.y_offset
+
           if @inked && @align == :justify
             @document.word_spacing(@word_spacing) {
-              @document.draw_text!(fragment, :at => [x, y],
+              @document.draw_text!(fragment.text, :at => [x, y],
                                    :kerning => @kerning)
             }
           elsif @inked
-            @document.draw_text!(fragment, :at => [x, y],
+            @document.draw_text!(fragment.text, :at => [x, y],
                                  :kerning => @kerning)
           end
           draw_fragment_overlays(fragment, x, y) if @inked
         end
 
         def draw_fragment_overlays(fragment, left, baseline)
-          hash = @arranger.retrieved_format_state
-
-          if hash[:style]
-            draw_fragment_overlay_styles(hash[:style], fragment, left, baseline)
-          end
-
-          if hash[:link]
-            draw_fragment_overlay_link(hash[:link], fragment, left, baseline)
-          end
-
-          if hash[:anchor]
-            draw_fragment_overlay_anchor(hash[:anchor], fragment, left, baseline)
-          end
+          draw_fragment_overlay_styles(fragment, left, baseline)
+          draw_fragment_overlay_link(fragment, left, baseline)
+          draw_fragment_overlay_anchor(fragment, left, baseline)
         end
 
-        def draw_fragment_overlay_link(link, fragment, left, baseline)
-          box = absolute_fragment_box(fragment, left, baseline)
+        def draw_fragment_overlay_link(fragment, left, baseline)
+          return unless fragment.link
+          box = fragment.absolute_bounding_box(left, baseline,
+                                               :word_spacing => @word_spacing)
           @document.link_annotation(box,
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :URI,
-                          :URI => Prawn::Core::LiteralString.new(link) })
+                          :URI => Prawn::Core::LiteralString.new(fragment.link) })
         end
 
-        def draw_fragment_overlay_anchor(anchor, fragment, left, baseline)
-            box = absolute_fragment_box(fragment, left, baseline)
-            @document.link_annotation(box,
-                                      :Border => [0, 0, 0],
-                                      :Dest => anchor)
+        def draw_fragment_overlay_anchor(fragment, left, baseline)
+          return unless fragment.anchor
+          box = fragment.absolute_bounding_box(left, baseline,
+                                               :word_spacing => @word_spacing)
+          @document.link_annotation(box,
+                                    :Border => [0, 0, 0],
+                                    :Dest => fragment.anchor)
         end
 
-        def draw_fragment_overlay_styles(styles, fragment, left, baseline)
-          underline = styles.include?(:underline)
+        def draw_fragment_overlay_styles(fragment, left, baseline)
+          underline = fragment.styles.include?(:underline)
           if underline
-            @document.stroke_line(underline_points(fragment, left, baseline))
+            @document.stroke_line(fragment.underline_points(left, baseline))
           end
           
-          strikethrough = styles.include?(:strikethrough)
+          strikethrough = fragment.styles.include?(:strikethrough)
           if strikethrough
-            @document.stroke_line(strikethrough_points(fragment, left, baseline))
+            @document.stroke_line(fragment.strikethrough_points(left, baseline))
           end
         end
 

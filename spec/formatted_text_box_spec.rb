@@ -118,7 +118,7 @@ describe "Text::Formatted::Box#render" do
     create_pdf
     array = [{ :text => "this contains " },
              { :text => "Times-Bold",
-               :style => [:bold],
+               :styles => [:bold],
                :font => "Times-Roman" },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
@@ -133,7 +133,7 @@ describe "Text::Formatted::Box#render" do
   it "should be able to set bold" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "bold", :style => [:bold] },
+             { :text => "bold", :styles => [:bold] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
@@ -147,7 +147,7 @@ describe "Text::Formatted::Box#render" do
   it "should be able to set italics" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "italic", :style => [:italic] },
+             { :text => "italic", :styles => [:italic] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
@@ -155,10 +155,32 @@ describe "Text::Formatted::Box#render" do
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-Oblique", :Helvetica]
   end
+  it "should be able to set subscript" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "subscript", :styles => [:subscript] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.font_settings[0][:size].should == 12
+    contents.font_settings[1][:size].should.be.close(12 * 0.583, 0.0001)
+  end
+  it "should be able to set superscript" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "superscript", :styles => [:superscript] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.font_settings[0][:size].should == 12
+    contents.font_settings[1][:size].should.be.close(12 * 0.583, 0.0001)
+  end
   it "should be able to set compound bold and italic text" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "bold italic", :style => [:bold, :italic] },
+             { :text => "bold italic", :styles => [:bold, :italic] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
@@ -169,7 +191,7 @@ describe "Text::Formatted::Box#render" do
   it "should be able to underline" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "underlined", :style => [:underline] },
+             { :text => "underlined", :styles => [:underline] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
@@ -179,7 +201,7 @@ describe "Text::Formatted::Box#render" do
   it "should be able to strikethrough" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "struckthrough", :style => [:strikethrough] },
+             { :text => "struckthrough", :styles => [:strikethrough] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render

@@ -20,6 +20,8 @@ module Prawn
                          "<i>|</i>|" +
                          "<u>|</u>|" +
                          "<strikethrough>|</strikethrough>|" +
+                         "<sub>|</sub>|" +
+                         "<sup>|</sup>|" +
                          "<link[^>]*>|</link>|" +
                          "<color[^>]*>|</color>|" +
                          "<font[^>]*>|</font>|" +
@@ -36,16 +38,20 @@ module Prawn
           prefixes = { :bold => "<b>",
                        :italic => "<i>",
                        :underline => "<u>",
-                       :strikethrough => "<strikethrough>" }
+                       :strikethrough => "<strikethrough>",
+                       :subscript => "<sub>",
+                       :superscript => "<sup>" }
           suffixes = { :bold => "</b>",
                        :italic => "</i>",
                        :underline => "</u>",
-                       :strikethrough => "</strikethrough>" }
+                       :strikethrough => "</strikethrough>",
+                       :subscript => "</sub>",
+                       :superscript => "</sup>" }
           array.collect do |hash|
             prefix = ""
             suffix = ""
-            if hash[:style]
-              hash[:style].each do |style|
+            if hash[:styles]
+              hash[:styles].each do |style|
                 prefix = prefix + prefixes[style]
                 suffix = suffixes[style] + suffix
               end
@@ -103,6 +109,10 @@ module Prawn
               styles << :underline
             when "<strikethrough>"
               styles << :strikethrough
+            when "<sub>"
+              styles << :subscript
+            when "<sup>"
+              styles << :superscript
             when "</b>", "</strong>"
               styles.delete(:bold)
             when "</i>", "</em>"
@@ -111,6 +121,10 @@ module Prawn
               styles.delete(:underline)
             when "</strikethrough>"
               styles.delete(:strikethrough)
+            when "</sub>"
+              styles.delete(:subscript)
+            when "</sup>"
+              styles.delete(:superscript)
             when "</link>", "</a>"
               link = nil
               anchor = nil
@@ -150,7 +164,7 @@ module Prawn
               else
                 string = token.gsub("&lt;", "<").gsub("&gt;", ">").gsub("&amp;", "&")
                 array << { :text => string,
-                           :style => styles.dup,
+                           :styles => styles.dup,
                            :color => colors.last,
                            :link => link,
                            :anchor => anchor,

@@ -150,29 +150,30 @@ describe "Text::Formatted::Wrap#space_count" do
 end
 
 describe "Text::Formatted::Wrap" do
-  it "should only return an empty string if nothing fit or there" +
-     "was nothing to wrap" do
+  before(:each) do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello\nworld\n\n\nhow are you?" },
              { :text => "\n" },
              { :text => "\n" },
              { :text => "" },
-             { :text => "fine, thanks." * 4 },
+             { :text => "fine, thanks. " * 4 },
              { :text => "" },
              { :text => "\n" },
              { :text => "" }]
-    arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
-    11.times do
-      line = line_wrap.wrap_line(:arranger => arranger,
-                                 :width => 300,
+    @arranger.format_array = array
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
+  end
+  it "should only return an empty string if nothing fit or there" +
+     "was nothing to wrap" do
+    8.times do
+      line = @line_wrap.wrap_line(:arranger => @arranger,
+                                 :width => 200,
                                  :document => @pdf)
       line.should.not.be.empty
-      arranger.retrieve_string
     end
-    line = line_wrap.wrap_line(:arranger => arranger,
-                               :width => 300,
+    line = @line_wrap.wrap_line(:arranger => @arranger,
+                               :width => 200,
                                :document => @pdf)
     line.should.be.empty
   end

@@ -81,7 +81,7 @@ module Prawn
           return true if fragment == ""
           return false if fragment == "\n"
           fragment.scan(@scan_pattern).each do |segment|
-            @arranger.apply_font_settings(@arranger.current_format_state) do
+            @arranger.apply_font_settings do
               segment_width = @document.width_of(segment, :kerning => @kerning)
 
               if @accumulated_width + segment_width <= @width

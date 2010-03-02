@@ -68,6 +68,8 @@ module Prawn
     #      <tt>\<i></i></tt>:: italic
     #      <tt>\<u></u></tt>:: underline
     #      <tt>\<strikethrough></strikethrough></tt>:: strikethrough
+    #      <tt>\<sub></sub></tt>:: subscript
+    #      <tt>\<sup></sup></tt>:: superscript
     #      <tt>\<font></font></tt>::
     #          with the following attributes
     #            <tt>size="24" or size='24'</tt>::
