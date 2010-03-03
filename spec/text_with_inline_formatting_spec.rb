@@ -111,6 +111,16 @@ describe "#text with inline styling" do
     pages.size.should == 1
   end
 
+  it "should automatically move to a new page if the tallest fragment" +
+     " on the next line won't fit in the available space" do
+    create_pdf
+    @pdf.move_cursor_to(@pdf.font.height)
+    formatted = "this contains <font size='24'>sized</font> text"
+    @pdf.text(formatted, :inline_format => true)
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+  end
+
   it "should raise an exception when an unknown font is used" do
     lambda { @pdf.font "Pao bu" }.should.raise(Prawn::Errors::UnknownFont)
   end

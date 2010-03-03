@@ -114,12 +114,54 @@ describe "Text::Formatted::Box#render(:dry_run => true)" do
 end
 
 describe "Text::Formatted::Box#render" do
+  it "should be able to perform fragment callbacks" do
+    create_pdf
+    callback_object = TestFragmentCallback.new
+    callback_object.expects(:draw_border).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    array = [{ :text => "hello world " },
+             { :text => "callback now",
+               :callback => { :object => callback_object,
+                              :method => :draw_border } }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+  end
+  it "should be able to perform fragment callbacks with arguments" do
+    create_pdf
+    callback_object = TestFragmentCallback.new
+    callback_object.expects(:draw_border_with_args).with(
+               kind_of(Prawn::Text::Formatted::Fragment), "something", 7)
+    array = [{ :text => "hello world " },
+             { :text => "callback now",
+               :callback => { :object => callback_object,
+                              :method => :draw_border_with_args,
+                              :arguments => ["something", 7] } }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+  end
+  it "should be able to set the font" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "Times-Bold",
+               :styles => [:bold],
+               :font => "Times-Roman" },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    fonts = contents.font_settings.map { |e| e[:name] }
+    fonts.should == [:Helvetica, :"Times-Bold", :Helvetica]
+    contents.strings[0].should == "this contains "
+    contents.strings[1].should == "Times-Bold"
+    contents.strings[2].should == " text"
+  end
   it "should be able to set bold" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "bold", :style => [:bold] },
+             { :text => "bold", :styles => [:bold] },
              { :text => " text" }]
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-Bold", :Helvetica]
@@ -130,36 +172,93 @@ describe "Text::Formatted::Box#render" do
   it "should be able to set italics" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "italic", :style => [:italic] },
+             { :text => "italic", :styles => [:italic] },
              { :text => " text" }]
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-Oblique", :Helvetica]
   end
+  it "should be able to set subscript" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "subscript", :styles => [:subscript] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.font_settings[0][:size].should == 12
+    contents.font_settings[1][:size].should.be.close(12 * 0.583, 0.0001)
+  end
+  it "should be able to set superscript" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "superscript", :styles => [:superscript] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.font_settings[0][:size].should == 12
+    contents.font_settings[1][:size].should.be.close(12 * 0.583, 0.0001)
+  end
   it "should be able to set compound bold and italic text" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "bold italic", :style => [:bold, :italic] },
+             { :text => "bold italic", :styles => [:bold, :italic] },
              { :text => " text" }]
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     fonts = contents.font_settings.map { |e| e[:name] }
     fonts.should == [:Helvetica, :"Helvetica-BoldOblique", :Helvetica]
   end
-  it "should be able to set underline" do
+  it "should be able to underline" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "underlined", :styles => [:underline] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line_drawing.points.length.should == 2
   end
-  it "should be able to set strikethrough" do
+  it "should be able to strikethrough" do
+    create_pdf
+    array = [{ :text => "this contains " },
+             { :text => "struckthrough", :styles => [:strikethrough] },
+             { :text => " text" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line_drawing.points.length.should == 2
   end
-  it "should be able to set links" do
+  it "should be able to add URL links" do
+    create_pdf
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+           :A => { :Type => :Action, :S => :URI, :URI => "http://example.com" })
+    array = [{ :text => "click " },
+             { :text => "here", :link => "http://example.com" },
+             { :text => " to visit" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+  end
+  it "should be able to add destination links" do
+    create_pdf
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+                                        :Dest => "ToC")
+    array = [{ :text => "Go to the " },
+             { :text => "Table of Contents", :anchor => "ToC" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
   end
   it "should be able to set font size" do
     create_pdf
     array = [{ :text => "this contains " },
              { :text => "sized", :size => 24 },
              { :text => " text" }]
-    @pdf.move_cursor_to(@pdf.font.height)
-    @pdf.formatted_text_box(array, :document => @pdf)
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
     contents.font_settings[1][:size].should == 24
@@ -175,7 +274,25 @@ describe "Text::Formatted::Box#render" do
       text_box.height.should.be.close(@pdf.font.height, 0.001)
     end
   end
-  it "should be able to set color" do
+  it "should be able to set color via an rgb hex string" do
+    create_pdf
+    array = [{ :text => "rgb",
+               :color => "ff0000" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    colors.fill_color_count.should == 3
+    colors.stroke_color_count.should == 3
+  end
+  it "should be able to set color using a cmyk array" do
+    create_pdf
+    array = [{ :text => "cmyk",
+               :color => [100, 0, 0, 0] }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    colors.fill_color_count.should == 3
+    colors.stroke_color_count.should == 3
   end
 end
 
@@ -487,4 +604,12 @@ end
 
 def reduce_precision(float)
   ("%.5f" % float).to_f
+end
+
+class TestFragmentCallback
+  def draw_border(fragment)
+  end
+
+  def draw_border_with_args(fragment, string, times)
+  end
 end
