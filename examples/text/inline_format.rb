@@ -44,12 +44,18 @@ Prawn::Document.generate "inline_format.pdf" do
   text("\nhello <b>world\nhow <i>are</i></b> you?",
            :inline_format => true)
 
-  def draw_circles_at_corners(fragment)
+  def draw_circles_at_corners(fragment, radius, connect_corners)
     box = fragment.bounding_box
-    stroke_circle_at([box[0], box[1]], :radius => 5)
-    stroke_circle_at([box[0], box[3]], :radius => 5)
-    stroke_circle_at([box[2], box[1]], :radius => 5)
-    stroke_circle_at([box[2], box[3]], :radius => 5)
+    if connect_corners
+      polygon([box[0], box[1]],
+              [box[0], box[3]],
+              [box[2], box[3]],
+              [box[2], box[1]])
+    end
+    stroke_circle_at([box[0], box[1]], :radius => radius)
+    stroke_circle_at([box[0], box[3]], :radius => radius)
+    stroke_circle_at([box[2], box[1]], :radius => radius)
+    stroke_circle_at([box[2], box[3]], :radius => radius)
   end
 
   font("Helvetica")
@@ -59,7 +65,8 @@ Prawn::Document.generate "inline_format.pdf" do
                       { :text => "world",
                         :size => 24,
                         :callback => { :object => self,
-                                       :method => :draw_circles_at_corners }},
+                                       :method => :draw_circles_at_corners,
+                                       :arguments => [2.5, true] }},
                       { :text => "   hello" }
                      ], :indent_paragraphs => 40)
 end

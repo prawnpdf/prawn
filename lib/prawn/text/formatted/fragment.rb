@@ -101,9 +101,17 @@ module Prawn
           callback[:method]
         end
 
+        def callback_arguments
+          callback[:arguments]
+        end
+
         def finished
           if callback_object && callback_method
-            callback_object.send(callback_method, self)
+            if callback_arguments
+              callback_object.send(callback_method, self, *callback_arguments)
+            else
+              callback_object.send(callback_method, self)
+            end
           end
         end
 

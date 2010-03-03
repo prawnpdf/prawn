@@ -46,6 +46,12 @@ module Prawn
       #     created to that destination. Note that you must explicitly underline
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
+      # <tt>:callback</tt>::
+      #     a hash with the following options
+      #     <tt>:object</tt>:: required. the object to target
+      #     <tt>:method</tt>:: required. the method to call on the target object
+      #     <tt>:arguments</tt>:: optional. the arguments to pass to the
+      #         callback method
       #
       # == Example
       #
