@@ -80,7 +80,12 @@ describe "A bounding box" do
   it "should have an absolute top-right of [x+width,y]" do
     @box.absolute_top_right.should == [@x + @width, @y]
   end
-  
+
+  it "should require width to be set" do
+    assert_raises(ArgumentError) do
+      Prawn::Document::BoundingBox.new(nil, [100,100])
+    end
+  end
 
 end
 
@@ -91,7 +96,7 @@ describe "drawing bounding boxes" do
   it "should restore the margin box when bounding box exits" do
     margin_box = @pdf.bounds
 
-    @pdf.bounding_box [100,500] do
+    @pdf.bounding_box [100,500], :width => 100 do
       #nothing
     end
 

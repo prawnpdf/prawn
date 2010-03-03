@@ -19,11 +19,11 @@ describe "#height_of" do
     end.should.raise(Prawn::Errors::CannotFit)
   end
 
-  it "should raise Prawn::Errors::UnknownOption if :indent_paragraphs option is provided" do
+  it "should raise NotImplementedError if :indent_paragraphs option is provided" do
     lambda {
       @pdf.height_of("hai", :width => 300,
                      :indent_paragraphs => 60)
-    }.should.raise(Prawn::Errors::UnknownOption)
+    }.should.raise(NotImplementedError)
   end
 
   it "should not raise Prawn::Errors::UnknownOption if :final_gap option is provided" do
@@ -62,7 +62,7 @@ describe "#text" do
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+    @pdf.y.should.be.close(position - 3 * @pdf.font.height, 0.0001)
   end
 
   it "should advance down the document based on font_height" +
@@ -88,6 +88,13 @@ describe "#text" do
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz", :final_gap => false
     @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender, 0.0001)
+  end
+
+  it "should be able to print text starting at the last line of a page" do
+    @pdf.move_cursor_to(@pdf.font.height)
+    @pdf.text("hello world")
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 1
   end
 
   it "should default to 12 point helvetica" do
@@ -180,6 +187,28 @@ describe "#text" do
     text.strings.first.should == str
   end
 
+  it "should correctly render a string with higher bit characters across" +
+     " a page break when using a built-in font" do
+    str = "©"
+    @pdf.move_cursor_to(@pdf.font.height)
+    @pdf.text(str + "\n" + str)
+
+    # grab the text from the rendered PDF and ensure it matches
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[1].should == str.strip
+  end
+
+  it "should correctly render a string with higher bit characters across" +
+    " a page break when using a built-in font and :indent_paragraphs option" do
+    str = "©"
+    @pdf.move_cursor_to(@pdf.font.height)
+    @pdf.text(str + "\n" + str, :indent_paragraphs => 20)
+
+    # grab the text from the rendered PDF and ensure it matches
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[1].should == str.strip
+  end
+
   if "spec".respond_to?(:encode!)
     # Handle non utf-8 string encodings in a sane way on M17N aware VMs
     it "should raise an exception when a utf-8 incompatible string is rendered" do
@@ -219,7 +248,7 @@ describe "#text" do
   it "should be able to use a custom word-wrap object" do
     hello = "hello " * 25
     world = "world " * 25
-    @pdf.text(hello + "\n" + world, :line_wrap => TestWordWrap.new)
+    @pdf.text(hello + "\n" + world, :unformatted_line_wrap => TestWordWrap.new)
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings[0].should == hello.strip
     text.strings[1].should == world.strip
@@ -228,7 +257,7 @@ describe "#text" do
   it "should be able to globally set the custom word-wrap object" do
     hello = "hello " * 25
     world = "world " * 25
-    @pdf.default_line_wrap = TestWordWrap.new
+    @pdf.default_unformatted_line_wrap = TestWordWrap.new
     @pdf.text(hello + "\n" + world)
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings[0].should == hello.strip
@@ -280,7 +309,19 @@ describe "#text" do
 end
 
 class TestWordWrap
+  def width
+    @width
+  end
+  def space_count
+    @line.count(" ")
+  end
+  def consumed_char_count
+    @consumed_char_count
+  end
   def wrap_line(line, options)
-    line
+    @consumed_char_count = line.length
+    @line = line.strip
+    @width = options[:document].width_of(@line, :kerning => options[:kerning])
+    @line
   end
 end

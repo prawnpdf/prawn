@@ -4,7 +4,8 @@ require 'rake/testtask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
-PRAWN_VERSION = "0.8.0" 
+# Version numbering: http://wiki.github.com/sandal/prawn/development-roadmap
+PRAWN_VERSION = "0.9.0" 
 
 task :default => [:test]
        
@@ -47,7 +48,7 @@ task :examples do
 end
 
 spec = Gem::Specification.new do |spec|
-  spec.name = "prawn-core"
+  spec.name = "prawn"
   spec.version = PRAWN_VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
@@ -73,3 +74,4 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
+

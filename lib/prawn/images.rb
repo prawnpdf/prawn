@@ -14,6 +14,11 @@ module Prawn
     # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported.
     #
+    # NOTE: Prawn is very slow at rendering PNGs with alpha channels.  The
+    # workaround for those who don't mind installing RMagick is to use:
+    #
+    # http://github.com/amberbit/prawn-fast-png
+    #
     # Arguments:
     # <tt>file</tt>:: path to file or an object that responds to #read
     #
@@ -100,7 +105,7 @@ module Prawn
       # add a reference to the image object to the current page
       # resource list and give it a label
       label = "I#{next_image_id}"
-      page.xobjects.merge!( label => image_obj )
+      state.page.xobjects.merge!( label => image_obj )
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
