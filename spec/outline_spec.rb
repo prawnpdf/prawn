@@ -204,7 +204,30 @@ describe "Outline" do
       end
     end
   end
+  
+  before(:each) do
+    pdf = Prawn::Document.new() do
+      define_outline do
+          section 'La pomme croquée', :page => 1, :closed => true
+      end
+    end
+    @output = pdf.render
+    Prawn::Document.generate('accentuated_outline_issue.pdf') do
+      define_outline do
+        section 'La pomme croquée', :page => 1, :closed => true
+      end
+    end
+    @file_output = File.read('accentuated_outline_issue.pdf')
+    `rm accentuated_outline_issue.pdf`
+  end
+  
+  it "should not change the encoding of the title" do
+    @output.should =~ /La pomme croquée/
+    @file_output.should =~ /La pomme croquée/ 
+  end
 end
+
+
 
 def render_and_find_objects
   output = StringIO.new(@pdf.render, 'r+')
@@ -220,7 +243,7 @@ def render_and_find_objects
 end
 
 def find_by_title(title)
-  @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Title] == title}
+  @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Title] == title }
 end
 
 def referenced_object(reference)
