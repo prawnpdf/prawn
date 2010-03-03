@@ -6,8 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/text/formatted/arranger"
-require "prawn/text/formatted/fragment"
 
 module Prawn
   module Text
@@ -112,7 +110,7 @@ module Prawn
           super(array, options)
           @line_wrap     = options[:formatted_line_wrap] ||
                              @document.default_formatted_line_wrap
-          @arranger = Prawn::Text::Formatted::Arranger.new(@document)
+          @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document)
           if @overflow == :ellipses
             raise NotImplementedError, "ellipses overflow unavailable with" +
               "formatted box"
@@ -128,7 +126,7 @@ module Prawn
 
         # See the developer documentation for Text::Box#_render
         #
-        def _render(array) # :nodoc:
+        def _render(array) #:nodoc:
           initialize_inner_render(array)
 
           move_baseline = true

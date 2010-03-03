@@ -88,7 +88,7 @@ module Prawn
           end.join("")
         end
 
-        def self.array_paragraphs(array) # :nodoc:
+        def self.array_paragraphs(array) #:nodoc:
           paragraphs = []
           paragraph = []
           previous_string = "\n"

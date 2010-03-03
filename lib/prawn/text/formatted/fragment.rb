@@ -2,7 +2,7 @@
 
 # text/formatted/fragment.rb : Implements information about a formatted fragment
 #
-# Copyright February 2010, Daniel Nelson. All Rights Reserved.
+# Copyright March 2010, Daniel Nelson. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 

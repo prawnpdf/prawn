@@ -2,10 +2,10 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-describe "Text::Formatted::Arranger#format_array" do
+describe "Core::Text::Formatted::Arranger#format_array" do
   it "should populate unconsumed array" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -20,7 +20,7 @@ describe "Text::Formatted::Arranger#format_array" do
   end
   it "should split newlines into their own elements" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "\nhello\nworld" }]
     arranger.format_array = array
     arranger.unconsumed[0].should == { :text => "\n" }
@@ -29,10 +29,10 @@ describe "Text::Formatted::Arranger#format_array" do
     arranger.unconsumed[3].should == { :text => "world" }
   end
 end
-describe "Text::Formatted::Arranger#preview_next_string" do
+describe "Core::Text::Formatted::Arranger#preview_next_string" do
   it "should not populate the consumed array" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello" }]
     arranger.format_array = array
     arranger.preview_next_string
@@ -40,16 +40,16 @@ describe "Text::Formatted::Arranger#preview_next_string" do
   end
   it "should not consumed array" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello" }]
     arranger.format_array = array
     arranger.preview_next_string.should == "hello"
   end
 end
-describe "Text::Formatted::Arranger#next_string" do
+describe "Core::Text::Formatted::Arranger#next_string" do
   before(:each) do
     create_pdf
-    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -75,7 +75,7 @@ describe "Text::Formatted::Arranger#next_string" do
   end
   it "should populate current_format_state array" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -98,10 +98,10 @@ describe "Text::Formatted::Arranger#next_string" do
   end
 end
 
-describe "Text::Formatted::Arranger#retrieve_fragment" do
+describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
   it "should raise an error if called before finalize_line was called" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -116,7 +116,7 @@ describe "Text::Formatted::Arranger#retrieve_fragment" do
   it "should return the consumed fragments in order of consumption" +
      " and update" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -132,7 +132,7 @@ describe "Text::Formatted::Arranger#retrieve_fragment" do
   end
   it "should never return a fragment whose text is an empty string" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello\nworld\n\n\nhow are you?" },
              { :text => "\n" },
              { :text => "\n" },
@@ -152,7 +152,7 @@ describe "Text::Formatted::Arranger#retrieve_fragment" do
   end
   it "should not alter the current font style" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -166,11 +166,11 @@ describe "Text::Formatted::Arranger#retrieve_fragment" do
   end
 end
 
-describe "Text::Formatted::Arranger#update_last_string" do
+describe "Core::Text::Formatted::Arranger#update_last_string" do
   it "should update the last retrieved string with what actually fit on" +
      "the line and the list of unconsumed with what did not" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -187,7 +187,7 @@ describe "Text::Formatted::Arranger#update_last_string" do
   context "when the entire string was used" do
     it "should not push empty string onto unconsumed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -200,10 +200,10 @@ describe "Text::Formatted::Arranger#update_last_string" do
     end
   end
 end
-describe "Text::Formatted::Arranger#space_count" do
+describe "Core::Text::Formatted::Arranger#space_count" do
   before(:each) do
     create_pdf
-    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -222,10 +222,10 @@ describe "Text::Formatted::Arranger#space_count" do
     @arranger.space_count.should == 4
   end
 end
-describe "Text::Formatted::Arranger#finalize_line" do
+describe "Core::Text::Formatted::Arranger#finalize_line" do
   it "should make it so the last consumed fragment ends with non-white-space" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "   ", :styles => [:bold, :italic] }]
@@ -239,10 +239,10 @@ describe "Text::Formatted::Arranger#finalize_line" do
   end
 end
 
-describe "Text::Formatted::Arranger#line_width" do
+describe "Core::Text::Formatted::Arranger#line_width" do
   before(:each) do
     create_pdf
-    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world", :styles => [:bold] }]
     @arranger.format_array = array
@@ -260,10 +260,10 @@ describe "Text::Formatted::Arranger#line_width" do
   end
 end
 
-describe "Text::Formatted::Arranger#line" do
+describe "Core::Text::Formatted::Arranger#line" do
   before(:each) do
     create_pdf
-    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world", :styles => [:bold] }]
     @arranger.format_array = array
@@ -281,10 +281,10 @@ describe "Text::Formatted::Arranger#line" do
   end
 end
 
-describe "Text::Formatted::Arranger#unconsumed" do
+describe "Core::Text::Formatted::Arranger#unconsumed" do
   it "should return the original array if nothing was consumed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -294,7 +294,7 @@ describe "Text::Formatted::Arranger#unconsumed" do
   end
   it "should return an empty array if everything was consumed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -306,10 +306,10 @@ describe "Text::Formatted::Arranger#unconsumed" do
   end
 end
 
-describe "Text::Formatted::Arranger#finished" do
+describe "Core::Text::Formatted::Arranger#finished" do
   it "should be false if anything was not printed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -322,7 +322,7 @@ describe "Text::Formatted::Arranger#finished" do
   end
   it "should be false if everything was printed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -334,10 +334,10 @@ describe "Text::Formatted::Arranger#finished" do
   end
 end
 
-describe "Text::Formatted::Arranger#unfinished" do
+describe "Core::Text::Formatted::Arranger#unfinished" do
   it "should be false if anything was not printed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -350,7 +350,7 @@ describe "Text::Formatted::Arranger#unfinished" do
   end
   it "should be false if everything was printed" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -362,10 +362,10 @@ describe "Text::Formatted::Arranger#unfinished" do
   end
 end
 
-describe "Text::Formatted::Arranger.max_line_height" do
+describe "Core::Text::Formatted::Arranger.max_line_height" do
   it "should be the height of the maximum consumed fragment" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },
@@ -378,10 +378,10 @@ describe "Text::Formatted::Arranger.max_line_height" do
   end
 end
 
-describe "Text::Formatted::Arranger#repack_unretrieved" do
+describe "Core::Text::Formatted::Arranger#repack_unretrieved" do
   it "should restore part of the original string" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
              { :text => "are", :styles => [:bold, :italic] },

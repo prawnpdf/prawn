@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "prawn/core/text"
+require "prawn/core/text/line_wrap"
 require "prawn/text/box"
 require "prawn/text/formatted"
 require "zlib"

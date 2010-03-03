@@ -6,7 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/text/line_wrap"
 
 module Prawn
   module Text
@@ -244,7 +243,7 @@ module Prawn
       # certain conditions established by render. Do not call _render from
       # outside of Text::Box or its descendants.
       #
-      def _render(text) # :nodoc:
+      def _render(text) #:nodoc:
         @text = nil
         remaining_text = text
         @line_height = @document.font.height
