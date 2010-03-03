@@ -46,8 +46,11 @@ module Prawn
       # reconstruct it after it was amended.
       #
       def take_snapshot
-        {:page_content    => Marshal.load(Marshal.dump(state.page.content)),
-         :current_page    => Marshal.load(Marshal.dump(state.page.dictionary)),
+        # current_page holds a ref to the Pages dictionary which grows
+        # monotonically as data is added to the document, so we share that
+        # between the old and new copies.
+        {:page_content    => state.page.content.deep_copy,
+         :current_page    => state.page.dictionary.deep_copy(share=[:Parent]),
          :page_number     => page_number,
          :page_kids       => state.store.pages.data[:Kids].map{|kid| kid.identifier},
          :dests           => names? && 
