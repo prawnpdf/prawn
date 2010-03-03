@@ -145,15 +145,17 @@ module Prawn
             move_baseline_down
 
             accumulated_width = 0
-            justification_computation if @align == :justify
+            compute_word_spacing_for_this_line
             while fragment = @arranger.retrieve_fragment
+              fragment.word_spacing = @word_spacing
               if fragment.text == "\n"
                 printed_fragments << "\n" if @printed_lines.last == ""
                 break
               end
               printed_fragments << fragment.text
               print_fragment(fragment, accumulated_width)
-              accumulated_width += fragment.width(:word_spacing => @word_spacing)
+              accumulated_width += fragment.width
+              fragment.finished
             end
             @printed_lines << printed_fragments.join("")
             break if @single_line
@@ -240,6 +242,9 @@ module Prawn
 
           y += fragment.y_offset
 
+          fragment.left = x
+          fragment.baseline = y
+
           if @inked && @align == :justify
             @document.word_spacing(@word_spacing) {
               @document.draw_text!(fragment.text, :at => [x, y],
@@ -249,19 +254,18 @@ module Prawn
             @document.draw_text!(fragment.text, :at => [x, y],
                                  :kerning => @kerning)
           end
-          draw_fragment_overlays(fragment, x, y) if @inked
+          draw_fragment_overlays(fragment) if @inked
         end
 
-        def draw_fragment_overlays(fragment, left, baseline)
-          draw_fragment_overlay_styles(fragment, left, baseline)
-          draw_fragment_overlay_link(fragment, left, baseline)
-          draw_fragment_overlay_anchor(fragment, left, baseline)
+        def draw_fragment_overlays(fragment)
+          draw_fragment_overlay_styles(fragment)
+          draw_fragment_overlay_link(fragment)
+          draw_fragment_overlay_anchor(fragment)
         end
 
-        def draw_fragment_overlay_link(fragment, left, baseline)
+        def draw_fragment_overlay_link(fragment)
           return unless fragment.link
-          box = fragment.absolute_bounding_box(left, baseline,
-                                               :word_spacing => @word_spacing)
+          box = fragment.absolute_bounding_box
           @document.link_annotation(box,
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
@@ -269,24 +273,23 @@ module Prawn
                           :URI => Prawn::Core::LiteralString.new(fragment.link) })
         end
 
-        def draw_fragment_overlay_anchor(fragment, left, baseline)
+        def draw_fragment_overlay_anchor(fragment)
           return unless fragment.anchor
-          box = fragment.absolute_bounding_box(left, baseline,
-                                               :word_spacing => @word_spacing)
+          box = fragment.absolute_bounding_box
           @document.link_annotation(box,
                                     :Border => [0, 0, 0],
                                     :Dest => fragment.anchor)
         end
 
-        def draw_fragment_overlay_styles(fragment, left, baseline)
+        def draw_fragment_overlay_styles(fragment)
           underline = fragment.styles.include?(:underline)
           if underline
-            @document.stroke_line(fragment.underline_points(left, baseline))
+            @document.stroke_line(fragment.underline_points)
           end
           
           strikethrough = fragment.styles.include?(:strikethrough)
           if strikethrough
-            @document.stroke_line(fragment.strikethrough_points(left, baseline))
+            @document.stroke_line(fragment.strikethrough_points)
           end
         end
 

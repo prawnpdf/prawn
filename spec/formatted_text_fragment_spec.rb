@@ -2,6 +2,54 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Formatted::Fragment#word_spacing=" do
+  before(:each) do
+    create_pdf
+    format_state = { :styles => [:bold, :italic],
+                     :color => nil,
+                     :link => nil,
+                     :anchor => nil,
+                     :font => nil,
+                     :size => nil }
+    @fragment = Prawn::Text::Formatted::Fragment.new("hello world",
+                                                     format_state,
+                                                     @pdf)
+    @fragment.width = 100
+    @fragment.left = 50
+    @fragment.baseline = 200
+    @fragment.line_height = 27
+    @fragment.descender = 7
+    @fragment.ascender = 17
+    @fragment.word_spacing = 10
+  end
+  
+  it "should account for word_spacing in #width" do
+    @fragment.width.should == 110
+  end
+  it "should account for word_spacing in #bounding_box" do
+    target_box = [50, 193, 160, 217]
+    @fragment.bounding_box.should == target_box
+  end
+  it "should account for word_spacing in #absolute_bounding_box" do
+    target_box = [50, 193, 160, 217]
+    target_box[0] += @pdf.bounds.absolute_left
+    target_box[1] += @pdf.bounds.absolute_bottom
+    target_box[2] += @pdf.bounds.absolute_left
+    target_box[3] += @pdf.bounds.absolute_bottom
+    @fragment.absolute_bounding_box.should == target_box
+  end
+  it "should account for word_spacing in #underline_points" do
+    y = 198.75
+    target_points = [[50, y], [160, y]]
+    @fragment.underline_points.should == target_points
+  end
+  it "should account for word_spacing in #strikethrough_points" do
+    y = 200 + @fragment.ascender * 0.3
+    target_points = [[50, y], [160, y]]
+    @fragment.strikethrough_points.should == target_points
+  end
+end
+
 describe "Text::Formatted::Fragment" do
   before(:each) do
     create_pdf
@@ -15,6 +63,8 @@ describe "Text::Formatted::Fragment" do
                                                      format_state,
                                                      @pdf)
     @fragment.width = 100
+    @fragment.left = 50
+    @fragment.baseline = 200
     @fragment.line_height = 27
     @fragment.descender = 7
     @fragment.ascender = 17
@@ -23,9 +73,6 @@ describe "Text::Formatted::Fragment" do
   describe "#width" do
     it "should return the width" do
       @fragment.width.should == 100
-    end
-    it "should accept a word_spacing option" do
-      @fragment.width(:word_spacing => 10).should == 110
     end
   end
 
@@ -74,12 +121,7 @@ describe "Text::Formatted::Fragment" do
   describe "#bounding_box" do
     it "should return the bounding box surrounding the fragment" do
       target_box = [50, 193, 150, 217]
-      @fragment.bounding_box(50, 200).should == target_box
-    end
-    it "should accept a word_spacing option" do
-      target_box = [50, 193, 160, 217]
-      @fragment.bounding_box(50, 200,
-                             :word_spacing => 10).should == target_box
+      @fragment.bounding_box.should == target_box
     end
   end
 
@@ -91,16 +133,7 @@ describe "Text::Formatted::Fragment" do
         target_box[1] += @pdf.bounds.absolute_bottom
         target_box[2] += @pdf.bounds.absolute_left
         target_box[3] += @pdf.bounds.absolute_bottom
-      @fragment.absolute_bounding_box(50, 200).should == target_box
-    end
-    it "should accept a word_spacing option" do
-      target_box = [50, 193, 160, 217]
-        target_box[0] += @pdf.bounds.absolute_left
-        target_box[1] += @pdf.bounds.absolute_bottom
-        target_box[2] += @pdf.bounds.absolute_left
-        target_box[3] += @pdf.bounds.absolute_bottom
-      @fragment.absolute_bounding_box(50, 200,
-                                      :word_spacing => 10).should == target_box
+      @fragment.absolute_bounding_box.should == target_box
     end
   end
 
@@ -108,13 +141,7 @@ describe "Text::Formatted::Fragment" do
     it "should define a line under the fragment" do
       y = 198.75
       target_points = [[50, y], [150, y]]
-      @fragment.underline_points(50, 200).should == target_points
-    end
-    it "should accept a word_spacing option" do
-      y = 198.75
-      target_points = [[50, y], [160, y]]
-      @fragment.underline_points(50, 200,
-                             :word_spacing => 10).should == target_points
+      @fragment.underline_points.should == target_points
     end
   end
 
@@ -122,13 +149,7 @@ describe "Text::Formatted::Fragment" do
     it "should define a line through the fragment" do
       y = 200 + @fragment.ascender * 0.3
       target_points = [[50, y], [150, y]]
-      @fragment.strikethrough_points(50, 200).should == target_points
-    end
-    it "should accept a word_spacing option" do
-      y = 200 + @fragment.ascender * 0.3
-      target_points = [[50, y], [160, y]]
-      @fragment.strikethrough_points(50, 200,
-                             :word_spacing => 10).should == target_points
+      @fragment.strikethrough_points.should == target_points
     end
   end
 end
@@ -145,7 +166,6 @@ describe "Text::Formatted::Fragment that is a subscript" do
     @fragment = Prawn::Text::Formatted::Fragment.new("hello world",
                                                      format_state,
                                                      @pdf)
-    @fragment.width = 100
     @fragment.line_height = 27
     @fragment.descender = 7
     @fragment.ascender = 17
@@ -174,7 +194,6 @@ describe "Text::Formatted::Fragment that is a superscript" do
     @fragment = Prawn::Text::Formatted::Fragment.new("hello world",
                                                      format_state,
                                                      @pdf)
-    @fragment.width = 100
     @fragment.line_height = 27
     @fragment.descender = 7
     @fragment.ascender = 17

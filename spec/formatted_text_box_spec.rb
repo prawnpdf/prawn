@@ -114,6 +114,17 @@ describe "Text::Formatted::Box#render(:dry_run => true)" do
 end
 
 describe "Text::Formatted::Box#render" do
+  it "should be able to perform fragment callbacks" do
+    create_pdf
+    callback_object = TestFragmentCallback.new
+    callback_object.expects(:draw_border).with(kind_of(Prawn::Text::Formatted::Fragment))
+    array = [{ :text => "hello world " },
+             { :text => "callback now",
+               :callback => { :object => callback_object,
+                              :method => :draw_border  } }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+  end
   it "should be able to set the font" do
     create_pdf
     array = [{ :text => "this contains " },
@@ -579,4 +590,9 @@ end
 
 def reduce_precision(float)
   ("%.5f" % float).to_f
+end
+
+class TestFragmentCallback
+  def draw_border(fragment)
+  end
 end

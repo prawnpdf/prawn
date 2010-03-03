@@ -426,3 +426,21 @@ describe "Text::Formatted::Parser#to_string" do
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
 end
+
+describe "Text::Formatted::Parser#array_paragraphs" do
+  it "should group fragments separated by newlines" do
+    array = [{ :text => "\nhello\nworld" },
+             { :text => "\n\n" },
+             { :text => "how" },
+             { :text => "are" },
+             { :text => "you" }]
+    target = [[{ :text => "\n"}],
+              [{ :text => "hello" }],
+              [{ :text => "world" }],
+              [{ :text => "\n"}],
+              [{ :text => "how" },
+               { :text => "are" },
+               { :text => "you" }]]
+    Prawn::Text::Formatted::Parser.array_paragraphs(array).should == target
+  end
+end

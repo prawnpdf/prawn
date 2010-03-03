@@ -347,8 +347,8 @@ module Prawn
         unprinted_text
       end
 
-      def justification_computation
-        if @line_wrap.width.to_f / @width.to_f < 0.75
+      def compute_word_spacing_for_this_line
+        if @align != :justify || @line_wrap.width.to_f / @width.to_f < 0.75
           @word_spacing = 0
         else
           @word_spacing = (@width - @line_wrap.width) / @line_wrap.space_count
@@ -370,7 +370,7 @@ module Prawn
         y = @at[1] + @baseline_y
         
         if @inked && @align == :justify
-          justification_computation
+          compute_word_spacing_for_this_line
           @document.word_spacing(@word_spacing) {
             @document.draw_text!(line_to_print, :at => [x, y],
                                                 :kerning => @kerning)

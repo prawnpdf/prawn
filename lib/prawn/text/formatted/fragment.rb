@@ -14,16 +14,18 @@ module Prawn
         attr_reader :text, :format_state
         attr_writer :width
         attr_accessor :line_height, :descender, :ascender
+        attr_accessor :word_spacing, :left, :baseline
 
         def initialize(text, format_state, document)
           @text = text
           @format_state = format_state
           @document = document
+          @word_spacing = 0
         end
 
-        def width(options={})
-          if options[:word_spacing].nil? then @width
-          else @width + options[:word_spacing] * @text.count(" ")
+        def width
+          if @word_spacing == 0 then @width
+          else @width + @word_spacing * @text.count(" ")
           end
         end
 
@@ -42,12 +44,12 @@ module Prawn
           end
         end
 
-        def bounding_box(left, baseline, options={})
-          [left, baseline - descender, left + width(options), baseline + ascender]
+        def bounding_box
+          [left, baseline - descender, left + width, baseline + ascender]
         end
 
-        def absolute_bounding_box(left, baseline, options={})
-          box = bounding_box(left, baseline, options)
+        def absolute_bounding_box
+          box = bounding_box
           box[0] += @document.bounds.absolute_left
           box[2] += @document.bounds.absolute_left
           box[1] += @document.bounds.absolute_bottom
@@ -55,14 +57,14 @@ module Prawn
           box
         end
 
-        def underline_points(left, baseline, options={})
-          box = bounding_box(left, baseline, options)
+        def underline_points
+          box = bounding_box
           y = baseline - 1.25
           [[box[0], y], [box[2], y]]
         end
 
-        def strikethrough_points(left, baseline, options={})
-          box = bounding_box(left, baseline, options)
+        def strikethrough_points
+          box = bounding_box
           y = baseline + ascender * 0.3
           [[box[0], y], [box[2], y]]
         end
@@ -89,6 +91,26 @@ module Prawn
 
         def size
           @format_state[:size]
+        end
+
+        def callback_object
+          callback[:object]
+        end
+
+        def callback_method
+          callback[:method]
+        end
+
+        def finished
+          if callback_object && callback_method
+            callback_object.send(callback_method, self)
+          end
+        end
+
+        private
+
+        def callback
+          @format_state[:callback] || {}
         end
         
       end

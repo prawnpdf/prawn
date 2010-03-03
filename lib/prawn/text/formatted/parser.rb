@@ -88,6 +88,26 @@ module Prawn
           end.join("")
         end
 
+        def self.array_paragraphs(array) # :nodoc:
+          paragraphs = []
+          paragraph = []
+          previous_string = "\n"
+          scan_pattern = /[^\n]+|\n/
+          array.each do |hash|
+            hash[:text].scan(scan_pattern).each do |string|
+              if string == "\n"
+                paragraph << hash.dup.merge(:text => "\n") if previous_string == "\n"
+                paragraphs << paragraph unless paragraph.empty?
+                paragraph = []
+              else
+                paragraph << hash.dup.merge(:text => string)
+              end
+              previous_string = string
+            end
+          end
+          paragraphs << paragraph unless paragraph.empty?
+        end
+
         private
 
         def self.array_from_tokens(tokens)
