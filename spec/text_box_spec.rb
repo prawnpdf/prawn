@@ -38,6 +38,14 @@ describe "Text::Box#height with leading" do
   end
 end
 
+describe "Text::Box#valid_options" do
+  it "should return an array" do
+    create_pdf
+    text_box = Prawn::Text::Box.new('', :document => @pdf)
+    text_box.valid_options.should.be.kind_of(Array)
+  end
+end
+
 describe "Text::Box#render" do
   it "should not fail if height is smaller than 1 line" do
     create_pdf

@@ -120,13 +120,17 @@ module Prawn
     #
     class Box
 
-      VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + 
-        [:at, :height, :width, :align, :valign,
-         :overflow, :min_font_size,
-         :unformatted_line_wrap, :formatted_line_wrap,
-         :leading, :document, :rotate, :rotate_around,
-         :single_line, :skip_encoding]
-
+      def valid_options
+        Prawn::Core::Text::VALID_OPTIONS + [:at, :height, :width,
+                                            :align, :valign,
+                                            :rotate, :rotate_around,
+                                            :overflow, :min_font_size,
+                                            :leading, :single_line,
+                                            :skip_encoding,
+                                            :unformatted_line_wrap,
+                                            :formatted_line_wrap,
+                                            :document]
+      end
       
       # The text that was successfully printed (or, if <tt>dry_run</tt> was
       # used, the test that would have been successfully printed)
@@ -146,7 +150,7 @@ module Prawn
       #
       def initialize(text, options={})
         @inked          = false
-        Prawn.verify_options(VALID_OPTIONS, options)
+        Prawn.verify_options(valid_options, options)
         options          = options.dup
         @overflow        = options[:overflow] || :truncate
 
