@@ -13,16 +13,58 @@ module Prawn
       
       class LineWrap #:nodoc:
 
+        # The width of the last wrapped line
+        #
         def width
           @accumulated_width || 0
         end
 
+        # The number of spaces in the last wrapped line
+        #
         def space_count
           @space_count
         end
 
+        # The number of characters consumed from the last line passed into
+        # wrap_line. This may differ from the number of characters in the
+        # returned line because trailing white spaces are removed
+        #
         def consumed_char_count
           @consumed_char_count
+        end
+
+        # The pattern used to determine chunks of text to place on a given line
+        #
+        def scan_pattern
+          new_regexp(punct_word_combos.join("|") + "|" +
+                     "[^#{punctuation}#{whitespace}]+|" +
+                     "[#{punctuation}]+|" +
+                     "[#{whitespace}]+")
+        end
+
+        # The pattern used to determine whether any word breaks exist on a
+        # current line, which in turn determines whether character level
+        # word breaking is needed
+        #
+        def word_division_scan_pattern
+          new_regexp("[#{whitespace}]|[#{punctuation}]")
+        end
+
+        # Punctuation on which to break a word
+        #
+        def punctuation
+          "-.!?,;:\"')("
+        end
+
+        # Combinations of characters and punctuation that should be treated as a
+        # unit
+        #
+        def punct_word_combos
+          ["\\S+'s", "[#{whitespace}]+[#{punctuation}]+\\S+"]
+        end
+
+        def whitespace
+          " \t"
         end
 
         def wrap_line(line, options)
@@ -31,8 +73,8 @@ module Prawn
           @width = options[:width]
           @accumulated_width = 0
           @output = ""
-          @scan_pattern = @document.font.unicode? ? /\S+|\s+/ : /\S+|\s+/n
-          @space_scan_pattern = @document.font.unicode? ? /\s/ : /\s/n
+          @scan_pattern = scan_pattern
+          @word_division_scan_pattern = word_division_scan_pattern
 
           _wrap_line(line)
 
@@ -43,6 +85,7 @@ module Prawn
         private
 
         def _wrap_line(line)
+          previous_segment = nil
           line.scan(@scan_pattern).each do |segment|
             segment_width = @document.width_of(segment, :kerning => @kerning)
 
@@ -52,14 +95,41 @@ module Prawn
             else
               # if the line contains white space, don't split the
               # final word that doesn't fit, just return what fits nicely
-              wrap_by_char(segment) unless @output =~ @space_scan_pattern
+              if @output =~ @word_division_scan_pattern
+                if is_punctuation?(segment) && !is_whitespace?(previous_segment)
+                  delete_last_word_from_output
+                end
+              elsif segment =~ @word_division_scan_pattern
+              else
+                wrap_by_char(segment)
+              end
               break
             end
+            previous_segment = segment
           end
 
           raise Errors::CannotFit if @output.empty? && !line.strip.empty?
 
           finalize_line
+        end
+
+        def is_punctuation?(segment)
+          if segment.nil? then false
+          else segment =~ new_regexp("[#{punctuation}]+")
+          end
+        end
+
+        def is_whitespace?(segment)
+          if segment.nil? then true
+          else segment =~ new_regexp("[#{whitespace}]+")
+          end
+        end
+
+        def delete_last_word_from_output
+          segments = []
+          @output.scan(@scan_pattern).each { |segment| segments << segment }
+          segments.pop
+          @output = segments.join("")
         end
 
         def finalize_line
@@ -99,8 +169,19 @@ module Prawn
             true
           end
         end
-      end
 
+        def new_regexp(pattern)
+          regexp = ruby_19 {
+            Regexp.new(pattern)
+          }
+          regexp = regexp || ruby_18 {
+            lang = @document.font.unicode? ? 'U' : 'N'
+            Regexp.new(pattern, 0, lang)
+          }
+          regexp
+        end
+
+      end
     end
   end
 end

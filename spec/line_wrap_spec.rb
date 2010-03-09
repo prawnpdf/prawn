@@ -2,92 +2,160 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-describe "Core::Text::LineWrap" do
-  it "should strip preceding and trailing spaces" do
+describe "Core::Text::LineWrap#wrap_line" do
+  before(:each) do
     create_pdf
-    line_wrap = Prawn::Core::Text::LineWrap.new
-    string = line_wrap.wrap_line("    hello world    ",
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+    @one_word_width = 50
+    @two_word_width = 60
+  end
+  it "should strip preceding and trailing spaces" do
+    string = @line_wrap.wrap_line("    hello world    ",
                                  :width => 300,
                                  :document => @pdf)
     string.should == "hello world"
   end
 
   it "should raise CannotFit if a too-small width is given" do
-    create_pdf
-    line_wrap = Prawn::Core::Text::LineWrap.new
     lambda do
-      line_wrap.wrap_line("    hello world    ",
+      @line_wrap.wrap_line("    hello world    ",
                           :width => 1,
                           :document => @pdf)
     end.should.raise(Prawn::Errors::CannotFit)
   end
+
+  it "should break on space" do
+    string = @line_wrap.wrap_line("hello world",
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should break on tab" do
+    string = @line_wrap.wrap_line("hello\tworld",
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should break on hyphenation" do
+    string = @line_wrap.wrap_line("hello-world",
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello-"
+  end
+
+  it "should break on punctuation" do
+    string = @line_wrap.wrap_line("hello,world",
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello,"
+  end
+
+  it "should not break apostrophe-s" do
+    string = @line_wrap.wrap_line("hello world'",
+                                 :width => @two_word_width,
+                                 :document => @pdf)
+    string.should == "hello world'"
+    string = @line_wrap.wrap_line("hello world's",
+                                 :width => @two_word_width,
+                                 :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should keep preceding punctuation with its adjacent word" do
+    string = @line_wrap.wrap_line("hello '",
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello '"
+    string = @line_wrap.wrap_line("hello 'world",
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should keep trailing punctuation with their preceding word" do
+    string = @line_wrap.wrap_line("hello world",
+                                 :width => @two_word_width,
+                                 :document => @pdf)
+    string.should == "hello world"
+    string = @line_wrap.wrap_line("hello world!?.'\"",
+                                 :width => @two_word_width,
+                                 :document => @pdf)
+    string.should == "hello"
+  end
 end
 
 describe "Core::Text::LineWrap#consumed_char_count" do
+  before(:each) do
+    create_pdf
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+  end
   it "should return the total number of characters incorporated into" +
      " or deleted from the last line" do
-    create_pdf
-    line_wrap = Prawn::Core::Text::LineWrap.new
-    string = line_wrap.wrap_line("    hello world    ",
+    string = @line_wrap.wrap_line("    hello world    ",
                                  :width => 300,
                                  :document => @pdf)
-    line_wrap.consumed_char_count.should == 19
+    @line_wrap.consumed_char_count.should == 19
   end
 end
 
 describe "Core::Text::LineWrap#width" do
-  it "should return the width of the last wrapped line" do
+  before(:each) do
     create_pdf
-    line_wrap = Prawn::Core::Text::LineWrap.new
-    line_wrap.wrap_line("hello world" * 10,
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+  end
+  it "should return the width of the last wrapped line" do
+    @line_wrap.wrap_line("hello world" * 10,
                         :width => 300,
                         :document => @pdf)
-    line_wrap.width.should.be > 0
-    line_wrap.width.should.be <= 300
+    @line_wrap.width.should.be > 0
+    @line_wrap.width.should.be <= 300
   end
 end
 
 describe "Core::Text::LineWrap#space_count" do
-  it "should return the number of spaces in the last wrapped line" do
+  before(:each) do
     create_pdf
-    line_wrap = Prawn::Core::Text::LineWrap.new
-    line_wrap.wrap_line("hello world, goobye",
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+  end
+  it "should return the number of spaces in the last wrapped line" do
+    @line_wrap.wrap_line("hello world, goobye",
                         :width => 300,
                         :document => @pdf)
-    line_wrap.space_count.should == 2
+    @line_wrap.space_count.should == 2
   end
   it "should exclude trailing spaces from the count" do
-    create_pdf
-    line_wrap = Prawn::Core::Text::LineWrap.new
-    line_wrap.wrap_line("hello world, goobye  ",
+    @line_wrap.wrap_line("hello world, goobye  ",
                         :width => 300,
                         :document => @pdf)
-    line_wrap.space_count.should == 2
+    @line_wrap.space_count.should == 2
   end
 end
 
-describe "Core::Text::Formatted::Wrap" do
-  it "should strip preceding and trailing spaces" do
+describe "Core::Text::Formatted::Wrap#line_wrap" do
+  before(:each) do
     create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+    @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
+    @one_word_width = 50
+    @two_word_width = 60
+  end
+  it "should strip preceding and trailing spaces" do
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
-    arranger.format_array = array
-    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-    string = line_wrap.wrap_line(:arranger => arranger,
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
                                  :width => 300,
                                  :document => @pdf)
     string.should == "hello world, goodbye"
   end
   it "should strip trailing spaces when we try but fail to push any of a" +
      " fragment onto the end of a line that currently ends with a space" do
-    create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
              { :text => "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ", :style => [:bold] }]
-    arranger.format_array = array
-    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-    string = line_wrap.wrap_line(:arranger => arranger,
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
                                  :width => 300,
                                  :document => @pdf)
     string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -95,57 +163,134 @@ describe "Core::Text::Formatted::Wrap" do
   it "should strip trailing spaces when a white-space-only fragment was" +
      " successfully pushed onto the end of a line but no other non-white" +
      " space fragment fits after it" do
-    create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
              { :text => "  ", :style => [:bold] },
              { :text => " bbbbbbbbbbbbbbbbbbbbbbbbbbbb" }]
-    arranger.format_array = array
-    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-    string = line_wrap.wrap_line(:arranger => arranger,
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
                                  :width => 300,
                                  :document => @pdf)
     string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   end
   it "should raise CannotFit if a too-small width is given" do
-    create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
-    arranger.format_array = array
-    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
+    @arranger.format_array = array
     lambda do
-      line_wrap.wrap_line(:arranger => arranger,
-                                 :width => 1,
-                                 :document => @pdf)
+      @line_wrap.wrap_line(:arranger => @arranger,
+                           :width => 1,
+                           :document => @pdf)
     end.should.raise(Prawn::Errors::CannotFit)
+  end
+
+  it "should break on space" do
+    array = [{ :text => "hello world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should break on tab" do
+    array = [{ :text => "hello\tworld" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should break on hyphenation" do
+    array = [{ :text => "hello-world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello-"
+  end
+
+  it "should break on punctuation" do
+    array = [{ :text => "hello,world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello,"
+  end
+
+  it "should not break apostrophe-s" do
+    array = [{ :text => "hello world'" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @two_word_width,
+                                  :document => @pdf)
+    string.should == "hello world'"
+
+    array = [{ :text => "hello world's" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @two_word_width,
+                                  :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should keep preceding punctuation with its adjacent word" do
+    array = [{ :text => "hello '" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello '"
+
+    array = [{ :text => "hello 'world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should keep trailing punctuation with their preceding word" do
+    array = [{ :text => "hello world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @two_word_width,
+                                  :document => @pdf)
+    string.should == "hello world"
+
+    array = [{ :text => "hello world!?.'\"" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @two_word_width,
+                                  :document => @pdf)
+    string.should == "hello"
   end
 end
 
 describe "Core::Text::Formatted::Wrap#space_count" do
-  it "should return the number of spaces in the last wrapped line" do
+  before(:each) do
     create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+    @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
+  end
+  it "should return the number of spaces in the last wrapped line" do
     array = [{ :text => "hello world, " },
              { :text => "goodbye", :style => [:bold] }]
-    arranger.format_array = array
-    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-    line_wrap.wrap_line(:arranger => arranger,
+    @arranger.format_array = array
+    @line_wrap.wrap_line(:arranger => @arranger,
                         :width => 300,
                         :document => @pdf)
-    line_wrap.space_count.should == 2
+    @line_wrap.space_count.should == 2
   end
   it "should exclude preceding and trailing spaces from the count" do
-    create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
-    arranger.format_array = array
-    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-    line_wrap.wrap_line(:arranger => arranger,
+    @arranger.format_array = array
+    @line_wrap.wrap_line(:arranger => @arranger,
                         :width => 300,
                         :document => @pdf)
-    line_wrap.space_count.should == 2
+    @line_wrap.space_count.should == 2
   end
 end
 
