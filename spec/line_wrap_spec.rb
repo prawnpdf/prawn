@@ -38,51 +38,18 @@ describe "Core::Text::LineWrap#wrap_line" do
     string.should == "hello"
   end
 
-  it "should break on hyphenation" do
+  it "should break on hyphens" do
     string = @line_wrap.wrap_line("hello-world",
                                  :width => @one_word_width,
                                  :document => @pdf)
     string.should == "hello-"
   end
 
-  it "should break on punctuation" do
-    string = @line_wrap.wrap_line("hello,world",
+  it "should not break on punctuation" do
+    string = @line_wrap.wrap_line("hello'world",
                                  :width => @one_word_width,
                                  :document => @pdf)
-    string.should == "hello,"
-  end
-
-  it "should not break apostrophe-s" do
-    string = @line_wrap.wrap_line("hello world'",
-                                 :width => @two_word_width,
-                                 :document => @pdf)
-    string.should == "hello world'"
-    string = @line_wrap.wrap_line("hello world's",
-                                 :width => @two_word_width,
-                                 :document => @pdf)
-    string.should == "hello"
-  end
-
-  it "should keep preceding punctuation with its adjacent word" do
-    string = @line_wrap.wrap_line("hello '",
-                                 :width => @one_word_width,
-                                 :document => @pdf)
-    string.should == "hello '"
-    string = @line_wrap.wrap_line("hello 'world",
-                                 :width => @one_word_width,
-                                 :document => @pdf)
-    string.should == "hello"
-  end
-
-  it "should keep trailing punctuation with their preceding word" do
-    string = @line_wrap.wrap_line("hello world",
-                                 :width => @two_word_width,
-                                 :document => @pdf)
-    string.should == "hello world"
-    string = @line_wrap.wrap_line("hello world!?.'\"",
-                                 :width => @two_word_width,
-                                 :document => @pdf)
-    string.should == "hello"
+    string.should == "hello'worl"
   end
 end
 
@@ -201,7 +168,7 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     string.should == "hello"
   end
 
-  it "should break on hyphenation" do
+  it "should break on hyphens" do
     array = [{ :text => "hello-world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -210,61 +177,13 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     string.should == "hello-"
   end
 
-  it "should break on punctuation" do
-    array = [{ :text => "hello,world" }]
+  it "should not break on punctuation" do
+    array = [{ :text => "hello'world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    string.should == "hello,"
-  end
-
-  it "should not break apostrophe-s" do
-    array = [{ :text => "hello world'" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @two_word_width,
-                                  :document => @pdf)
-    string.should == "hello world'"
-
-    array = [{ :text => "hello world's" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @two_word_width,
-                                  :document => @pdf)
-    string.should == "hello"
-  end
-
-  it "should keep preceding punctuation with its adjacent word" do
-    array = [{ :text => "hello '" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @one_word_width,
-                                  :document => @pdf)
-    string.should == "hello '"
-
-    array = [{ :text => "hello 'world" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @one_word_width,
-                                  :document => @pdf)
-    string.should == "hello"
-  end
-
-  it "should keep trailing punctuation with their preceding word" do
-    array = [{ :text => "hello world" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @two_word_width,
-                                  :document => @pdf)
-    string.should == "hello world"
-
-    array = [{ :text => "hello world!?.'\"" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @two_word_width,
-                                  :document => @pdf)
-    string.should == "hello"
+    string.should == "hello'worl"
   end
 end
 

@@ -36,10 +36,15 @@ module Prawn
         # The pattern used to determine chunks of text to place on a given line
         #
         def scan_pattern
-          new_regexp(punct_word_combos.join("|") + "|" +
-                     "[^#{punctuation}#{whitespace}]+|" +
-                     "[#{punctuation}]+|" +
-                     "[#{whitespace}]+")
+          pattern = word_blocks.empty? ? "" : word_blocks.join("|") + "|"
+          pattern += "\\S+|\\s+"
+          new_regexp(pattern)
+        end
+
+        # 
+        #
+        def word_blocks
+          ["\\S+[#{hyphens}]+"]
         end
 
         # The pattern used to determine whether any word breaks exist on a
@@ -47,24 +52,13 @@ module Prawn
         # word breaking is needed
         #
         def word_division_scan_pattern
-          new_regexp("[#{whitespace}]|[#{punctuation}]")
+          new_regexp("\\s|[#{hyphens}]")
         end
 
-        # Punctuation on which to break a word
+        # Hyphens on which to break a word
         #
-        def punctuation
-          "-.!?,;:\"')("
-        end
-
-        # Combinations of characters and punctuation that should be treated as a
-        # unit
-        #
-        def punct_word_combos
-          ["\\S+'s", "[#{whitespace}]+[#{punctuation}]+\\S+"]
-        end
-
-        def whitespace
-          " \t"
+        def hyphens
+          "-"
         end
 
         def wrap_line(line, options)
@@ -85,7 +79,6 @@ module Prawn
         private
 
         def _wrap_line(line)
-          previous_segment = nil
           line.scan(@scan_pattern).each do |segment|
             segment_width = @document.width_of(segment, :kerning => @kerning)
 
@@ -95,41 +88,14 @@ module Prawn
             else
               # if the line contains white space, don't split the
               # final word that doesn't fit, just return what fits nicely
-              if @output =~ @word_division_scan_pattern
-                if is_punctuation?(segment) && !is_whitespace?(previous_segment)
-                  delete_last_word_from_output
-                end
-              elsif segment =~ @word_division_scan_pattern
-              else
-                wrap_by_char(segment)
-              end
+              wrap_by_char(segment) unless @output =~ @word_division_scan_pattern
               break
             end
-            previous_segment = segment
           end
 
           raise Errors::CannotFit if @output.empty? && !line.strip.empty?
 
           finalize_line
-        end
-
-        def is_punctuation?(segment)
-          if segment.nil? then false
-          else segment =~ new_regexp("[#{punctuation}]+")
-          end
-        end
-
-        def is_whitespace?(segment)
-          if segment.nil? then true
-          else segment =~ new_regexp("[#{whitespace}]+")
-          end
-        end
-
-        def delete_last_word_from_output
-          segments = []
-          @output.scan(@scan_pattern).each { |segment| segments << segment }
-          segments.pop
-          @output = segments.join("")
         end
 
         def finalize_line

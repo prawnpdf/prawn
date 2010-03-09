@@ -81,7 +81,6 @@ module Prawn
           def add_fragment_to_line(fragment)
             return true if fragment == ""
             return false if fragment == "\n"
-            previous_segment = nil
             fragment.scan(@scan_pattern).each do |segment|
               @arranger.apply_font_settings do
                 segment_width = @document.width_of(segment, :kerning => @kerning)
@@ -92,18 +91,12 @@ module Prawn
                 else
                   # if the line contains white space, don't split the
                   # final word that doesn't fit, just return what fits nicely
-                  if (@line_output + @output) =~ @word_division_scan_pattern
-                    if is_punctuation?(segment) && !is_whitespace?(previous_segment)
-                      delete_last_word_from_output
-                    end
-                  elsif segment =~ @word_division_scan_pattern
-                  else
+                  unless (@line_output + @output) =~ @word_division_scan_pattern
                     wrap_by_char(segment)
                   end
                   return false
                 end
               end
-              previous_segment = segment
             end
             true
           end
