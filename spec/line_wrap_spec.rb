@@ -103,6 +103,21 @@ describe "Core::Text::LineWrap#wrap_line" do
                                  :document => @pdf)
     string.should == "helloworld"
   end
+
+  it "should not break after a hard hyphen that follows a soft hyphen and" +
+     "precedes a word" do
+    normalized_string = @pdf.font.normalize_encoding("hello­-")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello-")
+
+    normalized_string = @pdf.font.normalize_encoding("hello­-world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello­")
+  end
 end
 
 describe "Core::Text::LineWrap#consumed_char_count" do

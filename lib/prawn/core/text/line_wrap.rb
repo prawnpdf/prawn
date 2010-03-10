@@ -45,7 +45,8 @@ module Prawn
         #
         def word_blocks
           blocks = []
-          blocks << "\\S+[#{hyphen}#{soft_hyphen}]+"
+          blocks << "\\S+#{soft_hyphen}"
+          blocks << "\\S+#{hyphen}+"
           blocks
         end
 
