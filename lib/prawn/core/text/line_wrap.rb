@@ -44,7 +44,9 @@ module Prawn
         # 
         #
         def word_blocks
-          ["\\S+[#{hyphens}]+"]
+          blocks = []
+          blocks << "\\S+[#{hyphen}#{soft_hyphen}]+"
+          blocks
         end
 
         # The pattern used to determine whether any word breaks exist on a
@@ -52,13 +54,15 @@ module Prawn
         # word breaking is needed
         #
         def word_division_scan_pattern
-          new_regexp("\\s|[#{hyphens}]")
+          new_regexp("\\s|[#{hyphen}#{soft_hyphen}]")
         end
 
-        # Hyphens on which to break a word
-        #
-        def hyphens
+        def hyphen
           "-"
+        end
+
+        def soft_hyphen
+          @document.font.normalize_encoding("­")
         end
 
         def wrap_line(line, options)
@@ -100,6 +104,9 @@ module Prawn
 
         def finalize_line
           @consumed_char_count = @output.length
+
+          @output = @output[0..-2].gsub(soft_hyphen, "") + @output[-1..-1]
+
           strip_trailing_whitespace
         end
 

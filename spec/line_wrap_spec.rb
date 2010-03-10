@@ -6,8 +6,6 @@ describe "Core::Text::LineWrap#wrap_line" do
   before(:each) do
     create_pdf
     @line_wrap = Prawn::Core::Text::LineWrap.new
-    @one_word_width = 50
-    @two_word_width = 60
   end
   it "should strip preceding and trailing spaces" do
     string = @line_wrap.wrap_line("    hello world    ",
@@ -23,33 +21,87 @@ describe "Core::Text::LineWrap#wrap_line" do
                           :document => @pdf)
     end.should.raise(Prawn::Errors::CannotFit)
   end
+end
 
+describe "Core::Text::LineWrap#wrap_line" do
+  before(:each) do
+    create_pdf
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+    @one_word_width = 50
+  end
   it "should break on space" do
-    string = @line_wrap.wrap_line("hello world",
+    normalized_string = @pdf.font.normalize_encoding("hello world")
+    string = @line_wrap.wrap_line(normalized_string,
                                  :width => @one_word_width,
                                  :document => @pdf)
     string.should == "hello"
   end
 
   it "should break on tab" do
-    string = @line_wrap.wrap_line("hello\tworld",
+    normalized_string = @pdf.font.normalize_encoding("hello\tworld")
+    string = @line_wrap.wrap_line(normalized_string,
                                  :width => @one_word_width,
                                  :document => @pdf)
     string.should == "hello"
   end
 
   it "should break on hyphens" do
-    string = @line_wrap.wrap_line("hello-world",
+    normalized_string = @pdf.font.normalize_encoding("hello-world")
+    string = @line_wrap.wrap_line(normalized_string,
                                  :width => @one_word_width,
                                  :document => @pdf)
     string.should == "hello-"
   end
 
-  it "should not break on punctuation" do
-    string = @line_wrap.wrap_line("hello'world",
+  it "should not break after a hyphen that follows white space and" +
+     "precedes a word" do
+    normalized_string = @pdf.font.normalize_encoding("hello -")
+    string = @line_wrap.wrap_line(normalized_string,
                                  :width => @one_word_width,
                                  :document => @pdf)
-    string.should == "hello'worl"
+    string.should == "hello -"
+
+    normalized_string = @pdf.font.normalize_encoding("hello -world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should break on a soft hyphen" do
+    normalized_string = @pdf.font.normalize_encoding("hello­world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello­")
+
+
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+
+    normalized_string = @pdf.font.normalize_encoding("hello­world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello­")
+  end
+
+  it "should not display soft hyphens except at the end of a line" do
+    normalized_string = @pdf.font.normalize_encoding("hello­world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => 300,
+                                 :document => @pdf)
+    string.should == "helloworld"
+
+
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+
+    normalized_string = @pdf.font.normalize_encoding("hello­world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => 300,
+                                 :document => @pdf)
+    string.should == "helloworld"
   end
 end
 
@@ -106,7 +158,6 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     @one_word_width = 50
-    @two_word_width = 60
   end
   it "should strip preceding and trailing spaces" do
     array = [{ :text => " hello world, " },
@@ -175,15 +226,6 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
                                   :width => @one_word_width,
                                   :document => @pdf)
     string.should == "hello-"
-  end
-
-  it "should not break on punctuation" do
-    array = [{ :text => "hello'world" }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => @one_word_width,
-                                  :document => @pdf)
-    string.should == "hello'worl"
   end
 end
 
