@@ -117,6 +117,15 @@ describe "Core::Text::LineWrap#wrap_line" do
                                  :width => @one_word_width,
                                  :document => @pdf)
     string.should == @pdf.font.normalize_encoding("hello­")
+
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+
+    normalized_string = @pdf.font.normalize_encoding("hello­-world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => @one_word_width,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello­")
   end
 end
 

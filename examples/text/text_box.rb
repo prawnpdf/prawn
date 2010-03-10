@@ -4,10 +4,15 @@
 require 'examples/example_helper'
 
 Prawn::Document.generate("text_box.pdf") do
+  font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
   def get_string(i, j)      
     case i
     when 0
-      text = "this is left text " * 30
+      if j == 0
+        text = "this­is­left­text­" * 30
+      else
+        text = "this-is-left-text-" * 30
+      end
       text.insert(48, "\n\n")
     when 1
       text = "this is center text " * 30
@@ -18,8 +23,6 @@ Prawn::Document.generate("text_box.pdf") do
     end
     
     case j
-    when 0
-      text.split(" ").slice(0..47).join(" ")
     when 3
       text.delete(" ")
     else

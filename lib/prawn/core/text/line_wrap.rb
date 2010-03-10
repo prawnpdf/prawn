@@ -36,18 +36,13 @@ module Prawn
         # The pattern used to determine chunks of text to place on a given line
         #
         def scan_pattern
-          pattern = word_blocks.empty? ? "" : word_blocks.join("|") + "|"
-          pattern += "\\S+|\\s+"
+          pattern = "[^#{break_chars}]+#{soft_hyphen}|" +
+                    "[^#{break_chars}]+#{hyphen}+|" +
+                    "[^#{break_chars}]+|" +
+                    "[#{whitespace}]+|" +
+                    "#{hyphen}+[^#{break_chars}]*|" +
+                    "#{soft_hyphen}"
           new_regexp(pattern)
-        end
-
-        # 
-        #
-        def word_blocks
-          blocks = []
-          blocks << "\\S+#{soft_hyphen}"
-          blocks << "\\S+#{hyphen}+"
-          blocks
         end
 
         # The pattern used to determine whether any word breaks exist on a
@@ -56,14 +51,6 @@ module Prawn
         #
         def word_division_scan_pattern
           new_regexp("\\s|[#{hyphen}#{soft_hyphen}]")
-        end
-
-        def hyphen
-          "-"
-        end
-
-        def soft_hyphen
-          @document.font.normalize_encoding("­")
         end
 
         def wrap_line(line, options)
@@ -83,7 +70,24 @@ module Prawn
 
         private
 
+        def break_chars
+          "#{whitespace}#{soft_hyphen}#{hyphen}"
+        end
+
+        def whitespace
+          " \\t"
+        end
+
+        def hyphen
+          "-"
+        end
+
+        def soft_hyphen
+          @document.font.normalize_encoding("­")
+        end
+
         def _wrap_line(line)
+          previous_segment = nil
           line.scan(@scan_pattern).each do |segment|
             segment_width = @document.width_of(segment, :kerning => @kerning)
 
@@ -93,14 +97,29 @@ module Prawn
             else
               # if the line contains white space, don't split the
               # final word that doesn't fit, just return what fits nicely
-              wrap_by_char(segment) unless @output =~ @word_division_scan_pattern
+              if @output =~ @word_division_scan_pattern
+                if segment =~ new_regexp("^#{hyphen}") &&
+                   @output !~ new_regexp("[#{break_chars}]$")
+                  remove_last_output_word
+                end
+              else
+                wrap_by_char(segment)
+              end
               break
             end
+            previous_segment = segment
           end
-
           raise Errors::CannotFit if @output.empty? && !line.strip.empty?
 
           finalize_line
+        end
+
+        def remove_last_output_word
+          segments = []
+          regexp = new_regexp("[^#{break_chars}]+|[#{break_chars}]+")
+          @output.scan(regexp).each { |segment| segments << segment }
+          segments.pop
+          @output = segments.join("")
         end
 
         def finalize_line
