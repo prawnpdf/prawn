@@ -90,22 +90,27 @@ module Prawn
                   @accumulated_width += segment_width
                   @output += segment
                 else
-                  # if the line contains white space, don't split the
-                  # final word that doesn't fit, just return what fits nicely
-                  if (@line_output + @output) =~ @word_division_scan_pattern
-                    if segment =~ new_regexp("^#{hyphen}") &&
-                       @output !~ new_regexp("[#{break_chars}]$")
-                      remove_last_output_word
-                    end
-                  else
-                    wrap_by_char(segment)
-                  end
+                  end_of_the_line(segment)
                   return false
                 end
               end
               previous_segment = segment
             end
             true
+          end
+
+          # If there is more than one word on the line, then clean up the last
+          # word on the line; otherwise, wrap by character
+          #
+          def end_of_the_line(segment)
+            if (@line_output + @output) =~ @word_division_scan_pattern
+              if segment =~ new_regexp("^#{hyphen}") &&
+                  @output !~ new_regexp("[#{break_chars}]$")
+                remove_last_output_word
+              end
+            else
+              wrap_by_char(segment)
+            end
           end
 
         end

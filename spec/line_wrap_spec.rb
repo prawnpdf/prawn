@@ -104,6 +104,37 @@ describe "Core::Text::LineWrap#wrap_line" do
     string.should == "helloworld"
   end
 
+  it "should not break before a hard hyphen that follows a word" do
+    enough_width_for_hello_world = 60
+    normalized_string = @pdf.font.normalize_encoding("hello world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => enough_width_for_hello_world,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello world")
+
+    normalized_string = @pdf.font.normalize_encoding("hello world-")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => enough_width_for_hello_world,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello")
+
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @line_wrap = Prawn::Core::Text::LineWrap.new
+    enough_width_for_hello_world = 68
+
+    normalized_string = @pdf.font.normalize_encoding("hello world")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => enough_width_for_hello_world,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello world")
+
+    normalized_string = @pdf.font.normalize_encoding("hello world-")
+    string = @line_wrap.wrap_line(normalized_string,
+                                 :width => enough_width_for_hello_world,
+                                 :document => @pdf)
+    string.should == @pdf.font.normalize_encoding("hello")
+  end
+
   it "should not break after a hard hyphen that follows a soft hyphen and" +
      "precedes a word" do
     normalized_string = @pdf.font.normalize_encoding("hello­-")
