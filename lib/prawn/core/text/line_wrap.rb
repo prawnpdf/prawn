@@ -116,6 +116,15 @@ module Prawn
             end
           else
             wrap_by_char(segment)
+            # since when adding characters individually, kerning has no effect,
+            # recompute width of the output after adding characters
+            # IMPORTANT: leave this computation here, rather than moving it into
+            # append_char because append_char is more general than
+            # end_of_the_line, so while end_of_the_line is likely to be
+            # overridden, wrap_by_char may not be, and we don't want to
+            # recompute line width except where necessary (for example, see
+            # Prawn::Core::Text::Formatted::LineWrap)
+            @accumulated_width = compute_output_width
           end
         end
 
@@ -136,28 +145,28 @@ module Prawn
         end
 
         def strip_trailing_whitespace
-          @output.strip!
-          deleted_spaces = @consumed_char_count - @output.length
-          if deleted_spaces > 0
-            @accumulated_width -= @document.width_of(" " * deleted_spaces,
-                                                     :kerning => @kerning)
-          end
+          @accumulated_width = compute_output_width if @output.strip!
+        end
+
+        def compute_output_width
+          @document.width_of(@output, :kerning => @kerning)
         end
 
         def wrap_by_char(segment)
           if @document.font.unicode?
             segment.unpack("U*").each do |char_int|
-              return unless append_char([char_int].pack("U"))
+              break unless append_char([char_int].pack("U"))
             end
           else
             segment.each_char do |char|
-              return unless append_char(char)
+              break unless append_char(char)
             end
           end
         end
 
         def append_char(char)
-          char_width = @document.width_of(char, :kerning => @kerning)
+          # kerning doesn't make sense in the context of a single character
+          char_width = @document.width_of(char)
           @accumulated_width += char_width
 
           if @accumulated_width >= @width
