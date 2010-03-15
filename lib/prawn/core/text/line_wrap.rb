@@ -53,40 +53,12 @@ module Prawn
           new_regexp("\\s|[#{hyphen}#{soft_hyphen}]")
         end
 
+        # Take a single line and deterimine what part of it fits within the
+        # width defined by the :width option
+        #
         def wrap_line(line, options)
-          @document = options[:document]
-          @kerning = options[:kerning]
-          @width = options[:width]
-          @accumulated_width = 0
-          @output = ""
-          @scan_pattern = scan_pattern
-          @word_division_scan_pattern = word_division_scan_pattern
+          initialize_line(options)
 
-          _wrap_line(line)
-
-          @space_count = @output.count(" ")
-          @output
-        end
-
-        private
-
-        def break_chars
-          "#{whitespace}#{soft_hyphen}#{hyphen}"
-        end
-
-        def whitespace
-          " \\t"
-        end
-
-        def hyphen
-          "-"
-        end
-
-        def soft_hyphen
-          @document.font.normalize_encoding("­")
-        end
-
-        def _wrap_line(line)
           previous_segment = nil
           line.scan(@scan_pattern).each do |segment|
             segment_width = @document.width_of(segment, :kerning => @kerning)
@@ -103,6 +75,38 @@ module Prawn
           raise Errors::CannotFit if @output.empty? && !line.strip.empty?
 
           finalize_line
+          @space_count = @output.count(" ")
+          @output
+        end
+
+        private
+
+        def initialize_line(options)
+          @document = options[:document]
+          @kerning = options[:kerning]
+          @width = options[:width]
+
+          @scan_pattern = scan_pattern
+          @word_division_scan_pattern = word_division_scan_pattern
+
+          @accumulated_width = 0
+          @output = ""
+        end
+
+        def break_chars
+          "#{whitespace}#{soft_hyphen}#{hyphen}"
+        end
+
+        def whitespace
+          " \\t"
+        end
+
+        def hyphen
+          "-"
+        end
+
+        def soft_hyphen
+          @document.font.normalize_encoding("­")
         end
 
         # If there is more than one word on the line, then clean up the last

@@ -15,28 +15,13 @@ module Prawn
         
         class LineWrap < Prawn::Core::Text::LineWrap #:nodoc:
 
+          # Work in conjunction with the Prawn::Core::Formatted::Arranger
+          # defined in the :arranger option to determine what formatted text
+          # will fit within the width defined by the :width option
+          #
           def wrap_line(options)
-            @document = options[:document]
-            @kerning = options[:kerning]
-            @width = options[:width]
-            @arranger = options[:arranger]
-            @accumulated_width = 0
-            @scan_pattern = scan_pattern
-            @word_division_scan_pattern = word_division_scan_pattern
+            initialize_line(options)
 
-            _wrap_line
-
-            @arranger.finalize_line
-            @accumulated_width = @arranger.line_width
-            @space_count = @arranger.space_count
-            @arranger.line
-          end
-
-          private
-
-          def _wrap_line
-            @arranger.initialize_line
-            @line_output = ""
             while fragment = @arranger.next_string
               @output = ""
               preview = @arranger.preview_next_string
@@ -56,6 +41,28 @@ module Prawn
               
               fragment_finished(fragment, preview == "\n" || preview.nil?)
             end
+
+            @arranger.finalize_line
+            @accumulated_width = @arranger.line_width
+            @space_count = @arranger.space_count
+            @arranger.line
+          end
+
+          private
+
+          def initialize_line(options)
+            @document = options[:document]
+            @kerning = options[:kerning]
+            @width = options[:width]
+
+            @scan_pattern = scan_pattern
+            @word_division_scan_pattern = word_division_scan_pattern
+
+            @accumulated_width = 0
+            @line_output = ""
+
+            @arranger = options[:arranger]
+            @arranger.initialize_line
           end
 
           def fragment_finished(fragment, finished_line)
