@@ -2,10 +2,10 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-describe "Text::Wrap" do
+describe "Core::Text::LineWrap" do
   it "should strip preceding and trailing spaces" do
     create_pdf
-    line_wrap = Prawn::Text::LineWrap.new
+    line_wrap = Prawn::Core::Text::LineWrap.new
     string = line_wrap.wrap_line("    hello world    ",
                                  :width => 300,
                                  :document => @pdf)
@@ -14,7 +14,7 @@ describe "Text::Wrap" do
 
   it "should raise CannotFit if a too-small width is given" do
     create_pdf
-    line_wrap = Prawn::Text::LineWrap.new
+    line_wrap = Prawn::Core::Text::LineWrap.new
     lambda do
       line_wrap.wrap_line("    hello world    ",
                           :width => 1,
@@ -23,11 +23,11 @@ describe "Text::Wrap" do
   end
 end
 
-describe "Text::Wrap#consumed_char_count" do
+describe "Core::Text::LineWrap#consumed_char_count" do
   it "should return the total number of characters incorporated into" +
      " or deleted from the last line" do
     create_pdf
-    line_wrap = Prawn::Text::LineWrap.new
+    line_wrap = Prawn::Core::Text::LineWrap.new
     string = line_wrap.wrap_line("    hello world    ",
                                  :width => 300,
                                  :document => @pdf)
@@ -35,10 +35,10 @@ describe "Text::Wrap#consumed_char_count" do
   end
 end
 
-describe "Text::Wrap#width" do
+describe "Core::Text::LineWrap#width" do
   it "should return the width of the last wrapped line" do
     create_pdf
-    line_wrap = Prawn::Text::LineWrap.new
+    line_wrap = Prawn::Core::Text::LineWrap.new
     line_wrap.wrap_line("hello world" * 10,
                         :width => 300,
                         :document => @pdf)
@@ -47,10 +47,10 @@ describe "Text::Wrap#width" do
   end
 end
 
-describe "Text::Wrap#space_count" do
+describe "Core::Text::LineWrap#space_count" do
   it "should return the number of spaces in the last wrapped line" do
     create_pdf
-    line_wrap = Prawn::Text::LineWrap.new
+    line_wrap = Prawn::Core::Text::LineWrap.new
     line_wrap.wrap_line("hello world, goobye",
                         :width => 300,
                         :document => @pdf)
@@ -58,7 +58,7 @@ describe "Text::Wrap#space_count" do
   end
   it "should exclude trailing spaces from the count" do
     create_pdf
-    line_wrap = Prawn::Text::LineWrap.new
+    line_wrap = Prawn::Core::Text::LineWrap.new
     line_wrap.wrap_line("hello world, goobye  ",
                         :width => 300,
                         :document => @pdf)
@@ -66,14 +66,14 @@ describe "Text::Wrap#space_count" do
   end
 end
 
-describe "Text::Formatted::Wrap" do
+describe "Core::Text::Formatted::Wrap" do
   it "should strip preceding and trailing spaces" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
     arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
+    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     string = line_wrap.wrap_line(:arranger => arranger,
                                  :width => 300,
                                  :document => @pdf)
@@ -82,11 +82,11 @@ describe "Text::Formatted::Wrap" do
   it "should strip trailing spaces when we try but fail to push any of a" +
      " fragment onto the end of a line that currently ends with a space" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
              { :text => "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ", :style => [:bold] }]
     arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
+    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     string = line_wrap.wrap_line(:arranger => arranger,
                                  :width => 300,
                                  :document => @pdf)
@@ -96,12 +96,12 @@ describe "Text::Formatted::Wrap" do
      " successfully pushed onto the end of a line but no other non-white" +
      " space fragment fits after it" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
              { :text => "  ", :style => [:bold] },
              { :text => " bbbbbbbbbbbbbbbbbbbbbbbbbbbb" }]
     arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
+    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     string = line_wrap.wrap_line(:arranger => arranger,
                                  :width => 300,
                                  :document => @pdf)
@@ -109,11 +109,11 @@ describe "Text::Formatted::Wrap" do
   end
   it "should raise CannotFit if a too-small width is given" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
     arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
+    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     lambda do
       line_wrap.wrap_line(:arranger => arranger,
                                  :width => 1,
@@ -122,14 +122,14 @@ describe "Text::Formatted::Wrap" do
   end
 end
 
-describe "Text::Formatted::Wrap#space_count" do
+describe "Core::Text::Formatted::Wrap#space_count" do
   it "should return the number of spaces in the last wrapped line" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello world, " },
              { :text => "goodbye", :style => [:bold] }]
     arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
+    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     line_wrap.wrap_line(:arranger => arranger,
                         :width => 300,
                         :document => @pdf)
@@ -137,11 +137,11 @@ describe "Text::Formatted::Wrap#space_count" do
   end
   it "should exclude preceding and trailing spaces from the count" do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
     arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
+    line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     line_wrap.wrap_line(:arranger => arranger,
                         :width => 300,
                         :document => @pdf)
@@ -149,30 +149,31 @@ describe "Text::Formatted::Wrap#space_count" do
   end
 end
 
-describe "Text::Formatted::Wrap" do
-  it "should only return an empty string if nothing fit or there" +
-     "was nothing to wrap" do
+describe "Core::Text::Formatted::Wrap" do
+  before(:each) do
     create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello\nworld\n\n\nhow are you?" },
              { :text => "\n" },
              { :text => "\n" },
              { :text => "" },
-             { :text => "fine, thanks." * 4 },
+             { :text => "fine, thanks. " * 4 },
              { :text => "" },
              { :text => "\n" },
              { :text => "" }]
-    arranger.format_array = array
-    line_wrap = Prawn::Text::Formatted::LineWrap.new
-    11.times do
-      line = line_wrap.wrap_line(:arranger => arranger,
-                                 :width => 300,
+    @arranger.format_array = array
+    @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
+  end
+  it "should only return an empty string if nothing fit or there" +
+     "was nothing to wrap" do
+    8.times do
+      line = @line_wrap.wrap_line(:arranger => @arranger,
+                                 :width => 200,
                                  :document => @pdf)
       line.should.not.be.empty
-      arranger.retrieve_string
     end
-    line = line_wrap.wrap_line(:arranger => arranger,
-                               :width => 300,
+    line = @line_wrap.wrap_line(:arranger => @arranger,
+                               :width => 200,
                                :document => @pdf)
     line.should.be.empty
   end

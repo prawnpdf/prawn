@@ -51,6 +51,25 @@ module Prawn
       def compressed?
         @compressed
       end
+
+      # Creates a deep copy of this ref. If +share+ is provided, shares the
+      # given dictionary entries between the old ref and the new.
+      #
+      def deep_copy(share=[])
+        r = dup
+
+        if r.data.is_a?(Hash)
+          # Copy each entry not in +share+.
+          (r.data.keys - share).each do |k|
+            r.data[k] = Marshal.load(Marshal.dump(r.data[k]))
+          end
+        else
+          r.data = Marshal.load(Marshal.dump(r.data))
+        end
+
+        r.stream = Marshal.load(Marshal.dump(r.stream))
+        r
+      end
       
       # Replaces the data and stream with that of other_ref. Preserves compressed
       # status.

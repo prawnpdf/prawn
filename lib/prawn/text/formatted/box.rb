@@ -6,7 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/text/formatted/arranger"
 
 module Prawn
   module Text
@@ -24,25 +23,42 @@ module Prawn
       #
       # <tt>:text</tt>::
       #     the text to format according to the other hash options
-      # <tt>:style</tt>::
-      #     an array of styles to apply to this text. As of now, :italic and
-      #     :bold are supported, with the intention of also supporting
-      #     :underline and :strikethrough
+      # <tt>:styles</tt>::
+      #     an array of styles to apply to this text. Available styles include
+      #     :bold, :italic, :underline, :strikethrough, :subscript, and
+      #     :superscript
       # <tt>:size</tt>::
       #     an integer denoting the font size to apply to this text
       # <tt>:font</tt>::
-      #     as yet unsupported
+      #     the name of a font. The name must be an AFM font with the desired
+      #     faces or must be a font that is already registered using
+      #     Prawn::Document#font_families
       # <tt>:color</tt>::
-      #     as yet unsupported
+      #     anything compatible with Prawn::Graphics::Color#fill_color and
+      #     Prawn::Graphics::Color#stroke_color
       # <tt>:link</tt>::
-      #     as yet unsupported
+      #     a URL to which to create a link. A clickable link will be created
+      #     to that URL. Note that you must explicitly underline and color using
+      #     the appropriate tags if you which to draw attention to the link
+      # <tt>:anchor</tt>::
+      #     a destination that has already been or will be registered using
+      #     Prawn::Core::Destinations#add_dest. A clickable link will be
+      #     created to that destination. Note that you must explicitly underline
+      #     and color using the appropriate tags if you which to draw attention
+      #     to the link
+      # <tt>:callback</tt>::
+      #     a hash with the following options
+      #     <tt>:object</tt>:: required. the object to target
+      #     <tt>:method</tt>:: required. the method to call on the target object
+      #     <tt>:arguments</tt>:: optional. the arguments to pass to the
+      #         callback method
       #
       # == Example
       #
       #   formatted_text_box([{ :text => "hello" },
       #                       { :text => "world",
       #                         :size => 24,
-      #                         :style => [:bold, :italic] }])
+      #                         :styles => [:bold, :italic] }])
       #
       # == Options
       #
@@ -100,7 +116,7 @@ module Prawn
           super(array, options)
           @line_wrap     = options[:formatted_line_wrap] ||
                              @document.default_formatted_line_wrap
-          @arranger = Prawn::Text::Formatted::Arranger.new(@document)
+          @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document)
           if @overflow == :ellipses
             raise NotImplementedError, "ellipses overflow unavailable with" +
               "formatted box"
@@ -116,7 +132,7 @@ module Prawn
 
         # See the developer documentation for Text::Box#_render
         #
-        def _render(array) # :nodoc:
+        def _render(array) #:nodoc:
           initialize_inner_render(array)
 
           move_baseline = true
@@ -133,18 +149,17 @@ module Prawn
             move_baseline_down
 
             accumulated_width = 0
-            justification_computation if @align == :justify
-            while fragment = @arranger.retrieve_string
-              if fragment == "\n"
+            compute_word_spacing_for_this_line
+            while fragment = @arranger.retrieve_fragment
+              fragment.word_spacing = @word_spacing
+              if fragment.text == "\n"
                 printed_fragments << "\n" if @printed_lines.last == ""
                 break
               end
-              printed_fragments << fragment
-              draw_fragment(fragment, accumulated_width)
-              accumulated_width += @arranger.last_retrieved_width
-              if @align == :justify
-                accumulated_width += @word_spacing * fragment.count(" ")
-              end
+              printed_fragments << fragment.text
+              print_fragment(fragment, accumulated_width)
+              accumulated_width += fragment.width
+              fragment.finished
             end
             @printed_lines << printed_fragments.join("")
             break if @single_line
@@ -201,9 +216,9 @@ module Prawn
           @printed_lines = []
         end
 
-        def draw_fragment(fragment, accumulated_width)
-          @arranger.apply_font_settings(@arranger.retrieved_format_state) do
-            print_fragment(fragment, accumulated_width)
+        def print_fragment(fragment, accumulated_width)
+          @arranger.apply_color_and_font_settings(fragment) do
+            _print_fragment(fragment, accumulated_width)
           end
         end
 
@@ -215,7 +230,7 @@ module Prawn
           end
         end
 
-        def print_fragment(fragment, accumulated_width)
+        def _print_fragment(fragment, accumulated_width)
           case(@align)
           when :left, :justify
             x = @at[0]
@@ -229,16 +244,59 @@ module Prawn
 
           y = @at[1] + @baseline_y
 
+          y += fragment.y_offset
+
+          fragment.left = x
+          fragment.baseline = y
+
           if @inked && @align == :justify
             @document.word_spacing(@word_spacing) {
-              @document.draw_text!(fragment, :at => [x, y],
+              @document.draw_text!(fragment.text, :at => [x, y],
                                    :kerning => @kerning)
             }
           elsif @inked
-            @document.draw_text!(fragment, :at => [x, y],
+            @document.draw_text!(fragment.text, :at => [x, y],
                                  :kerning => @kerning)
           end
+          draw_fragment_overlays(fragment) if @inked
         end
+
+        def draw_fragment_overlays(fragment)
+          draw_fragment_overlay_styles(fragment)
+          draw_fragment_overlay_link(fragment)
+          draw_fragment_overlay_anchor(fragment)
+        end
+
+        def draw_fragment_overlay_link(fragment)
+          return unless fragment.link
+          box = fragment.absolute_bounding_box
+          @document.link_annotation(box,
+                                    :Border => [0, 0, 0],
+                                    :A => { :Type => :Action,
+                                            :S => :URI,
+                          :URI => Prawn::Core::LiteralString.new(fragment.link) })
+        end
+
+        def draw_fragment_overlay_anchor(fragment)
+          return unless fragment.anchor
+          box = fragment.absolute_bounding_box
+          @document.link_annotation(box,
+                                    :Border => [0, 0, 0],
+                                    :Dest => fragment.anchor)
+        end
+
+        def draw_fragment_overlay_styles(fragment)
+          underline = fragment.styles.include?(:underline)
+          if underline
+            @document.stroke_line(fragment.underline_points)
+          end
+          
+          strikethrough = fragment.styles.include?(:strikethrough)
+          if strikethrough
+            @document.stroke_line(fragment.strikethrough_points)
+          end
+        end
+
       end
 
     end

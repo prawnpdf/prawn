@@ -6,7 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/text/line_wrap"
 
 module Prawn
   module Text
@@ -121,13 +120,17 @@ module Prawn
     #
     class Box
 
-      VALID_OPTIONS = Prawn::Core::Text::VALID_OPTIONS + 
-        [:at, :height, :width, :align, :valign,
-         :overflow, :min_font_size,
-         :unformatted_line_wrap, :formatted_line_wrap,
-         :leading, :document, :rotate, :rotate_around,
-         :single_line, :skip_encoding]
-
+      def valid_options
+        Prawn::Core::Text::VALID_OPTIONS + [:at, :height, :width,
+                                            :align, :valign,
+                                            :rotate, :rotate_around,
+                                            :overflow, :min_font_size,
+                                            :leading, :single_line,
+                                            :skip_encoding,
+                                            :unformatted_line_wrap,
+                                            :formatted_line_wrap,
+                                            :document]
+      end
       
       # The text that was successfully printed (or, if <tt>dry_run</tt> was
       # used, the test that would have been successfully printed)
@@ -147,7 +150,7 @@ module Prawn
       #
       def initialize(text, options={})
         @inked          = false
-        Prawn.verify_options(VALID_OPTIONS, options)
+        Prawn.verify_options(valid_options, options)
         options          = options.dup
         @overflow        = options[:overflow] || :truncate
 
@@ -244,7 +247,7 @@ module Prawn
       # certain conditions established by render. Do not call _render from
       # outside of Text::Box or its descendants.
       #
-      def _render(text) # :nodoc:
+      def _render(text) #:nodoc:
         @text = nil
         remaining_text = text
         @line_height = @document.font.height
@@ -347,8 +350,8 @@ module Prawn
         unprinted_text
       end
 
-      def justification_computation
-        if @line_wrap.width.to_f / @width.to_f < 0.75
+      def compute_word_spacing_for_this_line
+        if @align != :justify || @line_wrap.width.to_f / @width.to_f < 0.75
           @word_spacing = 0
         else
           @word_spacing = (@width - @line_wrap.width) / @line_wrap.space_count
@@ -370,7 +373,7 @@ module Prawn
         y = @at[1] + @baseline_y
         
         if @inked && @align == :justify
-          justification_computation
+          compute_word_spacing_for_this_line
           @document.word_spacing(@word_spacing) {
             @document.draw_text!(line_to_print, :at => [x, y],
                                                 :kerning => @kerning)
