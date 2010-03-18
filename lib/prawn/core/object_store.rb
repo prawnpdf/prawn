@@ -149,7 +149,7 @@ module Prawn
         when PDF::Reader::Reference then
           unless @loaded_objects.has_key?(object.id)
             @loaded_objects[object.id] = ref(nil)
-            new_obj = load_object_graph(hash, hash[object.id])
+            new_obj = load_object_graph(hash, hash[object])
           if new_obj.kind_of?(PDF::Reader::Stream)
             stream_dict = load_object_graph(hash, new_obj.hash)
             @loaded_objects[object.id].data = stream_dict
