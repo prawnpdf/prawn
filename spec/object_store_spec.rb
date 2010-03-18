@@ -34,6 +34,12 @@ describe "Prawn::ObjectStore" do
     store.pages.data[:Count].should == 1
   end
 
+  it "should import all objects from a PDF that has an indirect reference in a stream dict" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/indirect_reference.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.size.should == 8
+  end
+
   it "should add to its objects when ref() is called" do
     count = @store.size
     @store.ref("blah")
