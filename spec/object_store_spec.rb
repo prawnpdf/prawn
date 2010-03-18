@@ -15,6 +15,12 @@ describe "Prawn::ObjectStore" do
     store.root.data[:Pages].should == store.pages
   end
 
+  it "should import objects from an existing PDF" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.size.should == 5
+  end
+
   it "should add to its objects when ref() is called" do
     count = @store.size
     @store.ref("blah")

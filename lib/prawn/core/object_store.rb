@@ -140,24 +140,20 @@ module Prawn
 
       def load_object_graph(hash, object)
         @loaded_objects ||= {}
-        @stream_data ||= {}
         case object
         when Hash then
           object.each { |key,value| object[key] = load_object_graph(hash, value) }
           object
         when Array then
           object.map { |item| load_object_graph(hash, item)}
-        when PDF::Reader::Stream then
-          stream_dict = load_object_graph(hash, object.hash)
-          new_obj = ref(stream_dict)
-          new_obj << object.data
-          new_obj
         when PDF::Reader::Reference then
           unless @loaded_objects.has_key?(object.id)
             @loaded_objects[object.id] = ref(nil)
             new_obj = load_object_graph(hash, hash[object.id])
-            if new_obj.kind_of?(Prawn::Core::Reference)
-              @loaded_objects[object.id] = new_obj
+          if new_obj.kind_of?(PDF::Reader::Stream)
+            stream_dict = load_object_graph(hash, new_obj.hash)
+            @loaded_objects[object.id].data = stream_dict
+            @loaded_objects[object.id] << new_obj.data
             else
               @loaded_objects[object.id].data = new_obj
             end
