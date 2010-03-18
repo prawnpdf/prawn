@@ -4,7 +4,11 @@ module Prawn
       def initialize(options)
         normalize_metadata(options)
 
-        @store   = Prawn::Core::ObjectStore.new(options[:info])
+        if options[:template]
+          @store = Prawn::Core::ObjectStore.new(:template => options[:template])
+        else
+          @store = Prawn::Core::ObjectStore.new(:info => options[:info])
+        end
 
         @version                 = 1.3
         @pages                   = []
