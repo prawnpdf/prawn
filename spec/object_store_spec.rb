@@ -8,7 +8,7 @@ describe "Prawn::ObjectStore" do
   end
 
   it "should create required roots by default, including info passed to new" do
-    store = Prawn::Core::ObjectStore.new(:Test => 3)
+    store = Prawn::Core::ObjectStore.new(:info => {:Test => 3})
     store.size.should == 3 # 3 default roots
     store.info.data[:Test].should == 3
     store.pages.data[:Count].should == 0
