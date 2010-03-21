@@ -187,6 +187,16 @@ describe "#text" do
     text.strings.first.should == str
   end
 
+  it "should correctly render a utf-8 string when using a TTF font" do
+    str = "©" # copyright symbol
+    @pdf.font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+    @pdf.text str
+
+    # grab the text from the rendered PDF and ensure it matches
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.first.should == str
+  end
+
   it "should correctly render a string with higher bit characters across" +
      " a page break when using a built-in font" do
     str = "©"
