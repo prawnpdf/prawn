@@ -404,4 +404,32 @@ describe "PDF file versions" do
   end
 end
 
+describe "Documents that use go_to_page" do
+ it "should have 2 pages after calling start_new_page and go_to_page" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.start_new_page
+    @pdf.text "Anthony"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
 
+    page_counter = PDF::Inspector::Page.analyze(@pdf.render)
+    page_counter.pages.size.should == 2
+  end
+
+  it "should correctly add text to pages" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.start_new_page
+    @pdf.text "Anthony"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    text.strings.size.should == 3
+    text.strings.include?("James").should == true
+    text.strings.include?("Anthony").should == true
+    text.strings.include?("Healy").should == true
+  end
+end
