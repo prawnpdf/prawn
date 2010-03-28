@@ -157,6 +157,11 @@ module Prawn
         src_root = hash.trailer[:Root]
         @min_version = hash.version.to_f
 
+        if hash.trailer[:Encrypt]
+          msg = "Template file is an encrypted PDF, it can't be used as a template"
+          raise Prawn::Errors::TemplateError, msg
+        end
+
         if src_info
           @info = load_object_graph(hash, src_info).identifier
         end

@@ -52,6 +52,12 @@ describe "Prawn::ObjectStore" do
     lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
   end
 
+  it "should raise Prawn::Errors::TemplateError when given an encrypted PDF as a template" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/encrypted.pdf"
+
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
+  end
+
   it "should add to its objects when ref() is called" do
     count = @store.size
     @store.ref("blah")
