@@ -71,7 +71,7 @@ module Prawn
 
       def resources
         if dictionary.data[:Resources]
-          document.unref(dictionary.data[:Resources])
+          document.deref(dictionary.data[:Resources])
         else
           dictionary.data[:Resources] = {}
         end
@@ -79,7 +79,7 @@ module Prawn
 
       def fonts
         if resources[:Font]
-          document.unref(resources[:Font])
+          document.deref(resources[:Font])
         else
           resources[:Font] = {}
         end
@@ -87,7 +87,7 @@ module Prawn
 
       def xobjects
         if resources[:XObject]
-          document.unref(resources[:XObject])
+          document.deref(resources[:XObject])
         else
           resources[:XObject] = {}
         end
@@ -95,7 +95,7 @@ module Prawn
 
       def ext_gstates
         if resources[:ExtGState]
-          document.unref(resources[:ExtGState])
+          document.deref(resources[:ExtGState])
         else
           resources[:ExtGState] = {}
         end

@@ -39,12 +39,12 @@ module Prawn
 
       # At any stage in the object tree an object can be replaced with an
       # indirect reference. To get access to the object safely, regardless
-      # of if it's hidden behind a Prawn::Reference, wrap it in unref().
+      # of if it's hidden behind a Prawn::Reference, wrap it in deref().
       #
-      def unref(obj)
+      def deref(obj)
         obj.is_a?(Prawn::Core::Reference) ? obj.data : obj
       end
-      
+
       # Appends a raw string to the current page content.
       #                               
       #  # Raw line drawing example:           
