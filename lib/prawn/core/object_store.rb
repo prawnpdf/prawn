@@ -12,8 +12,9 @@ require 'pdf/reader'
 module Prawn
   module Core
     class ObjectStore #:nodoc:
-
       include Enumerable
+
+      attr_reader :min_version
 
       BASE_OBJECTS = %w[info pages root]
 
@@ -154,6 +155,7 @@ module Prawn
         hash = PDF::Hash.new(filename)
         src_info = hash.trailer[:Info]
         src_root = hash.trailer[:Root]
+        @min_version = hash.version.to_f
 
         if src_info
           @info = load_object_graph(hash, src_info).identifier

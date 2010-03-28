@@ -181,6 +181,7 @@ module Prawn
        self.class.extensions.reverse_each { |e| extend e }
        @internal_state = Prawn::Core::DocumentState.new(options)
        @internal_state.populate_pages_from_store(self)
+       min_version(state.store.min_version) if state.store.min_version
 
        @background = options[:background]
        @font_size  = 12
