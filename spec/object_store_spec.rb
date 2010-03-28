@@ -120,13 +120,13 @@ describe "Prawn::ObjectStorie#object_id_for_page" do
   it "should return the object ID of the first imported template page" do
     filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
-    store.object_id_for_page(:first).should == 4
+    store.object_id_for_page(1).should == 4
   end
 
   it "should return the object ID of the last imported template page" do
     filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
-    store.object_id_for_page(:last).should == 6
+    store.object_id_for_page(-1).should == 6
   end
 
   it "should return nil if given an invalid page number" do
