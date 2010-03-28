@@ -44,6 +44,18 @@ describe "Document built from a template" do
     pages.size.should == 1
   end
 
+  it "should have two content streams if importing a single page template" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename)
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 2
+  end
+
   it "should allow text to be added to a single page template" do
     filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
 

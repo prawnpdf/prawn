@@ -433,3 +433,29 @@ describe "Documents that use go_to_page" do
     text.strings.include?("Healy").should == true
   end
 end
+
+describe "content stream characteristics" do
+ it "should have 1 single content stream for a single page PDF with no templates" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 1
+  end
+
+ it "should have 1 single content stream for a single page PDF with no templates, even if go_to_page is used" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 1
+  end
+end

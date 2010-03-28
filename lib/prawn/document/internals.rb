@@ -89,6 +89,17 @@ module Prawn
       
       private      
 
+      # adds a new, empty content stream to each page. Used in templating so
+      # that imported content streams can be left pristine
+      #
+      def fresh_content_streams
+        (1..page_count).each do |i|
+          go_to_page i
+          state.page.new_content_stream
+          use_graphic_settings
+        end
+      end
+
       def finalize_all_page_contents
         (1..page_count).each do |i|
           go_to_page i

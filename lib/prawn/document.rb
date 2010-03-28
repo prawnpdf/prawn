@@ -198,7 +198,10 @@ module Prawn
        options[:size] = options.delete(:page_size)
        options[:layout] = options.delete(:page_layout)
 
-       if !options[:template]
+       if options[:template]
+         fresh_content_streams
+         go_to_page(1)
+       else
          if options[:skip_page_creation] || options[:template]
            start_new_page(options.merge(:orphan => true))
          else
@@ -207,7 +210,6 @@ module Prawn
        end
 
        @bounding_box = @margin_box
-       go_to_page(1) if options[:template]
        
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
@@ -291,8 +293,7 @@ module Prawn
     end
     
     # Re-opens the page with the given (1-based) page number so that you can
-    # draw on it. Does not restore page state such as margins, page orientation,
-    # or paper size, so you'll have to handle that yourself.
+    # draw on it. 
     #
     # See Prawn::Document#number_pages for a sample usage of this capability.
     #
@@ -314,7 +315,6 @@ module Prawn
     def cursor
       y - bounds.absolute_bottom
     end
-
 
     # Moves to the specified y position in relative terms to the bottom margin.
     # 
