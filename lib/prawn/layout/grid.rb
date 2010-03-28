@@ -35,8 +35,7 @@ module Prawn
     # the column width and row height of the base box.
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
-      # :nodoc
-      def initialize(pdf, options = {})
+      def initialize(pdf, options = {}) # :nodoc:
         valid_options = [:columns, :rows, :gutter, :row_gutter, :column_gutter]
         Prawn.verify_options valid_options, options
       
@@ -87,7 +86,7 @@ module Prawn
     # A Grid object has methods that allow easy access to the coordinates of 
     # its corners, which can be plugged into most existing prawnmethods.
     #
-    class Box
+    class Box #:nodoc:
       attr_reader :pdf
     
       def initialize(pdf, i, j)
@@ -188,7 +187,7 @@ module Prawn
     end
   
     # A MultiBox is specified by 2 Boxes and spans the areas between.
-    class MultiBox < Box
+    class MultiBox < Box #:nodoc:
       def initialize(pdf, b1, b2)
         @pdf = pdf
         @bs = [b1, b2]

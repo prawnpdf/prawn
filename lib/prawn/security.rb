@@ -194,7 +194,7 @@ module Prawn
 
   end
 
-  module Core
+  module Core #:nodoc:
     module_function
 
     # Like PdfObject, but returns an encrypted result if required.

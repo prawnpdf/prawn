@@ -1,3 +1,12 @@
+# Welcome to Prawn, the best PDF Generation library ever.
+# This documentation covers user level functionality.
+#
+# Those looking to contribute code or write extensions should look
+# into the lib/prawn/core/* source tree.
+#
+module Prawn #:nodoc:
+end
+
 require "prawn/core"
 require "prawn/text"
 require "prawn/graphics"
