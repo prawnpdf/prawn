@@ -180,6 +180,7 @@ module Prawn
 
        self.class.extensions.reverse_each { |e| extend e }
        @internal_state = Prawn::Core::DocumentState.new(options)
+       @internal_state.populate_pages_from_store(self)
 
        @background = options[:background]
        @font_size  = 12
@@ -196,13 +197,14 @@ module Prawn
        options[:size] = options.delete(:page_size)
        options[:layout] = options.delete(:page_layout)
 
-       if options[:skip_page_creation]
+       if options[:skip_page_creation] || options[:template]
          start_new_page(options.merge(:orphan => true))
        else
          start_new_page(options)
        end
        
        @bounding_box = @margin_box
+       go_to_page(1) if options[:template]
        
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
@@ -294,6 +296,7 @@ module Prawn
     #
     def go_to_page(k)
       @page_number = k
+      @y = @bounding_box.absolute_top
       state.page = state.pages[k-1]
     end
 

@@ -298,7 +298,6 @@ describe "The group() feature" do
         text "World"
       end
     end
-    
     pages = PDF::Inspector::Page.analyze(pdf.render).pages
     pages.size.should == 2
     pages[0][:strings].should == []

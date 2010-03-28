@@ -98,3 +98,33 @@ describe "Prawn::ObjectStore#compact" do
   end
 end
 
+describe "Prawn::ObjectStorie#object_id_for_page" do
+  it "should return the object ID of an imported template page" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(0).should == 4
+  end
+
+  it "should return the object ID of the first imported template page" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(:first).should == 4
+  end
+
+  it "should return the object ID of the last imported template page" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(:last).should == 6
+  end
+
+  it "should return nil if given an invalid page number" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(10).should == nil
+  end
+
+  it "should return nil if given an invalid page number" do
+    store = Prawn::Core::ObjectStore.new
+    store.object_id_for_page(10).should == nil
+  end
+end

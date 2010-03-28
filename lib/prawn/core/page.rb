@@ -9,30 +9,38 @@
 module Prawn
   module Core
     class Page #:nodoc:
+      attr_accessor :document, :content, :dictionary, :margins
+
       def initialize(document, options={})
         @document = document
-        @size     = options[:size]    ||  "LETTER" 
-
-        @layout   = options[:layout]  || :portrait 
-
         @margins  = options[:margins] || { :left    => 36,
                                            :right   => 36,
                                            :top     => 36,
                                            :bottom  => 36  }
 
-        @content    = document.ref(:Length      => 0)
-        @dictionary = document.ref(:Type        => :Page,
-                                   :Parent      => document.state.store.pages,
-                                   :MediaBox    => dimensions,
-                                   :Contents    => content)
-
-        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
-
-        @stamp_stream      = nil
-        @stamp_dictionary  = nil
+        if options[:object_id]
+          init_from_object(options)
+        else
+          init_new_page(options)
+        end
       end
 
-      attr_accessor :size, :layout, :margins, :document, :content, :dictionary
+      def layout
+        mb = dictionary.data[:MediaBox]
+        if mb[3] > mb[2]
+          :portrait
+        else
+          :landscape
+        end
+      end
+
+      def size
+        dimensions[2,2]
+      end
+
+      def dimensions
+        dictionary.data[:MediaBox]
+      end
 
       def in_stamp_stream?
         !!@stamp_stream
@@ -51,19 +59,6 @@ module Prawn
 
         @stamp_stream      = nil
         @stamp_dictionary  = nil
-      end
-
-      def dimensions
-        coords = Prawn::Document::PageGeometry::SIZES[size] || size
-        [0,0] + case(layout)
-        when :portrait
-          coords
-        when :landscape
-          coords.reverse
-        else
-          raise Prawn::Errors::InvalidPageLayout,
-            "Layout must be either :portrait or :landscape"
-        end
       end
 
       def content
@@ -93,6 +88,51 @@ module Prawn
       def finalize
         content.compress_stream if document.compression_enabled?
         content.data[:Length] = content.stream.size
+      end
+
+      private
+
+      def init_from_object(options)
+        @dictionary = options[:object_id].to_i
+        @content    = dictionary.data[:Contents].identifier
+
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
+      end
+
+      def init_new_page(options)
+        dimen = new_dimensions(options[:size], options[:layout])
+        if dimen[3] > dimen[2]
+          layout = :landscape
+        else
+          layout = :portrait
+        end
+
+        @content    = document.ref(:Length      => 0)
+        @dictionary = document.ref(:Type        => :Page,
+                                   :Parent      => document.state.store.pages,
+                                   :MediaBox    => dimen,
+                                   :Contents    => content)
+
+        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
+
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
+      end
+
+      def new_dimensions(size, layout)
+        size   ||=  "LETTER"
+        layout ||= :portrait
+        coords = Prawn::Document::PageGeometry::SIZES[size] || size
+        [0,0] + case(layout)
+        when :portrait
+          coords
+        when :landscape
+          coords.reverse
+        else
+          raise Prawn::Errors::InvalidPageLayout,
+            "Layout must be either :portrait or :landscape"
+        end
       end
 
     end

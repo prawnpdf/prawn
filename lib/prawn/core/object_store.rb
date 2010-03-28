@@ -47,6 +47,10 @@ module Prawn
         root.data[:Pages]
       end
 
+      def page_count
+        pages.data[:Count]
+      end
+
       # Adds the given reference to the store and returns the reference object.
       # If the object provided is not a Prawn::Core::Reference, one is created from the
       # arguments provided.
@@ -107,6 +111,20 @@ module Prawn
           @objects = new_objects
           @identifiers = new_identifiers
         end
+      end
+
+      # return the object ID that defines the Nth page, where N is a page
+      # number and the first page is 1 (not 0)
+      #
+      def object_id_for_page(k)
+        if k == :last
+          page_obj = pages.data[:Kids].last
+        elsif k == :first
+          page_obj = pages.data[:Kids].first
+        else
+          page_obj = pages.data[:Kids][k-1]
+        end
+        page_obj ? page_obj.identifier : nil
       end
 
       private

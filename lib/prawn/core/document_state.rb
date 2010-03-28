@@ -27,6 +27,17 @@ module Prawn
         :encrypt, :encryption_key, :optimize_objects, :skip_encoding,
         :before_render_callbacks, :on_page_create_callback
 
+      def populate_pages_from_store(document)
+        return 0 if @store.page_count <= 0 || @pages.size > 0
+
+        count = (1..@store.page_count)
+        @pages = count.map do |index|
+          orig_dict_id = @store.object_id_for_page(index)
+          Prawn::Core::Page.new(document, :object_id => orig_dict_id)
+        end
+
+      end
+
       def normalize_metadata(options)
         options[:info] ||= {}
         options[:info][:Creator] ||= "Prawn"
