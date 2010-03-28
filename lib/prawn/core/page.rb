@@ -70,19 +70,35 @@ module Prawn
       end
 
       def resources
-        dictionary.data[:Resources] ||= {}
+        if dictionary.data[:Resources]
+          document.unref(dictionary.data[:Resources])
+        else
+          dictionary.data[:Resources] = {}
+        end
       end
 
       def fonts
-        resources[:Font] ||= {}
+        if resources[:Font]
+          document.unref(resources[:Font])
+        else
+          resources[:Font] = {}
+        end
       end
 
       def xobjects
-        resources[:XObject] ||= {}
+        if resources[:XObject]
+          document.unref(resources[:XObject])
+        else
+          resources[:XObject] = {}
+        end
       end
 
       def ext_gstates
-        resources[:ExtGState] ||= {}
+        if resources[:ExtGState]
+          document.unref(resources[:ExtGState])
+        else
+          resources[:ExtGState] = {}
+        end
       end
 
       def finalize

@@ -37,6 +37,14 @@ module Prawn
         state.store.ref(data)
       end
 
+      # At any stage in the object tree an object can be replaced with an
+      # indirect reference. To get access to the object safely, regardless
+      # of if it's hidden behind a Prawn::Reference, wrap it in unref().
+      #
+      def unref(obj)
+        obj.is_a?(Prawn::Core::Reference) ? obj.data : obj
+      end
+      
       # Appends a raw string to the current page content.
       #                               
       #  # Raw line drawing example:           
@@ -48,7 +56,7 @@ module Prawn
       def add_content(str)
         state.page.content << str << "\n"
       end  
-      
+
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
       # lazily initialized, so that documents that do not need a name
       # dictionary do not incur the additional overhead.

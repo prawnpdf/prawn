@@ -55,4 +55,16 @@ describe "Document built from a template" do
     text.strings.first.should == "Adding some text"
   end
 
+  it "should allow PDFs with page resources behind an indirect object to be used as templates" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/resources_as_indirect_object.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename)
+
+    @pdf.text "Adding some text"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    all_text = text.strings.join("")
+    all_text.include?("Adding some text").should == true
+  end
+
 end
