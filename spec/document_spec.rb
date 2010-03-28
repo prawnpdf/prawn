@@ -217,7 +217,7 @@ describe "When reopening pages" do
       pdf.text "Page 1"
       pdf.start_new_page
       pdf.text "Page 2"
-      pdf.go_to_page 0
+      pdf.go_to_page 1
       pdf.text "More for page 1"
     end
     
