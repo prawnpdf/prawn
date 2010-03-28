@@ -41,7 +41,7 @@ module Prawn
       # Pops the last saved graphics state off the graphics state stack and
       # restores the state to those values
       def restore_graphics_state
-        add_content "Q"
+        add_content "Q" unless state.page.content.stream.strip[-1,1] == "Q"
       end
 
     end
