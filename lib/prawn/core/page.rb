@@ -22,7 +22,7 @@ module Prawn
 
         @content    = document.ref(:Length      => 0)
         @dictionary = document.ref(:Type        => :Page,
-                                   :Parent      => document.store.pages,
+                                   :Parent      => document.state.store.pages,
                                    :MediaBox    => dimensions,
                                    :Contents    => content)
 
@@ -67,11 +67,11 @@ module Prawn
       end
 
       def content
-        @stamp_stream || document.store[@content]
+        @stamp_stream || document.state.store[@content]
       end
 
       def dictionary
-        @stamp_dictionary || document.store[@dictionary]
+        @stamp_dictionary || document.state.store[@dictionary]
       end
 
       def resources
@@ -88,6 +88,11 @@ module Prawn
 
       def ext_gstates
         resources[:ExtGState] ||= {}
+      end
+
+      def finalize
+        content.compress_stream if document.compression_enabled?
+        content.data[:Length] = content.stream.size
       end
 
     end

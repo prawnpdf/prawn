@@ -105,7 +105,7 @@ module Prawn
       # add a reference to the image object to the current page
       # resource list and give it a label
       label = "I#{next_image_id}"
-      page.xobjects.merge!( label => image_obj )
+      state.page.xobjects.merge!( label => image_obj )
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"

@@ -46,10 +46,13 @@ module Prawn
       # reconstruct it after it was amended.
       #
       def take_snapshot
-        {:page_content    => Marshal.load(Marshal.dump(page.content)),
-         :current_page    => Marshal.load(Marshal.dump(page.dictionary)),
-         :page_number     => @page_number,
-         :page_kids       => @store.pages.data[:Kids].map{|kid| kid.identifier},
+        # current_page holds a ref to the Pages dictionary which grows
+        # monotonically as data is added to the document, so we share that
+        # between the old and new copies.
+        {:page_content    => state.page.content.deep_copy,
+         :current_page    => state.page.dictionary.deep_copy(share=[:Parent]),
+         :page_number     => page_number,
+         :page_kids       => state.store.pages.data[:Kids].map{|kid| kid.identifier},
          :dests           => names? && 
                              Marshal.load(Marshal.dump(names.data[:Dests]))}
       end
@@ -57,6 +60,7 @@ module Prawn
       # Rolls the page state back to the state of the given snapshot.
       #
       def restore_snapshot(shot)
+        page = state.page
         # Because these objects are referenced by identifier from the Pages
         # dictionary, we can't just restore them over the current refs in
         # page_content and current_page. We have to restore them over the old
@@ -68,12 +72,10 @@ module Prawn
         page.dictionary.replace shot[:current_page]
         page.dictionary.data[:Contents] = page.content
 
-        @page_number = shot[:page_number]
+        self.page_number = shot[:page_number]
 
-        @page_number = shot[:page_number]
-
-        @store.pages.data[:Kids] = shot[:page_kids].map{|id| @store[id]}
-        @store.pages.data[:Count] = shot[:page_kids].size
+        state.store.pages.data[:Kids] = shot[:page_kids].map{|id| state.store[id]}
+        state.store.pages.data[:Count] = shot[:page_kids].size
 
         if shot[:dests]
           names.data[:Dests] = shot[:dests] 

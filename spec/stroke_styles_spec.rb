@@ -48,6 +48,14 @@ describe "Cap styles" do
       cap_style.should == 2
     end
   end
+
+  it "should carry the current cap style settings over to new pages" do
+    @pdf.cap_style(:round)
+    @pdf.start_new_page
+    cap_styles = PDF::Inspector::Graphics::CapStyle.analyze(@pdf.render)
+    cap_styles.cap_style_count.should == 2
+    cap_styles.cap_style.should == 1
+  end
 end
 
 describe "Join styles" do
@@ -80,6 +88,14 @@ describe "Join styles" do
       join_style = PDF::Inspector::Graphics::JoinStyle.analyze(@pdf.render).join_style
       join_style.should == 2
     end
+  end
+
+  it "should carry the current join style settings over to new pages" do
+    @pdf.join_style(:round)
+    @pdf.start_new_page
+    join_styles = PDF::Inspector::Graphics::JoinStyle.analyze(@pdf.render)
+    join_styles.join_style_count.should == 2
+    join_styles.join_style.should == 1
   end
 end
 
@@ -135,18 +151,13 @@ describe "Dashes" do
       dashes.stroke_dash.should == [[], 0]
     end
   end
-
-  it "should reset the stroke dash on each new page if it has been defined" do
-    @pdf.start_new_page
+ 
+  it "should carry the current dash settings over to new pages" do
     @pdf.dash(2)
-    dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
-    dashes.stroke_dash_count.should == 1
-
     @pdf.start_new_page
     dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
     dashes.stroke_dash_count.should == 2
-    dashes.stroke_dash.should == [[], 0]
-    @pdf.dash.should == { :dash => nil, :space => nil, :phase => 0 }
+    dashes.stroke_dash.should == [[2, 2], 0]
   end
 
 end

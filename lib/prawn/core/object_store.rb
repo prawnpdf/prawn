@@ -35,15 +35,16 @@ module Prawn
       end
 
       # Adds the given reference to the store and returns the reference object.
-      # If the object provided is not a Prawn::Reference, one is created from the
+      # If the object provided is not a Prawn::Core::Reference, one is created from the
       # arguments provided.
       #
       def push(*args, &block)
-        reference = if args.first.is_a?(Prawn::Reference)
-                args.first
-              else
-                Prawn::Reference.new(*args, &block)
-              end
+        reference = if args.first.is_a?(Prawn::Core::Reference)
+          args.first
+        else
+          Prawn::Core::Reference.new(*args, &block)
+        end
+
         @objects[reference.identifier] = reference
         @identifiers << reference.identifier
         reference
