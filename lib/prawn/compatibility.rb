@@ -11,7 +11,7 @@ class String  #:nodoc:
     alias_method :lines, :to_a
   end
   unless "".respond_to?(:each_char)
-    def each_char
+    def each_char #:nodoc:
       # copied from jcode
       if block_given?
         scan(/./m) { |x| yield x }
@@ -22,8 +22,8 @@ class String  #:nodoc:
   end
 end
 
-unless File.respond_to?(:binread)
-  def File.binread(file) 
+unless File.respond_to?(:binread) 
+  def File.binread(file) #:nodoc:
     File.open(file,"rb") { |f| f.read } 
   end
 end

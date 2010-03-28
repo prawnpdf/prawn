@@ -9,7 +9,7 @@
 # Top level Module
 #
 module Prawn 
-  module Core
+  module Core #:nodoc:
                                              
     module_function
       

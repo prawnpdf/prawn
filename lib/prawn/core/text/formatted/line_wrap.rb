@@ -11,7 +11,7 @@
 module Prawn
   module Core
     module Text
-      module Formatted
+      module Formatted #:nodoc:
         
         class LineWrap < Prawn::Core::Text::LineWrap #:nodoc:
 

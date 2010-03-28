@@ -1,6 +1,6 @@
 module Prawn
   module Core
-    class DocumentState
+    class DocumentState #:nodoc:
       def initialize(options)
         normalize_metadata(options)
 

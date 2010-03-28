@@ -110,23 +110,9 @@ password.
 
 == Resources
 
-=== Website:
-
-http://prawn.majesticseacreature.com
-
 === Examples:
 
 http://github.com/sandal/prawn/tree/stable/examples
-
-For tables and grid based layout:
-
-http://github.com/sandal/prawn-layout/tree/stable/examples
-
-For encryption, password protection, and permissions:
-
-http://github.com/madriska/prawn-security/tree/stable/examples
-
-(or gem unpack prawn-core, prawn-security and prawn-layout if you want to run them locally)
 
 === Bug Tracker:
 

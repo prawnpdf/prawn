@@ -10,7 +10,7 @@
 module Prawn
   module Core
     module Text
-      module Formatted
+      module Formatted #:nodoc:
 
         class Arranger #:nodoc:
           attr_reader :max_line_height
