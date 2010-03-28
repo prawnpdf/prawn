@@ -21,13 +21,12 @@ module Prawn
         @objects = {}
         @identifiers = []
         
-        # Create required PDF roots
-        if opts[:template]
-          load_file(opts[:template])
-        else
-          @info     = ref(opts[:info] || {}).identifier
-          pages    = ref(:Type => :Pages, :Count => 0, :Kids => [])
-          @root     = ref(:Type => :Catalog, :Pages => pages).identifier
+        load_file(opts[:template]) if opts[:template]
+
+        @info  ||= ref(opts[:info] || {}).identifier
+        @root  ||= ref(:Type => :Catalog).identifier
+        if pages.nil?
+          root.data[:Pages] = ref(:Type => :Pages, :Count => 0, :Kids => [])
         end
       end
    
@@ -124,6 +123,8 @@ module Prawn
 
       private
 
+      # takes a source PDF and uses it as a template for this document.
+      #
       def load_file(filename)
         unless File.file?(filename)
           raise ArgumentError, "#{filename} does not exist"
@@ -139,15 +140,10 @@ module Prawn
 
         if src_info
           @info = load_object_graph(hash, src_info).identifier
-        else
-          @info = ref({}).identifier
         end
 
         if src_root
           @root = load_object_graph(hash, src_root).identifier
-        else
-          @pages   = ref(:Type => :Pages, :Count => 0, :Kids => []).identifier
-          @root    = ref(:Type => :Catalog, :Pages => @pages).identifier
         end
       rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
@@ -157,6 +153,12 @@ module Prawn
         raise Prawn::Errors::TemplateError, msg
       end
 
+      # recurse down an object graph from a source PDF, importing all the indirect
+      # objects we find.
+      #
+      # hash is the PDF::Hash to extract objects from, object is the object to
+      # extract.
+      #
       def load_object_graph(hash, object)
         @loaded_objects ||= {}
         case object
