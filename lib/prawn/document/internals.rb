@@ -85,7 +85,7 @@ module Prawn
         (1..page_count).each do |i|
           go_to_page i
           repeaters.each { |r| r.run(i) }
-          restore_graphics_state
+          restore_graphics_state if state.page.content.stream.strip[-1,1] != "Q"
           state.page.finalize
         end
       end

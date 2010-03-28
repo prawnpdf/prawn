@@ -197,12 +197,14 @@ module Prawn
        options[:size] = options.delete(:page_size)
        options[:layout] = options.delete(:page_layout)
 
-       if options[:skip_page_creation] || options[:template]
-         start_new_page(options.merge(:orphan => true))
-       else
-         start_new_page(options)
+       if !options[:template]
+         if options[:skip_page_creation] || options[:template]
+           start_new_page(options.merge(:orphan => true))
+         else
+           start_new_page(options)
+         end
        end
-       
+
        @bounding_box = @margin_box
        go_to_page(1) if options[:template]
        
@@ -217,7 +219,6 @@ module Prawn
      attr_accessor :default_formatted_line_wrap
      attr_accessor :default_unformatted_line_wrap
      attr_accessor :page_number
-
 
      def state
        @internal_state
@@ -296,8 +297,9 @@ module Prawn
     #
     def go_to_page(k)
       @page_number = k
-      @y = @bounding_box.absolute_top
       state.page = state.pages[k-1]
+      generate_margin_box
+      @y = @bounding_box.absolute_top
     end
 
     def y=(new_y)

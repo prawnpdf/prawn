@@ -22,7 +22,6 @@ describe "Document built from a template" do
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
-    @pdf.render_file("bar.pdf")
     hash = PDF::Hash.new(output)
 
     hash.each_value do |obj|
@@ -31,7 +30,18 @@ describe "Document built from a template" do
       data = obj.data.tr(" \n\r","")
       data.include?("QQ").should == false
     end
+  end
+    
+  it "should have a single page object if importing a single page template" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
 
+    @pdf = Prawn::Document.new(:template => filename)
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    pages = hash.values.select { |obj| obj.kind_of?(Hash) && obj[:Type] == :Page }
+
+    pages.size.should == 1
   end
 
 end

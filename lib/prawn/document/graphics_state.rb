@@ -17,14 +17,14 @@ module Prawn
       # restore_graphics_state or passed a block
       #
       # Example without a block:
-      #   
+      #
       #   save_graphics_state
       #   rotate 30
       #   text "rotated text"
       #   restore_graphics_state
       #
       # Example with a block:
-      #   
+      #
       #   save_graphics_state do
       #     rotate 30
       #     text "rotated text"
@@ -41,9 +41,8 @@ module Prawn
       # Pops the last saved graphics state off the graphics state stack and
       # restores the state to those values
       def restore_graphics_state
-        add_content "Q" unless state.page.content.stream.strip[-1,1] == "Q"
+        add_content "Q"
       end
-
     end
   end
 end
