@@ -154,6 +154,12 @@ module Prawn
           @pages   = ref(:Type => :Pages, :Count => 0, :Kids => []).identifier
           @root    = ref(:Type => :Catalog, :Pages => @pages).identifier
         end
+      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError
+        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
+        raise Prawn::Errors::TemplateError, msg
+      rescue PDF::Reader::UnsupportedFeatureError
+        msg = "Template file contains unsupported PDF features"
+        raise Prawn::Errors::TemplateError, msg
       end
 
       def load_object_graph(hash, object)

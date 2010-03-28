@@ -40,6 +40,18 @@ describe "Prawn::ObjectStore" do
     store.size.should == 8
   end
 
+  it "should raise ArgumentError when given a file that doesn exist as a template" do
+    filename = "not_really_there.pdf"
+
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(ArgumentError)
+  end
+
+  it "should raise Prawn::Errors::TemplateError when given a non PDF as a template" do
+    filename = "#{Prawn::BASEDIR}/data/images/dice.png"
+
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
+  end
+
   it "should add to its objects when ref() is called" do
     count = @store.size
     @store.ref("blah")
