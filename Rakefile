@@ -5,7 +5,7 @@ require "rake/rdoctask"
 require "rake/gempackagetask"  
 
 # Version numbering: http://wiki.github.com/sandal/prawn/development-roadmap
-PRAWN_VERSION = "0.9.0" 
+PRAWN_VERSION = "0.9.1" 
 
 task :default => [:test]
        
