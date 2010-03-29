@@ -8,11 +8,54 @@ describe "Prawn::ObjectStore" do
   end
 
   it "should create required roots by default, including info passed to new" do
-    store = Prawn::Core::ObjectStore.new(:Test => 3)
+    store = Prawn::Core::ObjectStore.new(:info => {:Test => 3})
     store.size.should == 3 # 3 default roots
     store.info.data[:Test].should == 3
     store.pages.data[:Count].should == 0
     store.root.data[:Pages].should == store.pages
+  end
+
+  it "should import objects from an existing PDF" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.size.should == 5
+  end
+
+  it "should point to existing roots when importing objects from an existing PDF" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.info.class.should == Prawn::Core::Reference
+    store.root.class.should == Prawn::Core::Reference
+  end
+
+  it "should initialize with pages when importing objects from an existing PDF" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.pages.data[:Count].should == 1
+  end
+
+  it "should import all objects from a PDF that has an indirect reference in a stream dict" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/indirect_reference.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.size.should == 8
+  end
+
+  it "should raise ArgumentError when given a file that doesn exist as a template" do
+    filename = "not_really_there.pdf"
+
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(ArgumentError)
+  end
+
+  it "should raise Prawn::Errors::TemplateError when given a non PDF as a template" do
+    filename = "#{Prawn::BASEDIR}/data/images/dice.png"
+
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
+  end
+
+  it "should raise Prawn::Errors::TemplateError when given an encrypted PDF as a template" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/encrypted.pdf"
+
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
   end
 
   it "should add to its objects when ref() is called" do
@@ -73,3 +116,45 @@ describe "Prawn::ObjectStore#compact" do
   end
 end
 
+describe "Prawn::ObjectStorie#object_id_for_page" do
+  it "should return the object ID of an imported template page" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(0).should == 4
+  end
+
+  it "should return the object ID of the first imported template page" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(1).should == 4
+  end
+
+  it "should return the object ID of the last imported template page" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(-1).should == 6
+  end
+
+  it "should return the object ID of the first page of a template that uses nested Pages" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/nested_pages.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(1).should == 5
+  end
+
+  it "should return the object ID of the last page of a template that uses nested Pages" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/nested_pages.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(-1).should == 8
+  end
+
+  it "should return nil if given an invalid page number" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    store = Prawn::Core::ObjectStore.new(:template => filename)
+    store.object_id_for_page(10).should == nil
+  end
+
+  it "should return nil if given an invalid page number" do
+    store = Prawn::Core::ObjectStore.new
+    store.object_id_for_page(10).should == nil
+  end
+end

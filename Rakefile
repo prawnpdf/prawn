@@ -64,6 +64,7 @@ spec = Gem::Specification.new do |spec|
   spec.author = "Gregory Brown"
   spec.email = "  gregory.t.brown@gmail.com"
   spec.rubyforge_project = "prawn"
+  spec.add_dependency('pdf-reader', '>=0.8.1')
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
   Prawn is a fast, tiny, and nimble PDF generator for Ruby
