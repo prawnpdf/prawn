@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Outline" do
@@ -218,7 +219,9 @@ describe "Outline" do
       end
     end
   end
+end
   
+context "foreign character encoding" do
   before(:each) do
     pdf = Prawn::Document.new() do
       define_outline do
@@ -227,8 +230,8 @@ describe "Outline" do
     end
     @hash = PDF::Hash.new(StringIO.new(pdf.render, 'r+'))
   end
-  
-  it "should not change the encoding of the title" do
+
+  it "should handle other encodings for the title" do
     object = find_by_title('La pomme croquée')
     object.should.not == nil
   end
