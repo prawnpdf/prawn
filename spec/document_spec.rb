@@ -217,7 +217,7 @@ describe "When reopening pages" do
       pdf.text "Page 1"
       pdf.start_new_page
       pdf.text "Page 2"
-      pdf.go_to_page 0
+      pdf.go_to_page 1
       pdf.text "More for page 1"
     end
     
@@ -298,7 +298,6 @@ describe "The group() feature" do
         text "World"
       end
     end
-    
     pages = PDF::Inspector::Page.analyze(pdf.render).pages
     pages.size.should == 2
     pages[0][:strings].should == []
@@ -405,4 +404,58 @@ describe "PDF file versions" do
   end
 end
 
+describe "Documents that use go_to_page" do
+ it "should have 2 pages after calling start_new_page and go_to_page" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.start_new_page
+    @pdf.text "Anthony"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
 
+    page_counter = PDF::Inspector::Page.analyze(@pdf.render)
+    page_counter.pages.size.should == 2
+  end
+
+  it "should correctly add text to pages" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.start_new_page
+    @pdf.text "Anthony"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    text.strings.size.should == 3
+    text.strings.include?("James").should == true
+    text.strings.include?("Anthony").should == true
+    text.strings.include?("Healy").should == true
+  end
+end
+
+describe "content stream characteristics" do
+ it "should have 1 single content stream for a single page PDF with no templates" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 1
+  end
+
+ it "should have 1 single content stream for a single page PDF with no templates, even if go_to_page is used" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 1
+  end
+end

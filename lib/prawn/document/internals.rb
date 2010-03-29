@@ -37,6 +37,14 @@ module Prawn
         state.store.ref(data)
       end
 
+      # At any stage in the object tree an object can be replaced with an
+      # indirect reference. To get access to the object safely, regardless
+      # of if it's hidden behind a Prawn::Reference, wrap it in deref().
+      #
+      def deref(obj)
+        obj.is_a?(Prawn::Core::Reference) ? obj.data : obj
+      end
+
       # Appends a raw string to the current page content.
       #                               
       #  # Raw line drawing example:           
@@ -48,7 +56,7 @@ module Prawn
       def add_content(str)
         state.page.content << str << "\n"
       end  
-      
+
       # The Name dictionary (PDF spec 3.6.3) for this document. It is
       # lazily initialized, so that documents that do not need a name
       # dictionary do not incur the additional overhead.
@@ -81,11 +89,22 @@ module Prawn
       
       private      
 
+      # adds a new, empty content stream to each page. Used in templating so
+      # that imported content streams can be left pristine
+      #
+      def fresh_content_streams
+        (1..page_count).each do |i|
+          go_to_page i
+          state.page.new_content_stream
+          use_graphic_settings
+        end
+      end
+
       def finalize_all_page_contents
         (1..page_count).each do |i|
           go_to_page i
           repeaters.each { |r| r.run(i) }
-          restore_graphics_state
+          restore_graphics_state if state.page.content.stream.strip[-1,1] != "Q"
           state.page.finalize
         end
       end

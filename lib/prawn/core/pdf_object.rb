@@ -9,7 +9,7 @@
 # Top level Module
 #
 module Prawn 
-  module Core
+  module Core #:nodoc:
                                              
     module_function
       
@@ -75,7 +75,7 @@ module Prawn
         PdfObject(obj.to_hash)
       else
         raise Prawn::Errors::FailedObjectConversion, 
-          "This object cannot be serialized to PDF"
+          "This object cannot be serialized to PDF (#{obj.inspect})"
       end     
     end   
   end

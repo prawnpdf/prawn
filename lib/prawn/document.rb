@@ -138,6 +138,7 @@ module Prawn
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
+    # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
     # of 100 points on every side except for the left, where it will be 50.
@@ -172,13 +173,15 @@ module Prawn
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
          :compress, :skip_encoding, :text_options, :background, :info,
-         :optimize_objects], options
+         :optimize_objects, :template], options
 
        # need to fix, as the refactoring breaks this
        # raise NotImplementedError if options[:skip_page_creation]
 
        self.class.extensions.reverse_each { |e| extend e }
        @internal_state = Prawn::Core::DocumentState.new(options)
+       @internal_state.populate_pages_from_store(self)
+       min_version(state.store.min_version) if state.store.min_version
 
        @background = options[:background]
        @font_size  = 12
@@ -195,12 +198,17 @@ module Prawn
        options[:size] = options.delete(:page_size)
        options[:layout] = options.delete(:page_layout)
 
-       if options[:skip_page_creation]
-         start_new_page(options.merge(:orphan => true))
+       if options[:template]
+         fresh_content_streams
+         go_to_page(1)
        else
-         start_new_page(options)
+         if options[:skip_page_creation] || options[:template]
+           start_new_page(options.merge(:orphan => true))
+         else
+           start_new_page(options)
+         end
        end
-       
+
        @bounding_box = @margin_box
        
        if block
@@ -214,7 +222,6 @@ module Prawn
      attr_accessor :default_formatted_line_wrap
      attr_accessor :default_unformatted_line_wrap
      attr_accessor :page_number
-
 
      def state
        @internal_state
@@ -286,14 +293,15 @@ module Prawn
     end
     
     # Re-opens the page with the given (1-based) page number so that you can
-    # draw on it. Does not restore page state such as margins, page orientation,
-    # or paper size, so you'll have to handle that yourself.
+    # draw on it. 
     #
     # See Prawn::Document#number_pages for a sample usage of this capability.
     #
     def go_to_page(k)
       @page_number = k
       state.page = state.pages[k-1]
+      generate_margin_box
+      @y = @bounding_box.absolute_top
     end
 
     def y=(new_y)
@@ -307,7 +315,6 @@ module Prawn
     def cursor
       y - bounds.absolute_bottom
     end
-
 
     # Moves to the specified y position in relative terms to the bottom margin.
     # 

@@ -8,7 +8,7 @@
 
 module Prawn
   module Core
-    module Destinations
+    module Destinations #:nodoc:
       
       # The maximum number of children to fit into a single node in the Dests tree.
       NAME_TREE_CHILDREN_LIMIT = 20 #:nodoc:

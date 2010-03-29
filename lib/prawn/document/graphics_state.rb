@@ -17,14 +17,14 @@ module Prawn
       # restore_graphics_state or passed a block
       #
       # Example without a block:
-      #   
+      #
       #   save_graphics_state
       #   rotate 30
       #   text "rotated text"
       #   restore_graphics_state
       #
       # Example with a block:
-      #   
+      #
       #   save_graphics_state do
       #     rotate 30
       #     text "rotated text"
@@ -43,7 +43,6 @@ module Prawn
       def restore_graphics_state
         add_content "Q"
       end
-
     end
   end
 end

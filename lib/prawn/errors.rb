@@ -79,5 +79,8 @@ module Prawn
     # This error is rased when a graphics method is called with improper arguments
     InvalidGraphicsPath = Class.new(StandardError)
     
+    # This error is raised when Prawn fails to load a template file
+    #
+    TemplateError = Class.new(StandardError)
   end
 end   
