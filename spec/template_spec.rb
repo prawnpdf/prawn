@@ -56,6 +56,22 @@ describe "Document built from a template" do
     streams.size.should == 2
   end
 
+  it "should have balance q/Q operators on all content streams" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename)
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.each do |stream|
+      data = stream.unfiltered_data
+      data.scan("q").size.should == 1
+      data.scan("Q").size.should == 1
+    end
+  end
+
   it "should allow text to be added to a single page template" do
     filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
 
