@@ -26,6 +26,8 @@ module Prawn
       end
 
       def layout
+        return @layout if @layout
+
         mb = dictionary.data[:MediaBox]
         if mb[3] > mb[2]
           :portrait
@@ -35,11 +37,7 @@ module Prawn
       end
 
       def size
-        dimensions[2,2]
-      end
-
-      def dimensions
-        dictionary.data[:MediaBox]
+        @size || dimensions[2,2]
       end
 
       def in_stamp_stream?
@@ -127,39 +125,13 @@ module Prawn
         end
       end
 
-      private
-
-      def init_from_object(options)
-        @dictionary = options[:object_id].to_i
-        @content    = dictionary.data[:Contents].identifier
-
-        @stamp_stream      = nil
-        @stamp_dictionary  = nil
+      def imported_page?
+        @imported_page
       end
 
-      def init_new_page(options)
-        dimen = new_dimensions(options[:size], options[:layout])
-        if dimen[3] > dimen[2]
-          layout = :landscape
-        else
-          layout = :portrait
-        end
+      def dimensions
+        return dictionary.data[:MediaBox] if imported_page?
 
-        @content    = document.ref(:Length      => 0)
-        @dictionary = document.ref(:Type        => :Page,
-                                   :Parent      => document.state.store.pages,
-                                   :MediaBox    => dimen,
-                                   :Contents    => content)
-
-        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
-
-        @stamp_stream      = nil
-        @stamp_dictionary  = nil
-      end
-
-      def new_dimensions(size, layout)
-        size   ||=  "LETTER"
-        layout ||= :portrait
         coords = Prawn::Document::PageGeometry::SIZES[size] || size
         [0,0] + case(layout)
         when :portrait
@@ -170,6 +142,33 @@ module Prawn
           raise Prawn::Errors::InvalidPageLayout,
             "Layout must be either :portrait or :landscape"
         end
+      end
+
+      private
+
+      def init_from_object(options)
+        @dictionary = options[:object_id].to_i
+        @content    = dictionary.data[:Contents].identifier
+
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
+        @imported_page     = true
+      end
+
+      def init_new_page(options)
+        @size     = options[:size]    ||  "LETTER" 
+        @layout   = options[:layout]  || :portrait         
+        
+        @content    = document.ref(:Length      => 0)
+        @dictionary = document.ref(:Type        => :Page,
+                                   :Parent      => document.state.store.pages,
+                                   :MediaBox    => dimensions,
+                                   :Contents    => content)
+
+        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
+
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
       end
 
     end

@@ -252,8 +252,7 @@ module Prawn
          :size    => options[:size]   || last_page_size, 
          :layout  => options[:layout] || last_page_layout,
          :margins => last_page_margins )
-  
-       
+
        apply_margin_option(options) if options[:margin]
 
        [:left,:right,:top,:bottom].each do |side|

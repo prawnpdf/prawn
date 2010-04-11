@@ -264,6 +264,16 @@ describe "When setting page size" do
     pages.first[:size].should == [1920, 1080]   
   end
 
+
+  it "should retain page size by default when starting a new page" do
+    @pdf = Prawn::Document.new(:page_size => "LEGAL")
+    @pdf.start_new_page
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.each do |page|
+      page[:size].should == Prawn::Document::PageGeometry::SIZES["LEGAL"]
+    end
+  end
+
 end       
 
 describe "When setting page layout" do
@@ -272,6 +282,15 @@ describe "When setting page layout" do
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages    
     pages.first[:size].should == Prawn::Document::PageGeometry::SIZES["A4"].reverse
   end   
+
+  it "should retain page layout  by default when starting a new page" do
+    @pdf = Prawn::Document.new(:page_layout => :landscape)
+    @pdf.start_new_page(:trace => true)
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.each do |page|
+      page[:size].should == Prawn::Document::PageGeometry::SIZES["LETTER"].reverse
+    end
+  end
 end
 
 describe "The mask() feature" do
