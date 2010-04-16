@@ -87,6 +87,12 @@ module Prawn
           build_jpg_object(image_content, info)
         when :png then
           info = Prawn::Images::PNG.new(image_content)
+
+          # 16-bit color only supported in 1.5+ (ISO 32000-1:2008 8.9.5.1)
+          if info.bits > 8
+            min_version 1.5
+          end
+
           build_png_object(image_content, info)
         end
         image_registry[image_sha1] = {:obj => image_obj, :info => info}

@@ -45,6 +45,11 @@ describe "the image() function" do
     filename = "#{Prawn::BASEDIR}/data/images/dice_interlaced.png"
     lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
   end
+
+  it "should bump PDF version to 1.5 or greater on embedding 16-bit PNGs" do
+    @pdf.image "#{Prawn::BASEDIR}/data/images/16bit.png"
+    @pdf.state.version.should >= 1.5
+  end
   
   describe ":fit option" do
     it "should fit inside the defined constraints" do
