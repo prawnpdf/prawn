@@ -118,11 +118,18 @@ module Prawn
         unfilter_image_data if alpha_channel?
       end
 
-      private
-
       def alpha_channel?
         @color_type == 4 || @color_type == 6
       end
+
+      # Adobe Reader can't handle 16-bit png channels -- chop off the second
+      # byte (least significant)
+      #
+      def alpha_channel_bits
+        8
+      end
+
+      private
 
       def unfilter_image_data
         data = Zlib::Inflate.inflate(@img_data).unpack 'C*'
@@ -202,7 +209,7 @@ module Prawn
 
         # convert the pixel data to seperate strings for colours and alpha
         color_byte_size = self.colors * self.bits / 8
-        alpha_byte_size = self.bits / 8
+        alpha_byte_size = alpha_channel_bits / 8
         pixels.each do |this_row|
           this_row.each do |pixel|
             @img_data << pixel[0, color_byte_size].pack("C*")

@@ -279,7 +279,7 @@ module Prawn
                         :Subtype          => :Image,
                         :Height           => png.height,
                         :Width            => png.width,
-                        :BitsPerComponent => png.bits,
+                        :BitsPerComponent => png.alpha_channel_bits,
                         :Length           => png.alpha_channel.size,
                         :Filter           => :FlateDecode,
                         :ColorSpace       => :DeviceGray,
