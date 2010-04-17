@@ -61,7 +61,7 @@ module Prawn
     #
     # Note, this is a low level tool and is designed primarily for building
     # other abstractions.  If you just need to flow text on the page, you
-    # will want to look at span() and text_box() instead
+    # will want to look at text_box() instead
     #
     # ==Translating Coordinates
     # 
