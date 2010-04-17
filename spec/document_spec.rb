@@ -332,24 +332,6 @@ describe "The group() feature" do
       end.render
     }.should.raise(Prawn::Errors::CannotGroup)
   end
-
-  it "should group within individual column boxes" do
-    pdf = Prawn::Document.new do
-      # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
-      # of the height of one page / column, so each column should get its own
-      # group (every column should start with zero).
-      column_box([0, bounds.top], :width => bounds.width, :columns => 7) do
-        10.times do
-          group { 50.times { |i| text(i.to_s) } }
-        end
-      end
-    end
-
-    # Second page should start with a 0 because it's a new group.
-    pages = PDF::Inspector::Page.analyze(pdf.render).pages
-    pages.size.should == 2
-    pages[1][:strings].first.should == '0'
-  end
 end
 
 describe "The render() feature" do

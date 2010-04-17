@@ -394,6 +394,22 @@ module Prawn
         @stretched_height = [(absolute_top - @parent.y), @stretched_height.to_f].max
       end    
 
+      # an alias for absolute_left
+      def left_side
+         absolute_left
+      end
+
+      # an alias for absolute_right
+      def right_side
+         absolute_right
+      end
+
+      # starts a new page
+      def move_past_bottom
+         @parent.start_new_page
+      end
+
+
       alias_method :update_height, :height
        
       # Returns +false+ when the box has a defined height, +true+ when the height
