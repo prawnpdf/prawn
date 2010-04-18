@@ -204,6 +204,7 @@ describe "When reading a 16bit RGB+alpha PNG file (color type 6)" do
   before(:each) do
     @filename = "#{Prawn::BASEDIR}/data/images/16bit.png"
     @data_filename = "#{Prawn::BASEDIR}/data/images/16bit.dat"
+    # alpha channel truncated to 8-bit
     @alpha_data_filename = "#{Prawn::BASEDIR}/data/images/16bit.alpha"
     @img_data = File.binread(@filename)
   end
