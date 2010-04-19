@@ -110,33 +110,9 @@ module Prawn
           @baseline_y.abs + @line_height - @ascender
         end
 
-        private
-
-        def original_text
-          @original_array.collect { |hash| hash.dup }
-        end
-
-        def original_text=(array)
-          @original_array = array
-        end
-
-        def normalize_encoding
-          array = original_text
-          array.each do |hash|
-            hash[:text] = @document.font.normalize_encoding(hash[:text])
-          end
-          array
-        end
-
-        def move_baseline_down
-          if @baseline_y == 0
-            @baseline_y  = -@ascender
-          else
-            @baseline_y -= (@line_height + @leading)
-          end
-        end
-
-        def draw_fragment(fragment, accumulated_width, line_width)
+        # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
+        #
+        def draw_fragment(fragment, accumulated_width, line_width) #:nodoc:
           case(@align)
           when :left, :justify
             x = @at[0]
@@ -165,6 +141,32 @@ module Prawn
                                  :kerning => @kerning)
           end
           draw_fragment_overlays(fragment) if @inked
+        end
+
+        private
+
+        def original_text
+          @original_array.collect { |hash| hash.dup }
+        end
+
+        def original_text=(array)
+          @original_array = array
+        end
+
+        def normalize_encoding
+          array = original_text
+          array.each do |hash|
+            hash[:text] = @document.font.normalize_encoding(hash[:text])
+          end
+          array
+        end
+
+        def move_baseline_down
+          if @baseline_y == 0
+            @baseline_y  = -@ascender
+          else
+            @baseline_y -= (@line_height + @leading)
+          end
         end
 
         def draw_fragment_overlays(fragment)
