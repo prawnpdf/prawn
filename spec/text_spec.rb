@@ -57,6 +57,13 @@ describe "#text" do
     text.kerned[0].should.be false
   end
 
+  it "option should be able to override document wide kerning disabling" do
+    @pdf.default_kerning = false
+    @pdf.text "hello world", :kerning => true
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be true
+  end
+
   it "should raise ArgumentError if :at option included" do
     lambda { @pdf.text("hai", :at => [0, 0]) }.should.raise(ArgumentError)
   end
