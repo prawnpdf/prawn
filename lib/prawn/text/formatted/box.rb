@@ -112,7 +112,7 @@ module Prawn
 
         # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
         #
-        def draw_fragment(fragment, accumulated_width, line_width) #:nodoc:
+        def draw_fragment(fragment, accumulated_width, line_width, word_spacing) #:nodoc:
           case(@align)
           when :left, :justify
             x = @at[0]
@@ -131,16 +131,19 @@ module Prawn
           fragment.left = x
           fragment.baseline = y
 
-          if @inked && @align == :justify
-            @document.word_spacing(@word_spacing) {
+          if @inked
+            if @align == :justify
+              @document.word_spacing(word_spacing) {
+                @document.draw_text!(fragment.text, :at => [x, y],
+                                     :kerning => @kerning)
+              }
+            else
               @document.draw_text!(fragment.text, :at => [x, y],
                                    :kerning => @kerning)
-            }
-          elsif @inked
-            @document.draw_text!(fragment.text, :at => [x, y],
-                                 :kerning => @kerning)
+            end
+
+            draw_fragment_overlays(fragment)
           end
-          draw_fragment_overlays(fragment) if @inked
         end
 
         private

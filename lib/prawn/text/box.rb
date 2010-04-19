@@ -212,6 +212,35 @@ module Prawn
         @baseline_y.abs - @ascender - @leading
       end
 
+      def draw_line(line_to_print, line_width, word_spacing, include_ellipses) #:nodoc:
+        insert_ellipses(line_to_print) if include_ellipses
+
+        case(@align)
+        when :left, :justify
+          x = @at[0]
+        when :center
+          x = @at[0] + @width * 0.5 - line_width * 0.5
+        when :right
+          x = @at[0] + @width - line_width
+        end
+        
+        y = @at[1] + @baseline_y
+        
+        if @inked
+          if @align == :justify
+            @document.word_spacing(word_spacing) {
+              @document.draw_text!(line_to_print, :at => [x, y],
+                                   :kerning => @kerning)
+            }
+          else
+            @document.draw_text!(line_to_print, :at => [x, y],
+                                 :kerning => @kerning)
+          end
+        end
+        
+        line_to_print
+      end
+
       private
 
       def normalize_encoding
@@ -285,6 +314,15 @@ module Prawn
       
       def last_line?
         @baseline_y.abs + @descender > @height - @line_height
+      end
+
+      def insert_ellipses(line_to_print)
+        if @document.width_of(line_to_print + "...",
+                              :kerning => @kerning) < @width
+          line_to_print.insert(-1, "...")
+        else
+          line_to_print[-3..-1] = "..." if line_to_print.length > 3
+        end
       end
 
     end

@@ -50,8 +50,9 @@ module Prawn
             remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..
                                                   remaining_text.length)
             include_ellipses = (@overflow == :ellipses && last_line? &&
-                              remaining_text.length > 0)
-            printed_lines << draw_line(line_to_print, include_ellipses)
+                                remaining_text.length > 0)
+            printed_lines << draw_line(line_to_print, @line_wrap.width,
+                                       word_spacing_for_this_line, include_ellipses)
             @baseline_y -= (@line_height + @leading)
             break if @single_line
           end
@@ -63,48 +64,11 @@ module Prawn
 
         private
 
-        def compute_word_spacing_for_this_line
+        def word_spacing_for_this_line
           if @align != :justify || @line_wrap.width.to_f / @width.to_f < 0.75
-            @word_spacing = 0
+            0
           else
-            @word_spacing = (@width - @line_wrap.width) / @line_wrap.space_count
-          end
-        end
-
-        def draw_line(line_to_print, include_ellipses)
-          insert_ellipses(line_to_print) if include_ellipses
-
-          case(@align)
-          when :left, :justify
-            x = @at[0]
-          when :center
-            x = @at[0] + @width * 0.5 - @line_wrap.width * 0.5
-          when :right
-            x = @at[0] + @width - @line_wrap.width
-          end
-          
-          y = @at[1] + @baseline_y
-          
-          if @inked && @align == :justify
-            compute_word_spacing_for_this_line
-            @document.word_spacing(@word_spacing) {
-              @document.draw_text!(line_to_print, :at => [x, y],
-                                   :kerning => @kerning)
-            }
-          elsif @inked
-            @document.draw_text!(line_to_print, :at => [x, y],
-                                 :kerning => @kerning)
-          end
-          
-          line_to_print
-        end
-
-        def insert_ellipses(line_to_print)
-          if @document.width_of(line_to_print + "...",
-                                :kerning => @kerning) < @width
-            line_to_print.insert(-1, "...")
-          else
-            line_to_print[-3..-1] = "..." if line_to_print.length > 3
+            (@width - @line_wrap.width) / @line_wrap.space_count
           end
         end
 

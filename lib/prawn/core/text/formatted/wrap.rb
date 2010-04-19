@@ -44,15 +44,16 @@ module Prawn
               move_baseline_down
 
               accumulated_width = 0
-              compute_word_spacing_for_this_line
+              word_spacing = word_spacing_for_this_line
               while fragment = @arranger.retrieve_fragment
-                fragment.word_spacing = @word_spacing
+                fragment.word_spacing = word_spacing
                 if fragment.text == "\n"
                   printed_fragments << "\n" if @printed_lines.last == ""
                   break
                 end
                 printed_fragments << fragment.text
-                format_and_draw_fragment(fragment, accumulated_width, @line_wrap.width)
+                format_and_draw_fragment(fragment, accumulated_width,
+                                         @line_wrap.width, word_spacing)
                 accumulated_width += fragment.width
                 fragment.finished
               end
@@ -95,9 +96,11 @@ module Prawn
             @printed_lines = []
           end
 
-          def format_and_draw_fragment(fragment, accumulated_width, line_width)
+          def format_and_draw_fragment(fragment, accumulated_width,
+                                       line_width, word_spacing)
             @arranger.apply_color_and_font_settings(fragment) do
-              draw_fragment(fragment, accumulated_width, line_width)
+              draw_fragment(fragment, accumulated_width,
+                            line_width, word_spacing)
             end
           end
 
