@@ -255,25 +255,6 @@ describe "#text" do
     pages[1][:strings].should == ["World"]
   end
 
-  it "should be able to use a custom word-wrap object" do
-    hello = "hello " * 25
-    world = "world " * 25
-    @pdf.text(hello + "\n" + world, :unformatted_line_wrap => TestWordWrap.new)
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == hello.strip
-    text.strings[1].should == world.strip
-  end
-
-  it "should be able to globally set the custom word-wrap object" do
-    hello = "hello " * 25
-    world = "world " * 25
-    @pdf.default_unformatted_line_wrap = TestWordWrap.new
-    @pdf.text(hello + "\n" + world)
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == hello.strip
-    text.strings[1].should == world.strip
-  end
-
   describe "with :indent_paragraphs option" do
     it "should indent the paragraphs" do
       hello = "hello " * 50
@@ -315,23 +296,5 @@ describe "#text" do
         text.strings[4].should == ("hello " * 21).strip
       end
     end
-  end
-end
-
-class TestWordWrap
-  def width
-    @width
-  end
-  def space_count
-    @line.count(" ")
-  end
-  def consumed_char_count
-    @consumed_char_count
-  end
-  def wrap_line(line, options)
-    @consumed_char_count = line.length
-    @line = line.strip
-    @width = options[:document].width_of(@line, :kerning => options[:kerning])
-    @line
   end
 end

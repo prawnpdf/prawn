@@ -64,25 +64,6 @@ module Prawn
       #
       # Accepts the same options as Text::Box with the below exceptions
       #
-      # <tt>:formatted_line_wrap</tt>::
-      #     <tt>object</tt>. An object used for custom line wrapping on a case
-      #     by case basis. Note that if you want to change wrapping
-      #     document-wide, do pdf.default_formatted_line_wrap = MyLineWrap.new.
-      #     Your custom object must have a wrap_line method that accepts an
-      #     <tt>options</tt> hash and returns the part of that string that can
-      #     fit on a single line under the conditions defined by
-      #     <tt>options</tt> (see the line wrap specs). If omitted, the Prawn
-      #     default line wrap object is used. The options hash passed into the
-      #     wrap_object proc includes the following options: <tt>:width</tt>::
-      #     the width available for the current line of text
-      #     <tt>:document</tt>:: the pdf object
-      #     <tt>:kerning</tt>:: boolean
-      #     <tt>:arranger</tt>:: a Formatted::Arranger object
-      #
-      #     The line wrap object should have a <tt>width</tt> method that
-      #     returns the width of the last line printed and a
-      #     <tt>space_count</tt> method that returns the number of spaces in
-      #     the last line
       # <tt>:overflow</tt>::
       #     does not accept :ellipses
       #
@@ -112,11 +93,10 @@ module Prawn
       # vertical space was consumed by the printed text
       #
       class Box < Prawn::Text::Box
+        include Prawn::Core::Text::Formatted::Wrap
+
         def initialize(array, options={})
           super(array, options)
-          @line_wrap     = options[:formatted_line_wrap] ||
-                             @document.default_formatted_line_wrap
-          @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document)
           if @overflow == :ellipses
             raise NotImplementedError, "ellipses overflow unavailable with" +
               "formatted box"
@@ -128,47 +108,6 @@ module Prawn
         def height
           return 0 if @baseline_y.nil? || @descender.nil?
           @baseline_y.abs + @line_height - @ascender
-        end
-
-        # See the developer documentation for Text::Box#_render
-        #
-        def _render(array) #:nodoc:
-          initialize_inner_render(array)
-
-          move_baseline = true
-          while @arranger.unfinished?
-            printed_fragments = []
-
-            line_to_print = @line_wrap.wrap_line(:document => @document,
-                                                 :kerning => @kerning,
-                                                 :width => @width,
-                                                 :arranger => @arranger)
-
-            move_baseline = false
-            break unless enough_height_for_this_line?
-            move_baseline_down
-
-            accumulated_width = 0
-            compute_word_spacing_for_this_line
-            while fragment = @arranger.retrieve_fragment
-              fragment.word_spacing = @word_spacing
-              if fragment.text == "\n"
-                printed_fragments << "\n" if @printed_lines.last == ""
-                break
-              end
-              printed_fragments << fragment.text
-              print_fragment(fragment, accumulated_width)
-              accumulated_width += fragment.width
-              fragment.finished
-            end
-            @printed_lines << printed_fragments.join("")
-            break if @single_line
-            move_baseline = true unless @arranger.finished?
-          end
-          move_baseline_down if move_baseline
-          @text = @printed_lines.join("\n")
-
-          @arranger.unconsumed
         end
 
         private
@@ -189,39 +128,6 @@ module Prawn
           array
         end
 
-        def enough_height_for_this_line?
-          @line_height = @arranger.max_line_height
-          @descender   = @arranger.max_descender
-          @ascender    = @arranger.max_ascender
-          required_height = @baseline_y == 0 ? @line_height : @line_height + @descender
-          if @baseline_y.abs + required_height > @height
-            # no room for the full height of this line
-            @arranger.repack_unretrieved
-            false
-          else
-            true
-          end
-        end
-
-        def initialize_inner_render(array)
-          @text = nil
-          @arranger.format_array = array
-
-          # these values will depend on the maximum value within a given line
-          @line_height = 0
-          @descender   = 0
-          @ascender    = 0
-          @baseline_y  = 0
-
-          @printed_lines = []
-        end
-
-        def print_fragment(fragment, accumulated_width)
-          @arranger.apply_color_and_font_settings(fragment) do
-            _print_fragment(fragment, accumulated_width)
-          end
-        end
-
         def move_baseline_down
           if @baseline_y == 0
             @baseline_y  = -@ascender
@@ -230,14 +136,14 @@ module Prawn
           end
         end
 
-        def _print_fragment(fragment, accumulated_width)
+        def draw_fragment(fragment, accumulated_width, line_width)
           case(@align)
           when :left, :justify
             x = @at[0]
           when :center
-            x = @at[0] + @width * 0.5 - @line_wrap.width * 0.5
+            x = @at[0] + @width * 0.5 - line_width * 0.5
           when :right
-            x = @at[0] + @width - @line_wrap.width
+            x = @at[0] + @width - line_width
           end
 
           x += accumulated_width

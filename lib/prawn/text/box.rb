@@ -72,28 +72,6 @@ module Prawn
     #     :shrink_to_fit (that is the font size will not be reduced to less than
     #     this value, even if it means that some text will be cut off). [5]
     #
-    # <tt>:unformatted_line_wrap</tt>::
-    #     <tt>object</tt>. An object used for custom line wrapping on a case by
-    #     case basis. Note that if you want to change wrapping document-wide, do
-    #     pdf.default_unformatted_line_wrap = MyLineWrap.new.  Your custom
-    #     object must have a wrap_line method that accepts a single line (no
-    #     newlines) and an <tt>options</tt> hash and returns the part of that
-    #     string that can fit on a single line under the conditions defined by
-    #     <tt>options</tt> (see the line wrap specs). If omitted, the Prawn
-    #     default line wrap object is used. The options hash passed into the
-    #     wrap_object proc includes the following options:
-    #     <tt>:width</tt>:: the width available for the current line of text
-    #     <tt>:document</tt>:: the pdf object
-    #     <tt>:kerning</tt>:: boolean
-    #
-    #     The line wrap object should have a <tt>width</tt> method that returns
-    #     the width of the last line printed, a <tt>space_count</tt> method that
-    #     returns the number of spaces in the last line, and a
-    #     <tt>consumed_char_count</tt> that returns the number of characters
-    #     used from the original line, which may be more than the number of
-    #     characters returned by the <tt>wrap_line</tt> method because preceding
-    #     and trailing spaces should not be returned by wrap_line
-    #
     # == Returns
     #
     # Returns any text that did not print under the current settings.
@@ -119,6 +97,7 @@ module Prawn
     # consumed by the printed text
     #
     class Box
+      include Prawn::Core::Text::Wrap
 
       def valid_options
         Prawn::Core::Text::VALID_OPTIONS + [:at, :height, :width,
@@ -127,8 +106,6 @@ module Prawn
                                             :overflow, :min_font_size,
                                             :leading, :single_line,
                                             :skip_encoding,
-                                            :unformatted_line_wrap,
-                                            :formatted_line_wrap,
                                             :document]
       end
       
@@ -179,12 +156,12 @@ module Prawn
           @height = @at[1] - @document.bounds.bottom
           @overflow = :truncate
         end
-        @min_font_size  = options[:min_font_size] || 5
-        @line_wrap    = options [:unformatted_line_wrap] ||
-                          @document.default_unformatted_line_wrap
+        @min_font_size = options[:min_font_size] || 5
         @options = @document.text_options.merge(:kerning => options[:kerning],
                                                 :size    => options[:size],
                                                 :style   => options[:style])
+
+        super(text, options)
       end
       
       # Render text to the document based on the settings defined in initialize.
@@ -215,11 +192,12 @@ module Prawn
             if @rotate != 0 && @inked
               unprinted_text = render_rotated(text)
             else
-              unprinted_text = _render(text)
+              unprinted_text = wrap(text)
             end
             @inked = false
           end
         end
+
         unprinted_text
       end
 
@@ -232,51 +210,6 @@ module Prawn
         # but we need to add in the descender since baseline is
         # above the descender
         @baseline_y.abs - @ascender - @leading
-      end
-
-      # _render is part of the developer API. Override it in extensions to Prawn
-      # that inherit Text::Box but need a different placement algorithm.
-      # _render is where the actual placement of text happens. If @inked is
-      # false, then all the placement computations should be performed, and
-      # unprinted text returned, but no text should actually be drawn to the
-      # PDF. This enables look-ahead computations that need to know whether all
-      # the text was printed under a set of conditions or how tall the text was
-      # under certain conditions.
-      #
-      # _render is called from several places within box.rb and relies on
-      # certain conditions established by render. Do not call _render from
-      # outside of Text::Box or its descendants.
-      #
-      def _render(text) #:nodoc:
-        @text = nil
-        remaining_text = text
-        @line_height = @document.font.height
-        @descender   = @document.font.descender
-        @ascender    = @document.font.ascender
-        @baseline_y  = -@ascender
-
-        printed_lines = []
-
-        while remaining_text &&
-              remaining_text.length > 0 &&
-              @baseline_y.abs + @descender <= @height
-          line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
-                                               :document => @document,
-                                               :kerning => @kerning,
-                                               :width => @width)
-
-          remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..
-                                                remaining_text.length)
-          print_ellipses = (@overflow == :ellipses && last_line? &&
-                            remaining_text.length > 0)
-          printed_lines << print_line(line_to_print, print_ellipses)
-          @baseline_y -= (@line_height + @leading)
-          break if @single_line
-        end
-
-        @text = printed_lines.join("\n")
-
-        remaining_text
       end
 
       private
@@ -295,7 +228,7 @@ module Prawn
 
       def process_vertical_alignment(text)
         return if @vertical_align == :top
-        _render(text)
+        wrap(text)
         case @vertical_align
         when :center
           @at[1] = @at[1] - (@height - height) * 0.5
@@ -308,7 +241,7 @@ module Prawn
       # Decrease the font size until the text fits or the min font
       # size is reached
       def shrink_to_fit(text)
-        while (unprinted_text = _render(text)).length > 0 &&
+        while (unprinted_text = wrap(text)).length > 0 &&
             @font_size > @min_font_size
           @font_size -= 0.5
           @document.font_size = @font_size
@@ -345,59 +278,15 @@ module Prawn
         end
 
         @document.rotate(@rotate, :origin => [x, y]) do
-          unprinted_text = _render(text)
+          unprinted_text = wrap(text)
         end
         unprinted_text
-      end
-
-      def compute_word_spacing_for_this_line
-        if @align != :justify || @line_wrap.width.to_f / @width.to_f < 0.75
-          @word_spacing = 0
-        else
-          @word_spacing = (@width - @line_wrap.width) / @line_wrap.space_count
-        end
-      end
-
-      def print_line(line_to_print, print_ellipses)
-        insert_ellipses(line_to_print) if print_ellipses
-
-        case(@align)
-        when :left, :justify
-          x = @at[0]
-        when :center
-          x = @at[0] + @width * 0.5 - @line_wrap.width * 0.5
-        when :right
-          x = @at[0] + @width - @line_wrap.width
-        end
-        
-        y = @at[1] + @baseline_y
-        
-        if @inked && @align == :justify
-          compute_word_spacing_for_this_line
-          @document.word_spacing(@word_spacing) {
-            @document.draw_text!(line_to_print, :at => [x, y],
-                                                :kerning => @kerning)
-          }
-        elsif @inked
-          @document.draw_text!(line_to_print, :at => [x, y],
-                                              :kerning => @kerning)
-        end
-        
-        line_to_print
       end
       
       def last_line?
         @baseline_y.abs + @descender > @height - @line_height
       end
 
-      def insert_ellipses(line_to_print)
-        if @document.width_of(line_to_print + "...",
-                              :kerning => @kerning) < @width
-          line_to_print.insert(-1, "...")
-        else
-          line_to_print[-3..-1] = "..." if line_to_print.length > 3
-        end
-      end
     end
 
   end

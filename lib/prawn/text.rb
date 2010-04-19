@@ -5,9 +5,8 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-
 require "prawn/core/text"
-require "prawn/core/text/line_wrap"
+require "prawn/core/text/wrap"
 require "prawn/text/box"
 require "prawn/text/formatted"
 require "zlib"
@@ -112,10 +111,6 @@ module Prawn
     #                       each line is included below the last line;
     #                       otherwise, document.y is placed just below the
     #                       descender of the last line printed [true]
-    #
-    # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-    #                                   custom line wrapping on a case by case
-    #                                   basis. See notes for Text::Box#text_box
     #                        
     # == Exceptions
     #
@@ -172,11 +167,7 @@ module Prawn
     #
     # == Options
     #
-    # Accepts the same options as #text with the below exceptions
-    #
-    # <tt>:formatted_line_wrap</tt>::
-    #     <tt>object</tt>. An object used for custom line wrapping on a case by
-    #     case basis. See notes for Text::Box#text_box
+    # Accepts the same options as #text
     #
     # == Exceptions
     #

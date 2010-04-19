@@ -188,8 +188,6 @@ module Prawn
        @margin_box    = nil
 
        @text_options = options[:text_options] || {}
-       @default_unformatted_line_wrap = Prawn::Core::Text::LineWrap.new
-       @default_formatted_line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
        @page_number = 0
 
@@ -217,8 +215,6 @@ module Prawn
      attr_accessor :margin_box
      attr_reader   :margins, :y
      attr_writer   :font_size
-     attr_accessor :default_formatted_line_wrap
-     attr_accessor :default_unformatted_line_wrap
      attr_accessor :page_number
 
      def state
