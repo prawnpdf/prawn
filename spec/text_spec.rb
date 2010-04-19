@@ -37,6 +37,26 @@ end
 describe "#text" do
   before(:each) { create_pdf }
 
+  it "should default to use kerning information" do
+    @pdf.text "hello world"
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be true
+  end
+
+  it "should be able to disable kerning with an option" do
+    @pdf.text "hello world", :kerning => false
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be false
+  end
+
+  it "should be able to disable kerning document wide" do
+    @pdf.default_kerning(false)
+    @pdf.default_kerning = false
+    @pdf.text "hello world"
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be false
+  end
+
   it "should raise ArgumentError if :at option included" do
     lambda { @pdf.text("hai", :at => [0, 0]) }.should.raise(ArgumentError)
   end

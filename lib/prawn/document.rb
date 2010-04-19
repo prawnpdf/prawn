@@ -135,7 +135,6 @@ module Prawn
     # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
-    # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
     # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
@@ -170,7 +169,7 @@ module Prawn
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options, :background, :info,
+         :compress, :skip_encoding, :background, :info,
          :optimize_objects, :template], options
 
        # need to fix, as the refactoring breaks this
@@ -186,8 +185,6 @@ module Prawn
 
        @bounding_box  = nil
        @margin_box    = nil
-
-       @text_options = options[:text_options] || {}
 
        @page_number = 0
 

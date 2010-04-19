@@ -31,7 +31,8 @@ module Prawn
     # == Options (default values marked in [])
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
-    #                     is available with the current font) [true]
+    #                     is available with the current font)
+    #                     [value of document.default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
@@ -157,9 +158,12 @@ module Prawn
           @overflow = :truncate
         end
         @min_font_size = options[:min_font_size] || 5
-        @options = @document.text_options.merge(:kerning => options[:kerning],
-                                                :size    => options[:size],
-                                                :style   => options[:style])
+        if options[:kerning].nil? then
+          options[:kerning] = @document.default_kerning?
+        end
+        @options = { :kerning => options[:kerning],
+                     :size    => options[:size],
+                     :style   => options[:style] }
 
         super(text, options)
       end
