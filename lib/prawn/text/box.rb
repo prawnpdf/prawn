@@ -125,12 +125,11 @@ module Prawn
       attr_reader :leading
 
 
-
-      # Extend Prawn::Text::Box to override the default wrapping
-      #
+      # Extend Prawn::Text::Box
       #
       # Example (see Prawn::Text::Core::Wrap for what is required
-      # of the wrap method):
+      # of the wrap method if you want to override the default
+      # wrapping algorithm):
       #
       #   module MyWrap
       #
