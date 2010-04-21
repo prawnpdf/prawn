@@ -27,6 +27,8 @@ module Prawn
           #        the ascender heigth of the tallest fragment in the last
           #        printed line
           #
+          # Returns any formatted text that was not printed
+          #
           def wrap(array) #:nodoc:
             initialize_wrap(array)
 

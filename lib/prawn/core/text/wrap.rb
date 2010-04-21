@@ -29,6 +29,8 @@ module Prawn
         #   <tt>@ascender</tt>:: the ascender heigth of the last printed line
         #   <tt>@baseline_y</tt>:: the base line of the last printed line
         #
+        # Returns any unprinted text
+        #
         def wrap(text) #:nodoc:
           @text = nil
           remaining_text = text

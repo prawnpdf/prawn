@@ -128,12 +128,20 @@ module Prawn
 
       # Extend Prawn::Text::Box to override the default wrapping
       #
-      # Example:
+      #
+      # Example (see Prawn::Text::Core::Wrap for what is required
+      # of the wrap method):
       #
       #   module MyWrap
       #
       #     def wrap
-      #       draw_line('all your base are belong to us')
+      #       @text = nil
+      #       @line_height = @document.font.height
+      #       @descender   = @document.font.descender
+      #       @ascender    = @document.font.ascender
+      #       @baseline_y  = -@ascender
+      #       draw_line("all your base are belong to us")
+      #       ""
       #     end
       #
       #   end

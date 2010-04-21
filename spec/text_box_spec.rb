@@ -664,12 +664,12 @@ end
 
 module TestWrapOverride
   def wrap(string)
-    @text = ""
+    @text = nil
     @line_height = @document.font.height
     @descender   = @document.font.descender
     @ascender    = @document.font.ascender
     @baseline_y  = -@ascender
     draw_line("all your base are belong to us")
-    nil
+    ""
   end
 end
