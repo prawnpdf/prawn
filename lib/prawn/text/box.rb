@@ -124,12 +124,44 @@ module Prawn
       # The leading used during printing
       attr_reader :leading
 
+
+
+      # Extend Prawn::Text::Box to override the default wrapping
+      #
+      # Example:
+      #
+      #   module MyWrap
+      #
+      #     def wrap
+      #       draw_line('all your base are belong to us')
+      #     end
+      #
+      #   end
+      #
+      #   Prawn::Text::Box.extensions << MyWrap
+      #
+      #   box = Prawn::Text::Box.new('hello world')
+      #   box.render('why can't I print anything other than' +
+      #              '"all your base are belong to us"?')
+      #
+      #
+      def self.extensions
+        @extensions ||= []
+      end
+
+      def self.inherited(base) #:nodoc:
+        extensions.each { |e| base.extensions << e }
+      end
+
       # See Prawn::Text#text_box for valid options
       #
       def initialize(text, options={})
         @inked          = false
         Prawn.verify_options(valid_options, options)
         options          = options.dup
+
+        self.class.extensions.reverse_each { |e| extend e }
+
         @overflow        = options[:overflow] || :truncate
 
         self.original_text = text
@@ -216,7 +248,7 @@ module Prawn
         @baseline_y.abs - @ascender - @leading
       end
 
-      def draw_line(line_to_print, line_width, word_spacing, include_ellipses) #:nodoc:
+      def draw_line(line_to_print, line_width=0, word_spacing=0, include_ellipses=false) #:nodoc:
         insert_ellipses(line_to_print) if include_ellipses
 
         case(@align)

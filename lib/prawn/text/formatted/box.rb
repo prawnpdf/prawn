@@ -112,7 +112,7 @@ module Prawn
 
         # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
         #
-        def draw_fragment(fragment, accumulated_width, line_width, word_spacing) #:nodoc:
+        def draw_fragment(fragment, accumulated_width=0, line_width=0, word_spacing=0) #:nodoc:
           case(@align)
           when :left, :justify
             x = @at[0]

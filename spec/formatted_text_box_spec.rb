@@ -2,6 +2,26 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Formatted::Box#extensions" do
+  it "should be able to override default line wrapping" do
+    create_pdf
+    Prawn::Text::Formatted::Box.extensions << TestFormattedWrapOverride
+    @pdf.formatted_text_box([{ :text => "hello world" }], {})
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "all your base are belong to us"
+    Prawn::Text::Formatted::Box.extensions.delete(TestFormattedWrapOverride)
+  end
+  it "overriding Text::Box line wrapping should not affect " +
+     "Text::Formatted::Box wrapping" do
+    create_pdf
+    Prawn::Text::Box.extensions << TestWrapOverride
+    @pdf.formatted_text_box([{ :text => "hello world" }], {})
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "hello world"
+    Prawn::Text::Box.extensions.delete(TestWrapOverride)
+  end
+end
+
 describe "Text::Formatted::Box#render" do
   it "should handle newlines" do
     create_pdf
@@ -472,7 +492,7 @@ describe "Text::Formatted::Box with more text than can fit in the box" do
   end
 end
 
-describe 'Text::Formatted::Box wrapping' do
+describe "Text::Formatted::Box wrapping" do
   before(:each) do
     create_pdf
   end
@@ -566,7 +586,7 @@ describe 'Text::Formatted::Box wrapping' do
 
   it "should wrap lines comprised of a single word of the bounds when" +
     " wrapping text" do
-    text = '©' * 30
+    text = "©" * 30
     format_array = [:text => text]
 
     @pdf.font "Courier"
@@ -576,7 +596,7 @@ describe 'Text::Formatted::Box wrapping' do
 
     text_box.render
 
-    expected = '©'*25 + "\n" + '©' * 5
+    expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
 
     text_box.text.should == expected
@@ -611,5 +631,29 @@ class TestFragmentCallback
   end
 
   def draw_border_with_args(fragment, string, times)
+  end
+end
+
+module TestFormattedWrapOverride
+  def wrap(string)
+    @text = ""
+    @line_height = @document.font.height
+    @descender   = @document.font.descender
+    @ascender    = @document.font.ascender
+    @baseline_y  = -@ascender
+    draw_line("all your base are belong to us")
+    []
+  end
+end
+
+module TestWrapOverride
+  def wrap(string)
+    @text = ""
+    @line_height = @document.font.height
+    @descender   = @document.font.descender
+    @ascender    = @document.font.ascender
+    @baseline_y  = -@ascender
+    draw_line("all your base are belong to us")
+    nil
   end
 end
