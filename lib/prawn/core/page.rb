@@ -148,7 +148,9 @@ module Prawn
 
       def init_from_object(options)
         @dictionary = options[:object_id].to_i
-        @content    = dictionary.data[:Contents].identifier
+        unless dictionary.data[:Contents].is_a?(Array) # issue 106 -- see spec/template_spec.rb ... complex_template.pdf
+          @content    = dictionary.data[:Contents].identifier
+        end
 
         @stamp_stream      = nil
         @stamp_dictionary  = nil
