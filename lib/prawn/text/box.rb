@@ -255,6 +255,12 @@ module Prawn
         @baseline_y.abs - @ascender - @leading
       end
 
+      # The width available at this point in the box
+      #
+      def available_width
+        @width
+      end
+
       def draw_line(line_to_print, line_width=0, word_spacing=0, include_ellipses=false) #:nodoc:
         insert_ellipses(line_to_print) if include_ellipses
 
@@ -361,7 +367,7 @@ module Prawn
 
       def insert_ellipses(line_to_print)
         if @document.width_of(line_to_print + "...",
-                              :kerning => @kerning) < @width
+                              :kerning => @kerning) < available_width
           line_to_print.insert(-1, "...")
         else
           line_to_print[-3..-1] = "..." if line_to_print.length > 3
