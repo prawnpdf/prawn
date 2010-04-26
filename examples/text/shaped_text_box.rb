@@ -18,5 +18,14 @@ Prawn::Document.generate "shaped_text_box.pdf" do |pdf|
                :width => 300,
                :height => 300,
                :align => :center)
+  
+  Prawn::Text::Formatted::Box.extensions << ShapedBox
+  pdf.stroke_rectangle([10, pdf.bounds.top - 330], 300, 300)
+  pdf.formatted_text_box([:text => "A" * 500,
+                          :color => "009900"],
+                         :at => [10, pdf.bounds.top - 330],
+                         :width => 300,
+                         :height => 300,
+                         :align => :center)
 end
 
