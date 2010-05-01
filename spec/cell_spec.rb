@@ -278,10 +278,23 @@ describe "Prawn::Table::Cell" do
 
       box = Prawn::Text::Box.new("text", :document => @pdf)
 
-      Prawn::Text::Box.stubs(:new).returns(box)
       Prawn::Text::Box.expects(:new).with do |text, options|
         text == "text" && options[:align] == :right
-      end.returns(box)
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
+    it "should allow inline formatting in cells" do
+      c = cell(:content => "foo <b>bar</b> baz", :inline_format => true)
+
+      box = Prawn::Text::Formatted::Box.new([], :document => @pdf)
+
+      Prawn::Text::Formatted::Box.expects(:new).with do |array, options|
+        array[0][:text] == "foo " && array[0][:styles] == [] &&
+          array[1][:text] == "bar" && array[1][:styles] == [:bold] &&
+          array[2][:text] == " baz" && array[2][:styles] == []
+      end.at_least_once.returns(box)
 
       c.draw
     end
