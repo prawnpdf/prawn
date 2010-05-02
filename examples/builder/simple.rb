@@ -20,4 +20,3 @@ last_line.params[:point2] = [100,200]
 
 document = builder.compile
 document.render_file("simple-mod.pdf")
-
