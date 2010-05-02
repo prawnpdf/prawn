@@ -4,14 +4,13 @@ require "prawn/document_builder/modifications"
 
 module Prawn
   class DocumentBuilder
-
     def initialize
       @commands = []
     end
 
     attr_reader :commands
 
-     def compile
+    def compile
       document = ::Prawn::Document.new
 
       commands.each do |c|
@@ -29,6 +28,11 @@ module Prawn
       def line(point1, point2)
         commands << PathConstruct.new(:line, :point1 => point1, 
                                              :point2 => point2)
+      end
+
+      def text(contents, options={})
+        options = options.merge(:contents => contents)
+        commands << FlowingTextConstruct.new(:text, options)
       end
 
       def stroke
