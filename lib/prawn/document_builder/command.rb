@@ -1,12 +1,12 @@
 module Prawn
   class DocumentBuilder
     class Command
-      def initialize(command, options={})
-        @command = command
-        @options = options
+      def initialize(name, params={})
+        @name    = name
+        @params  = params
       end
 
-      attr_reader :command, :options
+      attr_reader :name, :params
 
       def setup
         # stub, replace in your subclasses
@@ -14,7 +14,7 @@ module Prawn
 
       def execute(document)
          setup
-         send(command, document)
+         send(name, document)
          teardown
       end
 

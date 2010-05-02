@@ -11,11 +11,7 @@ module Prawn
 
     attr_reader :commands
 
-    def start_new_page(options={})
-      commands << LayoutModification.new(:new_page, options)
-    end
-
-    def compile
+     def compile
       document = ::Prawn::Document.new
 
       commands.each do |c|
@@ -25,5 +21,21 @@ module Prawn
       document
     end
 
+    extendable_features = Module.new do
+      def start_new_page(options={})
+        commands << LayoutModification.new(:new_page, options)
+      end
+
+      def line(point1, point2)
+        commands << PathConstruct.new(:line, :point1 => point1, 
+                                             :point2 => point2)
+      end
+
+      def stroke
+        commands << PathModification.new(:stroke)
+      end
+    end
+
+    include extendable_features
   end
 end
