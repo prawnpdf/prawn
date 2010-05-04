@@ -70,7 +70,7 @@ module Prawn
             @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
             with_text_color do
               text_box(:width => content_width + FPTolerance, 
-                       :height => content_height,
+                       :height => content_height + FPTolerance,
                        :at => [0, @pdf.cursor]).render
             end
           end
