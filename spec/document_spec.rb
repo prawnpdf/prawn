@@ -216,7 +216,7 @@ describe "When reopening pages" do
       pdf.text "Page 1"
       pdf.start_new_page
       pdf.text "Page 2"
-      pdf.go_to_page 0
+      pdf.go_to_page 1
       pdf.text "More for page 1"
     end
     
@@ -263,6 +263,16 @@ describe "When setting page size" do
     pages.first[:size].should == [1920, 1080]   
   end
 
+
+  it "should retain page size by default when starting a new page" do
+    @pdf = Prawn::Document.new(:page_size => "LEGAL")
+    @pdf.start_new_page
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.each do |page|
+      page[:size].should == Prawn::Document::PageGeometry::SIZES["LEGAL"]
+    end
+  end
+
 end       
 
 describe "When setting page layout" do
@@ -271,6 +281,15 @@ describe "When setting page layout" do
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages    
     pages.first[:size].should == Prawn::Document::PageGeometry::SIZES["A4"].reverse
   end   
+
+  it "should retain page layout  by default when starting a new page" do
+    @pdf = Prawn::Document.new(:page_layout => :landscape)
+    @pdf.start_new_page(:trace => true)
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.each do |page|
+      page[:size].should == Prawn::Document::PageGeometry::SIZES["LETTER"].reverse
+    end
+  end
 end
 
 describe "The mask() feature" do
@@ -297,7 +316,6 @@ describe "The group() feature" do
         text "World"
       end
     end
-    
     pages = PDF::Inspector::Page.analyze(pdf.render).pages
     pages.size.should == 2
     pages[0][:strings].should == []
@@ -312,24 +330,6 @@ describe "The group() feature" do
         end
       end.render
     }.should.raise(Prawn::Errors::CannotGroup)
-  end
-
-  it "should group within individual column boxes" do
-    pdf = Prawn::Document.new do
-      # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
-      # of the height of one page / column, so each column should get its own
-      # group (every column should start with zero).
-      column_box([0, bounds.top], :width => bounds.width, :columns => 7) do
-        10.times do
-          group { 50.times { |i| text(i.to_s) } }
-        end
-      end
-    end
-
-    # Second page should start with a 0 because it's a new group.
-    pages = PDF::Inspector::Page.analyze(pdf.render).pages
-    pages.size.should == 2
-    pages[1][:strings].first.should == '0'
   end
 end
 
@@ -404,4 +404,58 @@ describe "PDF file versions" do
   end
 end
 
+describe "Documents that use go_to_page" do
+ it "should have 2 pages after calling start_new_page and go_to_page" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.start_new_page
+    @pdf.text "Anthony"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
 
+    page_counter = PDF::Inspector::Page.analyze(@pdf.render)
+    page_counter.pages.size.should == 2
+  end
+
+  it "should correctly add text to pages" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.start_new_page
+    @pdf.text "Anthony"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    text.strings.size.should == 3
+    text.strings.include?("James").should == true
+    text.strings.include?("Anthony").should == true
+    text.strings.include?("Healy").should == true
+  end
+end
+
+describe "content stream characteristics" do
+ it "should have 1 single content stream for a single page PDF with no templates" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 1
+  end
+
+ it "should have 1 single content stream for a single page PDF with no templates, even if go_to_page is used" do
+    @pdf = Prawn::Document.new
+    @pdf.text "James"
+    @pdf.go_to_page(1)
+    @pdf.text "Healy"
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.size.should == 1
+  end
+end

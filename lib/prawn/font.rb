@@ -277,6 +277,14 @@ module Prawn
       @line_gap / 1000.0 * size
     end
 
+    def identifier_for(subset)
+      "#{@identifier}.#{subset}".to_sym
+    end
+
+    def inspect
+      "#{self.class.name}< #{name}: #{size} >"
+    end
+
     # Normalizes the encoding of the string to an encoding supported by the
     # font. The string is expected to be UTF-8 going in. It will be re-encoded
     # and the new string will be returned. For an in-place (destructive)

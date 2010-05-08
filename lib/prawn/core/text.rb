@@ -16,7 +16,6 @@ module Prawn
       #
       VALID_OPTIONS = [:kerning, :size, :style]
 
-      attr_reader :text_options
       attr_reader :skip_encoding
 
       # Low level text placement method. All font and size alterations
@@ -43,6 +42,21 @@ module Prawn
 
         options[:size] ||= font_size
       end
+
+      # Document wide setting of whether or not to use kerning with text
+      # Defaults to true
+      # Can be overridden using the :kerning text option
+      #
+      def default_kerning?
+        return true if @default_kerning.nil?
+        @default_kerning
+      end
+
+      def default_kerning(boolean)
+        @default_kerning = boolean
+      end
+
+      alias_method :default_kerning=, :default_kerning
 
       # Increases or decreases the space between characters.
       # For horizontal text, a positive value will increase the space.

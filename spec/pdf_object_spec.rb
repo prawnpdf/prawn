@@ -52,14 +52,19 @@ describe "PDF Object Serialization" do
   
   it "should convert a Ruby symbol to PDF name" do
     Prawn::Core::PdfObject(:my_symbol).should == "/my_symbol"
-    Prawn::Core::PdfObject(:"A;Name_With−Various***Characters?").should ==
-     "/A;Name_With−Various***Characters?"
+    Prawn::Core::PdfObject(:"A;Name_With-Various***Characters?").should ==
+     "/A;Name_With-Various***Characters?"
   end
  
-  it "should not convert a whitespace containing Ruby symbol to a PDF name" do
-    lambda { Prawn::Core::PdfObject(:"My Symbol With Spaces") }.
-      should.raise(Prawn::Errors::FailedObjectConversion)
-  end    
+  it "should convert a whitespace or delimiter containing Ruby symbol to a PDF name" do
+    Prawn::Core::PdfObject(:"my symbol").should == "/my#20symbol"
+    Prawn::Core::PdfObject(:"my#symbol").should == "/my#23symbol"
+    Prawn::Core::PdfObject(:"my/symbol").should == "/my#2Fsymbol"
+    Prawn::Core::PdfObject(:"my(symbol").should == "/my#28symbol"
+    Prawn::Core::PdfObject(:"my)symbol").should == "/my#29symbol"
+    Prawn::Core::PdfObject(:"my<symbol").should == "/my#3Csymbol"
+    Prawn::Core::PdfObject(:"my>symbol").should == "/my#3Esymbol"
+  end
   
   it "should convert a Ruby array to PDF Array when inside a content stream" do
     Prawn::Core::PdfObject([1,2,3]).should == "[1 2 3]"

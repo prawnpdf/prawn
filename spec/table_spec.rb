@@ -197,7 +197,7 @@ describe "Prawn::Table" do
         hpad, fs = 3, 12
         columns = 2
         table = Prawn::Table.new( [%w[ foo b ], %w[d foobar]], @pdf,
-          :cell_style => { :padding => hpad, :font_size => fs } )
+          :cell_style => { :padding => hpad, :size => fs } )
 
         col0_width = @pdf.width_of("foo", :size => fs)
         col1_width = @pdf.width_of("foobar", :size => fs)
@@ -217,7 +217,7 @@ describe "Prawn::Table" do
 
         table = Prawn::Table.new( [%w[snake foo b apple], 
                                    %w[kitten d foobar banana]], @pdf,
-          :cell_style => { :padding => hpad, :font_size => fs }) do
+          :cell_style => { :padding => hpad, :size => fs }) do
 
           column(0).width = col0_width
           column(3).width = col3_width
@@ -490,7 +490,7 @@ describe "Prawn::Table" do
 
       pdf.expects(:bounding_box).with{|(x, y), options| y.to_i == 495}.yields
       pdf.expects(:bounding_box).with{|(x, y), options| y.to_i == 395}.yields
-      pdf.expects(:text).with("foo").twice
+      pdf.expects(:draw_text!).with{ |text, options| text == 'foo' }.twice
 
       pdf.move_cursor_to(500)
       t.draw
@@ -577,19 +577,6 @@ describe "Prawn::Table" do
       }.should.raise( Prawn::Errors::EmptyTable )
     end   
 
-  end
-
-  describe "in a column box" do
-    it "should flow to the next column, not the next page" do
-      pdf = Prawn::Document.new do
-        column_box [0, cursor], :width => bounds.width, :columns => 2 do
-          # 35 rows fit on two columns but not one
-          table [["data"]] * 35
-        end
-      end
-
-      pdf.page_count.should == 1
-    end
   end
 
 end

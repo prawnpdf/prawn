@@ -9,9 +9,7 @@
 require "stringio"
 require "prawn/document/page_geometry"
 require "prawn/document/bounding_box"
-require "prawn/document/column_box"
 require "prawn/document/internals"
-require "prawn/document/span"
 require "prawn/document/snapshot"
 require "prawn/document/graphics_state"
 
@@ -137,7 +135,7 @@ module Prawn
     # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
-    # <tt>:text_options</tt>:: A set of default options to be handed to text(). Be careful with this.
+    # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
     # of 100 points on every side except for the left, where it will be 50.
@@ -171,14 +169,16 @@ module Prawn
     def initialize(options={},&block)   
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
-         :compress, :skip_encoding, :text_options, :background, :info,
-         :optimize_objects], options
+         :compress, :skip_encoding, :background, :info,
+         :optimize_objects, :template], options
 
        # need to fix, as the refactoring breaks this
        # raise NotImplementedError if options[:skip_page_creation]
 
        self.class.extensions.reverse_each { |e| extend e }
        @internal_state = Prawn::Core::DocumentState.new(options)
+       @internal_state.populate_pages_from_store(self)
+       min_version(state.store.min_version) if state.store.min_version
 
        @background = options[:background]
        @font_size  = 12
@@ -186,21 +186,22 @@ module Prawn
        @bounding_box  = nil
        @margin_box    = nil
 
-       @text_options = options[:text_options] || {}
-       @default_unformatted_line_wrap = Prawn::Core::Text::LineWrap.new
-       @default_formatted_line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-
        @page_number = 0
 
        options[:size] = options.delete(:page_size)
        options[:layout] = options.delete(:page_layout)
 
-       if options[:skip_page_creation]
-         start_new_page(options.merge(:orphan => true))
+       if options[:template]
+         fresh_content_streams(options)
+         go_to_page(1)
        else
-         start_new_page(options)
+         if options[:skip_page_creation] || options[:template]
+           start_new_page(options.merge(:orphan => true))
+         else
+           start_new_page(options)
+         end
        end
-       
+
        @bounding_box = @margin_box
        
        if block
@@ -211,10 +212,7 @@ module Prawn
      attr_accessor :margin_box
      attr_reader   :margins, :y
      attr_writer   :font_size
-     attr_accessor :default_formatted_line_wrap
-     attr_accessor :default_unformatted_line_wrap
      attr_accessor :page_number
-
 
      def state
        @internal_state
@@ -245,17 +243,8 @@ module Prawn
          :size    => options[:size]   || last_page_size, 
          :layout  => options[:layout] || last_page_layout,
          :margins => last_page_margins )
-  
-       
-       apply_margin_option(options) if options[:margin]
 
-       [:left,:right,:top,:bottom].each do |side|
-         if margin = options[:"#{side}_margin"]
-           state.page.margins[side] = margin
-         end
-       end
-
-       generate_margin_box
+       apply_margin_options(options)
 
        use_graphic_settings
       
@@ -286,14 +275,15 @@ module Prawn
     end
     
     # Re-opens the page with the given (1-based) page number so that you can
-    # draw on it. Does not restore page state such as margins, page orientation,
-    # or paper size, so you'll have to handle that yourself.
+    # draw on it. 
     #
     # See Prawn::Document#number_pages for a sample usage of this capability.
     #
     def go_to_page(k)
       @page_number = k
       state.page = state.pages[k-1]
+      generate_margin_box
+      @y = @bounding_box.absolute_top
     end
 
     def y=(new_y)
@@ -307,7 +297,6 @@ module Prawn
     def cursor
       y - bounds.absolute_bottom
     end
-
 
     # Moves to the specified y position in relative terms to the bottom margin.
     # 
@@ -560,15 +549,25 @@ module Prawn
       @bounding_box = @margin_box if old_margin_box == @bounding_box
     end
     
-    def apply_margin_option(options)
-      # Treat :margin as CSS shorthand with 1-4 values.
-      margin = Array(options[:margin])
-      positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
-                    2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
+    def apply_margin_options(options)
+      if options[:margin]
+        # Treat :margin as CSS shorthand with 1-4 values.
+        margin = Array(options[:margin])
+        positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
+                      2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
 
-      [:top, :right, :bottom, :left].zip(positions).each do |p,i|
-        options[:"#{p}_margin"] ||= margin[i]
+        [:top, :right, :bottom, :left].zip(positions).each do |p,i|
+          options[:"#{p}_margin"] ||= margin[i]
+        end
       end
+
+      [:left,:right,:top,:bottom].each do |side|
+         if margin = options[:"#{side}_margin"]
+           state.page.margins[side] = margin
+         end
+      end
+
+      generate_margin_box
     end
   end
 end

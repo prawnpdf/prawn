@@ -9,30 +9,36 @@
 module Prawn
   module Core
     class Page #:nodoc:
+      attr_accessor :document, :content, :dictionary, :margins
+
       def initialize(document, options={})
         @document = document
-        @size     = options[:size]    ||  "LETTER" 
-
-        @layout   = options[:layout]  || :portrait 
-
         @margins  = options[:margins] || { :left    => 36,
                                            :right   => 36,
                                            :top     => 36,
                                            :bottom  => 36  }
 
-        @content    = document.ref(:Length      => 0)
-        @dictionary = document.ref(:Type        => :Page,
-                                   :Parent      => document.state.store.pages,
-                                   :MediaBox    => dimensions,
-                                   :Contents    => content)
-
-        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
-
-        @stamp_stream      = nil
-        @stamp_dictionary  = nil
+        if options[:object_id]
+          init_from_object(options)
+        else
+          init_new_page(options)
+        end
       end
 
-      attr_accessor :size, :layout, :margins, :document, :content, :dictionary
+      def layout
+        return @layout if @layout
+
+        mb = dictionary.data[:MediaBox]
+        if mb[3] > mb[2]
+          :portrait
+        else
+          :landscape
+        end
+      end
+
+      def size
+        @size || dimensions[2,2]
+      end
 
       def in_stamp_stream?
         !!@stamp_stream
@@ -53,7 +59,79 @@ module Prawn
         @stamp_dictionary  = nil
       end
 
+      def content
+        @stamp_stream || document.state.store[@content]
+      end
+
+      # As per the PDF spec, each page can have multiple content streams. This will
+      # add a fresh, empty content stream this the page, mainly for use in loading
+      # template files.
+      #
+      def new_content_stream
+        return if in_stamp_stream?
+
+        unless dictionary.data[:Contents].is_a?(Array)
+          dictionary.data[:Contents] = [content]
+        end
+        @content    = document.ref(:Length => 0)
+        dictionary.data[:Contents] << document.state.store[@content]
+      end
+
+      def dictionary
+        @stamp_dictionary || document.state.store[@dictionary]
+      end
+
+      def resources
+        if dictionary.data[:Resources]
+          document.deref(dictionary.data[:Resources])
+        else
+          dictionary.data[:Resources] = {}
+        end
+      end
+
+      def fonts
+        if resources[:Font]
+          document.deref(resources[:Font])
+        else
+          resources[:Font] = {}
+        end
+      end
+
+      def xobjects
+        if resources[:XObject]
+          document.deref(resources[:XObject])
+        else
+          resources[:XObject] = {}
+        end
+      end
+
+      def ext_gstates
+        if resources[:ExtGState]
+          document.deref(resources[:ExtGState])
+        else
+          resources[:ExtGState] = {}
+        end
+      end
+
+      def finalize
+        if dictionary.data[:Contents].is_a?(Array)
+          dictionary.data[:Contents].each do |stream|
+            stream.compress_stream if document.compression_enabled?
+            stream.data[:Length] = stream.stream.size
+          end
+        else
+          content.compress_stream if document.compression_enabled?
+          content.data[:Length] = content.stream.size
+        end
+      end
+
+      def imported_page?
+        @imported_page
+      end
+
       def dimensions
+        return dictionary.data[:MediaBox] if imported_page?
+
         coords = Prawn::Document::PageGeometry::SIZES[size] || size
         [0,0] + case(layout)
         when :portrait
@@ -66,33 +144,31 @@ module Prawn
         end
       end
 
-      def content
-        @stamp_stream || document.state.store[@content]
+      private
+
+      def init_from_object(options)
+        @dictionary = options[:object_id].to_i
+        @content    = dictionary.data[:Contents].identifier
+
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
+        @imported_page     = true
       end
 
-      def dictionary
-        @stamp_dictionary || document.state.store[@dictionary]
-      end
+      def init_new_page(options)
+        @size     = options[:size]    ||  "LETTER" 
+        @layout   = options[:layout]  || :portrait         
+        
+        @content    = document.ref(:Length      => 0)
+        @dictionary = document.ref(:Type        => :Page,
+                                   :Parent      => document.state.store.pages,
+                                   :MediaBox    => dimensions,
+                                   :Contents    => content)
 
-      def resources
-        dictionary.data[:Resources] ||= {}
-      end
+        resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
 
-      def fonts
-        resources[:Font] ||= {}
-      end
-
-      def xobjects
-        resources[:XObject] ||= {}
-      end
-
-      def ext_gstates
-        resources[:ExtGState] ||= {}
-      end
-
-      def finalize
-        content.compress_stream if document.compression_enabled?
-        content.data[:Length] = content.stream.size
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
       end
 
     end

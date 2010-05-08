@@ -117,10 +117,8 @@ module Prawn
 
       dictionary_name = "Stamp#{next_stamp_dictionary_id}"
 
-      stamp_dictionary_registry[name] = {
-                                      :stamp_dictionary_name => dictionary_name,
-                                      :stamp_dictionary      => dictionary
-                                         }
+      stamp_dictionary_registry[name] = { :stamp_dictionary_name => dictionary_name,
+                                          :stamp_dictionary      => dictionary }
       dictionary
     end
 

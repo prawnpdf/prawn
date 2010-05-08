@@ -1,0 +1,61 @@
+%PDF-1.6
+%????
+1 0 obj
+<< /Creator (Prawn)
+/Producer (Prawn)
+>>
+endobj
+2 0 obj
+<< /Kids [5 0 R]
+/Type /Pages
+/Count 1
+>>
+endobj
+3 0 obj
+<< /Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+4 0 obj
+<< /Length 195
+>>
+stream
+0.000 0.000 0.000 rg
+0.000 0.000 0.000 RG
+q
+1.000 0.000 0.000 rg
+136.000 286.000 m
+236.000 336.000 l
+336.000 286.000 l
+336.000 186.000 l
+236.000 136.000 l
+136.000 186.000 l
+136.000 286.000 l
+f
+Q
+
+endstream
+endobj
+5 0 obj
+<< /Contents 4 0 R
+/Type /Page
+/MediaBox [0 0 612.0 792.0]
+/Parent 2 0 R
+>>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000071 00000 n 
+0000000128 00000 n 
+0000000177 00000 n 
+0000000423 00000 n 
+trailer
+<< /Info 1 0 R
+/Size 6
+/Root 3 0 R
+>>
+startxref
+514
+%%EOF

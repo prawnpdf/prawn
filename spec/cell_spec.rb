@@ -37,14 +37,14 @@ describe "Prawn::Table::Cell" do
     it "should draw text at the given point plus padding, with the given " +
        "size and style" do
       @pdf.expects(:bounding_box).yields
-      @pdf.expects(:move_down).with{ |x| close?(x, 1.652) }
-      @pdf.expects(:text).with("hello world")
+      @pdf.expects(:move_down)
+      @pdf.expects(:draw_text!).with { |text, options| text == "hello world" }
 
       @pdf.cell(:content => "hello world", 
                 :at => [10, 20],
                 :padding => [30, 40],
-                :font_size => 7, 
-                :font_style => :bold)
+                :size => 7, 
+                :style => :bold)
     end
   end
 
@@ -74,9 +74,9 @@ describe "Prawn::Table::Cell" do
       c.width.should == 400
     end
 
-    it "should return proper width with font_size set" do
+    it "should return proper width with size set" do
       text = "text " * 4
-      c = cell(:content => text, :font_size => 7)
+      c = cell(:content => text, :size => 7)
       c.width.should == 
         @pdf.width_of(text, :size => 7) + c.padding[1] + c.padding[3]
     end
@@ -140,9 +140,9 @@ describe "Prawn::Table::Cell" do
         c.padding[0] + c.padding[2]
     end
 
-    it "should return proper height for blocks of text with font_size set" do
+    it "should return proper height for blocks of text with size set" do
       content = "words " * 10
-      c = cell(:content => content, :width => 100, :font_size => 7)
+      c = cell(:content => content, :width => 100, :size => 7)
 
       correct_content_height = nil
       @pdf.font_size(7) do
@@ -270,19 +270,44 @@ describe "Prawn::Table::Cell" do
     end
   end
 
+  describe "Text cell attributes" do
+    include CellHelpers
+
+    it "should pass through text options like :align to Text::Box" do
+      c = cell(:content => "text", :align => :right)
+
+      box = Prawn::Text::Box.new("text", :document => @pdf)
+
+      Prawn::Text::Box.expects(:new).with do |text, options|
+        text == "text" && options[:align] == :right
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
+    it "should allow inline formatting in cells" do
+      c = cell(:content => "foo <b>bar</b> baz", :inline_format => true)
+
+      box = Prawn::Text::Formatted::Box.new([], :document => @pdf)
+
+      Prawn::Text::Formatted::Box.expects(:new).with do |array, options|
+        array[0][:text] == "foo " && array[0][:styles] == [] &&
+          array[1][:text] == "bar" && array[1][:styles] == [:bold] &&
+          array[2][:text] == " baz" && array[2][:styles] == []
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
+  end
+
   describe "Font handling" do
     include CellHelpers
 
-    it "should allow only :font_style to be specified, defaulting to the" +
+    it "should allow only :style to be specified, defaulting to the" +
        "document's font" do
-      c = cell(:content => "text", :font_style => :bold)
+      c = cell(:content => "text", :style => :bold)
       c.font.name.should == 'Helvetica-Bold'
-    end
-
-    it "should accept a Prawn::Font for :font" do
-      font = @pdf.find_font('Helvetica-Bold')
-      c = cell(:content => "text", :font => font)
-      c.font.should == font
     end
 
     it "should accept a font name for :font" do
@@ -290,9 +315,9 @@ describe "Prawn::Table::Cell" do
       c.font.name.should == 'Helvetica-Bold'
     end
 
-    it "should allow font_style to be changed after initialize" do
+    it "should allow style to be changed after initialize" do
       c = cell(:content => "text")
-      c.font_style = :bold
+      c.style = :bold
       c.font.name.should == 'Helvetica-Bold'
     end
 
@@ -303,7 +328,7 @@ describe "Prawn::Table::Cell" do
 
     it "should use the metrics of the selected font (even if it is a variant " +
        "of the document's font) to calculate width" do
-      c = cell(:content => "text", :font_style => :bold)
+      c = cell(:content => "text", :style => :bold)
       font = @pdf.find_font('Helvetica-Bold')
       c.content_width.should == font.compute_width_of("text")
     end
