@@ -47,7 +47,7 @@ module Prawn
             line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
                                                  :document => @document,
                                                  :kerning => @kerning,
-                                                 :width => @width)
+                                                 :width => available_width)
 
             remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..
                                                   remaining_text.length)
@@ -67,10 +67,10 @@ module Prawn
         private
 
         def word_spacing_for_this_line
-          if @align != :justify || @line_wrap.width.to_f / @width.to_f < 0.75
+          if @align != :justify || @line_wrap.width.to_f / available_width.to_f < 0.75
             0
           else
-            (@width - @line_wrap.width) / @line_wrap.space_count
+            (available_width - @line_wrap.width) / @line_wrap.space_count
           end
         end
 
