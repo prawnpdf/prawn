@@ -4,8 +4,6 @@ require 'rake/testtask'
 require "rake/rdoctask"
 require "rake/gempackagetask"  
 
-PRAWN_VERSION = "0.10.1" 
-
 task :default => [:test]
        
 desc "Run all tests, test-spec, mocha, and pdf-reader required"
