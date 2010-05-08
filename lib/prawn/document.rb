@@ -192,7 +192,7 @@ module Prawn
        options[:layout] = options.delete(:page_layout)
 
        if options[:template]
-         fresh_content_streams
+         fresh_content_streams(options)
          go_to_page(1)
        else
          if options[:skip_page_creation] || options[:template]
@@ -244,15 +244,7 @@ module Prawn
          :layout  => options[:layout] || last_page_layout,
          :margins => last_page_margins )
 
-       apply_margin_option(options) if options[:margin]
-
-       [:left,:right,:top,:bottom].each do |side|
-         if margin = options[:"#{side}_margin"]
-           state.page.margins[side] = margin
-         end
-       end
-
-       generate_margin_box
+       apply_margin_options(options)
 
        use_graphic_settings
       
@@ -557,15 +549,25 @@ module Prawn
       @bounding_box = @margin_box if old_margin_box == @bounding_box
     end
     
-    def apply_margin_option(options)
-      # Treat :margin as CSS shorthand with 1-4 values.
-      margin = Array(options[:margin])
-      positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
-                    2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
+    def apply_margin_options(options)
+      if options[:margin]
+        # Treat :margin as CSS shorthand with 1-4 values.
+        margin = Array(options[:margin])
+        positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
+                      2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
 
-      [:top, :right, :bottom, :left].zip(positions).each do |p,i|
-        options[:"#{p}_margin"] ||= margin[i]
+        [:top, :right, :bottom, :left].zip(positions).each do |p,i|
+          options[:"#{p}_margin"] ||= margin[i]
+        end
       end
+
+      [:left,:right,:top,:bottom].each do |side|
+         if margin = options[:"#{side}_margin"]
+           state.page.margins[side] = margin
+         end
+      end
+
+      generate_margin_box
     end
   end
 end
