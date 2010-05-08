@@ -38,7 +38,7 @@ module Prawn
 
               line_to_print = @line_wrap.wrap_line(:document => @document,
                                                    :kerning => @kerning,
-                                                   :width => @width,
+                                                   :width => available_width,
                                                    :arranger => @arranger)
 
               move_baseline = false
