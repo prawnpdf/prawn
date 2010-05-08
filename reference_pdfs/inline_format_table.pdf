@@ -6,14 +6,14 @@
 >>
 endobj
 2 0 obj
-<< /Pages 3 0 R
-/Type /Catalog
+<< /Type /Catalog
+/Pages 3 0 R
 >>
 endobj
 3 0 obj
-<< /Count 1
+<< /Type /Pages
+/Count 1
 /Kids [5 0 R]
-/Type /Pages
 >>
 endobj
 4 0 obj
@@ -188,37 +188,37 @@ Q
 endstream
 endobj
 5 0 obj
-<< /MediaBox [0 0 612.0 792.0]
+<< /Type /Page
 /Parent 3 0 R
+/MediaBox [0 0 612.0 792.0]
+/Contents 4 0 R
 /Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
 /Font << /F1.0 6 0 R
 /F2.0 7 0 R
 /F3.0 8 0 R
 >>
 >>
-/Contents 4 0 R
-/Type /Page
 >>
 endobj
 6 0 obj
-<< /Subtype /Type1
+<< /Type /Font
+/Subtype /Type1
 /BaseFont /Helvetica
 /Encoding /WinAnsiEncoding
-/Type /Font
 >>
 endobj
 7 0 obj
-<< /Subtype /Type1
+<< /Type /Font
+/Subtype /Type1
 /BaseFont /Helvetica-Bold
 /Encoding /WinAnsiEncoding
-/Type /Font
 >>
 endobj
 8 0 obj
-<< /Subtype /Type1
+<< /Type /Font
+/Subtype /Type1
 /BaseFont /Helvetica-Oblique
 /Encoding /WinAnsiEncoding
-/Type /Font
 >>
 endobj
 xref

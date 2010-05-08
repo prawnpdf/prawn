@@ -7,19 +7,19 @@
 /Keywords (test metadata ruby pdf dry)
 /Creator (ACME Soft App)
 /Producer (Prawn)
-/CreationDate (D:20100328183900-04'00')
+/CreationDate (D:20100508154401-04'00')
 /Grok (Test Property)
 >>
 endobj
 2 0 obj
-<< /Type /Pages
-/Count 1
-/Kids [5 0 R]
+<< /Type /Catalog
+/Pages 3 0 R
 >>
 endobj
 3 0 obj
-<< /Type /Catalog
-/Pages 2 0 R
+<< /Type /Pages
+/Count 1
+/Kids [5 0 R]
 >>
 endobj
 4 0 obj
@@ -51,7 +51,7 @@ endstream
 endobj
 5 0 obj
 << /Type /Page
-/Parent 2 0 R
+/Parent 3 0 R
 /MediaBox [0 0 612.0 792.0]
 /Contents 4 0 R
 /Resources << /ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
@@ -72,13 +72,13 @@ xref
 0000000000 65535 f 
 0000000015 00000 n 
 0000000239 00000 n 
-0000000296 00000 n 
+0000000288 00000 n 
 0000000345 00000 n 
 0000000836 00000 n 
 0000001014 00000 n 
 trailer
 << /Size 7
-/Root 3 0 R
+/Root 2 0 R
 /Info 1 0 R
 >>
 startxref
