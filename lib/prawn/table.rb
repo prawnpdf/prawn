@@ -262,6 +262,55 @@ module Prawn
       @pdf.move_cursor_to(last_y - @cells.last.height)
     end
 
+    # Calculate and return the constrained column widths, taking into account
+    # each cell's min_width, max_width, and any user-specified constraints on
+    # the table or column size.
+    #
+    # Because the natural widths can be silly, this does not always work so well
+    # at guessing a good size for columns that have vastly different content. If
+    # you see weird problems like CannotFit errors or shockingly bad column
+    # sizes, you should specify more column widths manually.
+    #
+    def column_widths
+      @column_widths ||= begin
+        if width < cells.min_width
+          raise Errors::CannotFit,
+            "Table's width was set too small to contain its contents"
+        end
+
+        if width > cells.max_width
+          raise Errors::CannotFit,
+            "Table's width was set larger than its contents' maximum width"
+        end
+
+        if width < natural_width
+          # Shrink the table to fit the requested width.
+          f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
+
+          (0...column_length).map do |c|
+            min, nat = column(c).min_width, column(c).width
+            (f * (nat - min)) + min
+          end
+        elsif width > natural_width
+          # Expand the table to fit the requested width.
+          f = (width - cells.width).to_f / (cells.max_width - cells.width)
+
+          (0...column_length).map do |c|
+            nat, max = column(c).width, column(c).max_width
+            (f * (max - nat)) + nat
+          end
+        else
+          natural_column_widths
+        end
+      end
+    end
+
+    # Returns an array with the height of each row.
+    #
+    def row_heights
+      @natural_row_heights ||= (0...row_length).map{ |r| row(r).height }
+    end
+
     protected
 
     # Converts the array of cellable objects given into instances of
@@ -330,55 +379,6 @@ module Prawn
     #
     def natural_width
       @natural_width ||= natural_column_widths.inject(0) { |sum, w| sum + w }
-    end
-
-    # Calculate and return the constrained column widths, taking into account
-    # each cell's min_width, max_width, and any user-specified constraints on
-    # the table or column size.
-    #
-    # Because the natural widths can be silly, this does not always work so well
-    # at guessing a good size for columns that have vastly different content. If
-    # you see weird problems like CannotFit errors or shockingly bad column
-    # sizes, you should specify more column widths manually.
-    #
-    def column_widths
-      @column_widths ||= begin
-        if width < cells.min_width
-          raise Errors::CannotFit,
-            "Table's width was set too small to contain its contents"
-        end
-
-        if width > cells.max_width
-          raise Errors::CannotFit,
-            "Table's width was set larger than its contents' maximum width"
-        end
-
-        if width < natural_width
-          # Shrink the table to fit the requested width.
-          f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
-
-          (0...column_length).map do |c|
-            min, nat = column(c).min_width, column(c).width
-            (f * (nat - min)) + min
-          end
-        elsif width > natural_width
-          # Expand the table to fit the requested width.
-          f = (width - cells.width).to_f / (cells.max_width - cells.width)
-
-          (0...column_length).map do |c|
-            nat, max = column(c).width, column(c).max_width
-            (f * (max - nat)) + nat
-          end
-        else
-          natural_column_widths
-        end
-      end
-    end
-
-    # Returns an array with the height of each row.
-    #
-    def row_heights
-      @natural_row_heights ||= (0...row_length).map{ |r| row(r).height }
     end
 
     # Assigns the calculated column widths to each cell. This ensures that each
