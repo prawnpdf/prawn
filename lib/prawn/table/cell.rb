@@ -87,6 +87,7 @@ module Prawn
       #
       def self.make(pdf, content, options={})
         at = options.delete(:at) || [0, pdf.cursor]
+        content = "" if content.nil?
         options[:content] = content
 
         case content

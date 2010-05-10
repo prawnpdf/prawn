@@ -34,6 +34,12 @@ describe "Prawn::Table::Cell" do
       @pdf.cell(:content => "text").should.be.a.kind_of Prawn::Table::Cell
     end
 
+    it "should generate an empty cell from nil content" do
+      c = @pdf.cell(:content => nil)
+      c.should.be.a.kind_of Prawn::Table::Cell::Text
+      c.content.should == ""
+    end
+
     it "should draw text at the given point plus padding, with the given " +
        "size and style" do
       @pdf.expects(:bounding_box).yields
