@@ -252,6 +252,21 @@ describe "Prawn::Table" do
 
         table.width.should == expected_width
       end
+      
+      it "scales down only the non-preset column widths when the natural width" +
+        "exceeds the maximum width of the margin_box" do
+        expected_width = @pdf.margin_box.width
+        data = [
+          ['This is a column with a lot of text that should comfortably exceed '+
+          'the width of a normal document margin_box width', 'Some more text', 
+          'and then some more', 'Just a bit more to be extra sure']
+        ]
+        table = Prawn::Table.new(data, @pdf) { column(1).width = 100; column(3).width = 50 }
+
+        table.width.should == expected_width
+        table.column_widths[1].should == 100
+        table.column_widths[3].should == 50
+      end
 
       it "should allow width to be reset even after it has been calculated" do
         @table = @pdf.table([[@long_text]])

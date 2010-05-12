@@ -28,6 +28,12 @@ module Prawn
         def initialize(pdf, point, options={})
           @text_options = {}
           super
+          
+          # Sets a reasonable minimum width. If the cell has any content, make
+          # sure we have enough width to be at least one character wide. This is
+          # a bit of a hack, but it should work well enough.
+          min_content_width = [natural_content_width, styled_width_of("M")].min
+          @min_width = left_padding + right_padding + min_content_width
         end
 
         # Returns the font that will be used to draw this cell.
@@ -41,15 +47,6 @@ module Prawn
         #
         def natural_content_width
           [styled_width_of(@content), @pdf.bounds.width].min
-        end
-
-        # Returns a reasonable minimum width. If the cell has any content, make
-        # sure we have enough width to be at least one character wide. This is
-        # a bit of a hack, but it should work well enough.
-        #
-        def min_width
-          min_content_width = [natural_content_width, styled_width_of("M")].min
-          left_padding + right_padding + min_content_width
         end
 
         # Returns the natural height of this block of text, wrapped to the
