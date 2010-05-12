@@ -313,17 +313,33 @@ module Prawn
       def padding_top
         @padding[0]
       end
+      
+      def padding_top=(val)
+        @padding[0] = val
+      end
 
       def padding_right
         @padding[1]
+      end
+      
+      def padding_right=(val)
+        @padding[1] = val
       end
 
       def padding_bottom
         @padding[2]
       end
+      
+      def padding_bottom=(val)
+        @padding[2] = val
+      end
 
       def padding_left
         @padding[3]
+      end
+      
+      def padding_left=(val)
+        @padding[3] = val
       end
 
     end
