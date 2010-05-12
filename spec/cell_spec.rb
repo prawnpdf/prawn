@@ -186,6 +186,11 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => [20, 30])
       c.padding.should == [20, 30, 20, 30]
     end
+    
+    it "should accept [t,h,b]" do
+      c = cell(:content => "text", :padding => [10, 20, 30])
+      c.padding.should == [10, 20, 30, 20]
+    end
 
     it "should accept [t,l,b,r]" do
       c = cell(:content => "text", :padding => [10, 20, 30, 40])

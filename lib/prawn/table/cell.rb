@@ -235,7 +235,8 @@ module Prawn
       # Sets padding on this cell. The argument can be one of:
       #
       # * an integer (sets all padding)
-      # * a two-element array [vertical_padding, horizontal_padding]
+      # * a two-element array [vertical, horizontal]
+      # * a three-element array [top, horizontal, bottom, left]
       # * a four-element array [top, right, bottom, left]
       #
       def padding=(pad)
@@ -246,6 +247,8 @@ module Prawn
           [pad, pad, pad, pad]
         when pad.length == 2 # vert, horiz
           [pad[0], pad[1], pad[0], pad[1]]
+        when pad.length == 3 # top, horiz, bottom
+          [pad[0], pad[1], pad[2], pad[1]]
         when pad.length == 4 # top, right, bottom, left
           [pad[0], pad[1], pad[2], pad[3]]
         else
