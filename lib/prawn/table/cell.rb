@@ -236,7 +236,7 @@ module Prawn
       #
       # * an integer (sets all padding)
       # * a two-element array [vertical, horizontal]
-      # * a three-element array [top, horizontal, bottom, left]
+      # * a three-element array [top, horizontal, bottom]
       # * a four-element array [top, right, bottom, left]
       #
       def padding=(pad)
