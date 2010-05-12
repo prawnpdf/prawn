@@ -133,7 +133,7 @@ module Prawn
         options.each { |k, v| send("#{k}=", v) }
 
         # Sensible defaults for min / max.
-        @min_width = left_padding + right_padding
+        @min_width = padding_left + padding_right
         @max_width = @pdf.bounds.width
       end
 
@@ -142,7 +142,7 @@ module Prawn
       def width
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_width.
-        @width || (content_width + left_padding + right_padding)
+        @width || (content_width + padding_left + padding_right)
       end
 
       # Manually sets the cell's width, inclusive of padding.
@@ -155,7 +155,7 @@ module Prawn
       #
       def content_width
         if @width # manually set
-          return @width - left_padding - right_padding
+          return @width - padding_left - padding_right
         end
 
         natural_content_width
@@ -174,14 +174,14 @@ module Prawn
       def height
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_height.
-        @height || (content_height + top_padding + bottom_padding)
+        @height || (content_height + padding_top + padding_bottom)
       end
 
       # Returns the height of the bare content in the cell, excluding padding.
       #
       def content_height
         if @height # manually set
-          return @height - top_padding - bottom_padding
+          return @height - padding_top - padding_bottom
         end
         
         natural_content_height
@@ -201,7 +201,7 @@ module Prawn
       def draw(pt=[x, y])
         draw_background(pt)
         draw_borders(pt)
-        @pdf.bounding_box([pt[0] + left_padding, pt[1] - top_padding], 
+        @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
                           :width  => content_width + FPTolerance,
                           :height => content_height + FPTolerance) do
           draw_content
@@ -310,19 +310,19 @@ module Prawn
         raise NotImplementedError, "subclasses must implement draw_content"
       end
 
-      def top_padding
+      def padding_top
         @padding[0]
       end
 
-      def right_padding
+      def padding_right
         @padding[1]
       end
 
-      def bottom_padding
+      def padding_bottom
         @padding[2]
       end
 
-      def left_padding
+      def padding_left
         @padding[3]
       end
 

@@ -33,7 +33,7 @@ module Prawn
           # sure we have enough width to be at least one character wide. This is
           # a bit of a hack, but it should work well enough.
           min_content_width = [natural_content_width, styled_width_of("M")].min
-          @min_width = left_padding + right_padding + min_content_width
+          @min_width = padding_left + padding_right + min_content_width
         end
 
         # Returns the font that will be used to draw this cell.
