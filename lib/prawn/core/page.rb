@@ -148,7 +148,7 @@ module Prawn
 
       def init_from_object(options)
         @dictionary = options[:object_id].to_i
-        unless dictionary.data[:Contents].is_a?(Array) # issue 106 -- see spec/template_spec.rb ... complex_template.pdf
+        unless dictionary.data[:Contents].is_a?(Array) # content only on leafs
           @content    = dictionary.data[:Contents].identifier
         end
 
