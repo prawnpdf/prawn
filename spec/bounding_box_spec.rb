@@ -175,6 +175,16 @@ describe "Indentation" do
     end
   end
 
+  it "optionally allows adjustment of the right bound as well" do
+    @pdf.bounding_box([100,100], :width => 200) do
+      @pdf.indent(20, 30) do
+        @pdf.bounds.absolute_left.should == 120
+        @pdf.bounds.width.should == 150
+      end
+      @pdf.bounds.absolute_left.should == 100
+      @pdf.bounds.width.should == 200
+    end
+  end
 end
 
 describe "A canvas" do

@@ -244,13 +244,17 @@ module Prawn
       #     end
       #   end
       #
-      def indent(left_padding, &block)
+      #  indent 20, 20 do
+      #    text "indented on both sides"
+      #  end
+      #
+      def indent(left_padding, right_padding = 0, &block)
         @x += left_padding
-        @width -= left_padding
+        @width -= (left_padding + right_padding)
         yield
       ensure
         @x -= left_padding
-        @width += left_padding
+        @width += (left_padding + right_padding)
       end
       
       # Relative right x-coordinate of the bounding box. (Equal to the box width)

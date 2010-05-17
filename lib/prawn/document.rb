@@ -461,9 +461,12 @@ module Prawn
     #  end
     #  pdf.text "This starts 20 points left of the above line " +
     #           "and is flush with the first line"
+    #  pdf.indent 20, 20 do
+    #    pdf.text "This line is indented on both sides."
+    #  end
     #
-    def indent(x, &block)
-      bounds.indent(x, &block)
+    def indent(left, right = 0, &block)
+      bounds.indent(left, right, &block)
     end
 
 
