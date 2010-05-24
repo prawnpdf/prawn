@@ -57,7 +57,6 @@ module Prawn
                 format_and_draw_fragment(fragment, accumulated_width,
                                          @line_wrap.width, word_spacing)
                 accumulated_width += fragment.width
-                fragment.finished
               end
               @printed_lines << printed_fragments.join("")
               break if @single_line

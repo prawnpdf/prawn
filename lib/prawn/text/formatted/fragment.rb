@@ -9,6 +9,10 @@
 module Prawn
   module Text
     module Formatted
+
+      # Prawn::Text::Formatted::Fragment is a state store for a formatted text
+      # fragment. It does not render anything.
+      #
       class Fragment
 
         attr_reader :text, :format_state
@@ -29,6 +33,10 @@ module Prawn
           end
         end
 
+        def height
+          top - bottom
+        end
+
         def subscript?
           styles.include?(:subscript)
         end
@@ -45,7 +53,7 @@ module Prawn
         end
 
         def bounding_box
-          [left, baseline - descender, left + width, baseline + ascender]
+          [left, bottom, right, top]
         end
 
         def absolute_bounding_box
@@ -58,15 +66,13 @@ module Prawn
         end
 
         def underline_points
-          box = bounding_box
           y = baseline - 1.25
-          [[box[0], y], [box[2], y]]
+          [[left, y], [right, y]]
         end
 
         def strikethrough_points
-          box = bounding_box
           y = baseline + ascender * 0.3
-          [[box[0], y], [box[2], y]]
+          [[left, y], [right, y]]
         end
 
         def styles
@@ -93,34 +99,77 @@ module Prawn
           @format_state[:size]
         end
 
-        def callback_object
-          callback[:object]
-        end
-
-        def callback_method
-          callback[:method]
-        end
-
-        def callback_arguments
-          callback[:arguments]
-        end
-
-        def finished
-          if callback_object && callback_method
-            if callback_arguments
-              callback_object.send(callback_method, self, *callback_arguments)
-            else
-              callback_object.send(callback_method, self)
-            end
+        def callback_objects
+          callback = @format_state[:callback]
+          if callback.nil?
+            []
+          elsif callback.is_a?(Array)
+            callback
+          else
+            [callback]
           end
         end
 
-        private
-
-        def callback
-          @format_state[:callback] || {}
+        def right
+          left + width
         end
-        
+
+        def top
+          baseline + ascender
+        end
+
+        def bottom
+          baseline - descender
+        end
+
+        def top_left
+          [left, top]
+        end
+
+        def top_right
+          [right, top]
+        end
+
+        def bottom_right
+          [right, bottom]
+        end
+
+        def bottom_left
+          [left, bottom]
+        end
+
+        def absolute_left
+          absolute_bounding_box[0]
+        end
+
+        def absolute_right
+          absolute_bounding_box[2]
+        end
+
+        def absolute_top
+          absolute_bounding_box[3]
+        end
+
+        def absolute_bottom
+          absolute_bounding_box[1]
+        end
+
+        def absolute_top_left
+          [absolute_left, absolute_top]
+        end
+
+        def absolute_top_right
+          [absolute_right, absolute_top]
+        end
+
+        def absolute_bottom_left
+          [absolute_left, absolute_bottom]
+        end
+
+        def absolute_bottom_right
+          [absolute_right, absolute_bottom]
+        end
+
       end
     end
   end
