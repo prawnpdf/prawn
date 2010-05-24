@@ -287,7 +287,7 @@ module Prawn
       # bottom right:
       # 
       #  stroke do
-      #    line(bounds., bounds.bottom_right)
+      #    line(bounds.top_left, bounds.bottom_right)
       #  end
       #
       def top_left
