@@ -8,15 +8,16 @@ module Prawn
 
       attr_reader :name
       attr_accessor :params
+      attr_accessor :box
 
       def setup
         # stub, replace in your subclasses
       end
 
-      def execute(document)
+      def execute(document, layout)
          save_params
          setup
-         send(name, document)
+         send(name, document, layout)
          teardown
          restore_params
       end
