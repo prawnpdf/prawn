@@ -12,6 +12,11 @@ module Prawn
   module Core #:nodoc:
                                              
     module_function
+
+    # Treat the Unicode byte-order mark as a raw byte stream so that it can be
+    # prepended to big-endian UTF-16 data below.
+    ruby_18 { ByteOrderMark = "\xFE\xFF" }
+    ruby_19 { ByteOrderMark = "\xFE\xFF".force_encoding("ASCII-8BIT") }
       
     # Serializes Ruby objects to their PDF equivalents.  Most primitive objects
     # will work as expected, but please note that Name objects are represented 
@@ -45,7 +50,10 @@ module Prawn
       when Prawn::Core::ByteString
         "<" << obj.unpack("H*").first << ">"
       when String
-        obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
+        unless in_content_stream
+          # Pack string as UTF-16 with a BOM
+          obj = ByteOrderMark + obj.unpack("U*").pack("n*")
+        end
         "<" << obj.unpack("H*").first << ">"
        when Symbol                                                         
          "/" + obj.to_s.unpack("C*").map { |n|

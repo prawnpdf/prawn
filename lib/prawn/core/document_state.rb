@@ -44,12 +44,6 @@ module Prawn
         options[:info][:Producer] = "Prawn"
 
         info = options[:info]
-
-        info.keys.each do |key|
-          if info[key].kind_of?(String)
-            info[key] = Prawn::Core::LiteralString.new(info[key])
-          end
-        end
       end
 
       def insert_page(page, page_number)
