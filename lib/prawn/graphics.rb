@@ -234,6 +234,8 @@ module Prawn
       (points[1..-1] << points[0]).each do |point|
         line_to(*point)
       end
+      # close the path
+      add_content "h"
     end
     
     # Draws a rounded polygon from specified points using the radius to define bezier curves
@@ -248,6 +250,8 @@ module Prawn
       (sides).times do |i|
         rounded_vertex(radius, points[i], points[i + 1], points[i + 2])
       end
+      # close the path
+      add_content "h"
     end
     
     

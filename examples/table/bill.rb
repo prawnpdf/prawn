@@ -26,16 +26,11 @@ Prawn::Document.generate("bill.pdf") do
     rows[-1][5] = balance
 
     # Return a Prawn::Table object to be used as a subtable.
-    make_table(rows, :column_widths => Widths, :cell_style => {
-      :borders => [:left, :right], :padding => 2
-    })
-
-    # Equivalent make_table syntax using the attributes API:
-    #
-    # make_table(rows) do
-    #   t.column_widths = Widths
-    #   t.cells.style :borders => [:left, :right], :padding => 2
-    # end
+    make_table(rows) do |t|
+      t.column_widths = Widths
+      t.cells.style :borders => [:left, :right], :padding => 2
+      t.columns(4..5).align = :right
+    end
 
   end
 

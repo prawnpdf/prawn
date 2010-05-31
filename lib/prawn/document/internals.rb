@@ -92,11 +92,13 @@ module Prawn
       # adds a new, empty content stream to each page. Used in templating so
       # that imported content streams can be left pristine
       #
-      def fresh_content_streams
+      def fresh_content_streams(options={})
         (1..page_count).each do |i|
           go_to_page i
           state.page.new_content_stream
+          apply_margin_options(options)
           use_graphic_settings
+          save_graphics_state
         end
       end
 
@@ -104,7 +106,7 @@ module Prawn
         (1..page_count).each do |i|
           go_to_page i
           repeaters.each { |r| r.run(i) }
-          restore_graphics_state if state.page.content.stream.strip[-1,1] != "Q"
+          restore_graphics_state
           state.page.finalize
         end
       end

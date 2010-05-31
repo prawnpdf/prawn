@@ -61,7 +61,7 @@ module Prawn
     #
     # Note, this is a low level tool and is designed primarily for building
     # other abstractions.  If you just need to flow text on the page, you
-    # will want to look at span() and text_box() instead
+    # will want to look at text_box() instead
     #
     # ==Translating Coordinates
     # 
@@ -287,7 +287,7 @@ module Prawn
       # bottom right:
       # 
       #  stroke do
-      #    line(bounds., bounds.bottom_right)
+      #    line(bounds.top_left, bounds.bottom_right)
       #  end
       #
       def top_left
@@ -393,6 +393,22 @@ module Prawn
         return @height if @height
         @stretched_height = [(absolute_top - @parent.y), @stretched_height.to_f].max
       end    
+
+      # an alias for absolute_left
+      def left_side
+         absolute_left
+      end
+
+      # an alias for absolute_right
+      def right_side
+         absolute_right
+      end
+
+      # starts a new page
+      def move_past_bottom
+         @parent.start_new_page
+      end
+
 
       alias_method :update_height, :height
        

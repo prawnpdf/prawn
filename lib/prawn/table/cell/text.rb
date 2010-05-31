@@ -14,85 +14,108 @@ module Prawn
       #
       class Text < Cell
 
-        attr_reader :font
-        attr_writer :font_size, :text_color
-        
+        TextOptions = [:inline_format, :kerning, :size, :style,
+          :align, :valign, :rotate, :rotate_around, :leading, :single_line,
+          :skip_encoding, :overflow, :min_font_size]
+
+        TextOptions.each do |option|
+          define_method("#{option}=") { |v| @text_options[option] = v }
+          define_method(option) { @text_options[option] }
+        end
+
+        attr_writer :font, :text_color
+
         def initialize(pdf, point, options={})
+          @text_options = {}
           super
-          @font ||= load_font(nil)
+          
+          # Sets a reasonable minimum width. If the cell has any content, make
+          # sure we have enough width to be at least one character wide. This is
+          # a bit of a hack, but it should work well enough.
+          min_content_width = [natural_content_width, styled_width_of("M")].min
+          @min_width = padding_left + padding_right + min_content_width
         end
 
-        # Use the given font (a Prawn::Font object or font name).
+        # Returns the font that will be used to draw this cell.
         #
-        def font=(font)
-          @font = load_font(font)
-        end
-
-        # Set the font style to the given variant (:normal, :bold, :italic,
-        # :bold_italic, etc.)
-        #
-        def font_style=(style)
-          @font ||= @pdf.font
-          @font_style = style
-          # Update Font object if variant is changed
-          @font = @pdf.find_font(@font.family, :style => style)
+        def font
+          with_font { @pdf.font }
         end
 
         # Returns the width of this text with no wrapping. This will be far off
         # from the final width if the text is long.
         #
         def natural_content_width
-          # We have to use the font's width here, not the document's, to account
-          # for :font_style
-          @font.compute_width_of(@content, :size => @font_size)
-        end
-
-        # Returns a reasonable minimum width. If the cell has any content, make
-        # sure we have enough width to be at least one character wide. This is
-        # a bit of a hack, but it should work well enough.
-        #
-        def min_width
-          min_content_width = [@pdf.width_of(@content), @pdf.width_of("W")].min
-          left_padding + right_padding + min_content_width
+          [styled_width_of(@content), @pdf.bounds.width].min
         end
 
         # Returns the natural height of this block of text, wrapped to the
         # preset width.
         #
         def natural_content_height
-          @pdf.save_font do
-            @pdf.set_font(@font, @font_size)
-            @pdf.height_of(@content, :width => content_width + FPTolerance)
+          with_font do
+            b = text_box(:width => content_width + FPTolerance)
+            b.render(:dry_run => true)
+            b.height
           end
         end
 
         # Draws the text content into its bounding box.
         #
         def draw_content
-          @pdf.save_font do
-            @pdf.set_font(@font, @font_size)
-            # NOTE: line_gap and descender depend on @pdf.font_size.
-            # This could be cleaner pending prawn changes 
-            # (bradediger/prawn@font_size) moving size onto Font.
-            @pdf.move_down((@font.line_gap + @font.descender)/2)
-            old_color = @pdf.fill_color || '000000'
-            @pdf.fill_color(@text_color) if @text_color
-            @pdf.text(@content)
-            @pdf.fill_color(old_color)
+          with_font do 
+            @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
+            with_text_color do
+              text_box(:width => content_width + FPTolerance, 
+                       :height => content_height + FPTolerance,
+                       :at => [0, @pdf.cursor]).render
+            end
           end
         end
 
         protected
 
-        # Returns a Font object given a Font, a font name, or, if +font+ is nil,
-        # the variant of the current font identified by @font_style.
+        def with_font
+          @pdf.save_font do
+            options = {}
+            options[:style] = @text_options[:style] if @text_options[:style]
+
+            @pdf.font(@font || @pdf.font.name, options)
+
+            yield
+          end
+        end
+
+        def with_text_color
+          old_color = @pdf.fill_color || '000000'
+          @pdf.fill_color(@text_color) if @text_color
+          yield
+        ensure
+          @pdf.fill_color(old_color)
+        end
+        
+        def text_box(extra_options={})
+          if @text_options[:inline_format]
+            options = @text_options.dup
+            options.delete(:inline_format)
+
+            array = ::Prawn::Text::Formatted::Parser.to_array(@content)
+            ::Prawn::Text::Formatted::Box.new(array,
+              options.merge(extra_options).merge(:document => @pdf))
+          else
+            ::Prawn::Text::Box.new(@content, @text_options.merge(extra_options).
+               merge(:document => @pdf))
+          end
+        end
+
+        # Returns the width of +text+ under the given text options.
         #
-        def load_font(font)
-          case font
-          when Prawn::Font then font
-          when String then @pdf.find_font(font)
-          when nil then @pdf.find_font(@pdf.font.family, :style => @font_style)
-          else @pdf.font
+        def styled_width_of(text)
+          with_font do
+            options = {}
+            options[:size] = @text_options[:size] if @text_options[:size]
+
+            @pdf.font.compute_width_of(text, options)
           end
         end
 

@@ -2,6 +2,41 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Box" do
+
+  it "should be able to set leading document wide" do
+    create_pdf
+    @pdf.default_leading(7)
+    @pdf.default_leading = 7
+    text_box = Prawn::Text::Box.new("hello world",
+                                    :document => @pdf)
+    text_box.leading.should == 7
+  end
+
+  it "option should be able to override document wide leading" do
+    create_pdf
+    @pdf.default_leading = 7
+    text_box = Prawn::Text::Box.new("hello world",
+                                    :document => @pdf,
+                                    :leading => 20)
+    text_box.leading.should == 20
+  end
+  it "should default to document-wide leading if no" +
+    "leading option is provided" do
+    
+  end
+end
+
+describe "Text::Box#extensions" do
+  it "should be able to override default line wrapping" do
+    create_pdf
+    Prawn::Text::Box.extensions << TestWrapOverride
+    @pdf.text_box("hello world", {})
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "all your base are belong to us"
+    Prawn::Text::Box.extensions.delete(TestWrapOverride)
+  end
+end
 
 describe "Text::Box#render with :align => :justify" do
   it "should draw the character spacing to the document" do
@@ -41,7 +76,7 @@ end
 describe "Text::Box#valid_options" do
   it "should return an array" do
     create_pdf
-    text_box = Prawn::Text::Box.new('', :document => @pdf)
+    text_box = Prawn::Text::Box.new("", :document => @pdf)
     text_box.valid_options.should.be.kind_of(Array)
   end
 end
@@ -531,7 +566,7 @@ describe "drawing bounding boxes" do
 end
 
   
-describe 'Text::Box wrapping' do
+describe "Text::Box wrapping" do
   before(:each) do
     create_pdf
   end
@@ -615,7 +650,7 @@ describe 'Text::Box wrapping' do
   end
 
   it "should wrap lines comprised of a single word of the bounds when wrapping text" do
-    text = '©' * 30
+    text = "©" * 30
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text, :width => 180,
@@ -624,7 +659,7 @@ describe 'Text::Box wrapping' do
 
     text_box.render
 
-    expected = '©'*25 + "\n" + '©' * 5
+    expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
 
     text_box.text.should == expected
@@ -650,4 +685,16 @@ end
 
 def reduce_precision(float)
   ("%.5f" % float).to_f
+end
+
+module TestWrapOverride
+  def wrap(string)
+    @text = nil
+    @line_height = @document.font.height
+    @descender   = @document.font.descender
+    @ascender    = @document.font.ascender
+    @baseline_y  = -@ascender
+    draw_line("all your base are belong to us")
+    ""
+  end
 end

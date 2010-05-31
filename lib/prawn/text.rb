@@ -5,9 +5,8 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-
 require "prawn/core/text"
-require "prawn/core/text/line_wrap"
+require "prawn/core/text/wrap"
 require "prawn/text/box"
 require "prawn/text/formatted"
 require "zlib"
@@ -38,9 +37,10 @@ module Prawn
     #   pdf.text "This <i>includes <b>inline</b></i> <font size='24'>" +
     #            "formatting</font>", :inline_format => true
     #
-    # If your font contains kerning pairs data that Prawn can parse, the 
-    # text will be kerned by default.  You can disable this feature by passing
-    # <tt>:kerning => false</tt>.
+    # If your font contains kerning pair data that Prawn can parse, the
+    # text will be kerned by default. You can disable kerning by including
+    # a false <tt>:kerning</tt> option. If you want to disable kerning on an
+    # entire document, set default_kerning = false for that document
     #
     # === Text Positioning Details
     # 
@@ -95,7 +95,8 @@ module Prawn
     #          appropriate tags if you which to draw attention to the link
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
-    #                     is available with the current font) [true]
+    #                     is available with the current font)
+    #                     [value of default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
@@ -112,10 +113,6 @@ module Prawn
     #                       each line is included below the last line;
     #                       otherwise, document.y is placed just below the
     #                       descender of the last line printed [true]
-    #
-    # <tt>:unformatted_line_wrap</tt>:: <tt>object</tt>. An object used for
-    #                                   custom line wrapping on a case by case
-    #                                   basis. See notes for Text::Box#text_box
     #                        
     # == Exceptions
     #
@@ -172,11 +169,7 @@ module Prawn
     #
     # == Options
     #
-    # Accepts the same options as #text with the below exceptions
-    #
-    # <tt>:formatted_line_wrap</tt>::
-    #     <tt>object</tt>. An object used for custom line wrapping on a case by
-    #     case basis. See notes for Text::Box#text_box
+    # Accepts the same options as #text
     #
     # == Exceptions
     #
@@ -214,9 +207,10 @@ module Prawn
     #   pdf.draw_text "Hello World", :at => [100,100]
     #   pdf.draw_text "Goodbye World", :at => [50,50], :size => 16
     #
-    # If your font contains kerning pairs data that Prawn can parse, the 
-    # text will be kerned by default.  You can disable this feature by passing
-    # <tt>:kerning => false</tt>.
+    # If your font contains kerning pair data that Prawn can parse, the
+    # text will be kerned by default. You can disable kerning by including
+    # a false <tt>:kerning</tt> option. If you want to disable kerning on an
+    # entire document, set default_kerning = false for that document
     #
     # === Text Positioning Details:
     #
@@ -245,7 +239,8 @@ module Prawn
     #
     # <tt>:at</tt>:: <tt>[x, y]</tt>(required). The position at which to start the text
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
-    #                     is available with the current font) [true]
+    #                     is available with the current font)
+    #                     [value of default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
@@ -265,7 +260,6 @@ module Prawn
       inspect_options_for_draw_text(options)
       # dup because normalize_encoding changes the string
       text = text.to_s.dup
-      options = @text_options.merge(options)
       save_font do
         process_text_options(options)
         font.normalize_encoding!(text) unless @skip_encoding
@@ -408,6 +402,9 @@ module Prawn
         raise ArgumentError, "The :at option is required for draw_text"
       elsif options[:align]
         raise ArgumentError, "The :align option does not work with draw_text"
+      end
+      if options[:kerning].nil? then
+        options[:kerning] = default_kerning?
       end
       valid_options = Prawn::Core::Text::VALID_OPTIONS + [:at, :rotate]
       Prawn.verify_options(valid_options, options)

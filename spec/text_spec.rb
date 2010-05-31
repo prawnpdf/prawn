@@ -37,6 +37,33 @@ end
 describe "#text" do
   before(:each) { create_pdf }
 
+  it "should default to use kerning information" do
+    @pdf.text "hello world"
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be true
+  end
+
+  it "should be able to disable kerning with an option" do
+    @pdf.text "hello world", :kerning => false
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be false
+  end
+
+  it "should be able to disable kerning document wide" do
+    @pdf.default_kerning(false)
+    @pdf.default_kerning = false
+    @pdf.text "hello world"
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be false
+  end
+
+  it "option should be able to override document wide kerning disabling" do
+    @pdf.default_kerning = false
+    @pdf.text "hello world", :kerning => true
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.kerned[0].should.be true
+  end
+
   it "should raise ArgumentError if :at option included" do
     lambda { @pdf.text("hai", :at => [0, 0]) }.should.raise(ArgumentError)
   end
@@ -255,25 +282,6 @@ describe "#text" do
     pages[1][:strings].should == ["World"]
   end
 
-  it "should be able to use a custom word-wrap object" do
-    hello = "hello " * 25
-    world = "world " * 25
-    @pdf.text(hello + "\n" + world, :unformatted_line_wrap => TestWordWrap.new)
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == hello.strip
-    text.strings[1].should == world.strip
-  end
-
-  it "should be able to globally set the custom word-wrap object" do
-    hello = "hello " * 25
-    world = "world " * 25
-    @pdf.default_unformatted_line_wrap = TestWordWrap.new
-    @pdf.text(hello + "\n" + world)
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == hello.strip
-    text.strings[1].should == world.strip
-  end
-
   describe "with :indent_paragraphs option" do
     it "should indent the paragraphs" do
       hello = "hello " * 50
@@ -315,23 +323,5 @@ describe "#text" do
         text.strings[4].should == ("hello " * 21).strip
       end
     end
-  end
-end
-
-class TestWordWrap
-  def width
-    @width
-  end
-  def space_count
-    @line.count(" ")
-  end
-  def consumed_char_count
-    @consumed_char_count
-  end
-  def wrap_line(line, options)
-    @consumed_char_count = line.length
-    @line = line.strip
-    @width = options[:document].width_of(@line, :kerning => options[:kerning])
-    @line
   end
 end

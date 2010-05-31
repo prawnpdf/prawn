@@ -264,6 +264,16 @@ describe "When setting page size" do
     pages.first[:size].should == [1920, 1080]   
   end
 
+
+  it "should retain page size by default when starting a new page" do
+    @pdf = Prawn::Document.new(:page_size => "LEGAL")
+    @pdf.start_new_page
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.each do |page|
+      page[:size].should == Prawn::Document::PageGeometry::SIZES["LEGAL"]
+    end
+  end
+
 end       
 
 describe "When setting page layout" do
@@ -272,6 +282,15 @@ describe "When setting page layout" do
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages    
     pages.first[:size].should == Prawn::Document::PageGeometry::SIZES["A4"].reverse
   end   
+
+  it "should retain page layout  by default when starting a new page" do
+    @pdf = Prawn::Document.new(:page_layout => :landscape)
+    @pdf.start_new_page(:trace => true)
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.each do |page|
+      page[:size].should == Prawn::Document::PageGeometry::SIZES["LETTER"].reverse
+    end
+  end
 end
 
 describe "The mask() feature" do
@@ -312,24 +331,6 @@ describe "The group() feature" do
         end
       end.render
     }.should.raise(Prawn::Errors::CannotGroup)
-  end
-
-  it "should group within individual column boxes" do
-    pdf = Prawn::Document.new do
-      # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
-      # of the height of one page / column, so each column should get its own
-      # group (every column should start with zero).
-      column_box([0, bounds.top], :width => bounds.width, :columns => 7) do
-        10.times do
-          group { 50.times { |i| text(i.to_s) } }
-        end
-      end
-    end
-
-    # Second page should start with a 0 because it's a new group.
-    pages = PDF::Inspector::Page.analyze(pdf.render).pages
-    pages.size.should == 2
-    pages[1][:strings].first.should == '0'
   end
 end
 

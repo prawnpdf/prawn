@@ -17,6 +17,33 @@ describe "Document built from a template" do
     (@pdf.y == nil).should == false
   end
 
+  it "should respect margins set by Prawn" do
+    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename, :margin => 0)
+    assert_equal @pdf.page.margins, { :left   => 0,
+                                      :right  => 0,
+                                      :top    => 0,
+                                      :bottom => 0 }
+
+    @pdf = Prawn::Document.new(:template => filename, :left_margin => 0)
+
+    assert_equal @pdf.page.margins, { :left   => 0,
+                                      :right  => 36,
+                                      :top    => 36,
+                                      :bottom => 36 }
+
+    @pdf.start_new_page(:right_margin => 0)
+
+    assert_equal @pdf.page.margins, { :left   => 0,
+                                      :right  => 0,
+                                      :top    => 36,
+                                      :bottom => 36 }
+
+
+ 
+  end
+
   it "should not add an extra restore_graphics_state operator to the end of any content stream" do
     filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
 
@@ -54,6 +81,31 @@ describe "Document built from a template" do
     streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
 
     streams.size.should == 2
+  end
+
+  it "should not die if using this PDF as a template" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/complex_template.pdf"
+
+    assert_nothing_raised do
+      @pdf = Prawn::Document.new(:template => filename)
+    end
+  end
+
+
+  it "should have balance q/Q operators on all content streams" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename)
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Hash.new(output)
+
+    streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
+
+    streams.each do |stream|
+      data = stream.unfiltered_data
+      data.scan("q").size.should == 1
+      data.scan("Q").size.should == 1
+    end
   end
 
   it "should allow text to be added to a single page template" do

@@ -2,6 +2,26 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Formatted::Box#extensions" do
+  it "should be able to override default line wrapping" do
+    create_pdf
+    Prawn::Text::Formatted::Box.extensions << TestFormattedWrapOverride
+    @pdf.formatted_text_box([{ :text => "hello world" }], {})
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "all your base are belong to us"
+    Prawn::Text::Formatted::Box.extensions.delete(TestFormattedWrapOverride)
+  end
+  it "overriding Text::Box line wrapping should not affect " +
+     "Text::Formatted::Box wrapping" do
+    create_pdf
+    Prawn::Text::Box.extensions << TestWrapOverride
+    @pdf.formatted_text_box([{ :text => "hello world" }], {})
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "hello world"
+    Prawn::Text::Box.extensions.delete(TestWrapOverride)
+  end
+end
+
 describe "Text::Formatted::Box#render" do
   it "should handle newlines" do
     create_pdf
@@ -116,28 +136,52 @@ end
 describe "Text::Formatted::Box#render" do
   it "should be able to perform fragment callbacks" do
     create_pdf
-    callback_object = TestFragmentCallback.new
-    callback_object.expects(:draw_border).with(
+    callback_object = TestFragmentCallback.new("something", 7,
+                                               :document => @pdf)
+    callback_object.expects(:render_behind).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    callback_object.expects(:render_in_front).with(
                                       kind_of(Prawn::Text::Formatted::Fragment))
     array = [{ :text => "hello world " },
              { :text => "callback now",
-               :callback => { :object => callback_object,
-                              :method => :draw_border } }]
+               :callback => callback_object }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
   end
-  it "should be able to perform fragment callbacks with arguments" do
+  it "should be able to perform fragment callbacks on multiple objects" do
     create_pdf
-    callback_object = TestFragmentCallback.new
-    callback_object.expects(:draw_border_with_args).with(
-               kind_of(Prawn::Text::Formatted::Fragment), "something", 7)
+
+    callback_object = TestFragmentCallback.new("something", 7,
+                                               :document => @pdf)
+    callback_object.expects(:render_behind).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    callback_object.expects(:render_in_front).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+
+    callback_object2 = TestFragmentCallback.new("something else", 14,
+                                               :document => @pdf)
+    callback_object2.expects(:render_behind).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    callback_object2.expects(:render_in_front).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+
     array = [{ :text => "hello world " },
              { :text => "callback now",
-               :callback => { :object => callback_object,
-                              :method => :draw_border_with_args,
-                              :arguments => ["something", 7] } }]
+               :callback => [callback_object, callback_object2] }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
+  end
+  it "fragment callbacks should be able to define only the callback they need" do
+    create_pdf
+    behind = TestFragmentCallbackBehind.new("something", 7,
+                                            :document => @pdf)
+    in_front = TestFragmentCallbackInFront.new("something", 7,
+                                               :document => @pdf)
+    array = [{ :text => "hello world " },
+             { :text => "callback now",
+               :callback => [behind, in_front] }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    lambda { text_box.render }.should.not.raise(NoMethodError)
   end
   it "should be able to set the font" do
     create_pdf
@@ -472,7 +516,7 @@ describe "Text::Formatted::Box with more text than can fit in the box" do
   end
 end
 
-describe 'Text::Formatted::Box wrapping' do
+describe "Text::Formatted::Box wrapping" do
   before(:each) do
     create_pdf
   end
@@ -566,7 +610,7 @@ describe 'Text::Formatted::Box wrapping' do
 
   it "should wrap lines comprised of a single word of the bounds when" +
     " wrapping text" do
-    text = '©' * 30
+    text = "©" * 30
     format_array = [:text => text]
 
     @pdf.font "Courier"
@@ -576,7 +620,7 @@ describe 'Text::Formatted::Box wrapping' do
 
     text_box.render
 
-    expected = '©'*25 + "\n" + '©' * 5
+    expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
 
     text_box.text.should == expected
@@ -607,9 +651,55 @@ def reduce_precision(float)
 end
 
 class TestFragmentCallback
-  def draw_border(fragment)
+  def initialize(string, number, options)
+    @document = options[:document]
   end
 
-  def draw_border_with_args(fragment, string, times)
+  def render_behind(fragment)
+  end
+
+  def render_in_front(fragment)
+  end
+end
+
+class TestFragmentCallbackBehind
+  def initialize(string, number, options)
+    @document = options[:document]
+  end
+
+  def render_behind(fragment)
+  end
+end
+
+class TestFragmentCallbackInFront
+  def initialize(string, number, options)
+    @document = options[:document]
+  end
+
+  def render_in_front(fragment)
+  end
+end
+
+module TestFormattedWrapOverride
+  def wrap(string)
+    @text = nil
+    @line_height = @document.font.height
+    @descender   = @document.font.descender
+    @ascender    = @document.font.ascender
+    @baseline_y  = -@ascender
+    draw_line("all your base are belong to us")
+    []
+  end
+end
+
+module TestWrapOverride
+  def wrap(string)
+    @text = nil
+    @line_height = @document.font.height
+    @descender   = @document.font.descender
+    @ascender    = @document.font.ascender
+    @baseline_y  = -@ascender
+    draw_line("all your base are belong to us")
+    ""
   end
 end

@@ -48,12 +48,13 @@ module Prawn
         obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
         "<" << obj.unpack("H*").first << ">"
        when Symbol                                                         
-         if (obj = obj.to_s) =~ /\s/
-           raise Prawn::Errors::FailedObjectConversion, 
-             "A PDF Name cannot contain whitespace"  
-         else
-           "/" << obj   
-         end 
+         "/" + obj.to_s.unpack("C*").map { |n|
+          if n < 33 || n > 126 || [35,40,41,47,60,62].include?(n)
+            "#" + n.to_s(16).upcase
+          else
+            [n].pack("C*")
+          end
+         }.join
       when Hash           
         output = "<< "
         obj.each do |k,v|  
