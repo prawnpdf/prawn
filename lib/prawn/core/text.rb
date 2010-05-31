@@ -58,6 +58,21 @@ module Prawn
 
       alias_method :default_kerning=, :default_kerning
 
+      # Document wide setting of leading
+      # Defaults to 0
+      # Can be overridden using the :leading text option
+      #
+      def default_leading?
+        return 0 if @default_leading.nil?
+        @default_leading
+      end
+
+      def default_leading(number)
+        @default_leading = number
+      end
+
+      alias_method :default_leading=, :default_leading
+
       # Increases or decreases the space between characters.
       # For horizontal text, a positive value will increase the space.
       # For veritical text, a positive value will decrease the space.

@@ -47,11 +47,10 @@ module Prawn
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
       # <tt>:callback</tt>::
-      #     a hash with the following options
-      #     <tt>:object</tt>:: required. the object to target
-      #     <tt>:method</tt>:: required. the method to call on the target object
-      #     <tt>:arguments</tt>:: optional. the arguments to pass to the
-      #         callback method
+      #     an object (or array of such objects) with two methods:
+      #     #render_behind and #render_in_front, which are called immediately
+      #     prior to and immediately after rendring the text fragment and which
+      #     are passed the fragment as an argument
       #
       # == Example
       #
@@ -131,6 +130,8 @@ module Prawn
           fragment.left = x
           fragment.baseline = y
 
+          draw_fragment_underlays(fragment)
+
           if @inked
             if @align == :justify
               @document.word_spacing(word_spacing) {
@@ -172,10 +173,19 @@ module Prawn
           end
         end
 
+        def draw_fragment_underlays(fragment)
+          fragment.callback_objects.each do |obj|
+            obj.render_behind(fragment) if obj.respond_to?(:render_behind)
+          end
+        end
+
         def draw_fragment_overlays(fragment)
           draw_fragment_overlay_styles(fragment)
           draw_fragment_overlay_link(fragment)
           draw_fragment_overlay_anchor(fragment)
+          fragment.callback_objects.each do |obj|
+            obj.render_in_front(fragment) if obj.respond_to?(:render_in_front)
+          end
         end
 
         def draw_fragment_overlay_link(fragment)

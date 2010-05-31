@@ -183,7 +183,7 @@ module Prawn
                            @at[1] - @document.bounds.bottom
         @align           = options[:align] || :left
         @vertical_align  = options[:valign] || :top
-        @leading         = options[:leading] || 0
+        @leading         = options[:leading] || @document.default_leading?
         @rotate          = options[:rotate] || 0
         @rotate_around   = options[:rotate_around] || :upper_left
         @single_line     = options[:single_line]

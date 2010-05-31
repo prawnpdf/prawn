@@ -1,6 +1,7 @@
 require "prawn/document_builder/command"
 require "prawn/document_builder/constructs"
 require "prawn/document_builder/modifications"
+require "prawn/document_builder/layout"
 
 module Prawn
   class DocumentBuilder
@@ -8,14 +9,19 @@ module Prawn
       @commands = []
     end
 
-    attr_reader :commands
+    attr_accessor :commands
 
     def compile
       document = ::Prawn::Document.new
+      layout   = ::Prawn::DocumentBuilder::Layout.new(self, document)
 
-      commands.each do |c|
-        c.execute(document)
+      original_commands = commands.dup
+
+      while c = commands.shift
+        c.execute(document, layout)
       end
+
+      self.commands = original_commands
 
       document
     end

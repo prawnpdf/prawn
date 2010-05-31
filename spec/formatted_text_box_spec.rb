@@ -136,28 +136,52 @@ end
 describe "Text::Formatted::Box#render" do
   it "should be able to perform fragment callbacks" do
     create_pdf
-    callback_object = TestFragmentCallback.new
-    callback_object.expects(:draw_border).with(
+    callback_object = TestFragmentCallback.new("something", 7,
+                                               :document => @pdf)
+    callback_object.expects(:render_behind).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    callback_object.expects(:render_in_front).with(
                                       kind_of(Prawn::Text::Formatted::Fragment))
     array = [{ :text => "hello world " },
              { :text => "callback now",
-               :callback => { :object => callback_object,
-                              :method => :draw_border } }]
+               :callback => callback_object }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
   end
-  it "should be able to perform fragment callbacks with arguments" do
+  it "should be able to perform fragment callbacks on multiple objects" do
     create_pdf
-    callback_object = TestFragmentCallback.new
-    callback_object.expects(:draw_border_with_args).with(
-               kind_of(Prawn::Text::Formatted::Fragment), "something", 7)
+
+    callback_object = TestFragmentCallback.new("something", 7,
+                                               :document => @pdf)
+    callback_object.expects(:render_behind).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    callback_object.expects(:render_in_front).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+
+    callback_object2 = TestFragmentCallback.new("something else", 14,
+                                               :document => @pdf)
+    callback_object2.expects(:render_behind).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+    callback_object2.expects(:render_in_front).with(
+                                      kind_of(Prawn::Text::Formatted::Fragment))
+
     array = [{ :text => "hello world " },
              { :text => "callback now",
-               :callback => { :object => callback_object,
-                              :method => :draw_border_with_args,
-                              :arguments => ["something", 7] } }]
+               :callback => [callback_object, callback_object2] }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
+  end
+  it "fragment callbacks should be able to define only the callback they need" do
+    create_pdf
+    behind = TestFragmentCallbackBehind.new("something", 7,
+                                            :document => @pdf)
+    in_front = TestFragmentCallbackInFront.new("something", 7,
+                                               :document => @pdf)
+    array = [{ :text => "hello world " },
+             { :text => "callback now",
+               :callback => [behind, in_front] }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    lambda { text_box.render }.should.not.raise(NoMethodError)
   end
   it "should be able to set the font" do
     create_pdf
@@ -627,10 +651,32 @@ def reduce_precision(float)
 end
 
 class TestFragmentCallback
-  def draw_border(fragment)
+  def initialize(string, number, options)
+    @document = options[:document]
   end
 
-  def draw_border_with_args(fragment, string, times)
+  def render_behind(fragment)
+  end
+
+  def render_in_front(fragment)
+  end
+end
+
+class TestFragmentCallbackBehind
+  def initialize(string, number, options)
+    @document = options[:document]
+  end
+
+  def render_behind(fragment)
+  end
+end
+
+class TestFragmentCallbackInFront
+  def initialize(string, number, options)
+    @document = options[:document]
+  end
+
+  def render_in_front(fragment)
   end
 end
 

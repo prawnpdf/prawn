@@ -2,6 +2,31 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Box" do
+
+  it "should be able to set leading document wide" do
+    create_pdf
+    @pdf.default_leading(7)
+    @pdf.default_leading = 7
+    text_box = Prawn::Text::Box.new("hello world",
+                                    :document => @pdf)
+    text_box.leading.should == 7
+  end
+
+  it "option should be able to override document wide leading" do
+    create_pdf
+    @pdf.default_leading = 7
+    text_box = Prawn::Text::Box.new("hello world",
+                                    :document => @pdf,
+                                    :leading => 20)
+    text_box.leading.should == 20
+  end
+  it "should default to document-wide leading if no" +
+    "leading option is provided" do
+    
+  end
+end
+
 describe "Text::Box#extensions" do
   it "should be able to override default line wrapping" do
     create_pdf
