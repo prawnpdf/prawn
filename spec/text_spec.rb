@@ -2,6 +2,12 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Prawn::Text::NBSP" do
+  it "should be defined" do
+    Prawn::Text::NBSP.should == " "
+  end
+end
+
 describe "#height_of" do
   before(:each) { create_pdf }
 
