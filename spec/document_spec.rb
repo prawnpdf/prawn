@@ -374,9 +374,14 @@ end
 
 describe "The :optimize_objects option" do
   before(:all) do
-    @wasteful_doc = lambda do
-      transaction { start_new_page; text "Hidden text"; rollback }
-      text "Hello world"
+    @wasteful_doc = lambda do |pdf|
+      pdf.transaction do 
+        pdf.start_new_page
+        pdf.text "Hidden text"
+        pdf.rollback 
+      end
+
+      pdf.text "Hello world"
     end
   end
 
