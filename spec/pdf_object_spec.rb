@@ -35,6 +35,13 @@ describe "PDF Object Serialization" do
     PDF::Inspector.parse(Prawn::Core::PdfObject(s, false)).should == s_utf16
   end                      
 
+  it "should convert a Ruby string with characters outside the BMP to its " +
+     "UTF-16 representation with a BOM" do
+    # U+10192 ROMAN SEMUNCIA SIGN
+    semuncia = [65938].pack("U")
+    Prawn::Core::PdfObject(semuncia, false).upcase.should == "<FEFFD800DD92>"
+  end
+
   it "should pass through bytes regardless of content stream status for ByteString" do
     Prawn::Core::PdfObject(Prawn::Core::ByteString.new("\xDE\xAD\xBE\xEF")).upcase.
       should == "<DEADBEEF>"

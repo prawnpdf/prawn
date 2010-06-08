@@ -12,6 +12,31 @@ module Prawn
   module Core #:nodoc:
                                              
     module_function
+
+    ruby_18 do
+      def utf8_to_utf16(str)
+        utf16 = "\xFE\xFF"
+
+        str.unpack("U*").each do |cp|
+          if cp < 0x10000 # Basic Multilingual Plane
+            utf16 << [cp].pack("n")
+          else
+            # pull out high/low 10 bits
+            hi, lo = (cp - 0x10000).divmod(2**10)
+            # encode a surrogate pair
+            utf16 << [0xD800 + hi, 0xDC00 + lo].pack("n*")
+          end
+        end
+
+        utf16
+      end
+    end
+
+    ruby_19 do
+      def utf8_to_utf16(str)
+        "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+      end
+    end
       
     # Serializes Ruby objects to their PDF equivalents.  Most primitive objects
     # will work as expected, but please note that Name objects are represented 
@@ -45,7 +70,7 @@ module Prawn
       when Prawn::Core::ByteString
         "<" << obj.unpack("H*").first << ">"
       when String
-        obj = "\xFE\xFF" + obj.unpack("U*").pack("n*") unless in_content_stream
+        obj = utf8_to_utf16(obj) unless in_content_stream
         "<" << obj.unpack("H*").first << ">"
        when Symbol                                                         
          "/" + obj.to_s.unpack("C*").map { |n|

@@ -211,6 +211,15 @@ describe "Document compression" do
 
 end                                 
 
+describe "Document metadata" do
+  it "should output strings as UTF-16 with a byte order mark" do
+    pdf = Prawn::Document.new(:info => {:Author => "Lóránt"})
+    pdf.state.store.info.object.should =~
+      # UTF-16:     BOM L   ó   r   á   n   t
+      %r{/Author\s*<feff004c00f3007200e1006e0074>}i
+  end
+end
+
 describe "When reopening pages" do
   it "should modify the content stream size" do
     @pdf = Prawn::Document.new do |pdf|
