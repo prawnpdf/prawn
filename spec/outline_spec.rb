@@ -267,7 +267,9 @@ describe "Outline" do
 
     end
 
-    describe "inserting at the end of another section" do 
+
+    describe "inserting at the end of another section" do
+
       before(:each) do
         @pdf.go_to_page 2
          @pdf.start_new_page
