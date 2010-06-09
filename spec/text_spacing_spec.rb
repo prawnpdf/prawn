@@ -11,6 +11,15 @@ describe "#character_spacing" do
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.character_spacing.first.should == 10.556
   end
+  it "should not draw the character spacing to the document" +
+    " when the new character spacing matches the old" do
+    create_pdf
+    @pdf.character_spacing(0) do
+      @pdf.text("hello world")
+    end
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.character_spacing.should.be.empty
+  end
   it "should restore character spacing to 0" do
     create_pdf
     @pdf.character_spacing(10.555555) do
@@ -37,6 +46,15 @@ describe "#word_spacing" do
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.word_spacing.first.should == 10.556
+  end
+  it "should draw the word spacing to the document" +
+    " when the new word spacing matches the old" do
+    create_pdf
+    @pdf.word_spacing(0) do
+      @pdf.text("hello world")
+    end
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.word_spacing.should.be.empty
   end
   it "should restore word spacing to 0" do
     create_pdf

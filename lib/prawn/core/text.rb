@@ -80,11 +80,15 @@ module Prawn
       def character_spacing(amount=nil)
         return @character_spacing || 0 if amount.nil?
         original_character_spacing = character_spacing
-        @character_spacing = amount
-        add_content "\n%.3f Tc" % amount
-        yield
-        add_content "\n%.3f Tc" % original_character_spacing
-        @character_spacing = original_character_spacing
+        if original_character_spacing == amount
+          yield
+        else
+          @character_spacing = amount
+          add_content "\n%.3f Tc" % amount
+          yield
+          add_content "\n%.3f Tc" % original_character_spacing
+          @character_spacing = original_character_spacing
+        end
       end
 
       # Increases or decreases the space between words.
@@ -94,11 +98,15 @@ module Prawn
       def word_spacing(amount=nil)
         return @word_spacing || 0 if amount.nil?
         original_word_spacing = word_spacing
-        @word_spacing = amount
-        add_content "\n%.3f Tw" % amount
-        yield
-        add_content "\n%.3f Tw" % original_word_spacing
-        @word_spacing = original_word_spacing
+        if original_word_spacing == amount
+          yield
+        else
+          @word_spacing = amount
+          add_content "\n%.3f Tw" % amount
+          yield
+          add_content "\n%.3f Tw" % original_word_spacing
+          @word_spacing = original_word_spacing
+        end
       end
 
       private
