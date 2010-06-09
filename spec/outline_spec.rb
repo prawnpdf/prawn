@@ -120,7 +120,110 @@ describe "Outline" do
       @outline_root[:Count].should == 5
     end
 
-  end
+  end  
+  
+  describe "#outline.add_subsection_to" do  
+    context "positioned last" do
+    
+      before(:each) do
+        @pdf.start_new_page
+        @pdf.text "Page 3. An added subsection "
+        @pdf.outline.add_subsection_to 'Chapter 1' do
+          section 'Added SubSection', :page => 3 do
+            page 3, :title => 'Added Page 3'
+          end
+        end
+        render_and_find_objects
+      end
+    
+      it "should add new outline items to document" do
+        [@subsection, @added_page_3].each { |item| assert_not_nil item}
+      end
+    
+      it "should reset the last item for parent item dictionary" do
+        referenced_object(@section_1[:First]).should == @page_1
+        referenced_object(@section_1[:Last]).should == @subsection
+      end
+    
+      it "should set the prev relation for the new subsection to its parent's old last item" do
+        referenced_object(@subsection[:Prev]).should == @page_2
+      end
+    
+    
+      it "the subsection should become the next relation for its parent's old last item" do
+         referenced_object(@page_2[:Next]).should == @subsection
+       end
+    
+      it "should set the first relation for the new subsection" do
+        referenced_object(@subsection[:First]).should == @added_page_3
+      end
+    
+      it "should set the correct last relation of the added to section" do
+        referenced_object(@subsection[:Last]).should == @added_page_3
+      end
+    
+      it "should increase the count of root outline dictionary" do
+        @outline_root[:Count].should == 5
+      end
+    
+    end  
+    
+    context "positioned first" do
+    
+      before(:each) do
+        @pdf.start_new_page
+        @pdf.text "Page 3. An added subsection "
+        @pdf.outline.add_subsection_to 'Chapter 1', :first do
+          section 'Added SubSection', :page => 3 do
+            page 3, :title => 'Added Page 3'
+          end
+        end
+        render_and_find_objects
+      end
+
+      it "should add new outline items to document" do
+        [@subsection, @added_page_3].each { |item| assert_not_nil item}
+      end
+
+      it "should reset the first item for parent item dictionary" do
+        referenced_object(@section_1[:First]).should == @subsection
+        referenced_object(@section_1[:Last]).should == @page_2
+      end
+    
+      it "should set the next relation for the new subsection to its parent's old first item" do
+        referenced_object(@subsection[:Next]).should == @page_1
+      end
+
+      it "the subsection should become the prev relation for its parent's old first item" do
+         referenced_object(@page_1[:Prev]).should == @subsection
+       end
+
+      it "should set the first relation for the new subsection" do
+        referenced_object(@subsection[:First]).should == @added_page_3
+      end
+
+      it "should set the correct last relation of the added to section" do
+        referenced_object(@subsection[:Last]).should == @added_page_3
+      end
+
+      it "should increase the count of root outline dictionary" do
+        @outline_root[:Count].should == 5
+      end
+
+    end
+    
+    it "should require an existing title" do
+      assert_raise Prawn::Errors::UnknownOutlineTitle do
+        @pdf.go_to_page 1
+        @pdf.start_new_page
+        @pdf.text "Inserted Page"
+        @pdf.outline.add_subsection_to 'Wrong page' do
+          page page_number, :title => "Inserted Page"
+        end
+        render_and_find_objects
+      end
+    end
+  end     
 
   describe "#outline.insert_section_after" do
     describe "inserting in the middle of another section" do
@@ -164,7 +267,7 @@ describe "Outline" do
 
     end
 
-    describe "inserting at the end of another section" do
+    describe "inserting at the end of another section" do 
       before(:each) do
         @pdf.go_to_page 2
          @pdf.start_new_page
@@ -247,7 +350,9 @@ def render_and_find_objects
   @page_2 = find_by_title('Page 2')
   @section_2 = find_by_title('Added Section')
   @page_3 = find_by_title('Page 3')
-  @inserted_page = find_by_title('Inserted Page')
+  @inserted_page = find_by_title('Inserted Page') 
+  @subsection = find_by_title('Added SubSection')
+  @added_page_3 = find_by_title('Added Page 3')
 end
 
 # Outline titles are stored as UTF-16. This method accepts a UTF-8 outline title

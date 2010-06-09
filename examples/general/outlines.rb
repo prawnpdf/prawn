@@ -46,5 +46,10 @@ Prawn::Document.generate('outlines.pdf') do
   text "One last page"
   outline.insert_section_after 'Page 6' do 
     page page_number, :title => "Inserted after 6"
-  end
+  end 
+  outline.add_subsection_to 'Chapter 1', :first do
+    section 'Inserted subsection', :page => 1 do
+      page 1, :title => "Page 1 again" 
+    end
+  end    
 end

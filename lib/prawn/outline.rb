@@ -124,8 +124,41 @@ module Prawn
       if block
         block.arity < 1 ? instance_eval(&block) : block[self]
       end      
-    end
+    end   
     
+    # Inserts an outline section to the outline tree (see define_outline).
+    # Although you will probably choose to exclusively use define_outline so 
+    # that your outline tree is contained and easy to manage, this method
+    # gives you the option to insert sections to the outline tree at any point
+    # during document generation. Unlike outline.add_section, this method allows 
+    # you to add a child subsection to any other item at any level in the outline tree. 
+    # Currently the only way to locate the place of entry is with the title for the 
+    # item. If your titles names are not unique consider using define_outline.
+    # The method takes the following arguments:
+    # title: a string that must match an outline title to add the subsection to
+    # position: either :first or :last(the default) where the subsection will be placed relative 
+    # to other child elements. If you need to position your subsection in between other elements
+    # then consider using #insert_section_after
+    #
+    # block uses the same DSL syntax as define_outline, for example: 
+    # 
+    #   go_to_page 2
+    #   start_new_page
+    #   text "Inserted Page"
+    #   outline.insert_section_to :title => 'Page 2', :first do 
+    #     page page_number, :title => "Inserted Page"
+    #   end
+    #
+    def add_subsection_to(title, position = :last, &block)
+      @parent = items[title]
+      raise Prawn::Errors::UnknownOutlineTitle, 
+        "\n No outline item with title: '#{title}' exists in the outline tree" unless @parent
+      @prev = position == :first ? nil : @parent.data.last
+      nxt = position == :first ? @parent.data.first : nil
+      insert_section(nxt, &block)  
+    end
+        
+      
     # Inserts an outline section to the outline tree (see define_outline).
     # Although you will probably choose to exclusively use define_outline so 
     # that your outline tree is contained and easy to manage, this method
@@ -146,17 +179,11 @@ module Prawn
     #
     def insert_section_after(title, &block)
       @prev = items[title]
-      if @prev
-        @parent = @prev.data.parent
-        nxt = @prev.data.next
-        if block
-          block.arity < 1 ? instance_eval(&block) : block[self]
-        end
-        adjust_relations(nxt)
-      else
-        raise Prawn::Errors::UnknownOutlineTitle, 
-          "\n No outline item with title: '#{title}' exists in the outline tree"
-      end
+      raise Prawn::Errors::UnknownOutlineTitle, 
+        "\n No outline item with title: '#{title}' exists in the outline tree" unless @prev
+      @parent = @prev.data.parent
+      nxt = @prev.data.next
+      insert_section(nxt, &block)   
     end
 
   private
@@ -225,15 +252,23 @@ module Prawn
         self.prev = outline_item
         self.parent = outline_item.data.parent
       end
+    end 
+    
+    def insert_section(nxt, &block)
+      last = @parent.data.last
+      if block
+        block.arity < 1 ? instance_eval(&block) : block[self]
+      end
+      adjust_relations(nxt, last)
     end
     
-    def adjust_relations(nxt)
+    def adjust_relations(nxt, last)
       if nxt 
         nxt.data.prev = @prev
         @prev.data.next = nxt
-        @parent.data.last = nxt
-      else 
-        @parent.data.last = @prev
+        @parent.data.last = last
+      # else 
+      #   @parent.data.last = @prev
       end
     end
     
