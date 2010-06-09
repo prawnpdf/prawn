@@ -10,7 +10,17 @@ describe "Font behavior" do
     @pdf.font.name.should == "Helvetica"
   end
 
-end    
+end
+
+describe "#width_of" do
+  it "should take character spacing into account" do
+    create_pdf
+    original_width = @pdf.width_of("hello world")
+    @pdf.character_spacing(7) do
+      @pdf.width_of("hello world").should == original_width + 11 * 7
+    end
+  end
+end
 
 describe "#font_size" do
   it "should allow setting font size in DSL style" do

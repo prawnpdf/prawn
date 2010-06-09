@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
-# An early example of basic text generation at absolute positions.
-# Mostly kept for nostalgia.
+# Example of two ways of indenting paragraphs
+#
 #
 require "#{File.dirname(__FILE__)}/../example_helper.rb"
 
