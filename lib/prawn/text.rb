@@ -77,6 +77,8 @@ module Prawn
     #          with the following attributes (using double or single quotes)
     #            <tt>size="24"</tt>::
     #                attribute for setting size
+    #            <tt>character_spacing="2.5"</tt>::
+    #                attribute for setting character spacing
     #            <tt>name="Helvetica"</tt>::
     #                attribute for setting the font. The font name must be an
     #                AFM font with the desired faces or must be a font that is
@@ -101,6 +103,9 @@ module Prawn
     #                     [value of default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
+    # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
+    #                               to or remove from the default character
+    #                               spacing. [0]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
     # <tt>:indent_paragraphs</tt>:: <tt>number</tt>. The amount to indent the

@@ -35,6 +35,9 @@ module Prawn
     #                     [value of document.default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
+    # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
+    #                               to or remove from the default character
+    #                               spacing. [0]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
     #
