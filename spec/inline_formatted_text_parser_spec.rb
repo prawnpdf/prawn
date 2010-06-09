@@ -11,7 +11,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle sub" do
     string = "<sub>subscript</sub>"
@@ -22,7 +23,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle rgb" do
     string = "<color rgb='#ff0000'>red text</color>"
@@ -33,7 +35,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "# should be optional in rgb" do
     string = "<color rgb='ff0000'>red text</color>"
@@ -44,7 +47,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle cmyk" do
     string = "<color c='0' m='100' y='0' k='0'>magenta text</color>"
@@ -55,7 +59,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle fonts" do
     string = "<font name='Courier'>Courier text</font>"
@@ -66,7 +71,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => "Courier",
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle size" do
     string = "<font size='14'>14 point text</font>"
@@ -77,7 +83,20 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => 14 }
+                         :size => 14,
+                         :character_spacing => nil }
+  end
+  it "should handle character_spacing" do
+    string = "<font character_spacing='2.5'>extra character spacing</font>"
+    array = Prawn::Text::Formatted::Parser.to_array(string)
+    array[0].should == { :text => "extra character spacing",
+                         :styles => [],
+                         :color => nil,
+                         :link => nil,
+                         :anchor => nil,
+                         :font => nil,
+                         :size => nil,
+                         :character_spacing => 2.5 }
   end
   it "should handle links" do
     string = "<link href='http://example.com'>external link</link>"
@@ -88,7 +107,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => "http://example.com",
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle anchors" do
     string = "<link anchor='ToC'>internal link</link>"
@@ -99,7 +119,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => "ToC",
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle higher order characters properly" do
     string = "<b>©\n©</b>"
@@ -110,21 +131,24 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[1].should == { :text => "\n",
                          :styles => [:bold],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[2].should == { :text => "©",
                          :styles => [:bold],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should convert &lt; &gt;, and &amp; to <, >, and &, respectively" do
     string = "hello <b>&lt;, &gt;, and &amp;</b>"
@@ -135,7 +159,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should handle double qoutes around tag attributes" do
     string = 'some <font size="14">sized</font> text'
@@ -146,7 +171,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => 14 }
+                         :size => 14,
+                         :character_spacing => nil }
   end
   it "should handle single qoutes around tag attributes" do
     string = "some <font size='14'>sized</font> text"
@@ -157,7 +183,8 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => 14 }
+                         :size => 14,
+                         :character_spacing => nil }
   end
   it "should construct a formatted text array from a string" do
     string = "hello <b>world\nhow <i>are</i></b> you?"
@@ -169,42 +196,48 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[1].should == { :text => "world",
                          :styles => [:bold],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[2].should == { :text => "\n",
                          :styles => [:bold],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[3].should == { :text => "how ",
                          :styles => [:bold],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[4].should == { :text => "are",
                          :styles => [:bold, :italic],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[5].should == { :text => " you?",
                          :styles => [],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should accept <strong> as an alternative to <b>" do
     string = "<strong>bold</strong> not bold"
@@ -216,14 +249,16 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[1].should == { :text => " not bold",
                          :styles => [],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should accept <em> as an alternative to <i>" do
     string = "<em>italic</em> not italic"
@@ -235,14 +270,16 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[1].should == { :text => " not italic",
                          :styles => [],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
   it "should accept <a> as an alternative to <link>" do
     string = "<a href='http://example.com'>link</a> not a link"
@@ -254,14 +291,16 @@ describe "Text::Formatted::Parser#to_array" do
                          :link => "http://example.com",
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
     array[1].should == { :text => " not a link",
                          :styles => [],
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }
+                         :size => nil,
+                         :character_spacing => nil }
   end
 end
 
@@ -275,7 +314,8 @@ describe "Text::Formatted::Parser#to_string" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }]
+                         :size => nil,
+                         :character_spacing => nil }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle sub" do
@@ -286,7 +326,8 @@ describe "Text::Formatted::Parser#to_string" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }]
+                         :size => nil,
+                         :character_spacing => nil }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle rgb" do
@@ -297,7 +338,8 @@ describe "Text::Formatted::Parser#to_string" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }]
+                         :size => nil,
+                         :character_spacing => nil }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle cmyk" do
@@ -308,7 +350,8 @@ describe "Text::Formatted::Parser#to_string" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => nil }]
+                         :size => nil,
+                         :character_spacing => nil }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle fonts" do
@@ -319,7 +362,8 @@ describe "Text::Formatted::Parser#to_string" do
                          :link => nil,
                          :anchor => nil,
                          :font => "Courier",
-                         :size => nil }]
+                         :size => nil,
+                         :character_spacing => nil }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle size" do
@@ -330,18 +374,20 @@ describe "Text::Formatted::Parser#to_string" do
                          :link => nil,
                          :anchor => nil,
                          :font => nil,
-                         :size => 14 }]
+                         :size => 14,
+                         :character_spacing => nil }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
-  it "should handle size" do
-    array = [{ :text => "external link",
-               :styles => [],
-               :color => nil,
-               :link => "http://example.com",
-               :anchor => nil,
-               :font => nil,
-               :size => nil }]
-    string = "<link href='http://example.com'>external link</link>"
+  it "should handle character spacing" do
+    string = "<font character_spacing='2.5'>2.5 extra character spacing</font>"
+    array = [{ :text => "2.5 extra character spacing",
+                         :styles => [],
+                         :color => nil,
+                         :link => nil,
+                         :anchor => nil,
+                         :font => nil,
+                         :size => nil,
+                         :character_spacing => 2.5 }]
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle links" do
@@ -351,7 +397,8 @@ describe "Text::Formatted::Parser#to_string" do
                :link => "http://example.com",
                :anchor => nil,
                :font => nil,
-               :size => nil }]
+               :size => nil,
+               :character_spacing => nil }]
     string = "<link href='http://example.com'>external link</link>"
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
@@ -362,7 +409,8 @@ describe "Text::Formatted::Parser#to_string" do
                :link => nil,
                :anchor => "ToC",
                :font => nil,
-               :size => nil }]
+               :size => nil,
+               :character_spacing => nil }]
     string = "<link anchor='ToC'>internal link</link>"
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
@@ -372,13 +420,15 @@ describe "Text::Formatted::Parser#to_string" do
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil },
+               :size => nil,
+               :character_spacing => nil },
             { :text => "<, >, and &",
                :styles => [:bold],
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil }]
+               :size => nil,
+               :character_spacing => nil }]
     string = "hello <b>&lt;, &gt;, and &amp;</b>"
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
@@ -390,37 +440,43 @@ describe "Text::Formatted::Parser#to_string" do
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => 14 },
+               :size => 14,
+               :character_spacing => nil },
              { :text => "world",
                :styles => [:bold],
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil },
+               :size => nil,
+               :character_spacing => nil },
              { :text => "\n",
                :styles => [:bold],
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil },
+               :size => nil,
+               :character_spacing => nil },
              { :text => "how ",
                :styles => [:bold],
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil },
+               :size => nil,
+               :character_spacing => nil },
              { :text => "are",
                :styles => [:bold, :italic],
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil },
+               :size => nil,
+               :character_spacing => nil },
              { :text => " you?",
                :styles => [],
                :color => nil,
                :link => nil,
                :font => nil,
-               :size => nil }
+               :size => nil,
+               :character_spacing => nil }
              ]
     string = "<font size='14'>hello </font><b>world</b><b>\n</b><b>how </b><b><i>are</i></b> you?"
     Prawn::Text::Formatted::Parser.to_string(array).should == string

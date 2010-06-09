@@ -47,7 +47,6 @@ module Prawn
             line_to_print = @line_wrap.wrap_line(remaining_text.first_line,
                                                  :document => @document,
                                                  :kerning => @kerning,
-                                                 :character_spacing => @character_spacing,
                                                  :width => available_width)
 
             remaining_text = remaining_text.slice(@line_wrap.consumed_char_count..

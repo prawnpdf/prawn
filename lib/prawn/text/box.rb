@@ -223,24 +223,26 @@ module Prawn
       def render(flags={})
         unprinted_text = ''
         @document.save_font do
-          process_options
+          @document.character_spacing(@character_spacing) do
+            process_options
 
-          if @skip_encoding
-            text = original_text
-          else
-            text = normalize_encoding
-          end
-
-          @document.font_size(@font_size) do
-            shrink_to_fit(text) if @overflow == :shrink_to_fit
-            process_vertical_alignment(text)
-            @inked = true unless flags[:dry_run]
-            if @rotate != 0 && @inked
-              unprinted_text = render_rotated(text)
+            if @skip_encoding
+              text = original_text
             else
-              unprinted_text = wrap(text)
+              text = normalize_encoding
             end
-            @inked = false
+
+            @document.font_size(@font_size) do
+              shrink_to_fit(text) if @overflow == :shrink_to_fit
+              process_vertical_alignment(text)
+              @inked = true unless flags[:dry_run]
+              if @rotate != 0 && @inked
+                unprinted_text = render_rotated(text)
+              else
+                unprinted_text = wrap(text)
+              end
+              @inked = false
+            end
           end
         end
 

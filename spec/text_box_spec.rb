@@ -569,14 +569,14 @@ end
 describe "Text::Box#render with :character_spacing option" do
   it "should draw the character spacing to the document" do
     create_pdf
-    string = "hello world " * 10
+    string = "hello world"
     options = { :document => @pdf, :character_spacing => 10 }
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.character_spacing[0].should == 10
   end
-  it "should take word spacing into account when wrapping" do
+  it "should take character spacing into account when wrapping" do
     create_pdf
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new("hello world",

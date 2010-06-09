@@ -59,33 +59,31 @@ module Prawn
         def wrap_line(line, options)
           initialize_line(options)
 
-          @document.character_spacing(@character_spacing) do
-            previous_segment = nil
-            whitespace_pattern = new_regexp("[#{whitespace}]")
+          previous_segment = nil
+          whitespace_pattern = new_regexp("[#{whitespace}]")
 
-            line.scan(@scan_pattern).each do |segment|
+          line.scan(@scan_pattern).each do |segment|
 
-              # Don't let leading white space count against available space
-              if @output.empty? && segment =~ whitespace_pattern
-                @discarded_char_count += segment.length
-                next
-              end
-
-              segment_width = @document.width_of(segment, :kerning => @kerning)
-
-              if @accumulated_width + segment_width <= @width
-                @accumulated_width += segment_width
-                @output += segment
-              else
-                end_of_the_line(segment)
-                break
-              end
-              previous_segment = segment
+            # Don't let leading white space count against available space
+            if @output.empty? && segment =~ whitespace_pattern
+              @discarded_char_count += segment.length
+              next
             end
-            raise Errors::CannotFit if @output.empty? && !line.strip.empty?
 
-            finalize_line
+            segment_width = @document.width_of(segment, :kerning => @kerning)
+
+            if @accumulated_width + segment_width <= @width
+              @accumulated_width += segment_width
+              @output += segment
+            else
+              end_of_the_line(segment)
+              break
+            end
+            previous_segment = segment
           end
+          raise Errors::CannotFit if @output.empty? && !line.strip.empty?
+
+          finalize_line
 
           @space_count = @output.count(" ")
           @output
@@ -96,8 +94,6 @@ module Prawn
         def initialize_line(options)
           @document = options[:document]
           @kerning = options[:kerning]
-          @character_spacing = options[:character_spacing] ||
-                               @document.character_spacing
           @width = options[:width]
 
           @scan_pattern = scan_pattern

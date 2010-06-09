@@ -58,7 +58,7 @@ describe "Text::Formatted::Box#render" do
 end
 
 describe "Text::Formatted::Box#render with :align => :justify" do
-  it "should draw the character spacing to the document" do
+  it "should draw the word spacing to the document" do
     create_pdf
     array = [{ :text => "hello world " * 10}]
     options = { :document => @pdf, :align => :justify }
@@ -513,6 +513,57 @@ describe "Text::Formatted::Box with more text than can fit in the box" do
       " remains unprinted" do
       @text_box.render.should == []
     end
+  end
+end
+
+describe "Text::Formatted::Box#render with box level :character_spacing option" do
+  it "should draw the character spacing to the document only one time" do
+    create_pdf
+    array = [{ :text => "hello world" }]
+    options = { :document => @pdf,
+                :character_spacing => 7 }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.character_spacing[0].should == 7
+    contents.character_spacing.length.should == 2
+  end
+  it "should draw the character spacing to the document" do
+    create_pdf
+    array = [{ :text => "hello world",
+               :font => "Courier" }]
+    options = { :document => @pdf,
+                :width => 100,
+                :overflow => :expand,
+                :character_spacing => 10 }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text_box.text.should == "hello\nworld"
+  end
+end
+
+describe "Text::Formatted::Box#render with fragment level :character_spacing option" do
+  it "should draw the character spacing to the document" do
+    create_pdf
+    array = [{ :text => "hello world",
+               :character_spacing => 7 }]
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.character_spacing[0].should == 7
+  end
+  it "should draw the character spacing to the document" do
+    create_pdf
+    array = [{ :text => "hello world",
+               :font => "Courier",
+               :character_spacing => 10 }]
+    options = { :document => @pdf,
+                :width => 100,
+                :overflow => :expand }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text_box.text.should == "hello\nworld"
   end
 end
 
