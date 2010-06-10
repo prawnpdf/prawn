@@ -1,0 +1,52 @@
+!!! Strict
+%html
+  %head
+    %title Prawn
+    
+    %link{:href=>"css/default.css", :media=>"screen", :rel=>"stylesheet", :type=>"text/css"}
+    %script{:src => "js/prototype.js", :type=>"text/javascript"}
+    %script{:src => "js/effects.js", :type=>"text/javascript"}
+    
+    
+  %body
+    .page
+      #header
+        %h1
+          %img{:src => "images/prawn.png"}
+          Prawn
+        %hr
+
+
+      #links
+        %a{:href=>"#", :onclick => "Effect.ScrollTo('about'); return false;"} About
+        %a{:href=>"http://prawn.majesticseacreature.com/docs/prawn-core/"} Documentation
+        %a{:href=>"http://wiki.github.com/sandal/prawn/"} Wiki
+        %a{:href=>"http://groups.google.com/group/prawn-ruby"} Mailing List
+        %a{:href=>"http://github.com/sandal/prawn"} Github
+      
+      .content
+        .column 
+          Prawn is a pure Ruby PDF generation library that aims to make low level PDF generation tasks easy. It is currently under active development, and could be considered somewhere between alpha and beta quality software. You might be able to use it in production, but then again, you might not. If that doesn't deter you, and you're willing to roll up your sleeves to help fill in the gaps, read on.
+          .code
+            = "== Quick Start"
+            %p Getting started with Prawn can be as simple as:
+            %p
+              require 'prawn'
+              %br
+              pdf = Prawn::Document.new
+              %br
+              pdf.text("Prawn Rocks")
+              %br
+              pdf.render_file('prawn.pdf')
+        .column.last
+          #image_placeholder
+            IMAGE PLACEHOLDER
+            
+        #about
+          %h2 About
+          
+          %p
+            Prawn is a pure Ruby PDF generation library that aims to make low level PDF generation tasks easy. It is currently under active development, and could be considered somewhere between alpha and beta quality software. You might be able to use it in production, but then again, you might not. If that doesn't deter you, and you're willing to roll up your sleeves to help fill in the gaps, read on. 
+            
+      .bottom
+        = "- Fast, Nimble PDF Writer for Ruby -"
