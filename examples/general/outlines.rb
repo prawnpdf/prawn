@@ -13,7 +13,10 @@ Prawn::Document.generate('outlines.pdf') do
   text "Page 3. This is the second Chapter. It has a subsection. "
   start_new_page
   text  "Page 4. More in the second Chapter. "
-  define_outline do
+  outline.section 'Preface' do
+    outline.page nil, :title => 'Preface' 
+  end
+  outline.define do 
     section 'Chapter 1', :page => 1, :closed => true do 
       page 1, :title => 'Page 1'
       page 2, :title => 'Page 2'
@@ -29,27 +32,31 @@ Prawn::Document.generate('outlines.pdf') do
   text "Page 5. Appendix"
   start_new_page 
   text "Page 6. More in the Appendix"
-  outline.add_section do
-    section 'Appendix', :page => 5 do
-      page 5, :title => 'Page 5'
-      page 6, :title => 'Page 6'
-    end
+  outline.section 'Appendix', :page => 5 do
+    outline.page 5, :title => 'Page 5'
+    outline.page 6, :title => 'Page 6'
   end
   go_to_page 4
   start_new_page 
   text "inserted before the Appendix"
-  outline.insert_section_after 'Chapter 2' do
-    page page_number, :title => "Pre-Appendix"
+  outline.update do 
+    insert_section_after 'Chapter 2' do
+      page page_number, :title => "Pre-Appendix"
+    end
   end
   go_to_page 7
   start_new_page
   text "One last page"
   outline.insert_section_after 'Page 6' do 
-    page page_number, :title => "Inserted after 6"
+    outline.page page_number, :title => "Inserted after 6"
   end 
   outline.add_subsection_to 'Chapter 1', :first do
-    section 'Inserted subsection', :page => 1 do
-      page 1, :title => "Page 1 again" 
+    outline.section 'Inserted subsection', :page => 1 do
+      outline.page 1, :title => "Page 1 again" 
     end
-  end    
+  end 
+  outline.update do
+    page nil, :title => "Last Page" 
+  end  
+  outline.page nil, :title => "Very Last Page" 
 end
