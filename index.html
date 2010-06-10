@@ -1,1 +1,59 @@
-My GitHub Page
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Prawn</title>
+    <link href='css/default.css' media='screen' rel='stylesheet' type='text/css' />
+    <script src='js/prototype.js' type='text/javascript'></script>
+    <script src='js/effects.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <div class='page'>
+      <div id='header'>
+        <h1>
+          <img src='images/prawn.png' />
+          Prawn
+        </h1>
+        <hr />
+      </div>
+      <div id='links'>
+        <a href='#' onclick="Effect.ScrollTo('about'); return false;">About</a>
+        <a href='http://prawn.majesticseacreature.com/docs/prawn-core/'>Documentation</a>
+        <a href='http://wiki.github.com/sandal/prawn/'>Wiki</a>
+        <a href='http://groups.google.com/group/prawn-ruby'>Mailing List</a>
+        <a href='http://github.com/sandal/prawn'>Github</a>
+      </div>
+      <div class='content'>
+        <div class='column'>
+          Prawn is a pure Ruby PDF generation library that aims to make low level PDF generation tasks easy. It is currently under active development, and could be considered somewhere between alpha and beta quality software. You might be able to use it in production, but then again, you might not. If that doesn't deter you, and you're willing to roll up your sleeves to help fill in the gaps, read on.
+          <div class='code'>
+            == Quick Start
+            <p>Getting started with Prawn can be as simple as:</p>
+            <p>
+              require 'prawn'
+              <br />
+              pdf = Prawn::Document.new
+              <br />
+              pdf.text("Prawn Rocks")
+              <br />
+              pdf.render_file('prawn.pdf')
+            </p>
+          </div>
+        </div>
+        <div class='column last'>
+          <div id='image_placeholder'>
+            IMAGE PLACEHOLDER
+          </div>
+        </div>
+        <div id='about'>
+          <h2>About</h2>
+          <p>
+            Prawn is a pure Ruby PDF generation library that aims to make low level PDF generation tasks easy. It is currently under active development, and could be considered somewhere between alpha and beta quality software. You might be able to use it in production, but then again, you might not. If that doesn't deter you, and you're willing to roll up your sleeves to help fill in the gaps, read on.
+          </p>
+        </div>
+      </div>
+      <div class='bottom'>
+        - Fast, Nimble PDF Writer for Ruby -
+      </div>
+    </div>
+  </body>
+</html>
