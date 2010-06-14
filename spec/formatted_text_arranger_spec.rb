@@ -260,6 +260,32 @@ describe "Core::Text::Formatted::Arranger#line_width" do
   end
 end
 
+describe "Core::Text::Formatted::Arranger#line_width with character_spacing > 0" do
+  it "should return a width greater than a line without a character_spacing" do
+    create_pdf
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+
+    array = [{ :text => "hello " },
+             { :text => "world", :styles => [:bold] }]
+    arranger.format_array = array
+    while string = arranger.next_string
+    end
+    arranger.finalize_line
+
+    base_line_width = arranger.line_width
+
+
+    array = [{ :text => "hello " },
+             { :text => "world", :styles => [:bold],
+               :character_spacing => 7}]
+    arranger.format_array = array
+    while string = arranger.next_string
+    end
+    arranger.finalize_line
+    arranger.line_width.should.be > base_line_width
+  end
+end
+
 describe "Core::Text::Formatted::Arranger#line" do
   before(:each) do
     create_pdf

@@ -26,7 +26,7 @@ Prawn::Document.generate("inline_format.pdf") do |pdf|
        :align => :justify)
 
   
-  pdf.text("<color rgb='00ff00'>link: <font size='24'>please make</font> <color rgb='#0000ff'><u><link href='http://wiki.github.com/sandal/prawn/'>this</link></u></color> clickable.</color> Here we have A<color rgb='#0000ff'><sup><link href='http://wiki.github.com/sandal/prawn/'>superscript</link></sup></color> link and A<color rgb='#0000ff'><sub><link href='http://wiki.github.com/sandal/prawn/'> subscript</link></sub></color> link.",
+  pdf.text("<color rgb='00ff00'>link: <font size='24' character_spacing='7.5'>please make</font> <color rgb='#0000ff'><u><link href='http://wiki.github.com/sandal/prawn/'>this</link></u></color> clickable.</color> Here we have A<color rgb='#0000ff'><sup><link href='http://wiki.github.com/sandal/prawn/'>superscript</link></sup></color> link and A<color rgb='#0000ff'><sub><link href='http://wiki.github.com/sandal/prawn/'> subscript</link></sub></color> link.",
        :inline_format => true)
 
   pdf.text("<color c='100' m='0' y='0' k='0'><font size='24'>CMYK</font></color>",
@@ -95,8 +95,9 @@ Prawn::Document.generate("inline_format.pdf") do |pdf|
                         :callback => highlight_callback },
                       { :text => "world",
                         :size => 24,
+                        :character_spacing => 0,
                         :callback => [highlight_callback, border_callback] },
                       { :text => "   hello" }
-                     ], :indent_paragraphs => 40)
+                     ], :indent_paragraphs => 40, :character_spacing => -2)
 end
 

@@ -35,6 +35,9 @@ module Prawn
     #                     [value of document.default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
+    # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
+    #                               to or remove from the default character
+    #                               spacing. [0]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
     #
@@ -105,7 +108,8 @@ module Prawn
                                             :align, :valign,
                                             :rotate, :rotate_around,
                                             :overflow, :min_font_size,
-                                            :leading, :single_line,
+                                            :leading, :character_spacing,
+                                            :single_line,
                                             :skip_encoding,
                                             :document]
       end
@@ -163,31 +167,33 @@ module Prawn
       # See Prawn::Text#text_box for valid options
       #
       def initialize(text, options={})
-        @inked          = false
+        @inked             = false
         Prawn.verify_options(valid_options, options)
-        options          = options.dup
+        options            = options.dup
 
         self.class.extensions.reverse_each { |e| extend e }
 
-        @overflow        = options[:overflow] || :truncate
+        @overflow          = options[:overflow] || :truncate
 
         self.original_text = text
-        @text            = nil
+        @text              = nil
         
-        @document        = options[:document]
-        @at              = options[:at] ||
-                           [@document.bounds.left, @document.bounds.top]
-        @width           = options[:width] ||
-                           @document.bounds.right - @at[0]
-        @height          = options[:height] ||
-                           @at[1] - @document.bounds.bottom
-        @align           = options[:align] || :left
-        @vertical_align  = options[:valign] || :top
-        @leading         = options[:leading] || @document.default_leading?
-        @rotate          = options[:rotate] || 0
-        @rotate_around   = options[:rotate_around] || :upper_left
-        @single_line     = options[:single_line]
-        @skip_encoding   = options[:skip_encoding] || @document.skip_encoding
+        @document          = options[:document]
+        @at                = options[:at] ||
+                             [@document.bounds.left, @document.bounds.top]
+        @width             = options[:width] ||
+                             @document.bounds.right - @at[0]
+        @height            = options[:height] ||
+                             @at[1] - @document.bounds.bottom
+        @align             = options[:align] || :left
+        @vertical_align    = options[:valign] || :top
+        @leading           = options[:leading] || @document.default_leading?
+        @character_spacing = options[:character_spacing] ||
+                             @document.character_spacing
+        @rotate            = options[:rotate] || 0
+        @rotate_around     = options[:rotate_around] || :upper_left
+        @single_line       = options[:single_line]
+        @skip_encoding     = options[:skip_encoding] || @document.skip_encoding
 
         if @overflow == :expand
           # if set to expand, then we simply set the bottom
@@ -220,24 +226,26 @@ module Prawn
       def render(flags={})
         unprinted_text = ''
         @document.save_font do
-          process_options
+          @document.character_spacing(@character_spacing) do
+            process_options
 
-          if @skip_encoding
-            text = original_text
-          else
-            text = normalize_encoding
-          end
-
-          @document.font_size(@font_size) do
-            shrink_to_fit(text) if @overflow == :shrink_to_fit
-            process_vertical_alignment(text)
-            @inked = true unless flags[:dry_run]
-            if @rotate != 0 && @inked
-              unprinted_text = render_rotated(text)
+            if @skip_encoding
+              text = original_text
             else
-              unprinted_text = wrap(text)
+              text = normalize_encoding
             end
-            @inked = false
+
+            @document.font_size(@font_size) do
+              shrink_to_fit(text) if @overflow == :shrink_to_fit
+              process_vertical_alignment(text)
+              @inked = true unless flags[:dry_run]
+              if @rotate != 0 && @inked
+                unprinted_text = render_rotated(text)
+              else
+                unprinted_text = wrap(text)
+              end
+              @inked = false
+            end
           end
         end
 
@@ -278,12 +286,16 @@ module Prawn
         if @inked
           if @align == :justify
             @document.word_spacing(word_spacing) {
+              @document.character_spacing(@character_spacing) {
+                @document.draw_text!(line_to_print, :at => [x, y],
+                                     :kerning => @kerning)
+              }
+            }
+          else
+            @document.character_spacing(@character_spacing) {
               @document.draw_text!(line_to_print, :at => [x, y],
                                    :kerning => @kerning)
             }
-          else
-            @document.draw_text!(line_to_print, :at => [x, y],
-                                 :kerning => @kerning)
           end
         end
         

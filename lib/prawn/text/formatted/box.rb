@@ -28,7 +28,10 @@ module Prawn
       #     :bold, :italic, :underline, :strikethrough, :subscript, and
       #     :superscript
       # <tt>:size</tt>::
-      #     an integer denoting the font size to apply to this text
+      #     a number denoting the font size to apply to this text
+      # <tt>:character_spacing</tt>::
+      #     a number denoting how much to increase or decrease the default
+      #     spacing between characters
       # <tt>:font</tt>::
       #     the name of a font. The name must be an AFM font with the desired
       #     faces or must be a font that is already registered using

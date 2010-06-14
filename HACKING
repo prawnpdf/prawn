@@ -44,6 +44,7 @@ If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
   <yob>        - James Healy
   <bluejade>   - Daniel Nelson
   <bradediger> - Brad Ediger
+  <jonsgreen>  - Jonathan Greenberg
   
   Otherwise, use the mailing list:
   http://groups.google.com/group/prawn-ruby

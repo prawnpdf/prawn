@@ -59,8 +59,13 @@ module Prawn
 
             font = hash[:font] ? " name='#{hash[:font]}'" : nil
             size = hash[:size] ? " size='#{hash[:size]}'" : nil
-            if font || size
-              prefix = prefix + "<font#{font}#{size}>"
+            if hash[:character_spacing]
+              character_spacing = " character_spacing='#{hash[:character_spacing]}'"
+            else
+              character_spacing = nil
+            end
+            if font || size || character_spacing
+              prefix = prefix + "<font#{font}#{size}#{character_spacing}>"
               suffix = "</font>"
             end
 
@@ -118,6 +123,7 @@ module Prawn
           anchor = nil
           fonts = []
           sizes = []
+          character_spacings = []
           
           while token = tokens.shift
             case token
@@ -153,6 +159,7 @@ module Prawn
             when "</font>"
               fonts.pop
               sizes.pop
+              character_spacings.pop
             else
               if token =~ /^<link[^>]*>$/ or token =~ /^<a[^>]*>$/
                 matches = /href="([^"]*)"/.match(token) || /href='([^']*)'/.match(token)
@@ -179,8 +186,11 @@ module Prawn
                 matches = /name="([^"]*)"/.match(token) || /name='([^']*)'/.match(token)
                 fonts << matches[1] unless matches.nil?
 
-                matches = /size="(\d+)"/.match(token) || /size='(\d+)'/.match(token)
-                sizes << matches[1].to_i unless matches.nil?
+                matches = /size="([^"]*)"/.match(token) || /size='([^']*)'/.match(token)
+                sizes << matches[1].to_f unless matches.nil?
+
+                matches = /character_spacing="([^"]*)"/.match(token) || /character_spacing='([^']*)'/.match(token)
+                character_spacings << matches[1].to_f unless matches.nil?
               else
                 string = token.gsub("&lt;", "<").gsub("&gt;", ">").gsub("&amp;", "&")
                 array << { :text => string,
@@ -189,7 +199,8 @@ module Prawn
                            :link => link,
                            :anchor => anchor,
                            :font => fonts.last,
-                           :size => sizes.last }
+                           :size => sizes.last,
+                           :character_spacing => character_spacings.last }
               end
             end
           end
