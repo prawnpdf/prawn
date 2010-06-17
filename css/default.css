@@ -10,7 +10,9 @@ body{
   padding: 40px;
   background-color: #fff;
   position:relative;
-  
+}
+
+.shadow{
   box-shadow: 0px 3px 10px #000;
   -moz-box-shadow: 0px 3px 10px #000;
   -webkit-box-shadow: 0px 3px 10px #000;
@@ -106,9 +108,10 @@ body{
 }
 
 #image_placeholder{
-  background-color: #f45409;
+  /*background-color: #f45409;*/
   height: 400px;
   margin: 5px;
+  text-align:center;
 }
 
 #about{
