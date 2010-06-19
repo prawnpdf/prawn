@@ -61,11 +61,11 @@ module Prawn
       when Array
         "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
       when Prawn::Core::LiteralString
-        obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        obj = obj.gsub(/[\\\n\r\t\b\f\(\)]/n) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
-        obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        obj = obj.gsub(/[\\\n\r\t\b\f\(\)]/n) { |m| "\\#{m}" }
         "(#{obj})"
       when Prawn::Core::ByteString
         "<" << obj.unpack("H*").first << ">"
