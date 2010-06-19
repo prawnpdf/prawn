@@ -21,7 +21,7 @@ module Prawn
       def initialize(opts = {})
         @objects = {}
         @identifiers = []
-        
+
         load_file(opts[:template]) if opts[:template]
 
         @info  ||= ref(opts[:info] || {}).identifier
@@ -30,10 +30,10 @@ module Prawn
           root.data[:Pages] = ref(:Type => :Pages, :Count => 0, :Kids => [])
         end
       end
-   
+
       def ref(data, &block)
         push(size + 1, data, &block)
-      end                                               
+      end
 
       def info
         @objects[@info]
@@ -209,9 +209,26 @@ module Prawn
           # being wrapped in a LiteralString
           object
         when String
-          Prawn::Core::LiteralString.new(object)
+          is_utf8?(object) ? object : Prawn::Core::ByteString.new(object)
         else
           object
+        end
+      end
+
+      ruby_18 do
+        def is_utf8?(str)
+          begin
+            str.unpack("U*")
+            true
+          rescue
+            false
+          end
+        end
+      end
+      ruby_19 do
+        def is_utf8?(str)
+          str.force_encoding("utf-8")
+          str.valid_encoding?
         end
       end
     end
