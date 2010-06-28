@@ -60,7 +60,16 @@ module Prawn
           initialize_line(options)
 
           previous_segment = nil
+          whitespace_pattern = new_regexp("[#{whitespace}]")
+
           line.scan(@scan_pattern).each do |segment|
+
+            # Don't let leading white space count against available space
+            if @output.empty? && segment =~ whitespace_pattern
+              @discarded_char_count += segment.length
+              next
+            end
+
             segment_width = @document.width_of(segment, :kerning => @kerning)
 
             if @accumulated_width + segment_width <= @width
@@ -75,6 +84,7 @@ module Prawn
           raise Errors::CannotFit if @output.empty? && !line.strip.empty?
 
           finalize_line
+
           @space_count = @output.count(" ")
           @output
         end
@@ -89,6 +99,7 @@ module Prawn
           @scan_pattern = scan_pattern
           @word_division_scan_pattern = word_division_scan_pattern
 
+          @discarded_char_count = 0
           @accumulated_width = 0
           @output = ""
         end
@@ -141,7 +152,7 @@ module Prawn
         end
 
         def finalize_line
-          @consumed_char_count = @output.length
+          @consumed_char_count = @output.length + @discarded_char_count
 
           @output = @output[0..-2].gsub(soft_hyphen, "") + @output[-1..-1]
 

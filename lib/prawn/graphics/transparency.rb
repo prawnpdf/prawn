@@ -59,7 +59,7 @@ module Prawn
 
         save_graphics_state
         add_content "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
-        yield if block_given?
+        yield
         restore_graphics_state
       end
 

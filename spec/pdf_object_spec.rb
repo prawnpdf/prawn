@@ -56,7 +56,43 @@ describe "PDF Object Serialization" do
     s = 'I can \\)( has string'
     PDF::Inspector.parse(Prawn::Core::PdfObject(s, true)).should == s  
   end      
-  
+
+  it "should escape various strings correctly when converting a LiteralString" do
+    ls = Prawn::Core::LiteralString.new("abc")
+    Prawn::Core::PdfObject(ls).should == "(abc)"
+
+    ls = Prawn::Core::LiteralString.new("abc\x0Ade") # should escape \n
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C\x0Ade)"
+
+    ls = Prawn::Core::LiteralString.new("abc\x0Dde") # should escape \r
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C\x0Dde)"
+
+    ls = Prawn::Core::LiteralString.new("abc\x09de") # should escape \t
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C\x09de)"
+
+    ls = Prawn::Core::LiteralString.new("abc\x08de") # should escape \b
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C\x08de)"
+
+    ls = Prawn::Core::LiteralString.new("abc\x0Cde") # should escape \f
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C\x0Cde)"
+
+    ls = Prawn::Core::LiteralString.new("abc(de") # should escape \(
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C(de)"
+
+    ls = Prawn::Core::LiteralString.new("abc)de") # should escape \)
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C)de)"
+
+    ls = Prawn::Core::LiteralString.new("abc\x5Cde") # should escape \\
+    Prawn::Core::PdfObject(ls).should == "(abc\x5C\x5Cde)"
+    Prawn::Core::PdfObject(ls).size.should == 9
+  end
+
+  it "should escape strings correctly when converting a LiteralString that is not utf-8" do
+    data = "\x43\xaf\xc9\x7f\xef\xf\xe6\xa8\xcb\x5c\xaf\xd0"
+    ls = Prawn::Core::LiteralString.new(data)
+    Prawn::Core::PdfObject(ls).should == "(\x43\xaf\xc9\x7f\xef\xf\xe6\xa8\xcb\x5c\x5c\xaf\xd0)"
+  end
+
   it "should convert a Ruby symbol to PDF name" do
     Prawn::Core::PdfObject(:my_symbol).should == "/my_symbol"
     Prawn::Core::PdfObject(:"A;Name_With-Various***Characters?").should ==

@@ -99,6 +99,11 @@ module Prawn
           @format_state[:size]
         end
 
+        def character_spacing
+          @format_state[:character_spacing] ||
+            @document.character_spacing
+        end
+
         def callback_objects
           callback = @format_state[:callback]
           if callback.nil?
