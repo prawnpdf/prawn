@@ -64,13 +64,17 @@ body{
 
 }
 
-#links a:hover{
+#links a:hover, #links a.current{
   color: #000;
   border-bottom: 2px solid #f45409;
 }
 
 #links a:active{
   color: #ad3c0b;
+}
+
+a, a:visited{
+  color: #f45409;
 }
 
 .content{
