@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: Prawn::Document::Destinations</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/document/destinations_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/destinations.rb">lib/prawn/document/destinations.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-add_dest">#add_dest</a></li>
+					
+					<li><a href="#method-i-dest_fit">#dest_fit</a></li>
+					
+					<li><a href="#method-i-dest_fit_bounds">#dest_fit_bounds</a></li>
+					
+					<li><a href="#method-i-dest_fit_bounds_horizontally">#dest_fit_bounds_horizontally</a></li>
+					
+					<li><a href="#method-i-dest_fit_bounds_vertically">#dest_fit_bounds_vertically</a></li>
+					
+					<li><a href="#method-i-dest_fit_horizontally">#dest_fit_horizontally</a></li>
+					
+					<li><a href="#method-i-dest_fit_rect">#dest_fit_rect</a></li>
+					
+					<li><a href="#method-i-dest_fit_vertically">#dest_fit_vertically</a></li>
+					
+					<li><a href="#method-i-dest_xyz">#dest_xyz</a></li>
+					
+					<li><a href="#method-i-dests">#dests</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn.html">Prawn</a></li>
+				
+					<li><a href="../../Prawn/Core.html">Prawn::Core</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/Annotations.html">Prawn::Document::Annotations</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/Destinations.html">Prawn::Document::Destinations</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/LineWrap.html">Prawn::Text::LineWrap</a></li>
+				
+					<li><a href="../../File.html">File</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">Prawn::Document::Destinations</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="add-dest-method" class="method-detail ">
+				<a name="method-i-add_dest"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_dest</span><span
+						class="method-args">(name, reference)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Adds a new destination to the dests name tree (see <a
+href="Destinations.html#method-i-dests">#</a>). The <tt>reference</tt>
+parameter will be converted into a Prawn::Reference if it is not already
+one.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="add-dest-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 30</span>
+30:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_dest</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">reference</span>)
+31:         <span class="ruby-identifier">reference</span> = <span class="ruby-identifier">ref!</span>(<span class="ruby-identifier">reference</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">reference</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>)
+32:         <span class="ruby-identifier">dests</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">reference</span>)
+33:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-method" class="method-detail ">
+				<a name="method-i-dest_fit"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit</span><span
+						class="method-args">(page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Return a Dest specification that will fit the given page into the viewport.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 45</span>
+45:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit</span>(<span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+46:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:Fit</span>]
+47:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-bounds-method" class="method-detail ">
+				<a name="method-i-dest_fit_bounds"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit_bounds</span><span
+						class="method-args">(page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Return a Dest specfication that will fit the given page&#8217;s bounding
+box into the viewport.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-bounds-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 73</span>
+73:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit_bounds</span>(<span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+74:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:FitB</span>]
+75:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-bounds-horizontally-method" class="method-detail ">
+				<a name="method-i-dest_fit_bounds_horizontally"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit_bounds_horizontally</span><span
+						class="method-args">(top, page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Same as <a href="Destinations.html#method-i-dest_fit_horizontally">#</a>,
+but works on the page&#8217;s bounding box instead of the entire page.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-bounds-horizontally-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 80</span>
+80:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit_bounds_horizontally</span>(<span class="ruby-identifier">top</span>, <span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+81:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:FitBH</span>, <span class="ruby-identifier">top</span>]
+82:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-bounds-vertically-method" class="method-detail ">
+				<a name="method-i-dest_fit_bounds_vertically"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit_bounds_vertically</span><span
+						class="method-args">(left, page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Same as <a href="Destinations.html#method-i-dest_fit_vertically">#</a>, but
+works on the page&#8217;s bounding box instead of the entire page.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-bounds-vertically-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 87</span>
+87:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit_bounds_vertically</span>(<span class="ruby-identifier">left</span>, <span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+88:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:FitBV</span>, <span class="ruby-identifier">left</span>]
+89:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-horizontally-method" class="method-detail ">
+				<a name="method-i-dest_fit_horizontally"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit_horizontally</span><span
+						class="method-args">(top, page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Return a Dest specification that will fit the given page horizontally into
+the viewport, aligned vertically at the given top coordinate.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-horizontally-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 52</span>
+52:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit_horizontally</span>(<span class="ruby-identifier">top</span>, <span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+53:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:FitH</span>, <span class="ruby-identifier">top</span>]
+54:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-rect-method" class="method-detail ">
+				<a name="method-i-dest_fit_rect"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit_rect</span><span
+						class="method-args">(left, bottom, right, top, page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Return a Dest specification that will fit the given rectangle into the
+viewport, for the given page.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-rect-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 66</span>
+66:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit_rect</span>(<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bottom</span>, <span class="ruby-identifier">right</span>, <span class="ruby-identifier">top</span>, <span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+67:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:FitR</span>, <span class="ruby-identifier">left</span>, <span class="ruby-identifier">bottom</span>, <span class="ruby-identifier">right</span>, <span class="ruby-identifier">top</span>]
+68:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-fit-vertically-method" class="method-detail ">
+				<a name="method-i-dest_fit_vertically"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_fit_vertically</span><span
+						class="method-args">(left, page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Return a Dest specification that will fit the given page vertically into
+the viewport, aligned horizontally at the given left coordinate.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-fit-vertically-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 59</span>
+59:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_fit_vertically</span>(<span class="ruby-identifier">left</span>, <span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+60:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:FitV</span>, <span class="ruby-identifier">left</span>]
+61:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dest-xyz-method" class="method-detail ">
+				<a name="method-i-dest_xyz"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dest_xyz</span><span
+						class="method-args">(left, top, zoom=nil, page=current_page)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Return a Dest specification for a specific location (and optional zoom
+level).
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dest-xyz-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 38</span>
+38:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dest_xyz</span>(<span class="ruby-identifier">left</span>, <span class="ruby-identifier">top</span>, <span class="ruby-identifier">zoom</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">page</span>=<span class="ruby-identifier">current_page</span>)
+39:         [<span class="ruby-identifier">page</span>, <span class="ruby-value">:XYZ</span>, <span class="ruby-identifier">left</span>, <span class="ruby-identifier">top</span>, <span class="ruby-identifier">zoom</span>]
+40:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dests-method" class="method-detail ">
+				<a name="method-i-dests"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dests</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The Dests name tree in the Name dictionary (see
+Prawn::Document::Internal#names). This name tree is used to store named
+destinations (PDF spec 8.2.1). (For more on name trees, see section 3.8.4
+in the PDF spec.)
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dests-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/destinations.rb, line 22</span>
+22:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dests</span>
+23:         <span class="ruby-identifier">names</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Dests</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">ref!</span>(<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">NameTree</span><span class="ruby-operator">::</span><span class="ruby-constant">Node</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-constant">NAME_TREE_CHILDREN_LIMIT</span>))
+24:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

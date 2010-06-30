@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Numeric</title>
+
+	<link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="./lib/prawn/measurement_extensions_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/measurement_extensions.rb">lib/prawn/measurement_extensions.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-cm">#cm</a></li>
+					
+					<li><a href="#method-i-dm">#dm</a></li>
+					
+					<li><a href="#method-i-ft">#ft</a></li>
+					
+					<li><a href="#method-i-in">#in</a></li>
+					
+					<li><a href="#method-i-m">#m</a></li>
+					
+					<li><a href="#method-i-mm">#mm</a></li>
+					
+					<li><a href="#method-i-pt">#pt</a></li>
+					
+					<li><a href="#method-i-yd">#yd</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+			<div id="includes-section" class="section">
+				<h3 class="section-header">Included Modules</h3>
+				<ul class="link-list">
+				
+				
+					<li><a class="include" href="Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+				
+				</ul>
+			</div>
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./Prawn/Core/Text/Formatted/Wrap.html">Prawn::Core::Text::Formatted::Wrap</a></li>
+				
+					<li><a href="./Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="./Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="./Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="./Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="./Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="./Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="./Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="./Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="./Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="./Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="./Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="./Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="./Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="./Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="./Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="./Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="./Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="./Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="./Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="./Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="./Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="./Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="./Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="./Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="./Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="./Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="./Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="./Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="./Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="./Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="./Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="./Prawn/Table/CellProxy.html">Prawn::Table::CellProxy</a></li>
+				
+					<li><a href="./Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="./Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="./Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="./Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="./Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="./Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="./Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="./Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Numeric</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="cm-method" class="method-detail ">
+				<a name="method-i-cm"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">cm</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="cm-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 19</span>
+19:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cm</span>
+20:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">cm2pt</span>(<span class="ruby-keyword kw">self</span>)
+21:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="dm-method" class="method-detail ">
+				<a name="method-i-dm"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dm</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="dm-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 23</span>
+23:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dm</span>
+24:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">dm2pt</span>(<span class="ruby-keyword kw">self</span>)
+25:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="ft-method" class="method-detail ">
+				<a name="method-i-ft"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">ft</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="ft-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 39</span>
+39:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ft</span>
+40:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">ft2pt</span>(<span class="ruby-keyword kw">self</span>)
+41:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="in-method" class="method-detail ">
+				<a name="method-i-in"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">in</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="in-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 31</span>
+31:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">in</span>
+32:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">in2pt</span>(<span class="ruby-keyword kw">self</span>)
+33:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="m-method" class="method-detail ">
+				<a name="method-i-m"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">m</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="m-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 27</span>
+27:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">m</span>
+28:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">m2pt</span>(<span class="ruby-keyword kw">self</span>)
+29:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="mm-method" class="method-detail ">
+				<a name="method-i-mm"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">mm</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+prawns&#8217; basic unit is PostScript-Point         72 points per inch
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="mm-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 15</span>
+15:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mm</span>
+16:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">mm2pt</span>(<span class="ruby-keyword kw">self</span>)
+17:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="pt-method" class="method-detail ">
+				<a name="method-i-pt"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">pt</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="pt-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 43</span>
+43:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pt</span>
+44:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>
+45:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="yd-method" class="method-detail ">
+				<a name="method-i-yd"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">yd</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="yd-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/measurement_extensions.rb, line 35</span>
+35:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">yd</span>
+36:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">yd2pt</span>(<span class="ruby-keyword kw">self</span>)
+37:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

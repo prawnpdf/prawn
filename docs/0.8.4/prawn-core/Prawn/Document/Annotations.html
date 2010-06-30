@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: Prawn::Document::Annotations</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/document/annotations_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/annotations.rb">lib/prawn/document/annotations.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-annotate">#annotate</a></li>
+					
+					<li><a href="#method-i-link_annotation">#link_annotation</a></li>
+					
+					<li><a href="#method-i-sanitize_annotation_hash">#sanitize_annotation_hash</a></li>
+					
+					<li><a href="#method-i-text_annotation">#text_annotation</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn.html">Prawn</a></li>
+				
+					<li><a href="../../Prawn/Core.html">Prawn::Core</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/Annotations.html">Prawn::Document::Annotations</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/Destinations.html">Prawn::Document::Destinations</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/LineWrap.html">Prawn::Text::LineWrap</a></li>
+				
+					<li><a href="../../File.html">File</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">Prawn::Document::Annotations</h1>
+
+		<div id="description">
+			<p>
+Provides very low-level support for annotations.  These extensions are
+mainly for use by prawn-format, so be sure to check that out if all you
+need is basic internal or external links.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="annotate-method" class="method-detail ">
+				<a name="method-i-annotate"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">annotate</span><span
+						class="method-args">(options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Adds a new annotation (section 8.4 in PDF spec) to the current page.
+<tt>options</tt> must be a Hash describing the annotation.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="annotate-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/annotations.rb, line 23</span>
+23:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">annotate</span>(<span class="ruby-identifier">options</span>)
+24:         <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dictionary</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Annots</span>] <span class="ruby-operator">||=</span> []
+25:         <span class="ruby-identifier">options</span> = <span class="ruby-identifier">sanitize_annotation_hash</span>(<span class="ruby-identifier">options</span>)
+26:         <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dictionary</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Annots</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">ref!</span>(<span class="ruby-identifier">options</span>)
+27:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">options</span>
+28:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="link-annotation-method" class="method-detail ">
+				<a name="method-i-link_annotation"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">link_annotation</span><span
+						class="method-args">(rect, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A convenience method for creating Link annotations. <tt>rect</tt> must be
+an array of four numbers, describing the bounds of the annotation. The
+<tt>options</tt> hash should include either :Dest (describing the target
+destination, usually as a string that has been recorded in the
+document&#8217;s Dests tree), or :A (describing an action to perform on
+clicking the link), or :PA (for describing a URL to link to).
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="link-annotation-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/annotations.rb, line 46</span>
+46:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">link_annotation</span>(<span class="ruby-identifier">rect</span>, <span class="ruby-identifier">options</span>={})
+47:         <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:Subtype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Link</span>, <span class="ruby-value">:Rect</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rect</span>)
+48:         <span class="ruby-identifier">annotate</span>(<span class="ruby-identifier">options</span>)
+49:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="text-annotation-method" class="method-detail ">
+				<a name="method-i-text_annotation"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">text_annotation</span><span
+						class="method-args">(rect, contents, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A convenience method for creating <a href="../Text.html">Text</a>
+annotations. <tt>rect</tt> must be an array of four numbers, describing the
+bounds of the annotation. <tt>contents</tt> should be a string, to be shown
+when the annotation is activated.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="text-annotation-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/annotations.rb, line 34</span>
+34:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text_annotation</span>(<span class="ruby-identifier">rect</span>, <span class="ruby-identifier">contents</span>, <span class="ruby-identifier">options</span>={})
+35:         <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:Subtype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Text</span>, <span class="ruby-value">:Rect</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rect</span>, <span class="ruby-value">:Contents</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">contents</span>)
+36:         <span class="ruby-identifier">annotate</span>(<span class="ruby-identifier">options</span>)
+37:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="sanitize-annotation-hash-method" class="method-detail ">
+				<a name="method-i-sanitize_annotation_hash"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">sanitize_annotation_hash</span><span
+						class="method-args">(options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="sanitize-annotation-hash-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/annotations.rb, line 53</span>
+53:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sanitize_annotation_hash</span>(<span class="ruby-identifier">options</span>)
+54:         <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:Type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Annot</span>)
+55: 
+56:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:Dest</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+57:           <span class="ruby-identifier">options</span>[<span class="ruby-value">:Dest</span>] = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">LiteralString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:Dest</span>])
+58:         <span class="ruby-keyword kw">end</span>
+59: 
+60:         <span class="ruby-identifier">options</span>
+61:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

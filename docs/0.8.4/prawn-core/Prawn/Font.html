@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Font</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/prawn/font/afm_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/font/afm.rb">lib/prawn/font/afm.rb</a></li>
+					
+						<li><a href="../lib/prawn/font/dfont_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/font/dfont.rb">lib/prawn/font/dfont.rb</a></li>
+					
+						<li><a href="../lib/prawn/font/ttf_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/font/ttf.rb">lib/prawn/font/ttf.rb</a></li>
+					
+						<li><a href="../lib/prawn/font_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/font.rb">lib/prawn/font.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">CLASS</span> <a href="Font/AFM.html">Prawn::Font::AFM</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Font/DFont.html">Prawn::Font::DFont</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Font/TTF.html">Prawn::Font::TTF</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-load">::load</a></li>
+					
+					<li><a href="#method-i-add_to_current_page">#add_to_current_page</a></li>
+					
+					<li><a href="#method-i-ascender">#ascender</a></li>
+					
+					<li><a href="#method-i-descender">#descender</a></li>
+					
+					<li><a href="#method-i-height">#height</a></li>
+					
+					<li><a href="#method-i-height_at">#height_at</a></li>
+					
+					<li><a href="#method-i-line_gap">#line_gap</a></li>
+					
+					<li><a href="#method-i-normalize_encoding">#normalize_encoding</a></li>
+					
+					<li><a href="#method-i-normalize_encoding%21">#normalize_encoding!</a></li>
+					
+					<li><a href="#method-i-size">#size</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Prawn.html">Prawn</a></li>
+				
+					<li><a href="../Prawn/Core.html">Prawn::Core</a></li>
+				
+					<li><a href="../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../Prawn/Document/Annotations.html">Prawn::Document::Annotations</a></li>
+				
+					<li><a href="../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../Prawn/Document/Destinations.html">Prawn::Document::Destinations</a></li>
+				
+					<li><a href="../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../Prawn/Text/LineWrap.html">Prawn::Text::LineWrap</a></li>
+				
+					<li><a href="../File.html">File</a></li>
+				
+					<li><a href="../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Font</h1>
+
+		<div id="description">
+			<p>
+Provides font information and helper functions.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="name-attribute-method" class="method-detail">
+				<a name="name"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">name</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+The current font name
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="family-attribute-method" class="method-detail">
+				<a name="family"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">family</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+The current font family
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="options-attribute-method" class="method-detail">
+				<a name="options"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">options</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+The options hash used to initialize the font
+</p>
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="load-method" class="method-detail ">
+				<a name="method-c-load"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">load</span><span
+						class="method-args">(document,name,options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Shortcut interface for constructing a font object.  Filenames of the form
+*.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
+will be passed through to Font::AFM.new()
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="load-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 238</span>
+238:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">document</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">options</span>={})
+239:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">name</span>
+240:       <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/\.ttf$/</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-constant">TTF</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">document</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
+241:       <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/\.dfont$/</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">DFont</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">document</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
+242:       <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/\.afm$/</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-constant">AFM</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">document</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
+243:       <span class="ruby-keyword kw">else</span>                 <span class="ruby-constant">AFM</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">document</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
+244:       <span class="ruby-keyword kw">end</span>
+245:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="add-to-current-page-method" class="method-detail ">
+				<a name="method-i-add_to_current_page"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_to_current_page</span><span
+						class="method-args">(subset)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Registers the given subset of the current font with the current PDF page.
+This is safe to call multiple times for a given font and subset, as it will
+only add the font the first time it is called.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="add-to-current-page-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 310</span>
+310:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_to_current_page</span>(<span class="ruby-identifier">subset</span>)
+311:       <span class="ruby-ivar">@references</span>[<span class="ruby-identifier">subset</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">register</span>(<span class="ruby-identifier">subset</span>)
+312:       <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">identifier_for</span>(<span class="ruby-identifier">subset</span>) =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@references</span>[<span class="ruby-identifier">subset</span>])
+313:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="ascender-method" class="method-detail ">
+				<a name="method-i-ascender"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">ascender</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The size of the font ascender in PDF points 
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="ascender-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 261</span>
+261:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ascender</span>
+262:       <span class="ruby-ivar">@ascender</span> <span class="ruby-operator">/</span> <span class="ruby-value">1000.0</span> * <span class="ruby-identifier">size</span>
+263:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="descender-method" class="method-detail ">
+				<a name="method-i-descender"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">descender</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The size of the font descender in PDF points
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="descender-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 267</span>
+267:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">descender</span>
+268:       <span class="ruby-operator">-</span><span class="ruby-ivar">@descender</span> <span class="ruby-operator">/</span> <span class="ruby-value">1000.0</span> * <span class="ruby-identifier">size</span>
+269:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="height-method" class="method-detail ">
+				<a name="method-i-height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Gets height of current font in PDF points at current font size
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="height-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 302</span>
+302:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>
+303:       <span class="ruby-identifier">height_at</span>(<span class="ruby-identifier">size</span>)
+304:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="height-at-method" class="method-detail ">
+				<a name="method-i-height_at"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">height_at</span><span
+						class="method-args">(size)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Gets height of current font in PDF points at the given font size
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="height-at-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 295</span>
+295:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height_at</span>(<span class="ruby-identifier">size</span>)
+296:       <span class="ruby-ivar">@normalized_height</span> <span class="ruby-operator">||=</span> (<span class="ruby-ivar">@ascender</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@descender</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@line_gap</span>) <span class="ruby-operator">/</span> <span class="ruby-value">1000.0</span>
+297:       <span class="ruby-ivar">@normalized_height</span> * <span class="ruby-identifier">size</span>
+298:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="line-gap-method" class="method-detail ">
+				<a name="method-i-line_gap"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">line_gap</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The size of the recommended gap between lines of text in PDF points
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="line-gap-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 273</span>
+273:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">line_gap</span>
+274:       <span class="ruby-ivar">@line_gap</span> <span class="ruby-operator">/</span> <span class="ruby-value">1000.0</span> * <span class="ruby-identifier">size</span>
+275:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="normalize-encoding-method" class="method-detail ">
+				<a name="method-i-normalize_encoding"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">normalize_encoding</span><span
+						class="method-args">(string)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Normalizes the encoding of the string to an encoding supported by the font.
+The string is expected to be UTF-8 going in. It will be re-encoded and the
+new string will be returned. For an in-place (destructive) version, see <a
+href="Font.html#method-i-normalize_encoding">normalize_encoding</a>!.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="normalize-encoding-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 282</span>
+282:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">normalize_encoding</span>(<span class="ruby-identifier">string</span>)
+283:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-node">&quot;subclasses of Prawn::Font must implement #normalize_encoding&quot;</span>
+284:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="normalize-encoding--method" class="method-detail ">
+				<a name="method-i-normalize_encoding%21"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">normalize_encoding!</span><span
+						class="method-args">(str)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Destructive version of <a
+href="Font.html#method-i-normalize_encoding">normalize_encoding</a>;
+normalizes the encoding of a string in place.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="normalize-encoding--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 289</span>
+289:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">normalize_encoding!</span>(<span class="ruby-identifier">str</span>)
+290:       <span class="ruby-identifier">str</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">normalize_encoding</span>(<span class="ruby-identifier">str</span>))
+291:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="size-method" class="method-detail ">
+				<a name="method-i-size"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">size</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="size-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 325</span>
+325:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>
+326:       <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">font_size</span>
+327:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+
