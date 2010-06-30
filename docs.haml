@@ -1,0 +1,30 @@
+!!! Strict
+%html
+  %head
+    %title Prawn
+    
+    %link{:href=>"/css/default.css", :media=>"screen", :rel=>"stylesheet", :type=>"text/css"}
+    %script{:src => "/js/prototype.js", :type=>"text/javascript"}
+    %script{:src => "/js/effects.js", :type=>"text/javascript"}
+    
+    
+  %body
+    .page.shadow
+      #header
+        %h1
+          %img{:src => "/images/prawn.png"}
+          Prawn
+        %hr
+
+
+      #links
+        %a{:href=>"#", :onclick => "Effect.ScrollTo('about'); return false;"} About
+        %a{:href=>"http://prawn.majesticseacreature.com/docs"} Documentation
+        %a{:href=>"http://wiki.github.com/sandal/prawn/"} Wiki
+        %a{:href=>"http://groups.google.com/group/prawn-ruby"} Mailing List
+        %a{:href=>"http://github.com/sandal/prawn"} Github
+      
+      .content
+        .column 
+          Docs!
+        = "- Fast, Nimble PDF Generation for Ruby -"

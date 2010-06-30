@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Outline</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/prawn/outline_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/outline.rb">lib/prawn/outline.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-add_outline_item">#add_outline_item</a></li>
+					
+					<li><a href="#method-i-add_section">#add_section</a></li>
+					
+					<li><a href="#method-i-adjust_relations">#adjust_relations</a></li>
+					
+					<li><a href="#method-i-create_outline_item">#create_outline_item</a></li>
+					
+					<li><a href="#method-i-define">#define</a></li>
+					
+					<li><a href="#method-i-increase_count">#increase_count</a></li>
+					
+					<li><a href="#method-i-insert_section_after">#insert_section_after</a></li>
+					
+					<li><a href="#method-i-page">#page</a></li>
+					
+					<li><a href="#method-i-reset_parent">#reset_parent</a></li>
+					
+					<li><a href="#method-i-section">#section</a></li>
+					
+					<li><a href="#method-i-set_relations">#set_relations</a></li>
+					
+					<li><a href="#method-i-set_variables_for_block">#set_variables_for_block</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Prawn/Core/Text/Formatted/Wrap.html">Prawn::Core::Text::Formatted::Wrap</a></li>
+				
+					<li><a href="../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../Prawn/Table/CellProxy.html">Prawn::Table::CellProxy</a></li>
+				
+					<li><a href="../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Outline</h1>
+
+		<div id="description">
+			<p>
+The <a href="Outline.html">Outline</a> class organizes the outline tree
+items for the document. Note that the prev and parent instance variables
+are adjusted while navigating  through the nested blocks. These variables
+along with the presence or absense  of blocks are the primary means by
+which the relations for the various OutlineItems and the OutlineRoot are
+set. Unfortunately, the best way to understand how this works is to follow
+the method calls through a real example.
+</p>
+<p>
+Some ideas for the organization of this class were gleaned from name_tree.
+In  particular the way in which the OutlineItems are finally rendered into
+document  objects in PdfObject through a hash.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="parent-attribute-method" class="method-detail">
+				<a name="parent"></a>
+				
+				<a name="parent="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">parent</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="prev-attribute-method" class="method-detail">
+				<a name="prev"></a>
+				
+				<a name="prev="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">prev</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="document-attribute-method" class="method-detail">
+				<a name="document"></a>
+				
+				<a name="document="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">document</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="outline-root-attribute-method" class="method-detail">
+				<a name="outline_root"></a>
+				
+				<a name="outline_root="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">outline_root</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="items-attribute-method" class="method-detail">
+				<a name="items"></a>
+				
+				<a name="items="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">items</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(document)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 55</span>
+55:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">document</span>)
+56:       <span class="ruby-ivar">@document</span> = <span class="ruby-identifier">document</span>
+57:       <span class="ruby-ivar">@outline_root</span> = <span class="ruby-identifier">document</span>.<span class="ruby-identifier">outline_root</span>(<span class="ruby-constant">OutlineRoot</span>.<span class="ruby-identifier">new</span>)
+58:       <span class="ruby-ivar">@parent</span> = <span class="ruby-identifier">outline_root</span>
+59:       <span class="ruby-ivar">@prev</span> = <span class="ruby-keyword kw">nil</span>
+60:       <span class="ruby-ivar">@items</span> = {}
+61:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="add-section-method" class="method-detail ">
+				<a name="method-i-add_section"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_section</span><span
+						class="method-args">(&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Adds an outine section to the outline tree (see define_outline). Although
+you will probably choose to exclusively use define_outline so  that your
+outline tree is contained and easy to manage, this method gives you the
+option to add sections to the outline tree at any point during document
+generation. Note that the section will be added at the  top level at the
+end of the outline. For more a more flexible API try using
+outline.insert_section_after.
+</p>
+<p>
+block uses the same DSL syntax as define_outline, for example: 
+</p>
+<pre>
+  outline.add_section do
+    section 'Added Section', :page =&gt; 3 do
+      page 3, :title =&gt; 'Page 3'
+    end
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="add-section-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 121</span>
+121:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_section</span>(&amp;<span class="ruby-identifier">block</span>)
+122:       <span class="ruby-ivar">@parent</span> = <span class="ruby-identifier">outline_root</span>
+123:       <span class="ruby-ivar">@prev</span> = <span class="ruby-identifier">outline_root</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">last</span>
+124:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+125:         <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">block</span>[<span class="ruby-keyword kw">self</span>]
+126:       <span class="ruby-keyword kw">end</span>      
+127:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="define-method" class="method-detail ">
+				<a name="method-i-define"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">define</span><span
+						class="method-args">(&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Defines an outline for the document. The outline is an optional nested
+index that appears on the side of a PDF  document usually with direct links
+to pages. The outline DSL is defined by nested  blocks involving two
+methods: section and page.
+</p>
+<p>
+section(title, options{}, &amp;block)
+</p>
+<pre>
+  title: the outline text that appears for the section.
+  options: page - optional integer defining the page number for a destination link.
+                * currently only :FIT destination supported with link to top of page.
+           closed - whether the section should show its nested outline elements.
+                  * defaults to false.
+</pre>
+<p>
+page(page, options{})
+</p>
+<pre>
+  page: integer defining the page number for the destination link.
+        currently only :FIT destination supported with link to top of page.
+        set to nil if destination link is not desired.
+  options: title - the outline text that appears for the section.
+           closed - whether the section should show its nested outline elements.
+                  * defaults to false.
+</pre>
+<p>
+The syntax is best illustrated with an example:
+</p>
+<p>
+Prawn::Document.generate(outlined document) do
+</p>
+<pre>
+  text &quot;Page 1. This is the first Chapter. &quot;
+  start_new_page
+  text &quot;Page 2. More in the first Chapter. &quot;
+  start_new_page
+  define_outline do
+    section 'Chapter 1', :page =&gt; 1, :closed =&gt; true do 
+      page 1, :title =&gt; 'Page 1'
+      page 2, :title =&gt; 'Page 2'
+    end
+  end
+</pre>
+<p>
+end
+</p>
+<p>
+It should be noted that not defining a title for a page element will raise
+a RequiredOption error
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="define-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 100</span>
+100:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">define</span>(&amp;<span class="ruby-identifier">block</span>)
+101:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+102:         <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">block</span>[<span class="ruby-keyword kw">self</span>]
+103:       <span class="ruby-keyword kw">end</span>
+104:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="insert-section-after-method" class="method-detail ">
+				<a name="method-i-insert_section_after"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">insert_section_after</span><span
+						class="method-args">(title, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Inserts an outline section to the outline tree (see define_outline).
+Although you will probably choose to exclusively use define_outline so 
+that your outline tree is contained and easy to manage, this method gives
+you the option to insert sections to the outline tree at any point during
+document generation. Unlike outline.add_section, this method allows  you to
+enter a section after any other item at any level in the outline tree. 
+Currently the only way to locate the place of entry is with the title for
+the  item. If your titles names are not unique consider using
+define_outline.
+</p>
+<p>
+block uses the same DSL syntax as define_outline, for example: 
+</p>
+<pre>
+  go_to_page 2
+  start_new_page
+  text &quot;Inserted Page&quot;
+  outline.insert_section_after :title =&gt; 'Page 2' do 
+    page page_number, :title =&gt; &quot;Inserted Page&quot;
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="insert-section-after-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 147</span>
+147:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">insert_section_after</span>(<span class="ruby-identifier">title</span>, &amp;<span class="ruby-identifier">block</span>)
+148:       <span class="ruby-ivar">@prev</span> = <span class="ruby-identifier">items</span>[<span class="ruby-identifier">title</span>]
+149:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@prev</span>
+150:         <span class="ruby-ivar">@parent</span> = <span class="ruby-ivar">@prev</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">parent</span>
+151:         <span class="ruby-identifier">nxt</span> = <span class="ruby-ivar">@prev</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">next</span>
+152:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+153:           <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">block</span>[<span class="ruby-keyword kw">self</span>]
+154:         <span class="ruby-keyword kw">end</span>
+155:         <span class="ruby-identifier">adjust_relations</span>(<span class="ruby-identifier">nxt</span>)
+156:       <span class="ruby-keyword kw">else</span>
+157:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnknownOutlineTitle</span>, 
+158:           <span class="ruby-node">&quot;\n No outline item with title: '#{title}' exists in the outline tree&quot;</span>
+159:       <span class="ruby-keyword kw">end</span>
+160:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="add-outline-item-method" class="method-detail ">
+				<a name="method-i-add_outline_item"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_outline_item</span><span
+						class="method-args">(title, options, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="add-outline-item-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 179</span>
+179:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_outline_item</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">block</span>)
+180:       <span class="ruby-identifier">outline_item</span> = <span class="ruby-identifier">create_outline_item</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">options</span>)
+181:       <span class="ruby-identifier">set_relations</span>(<span class="ruby-identifier">outline_item</span>)
+182:       <span class="ruby-identifier">increase_count</span>
+183:       <span class="ruby-identifier">set_variables_for_block</span>(<span class="ruby-identifier">outline_item</span>, <span class="ruby-identifier">block</span>)
+184:       <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+185:       <span class="ruby-identifier">reset_parent</span>(<span class="ruby-identifier">outline_item</span>)
+186:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="adjust-relations-method" class="method-detail ">
+				<a name="method-i-adjust_relations"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">adjust_relations</span><span
+						class="method-args">(nxt)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="adjust-relations-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 230</span>
+230:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">adjust_relations</span>(<span class="ruby-identifier">nxt</span>)
+231:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">nxt</span> 
+232:         <span class="ruby-identifier">nxt</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">prev</span> = <span class="ruby-ivar">@prev</span>
+233:         <span class="ruby-ivar">@prev</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">next</span> = <span class="ruby-identifier">nxt</span>
+234:         <span class="ruby-ivar">@parent</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">last</span> = <span class="ruby-identifier">nxt</span>
+235:       <span class="ruby-keyword kw">else</span> 
+236:         <span class="ruby-ivar">@parent</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">last</span> = <span class="ruby-ivar">@prev</span>
+237:       <span class="ruby-keyword kw">end</span>
+238:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="create-outline-item-method" class="method-detail ">
+				<a name="method-i-create_outline_item"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_outline_item</span><span
+						class="method-args">(title, options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="create-outline-item-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 188</span>
+188:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_outline_item</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">options</span>)
+189:       <span class="ruby-identifier">outline_item</span> = <span class="ruby-constant">OutlineItem</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">parent</span>, <span class="ruby-identifier">options</span>)
+190: 
+191:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:page</span>]
+192:         <span class="ruby-identifier">page_index</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:page</span>] <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+193:         <span class="ruby-identifier">outline_item</span>.<span class="ruby-identifier">dest</span> = [<span class="ruby-identifier">document</span>.<span class="ruby-identifier">state</span>.<span class="ruby-identifier">pages</span>[<span class="ruby-identifier">page_index</span>].<span class="ruby-identifier">dictionary</span>, <span class="ruby-value">:Fit</span>] 
+194:       <span class="ruby-keyword kw">end</span>
+195: 
+196:       <span class="ruby-identifier">outline_item</span>.<span class="ruby-identifier">prev</span> = <span class="ruby-identifier">prev</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@prev</span>
+197:       <span class="ruby-identifier">items</span>[<span class="ruby-identifier">title</span>] = <span class="ruby-identifier">document</span>.<span class="ruby-identifier">ref!</span>(<span class="ruby-identifier">outline_item</span>)
+198:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="increase-count-method" class="method-detail ">
+				<a name="method-i-increase_count"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">increase_count</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="increase-count-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 206</span>
+206:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">increase_count</span>
+207:       <span class="ruby-identifier">counting_parent</span> = <span class="ruby-identifier">parent</span>
+208:       <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">counting_parent</span>
+209:         <span class="ruby-identifier">counting_parent</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+210:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">counting_parent</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">outline_root</span>
+211:           <span class="ruby-identifier">counting_parent</span> = <span class="ruby-keyword kw">nil</span>
+212:         <span class="ruby-keyword kw">else</span>
+213:           <span class="ruby-identifier">counting_parent</span> = <span class="ruby-identifier">counting_parent</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">parent</span>
+214:         <span class="ruby-keyword kw">end</span>
+215:       <span class="ruby-keyword kw">end</span>
+216:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="page-method" class="method-detail ">
+				<a name="method-i-page"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">page</span><span
+						class="method-args">(page = nil, options = {})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="page-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 168</span>
+168:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">page</span>(<span class="ruby-identifier">page</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">options</span> = {})
+169:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:title</span>]
+170:         <span class="ruby-identifier">title</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:title</span>] 
+171:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:page</span>] = <span class="ruby-identifier">page</span>
+172:       <span class="ruby-keyword kw">else</span>
+173:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">RequiredOption</span>, 
+174:           <span class="ruby-value str">&quot;\nTitle is a required option for page&quot;</span>
+175:       <span class="ruby-keyword kw">end</span>
+176:       <span class="ruby-identifier">add_outline_item</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">options</span>)
+177:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="reset-parent-method" class="method-detail ">
+				<a name="method-i-reset_parent"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">reset_parent</span><span
+						class="method-args">(outline_item)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="reset-parent-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 223</span>
+223:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reset_parent</span>(<span class="ruby-identifier">outline_item</span>)
+224:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">parent</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">outline_item</span>
+225:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">prev</span> = <span class="ruby-identifier">outline_item</span>
+226:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">parent</span> = <span class="ruby-identifier">outline_item</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">parent</span>
+227:       <span class="ruby-keyword kw">end</span>
+228:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="section-method" class="method-detail ">
+				<a name="method-i-section"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">section</span><span
+						class="method-args">(title, options = {}, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="section-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 164</span>
+164:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">section</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">block</span>)
+165:       <span class="ruby-identifier">add_outline_item</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">block</span>)
+166:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-relations-method" class="method-detail ">
+				<a name="method-i-set_relations"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_relations</span><span
+						class="method-args">(outline_item)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-relations-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 200</span>
+200:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_relations</span>(<span class="ruby-identifier">outline_item</span>)
+201:       <span class="ruby-identifier">prev</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">next</span> = <span class="ruby-identifier">outline_item</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">prev</span>
+202:       <span class="ruby-identifier">parent</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">first</span> = <span class="ruby-identifier">outline_item</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">prev</span>
+203:       <span class="ruby-identifier">parent</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">last</span> = <span class="ruby-identifier">outline_item</span>
+204:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-variables-for-block-method" class="method-detail ">
+				<a name="method-i-set_variables_for_block"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_variables_for_block</span><span
+						class="method-args">(outline_item, block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-variables-for-block-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 218</span>
+218:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_variables_for_block</span>(<span class="ruby-identifier">outline_item</span>, <span class="ruby-identifier">block</span>)
+219:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">prev</span> = <span class="ruby-identifier">block</span> <span class="ruby-operator">?</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">outline_item</span>
+220:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">parent</span> = <span class="ruby-identifier">outline_item</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+221:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

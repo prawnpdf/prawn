@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: Prawn::Stamp</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/prawn/stamp_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/stamp.rb">lib/prawn/stamp.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-create_stamp">#create_stamp</a></li>
+					
+					<li><a href="#method-i-create_stamp_dictionary">#create_stamp_dictionary</a></li>
+					
+					<li><a href="#method-i-next_stamp_dictionary_id">#next_stamp_dictionary_id</a></li>
+					
+					<li><a href="#method-i-stamp">#stamp</a></li>
+					
+					<li><a href="#method-i-stamp_at">#stamp_at</a></li>
+					
+					<li><a href="#method-i-stamp_dictionary">#stamp_dictionary</a></li>
+					
+					<li><a href="#method-i-stamp_dictionary_registry">#stamp_dictionary_registry</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Prawn/Core/Text/Formatted/Wrap.html">Prawn::Core::Text::Formatted::Wrap</a></li>
+				
+					<li><a href="../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../Prawn/Table/CellProxy.html">Prawn::Table::CellProxy</a></li>
+				
+					<li><a href="../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">Prawn::Stamp</h1>
+
+		<div id="description">
+			<p>
+The <a href="Stamp.html">Prawn::Stamp</a> module is used to create content
+that will be included multiple times in a document. Using a stamp has three
+advantages over creating content anew each time it is placed on the page:
+</p>
+<pre>
+  i.   faster document creation
+  ii.  smaller final document
+  iii. faster display on subsequent displays of the repeated
+  element because the viewer application can cache the rendered
+  results
+</pre>
+<p>
+Example:
+</p>
+<pre>
+  pdf.create_stamp(&quot;my_stamp&quot;) {
+    pdf.fill_circle_at([10, 15], :radius =&gt; 5)
+    pdf.draw_text(&quot;hello world&quot;, :at =&gt; [20, 10])
+  }
+  pdf.stamp(&quot;my_stamp&quot;)</pre>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="create-stamp-method" class="method-detail ">
+				<a name="method-i-create_stamp"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_stamp</span><span
+						class="method-args">(name, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Creates a re-usable stamp named <tt>name</tt>
+</p>
+<p>
+raises <tt>Prawn::Errors::NameTaken</tt> if a stamp already exists in this
+document with this name raises <tt>Prawn::Errors::InvalidName</tt> if
+name.empty?
+</p>
+<p>
+Example:
+</p>
+<pre>
+  pdf.create_stamp(&quot;my_stamp&quot;) {
+    pdf.fill_circle_at([10, 15], :radius =&gt; 5)
+    pdf.draw_text(&quot;hello world&quot;, :at =&gt; [20, 10])
+  }</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="create-stamp-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 78</span>
+78:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_stamp</span>(<span class="ruby-identifier">name</span>, &amp;<span class="ruby-identifier">block</span>)
+79:       <span class="ruby-identifier">dictionary</span> = <span class="ruby-identifier">create_stamp_dictionary</span>(<span class="ruby-identifier">name</span>)
+80: 
+81:       <span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">stamp_stream</span>(<span class="ruby-identifier">dictionary</span>, &amp;<span class="ruby-identifier">block</span>)
+82:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="stamp-method" class="method-detail ">
+				<a name="method-i-stamp"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stamp</span><span
+						class="method-args">(name)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Renders the stamp named <tt>name</tt> to the page raises
+<tt>Prawn::Errors::InvalidName</tt> if name.empty? raises
+<tt>Prawn::Errors::UndefinedObjectName</tt> if no stamp has been created
+with this name
+</p>
+<p>
+Example:
+</p>
+<pre>
+  pdf.create_stamp(&quot;my_stamp&quot;) {
+    pdf.fill_circle_at([10, 15], :radius =&gt; 5)
+    pdf.text(&quot;hello world&quot;, :at =&gt; [20, 10])
+  }
+  pdf.stamp(&quot;my_stamp&quot;)</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="stamp-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 43</span>
+43:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stamp</span>(<span class="ruby-identifier">name</span>)
+44:       <span class="ruby-identifier">dictionary_name</span>, <span class="ruby-identifier">dictionary</span> = <span class="ruby-identifier">stamp_dictionary</span>(<span class="ruby-identifier">name</span>)
+45:       <span class="ruby-identifier">add_content</span> <span class="ruby-node">&quot;/#{dictionary_name} Do&quot;</span>
+46:       <span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">xobjects</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">dictionary_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dictionary</span>)
+47:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="stamp-at-method" class="method-detail ">
+				<a name="method-i-stamp_at"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stamp_at</span><span
+						class="method-args">(name, point)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Renders the stamp named <tt>name</tt> at a position offset from the initial
+coords at which the elements of the stamp was created
+</p>
+<p>
+Example:
+</p>
+<pre>
+  pdf.create_stamp(&quot;circle&quot;) do
+    pdf.fill_circle_at([0, 0], :radius =&gt; 25)
+  end
+  # draws a circle at 100, 100
+  pdf.stamp_at(&quot;circle&quot;, [100, 100])
+</pre>
+<p>
+See stamp() for exceptions that might be raised
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="stamp-at-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 62</span>
+62:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stamp_at</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">point</span>)
+63:       <span class="ruby-identifier">translate</span>(<span class="ruby-identifier">point</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">point</span>[<span class="ruby-value">1</span>]) { <span class="ruby-identifier">stamp</span>(<span class="ruby-identifier">name</span>) }
+64:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="create-stamp-dictionary-method" class="method-detail ">
+				<a name="method-i-create_stamp_dictionary"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_stamp_dictionary</span><span
+						class="method-args">(name)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="create-stamp-dictionary-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 107</span>
+107:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_stamp_dictionary</span>(<span class="ruby-identifier">name</span>)
+108:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidName</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">empty?</span>
+109:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">NameTaken</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">stamp_dictionary_registry</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">nil?</span>
+110:       <span class="ruby-comment cmt"># BBox origin is the lower left margin of the page, so we need</span>
+111:       <span class="ruby-comment cmt"># it to be the full dimension of the page, or else things that</span>
+112:       <span class="ruby-comment cmt"># should appear near the top or right margin are invisible</span>
+113:       <span class="ruby-identifier">dictionary</span> = <span class="ruby-identifier">ref!</span>(<span class="ruby-value">:Type</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:XObject</span>,
+114:                         <span class="ruby-value">:Subtype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Form</span>,
+115:                         <span class="ruby-value">:BBox</span>    =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>,
+116:                                      <span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">3</span>]])
+117: 
+118:       <span class="ruby-identifier">dictionary_name</span> = <span class="ruby-node">&quot;Stamp#{next_stamp_dictionary_id}&quot;</span>
+119: 
+120:       <span class="ruby-identifier">stamp_dictionary_registry</span>[<span class="ruby-identifier">name</span>] = { <span class="ruby-value">:stamp_dictionary_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dictionary_name</span>,
+121:                                           <span class="ruby-value">:stamp_dictionary</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dictionary</span> }
+122:       <span class="ruby-identifier">dictionary</span>
+123:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="next-stamp-dictionary-id-method" class="method-detail ">
+				<a name="method-i-next_stamp_dictionary_id"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">next_stamp_dictionary_id</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="next-stamp-dictionary-id-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 90</span>
+90:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">next_stamp_dictionary_id</span>
+91:       <span class="ruby-identifier">stamp_dictionary_registry</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+92:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="stamp-dictionary-method" class="method-detail ">
+				<a name="method-i-stamp_dictionary"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stamp_dictionary</span><span
+						class="method-args">(name)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="stamp-dictionary-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 94</span>
+ 94:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stamp_dictionary</span>(<span class="ruby-identifier">name</span>)
+ 95:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidName</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">empty?</span>
+ 96:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">stamp_dictionary_registry</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">nil?</span>
+ 97:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UndefinedObjectName</span>
+ 98:       <span class="ruby-keyword kw">end</span>
+ 99: 
+100:       <span class="ruby-identifier">dict</span> = <span class="ruby-identifier">stamp_dictionary_registry</span>[<span class="ruby-identifier">name</span>]
+101: 
+102:       <span class="ruby-identifier">dictionary_name</span> = <span class="ruby-identifier">dict</span>[<span class="ruby-value">:stamp_dictionary_name</span>]
+103:       <span class="ruby-identifier">dictionary</span> = <span class="ruby-identifier">dict</span>[<span class="ruby-value">:stamp_dictionary</span>]
+104:       [<span class="ruby-identifier">dictionary_name</span>, <span class="ruby-identifier">dictionary</span>]
+105:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="stamp-dictionary-registry-method" class="method-detail ">
+				<a name="method-i-stamp_dictionary_registry"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stamp_dictionary_registry</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="stamp-dictionary-registry-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/stamp.rb, line 86</span>
+86:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stamp_dictionary_registry</span>
+87:       <span class="ruby-ivar">@stamp_dictionary_registry</span> <span class="ruby-operator">||=</span> {}
+88:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

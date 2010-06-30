@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Document::Grid</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/layout/grid_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/layout/grid.rb">lib/prawn/layout/grid.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-column_width">#column_width</a></li>
+					
+					<li><a href="#method-i-row_height">#row_height</a></li>
+					
+					<li><a href="#method-i-set_gutter">#set_gutter</a></li>
+					
+					<li><a href="#method-i-show_all">#show_all</a></li>
+					
+					<li><a href="#method-i-subdivide">#subdivide</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn.html">Prawn</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/Box.html">Prawn::Document::Box</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/LazyBoundingBox.html">Prawn::Document::LazyBoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/MultiBox.html">Prawn::Document::MultiBox</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Document::Grid</h1>
+
+		<div id="description">
+			<p>
+A <a href="Grid.html">Grid</a> represents the entire grid system of a Page
+and calculates  the column width and row height of the base box.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="pdf-attribute-method" class="method-detail">
+				<a name="pdf"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">pdf</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="columns-attribute-method" class="method-detail">
+				<a name="columns"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">columns</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="rows-attribute-method" class="method-detail">
+				<a name="rows"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">rows</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="gutter-attribute-method" class="method-detail">
+				<a name="gutter"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">gutter</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="row-gutter-attribute-method" class="method-detail">
+				<a name="row_gutter"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">row_gutter</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="column-gutter-attribute-method" class="method-detail">
+				<a name="column_gutter"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">column_gutter</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(pdf, options = {})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+:nodoc
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 39</span>
+39:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">options</span> = {})
+40:         <span class="ruby-identifier">valid_options</span> = [<span class="ruby-value">:columns</span>, <span class="ruby-value">:rows</span>, <span class="ruby-value">:gutter</span>, <span class="ruby-value">:row_gutter</span>, <span class="ruby-value">:column_gutter</span>]
+41:         <span class="ruby-constant">Prawn</span>.<span class="ruby-identifier">verify_options</span> <span class="ruby-identifier">valid_options</span>, <span class="ruby-identifier">options</span>
+42:       
+43:         <span class="ruby-ivar">@pdf</span> = <span class="ruby-identifier">pdf</span>
+44:         <span class="ruby-ivar">@columns</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:columns</span>]
+45:         <span class="ruby-ivar">@rows</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:rows</span>]
+46:         <span class="ruby-identifier">set_gutter</span>(<span class="ruby-identifier">options</span>)
+47:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="column-width-method" class="method-detail ">
+				<a name="method-i-column_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">column_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Calculates the base width of boxes.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="column-width-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 50</span>
+50:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">column_width</span>
+51:         <span class="ruby-ivar">@column_width</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">subdivide</span>(<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">column_gutter</span>)
+52:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="row-height-method" class="method-detail ">
+				<a name="method-i-row_height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">row_height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Calculates the base height of boxes.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="row-height-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 55</span>
+55:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">row_height</span>
+56:        <span class="ruby-ivar">@row_height</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">subdivide</span>(<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span>, <span class="ruby-identifier">rows</span>, <span class="ruby-identifier">row_gutter</span>)
+57:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="show-all-method" class="method-detail ">
+				<a name="method-i-show_all"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">show_all</span><span
+						class="method-args">(color = "CCCCCC")</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Diagnostic tool to show all of the grids.  Defaults to gray.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="show-all-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 60</span>
+60:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">show_all</span>(<span class="ruby-identifier">color</span> = <span class="ruby-value str">&quot;CCCCCC&quot;</span>)
+61:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+62:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span><span class="ruby-operator">|</span>
+63:             <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">grid</span>(<span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span>).<span class="ruby-identifier">show</span>(<span class="ruby-identifier">color</span>)
+64:           <span class="ruby-keyword kw">end</span>
+65:         <span class="ruby-keyword kw">end</span>
+66:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="set-gutter-method" class="method-detail ">
+				<a name="method-i-set_gutter"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_gutter</span><span
+						class="method-args">(options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-gutter-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 74</span>
+74:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_gutter</span>(<span class="ruby-identifier">options</span>)
+75:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:gutter</span>)
+76:           <span class="ruby-ivar">@gutter</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:gutter</span>].<span class="ruby-identifier">to_f</span>
+77:           <span class="ruby-ivar">@row_gutter</span>, <span class="ruby-ivar">@column_gutter</span> = <span class="ruby-ivar">@gutter</span>, <span class="ruby-ivar">@gutter</span>
+78:         <span class="ruby-keyword kw">else</span>
+79:           <span class="ruby-ivar">@row_gutter</span>    = <span class="ruby-identifier">options</span>[<span class="ruby-value">:row_gutter</span>].<span class="ruby-identifier">to_f</span>
+80:           <span class="ruby-ivar">@column_gutter</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:column_gutter</span>].<span class="ruby-identifier">to_f</span>
+81:           <span class="ruby-ivar">@gutter</span> = <span class="ruby-value">0</span>
+82:         <span class="ruby-keyword kw">end</span>
+83:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="subdivide-method" class="method-detail ">
+				<a name="method-i-subdivide"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">subdivide</span><span
+						class="method-args">(total, num, gutter)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="subdivide-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 70</span>
+70:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">subdivide</span>(<span class="ruby-identifier">total</span>, <span class="ruby-identifier">num</span>, <span class="ruby-identifier">gutter</span>)
+71:         (<span class="ruby-identifier">total</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">gutter</span> * (<span class="ruby-identifier">num</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">to_f</span>)) <span class="ruby-operator">/</span> <span class="ruby-identifier">num</span>.<span class="ruby-identifier">to_f</span>
+72:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

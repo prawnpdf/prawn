@@ -9,7 +9,7 @@
     
     
   %body
-    .page
+    .page.shadow
       #header
         %h1
           %img{:src => "images/prawn.png"}
@@ -40,7 +40,7 @@
               pdf.render_file('prawn.pdf')
         .column.last
           #image_placeholder
-            IMAGE PLACEHOLDER
+            %img.shadow{:src => "images/example_pdf.png"}
             
         #about
           %h2 About

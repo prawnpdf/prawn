@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Arcfour</title>
+
+	<link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="./lib/prawn/arcfour_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/arcfour.rb">lib/prawn/arcfour.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-encrypt">#encrypt</a></li>
+					
+					<li><a href="#method-i-key_byte">#key_byte</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./Prawn.html">Prawn</a></li>
+				
+					<li><a href="./Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="./Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="./Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="./Prawn/Reference.html">Prawn::Reference</a></li>
+				
+					<li><a href="./Arcfour.html">Arcfour</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Arcfour</h1>
+
+		<div id="description">
+			<p>
+Implementation of the &#8220;ARCFOUR&#8221; algorithm (&#8220;alleged RC4
+(tm)&#8221;). Implemented as described at: <a
+href="http://www.mozilla.org/projects/security/pki/nss/draft-kaukonen-cipher-arcfour-03.txt">www.mozilla.org/projects/security/pki/nss/draft-kaukonen-cipher-arcfour-03.txt</a>
+</p>
+<p>
+&#8220;RC4&#8221; is a trademark of RSA Data Security, Inc.
+</p>
+<p>
+Copyright August 2009, Brad Ediger. All Rights Reserved.
+</p>
+<p>
+This is free software. Please see the LICENSE and COPYING files for
+details.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(key)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/arcfour.rb, line 12</span>
+12:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">key</span>)
+13:     <span class="ruby-comment cmt"># Convert string key to Array of integers</span>
+14:     <span class="ruby-identifier">key</span> = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">'c*'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+15: 
+16:     <span class="ruby-comment cmt"># 1. Allocate an 256 element array of 8 bit bytes to be used as an S-box</span>
+17:     <span class="ruby-comment cmt"># 2. Initialize the S-box.  Fill each entry first with it's index</span>
+18:     <span class="ruby-ivar">@sbox</span> = (<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">255</span>).<span class="ruby-identifier">to_a</span>
+19:     
+20:     <span class="ruby-comment cmt"># 3. Fill another array of the same size (256) with the key, repeating</span>
+21:     <span class="ruby-comment cmt">#    bytes as necessary.</span>
+22:     <span class="ruby-identifier">s2</span> = []
+23:     <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">s2</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">256</span>
+24:       <span class="ruby-identifier">s2</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">key</span>
+25:     <span class="ruby-keyword kw">end</span>
+26:     <span class="ruby-identifier">s2</span> = <span class="ruby-identifier">s2</span>[<span class="ruby-value">0</span>, <span class="ruby-value">256</span>]
+27: 
+28:     <span class="ruby-comment cmt"># 4. Set j to zero and initialize the S-box</span>
+29:     <span class="ruby-identifier">j</span> = <span class="ruby-value">0</span>
+30:     (<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">255</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+31:       <span class="ruby-identifier">j</span> = (<span class="ruby-identifier">j</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@sbox</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">s2</span>[<span class="ruby-identifier">i</span>]) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+32:       <span class="ruby-ivar">@sbox</span>[<span class="ruby-identifier">i</span>], <span class="ruby-ivar">@sbox</span>[<span class="ruby-identifier">j</span>] = <span class="ruby-ivar">@sbox</span>[<span class="ruby-identifier">j</span>], <span class="ruby-ivar">@sbox</span>[<span class="ruby-identifier">i</span>]
+33:     <span class="ruby-keyword kw">end</span>
+34: 
+35:     <span class="ruby-ivar">@i</span> = <span class="ruby-ivar">@j</span> = <span class="ruby-value">0</span>
+36:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="encrypt-method" class="method-detail ">
+				<a name="method-i-encrypt"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">encrypt</span><span
+						class="method-args">(string)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="encrypt-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/arcfour.rb, line 38</span>
+38:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">string</span>)
+39:     <span class="ruby-identifier">string</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">'c*'</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">byte</span><span class="ruby-operator">|</span> <span class="ruby-identifier">byte</span> <span class="ruby-operator">^</span> <span class="ruby-identifier">key_byte</span>}.<span class="ruby-identifier">pack</span>(<span class="ruby-value str">'c*'</span>)
+40:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="key-byte-method" class="method-detail ">
+				<a name="method-i-key_byte"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">key_byte</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Produces the next byte of key material in the stream (3.2 Stream
+Generation)
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="key-byte-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/arcfour.rb, line 45</span>
+45:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">key_byte</span>
+46:     <span class="ruby-ivar">@i</span> = (<span class="ruby-ivar">@i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+47:     <span class="ruby-ivar">@j</span> = (<span class="ruby-ivar">@j</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@i</span>]) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+48:     <span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@i</span>], <span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@j</span>] = <span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@j</span>], <span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@i</span>]
+49:     <span class="ruby-ivar">@sbox</span>[(<span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@i</span>] <span class="ruby-operator">+</span> <span class="ruby-ivar">@sbox</span>[<span class="ruby-ivar">@j</span>]) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>]
+50:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

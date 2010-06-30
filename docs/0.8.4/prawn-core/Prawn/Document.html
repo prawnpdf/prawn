@@ -1,0 +1,2998 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Document</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/prawn/document/annotations_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/annotations.rb">lib/prawn/document/annotations.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/bounding_box_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/bounding_box.rb">lib/prawn/document/bounding_box.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/column_box_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/column_box.rb">lib/prawn/document/column_box.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/destinations_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/destinations.rb">lib/prawn/document/destinations.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/graphics_state_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/graphics_state.rb">lib/prawn/document/graphics_state.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/internals_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/internals.rb">lib/prawn/document/internals.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/page_geometry_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/page_geometry.rb">lib/prawn/document/page_geometry.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/snapshot_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/snapshot.rb">lib/prawn/document/snapshot.rb</a></li>
+					
+						<li><a href="../lib/prawn/document/span_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/span.rb">lib/prawn/document/span.rb</a></li>
+					
+						<li><a href="../lib/prawn/document_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document.rb">lib/prawn/document.rb</a></li>
+					
+						<li><a href="../lib/prawn/font_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/font.rb">lib/prawn/font.rb</a></li>
+					
+						<li><a href="../lib/prawn/outline_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/outline.rb">lib/prawn/outline.rb</a></li>
+					
+						<li><a href="../lib/prawn/repeater_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/repeater.rb">lib/prawn/repeater.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">MODULE</span> <a href="Document/Annotations.html">Prawn::Document::Annotations</a></li>
+					
+					<li><span class="type">MODULE</span> <a href="Document/Destinations.html">Prawn::Document::Destinations</a></li>
+					
+					<li><span class="type">MODULE</span> <a href="Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+					
+					<li><span class="type">MODULE</span> <a href="Document/Internals.html">Prawn::Document::Internals</a></li>
+					
+					<li><span class="type">MODULE</span> <a href="Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+					
+					<li><span class="type">MODULE</span> <a href="Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-extensions">::extensions</a></li>
+					
+					<li><a href="#method-c-generate">::generate</a></li>
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-apply_margin_option">#apply_margin_option</a></li>
+					
+					<li><a href="#method-i-bounding_box">#bounding_box</a></li>
+					
+					<li><a href="#method-i-bounds">#bounds</a></li>
+					
+					<li><a href="#method-i-bounds%3D">#bounds=</a></li>
+					
+					<li><a href="#method-i-canvas">#canvas</a></li>
+					
+					<li><a href="#method-i-column_box">#column_box</a></li>
+					
+					<li><a href="#method-i-compression_enabled%3F">#compression_enabled?</a></li>
+					
+					<li><a href="#method-i-cursor">#cursor</a></li>
+					
+					<li><a href="#method-i-define_outline">#define_outline</a></li>
+					
+					<li><a href="#method-i-float">#float</a></li>
+					
+					<li><a href="#method-i-font">#font</a></li>
+					
+					<li><a href="#method-i-font_families">#font_families</a></li>
+					
+					<li><a href="#method-i-font_size">#font_size</a></li>
+					
+					<li><a href="#method-i-generate_margin_box">#generate_margin_box</a></li>
+					
+					<li><a href="#method-i-go_to_page">#go_to_page</a></li>
+					
+					<li><a href="#method-i-group">#group</a></li>
+					
+					<li><a href="#method-i-indent">#indent</a></li>
+					
+					<li><a href="#method-i-init_bounding_box">#init_bounding_box</a></li>
+					
+					<li><a href="#method-i-init_column_box">#init_column_box</a></li>
+					
+					<li><a href="#method-i-move_cursor_to">#move_cursor_to</a></li>
+					
+					<li><a href="#method-i-move_down">#move_down</a></li>
+					
+					<li><a href="#method-i-move_up">#move_up</a></li>
+					
+					<li><a href="#method-i-number_pages">#number_pages</a></li>
+					
+					<li><a href="#method-i-outline">#outline</a></li>
+					
+					<li><a href="#method-i-outline_root">#outline_root</a></li>
+					
+					<li><a href="#method-i-pad">#pad</a></li>
+					
+					<li><a href="#method-i-pad_bottom">#pad_bottom</a></li>
+					
+					<li><a href="#method-i-pad_top">#pad_top</a></li>
+					
+					<li><a href="#method-i-page_count">#page_count</a></li>
+					
+					<li><a href="#method-i-page_number">#page_number</a></li>
+					
+					<li><a href="#method-i-render">#render</a></li>
+					
+					<li><a href="#method-i-render_file">#render_file</a></li>
+					
+					<li><a href="#method-i-repeat">#repeat</a></li>
+					
+					<li><a href="#method-i-repeaters">#repeaters</a></li>
+					
+					<li><a href="#method-i-save_font">#save_font</a></li>
+					
+					<li><a href="#method-i-span">#span</a></li>
+					
+					<li><a href="#method-i-start_new_page">#start_new_page</a></li>
+					
+					<li><a href="#method-i-width_of">#width_of</a></li>
+					
+					<li><a href="#method-i-y%3D">#y=</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+			<div id="includes-section" class="section">
+				<h3 class="section-header">Included Modules</h3>
+				<ul class="link-list">
+				
+				
+					<li><span class="include">Internals</span></li>
+				
+				
+				
+					<li><span class="include">Annotations</span></li>
+				
+				
+				
+					<li><span class="include">Destinations</span></li>
+				
+				
+				
+					<li><span class="include">Snapshot</span></li>
+				
+				
+				
+					<li><span class="include">GraphicsState</span></li>
+				
+				
+				
+					<li><a class="include" href="Text.html">Prawn::Text</a></li>
+				
+				
+				
+					<li><a class="include" href="Graphics.html">Prawn::Graphics</a></li>
+				
+				
+				
+					<li><a class="include" href="Images.html">Prawn::Images</a></li>
+				
+				
+				
+					<li><a class="include" href="Stamp.html">Prawn::Stamp</a></li>
+				
+				
+				</ul>
+			</div>
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Prawn.html">Prawn</a></li>
+				
+					<li><a href="../Prawn/Core.html">Prawn::Core</a></li>
+				
+					<li><a href="../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../Prawn/Document/Annotations.html">Prawn::Document::Annotations</a></li>
+				
+					<li><a href="../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../Prawn/Document/Destinations.html">Prawn::Document::Destinations</a></li>
+				
+					<li><a href="../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../Prawn/Text/LineWrap.html">Prawn::Text::LineWrap</a></li>
+				
+					<li><a href="../File.html">File</a></li>
+				
+					<li><a href="../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Document</h1>
+
+		<div id="description">
+			<p>
+The <a href="Document.html">Prawn::Document</a> class is how you start
+creating a PDF document.
+</p>
+<p>
+There are three basic ways you can instantiate PDF Documents in <a
+href="../Prawn.html">Prawn</a>, they  are through assignment, implicit
+block or explicit block.  Below is an exmple of each type, each example
+does exactly the same thing, makes a PDF document with all the defaults and
+puts in the default font &#8220;Hello There&#8221; and then saves it to the
+current directory as &#8220;example.pdf&#8220;
+</p>
+<p>
+For example, assignment can be like this:
+</p>
+<pre>
+  pdf = Prawn::Document.new
+  pdf.text &quot;Hello There&quot;
+  pdf.render_file &quot;example.pdf&quot;
+</pre>
+<p>
+Or you can do an implied block form:
+</p>
+<pre>
+  
+  Prawn::Document.generate &quot;example.pdf&quot; do
+    text &quot;Hello There&quot;
+  end
+</pre>
+<p>
+Or if you need to access a variable outside the scope of the block, the
+explicit block form:
+</p>
+<pre>
+  words = &quot;Hello There&quot;
+  Prawn::Document.generate &quot;example.pdf&quot; do |pdf|
+    pdf.text words
+  end
+</pre>
+<p>
+Usually, the block forms are used when you are simply creating a PDF
+document that you want to immediately save or render out.
+</p>
+<p>
+See the new and generate methods for further details on the above.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="margin-box-attribute-method" class="method-detail">
+				<a name="margin_box"></a>
+				
+				<a name="margin_box="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">margin_box</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="page-attribute-method" class="method-detail">
+				<a name="page"></a>
+				
+				<a name="page="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">page</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="margins-attribute-method" class="method-detail">
+				<a name="margins"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">margins</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="y-attribute-method" class="method-detail">
+				<a name="y"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">y</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="store-attribute-method" class="method-detail">
+				<a name="store"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">store</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="pages-attribute-method" class="method-detail">
+				<a name="pages"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">pages</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="font-size-attribute-method" class="method-detail">
+				<a name="font_size"></a>
+				
+				<a name="font_size="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">font_size</span><span
+						class="attribute-access-type">[W]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="default-line-wrap-attribute-method" class="method-detail">
+				<a name="default_line_wrap"></a>
+				
+				<a name="default_line_wrap="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">default_line_wrap</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="extensions-method" class="method-detail ">
+				<a name="method-c-extensions"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">extensions</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Any module added to this array will be included into instances of <a
+href="Document.html">Prawn::Document</a> at the per-object level.  These
+will also be inherited by any subclasses.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  module MyFancyModule
+   
+    def party!
+      text &quot;It's a big party!&quot;
+    end
+  
+  end
+
+  Prawn::Document.extensions &lt;&lt; MyFancyModule
+
+  Prawn::Document.generate(&quot;foo.pdf&quot;) do
+    party!
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="extensions-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 94</span>
+94:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">extensions</span>
+95:       <span class="ruby-ivar">@extensions</span> <span class="ruby-operator">||=</span> []
+96:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="generate-method" class="method-detail ">
+				<a name="method-c-generate"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">generate</span><span
+						class="method-args">(filename,options={},&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Creates and renders a PDF document.
+</p>
+<p>
+When using the implicit block form, <a href="../Prawn.html">Prawn</a> will
+evaluate the block within an instance of <a
+href="Document.html">Prawn::Document</a>, simplifying your syntax. However,
+please note that you will not be able to reference variables from the
+enclosing scope within this block.
+</p>
+<pre>
+  # Using implicit block form and rendering to a file
+  Prawn::Document.generate &quot;example.pdf&quot; do
+    # self here is set to the newly instantiated Prawn::Document
+    # and so any variables in the outside scope are unavailable
+    font &quot;Times-Roman&quot;
+    draw_text &quot;Hello World&quot;, :at =&gt; [200,720], :size =&gt; 32
+  end
+</pre>
+<p>
+If you need to access your local and instance variables, use the explicit
+block form shown below.  In this case, <a href="../Prawn.html">Prawn</a>
+yields an instance of PDF::Document and the block is an ordinary closure:
+</p>
+<pre>
+  # Using explicit block form and rendering to a file
+  content = &quot;Hello World&quot;
+  Prawn::Document.generate &quot;example.pdf&quot; do |pdf|
+    # self here is left alone
+    pdf.font &quot;Times-Roman&quot;
+    pdf.draw_text content, :at =&gt; [200,720], :size =&gt; 32
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="generate-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 129</span>
+129:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-identifier">filename</span>,<span class="ruby-identifier">options</span>={},&amp;<span class="ruby-identifier">block</span>)
+130:       <span class="ruby-identifier">pdf</span> = <span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>,&amp;<span class="ruby-identifier">block</span>)
+131:       <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">render_file</span>(<span class="ruby-identifier">filename</span>)
+132:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(options={},&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Creates a new PDF <a href="Document.html">Document</a>.  The following
+options are available (with the default values marked in [])
+</p>
+<table>
+<tr><td valign="top"><tt>:page_size</tt></td><td><p>
+One of the <a href="Document/PageGeometry.html">Document::PageGeometry</a>
+sizes [LETTER]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:page_layout</tt></td><td><p>
+Either <tt>:portrait</tt> or <tt>:landscape</tt>
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:margin</tt></td><td><p>
+Sets the margin on all sides in points [0.5 inch]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:left_margin</tt></td><td><p>
+Sets the left margin in points [0.5 inch]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:right_margin</tt></td><td><p>
+Sets the right margin in points [0.5 inch]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:top_margin</tt></td><td><p>
+Sets the top margin in points [0.5 inch]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:bottom_margin</tt></td><td><p>
+Sets the bottom margin in points [0.5 inch]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:skip_page_creation</tt></td><td><p>
+Creates a document without starting the first page [false]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:compress</tt></td><td><p>
+Compresses content streams before rendering them [false]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:optimize_objects</tt></td><td><p>
+Reduce number of PDF objects in output, at expense of render time [false]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:background</tt></td><td><p>
+An image path to be used as background on all pages [nil]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:info</tt></td><td><p>
+Generic hash allowing for custom metadata properties [nil]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:text_options</tt></td><td><p>
+A set of default options to be handed to text(). Be careful with this.
+</p>
+</td></tr>
+</table>
+<p>
+Setting e.g. the :margin to 100 points and the :left_margin to 50 will
+result in margins of 100 points on every side except for the left, where it
+will be 50.
+</p>
+<p>
+The :margin can also be an array much like CSS shorthand:
+</p>
+<pre>
+  # Top and bottom are 20, left and right are 100.
+  :margin =&gt; [20, 100]
+  # Top is 50, left and right are 100, bottom is 20.
+  :margin =&gt; [50, 100, 20]
+  # Top is 10, right is 20, bottom is 30, left is 40.
+  :margin =&gt; [10, 20, 30, 40]
+</pre>
+<p>
+Additionally, :page_size can be specified as a simple two value array
+giving the width and height of the document you need in PDF Points.
+</p>
+<p>
+Usage:
+</p>
+<pre>
+  # New document, US Letter paper, portrait orientation
+  pdf = Prawn::Document.new
+
+  # New document, A4 paper, landscaped
+  pdf = Prawn::Document.new(:page_size =&gt; &quot;A4&quot;, :page_layout =&gt; :landscape)
+
+  # New document, Custom size
+  pdf = Prawn::Document.new(:page_size =&gt; [200, 300])
+
+  # New document, with background
+  pdf = Prawn::Document.new(:background =&gt; &quot;#{Prawn::BASEDIR}/data/images/pigs.jpg&quot;)</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 180</span>
+180:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options</span>={},&amp;<span class="ruby-identifier">block</span>)   
+181:        <span class="ruby-constant">Prawn</span>.<span class="ruby-identifier">verify_options</span> [<span class="ruby-value">:page_size</span>, <span class="ruby-value">:page_layout</span>, <span class="ruby-value">:margin</span>, <span class="ruby-value">:left_margin</span>, 
+182:          <span class="ruby-value">:right_margin</span>, <span class="ruby-value">:top_margin</span>, <span class="ruby-value">:bottom_margin</span>, <span class="ruby-value">:skip_page_creation</span>, 
+183:          <span class="ruby-value">:compress</span>, <span class="ruby-value">:skip_encoding</span>, <span class="ruby-value">:text_options</span>, <span class="ruby-value">:background</span>, <span class="ruby-value">:info</span>,
+184:          <span class="ruby-value">:optimize_objects</span>], <span class="ruby-identifier">options</span>
+185: 
+186: 
+187:        <span class="ruby-comment cmt"># need to fix, as the refactoring breaks this</span>
+188:        <span class="ruby-comment cmt"># raise NotImplementedError if options[:skip_page_creation]</span>
+189: 
+190:        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">extensions</span>.<span class="ruby-identifier">reverse_each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">extend</span> <span class="ruby-identifier">e</span> }
+191:       
+192:        <span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>] <span class="ruby-operator">||=</span> {}
+193:        <span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>][<span class="ruby-value">:Creator</span>] <span class="ruby-operator">||=</span> <span class="ruby-value str">&quot;Prawn&quot;</span>
+194:        <span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>][<span class="ruby-value">:Producer</span>] = <span class="ruby-value str">&quot;Prawn&quot;</span>
+195: 
+196:        <span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>].<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+197:          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>][<span class="ruby-identifier">key</span>].<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>)
+198:            <span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>][<span class="ruby-identifier">key</span>] = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">LiteralString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>][<span class="ruby-identifier">key</span>])
+199:          <span class="ruby-keyword kw">end</span>
+200:        <span class="ruby-keyword kw">end</span>
+201:           
+202:        <span class="ruby-ivar">@version</span> = <span class="ruby-value">1.3</span>
+203:        <span class="ruby-ivar">@store</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Core</span><span class="ruby-operator">::</span><span class="ruby-constant">ObjectStore</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:info</span>])
+204:        <span class="ruby-ivar">@trailer</span> = {}
+205: 
+206:        <span class="ruby-ivar">@before_render_callbacks</span> = []
+207:        <span class="ruby-ivar">@on_page_create_callback</span> = <span class="ruby-keyword kw">nil</span>
+208: 
+209:        <span class="ruby-ivar">@compress</span>         = <span class="ruby-identifier">options</span>[<span class="ruby-value">:compress</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword kw">false</span>
+210:        <span class="ruby-ivar">@optimize_objects</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:optimize_objects</span>, <span class="ruby-keyword kw">false</span>)
+211:        <span class="ruby-ivar">@skip_encoding</span>    = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skip_encoding</span>]
+212:        <span class="ruby-ivar">@background</span>       = <span class="ruby-identifier">options</span>[<span class="ruby-value">:background</span>]
+213:        <span class="ruby-ivar">@font_size</span>        = <span class="ruby-value">12</span>
+214: 
+215:        <span class="ruby-ivar">@pages</span>            = []
+216:        <span class="ruby-ivar">@page</span>             = <span class="ruby-keyword kw">nil</span>
+217: 
+218:        <span class="ruby-ivar">@bounding_box</span>  = <span class="ruby-keyword kw">nil</span>
+219:        <span class="ruby-ivar">@margin_box</span>    = <span class="ruby-keyword kw">nil</span>
+220: 
+221:        <span class="ruby-ivar">@text_options</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:text_options</span>] <span class="ruby-operator">||</span> {}
+222:        <span class="ruby-ivar">@default_line_wrap</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">LineWrap</span>.<span class="ruby-identifier">new</span>
+223: 
+224:        <span class="ruby-ivar">@page_number</span> = <span class="ruby-value">0</span>
+225: 
+226:        <span class="ruby-identifier">options</span>[<span class="ruby-value">:size</span>] = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:page_size</span>)
+227:        <span class="ruby-identifier">options</span>[<span class="ruby-value">:layout</span>] = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:page_layout</span>)
+228: 
+229:        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:skip_page_creation</span>]
+230:          <span class="ruby-identifier">start_new_page</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:orphan</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>))
+231:        <span class="ruby-keyword kw">else</span>
+232:          <span class="ruby-identifier">start_new_page</span>(<span class="ruby-identifier">options</span>)
+233:        <span class="ruby-keyword kw">end</span>
+234:        
+235:        <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-ivar">@margin_box</span>
+236:        
+237:        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+238:          <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">block</span>[<span class="ruby-keyword kw">self</span>]
+239:        <span class="ruby-keyword kw">end</span>
+240:      <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="bounding-box-method" class="method-detail ">
+				<a name="method-i-bounding_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">bounding_box(point, options={}, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A bounding box serves two important purposes:
+</p>
+<ul>
+<li><p>
+Provide bounds for flowing text, starting at a given point
+</p>
+</li>
+<li><p>
+Translate the origin (0,0) for graphics primitives
+</p>
+</li>
+</ul>
+<p>
+A point and :width must be provided. :height is optional.  (See
+stretchyness below)
+</p>
+<h2>Positioning</h2>
+<p>
+Bounding boxes are positioned relative to their top left corner and the
+width measurement is towards the right and height measurement is downwards.
+</p>
+<p>
+Usage:
+</p>
+<ul>
+<li><p>
+Bounding box 100pt x 100pt in the absolute bottom left of the  containing
+box:
+</p>
+<p>
+pdf.bounding_box([0,100], :width => 100, :height => 100)
+</p>
+<pre>
+  stroke_bounds
+</pre>
+<p>
+end
+</p>
+</li>
+<li><p>
+Bounding box 200pt x 400pt high in the center of the page:
+</p>
+<p>
+x_pos = ((bounds.width / 2) - 150) y_pos = ((bounds.height / 2) + 200)
+pdf.bounding_box([x_pos, y_pos], :width => 300, :height => 400) do
+</p>
+<pre>
+  stroke_bounds
+</pre>
+<p>
+end
+</p>
+</li>
+</ul>
+<h2>Flowing <a href="Text.html">Text</a></h2>
+<p>
+When flowing text, the usage of a bounding box is simple. <a
+href="Text.html">Text</a> will begin at the point specified, flowing the
+width of the bounding box. After the block exits, the cursor position will
+be moved to the bottom of the bounding box (y - height). If flowing text
+exceeds the height of the bounding box, the text will be continued on the
+next page, starting again at the top-left corner of the bounding box.
+</p>
+<p>
+Usage:
+</p>
+<pre>
+  pdf.bounding_box([100,500], :width =&gt; 100, :height =&gt; 300) do
+    pdf.text &quot;This text will flow in a very narrow box starting&quot; +
+     &quot;from [100,500]. The pointer will then be moved to [100,200]&quot; +
+     &quot;and return to the margin_box&quot;
+  end
+</pre>
+<p>
+Note, this is a low level tool and is designed primarily for building other
+abstractions.  If you just need to flow text on the page, you will want to
+look at span() and text_box() instead
+</p>
+<h2>Translating Coordinates</h2>
+<p>
+When translating coordinates, the idea is to allow the user to draw
+relative to the origin, and then translate their drawing to a specified
+area of the document, rather than adjust all their drawing coordinates to
+match this new region.
+</p>
+<p>
+Take for example two triangles which share one point, drawn from the
+origin:
+</p>
+<pre>
+  pdf.polygon [0,250], [0,0], [150,100]
+  pdf.polygon [100,0], [150,100], [200,0]
+</pre>
+<p>
+It would be easy enough to translate these triangles to another point, e.g
+[200,200]
+</p>
+<pre>
+  pdf.polygon [200,450], [200,200], [350,300]
+  pdf.polygon [300,200], [350,300], [400,200]
+</pre>
+<p>
+However, each time you want to move the drawing, you&#8217;d need to alter
+every point in the drawing calls, which as you might imagine, can become
+tedious.
+</p>
+<p>
+If instead, we think of the drawing as being bounded by a box, we can see
+that the image is 200 points wide by 250 points tall.
+</p>
+<p>
+To translate it to a new origin, we simply select a point at (x,y+height)
+</p>
+<p>
+Using the [200,200] example:
+</p>
+<pre>
+  pdf.bounding_box([200,450], :width =&gt; 200, :height =&gt; 250) do
+    pdf.stroke do
+      pdf.polygon [0,250], [0,0], [150,100]
+      pdf.polygon [100,0], [150,100], [200,0]
+    end
+  end
+</pre>
+<p>
+Notice that the drawing is still relative to the origin. If we want to move
+this drawing around the document, we simply need to recalculate the
+top-left corner of the rectangular bounding-box, and all of our graphics
+calls remain unmodified.
+</p>
+<h2>Nesting Bounding Boxes</h2>
+<p>
+At the top level, bounding boxes are specified relative to the
+document&#8217;s  <a href="Document.html#margin_box">margin_box</a> (which
+is itself a bounding box).  You can also nest bounding boxes, allowing you
+to build components which are relative to each other
+</p>
+<p>
+Usage:
+</p>
+<pre>
+ pdf.bounding_box([200,450], :width =&gt; 200, :height =&gt; 250) do
+   pdf.stroke_bounds   # Show the containing bounding box 
+   pdf.bounding_box([50,200], :width =&gt; 50, :height =&gt; 50) do
+     # a 50x50 bounding box that starts 50 pixels left and 50 pixels down 
+     # the parent bounding box.
+     pdf.stroke_bounds
+   end
+ end
+</pre>
+<h2>Stretchyness</h2>
+<p>
+If you do not specify a height to a bounding box, it will become stretchy
+and its height will be calculated automatically as you stretch the box
+downwards.
+</p>
+<pre>
+ pdf.bounding_box([100,400], :width =&gt; 400) do
+   pdf.text(&quot;The height of this box is #{pdf.bounds.height}&quot;)
+   pdf.text('this is some text')
+   pdf.text('this is some more text')
+   pdf.text('and finally a bit more')
+   pdf.text(&quot;Now the height of this box is #{pdf.bounds.height}&quot;)
+ end
+</pre>
+<h2>Absolute Positioning</h2>
+<p>
+If you wish to position the bounding boxes at absolute coordinates rather
+than relative to the margins or other bounding boxes, you can use canvas()
+</p>
+<pre>
+ pdf.bounding_box([50,500], :width =&gt; 200, :height =&gt; 300) do
+   pdf.stroke_bounds
+   pdf.canvas do
+     Positioned outside the containing box at the 'real' (300,450)
+     pdf.bounding_box([300,450], :width =&gt; 200, :height =&gt; 200) do
+       pdf.stroke_bounds
+     end
+   end
+ end
+</pre>
+<p>
+Of course, if you use canvas, you will be responsible for ensuring that you
+remain within the printable area of your document.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="bounding-box-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 157</span>
+157:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bounding_box</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)    
+158:       <span class="ruby-identifier">init_bounding_box</span>(<span class="ruby-identifier">block</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
+159:         <span class="ruby-identifier">map_to_absolute!</span>(<span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>])     
+160:         <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-constant">BoundingBox</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, *<span class="ruby-identifier">args</span>)   
+161:       <span class="ruby-keyword kw">end</span>
+162:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bounds-method" class="method-detail ">
+				<a name="method-i-bounds"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bounds</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The bounds method returns the current bounding box you are currently in,
+which is by default the box represented by the margin box on the document
+itself.  When called from within a created <tt><a
+href="Document.html#method-i-bounding_box">bounding_box</a></tt> block, the
+box defined by that call will be returned instead of the document margin
+box.
+</p>
+<p>
+Another important point about bounding boxes is that all x and y
+measurements within a bounding box code block are relative to the bottom
+left corner of the bounding box.
+</p>
+<p>
+For example:
+</p>
+<pre>
+ Prawn::Document.new do
+   # In the default &quot;margin box&quot; of a Prawn document of 0.5in along each edge
+   
+   # Draw a border around the page (the manual way)
+   stroke do
+     line(bounds.bottom_left, bounds.bottom_right)
+     line(bounds.bottom_right, bounds.top_right)
+     line(bounds.top_right, bounds.top_left)
+     line(bounds.top_left, bounds.bottom_left)
+   end
+
+   # Draw a border around the page (the easy way)
+   stroke_bounds
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="bounds-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 409</span>
+409:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bounds</span>
+410:       <span class="ruby-ivar">@bounding_box</span>
+411:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bounds--method" class="method-detail ">
+				<a name="method-i-bounds%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bounds=</span><span
+						class="method-args">(bounding_box)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets <a href="Document.html#method-i-bounds">Document#bounds</a> to the <a
+href="Document/BoundingBox.html">BoundingBox</a> provided.  See above for a
+brief description of what a bounding box is.  This function is useful if
+you  really need to change the bounding box manually, but usually, just
+entering and exiting bounding box code blocks is good enough.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="bounds--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 418</span>
+418:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bounds=</span>(<span class="ruby-identifier">bounding_box</span>)
+419:       <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-identifier">bounding_box</span>
+420:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="canvas-method" class="method-detail ">
+				<a name="method-i-canvas"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">canvas</span><span
+						class="method-args">(&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A shortcut to produce a bounding box which is mapped to the
+document&#8217;s absolute coordinates, regardless of how things are nested
+or margin sizes.
+</p>
+<pre>
+  pdf.canvas do
+    pdf.line pdf.bounds.bottom_left, pdf.bounds.top_right
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="canvas-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 171</span>
+171:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">canvas</span>(&amp;<span class="ruby-identifier">block</span>)     
+172:       <span class="ruby-identifier">init_bounding_box</span>(<span class="ruby-identifier">block</span>, <span class="ruby-value">:hold_position</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
+173:         <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-constant">BoundingBox</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, [<span class="ruby-value">0</span>,<span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">3</span>]], 
+174:           <span class="ruby-value">:width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">2</span>], 
+175:           <span class="ruby-value">:height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">3</span>] 
+176:         ) 
+177:       <span class="ruby-keyword kw">end</span>
+178:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="column-box-method" class="method-detail ">
+				<a name="method-i-column_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">column_box</span><span
+						class="method-args">(*args, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A column box is a bounding box with the additional property that when text
+flows past the bottom, it will wrap first to another column on the same
+page, and only flow to the next page when all the columns are filled.
+</p>
+<p>
+<a href="Document.html#method-i-column_box">column_box</a> accepts the same
+parameters as <a
+href="Document.html#method-i-bounding_box">bounding_box</a>, as well as the
+number of :columns and a :spacer (in points) between columns.
+</p>
+<p>
+Defaults are :columns = 3 and :spacer = <a
+href="Document.html#method-i-font_size">font_size</a>
+</p>
+<p>
+Under PDF::Writer, &#8220;spacer&#8221; was known as &#8220;gutter&#8220;
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="column-box-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 24</span>
+24:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">column_box</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+25:       <span class="ruby-identifier">init_column_box</span>(<span class="ruby-identifier">block</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
+26:         <span class="ruby-identifier">map_to_absolute!</span>(<span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>])
+27:         <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-constant">ColumnBox</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, *<span class="ruby-identifier">args</span>)
+28:       <span class="ruby-keyword kw">end</span>
+29:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="compression-enabled--method" class="method-detail ">
+				<a name="method-i-compression_enabled%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">compression_enabled?</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns true if content streams will be compressed before rendering, false
+otherwise
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="compression-enabled--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 556</span>
+556:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">compression_enabled?</span>
+557:       <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-ivar">@compress</span>
+558:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="cursor-method" class="method-detail ">
+				<a name="method-i-cursor"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">cursor</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The current y drawing position relative to the innermost bounding box, or
+to the page margins at the top level.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="cursor-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 332</span>
+332:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cursor</span>
+333:       <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+334:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="define-outline-method" class="method-detail ">
+				<a name="method-i-define_outline"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">define_outline</span><span
+						class="method-args">(&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+See <a href="Outline.html#method-i-define">Outline#define</a> below for
+documentation
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="define-outline-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 14</span>
+14:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">define_outline</span>(&amp;<span class="ruby-identifier">block</span>)
+15:       <span class="ruby-identifier">outline</span>.<span class="ruby-identifier">define</span>(&amp;<span class="ruby-identifier">block</span>)
+16:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="float-method" class="method-detail ">
+				<a name="method-i-float"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">float</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Executes a block and then restores the original y position
+</p>
+<pre>
+  pdf.text &quot;A&quot;
+
+  pdf.float do
+    pdf.move_down 100
+    pdf.text &quot;C&quot;
+  end
+
+  pdf.text &quot;B&quot; 
+  </pre>
+					
+
+					
+					<div class="method-source-code"
+						id="float-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 354</span>
+354:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">float</span> 
+355:       <span class="ruby-identifier">mask</span>(<span class="ruby-value">:y</span>) { <span class="ruby-keyword kw">yield</span> }
+356:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="font-method" class="method-detail ">
+				<a name="method-i-font"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">font</span><span
+						class="method-args">(name=nil, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Without arguments, this returns the currently selected font. Otherwise, it
+sets the current font. When a block is used, the font is applied
+transactionally and is rolled back when the block exits.
+</p>
+<pre>
+  Prawn::Document.generate(&quot;font.pdf&quot;) do
+    text &quot;Default font is Helvetica&quot;
+
+    font &quot;Times-Roman&quot;
+    text &quot;Now using Times-Roman&quot;
+
+    font(&quot;Chalkboard.ttf&quot;) do
+      text &quot;Using TTF font from file Chalkboard.ttf&quot;
+      font &quot;Courier&quot;, :style =&gt; :bold
+      text &quot;You see this in bold Courier&quot;
+    end
+
+    text &quot;Times-Roman, again&quot;
+  end
+</pre>
+<p>
+The :name parameter must be a string. It can be one of the 14 built-in
+fonts supported by PDF, or the location of a TTF file. The
+Font::AFM::BUILT_INS array specifies the valid built in font values.
+</p>
+<p>
+If a ttf font is specified, the glyphs necessary to render your document
+will be embedded in the rendered PDF. This should be your preferred option
+in most cases. It will increase the size of the resulting file, but also 
+make it more portable.
+</p>
+<p>
+The options parameter is an optional hash providing size and style. To use
+the :style option you need to map those font styles to their respective
+font files. See <a
+href="Document.html#method-i-font_families">font_families</a> for more
+information.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="font-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 48</span>
+48:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">font</span>(<span class="ruby-identifier">name</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">options</span>={})
+49:       <span class="ruby-keyword kw">return</span>((<span class="ruby-keyword kw">defined?</span>(<span class="ruby-ivar">@font</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@font</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">font</span>(<span class="ruby-value str">&quot;Helvetica&quot;</span>)) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>
+50: 
+51:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">NotOnPage</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pages</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">page</span>.<span class="ruby-identifier">in_stamp_stream?</span>
+52:       <span class="ruby-identifier">new_font</span> = <span class="ruby-identifier">find_font</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
+53: 
+54:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+55:         <span class="ruby-identifier">save_font</span> <span class="ruby-keyword kw">do</span>
+56:           <span class="ruby-identifier">set_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:size</span>])
+57:           <span class="ruby-keyword kw">yield</span>
+58:         <span class="ruby-keyword kw">end</span>
+59:       <span class="ruby-keyword kw">else</span>
+60:         <span class="ruby-identifier">set_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:size</span>])
+61:       <span class="ruby-keyword kw">end</span>
+62: 
+63:       <span class="ruby-ivar">@font</span>
+64:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="font-families-method" class="method-detail ">
+				<a name="method-i-font_families"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">font_families</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Hash that maps font family names to their styled individual font names.
+</p>
+<p>
+To add support for another font family, append to this hash, e.g:
+</p>
+<pre>
+  pdf.font_families.update(
+   &quot;MyTrueTypeFamily&quot; =&gt; { :bold        =&gt; &quot;foo-bold.ttf&quot;,
+                           :italic      =&gt; &quot;foo-italic.ttf&quot;,
+                           :bold_italic =&gt; &quot;foo-bold-italic.ttf&quot;,
+                           :normal      =&gt; &quot;foo.ttf&quot; })
+</pre>
+<p>
+This will then allow you to use the fonts like so:
+</p>
+<pre>
+  pdf.font(&quot;MyTrueTypeFamily&quot;, :style =&gt; :bold)
+  pdf.text &quot;Some bold text&quot;
+  pdf.font(&quot;MyTrueTypeFamily&quot;)
+  pdf.text &quot;Some normal text&quot;
+</pre>
+<p>
+This assumes that you have appropriate TTF fonts for each style you wish to
+support.
+</p>
+<p>
+By default the styles :bold, :italic, :bold_italic, and :normal are defined
+for fonts &#8220;Courier&#8221;, &#8220;Times-Roman&#8221; and
+&#8220;Helvetica&#8221;.
+</p>
+<p>
+You probably want to provide those four styles, but are free to define
+custom ones, like :thin, and use them in font calls.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="font-families-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 178</span>
+178:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">font_families</span>
+179:       <span class="ruby-ivar">@font_families</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>,<span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>[<span class="ruby-identifier">k</span>] = {} }.<span class="ruby-identifier">merge!</span>(
+180:         { <span class="ruby-value str">&quot;Courier&quot;</span>     =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:bold</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Courier-Bold&quot;</span>,
+181:                              <span class="ruby-value">:italic</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Courier-Oblique&quot;</span>,
+182:                              <span class="ruby-value">:bold_italic</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Courier-BoldOblique&quot;</span>,
+183:                              <span class="ruby-value">:normal</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Courier&quot;</span> },
+184: 
+185:           <span class="ruby-value str">&quot;Times-Roman&quot;</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:bold</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Times-Bold&quot;</span>,
+186:                              <span class="ruby-value">:italic</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Times-Italic&quot;</span>,
+187:                              <span class="ruby-value">:bold_italic</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Times-BoldItalic&quot;</span>,
+188:                              <span class="ruby-value">:normal</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Times-Roman&quot;</span> },
+189: 
+190:           <span class="ruby-value str">&quot;Helvetica&quot;</span>   =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:bold</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Helvetica-Bold&quot;</span>,
+191:                              <span class="ruby-value">:italic</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Helvetica-Oblique&quot;</span>,
+192:                              <span class="ruby-value">:bold_italic</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Helvetica-BoldOblique&quot;</span>,
+193:                              <span class="ruby-value">:normal</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Helvetica&quot;</span> }
+194:         })
+195:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="font-size-method" class="method-detail ">
+				<a name="method-i-font_size"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">font_size</span><span
+						class="method-args">(points=nil)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+When called with no argument, returns the current font size. When called
+with a single argument but no block, sets the current font size.  When a
+block is used, the font size is applied transactionally and is rolled back
+when the block exits.  You may still change the font size within a
+transactional block for individual text segments, or nested calls to
+font_size.
+</p>
+<pre>
+  Prawn::Document.generate(&quot;font_size.pdf&quot;) do
+    font_size 16
+    text &quot;At size 16&quot;
+
+    font_size(10) do
+      text &quot;At size 10&quot;
+      text &quot;At size 6&quot;, :size =&gt; 6
+      text &quot;At size 10&quot;
+    end
+
+    text &quot;At size 16&quot;
+  end
+</pre>
+<p>
+When called without an argument, this method returns the current font size.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="font-size-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 89</span>
+89:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">font_size</span>(<span class="ruby-identifier">points</span>=<span class="ruby-keyword kw">nil</span>)
+90:       <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@font_size</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">points</span>
+91:       <span class="ruby-identifier">size_before_yield</span> = <span class="ruby-ivar">@font_size</span>
+92:       <span class="ruby-ivar">@font_size</span> = <span class="ruby-identifier">points</span>
+93:       <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword kw">yield</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">return</span>
+94:       <span class="ruby-ivar">@font_size</span> = <span class="ruby-identifier">size_before_yield</span>
+95:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="go-to-page-method" class="method-detail ">
+				<a name="method-i-go_to_page"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">go_to_page</span><span
+						class="method-args">(k)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Re-opens the page with the given (1-based) page number so that you can draw
+on it. Does not restore page state such as margins, page orientation, or
+paper size, so you&#8217;ll have to handle that yourself.
+</p>
+<p>
+See <a
+href="Document.html#method-i-number_pages">Prawn::Document#number_pages</a>
+for a sample usage of this capability.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="go-to-page-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 319</span>
+319:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">go_to_page</span>(<span class="ruby-identifier">k</span>)
+320:       <span class="ruby-ivar">@page_number</span> = <span class="ruby-identifier">k</span>
+321:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">page</span> = <span class="ruby-identifier">pages</span>[<span class="ruby-identifier">k</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]
+322:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="group-method" class="method-detail ">
+				<a name="method-i-group"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">group</span><span
+						class="method-args">(second_attempt=false)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Attempts to group the given block vertically within the current context.
+First attempts to render it in the current position on the current page. If
+that attempt overflows, it is tried anew after starting a new context (page
+or column).
+</p>
+<p>
+Raises CannotGroup if the provided content is too large to fit alone in the
+current page or column.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="group-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 510</span>
+510:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">group</span>(<span class="ruby-identifier">second_attempt</span>=<span class="ruby-keyword kw">false</span>)
+511:       <span class="ruby-identifier">old_bounding_box</span> = <span class="ruby-ivar">@bounding_box</span>
+512:       <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-constant">SimpleDelegator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@bounding_box</span>)
+513: 
+514:       <span class="ruby-keyword kw">def</span> <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">move_past_bottom</span>
+515:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">RollbackTransaction</span>
+516:       <span class="ruby-keyword kw">end</span>
+517: 
+518:       <span class="ruby-identifier">success</span> = <span class="ruby-identifier">transaction</span> { <span class="ruby-keyword kw">yield</span> }
+519: 
+520:       <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">success</span>
+521:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">CannotGroup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">second_attempt</span>
+522:         <span class="ruby-identifier">old_bounding_box</span>.<span class="ruby-identifier">move_past_bottom</span>
+523:         <span class="ruby-identifier">group</span>(<span class="ruby-identifier">second_attempt</span>=<span class="ruby-keyword kw">true</span>) { <span class="ruby-keyword kw">yield</span> }
+524:       <span class="ruby-keyword kw">end</span> 
+525: 
+526:       <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-identifier">old_bounding_box</span>
+527:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="indent-method" class="method-detail ">
+				<a name="method-i-indent"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">indent</span><span
+						class="method-args">(x, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Indents the specified number of PDF points for the duration of the block
+</p>
+<pre>
+ pdf.text &quot;some text&quot;
+ pdf.indent(20) do
+   pdf.text &quot;This is indented 20 points&quot;
+ end
+ pdf.text &quot;This starts 20 points left of the above line &quot; +
+          &quot;and is flush with the first line&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="indent-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 487</span>
+487:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">indent</span>(<span class="ruby-identifier">x</span>, &amp;<span class="ruby-identifier">block</span>)
+488:       <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">indent</span>(<span class="ruby-identifier">x</span>, &amp;<span class="ruby-identifier">block</span>)
+489:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="move-cursor-to-method" class="method-detail ">
+				<a name="method-i-move_cursor_to"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">move_cursor_to</span><span
+						class="method-args">(new_y)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Moves to the specified y position in relative terms to the bottom margin.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="move-cursor-to-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 339</span>
+339:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_cursor_to</span>(<span class="ruby-identifier">new_y</span>)
+340:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> = <span class="ruby-identifier">new_y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+341:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="move-down-method" class="method-detail ">
+				<a name="method-i-move_down"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">move_down</span><span
+						class="method-args">(n)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Moves down the document by n points relative to the current position inside
+the current bounding box.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="move-down-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 432</span>
+432:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_down</span>(<span class="ruby-identifier">n</span>)
+433:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">n</span>
+434:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="move-up-method" class="method-detail ">
+				<a name="method-i-move_up"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">move_up</span><span
+						class="method-args">(n)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Moves up the document by n points relative to the current position inside
+the current bounding box.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="move-up-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 425</span>
+425:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_up</span>(<span class="ruby-identifier">n</span>)
+426:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">n</span>
+427:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="number-pages-method" class="method-detail ">
+				<a name="method-i-number_pages"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">number_pages</span><span
+						class="method-args">(string, position)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Specify a template for page numbering.  This should be called towards the
+end of document creation, after all your content is already in place.  In
+your template string, <page> refers to the current page, and <total> refers
+to the total amount of pages in the doucment.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  Prawn::Document.generate(&quot;page_with_numbering.pdf&quot;) do
+    text &quot;Hai&quot;
+    start_new_page
+    text &quot;bai&quot;
+    start_new_page
+    text &quot;-- Hai again&quot;
+    number_pages &quot;&lt;page&gt; in a total of &lt;total&gt;&quot;, [bounds.right - 50, 0]  
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="number-pages-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 545</span>
+545:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">number_pages</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">position</span>)
+546:       <span class="ruby-identifier">page_count</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+547:         <span class="ruby-identifier">go_to_page</span>(<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)
+548:         <span class="ruby-identifier">str</span> = <span class="ruby-identifier">string</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;page&gt;&quot;</span>,<span class="ruby-node">&quot;#{i+1}&quot;</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;total&gt;&quot;</span>,<span class="ruby-node">&quot;#{page_count}&quot;</span>)
+549:         <span class="ruby-identifier">draw_text</span> <span class="ruby-identifier">str</span>, <span class="ruby-value">:at</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">position</span>
+550:       <span class="ruby-keyword kw">end</span>
+551:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="outline-method" class="method-detail ">
+				<a name="method-i-outline"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">outline</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Lazily instantiates an <a href="Outline.html">Outline</a> object for
+document. This is used as point of entry to methods to build the outline
+tree.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="outline-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 27</span>
+27:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">outline</span>
+28:       <span class="ruby-ivar">@outline</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Outline</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>)
+29:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="outline-root-method" class="method-detail ">
+				<a name="method-i-outline_root"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">outline_root</span><span
+						class="method-args">(outline_root)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The <a href="Outline.html">Outline</a> dictionary (12.3.3) for this
+document.  It is lazily initialized, so that documents that do not have an
+outline do not incur the additional overhead.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="outline-root-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/outline.rb, line 21</span>
+21:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">outline_root</span>(<span class="ruby-identifier">outline_root</span>)
+22:       <span class="ruby-ivar">@store</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Outlines</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">ref!</span>(<span class="ruby-identifier">outline_root</span>)
+23:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="pad-method" class="method-detail ">
+				<a name="method-i-pad"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">pad</span><span
+						class="method-args">(y)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Moves down the document by y, executes a block, then moves down the
+document by y again.
+</p>
+<pre>
+  pdf.text &quot;some text&quot;
+  pdf.pad(100) do
+    pdf.text &quot;This is 100 points below the previous line of text&quot;
+  end
+  pdf.text &quot;This is 100 points below the previous line of text&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="pad-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 471</span>
+471:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pad</span>(<span class="ruby-identifier">y</span>)
+472:       <span class="ruby-identifier">move_down</span>(<span class="ruby-identifier">y</span>)
+473:       <span class="ruby-keyword kw">yield</span>
+474:       <span class="ruby-identifier">move_down</span>(<span class="ruby-identifier">y</span>)
+475:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="pad-bottom-method" class="method-detail ">
+				<a name="method-i-pad_bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">pad_bottom</span><span
+						class="method-args">(y)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Executes a block then moves down the document
+</p>
+<pre>
+  pdf.text &quot;some text&quot;
+  pdf.pad_bottom(100) do
+    pdf.text &quot;This text appears right below the previous line of text&quot;
+  end
+  pdf.text &quot;This is 100 points below the previous line of text&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="pad-bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 457</span>
+457:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pad_bottom</span>(<span class="ruby-identifier">y</span>)
+458:       <span class="ruby-keyword kw">yield</span>
+459:       <span class="ruby-identifier">move_down</span>(<span class="ruby-identifier">y</span>)
+460:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="pad-top-method" class="method-detail ">
+				<a name="method-i-pad_top"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">pad_top</span><span
+						class="method-args">(y)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Moves down the document and then executes a block.
+</p>
+<pre>
+  pdf.text &quot;some text&quot;
+  pdf.pad_top(100) do
+    pdf.text &quot;This is 100 points below the previous line of text&quot;
+  end
+  pdf.text &quot;This text appears right below the previous line of text&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="pad-top-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 444</span>
+444:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pad_top</span>(<span class="ruby-identifier">y</span>)
+445:       <span class="ruby-identifier">move_down</span>(<span class="ruby-identifier">y</span>)
+446:       <span class="ruby-keyword kw">yield</span>
+447:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="page-count-method" class="method-detail ">
+				<a name="method-i-page_count"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">page_count</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the number of pages in the document
+</p>
+<pre>
+  pdf = Prawn::Document.new
+  pdf.page_count #=&gt; 1
+  3.times { pdf.start_new_page }
+  pdf.page_count #=&gt; 4</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="page-count-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 302</span>
+302:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">page_count</span>
+303:       <span class="ruby-identifier">pages</span>.<span class="ruby-identifier">length</span>
+304:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="page-number-method" class="method-detail ">
+				<a name="method-i-page_number"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">page_number</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the 1-based page number of the current page. Returns 0 if the
+document has no pages.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="page-number-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 309</span>
+309:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">page_number</span>
+310:       <span class="ruby-ivar">@page_number</span>
+311:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="render-method" class="method-detail ">
+				<a name="method-i-render"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">render</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Renders the PDF document to string
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="render-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 360</span>
+360:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render</span>
+361:       <span class="ruby-identifier">output</span> = <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>
+362:       <span class="ruby-identifier">finalize_all_page_contents</span>
+363: 
+364:       <span class="ruby-identifier">render_header</span>(<span class="ruby-identifier">output</span>)
+365:       <span class="ruby-identifier">render_body</span>(<span class="ruby-identifier">output</span>)
+366:       <span class="ruby-identifier">render_xref</span>(<span class="ruby-identifier">output</span>)
+367:       <span class="ruby-identifier">render_trailer</span>(<span class="ruby-identifier">output</span>)
+368:       <span class="ruby-identifier">str</span> = <span class="ruby-identifier">output</span>.<span class="ruby-identifier">string</span>
+369:       <span class="ruby-identifier">str</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-value str">&quot;ASCII-8BIT&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:force_encoding</span>)
+370:       <span class="ruby-identifier">str</span>
+371:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="render-file-method" class="method-detail ">
+				<a name="method-i-render_file"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">render_file</span><span
+						class="method-args">(filename)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Renders the PDF document to file.
+</p>
+<pre>
+  pdf.render_file &quot;foo.pdf&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="render-file-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 377</span>
+377:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_file</span>(<span class="ruby-identifier">filename</span>)
+378:       <span class="ruby-constant">Kernel</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value str">&quot;Encoding&quot;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">mode</span> = <span class="ruby-value str">&quot;wb:ASCII-8BIT&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">mode</span> = <span class="ruby-value str">&quot;wb&quot;</span>
+379:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filename</span>,<span class="ruby-identifier">mode</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">render</span> }
+380:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="repeat-method" class="method-detail ">
+				<a name="method-i-repeat"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">repeat</span><span
+						class="method-args">(page_filter, options={}, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Provides a way to execute a block of code repeatedly based on a
+page_filter.  Since <a href="Stamp.html">Stamp</a> is used under the hood,
+this method is very space efficient.
+</p>
+<p>
+Available page filters are:
+</p>
+<pre>
+  :all        -- repeats on every page
+  :odd        -- repeats on odd pages
+  :even       -- repeats on even pages
+  some_array  -- repeats on every page listed in the array
+  some_range  -- repeats on every page included in the range
+  some_lambda -- yields page number and repeats for true return values 
+</pre>
+<p>
+Also accepts an optional second argument for dynamic content which executes
+the code  in the context of the filtered pages without using a <a
+href="Stamp.html">Stamp</a>. 
+</p>
+<p>
+Example:
+</p>
+<pre>
+  Prawn::Document.generate(&quot;repeat.pdf&quot;, :skip_page_creation =&gt; true) do
+
+    repeat :all do
+      draw_text &quot;ALLLLLL&quot;, :at =&gt; bounds.top_left
+    end
+
+    repeat :odd do
+      draw_text &quot;ODD&quot;, :at =&gt; [0,0]
+    end
+
+    repeat :even do
+      draw_text &quot;EVEN&quot;, :at =&gt; [0,0]
+    end
+
+    repeat [1,2] do 
+      draw_text &quot;[1,2]&quot;, :at =&gt; [100,0]
+    end
+
+    repeat 2..4 do
+      draw_text &quot;2..4&quot;, :at =&gt; [200,0]
+    end
+
+    repeat(lambda { |pg| pg % 3 == 0 }) do
+      draw_text &quot;Every third&quot;, :at =&gt; [250, 20]
+    end
+
+    10.times do 
+      start_new_page
+      draw_text &quot;A wonderful page&quot;, :at =&gt; [400,400]
+    end
+    
+    repeat(:all, :dynamic =&gt; true) do
+      text page_number, :at =&gt; [500, 0]
+    end
+
+  end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="repeat-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/repeater.rb, line 76</span>
+76:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">repeat</span>(<span class="ruby-identifier">page_filter</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">block</span>)
+77:       <span class="ruby-identifier">repeaters</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Repeater</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">page_filter</span>, <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:dynamic</span>], &amp;<span class="ruby-identifier">block</span>)
+78:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="repeaters-method" class="method-detail ">
+				<a name="method-i-repeaters"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">repeaters</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A list of all repeaters in the document. See <a
+href="Document.html#method-i-repeat">Document#repeat</a> for details
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="repeaters-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/repeater.rb, line 18</span>
+18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">repeaters</span>
+19:       <span class="ruby-ivar">@repeaters</span> <span class="ruby-operator">||=</span> []
+20:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="save-font-method" class="method-detail ">
+				<a name="method-i-save_font"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">save_font</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Saves the current font, and then yields. When the block finishes, the
+original font is restored.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="save-font-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 108</span>
+108:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">save_font</span>
+109:       <span class="ruby-ivar">@font</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">find_font</span>(<span class="ruby-value str">&quot;Helvetica&quot;</span>)
+110:       <span class="ruby-identifier">original_font</span> = <span class="ruby-ivar">@font</span>
+111:       <span class="ruby-identifier">original_size</span> = <span class="ruby-ivar">@font_size</span>
+112: 
+113:       <span class="ruby-keyword kw">yield</span>
+114:     <span class="ruby-keyword kw">ensure</span>
+115:       <span class="ruby-identifier">set_font</span>(<span class="ruby-identifier">original_font</span>, <span class="ruby-identifier">original_size</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">original_font</span>
+116:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="span-method" class="method-detail ">
+				<a name="method-i-span"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">span</span><span
+						class="method-args">(width, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A span is a special purpose bounding box that allows a column of  elements
+to be positioned relative to the margin_box.  
+</p>
+<p>
+Arguments:
+</p>
+<table>
+<tr><td valign="top"><tt>width</tt></td><td><p>
+The width of the column in PDF points
+</p>
+</td></tr>
+</table>
+<p>
+Options:
+</p>
+<table>
+<tr><td valign="top"><tt>:position</tt></td><td><p>
+One of :left, :center, :right or an x offset
+</p>
+</td></tr>
+</table>
+<p>
+This method is typically used for flowing a column of text from one  page
+to the next.
+</p>
+<pre>
+ span(350, :position =&gt; :center) do
+   text &quot;Here's some centered text in a 350 point column. &quot; * 100
+ end
+ </pre>
+					
+
+					
+					<div class="method-source-code"
+						id="span-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/span.rb, line 27</span>
+27:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">span</span>(<span class="ruby-identifier">width</span>, <span class="ruby-identifier">options</span>={})
+28:       <span class="ruby-constant">Prawn</span>.<span class="ruby-identifier">verify_options</span> [<span class="ruby-value">:position</span>], <span class="ruby-identifier">options</span>
+29:       <span class="ruby-identifier">original_position</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span>      
+30:      
+31:       <span class="ruby-comment cmt"># FIXME: Any way to move this upstream?</span>
+32:       <span class="ruby-identifier">left_boundary</span> = <span class="ruby-keyword kw">case</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:position</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:left</span>)
+33:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:left</span>
+34:         <span class="ruby-identifier">margin_box</span>.<span class="ruby-identifier">absolute_left</span>
+35:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:center</span>
+36:         <span class="ruby-identifier">margin_box</span>.<span class="ruby-identifier">absolute_left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">margin_box</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">width</span> <span class="ruby-node">/2.0
+37:       when :right
+38:         margin_box.absolute_right - width
+39:       when Numeric
+40:         margin_box.absolute_left + options[:position]
+41:       else
+42:         raise ArgumentError, &quot;Invalid option for :position&quot;
+43:       end
+44:       
+45:       # we need to bust out of whatever nested bounding boxes we're in.
+46:       canvas do
+47:         bounding_box([left_boundary, 
+48:                       margin_box.absolute_top], :width =&gt; width) do
+49:           self.y = original_position
+50:           yield
+51:         end
+52:       end          
+53:     end
+54:   end
+55: end
+56: </span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="start-new-page-method" class="method-detail ">
+				<a name="method-i-start_new_page"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">start_new_page</span><span
+						class="method-args">(options = {})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Creates and advances to a new page in the document.
+</p>
+<p>
+Page size, margins, and layout can also be set when generating a new page.
+These values will become the new defaults for page creation
+</p>
+<pre>
+  pdf.start_new_page #=&gt; Starts new page keeping current values
+  pdf.start_new_page(:size =&gt; &quot;LEGAL&quot;, :layout =&gt; :landscape)
+  pdf.start_new_page(:left_margin =&gt; 50, :right_margin =&gt; 50)
+  pdf.start_new_page(:margin =&gt; 100)</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="start-new-page-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 252</span>
+252:      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start_new_page</span>(<span class="ruby-identifier">options</span> = {})
+253:        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">last_page</span> = <span class="ruby-identifier">page</span>
+254:          <span class="ruby-identifier">last_page_size</span>    = <span class="ruby-identifier">last_page</span>.<span class="ruby-identifier">size</span>
+255:          <span class="ruby-identifier">last_page_layout</span>  = <span class="ruby-identifier">last_page</span>.<span class="ruby-identifier">layout</span>
+256:          <span class="ruby-identifier">last_page_margins</span> = <span class="ruby-identifier">last_page</span>.<span class="ruby-identifier">margins</span>
+257:        <span class="ruby-keyword kw">end</span>
+258: 
+259:        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">page</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Core</span><span class="ruby-operator">::</span><span class="ruby-constant">Page</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, 
+260:          <span class="ruby-value">:size</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:size</span>]   <span class="ruby-operator">||</span> <span class="ruby-identifier">last_page_size</span>, 
+261:          <span class="ruby-value">:layout</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:layout</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">last_page_layout</span>,
+262:          <span class="ruby-value">:margins</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">last_page_margins</span> )
+263:   
+264:        
+265:        <span class="ruby-identifier">apply_margin_option</span>(<span class="ruby-identifier">options</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:margin</span>]
+266: 
+267:        [<span class="ruby-value">:left</span>,<span class="ruby-value">:right</span>,<span class="ruby-value">:top</span>,<span class="ruby-value">:bottom</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">side</span><span class="ruby-operator">|</span>
+268:          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">margin</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:&quot;#{side}_margin&quot;</span>]
+269:            <span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-identifier">side</span>] = <span class="ruby-identifier">margin</span>
+270:          <span class="ruby-keyword kw">end</span>
+271:        <span class="ruby-keyword kw">end</span>
+272: 
+273:        <span class="ruby-identifier">generate_margin_box</span>
+274: 
+275:        <span class="ruby-identifier">update_colors</span>
+276:        <span class="ruby-identifier">undash</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dashed?</span>
+277:       
+278:        <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:orphan</span>]
+279:          <span class="ruby-identifier">pages</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-ivar">@page_number</span>, <span class="ruby-identifier">page</span>)
+280:          <span class="ruby-ivar">@store</span>.<span class="ruby-identifier">pages</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Kids</span>].<span class="ruby-identifier">insert</span>(<span class="ruby-ivar">@page_number</span>, <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dictionary</span>)
+281:          <span class="ruby-ivar">@store</span>.<span class="ruby-identifier">pages</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Count</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+282:          <span class="ruby-ivar">@page_number</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+283: 
+284:          <span class="ruby-identifier">save_graphics_state</span>
+285:         
+286:          <span class="ruby-identifier">canvas</span> { <span class="ruby-identifier">image</span>(<span class="ruby-ivar">@background</span>, <span class="ruby-value">:at</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top_left</span>) } <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@background</span> 
+287:          <span class="ruby-ivar">@y</span> = <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">absolute_top</span>
+288: 
+289:          <span class="ruby-identifier">float</span> <span class="ruby-keyword kw">do</span>
+290:            <span class="ruby-ivar">@on_page_create_callback</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword kw">self</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_page_create_callback</span> 
+291:          <span class="ruby-keyword kw">end</span>
+292:        <span class="ruby-keyword kw">end</span>
+293:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="width-of-method" class="method-detail ">
+				<a name="method-i-width_of"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">width_of</span><span
+						class="method-args">(string, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the width of the given string using the given font. If :size is not
+specified as one of the options, the string is measured using the current
+font size. You can also pass :kerning as an option to indicate whether
+kerning should be used when measuring the width (defaults to
+<tt>false</tt>).
+</p>
+<p>
+Note that the string <em>must</em> be encoded properly for the font being
+used. For AFM fonts, this is WinAnsi. For TTF, make sure the font is
+encoded as UTF-8. You can use the <a
+href="Font.html#method-i-normalize_encoding">Font#normalize_encoding</a>
+method to make sure strings are in an encoding appropriate for the current
+font.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="width-of-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/font.rb, line 216</span>
+216:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width_of</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>={})
+217:       <span class="ruby-identifier">font</span>.<span class="ruby-identifier">compute_width_of</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">options</span>)
+218:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="y--method" class="method-detail ">
+				<a name="method-i-y%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">y=</span><span
+						class="method-args">(new_y)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="y--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 324</span>
+324:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">y=</span>(<span class="ruby-identifier">new_y</span>)
+325:       <span class="ruby-ivar">@y</span> = <span class="ruby-identifier">new_y</span>
+326:       <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">update_height</span>
+327:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="apply-margin-option-method" class="method-detail ">
+				<a name="method-i-apply_margin_option"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">apply_margin_option</span><span
+						class="method-args">(options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="apply-margin-option-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 578</span>
+578:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">apply_margin_option</span>(<span class="ruby-identifier">options</span>)
+579:       <span class="ruby-comment cmt"># Treat :margin as CSS shorthand with 1-4 values.</span>
+580:       <span class="ruby-identifier">margin</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:margin</span>])
+581:       <span class="ruby-identifier">positions</span> = { <span class="ruby-value">4</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">1</span>,<span class="ruby-value">2</span>,<span class="ruby-value">3</span>], <span class="ruby-value">3</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">1</span>,<span class="ruby-value">2</span>,<span class="ruby-value">1</span>],
+582:                     <span class="ruby-value">2</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">1</span>,<span class="ruby-value">0</span>,<span class="ruby-value">1</span>], <span class="ruby-value">1</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>,<span class="ruby-value">0</span>,<span class="ruby-value">0</span>] }[<span class="ruby-identifier">margin</span>.<span class="ruby-identifier">length</span>]
+583: 
+584:       [<span class="ruby-value">:top</span>, <span class="ruby-value">:right</span>, <span class="ruby-value">:bottom</span>, <span class="ruby-value">:left</span>].<span class="ruby-identifier">zip</span>(<span class="ruby-identifier">positions</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+585:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:&quot;#{p}_margin&quot;</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">margin</span>[<span class="ruby-identifier">i</span>]
+586:       <span class="ruby-keyword kw">end</span>
+587:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="generate-margin-box-method" class="method-detail ">
+				<a name="method-i-generate_margin_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">generate_margin_box</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="generate-margin-box-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document.rb, line 562</span>
+562:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_margin_box</span>
+563:       <span class="ruby-identifier">old_margin_box</span> = <span class="ruby-ivar">@margin_box</span>
+564:       <span class="ruby-ivar">@margin_box</span> = <span class="ruby-constant">BoundingBox</span>.<span class="ruby-identifier">new</span>(
+565:         <span class="ruby-keyword kw">self</span>,
+566:         [ <span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-value">:left</span>], <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">-</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-value">:top</span>] ] ,
+567:         <span class="ruby-value">:width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">2</span>] <span class="ruby-operator">-</span> (<span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-value">:left</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-value">:right</span>]),
+568:         <span class="ruby-value">:height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">dimensions</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">-</span> (<span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-value">:top</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">margins</span>[<span class="ruby-value">:bottom</span>])
+569:       )
+570: 
+571:       <span class="ruby-comment cmt"># we must update bounding box if not flowing from the previous page</span>
+572:       <span class="ruby-comment cmt">#</span>
+573:       <span class="ruby-comment cmt"># FIXME: This may have a bug where the old margin is restored</span>
+574:       <span class="ruby-comment cmt"># when the bounding box exits.</span>
+575:       <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-ivar">@margin_box</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">old_margin_box</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@bounding_box</span>
+576:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="init-bounding-box-method" class="method-detail ">
+				<a name="method-i-init_bounding_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">init_bounding_box</span><span
+						class="method-args">(user_block, options={}, &init_block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="init-bounding-box-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 182</span>
+182:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">init_bounding_box</span>(<span class="ruby-identifier">user_block</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">init_block</span>)
+183:       <span class="ruby-identifier">parent_box</span> = <span class="ruby-ivar">@bounding_box</span>       
+184: 
+185:       <span class="ruby-identifier">init_block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">parent_box</span>)     
+186: 
+187:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> = <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">absolute_top</span>       
+188:       <span class="ruby-identifier">user_block</span>.<span class="ruby-identifier">call</span>   
+189:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> = <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">absolute_bottom</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:hold_position</span>]
+190: 
+191:       <span class="ruby-identifier">created_box</span>, <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-ivar">@bounding_box</span>, <span class="ruby-identifier">parent_box</span>
+192: 
+193:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">created_box</span>
+194:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="init-column-box-method" class="method-detail ">
+				<a name="method-i-init_column_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">init_column_box</span><span
+						class="method-args">(user_block, options={}, &init_block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="init-column-box-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 33</span>
+33:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">init_column_box</span>(<span class="ruby-identifier">user_block</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">init_block</span>)
+34:       <span class="ruby-identifier">parent_box</span> = <span class="ruby-ivar">@bounding_box</span>
+35: 
+36:       <span class="ruby-identifier">init_block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">parent_box</span>)
+37: 
+38:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> = <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">absolute_top</span>
+39:       <span class="ruby-identifier">user_block</span>.<span class="ruby-identifier">call</span>
+40:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> = <span class="ruby-ivar">@bounding_box</span>.<span class="ruby-identifier">absolute_bottom</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:hold_position</span>]
+41: 
+42:       <span class="ruby-ivar">@bounding_box</span> = <span class="ruby-identifier">parent_box</span>
+43:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

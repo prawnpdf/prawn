@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Document</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/prawn/layout/grid_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/layout/grid.rb">lib/prawn/layout/grid.rb</a></li>
+					
+						<li><a href="../lib/prawn/layout/page_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/layout/page.rb">lib/prawn/layout/page.rb</a></li>
+					
+						<li><a href="../lib/prawn/table/cell_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table/cell.rb">lib/prawn/table/cell.rb</a></li>
+					
+						<li><a href="../lib/prawn/table_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table.rb">lib/prawn/table.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">CLASS</span> <a href="Document/Box.html">Prawn::Document::Box</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Document/Grid.html">Prawn::Document::Grid</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Document/LazyBoundingBox.html">Prawn::Document::LazyBoundingBox</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Document/MultiBox.html">Prawn::Document::MultiBox</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-cell">#cell</a></li>
+					
+					<li><a href="#method-i-define_grid">#define_grid</a></li>
+					
+					<li><a href="#method-i-grid">#grid</a></li>
+					
+					<li><a href="#method-i-lazy_bounding_box">#lazy_bounding_box</a></li>
+					
+					<li><a href="#method-i-multi_box">#multi_box</a></li>
+					
+					<li><a href="#method-i-padded_box">#padded_box</a></li>
+					
+					<li><a href="#method-i-single_box">#single_box</a></li>
+					
+					<li><a href="#method-i-table">#table</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Prawn.html">Prawn</a></li>
+				
+					<li><a href="../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../Prawn/Document/Box.html">Prawn::Document::Box</a></li>
+				
+					<li><a href="../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../Prawn/Document/LazyBoundingBox.html">Prawn::Document::LazyBoundingBox</a></li>
+				
+					<li><a href="../Prawn/Document/MultiBox.html">Prawn::Document::MultiBox</a></li>
+				
+					<li><a href="../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Document</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="cell-method" class="method-detail ">
+				<a name="method-i-cell"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">cell</span><span
+						class="method-args">(point, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Builds and renders a <a href="Table/Cell.html">Table::Cell</a>.  A cell is
+essentially a special-purpose bounding box designed for flowing text within
+a bordered area.  For available options, see Table::Cell#new.
+</p>
+<pre>
+   Prawn::Document.generate(&quot;cell.pdf&quot;) do
+      cell [100,500], 
+        :width =&gt; 200,
+        :text  =&gt; &quot;The rain in Spain falls mainly on the plains&quot;
+   end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="cell-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 21</span>
+21:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cell</span>(<span class="ruby-identifier">point</span>, <span class="ruby-identifier">options</span>={})
+22:       <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Table</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(
+23:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:document</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>, <span class="ruby-value">:point</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">point</span>)).<span class="ruby-identifier">draw</span>
+24:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="define-grid-method" class="method-detail ">
+				<a name="method-i-define_grid"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">define_grid</span><span
+						class="method-args">(options = {})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Defines the grid system for a particular document.  Takes the number of 
+rows and columns and the width to use for the gutter as the  keys :rows,
+:columns, :gutter, :row_gutter, :column_gutter
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="define-grid-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 8</span>
+ 8:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">define_grid</span>(<span class="ruby-identifier">options</span> = {})
+ 9:       <span class="ruby-ivar">@grid</span> = <span class="ruby-constant">Grid</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">options</span>)
+10:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="grid-method" class="method-detail ">
+				<a name="method-i-grid"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">grid</span><span
+						class="method-args">(*args)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A method that can either be used to access a particular grid on the page 
+or work with the grid system directly.
+</p>
+<pre>
+  @pdf.grid                 # Get the Grid directly
+  @pdf.grid([0,1])          # Get the box at [0,1]
+  @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="grid-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 19</span>
+19:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">grid</span>(*<span class="ruby-identifier">args</span>)
+20:       <span class="ruby-ivar">@boxes</span> <span class="ruby-operator">||=</span> {}
+21:       <span class="ruby-ivar">@boxes</span>[<span class="ruby-identifier">args</span>] <span class="ruby-operator">||=</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span>
+22:         <span class="ruby-ivar">@grid</span>
+23:       <span class="ruby-keyword kw">else</span>
+24:         <span class="ruby-identifier">g1</span>, <span class="ruby-identifier">g2</span> = <span class="ruby-identifier">args</span>
+25:         <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">g1</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Array</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">g2</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Array</span> <span class="ruby-operator">&amp;&amp;</span> 
+26:           <span class="ruby-identifier">g1</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">g2</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span>)
+27:           <span class="ruby-identifier">multi_box</span>(<span class="ruby-identifier">single_box</span>(*<span class="ruby-identifier">g1</span>), <span class="ruby-identifier">single_box</span>(*<span class="ruby-identifier">g2</span>))
+28:         <span class="ruby-keyword kw">else</span>
+29:           <span class="ruby-identifier">single_box</span>(<span class="ruby-identifier">g1</span>, <span class="ruby-identifier">g2</span>)
+30:         <span class="ruby-keyword kw">end</span>
+31:       <span class="ruby-keyword kw">end</span>
+32:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="lazy-bounding-box-method" class="method-detail ">
+				<a name="method-i-lazy_bounding_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">lazy_bounding_box</span><span
+						class="method-args">(*args,&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A <a href="Document/LazyBoundingBox.html">LazyBoundingBox</a> is simply a
+BoundingBox with an action tied to it to be  executed later.  The <a
+href="Document.html#method-i-lazy_bounding_box">lazy_bounding_box</a>
+method takes the same arguments as bounding_box, but returns a <a
+href="Document/LazyBoundingBox.html">LazyBoundingBox</a> object instead of
+executing the code block directly.
+</p>
+<p>
+You can then call <a
+href="Document/LazyBoundingBox.html#method-i-draw">LazyBoundingBox#draw</a>
+at any time (or multiple times if  you wish), and the contents of the block
+will then be run. This can be useful for assembling repeating page elements
+or reusable components.
+</p>
+<pre>
+ file = &quot;lazy_bounding_boxes.pdf&quot;
+ Prawn::Document.generate(file, :skip_page_creation =&gt; true) do                    
+   point = [bounds.right-50, bounds.bottom + 25]
+   page_counter = lazy_bounding_box(point, :width =&gt; 50) do   
+     text &quot;Page: #{page_count}&quot;
+   end 
+
+   10.times do         
+    start_new_page
+     text &quot;Some text&quot;  
+     page_counter.draw
+   end
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="lazy-bounding-box-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/page.rb, line 34</span>
+34:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lazy_bounding_box</span>(*<span class="ruby-identifier">args</span>,&amp;<span class="ruby-identifier">block</span>)
+35:       <span class="ruby-identifier">map_to_absolute!</span>(<span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>])  
+36:       <span class="ruby-identifier">box</span> = <span class="ruby-constant">LazyBoundingBox</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>,*<span class="ruby-identifier">args</span>)
+37:       <span class="ruby-identifier">box</span>.<span class="ruby-identifier">action</span>(&amp;<span class="ruby-identifier">block</span>)
+38:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">box</span> 
+39:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padded-box-method" class="method-detail ">
+				<a name="method-i-padded_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padded_box</span><span
+						class="method-args">(margin, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+A bounding box with the same dimensions of its parents, minus a margin on
+all sides
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="padded-box-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/layout/page.rb, line 44</span>
+44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padded_box</span>(<span class="ruby-identifier">margin</span>, &amp;<span class="ruby-identifier">block</span>)
+45:       <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">margin</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">margin</span>],
+46:         <span class="ruby-value">:width</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">margin</span> * <span class="ruby-value">2</span>), 
+47:         <span class="ruby-value">:height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">margin</span> * <span class="ruby-value">2</span>), &amp;<span class="ruby-identifier">block</span> 
+48:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="table-method" class="method-detail ">
+				<a name="method-i-table"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">table</span><span
+						class="method-args">(data, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Builds and renders a <a href="Table.html">Document::Table</a> object from
+raw data. For details on the options that can be passed, see
+Document::Table.new
+</p>
+<pre>
+  data = [[&quot;Gregory&quot;,&quot;Brown&quot;],[&quot;James&quot;,&quot;Healy&quot;],[&quot;Jia&quot;,&quot;Wu&quot;]]
+
+  Prawn::Document.generate(&quot;table.pdf&quot;) do
+    
+    # Default table, without headers
+    table(data)
+
+    # Default table with headers
+    table data, :headers =&gt; [&quot;First Name&quot;, &quot;Last Name&quot;]
+
+    # Very close to PDF::Writer's default SimpleTable output
+    table data, :headers            =&gt; [&quot;First Name&quot;, &quot;Last Name&quot;],
+                :font_size          =&gt; 10,
+                :vertical_padding   =&gt; 2,
+                :horizontal_padding =&gt; 5,
+                :position           =&gt; :center,
+                :row_colors         =&gt; :pdf_writer,
+
+    # Grid border style with explicit column widths.
+    table data, :border_style =&gt; :grid,
+                :column_widths       =&gt; { 0 =&gt; 100, 1 =&gt; 150 }
+
+  end
+
+  Will raise &lt;tt&gt;Prawn::Errors::EmptyTable&lt;/tt&gt; given 
+  a nil or empty &lt;tt&gt;data&lt;/tt&gt; paramater.</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="table-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table.rb, line 45</span>
+45:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">table</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">options</span>={})           
+46:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">empty?</span>
+47:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">EmptyTable</span>,
+48:           <span class="ruby-value str">&quot;data must be a non-empty, non-nil, two dimensional array &quot;</span> <span class="ruby-operator">+</span>
+49:           <span class="ruby-value str">&quot;of Prawn::Cells or strings&quot;</span>
+50:       <span class="ruby-keyword kw">end</span>
+51:       <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">data</span>,<span class="ruby-keyword kw">self</span>,<span class="ruby-identifier">options</span>).<span class="ruby-identifier">draw</span>
+52:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="multi-box-method" class="method-detail ">
+				<a name="method-i-multi_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">multi_box</span><span
+						class="method-args">(b1, b2)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="multi-box-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 256</span>
+256:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">multi_box</span>(<span class="ruby-identifier">b1</span>, <span class="ruby-identifier">b2</span>)
+257:       <span class="ruby-constant">MultiBox</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">b1</span>, <span class="ruby-identifier">b2</span>)
+258:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="single-box-method" class="method-detail ">
+				<a name="method-i-single_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">single_box</span><span
+						class="method-args">(i, j)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="single-box-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/layout/grid.rb, line 252</span>
+252:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">single_box</span>(<span class="ruby-identifier">i</span>, <span class="ruby-identifier">j</span>)
+253:       <span class="ruby-constant">Box</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">i</span>, <span class="ruby-identifier">j</span>)
+254:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+
