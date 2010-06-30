@@ -33,11 +33,11 @@
             %p
               require 'prawn'
               %br
-              pdf = Prawn::Document.new
+              Prawn::Document.generate('hello.pdf') do |pdf|
               %br
-              pdf.text("Prawn Rocks")
+                pdf.text("Hello Prawn!")
               %br
-              pdf.render_file('prawn.pdf')
+              end
         .column.last
           #image_placeholder
             %img.shadow{:src => "images/example_pdf.png"}
