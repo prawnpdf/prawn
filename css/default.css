@@ -100,7 +100,7 @@ a, a:visited{
 
 .code{
   margin-top: 20px;
-  padding: 0 20px;
+  padding: 10px 20px 0;
   font-size: 12px;
   font-family:'Monaco',monospace;
 
