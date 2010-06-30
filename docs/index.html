@@ -11,12 +11,11 @@
       <div id='header'>
         <h1>
           <img src='/images/prawn.png' />
-          Prawn
         </h1>
         <hr />
       </div>
       <div id='links'>
-        <a href='#' onclick="Effect.ScrollTo('about'); return false;">About</a>
+        <a href='http://prawn.majesticseacreature.com'>Home</a>
         <a href='http://prawn.majesticseacreature.com/docs'>Documentation</a>
         <a href='http://wiki.github.com/sandal/prawn/'>Wiki</a>
         <a href='http://groups.google.com/group/prawn-ruby'>Mailing List</a>
@@ -24,9 +23,104 @@
       </div>
       <div class='content'>
         <div class='column'>
-          Docs!
+          <p>
+            The recommended way to read Prawn's documentation is to view it locally on your own machine.
+            You can do this by cloning our git repositories, by unpacking your gems, or by running
+            a gem server.  Online documentation can be out of date, or may be written against
+            a version that you are not actually running on your machine.  Local documentation is much
+            less likely to lead you astray.
+          </p>
+          <h2>For Lazy People</h2>
+            We do have some documentation online, but it's really only meant to
+            be a convenience for those who don't understand how to get local documentation 
+            working properly.  Please don't complain if it is out of date.
+
+            <h3>Prawn 0.8.4</h3>
+            <p>
+              This is the most recent gem version of Prawn, but is actually
+              quite out of date.  Users should be trying our development
+              snapshots to prepare for Prawn 1.0.   However, since a lot of
+              folks likely have 0.8 code in production, we support it still.</p>
+
+              <p>Prawn 0.8 is split out into three packages 
+              <a href="http://prawn.majesticseacreature.com/docs/0.8.4/prawn-core">prawn-core</a>,
+              <a href="http://prawn,majesticseacreature.com/docs/0.8.4/prawn-layout">prawn-layout</a>, and 
+              <a href="http://prawn.majesticseacreature.com/docs/0.8.4/prawn-security">prawn-security</a></p>
+
+              <p>This is a confusing situation that has been resolved in our
+              development snapshots, but if in doubt, look in prawn-layout for
+              table stuff, and in prawn-core for almost everything else.<p>
+
+            <h3>Prawn 0.10.2</h3>
+
+            This is the latest development snapshot as of 2010.06.30.  Because we merged
+            prawn-core, prawn-layout, and prawn-security, all of your
+            documentation is finally in one place.  <a
+              href="http://prawn.majesticseacreature.com/docs/0.10.2">View the 0.10.2 API docs
+              here.</a>
+            
+
+          <h2>Recommended Approach</h2>
+          <p>
+            RubyGems includes with it a server for hosting gems, which also can host up
+            documentation.  To use it, just run:
+          </p>
+          <pre>gem server</pre>
+          <p>
+            Point your browser at http://localhost:8808 and you'll find an index of all installed
+            gems, including Prawn.   If this doesn't work or you prefer not to run a gem server,
+            follow the manual instructions below.
+          </p>
+          <h2>Manually building docs for Prawn 0.8.4:</h2>
+          <p>
+            To get the source, you can clone the
+            <a
+              href='http://github.com/sandal/prawn/tree/0.8.4'>sandal/prawn</a>, 
+            <a href='http://github.com/sandal/prawn-layout/tree/0.8.4'>sandal/prawn-layout</a>
+            and
+            <a href='http://github.com/madriska/prawn-security/tree/0.8.3'>madriska/prawn-security</a>
+            repositories from Github, or you can unpack your gems like this:
+          </p>
+          <pre>
+gem unpack prawn-core
+gem unpack prawn-layout
+gem unpack prawn-security
+         </pre>
+          <p>
+            Once you have the source, you can run the following command in each
+            project directory to generate your documentation:</p>
+            
+          <pre>
+rdoc lib/
+          </pre>
+          <p>
+            For all the gory details on how RDoc works, <a
+            href="http://rdoc.rubyforge.org/RDoc.html">check out this page.</a>
+          </p>
+          <h2>Manually building docs for Prawn 0.9+:</h2>
+
+          <p>The development snapshots of Prawn (currently 0.10.2 at the time of
+          writing, are distributed via git-only.  The good news is that
+          prawn-core, prawn-layout, and prawn-security have all been merged
+          into a single repository.  The bad news is that we don't necessarily
+          guarantee the documentation will be up to date or complete between now
+          and 1.0.</p>
+
+          <p>However, you are still encouraged to manually build docs as needed,
+          and the approach used for 0.8.4 will work for later versions of Prawn
+          as well.  Should you build your own gem, you only need to unpack the
+          <tt>prawn</tt> gem to get at the source for the whole library.
+          Otherwise, checkout whichever tag matches the version of Prawn you're
+          using and follow the 0.8.4 instructions.</p>
         </div>
-        - Fast, Nimble PDF Generation for Ruby -
+        <h2>Having Problems?</h2>
+
+        <p>If you are having trouble getting the docs to build, think you've
+        spotted an error in our documentation, or want to contribute
+        documentation patches, please contact us on the Prawn mailing list.
+        Improving documentation is a top-priority for us on our path to
+        1.0, and as you can see, it's an area where we could really use
+        some help.</p>
       </div>
     </div>
   </body>

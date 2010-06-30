@@ -13,7 +13,6 @@
       #header
         %h1
           %img{:src => "/images/prawn.png"}
-          Prawn
         %hr
 
 
@@ -26,5 +25,41 @@
       
       .content
         .column 
-          Docs!
+          %p
+            The recommended way to read Prawn's documentation is to view it locally on your own machine.
+            You can do this by cloning our git repositories, by unpacking your gems, or by running
+            a gem server.  Online documentation can be out of date, or may be written against 
+            a version that you are not actually running on your machine.  Local documentation is much
+            less likely to lead you astray.
+
+
+          %h2 Recommended Approach
+
+          %p 
+            RubyGems includes with it a server for hosting gems, which also can host up
+            documentation.  To use it, just run:
+
+          %pre
+            gem server
+
+          %p 
+            Point your browser at http://localhost:8808 and you'll find an index of all installed
+            gems, including Prawn.   If this doesn't work or you prefer not to run a gem server,
+            follow the manual instructions below.
+
+          %h2 Manual building for Prawn 0.8.4:
+
+          %p 
+            To get the source, you can clone the 
+            %a{:href => "http://github.com/sandal/prawn/tree/0.8.4"} sandal/prawn, 
+            %a{:href => "http://github.com/sandal/prawn-layout/tree/0.8.4"} sandal/prawn-layout
+            and 
+            %a{:href => "http://github.com/madriska/prawn-security/tree/0.8.3"} madriska/prawn-security
+            repositories from Github, or you can unpack your gems like this:
+         
+          %pre
+            gem unpack prawn-core
+            gem unpack prawn-layout
+            gem unpack prawn-security
+
         = "- Fast, Nimble PDF Generation for Ruby -"
