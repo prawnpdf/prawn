@@ -31,11 +31,12 @@
             <p>
               require 'prawn'
               <br />
-              pdf = Prawn::Document.new
+              Prawn::Document.generate('hello.pdf') do |pdf|
+              <br>
+                pdf.text("Hello Prawn!")
+              </br>
               <br />
-              pdf.text("Prawn Rocks")
-              <br />
-              pdf.render_file('prawn.pdf')
+              end
             </p>
           </div>
         </div>
