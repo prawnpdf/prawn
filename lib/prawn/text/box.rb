@@ -280,25 +280,18 @@ module Prawn
         when :right
           x = @at[0] + @width - line_width
         end
-        
+
         y = @at[1] + @baseline_y
-        
+
         if @inked
-          if @align == :justify
-            @document.word_spacing(word_spacing) {
-              @document.character_spacing(@character_spacing) {
-                @document.draw_text!(line_to_print, :at => [x, y],
-                                     :kerning => @kerning)
-              }
-            }
-          else
+          @document.word_spacing(word_spacing) {
             @document.character_spacing(@character_spacing) {
               @document.draw_text!(line_to_print, :at => [x, y],
                                    :kerning => @kerning)
             }
-          end
+          }
         end
-        
+
         line_to_print
       end
 
