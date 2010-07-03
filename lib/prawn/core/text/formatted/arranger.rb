@@ -138,21 +138,27 @@ module Prawn
             if fragment.nil?
               font = current_format_state[:font]
               size = current_format_state[:size]
+              character_spacing = current_format_state[:character_spacing] ||
+                                  @document.character_spacing
               styles = current_format_state[:styles]
               font_style = font_style(styles)
             else
               font = fragment.font
               size = fragment.size
+              character_spacing = fragment.character_spacing
               styles = fragment.styles
               font_style = font_style(styles)
             end
-            if font || font_style != :normal
-              raise "Bad font family" unless @document.font.family
-              @document.font(font || @document.font.family, :style => font_style) do
+
+            @document.character_spacing(character_spacing) do
+              if font || font_style != :normal
+                raise "Bad font family" unless @document.font.family
+                @document.font(font || @document.font.family, :style => font_style) do
+                  apply_font_size(size, styles, &block)
+                end
+              else
                 apply_font_size(size, styles, &block)
               end
-            else
-              apply_font_size(size, styles, &block)
             end
           end
 

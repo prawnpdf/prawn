@@ -217,7 +217,7 @@ module Prawn
     # it and redefine the width calculation behavior.
     #++
     def width_of(string, options={})
-      font.compute_width_of(string, options)
+      font.compute_width_of(string, options) + character_spacing * string.length
     end
   end
 

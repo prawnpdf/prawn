@@ -262,7 +262,7 @@ module Prawn
     end
   
     def to_hash
-      hash = { :Title => Prawn::Core::LiteralString.new(title),
+      hash = { :Title => title,
                :Parent => parent,
                :Count => closed ? -count : count }
       [{:First => first}, {:Last => last}, {:Next => @next}, 

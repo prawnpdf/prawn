@@ -55,9 +55,7 @@ describe "when generating a document from a subclass" do
 
 end
 
-                               
 describe "When creating multi-page documents" do 
- 
   before(:each) { create_pdf }
   
   it "should initialize with a single page" do 
@@ -74,7 +72,6 @@ describe "When creating multi-page documents" do
     page_counter.pages.size.should == 4
     @pdf.page_count.should == 4
   end                 
-  
 end   
 
 describe "When beginning each new page" do
@@ -377,9 +374,14 @@ end
 
 describe "The :optimize_objects option" do
   before(:all) do
-    @wasteful_doc = lambda do
-      transaction { start_new_page; text "Hidden text"; rollback }
-      text "Hello world"
+    @wasteful_doc = lambda do |pdf|
+      pdf.transaction do 
+        pdf.start_new_page
+        pdf.text "Hidden text"
+        pdf.rollback 
+      end
+
+      pdf.text "Hello world"
     end
   end
 
