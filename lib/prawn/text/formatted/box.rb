@@ -136,16 +136,10 @@ module Prawn
           draw_fragment_underlays(fragment)
 
           if @inked
-            if @align == :justify
-              @document.word_spacing(word_spacing) {
-                @document.draw_text!(fragment.text, :at => [x, y],
-                                     :kerning => @kerning)
-              }
-            else
+            @document.word_spacing(word_spacing) {
               @document.draw_text!(fragment.text, :at => [x, y],
                                    :kerning => @kerning)
-            end
-
+            }
             draw_fragment_overlays(fragment)
           end
         end

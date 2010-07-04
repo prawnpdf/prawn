@@ -5,7 +5,7 @@ module Prawn
   module Core
     module Text
       module Formatted #:nodoc:
-        module Wrap
+        module Wrap #:nodoc:
 
           def initialize(array, options)
             super(array, options)

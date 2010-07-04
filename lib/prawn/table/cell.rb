@@ -200,12 +200,12 @@ module Prawn
       #
       def draw(pt=[x, y])
         draw_background(pt)
-        draw_borders(pt)
         @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
                           :width  => content_width + FPTolerance,
                           :height => content_height + FPTolerance) do
           draw_content
         end
+        draw_borders(pt)
       end
 
       # x-position of the cell within the parent bounds.

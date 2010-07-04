@@ -67,10 +67,12 @@ module Prawn
         private
 
         def word_spacing_for_this_line
-          if @align != :justify || @line_wrap.width.to_f / available_width.to_f < 0.75
-            0
-          else
+          if @align == :justify &&
+              @line_wrap.space_count > 0 &&
+              @line_wrap.width.to_f / available_width.to_f >= 0.75
             (available_width - @line_wrap.width) / @line_wrap.space_count
+          else
+            0
           end
         end
 
