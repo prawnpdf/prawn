@@ -20,6 +20,16 @@ module Prawn
       cell.draw
       cell
     end
+    
+    # Set up, but do not draw, a cell. Useful for creating cells with 
+    # formatting options to be inserted into a Table. Call +draw+ on the 
+    # resulting Cell to ink it.
+    #
+    # See the documentation on Prawn::Cell for details on the arguments.
+    #
+    def make_cell(content, options={})
+      Prawn::Table::Cell.make(self, content, options)
+    end
 
   end
 
