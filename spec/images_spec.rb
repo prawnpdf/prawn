@@ -63,6 +63,27 @@ describe "the image() function" do
     output.should =~ /\/BitsPerComponent 8/
   end
   
+  it "should flow an image to a new page if it will not fit on a page" do
+    @pdf.image @filename, :fit => [600, 600]
+    @pdf.image @filename, :fit => [600, 600]
+    output = StringIO.new(@pdf.render, 'r+')
+    hash = PDF::Hash.new(output)
+    pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
+    pages.size.should == 2 
+    hash[pages[0]][:Resources][:XObject].keys.should == [:I1]
+    hash[pages[1]][:Resources][:XObject].keys.should == [:I2]
+  end 
+  
+  it "should not flow an image to a new page if it will fit on one page" do
+    @pdf.image @filename, :fit => [400, 400]
+    @pdf.image @filename, :fit => [400, 400]
+    output = StringIO.new(@pdf.render, 'r+')
+    hash = PDF::Hash.new(output)
+    pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
+    pages.size.should == 1 
+    hash[pages[0]][:Resources][:XObject].keys.should == [:I1, :I2] 
+  end
+  
   describe ":fit option" do
     it "should fit inside the defined constraints" do
       info = @pdf.image @filename, :fit => [100,400]
