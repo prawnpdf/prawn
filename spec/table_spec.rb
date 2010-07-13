@@ -110,8 +110,8 @@ describe "Prawn::Table" do
       @table.row(0).column(1).map { |c| c.content }.should == ["R0C1"]
     end
 
-    it "should accept a select block, returning a cell proxy" do
-      @table.cells.select { |c| c.content =~ /R0/ }.column(1).map{ |c| 
+    it "should accept a filter block, returning a cell proxy" do
+      @table.cells.filter { |c| c.content =~ /R0/ }.column(1).map{ |c| 
         c.content }.should == ["R0C1"]
     end
 

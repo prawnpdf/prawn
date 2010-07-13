@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'prawn/table/accessors'
+require 'prawn/table/cells'
 require 'prawn/table/cell'
 require 'prawn/table/cell/in_table'
 require 'prawn/table/cell/text'

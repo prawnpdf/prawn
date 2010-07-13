@@ -1,32 +1,31 @@
 # encoding: utf-8
 
-# accessors.rb: Methods for accessing rows, columns, and cells of a
-# Prawn::Table.
+# cells.rb: Methods for accessing rows, columns, and cells of a Prawn::Table.
 #
 # Copyright December 2009, Brad Ediger. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
-  
   class Table
 
-    # Returns a CellProxy that can be used to select and style cells. See the
-    # CellProxy documentation for things you can do with cells.
+    # Returns a Cells object that can be used to select and style cells. See
+    # the Cells documentation for things you can do with cells.
     #
     def cells
-      @cell_proxy ||= CellProxy.new(@cells)
+      @cell_proxy ||= Cells.new(@cells)
     end
 
-    # Selects the given rows (0-based) for styling. Returns a CellProxy -- see
-    # the documentation on CellProxy for things you can do with cells.
+    # Selects the given rows (0-based) for styling. Returns a Cells object --
+    # see the documentation on Cells for things you can do with cells.
     #
     def rows(row_spec)
       cells.rows(row_spec)
     end
     alias_method :row, :rows
 
-    # Selects the given columns (0-based) for styling. Returns a CellProxy --
-    # see the documentation on CellProxy for things you can do with cells.
+    # Selects the given columns (0-based) for styling. Returns a Cells object
+    # -- see the documentation on Cells for things you can do with cells.
     #
     def columns(col_spec)
       cells.columns(col_spec)
@@ -44,18 +43,7 @@ module Prawn
     #
     #   table.rows(1..3).columns(2..4).background_color = 'ff0000'
     #
-    class CellProxy
-      def initialize(cells) #:nodoc:
-        @cells = cells
-      end
-
-      # Iterates over cells in turn.
-      #
-      def each(&b)
-        @cells.each(&b)
-      end
-
-      include Enumerable
+    class Cells < Array
 
       # Limits selection to the given row or rows. +row_spec+ can be anything
       # that responds to the === operator selecting a set of 0-based row
@@ -65,10 +53,11 @@ module Prawn
       #   table.rows(3..4) # selects rows four and five
       #
       def rows(row_spec)
-        CellProxy.new(@cells.select { |c| row_spec === c.row })
+        index_cells unless @indexed
+        Cells.new(@rows[row_spec] ||= select{ |c| row_spec === c.row })
       end
       alias_method :row, :rows
-
+      
       # Limits selection to the given column or columns. +col_spec+ can be
       # anything that responds to the === operator selecting a set of 0-based
       # column numbers; most commonly a number or a range.
@@ -76,27 +65,28 @@ module Prawn
       #   table.column(0)     # selects first column
       #   table.columns(3..4) # selects columns four and five
       #
-      def columns(col_spec)
-        CellProxy.new(@cells.select { |c| col_spec === c.column })
+      def columns(row_spec)
+        index_cells unless @indexed
+        Cells.new(@columns[row_spec] ||= select{ |c| row_spec === c.column })
       end
       alias_method :column, :columns
 
-      # Selects cells based on a block.
+      # Allows you to filter the given cells by arbitrary properties.
       #
-      #   table.column(4).select { |cell| cell.content =~ /Yes/ }.
-      #     background_color = 'ff0000'
+      #   table.column(4).filter { |cell| cell.content =~ /Yes/ }.
+      #     background_color = '00ff00'
       #
-      def select(&b)
-        CellProxy.new(@cells.select(&b))
+      def filter(&block)
+        Cells.new(select(&block))
       end
 
-      # Retrieves a cell based on its 0-based row and column. Returns a Cell,
-      # not a CellProxy.
+      # Retrieves a cell based on its 0-based row and column. Returns an
+      # individual Cell, not a Cells collection.
       # 
       #   table.cells[0, 0].content # => "First cell content"
       #
       def [](row, col)
-        @cells.find { |c| c.row == row && c.column == col }
+        find { |c| c.row == row && c.column == col }
       end
 
       # Supports setting multiple properties at once.
@@ -114,7 +104,7 @@ module Prawn
       #   table.cells.style { |cell| cell.border_width += 12 }
       #
       def style(options={}, &block)
-        @cells.each do |cell| 
+        each do |cell| 
           options.each { |k, v| cell.send("#{k}=", v) }
           block.call(cell) if block
         end
@@ -124,7 +114,7 @@ module Prawn
       #
       def width
         column_widths = {}
-        @cells.each do |cell| 
+        each do |cell| 
           column_widths[cell.column] = 
             [column_widths[cell.column], cell.width].compact.max
         end
@@ -135,7 +125,7 @@ module Prawn
       #
       def min_width
         column_min_widths = {}
-        @cells.each do |cell| 
+        each do |cell| 
           column_min_widths[cell.column] = 
             [column_min_widths[cell.column], cell.min_width].compact.max
         end
@@ -146,7 +136,7 @@ module Prawn
       #
       def max_width
         column_max_widths = {}
-        @cells.each do |cell| 
+        each do |cell| 
           column_max_widths[cell.column] = 
             [column_max_widths[cell.column], cell.max_width].compact.min
         end
@@ -157,7 +147,7 @@ module Prawn
       #
       def height
         row_heights = {}
-        @cells.each do |cell| 
+        each do |cell| 
           row_heights[cell.row] = 
             [row_heights[cell.row], cell.height].compact.max
         end
@@ -169,12 +159,31 @@ module Prawn
       #   table.cells.row(3..6).background_color = 'cc0000'
       #
       def method_missing(id, *args, &block)
-        @cells.each { |c| c.send(id, *args, &block) }
+        each { |c| c.send(id, *args, &block) }
+      end
+
+      protected
+      
+      # Defers indexing until rows() or columns() is actually called on the
+      # Cells object. Without this, we would needlessly index the leaf nodes of
+      # the object graph, the ones that are only there to be iterated over.
+      #
+      # Make sure to call this before using @rows or @columns.
+      # 
+      def index_cells
+        @rows = {}
+        @columns = {}
+
+        each do |cell|
+          @rows[cell.row] ||= []
+          @rows[cell.row] << cell
+
+          @columns[cell.column] ||= []
+          @columns[cell.column] << cell
+        end
+
+        @indexed = true
       end
     end
-
   end
-
 end
-
-
