@@ -481,13 +481,13 @@ module Prawn
 
       success = transaction { yield }
 
+      @bounding_box = old_bounding_box
+
       unless success
         raise Prawn::Errors::CannotGroup if second_attempt
         old_bounding_box.move_past_bottom
         group(second_attempt=true) { yield }
       end 
-
-      @bounding_box = old_bounding_box
     end
 
     # Specify a template for page numbering.  This should be called

@@ -64,6 +64,22 @@ describe "Prawn::Document#transaction" do
     pages.size.should == 1
   end
 
+  it "should not propagate a RollbackTransaction outside its bounds" do
+    def add_lines(pdf)
+      100.times { |i| pdf.text "Line #{i}" }
+    end
+
+    Prawn::Document.new do |pdf|
+      lambda do
+        begin
+          pdf.group { add_lines(pdf) }
+        rescue Prawn::Errors::CannotGroup
+          add_lines(pdf)
+        end
+      end.should.not.raise#(Prawn::Document::Snapshot::RollbackTransaction)
+    end
+  end
+
   # Because the Pages object, when restored, points to the snapshotted pages
   # by identifier, we have to restore the snapshot into the same page objects,
   # or else old pages will appear in the post-rollback document.
