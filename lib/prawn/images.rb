@@ -146,9 +146,22 @@ module Prawn
       when Numeric
         bounds.absolute_top - options[:vposition]
       else
-        self.y
+        determine_y_with_page_flow(h)
       end
       return [x,y]
+    end 
+    
+    def determine_y_with_page_flow(h)
+      if overruns_page?(h)
+        start_new_page
+        bounds.absolute_top 
+      else
+        self.y
+      end
+    end 
+    
+    def overruns_page?(h)
+      (self.y - h) < bounds.absolute_bottom 
     end
 
     def build_jpg_object(data, jpg) 
