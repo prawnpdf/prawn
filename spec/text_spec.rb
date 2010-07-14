@@ -43,6 +43,15 @@ end
 describe "#text" do
   before(:each) { create_pdf }
 
+  it "should not fail when @output is nil when Prawn::Core::Text::LineWrap#finalize_line is called" do
+    # need a document with margins for these particulars to produce the
+    # condition that was throwing the error
+    pdf = Prawn::Document.new
+    lambda {
+      pdf.text "transparency " * 150, :size => 18
+    }.should.not.raise(TypeError)
+  end
+
   it "should default to use kerning information" do
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)

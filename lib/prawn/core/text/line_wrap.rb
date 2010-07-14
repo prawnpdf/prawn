@@ -154,7 +154,9 @@ module Prawn
         def finalize_line
           @consumed_char_count = @output.length + @discarded_char_count
 
-          @output = @output[0..-2].gsub(soft_hyphen, "") + @output[-1..-1]
+          unless @output.empty?
+            @output = @output[0..-2].gsub(soft_hyphen, "") + @output[-1..-1]
+          end
 
           strip_trailing_whitespace
         end

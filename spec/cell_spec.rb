@@ -53,6 +53,17 @@ describe "Prawn::Table::Cell" do
                 :style => :bold)
     end
   end
+  
+  describe "Prawn::Document#make_cell" do
+    it "should not draw the cell" do
+      Prawn::Table::Cell::Text.any_instance.expects(:draw).never
+      @pdf.make_cell("text")
+    end
+    
+    it "should return a Cell" do
+      @pdf.make_cell("text", :size => 7).should.be.a.kind_of Prawn::Table::Cell
+    end
+  end
 
   describe "cell width" do
     include CellHelpers
