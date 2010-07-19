@@ -61,15 +61,15 @@ module Prawn
     #   text "Page 2. More in the first Chapter. "
     #   start_new_page
     #   outline.define do
-    #     section 'Chapter 1', :page => 1, :closed => true do 
-    #       page 1, :title => 'Page 1'
-    #       page 2, :title => 'Page 2'
+    #     section 'Chapter 1', :destination => 1, :closed => true do 
+    #       page :destination => 1, :title => 'Page 1'
+    #       page :destination => 2, :title => 'Page 2'
     #     end
     #   end 
     #   start_new_page do
     #   outline.update do 
-    #     section 'Chapter 2', :page 2, do
-    #       page 3, :title => 'Page 3'
+    #     section 'Chapter 2', :destination =>  2, do
+    #       page :destination => 3, :title => 'Page 3'
     #     end
     #   end
     # end 
@@ -102,7 +102,7 @@ module Prawn
     #   start_new_page
     #   text "Inserted Page"
     #   outline.add_subsection_to :title => 'Page 2', :first do 
-    #     outline.page page_number, :title => "Inserted Page"
+    #     outline.page :destination => page_number, :title => "Inserted Page"
     #   end
     # 
     def add_subsection_to(title, position = :last, &block)
@@ -131,7 +131,7 @@ module Prawn
     #   text "Inserted Page"
     #   update_outline do
     #     insert_section_after :title => 'Page 2' do 
-    #       page page_number, :title => "Inserted Page" 
+    #       page :destination => page_number, :title => "Inserted Page" 
     #     end
     #   end
     #
@@ -156,16 +156,16 @@ module Prawn
     # outline#add_subsection_to 
     # Takes the following arguments:
     #   title: the outline text that appears for the section.
-    #   options: page - optional integer defining the page number for a destination link.
+    #   options: destination - optional integer defining the page number for a destination link.
     #                 - currently only :FIT destination supported with link to top of page.
     #            closed - whether the section should show its nested outline elements.
     #                   - defaults to false. 
-    #   block: more nested subsections and/or page blocks 
+    #            block: more nested subsections and/or page blocks 
     #   
     # example usage:
     #
-    #   outline.section 'Added Section', :page => 3 do
-    #     outline.page 3, :title => 'Page 3'
+    #   outline.section 'Added Section', :destination => 3 do
+    #     outline.page :destionation => 3, :title => 'Page 3'
     #   end
     def section(title, options = {}, &block)
       add_outline_item(title, options, &block)
@@ -179,22 +179,23 @@ module Prawn
     # gives you the option to add pages to the root of outline tree at any point
     # during document generation. Note that the page will be added at the 
     # top level after the other root outline elements. For more flexible placement try
-    # using outline#insert_section_after and/or outline#add_subsection_to
+    # using outline#insert_section_after and/or outline#add_subsection_to.
     # 
     # Takes the following arguments:
-    #   page: integer defining the page number for the destination link.
-    #         currently only :FIT destination supported with link to top of page.
-    #         set to nil if destination link is not desired.
-    #   options: title - the outline text that appears for the section.
+    #     options:
+    #            title - REQUIRED. The outline text that appears for the page. 
+    #            destination - integer defining the page number for the destination link.
+    #              currently only :FIT destination supported with link to top of page.
     #            closed - whether the section should show its nested outline elements.
     #                   - defaults to false.
     # example usage:
     #
-    #   outline.page nil, :title => "Very Last Page" 
-    def page(page = nil, options = {})
+    #   outline.page :title => "Very Last Page" 
+    # Note: this method is almost identical to section except that it does not accept a block 
+    # thereby defining the outline item as a leaf on the outline tree structure. 
+    def page(options = {})
       if options[:title]
         title = options[:title] 
-        options[:page] = page
       else
         raise Prawn::Errors::RequiredOption, 
           "\nTitle is a required option for page"
@@ -223,8 +224,8 @@ module Prawn
     def create_outline_item(title, options)
       outline_item = OutlineItem.new(title, parent, options)
 
-      if options[:page]
-        page_index = options[:page] - 1
+      if options[:destination]
+        page_index = options[:destination] - 1
         outline_item.dest = [document.state.pages[page_index].dictionary, :Fit] 
       end
 
