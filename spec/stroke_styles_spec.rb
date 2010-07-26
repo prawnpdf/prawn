@@ -159,5 +159,35 @@ describe "Dashes" do
     dashes.stroke_dash_count.should == 2
     dashes.stroke_dash.should == [[2, 2], 0]
   end
+  
+  describe "#dashed?" do
+    
+    it "an initial document should not be dashed" do
+      @pdf.dashed?.should == false
+    end
+    
+    it "should return true if any of the currently active settings are dashed" do
+      @pdf.dash(2)
+      @pdf.save_graphics_state
+      @pdf.dashed?.should == true
+    end
+    
+    it "should return false if the document was most recently undashed" do
+      @pdf.dash(2)
+      @pdf.save_graphics_state
+      @pdf.undash
+      @pdf.save_graphics_state
+      @pdf.dashed?.should == false
+    end
+    
+    it "should return true when restoring to a state that was dashed" do
+      @pdf.dash(2)
+      @pdf.save_graphics_state
+      @pdf.undash
+      @pdf.restore_graphics_state
+      @pdf.dashed?.should == true
+    end
+    
+  end
 
 end

@@ -19,9 +19,9 @@ module Prawn
       # throughout the document
       #
       def join_style(style=nil)
-        return @join_style || :miter if style.nil?
+        return current_join_style || :miter if style.nil?
 
-        @join_style = style
+        self.current_join_style = style
 
         write_stroke_join_style
       end
@@ -29,9 +29,18 @@ module Prawn
       alias_method :join_style=, :join_style
 
       private
+      
+      def current_join_style  
+        graphic_state.join_style
+      end
+
+      def current_join_style=(style)  
+        graphic_state.join_style = style
+      end
+      
 
       def write_stroke_join_style
-        add_content "#{JOIN_STYLES[@join_style]} j"
+        add_content "#{JOIN_STYLES[current_join_style]} j"
       end
     end
   end

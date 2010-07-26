@@ -82,5 +82,10 @@ module Prawn
     # This error is raised when Prawn fails to load a template file
     #
     TemplateError = Class.new(StandardError)
+    
+    # This error is raise when trying to restore a graphic state that 
+    #
+    EmptyGraphicStateStack = Class.new(StandardError)
+    
   end
 end   

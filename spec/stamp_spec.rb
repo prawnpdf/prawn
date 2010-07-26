@@ -105,4 +105,28 @@ describe "Document with a stamp" do
       end
     end
   end
+  
+  it "stamp stream should be wrapped in a graphic state" do
+    create_pdf
+    @pdf.create_stamp("MyStamp") do
+      @pdf.text "This should have a 'q' before it and a 'Q' after it"
+    end
+    @pdf.stamp("MyStamp")
+    stamps = PDF::Inspector::XObject.analyze(@pdf.render)
+    stamps.xobject_streams[:Stamp1].data.chomp.should =~ /q(.|\s)*Q\Z/
+  end
+  
+  it "should not add to the page graphic state stack " do
+  
+    create_pdf
+    @pdf.state.page.stack.stack.size.should == 1
+    
+    @pdf.create_stamp("MyStamp") do
+      @pdf.save_graphics_state
+      @pdf.text "This should have a 'q' before it and a 'Q' after it"
+    end
+    @pdf.state.page.stack.stack.size.should == 1
+    
+  end
+  
 end

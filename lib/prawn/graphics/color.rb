@@ -25,8 +25,8 @@ module Prawn
       #   pdf.fill_color 0, 99, 95, 0
       #
       def fill_color(*color)
-        return @fill_color if color.empty?
-        @fill_color = process_color(*color)
+        return current_fill_color if color.empty?
+        self.current_fill_color = process_color(*color)
         set_fill_color
       end
 
@@ -47,8 +47,8 @@ module Prawn
       #   pdf.stroke_color 0, 99, 95, 0
       #
       def stroke_color(*color)
-        return @stroke_color if color.empty?
-        @stroke_color = process_color(*color)
+        return current_stroke_color if color.empty?
+        self.current_stroke_color = process_color(*color)
         set_stroke_color
       end
 
@@ -145,8 +145,8 @@ module Prawn
 
       def set_color_space(type, color_space)
         # don't set the same color space again
-        return if @color_space[type] == color_space
-        @color_space[type] = color_space
+        return if current_color_space(type) == color_space
+        set_current_color_space(color_space, type)
 
         unless COLOR_SPACES.include?(color_space)
           raise ArgumentError, "unknown color space: '#{color_space}'"
@@ -180,25 +180,62 @@ module Prawn
         else
           set_color_space type, color_space(color)
           color = color_to_s(color)
-          add_content "#{color} #{operator}"
+          write_color(color, operator)
         end
       end
 
       def set_fill_color
-        set_color :fill, @fill_color
+        set_color :fill, current_fill_color
       end
 
       def set_stroke_color
-        set_color :stroke, @stroke_color
+        set_color :stroke, current_stroke_color
       end
 
       def update_colors
-        @color_space  = {}
-        @fill_color   ||= "000000"
-        @stroke_color ||= "000000"
         set_fill_color
         set_stroke_color
       end
+
+      private
+      
+      def current_color_space(type)
+        graphic_state.color_space[type]
+      end
+      
+      def set_current_color_space(color_space, type)
+        save_graphics_state if graphic_state.nil? 
+        graphic_state.color_space[type] = color_space
+      end
+      
+      def current_fill_color 
+        graphic_state.fill_color
+      end
+
+      def current_fill_color=(color)  
+        graphic_state.fill_color = color
+      end
+      
+      def current_stroke_color 
+        graphic_state.stroke_color
+      end
+
+      def current_stroke_color=(color)  
+        graphic_state.stroke_color = color
+      end
+      
+      def write_fill_color
+        write_color(current_fill_color, 'scn')
+      end
+      
+      def write_stroke_color
+        write_color(current_fill_color, 'SCN')
+      end
+      
+      def write_color(color, operator)
+        add_content "#{color} #{operator}"
+      end
+     
     end
   end
 end

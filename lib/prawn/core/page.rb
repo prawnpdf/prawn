@@ -6,10 +6,16 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
+
+require 'prawn/document/graphics_state'
+
 module Prawn
   module Core
     class Page #:nodoc:
-      attr_accessor :document, :content, :dictionary, :margins
+      
+      include Prawn::Core::Page::GraphicsState
+      
+      attr_accessor :document, :content, :dictionary, :margins, :stack
 
       def initialize(document, options={})
         @document = document
@@ -17,12 +23,12 @@ module Prawn
                                            :right   => 36,
                                            :top     => 36,
                                            :bottom  => 36  }
-
         if options[:object_id]
           init_from_object(options)
         else
           init_new_page(options)
         end
+        @stack = Prawn::GraphicStateStack.new(options[:graphic_state])
       end
 
       def layout
@@ -48,9 +54,10 @@ module Prawn
         @stamp_stream     = ""
         @stamp_dictionary = dictionary
 
-        document.send(:update_colors)
+        document.open_graphics_state
+        document.send(:freeze_stamp_graphics)
         yield if block_given?
-        document.send(:update_colors)
+        document.close_graphics_state
 
         @stamp_dictionary.data[:Length] = @stamp_stream.length + 1
         @stamp_dictionary << @stamp_stream
@@ -162,6 +169,7 @@ module Prawn
         @layout   = options[:layout]  || :portrait         
         
         @content    = document.ref(:Length      => 0)
+        content << "q" << "\n"
         @dictionary = document.ref(:Type        => :Page,
                                    :Parent      => document.state.store.pages,
                                    :MediaBox    => dimensions,
@@ -194,6 +202,7 @@ module Prawn
       end
 
     end
+    
   end
 end
 

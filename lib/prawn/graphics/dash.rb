@@ -28,10 +28,10 @@ module Prawn
       #
       #   dash units are in PDF points ( 1/72 in )
       #   
-      def dash(length=nil, options={})
-        return @dash || undash_hash if length.nil?
+      def dash(length=nil, options={})        
+        return current_dash_state || undash_hash if length.nil?
 
-        @dash = { :dash  => length, 
+        self.current_dash_state = { :dash  => length, 
                   :space => options[:space] || length, 
                   :phase => options[:phase] || 0 }
 
@@ -43,29 +43,40 @@ module Prawn
       # Stops dashing, restoring solid stroked lines and curves
       #
       def undash
-        @dash = undash_hash
+        self.current_dash_state = undashed_setting
         write_stroke_dash
       end
       
       # Returns when stroke is dashed, false otherwise
       #
       def dashed?
-        dash != undash_hash
+        current_dash_state != undashed_setting
+      end
+      
+      def write_stroke_dash
+        add_content dash_setting
       end
 
-      private
-
-      def undash_hash
+    private
+      
+      def undashed_setting
         { :dash => nil, :space => nil, :phase => 0 }
       end
-
-      def write_stroke_dash
-        if @dash[:dash].nil?
-          add_content "[] 0 d"
-          return
-        end
-        add_content "[#{@dash[:dash]} #{@dash[:space]}] #{@dash[:phase]} d"
-      end     
+      
+      private 
+        
+      def current_dash_state=(dash_options)  
+        graphic_state.dash = dash_options
+      end
+      
+      def current_dash_state
+        graphic_state.dash
+      end
+      
+      def dash_setting
+        graphic_state.dash_setting
+      end
+      
     end
   end
 end

@@ -325,8 +325,8 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-    colors.fill_color_count.should == 3
-    colors.stroke_color_count.should == 3
+    colors.fill_color_count.should == 2
+    colors.stroke_color_count.should == 2
   end
   it "should be able to set color using a cmyk array" do
     create_pdf
@@ -335,8 +335,8 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-    colors.fill_color_count.should == 3
-    colors.stroke_color_count.should == 3
+    colors.fill_color_count.should == 2
+    colors.stroke_color_count.should == 2
   end
 end
 

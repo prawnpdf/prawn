@@ -54,6 +54,7 @@ module Prawn
       #  pdf.add_content("S") # stroke                    
       #
       def add_content(str)
+        save_graphics_state if graphic_state.nil?
         state.page.content << str << "\n"
       end  
 
@@ -106,7 +107,7 @@ module Prawn
         (1..page_count).each do |i|
           go_to_page i
           repeaters.each { |r| r.run(i) }
-          restore_graphics_state
+          restore_graphics_state if graphic_stack.present?
           state.page.finalize
         end
       end

@@ -239,11 +239,14 @@ module Prawn
          last_page_layout  = last_page.layout
          last_page_margins = last_page.margins
        end
+       
+       page_options = {:size => options[:size] || last_page_size, 
+                       :layout  => options[:layout] || last_page_layout,
+                       :margins => last_page_margins}
+        
+       page_options.merge!(:graphic_state => last_page.graphic_state) if last_page
 
-       state.page = Prawn::Core::Page.new(self, 
-         :size    => options[:size]   || last_page_size, 
-         :layout  => options[:layout] || last_page_layout,
-         :margins => last_page_margins )
+       state.page = Prawn::Core::Page.new(self, page_options)
 
        apply_margin_options(options)
 
@@ -252,8 +255,6 @@ module Prawn
        unless options[:orphan]
          state.insert_page(state.page, @page_number)
          @page_number += 1
-
-         save_graphics_state
         
          canvas { image(@background, :at => bounds.top_left) } if @background 
          @y = @bounding_box.absolute_top
@@ -525,11 +526,12 @@ module Prawn
     private
 
     def use_graphic_settings
-      update_colors
-      line_width(line_width) unless line_width == 1
-      cap_style(cap_style) unless cap_style == :butt
-      join_style(join_style) unless join_style == :miter
-      dash(dash[:dash], dash) if dashed?
+      set_fill_color unless current_fill_color == "000000"
+      set_stroke_color unless current_stroke_color == "000000"
+      write_line_width unless line_width == 1
+      write_stroke_cap_style unless cap_style == :butt
+      write_stroke_join_style unless join_style == :miter      
+      write_stroke_dash if dashed?
     end
 
     def generate_margin_box

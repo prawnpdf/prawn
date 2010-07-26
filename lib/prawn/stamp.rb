@@ -121,6 +121,14 @@ module Prawn
                                           :stamp_dictionary      => dictionary }
       dictionary
     end
+    
+    def freeze_stamp_graphics
+      update_colors
+      write_line_width
+      write_stroke_cap_style
+      write_stroke_join_style     
+      write_stroke_dash
+    end
 
   end
 end
