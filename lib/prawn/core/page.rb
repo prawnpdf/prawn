@@ -130,7 +130,7 @@ module Prawn
       end
 
       def dimensions
-        return dictionary.data[:MediaBox] if imported_page?
+        return inherited_dictionary_value(:MediaBox) if imported_page?
 
         coords = Prawn::Document::PageGeometry::SIZES[size] || size
         [0,0] + case(layout)
@@ -171,6 +171,26 @@ module Prawn
 
         @stamp_stream      = nil
         @stamp_dictionary  = nil
+      end
+
+      # some entries in the Page dict can be inherited from parent Pages dicts.
+      #
+      # Starting with the current page dict, this method will walk up the
+      # inheritance chain return the first value that is found for key
+      #
+      #     inherited_dictionary_value(:MediaBox)
+      #     => [ 0, 0, 595, 842 ]
+      #
+      def inherited_dictionary_value(key, local_dict = nil)
+        local_dict ||= dictionary.data
+
+        if local_dict.has_key?(key)
+          local_dict[key]
+        elsif local_dict.has_key?(:Parent)
+          inherited_dictionary_value(key, local_dict[:Parent].data)
+        else
+          nil
+        end
       end
 
     end

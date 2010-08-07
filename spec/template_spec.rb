@@ -155,4 +155,12 @@ describe "Document built from a template" do
     fonts.size.should == 2
   end
 
+  it "should correctly import a template file that is missing a MediaBox entry" do
+    filename = "#{Prawn::BASEDIR}/data/pdfs/page_without_mediabox.pdf"
+
+    @pdf = Prawn::Document.new(:template => filename)
+    str = @pdf.render
+    str[0,4].should == "%PDF"
+  end
+
 end
