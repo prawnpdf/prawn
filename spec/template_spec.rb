@@ -1,7 +1,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Document built from a template" do
-
   it "should have the same page count as the source document" do
     filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
     @pdf = Prawn::Document.new(:template => filename)
@@ -139,7 +138,7 @@ describe "Document built from a template" do
     str[0,8].should == "%PDF-1.6"
   end
 
-  xit "should correctly add a TTF font to a template that has existing fonts" do
+  it "should correctly add a TTF font to a template that has existing fonts" do
     filename = "#{Prawn::BASEDIR}/data/pdfs/contains_ttf_font.pdf"
     @pdf = Prawn::Document.new(:template => filename)
     @pdf.font "#{Prawn::BASEDIR}/data/fonts/Chalkboard.ttf"

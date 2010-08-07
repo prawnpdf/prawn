@@ -254,7 +254,7 @@ module Prawn
 
       @family     = options[:family]
 
-      @identifier = :"F#{@document.font_registry.size + 1}"
+      @identifier = generate_unique_id
 
       @references = {}
     end
@@ -331,6 +331,33 @@ module Prawn
     end
 
     private
+
+    # generate a font identifier that hasn't been used on the curretn page yet
+    #
+    def generate_unique_id
+      offset, id = 0, nil
+
+      while id.nil? || page_contains_font_id?(id)
+        offset += 1
+        id = :"F#{@document.font_registry.size + offset}"
+      end
+
+      id
+    end
+
+    # Returns true if the provided font identifier already exists in the document.
+    # This is used when adding new fonts to a document to ensure we don't step
+    # on fonts imported from a template.
+    #
+    #   page_contains_font_id?("F1")
+    #   => true
+    #
+    def page_contains_font_id?(id)
+      id = id.to_s
+      @document.state.page.fonts.keys.select { |exist_id|
+        exist_id.to_s[0,id.size] == id
+      }.size > 0
+    end
 
     def size
       @document.font_size
