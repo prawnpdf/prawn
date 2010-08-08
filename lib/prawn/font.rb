@@ -354,9 +354,9 @@ module Prawn
     #
     def page_contains_font_id?(id)
       id = id.to_s
-      @document.state.page.fonts.keys.select { |exist_id|
+      @document.state.page.fonts.keys.any? { |exist_id|
         exist_id.to_s[0,id.size] == id
-      }.size > 0
+      }
     end
 
     def size
