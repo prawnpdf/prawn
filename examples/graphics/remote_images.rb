@@ -8,5 +8,5 @@ require "#{File.dirname(__FILE__)}/../example_helper.rb"
 require "open-uri"
 
 Prawn::Document.generate("remote_images.pdf") do 
-  image open("http://prawn.majesticseacreature.com/media/prawn_logo.png")
+  image open("http://prawn.majesticseacreature.com/images/prawn.png")
 end
