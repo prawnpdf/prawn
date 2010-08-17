@@ -1,5 +1,5 @@
 # Version numbering: http://wiki.github.com/sandal/prawn/development-roadmap
-PRAWN_VERSION = "0.10.0" 
+PRAWN_VERSION = "0.11.1.pre" 
 
 Gem::Specification.new do |spec|
   spec.name = "prawn"
@@ -7,8 +7,10 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
   spec.files =  Dir.glob("{examples,lib,spec,vendor,data}/**/**/*") +
-                      ["Rakefile"]
+                      ["Rakefile", "prawn.gemspec"]
   spec.require_path = "lib"
+  spec.required_ruby_version = '>= 1.8.7'
+  spec.required_rubygems_version = ">= 1.3.6"
 
   spec.test_files = Dir[ "test/*_test.rb" ]
   spec.has_rdoc = true
