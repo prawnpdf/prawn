@@ -1,0 +1,193 @@
+%PDF-1.2
+
+1 0 obj % page object - page 1
+<<
+ /Type /Page
+ /Parent 7 0 R       % back pointer
+ /Resources 3 0 R    % font to use
+ /Contents 2 0 R     % page image
+>>
+endobj
+
+2 0 obj % contents object
+<<
+ /Length 1335    % # of bytes between stream and endstream
+>>
+stream
+% draw three lines of text
+
+BT
+/F1 24 Tf            % setfont
+1 0 0 1 72 648 Tm    % moveto
+(Hello World) Tj     % show
+1 0 0 1 72 612 Tm
+<4D53835383568362834E3234837C834383938367> Tj % shift-jis string
+1 0 0 1 72 576 Tm
+0.5 g                % setgray
+<82BB82EA82F08A44904682C982B582BD82E082CC> Tj
+ET
+
+% draw filled, dark blue, shougi koma
+
+q                       % gsave
+12 0 0 12 72 360 cm     % concat - translate and scale
+0 0 0.5 rg              % setcolor for fill
+0 0 m                   % moveto
+12 0 l                  % lineto
+10 11 l
+6 12 l
+2 11 l
+f                       % close path and fill
+Q                       % grestore
+
+% draw stroked brown egg upright
+
+q
+.5 w                    % setlinewidth
+12 0 0 12 360 360 cm
+0.5 0 0 RG              % setcolor for stroking
+0 0 m
+8 0 4 12 0 12 c         % curveto
+-4 12 -8 0 0 0 c
+S                       % stroke
+Q
+
+% draw bitmap - dark green steps
+
+0 0.5 0 rg               % fill color
+144 0 0 144 72 144 cm    % scale 16x16 bits to two-inch square
+BI
+/W 16       % pixcel width
+/H 16       % height
+/BPC 1      % bits per component
+/F /AHx     % filter = ASCII Hex
+/IM true    % imagemask (0 - paint, 1 - transparent)
+ID
+0FFF
+0FFF
+0FFF
+0FFF
+00FF
+00FF
+00FF
+00FF
+000F
+000F
+000F
+000F
+0000
+0000
+0000
+0000>
+EI
+endstream
+endobj       % end of page stream
+
+3 0 obj % resource object
+<<
+ /ProcSet [ /PDF /Text ]    % operators to use
+ /Font << /F1 4 0 R >>      % name the font /F1
+>>
+endobj
+
+% Font definition taken from Acrobat 4 PDFWriter (some comments added)
+
+4 0 obj % base font
+<<
+ /Type /Font
+ /Subtype /Type0                        % Adobe composite font
+ /BaseFont /#82l#82r#83S#83V#83b#83N    % MS-Gothic
+ /DescendantFonts [ 5 0 R ]             % points to actual font
+ /Encoding /90ms-RKSJ-H                 % Shift-JIS encoding
+>>
+endobj
+
+5 0 obj % descendent font
+<<
+ /Type /Font
+ /Subtype /CIDFontType2                 % TrueType
+ /BaseFont /#82l#82r#83S#83V#83b#83N    % MS-Gothic
+ /WinCharSet 128
+ /FontDescriptor 6 0 R                  % points to metric info
+ /CIDSystemInfo
+ <<
+  /Registry(Adobe)
+  /Ordering(Japan1)
+  /Supplement 2
+ >>
+ /DW 1000
+ /W [
+  231 389 500
+  631 631 500
+ ]
+>>
+endobj
+
+6 0 obj % font metric information
+<<
+ /Type /FontDescriptor
+ /FontName /#82l#82r#83S#83V#83b#83N
+ /Flags 39
+ /FontBBox [ -150 -147 1100 853 ]
+ /MissingWidth 507
+ /StemV 92
+ /StemH 92
+ /ItalicAngle 0
+ /CapHeight 853
+ /XHeight 597
+ /Ascent 853
+ /Descent -147
+ /Leading 0
+ /MaxWidth 1000
+ /AvgWidth 507
+ /Style << /Panose <0805020B0609000000000000> >>
+>>
+endobj
+
+% End of font defintion from PDFWriter
+
+7 0 obj % pages object
+<<
+ /Type /Pages
+ /Kids [ 1 0 R ]               % list of pages (only one in this case)
+ /Count 1                      % # of pages - one
+ /MediaBox [ 0 0 595 842 ]     % A4 portrait
+>>
+endobj
+
+8 0 obj % catalog object
+<<
+ /Type /Catalog
+ /Pages 7 0 R      % points to pages object
+>>
+endobj
+
+9 0 obj % info object
+<<
+ /CreationDate (D:19991115)
+ /Title (Hand-written sample PDF)
+ /Author (ARAI Bunkichi, Yokohama Koubunsha)
+>>
+endobj
+
+xref
+0 10
+0000000000 65535 f
+0000000012 00000 n
+0000000184 00000 n
+0000001672 00000 n
+0000001888 00000 n
+0000002185 00000 n
+0000002569 00000 n
+0000002992 00000 n
+0000003218 00000 n
+0000003324 00000 n
+trailer
+<<
+ /Root 8 0 R    % points to catalog object
+ /Info 9 0 R    % info object
+ /Size 10       % # of entries in xref
+>>
+startxref
+3475
+%%EOF
