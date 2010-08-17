@@ -82,13 +82,5 @@ module Prawn
     # This error is raised when Prawn fails to load a template file
     #
     TemplateError = Class.new(StandardError)
-
-    # This error is raised when a table is rendered with invalid data
-    #
-    InvalidTableData = Class.new(StandardError)
-
-    # This error is raised when a table is rendered with empty data
-    #
-    EmptyTable = Class.new(StandardError)
   end
 end   
