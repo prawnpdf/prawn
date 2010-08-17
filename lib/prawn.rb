@@ -8,8 +8,6 @@ module Prawn #:nodoc:
 end
 
 require "prawn/core"
-require "prawn/chunkable"
-require "prawn/canvas"
 require "prawn/text"
 require "prawn/graphics"
 require "prawn/images"
@@ -25,3 +23,4 @@ require "prawn/repeater"
 require "prawn/outline"
 require "prawn/table"
 require "prawn/document_builder"
+
