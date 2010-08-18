@@ -54,6 +54,7 @@ module Prawn
       #
       def rows(row_spec)
         index_cells unless @indexed
+        row_spec = transform_spec(row_spec, @row_count)
         Cells.new(@rows[row_spec] ||= select{ |c| row_spec === c.row })
       end
       alias_method :row, :rows
@@ -65,9 +66,10 @@ module Prawn
       #   table.column(0)     # selects first column
       #   table.columns(3..4) # selects columns four and five
       #
-      def columns(row_spec)
+      def columns(col_spec)
         index_cells unless @indexed
-        Cells.new(@columns[row_spec] ||= select{ |c| row_spec === c.column })
+        col_spec = transform_spec(col_spec, @column_count)
+        Cells.new(@columns[col_spec] ||= select{ |c| col_spec === c.column })
       end
       alias_method :column, :columns
 
@@ -182,7 +184,25 @@ module Prawn
           @columns[cell.column] << cell
         end
 
+        @row_count    = @rows.size
+        @column_count = @columns.size
+
         @indexed = true
+      end
+
+      # Transforms +spec+, a column / row specification, into an object that
+      # can be compared against a row or column number using ===. Normalizes
+      # negative indices to be positive, given a total size of +total+.
+      #
+      def transform_spec(spec, total)
+        case spec
+        when Range
+          transform_spec(spec.begin, total)..transform_spec(spec.end, total)
+        when Integer
+          spec < 0 ? (total + spec) : spec
+        else
+          raise ArgumentError, "invalid row/column specification #{spec.inspect}"
+        end
       end
     end
   end

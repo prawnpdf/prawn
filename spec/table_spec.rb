@@ -99,10 +99,28 @@ describe "Prawn::Table" do
         Set.new(%w[R0C0 R0C1 R1C0 R1C1])
     end
 
+    it "should allow negative row selectors" do
+      Set.new(@table.row(-1).map { |c| c.content }).should ==
+        Set.new(%w[R1C0 R1C1])
+      Set.new(@table.rows(-2..-1).map { |c| c.content }).should ==
+        Set.new(%w[R0C0 R0C1 R1C0 R1C1])
+      Set.new(@table.rows(0..-1).map { |c| c.content }).should ==
+        Set.new(%w[R0C0 R0C1 R1C0 R1C1])
+    end
+
     it "should select columns by number or range" do
       Set.new(@table.column(0).map { |c| c.content }).should == 
         Set.new(%w[R0C0 R1C0])
       Set.new(@table.columns(0..1).map { |c| c.content }).should == 
+        Set.new(%w[R0C0 R0C1 R1C0 R1C1])
+    end
+
+    it "should allow negative column selectors" do
+      Set.new(@table.column(-1).map { |c| c.content }).should ==
+        Set.new(%w[R0C1 R1C1])
+      Set.new(@table.columns(-2..-1).map { |c| c.content }).should ==
+        Set.new(%w[R0C0 R0C1 R1C0 R1C1])
+      Set.new(@table.columns(0..-1).map { |c| c.content }).should ==
         Set.new(%w[R0C0 R0C1 R1C0 R1C1])
     end
 
