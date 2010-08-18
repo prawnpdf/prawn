@@ -200,8 +200,8 @@ module Prawn
           transform_spec(spec.begin, total)..transform_spec(spec.end, total)
         when Integer
           spec < 0 ? (total + spec) : spec
-        else
-          raise ArgumentError, "invalid row/column specification #{spec.inspect}"
+        else # pass through
+          spec
         end
       end
     end
