@@ -50,7 +50,7 @@ describe "Prawn::Table::Cell" do
                 :at => [10, 20],
                 :padding => [30, 40],
                 :size => 7, 
-                :style => :bold)
+                :font_style => :bold)
     end
   end
   
@@ -62,6 +62,19 @@ describe "Prawn::Table::Cell" do
     
     it "should return a Cell" do
       @pdf.make_cell("text", :size => 7).should.be.a.kind_of Prawn::Table::Cell
+    end
+  end
+
+  describe "#style" do
+    include CellHelpers
+
+    it "should set each property in turn" do
+      c = cell(:content => "text")
+
+      c.expects(:padding=).with(50)
+      c.expects(:size=).with(7)
+
+      c.style(:padding => 50, :size => 7)
     end
   end
 
@@ -307,6 +320,18 @@ describe "Prawn::Table::Cell" do
       c.draw
     end
 
+    it "should use font_style for Text::Box#style" do
+      c = cell(:content => "text", :font_style => :bold)
+
+      box = Prawn::Text::Box.new("text", :document => @pdf)
+
+      Prawn::Text::Box.expects(:new).with do |text, options|
+        text == "text" && options[:style] == :bold
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
     it "should allow inline formatting in cells" do
       c = cell(:content => "foo <b>bar</b> baz", :inline_format => true)
 
@@ -326,9 +351,9 @@ describe "Prawn::Table::Cell" do
   describe "Font handling" do
     include CellHelpers
 
-    it "should allow only :style to be specified, defaulting to the" +
+    it "should allow only :font_style to be specified, defaulting to the " +
        "document's font" do
-      c = cell(:content => "text", :style => :bold)
+      c = cell(:content => "text", :font_style => :bold)
       c.font.name.should == 'Helvetica-Bold'
     end
 
@@ -339,7 +364,7 @@ describe "Prawn::Table::Cell" do
 
     it "should allow style to be changed after initialize" do
       c = cell(:content => "text")
-      c.style = :bold
+      c.font_style = :bold
       c.font.name.should == 'Helvetica-Bold'
     end
 
@@ -350,7 +375,7 @@ describe "Prawn::Table::Cell" do
 
     it "should use the metrics of the selected font (even if it is a variant " +
        "of the document's font) to calculate width" do
-      c = cell(:content => "text", :style => :bold)
+      c = cell(:content => "text", :font_style => :bold)
       font = @pdf.find_font('Helvetica-Bold')
       c.content_width.should == font.compute_width_of("text")
     end

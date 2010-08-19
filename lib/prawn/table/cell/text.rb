@@ -14,9 +14,9 @@ module Prawn
       #
       class Text < Cell
 
-        TextOptions = [:inline_format, :kerning, :size, :style,
-          :align, :valign, :rotate, :rotate_around, :leading, :single_line,
-          :skip_encoding, :overflow, :min_font_size]
+        TextOptions = [:inline_format, :kerning, :size, :align, :valign,
+          :rotate, :rotate_around, :leading, :single_line, :skip_encoding,
+          :overflow, :min_font_size]
 
         TextOptions.each do |option|
           define_method("#{option}=") { |v| @text_options[option] = v }
@@ -40,6 +40,13 @@ module Prawn
         #
         def font
           with_font { @pdf.font }
+        end
+
+        # Sets the style of the font in use. Equivalent to the Text::Box
+        # +style+ option, but we already have a style method.
+        #
+        def font_style=(style)
+          @text_options[:style] = style
         end
 
         # Returns the width of this text with no wrapping. This will be far off

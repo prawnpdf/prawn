@@ -147,6 +147,23 @@ module Prawn
         @max_width = @pdf.bounds.width
       end
 
+      # Supports setting multiple properties at once.
+      #
+      #   cell.style(:padding => 0, :border_width => 2)
+      #
+      # is the same as:
+      #
+      #   cell.padding = 0
+      #   cell.border_width = 2
+      #
+      def style(options={}, &block)
+        options.each { |k, v| send("#{k}=", v) }
+
+        # The block form supports running a single block for multiple cells, as
+        # in Cells#style.
+        block.call(cell) if block
+      end
+
       # Returns the cell's width in points, inclusive of padding.
       #
       def width

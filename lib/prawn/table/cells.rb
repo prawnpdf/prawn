@@ -106,10 +106,7 @@ module Prawn
       #   table.cells.style { |cell| cell.border_width += 12 }
       #
       def style(options={}, &block)
-        each do |cell| 
-          options.each { |k, v| cell.send("#{k}=", v) }
-          block.call(cell) if block
-        end
+        each { |cell| cell.style(options, &block) }
       end
 
       # Returns the total width of all columns in the selected set.
