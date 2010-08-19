@@ -90,7 +90,7 @@ module Prawn
     # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
     # any text
     #
-    def text_box(string, options)
+    def text_box(string, options={})
       Text::Box.new(string, options.merge(:document => self)).render
     end
 
