@@ -47,7 +47,7 @@ module Prawn
     # <tt>:width</tt>::
     #     <tt>number</tt>. The width of the box [@document.bounds.right - @at[0]]
     # <tt>:height</tt>::
-    #     <tt>number</tt>. The height of the box [@at[1] - @document.bounds.bottom]
+    #     <tt>number</tt>. The height of the box [default_height()]
     # <tt>:align</tt>::
     #     <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
     #     <tt>:justify</tt> Alignment within the bounding box [:left]
@@ -183,8 +183,7 @@ module Prawn
                              [@document.bounds.left, @document.bounds.top]
         @width             = options[:width] ||
                              @document.bounds.right - @at[0]
-        @height            = options[:height] ||
-                             @at[1] - @document.bounds.bottom
+        @height            = options[:height] || default_height
         @align             = options[:align] || :left
         @vertical_align    = options[:valign] || :top
         @leading           = options[:leading] || @document.default_leading?
@@ -199,7 +198,7 @@ module Prawn
           # if set to expand, then we simply set the bottom
           # as the bottom of the document bounds, since that
           # is the maximum we should expand to
-          @height = @at[1] - @document.bounds.bottom
+          @height = default_height
           @overflow = :truncate
         end
         @min_font_size = options[:min_font_size] || 5
@@ -296,6 +295,19 @@ module Prawn
       end
 
       private
+
+      # Returns the default height to be used if none is provided or if the
+      # overflow option is set to :expand. If we are in a stretchy bounding
+      # box, assume we can stretch to the end of the page.
+      #
+      def default_height
+        if @document.bounds.stretchy?
+          @at[1] + @document.bounds.absolute_bottom -
+            @document.margin_box.absolute_bottom
+        else
+          @at[1] - @document.bounds.bottom
+        end
+      end
 
       def normalize_encoding
         @document.font.normalize_encoding(@original_string)

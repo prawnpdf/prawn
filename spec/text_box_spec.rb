@@ -307,10 +307,33 @@ describe "Text::Box default height" do
     create_pdf
     target_height = @pdf.y - @pdf.bounds.bottom
     @text = "Oh hai\n" * 60
-    @options = { :document => @pdf }
-    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box = Prawn::Text::Box.new(@text, :document => @pdf)
     text_box.render
     text_box.height.should.be.close(target_height, @pdf.font.height)
+  end
+
+  it "should use the margin-box bottom if in a stretchy bbox" do
+    create_pdf
+    @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
+      target_height = @pdf.y - @pdf.bounds.bottom
+      @text = "Oh hai\n" * 60
+      text_box = Prawn::Text::Box.new(@text, :document => @pdf)
+      text_box.render
+      text_box.height.should.be.close(target_height, @pdf.font.height)
+    end
+  end
+
+  it "should use the margin-box bottom if in a stretchy bbox and " +
+    "overflow is :expand, even with an explicit height"do
+    create_pdf
+    @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
+      target_height = @pdf.y - @pdf.bounds.bottom
+      @text = "Oh hai\n" * 60
+      text_box = Prawn::Text::Box.new(@text, :document => @pdf,
+        :height => 100, :overflow => :expand)
+      text_box.render
+      text_box.height.should.be.close(target_height, @pdf.font.height)
+    end
   end
 end
 
