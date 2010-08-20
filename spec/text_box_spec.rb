@@ -303,8 +303,9 @@ describe "Text::Box#render with :rotate option of 30)" do
 end
 
 describe "Text::Box default height" do
+  before(:each) { create_pdf }
+
   it "should be the height from the bottom bound to document.y" do
-    create_pdf
     target_height = @pdf.y - @pdf.bounds.bottom
     @text = "Oh hai\n" * 60
     text_box = Prawn::Text::Box.new(@text, :document => @pdf)
@@ -312,8 +313,7 @@ describe "Text::Box default height" do
     text_box.height.should.be.close(target_height, @pdf.font.height)
   end
 
-  it "should use the margin-box bottom if in a stretchy bbox" do
-    create_pdf
+  it "should use the margin-box bottom if only in a stretchy bbox" do
     @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
       target_height = @pdf.y - @pdf.bounds.bottom
       @text = "Oh hai\n" * 60
@@ -323,9 +323,8 @@ describe "Text::Box default height" do
     end
   end
 
-  it "should use the margin-box bottom if in a stretchy bbox and " +
+  it "should use the parent-box bottom if in a stretchy bbox and " +
     "overflow is :expand, even with an explicit height"do
-    create_pdf
     @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
       target_height = @pdf.y - @pdf.bounds.bottom
       @text = "Oh hai\n" * 60
@@ -335,6 +334,19 @@ describe "Text::Box default height" do
       text_box.height.should.be.close(target_height, @pdf.font.height)
     end
   end
+
+  it "should use the innermost non-stretchy bbox, not the margin box" do
+    @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width,
+                      :height => 200) do
+      @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
+        @text = "Oh hai\n" * 60
+        text_box = Prawn::Text::Box.new(@text, :document => @pdf)
+        text_box.render
+        text_box.height.should.be.close(200, @pdf.font.height)
+      end
+    end
+  end
+
 end
 
 describe "Text::Box default at" do

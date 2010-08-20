@@ -538,6 +538,7 @@ module Prawn
 
       @margin_box = BoundingBox.new(
         self,
+        nil,  # margin box has no parent
         [ page.margins[:left], page.dimensions[-1] - page.margins[:top] ] ,
         :width => page.dimensions[-2] - (page.margins[:left] + page.margins[:right]),
         :height => page.dimensions[-1] - (page.margins[:top] + page.margins[:bottom])

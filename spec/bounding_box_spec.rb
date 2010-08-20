@@ -9,8 +9,8 @@ describe "A bounding box" do
     @y      = 125
     @width  = 50
     @height = 75
-    @box = Prawn::Document::BoundingBox.new(nil, [@x,@y], :width  => @width,
-                                                          :height => @height )
+    @box = Prawn::Document::BoundingBox.new(nil, nil, [@x,@y],
+      :width  => @width, :height => @height )
   end
 
   it "should have an anchor at (x, y - height)" do
@@ -83,7 +83,7 @@ describe "A bounding box" do
 
   it "should require width to be set" do
     assert_raises(ArgumentError) do
-      Prawn::Document::BoundingBox.new(nil, [100,100])
+      Prawn::Document::BoundingBox.new(nil, nil, [100,100])
     end
   end
 

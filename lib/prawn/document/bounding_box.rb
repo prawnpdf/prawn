@@ -155,9 +155,9 @@ module Prawn
     # you remain within the printable area of your document.
     #
     def bounding_box(*args, &block)    
-      init_bounding_box(block) do |_|
+      init_bounding_box(block) do |parent_box|
         map_to_absolute!(args[0])     
-        @bounding_box = BoundingBox.new(self, *args)   
+        @bounding_box = BoundingBox.new(self, parent_box, *args)
       end
     end 
         
@@ -170,10 +170,11 @@ module Prawn
     #
     def canvas(&block)     
       init_bounding_box(block, :hold_position => true) do |_|
-        @bounding_box = BoundingBox.new(self, [0,page.dimensions[3]], 
-          :width => page.dimensions[2], 
-          :height => page.dimensions[3] 
-        ) 
+        # Canvas bbox acts like margin_box in that its parent bounds are unset.
+        @bounding_box = BoundingBox.new(self, nil, [0,page.dimensions[3]],
+          :width => page.dimensions[2],
+          :height => page.dimensions[3]
+        )
       end
     end  
         
@@ -200,18 +201,19 @@ module Prawn
     #
     class BoundingBox
       
-      def initialize(parent, point, options={}) #:nodoc:   
+      def initialize(document, parent, point, options={}) #:nodoc:
         unless options[:width]
           raise ArgumentError, "BoundingBox needs the :width option to be set"
         end
 
+        @document = document
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
 	      @stretched_height = nil
       end
 
-      attr_reader :parent
+      attr_reader :document, :parent
       
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box
@@ -391,7 +393,8 @@ module Prawn
       #
       def height  
         return @height if @height
-        @stretched_height = [(absolute_top - @parent.y), @stretched_height.to_f].max
+        @stretched_height = [(absolute_top - @document.y),
+                             @stretched_height.to_f].max
       end    
 
       # an alias for absolute_left
@@ -406,7 +409,7 @@ module Prawn
 
       # starts a new page
       def move_past_bottom
-         @parent.start_new_page
+        @document.start_new_page
       end
 
 

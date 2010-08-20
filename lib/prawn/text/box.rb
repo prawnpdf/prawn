@@ -298,15 +298,15 @@ module Prawn
 
       # Returns the default height to be used if none is provided or if the
       # overflow option is set to :expand. If we are in a stretchy bounding
-      # box, assume we can stretch to the end of the page.
+      # box, assume we can stretch to the bottom of the innermost non-stretchy
+      # box.
       #
       def default_height
-        if @document.bounds.stretchy?
-          @at[1] + @document.bounds.absolute_bottom -
-            @document.margin_box.absolute_bottom
-        else
-          @at[1] - @document.bounds.bottom
-        end
+        # Find the "frame", the innermost non-stretchy bbox.
+        frame = @document.bounds
+        frame = frame.parent while frame.stretchy? && frame.parent
+
+        @at[1] + @document.bounds.absolute_bottom - frame.absolute_bottom
       end
 
       def normalize_encoding
