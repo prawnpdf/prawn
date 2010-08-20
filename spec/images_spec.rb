@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require 'set'
 
 describe "the image() function" do
 
@@ -81,7 +82,8 @@ describe "the image() function" do
     hash = PDF::Hash.new(output)
     pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
     pages.size.should == 1 
-    hash[pages[0]][:Resources][:XObject].keys.should == [:I1, :I2] 
+    Set.new(hash[pages[0]][:Resources][:XObject].keys).should ==
+      Set.new([:I1, :I2])
   end
   
   describe ":fit option" do
