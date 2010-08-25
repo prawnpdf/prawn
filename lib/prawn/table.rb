@@ -230,12 +230,26 @@ module Prawn
       ref_bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
 
       last_y = @pdf.y
+
+      # Determine whether we're at the top of a page. If we're at the top, we
+      # couldn't gain any more room by breaking to the next page -- this means,
+      # in particular, that if the first row is taller than the margin box, we
+      # will only move to the next page if we're below the top.
+      # Add some floating-point tolerance to the calculation.
+      if @pdf.y > ref_bounds.height + ref_bounds.absolute_bottom - 0.001
+        started_new_page_at_row = 0
+      else
+        started_new_page_at_row = -1
+      end
+
       @cells.each do |cell|
-        if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom
+        if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom &&
+           cell.row > started_new_page_at_row
           # start a new page or column
           @pdf.bounds.move_past_bottom
           draw_header
           offset = @pdf.y - cell.y
+          started_new_page_at_row = cell.row
         end
  
         # Don't modify cell.x / cell.y here, as we want to reuse the original

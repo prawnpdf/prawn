@@ -421,6 +421,20 @@ describe "Prawn::Table" do
         end
       end.page_count.should == 2
     end
+
+    it "should not start a new page before finishing out a row" do
+      Prawn::Document.new do
+        table([[ (1..80).map{ |i| "Line #{i}" }.join("\n"), "Column 2" ]])
+      end.page_count.should == 1
+    end
+
+    it "should only start new page on long cells if it would gain us height" do
+      Prawn::Document.new do
+        text "Hello"
+        table([[ (1..80).map{ |i| "Line #{i}" }.join("\n"), "Column 2" ]])
+      end.page_count.should == 2
+    end
+
   end
 
   describe "#style" do
