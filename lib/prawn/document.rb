@@ -234,12 +234,13 @@ module Prawn
      #   pdf.start_new_page(:margin => 100)
      #
      def start_new_page(options = {})
+       
        if last_page = state.page
          last_page_size    = last_page.size
          last_page_layout  = last_page.layout
          last_page_margins = last_page.margins
        end
-
+       
        state.page = Prawn::Core::Page.new(self, 
          :size    => options[:size]   || last_page_size, 
          :layout  => options[:layout] || last_page_layout,
@@ -262,6 +263,12 @@ module Prawn
            state.on_page_create_action(self)
          end
        end
+       
+       if options[:template]
+         page_content = state.store.first_page_content_stream(options[:template])
+         add_content(page_content)
+       end
+
     end
 
     # Returns the number of pages in the document

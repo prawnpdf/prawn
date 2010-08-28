@@ -128,6 +128,16 @@ module Prawn
         flat_page_ids = get_page_objects(pages).flatten
         flat_page_ids[k]
       end
+      
+      def first_page_content_stream(filename)
+        hash = PDF::Hash.new(filename)
+        src_root = hash.trailer[:Root]
+        pages =  hash[src_root][:Pages]
+        first_page = hash[pages][:Kids].first
+        @loaded_objects = {}
+        page = load_object_graph(hash, first_page)
+        page.data[:Contents].stream
+      end
 
       private
 
@@ -155,6 +165,7 @@ module Prawn
         hash = PDF::Hash.new(filename)
         src_info = hash.trailer[:Info]
         src_root = hash.trailer[:Root]
+
         @min_version = hash.version.to_f
 
         if hash.trailer[:Encrypt]
