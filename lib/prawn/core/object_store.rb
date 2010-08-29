@@ -129,6 +129,36 @@ module Prawn
         flat_page_ids[k]
       end
 
+      # imports all objects required to render a page from another PDF. The
+      # objects are added to the current object store, but NOT linked
+      # anywhere.
+      #
+      # The object ID of the root Page object is returned, it's up to the
+      # calling code to link that into the document structure somewhere. If
+      # this isn't done the imported objects will just be removed when the
+      # store is compacted.
+      #
+      # Imports nothing and returns nil if the requested page number doesn't
+      # exist. page_num is 1 indexed, so 1 indicates the first page.
+      #
+      def import_page(filename, page_num)
+        unless File.file?(filename)
+          raise ArgumentError, "#{filename} does not exist"
+        end
+
+        hash = PDF::Hash.new(filename)
+        ref  = hash.page_references[page_num - 1]
+
+        ref.nil? ? nil : load_object_graph(hash, ref).identifier
+
+      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError
+        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
+        raise Prawn::Errors::TemplateError, msg
+      rescue PDF::Reader::UnsupportedFeatureError
+        msg = "Template file contains unsupported PDF features"
+        raise Prawn::Errors::TemplateError, msg
+      end
+
       private
 
       # returns a nested array of object IDs for all pages in this object store.
