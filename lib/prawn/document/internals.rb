@@ -98,8 +98,7 @@ module Prawn
           go_to_page i
           state.page.new_content_stream
           apply_margin_options(options)
-          use_graphic_settings
-          save_graphics_state
+          use_graphic_settings(options[:template])
         end
       end
 

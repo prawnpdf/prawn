@@ -142,11 +142,12 @@ module Prawn
       # exist. page_num is 1 indexed, so 1 indicates the first page.
       #
       def import_page(filename, page_num)
+        @loaded_objects = {}
         unless File.file?(filename)
           raise ArgumentError, "#{filename} does not exist"
         end
 
-        hash = PDF::Hash.new(filename)
+        hash = PDF::Reader::ObjectHash.new(filename)
         ref  = hash.page_references[page_num - 1]
 
         ref.nil? ? nil : load_object_graph(hash, ref).identifier

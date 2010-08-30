@@ -82,6 +82,7 @@ module Prawn
         end
         @content    = document.ref(:Length => 0)
         dictionary.data[:Contents] << document.state.store[@content]
+        document.save_graphics_state
       end
 
       def dictionary

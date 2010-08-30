@@ -15,30 +15,30 @@ require "prawn/document/snapshot"
 require "prawn/document/graphics_state"
 
 module Prawn
-  
+
   # The Prawn::Document class is how you start creating a PDF document.
-  # 
-  # There are three basic ways you can instantiate PDF Documents in Prawn, they 
+  #
+  # There are three basic ways you can instantiate PDF Documents in Prawn, they
   # are through assignment, implicit block or explicit block.  Below is an exmple
   # of each type, each example does exactly the same thing, makes a PDF document
   # with all the defaults and puts in the default font "Hello There" and then
   # saves it to the current directory as "example.pdf"
-  # 
+  #
   # For example, assignment can be like this:
-  # 
+  #
   #   pdf = Prawn::Document.new
   #   pdf.text "Hello There"
   #   pdf.render_file "example.pdf"
-  # 
+  #
   # Or you can do an implied block form:
-  #   
+  #
   #   Prawn::Document.generate "example.pdf" do
   #     text "Hello There"
   #   end
-  # 
+  #
   # Or if you need to access a variable outside the scope of the block, the
   # explicit block form:
-  # 
+  #
   #   words = "Hello There"
   #   Prawn::Document.generate "example.pdf" do |pdf|
   #     pdf.text words
@@ -46,7 +46,7 @@ module Prawn
   #
   # Usually, the block forms are used when you are simply creating a PDF document
   # that you want to immediately save or render out.
-  # 
+  #
   # See the new and generate methods for further details on the above.
   #
   class Document
@@ -68,11 +68,11 @@ module Prawn
     # Example:
     #
     #   module MyFancyModule
-    #    
+    #
     #     def party!
     #       text "It's a big party!"
     #     end
-    #   
+    #
     #   end
     #
     #   Prawn::Document.extensions << MyFancyModule
@@ -152,7 +152,7 @@ module Prawn
     #
     # Additionally, :page_size can be specified as a simple two value array giving
     # the width and height of the document you need in PDF Points.
-    # 
+    #
     # Usage:
     #
     #   # New document, US Letter paper, portrait orientation
@@ -167,9 +167,9 @@ module Prawn
     #   # New document, with background
     #   pdf = Prawn::Document.new(:background => "#{Prawn::BASEDIR}/data/images/pigs.jpg")
     #
-    def initialize(options={},&block)   
-       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin, 
-         :right_margin, :top_margin, :bottom_margin, :skip_page_creation, 
+    def initialize(options={},&block)
+       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
+         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
          :compress, :skip_encoding, :background, :info,
          :optimize_objects, :template], options
 
@@ -204,7 +204,7 @@ module Prawn
        end
 
        @bounding_box = @margin_box
-       
+
        if block
          block.arity < 1 ? instance_eval(&block) : block[self]
        end
@@ -233,14 +233,19 @@ module Prawn
      #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
      #   pdf.start_new_page(:margin => 100)
      #
+     # A template for a page can be specified by pointing to the path of and existing pdf.
+     # One can also specify which page of the template which defaults otherwise to 1.
+     #
+     #  pdf.start_new_page(:template => multipage_template.pdf, :template_page => 2)
+     #
      def start_new_page(options = {})
        if last_page = state.page
          last_page_size    = last_page.size
          last_page_layout  = last_page.layout
          last_page_margins = last_page.margins
        end
-       
-       page_options = {:size => options[:size] || last_page_size, 
+
+       page_options = {:size => options[:size] || last_page_size,
                        :layout  => options[:layout] || last_page_layout,
                        :margins => last_page_margins}
        if last_page
@@ -249,25 +254,27 @@ module Prawn
          new_graphic_state.color_space = {}
          page_options.merge!(:graphic_state => new_graphic_state)
        end
+       merge_template_options(page_options, options) if options[:template]
 
        state.page = Prawn::Core::Page.new(self, page_options)
 
        apply_margin_options(options)
+       state.page.new_content_stream if options[:template]
+       use_graphic_settings(options[:template])
 
-       use_graphic_settings
-      
        unless options[:orphan]
          state.insert_page(state.page, @page_number)
          @page_number += 1
-        
-         canvas { image(@background, :at => bounds.top_left) } if @background 
+
+         canvas { image(@background, :at => bounds.top_left) } if @background
          @y = @bounding_box.absolute_top
 
          float do
            state.on_page_create_action(self)
          end
        end
-    end
+
+     end
 
     # Returns the number of pages in the document
     #
@@ -279,9 +286,9 @@ module Prawn
     def page_count
       state.page_count
     end
-    
+
     # Re-opens the page with the given (1-based) page number so that you can
-    # draw on it. 
+    # draw on it.
     #
     # See Prawn::Document#number_pages for a sample usage of this capability.
     #
@@ -305,7 +312,7 @@ module Prawn
     end
 
     # Moves to the specified y position in relative terms to the bottom margin.
-    # 
+    #
     def move_cursor_to(new_y)
       self.y = new_y + bounds.absolute_bottom
     end
@@ -319,9 +326,9 @@ module Prawn
     #     pdf.text "C"
     #   end
     #
-    #   pdf.text "B" 
-    #   
-    def float 
+    #   pdf.text "B"
+    #
+    def float
       mask(:y) { yield }
     end
 
@@ -358,12 +365,12 @@ module Prawn
     # Another important point about bounding boxes is that all x and y measurements
     # within a bounding box code block are relative to the bottom left corner of the
     # bounding box.
-    # 
+    #
     # For example:
-    # 
+    #
     #  Prawn::Document.new do
     #    # In the default "margin box" of a Prawn document of 0.5in along each edge
-    #    
+    #
     #    # Draw a border around the page (the manual way)
     #    stroke do
     #      line(bounds.bottom_left, bounds.bottom_right)
@@ -371,17 +378,17 @@ module Prawn
     #      line(bounds.top_right, bounds.top_left)
     #      line(bounds.top_left, bounds.bottom_left)
     #    end
-    # 
+    #
     #    # Draw a border around the page (the easy way)
     #    stroke_bounds
     #  end
-    # 
+    #
     def bounds
       @bounding_box
     end
 
     # Sets Document#bounds to the BoundingBox provided.  See above for a brief
-    # description of what a bounding box is.  This function is useful if you 
+    # description of what a bounding box is.  This function is useful if you
     # really need to change the bounding box manually, but usually, just entering
     # and exiting bounding box code blocks is good enough.
     #
@@ -391,14 +398,14 @@ module Prawn
 
     # Moves up the document by n points relative to the current position inside
     # the current bounding box.
-    # 
+    #
     def move_up(n)
       self.y += n
     end
 
     # Moves down the document by n points relative to the current position inside
     # the current bounding box.
-    # 
+    #
     def move_down(n)
       self.y -= n
     end
@@ -443,8 +450,8 @@ module Prawn
       yield
       move_down(y)
     end
-    
-    
+
+
     # Indents the specified number of PDF points for the duration of the block
     #
     #  pdf.text "some text"
@@ -457,7 +464,7 @@ module Prawn
     def indent(x, &block)
       bounds.indent(x, &block)
     end
-    
+
 
     def mask(*fields) # :nodoc:
      # Stores the current state of the named attributes, executes the block, and
@@ -494,7 +501,7 @@ module Prawn
         raise Prawn::Errors::CannotGroup if second_attempt
         old_bounding_box.move_past_bottom
         group(second_attempt=true) { yield }
-      end 
+      end
 
       success
     end
@@ -512,7 +519,7 @@ module Prawn
     #     text "bai"
     #     start_new_page
     #     text "-- Hai again"
-    #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]  
+    #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]
     #   end
     #
     def number_pages(string, position)
@@ -529,16 +536,23 @@ module Prawn
     def compression_enabled?
       !!state.compress
     end
-    
+
     private
 
-    def use_graphic_settings
-      set_fill_color unless current_fill_color == "000000"
-      set_stroke_color unless current_stroke_color == "000000"
-      write_line_width unless line_width == 1
-      write_stroke_cap_style unless cap_style == :butt
-      write_stroke_join_style unless join_style == :miter      
-      write_stroke_dash if dashed?
+    def merge_template_options(page_options, options)
+      object_id = state.store.import_page(options[:template], options[:template_page] || 1)
+      page_options.merge!(:object_id => object_id )
+    end
+
+    # setting override_settings to true ensures that a new graphic state does not end up using
+    # previous settings especially from imported template streams
+    def use_graphic_settings(override_settings = false)
+      set_fill_color if current_fill_color != "000000" || override_settings
+      set_stroke_color if current_stroke_color != "000000" || override_settings
+      write_line_width if line_width != 1 || override_settings
+      write_stroke_cap_style if cap_style != :butt || override_settings
+      write_stroke_join_style if join_style != :miter || override_settings
+      write_stroke_dash if dashed? || override_settings
     end
 
     def generate_margin_box
@@ -559,7 +573,7 @@ module Prawn
       # when the bounding box exits.
       @bounding_box = @margin_box if old_margin_box == @bounding_box
     end
-    
+
     def apply_margin_options(options)
       if options[:margin]
         # Treat :margin as CSS shorthand with 1-4 values.
