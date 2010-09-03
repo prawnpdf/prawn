@@ -311,6 +311,16 @@ describe "Prawn::Table" do
         @table.column(0).width.should == @table.column(2).width
       end
 
+      it "should allow table cells to be resized in block" do
+        lambda do
+          @pdf.table([%w[1 2 3 4 5]]) do |t|
+            t.width = 40
+            t.cells.size = 8
+            t.cells.padding = 0
+          end
+        end.should.not.raise(Prawn::Errors::CannotFit)
+      end
+
       it "should be the width of the :width parameter" do
         expected_width = 300
         table = Prawn::Table.new( [%w[snake foo b apple], 
