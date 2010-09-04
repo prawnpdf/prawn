@@ -117,7 +117,7 @@ module Prawn
         add_content "\nBT"
 
         if options[:rotate]
-          rad = options[:rotate].to_i * Math::PI / 180
+          rad = options[:rotate].to_f * Math::PI / 180
           arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
           add_content "%.3f %.3f %.3f %.3f %.3f %.3f Tm" % arr
         else

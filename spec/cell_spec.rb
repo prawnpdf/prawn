@@ -132,6 +132,21 @@ describe "Prawn::Table::Cell" do
         (5 * @pdf.height_of("text"))
     end
 
+    it "should defer min_width's evaluation of padding" do
+      c = cell(:content => "text", :padding => 100)
+      c.padding = 0
+
+      # Make sure we use the new value of padding in calculating min_width
+      c.min_width.should.be < 100
+    end
+
+    it "should defer min_width's evaluation of size" do
+      c = cell(:content => "text", :size => 50)
+      c.size = 8
+      c.padding = 0
+      c.min_width.should.be < 10
+    end
+
   end
 
   describe "cell height" do

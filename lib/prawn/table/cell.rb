@@ -55,11 +55,17 @@ module Prawn
 
       # If provided, the minimum width that this cell will permit.
       # 
-      attr_reader :min_width
+      def min_width
+        set_width_constraints
+        @min_width
+      end
       
       # If provided, the maximum width that this cell can be drawn in.
       #
-      attr_reader :max_width
+      def max_width
+        set_width_constraints
+        @max_width
+      end
 
       # Manually specify the cell's height.
       #
@@ -141,10 +147,6 @@ module Prawn
         @border_color = '000000'
 
         options.each { |k, v| send("#{k}=", v) }
-
-        # Sensible defaults for min / max.
-        @min_width = padding_left + padding_right
-        @max_width = @pdf.bounds.width
       end
 
       # Supports setting multiple properties at once.
@@ -226,6 +228,7 @@ module Prawn
       # location at which the cell is drawn.
       #
       def draw(pt=[x, y])
+        set_width_constraints
         draw_background(pt)
         @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
                           :width  => content_width + FPTolerance,
@@ -285,6 +288,14 @@ module Prawn
       end
 
       protected
+
+      # Sets the cell's minimum and maximum width. Deferred until requested
+      # because padding and size can change.
+      #
+      def set_width_constraints
+        @min_width ||= padding_left + padding_right
+        @max_width ||= @pdf.bounds.width
+      end
 
       # Draws the cell's background color.
       #
