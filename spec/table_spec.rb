@@ -575,6 +575,14 @@ describe "Prawn::Table" do
       output.strings.should == headers + data.flatten[0..-3] + headers +
         data.flatten[-2..-1]
     end
+
+    it "should not draw header twice when starting new page" do
+      @pdf = Prawn::Document.new
+      @pdf.y = 0
+      @pdf.table([["Header"], ["Body"]], :header => true)
+      output = PDF::Inspector::Text.analyze(@pdf.render)   
+      output.strings.should == ["Header", "Body"]
+    end
   end
 
   describe "nested tables" do
