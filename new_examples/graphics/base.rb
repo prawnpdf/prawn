@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Demonstrates simple curve and circle usage
+# Demonstrates overall usage for the Graphics package
 #
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 

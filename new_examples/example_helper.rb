@@ -2,23 +2,53 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'
 require 'prawn'
 require 'prawn/security'
-require "prawn/layout"
+require 'prawn/layout'
 
 
 Prawn.debug = true
 
 module Snippet
   def snippet(&block)
-    @example_lines ||= {block.source_location.first => File.readlines(block.source_location.first)}
-    str_end = @example_lines[block.source_location.first][block.source_location.last-1]
-    str_end.sub!(/snippet.*/, 'end')
-    i = block.source_location.last
-    while((line = @example_lines[block.source_location.first][i]) != str_end) do
-      text line
-      i += 1
+    font('Courier') do
+      text snippet_source(block.to_s)
     end
     
     yield
+  end
+  
+  def snippet_source(block_data)
+    file_name, line_number = Helper.parse_block_data(block_data)
+    
+    @examples ||= {file_name => File.readlines(file_name)}
+    @examples[file_name] ||= File.readlines(file_name)
+    
+    snippet_end_line = @examples[file_name][line_number-1].sub(/snippet.*/, 'end')
+    extra_spaces = @examples[file_name][line_number][/\s+/].length
+    
+    i = line_number
+    output = ""
+    while (line = @examples[file_name][i]) != snippet_end_line do
+      output << Helper.use_non_breaking_spaces(Helper.remove_extra_spaces(line, extra_spaces))
+      i += 1
+    end
+    output
+  end
+  
+  module Helper
+    extend self
+    
+    def parse_block_data(block_data)
+      file_name, line_number = block_data.split('@').last.split(':')
+      [file_name, line_number.to_i]
+    end
+    
+    def remove_extra_spaces(string, quantity)
+      string.sub(' '*quantity, '')
+    end
+
+    def use_non_breaking_spaces(string)
+      string.gsub(' ', "\302\240")
+    end
   end
 end
 
