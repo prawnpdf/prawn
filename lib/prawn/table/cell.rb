@@ -163,7 +163,7 @@ module Prawn
 
         # The block form supports running a single block for multiple cells, as
         # in Cells#style.
-        block.call(cell) if block
+        block.call(self) if block
       end
 
       # Returns the cell's width in points, inclusive of padding.
