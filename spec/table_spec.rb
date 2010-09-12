@@ -155,6 +155,11 @@ describe "Prawn::Table" do
       @table.cells[1, 0].width.should == 100
     end
 
+    it "style method should accept a block, passing each cell to be styled" do
+      @table.cells.style { |c| c.height = 200 }
+      @table.cells[0, 1].height.should == 200
+    end
+
     it "should return the width of selected columns for #width" do
       c0_width = @table.column(0).map{ |c| c.width }.max
       c1_width = @table.column(1).map{ |c| c.width }.max
