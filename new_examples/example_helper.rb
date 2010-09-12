@@ -26,6 +26,25 @@ module Examples
     eval example_source
   end
   
+  module Singleton
+    
+    def generate_example_document(filename)
+      example_folder = File.dirname(filename)
+      
+      document_name = example_folder[/[^\/]+$/] << '.pdf'
+      
+      Prawn::Document.generate(document_name) do
+        
+        Dir.chdir(example_folder) do
+          Dir['*.rb'].reject{|file| file == filename[/[^\/]+$/]}.each do |example|
+            load_example(example)
+          end
+        end
+        
+      end
+    end
+  end
 end
 
 Prawn::Document.extensions << Examples
+Prawn::Document.extend Examples::Singleton

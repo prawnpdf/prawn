@@ -11,4 +11,3 @@ pentagram_points = [0, 2, 4, 1, 3].map{|i| pentagon_points[i]}
 stroke_rounded_polygon(20, *pentagram_points)
 fill_and_stroke_rounded_polygon(10, [100, 250], [200, 300], [300, 250],
                  [300, 150], [200, 100], [100, 150])
-
