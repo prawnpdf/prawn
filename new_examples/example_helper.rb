@@ -27,6 +27,10 @@ class Example < Prawn::Document
         examples = Dir['*.rb'].reject{|file| file == filename[/[^\/]+$/]}
         examples.each do |example|
           start_new_page
+          
+          text "#{example.capitalize}", :size => 20
+          move_down 10
+          
           load_example(example)
         end
       end
@@ -35,11 +39,14 @@ class Example < Prawn::Document
   end
   
   def load_example(filename)
-    example_source = File.read(filename)
+    data = File.read(filename)
+    example_source = extract_source(data)
     
-    bounding_box([bounds.left+10, cursor-10], :width => bounds.width-20) do
+    text extract_introduction_text(data)
+    
+    bounding_box([bounds.left, cursor-10], :width => bounds.width) do
       font('Courier', :size => 11) do
-        text example_source.gsub(' ', "\302\240")
+        text example_source.gsub(' ', Prawn::Text::NBSP)
       end
     end
     
@@ -55,6 +62,17 @@ class Example < Prawn::Document
       stroke_bounds
     end
   end
+
+private
+
+  # Returns anything within the Example.generate block
+  def extract_source(source)
+    source.slice(/Example\.generate.*? do(.*)end/m, 1) or source
+  end
   
+  # Returns the comments between the encoding declaration and the require
+  def extract_introduction_text(source)
+    source.slice(/# encoding.*?\n(.*)require File\.join/m, 1).gsub(/#\s?/, '')
+  end
   
 end
