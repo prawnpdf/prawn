@@ -12,13 +12,33 @@ require 'prawn/layout'
 
 Prawn.debug = true
 
-module Examples
+class Example < Prawn::Document
+  
+  def self.generate_example_document(filename)
+    examples_folder = File.dirname(filename)
+    
+    document_name = examples_folder[/[^\/]+$/]
+    document_file_name = "#{document_name}.pdf"
+    
+    generate(document_file_name) do
+      text "#{document_name.capitalize} Reference", :size => 30
+      
+      Dir.chdir(examples_folder) do
+        examples = Dir['*.rb'].reject{|file| file == filename[/[^\/]+$/]}
+        examples.each do |example|
+          start_new_page
+          load_example(example)
+        end
+      end
+      
+    end
+  end
   
   def load_example(filename)
     example_source = File.read(filename)
     
     bounding_box([bounds.left+10, cursor-10], :width => bounds.width-20) do
-      font('Courier') do
+      font('Courier', :size => 11) do
         text example_source.gsub(' ', "\302\240")
       end
     end
@@ -26,25 +46,15 @@ module Examples
     eval example_source
   end
   
-  module Singleton
-    
-    def generate_example_document(filename)
-      example_folder = File.dirname(filename)
-      
-      document_name = example_folder[/[^\/]+$/] << '.pdf'
-      
-      Prawn::Document.generate(document_name) do
-        
-        Dir.chdir(example_folder) do
-          Dir['*.rb'].reject{|file| file == filename[/[^\/]+$/]}.each do |example|
-            load_example(example)
-          end
-        end
-        
-      end
+  def drawing_box(options={})
+    options = { :width => bounds.width-20 }.merge(options)
+    top_left = [bounds.left+10, cursor-10]
+  
+    bounding_box(top_left, options) do
+      yield
+      stroke_bounds
     end
   end
+  
+  
 end
-
-Prawn::Document.extensions << Examples
-Prawn::Document.extend Examples::Singleton

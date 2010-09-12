@@ -1,5 +1,6 @@
-bounding_box([bounds.left+10, cursor-10], :width => bounds.width-20, :height => 200) do
+drawing_box(:height => 300) do
   fill_color "ff0000"
-  fill_polygon [0, 150], [100, 200], [200, 150],
-               [200, 50], [100, 0], [0, 50]
+  fill_polygon [50, 200], [150, 250], [250, 200],
+               [250, 100], [150, 50], [50, 100]
+  fill_color '000000'
 end
