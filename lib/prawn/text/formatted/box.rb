@@ -192,7 +192,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :URI,
-                          :URI => Prawn::Core::LiteralString.new(fragment.link) })
+                                            :URI => fragment.link })
         end
 
         def draw_fragment_overlay_anchor(fragment)

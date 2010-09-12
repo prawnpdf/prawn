@@ -155,6 +155,11 @@ describe "Prawn::Table" do
       @table.cells[1, 0].width.should == 100
     end
 
+    it "style method should accept a block, passing each cell to be styled" do
+      @table.cells.style { |c| c.height = 200 }
+      @table.cells[0, 1].height.should == 200
+    end
+
     it "should return the width of selected columns for #width" do
       c0_width = @table.column(0).map{ |c| c.width }.max
       c1_width = @table.column(1).map{ |c| c.width }.max
@@ -574,6 +579,14 @@ describe "Prawn::Table" do
       output = PDF::Inspector::Text.analyze(@pdf.render)   
       output.strings.should == headers + data.flatten[0..-3] + headers +
         data.flatten[-2..-1]
+    end
+
+    it "should not draw header twice when starting new page" do
+      @pdf = Prawn::Document.new
+      @pdf.y = 0
+      @pdf.table([["Header"], ["Body"]], :header => true)
+      output = PDF::Inspector::Text.analyze(@pdf.render)   
+      output.strings.should == ["Header", "Body"]
     end
   end
 

@@ -247,7 +247,7 @@ module Prawn
            cell.row > started_new_page_at_row
           # start a new page or column
           @pdf.bounds.move_past_bottom
-          draw_header
+          draw_header unless cell.row == 0
           offset = @pdf.y - cell.y
           started_new_page_at_row = cell.row
         end
