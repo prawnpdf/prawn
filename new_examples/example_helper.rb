@@ -9,8 +9,10 @@ Prawn.debug = true
 
 module Snippet
   def snippet(&block)
-    font('Courier') do
-      text snippet_source(block.to_s)
+    bounding_box([bounds.left+10, cursor-10], :width => bounds.width-20) do
+      font('Courier') do
+        text snippet_source(block.to_s)
+      end
     end
     
     yield

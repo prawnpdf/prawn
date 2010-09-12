@@ -5,6 +5,9 @@
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 
 Prawn::Document.generate("graphics.pdf") do
+  
+  text 'Rounded Polygons example'
+  
   snippet do
     def radian(degree)
       Math::PI/180*degree
