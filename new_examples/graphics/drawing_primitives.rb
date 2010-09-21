@@ -12,7 +12,7 @@
 # 
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 
-Example.generate('drawing_primitives.pdf') do
+Prawn::Example.generate('drawing_primitives.pdf') do
   move_to 100, 100
   
   line_to 150, 200

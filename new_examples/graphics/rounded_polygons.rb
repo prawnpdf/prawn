@@ -4,7 +4,7 @@
 #
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 
-Example.generate('rounded_polygons.pdf') do
+Prawn::Example.generate('rounded_polygons.pdf') do
   def radian(degree)
     Math::PI/180*degree
   end

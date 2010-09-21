@@ -11,4 +11,4 @@ examples = %w[
   rounded_polygons
 ].map {|file| "#{file}.rb"}
 
-Example.generate_example_document('graphics.pdf', examples)
+Prawn::Example.generate_example_document('graphics.pdf', examples)

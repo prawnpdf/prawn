@@ -15,7 +15,7 @@
 # 
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 
-Example.generate('origin.pdf') do
+Prawn::Example.generate('origin.pdf') do
   stroke_circle_at [0, 0], :radius => 10
   bounding_box [100, 300], :width => 300, :height => 200 do
     stroke_bounds
