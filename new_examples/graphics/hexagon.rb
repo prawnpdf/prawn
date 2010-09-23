@@ -6,7 +6,8 @@
 #
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 
-Prawn::Example.generate('hexagon.pdf') do
+filename = File.basename(__FILE__).gsub('.rb', '.pdf')
+Prawn::Example.generate(filename) do
   drawing_box(:height => 300) do
     fill_color "ff0000"
     fill_polygon [50, 200], [150, 250], [250, 200],
