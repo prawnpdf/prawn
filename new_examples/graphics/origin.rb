@@ -6,12 +6,12 @@
 # Pdf documents have the origin [0,0] on the bottom left corner of the page.
 #
 # Bounding Boxes have the property of relocating the origin to its relative
-# bottom left corner. So the origin of the page is the bottom left corner
-# of the margin box.
+# bottom left corner. The default margin for a document on Prawn is 0.5 inch.
+# So the origin of the page on a default generated document isn't the absolute
+# bottom left corner but the bottom left corner of the margin box.
 #
-# The following snippet strokes a circle on the margin box origin
-#
-# Then strokes the boundaries of a bounding box and a circle on its origin
+# The following snippet strokes a circle on the margin box origin. Then strokes
+# the boundaries of a bounding box and a circle on its origin
 #
 require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 

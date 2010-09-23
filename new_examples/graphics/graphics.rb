@@ -6,7 +6,8 @@ require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
 
 examples = %w[
   origin
-  drawing_primitives
+  fill_and_stroke
+  lines_and_curves
   hexagon
   rounded_polygons
 ].map {|file| "#{file}.rb"}
