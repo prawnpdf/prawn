@@ -17,7 +17,8 @@
 #
 # Here are some examples of possible calls to fill and stroke:
 #
-require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
+require File.expand_path(File.join(File.dirname(__FILE__),
+    '..', 'example_helper.rb'))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do

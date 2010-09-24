@@ -13,7 +13,8 @@
 # The following snippet strokes a circle on the margin box origin. Then strokes
 # the boundaries of a bounding box and a circle on its origin
 #
-require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
+require File.expand_path(File.join(File.dirname(__FILE__),
+    '..', 'example_helper.rb'))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do

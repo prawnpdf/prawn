@@ -17,16 +17,19 @@ module Prawn
   class Example < Prawn::Document
   
     def self.generate_example_document(filename, examples)
-      generate(filename) do
-        text "#{filename.capitalize.gsub('.pdf', '')} Reference", :size => 30
+      package = File.basename(filename).gsub('.rb', '.pdf')
       
+      generate(package) do
+        text "#{package.capitalize} Reference", :size => 30
+        
         examples.each do |example|
           start_new_page
-        
+          
           text example, :size => 20
           move_down 10
-        
-          load_example(example)
+          
+          load_example(File.expand_path(File.join(
+              File.dirname(filename), example)))
         end
       end
     end

@@ -2,7 +2,8 @@
 #
 # Generates example document for the Graphics package
 #
-require File.join(File.dirname(__FILE__), '..', 'example_helper.rb')
+require File.expand_path(File.join(File.dirname(__FILE__),
+    '..', 'example_helper.rb'))
 
 examples = %w[
   origin
@@ -12,5 +13,4 @@ examples = %w[
   rounded_polygons
 ].map {|file| "#{file}.rb"}
 
-filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate_example_document(filename, examples)
+Prawn::Example.generate_example_document(__FILE__, examples)
