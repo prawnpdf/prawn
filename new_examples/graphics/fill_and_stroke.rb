@@ -2,18 +2,18 @@
 #
 # There are two drawing primitives on Prawn: fill and stroke.
 #
-# These are the ones that actually draw anything on the document. All the other
-# drawing shapes like rectangle, circle or line_to just define drawing paths.
+# These are the methods that actually draw stuff on the document. All the other
+# drawing shapes like rectangle, circle or line_to define drawing paths.
 # These paths need to be either stroked or filled to gain form on the document.
 #
-# Calling them with no block will fill or stroke the drawing path that has
-# been defined prior to the call.
+# Calling these methods with no block will have effect on the drawing path that
+# has been defined prior to the call.
 #
 # Calling with a block will have effect on the drawing path set within the
 # block.
 #
-# Another option is to call with a method hook where the fill or stroke will
-# be ran right after the drawing path is set.
+# Another option is to call as a method hook. This way the effect will be ran
+# right after the drawing path is set.
 #
 # Here are some examples of possible calls to fill and stroke:
 #
