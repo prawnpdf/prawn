@@ -9,6 +9,7 @@ examples = %w[
   origin
   fill_and_stroke
   lines_and_curves
+  common_lines
   hexagon
   rounded_polygons
 ].map {|file| "#{file}.rb"}
