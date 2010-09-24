@@ -40,6 +40,15 @@ describe "Prawn::Table::Cell" do
       c.content.should == ""
     end
 
+    it "should allow inline styling with a hash argument" do
+      # used for table([[{:text => "...", :font_style => :bold, ...}, ...]])
+      c = Prawn::Table::Cell.make(@pdf,
+                                  {:content => 'hello', :font_style => :bold})
+      c.should.be.a.kind_of Prawn::Table::Cell::Text
+      c.content.should == "hello"
+      c.font.name.should == 'Helvetica-Bold'
+    end
+
     it "should draw text at the given point plus padding, with the given " +
        "size and style" do
       @pdf.expects(:bounding_box).yields

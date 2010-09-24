@@ -104,7 +104,13 @@ module Prawn
       def self.make(pdf, content, options={})
         at = options.delete(:at) || [0, pdf.cursor]
         content = "" if content.nil?
-        options[:content] = content
+
+        if content.is_a?(Hash)
+          options.update(content)
+          content = options[:content]
+        else
+          options[:content] = content
+        end
 
         case content
         when Prawn::Table::Cell
