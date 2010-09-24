@@ -24,3 +24,11 @@ def create_pdf(klass=Prawn::Document)
   @pdf = klass.new(:margin => 0)
 end    
 
+# Make some methods public to assist in testing
+module Prawn::Graphics
+  public :map_to_absolute
+end
+
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[extensions mocha]))
+

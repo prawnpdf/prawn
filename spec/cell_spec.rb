@@ -261,9 +261,11 @@ describe "Prawn::Table::Cell" do
 
       @pdf.stubs(:fill_color)
       @pdf.expects(:fill_color).with('123456')
-      @pdf.expects(:fill_rectangle).with do |(x, y), w, h|
-        close?(x, 0) && close?(y, @pdf.cursor) && 
-          close?(w, 29.344) && close?(h, 23.872)
+      @pdf.expects(:fill_rectangle).checking do |(x, y), w, h|
+        x.should.be.close(0, 0.01)
+        y.should.be.close(@pdf.cursor, 0.01)
+        w.should.be.close(29.344, 0.01)
+        h.should.be.close(23.872, 0.01)
       end
       @pdf.cell(:content => "text", :background_color => '123456')
     end
@@ -300,31 +302,34 @@ describe "Prawn::Table::Cell" do
     # do any FP closeness arithmetic. Can plug in that math later if this goes
     # wrong.
     it "should draw top border when requested" do
-      @pdf.expects(:stroke_line).with { |*from_and_to|
-        #                                  from: x  y to: x  y
-        from_and_to.flatten.map{|x| x.round} == [0, 720, 29, 720]
-      }
+      @pdf.expects(:stroke_line).checking do |from, to|
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 756]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 756]
+      end
       @pdf.cell(:content => "text", :borders => [:top])
     end
 
     it "should draw bottom border when requested" do
-      @pdf.expects(:stroke_line).with { |*from_and_to|
-        from_and_to.flatten.map{|x| x.round} == [0, 696, 29, 696]
-      }
+      @pdf.expects(:stroke_line).checking do |from, to|
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 732]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 732]
+      end
       @pdf.cell(:content => "text", :borders => [:bottom])
     end
 
     it "should draw left border when requested" do
-      @pdf.expects(:stroke_line).with { |*from_and_to|
-        from_and_to.flatten.map{|x| x.round} == [0, 721, 0, 696]
-      }
+      @pdf.expects(:stroke_line).checking do |from, to|
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 757]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [36, 732]
+      end
       @pdf.cell(:content => "text", :borders => [:left])
     end
 
     it "should draw right border when requested" do
-      @pdf.expects(:stroke_line).with { |*from_and_to|
-        from_and_to.flatten.map{|x| x.round} == [29, 721, 29, 696]
-      }
+      @pdf.expects(:stroke_line).checking do |from, to|
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [65, 757]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 732]
+      end
       @pdf.cell(:content => "text", :borders => [:right])
     end
   end
@@ -337,8 +342,9 @@ describe "Prawn::Table::Cell" do
 
       box = Prawn::Text::Box.new("text", :document => @pdf)
 
-      Prawn::Text::Box.expects(:new).with do |text, options|
-        text == "text" && options[:align] == :right
+      Prawn::Text::Box.expects(:new).checking do |text, options|
+        text.should == "text"
+        options[:align].should == :right
       end.at_least_once.returns(box)
 
       c.draw
@@ -349,8 +355,9 @@ describe "Prawn::Table::Cell" do
 
       box = Prawn::Text::Box.new("text", :document => @pdf)
 
-      Prawn::Text::Box.expects(:new).with do |text, options|
-        text == "text" && options[:style] == :bold
+      Prawn::Text::Box.expects(:new).checking do |text, options|
+        text.should == "text"
+        options[:style].should == :bold
       end.at_least_once.returns(box)
 
       c.draw
@@ -361,10 +368,15 @@ describe "Prawn::Table::Cell" do
 
       box = Prawn::Text::Formatted::Box.new([], :document => @pdf)
 
-      Prawn::Text::Formatted::Box.expects(:new).with do |array, options|
-        array[0][:text] == "foo " && array[0][:styles] == [] &&
-          array[1][:text] == "bar" && array[1][:styles] == [:bold] &&
-          array[2][:text] == " baz" && array[2][:styles] == []
+      Prawn::Text::Formatted::Box.expects(:new).checking do |array, options|
+        array[0][:text].should == "foo "
+        array[0][:styles].should == []
+
+        array[1][:text].should == "bar"
+        array[1][:styles].should == [:bold]
+
+        array[2][:text].should == " baz"
+        array[2][:styles].should == []
       end.at_least_once.returns(box)
 
       c.draw
