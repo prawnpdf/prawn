@@ -12,10 +12,13 @@
 class ParameterChecker < Mocha::ParametersMatcher
   def initialize(&matching_block)
     @matching_block = matching_block
+    @run_matching_block = false
   end
 
   def match?(actual_parameters = [])
-    @matching_block.call(*actual_parameters)
+    @matching_block.call(*actual_parameters) unless @run_matching_block
+    @run_matching_block = true
+
     true # always succeed
   end
 end
