@@ -32,6 +32,10 @@ describe "Prawn::Table" do
       }.should.not.raise
     end   
 
+    it "should allow a table with a header but no body" do
+      lambda { @pdf.table([["Header"]], :header => true) }.should.not.raise
+    end
+
     # TODO: pending colspan
     xit "should accurately count columns from data" do
       # First data row may contain colspan which would hide true column count
@@ -469,6 +473,17 @@ describe "Prawn::Table" do
       end.page_count.should == 2
     end
 
+    it "should only draw first-page header if the first body row fits" do
+      pdf = Prawn::Document.new
+
+      pdf.y = 60 # not enough room for a table row
+      pdf.table [["Header"], ["Body"]], :header => true
+
+      output = PDF::Inspector::Page.analyze(pdf.render)
+      # Ensure we only drew the header once, on the second page
+      output.pages[0][:strings].should.be.empty
+      output.pages[1][:strings].should == ["Header", "Body"]
+    end
   end
 
   describe "#style" do

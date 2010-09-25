@@ -242,9 +242,20 @@ module Prawn
       # because even if we are in a stretchy bounding box, flowing to the next
       # page will not buy us any space if we are at the top.
       if @pdf.y > @pdf.bounds.height + @pdf.bounds.absolute_bottom - 0.001
+        # we're at the top of our bounds
         started_new_page_at_row = 0
       else
         started_new_page_at_row = -1
+
+        # If there isn't enough room left on the page to fit the first data row
+        # (excluding the header), start the table on the next page.
+        needed_height = row(0).height
+        needed_height += row(1).height if @header
+        if needed_height > @pdf.y - ref_bounds.absolute_bottom
+          @pdf.bounds.move_past_bottom
+          offset = @pdf.y
+          started_new_page_at_row = 0
+        end
       end
 
       @cells.each do |cell|
