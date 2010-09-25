@@ -332,6 +332,16 @@ describe "Prawn::Table::Cell" do
       end
       @pdf.cell(:content => "text", :borders => [:right])
     end
+
+    it "should draw borders at the same location when in or out of bbox" do
+      @pdf.expects(:stroke_line).checking do |from, to|
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 756]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 756]
+      end
+      @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
+        @pdf.cell(:content => "text", :borders => [:top])
+      end
+    end
   end
 
   describe "Text cell attributes" do
