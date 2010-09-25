@@ -450,6 +450,25 @@ describe "Prawn::Table" do
       end.page_count.should == 2
     end
 
+    it "should not start a new page to gain height when at the top of " +
+       "a bounding box, even if stretchy" do
+      Prawn::Document.new do
+        bounding_box([bounds.left, bounds.top - 20], :width => 400) do
+          table([[ (1..80).map{ |i| "Line #{i}" }.join("\n"), "Column 2" ]])
+        end
+      end.page_count.should == 1
+    end
+
+    it "should still break to the next page if in a stretchy bounding box " +
+       "but not at the top" do
+      Prawn::Document.new do
+        bounding_box([bounds.left, bounds.top - 20], :width => 400) do
+          text "Hello"
+          table([[ (1..80).map{ |i| "Line #{i}" }.join("\n"), "Column 2" ]])
+        end
+      end.page_count.should == 2
+    end
+
   end
 
   describe "#style" do

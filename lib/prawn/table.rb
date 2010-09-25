@@ -231,12 +231,17 @@ module Prawn
 
       last_y = @pdf.y
 
-      # Determine whether we're at the top of a page. If we're at the top, we
-      # couldn't gain any more room by breaking to the next page -- this means,
-      # in particular, that if the first row is taller than the margin box, we
-      # will only move to the next page if we're below the top.
-      # Add some floating-point tolerance to the calculation.
-      if @pdf.y > ref_bounds.height + ref_bounds.absolute_bottom - 0.001
+      # Determine whether we're at the top of the current bounds (margin box or
+      # bounding box). If we're at the top, we couldn't gain any more room by
+      # breaking to the next page -- this means, in particular, that if the
+      # first row is taller than the margin box, we will only move to the next
+      # page if we're below the top. Some floating-point tolerance is added to
+      # the calculation.
+      #
+      # Note that we use the actual bounds, not the reference bounds. This is
+      # because even if we are in a stretchy bounding box, flowing to the next
+      # page will not buy us any space if we are at the top.
+      if @pdf.y > @pdf.bounds.height + @pdf.bounds.absolute_bottom - 0.001
         started_new_page_at_row = 0
       else
         started_new_page_at_row = -1
