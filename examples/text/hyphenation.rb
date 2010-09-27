@@ -1,7 +1,8 @@
 # encoding: utf-8
 #
 
-require 'examples/example_helper'
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("hyphenation.pdf") do
   def get_string(i)

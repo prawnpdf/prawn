@@ -3,7 +3,8 @@
 # PNG files come in different flavours - 5 of them. This example embeds
 # one of each type as proof that they all work.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 images = [
           ["Type 0", "#{Prawn::BASEDIR}/data/images/web-links.png"],

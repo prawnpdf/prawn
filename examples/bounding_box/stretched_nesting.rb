@@ -3,7 +3,8 @@
 # This example demonstrates how nested bounding boxes work when the outer box is
 # stretchy and includes several inner boxes of different sizes.
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("stretched_nesting.pdf", :page_layout => :landscape) do
 

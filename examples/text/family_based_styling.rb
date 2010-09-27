@@ -4,7 +4,8 @@
 # If you are working with TTF fonts, you'll want to check out the 
 # documentation for Document#font_families and register your fonts with it.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("family_style.pdf") do
   ["Courier","Helvetica","Times-Roman"].each do |f|

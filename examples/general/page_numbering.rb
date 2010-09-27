@@ -3,7 +3,8 @@
 # This example demonstrates how to add a "page k of n"
 # template to your documents.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("page_with_numbering.pdf") do
   text "Hai"

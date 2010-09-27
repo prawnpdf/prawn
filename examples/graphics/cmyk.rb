@@ -2,7 +2,8 @@
 #
 # Demonstrates Prawn's support for CMYK images and colors.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("cmyk.pdf", :page_layout => :landscape) do
   fill_color 50, 100, 0, 0

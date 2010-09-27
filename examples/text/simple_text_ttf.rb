@@ -2,7 +2,8 @@
 #
 # An early example of TTF font embedding.  Mostly kept for nostalgia's sake.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate "simple_text_ttf.pdf" do       
   fill_color "0000ff"

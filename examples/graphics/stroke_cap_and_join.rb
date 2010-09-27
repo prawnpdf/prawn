@@ -2,7 +2,8 @@
 #
 # Stroke dashing can be applied to any line or curve
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("stroke_cap_and_join.pdf") do
   self.line_width = 25

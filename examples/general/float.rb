@@ -1,4 +1,5 @@
-require "#{File.dirname(__FILE__)}/../example_helper"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate('float.pdf') do
   float do

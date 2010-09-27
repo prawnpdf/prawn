@@ -4,7 +4,8 @@
 # can simplify calculations.  See the other files in examples/bounding_box
 # for more basic uses.
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 class Array
   def combine(arr)

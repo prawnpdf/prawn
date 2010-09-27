@@ -1,6 +1,7 @@
 # encoding: utf-8    
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate('bounding_box_grid.pdf') do |p|
   p.define_grid(:columns => 5, :rows => 8, :gutter => 10)
