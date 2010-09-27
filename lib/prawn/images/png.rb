@@ -129,6 +129,136 @@ module Prawn
         8
       end
 
+      # Build a PDF object representing this image in +document+, and return
+      # a Reference to it.
+      #
+      def build_pdf_object(document)
+        if compression_method != 0
+          raise Errors::UnsupportedImageType,
+            'PNG uses an unsupported compression method'
+        end
+
+        if filter_method != 0
+          raise Errors::UnsupportedImageType,
+            'PNG uses an unsupported filter method'
+        end
+
+        if interlace_method != 0
+          raise Errors::UnsupportedImageType,
+            'PNG uses unsupported interlace method'
+        end
+
+        # some PNG types store the colour and alpha channel data together,
+        # which the PDF spec doesn't like, so split it out.
+        split_alpha_channel!
+
+        case colors
+        when 1
+          color = :DeviceGray
+        when 3
+          color = :DeviceRGB
+        else
+          raise Errors::UnsupportedImageType,
+            "PNG uses an unsupported number of colors (#{png.colors})"
+        end
+
+        # build the image dict
+        obj = document.ref!(
+          :Type             => :XObject,
+          :Subtype          => :Image,
+          :Height           => height,
+          :Width            => width,
+          :BitsPerComponent => bits,
+          :Length           => img_data.size,
+          :Filter           => :FlateDecode
+        )
+
+        unless alpha_channel
+          obj.data[:DecodeParms] = {:Predictor => 15,
+                                    :Colors    => colors,
+                                    :BitsPerComponent => bits,
+                                    :Columns   => width}
+        end
+
+        # append the actual image data to the object as a stream
+        obj << img_data
+        
+        # sort out the colours of the image
+        if palette.empty?
+          obj.data[:ColorSpace] = color
+        else
+          # embed the colour palette in the PDF as a object stream
+          palette_obj = document.ref!(:Length => palette.size)
+          palette_obj << palette
+
+          # build the color space array for the image
+          obj.data[:ColorSpace] = [:Indexed, 
+                                   :DeviceRGB,
+                                   (palette.size / 3) -1,
+                                   palette_obj]
+        end
+
+        # *************************************
+        # add transparency data if necessary
+        # *************************************
+
+        # For PNG color types 0, 2 and 3, the transparency data is stored in
+        # a dedicated PNG chunk, and is exposed via the transparency attribute
+        # of the PNG class.
+        if transparency[:grayscale]
+          # Use Color Key Masking (spec section 4.8.5)
+          # - An array with N elements, where N is two times the number of color
+          #   components.
+          val = transparency[:grayscale]
+          obj.data[:Mask] = [val, val]
+        elsif transparency[:rgb]
+          # Use Color Key Masking (spec section 4.8.5)
+          # - An array with N elements, where N is two times the number of color
+          #   components.
+          rgb = transparency[:rgb]
+          obj.data[:Mask] = rgb.collect { |x| [x,x] }.flatten
+        elsif transparency[:indexed]
+          # TODO: broken. I was attempting to us Color Key Masking, but I think
+          #       we need to construct an SMask i think. Maybe do it inside
+          #       the PNG class, and store it in alpha_channel
+          #obj.data[:Mask] = transparency[:indexed]
+        end
+
+        # For PNG color types 4 and 6, the transparency data is stored as a alpha
+        # channel mixed in with the main image data. The PNG class seperates
+        # it out for us and makes it available via the alpha_channel attribute
+        if alpha_channel?
+          smask_obj = document.ref!(
+            :Type             => :XObject,
+            :Subtype          => :Image,
+            :Height           => height,
+            :Width            => width,
+            :BitsPerComponent => alpha_channel_bits,
+            :Length           => alpha_channel.size,
+            :Filter           => :FlateDecode,
+            :ColorSpace       => :DeviceGray,
+            :Decode           => [0, 1]
+          )
+          smask_obj << alpha_channel
+          obj.data[:SMask] = smask_obj
+        end
+
+        obj
+      end
+
+      # Returns the minimum PDF version required to support this image.
+      def min_pdf_version
+        if bits > 8
+          # 16-bit color only supported in 1.5+ (ISO 32000-1:2008 8.9.5.1)
+          1.5
+        elsif alpha_channel?
+          # Need transparency for SMask
+          1.4
+        else
+          1.0
+        end
+      end
+
       private
 
       def unfilter_image_data
