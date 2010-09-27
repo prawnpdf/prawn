@@ -8,7 +8,7 @@ Prawn::Document.generate("header.pdf") do
   data = ["Bender Bending Rodriguez", "Bender"]
 
   table([header] + [data] * 50, :header => true) do
-    row(0).style(:style => :bold, :background_color => 'cccccc')
+    row(0).style(:font_style => :bold, :background_color => 'cccccc')
   end
 
 end
