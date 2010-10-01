@@ -22,6 +22,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
+  stroke_axis :height => 250
+  
   # No block
   line [0,250], [100, 150]
   stroke

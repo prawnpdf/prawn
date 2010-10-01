@@ -20,7 +20,7 @@ module Prawn
       package = File.basename(filename).gsub('.rb', '.pdf')
       
       generate(package) do
-        text "#{package.capitalize} Reference", :size => 30
+        text "#{package.gsub('.pdf', '').capitalize} Reference", :size => 30
         
         examples.each do |example|
           start_new_page
@@ -40,12 +40,18 @@ module Prawn
     
       text extract_introduction_text(data)
     
-      bounding_box([bounds.left, cursor-10], :width => bounds.width) do
+      bounding_box([bounds.left, cursor], :width => bounds.width) do
         font('Courier', :size => 11) do
           text example_source.gsub(' ', Prawn::Text::NBSP)
         end
+        
+        move_down 10
+        dash(3)
+        stroke_horizontal_line -36, bounds.width + 36
+        undash
       end
-    
+      
+      move_down 10
       eval example_source
     end
   
@@ -56,6 +62,26 @@ module Prawn
       bounding_box(top_left, options) do
         yield
         stroke_bounds
+      end
+    end
+    
+    def stroke_axis(options={})
+      options = { :height => 350, :width => bounds.width.to_i }.merge(options)
+      
+      dash(1, :space => 4)
+      stroke_horizontal_line -21, options[:width], :at => 0
+      stroke_vertical_line -21, options[:height], :at => 0
+      undash
+      
+      fill_circle_at [0, 0], :radius => 1
+      (100..options[:width]).step(100).each do |point|
+        fill_circle_at [point, 0], :radius => 1
+        draw_text point, :at => [point-5, -10], :size => 7
+      end
+
+      (100..options[:height]).step(100).each do |point|
+        fill_circle_at [0, point], :radius => 1
+        draw_text point, :at => [-17, point-2], :size => 7
       end
     end
 

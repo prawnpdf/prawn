@@ -6,6 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
     '..', 'example_helper.rb'))
 
 examples = %w[
+  helper
   origin
   fill_and_stroke
   lines_and_curves
