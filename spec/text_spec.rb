@@ -52,6 +52,13 @@ describe "#text" do
     }.should.not.raise(TypeError)
   end
 
+  it "should allow drawing empty strings to the page" do
+    @pdf.text " "
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    # If anything is rendered to the page, it should be whitespace.
+    text.strings.each { |str| str.should =~ /\A\s*\z/ }
+  end
+
   it "should default to use kerning information" do
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)

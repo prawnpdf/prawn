@@ -2,7 +2,8 @@
 #
 # Demonstration of enabling and disabling kerning support
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate "kerning.pdf" do
   draw_text "To kern?", :at => [200,720], :size => 24, :kerning => true

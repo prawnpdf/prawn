@@ -13,6 +13,12 @@ describe "#draw_text" do
     lambda { @pdf.draw_text("hai", :at => [0, 0], :align => :center) }.should.raise(ArgumentError)
   end
 
+  it "should allow drawing empty strings to the page" do
+    @pdf.draw_text(" ", :at => [100,100])
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.first.should == " "
+  end
+
   it "should default to 12 point helvetica" do
     @pdf.draw_text("Blah", :at => [100,100])
     text = PDF::Inspector::Text.analyze(@pdf.render)

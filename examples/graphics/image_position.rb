@@ -2,8 +2,9 @@
 #
 # Demonstrates vertical and horizontal positioning of images.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
-   
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
+
 Prawn::Document.generate("image_position.pdf", :page_layout => :landscape) do
 
   dice = "#{Prawn::BASEDIR}/data/images/dice.png"

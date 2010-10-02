@@ -2,7 +2,8 @@
 #
 # Demonstrates transformations
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate "rotated_text.pdf" do |pdf|
   pdf.line_width = 1

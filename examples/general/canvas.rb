@@ -3,7 +3,8 @@
 # Demonstrates how to enable absolute positioning in Prawn by temporarily
 # removing the margin_box via Document#canvas()
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("canvas.pdf") do
   canvas do

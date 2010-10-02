@@ -2,7 +2,8 @@
 #
 # This demonstrates the Prawn options for document and page margin, similar to CSS shorthand.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 LOREM = ("Lorem ipsum dolor sit amet, consectetur adipisicing elit, "+
 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "+

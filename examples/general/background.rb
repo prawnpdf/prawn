@@ -4,7 +4,8 @@
 # generating a new Document.  Image is assumed to be pre-fit for your page
 # size, and will not be rescaled.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 img = "#{Prawn::BASEDIR}/data/images/letterhead.jpg"
 

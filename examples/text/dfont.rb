@@ -1,6 +1,7 @@
 # encoding: utf-8
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 DFONT_FILE = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
 puts "There are #{Prawn::Font::DFont.font_count(DFONT_FILE)} fonts in #{DFONT_FILE}:"

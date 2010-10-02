@@ -8,7 +8,8 @@
 # If you need precision spacing, use a TTF file instead and the issue will
 # go away.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate "euro.pdf" do
   text "A Euro! € ©", :size => 32

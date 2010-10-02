@@ -5,8 +5,9 @@
 # building your own table implementation from scratch or heavily modify
 # the existing table system.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("cell.pdf") do 
-  cell :content => "test", :padding => 10, :style => :bold, :size => 7
+  cell :content => "test", :padding => 10, :font_style => :bold, :size => 7
 end

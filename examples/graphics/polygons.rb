@@ -2,7 +2,8 @@
 # 
 # Basic polygon drawing example.  See also: hexagon.rb
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 pdf = Prawn::Document.new
 

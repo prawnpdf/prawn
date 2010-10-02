@@ -3,7 +3,8 @@
 # This sample demonstrates the use of the :template option when generating
 # a new Document. The template PDF file is imported into a new document.
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
 
