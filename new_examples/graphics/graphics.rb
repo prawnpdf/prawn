@@ -3,7 +3,7 @@
 # Generates example document for the Graphics package
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
-    '..', 'example_helper.rb'))
+                                   %w[.. example_helper]))
 
 examples = %w[
   helper

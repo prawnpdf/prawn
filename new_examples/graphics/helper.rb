@@ -13,7 +13,7 @@
 # bounding box, executes the provided block and strokes the bounds
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
-    '..', 'example_helper.rb'))
+                                   %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
