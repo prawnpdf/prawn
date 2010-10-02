@@ -25,17 +25,17 @@ Prawn::Example.generate(filename) do
   stroke_axis :height => 250
   
   # No block
-  line [0,250], [100, 150]
+  line [0, 200], [100, 150]
   stroke
   
-  rectangle [0, 100], 150, 100
+  rectangle [0, 100], 100, 100
   fill
   
   # With block
-  stroke { line [200,250], [300, 150] }
-  fill   { rectangle [200, 100], 150, 100 }
+  stroke { line [200, 200], [300, 150] }
+  fill   { rectangle [200, 100], 100, 100 }
   
   # Method hook
-  stroke_line    [400,250], [500, 150]
-  fill_rectangle [400, 100], 150, 100
+  stroke_line [400, 200], [500, 150]
+  fill_rectangle [400, 100], 100, 100
 end
