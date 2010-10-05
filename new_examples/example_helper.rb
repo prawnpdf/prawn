@@ -20,7 +20,10 @@ module Prawn
       package = File.basename(filename).gsub('.rb', '.pdf')
       
       generate(package) do
-        text "#{package.gsub('.pdf', '').capitalize} Reference", :size => 30
+        title = "#{package.gsub('.pdf', '').capitalize} Reference"
+        text title, :size => 30
+        
+        package_page = page_number
         
         examples.each do |example|
           start_new_page
@@ -30,6 +33,15 @@ module Prawn
           
           load_example(File.expand_path(File.join(
               File.dirname(filename), example)))
+        end
+        
+        outline.define do 
+          section title, :destination => package_page do
+            examples.each_with_index do |example, index|
+              page :destination => package_page + index + 1,
+                   :title => example
+            end
+          end
         end
       end
     end
