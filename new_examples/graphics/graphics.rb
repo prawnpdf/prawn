@@ -11,8 +11,9 @@ examples = %w[
   fill_and_stroke
   lines_and_curves
   common_lines
-  hexagon
-  rounded_polygons
+  rectangle
+  polygon
+  circle_and_ellipse
 ].map {|file| "#{file}.rb"}
 
 Prawn::Example.generate_example_document(__FILE__, examples)
