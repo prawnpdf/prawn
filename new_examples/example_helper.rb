@@ -54,16 +54,6 @@ module Prawn
       move_down 10
       eval example_source
     end
-  
-    def drawing_box(options={})
-      options = { :width => bounds.width-20 }.merge(options)
-      top_left = [bounds.left+10, cursor-10]
-  
-      bounding_box(top_left, options) do
-        yield
-        stroke_bounds
-      end
-    end
     
     def stroke_axis(options={})
       options = { :height => 350, :width => bounds.width.to_i }.merge(options)
