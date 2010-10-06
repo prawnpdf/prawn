@@ -20,10 +20,7 @@ Prawn::Example.generate(filename) do
   
   3.times do |i|
     case i
-      # This call will have no effect
-    when 0; line_width = 10
-      
-      # These will
+    when 0; line_width = 10        # This call will have no effect
     when 1; self.line_width = 10
     when 2; self.line_width = 25
     end

@@ -32,6 +32,5 @@ Prawn::Example.generate(filename) do
     y -= 100
   end
   
-  self.line_width = 1
-  self.cap_style = :butt
+  reset_drawing_settings
 end

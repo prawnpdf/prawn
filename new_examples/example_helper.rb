@@ -39,7 +39,7 @@ module Prawn
           section title, :destination => package_page do
             examples.each_with_index do |example, index|
               page :destination => package_page + index + 1,
-                   :title => example
+                   :title => example.gsub("_", " ").gsub(".rb", "").capitalize
             end
           end
         end
@@ -87,6 +87,12 @@ module Prawn
         draw_text point, :at => [-17, point-2], :size => 7
       end
     end
+    
+    def reset_drawing_settings
+      self.line_width = 1
+      self.cap_style  = :butt
+      self.join_style = :miter
+    end
 
   private
 
@@ -104,7 +110,6 @@ module Prawn
       intro.rstrip!
       intro
     end
-  
   end
 
 end
