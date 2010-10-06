@@ -12,10 +12,8 @@
 # Calling with a block will have effect on the drawing path set within the
 # block.
 #
-# Another option is to call as a method hook. This way the effect will be ran
-# right after the drawing path is set.
-#
-# Here are some examples of possible calls to fill and stroke:
+# Another option is to call as a method hook. This way it will have effect on
+# the drawing path set by the hooked method.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

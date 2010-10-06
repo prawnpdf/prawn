@@ -14,6 +14,9 @@ examples = %w[
   rectangle
   polygon
   circle_and_ellipse
+  line_width
+  stroke_cap
+  stroke_join
 ].map {|file| "#{file}.rb"}
 
 Prawn::Example.generate_example_document(__FILE__, examples)
