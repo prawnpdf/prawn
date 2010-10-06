@@ -16,7 +16,8 @@ examples = [
   "circle_and_ellipse",
   "line_width",
   "stroke_cap",
-  "stroke_join"
+  "stroke_join",
+  "stroke_dash"
 ].map {|file| "#{file}.rb"}
 
 Prawn::Example.generate_example_document(__FILE__, examples)
