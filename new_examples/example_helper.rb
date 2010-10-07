@@ -92,6 +92,9 @@ module Prawn
       self.line_width = 1
       self.cap_style  = :butt
       self.join_style = :miter
+      undash
+      fill_color "000000"
+      stroke_color "000000"
     end
 
   private

@@ -17,7 +17,8 @@ examples = [
   "line_width",
   "stroke_cap",
   "stroke_join",
-  "stroke_dash"
+  "stroke_dash",
+  "color"
 ].map {|file| "#{file}.rb"}
 
 Prawn::Example.generate_example_document(__FILE__, examples)
