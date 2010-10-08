@@ -40,5 +40,5 @@ Prawn::Example.generate(filename) do
     stroke_horizontal_line 50, 500, :at => base_y - (2 * i)
   end
   
-  reset_drawing_settings
+  undash                      # revert stroke back to normal
 end
