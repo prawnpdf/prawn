@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This transformation is used to rotate the drawing space. Give it an angle
+# This transformation is used to rotate the user space. Give it an angle
 # and an :origin point to rotate and everything inside the block will be
 # drawn with the rotated coordinates.
 #

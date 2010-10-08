@@ -20,7 +20,8 @@ examples = [
   "stroke_dash",
   "color",
   "transparency",
-  "rotate"
+  "rotate",
+  "translate"
 ].map {|file| "#{file}.rb"}
 
 Prawn::Example.generate_example_document(__FILE__, examples)
