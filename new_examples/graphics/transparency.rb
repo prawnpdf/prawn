@@ -1,8 +1,8 @@
 # encoding: utf-8
 #
-# Although the name of the method is transparency, what we are actually setting
-# is the opacity for fill and stroke. So 0 would be completely transparent and
-# 1.0 would be completely opaque
+# Although the name of the method is <code>transparency</code>, what we are
+# actually setting is the opacity for fill and stroke. So 0 means completely
+# transparent and 1.0 means completely opaque
 #
 # You may call it providing one or two values. The first value sets fill opacity
 # and the second value sets stroke opacity. If the second value is omitted fill

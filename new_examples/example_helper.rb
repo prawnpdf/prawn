@@ -86,7 +86,7 @@ module Prawn
       data = File.read(filename)
       example_source = extract_source(data)
     
-      text extract_introduction_text(data)
+      text extract_introduction_text(data), :inline_format => true
     
       bounding_box([bounds.left, cursor], :width => bounds.width) do
         font('Courier', :size => 11) do
@@ -146,6 +146,11 @@ module Prawn
       intro.gsub!('#', '')
       intro.gsub!("\n", "\n\n")
       intro.rstrip!
+      
+      # Process the <code> tags
+      intro.gsub!(/<code>([^<]+?)<\/code>/,
+                  "<font name='Courier'>\\1<\/font>")
+      
       intro
     end
   end

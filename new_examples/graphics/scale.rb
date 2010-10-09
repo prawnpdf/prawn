@@ -1,11 +1,10 @@
 # encoding: utf-8
 #
 # This transformation is used to scale the user space. Give it an scale factor
-# and an :origin point and everything inside the block will be scaled using
-# the origin point as reference.
+# and an <code>:origin</code> point and everything inside the block will be
+# scaled using the origin point as reference.
 #
-# If you ommit the :origin parameter the page origin will be used.
-#
+# If you ommit the <code>:origin</code> option the page origin will be used.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

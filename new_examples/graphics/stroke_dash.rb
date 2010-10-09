@@ -1,13 +1,14 @@
 # encoding: utf-8
 #
-# This sets the dashed pattern for lines and curves. The pattern is defined by
-# three variables: length, space and phase.
+# This sets the dashed pattern for lines and curves.
 #
 # The (dash) length defines how long each dash will be.
 #
-# The space defines how long is the space between the dashes.
+# The <code>:space</code> option defines how long is the space between the
+# dashes.
 #
-# The phase defines the start point of the sequence of dashes and spaces. 
+# The <code>:phase</code> option defines the start point of the sequence of
+# dashes and spaces. 
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

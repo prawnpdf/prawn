@@ -1,10 +1,11 @@
 # encoding: utf-8
 #
-# For the circle all you need is the center point and the :radius param
+# For <code>circle_at</code> all you need is the center point and the
+# <code>:radius</code> param
 #
-# For the ellipses you provide the center point and two radius values. If the
-# second radius value is ommitted, both radius will be equal and you
-# will end up drawing a circle.
+# For <code>ellipse_at</code> you provide the center point and two radius
+# values. If the second radius value is ommitted, both radius will be equal and
+# you will end up drawing a circle.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

@@ -1,10 +1,11 @@
 # encoding: utf-8
 #
 # The join style defines how the intersection between two lines is drawn. There
-# are three types: :miter (the default), :round and :bevel
+# are three types: <code>:miter</code> (the default), <code>:round</code> and
+# <code>:bevel</code>
 #
-# As with the cap style, the difference between styles is better seen with
-# thicker lines.
+# Just like <code>cap_style</code>, the difference between styles is better
+# seen with thicker lines.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

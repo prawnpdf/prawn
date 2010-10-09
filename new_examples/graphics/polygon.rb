@@ -1,10 +1,11 @@
 # encoding: utf-8
 #
-# Your old fashioned polygons. Provide some points and it will create a drawing # path following the points. Note the path is set in the same order as you
-# provide the points. This opens space for some nice shapes like a pentagram.
+# Your old fashioned polygons. Provide some points and it will create a drawing # path linking the points in the same order as provided. This opens space for
+# some nice shapes like a pentagram.
 #
-# Just like with rectangle we also have the rounded_polygon. Only difference is
-# the radius param comes before the polygon points.
+# Just like <code>rounded_rectangle</code> we also have
+# <code>rounded_polygon</code>. The only difference is the radius param comes
+# before the polygon points.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

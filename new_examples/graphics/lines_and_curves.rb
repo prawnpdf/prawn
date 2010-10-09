@@ -2,15 +2,17 @@
 #
 # Prawn supports two different methods for drawing both lines and curves.
 #
-# line_to and curve_to set the drawing path from the current drawing position
-# to the specified point. The initial drawing position can be set with move_to.
-# They are useful when you want to chain successive calls because the drawing
-# position is set to the specified point afterwards.
+# <code>line_to</code> and <code>curve_to</code> set the drawing path from the
+# current drawing position to the specified point. The initial drawing position
+# can be set with <code>move_to</code>. They are useful when you want to chain
+# successive calls because the drawing position will be set to the specified
+# point afterwards.
 #
-# line and curve set the drawing path between the two specified points.
+# <code>line</code> and <code>curve</code> set the drawing path between the two
+# specified points.
 #
 # Both curve methods define a Bezier curve bounded by two aditional points
-# provided as the :bounds param
+# provided as the <code>:bounds</code> param
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

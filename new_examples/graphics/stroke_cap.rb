@@ -1,13 +1,16 @@
 # encoding: utf-8
 #
 # The cap style defines how the edge of a line or curve will be drawn. There are
-# three types: :butt (the default), :round and :projecting_square
+# three types: <code>:butt</code> (the default), <code>:round</code> and
+# <code>:projecting_square</code>
 #
 # The difference is better seen with need thicker lines. With :butt lines
-# are drawn starting and ending at the exact points provided. With both :round
-# and :projecting_square the line is projected beyond the start and end points.
+# are drawn starting and ending at the exact points provided. With both
+# <code>:round</code> and <code>:projecting_square</code> the line is projected
+# beyond the start and end points.
 #
-# Just like line_width this method needs an explicit receiver to work.
+# Just like <code>line_width</code> this method needs an explicit receiver to
+# work.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

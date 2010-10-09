@@ -1,10 +1,12 @@
 # encoding: utf-8
 #
-# There are two drawing primitives on Prawn: fill and stroke.
+# There are two drawing primitives on Prawn: <code>fill</code> and
+# <code>stroke</code>.
 #
 # These are the methods that actually draw stuff on the document. All the other
-# drawing shapes like rectangle, circle or line_to define drawing paths.
-# These paths need to be either stroked or filled to gain form on the document.
+# drawing shapes like <code>rectangle</code>, <code>circle_at</code> or
+# <code>line_to</code> define drawing paths. These paths need to be either
+# stroked or filled to gain form on the document.
 #
 # Calling these methods with no block will have effect on the drawing path that
 # has been defined prior to the call.

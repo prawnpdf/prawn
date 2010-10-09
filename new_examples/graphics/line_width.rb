@@ -1,12 +1,12 @@
 # encoding: utf-8
 #
-# The name says it all. Just provide a width and all lines stroked afterwards
-# will have the new width.
+# The name says it all. Just provide a width and all lines stroked after the
+# call will have the new width.
 #
 # The only important thing to notice here is that you need an explicit receiver
 # for the call to work. If you are using the block call to
-# Prawn::Document.generate without passing params you will need to call
-# line_width on self.
+# <code>Prawn::Document.generate</code> without passing params you will need to
+# call <code>line_width</code> on self.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

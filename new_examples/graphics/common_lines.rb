@@ -2,12 +2,13 @@
 #
 # There are some helpers available for common lines we might want to draw:
 #
-# vertical_line and horizontal_line do just what their names imply. Specify
-# the start and end point at a fixed coordinate and there is your line.
+# <code>vertical_line</code> and <code>horizontal_line</code> do just what their
+# names imply. Specify the start and end point at a fixed coordinate and there
+# is your line.
 #
-# horizontal_rule is the helper for the helper as it draws a horizontal line
-# on the current bounding box from border to border, using the current y
-# position.
+# <code>horizontal_rule</code> is the helper for the helper as it draws a
+# horizontal line on the current bounding box from border to border, using the
+# current y position.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

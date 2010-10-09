@@ -2,10 +2,10 @@
 #
 # These are pretty basic.
 #
-# Just provide to upper-left corner, width and height.
+# Just provide the upper-left corner, width and height.
 #
-# There's also the rounded_rectangle. Just provide an additional radius value
-# for the rounded corners.
+# There's also <code>rounded_rectangle</code>. Just provide an additional radius
+# value for the rounded corners.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
