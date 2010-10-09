@@ -3,7 +3,8 @@
 # This example demonstrates the basic functionality of Prawn's bounding boxes.
 # Note that top level bounding boxes are positioned relative to the margin_box.
 # 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("bounding_boxes.pdf") do
 

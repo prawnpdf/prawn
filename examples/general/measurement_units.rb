@@ -5,7 +5,8 @@
 # its particular implementation, though some might find that interesting as
 # well.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 require "prawn/measurement_extensions"
 

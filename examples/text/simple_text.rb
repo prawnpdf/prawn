@@ -3,7 +3,8 @@
 # An early example of basic text generation at absolute positions.
 # Mostly kept for nostalgia.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate "simple_text.pdf" do       
   fill_color "0000ff"

@@ -3,7 +3,8 @@
 # This example demonstrates the use of the the outlines option for a new document
 # it sets an initial outline item with a title
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate('outlines.pdf') do
   text "Page 1. This is the first Chapter. "

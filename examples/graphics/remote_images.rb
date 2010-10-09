@@ -3,7 +3,8 @@
 # Demonstrates how to use open-uri and Document#image to embed remote image
 # files.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 require "open-uri"
 

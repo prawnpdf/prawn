@@ -12,7 +12,7 @@ Be sure to load in the necessary git submodules as well:
   git submodule init
   git submodule update
 
-If you are running on Ruby 1.9.1, you will need Test::Unit 1.2.3
+If you are running on Ruby 1.9, you will need Test::Unit 1.2.3:
 
   gem install test-unit -v 1.2.3
   

@@ -1,4 +1,5 @@
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 # Ex. Generate a roster of meeting attendees given a set of meetings.
 # Attendees for a meeting may overflow to accross page boundaries but 

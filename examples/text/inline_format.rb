@@ -2,7 +2,8 @@
 #
 # This example shows how to use inline formatting
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate("inline_format.pdf") do |pdf|
   

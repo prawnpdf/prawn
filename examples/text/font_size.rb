@@ -2,7 +2,8 @@
 #
 # This example shows the many ways of setting font sizes in Prawn
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 Prawn::Document.generate "font_size.pdf", :page_size => "A4" do
 

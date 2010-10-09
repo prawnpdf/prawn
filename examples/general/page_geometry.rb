@@ -4,7 +4,8 @@
 # documents.  The style used here is a bit out of date, see 
 # multi_page_layout.rb for a more modern example.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 def pdf(*options)  
   Prawn::Document.new(*options)

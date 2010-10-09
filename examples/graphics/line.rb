@@ -2,7 +2,8 @@
 #
 # The very first Prawn example.  Here for nostalgia's sake.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
  
 pdf = Prawn::Document.new   
 pdf.line_width = 10    

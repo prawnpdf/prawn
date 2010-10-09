@@ -25,6 +25,7 @@ module Prawn
       # <tt>:data</tt>:: A binary string of JPEG data
       #
       def initialize(data)
+        @data = data
         data = StringIO.new(data.dup)
 
         c_marker = "\xff" # Section marker.
@@ -41,6 +42,44 @@ module Prawn
           buffer = data.read(length - 2)
         end
       end
+
+      # Build a PDF object representing this image in +document+, and return
+      # a Reference to it.
+      #
+      def build_pdf_object(document)
+        color_space = case channels
+        when 1
+          :DeviceGray
+        when 3
+          :DeviceRGB
+        when 4
+          :DeviceCMYK
+        else
+          raise ArgumentError, 'JPG uses an unsupported number of channels'
+        end
+
+        obj = document.ref!(
+          :Type             => :XObject,
+          :Subtype          => :Image,
+          :Filter           => :DCTDecode,
+          :ColorSpace       => color_space,
+          :BitsPerComponent => bits,
+          :Width            => width,
+          :Height           => height,
+          :Length           => @data.size
+        ) 
+
+        # add extra decode params for CMYK images. By swapping the
+        # min and max values from the default, we invert the colours. See
+        # section 4.8.4 of the spec.
+        if color_space == :DeviceCMYK
+          obj.data[:Decode] = [ 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 ]
+        end
+
+        obj << @data
+        obj
+      end
+
     end
   end
 end

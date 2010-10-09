@@ -5,7 +5,8 @@
 # useful when used in combination with flowing text, where the exact final
 # position of the image is not known ahead of time.
 #
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
    
 Prawn::Document.generate("image-flow.pdf", :page_layout => :landscape) do  
   self.font_size = 8                           
