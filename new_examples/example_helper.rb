@@ -9,6 +9,7 @@ require 'prawn'
 require 'prawn/security'
 require 'prawn/layout'
 
+require 'enumerator'
 
 Prawn.debug = true
 
@@ -16,18 +17,20 @@ module Prawn
   
   class Example < Prawn::Document
   
-    def self.generate_example_document(filename, examples)
+    def self.generate_example_document(filename, examples_outline)
       package = File.basename(filename).gsub('.rb', '.pdf')
+      examples = flatten_examples_outline(examples_outline)
       
       generate(package) do
         title = "#{package.gsub('.pdf', '').capitalize} Reference"
         text title, :size => 30
         
-        package_page = page_number
+        first_page = page_number
         
         examples.each do |example|
           start_new_page
           
+          example = "#{example}.rb"
           text example, :size => 20
           move_down 10
           
@@ -35,16 +38,48 @@ module Prawn
               File.dirname(filename), example)))
         end
         
-        outline.define do 
-          section title, :destination => package_page do
-            examples.each_with_index do |example, index|
-              page :destination => package_page + index + 1,
-                   :title => example.gsub("_", " ").gsub(".rb", "").capitalize
-            end
-          end
+        outline.define do
+          section title, :destination => first_page
         end
-        
+        build_package_outline(title, examples_outline, first_page + 1)
       end
+    end
+    
+    def self.flatten_examples_outline(examples_outline)
+      examples_outline.map do |example_or_subsection|
+        if Array === example_or_subsection
+          flatten_examples_outline example_or_subsection.last
+        else
+          example_or_subsection
+        end
+      end.flatten
+    end
+    
+    def build_package_outline(title, examples_outline, current_page)
+      examples_outline.each do |example_or_subsection|
+        
+        if Array === example_or_subsection
+          
+          outline.add_subsection_to title do 
+            outline.section example_or_subsection.first,
+                            :destination => current_page
+          end
+          
+          current_page = build_package_outline example_or_subsection.first,
+                                               example_or_subsection.last,
+                                               current_page
+          
+        else
+          outline.add_subsection_to title do 
+            outline.page :destination => current_page,
+                :title => example_or_subsection.gsub("_", " ").capitalize
+          end
+          
+          current_page += 1
+        end
+      end
+      
+      current_page
     end
   
     def load_example(filename)
