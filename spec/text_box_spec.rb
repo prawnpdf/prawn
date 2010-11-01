@@ -760,6 +760,18 @@ describe "Text::Box wrapping" do
   
 end
 
+describe "Text::Box#render with :mode option" do
+  it "should alter the text rendering mode of the document" do
+    create_pdf
+    string = "hello world"
+    options = { :document => @pdf, :mode => 2 }
+    text_box = Prawn::Text::Box.new(string, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.text_rendering_mode.should == [2,0]
+  end
+end
+
 def reduce_precision(float)
   ("%.5f" % float).to_f
 end
