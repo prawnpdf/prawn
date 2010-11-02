@@ -131,7 +131,7 @@ module Prawn
 
       # Extend Prawn::Text::Box
       #
-      # Example (see Prawn::Text::Core::Wrap for what is required
+      # Example (see Prawn::Core::Text::Wrap for what is required
       # of the wrap method if you want to override the default
       # wrapping algorithm):
       #
