@@ -133,7 +133,7 @@ module Prawn
     # any text
     #
     def text(string, options={})
-	  non_breaking_space = "|" # "\u00A0"
+	non_breaking_space = "\u00A0"
 	# we modify the options. don't change the user's hash
       options = options.dup
 
