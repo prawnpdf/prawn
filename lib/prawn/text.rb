@@ -129,7 +129,8 @@ module Prawn
     # any text
     #
     def text(string, options={})
-      # we modify the options. don't change the user's hash
+	  non_breaking_space = "|" # "\u00A0"
+	# we modify the options. don't change the user's hash
       options = options.dup
 
       if options[:inline_format]
@@ -141,19 +142,30 @@ module Prawn
 
       inspect_options_for_text(options)
 
-      if @indent_paragraphs
+	  # If there are indents, we have to process the paragraphs one-by-one
+	  # rather then sending all the text to fill_text_box. 
+      if @indent_paragraphs 
         string.split("\n").each do |paragraph|
-          options[:skip_encoding] = false
-          remaining_text = draw_indented_line(paragraph, options)
-          options[:skip_encoding] = true
-          if remaining_text == paragraph
-            # we were too close to the bottom of the page to print even one line
-            @bounding_box.move_past_bottom
-            remaining_text = draw_indented_line(paragraph, options)
-          end
-          remaining_text = fill_text_box(remaining_text, options)
-          draw_remaining_text_on_new_pages(remaining_text, options)
-        end
+		  if paragraph.empty?
+			next if bounds.top == 0	  # just throw away any blank lines at top of page
+			paragraph = non_breaking_space  # otherwise force setting blank line -- temporary kludge
+		  end	
+		  # Draw first line in an indented 
+		  options[:skip_encoding] = false
+		  remaining_text = draw_indented_line(paragraph, options)
+		  options[:skip_encoding] = true
+		  # If it didn't fit, go to next page
+		  if (remaining_text == paragraph) && (paragraph > "")
+		    # we were too close to the bottom of the page to print even one line
+		    @bounding_box.move_past_bottom
+		    next if paragraph == non_breaking_space  # again, throw away blank lines at top of page
+			# once more, draw first line, this time at top of bounds. (Note potential for endless loop)
+		    remaining_text = draw_indented_line(paragraph, options)
+			# -- here should be some error code like Raise "no room to fit text..." if remaining_text==paragraph
+		  end  
+		  remaining_text = fill_text_box(remaining_text, options)
+		  draw_remaining_text_on_new_pages(remaining_text, options) if (remaining_text || '') > ""
+		end
       else
         remaining_text = fill_text_box(string, options)
         options[:skip_encoding] = true
@@ -344,7 +356,7 @@ module Prawn
     end
 
     def draw_indented_line(string, options)
-      indent(@indent_paragraphs) do
+	indent(@indent_paragraphs) do
         fill_text_box(string, options.dup.merge(:single_line => true))
       end
     end
