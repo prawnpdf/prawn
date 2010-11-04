@@ -73,6 +73,43 @@ module Prawn
 
       alias_method :default_leading=, :default_leading
 
+      # Call with no argument to retrieve the current text rendering mode.
+      #
+      # Call with an integer and block to temporarily change the current
+      # text rendering mode.
+      #
+      #   pdf.text_rendering_mode(1) do
+      #     pdf.text("Outlined Text")
+      #   end
+      #
+      # Valid modes are:
+      #
+      # * 0 - fill text (default)
+      # * 1 - stroke text
+      # * 2 - fill, then stroke text
+      # * 3 - invisible text
+      # * 4 - fill text then add to path for clipping
+      # * 5 - stroke text then add to path for clipping
+      # * 6 - fill then stroke text, then add to path for clipping
+      # * 7 - add text to path for clipping
+      #
+      def text_rendering_mode(mode=nil)
+        return @text_rendering_mode || 0 if mode.nil?
+        if mode.to_i < 0 || mode.to_i > 7
+          raise ArgumentError, "mode must be between 0 and 7"
+        end
+        original_mode = text_rendering_mode
+        if original_mode == mode
+          yield
+        else
+          @text_rendering_mode = mode
+          add_content "\n#{mode} Tr"
+          yield
+          add_content "\n#{original_mode} Tr"
+          @text_rendering_mode = original_mode
+        end
+      end
+
       # Increases or decreases the space between characters.
       # For horizontal text, a positive value will increase the space.
       # For veritical text, a positive value will decrease the space.

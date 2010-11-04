@@ -109,7 +109,7 @@ module Prawn
                                             :rotate, :rotate_around,
                                             :overflow, :min_font_size,
                                             :leading, :character_spacing,
-                                            :single_line,
+                                            :mode, :single_line,
                                             :skip_encoding,
                                             :document]
       end
@@ -189,6 +189,7 @@ module Prawn
         @leading           = options[:leading] || @document.default_leading?
         @character_spacing = options[:character_spacing] ||
                              @document.character_spacing
+        @mode              = options[:mode] || @document.text_rendering_mode
         @rotate            = options[:rotate] || 0
         @rotate_around     = options[:rotate_around] || :upper_left
         @single_line       = options[:single_line]
@@ -226,24 +227,26 @@ module Prawn
         unprinted_text = ''
         @document.save_font do
           @document.character_spacing(@character_spacing) do
-            process_options
+            @document.text_rendering_mode(@mode) do
+              process_options
 
-            if @skip_encoding
-              text = original_text
-            else
-              text = normalize_encoding
-            end
-
-            @document.font_size(@font_size) do
-              shrink_to_fit(text) if @overflow == :shrink_to_fit
-              process_vertical_alignment(text)
-              @inked = true unless flags[:dry_run]
-              if @rotate != 0 && @inked
-                unprinted_text = render_rotated(text)
+              if @skip_encoding
+                text = original_text
               else
-                unprinted_text = wrap(text)
+                text = normalize_encoding
               end
-              @inked = false
+
+              @document.font_size(@font_size) do
+                shrink_to_fit(text) if @overflow == :shrink_to_fit
+                process_vertical_alignment(text)
+                @inked = true unless flags[:dry_run]
+                if @rotate != 0 && @inked
+                  unprinted_text = render_rotated(text)
+                else
+                  unprinted_text = wrap(text)
+                end
+                @inked = false
+              end
             end
           end
         end
@@ -285,8 +288,10 @@ module Prawn
         if @inked
           @document.word_spacing(word_spacing) {
             @document.character_spacing(@character_spacing) {
-              @document.draw_text!(line_to_print, :at => [x, y],
-                                   :kerning => @kerning)
+              @document.text_rendering_mode(@mode) {
+                @document.draw_text!(line_to_print, :at => [x, y],
+                                    :kerning => @kerning)
+              }
             }
           }
         end
