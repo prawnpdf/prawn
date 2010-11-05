@@ -17,18 +17,15 @@ module Prawn
   
   class Example < Prawn::Document
     
-    def load_package(package_name)
-      dir = File.expand_path(File.join(File.dirname(__FILE__), package_name))
+    def load_package(package)
+      package_file = File.expand_path(File.join(
+                          File.dirname(__FILE__), package, "#{package}.rb"))
       
-      Dir.chdir(dir) do
-        data = File.read("#{package_name}.rb")
-        package_source = extract_source(data)
-        eval package_source
-      end
+      data = File.read(package_file)
+      eval extract_source(data)
     end
     
-    def build_package(filename, examples_outline)
-      package = File.basename(filename).gsub('.rb', '')
+    def build_package(package, examples_outline)
       examples = flatten_examples_outline(examples_outline)
 
       title = "#{package.capitalize} Reference"
@@ -43,8 +40,7 @@ module Prawn
         text example, :size => 20
         move_down 10
 
-        load_example(File.expand_path(File.join(
-            File.dirname(filename), example)))
+        load_example(package, example)
       end
 
       build_package_root_outline_section(title, first_page)
@@ -101,23 +97,26 @@ module Prawn
       current_page
     end
   
-    def load_example(filename)
-      data = File.read(filename)
+    def load_example(package, example)
+      example_file = File.expand_path(File.join(
+                          File.dirname(__FILE__), package, example))
+      
+      data = File.read(example_file)
       example_source = extract_source(data)
-    
+  
       text extract_introduction_text(data), :inline_format => true
-    
+  
       bounding_box([bounds.left, cursor], :width => bounds.width) do
         font('Courier', :size => 11) do
           text example_source.gsub(' ', Prawn::Text::NBSP)
         end
-        
+      
         move_down 10
         dash(3)
         stroke_horizontal_line -36, bounds.width + 36
         undash
       end
-      
+    
       move_down 10
       eval example_source
     end
