@@ -16,36 +16,42 @@ Prawn.debug = true
 module Prawn
   
   class Example < Prawn::Document
-  
-    def self.generate_example_document(filename, examples_outline)
-      package = File.basename(filename).gsub('.rb', '.pdf')
-      examples = flatten_examples_outline(examples_outline)
+    
+    def load_package(package_name)
+      dir = File.expand_path(File.join(File.dirname(__FILE__), package_name))
       
-      generate(package) do
-        title = "#{package.gsub('.pdf', '').capitalize} Reference"
-        text title, :size => 30
-        
-        first_page = page_number
-        
-        examples.each do |example|
-          start_new_page
-          
-          example = "#{example}.rb"
-          text example, :size => 20
-          move_down 10
-          
-          load_example(File.expand_path(File.join(
-              File.dirname(filename), example)))
-        end
-        
-        outline.define do
-          section title, :destination => first_page
-        end
-        build_package_outline(title, examples_outline, first_page + 1)
+      Dir.chdir(dir) do
+        data = File.read("#{package_name}.rb")
+        package_source = extract_source(data)
+        eval package_source
       end
     end
     
-    def self.flatten_examples_outline(examples_outline)
+    def build_package(filename, examples_outline)
+      package = File.basename(filename).gsub('.rb', '')
+      examples = flatten_examples_outline(examples_outline)
+
+      title = "#{package.capitalize} Reference"
+      text title, :size => 30
+
+      first_page = page_number
+
+      examples.each do |example|
+        start_new_page
+
+        example = "#{example}.rb"
+        text example, :size => 20
+        move_down 10
+
+        load_example(File.expand_path(File.join(
+            File.dirname(filename), example)))
+      end
+
+      build_package_root_outline_section(title, first_page)
+      build_package_outline(title, examples_outline, first_page + 1)
+    end
+    
+    def flatten_examples_outline(examples_outline)
       examples_outline.map do |example_or_subsection|
         if Array === example_or_subsection
           flatten_examples_outline example_or_subsection.last
@@ -53,6 +59,19 @@ module Prawn
           example_or_subsection
         end
       end.flatten
+    end
+    
+    def build_package_root_outline_section(title, page)
+      if outline.items.include? "Prawn by Example"
+        
+        outline.add_subsection_to "Prawn by Example" do 
+          outline.section title, :destination => page
+        end
+      else
+        outline.define do
+          section title, :destination => page
+        end
+      end
     end
     
     def build_package_outline(title, examples_outline, current_page)
