@@ -77,7 +77,8 @@ module Prawn
           
           outline.add_subsection_to title do 
             outline.section example_or_subsection.first,
-                            :destination => current_page
+                            :destination => current_page,
+                            :closed => true
           end
           
           current_page = build_package_outline example_or_subsection.first,
