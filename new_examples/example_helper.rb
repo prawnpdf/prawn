@@ -102,7 +102,8 @@ module Prawn
       
       start_new_page
       
-      text example, :size => 20
+      text "<color rgb='999999'>#{package}/</color>#{example}",
+           :size => 20, :inline_format => true
       move_down 10
   
       text extract_introduction_text(data), :inline_format => true
