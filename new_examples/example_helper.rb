@@ -26,40 +26,17 @@ module Prawn
     end
     
     def build_package(package, examples_outline)
-      examples = flatten_examples_outline(examples_outline)
-
       title = "#{package.capitalize} Reference"
       text title, :size => 30
 
-      first_page = page_number
-
-      examples.each do |example|
-        start_new_page
-
-        example = "#{example}.rb"
-        text example, :size => 20
-        move_down 10
-
-        load_example(package, example)
-      end
-
-      build_package_root_outline_section(title, first_page)
-      build_package_outline(title, examples_outline, first_page + 1)
+      outline_package_root_section(title, page_number)
+      
+      build_package_examples(package, title, examples_outline)
     end
-    
-    def flatten_examples_outline(examples_outline)
-      examples_outline.map do |example_or_subsection|
-        if Array === example_or_subsection
-          flatten_examples_outline example_or_subsection.last
-        else
-          example_or_subsection
-        end
-      end.flatten
-    end
-    
-    def build_package_root_outline_section(title, page)
+
+    def outline_package_root_section(title, page)
       if outline.items.include? "Prawn by Example"
-        
+
         outline.add_subsection_to "Prawn by Example" do 
           outline.section title, :destination => page
         end
@@ -70,32 +47,30 @@ module Prawn
       end
     end
     
-    def build_package_outline(title, examples_outline, current_page)
+    def build_package_examples(package, title, examples_outline)
       examples_outline.each do |example_or_subsection|
         
         if Array === example_or_subsection
           
           outline.add_subsection_to title do 
             outline.section example_or_subsection.first,
-                            :destination => current_page,
                             :closed => true
           end
           
-          current_page = build_package_outline example_or_subsection.first,
-                                               example_or_subsection.last,
-                                               current_page
+          build_package_examples package,
+                                 example_or_subsection.first,
+                                 example_or_subsection.last
           
         else
-          outline.add_subsection_to title do 
-            outline.page :destination => current_page,
-                :title => example_or_subsection.gsub("_", " ").capitalize
-          end
+          example = "#{example_or_subsection}.rb"
+          load_example(package, example)
           
-          current_page += 1
+          outline.add_subsection_to title do 
+            outline.page :destination => page_number,
+                         :title => example.gsub("_", " ").capitalize
+          end
         end
       end
-      
-      current_page
     end
   
     def load_example(package, example)
@@ -104,6 +79,11 @@ module Prawn
       
       data = File.read(example_file)
       example_source = extract_source(data)
+      
+      start_new_page
+      
+      text example, :size => 20
+      move_down 10
   
       text extract_introduction_text(data), :inline_format => true
   
