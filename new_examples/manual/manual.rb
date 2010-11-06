@@ -31,6 +31,11 @@ Prawn::Example.generate("manual.pdf") do
     outline.section "How to read this manual", :destination => page_number
   end
   
+  text "All code snippets from this manual are meant to be used inside a Prawn::Document.generate implicit block. If that is not the case the full code is provided."
+  
+  start_new_page
+  
+  load_package "document"
   
   start_new_page
   

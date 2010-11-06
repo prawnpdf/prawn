@@ -22,7 +22,7 @@ module Prawn
                           File.dirname(__FILE__), package, "#{package}.rb"))
       
       data = File.read(package_file)
-      eval extract_source(data)
+      eval extract_generate_block(data)
     end
     
     def build_package(package, examples_outline)
@@ -50,7 +50,8 @@ module Prawn
     def build_package_examples(package, title, examples_outline)
       examples_outline.each do |example_or_subsection|
         
-        if Array === example_or_subsection
+        case example_or_subsection
+        when Array
           
           outline.add_subsection_to title do 
             outline.section example_or_subsection.first,
@@ -61,6 +62,15 @@ module Prawn
                                  example_or_subsection.first,
                                  example_or_subsection.last
           
+        when Hash
+          example = "#{example_or_subsection.delete(:name)}.rb"
+          load_example(package, example, example_or_subsection)
+          
+          outline.add_subsection_to title do 
+            outline.page :destination => page_number,
+                         :title => example.gsub("_", " ").capitalize
+          end
+        
         else
           example = "#{example_or_subsection}.rb"
           load_example(package, example)
@@ -73,12 +83,22 @@ module Prawn
       end
     end
   
-    def load_example(package, example)
+    def load_example(package, example, options={})
+      options = { :eval_source => true,
+                  :full_source => false
+                }.merge(options)
+      
       example_file = File.expand_path(File.join(
                           File.dirname(__FILE__), package, example))
       
       data = File.read(example_file)
-      example_source = extract_source(data)
+      
+      example_source = ""
+      if options[:full_source]
+        example_source = extract_full_source(data)
+      else  
+        example_source = extract_generate_block(data)
+      end
       
       start_new_page
       
@@ -91,15 +111,17 @@ module Prawn
         font('Courier', :size => 11) do
           text example_source.gsub(' ', Prawn::Text::NBSP)
         end
+      end
       
+      if options[:eval_source]
         move_down 10
         dash(3)
         stroke_horizontal_line -36, bounds.width + 36
         undash
+      
+        move_down 10
+        eval example_source 
       end
-    
-      move_down 10
-      eval example_source
     end
     
     def stroke_axis(options={})
@@ -133,8 +155,13 @@ module Prawn
 
   private
 
+    # Returns everything except initial comments and require calls
+    def extract_full_source(source)
+      source.gsub(/# encoding.*?\n.*require.*?\n\n/m, "\n")
+    end
+    
     # Returns anything within the Example.generate block
-    def extract_source(source)
+    def extract_generate_block(source)
       source.slice(/\w+\.generate.*? do(.*)end/m, 1) or source
     end
   
