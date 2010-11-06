@@ -37,7 +37,7 @@ module Prawn
     def outline_package_root_section(title, page)
       if outline.items.include? "Prawn by Example"
 
-        outline.add_subsection_to "Prawn by Example" do 
+        outline.add_subsection_to "Prawn by Example" do
           outline.section title, :destination => page
         end
       else
