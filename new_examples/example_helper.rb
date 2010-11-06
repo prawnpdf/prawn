@@ -63,21 +63,20 @@ module Prawn
                                  example_or_subsection.last
           
         when Hash
-          example = "#{example_or_subsection.delete(:name)}.rb"
-          load_example(package, example, example_or_subsection)
+          example = example_or_subsection.delete(:name)
+          load_example(package, "#{example}.rb", example_or_subsection)
           
           outline.add_subsection_to title do 
             outline.page :destination => page_number,
-                         :title => example.gsub("_", " ").capitalize
+                :title => example.gsub("_", " ").capitalize
           end
         
         else
-          example = "#{example_or_subsection}.rb"
-          load_example(package, example)
+          load_example(package, "#{example_or_subsection}.rb")
           
           outline.add_subsection_to title do 
             outline.page :destination => page_number,
-                         :title => example.gsub("_", " ").capitalize
+                :title => example_or_subsection.gsub("_", " ").capitalize
           end
         end
       end
