@@ -147,6 +147,7 @@ module Prawn
 
       if @indent_paragraphs
         string.split("\n").each do |paragraph|
+          paragraph << "\n" if paragraph.empty?
           options[:skip_encoding] = false
           remaining_text = draw_indented_line(paragraph, options)
           options[:skip_encoding] = true

@@ -345,5 +345,17 @@ describe "#text" do
         text.strings[4].should == ("hello " * 21).strip
       end
     end
+    describe "when a paragraphs are separated by by a new line" do
+      it "should not create multiple pages" do
+        @pdf.text("Paragraph 1\n\nParagraph 2", :indent_paragraphs => 10)
+        text = PDF::Inspector::Page.analyze(@pdf.render)
+        text.pages.size.should == 1
+      end
+      it "should separate the paragraphs by a new line" do
+        @pdf.text("Paragraph 1\n\nParagraph 2", :indent_paragraphs => 10)
+        text = PDF::Inspector::Text.analyze(@pdf.render)
+        text.strings.size.should == 3
+      end
+    end
   end
 end
