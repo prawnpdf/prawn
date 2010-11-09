@@ -3,7 +3,7 @@
 # Text rendering can be as simple or as complex as you want.
 #
 # This example cover the most basic method: <code>text</code>. It is meant for
-# free flowing text. The provided text will flow according to the current
+# free flowing text. The provided string will flow according to the current
 # bounding box width and height. It will also flow onto the next page if the
 # bottom of the bounding box is reached.
 #
@@ -23,7 +23,8 @@ Prawn::Example.generate(filename) do
   
   bounding_box [100, 250], :width => 200, :height => 200 do
     text "This text will flow along this bounding box we created for it. " * 5
+    transparent(0.5) { stroke_bounds }
   end
   
-  text "And this line will go below the bounding box."
+  text "And this line will go directly below the bounding box."
 end

@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Examples for creating new PDF documents with Prawn.
+# Examples for text rendering.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -10,6 +10,13 @@ Prawn::Example.generate("text.pdf") do
       [ "Basics", [ "simple",
                     "positioned"
                   ]
+      ],
+      [ "Fonts", [ "font",
+                   "font_size"
+                 ]
+      ],
+      [ "Styling", [
+                   ]
       ]
     ]
   )
