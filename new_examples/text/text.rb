@@ -13,7 +13,9 @@ Prawn::Example.generate("text.pdf") do
       ],
       [ "Styling", [ "font",
                      "font_size",
-                     "font_style"
+                     "font_style",
+                     "alignment",
+                     "leading"
                    ]
       ],
       [ "Fonts", [

@@ -1,10 +1,11 @@
 # encoding: utf-8
 # 
 # Most font families come with some styles other than normal. Most common are
-# <code>bold</code>, <code>italic</code>, <code>bold_italic</code>.
+# <code>bold</code>, <code>italic</code> and <code>bold_italic</code>.
 #
-# We can use the <code>:style</code> option in the text methods to change the
-# font style for rendering text.
+# The style can be set using the <code>font</code> where it will apply for the
+# rest of the document or inline in the text methods with the
+# <code>:style</code> option.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
