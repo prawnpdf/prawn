@@ -11,12 +11,13 @@ Prawn::Example.generate("text.pdf") do
                     "positioned"
                   ]
       ],
-      [ "Fonts", [ "font",
-                   "font_size"
-                 ]
-      ],
-      [ "Styling", [
+      [ "Styling", [ "font",
+                     "font_size",
+                     "font_style"
                    ]
+      ],
+      [ "Fonts", [
+                 ]
       ]
     ]
   )
