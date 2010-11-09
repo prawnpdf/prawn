@@ -7,7 +7,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("text.pdf") do
   build_package("text", [
-      [ "Basics", [ "simple"
+      [ "Basics", [ "simple",
+                    "positioned"
                   ]
       ]
     ]
