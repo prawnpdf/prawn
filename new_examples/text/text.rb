@@ -20,6 +20,9 @@ Prawn::Example.generate("text.pdf") do
                      "indent_paragraphs"
                    ]
       ],
+      [ "Complex Formatting", [ "inline"
+                              ]
+      ],
       [ "Fonts", [
                  ]
       ]
