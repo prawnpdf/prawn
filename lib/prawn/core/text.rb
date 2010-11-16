@@ -15,6 +15,9 @@ module Prawn
       # These should be used as a base. Extensions may build on this list
       #
       VALID_OPTIONS = [:kerning, :size, :style]
+      MODES = { :fill => 0, :stroke => 1, :fill_stroke => 2, :invisible => 3,
+                :fill_clip => 4, :stroke_clip => 5, :fill_stroke_clip => 6,
+                :clip => 7 }
 
       attr_reader :skip_encoding
 
@@ -75,37 +78,37 @@ module Prawn
 
       # Call with no argument to retrieve the current text rendering mode.
       #
-      # Call with an integer and block to temporarily change the current
+      # Call with a symbol and block to temporarily change the current
       # text rendering mode.
       #
-      #   pdf.text_rendering_mode(1) do
+      #   pdf.text_rendering_mode(:stroke) do
       #     pdf.text("Outlined Text")
       #   end
       #
       # Valid modes are:
       #
-      # * 0 - fill text (default)
-      # * 1 - stroke text
-      # * 2 - fill, then stroke text
-      # * 3 - invisible text
-      # * 4 - fill text then add to path for clipping
-      # * 5 - stroke text then add to path for clipping
-      # * 6 - fill then stroke text, then add to path for clipping
-      # * 7 - add text to path for clipping
+      # * :fill             - fill text (default)
+      # * :stroke           - stroke text
+      # * :fill_stroke      - fill, then stroke text
+      # * :invisible        - invisible text
+      # * :fill_clip        - fill text then add to path for clipping
+      # * :stroke_clip      - stroke text then add to path for clipping
+      # * :fill_stroke_clip - fill then stroke text, then add to path for clipping
+      # * :clip             - add text to path for clipping
       #
       def text_rendering_mode(mode=nil)
-        return @text_rendering_mode || 0 if mode.nil?
-        if mode.to_i < 0 || mode.to_i > 7
-          raise ArgumentError, "mode must be between 0 and 7"
+        return @text_rendering_mode || :fill if mode.nil?
+        unless MODES.keys.include?(mode)
+          raise ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
         end
         original_mode = text_rendering_mode
         if original_mode == mode
           yield
         else
           @text_rendering_mode = mode
-          add_content "\n#{mode} Tr"
+          add_content "\n#{MODES[mode]} Tr"
           yield
-          add_content "\n#{original_mode} Tr"
+          add_content "\n#{MODES[original_mode]} Tr"
           @text_rendering_mode = original_mode
         end
       end

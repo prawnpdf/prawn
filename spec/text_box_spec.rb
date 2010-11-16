@@ -764,7 +764,7 @@ describe "Text::Box#render with :mode option" do
   it "should alter the text rendering mode of the document" do
     create_pdf
     string = "hello world"
-    options = { :document => @pdf, :mode => 2 }
+    options = { :document => @pdf, :mode => :fill_stroke }
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)

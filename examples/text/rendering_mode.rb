@@ -11,10 +11,10 @@ Prawn::Document.generate "rendering_mode.pdf" do |pdf|
   pdf.stroke_color "0000ff"
 
   # inline rendering mode
-  pdf.text("Inline mode", :mode => 1, :size => 40)
+  pdf.text("Inline mode", :mode => :stroke, :size => 40)
 
   # block rendering mode
-  pdf.text_rendering_mode(1) do
+  pdf.text_rendering_mode(:stroke) do
     pdf.text("Block", :size => 30)
     pdf.text("Mode", :size => 30)
   end

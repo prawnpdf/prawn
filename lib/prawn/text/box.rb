@@ -38,6 +38,9 @@ module Prawn
     # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
     #                               to or remove from the default character
     #                               spacing. [0]
+    # <tt>:mode</tt>:: <tt>symbol</tt>. The text rendering mode. See
+    #                  documentation for Prawn::Document#text_rendering_mode
+    #                  for a list of valid options. [:fill]
     # <tt>:style</tt>:: The style to use. The requested style must be part of
     #                   the current font familly. [current style]
     #
