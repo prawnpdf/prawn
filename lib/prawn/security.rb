@@ -47,7 +47,7 @@ module Prawn
       #
       # <tt>:print_document</tt>:: Print document.
       #
-      # <tt>:modify_document</tt>:: Modify contents of document (other than text
+      # <tt>:modify_contents</tt>:: Modify contents of document (other than text
       #                             annotations and interactive form fields).
       #
       # <tt>:copy_contents</tt>:: Copy text and graphics from document.
