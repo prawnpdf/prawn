@@ -25,8 +25,9 @@ Prawn::Example.generate("text.pdf") do
                                  "formatted_callbacks"
                                ]
       ],
-      [ "Fonts", [
-                 ]
+      [ "Registering Fonts", [ "single",
+                               "families"
+                             ]
       ]
     ]
   )
