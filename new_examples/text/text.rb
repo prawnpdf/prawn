@@ -21,7 +21,8 @@ Prawn::Example.generate("text.pdf") do
                    ]
       ],
       [ "Advanced Formatting", [ "inline",
-                                 "formatted"
+                                 "formatted",
+                                 "formatted_callbacks"
                                ]
       ],
       [ "Fonts", [
