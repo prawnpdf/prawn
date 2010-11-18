@@ -22,12 +22,13 @@ Prawn::Example.generate("text.pdf") do
       ],
       [ "Advanced Formatting", [ "inline",
                                  "formatted",
-                                 "formatted_callbacks"
+                                 "formatted_callbacks",
+                                 "rendering_and_color"
                                ]
       ],
-      [ "Registering Fonts", [ "single",
-                               "families"
-                             ]
+      [ "External Fonts", [ "single_usage",
+                            "registering_families"
+                          ]
       ]
     ]
   )
