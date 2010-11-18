@@ -9,7 +9,8 @@ Prawn::Example.generate("text.pdf") do
   build_package("text", [
       [ "Basics", [ "free_flowing_text",
                     "positioned_text",
-                    "text_box_overflow"
+                    "text_box_overflow",
+                    "text_box_excess"
                   ]
       ],
       [ "Styling", [ "font",

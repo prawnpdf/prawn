@@ -1,0 +1,31 @@
+# encoding: utf-8
+#
+# Whenever the <code>text_box</code> method truncates text, this truncated bit
+# is not lost, it is the method return value and we can take advantage of that.
+#
+# We just need to take some precautions
+#
+# This example renders the beggining of the text in a greater font inside a
+# text box and than procedes to render the remaining text below.
+#
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
+
+filename = File.basename(__FILE__).gsub('.rb', '.pdf')
+Prawn::Example.generate(filename) do
+  string = "This is the beginning of the text. It will be cut somewhere and " +
+           "the rest of the text will procede to be rendered this time by " +
+           "calling another method." + " . " * 50
+
+  y_position = cursor - 20
+  excess_text = text_box string,
+                         :width    => 300,
+                         :height   => 50,
+                         :overflow => :truncate,
+                         :at       => [100, y_position],
+                         :size     => 18
+  
+  text_box excess_text,
+           :width    => 300,
+           :at       => [100, y_position - 50]
+end
