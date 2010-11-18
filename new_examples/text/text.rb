@@ -17,7 +17,8 @@ Prawn::Example.generate("text.pdf") do
                      "alignment",
                      "leading",
                      "kerning_and_character_spacing",
-                     "paragraph_indentation"
+                     "paragraph_indentation",
+                     "rotation"
                    ]
       ],
       [ "Advanced Styling", [ "inline",
