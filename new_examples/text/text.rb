@@ -7,8 +7,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("text.pdf") do
   build_package("text", [
-      [ "Basics", [ "simple",
-                    "positioned"
+      [ "Basics", [ "free_flowing_text",
+                    "positioned_text"
                   ]
       ],
       [ "Styling", [ "font",
@@ -17,14 +17,14 @@ Prawn::Example.generate("text.pdf") do
                      "alignment",
                      "leading",
                      "kerning_and_character_spacing",
-                     "indent_paragraphs"
+                     "paragraph_indentation"
                    ]
       ],
-      [ "Advanced Formatting", [ "inline",
-                                 "formatted",
-                                 "formatted_callbacks",
-                                 "rendering_and_color"
-                               ]
+      [ "Advanced Styling", [ "inline",
+                              "formatted_text",
+                              "formatted_callbacks",
+                              "rendering_and_color"
+                            ]
       ],
       [ "External Fonts", [ "single_usage",
                             "registering_families"
