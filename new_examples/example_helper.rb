@@ -72,10 +72,11 @@ module Prawn
           end
         
         else
+          initial_page = page_number + 1
           load_example(package, "#{example_or_subsection}.rb")
           
           outline.add_subsection_to title do 
-            outline.page :destination => page_number,
+            outline.page :destination => initial_page,
                 :title => example_or_subsection.gsub("_", " ").capitalize
           end
         end
