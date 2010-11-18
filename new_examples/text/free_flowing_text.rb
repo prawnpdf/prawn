@@ -34,13 +34,15 @@ Prawn::Example.generate(filename) do
   end
   
   bounding_box [300, y_position], :width => 200, :height => 150 do
-    transparent(0.5) { stroke_bounds }
+    transparent(0.5) { stroke_bounds }  # This will stroke on one page
+    
     text "Now look what happens when the free flowing text reaches the end " +
          "of a bounding box that is narrower than the margin box." +
          " . " * 200 +
          "It continues on the next page as if the previous bounding box " +
          "was cloned. If we want it to have the same border as the one on " +
          "the previous page we will need to stroke the rectangle again."
-    transparent(0.5) { stroke_bounds }
+    
+    transparent(0.5) { stroke_bounds }  # And this will stroke on the next
   end
 end

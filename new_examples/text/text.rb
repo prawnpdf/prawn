@@ -8,7 +8,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 Prawn::Example.generate("text.pdf") do
   build_package("text", [
       [ "Basics", [ "free_flowing_text",
-                    "positioned_text"
+                    "positioned_text",
+                    "text_box_overflow"
                   ]
       ],
       [ "Styling", [ "font",
