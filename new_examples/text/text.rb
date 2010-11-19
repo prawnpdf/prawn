@@ -26,7 +26,8 @@ Prawn::Example.generate("text.pdf") do
       [ "Advanced Styling", [ "inline",
                               "formatted_text",
                               "formatted_callbacks",
-                              "rendering_and_color"
+                              "rendering_and_color",
+                              "text_box_extensions"
                             ]
       ],
       [ "External Fonts", [ "single_usage",

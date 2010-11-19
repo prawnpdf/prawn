@@ -36,7 +36,7 @@ Prawn::Example.generate(filename) do
   move_down 120
   text string
   y_position = cursor - 20
-  [12, 10, 8, nil].each_with_index do |value, index|
+  [nil, 8, 10, 12].each_with_index do |value, index|
     text_box string, :at => [index * 150, y_position],
              :width => 50, :height => 50,
              :overflow => :shrink_to_fit,
