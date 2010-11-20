@@ -454,7 +454,7 @@ describe "content stream characteristics" do
     @pdf = Prawn::Document.new
     @pdf.text "James"
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
 
@@ -467,7 +467,7 @@ describe "content stream characteristics" do
     @pdf.go_to_page(1)
     @pdf.text "Healy"
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
 
