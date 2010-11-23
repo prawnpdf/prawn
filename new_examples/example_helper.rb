@@ -26,7 +26,7 @@ module Prawn
     end
     
     def build_package(package, examples_outline)
-      title = "#{package.capitalize} Reference"
+      title = package.capitalize
       text title, :size => 30
 
       outline_package_root_section(title, page_number)
@@ -93,7 +93,6 @@ module Prawn
       
       data = File.read(example_file)
       
-      example_source = ""
       if options[:full_source]
         example_source = extract_full_source(data)
       else  
@@ -161,7 +160,7 @@ module Prawn
       source.gsub(/# encoding.*?\n.*require.*?\n\n/m, "\n")
     end
     
-    # Returns anything within the Example.generate block
+    # Returns anything within the generate block
     def extract_generate_block(source)
       source.slice(/\w+\.generate.*? do(.*)end/m, 1) or source
     end
