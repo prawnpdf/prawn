@@ -15,14 +15,31 @@ Prawn.debug = true
 
 module Prawn
   
+  MANUAL_TITLE = "Prawn by Example"
+  
   class Example < Prawn::Document
     
-    def load_package(package)
+    def load_file(package, file)
       package_file = File.expand_path(File.join(
-                          File.dirname(__FILE__), package, "#{package}.rb"))
-      
+                          File.dirname(__FILE__), package, "#{file}.rb"))
+
       data = File.read(package_file)
       eval extract_generate_block(data)
+    end
+
+    def load_package(package)
+      start_new_page
+      load_file(package, package)
+    end
+    
+    def load_page(page, page_name = nil)
+      start_new_page
+      load_file "manual", page
+
+      outline.add_subsection_to Prawn::MANUAL_TITLE do
+        outline.section page_name || page.capitalize,
+                        :destination => page_number
+      end
     end
     
     def build_package(package, examples_outline)
@@ -35,9 +52,9 @@ module Prawn
     end
 
     def outline_package_root_section(title, page)
-      if outline.items.include? "Prawn by Example"
+      if outline.items.include? Prawn::MANUAL_TITLE
 
-        outline.add_subsection_to "Prawn by Example" do
+        outline.add_subsection_to Prawn::MANUAL_TITLE do
           outline.section title, :destination => page
         end
       else
