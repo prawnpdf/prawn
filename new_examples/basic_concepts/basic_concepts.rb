@@ -9,7 +9,8 @@ Prawn::Example.generate("basic_concepts.pdf") do
   build_package("basic_concepts", [
       { :name => "creation", :eval_source => false, :full_source => true },
       "origin",
-      "cursor"
+      "cursor",
+      "adding_pages"
     ]
   )
 end
