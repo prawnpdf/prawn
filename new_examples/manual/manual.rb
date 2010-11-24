@@ -15,7 +15,7 @@ Prawn::Example.generate("manual.pdf") do
   load_page "foreword"
   load_page "how_to_read", "How to read this manual"
   
-  load_package "document"
+  load_package "basic_concepts"
   load_package "graphics"
   load_package "text"
 end

@@ -43,7 +43,7 @@ module Prawn
     end
     
     def build_package(package, examples_outline)
-      title = package.capitalize
+      title = package.gsub("_", " ").capitalize
       text title, :size => 30
 
       outline_package_root_section(title, page_number)
