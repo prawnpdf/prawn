@@ -34,11 +34,11 @@ module Prawn
     
     def load_page(page, page_name = nil)
       start_new_page
-      load_file "manual", page
+      load_file("manual", page)
 
       outline.add_subsection_to Prawn::MANUAL_TITLE do
-        outline.section page_name || page.capitalize,
-                        :destination => page_number
+        outline.section(page_name || page.capitalize,
+                        :destination => page_number)
       end
     end
     
@@ -54,12 +54,12 @@ module Prawn
     def outline_package_root_section(title, page)
       if outline.items.include? Prawn::MANUAL_TITLE
 
-        outline.add_subsection_to Prawn::MANUAL_TITLE do
-          outline.section title, :destination => page
+        outline.add_subsection_to(Prawn::MANUAL_TITLE) do
+          outline.section(title, :destination => page)
         end
       else
         outline.define do
-          section title, :destination => page
+          section(title, :destination => page)
         end
       end
     end
@@ -70,31 +70,30 @@ module Prawn
         case example_or_subsection
         when Array
           
-          outline.add_subsection_to title do 
-            outline.section example_or_subsection.first,
-                            :closed => true
+          outline.add_subsection_to(title) do 
+            outline.section(example_or_subsection.first, :closed => true)
           end
           
-          build_package_examples package,
+          build_package_examples(package,
                                  example_or_subsection.first,
-                                 example_or_subsection.last
+                                 example_or_subsection.last)
           
         when Hash
           example = example_or_subsection.delete(:name)
           load_example(package, "#{example}.rb", example_or_subsection)
           
-          outline.add_subsection_to title do 
-            outline.page :destination => page_number,
-                :title => example.gsub("_", " ").capitalize
+          outline.add_subsection_to(title) do 
+            outline.page(:destination => page_number,
+                         :title => example.gsub("_", " ").capitalize)
           end
         
         else
           initial_page = page_number + 1
           load_example(package, "#{example_or_subsection}.rb")
           
-          outline.add_subsection_to title do 
-            outline.page :destination => initial_page,
-                :title => example_or_subsection.gsub("_", " ").capitalize
+          outline.add_subsection_to(title) do 
+            outline.page(:destination => initial_page,
+                    :title => example_or_subsection.gsub("_", " ").capitalize)
           end
         end
       end
