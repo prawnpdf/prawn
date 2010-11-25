@@ -18,14 +18,6 @@ module Prawn
   MANUAL_TITLE = "Prawn by Example"
   
   class Example < Prawn::Document
-    
-    def load_file(package, file)
-      package_file = File.expand_path(File.join(
-                          File.dirname(__FILE__), package, "#{file}.rb"))
-
-      data = File.read(package_file)
-      eval extract_generate_block(data)
-    end
 
     def load_package(package)
       start_new_page
@@ -40,6 +32,11 @@ module Prawn
         outline.section(page_name || page.capitalize,
                         :destination => page_number)
       end
+    end
+
+    def load_file(package, file)
+      data = read_file(package, "#{file}.rb")
+      eval extract_generate_block(data)
     end
     
     def build_package(package, examples_outline)
@@ -104,10 +101,7 @@ module Prawn
                   :full_source => false
                 }.merge(options)
       
-      example_file = File.expand_path(File.join(
-                          File.dirname(__FILE__), package, example))
-      
-      data = File.read(example_file)
+      data = read_file(package, example)
       
       if options[:full_source]
         example_source = extract_full_source(data)
@@ -117,22 +111,20 @@ module Prawn
       
       start_new_page
       
-      text "<color rgb='999999'>#{package}/</color>#{example}",
-           :size => 20, :inline_format => true
+      text("<color rgb='999999'>#{package}/</color>#{example}",
+           :size => 20, :inline_format => true)
       move_down 10
   
-      text extract_introduction_text(data), :inline_format => true
-  
-      bounding_box([bounds.left, cursor], :width => bounds.width) do
-        font('Courier', :size => 11) do
-          text example_source.gsub(' ', Prawn::Text::NBSP)
-        end
+      text(extract_introduction_text(data), :inline_format => true)
+      
+      font('Courier', :size => 11) do
+        text example_source.gsub(' ', Prawn::Text::NBSP)
       end
       
       if options[:eval_source]
         move_down 10
         dash(3)
-        stroke_horizontal_line -36, bounds.width + 36
+        stroke_horizontal_line(-36, bounds.width + 36)
         undash
       
         move_down 10
@@ -140,15 +132,21 @@ module Prawn
       end
     end
     
+    def read_file(package, file)
+      File.read(File.expand_path(File.join(
+                          File.dirname(__FILE__), package, file)))
+    end
+    
     def stroke_axis(options={})
       options = { :height => 350, :width => bounds.width.to_i }.merge(options)
       
       dash(1, :space => 4)
-      stroke_horizontal_line -21, options[:width], :at => 0
-      stroke_vertical_line -21, options[:height], :at => 0
+      stroke_horizontal_line(-21, options[:width], :at => 0)
+      stroke_vertical_line(-21, options[:height], :at => 0)
       undash
       
       fill_circle_at [0, 0], :radius => 1
+      
       (100..options[:width]).step(100) do |point|
         fill_circle_at [point, 0], :radius => 1
         draw_text point, :at => [point-5, -10], :size => 7
