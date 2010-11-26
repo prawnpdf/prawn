@@ -17,5 +17,6 @@ Prawn::Example.generate("manual.pdf") do
   
   load_package "basic_concepts"
   load_package "graphics"
+  load_package "bounding_box"
   load_package "text"
 end
