@@ -361,7 +361,7 @@ context "foreign character encoding" do
         section 'La pomme croquée', :destination => 1, :closed => true
       end
     end
-    @hash = PDF::Hash.new(StringIO.new(pdf.render, 'r+'))
+    @hash = PDF::Reader::ObjectHash.new(StringIO.new(pdf.render, 'r+'))
   end
 
   it "should handle other encodings for the title" do
@@ -372,7 +372,7 @@ end
 
 def render_and_find_objects
   output = StringIO.new(@pdf.render, 'r+')
-  @hash = PDF::Hash.new(output)
+  @hash = PDF::Reader::ObjectHash.new(output)
   @outline_root = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Outlines}
   @pages = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
   @section_1 = find_by_title('Chapter 1')

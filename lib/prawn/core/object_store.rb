@@ -148,14 +148,10 @@ module Prawn
           raise ArgumentError, "#{filename} does not exist"
         end
 
-        unless PDF.const_defined?("Hash")
-          raise "PDF::Hash not found. Is PDF::Reader > 0.8?"
-        end
-
-        hash = PDF::Hash.new(filename)
+        hash = PDF::Reader::ObjectHash.new(filename)
         src_info = hash.trailer[:Info]
         src_root = hash.trailer[:Root]
-        @min_version = hash.version.to_f
+        @min_version = hash.pdf_version.to_f
 
         if hash.trailer[:Encrypt]
           msg = "Template file is an encrypted PDF, it can't be used as a template"
@@ -177,16 +173,16 @@ module Prawn
         raise Prawn::Errors::TemplateError, msg
       end
 
-      # recurse down an object graph from a source PDF, importing all the indirect
-      # objects we find.
+      # recurse down an object graph from a source PDF, importing all the
+      # indirect objects we find.
       #
-      # hash is the PDF::Hash to extract objects from, object is the object to
-      # extract.
+      # hash is the PDF::Reader::ObjectHash to extract objects from, object is
+      # the object to extract.
       #
       def load_object_graph(hash, object)
         @loaded_objects ||= {}
         case object
-        when Hash then
+        when ::Hash then
           object.each { |key,value| object[key] = load_object_graph(hash, value) }
           object
         when Array then

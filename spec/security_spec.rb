@@ -66,6 +66,12 @@ describe "Document encryption" do
         should == 0b1111_1111_1111_1111_1111_1111_1101_1111
     end
 
+    it "should raise ArgumentError if invalid option is provided" do
+      lambda {
+        doc_with_permissions(:modify_document => false)
+      }.should.raise(ArgumentError)
+    end
+
   end
 
   describe "Encryption keys" do

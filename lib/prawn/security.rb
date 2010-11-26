@@ -47,7 +47,7 @@ module Prawn
       #
       # <tt>:print_document</tt>:: Print document.
       #
-      # <tt>:modify_document</tt>:: Modify contents of document (other than text
+      # <tt>:modify_contents</tt>:: Modify contents of document (other than text
       #                             annotations and interactive form fields).
       #
       # <tt>:copy_contents</tt>:: Copy text and graphics from document.
@@ -142,6 +142,11 @@ module Prawn
       def permissions=(perms={})
         @permissions ||= FullPermissions
         perms.each do |key, value|
+          unless PermissionsBits[key]
+            raise ArgumentError, "Unknown permission :#{key}. Valid options: " +
+              PermissionsBits.keys.map { |k| k.inspect }.join(", ")
+          end
+
           # 0-based bit number, from LSB
           bit_position = PermissionsBits[key] - 1
 

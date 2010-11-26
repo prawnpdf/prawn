@@ -68,7 +68,7 @@ describe "the image() function" do
     @pdf.image @filename, :fit => [600, 600]
     @pdf.image @filename, :fit => [600, 600]
     output = StringIO.new(@pdf.render, 'r+')
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
     pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
     pages.size.should == 2 
     hash[pages[0]][:Resources][:XObject].keys.should == [:I1]
@@ -79,7 +79,7 @@ describe "the image() function" do
     @pdf.image @filename, :fit => [400, 400]
     @pdf.image @filename, :fit => [400, 400]
     output = StringIO.new(@pdf.render, 'r+')
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
     pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
     pages.size.should == 1 
     Set.new(hash[pages[0]][:Resources][:XObject].keys).should ==
