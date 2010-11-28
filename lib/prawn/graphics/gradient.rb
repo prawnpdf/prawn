@@ -68,7 +68,7 @@ module Prawn
           :Matrix => [0,-height, -width, 0, x, y],
         })
 
-        patterns = page_resources[:Pattern] ||= {}
+        patterns = page.resources[:Pattern] ||= {}
         id = patterns.empty? ? 'SP1' : patterns.keys.sort.last.succ
         patterns[id] = shading_pattern
 
