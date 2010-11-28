@@ -11,11 +11,15 @@ module Prawn
     module Gradient
       # Sets the fill gradient from color1 to color2.
       #
-      # It accepts CMYK and RGB colors, like #fill_color. Both colors must be of the same type.
+      # It accepts CMYK and RGB colors, like #fill_color. Both colors must be
+      # of the same type.
       #
-      # point, width and height define a bounding box in which the gradient will be rendered.
-      # For example if you want to have page full of text with gradually changing color:
-      #   pdf.fill_gradient [0, page.bounds.height], page.bounds.width, page.bounds.height, 'FF0000', '0000FF'
+      # point, width and height define a bounding box in which the gradient
+      # will be rendered. For example, if you want to have page full of text
+      # with gradually changing color:
+      #
+      #   pdf.fill_gradient [0, pdf.bounds.height], pdf.bounds.width,
+      #     pdf.bounds.height, 'FF0000', '0000FF'
       #   pdf.text 'lots of text'*1000
       #
       # <tt>:stroke_bounds</tt> - draw gradient bounds
