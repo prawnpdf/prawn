@@ -225,6 +225,40 @@ describe "When setting colors" do
 
 end
 
+describe "Gradients" do
+  before(:each) { create_pdf }
+
+  it "should create a /Pattern resource" do
+    @pdf.fill_gradient [0, @pdf.bounds.height],
+      @pdf.bounds.width, @pdf.bounds.height, 'FF0000', '0000FF'
+
+    grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+    pattern = grad.patterns[:SP1]
+
+    pattern.should.not.be.nil
+    assert pattern[:Shading][:Function][:C0].zip([1, 0, 0]).
+      all?{ |x1, x2| (x1-x2).abs < 0.01 }
+    assert pattern[:Shading][:Function][:C1].zip([0, 0, 1]).
+      all?{ |x1, x2| (x1-x2).abs < 0.01 }
+  end
+
+  it "fill_gradient should set fill color to the pattern" do
+    @pdf.fill_gradient [0, @pdf.bounds.height],
+      @pdf.bounds.width, @pdf.bounds.height, 'FF0000', '0000FF'
+
+    str = @pdf.render
+    str.should =~ %r{/Pattern\s+cs\s*/SP1\s+scn}
+  end
+
+  it "stroke_gradient should set stroke color to the pattern" do
+    @pdf.stroke_gradient [0, @pdf.bounds.height],
+      @pdf.bounds.width, @pdf.bounds.height, 'FF0000', '0000FF'
+
+    str = @pdf.render
+    str.should =~ %r{/Pattern\s+CS\s*/SP1\s+SCN}
+  end
+end
+
 describe "When using painting shortcuts" do
   before(:each) { create_pdf }
 
