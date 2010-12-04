@@ -7,7 +7,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("images.pdf") do
   build_package("images", [
-      [ "Basics", [ "plain_image"
+      [ "Basics", [ "plain_image",
+                    "absolute_position"
                   ]
       ]
     ]
