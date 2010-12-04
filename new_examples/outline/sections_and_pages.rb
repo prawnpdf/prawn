@@ -59,7 +59,7 @@ Prawn::Example.generate(filename) do
   
   # Section and Pages without links. While a section without a link may be
   # useful to group some pages a page without a link is useless
-  outline.define do
+  outline.update do  # update is an alias to define
     section("Section without link") do 
       page :title => "Page without link"
     end

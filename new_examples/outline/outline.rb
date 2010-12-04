@@ -10,6 +10,11 @@ Prawn::Example.generate("outline.pdf") do
       [ "Basics", [ { :name => "sections_and_pages",
                       :eval_source => false }
                   ]
+      ],
+      [ "Adding nodes later",
+                  [ { :name => "add_subsection",
+                      :eval_source => false }
+                  ]
       ]
     ]
   )
