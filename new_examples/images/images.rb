@@ -10,6 +10,10 @@ Prawn::Example.generate("images.pdf") do
       [ "Basics", [ "plain_image",
                     "absolute_position"
                   ]
+      ],
+      [ "Relative Positioning", [ "horizontal",
+                                  "vertical"
+                                ]
       ]
     ]
   )
