@@ -22,5 +22,6 @@ Prawn::Example.generate("manual.pdf") do
   load_package "text"
   
   # Remaining chapters
+  load_package "images"
   load_package "security"
 end
