@@ -14,6 +14,9 @@ Prawn::Example.generate("images.pdf") do
       [ "Relative Positioning", [ "horizontal",
                                   "vertical"
                                 ]
+      ],
+      ["Size", [ "width_and_height"
+               ]
       ]
     ]
   )
