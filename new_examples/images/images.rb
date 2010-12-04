@@ -15,7 +15,9 @@ Prawn::Example.generate("images.pdf") do
                                   "vertical"
                                 ]
       ],
-      ["Size", [ "width_and_height"
+      ["Size", [ "width_and_height",
+                 "scale",
+                 "fit"
                ]
       ]
     ]
