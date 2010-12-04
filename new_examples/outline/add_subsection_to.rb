@@ -2,15 +2,14 @@
 #
 # We already saw how to define an outline tree sequentially.
 #
-# If you'd like to change add nodes to the middle of an outline tree the
+# If you'd like to add nodes to the middle of an outline tree the
 # <code>add_subsection_to</code> may help you.
 #
 # It allows you to insert sections to the outline tree at any point. Just
 # provide the <code>title</code> of the parent section, the
 # <code>position</code> you want the new subsection to be inserted
 # <code>:first</code> or <code>:last</code> (defaults to <code>:last</code>)
-# and a block with the subsection declaration just like the <code>define</code>
-# method.
+# and a block to declare the subsection.
 #
 # The <code>add_subsection_to</code> block don't need to create new sections, it
 # may create only new pages.
@@ -36,7 +35,7 @@ Prawn::Example.generate(filename) do
     end
   end
   
-  # Now we will start inserting content on the previous outline
+  # Now we will start adding nodes to the previous outline
   outline.add_subsection_to("Section 1", :first) do
     outline.section("Added later - first position") do
       outline.page :title => "Page 4", :destination => 4

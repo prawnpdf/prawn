@@ -12,7 +12,9 @@ Prawn::Example.generate("outline.pdf") do
                   ]
       ],
       [ "Adding nodes later",
-                  [ { :name => "add_subsection",
+                  [ { :name => "add_subsection_to",
+                      :eval_source => false },
+                    { :name => "insert_section_after",
                       :eval_source => false }
                   ]
       ]
