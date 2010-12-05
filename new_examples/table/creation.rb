@@ -11,9 +11,6 @@
 # The most simple table can be created by providing only an array of arrays
 # containing your data where each inner array represents one row.
 #
-# Prawn will make a bold attempt to identify the best width for the columns.
-# If the end result is not acceptable, we can override it with some styling.
-#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
@@ -27,9 +24,4 @@ Prawn::Example.generate(filename) do
   table([ ["short", "short", "loooooooooooooooooooong"],
           ["short", "loooooooooooooooooooong", "short"],
           ["loooooooooooooooooooong", "short", "short"] ])
-  move_down 20
-  
-  table([ ["", "", "this is so very looooooooooooooooooooooooooooooong"],
-          ["", "here we have a line that is long but with small words", ""],
-          ["this is not quite as long as the others", "", ""] ])
 end

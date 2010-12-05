@@ -9,6 +9,9 @@ Prawn::Example.generate("table.pdf") do
   build_package("table", [
       [ "Basics", [ "creation"
                   ]
+      ],
+      [ "Styling", [ "column_widths"
+                   ]
       ]
     ]
   )
