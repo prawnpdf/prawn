@@ -3,9 +3,9 @@
 # Stamps should be used when you have content that will be included multiple
 # times in a document. Its advantages over creating the content anew each time
 # are:
-#   i.   Faster document creation
-#   ii.  Smaller final document
-#   iii. Faster display on subsequent displays of the repeated
+#   1.   Faster document creation
+#   2.  Smaller final document
+#   3. Faster display on subsequent displays of the repeated
 # element because the viewer application can cache the rendered
 # results
 #
