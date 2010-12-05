@@ -181,7 +181,7 @@ module Prawn
   
     # Returns the comments between the encoding declaration and the require
     def extract_introduction_text(source)
-      intro = source.slice(/# encoding.*?\n(.*)require/m, 1)
+      intro = source.slice(/# encoding.*?\n(.*)require File\.expand_path/m, 1)
       intro.gsub!(/\n# (?=\S)/m, ' ')
       intro.gsub!('#', '')
       intro.gsub!("\n", "\n\n")

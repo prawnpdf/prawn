@@ -10,7 +10,8 @@ Prawn::Example.generate("basic_concepts.pdf") do
       { :name => "creation", :eval_source => false, :full_source => true },
       "origin",
       "cursor",
-      "adding_pages"
+      "adding_pages",
+      "measurement"
     ]
   )
 end
