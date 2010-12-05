@@ -11,16 +11,14 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
+  data = [ ["", "", "this is so very looooooooooooooooooooooooooooooong"],
+           ["", "here we have a line that is long but with small words", ""],
+           ["this is not quite as long as the others", "", ""] ]
+  
   text "Prawn trying to guess the column widths"
-  table([ ["", "", "this is so very looooooooooooooooooooooooooooooong"],
-          ["", "here we have a line that is long but with small words", ""],
-          ["this is not quite as long as the others", "", ""] ])
+  table(data)
   move_down 20
   
   text "Manually setting the column widths"
-  table([ ["", "", "this is so very looooooooooooooooooooooooooooooong"],
-          ["", "here we have a line that is long but with small words", ""],
-          ["this is not quite as long as the others", "", ""] ],
-          :column_widths => [140, 160, 240])
-
+  table(data, :column_widths => [140, 160, 240])
 end
