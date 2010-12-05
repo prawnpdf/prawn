@@ -25,4 +25,5 @@ Prawn::Example.generate("manual.pdf") do
   load_package "images"
   load_package "outline"
   load_package "security"
+  load_package "stamp"
 end
