@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source :rubygems
 
 gem "pdf-reader", "~>0.9.0"
 
