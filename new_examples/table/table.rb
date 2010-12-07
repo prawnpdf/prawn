@@ -12,7 +12,8 @@ Prawn::Example.generate("table.pdf") do
                   ]
       ],
       [ "Styling", [ "column_widths",
-                     "width"
+                     "width",
+                     "row_colors"
                    ]
       ]
     ]
