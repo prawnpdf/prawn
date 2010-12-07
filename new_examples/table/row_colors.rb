@@ -11,10 +11,10 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [%w[This row should have one color],
-          %w[And this row should have another]]
+  data = [["This row should have one color"],
+          ["And this row should have another"]]
   
-  data += [%w[. . . . . .]] * 10
+  data += [["..."]] * 10
   
   table(data, :row_colors => ["F0F0F0", "FFFFCC"])
 end

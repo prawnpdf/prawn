@@ -8,7 +8,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 Prawn::Example.generate("table.pdf") do
   build_package("table", [
       [ "Basics", [ "creation",
-                    "content_and_subtables"
+                    "content_and_subtables",
+                    "flow_and_header"
                   ]
       ],
       [ "Styling", [ "column_widths",

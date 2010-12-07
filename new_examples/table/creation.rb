@@ -16,8 +16,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  t = make_table([ %w[this is the first row],
-                   %w[this is the second row] ])
+  t = make_table([ ["this is the first row"],
+                   ["this is the second row"] ])
   t.draw
   move_down 20
   

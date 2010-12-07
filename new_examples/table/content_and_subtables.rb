@@ -21,21 +21,21 @@ Prawn::Example.generate(filename) do
   cell_1 = make_cell(:content => "this row content comes directly ")
   cell_2 = make_cell(:content => "from cell objects")
   
-  two_dimensional_array = [ ["", "", "", ""],
-                            %w[subtable from an array],
-                            ["", "", "", ""] ]
+  two_dimensional_array = [ ["..."],
+                            ["subtable from an array"],
+                            ["..."] ]
   
-  inner_table = make_table([ ["", "", "", ""],
-                             %w[subtable from another table],
-                             ["", "", "", ""] ])
+  inner_table = make_table([ ["..."],
+                             ["subtable from another table"],
+                             ["..."] ])
   
-  table([ %w[just a regular row],
+  table([ ["just a regular row", "", "", "blah blah blah"],
   
           [cell_1, cell_2, "", ""],
            
           ["", "", two_dimensional_array, ""],
           
-          %w[just another regular row],
+          ["just another regular row", "", "", ""],
           
           ["", "", inner_table, ""]])
 end
