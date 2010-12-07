@@ -11,7 +11,8 @@ Prawn::Example.generate("table.pdf") do
                     "content_and_subtables"
                   ]
       ],
-      [ "Styling", [ "column_widths"
+      [ "Styling", [ "column_widths",
+                     "width"
                    ]
       ]
     ]
