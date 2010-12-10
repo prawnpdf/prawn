@@ -158,6 +158,12 @@ describe "#text with inline styling" do
     text.strings[1].should == str.strip
   end
 
+  it "should embed links as literal strings" do
+    @pdf.text "<link href='http://wiki.github.com/sandal/prawn/'>wiki</link>",
+      :inline_format => true
+    @pdf.render.should =~ %r{/URI\s+\(http://wiki\.github\.com}
+  end
+
   if "spec".respond_to?(:encode!)
     # Handle non utf-8 string encodings in a sane way on M17N aware VMs
     it "should raise an exception when a utf-8 incompatible string is rendered" do
