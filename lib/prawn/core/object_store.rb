@@ -143,12 +143,12 @@ module Prawn
 
       # takes a source PDF and uses it as a template for this document.
       #
-      def load_file(filename)
-        unless File.file?(filename)
-          raise ArgumentError, "#{filename} does not exist"
+      def load_file(template)
+        unless (template.respond_to?(:seek) && template.respond_to?(:read)) || File.file?(template) 
+          raise ArgumentError, "#{template} does not exist"
         end
 
-        hash = PDF::Reader::ObjectHash.new(filename)
+        hash = PDF::Reader::ObjectHash.new(template)
         src_info = hash.trailer[:Info]
         src_root = hash.trailer[:Root]
         @min_version = hash.pdf_version.to_f
