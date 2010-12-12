@@ -157,4 +157,14 @@ describe "Prawn::ObjectStorie#object_id_for_page" do
     store = Prawn::Core::ObjectStore.new
     store.object_id_for_page(10).should == nil
   end
+  
+  it "should accept a stream instead of a filename" do
+    example = Prawn::Document.new()
+    example.text "An example doc, created in memory"
+    example.start_new_page
+    StringIO.open(example.render) do |stream|
+      @pdf = Prawn::Core::ObjectStore.new(:template => stream)
+    end
+    @pdf.page_count.should == 2
+  end
 end
