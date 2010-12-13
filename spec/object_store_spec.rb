@@ -157,7 +157,7 @@ describe "Prawn::ObjectStorie#object_id_for_page" do
     store = Prawn::Core::ObjectStore.new
     store.object_id_for_page(10).should == nil
   end
-  
+
   it "should accept a stream instead of a filename" do
     example = Prawn::Document.new()
     example.text "An example doc, created in memory"
