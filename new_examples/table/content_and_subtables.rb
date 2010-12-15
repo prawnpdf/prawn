@@ -6,12 +6,12 @@
 #   3. <code>Prawn::Table</code>
 #   4. Array
 #
-# Both table and array objects provided as cells will create a subtable (a
-# table within a cell).
+# Whenever a table or an array is provided as a cell, a subtable will be created
+# (a table within a cell).
 #
-# If you want to provide a cell or a table it is better to
+# If you'd like to provide a cell or table directly, the best way is to
 # use the <code>make_cell</code> and <code>make_table</code> methods as they
-# don't immediatelly draw the cell or table.
+# don't call <code>draw</code> on the created object.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -30,12 +30,8 @@ Prawn::Example.generate(filename) do
                              ["..."] ])
   
   table([ ["just a regular row", "", "", "blah blah blah"],
-  
           [cell_1, cell_2, "", ""],
-           
           ["", "", two_dimensional_array, ""],
-          
           ["just another regular row", "", "", ""],
-          
           ["", "", inner_table, ""]])
 end
