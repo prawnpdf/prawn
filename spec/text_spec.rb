@@ -59,6 +59,21 @@ describe "#text" do
     text.strings.each { |str| str.should =~ /\A\s*\z/ }
   end
 
+  it "should correctly render empty paragraphs" do
+    @pdf.text "text\n\ntext"
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    @pdf.page_count.should == 1
+    text.strings.should == ["text", "", "text"]
+  end
+
+  it "should correctly render strings ending with empty paragraphs and " +
+     ":inline_format and :indent_paragraphs" do
+    @pdf.text "text\n\n", :inline_format => true, :indent_paragraphs => 5
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    @pdf.page_count.should == 1
+    text.strings.should == ["text"]
+  end
+
   it "should default to use kerning information" do
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)

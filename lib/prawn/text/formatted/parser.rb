@@ -111,6 +111,7 @@ module Prawn
             end
           end
           paragraphs << paragraph unless paragraph.empty?
+          paragraphs
         end
 
         private
