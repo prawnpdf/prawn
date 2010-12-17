@@ -499,4 +499,12 @@ describe "Text::Formatted::Parser#array_paragraphs" do
                { :text => "you" }]]
     Prawn::Text::Formatted::Parser.array_paragraphs(array).should == target
   end
+
+  it "should work properly if ending in an empty paragraph" do
+    array = [{ :text => "\nhello\nworld\n" }]
+    target = [[{ :text => "\n" }],
+              [{ :text => "hello" }],
+              [{ :text => "world" }]]
+    Prawn::Text::Formatted::Parser.array_paragraphs(array).should == target
+  end
 end

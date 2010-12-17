@@ -48,7 +48,7 @@ describe "Document built from a template" do
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     hash.each_value do |obj|
       next unless obj.kind_of?(PDF::Reader::Stream)
@@ -63,7 +63,7 @@ describe "Document built from a template" do
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     pages = hash.values.select { |obj| obj.kind_of?(Hash) && obj[:Type] == :Page }
 
@@ -75,7 +75,7 @@ describe "Document built from a template" do
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
 
@@ -96,7 +96,7 @@ describe "Document built from a template" do
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     streams = hash.values.select { |obj| obj.kind_of?(PDF::Reader::Stream) }
 
@@ -146,7 +146,7 @@ describe "Document built from a template" do
     @pdf.text "Hi There"
 
     output = StringIO.new(@pdf.render)
-    hash = PDF::Hash.new(output)
+    hash = PDF::Reader::ObjectHash.new(output)
 
     page_dict = hash.values.detect{ |obj| obj.is_a?(Hash) && obj[:Type] == :Page }
     resources = page_dict[:Resources]

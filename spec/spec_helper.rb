@@ -16,8 +16,8 @@ end
 require "test/spec"
 require "mocha"
 
-gem 'pdf-reader', ">=0.8"
-require "pdf/reader"          
+gem 'pdf-reader', ">=0.9.0"
+require "pdf/reader"
 require "pdf/inspector"
 
 def create_pdf(klass=Prawn::Document)

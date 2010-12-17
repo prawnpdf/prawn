@@ -120,6 +120,10 @@ module Prawn
     #                       each line is included below the last line;
     #                       otherwise, document.y is placed just below the
     #                       descender of the last line printed [true]
+    # <tt>:mode</tt>:: The text rendering mode to use. Use this to specify if the
+    #                  text should render with the fill color, stroke color or
+    #                  both. See the comments to text_rendering_mode() to see
+    #                  a list of valid options. [0]
     #                        
     # == Exceptions
     #
