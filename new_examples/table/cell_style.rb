@@ -6,6 +6,10 @@
 # Some straightforward options are <code>width</code>, <code>height</code>,
 # and <code>padding</code>. All three accept numeric values to set the property.
 #
+# <code>padding</code> also accepts a four number array that defines the padding
+# in a CSS like syntax setting the top, right, bottom, left sequentially. The
+# default is 5pt for all sides.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
@@ -20,4 +24,7 @@ Prawn::Example.generate(filename) do
     table(data, :cell_style => {property => value})
     move_down 20
   end
+  
+  text "Padding can also be set with an array:"
+  table(data, :cell_style => {:padding => [0, 0, 0, 30]})
 end
