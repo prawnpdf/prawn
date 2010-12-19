@@ -12,12 +12,12 @@ Prawn::Example.generate("table.pdf") do
                     "flow_and_header"
                   ]
       ],
-      [ "Table Styling", [ "column_widths",
-                           "width",
-                           "row_colors",
-                           "cell_style",
-                           "cell_borders"
-                         ]
+      [ "Styling", [ "column_widths",
+                     "width",
+                     "row_colors",
+                     "cell_dimensions",
+                     "cell_borders_and_bg"
+                   ]
       ],
       ["Initializer Block", [
                             ]

@@ -1,29 +1,31 @@
 # encoding: utf-8
 #
-# Another common styling target are the cell borders.
-#
 # The <code>borders</code> option accepts an array with the border sides that
 # will be drawn. The default is <code>[:top, :bottom, :left, :right]</code>.
 #
-# <code>border_width</code> sets just that given a numeric value.
+# <code>border_width</code> may be set with a numeric value.
 #
-# <code>border_color</code> accepts an HTML RGB like color string ("FF0000")
+# Both <code>border_color</code> and <code>background_color</code> accept an
+# HTML like RGB color string ("FF0000")
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [ ["Look at how the borders will look", "", ""],
+  data = [ ["Look at how the cells will look when styled", "", ""],
            ["They probably won't look the same", "", ""]
          ]
   
   { :borders => [:top, :left],
     :border_width => 3,
-    :border_color => "FFCCCC"}.each do |property, value|
+    :border_color => "FF0000"}.each do |property, value|
       
-      text "Cell's #{property}: #{value}:"
+      text "Cell #{property}: #{value}"
       table(data, :cell_style => {property => value})
       move_down 20
   end
+  
+  text "Cell background_color: FFFFCC"
+  table(data, :cell_style => {:background_color => "FFFFCC"})
 end
