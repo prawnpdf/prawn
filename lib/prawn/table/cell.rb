@@ -103,7 +103,8 @@ module Prawn
       #
       def self.make(pdf, content, options={})
         at = options.delete(:at) || [0, pdf.cursor]
-        content = content.to_s if content.nil? or content.kind_of?(Numeric) or content.kind_of?(Date)
+        content = content.to_s if content.nil? || content.kind_of?(Numeric) ||
+          content.kind_of?(Date)
         
         if content.is_a?(Hash)
           options.update(content)

@@ -34,10 +34,12 @@ describe "Prawn::Table::Cell" do
       @pdf.cell(:content => "text").should.be.a.kind_of Prawn::Table::Cell
     end
 
-    it "should generate an empty cell from nil content" do
-      c = @pdf.cell(:content => nil)
-      c.should.be.a.kind_of Prawn::Table::Cell::Text
-      c.content.should == ""
+    it "should convert nil, Numeric, and Date values to strings" do
+      [nil, 123, 123.45, Date.today].each do |value|
+        c = @pdf.cell(:content => value)
+        c.should.be.a.kind_of Prawn::Table::Cell::Text
+        c.content.should == value.to_s
+      end
     end
 
     it "should allow inline styling with a hash argument" do
