@@ -373,6 +373,14 @@ describe "The render() feature" do
     render_body.call(StringIO.new)
     pdf.render
   end
+
+  it "should be idempotent" do
+    pdf = Prawn::Document.new
+
+    contents  = pdf.render
+    contents2 = pdf.render
+    contents2.should == contents
+  end
 end
 
 describe "The :optimize_objects option" do
