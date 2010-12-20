@@ -270,11 +270,20 @@ module Prawn
       curve_to(radial_point_2, :bounds => [bezier_point_1, bezier_point_2])
     end      
 
-    # Strokes and closes the current path. See Graphic::Color for color details
+    # Strokes the current path. If a block is provided, yields to the block
+    # before closing the path. See Graphics::Color for color details.
     #
     def stroke
       yield if block_given?
       add_content "S"
+    end
+
+    # Closes and strokes the current path. If a block is provided, yields to
+    # the block before closing the path. See Graphics::Color for color details.
+    #
+    def close_and_stroke
+      yield if block_given?
+      add_content "s"
     end
     
     # Draws and strokes a rectangle represented by the current bounding box
@@ -283,20 +292,28 @@ module Prawn
       stroke_rectangle bounds.top_left, bounds.width, bounds.height
     end
 
-    # Fills and closes the current path. See Graphic::Color for color details
+    # Closes and fills the current path. See Graphics::Color for color details.
     #
     def fill
       yield if block_given?
       add_content "f"
     end
 
-    # Fills, strokes, and closes the current path. See Graphic::Color for color details
+    # Closes, fills, and strokes the current path. If a block is provided,
+    # yields to the block before closing the path. See Graphics::Color for
+    # color details.
     #
     def fill_and_stroke
       yield if block_given?
       add_content "b"
     end
-    
+
+    # Closes the current path.
+    #
+    def close_path
+      add_content "h"
+    end
+
     private
     
     def current_line_width
