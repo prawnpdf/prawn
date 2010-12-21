@@ -142,7 +142,8 @@ describe "Text::Box#render(:dry_run => true)" do
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
-    lambda { text_box.render }.should.not.raise(ArgumentError)
+    lambda { text_box.render }.should.not.raise(
+      Prawn::Errors::IncompatibleStringEncoding)
   end
 end
 
@@ -442,7 +443,7 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       lambda {
         @pdf.text_box(remaining_text, :document => @pdf)
-      }.should.not.raise(ArgumentError)
+      }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
   describe "when using an AFM font" do
@@ -455,11 +456,11 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       lambda {
         @pdf.text_box(remaining_text, :document => @pdf)
-      }.should.raise(ArgumentError)
+      }.should.raise(Prawn::Errors::IncompatibleStringEncoding)
       lambda {
         @pdf.text_box(remaining_text, :skip_encoding => true,
                                       :document => @pdf)
-      }.should.not.raise(ArgumentError)
+      }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
 end

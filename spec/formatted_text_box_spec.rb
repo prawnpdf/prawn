@@ -409,7 +409,7 @@ describe "Text::Formatted::Box printing UTF-8 string with higher bit characters 
       remaining_text = @text_box.render
       lambda {
         @pdf.formatted_text_box(remaining_text, :document => @pdf)
-      }.should.not.raise(ArgumentError)
+      }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
   describe "when using an AFM font" do
@@ -422,11 +422,11 @@ describe "Text::Formatted::Box printing UTF-8 string with higher bit characters 
       remaining_text = @text_box.render
       lambda {
         @pdf.formatted_text_box(remaining_text, :document => @pdf)
-      }.should.raise(ArgumentError)
+      }.should.raise(Prawn::Errors::IncompatibleStringEncoding)
       lambda {
         @pdf.formatted_text_box(remaining_text, :document => @pdf,
                                 :skip_encoding => true)
-      }.should.not.raise(ArgumentError)
+      }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
 end

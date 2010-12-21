@@ -170,7 +170,8 @@ describe "#text with inline styling" do
       str = "Blah \xDD"
       str.force_encoding("ASCII-8BIT")
       lambda { @pdf.text str,
-          :inline_format => true }.should.raise(ArgumentError)
+          :inline_format => true }.should.raise(
+            Prawn::Errors::IncompatibleStringEncoding)
     end
     it "should not raise an exception when a shift-jis string is rendered" do
       datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"
@@ -181,19 +182,22 @@ describe "#text with inline styling" do
       }
       @pdf.font("gkai00mp")
       lambda { @pdf.text sjis_str,
-          :inline_format => true }.should.not.raise(ArgumentError)
+          :inline_format => true }.should.not.raise(
+            Prawn::Errors::IncompatibleStringEncoding)
     end
   else
     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
     it "should raise an exception when a corrupt utf-8 string is rendered" do
       str = "Blah \xDD"
       lambda { @pdf.text str,
-          :inline_format => true }.should.raise(ArgumentError)
+          :inline_format => true }.should.raise(
+            Prawn::Errors::IncompatibleStringEncoding)
     end
     it "should raise an exception when a shift-jis string is rendered" do
       sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
       lambda { @pdf.text sjis_str,
-          :inline_format => true }.should.raise(ArgumentError)
+          :inline_format => true }.should.raise(
+            Prawn::Errors::IncompatibleStringEncoding)
     end
   end
 end

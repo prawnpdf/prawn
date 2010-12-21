@@ -89,6 +89,9 @@ module Prawn
       def normalize_encoding(text)
         enc = Prawn::Encoding::WinAnsi.new
         text.unpack("U*").collect { |i| enc[i] }.pack("C*")
+      rescue ArgumentError
+        raise Prawn::Errors::IncompatibleStringEncoding,
+          "Arguments to text methods must be UTF-8 encoded"
       end
 
       # Perform any changes to the string that need to happen
