@@ -305,12 +305,14 @@ module Prawn
       @column_widths ||= begin
         if width < cells.min_width
           raise Errors::CannotFit,
-            "Table's width was set too small to contain its contents"
+            "Table's width was set too small to contain its contents " +
+            "(min width #{cells.min_width}, requested #{width})"
         end
 
         if width > cells.max_width
           raise Errors::CannotFit,
-            "Table's width was set larger than its contents' maximum width"
+            "Table's width was set larger than its contents' maximum width " +
+            "(max width #{cells.max_width}, requested #{width})"
         end
 
         if width < natural_width
