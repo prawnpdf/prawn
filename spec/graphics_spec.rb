@@ -221,7 +221,16 @@ describe "When setting colors" do
     colors.fill_color.should   == [0.8,1.0,0.0]
     colors.stroke_color.should == [1.0,0.0,0.8]
   end
-
+  
+  it "should set the color space when setting colors on new pages to please fussy readers" do
+    @pdf.stroke_color "000000"
+    @pdf.stroke { @pdf.rectangle([10, 10], 10, 10) }
+    @pdf.start_new_page
+    @pdf.stroke_color "000000"
+    @pdf.stroke { @pdf.rectangle([10, 10], 10, 10) }
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    colors.stroke_color_space_count[:DeviceRGB].should == 2
+  end
 end
 
 describe "Gradients" do
