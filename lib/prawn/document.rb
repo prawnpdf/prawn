@@ -468,7 +468,8 @@ module Prawn
     # Attempts to group the given block vertically within the current context.
     # First attempts to render it in the current position on the current page.
     # If that attempt overflows, it is tried anew after starting a new context
-    # (page or column).
+    # (page or column). Returns a logically true value if the content fits in
+    # one page/column, false if a new page or column was needed.
     #
     # Raises CannotGroup if the provided content is too large to fit alone in
     # the current page or column.
@@ -490,6 +491,8 @@ module Prawn
         old_bounding_box.move_past_bottom
         group(second_attempt=true) { yield }
       end 
+
+      success
     end
 
     # Specify a template for page numbering.  This should be called

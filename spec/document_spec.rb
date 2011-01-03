@@ -318,13 +318,23 @@ describe "The mask() feature" do
 end
 
 describe "The group() feature" do
+  it "should return a true value if the content fits on one page" do
+    pdf = Prawn::Document.new do
+      val = group { text "Hello"; text "World" }
+      (!!val).should == true
+    end
+  end
+
   it "should group a simple block on a single page" do
     pdf = Prawn::Document.new do
       self.y = 50
-      group do
+      val = group do
         text "Hello"
         text "World"
       end
+
+      # group should return a false value since a new page was started
+      (!!val).should == false
     end
     pages = PDF::Inspector::Page.analyze(pdf.render).pages
     pages.size.should == 2
