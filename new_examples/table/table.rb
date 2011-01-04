@@ -20,7 +20,7 @@ Prawn::Example.generate("table.pdf") do
                      "cell_text"
                    ]
       ],
-      ["Initializer Block", [
+      ["Initializer Block", [ "basic_block"
                             ]
       ]
     ]
