@@ -242,14 +242,15 @@ describe "Outline" do
             page :destination => page_number, :title => "Inserted Page"
           end
         end
-        render_and_find_objects
       end
 
       it "should insert new outline items to document" do
+        render_and_find_objects
         assert_not_nil @inserted_page
       end
       
       it "should adjust the count of all ancestors" do
+        render_and_find_objects
         @outline_root[:Count].should == 4
         @section_1[:Count].should.abs == 3
       end
@@ -257,16 +258,19 @@ describe "Outline" do
       describe "#adjust_relations" do
       
         it "should reset the sibling relations of adjoining items to inserted item" do
+          render_and_find_objects
           referenced_object(@page_1[:Next]).should == @inserted_page
           referenced_object(@page_2[:Prev]).should == @inserted_page
         end
       
         it "should set the sibling relation of added item to adjoining items" do
+          render_and_find_objects
           referenced_object(@inserted_page[:Next]).should == @page_2
           referenced_object(@inserted_page[:Prev]).should == @page_1
         end
       
         it "should not affect the first and last relations of parent item" do
+          render_and_find_objects
           referenced_object(@section_1[:First]).should == @page_1
           referenced_object(@section_1[:Last]).should == @page_2
         end
