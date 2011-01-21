@@ -34,14 +34,22 @@ Rake::RDocTask.new do |rdoc|
 end     
 
 desc "run all examples, and then diff them against reference PDFs"
-task :examples do 
+task :examples do
   mkdir_p "output"
   examples = Dir["examples/**/*.rb"]
   t = Time.now
   puts "Running Examples"
-  examples.each { |file| `ruby -Ilib #{file}` }  
-  puts "Ran in #{Time.now - t} s"        
-  `mv *.pdf output`                     
+  examples.each { |file| `ruby -Ilib #{file}` }
+  puts "Ran in #{Time.now - t} s"
+  `mv *.pdf output`
+end
+
+desc "Generate the 'Prawn by Example' manual"
+task :manual do
+  puts "Building manual..."
+  require File.expand_path(File.join(File.dirname(__FILE__),
+    %w[manual manual manual]))
+  puts "The Prawn manual is available at manual.pdf. Happy Prawning!"
 end
 
 spec = Gem::Specification.load "prawn.gemspec"

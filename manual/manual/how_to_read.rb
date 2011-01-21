@@ -27,7 +27,7 @@ Prawn::Example.generate(filename) do
   
   move_down 20
   text <<-END_TEXT
-  The title of each example is the relative path from the Prawn source new_examples/ folder.
+  The title of each example is the relative path from the Prawn source manual/ folder.
   
   The first body of text is the introdutory text for the example. Generaly it is a short text describing a feature the example illustrates.
   
