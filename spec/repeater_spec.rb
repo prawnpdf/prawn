@@ -72,15 +72,31 @@ describe "Repeaters" do
     (1..10).each { |p| repeater(doc, :all, true){:do_nothing}.run(p) }
   end
   
-  it "must render the block in context of page when dynamic is selected" do
+  it "must treat any block as a closure" do
     doc = sample_document
 
+    @page = "Page" # ensure access to ivars
     doc.repeat(:all, :dynamic => true) do 
-      draw_text page_number, :at => [500, 0]
+      doc.draw_text "#@page #{doc.page_number}", :at => [500, 0]
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)  
-    assert_equal (1..10).to_a.map{|p| p.to_s}, text.strings 
+    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings 
+  end
+
+  it "must treat any block as a closure (Document.new instance_eval form)" do
+    doc = Prawn::Document.new(:skip_page_creation => true) do
+      10.times { start_new_page }
+
+      @page = "Page"
+      repeat(:all, :dynamic => true) do
+        # ensure self is accessible here
+        draw_text "#@page #{page_number}", :at => [500, 0]
+      end
+    end
+
+    text = PDF::Inspector::Text.analyze(doc.render)  
+    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings 
   end
 
   def sample_document

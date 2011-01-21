@@ -119,7 +119,7 @@ module Prawn
       if !@dynamic
         @document.stamp(@stamp_name) if match?(page_number)
       elsif @block
-        @block.arity < 1 ? @document.instance_eval(&@block) : @block[@document]
+        @block.call
       end
     end
 
