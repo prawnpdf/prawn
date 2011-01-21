@@ -150,7 +150,7 @@ module Prawn
           options[:skip_encoding] = false
           remaining_text = draw_indented_line(paragraph, options)
           options[:skip_encoding] = true
-          if remaining_text == paragraph
+          if remaining_text == paragraph && !remaining_text.empty?
             # we were too close to the bottom of the page to print even one line
             @bounding_box.move_past_bottom
             remaining_text = draw_indented_line(paragraph, options)

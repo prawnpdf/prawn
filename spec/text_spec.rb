@@ -63,7 +63,14 @@ describe "#text" do
     @pdf.text "text\n\ntext"
     text = PDF::Inspector::Text.analyze(@pdf.render)
     @pdf.page_count.should == 1
-    text.strings.should == ["text", "", "text"]
+    text.strings.reject{ |s| s.empty? }.should == ["text", "text"]
+  end
+
+  it "should correctly render empty paragraphs with :indent_paragraphs" do
+    @pdf.text "text\n\ntext", :indent_paragraphs => 5
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    @pdf.page_count.should == 1
+    text.strings.reject{ |s| s.empty? }.should == ["text", "text"]
   end
 
   it "should correctly render strings ending with empty paragraphs and " +
