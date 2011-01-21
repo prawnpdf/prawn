@@ -6,8 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-ruby_18 { $KCODE="U" }
-
 module Prawn
   module Core
     module Text #:nodoc:
