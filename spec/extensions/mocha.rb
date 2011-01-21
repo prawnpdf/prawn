@@ -30,3 +30,16 @@ class Mocha::Expectation
   end
 end
 
+
+# Equivalent to expects(method_name).at_least(0). More useful when combined
+# with parameter matchers to ignore certain calls for the sake of parameter
+# matching.
+#
+#   @pdf.ignores(:stroke_color=).with("000000")
+#   @pdf.expects(:stroke_color=).with("ff0000")
+#
+module Mocha::ObjectMethods
+  def ignores(method_name)
+    expects(method_name).at_least(0)
+  end
+end

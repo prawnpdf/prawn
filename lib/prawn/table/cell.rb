@@ -76,14 +76,13 @@ module Prawn
       #
       attr_accessor :borders
 
-      # Specifies the width, in PDF points, of the cell's borders.
+      # Width, in PDF points, of the cell's borders: [top, right, bottom, left].
       #
-      attr_accessor :border_width
+      attr_reader :border_widths
 
-      # Specifies the color of the cell borders. Given in HTML RGB format, e.g.,
-      # "ccffff".
+      # HTML RGB-format ("ccffff") border colors: [top, right, bottom, left].
       #
-      attr_accessor :border_color
+      attr_reader :border_colors
 
       # Specifies the content for the cell. Must be a "cellable" object. See the
       # "Data" section of the Prawn::Table documentation for details on cellable
@@ -148,10 +147,10 @@ module Prawn
         @point = point
 
         # Set defaults; these can be changed by options
-        @padding      = [5, 5, 5, 5]
-        @borders      = [:top, :bottom, :left, :right]
-        @border_width = 1
-        @border_color = '000000'
+        @padding       = [5, 5, 5, 5]
+        @borders       = [:top, :bottom, :left, :right]
+        @border_widths = [1] * 4
+        @border_colors = ['000000'] * 4
 
         options.each { |k, v| send("#{k}=", v) }
       end
@@ -295,70 +294,6 @@ module Prawn
         end
       end
 
-      protected
-
-      # Sets the cell's minimum and maximum width. Deferred until requested
-      # because padding and size can change.
-      #
-      def set_width_constraints
-        @min_width ||= padding_left + padding_right
-        @max_width ||= @pdf.bounds.width
-      end
-
-      # Draws the cell's background color.
-      #
-      def draw_background(pt)
-        x, y = pt
-        margin = @border_width / 2
-        if @background_color
-          @pdf.mask(:fill_color) do
-            @pdf.fill_color @background_color
-            h = @borders.include?(:bottom) ? height - (2*margin) : 
-                                             height + margin
-            @pdf.fill_rectangle [x, y], width, h
-          end
-        end
-      end
-
-      # Draws borders around the cell. Borders are centered on the bounds of
-      # the cell outside of any padding, so the caller is responsible for
-      # setting appropriate padding to ensure the border does not overlap with
-      # cell content.
-      #
-      def draw_borders(pt)
-        x, y = pt
-        return if @border_width <= 0
-        # Draw left / right borders one-half border width beyond the center of
-        # the corner, so that the corners end up square.
-        margin = @border_width / 2.0
-
-        @pdf.mask(:line_width, :stroke_color) do
-          @pdf.line_width   = @border_width
-          @pdf.stroke_color = @border_color if @border_color
-
-          @borders.each do |border|
-            from, to = case border
-                       when :top
-                         [[x, y], [x+width, y]]
-                       when :bottom
-                         [[x, y-height], [x+width, y-height]]
-                       when :left
-                         [[x, y+margin], [x, y-height-margin]]
-                       when :right
-                         [[x+width, y+margin], [x+width, y-height-margin]]
-                       end
-            @pdf.stroke_line(from, to)
-          end
-        end
-      end
-
-      # Draws cell content within the cell's bounding box. Must be implemented
-      # in subclasses.
-      #
-      def draw_content
-        raise NotImplementedError, "subclasses must implement draw_content"
-      end
-
       def padding_top
         @padding[0]
       end
@@ -389,6 +324,205 @@ module Prawn
       
       def padding_left=(val)
         @padding[3] = val
+      end
+
+      # Sets border colors on this cell. The argument can be one of:
+      #
+      # * an integer (sets all colors)
+      # * a two-element array [vertical, horizontal]
+      # * a three-element array [top, horizontal, bottom]
+      # * a four-element array [top, right, bottom, left]
+      #
+      def border_color=(color)
+        @border_colors = case
+        when color.nil?
+          ["000000"] * 4
+        when String === color # all colors
+          [color, color, color, color]
+        when color.length == 2 # vert, horiz
+          [color[0], color[1], color[0], color[1]]
+        when color.length == 3 # top, horiz, bottom
+          [color[0], color[1], color[2], color[1]]
+        when color.length == 4 # top, right, bottom, left
+          [color[0], color[1], color[2], color[3]]
+        else
+          raise ArgumentError, ":border_color must be a string " +
+            "or an array [v,h] or [t,r,b,l]"
+        end
+      end
+      alias_method :border_colors=, :border_color=
+
+      def border_top_color
+        @border_colors[0]
+      end
+
+      def border_top_color=(val)
+        @border_colors[0] = val
+      end
+
+      def border_top_color
+        @border_colors[0]
+      end
+
+      def border_top_color=(val)
+        @border_colors[0] = val
+      end
+
+      def border_right_color
+        @border_colors[1]
+      end
+
+      def border_right_color=(val)
+        @border_colors[1] = val
+      end
+
+      def border_bottom_color
+        @border_colors[2]
+      end
+
+      def border_bottom_color=(val)
+        @border_colors[2] = val
+      end
+
+      def border_left_color
+        @border_colors[3]
+      end
+
+      def border_left_color=(val)
+        @border_colors[3] = val
+      end
+
+      # Sets border widths on this cell. The argument can be one of:
+      #
+      # * an integer (sets all widths)
+      # * a two-element array [vertical, horizontal]
+      # * a three-element array [top, horizontal, bottom]
+      # * a four-element array [top, right, bottom, left]
+      #
+      def border_width=(width)
+        @border_widths = case
+        when width.nil?
+          ["000000"] * 4
+        when Numeric === width # all widths
+          [width, width, width, width]
+        when width.length == 2 # vert, horiz
+          [width[0], width[1], width[0], width[1]]
+        when width.length == 3 # top, horiz, bottom
+          [width[0], width[1], width[2], width[1]]
+        when width.length == 4 # top, right, bottom, left
+          [width[0], width[1], width[2], width[3]]
+        else
+          raise ArgumentError, ":border_width must be a string " +
+            "or an array [v,h] or [t,r,b,l]"
+        end
+      end
+      alias_method :border_widths=, :border_width=
+
+      def border_top_width
+        @borders.include?(:top) ? @border_widths[0] : 0
+      end
+
+      def border_top_width=(val)
+        @border_widths[0] = val
+      end
+
+      def border_right_width
+        @borders.include?(:right) ? @border_widths[1] : 0
+      end
+
+      def border_right_width=(val)
+        @border_widths[1] = val
+      end
+
+      def border_bottom_width
+        @borders.include?(:bottom) ? @border_widths[2] : 0
+      end
+
+      def border_bottom_width=(val)
+        @border_widths[2] = val
+      end
+
+      def border_left_width
+        @borders.include?(:left) ? @border_widths[3] : 0
+      end
+
+      def border_left_width=(val)
+        @border_widths[3] = val
+      end
+
+      protected
+
+      # Sets the cell's minimum and maximum width. Deferred until requested
+      # because padding and size can change.
+      #
+      def set_width_constraints
+        @min_width ||= padding_left + padding_right
+        @max_width ||= @pdf.bounds.width
+      end
+
+      # Draws the cell's background color.
+      #
+      def draw_background(pt)
+        x, y = pt
+
+        # Adjust background position to account for borders
+
+        if @background_color
+          @pdf.mask(:fill_color) do
+            @pdf.fill_color @background_color
+            h = if @borders.include?(:bottom) # top, bottom
+                  height
+                else
+                  height
+                end
+            @pdf.fill_rectangle [x, y], width, h
+          end
+        end
+      end
+
+      # Draws borders around the cell. Borders are centered on the bounds of
+      # the cell outside of any padding, so the caller is responsible for
+      # setting appropriate padding to ensure the border does not overlap with
+      # cell content.
+      #
+      def draw_borders(pt)
+        x, y = pt
+
+        @pdf.mask(:line_width, :stroke_color) do
+          @borders.each do |border|
+            idx = {:top => 0, :right => 1, :bottom => 2, :left => 3}[border]
+            border_color = @border_colors[idx]
+            border_width = @border_widths[idx]
+
+            next if border_width <= 0
+
+            # Left and right borders are drawn one-half border beyond the center
+            # of the corner, so that the corners end up square.
+            from, to = case border
+                       when :top
+                         [[x, y], [x+width, y]]
+                       when :bottom
+                         [[x, y-height], [x+width, y-height]]
+                       when :left
+                         [[x, y + (border_top_width / 2.0)],
+                          [x, y - height - (border_bottom_width / 2.0)]]
+                       when :right
+                         [[x+width, y + (border_top_width / 2.0)],
+                          [x+width, y - height - (border_bottom_width / 2.0)]]
+                       end
+
+            @pdf.line_width   = border_width
+            @pdf.stroke_color = border_color
+            @pdf.stroke_line(from, to)
+          end
+        end
+      end
+
+      # Draws cell content within the cell's bounding box. Must be implemented
+      # in subclasses.
+      #
+      def draw_content
+        raise NotImplementedError, "subclasses must implement draw_content"
       end
 
     end

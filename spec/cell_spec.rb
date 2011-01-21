@@ -321,7 +321,7 @@ describe "Prawn::Table::Cell" do
 
     it "should draw left border when requested" do
       @pdf.expects(:stroke_line).checking do |from, to|
-        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 757]
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 756]
         @pdf.map_to_absolute(to).map{|x| x.round}.should == [36, 732]
       end
       @pdf.cell(:content => "text", :borders => [:left])
@@ -329,7 +329,7 @@ describe "Prawn::Table::Cell" do
 
     it "should draw right border when requested" do
       @pdf.expects(:stroke_line).checking do |from, to|
-        @pdf.map_to_absolute(from).map{|x| x.round}.should == [65, 757]
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [65, 756]
         @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 732]
       end
       @pdf.cell(:content => "text", :borders => [:right])
@@ -343,6 +343,54 @@ describe "Prawn::Table::Cell" do
       @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
         @pdf.cell(:content => "text", :borders => [:top])
       end
+    end
+
+    it "should set border color with :border_..._color" do
+      @pdf.ignores(:stroke_color=).with("000000")
+      @pdf.expects(:stroke_color=).with("ff0000")
+
+      c = @pdf.cell(:content => "text", :border_top_color => "ff0000")
+      c.border_top_color.should == "ff0000"
+      c.border_colors[0].should == "ff0000"
+    end
+
+    it "should set border colors with :border_color" do
+      @pdf.ignores(:stroke_color=).with("000000")
+      @pdf.expects(:stroke_color=).with("ff0000")
+      @pdf.expects(:stroke_color=).with("00ff00")
+      @pdf.expects(:stroke_color=).with("0000ff")
+      @pdf.expects(:stroke_color=).with("ff00ff")
+
+      c = @pdf.cell(:content => "text",
+        :border_color => %w[ff0000 00ff00 0000ff ff00ff])
+
+      c.border_colors.should == %w[ff0000 00ff00 0000ff ff00ff]
+    end
+
+    it "border_..._width should return 0 if border not selected" do
+      c = @pdf.cell(:content => "text", :borders => [:top])
+      c.border_bottom_width.should == 0
+    end
+
+    it "should set border width with :border_..._width" do
+      @pdf.ignores(:line_width=).with(1)
+      @pdf.expects(:line_width=).with(2)
+
+      c = @pdf.cell(:content => "text", :border_bottom_width => 2)
+      c.border_bottom_width.should == 2
+      c.border_widths[2].should == 2
+    end
+
+    it "should set border widths with :border_width" do
+      @pdf.ignores(:line_width=).with(1)
+      @pdf.expects(:line_width=).with(2)
+      @pdf.expects(:line_width=).with(3)
+      @pdf.expects(:line_width=).with(4)
+      @pdf.expects(:line_width=).with(5)
+
+      c = @pdf.cell(:content => "text",
+        :border_width => [2, 3, 4, 5])
+      c.border_widths.should == [2, 3, 4, 5]
     end
   end
 
