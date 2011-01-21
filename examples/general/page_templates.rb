@@ -4,7 +4,8 @@
 # new page. Only one page of the template is currently imported for the template and which page of 
 # the pdf template is used can be specified with the :template_page option which defaults to 1.
 
-require "#{File.dirname(__FILE__)}/../example_helper.rb"
+require File.expand_path(File.join(File.dirname(__FILE__),
+                                   %w[.. example_helper]))
 
 filename = "#{Prawn::BASEDIR}/data/pdfs/multipage_template.pdf"
 
