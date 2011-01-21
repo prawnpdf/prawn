@@ -463,19 +463,10 @@ module Prawn
       # Draws the cell's background color.
       #
       def draw_background(pt)
-        x, y = pt
-
-        # Adjust background position to account for borders
-
         if @background_color
           @pdf.mask(:fill_color) do
             @pdf.fill_color @background_color
-            h = if @borders.include?(:bottom) # top, bottom
-                  height
-                else
-                  height
-                end
-            @pdf.fill_rectangle [x, y], width, h
+            @pdf.fill_rectangle [x, y], width, height
           end
         end
       end
