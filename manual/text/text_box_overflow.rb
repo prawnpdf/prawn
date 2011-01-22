@@ -7,7 +7,7 @@
 # the <code>:overflow</code> option. Available modes are <code>:ellipses</code>
 # (will truncate and show ellipses at the end of the box), <code>:expand</code>
 # (the box will increase to fit the text) and <code>:shrink_to_fit</code>
-# (the text font size will be shrinked to fit).
+# (the text font size will be shrunk to fit).
 #
 # If <code>:shrink_to_fit</code> mode is used with the
 # <code>:min_font_size</code> option set. The font size will not be reduced to

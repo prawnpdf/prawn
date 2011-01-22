@@ -11,7 +11,7 @@ Prawn::Example.generate(filename) do
   
   move_down 20
   text <<-END_TEXT
-  This manual is a collection of examples categorized by theme and organized from the least complex to the most complex. While it covers most of the common use cases it is not a comprehensive guide.
+  This manual is a collection of examples categorized by theme and organized from the least to the most complex. While it covers most of the common use cases it is not a comprehensive guide.
   
   The best way to read it depends on your previous knowledge of Prawn and what you need to accomplish.
   
@@ -29,7 +29,7 @@ Prawn::Example.generate(filename) do
   text <<-END_TEXT
   The title of each example is the relative path from the Prawn source manual/ folder.
   
-  The first body of text is the introdutory text for the example. Generaly it is a short text describing a feature the example illustrates.
+  The first body of text is the introductory text for the example. Generaly it is a short description of the feature or features illustrated by the example.
   
   Next comes the example source code in fixed width font. Most of the example snippets illustrate features that alter the page in place. The effect of these snippets is shown right below a dashed line.
   

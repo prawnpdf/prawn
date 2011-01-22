@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Prawn will make a bold attempt to identify the best width for the columns.
+# Prawn will make its best attempt to identify the best width for the columns.
 # If the end result isn't good, we can override it with some styling.
 #
 # Individual column widths can be set with the <code>:column_widths</code>

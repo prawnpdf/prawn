@@ -1,7 +1,6 @@
 # encoding: utf-8
 #
-# Your old fashioned polygons. Provide some points and it will create a drawing # path linking the points in the same order as provided. This opens space for
-# some nice shapes like a pentagram.
+# Drawing polygons in Prawn is easy, just pass a sequence of points to one of the polygon family of methods.
 #
 # Just like <code>rounded_rectangle</code> we also have
 # <code>rounded_polygon</code>. The only difference is the radius param comes

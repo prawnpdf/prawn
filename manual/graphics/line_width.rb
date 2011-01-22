@@ -1,10 +1,9 @@
 # encoding: utf-8
 #
-# The name says it all. Just provide a width and all lines stroked after the
-# call will have the new width.
+# The line_width= method sets the stroke width for subsequent stroke calls
 #
-# The only important thing to notice here is that you need an explicit receiver
-# for the call to work. If you are using the block call to
+# Since Ruby assumes that an unknown variable on the left hand side of an assignment is a local temporary,
+# rather than a setter method, if you are using the block call to
 # <code>Prawn::Document.generate</code> without passing params you will need to
 # call <code>line_width</code> on self.
 #

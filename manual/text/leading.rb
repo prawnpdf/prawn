@@ -2,8 +2,8 @@
 # 
 # Leading is the additional space between lines of text.
 #
-# The leading can be set using the <code>default_leading</code> where it will
-# apply for the rest of the document or inline in the text methods with the
+# The leading can be set using the <code>default_leading</code> method which
+# applies to the rest of the document or until it is changed, or inline in the text methods with the
 # <code>:leading</code> option.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

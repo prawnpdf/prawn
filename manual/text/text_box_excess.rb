@@ -5,8 +5,8 @@
 #
 # We just need to take some precautions
 #
-# This example renders the beggining of the text in a greater font inside a
-# text box and than procedes to render the remaining text below.
+# This example renders as much of the text as will fit in a larger font inside one
+# text_box and then proceeds to render the remaining text in the default size in a second text_box.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

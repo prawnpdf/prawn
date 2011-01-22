@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# To set the vertical position use the <code>:vposition</code> option.
+# To set the vertical position of an image use the <code>:vposition</code> option.
 #
 # It may be <code>:top</code>, <code>:center</code>, <code>:bottom</code> or a
 # number representing the y-offset from the top boundary.

@@ -7,7 +7,7 @@
 # The following snippet showcase each way by creating a simple document with
 # some text drawn.
 #
-# When we instanciate the <code>Prawn::Document</code> object the actual pdf
+# When we instantiate the <code>Prawn::Document</code> object the actual pdf
 # document will only be created after we call <code>render_file</code>.
 #
 # The generate method will render the actual pdf object after exiting the block.
@@ -16,9 +16,9 @@
 # it with a block argument a <code>Prawn::Document</code> instance is created
 # and passed to the block.
 #
-# The most used version is the generate method without block arguments as it
-# leads to way less typing and defines and renders the pdf document in one shot.
-# Almost all other examples are coded this way.
+# The generate method without block arguments requires
+# less typing and defines and renders the pdf document in one shot.
+# Almost all of the examples are coded this way.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

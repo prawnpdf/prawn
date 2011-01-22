@@ -1,10 +1,10 @@
 # encoding: utf-8
 #
-# For <code>circle_at</code> all you need is the center point and the
+# To define a <code>circle_at</code> all you need is the center point and the
 # <code>:radius</code> param
 #
-# For <code>ellipse_at</code> you provide the center point and two radius
-# values. If the second radius value is ommitted, both radius will be equal and
+# To define an <code>ellipse_at</code> you provide the center point and two radii (or axes)
+# values. If the second radius value is ommitted, both radii will be equal and
 # you will end up drawing a circle.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

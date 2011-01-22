@@ -3,13 +3,13 @@
 # Stamps should be used when you have content that will be included multiple
 # times in a document. Its advantages over creating the content anew each time
 # are:
-#   1.   Faster document creation
+#   1.  Faster document creation
 #   2.  Smaller final document
-#   3. Faster display on subsequent displays of the repeated
+#   3.  Faster display on subsequent displays of the repeated
 # element because the viewer application can cache the rendered
 # results
 #
-# The <code>create_stamp</code> does just what it says. Pass it a block with
+# The <code>create_stamp</code> method does just what it says. Pass it a block with
 # the content that should be generated and the stamp will be created.
 #
 # There are two methods to render the stamp on a page <code>stamp</code> and

@@ -8,10 +8,8 @@
 # path and the font will be embedded in the document and set as the current
 # font.
 #
-# This is quite cumbersome as every time we need to use the font we
-# would need to provide its file path. If using the font is a one shot thing
-# than this way is fine, if the font will be used many times the next example
-# shows a less cumbersome way of doing it.
+# This is reasonable if a font is used only once, but, if a font used several times, providing the path each time it is used becomes cumbersome.
+# The example on the next page shows a better way to deal with fonts which are used several times in a document
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

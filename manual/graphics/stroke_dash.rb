@@ -4,7 +4,7 @@
 #
 # The (dash) length defines how long each dash will be.
 #
-# The <code>:space</code> option defines how long is the space between the
+# The <code>:space</code> option defines the length of the space between the
 # dashes.
 #
 # The <code>:phase</code> option defines the start point of the sequence of

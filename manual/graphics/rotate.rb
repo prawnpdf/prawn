@@ -1,10 +1,10 @@
 # encoding: utf-8
 #
 # This transformation is used to rotate the user space. Give it an angle
-# and an <code>:origin</code> point to rotate and everything inside the block
+# and an <code>:origin</code> point about which to rotate and a block. Everything inside the block
 # will be drawn with the rotated coordinates.
 #
-# If you ommit the <code>:origin</code> option the page origin will be used.
+# If you omit the <code>:origin</code> option the page origin will be used.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

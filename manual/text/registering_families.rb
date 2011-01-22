@@ -5,8 +5,8 @@
 # of the text methods and the <code>b</code> and <code>i</code> tags when using
 # inline formatting.
 #
-# To register a font family we need to update the <code>font_families</code>
-# hash with the font path for each style we want to use.
+# To register a font family update the <code>font_families</code>
+# hash with the font path for each style you want to use.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

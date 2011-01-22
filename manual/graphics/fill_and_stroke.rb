@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# There are two drawing primitives on Prawn: <code>fill</code> and
+# There are two drawing primitives in Prawn: <code>fill</code> and
 # <code>stroke</code>.
 #
 # These are the methods that actually draw stuff on the document. All the other
@@ -8,14 +8,14 @@
 # <code>line_to</code> define drawing paths. These paths need to be either
 # stroked or filled to gain form on the document.
 #
-# Calling these methods with no block will have effect on the drawing path that
+# Calling these methods without a block will act on the drawing path that
 # has been defined prior to the call.
 #
-# Calling with a block will have effect on the drawing path set within the
+# Calling with a block will act on the drawing path set within the
 # block.
 #
-# Another option is to call as a method hook. This way it will have effect on
-# the drawing path set by the hooked method.
+# Most of the methods which define drawing paths have methods of the same name starting with stroke_ and fill_ which
+# create the drawing path and then stroke or fill it.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

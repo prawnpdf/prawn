@@ -7,9 +7,9 @@
 # method to lazily instantiate an outline object. Then we use the
 # <code>define</code> method with a block to start the outline tree.
 #
-# The basic method for creating outline nodes are <code>section</code> and
+# The basic methods for creating outline nodes are <code>section</code> and
 # <code>page</code>. The only difference between the two is that
-# <code>page</code> doesn't accept a block and will only create leave nodes
+# <code>page</code> doesn't accept a block and will only create leaf nodes
 # while <code>section</code> accepts a block to create nested nodes.
 #
 # <code>section</code> accepts the title of the section and two options:

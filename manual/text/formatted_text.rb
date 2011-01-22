@@ -8,7 +8,9 @@
 # be used for free flowing text just like the <code>text</code> method and the
 # last should be used for positioned text just like <code>text_box</code>.
 #
-# The usage difference is how the text is provided. They accept an array
+# The main difference between these methods and the <code>text</code> and <code>text_box</code> methods is how the text is provided.
+# The <code>formatted_text</code> and
+# <code>formatted_text_box</code> methods accept an array
 # of hashes. Each hash must provide a <code>:text</code> option which is the
 # text string and may provide the following options: <code>:styles</code> (an
 # array of :symbols), <code>:size</code> (the font size),

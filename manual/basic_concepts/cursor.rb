@@ -5,11 +5,11 @@
 # from the top to the bottom. In other words the cursor for inserting content
 # starts on the top of the page.
 #
-# Most of the functions that insert content on the page will start on the
-# current cursor position and procede to the bottom of the page.
+# Most of the functions that insert content on the page will start at the
+# current cursor position and proceed to the bottom of the page.
 #
-# The following snippet show how the cursor behaves when we add some text to the
-# page as well as some of the helpers to manage the cursor position. The
+# The following snippet shows how the cursor behaves when we add some text to the
+# page and demonstrated some of the helpers to manage the cursor position. The
 # <code>cursor</code> method returns the current cursor position.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

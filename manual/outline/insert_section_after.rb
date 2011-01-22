@@ -1,12 +1,12 @@
 # encoding: utf-8
 #
-# Another option to insert nodes into an existing outline is the
+# Another way to insert nodes into an existing outline is the
 # <code>insert_section_after</code> method.
 #
 # It accepts the title of the node that the new section will go after and a
 # block declaring the new section.
 #
-# As is the case with <code>add_subsection_too</code> the section added
+# As is the case with <code>add_subsection_to</code> the section added
 # doesn't need to be a section, it may be just a page.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

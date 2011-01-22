@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# We already saw how to define an outline tree sequentially.
+# We have already seen how to define an outline tree sequentially.
 #
 # If you'd like to add nodes to the middle of an outline tree the
 # <code>add_subsection_to</code> may help you.
@@ -11,8 +11,8 @@
 # <code>:first</code> or <code>:last</code> (defaults to <code>:last</code>)
 # and a block to declare the subsection.
 #
-# The <code>add_subsection_to</code> block don't need to create new sections, it
-# may create only new pages.
+# The <code>add_subsection_to</code> block doesn't necessarily create new sections, it
+# may also create new pages.
 #
 # If the parent title provided is the title of a page. The page will be
 # converted into a section to receive the subsection created.

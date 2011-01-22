@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # To style all the table cells you can use the <code>:cell_style</code> option
-# from the table methods. It accepts a hash with the cell style options.
+# with the table methods. It accepts a hash with the cell style options.
 #
 # Some straightforward options are <code>width</code>, <code>height</code>,
 # and <code>padding</code>. All three accept numeric values to set the property.

@@ -3,13 +3,13 @@
 # All of the previous styling options we've seen deal with all the table cells
 # at once.
 #
-# With initializer blocks we may deal with specific cells. Whenever we pass
-# a block to one of the table methods (Prawn::Table.new, Prawn::Document#table,
-# Prawn::Document#make_table), it will be called after cell setup but
+# With initializer blocks we may deal with specific cells.
+# A block passed to one of the table methods (Prawn::Table.new, Prawn::Document#table,
+# Prawn::Document#make_table) will be called after cell setup but
 # before layout. This is a very flexible way to specify styling and layout
 # constraints.
 #
-# Just like the <code>Prawn::Document.generate</code>, the table initializer
+# Just like the <code>Prawn::Document.generate</code> method, the table initializer
 # blocks may be used with and without a block argument.
 #
 # The table class has three methods that are handy within an initializer block:

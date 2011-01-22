@@ -3,9 +3,8 @@
 # Most font families come with some styles other than normal. Most common are
 # <code>bold</code>, <code>italic</code> and <code>bold_italic</code>.
 #
-# The style can be set using the <code>font</code> where it will apply for the
-# rest of the document or inline in the text methods with the
-# <code>:style</code> option.
+# The style can be set the using the <code>:style</code> option, with either the <code>font</code> method
+# which will set the font and style for rest of the document or until it is changed again; or with the inline text methods.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

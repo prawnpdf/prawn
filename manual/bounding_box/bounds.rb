@@ -5,12 +5,12 @@
 # helpers.
 #
 # <code>top</code>, <code>bottom</code>, <code>left</code> and
-# <code>right</code> return the bounding box boundaries relative to its
+# <code>right</code> methods return the bounding box boundaries relative to its
 # translated origin. <code>top_left</code>, <code>top_right</code>,
 # <code>bottom_left</code> and <code>bottom_right</code> return those boundaries
 # pairs inside arrays.
 #
-# All those methods have an "absolute" version like <code>absolute_right</code>.
+# All these methods have an "absolute" version like <code>absolute_right</code>.
 # The absolute version also returns the same boundary relative to the page
 # absolute coordinates.
 #

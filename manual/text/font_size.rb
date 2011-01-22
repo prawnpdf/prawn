@@ -1,11 +1,11 @@
 # encoding: utf-8
 # 
-# <code>font_size</code> works just like <code>font</code>.
+# The <code>font_size</code> method works just like the <code>font</code> method.
 #
 # In fact we can even use <code>font</code> with the <code>:size</code> option
 # to declare which size we want.
 #
-# Another way to change the font size is the <code>:size</code> option from the
+# Another way to change the font size is by supplying the <code>:size</code> option to the
 # text methods
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

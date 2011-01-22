@@ -7,7 +7,7 @@
 #
 # Knowing that any extensions we add to <code>Prawn::Text::Box</code> will take
 # effect when we use the <code>text_box</code> method. To add an extension all
-# we need to do is append the <code>Prawn::Text::Box#extensions</code> array
+# we need to do is append the <code>Prawn::Text::Box.extensions</code> array
 # with a module.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

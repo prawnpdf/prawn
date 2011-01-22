@@ -4,7 +4,7 @@
 # and an <code>:origin</code> point and everything inside the block will be
 # scaled using the origin point as reference.
 #
-# If you ommit the <code>:origin</code> option the page origin will be used.
+# If you omit the <code>:origin</code> option the page origin will be used.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

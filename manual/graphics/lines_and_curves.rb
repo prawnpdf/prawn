@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Prawn supports two different methods for drawing both lines and curves.
+# Prawn supports drawing both lines and curves starting either at the current position, or from a speciied starting position.
 #
 # <code>line_to</code> and <code>curve_to</code> set the drawing path from the
 # current drawing position to the specified point. The initial drawing position

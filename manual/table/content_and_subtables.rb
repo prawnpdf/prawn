@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# There are four kind of objects that can be put on table cells:
+# There are four kinds of objects which can be put in table cells:
 #   1. String: produces a text cell (the most common usage)
 #   2. <code>Prawn::Table::Cell</code>
 #   3. <code>Prawn::Table</code>

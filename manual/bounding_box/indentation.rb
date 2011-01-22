@@ -1,7 +1,7 @@
 # encoding: utf-8
 # 
-# Sometimes you just need to indent a portion of a bounding box content and
-# using nested bounding box is just pure overkill. The <code>indent</code>
+# Sometimes you just need to indent a portion of the contents of a bounding box, and
+# using a nested bounding box is just pure overkill. The <code>indent</code>
 # method is what you might need.
 #
 # Just provide a number for it to indent all content generated inside the

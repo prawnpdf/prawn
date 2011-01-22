@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Throughout the graphics reference there are some helper methods used that are
+# To produce this manual we use some helper methods used that are
 # not from the Prawn API.
 #
 # They are defined on the example_helper.rb file

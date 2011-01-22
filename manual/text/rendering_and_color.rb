@@ -7,8 +7,8 @@
 # When reading the graphics reference you learned about fill and stroke. If you
 # haven't read it before, read it now before continuing.
 #
-# With text happens something similar to the graphic shapes. The text can also
-# be filled (the default mode) or stroked or filled and stroked. This can be
+# Text can be rendered by
+# being filled (the default mode) or just stroked or both filled and stroked. This can be
 # set using the <code>text_rendering_mode</code> method or the
 # <code>:mode</code> option on the text methods.
 #

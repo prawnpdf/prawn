@@ -1,8 +1,8 @@
 # encoding: utf-8
 #
-# To scale the image there is the <code>:scale</code> option.
+# To scale an image use the <code>:scale</code> option.
 #
-# It will scale the dimensions of the image proportionally given the provided
+# It scales the image proportionally given the provided
 # value.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

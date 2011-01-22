@@ -1,10 +1,10 @@
 # encoding: utf-8
 #
-# Rotating the text is best avoided on free flowing text, so this example
+# Rotating text is best avoided on free flowing text, so this example
 # will only use the <code>text_box</code> method as we can have much more
 # control over its output.
 #
-# To rotate the text all we need to do is use the <code>:rotate</code> option
+# To rotate text all we need to do is use the <code>:rotate</code> option
 # passing an angle in degrees and an optional <code>:rotate_around</code> to
 # indicate the origin of the rotation (the default is <code>:upper_left</code>).
 #

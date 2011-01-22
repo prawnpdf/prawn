@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# To embed images onto your pdf file there is the <code>image</code> method.
+# To embed images onto your pdf file use the <code>image</code> method.
 # It accepts the file path of the image to be loaded and some optional
 # arguments.
 #

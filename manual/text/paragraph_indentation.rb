@@ -1,12 +1,12 @@
 # encoding: utf-8
 # 
-# Prawn strips all whitespace from the beggining and the end of strings so there
+# Prawn strips all whitespace from the beginning and the end of strings so there
 # are two ways to indent paragraphs:
 #
 # One is to use non-breaking spaces which Prawn won't strip. One shortcut to
 # using them is the <code>Prawn::Text::NBSP</code>.
 #
-# The other is the <code>:indent_paragraphs</code> option from the text methods.
+# The other is to use the <code>:indent_paragraphs</code> option with the text methods.
 # Just pass a number with the space to indent the first line in each paragraph.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

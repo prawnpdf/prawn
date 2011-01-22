@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# The <code>encrypt_document</code> method is used as you already guessed to
+# The <code>encrypt_document</code> method, as you might have already guessed, is used to
 # encrypt the pdf document.
 #
 # Once encrypted whoever is using the document will need the user password to
