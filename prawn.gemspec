@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.version = PRAWN_VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.files =  Dir.glob("{examples,lib,spec,vendor,data}/**/**/*") +
+  spec.files =  Dir.glob("{examples,lib,spec,data}/**/**/*") +
                       ["Rakefile", "prawn.gemspec"]
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.8.7'
@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.email = "  gregory.t.brown@gmail.com"
   spec.rubyforge_project = "prawn"
   spec.add_dependency('pdf-reader', '>=0.9.0')
+  spec.add_dependency('ttfunk', '~>1.0.0')
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
   Prawn is a fast, tiny, and nimble PDF generator for Ruby

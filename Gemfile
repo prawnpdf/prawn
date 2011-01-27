@@ -1,5 +1,8 @@
 source :rubygems
 
+# TODO: once an official ttfunk gem is released, remove tge :git option
+#       from the following line
+gem "ttfunk", "~>1.0.0", :git => "https://github.com/yob/ttfunk.git"
 gem "pdf-reader", "~>0.9.0"
 
 group :test do
