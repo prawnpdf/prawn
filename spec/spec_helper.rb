@@ -4,8 +4,6 @@ puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 
 require "rubygems"
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib') 
-$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor',
-                             'pdf-inspector','lib')
 require "prawn"
 
 Prawn.debug = true
@@ -15,8 +13,6 @@ ruby_19 do
 end
 require "test/spec"
 require "mocha"
-
-gem 'pdf-reader', ">=0.9.0"
 require "pdf/reader"
 require "pdf/inspector"
 
