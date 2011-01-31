@@ -5,3 +5,4 @@ pkg
 .bundle
 Gemfile.lock
 drop_to_console.rb
+manual.pdf
