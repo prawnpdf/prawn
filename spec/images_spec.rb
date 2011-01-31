@@ -2,6 +2,7 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
 require 'set'
+require 'pathname'
 
 describe "the image() function" do
 
@@ -34,6 +35,11 @@ describe "the image() function" do
     file = File.open(@filename, "rb")
     info = @pdf.image(file)
     
+    info.height.should == 453
+  end
+
+  it "should accept Pathname objects" do
+    info = @pdf.image(Pathname.new(@filename))
     info.height.should == 453
   end
 
