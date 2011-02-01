@@ -15,8 +15,6 @@ Prawn.debug = true
 
 module Prawn
   
-  MANUAL_TITLE = "Prawn by Example"
-  
   class Example < Prawn::Document
 
     def load_package(package)
@@ -28,9 +26,8 @@ module Prawn
       start_new_page
       load_file("manual", page)
 
-      outline.add_subsection_to Prawn::MANUAL_TITLE do
-        outline.section(page_name || page.capitalize,
-                        :destination => page_number)
+      outline.define do
+        section(page_name || page.capitalize, :destination => page_number)
       end
     end
 
@@ -43,22 +40,11 @@ module Prawn
       title = package.gsub("_", " ").capitalize
       text title, :size => 30
 
-      outline_package_root_section(title, page_number)
+      outline.define do
+        section(title, :destination => page_number)
+      end
       
       build_package_examples(package, title, examples_outline)
-    end
-
-    def outline_package_root_section(title, page)
-      if outline.items.include? Prawn::MANUAL_TITLE
-
-        outline.add_subsection_to(Prawn::MANUAL_TITLE) do
-          outline.section(title, :destination => page)
-        end
-      else
-        outline.define do
-          section(title, :destination => page)
-        end
-      end
     end
     
     def build_package_examples(package, title, examples_outline)
