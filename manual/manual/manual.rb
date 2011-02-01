@@ -5,9 +5,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("manual.pdf") do
-  text "Prawn by Example", :size => 40
-    
+Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
+  load_page "cover"
   load_page "foreword"
   load_page "how_to_read", "How to read this manual"
   
