@@ -13,10 +13,11 @@ Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
   # Core chapters
   load_package "basic_concepts"
   load_package "graphics"
-  load_package "bounding_box"
   load_package "text"
+  load_package "bounding_box"
   
   # Remaining chapters
+  load_package "layout"
   load_package "table"
   load_package "images"
   load_package "outline"
