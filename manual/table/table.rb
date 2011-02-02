@@ -21,7 +21,8 @@ Prawn::Example.generate("table.pdf") do
                    ]
       ],
       ["Initializer Block", [ "basic_block",
-                              "filtering"
+                              "filtering",
+                              "style"
                             ]
       ]
     ]
