@@ -20,7 +20,8 @@ Prawn::Example.generate("table.pdf") do
                      "cell_text"
                    ]
       ],
-      ["Initializer Block", [ "basic_block"
+      ["Initializer Block", [ "basic_block",
+                              "filtering"
                             ]
       ]
     ]
