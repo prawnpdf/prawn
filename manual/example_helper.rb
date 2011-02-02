@@ -150,7 +150,9 @@ module Prawn
     end
     
     def stroke_axis(options={})
-      options = { :height => 350, :width => bounds.width.to_i }.merge(options)
+      options = { :height => (cursor - 20).to_i,
+                  :width => bounds.width.to_i
+                }.merge(options)
       
       dash(1, :space => 4)
       stroke_horizontal_line(-21, options[:width], :at => 0)

@@ -13,7 +13,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   # Prawn::Document.generate() do
-  stroke_axis :height => 250
+  stroke_axis
   
   y = 250
   
