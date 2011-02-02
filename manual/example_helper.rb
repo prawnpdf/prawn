@@ -18,12 +18,10 @@ module Prawn
   class Example < Prawn::Document
 
     def load_package(package)
-      start_new_page
       load_file(package, package)
     end
     
     def load_page(page, page_name = nil)
-      start_new_page
       load_file("manual", page)
 
       outline.define do
@@ -32,6 +30,7 @@ module Prawn
     end
 
     def load_file(package, file)
+      start_new_page
       data = read_file(package, "#{file}.rb")
       eval extract_generate_block(data)
     end
