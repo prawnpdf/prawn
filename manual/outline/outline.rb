@@ -19,5 +19,14 @@ Prawn::Example.generate("outline.pdf") do
                   ]
       ]
     ]
-  )
+    
+  ) do
+    text "The outline of a pdf document is the table of contents tab you see to the right or left of your pdf viewer.
+
+    The examples include:"
+
+    list( "How to define sections and pages",
+          "How to insert sections and/or pages to a previously defined outline structure"
+        )
+  end
 end

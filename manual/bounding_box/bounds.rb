@@ -30,10 +30,10 @@ Prawn::Example.generate(filename) do
     
     move_down 10
     
-    text "absolute top: #{bounds.absolute_top}"
-    text "absolute bottom: #{bounds.absolute_bottom}"
-    text "absolute left: #{bounds.absolute_left}"
-    text "absolute right: #{bounds.absolute_right}"
+    text "absolute top: #{sprintf "%.2f", bounds.absolute_top}"
+    text "absolute bottom: #{sprintf "%.2f", bounds.absolute_bottom}"
+    text "absolute left: #{sprintf "%.2f", bounds.absolute_left}"
+    text "absolute right: #{sprintf "%.2f", bounds.absolute_right}"
   end
   
   text "Margin box bounds:"

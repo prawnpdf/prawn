@@ -11,5 +11,14 @@ Prawn::Example.generate("stamp.pdf") do
                   ]
       ]
     ]
-  )
+    
+  ) do
+    text "A Stamp can be used for content blocks that need to be inserted multiple times in the document.
+
+    The examples include:"
+
+    list( "How to create a new Stamp",
+          'How to "stamp" the content block on the page'
+        )
+  end
 end

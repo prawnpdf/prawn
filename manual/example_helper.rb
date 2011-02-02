@@ -36,9 +36,13 @@ module Prawn
       eval extract_generate_block(data)
     end
     
-    def build_package(package, examples_outline)
+    def build_package(package, examples_outline, &block)
       title = package.gsub("_", " ").capitalize
-      text title, :size => 30
+      header(title)
+      
+      if block_given?
+        instance_eval(&block)
+      end
 
       outline.define do
         section(title, :destination => page_number)
@@ -121,6 +125,28 @@ module Prawn
     def read_file(package, file)
       File.read(File.expand_path(File.join(
                           File.dirname(__FILE__), package, file)))
+    end
+    
+    def header(str)
+      move_down 40
+      text(str, :size => 25, :style => :bold)
+      stroke_horizontal_rule
+      move_down 30
+    end
+    
+    def list(*items)
+      move_down 20
+      
+      items.each do |li|
+        float { text "•" }
+        indent(10) do
+          text li.gsub(/\s+/," "), 
+            :inline_format => true,
+            :leading       => 2
+        end
+
+        move_down 10
+      end
     end
     
     def stroke_axis(options={})

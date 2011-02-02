@@ -35,5 +35,21 @@ Prawn::Example.generate("text.pdf") do
                           ]
       ]
     ]
-  )
+    
+  ) do
+    text "This is probably the feature people will use the most. There is no shortage of options when it comes to text. You'll be hard pressed to find a use case that is not covered by one of the text methods and confgurable options.
+
+    The examples show:"
+
+    list( "Text that flows from page to page without the need to start the new pages",
+          "How to use text boxes and place them on specific positions",
+          "What to do when a text box is too small to fit its content",
+          "How to change the text style configuring font, size, alignment and many other settings",
+          "How to style specific portions of a text with inline styling and formatted text",
+          "How to define formatted callbacks to reuse common styling definitions",
+          "How to use the different rendering modes available for the text methods",
+          "How to create your custom text boxe extensions",
+          "How to use external fonts on your pdfs"
+        )
+  end
 end

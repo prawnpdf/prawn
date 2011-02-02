@@ -32,5 +32,18 @@ Prawn::Example.generate("graphics.pdf") do
                            ]
       ]
     ]
-  )
+    
+  ) do
+    text "Here we show all the drawing methods provided by Prawn. Use 'em to draw the most beautiful imaginable things.
+    
+    Most of the content that you'll add to your pdf document will use the graphics package. Even text is rendered on a page just like a rectangle is so even if you never use any of the shapes described here you should at least read the Basics examples.
+    
+    The examples show:"
+    
+    list( "All the possible ways that you can fill or stroke shapes on a page",
+          "How to draw all the shapes that Prawn has to offer from a measly line to a mighty polygon or ellipse",
+          "What the configuration options are for stroking lines and filling shapes.",
+          "How to apply transformations to your drawing space"
+        )
+  end
 end

@@ -7,9 +7,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  text "How to read this manual", :size => 20
+  header("How to read this manual")
   
-  move_down 20
   text <<-END_TEXT
   This manual is a collection of examples categorized by theme and organized from the least to the most complex. While it covers most of the common use cases it is not a comprehensive guide.
   
@@ -22,10 +21,8 @@ Prawn::Example.generate(filename) do
   Advanced users are encouraged to go beyond this manual and read the source code directly if any doubt you have is not directly covered on this manual.
   END_TEXT
   
-  move_down 30
-  text "Reading the examples", :size => 20
+  header("Reading the examples")
   
-  move_down 20
   text <<-END_TEXT
   The title of each example is the relative path from the Prawn source manual/ folder.
   

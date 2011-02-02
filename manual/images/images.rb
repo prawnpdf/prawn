@@ -21,5 +21,15 @@ Prawn::Example.generate("images.pdf") do
                ]
       ]
     ]
-  )
+
+  ) do
+    text "Embedding images on pdf documents is fairly easy. Prawn supports both JPG and PNG images.
+
+    The examples show:"
+
+    list( "How to add an image to a page",
+          "How place the image on a specific position",
+          "How to configure the image dimensions by setting the width and height or by using scaling it"
+        )
+  end
 end

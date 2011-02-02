@@ -13,5 +13,16 @@ Prawn::Example.generate("security.pdf") do
                   ]
       ]
     ]
-  )
+
+  ) do
+    text "Security lets you control who can read the document by defining a password.
+
+    The examples include:"
+
+    list( "How to encrypt the document without the need for a password",
+          "How to configure the regular user permitions",
+          "How to require a password for the regular user",
+          "How to set a owner password that bypass the document permitions"
+        )
+  end
 end

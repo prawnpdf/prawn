@@ -9,7 +9,7 @@
 # current cursor position and proceed to the bottom of the page.
 #
 # The following snippet shows how the cursor behaves when we add some text to the
-# page and demonstrated some of the helpers to manage the cursor position. The
+# page and demonstrates some of the helpers to manage the cursor position. The
 # <code>cursor</code> method returns the current cursor position.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
