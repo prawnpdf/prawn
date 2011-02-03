@@ -7,11 +7,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("layout.pdf") do
   build_package("layout", [
-      [ "Basics", [ "simple_grid",
-                    "boxes",
-                    "content"
-                  ]
-      ]
+      "simple_grid",
+      "boxes",
+      "content"
     ]
 
   ) do

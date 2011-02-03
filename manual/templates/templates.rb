@@ -7,13 +7,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("templates.pdf") do
   build_package("templates", [
-      [ "Basics", [ { :name        => "full_template",
-                      :eval_source => false,
-                      :full_source => true
-                    },
-                    "page_template"
-                  ]
-      ]
+      { :name        => "full_template",
+        :eval_source => false,
+        :full_source => true
+      },
+      "page_template"
     ]
     
   ) do

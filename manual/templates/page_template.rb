@@ -32,7 +32,7 @@ Prawn::Example.generate(filename) do
   text_box "John Doe", :at => [75, cursor-75]
   text_box "john@doe.com", :at => [75, cursor-105]
   text_box "John Doe inc", :at => [75, cursor-135]
-  text_box "You didn't thought I'd tell, did you?", :at => [75, cursor-165]
+  text_box "You didn't think I'd tell, did you?", :at => [75, cursor-165]
   
   fill_color "000000"
 end

@@ -7,10 +7,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("repeatable_content.pdf") do
   build_package("repeatable_content", [
-      [ "Basics", [ {:name => "repeater", :eval_source => false},
-                    "stamp"
-                  ]
-      ]
+      {:name => "repeater", :eval_source => false},
+      "stamp"
     ]
     
   ) do

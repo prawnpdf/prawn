@@ -44,7 +44,7 @@ module Prawn
       end
 
       outline.define do
-        section(title, :destination => page_number)
+        section(title, :destination => page_number, :closed => true)
       end
       
       build_package_examples(package, title, examples_outline)
