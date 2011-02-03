@@ -23,4 +23,5 @@ Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
   load_package "outline"
   load_package "security"
   load_package "repeatable_content"
+  load_package "templates"
 end
