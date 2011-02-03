@@ -466,7 +466,7 @@ module Prawn
         if @background_color
           @pdf.mask(:fill_color) do
             @pdf.fill_color @background_color
-            @pdf.fill_rectangle [x, y], width, height
+            @pdf.fill_rectangle pt, width, height
           end
         end
       end

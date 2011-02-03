@@ -271,6 +271,23 @@ describe "Prawn::Table::Cell" do
       end
       @pdf.cell(:content => "text", :background_color => '123456')
     end
+
+    it "should draw the background in the right place if cell is drawn at a " +
+       "different location" do
+      @pdf.stubs(:mask).yields
+      @pdf.expects(:mask).with(:fill_color).yields
+
+      @pdf.stubs(:fill_color)
+      @pdf.expects(:fill_color).with('123456')
+      @pdf.expects(:fill_rectangle).checking do |(x, y), w, h|
+        x.should.be.close(12.0, 0.01)
+        y.should.be.close(34.0, 0.01)
+        w.should.be.close(29.344, 0.01)
+        h.should.be.close(23.872, 0.01)
+      end
+      c = @pdf.make_cell(:content => "text", :background_color => '123456')
+      c.draw([12.0, 34.0])
+    end
   end
 
   describe "color" do
