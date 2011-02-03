@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Examples for stamps.
+# Examples for loading existing pdfs.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
