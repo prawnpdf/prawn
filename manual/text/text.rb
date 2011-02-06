@@ -34,6 +34,10 @@ Prawn::Example.generate("text.pdf") do
       [ "External Fonts", [ "single_usage",
                             "registering_families"
                           ]
+      ],
+      [ "M17n", [ "utf8",
+                  "chinese_text_wrapping"
+                ]
       ]
     ]
     
