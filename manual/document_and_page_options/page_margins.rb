@@ -12,7 +12,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Document.generate("page_margins.pdf",
-                         :margin   => 100
+                         :margin => 100
 ) do
   text "100 pts margins."
   stroke_bounds
