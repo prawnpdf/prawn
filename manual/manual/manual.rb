@@ -20,6 +20,7 @@ Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
   load_package "layout"
   load_package "table"
   load_package "images"
+  load_package "document_and_page_options"
   load_package "outline"
   load_package "security"
   load_package "repeatable_content"
