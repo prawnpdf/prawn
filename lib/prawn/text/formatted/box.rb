@@ -133,13 +133,14 @@ module Prawn
           fragment.left = x
           fragment.baseline = y
 
-          draw_fragment_underlays(fragment)
-
           if @inked
+            draw_fragment_underlays(fragment)
+
             @document.word_spacing(word_spacing) {
               @document.draw_text!(fragment.text, :at => [x, y],
                                    :kerning => @kerning)
             }
+
             draw_fragment_overlays(fragment)
           end
         end
