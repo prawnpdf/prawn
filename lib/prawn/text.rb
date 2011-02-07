@@ -139,30 +139,11 @@ module Prawn
       if options[:inline_format]
         options.delete(:inline_format)
         array = Text::Formatted::Parser.to_array(string)
-        formatted_text(array, options)
-        return
-      end
-
-      inspect_options_for_text(options)
-
-      if @indent_paragraphs
-        string.split("\n").each do |paragraph|
-          options[:skip_encoding] = false
-          remaining_text = draw_indented_line(paragraph, options)
-          options[:skip_encoding] = true
-          if remaining_text == paragraph && !remaining_text.empty?
-            # we were too close to the bottom of the page to print even one line
-            @bounding_box.move_past_bottom
-            remaining_text = draw_indented_line(paragraph, options)
-          end
-          remaining_text = fill_text_box(remaining_text, options)
-          draw_remaining_text_on_new_pages(remaining_text, options)
-        end
       else
-        remaining_text = fill_text_box(string, options)
-        options[:skip_encoding] = true
-        draw_remaining_text_on_new_pages(remaining_text, options)
+        array = [{ :text => string }]
       end
+
+      formatted_text(array, options)
     end
 
 
@@ -197,7 +178,8 @@ module Prawn
           options[:skip_encoding] = false
           remaining_text = draw_indented_formatted_line(paragraph, options)
           options[:skip_encoding] = true
-          if remaining_text == paragraph
+
+          if remaining_text == paragraph || remaining_text.length > paragraph.length
             # we were too close to the bottom of the page to print even one line
             @bounding_box.move_past_bottom
             remaining_text = draw_indented_formatted_line(paragraph, options)
