@@ -2,8 +2,8 @@
 #
 # A text box is positioned by a top-left corner, width, and height and is
 # essentially an invisible rectangle that the text will flow within.  If the
-# text exceeds the boundaries, it is either truncated, replaced with some
-# ellipses, or set to expand beyond the bottom boundary.
+# text exceeds the boundaries, it is either truncated, shrunk-to-fit, or set
+# to expand beyond the bottom boundary.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

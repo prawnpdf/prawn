@@ -6,9 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 require "prawn/core/text"
-require "prawn/core/text/wrap"
-require "prawn/text/box"
 require "prawn/text/formatted"
+require "prawn/text/box"
 require "zlib"
 
 module Prawn
@@ -277,19 +276,7 @@ module Prawn
     # any text
     #
     def height_of(string, options={})
-      if options[:indent_paragraphs]
-        raise NotImplementedError, ":indent_paragraphs option not available" +
-          "with height_of"
-      end
-      process_final_gap_option(options)
-      box = Text::Box.new(string,
-                          options.merge(:height   => 100000000,
-                                        :document => self))
-      printed = box.render(:dry_run => true)
-
-      height = box.height - (box.line_height - box.ascender)
-      height += box.line_height + box.leading - box.ascender if @final_gap
-      height
+      height_of_formatted([{ :text => string }], options)
     end
 
     # Gets height of formatted text in PDF points.
@@ -320,37 +307,6 @@ module Prawn
 
     private
 
-    def draw_remaining_text_on_new_pages(remaining_text, options)
-      while remaining_text.length > 0
-        @bounding_box.move_past_bottom
-        previous_remaining_text = remaining_text
-        remaining_text = fill_text_box(remaining_text, options)
-        break if remaining_text == previous_remaining_text
-      end
-    end
-
-    def draw_indented_line(string, options)
-      indent(@indent_paragraphs) do
-        fill_text_box(string, options.dup.merge(:single_line => true))
-      end
-    end
-
-    def fill_text_box(text, options)
-      merge_text_box_positioning_options(options)
-
-      box = Text::Box.new(text, options)
-      remaining_text = box.render
-
-      self.y -= box.height - (box.line_height - box.ascender)
-      if @final_gap
-        self.y -= box.line_height + box.leading - box.ascender
-      end
-      remaining_text
-    end
-
-
-
-
     def draw_remaining_formatted_text_on_new_pages(remaining_text, options)
       while remaining_text.length > 0
         @bounding_box.move_past_bottom
@@ -377,8 +333,6 @@ module Prawn
       end
       remaining_text
     end
-
-
 
     def merge_text_box_positioning_options(options)
       bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :

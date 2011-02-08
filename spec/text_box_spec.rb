@@ -27,17 +27,6 @@ describe "Text::Box" do
   end
 end
 
-describe "Text::Box#extensions" do
-  it "should be able to override default line wrapping" do
-    create_pdf
-    Prawn::Text::Box.extensions << TestWrapOverride
-    @pdf.text_box("hello world", {})
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == "all your base are belong to us"
-    Prawn::Text::Box.extensions.delete(TestWrapOverride)
-  end
-end
-
 describe "Text::Box#render with :align => :justify" do
   it "should draw the word spacing to the document" do
     create_pdf
@@ -392,25 +381,6 @@ describe "Text::Box with text than can fit in the box" do
   end
 end
 
-describe "Text::Box with text than can fit in the box with :ellipses overflow and :valign => :bottom" do
-  it "should not print ellipses" do
-    create_pdf
-    @text = "Oh hai text rect. " * 10
-    @options = {
-      :width => 162.0,
-      :height => 162.0,
-      :overflow => :ellipses,
-      :valign => :bottom,
-      :document => @pdf
-    }
-    @text_box = Prawn::Text::Box.new(@text, @options)
-    @text_box.render
-    @text_box.text.should.not =~ /\.\.\./
-  end
-end
-
-
-
 describe "Text::Box printing UTF-8 string with higher bit characters" do
   before(:each) do
     create_pdf    
@@ -464,7 +434,6 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
     end
   end
 end
-          
 
 describe "Text::Box with more text than can fit in the box" do
   before(:each) do
@@ -482,10 +451,6 @@ describe "Text::Box with more text than can fit in the box" do
     before(:each) do
       @options[:overflow] = :truncate
       @text_box = Prawn::Text::Box.new(@text, @options)
-    end
-    it "should not display ellipses" do
-      @text_box.render
-      @text_box.text.should.not =~ /\.\.\./
     end
     it "should be truncated" do
       @text_box.render
@@ -517,20 +482,6 @@ describe "Text::Box with more text than can fit in the box" do
         rotated_text_box = Prawn::Text::Box.new(@text, @options)
         rotated_text_box.render.should == remaining_text
       end
-    end
-  end
-  
-  context "ellipses overflow" do
-    before(:each) do
-      @options[:overflow] = :ellipses
-      @text_box = Prawn::Text::Box.new(@text, @options)
-    end
-    it "should display ellipses" do
-      @text_box.render
-      @text_box.text.should =~ /\.\.\./
-    end
-    it "render should not return an empty string because some text remains unprinted" do
-      @text_box.render.should.not == ""
     end
   end
 
@@ -587,7 +538,6 @@ end
 
 
 describe "drawing bounding boxes" do    
-  
   before(:each) { create_pdf }   
 
   it "should restore the margin box when bounding box exits" do
@@ -598,7 +548,6 @@ describe "drawing bounding boxes" do
     @pdf.bounds.should == margin_box
 
   end
-  
 end
 
 
@@ -775,16 +724,4 @@ end
 
 def reduce_precision(float)
   ("%.5f" % float).to_f
-end
-
-module TestWrapOverride
-  def wrap(string)
-    @text = nil
-    @line_height = @document.font.height
-    @descender   = @document.font.descender
-    @ascender    = @document.font.ascender
-    @baseline_y  = -@ascender
-    draw_line("all your base are belong to us")
-    ""
-  end
 end
