@@ -19,7 +19,6 @@ Prawn::Document.generate("hyphenation.pdf") do
   options = {
     :width    => bounds.width * 0.3,
     :height   => bounds.width * 0.3,
-    :overflow => :ellipses,
     :at       => [0, 0],
     :align    => :left,
     :document => self

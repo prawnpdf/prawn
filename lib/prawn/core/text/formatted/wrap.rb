@@ -8,7 +8,6 @@ module Prawn
         module Wrap #:nodoc:
 
           def initialize(array, options)
-            super(array, options)
             @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
             @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document)
           end
@@ -69,6 +68,16 @@ module Prawn
           end
 
           private
+
+          def word_spacing_for_this_line
+            if @align == :justify &&
+                @line_wrap.space_count > 0 &&
+                @line_wrap.width.to_f / available_width.to_f >= 0.75
+              (available_width - @line_wrap.width) / @line_wrap.space_count
+            else
+              0
+            end
+          end
 
           def enough_height_for_this_line?
             @line_height = @arranger.max_line_height

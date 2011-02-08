@@ -13,7 +13,19 @@ module Prawn
     module Text
       module Formatted #:nodoc:
         
-        class LineWrap < Prawn::Core::Text::LineWrap #:nodoc:
+        class LineWrap #:nodoc:
+
+          # The width of the last wrapped line
+          #
+          def width
+            @accumulated_width || 0
+          end
+
+          # The number of spaces in the last wrapped line
+          #
+          def space_count
+            @space_count
+          end
 
           # Work in conjunction with the Prawn::Core::Formatted::Arranger
           # defined in the :arranger option to determine what formatted text
@@ -49,6 +61,42 @@ module Prawn
           end
 
           private
+
+          # The pattern used to determine chunks of text to place on a given line
+          #
+          def scan_pattern
+            pattern = "[^#{break_chars}]+#{soft_hyphen}|" +
+              "[^#{break_chars}]+#{hyphen}+|" +
+              "[^#{break_chars}]+|" +
+              "[#{whitespace}]+|" +
+              "#{hyphen}+[^#{break_chars}]*|" +
+              "#{soft_hyphen}"
+            new_regexp(pattern)
+          end
+
+          # The pattern used to determine whether any word breaks exist on a
+          # current line, which in turn determines whether character level
+          # word breaking is needed
+          #
+          def word_division_scan_pattern
+            new_regexp("\\s|[#{hyphen}#{soft_hyphen}]")
+          end
+
+          def break_chars
+            "#{whitespace}#{soft_hyphen}#{hyphen}"
+          end
+
+          def whitespace
+            " \\t"
+          end
+
+          def hyphen
+            "-"
+          end
+
+          def soft_hyphen
+            @document.font.normalize_encoding("­")
+          end
 
           def initialize_line(options)
             @document = options[:document]
@@ -118,6 +166,42 @@ module Prawn
             else
               wrap_by_char(segment)
             end
+          end
+
+          def wrap_by_char(segment)
+            if @document.font.unicode?
+              segment.unpack("U*").each do |char_int|
+                break unless append_char([char_int].pack("U"))
+              end
+            else
+              segment.each_char do |char|
+                break unless append_char(char)
+              end
+            end
+          end
+
+          def append_char(char)
+            # kerning doesn't make sense in the context of a single character
+            char_width = @document.width_of(char)
+            @accumulated_width += char_width
+
+            if @accumulated_width >= @width
+              false
+            else
+              @output << char
+              true
+            end
+          end
+
+          def new_regexp(pattern)
+            regexp = ruby_19 {
+              Regexp.new(pattern)
+            }
+            regexp = regexp || ruby_18 {
+              lang = @document.font.unicode? ? 'U' : 'N'
+              Regexp.new(pattern, 0, lang)
+            }
+            regexp
           end
 
         end
