@@ -159,24 +159,24 @@ describe "Text::Formatted::Box#render" do
   it "should be able to set subscript" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "subscript", :styles => [:subscript] },
+             { :text => "subscript", :size => 18, :styles => [:subscript] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
-    contents.font_settings[1][:size].should.be.close(12 * 0.583, 0.0001)
+    contents.font_settings[1][:size].should.be.close(18 * 0.583, 0.0001)
   end
   it "should be able to set superscript" do
     create_pdf
     array = [{ :text => "this contains " },
-             { :text => "superscript", :styles => [:superscript] },
+             { :text => "superscript", :size => 18, :styles => [:superscript] },
              { :text => " text" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
-    contents.font_settings[1][:size].should.be.close(12 * 0.583, 0.0001)
+    contents.font_settings[1][:size].should.be.close(18 * 0.583, 0.0001)
   end
   it "should be able to set compound bold and italic text" do
     create_pdf
