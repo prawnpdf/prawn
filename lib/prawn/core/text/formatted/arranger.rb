@@ -208,7 +208,12 @@ module Prawn
 
           def apply_font_size(size, styles)
             if subscript?(styles) || superscript?(styles)
-              size = @document.font_size * 0.583
+              relative_size = 0.583
+              if size.nil?
+                size = @document.font_size * relative_size
+              else
+                size = size * relative_size
+              end
             end
             if size.nil?
               yield

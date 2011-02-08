@@ -14,7 +14,7 @@ Prawn::Document.generate("inline_format.pdf") do |pdf|
   pdf.text("right: " + "hello <b>world how <i>are</i></b> you? " * 2,
        :inline_format => true,
        :align => :right)
-  pdf.text("center: " + "hello <b>world how <i>are</i></b> you? " * 2,
+  pdf.text("center: " + "hello <b>world <font size='48'>ho<sub>w</sub> <i>are</i></font></b> you? " * 2,
        :inline_format => true,
        :align => :center)
   pdf.text("\njustify: " + "hello <b>world <i>goodbye</i></b> " * 12 + "the end ",
