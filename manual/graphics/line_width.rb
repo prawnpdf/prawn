@@ -27,7 +27,7 @@ Prawn::Example.generate(filename) do
     stroke do
       horizontal_line 50, 150, :at => y
       rectangle [275, y + 25], 50, 50
-      circle_at [500, y], :radius => 25
+      circle [500, y], 25
     end
     
     y -= 100

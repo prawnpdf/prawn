@@ -26,10 +26,10 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   stroke_axis
   
-  stroke_circle_at [0, 0], :radius => 10
+  stroke_circle [0, 0], 10
   
   bounding_box [100, 300], :width => 300, :height => 200 do
     stroke_bounds
-    stroke_circle_at [0, 0], :radius => 10
+    stroke_circle [0, 0], 10
   end
 end

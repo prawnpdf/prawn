@@ -181,15 +181,28 @@ module Prawn
     #
     KAPPA = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0)
 
-    # Draws a circle of radius <tt>:radius</tt> with the centre-point at <tt>point</tt>
+    # <b>DEPRECATED:</b> Please use <tt>circle</tt> instead.
+    def circle_at(point, options)
+      warn "[DEPRECATION] 'circle_at' is deprecated in favor of 'circle'. " +
+           "'circle_at' will be removed in release 1.1"
+      circle(point, options[:radius])
+    end
+
+    # Draws a circle of radius <tt>radius</tt> with the centre-point at <tt>point</tt>
     # as a complete subpath. The drawing point will be moved to the
     # centre-point upon completion of the drawing the circle.
     #
-    #    pdf.circle_at [100,100], :radius => 25
+    #    pdf.circle_at [100,100], 25
     #
-    def circle_at(point, options)
-      x,y = point
-      ellipse_at [x, y], options[:radius]
+    def circle(center, radius)
+      ellipse(center, radius, radius)
+    end
+
+    # <b>DEPRECATED:</b> Please use <tt>ellipse</tt> instead.
+    def ellipse_at(point, r1, r2=r1)
+      warn "[DEPRECATION] 'ellipse_at' is deprecated in favor of 'ellipse'. " +
+           "'ellipse_at' will be removed in release 1.1"
+      ellipse(point, r1, r2)
     end
 
     # Draws an ellipse of +x+ radius <tt>r1</tt> and +y+ radius <tt>r2</tt>
@@ -198,9 +211,9 @@ module Prawn
     # drawing the ellipse.
     #
     #    # draws an ellipse with x-radius 25 and y-radius 50
-    #    pdf.ellipse_at [100,100], 25, 50
+    #    pdf.ellipse [100,100], 25, 50
     #
-    def ellipse_at(point, r1, r2 = r1)
+    def ellipse(point, r1, r2 = r1)
       x, y = point
       l1 = r1 * KAPPA
       l2 = r2 * KAPPA

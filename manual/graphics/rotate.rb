@@ -13,7 +13,7 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   stroke_axis
   
-  fill_circle_at [250, 200], :radius => 2
+  fill_circle [250, 200], 2
   
   12.times do |i|
     

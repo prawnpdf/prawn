@@ -21,7 +21,7 @@ module Prawn
   #
   # Example:
   #   pdf.create_stamp("my_stamp") {
-  #     pdf.fill_circle_at([10, 15], :radius => 5)
+  #     pdf.fill_circle([10, 15], 5)
   #     pdf.draw_text("hello world", :at => [20, 10])
   #   }
   #   pdf.stamp("my_stamp")
@@ -35,7 +35,7 @@ module Prawn
     #
     # Example:
     #   pdf.create_stamp("my_stamp") {
-    #     pdf.fill_circle_at([10, 15], :radius => 5)
+    #     pdf.fill_circle([10, 15], 5)
     #     pdf.text("hello world", :at => [20, 10])
     #   }
     #   pdf.stamp("my_stamp")
@@ -52,7 +52,7 @@ module Prawn
     #
     # Example:
     #   pdf.create_stamp("circle") do
-    #     pdf.fill_circle_at([0, 0], :radius => 25)
+    #     pdf.fill_circle([0, 0], 25)
     #   end
     #   # draws a circle at 100, 100
     #   pdf.stamp_at("circle", [100, 100])
@@ -71,7 +71,7 @@ module Prawn
     #
     # Example:
     #   pdf.create_stamp("my_stamp") {
-    #     pdf.fill_circle_at([10, 15], :radius => 5)
+    #     pdf.fill_circle([10, 15], 5)
     #     pdf.draw_text("hello world", :at => [20, 10])
     #   }
     #

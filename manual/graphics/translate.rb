@@ -17,7 +17,7 @@ Prawn::Example.generate(filename) do
     translate(x, y) do
       
       # Draw a point on the new origin
-      fill_circle_at [0, 0], :radius => 2
+      fill_circle [0, 0], 2
       draw_text "New origin after translation to [#{x}, #{y}]",
                 :at => [5, -2], :size => 8
       

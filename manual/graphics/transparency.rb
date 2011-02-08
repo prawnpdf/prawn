@@ -26,7 +26,7 @@ Prawn::Example.generate(filename) do
   [[0.5, 1], 0.5, [1, 0.5]].each do |args|
     
     transparent(*args) do
-      fill_circle_at [base_x, 100], :radius => 50
+      fill_circle [base_x, 100], 50
       stroke_rectangle [base_x - 20, 100], 40, 80
     end
     

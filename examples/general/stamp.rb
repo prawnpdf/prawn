@@ -24,9 +24,9 @@ Prawn::Document.generate("stamp.pdf", :skip_page_creation => true) do
 
   create_stamp("MyStamp") do
     fill_color("ff0000")
-    fill_circle_at([0, 0], :radius => 20)
+    fill_circle([0, 0], 20)
     fill_color("000000")
-    fill_circle_at([10, 10], :radius => 20)
+    fill_circle([10, 10], 20)
   end
 
   10.times do |i|

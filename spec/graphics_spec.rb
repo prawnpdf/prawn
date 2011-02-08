@@ -159,7 +159,7 @@ end
 describe "When drawing an ellipse" do
   before(:each) do
     create_pdf
-    @pdf.ellipse_at [100,100], 25, 50
+    @pdf.ellipse [100,100], 25, 50
     @curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
   end
 
@@ -172,8 +172,8 @@ end
 describe "When drawing a circle" do
   before(:each) do
     create_pdf
-    @pdf.circle_at [100,100], :radius => 25
-    @pdf.ellipse_at [100,100], 25, 25
+    @pdf.circle [100,100], 25
+    @pdf.ellipse [100,100], 25, 25
     @curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
   end
 

@@ -24,7 +24,7 @@ Prawn::Example.generate(filename) do
   create_stamp("approved") do
     rotate(30, :origin => [-5, -5]) do
       stroke_color "FF3333"
-      stroke_ellipse_at [0, 0], 29, 15
+      stroke_ellipse [0, 0], 29, 15
       stroke_color "000000"
     
       fill_color "993333"
