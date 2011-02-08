@@ -8,5 +8,5 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 pdf = Prawn::Document.new
 pdf.move_to [100,100]
 pdf.stroke_curve_to [50,50], :bounds => [[60,90], [60, 90]]  
-pdf.fill_circle_at [200,200], :radius => 10
+pdf.fill_circle [200,200], 10
 pdf.render_file "curves.pdf"

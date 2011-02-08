@@ -28,7 +28,7 @@ Prawn::Document.generate("bounding_boxes.pdf") do
   #
   bounding_box [100,cursor], :width => 200, :height => 200 do
     stroke do
-      circle_at [100,100], :radius => 100
+      circle [100,100], 100
       line bounds.top_left, bounds.bottom_right
       line bounds.top_right, bounds.bottom_left
     end

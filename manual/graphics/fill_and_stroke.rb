@@ -4,7 +4,7 @@
 # <code>stroke</code>.
 #
 # These are the methods that actually draw stuff on the document. All the other
-# drawing shapes like <code>rectangle</code>, <code>circle_at</code> or
+# drawing shapes like <code>rectangle</code>, <code>circle</code> or
 # <code>line_to</code> define drawing paths. These paths need to be either
 # stroked or filled to gain form on the document.
 #

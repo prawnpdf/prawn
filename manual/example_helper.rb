@@ -158,15 +158,15 @@ module Prawn
       stroke_vertical_line(-21, options[:height], :at => 0)
       undash
       
-      fill_circle_at [0, 0], :radius => 1
+      fill_circle [0, 0], 1
       
       (100..options[:width]).step(100) do |point|
-        fill_circle_at [point, 0], :radius => 1
+        fill_circle [point, 0], 1
         draw_text point, :at => [point-5, -10], :size => 7
       end
 
       (100..options[:height]).step(100) do |point|
-        fill_circle_at [0, point], :radius => 1
+        fill_circle [0, point], 1
         draw_text point, :at => [-17, point-2], :size => 7
       end
     end

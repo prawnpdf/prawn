@@ -18,14 +18,14 @@ module Prawn
     #   # both the fill and stroke will be at 50% opacity
     #   pdf.transparent(0.5) do
     #     pdf.text("hello world")
-    #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+    #     pdf.fill_and_stroke_circle([x, y], 25)
     #   end
     #
     #   # the fill will be at 50% opacity, but the stroke will
     #   # be at 75% opacity
     #   pdf.transparent(0.5, 0.75) do
     #     pdf.text("hello world")
-    #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+    #     pdf.fill_and_stroke_circle([x, y], 25)
     #   end
     #
     module Transparency
@@ -41,14 +41,14 @@ module Prawn
       #   # both the fill and stroke will be at 50% opacity
       #   pdf.transparent(0.5) do
       #     pdf.text("hello world")
-      #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+      #     pdf.fill_and_stroke_circle([x, y], 25)
       #   end
       #
       #   # the fill will be at 50% opacity, but the stroke will
       #   # be at 75% opacity
       #   pdf.transparent(0.5, 0.75) do
       #     pdf.text("hello world")
-      #     pdf.fill_and_stroke_circle_at([x, y], :radius => 25)
+      #     pdf.fill_and_stroke_circle([x, y], 25)
       #   end
       #
       def transparent(opacity, stroke_opacity=opacity, &block)

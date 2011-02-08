@@ -20,7 +20,7 @@ Prawn::Example.generate(filename) do
   stroke_rectangle [300, 300], 200, 100
   
   # Both together
-  fill_and_stroke_circle_at [400, 100], :radius => 50
+  fill_and_stroke_circle [400, 100], 50
   
   reset_drawing_settings
 end

@@ -79,10 +79,10 @@ Prawn::Document.generate("inline_format.pdf") do |pdf|
         @document.stroke_polygon(fragment.top_left, fragment.top_right,
                                  fragment.bottom_right, fragment.bottom_left)
       end
-      @document.stroke_circle_at(fragment.top_left, :radius => @radius)
-      @document.stroke_circle_at(fragment.top_right, :radius => @radius)
-      @document.stroke_circle_at(fragment.bottom_right, :radius => @radius)
-      @document.stroke_circle_at(fragment.bottom_left, :radius => @radius)
+      @document.stroke_circle(fragment.top_left, @radius)
+      @document.stroke_circle(fragment.top_right, @radius)
+      @document.stroke_circle(fragment.bottom_right, @radius)
+      @document.stroke_circle(fragment.bottom_left, @radius)
     end
   end
 

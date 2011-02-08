@@ -7,11 +7,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Document.generate("transparency.pdf") do
   fill_color("ff0000")
-  fill_circle_at([200, 200], :radius => 200)
+  fill_circle([200, 200], 200)
   transparent(0.5, 1) do
     fill_color("000000")
     stroke_color("ffffff")
-    fill_and_stroke_circle_at([300, 300], :radius => 200)
+    fill_and_stroke_circle([300, 300], 200)
     fill_color("ffffff")
     text "transparency " * 150, :size => 18
   end

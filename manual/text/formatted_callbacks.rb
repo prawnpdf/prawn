@@ -41,10 +41,10 @@ Prawn::Example.generate(filename) do
       @document.stroke_polygon(fragment.top_left, fragment.top_right,
                                fragment.bottom_right, fragment.bottom_left)
       
-      @document.fill_circle_at(fragment.top_left,     :radius => @radius)
-      @document.fill_circle_at(fragment.top_right,    :radius => @radius)
-      @document.fill_circle_at(fragment.bottom_right, :radius => @radius)
-      @document.fill_circle_at(fragment.bottom_left,  :radius => @radius)
+      @document.fill_circle(fragment.top_left,     @radius)
+      @document.fill_circle(fragment.top_right,    @radius)
+      @document.fill_circle(fragment.bottom_right, @radius)
+      @document.fill_circle(fragment.bottom_left,  @radius)
     end
   end
 

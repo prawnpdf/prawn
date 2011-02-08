@@ -30,7 +30,7 @@ Prawn::Example.generate(filename) do
     end
     
     stroke_horizontal_line 100, 300, :at => y
-    stroke_circle_at [400, y], :radius => 15
+    stroke_circle [400, y], 15
     
     y -= 100
   end
