@@ -99,7 +99,8 @@ module Prawn
                                               :leading, :character_spacing,
                                               :mode, :single_line,
                                               :skip_encoding,
-                                              :document]
+                                              :document,
+                                              :direction]
         end
 
         # The text that was successfully printed (or, if <tt>dry_run</tt> was
@@ -168,6 +169,7 @@ module Prawn
           @text              = nil
 
           @document          = options[:document]
+          @direction         = options[:direction] || @document.text_direction
           @at                = options[:at] ||
             [@document.bounds.left, @document.bounds.top]
           @width             = options[:width] ||

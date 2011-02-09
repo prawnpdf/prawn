@@ -15,7 +15,7 @@ module Prawn
       #
       class Fragment
 
-        attr_reader :text, :format_state
+        attr_reader :format_state
         attr_writer :width
         attr_accessor :line_height, :descender, :ascender
         attr_accessor :word_spacing, :left, :baseline
@@ -25,6 +25,15 @@ module Prawn
           @format_state = format_state
           @document = document
           @word_spacing = 0
+        end
+
+        def text
+          case direction
+          when :rtl
+            @text.reverse
+          else
+            @text
+          end
         end
 
         def width
@@ -102,6 +111,14 @@ module Prawn
         def character_spacing
           @format_state[:character_spacing] ||
             @document.character_spacing
+        end
+
+        def direction
+          @format_state[:direction]
+        end
+
+        def default_direction=(direction)
+          @format_state[:direction] = direction unless @format_state[:direction]
         end
 
         def callback_objects

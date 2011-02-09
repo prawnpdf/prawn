@@ -74,6 +74,21 @@ module Prawn
 
       alias_method :default_leading=, :default_leading
 
+      # Document wide setting of text_direction
+      # Defaults to :ltr
+      # Can be overridden using the :direction text option
+      #
+      def text_direction(symbol=nil)
+        if symbol.nil?
+          return :ltr if @text_direction.nil?
+          @text_direction
+        else
+          @text_direction = symbol
+        end
+      end
+
+      alias_method :text_direction=, :text_direction
+
       # Call with no argument to retrieve the current text rendering mode.
       #
       # Call with a symbol and block to temporarily change the current
