@@ -50,9 +50,13 @@ module Prawn
     #     <tt>number</tt>. The width of the box [@document.bounds.right - @at[0]]
     # <tt>:height</tt>::
     #     <tt>number</tt>. The height of the box [default_height()]
+    # <tt>:direction</tt>::
+    #     <tt>:ltr</tt>, <tt>:rtl</tt>, Direction of the text (left-to-right
+    #     or right-to-left) [value of document.text_direction]
     # <tt>:align</tt>::
     #     <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
-    #     <tt>:justify</tt> Alignment within the bounding box [:left]
+    #     <tt>:justify</tt> Alignment within the bounding box
+    #     [:left if direction is :ltr, :right if direction is :rtl]
     # <tt>:valign</tt>::
     #     <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical
     #     alignment within the bounding box [:top]
@@ -64,7 +68,8 @@ module Prawn
     #     <tt>:lower_right</tt>, or <tt>:lower_left</tt>. The point around which
     #     to rotate the text [:upper_left]
     # <tt>:leading</tt>::
-    #     <tt>number</tt>. Additional space between lines [0]
+    #     <tt>number</tt>. Additional space between lines [value of
+    #     document.default_leading]
     # <tt>:single_line</tt>::
     #     <tt>boolean</tt>. If true, then only the first line will be drawn [false]
     # <tt>:skip_encoding</tt>::

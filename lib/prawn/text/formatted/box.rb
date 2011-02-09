@@ -171,15 +171,16 @@ module Prawn
           @document          = options[:document]
           @direction         = options[:direction] || @document.text_direction
           @at                = options[:at] ||
-            [@document.bounds.left, @document.bounds.top]
+                               [@document.bounds.left, @document.bounds.top]
           @width             = options[:width] ||
-            @document.bounds.right - @at[0]
+                               @document.bounds.right - @at[0]
           @height            = options[:height] || default_height
-          @align             = options[:align] || :left
+          @align             = options[:align] ||
+                               (@direction == :rtl ? :right : :left)
           @vertical_align    = options[:valign] || :top
-          @leading           = options[:leading] || @document.default_leading?
+          @leading           = options[:leading] || @document.default_leading
           @character_spacing = options[:character_spacing] ||
-            @document.character_spacing
+                               @document.character_spacing
           @mode              = options[:mode] || @document.text_rendering_mode
           @rotate            = options[:rotate] || 0
           @rotate_around     = options[:rotate_around] || :upper_left
