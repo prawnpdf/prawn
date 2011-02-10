@@ -13,7 +13,7 @@ Prawn::Example.generate("basic_concepts.pdf") do
       "other_cursor_helpers",
       "adding_pages",
       "measurement"
-    ],
+    ]
     
   ) do
     
