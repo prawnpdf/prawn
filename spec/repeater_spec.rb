@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")           
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Repeaters" do
 
@@ -10,13 +10,13 @@ describe "Repeaters" do
 
     r = repeater(doc, :all) { :do_nothing }
 
-    assert_equal orig_count + 1,  Prawn::Repeater.count 
+    assert_equal orig_count + 1,  Prawn::Repeater.count
   end
 
   it "must provide an :all filter" do
     doc = sample_document
     r = repeater(doc, :all) { :do_nothing }
-   
+
     assert (1..doc.page_count).all? { |i| r.match?(i) }
   end
 
@@ -64,24 +64,24 @@ describe "Repeaters" do
     doc.expects(:stamp).never
     repeater(doc, :odd).run(2)
   end
-  
+
   it "must not try to run a stamp if dynamic is selected" do
     doc = sample_document
 
     doc.expects(:stamp).never
     (1..10).each { |p| repeater(doc, :all, true){:do_nothing}.run(p) }
   end
-  
+
   it "must treat any block as a closure" do
     doc = sample_document
 
     @page = "Page" # ensure access to ivars
-    doc.repeat(:all, :dynamic => true) do 
+    doc.repeat(:all, :dynamic => true) do
       doc.draw_text "#@page #{doc.page_number}", :at => [500, 0]
     end
 
-    text = PDF::Inspector::Text.analyze(doc.render)  
-    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings 
+    text = PDF::Inspector::Text.analyze(doc.render)
+    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings
   end
 
   it "must treat any block as a closure (Document.new instance_eval form)" do
@@ -95,8 +95,8 @@ describe "Repeaters" do
       end
     end
 
-    text = PDF::Inspector::Text.analyze(doc.render)  
-    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings 
+    text = PDF::Inspector::Text.analyze(doc.render)
+    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings
   end
 
   def sample_document
@@ -107,6 +107,19 @@ describe "Repeaters" do
 
   def repeater(*args, &b)
     Prawn::Repeater.new(*args,&b)
+  end
+
+  context "graphic state" do
+
+    it "should not alter the graphic state stack color space" do
+      create_pdf
+      starting_color_space = @pdf.state.page.graphic_state.color_space.dup
+      @pdf.repeat :all do
+        @pdf.text "Testing", :size => 24, :style => :bold
+      end
+      @pdf.state.page.graphic_state.color_space.should == starting_color_space
+    end
+
   end
 
 end
