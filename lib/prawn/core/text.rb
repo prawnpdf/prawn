@@ -44,35 +44,82 @@ module Prawn
         options[:size] ||= font_size
       end
 
-      # Document wide setting of whether or not to use kerning with text
+      # Retrieve the current default kerning setting.
+      #
       # Defaults to true
-      # Can be overridden using the :kerning text option
       #
       def default_kerning?
         return true if @default_kerning.nil?
         @default_kerning
       end
 
+      # Call with a boolean to set the document-wide kerning setting. This can be
+      # overridden using the :kerning text option when drawing text or a text
+      # box.
+      #
+      #   pdf.default_kerning = false
+      #   pdf.text("hello world")                   # text is not kerned
+      #   pdf.text("hello world", :kerning => true) # text is kerned
+      #
       def default_kerning(boolean)
         @default_kerning = boolean
       end
 
       alias_method :default_kerning=, :default_kerning
 
-      # Document wide setting of leading
-      # Defaults to 0
-      # Can be overridden using the :leading text option
+      # Call with no argument to retrieve the current default leading.
       #
-      def default_leading?
-        return 0 if @default_leading.nil?
-        @default_leading
-      end
-
-      def default_leading(number)
-        @default_leading = number
+      # Call with a number to set the document-wide text leading. This can be
+      # overridden using the :leading text option when drawing text or a text
+      # box.
+      #
+      #   pdf.default_leading = 7
+      #   pdf.text("hello world")                # a leading of 7 is used
+      #   pdf.text("hello world", :leading => 0) # a leading of 0 is used
+      #
+      # Defaults to 0
+      #
+      def default_leading(number=nil)
+        if number.nil?
+          return 0 if @default_leading.nil?
+          @default_leading
+        else
+          @default_leading = number
+        end
       end
 
       alias_method :default_leading=, :default_leading
+
+      # Call with no argument to retrieve the current text direction.
+      #
+      # Call with a symbol to set the document-wide text direction. This can be
+      # overridden using the :direction text option when drawing text or a text
+      # box.
+      #
+      #   pdf.text_direction = :rtl
+      #   pdf.text("hello world")                     # prints "dlrow olleh"
+      #   pdf.text("hello world", :direction => :ltr) # prints "hello world"
+      #
+      # Valid directions are:
+      #
+      # * :ltr             - left-to-right (default)
+      # * :rtl             - right-to-left
+      #
+      # Side effects:
+      #
+      # * When printing left-to-right, the default text alignment is :left
+      # * When printing right-to-left, the default text alignment is :right
+      #
+      def text_direction(direction=nil)
+        if direction.nil?
+          return :ltr if @text_direction.nil?
+          @text_direction
+        else
+          @text_direction = direction
+        end
+      end
+
+      alias_method :text_direction=, :text_direction
 
       # Call with no argument to retrieve the current text rendering mode.
       #

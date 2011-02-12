@@ -3,6 +3,34 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Text::Box" do
+  it "should be able to set text direction document wide" do
+    create_pdf
+    @pdf.text_direction(:rtl)
+    @pdf.text_direction = :rtl
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :document => @pdf)
+    text_box.render
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "?uoy era woh ,dlrow olleH"
+    text.strings[1].should == ".uoy knaht ,enif m'I"
+  end
+
+  it "option should be able to override document wide text direction" do
+    create_pdf
+    @pdf.text_direction = :rtl
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :document => @pdf,
+                                    :direction => :ltr)
+    text_box.render
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "Hello world, how are you?"
+    text.strings[1].should == "I'm fine, thank you."
+  end
+end
+
+describe "Text::Box" do
 
   it "should be able to set leading document wide" do
     create_pdf

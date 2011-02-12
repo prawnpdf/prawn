@@ -99,7 +99,7 @@ module Prawn
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
     #                     is available with the current font)
-    #                     [value of default_kerning?]
+    #                     [value of document.default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
     # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
@@ -110,11 +110,18 @@ module Prawn
     # <tt>:indent_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
     #                               first line of each paragraph. Omit this
     #                               option if you do not want indenting
-    # <tt>:align</tt>:: <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
-    #                   <tt>:justify</tt> Alignment within the bounding box [:left]
+    # <tt>:direction</tt>::
+    #     <tt>:ltr</tt>, <tt>:rtl</tt>, Direction of the text (left-to-right
+    #     or right-to-left) [value of document.text_direction]
+    # <tt>:align</tt>::
+    #     <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
+    #     <tt>:justify</tt> Alignment within the bounding box
+    #     [:left if direction is :ltr, :right if direction is :rtl]
     # <tt>:valign</tt>:: <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>.
     #                    Vertical alignment within the bounding box [:top]
-    # <tt>:leading</tt>:: <tt>number</tt>. Additional space between lines [0]
+    # <tt>:leading</tt>::
+    #     <tt>number</tt>. Additional space between lines [value of
+    #     document.default_leading]
     # <tt>:final_gap</tt>:: <tt>boolean</tt>. If true, then the space between
     #                       each line is included below the last line;
     #                       otherwise, document.y is placed just below the

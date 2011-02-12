@@ -63,6 +63,21 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     text_box.text.should == "hello\n\nworld"
   end
+  it "should enable fragment level direction setting" do
+    create_pdf
+    array = [
+             { :text => "Hello " },
+             { :text => "world", :direction => :rtl },
+             { :text => ", how are you?" }
+            ]
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "Hello "
+    text.strings[1].should == "dlrow"
+    text.strings[2].should == ", how are you?"
+  end
 end
 
 describe "Text::Formatted::Box#render" do

@@ -34,6 +34,7 @@ module Prawn
             move_baseline = true
             while @arranger.unfinished?
               printed_fragments = []
+              fragments_this_line = []
 
               line_to_print = @line_wrap.wrap_line(:document => @document,
                                                    :kerning => @kerning,
@@ -53,9 +54,14 @@ module Prawn
                   break
                 end
                 printed_fragments << fragment.text
+                fragments_this_line << [fragment, accumulated_width]
+                accumulated_width += fragment.width
+              end
+              fragments_this_line.reverse! if @direction == :rtl
+              fragments_this_line.each do |fragment, accumulated_width|
+                fragment.default_direction = @direction
                 format_and_draw_fragment(fragment, accumulated_width,
                                          @line_wrap.width, word_spacing)
-                accumulated_width += fragment.width
               end
               @printed_lines << printed_fragments.join("")
               break if @single_line

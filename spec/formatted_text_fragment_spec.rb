@@ -209,3 +209,37 @@ describe "Text::Formatted::Fragment that is a superscript" do
     end
   end
 end
+
+describe "Text::Formatted::Fragment with :direction => :rtl" do
+  it "#text should be reversed" do
+    create_pdf
+    format_state = { :direction => :rtl }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
+                                                     format_state,
+                                                     @pdf)
+    fragment.text.should == "dlrow olleh"
+  end
+end
+
+describe "Text::Formatted::Fragment default_direction=" do
+  it "should set the direction if there is no fragment level direction " +
+     "specification" do
+    create_pdf
+    format_state = { }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
+                                                     format_state,
+                                                     @pdf)
+    fragment.default_direction = :rtl
+    fragment.direction.should == :rtl
+  end
+  it "should not set the direction if there is a fragment level direction " +
+     "specification" do
+    create_pdf
+    format_state = { :direction => :rtl }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
+                                                     format_state,
+                                                    @pdf)
+    fragment.default_direction = :ltr
+    fragment.direction.should == :rtl
+  end
+end
