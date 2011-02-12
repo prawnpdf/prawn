@@ -192,7 +192,7 @@ module Prawn
     # as a complete subpath. The drawing point will be moved to the
     # centre-point upon completion of the drawing the circle.
     #
-    #    pdf.circle_at [100,100], 25
+    #    pdf.circle [100,100], 25
     #
     def circle(center, radius)
       ellipse(center, radius, radius)

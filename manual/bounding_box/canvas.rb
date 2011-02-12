@@ -16,9 +16,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   canvas do
-    fill_circle_at [bounds.left, bounds.top],     :radius => 30
-    fill_circle_at [bounds.right, bounds.top],    :radius => 30
-    fill_circle_at [bounds.right, bounds.bottom], :radius => 30
-    fill_circle_at [0, 0],                        :radius => 30
+    fill_circle [bounds.left, bounds.top],     30
+    fill_circle [bounds.right, bounds.top],    30
+    fill_circle [bounds.right, bounds.bottom], 30
+    fill_circle [0, 0],                        30
   end
 end
