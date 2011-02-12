@@ -14,7 +14,7 @@ Prawn::Example.generate(filename) do
   
   The best way to read it depends on your previous knowledge of Prawn and what you need to accomplish.
   
-  If you are beginning with Prawn the first chapter will teach you the most basic concepts and how to create pdf documents. For an overview of the other features each chapter beyond the first has a Basics section which offer enough insight on the feature without showing all the advanced stuff you might never use.
+  If you are beginning with Prawn the first chapter will teach you the most basic concepts and how to create pdf documents. For an overview of the other features each chapter beyond the first either has a Basics section (which offer enough insight on the feature without showing all the advanced stuff you might never use) or is simple enough with only a few examples.
   
   Once you understand the basics you might want to come back to this manual looking for examples that accomplish tasks you need.
   

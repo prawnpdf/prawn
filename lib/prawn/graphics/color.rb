@@ -198,44 +198,47 @@ module Prawn
       end
 
       private
-      
+
       def current_color_space(type)
         graphic_state.color_space[type]
       end
-      
+
       def set_current_color_space(color_space, type)
-        save_graphics_state if graphic_state.nil? 
+        return if state.page.in_stamp_stream?
+        save_graphics_state if graphic_state.nil?
         graphic_state.color_space[type] = color_space
       end
-      
-      def current_fill_color 
+
+      def current_fill_color
         graphic_state.fill_color
       end
 
-      def current_fill_color=(color)  
+      def current_fill_color=(color)
+        return if state.page.in_stamp_stream?
         graphic_state.fill_color = color
       end
-      
-      def current_stroke_color 
+
+      def current_stroke_color
         graphic_state.stroke_color
       end
 
-      def current_stroke_color=(color)  
+      def current_stroke_color=(color)
+        return if state.page.in_stamp_stream?
         graphic_state.stroke_color = color
       end
-      
+
       def write_fill_color
         write_color(current_fill_color, 'scn')
       end
-      
+
       def write_stroke_color
         write_color(current_fill_color, 'SCN')
       end
-      
+
       def write_color(color, operator)
         add_content "#{color} #{operator}"
       end
-     
+
     end
   end
 end

@@ -13,9 +13,10 @@ Prawn::Example.generate("bounding_box.pdf") do
       ],
       [ "Advanced", [ "stretchy",
                       "nesting",
-                      "indentation"
+                      "indentation",
+                      "canvas"
                     ]
-      ],
+      ]
     ]
     
   ) do

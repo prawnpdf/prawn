@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Generates example document for the Graphics package
+# Examples for the Graphics package.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
