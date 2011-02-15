@@ -36,7 +36,7 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title    = "Prawn Documentation"
 end     
 
-desc "run all examples, and then diff them against reference PDFs"
+desc "run all examples"
 task :examples do
   mkdir_p "output"
   examples = Dir["examples/**/*.rb"]
