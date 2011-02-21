@@ -65,6 +65,8 @@ module Prawn
     #
     class ColumnBox < BoundingBox
 
+      attr_reader :columns, :current_column
+
       def initialize(document, parent, point, options={}) #:nodoc:
         super
         @columns = options[:columns] || 3
