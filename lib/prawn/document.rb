@@ -9,6 +9,7 @@
 require "stringio"
 require "prawn/document/page_geometry"
 require "prawn/document/bounding_box"
+require "prawn/document/column_box"
 require "prawn/document/internals"
 require "prawn/document/span"
 require "prawn/document/snapshot"
