@@ -120,6 +120,26 @@ describe "Repeaters" do
       @pdf.state.page.graphic_state.color_space.should == starting_color_space
     end
 
+    context "dynamic repeaters" do
+
+      it "should preserve the graphic state at creation time" do
+        create_pdf
+        @pdf.repeat :all, :dynamic => true do
+          @pdf.text "fill_color: #{@pdf.graphic_state.fill_color}"
+          @pdf.text "cap_style: #{@pdf.graphic_state.cap_style}"
+        end
+        @pdf.fill_color "666666"
+        @pdf.cap_style :round
+        text = PDF::Inspector::Text.analyze(@pdf.render)
+        puts text.strings
+        text.strings.include?("fill_color: 666666").should == false
+        text.strings.include?("fill_color: 000000").should == true
+        text.strings.include?("cap_style: round").should == false
+        text.strings.include?("cap_style: butt").should == true
+      end
+      
+    end
+
   end
 
 end
