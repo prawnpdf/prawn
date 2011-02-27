@@ -54,25 +54,6 @@ module Prawn
 
       alias_method :stroke_color=, :stroke_color
 
-      # Provides the following shortcuts:
-      #
-      #    stroke_some_method(*args) #=> some_method(*args); stroke
-      #    fill_some_method(*args) #=> some_method(*args); fill
-      #    fill_and_stroke_some_method(*args) #=> some_method(*args); fill_and_stroke
-      #
-      def method_missing(id,*args,&block)
-        case(id.to_s)
-        when /^fill_and_stroke_(.*)/
-          send($1,*args,&block); fill_and_stroke
-        when /^stroke_(.*)/
-          send($1,*args,&block); stroke
-        when /^fill_(.*)/
-          send($1,*args,&block); fill
-        else
-          super
-        end
-      end
-
       module_function
 
       # Converts RGB value array to hex string suitable for use with fill_color
