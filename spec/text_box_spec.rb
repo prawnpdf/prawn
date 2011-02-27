@@ -512,6 +512,20 @@ describe "Text::Box with more text than can fit in the box" do
       end
     end
   end
+  
+  context "truncated with text and size taken from the manual" do
+    it "should return the right text" do
+      @text = "This is the beginning of the text. It will be cut somewhere and " +
+        "the rest of the text will procede to be rendered this time by " +
+        "calling another method." + " . " * 50
+      @options[:width] = 300
+      @options[:height] = 50
+      @options[:size] = 18
+      @text_box = Prawn::Text::Box.new(@text, @options)
+      remaining_text = @text_box.render
+      remaining_text.should == "text will procede to be rendered this time by calling another method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . "
+    end
+  end
 
   context "expand overflow" do
     before(:each) do
