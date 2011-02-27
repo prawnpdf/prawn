@@ -4,6 +4,8 @@
 # and an <code>:origin</code> point about which to rotate and a block. Everything inside the block
 # will be drawn with the rotated coordinates.
 #
+# The angle is in degrees.
+#
 # If you omit the <code>:origin</code> option the page origin will be used.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

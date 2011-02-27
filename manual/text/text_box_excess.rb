@@ -3,7 +3,7 @@
 # Whenever the <code>text_box</code> method truncates text, this truncated bit
 # is not lost, it is the method return value and we can take advantage of that.
 #
-# We just need to take some precautions
+# We just need to take some precautions.
 #
 # This example renders as much of the text as will fit in a larger font inside one
 # text_box and then proceeds to render the remaining text in the default size in a second text_box.

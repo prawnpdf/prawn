@@ -9,7 +9,7 @@
 # <code>:round</code> and <code>:projecting_square</code> the line is projected
 # beyond the start and end points.
 #
-# Just like <code>line_width=</code> the <code>cap_style=</code>method needs an explicit receiver to
+# Just like <code>line_width=</code> the <code>cap_style=</code> method needs an explicit receiver to
 # work.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
