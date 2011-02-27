@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# The Pdf format has some built-in font support. If you want to use other fonts
+# The PDF format has some built-in font support. If you want to use other fonts
 # in Prawn you need to embed the font file.
 #
 # Doing this for a single font is extremely simple. Remember the Styling font
