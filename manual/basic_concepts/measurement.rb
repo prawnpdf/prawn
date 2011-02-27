@@ -20,6 +20,6 @@ Prawn::Example.generate(filename) do
   
   [:mm, :cm, :dm, :m, :in, :yd, :ft].each do |measurement|
     text "1 #{measurement} in PDF Points: #{1.send(measurement)} pt"
-    move_down 10
+    move_down 5.mm
   end
 end
