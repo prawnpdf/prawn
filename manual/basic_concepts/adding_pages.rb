@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# A pdf document is a collection of pages. When we create a new document be it
+# A PDF document is a collection of pages. When we create a new document be it
 # with Document.new or on a Document.generate block one initial page is created
 # for us.
 #

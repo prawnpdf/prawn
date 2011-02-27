@@ -4,12 +4,12 @@
 # three types: <code>:butt</code> (the default), <code>:round</code> and
 # <code>:projecting_square</code>
 #
-# The difference is better seen with need thicker lines. With :butt lines
+# The difference is better seen with thicker lines. With <code>:butt</code> lines
 # are drawn starting and ending at the exact points provided. With both
 # <code>:round</code> and <code>:projecting_square</code> the line is projected
 # beyond the start and end points.
 #
-# Just like <code>line_width</code> this method needs an explicit receiver to
+# Just like <code>line_width=</code> the <code>cap_style=</code>method needs an explicit receiver to
 # work.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),

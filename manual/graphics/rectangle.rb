@@ -1,8 +1,6 @@
 # encoding: utf-8
 #
-# These are pretty basic.
-#
-# Just provide the upper-left corner, width and height.
+# To draw a rectangle, just provide the upper-left corner, width and height to the <code>rectangle</code> method.
 #
 # There's also <code>rounded_rectangle</code>. Just provide an additional radius
 # value for the rounded corners.
