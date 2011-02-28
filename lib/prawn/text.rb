@@ -185,10 +185,12 @@ module Prawn
           remaining_text = draw_indented_formatted_line(paragraph, options)
           options[:skip_encoding] = true
 
-          if remaining_text == paragraph || remaining_text.length > paragraph.length
-            # we were too close to the bottom of the page to print even one line
-            @bounding_box.move_past_bottom
-            remaining_text = draw_indented_formatted_line(paragraph, options)
+          unless string_from_formatted_text(paragraph) == "\n"
+            if string_from_formatted_text(remaining_text) == string_from_formatted_text(paragraph).lstrip
+              # we were too close to the bottom of the page to print even one line
+              @bounding_box.move_past_bottom
+              remaining_text = draw_indented_formatted_line(paragraph, options)
+            end
           end
           remaining_text = fill_formatted_text_box(remaining_text, options)
           draw_remaining_formatted_text_on_new_pages(remaining_text, options)
@@ -198,6 +200,10 @@ module Prawn
         options[:skip_encoding] = true
         draw_remaining_formatted_text_on_new_pages(remaining_text, options)
       end
+    end
+
+    def string_from_formatted_text(formatted_text)
+      formatted_text.collect { |hash| hash[:text] }.join
     end
 
     # Draws text on the page, beginning at the point specified by the :at option

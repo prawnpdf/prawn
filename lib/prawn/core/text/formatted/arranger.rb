@@ -34,7 +34,8 @@ module Prawn
               raise "Lines must be finalized before calling #space_count"
             end
             @fragments.inject(0) do |sum, fragment|
-              sum + fragment.text.count(" ")
+              string = fragment.exclude_trailing_white_space? ? fragment.text.rstrip : fragment.text
+              sum + string.count(" ")
             end
           end
 
@@ -56,7 +57,7 @@ module Prawn
 
           def finalize_line
             @unfinalized_line = false
-            remove_trailing_whitespace_from_consumed
+            omit_trailing_whitespace_from_line_width
             @fragments = []
             @consumed.each do |hash|
               text = hash[:text]
@@ -185,6 +186,7 @@ module Prawn
           def repack_unretrieved
             new_unconsumed = []
             while fragment = retrieve_fragment
+              fragment.format_state.delete(:exclude_trailing_white_space)
               new_unconsumed << fragment.format_state.merge(:text => fragment.text)
             end
             @unconsumed = new_unconsumed.concat(@unconsumed)
@@ -234,14 +236,14 @@ module Prawn
             end
           end
 
-          def remove_trailing_whitespace_from_consumed
+          def omit_trailing_whitespace_from_line_width
             @consumed.reverse_each do |hash|
               if hash[:text] == "\n"
                 break
               elsif hash[:text].strip.empty? && @consumed.length > 1
-                @consumed.pop
+                hash[:exclude_trailing_white_space] = true
               else
-                hash[:text].rstrip!
+                hash[:exclude_trailing_white_space] = true
                 break
               end
             end
@@ -249,7 +251,8 @@ module Prawn
 
           def set_fragment_measurements(fragment)
             apply_font_settings(fragment) do
-              fragment.width = @document.width_of(fragment.text,
+              string = fragment.exclude_trailing_white_space? ? fragment.text.rstrip : fragment.text
+              fragment.width = @document.width_of(string,
                                                   :kerning => @kerning)
               fragment.line_height = @document.font.height
               fragment.descender = @document.font.descender

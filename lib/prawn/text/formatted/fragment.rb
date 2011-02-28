@@ -121,6 +121,10 @@ module Prawn
           @format_state[:direction] = direction unless @format_state[:direction]
         end
 
+        def exclude_trailing_white_space?
+          @format_state[:exclude_trailing_white_space]
+        end
+
         def callback_objects
           callback = @format_state[:callback]
           if callback.nil?

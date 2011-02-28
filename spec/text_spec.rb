@@ -276,7 +276,7 @@ describe "#text" do
 
     # grab the text from the rendered PDF and ensure it matches
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[1].should == str.strip
+    text.strings[1].should == str
   end
 
   it "should correctly render a string with higher bit characters across" +
@@ -287,7 +287,7 @@ describe "#text" do
 
     # grab the text from the rendered PDF and ensure it matches
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[1].should == str.strip
+    text.strings[1].should == str
   end
 
   if "spec".respond_to?(:encode!)
@@ -336,10 +336,10 @@ describe "#text" do
       hello2 = "hello " * 50
       @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings[0].should == ("hello " * 19).strip
-      text.strings[1].should == ("hello " * 21).strip
-      text.strings[3].should == ("hello " * 19).strip
-      text.strings[4].should == ("hello " * 21).strip
+      text.strings[0].should == ("hello " * 19)
+      text.strings[1].should == ("hello " * 21)
+      text.strings[3].should == ("hello " * 19)
+      text.strings[4].should == ("hello " * 21)
     end
     describe "when wrap to new page, and first line of new page" +
              " is not the start of a new paragraph, that line should" +
@@ -350,10 +350,10 @@ describe "#text" do
         @pdf.move_cursor_to(@pdf.font.height)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings[0].should == ("hello " * 19).strip
-        text.strings[1].should == ("hello " * 21).strip
-        text.strings[3].should == ("hello " * 19).strip
-        text.strings[4].should == ("hello " * 21).strip
+        text.strings[0].should == ("hello " * 19)
+        text.strings[1].should == ("hello " * 21)
+        text.strings[3].should == ("hello " * 19)
+        text.strings[4].should == ("hello " * 21)
       end
     end
     describe "when wrap to new page, and first line of new page" +
@@ -365,11 +365,22 @@ describe "#text" do
         @pdf.move_cursor_to(@pdf.font.height * 3)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings[0].should == ("hello " * 19).strip
-        text.strings[1].should == ("hello " * 21).strip
-        text.strings[3].should == ("hello " * 19).strip
-        text.strings[4].should == ("hello " * 21).strip
+        text.strings[0].should == ("hello " * 19)
+        text.strings[1].should == ("hello " * 21)
+        text.strings[3].should == ("hello " * 19)
+        text.strings[4].should == ("hello " * 21)
       end
     end
+  end
+end
+
+describe "#string_from_formatted_text" do
+  it "should be the unadorned string" do
+    create_pdf
+    array = [{ :text => "hello " },
+             { :text => "world how ", :styles => [:bold] },
+             { :text => "are", :styles => [:bold, :italic] },
+             { :text => " you?" }]
+    @pdf.string_from_formatted_text(array).should == "hello world how are you?"
   end
 end

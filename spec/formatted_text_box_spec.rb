@@ -47,17 +47,9 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     text_box.text.should == "hello\nworld"
   end
-  it "should omit spaces from the end of the line" do
-    create_pdf
-    array = [{ :text => "hello \nworld "}]
-    options = { :document => @pdf }
-    text_box = Prawn::Text::Formatted::Box.new(array, options)
-    text_box.render
-    text_box.text.should == "hello\nworld"
-  end
   it "should be okay printing a line of whitespace" do
     create_pdf
-    array = [{ :text => "hello\n    \nworld "}]
+    array = [{ :text => "hello\n    \nworld"}]
     options = { :document => @pdf }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
