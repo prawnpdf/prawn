@@ -45,7 +45,6 @@ module Prawn
               break unless enough_height_for_this_line?
               move_baseline_down
 
-              accumulated_width = 0
               word_spacing = word_spacing_for_this_line
               while fragment = @arranger.retrieve_fragment
                 fragment.word_spacing = word_spacing
@@ -54,15 +53,18 @@ module Prawn
                   break
                 end
                 printed_fragments << fragment.text
-                fragments_this_line << [fragment, accumulated_width]
-                accumulated_width += fragment.width
+                fragments_this_line << fragment
               end
+
+              accumulated_width = 0
               fragments_this_line.reverse! if @direction == :rtl
-              fragments_this_line.each do |fragment, accumulated_width|
+              fragments_this_line.each do |fragment|
                 fragment.default_direction = @direction
                 format_and_draw_fragment(fragment, accumulated_width,
                                          @line_wrap.width, word_spacing)
+                accumulated_width += fragment.width
               end
+
               @printed_lines << printed_fragments.join("")
               break if @single_line
               move_baseline = true unless @arranger.finished?
