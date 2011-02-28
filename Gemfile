@@ -4,6 +4,7 @@ source :rubygems
 #       from the following line
 gem "ttfunk", "~>1.0.0", :git => "https://github.com/sandal/ttfunk.git"
 gem "pdf-reader", "~>0.9.0"
+gem "rake"
 
 group :test do
   # TODO: once an official pdf-inspector gem is released, remove tge :git
