@@ -67,48 +67,26 @@ describe "Text::Box#render with :align => :justify" do
   end
 end
 
-describe "Text::Box" do
-  it "should only require enough space for the descender and the ascender " +
-     "when determining whether a line can fit" do
-    create_pdf
-    text = "Oh hai text rect"
-    options = { :document => @pdf, :height => @pdf.font.ascender + @pdf.font.descender }
-    text_box = Prawn::Text::Box.new(text, options)
-    text_box.render
-    text_box.text.should == "Oh hai text rect"
-
-    text = "Oh hai text rect\nOh hai text rect"
-    options = { :document => @pdf, :height => @pdf.font.height + @pdf.font.ascender + @pdf.font.descender }
-    text_box = Prawn::Text::Box.new(text, options)
-    text_box.render
-    text_box.text.should == "Oh hai text rect\nOh hai text rect"
-  end
-end
-
 describe "Text::Box#height without leading" do
-  it "should equal the sum of the height of each line, " +
-    "not including the space below the last line" do
+  it "should equal the sum of the height of each line" do
     create_pdf
     text = "Oh hai text rect.\nOh hai text rect."
     options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    padding = @pdf.font.height - (@pdf.font.ascender + @pdf.font.descender)
-    text_box.height.should == @pdf.font.height * 2 - padding
+    text_box.height.should == @pdf.font.height * 2
   end
 end
 
 describe "Text::Box#height with leading" do
-  it "should equal the sum of the height of each line plus leading, " +
-    "but not including the space below the last line" do
+  it "should equal the sum of the height of each line" do
     create_pdf
     text = "Oh hai text rect.\nOh hai text rect."
     leading = 12
     options = { :document => @pdf, :leading => leading }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    padding = @pdf.font.height - (@pdf.font.ascender + @pdf.font.descender)
-    text_box.height.should == (@pdf.font.height + leading) * 2 - padding - leading
+    text_box.height.should == @pdf.font.height * 2 + leading
   end
 end
 

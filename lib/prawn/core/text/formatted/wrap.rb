@@ -91,13 +91,8 @@ module Prawn
             @line_height = @arranger.max_line_height
             @descender   = @arranger.max_descender
             @ascender    = @arranger.max_ascender
-            if @baseline_y == 0
-              diff = @ascender + @descender
-            else
-              diff = @descender + @line_height
-            end
-            required_total_height = @baseline_y.abs + diff
-            if required_total_height > @height
+            required_height = @baseline_y == 0 ? @line_height : @line_height + @descender
+            if @baseline_y.abs + required_height > @height
               # no room for the full height of this line
               @arranger.repack_unretrieved
               false
