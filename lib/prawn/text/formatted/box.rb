@@ -256,7 +256,7 @@ module Prawn
         # 
         def height
           return 0 if @baseline_y.nil? || @descender.nil?
-          (@baseline_y - @descender).abs
+          @baseline_y.abs + @line_height - @ascender
         end
 
         # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
@@ -340,12 +340,13 @@ module Prawn
         def process_vertical_alignment(text)
           return if @vertical_align == :top
           wrap(text)
-
+          line_padding = @line_height - (@ascender + @descender)
+          h = height - line_padding
           case @vertical_align
           when :center
-            @at[1] = @at[1] - (@height - height) * 0.5
+            @at[1] = @at[1] - (@height - h) * 0.5
           when :bottom
-            @at[1] = @at[1] - (@height - height)
+            @at[1] = @at[1] - (@height - h)
           end
           @height = height
         end
