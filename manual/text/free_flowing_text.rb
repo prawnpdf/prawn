@@ -10,7 +10,7 @@
 # The text will start being rendered on the current cursor position. When it
 # finishes rendering, the cursor is left directly below the text.
 #
-# This example also shows text flowing accross pages folowing the margin box and
+# This example also shows text flowing across pages folowing the margin box and
 # other bounding boxes.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
