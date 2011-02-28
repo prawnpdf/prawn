@@ -31,7 +31,7 @@ Prawn::Example.generate(filename) do
   move_down 80
   
   string = "What have you done to the space between the characters?"
-  (-2..2).each do |spacing|
+  [-2, -1, 0, 0.5, 1, 2].each do |spacing|
     move_down 20
     text "#{string} (character_spacing: #{spacing})",
          :character_spacing => spacing

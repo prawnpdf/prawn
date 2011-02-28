@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# The line_width= method sets the stroke width for subsequent stroke calls
+# The <code>line_width=</code> method sets the stroke width for subsequent stroke calls.
 #
 # Since Ruby assumes that an unknown variable on the left hand side of an assignment is a local temporary,
 # rather than a setter method, if you are using the block call to

@@ -1,7 +1,7 @@
 # encoding: utf-8
 # 
-# Normally when we are provide  the top left corner of a bounding box top left corner we
-# express the coordinate are relative to the margin box. This is not the
+# Normally when we provide the top left corner of a bounding box we
+# express the coordinates are relative to the margin box. This is not the
 # case when we have nested bounding boxes. Once nested the inner bounding box
 # coordinates are relative to the outter bounding box.
 #
