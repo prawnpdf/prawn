@@ -37,7 +37,6 @@ module Prawn
             while fragment = @arranger.next_string
               @output = ""
               preview = @arranger.preview_next_string
-
               fragment.lstrip! if @line_output.empty? && fragment != "\n"
               if @line_output.empty? && fragment.empty? && preview == "\n"
                 # this line was just whitespace followed by a newline, which is
@@ -124,7 +123,6 @@ module Prawn
 
           def update_output_based_on_last_fragment(fragment, finished_line)
             remaining_text = fragment.slice(@output.length..fragment.length)
-            @output.rstrip! if finished_line
             raise Errors::CannotFit if finished_line && @line_output.empty? &&
               @output.empty? && !fragment.strip.empty?
             @arranger.update_last_string(@output, remaining_text)

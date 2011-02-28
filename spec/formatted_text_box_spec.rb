@@ -47,17 +47,9 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     text_box.text.should == "hello\nworld"
   end
-  it "should omit spaces from the end of the line" do
-    create_pdf
-    array = [{ :text => "hello \nworld "}]
-    options = { :document => @pdf }
-    text_box = Prawn::Text::Formatted::Box.new(array, options)
-    text_box.render
-    text_box.text.should == "hello\nworld"
-  end
   it "should be okay printing a line of whitespace" do
     create_pdf
-    array = [{ :text => "hello\n    \nworld "}]
+    array = [{ :text => "hello\n    \nworld"}]
     options = { :document => @pdf }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
@@ -65,18 +57,20 @@ describe "Text::Formatted::Box#render" do
   end
   it "should enable fragment level direction setting" do
     create_pdf
+    number_of_hellos = 18
     array = [
-             { :text => "Hello " },
-             { :text => "world", :direction => :rtl },
+             { :text => "hello " * number_of_hellos },
+             { :text => "world", :direction => :ltr },
              { :text => ", how are you?" }
             ]
-    options = { :document => @pdf }
+    options = { :document => @pdf, :direction => :rtl }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == "Hello "
-    text.strings[1].should == "dlrow"
-    text.strings[2].should == ", how are you?"
+    text.strings[0].should == " era woh ,"
+    text.strings[1].should == "world"
+    text.strings[2].should == " olleh" * number_of_hellos
+    text.strings[3].should == "?uoy"
   end
 end
 

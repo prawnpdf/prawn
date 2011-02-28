@@ -9,26 +9,16 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     @one_word_width = 50
   end
-  it "should strip preceding and trailing spaces" do
+  it "should strip leading spaces" do
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                  :width => 300,
                                  :document => @pdf)
-    string.should == "hello world, goodbye"
+    string.should == "hello world, goodbye  "
   end
-  it "should strip trailing spaces when we try but fail to push any of a" +
-     " fragment onto the end of a line that currently ends with a space" do
-    array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
-             { :text => "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ", :style => [:bold] }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                 :width => 300,
-                                 :document => @pdf)
-    string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  end
-  it "should strip trailing spaces when a white-space-only fragment was" +
+  it "should include trailing spaces when a white-space-only fragment was" +
      " successfully pushed onto the end of a line but no other non-white" +
      " space fragment fits after it" do
     array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
@@ -38,7 +28,7 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                  :width => 300,
                                  :document => @pdf)
-    string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa    "
   end
   it "should raise CannotFit if a too-small width is given" do
     array = [{ :text => " hello world, " },
@@ -57,7 +47,7 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    string.should == "hello"
+    string.should == "hello "
   end
 
   it "should break on tab" do
@@ -66,7 +56,7 @@ describe "Core::Text::Formatted::Wrap#line_wrap" do
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    string.should == "hello"
+    string.should == "hello\t"
   end
 
   it "should break on hyphens" do

@@ -390,10 +390,11 @@ describe "Text::Box with text than can fit in the box" do
     }
   end
   
-  it "printed text should match requested text, except for trailing or leading white space and that spaces may be replaced by newlines" do
-    text_box = Prawn::Text::Box.new(@text, @options)
+  it "printed text should match requested text, except that preceding white " +
+    "space will be stripped, and newlines may be inserted" do
+    text_box = Prawn::Text::Box.new("  " + @text, @options)
     text_box.render
-    text_box.text.gsub("\n", " ").should == @text.strip
+    text_box.text.gsub("\n", "").should == @text
   end
   
   it "render should return an empty string because no text remains unprinted" do
@@ -405,7 +406,7 @@ describe "Text::Box with text than can fit in the box" do
     @options[:leading] = 40
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.gsub("\n", " ").should.not == @text.strip
+    text_box.text.gsub("\n", "").should.not == @text.strip
   end
 end
 
@@ -482,10 +483,10 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "should be truncated" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should.not == @text.strip
+      @text_box.text.gsub("\n", "").should.not == @text.strip
     end
     it "render should not return an empty string because some text remains unprinted" do
-      @text_box.render.should.not == ""
+      @text_box.render.should.not.be.empty
     end
     it "#height should be no taller than the specified height" do
       @text_box.render
@@ -512,6 +513,20 @@ describe "Text::Box with more text than can fit in the box" do
       end
     end
   end
+  
+  context "truncated with text and size taken from the manual" do
+    it "should return the right text" do
+      @text = "This is the beginning of the text. It will be cut somewhere and " +
+        "the rest of the text will procede to be rendered this time by " +
+        "calling another method." + " . " * 50
+      @options[:width] = 300
+      @options[:height] = 50
+      @options[:size] = 18
+      @text_box = Prawn::Text::Box.new(@text, @options)
+      remaining_text = @text_box.render
+      remaining_text.should == "text will procede to be rendered this time by calling another method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . "
+    end
+  end
 
   context "expand overflow" do
     before(:each) do
@@ -524,7 +539,7 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "should display the entire string (as long as there was space remaining on the page to print all the text)" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should == @text.strip
+      @text_box.text.gsub("\n", "").should == @text
     end
     it "render should return an empty string because no text remains unprinted(as long as there was space remaining on the page to print all the text)" do
       @text_box.render.should == ""
@@ -539,7 +554,7 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "should display the entire text" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should == @text.strip
+      @text_box.text.gsub("\n", "").should == @text
     end
     it "render should return an empty string because no text remains unprinted" do
       @text_box.render.should == ""
@@ -560,7 +575,7 @@ describe "Text::Box with a solid block of Chinese characters" do
     @options[:overflow] = :truncate
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.gsub("\n", "").should == @text.strip
+    text_box.text.gsub("\n", "").should == @text
   end
 end
 
@@ -609,7 +624,7 @@ describe "Text::Box wrapping" do
 
   it "should wrap text" do
     text = "Please wrap this text about HERE. More text that should be wrapped"
-    expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
+    expect = "Please wrap this text about \nHERE. More text that should be\nwrapped"
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
@@ -654,7 +669,7 @@ describe "Text::Box wrapping" do
 
   it "should respect multiple newlines when wrapping text" do
     text = "Please wrap only before THIS\n\nword. Don't wrap this"
-    expect= "Please wrap only before\nTHIS\n\nword. Don't wrap this"
+    expect= "Please wrap only before \nTHIS\n\nword. Don't wrap this"
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,

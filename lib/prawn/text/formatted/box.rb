@@ -263,12 +263,18 @@ module Prawn
         #
         def draw_fragment(fragment, accumulated_width=0, line_width=0, word_spacing=0) #:nodoc:
           case(@align)
-          when :left, :justify
+          when :left
             x = @at[0]
           when :center
             x = @at[0] + @width * 0.5 - line_width * 0.5
           when :right
             x = @at[0] + @width - line_width
+          when :justify
+            if @direction == :ltr
+              x = @at[0]
+            else
+              x = @at[0] + @width - line_width
+            end
           end
 
           x += accumulated_width

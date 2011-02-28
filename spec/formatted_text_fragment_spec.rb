@@ -243,3 +243,21 @@ describe "Text::Formatted::Fragment default_direction=" do
     fragment.direction.should == :rtl
   end
 end
+
+describe "Text::Formatted::Fragment#exclude_trailing_white_space?" do
+  it "should be true iff :exclude_trailing_white_space was true in " +
+    "the initial hash from which the fragment was created" do
+    create_pdf
+    format_state = { }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
+                                                     format_state,
+                                                     @pdf)
+    fragment.exclude_trailing_white_space?.should.not.be true
+
+    format_state = { :exclude_trailing_white_space => true }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
+                                                     format_state,
+                                                     @pdf)
+    fragment.exclude_trailing_white_space?.should.be true
+  end
+end

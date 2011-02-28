@@ -1,9 +1,9 @@
 # encoding: utf-8
-# 
+#
 # Horizontal text alignment can be achieved by supplying the <code>:align</code> option
 # to the text methods. Available options are <code>:left</code>,
-# <code>:right</code>, and <code>:center</code>, with <code>:left</code> as
-# default.
+# <code>:right</code>, <code>:center</code>, and <code>:justify</code>, with
+# <code>:left</code> as default.
 #
 # Vertical text alignment can be achieved using the <code>:valign</code> option
 # with the text methods. Available options are <code>:top</code>,
@@ -21,21 +21,24 @@ Prawn::Example.generate(filename) do
   text "This text should be left aligned"
   text "This text should be centered",      :align => :center
   text "This text should be right aligned", :align => :right
-  
-  bounding_box([0, 250], :width => 250, :height => 250) do
-    text "This text is flowing from the left. "   * 5
-    
-    move_down 20
-    text "This text is flowing from the center. " * 5, :align => :center
-    
-    move_down 20
-    text "This text is flowing from the right. "  * 5, :align => :right
+
+  bounding_box([0, 220], :width => 250, :height => 220) do
+    text "This text is flowing from the left. "   * 4
+
+    move_down 15
+    text "This text is flowing from the center. " * 3, :align => :center
+
+    move_down 15
+    text "This text is flowing from the right. "  * 4, :align => :right
+
+    move_down 15
+    text "This text is justified. "  * 6, :align => :justify
     transparent(0.5) { stroke_bounds }
   end
-  
-  bounding_box([300, 250], :width => 250, :height => 250) do
+
+  bounding_box([300, 220], :width => 250, :height => 220) do
     text "This text should be vertically top aligned"
-    text "This text should be vertically centered",       :valign => :center    
+    text "This text should be vertically centered",       :valign => :center
     text "This text should be vertically bottom aligned", :valign => :bottom
     transparent(0.5) { stroke_bounds }
   end
