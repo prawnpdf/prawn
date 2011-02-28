@@ -15,8 +15,8 @@ module Prawn
       self.stack = [GraphicState.new(previous_state)]
     end
     
-    def save_graphic_state
-      stack.push(GraphicState.new(current_state))
+    def save_graphic_state(graphic_state = nil)
+      stack.push(GraphicState.new(graphic_state || current_state))
     end
     
     def restore_graphic_state
@@ -102,8 +102,8 @@ module Prawn
         add_content "Q"
       end
         
-      def save_graphics_state
-        graphic_stack.save_graphic_state unless state.page.in_stamp_stream?
+      def save_graphics_state(graphic_state = nil)
+        graphic_stack.save_graphic_state(graphic_state) unless state.page.in_stamp_stream?
         open_graphics_state
         if block_given?
           yield

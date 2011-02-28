@@ -6,3 +6,4 @@ pkg
 Gemfile.lock
 drop_to_console.rb
 manual.pdf
+/doc

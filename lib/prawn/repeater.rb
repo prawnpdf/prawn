@@ -96,6 +96,7 @@ module Prawn
       @stamp_name  = "prawn_repeater(#{Repeater.count})"
       @document.create_stamp(@stamp_name, &block) unless dynamic
       @block = block if dynamic
+      @graphic_state = document.state.page.graphic_state.dup
 
       Repeater.count += 1
     end
@@ -119,7 +120,10 @@ module Prawn
       if !@dynamic
         @document.stamp(@stamp_name) if match?(page_number)
       elsif @block
-        @block.call
+        @document.save_graphics_state(@graphic_state) do
+          @document.send(:freeze_stamp_graphics)
+          @block.call
+        end
       end
     end
 

@@ -2,7 +2,7 @@
 #
 # Text rendering can be as simple or as complex as you want.
 #
-# This example cover the most basic method: <code>text</code>. It is meant for
+# This example covers the most basic method: <code>text</code>. It is meant for
 # free flowing text. The provided string will flow according to the current
 # bounding box width and height. It will also flow onto the next page if the
 # bottom of the bounding box is reached.
@@ -10,7 +10,7 @@
 # The text will start being rendered on the current cursor position. When it
 # finishes rendering, the cursor is left directly below the text.
 #
-# This example also show text flowing accross pages folowing the margin box and
+# This example also shows text flowing across pages folowing the margin box and
 # other bounding boxes.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
