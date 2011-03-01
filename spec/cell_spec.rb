@@ -166,7 +166,7 @@ describe "Prawn::Table::Cell" do
     it "should be calculated for text" do
       c = cell(:content => "text")
       c.height.should == 
-        @pdf.height_of("text", :width => @pdf.width_of("text")) +
+        @pdf.height_of("text", :width => @pdf.width_of("text"), :final_gap => false) +
         c.padding[0] + c.padding[3]
     end
 
@@ -178,7 +178,7 @@ describe "Prawn::Table::Cell" do
     it "should incorporate :padding when specified" do
       c = cell(:content => "text", :padding => [1, 2, 3, 4])
       c.height.should.be.close(1 + 3 +
-        @pdf.height_of("text", :width => @pdf.width_of("text")), 0.01)
+        @pdf.height_of("text", :width => @pdf.width_of("text"), :final_gap => false), 0.01)
     end
 
     it "should allow height to be reset after it has been calculated" do
@@ -192,7 +192,7 @@ describe "Prawn::Table::Cell" do
     it "should return proper height for blocks of text" do
       content = "words " * 10
       c = cell(:content => content, :width => 100)
-      c.height.should == @pdf.height_of(content, :width => 100) +
+      c.height.should == @pdf.height_of(content, :width => 100, :final_gap => false) +
         c.padding[0] + c.padding[2]
     end
 
@@ -202,7 +202,7 @@ describe "Prawn::Table::Cell" do
 
       correct_content_height = nil
       @pdf.font_size(7) do
-        correct_content_height = @pdf.height_of(content, :width => 100)
+        correct_content_height = @pdf.height_of(content, :width => 100, :final_gap => false)
       end
 
       c.height.should == correct_content_height + c.padding[0] + c.padding[2]
@@ -210,7 +210,7 @@ describe "Prawn::Table::Cell" do
 
     it "content_height should exclude padding" do
       c = cell(:content => "text", :padding => 10)
-      c.content_height.should == @pdf.height_of("text")
+      c.content_height.should == @pdf.height_of("text", :final_gap => false)
     end
     
     it "content_height should exclude padding even with manual :height" do
@@ -267,7 +267,7 @@ describe "Prawn::Table::Cell" do
         x.should.be.close(0, 0.01)
         y.should.be.close(@pdf.cursor, 0.01)
         w.should.be.close(29.344, 0.01)
-        h.should.be.close(23.872, 0.01)
+        h.should.be.close(23.872 - @pdf.font.line_gap, 0.01)
       end
       @pdf.cell(:content => "text", :background_color => '123456')
     end
@@ -283,7 +283,7 @@ describe "Prawn::Table::Cell" do
         x.should.be.close(12.0, 0.01)
         y.should.be.close(34.0, 0.01)
         w.should.be.close(29.344, 0.01)
-        h.should.be.close(23.872, 0.01)
+        h.should.be.close(23.872 - @pdf.font.line_gap, 0.01)
       end
       c = @pdf.make_cell(:content => "text", :background_color => '123456')
       c.draw([12.0, 34.0])
@@ -330,8 +330,8 @@ describe "Prawn::Table::Cell" do
 
     it "should draw bottom border when requested" do
       @pdf.expects(:stroke_line).checking do |from, to|
-        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 732]
-        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 732]
+        @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 735]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 735]
       end
       @pdf.cell(:content => "text", :borders => [:bottom])
     end
@@ -339,7 +339,7 @@ describe "Prawn::Table::Cell" do
     it "should draw left border when requested" do
       @pdf.expects(:stroke_line).checking do |from, to|
         @pdf.map_to_absolute(from).map{|x| x.round}.should == [36, 756]
-        @pdf.map_to_absolute(to).map{|x| x.round}.should == [36, 732]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [36, 735]
       end
       @pdf.cell(:content => "text", :borders => [:left])
     end
@@ -347,7 +347,7 @@ describe "Prawn::Table::Cell" do
     it "should draw right border when requested" do
       @pdf.expects(:stroke_line).checking do |from, to|
         @pdf.map_to_absolute(from).map{|x| x.round}.should == [65, 756]
-        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 732]
+        @pdf.map_to_absolute(to).map{|x| x.round}.should == [65, 735]
       end
       @pdf.cell(:content => "text", :borders => [:right])
     end

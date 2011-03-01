@@ -256,7 +256,7 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     @pdf.font_size(24) do
-      text_box.height.should.be.close(@pdf.font.height, 0.001)
+      text_box.height.should.be.close(@pdf.font.ascender + @pdf.font.descender, 0.001)
     end
   end
   it "should be able to set color via an rgb hex string" do

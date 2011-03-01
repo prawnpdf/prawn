@@ -117,6 +117,9 @@ module Prawn
         # The leading used during printing
         attr_reader :leading
 
+        def line_gap
+          line_height - (ascender + descender)
+        end
 
         #
         # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
@@ -256,7 +259,7 @@ module Prawn
         # 
         def height
           return 0 if @baseline_y.nil? || @descender.nil?
-          @baseline_y.abs + @line_height - @ascender
+          (@baseline_y - @descender).abs
         end
 
         # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
@@ -340,13 +343,12 @@ module Prawn
         def process_vertical_alignment(text)
           return if @vertical_align == :top
           wrap(text)
-          line_padding = @line_height - (@ascender + @descender)
-          h = height - line_padding
+
           case @vertical_align
           when :center
-            @at[1] = @at[1] - (@height - h) * 0.5
+            @at[1] = @at[1] - (@height - height) * 0.5
           when :bottom
-            @at[1] = @at[1] - (@height - h)
+            @at[1] = @at[1] - (@height - height)
           end
           @height = height
         end

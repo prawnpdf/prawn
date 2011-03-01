@@ -16,7 +16,15 @@ describe "#height_of" do
     original_y = @pdf.y
     @pdf.text("Foo")
     new_y = @pdf.y
-    @pdf.height_of("Foo", :width => 300).should.be.close(original_y - new_y, 0.0001)
+    @pdf.height_of("Foo").should.be.close(original_y - new_y, 0.0001)
+  end
+
+  it "should omit the gap below the last descender if :final_gap => false " +
+    "is given" do
+    original_y = @pdf.y
+    @pdf.text("Foo", :final_gap => false)
+    new_y = @pdf.y
+    @pdf.height_of("Foo", :final_gap => false).should.be.close(original_y - new_y, 0.0001)
   end
 
   it "should raise CannotFit if a too-small width is given" do
@@ -149,16 +157,16 @@ describe "#text" do
     @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
   end
 
-  it "should advance down the document based on font ascender only "+
-    "if final_gap is given" do
+  it "should advance only to the bottom of the final descender "+
+    "if final_gap is false" do
     position = @pdf.y
     @pdf.text "Foo", :final_gap => false
 
-    @pdf.y.should.be.close(position - @pdf.font.ascender, 0.0001)
+    @pdf.y.should.be.close(position - @pdf.font.ascender - @pdf.font.descender, 0.0001)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz", :final_gap => false
-    @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender, 0.0001)
+    @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender - @pdf.font.descender, 0.0001)
   end
 
   it "should be able to print text starting at the last line of a page" do
