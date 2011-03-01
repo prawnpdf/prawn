@@ -2,6 +2,18 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Box#line_gap" do
+  it "should equal the line gap of the font when using a single " +
+    "font and font size" do
+    create_pdf
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :document => @pdf)
+    text_box.render
+    text_box.line_gap.should.be.close(@pdf.font.line_gap, 0.0001)
+  end
+end
+
 describe "Text::Box" do
   it "should be able to set text direction document wide" do
     create_pdf
@@ -93,8 +105,7 @@ describe "Text::Box#height without leading" do
     options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    padding = @pdf.font.height - (@pdf.font.ascender + @pdf.font.descender)
-    text_box.height.should == @pdf.font.height * 2 - padding
+    text_box.height.should.be.close(@pdf.font.height * 2 - @pdf.font.line_gap, 0.001)
   end
 end
 
@@ -107,8 +118,7 @@ describe "Text::Box#height with leading" do
     options = { :document => @pdf, :leading => leading }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    padding = @pdf.font.height - (@pdf.font.ascender + @pdf.font.descender)
-    text_box.height.should == (@pdf.font.height + leading) * 2 - padding - leading
+    text_box.height.should.be.close((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading, 0.001)
   end
 end
 

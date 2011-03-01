@@ -313,8 +313,8 @@ module Prawn
                                         :document => self))
       printed = box.render(:dry_run => true)
 
-      height = box.height - (box.line_height - box.ascender)
-      height += box.line_height + box.leading - box.ascender if @final_gap
+      height = box.height
+      height += box.line_gap + box.leading if @final_gap
       height
     end
 
@@ -340,10 +340,9 @@ module Prawn
       box = Text::Formatted::Box.new(text, options)
       remaining_text = box.render
 
-      self.y -= box.height - (box.line_height - box.ascender)
-      if @final_gap
-        self.y -= box.line_height + box.leading - box.ascender
-      end
+      self.y -= box.height
+      self.y -= box.line_gap + box.leading if @final_gap
+
       remaining_text
     end
 

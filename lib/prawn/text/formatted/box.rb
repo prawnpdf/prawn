@@ -117,6 +117,9 @@ module Prawn
         # The leading used during printing
         attr_reader :leading
 
+        def line_gap
+          line_height - (ascender + descender)
+        end
 
         #
         # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
