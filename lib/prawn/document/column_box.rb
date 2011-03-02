@@ -110,6 +110,17 @@ module Prawn
         end
       end
 
+      # BoundingBox#indent modifies @width, which doesn't work past column one.
+      # If we just modify the spacing, we get the same effect.
+      def indent(left_padding, &block)
+        @x += left_padding
+        @spacer += left_padding
+        yield
+      ensure
+        @x -= left_padding
+        @spacer -= left_padding
+      end
+
     end
   end
 end
