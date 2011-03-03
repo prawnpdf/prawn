@@ -282,9 +282,10 @@ describe "#text" do
     @pdf.move_cursor_to(@pdf.font.height)
     @pdf.text(str + "\n" + str)
 
-    # grab the text from the rendered PDF and ensure it matches
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[1].should == str
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == [str]
+    pages[1][:strings].should == [str]
   end
 
   it "should correctly render a string with higher bit characters across" +
@@ -293,9 +294,10 @@ describe "#text" do
     @pdf.move_cursor_to(@pdf.font.height)
     @pdf.text(str + "\n" + str, :indent_paragraphs => 20)
 
-    # grab the text from the rendered PDF and ensure it matches
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[1].should == str
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == [str]
+    pages[1][:strings].should == [str]
   end
 
   if "spec".respond_to?(:encode!)
@@ -379,16 +381,5 @@ describe "#text" do
         text.strings[4].should == ("hello " * 21)
       end
     end
-  end
-end
-
-describe "#string_from_formatted_text" do
-  it "should be the unadorned string" do
-    create_pdf
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    @pdf.string_from_formatted_text(array).should == "hello world how are you?"
   end
 end

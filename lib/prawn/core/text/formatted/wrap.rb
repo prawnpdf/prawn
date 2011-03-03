@@ -15,8 +15,7 @@ module Prawn
 
           # See the developer documentation for Prawn::Core::Text#wrap
           #
-          # Formatted#wrap should set some of the variables slightly differently
-          # than Text#wrap;
+          # Formatted#wrap should set the following variables:
           #   <tt>@line_height</tt>::
           #        the height of the tallest fragment in the last printed line
           #   <tt>@descender</tt>::
@@ -25,6 +24,12 @@ module Prawn
           #   <tt>@ascender</tt>::
           #        the ascender heigth of the tallest fragment in the last
           #        printed line
+          #   <tt>@baseline_y</tt>::
+          #       the baseline of the current line
+          #   <tt>@nothing_printed</tt>::
+          #       set to true until something is printed, then false
+          #   <tt>@everything_printed</tt>::
+          #       set to false until everything printed, then true
           #
           # Returns any formatted text that was not printed
           #
@@ -48,12 +53,14 @@ module Prawn
               stop ||= @single_line || @arranger.finished?
             end
             @text = @printed_lines.join("\n")
+            @everything_printed = @arranger.finished?
             @arranger.unconsumed
           end
 
           private
 
           def print_line
+            @nothing_printed = false
             printed_fragments = []
             fragments_this_line = []
 
@@ -123,6 +130,8 @@ module Prawn
             @baseline_y  = 0
 
             @printed_lines = []
+            @nothing_printed = true
+            @everything_printed = false
           end
 
           def format_and_draw_fragment(fragment, accumulated_width,

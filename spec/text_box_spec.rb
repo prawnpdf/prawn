@@ -2,6 +2,47 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Box#nothing_printed?" do
+  it "should be true when nothing printed" do
+    create_pdf
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :height => 2,
+                                    :document => @pdf)
+    text_box.render
+    text_box.nothing_printed?.should.be true
+  end
+  it "should be false when something printed" do
+    create_pdf
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :height => 14,
+                                    :document => @pdf)
+    text_box.render
+    text_box.nothing_printed?.should.be false
+  end
+end
+
+describe "Text::Box#everything_printed?" do
+  it "should be false when not everything printed" do
+    create_pdf
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :height => 14,
+                                    :document => @pdf)
+    text_box.render
+    text_box.everything_printed?.should.be false
+  end
+  it "should be true when everything printed" do
+    create_pdf
+    string = "Hello world, how are you?\nI'm fine, thank you."
+    text_box = Prawn::Text::Box.new(string,
+                                    :document => @pdf)
+    text_box.render
+    text_box.everything_printed?.should.be true
+  end
+end
+
 describe "Text::Box#line_gap" do
   it "should equal the line gap of the font when using a single " +
     "font and font size" do

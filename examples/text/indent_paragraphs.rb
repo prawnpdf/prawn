@@ -9,7 +9,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 Prawn::Document.generate "indent_paragraphs.pdf" do |pdf|
   hello = "hello " * 50
   world = "world " * 50
-  string = hello + "\n" + world
+  string = hello + "©\n" + world + "©"
   pdf.text(string, :indent_paragraphs => 60, :align => :justify)
 
   pdf.move_cursor_to(pdf.font.height)

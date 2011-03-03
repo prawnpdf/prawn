@@ -105,8 +105,21 @@ module Prawn
         end
 
         # The text that was successfully printed (or, if <tt>dry_run</tt> was
-        # used, the test that would have been successfully printed)
+        # used, the text that would have been successfully printed)
         attr_reader :text
+
+        # True iff nothing printed (or, if <tt>dry_run</tt> was
+        # used, nothing would have been successfully printed)
+        def nothing_printed?
+          @nothing_printed
+        end
+
+        # True iff everything printed (or, if <tt>dry_run</tt> was
+        # used, everything would have been successfully printed)
+        def everything_printed?
+          @everything_printed
+        end
+
         # The upper left corner of the text box
         attr_reader :at
         # The line height of the last line printed
@@ -437,8 +450,7 @@ module Prawn
         # Decrease the font size until the text fits or the min font
         # size is reached
         def shrink_to_fit(text)
-          while (unprinted_text = wrap(text)).length > 0 &&
-              @font_size > @min_font_size
+          while !@everything_printed && @font_size > @min_font_size
             @font_size -= 0.5
             @document.font_size = @font_size
           end
