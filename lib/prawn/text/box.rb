@@ -53,6 +53,13 @@ module Prawn
     # <tt>:direction</tt>::
     #     <tt>:ltr</tt>, <tt>:rtl</tt>, Direction of the text (left-to-right
     #     or right-to-left) [value of document.text_direction]
+    # <tt>:fallback_fonts</tt>::
+    #     An array of font names. Each name must be the name of an AFM font or
+    #     the name that was used to register a family of TTF fonts (see
+    #     Prawn::Document#font_families). If present, then each glyph will be
+    #     rendered using the first font that includes the glyph, starting with
+    #     the current font and then moving through :fallback_fonts from
+    #     left to right..
     # <tt>:align</tt>::
     #     <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
     #     <tt>:justify</tt> Alignment within the bounding box
