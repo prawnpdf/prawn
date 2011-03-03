@@ -370,47 +370,20 @@ describe "Core::Text::Formatted::Arranger#finished" do
   end
 end
 
-describe "Core::Text::Formatted::Arranger#unfinished" do
-  it "should be false if anything was not printed" do
-    create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you now?" }]
-    arranger.format_array = array
-    while string = arranger.next_string
-    end
-    arranger.update_last_string(" you", "now?")
-    arranger.should.be.unfinished
-  end
-  it "should be false if everything was printed" do
-    create_pdf
-    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you now?" }]
-    arranger.format_array = array
-    while string = arranger.next_string
-    end
-    arranger.should.not.be.unfinished
-  end
-end
-
 describe "Core::Text::Formatted::Arranger.max_line_height" do
   it "should be the height of the maximum consumed fragment" do
     create_pdf
     arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
              { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
+             { :text => "are", :styles => [:bold, :italic],
+               :size => 28 },
              { :text => " you now?" }]
     arranger.format_array = array
     while string = arranger.next_string
     end
-    arranger.update_last_string(" you", "now?")
-    arranger.should.be.unfinished
+    arranger.finalize_line
+    arranger.max_line_height.should.be.close(33.32, 0.0001)
   end
 end
 

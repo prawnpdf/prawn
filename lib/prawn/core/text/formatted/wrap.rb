@@ -31,51 +31,57 @@ module Prawn
           def wrap(array) #:nodoc:
             initialize_wrap(array)
 
-            move_baseline = true
-            while @arranger.unfinished?
-              printed_fragments = []
-              fragments_this_line = []
+            stop = false
+            while !stop
+              @line_wrap.wrap_line(:document => @document,
+                                   :kerning => @kerning,
+                                   :width => available_width,
+                                   :arranger => @arranger)
 
-              line_to_print = @line_wrap.wrap_line(:document => @document,
-                                                   :kerning => @kerning,
-                                                   :width => available_width,
-                                                   :arranger => @arranger)
-
-              move_baseline = false
-              break unless enough_height_for_this_line?
-              move_baseline_down
-
-              word_spacing = word_spacing_for_this_line
-              while fragment = @arranger.retrieve_fragment
-                fragment.word_spacing = word_spacing
-                if fragment.text == "\n"
-                  printed_fragments << "\n" if @printed_lines.last == ""
-                  break
-                end
-                printed_fragments << fragment.text
-                fragments_this_line << fragment
+              if enough_height_for_this_line?
+                move_baseline_down
+                print_line
+              else
+                stop = true
               end
 
-              accumulated_width = 0
-              fragments_this_line.reverse! if @direction == :rtl
-              fragments_this_line.each do |fragment|
-                fragment.default_direction = @direction
-                format_and_draw_fragment(fragment, accumulated_width,
-                                         @line_wrap.width, word_spacing)
-                accumulated_width += fragment.width
-              end
-
-              @printed_lines << printed_fragments.join("")
-              break if @single_line
-              move_baseline = true unless @arranger.finished?
+              stop ||= @single_line || @arranger.finished?
             end
-            move_baseline_down if move_baseline
             @text = @printed_lines.join("\n")
-
             @arranger.unconsumed
           end
 
           private
+
+          def print_line
+            printed_fragments = []
+            fragments_this_line = []
+
+            word_spacing = word_spacing_for_this_line
+            while fragment = @arranger.retrieve_fragment
+              fragment.word_spacing = word_spacing
+              if fragment.text == "\n"
+                printed_fragments << "\n" if @printed_lines.last == ""
+                break
+              end
+              printed_fragments << fragment.text
+              fragments_this_line << fragment
+            end
+
+            accumulated_width = 0
+            fragments_this_line.reverse! if @direction == :rtl
+            fragments_this_line.each do |fragment|
+              fragment.default_direction = @direction
+              format_and_draw_fragment(fragment, accumulated_width,
+                                       @line_wrap.width, word_spacing)
+              accumulated_width += fragment.width
+            end
+
+            if "".respond_to?(:force_encoding)
+              printed_fragments.map! { |s| s.force_encoding("utf-8") }
+            end
+            @printed_lines << printed_fragments.join
+          end
 
           def word_spacing_for_this_line
             if @align == :justify &&

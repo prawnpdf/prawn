@@ -206,6 +206,33 @@ describe "AFM fonts" do
   
 end
 
+describe "#glyph_present" do
+  before(:each) { create_pdf }
+
+  it "should return true when present in an AFM font" do
+    font = @pdf.find_font("Helvetica")
+    font.glyph_present?("H").should.be true
+  end
+
+  it "should return false when absent in an AFM font" do
+    font = @pdf.find_font("Helvetica")
+    font.glyph_present?("再").should.be false
+  end
+
+  it "should return true when present in a TTF font" do
+    font = @pdf.find_font("#{Prawn::BASEDIR}/data/fonts/Activa.ttf")
+    font.glyph_present?("H").should.be true
+  end
+
+  it "should return false when absent in a TTF font" do
+    font = @pdf.find_font("#{Prawn::BASEDIR}/data/fonts/Activa.ttf")
+    font.glyph_present?("再").should.be false
+
+    font = @pdf.find_font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+    font.glyph_present?("€").should.be false
+  end
+end
+
 describe "TTF fonts" do
   
   setup do

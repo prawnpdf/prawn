@@ -30,7 +30,11 @@ module Prawn
         def text
           case direction
           when :rtl
-            @text.reverse
+            if ruby_18 { true }
+              @text.scan(/./mu).reverse.join
+            else
+              @text.reverse
+            end
           else
             @text
           end

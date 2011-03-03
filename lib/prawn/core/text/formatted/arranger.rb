@@ -52,7 +52,13 @@ module Prawn
             if @unfinalized_line
               raise "Lines must be finalized before calling #line"
             end
-            @fragments.collect { |fragment| fragment.text }.join("")
+            @fragments.collect do |fragment|
+              if ruby_18 { true }
+                fragment.text
+              else
+                fragment.text.dup.force_encoding("utf-8")
+              end
+            end.join
           end
 
           def finalize_line
@@ -87,16 +93,13 @@ module Prawn
             @max_line_height = 0
             @max_descender = 0
             @max_ascender = 0
+
             @consumed = []
             @fragments = []
           end
 
           def finished?
             @unconsumed.length == 0
-          end
-
-          def unfinished?
-            @unconsumed.length > 0
           end
 
           def next_string

@@ -90,7 +90,7 @@ module Prawn
 
             string = hash[:text].gsub("&", "&amp;").gsub(">", "&gt;").gsub("<", "&lt;")
             prefix + string + suffix
-          end.join("")
+          end.join
         end
 
         def self.array_paragraphs(array) #:nodoc:

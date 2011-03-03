@@ -100,7 +100,8 @@ module Prawn
                                               :mode, :single_line,
                                               :skip_encoding,
                                               :document,
-                                              :direction]
+                                              :direction,
+                                              :fallback_fonts]
         end
 
         # The text that was successfully printed (or, if <tt>dry_run</tt> was
@@ -131,10 +132,10 @@ module Prawn
         #
         #     def wrap(array)
         #       initialize_wrap([{ :text => 'all your base are belong to us' }])
-        #       line_to_print = @line_wrap.wrap_line(:document => @document,
-        #                                            :kerning => @kerning,
-        #                                            :width => 10000,
-        #                                            :arranger => @arranger)
+        #       @line_wrap.wrap_line(:document => @document,
+        #                            :kerning => @kerning,
+        #                            :width => 10000,
+        #                            :arranger => @arranger)
         #       fragment = @arranger.retrieve_fragment
         #       format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
         #       []
@@ -168,6 +169,7 @@ module Prawn
 
           @overflow          = options[:overflow] || :truncate
 
+          @fallback_fonts    = options[:fallback_fonts]
           self.original_text = formatted_text
           @text              = nil
 
@@ -219,7 +221,8 @@ module Prawn
         # Returns any text that did not print under the current settings
         #
         def render(flags={})
-          unprinted_text = ''
+          unprinted_text = []
+
           @document.save_font do
             @document.character_spacing(@character_spacing) do
               @document.text_rendering_mode(@mode) do
@@ -307,16 +310,94 @@ module Prawn
           @original_array.collect { |hash| hash.dup }
         end
 
-        def original_text=(array)
-          @original_array = array
+        def original_text=(formatted_text)
+          @original_array = formatted_text
         end
 
         def normalize_encoding
-          array = original_text
-          array.each do |hash|
-            hash[:text] = @document.font.normalize_encoding(hash[:text])
+          formatted_text = original_text
+
+          if @fallback_fonts
+            formatted_text = process_fallback_fonts(formatted_text)
           end
-          array
+
+          formatted_text.each do |hash|
+            if hash[:font]
+              @document.font(hash[:font]) do
+                hash[:text] = @document.font.normalize_encoding(hash[:text])
+              end
+            else
+              hash[:text] = @document.font.normalize_encoding(hash[:text])
+            end
+          end
+
+          formatted_text
+        end
+
+        def process_fallback_fonts(formatted_text)
+          modified_formatted_text = []
+
+          formatted_text.each do |hash|
+            fragments = analyze_glyphs_for_fallback_font_support(hash)
+            modified_formatted_text.concat(fragments)
+          end
+
+          modified_formatted_text
+        end
+
+        def analyze_glyphs_for_fallback_font_support(hash)
+          font_glyph_pairs = []
+
+          original_font = @document.font.family
+
+          @document.font(hash[:font]) unless hash[:font].nil?
+          fallback_fonts = @fallback_fonts.dup
+          # always default back to the current font if the glyph is missing from
+          # all fonts
+          fallback_fonts << @document.font.family
+
+          hash[:text].unpack("U*").each do |char_int|
+            char = [char_int].pack("U")
+            @document.font(original_font)
+            font_glyph_pairs << [find_font_for_this_glyph(char,
+                                                          @document.font.family,
+                                                          fallback_fonts.dup),
+                                 char]
+          end
+
+          @document.font(original_font)
+
+          form_fragments_from_like_font_glyph_pairs(font_glyph_pairs, hash)
+        end
+
+        def find_font_for_this_glyph(char, current_font, fallback_fonts)
+          if fallback_fonts.length == 0 || @document.font.glyph_present?(char)
+            current_font
+          else
+            current_font = fallback_fonts.shift
+            @document.font(current_font)
+            find_font_for_this_glyph(char, @document.font.family, fallback_fonts)
+          end
+        end
+
+        def form_fragments_from_like_font_glyph_pairs(font_glyph_pairs, hash)
+          fragments = []
+          fragment = nil
+          current_font = nil
+
+          font_glyph_pairs.each do |font, char|
+            if font != current_font
+              current_font = font
+              fragment = hash.dup
+              fragment[:text] = char
+              fragment[:font] = font
+              fragments << fragment
+            else
+              fragment[:text] += char
+            end
+          end
+
+          fragments
         end
 
         def move_baseline_down

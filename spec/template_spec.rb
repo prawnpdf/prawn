@@ -126,7 +126,7 @@ describe "Document built from a template" do
     @pdf.text "Adding some text"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    all_text = text.strings.join("")
+    all_text = text.strings.join
     all_text.include?("Adding some text").should == true
   end
 
@@ -256,7 +256,7 @@ describe "Document#start_new_page with :template option" do
     @pdf.text "Adding some text"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    all_text = text.strings.join("")
+    all_text = text.strings.join
     all_text.include?("Adding some text").should == true
   end
   

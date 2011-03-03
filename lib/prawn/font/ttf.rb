@@ -185,6 +185,11 @@ module Prawn
         end
       end
 
+      def glyph_present?(char)
+        code = char.unpack("U*").first
+        cmap[code] > 0
+      end
+
       private
 
       def cmap

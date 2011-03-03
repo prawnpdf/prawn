@@ -2,6 +2,78 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Formatted::Box with :fallback_fonts option that includes" +
+  "a Chinese font and set of Chinese glyphs not in the current font" do
+  it "should change the font to the Chinese font for the Chinese glyphs" do
+    create_pdf
+    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    @pdf.font_families["Kai"] = {
+      :normal => { :file => file, :font => "Kai" }
+    }
+    formatted_text = [{ :text => "hello你好" },
+                      { :text => "再见goodbye" }]
+    @pdf.formatted_text_box(formatted_text, :fallback_fonts => ["Kai"])
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    fonts_used = text.font_settings.map { |e| e[:name] }
+    fonts_used.length.should == 4
+    fonts_used[0].should == :"Helvetica"
+    fonts_used[1].to_s.should =~ /GBZenKai-Medium/
+    fonts_used[2].to_s.should =~ /GBZenKai-Medium/
+    fonts_used[3].should == :"Helvetica"
+
+    text.strings[0].should == "hello"
+    text.strings[1].should == "你好"
+    text.strings[2].should == "再见"
+    text.strings[3].should == "goodbye"
+  end
+end
+
+describe "Text::Formatted::Box with :fallback_fonts option that includes" +
+  "an AFM font and Win-Ansi glyph not in the current Chinese font" do
+  it "should change the font to the AFM font for the Win-Ansi glyph" do
+    create_pdf
+    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    @pdf.font_families["Kai"] = {
+      :normal => { :file => file, :font => "Kai" }
+    }
+    @pdf.font("Kai")
+    formatted_text = [{ :text => "hello你好" },
+                      { :text => "再见€" }]
+    @pdf.formatted_text_box(formatted_text, :fallback_fonts => ["Helvetica"])
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    fonts_used = text.font_settings.map { |e| e[:name] }
+    fonts_used.length.should == 4
+    fonts_used[0].to_s.should =~ /GBZenKai-Medium/
+    fonts_used[1].to_s.should =~ /GBZenKai-Medium/
+    fonts_used[2].to_s.should =~ /GBZenKai-Medium/
+    fonts_used[3].should == :"Helvetica"
+
+    text.strings[0].should == "hello"
+    text.strings[1].should == "你好"
+    text.strings[2].should == "再见"
+    text.strings[3].should == "€"
+  end
+end
+
+describe "Text::Formatted::Box with :fallback_fonts option " +
+  "with glyphs not in the primary or the fallback fonts" do
+  it "should use the primary font" do
+    create_pdf
+    formatted_text = [{ :text => "hello world. 世界你好。" }]
+    @pdf.formatted_text_box(formatted_text, :fallback_fonts => ["Helvetica"])
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    fonts_used = text.font_settings.map { |e| e[:name] }
+    fonts_used.length.should == 1
+    fonts_used[0].should == :"Helvetica"
+  end
+end
+
 describe "Text::Formatted::Box#extensions" do
   it "should be able to override default line wrapping" do
     create_pdf

@@ -28,6 +28,18 @@ describe "Text::Box" do
     text.strings[1].should == ".uoy knaht ,enif m'I"
   end
 
+  it "should be able to reverse multi-byte text" do
+    create_pdf
+    @pdf.text_direction(:rtl)
+    @pdf.text_direction = :rtl
+    @pdf.text_direction = :rtl
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf", :size => 16) do
+      @pdf.text "写个小"
+    end
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings[0].should == "小个写"
+  end
+
   it "option should be able to override document wide text direction" do
     create_pdf
     @pdf.text_direction = :rtl
@@ -477,6 +489,7 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
+
   describe "when using an AFM font" do
     it "unprinted text should be in WinAnsi encoding" do
       remaining_text = @text_box.render
@@ -763,7 +776,7 @@ describe "Text::Box wrapping" do
 
     expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
-
+    expected = expected.force_encoding("utf-8") if expected.respond_to?(:force_encoding)
     text_box.text.should == expected
   end
 
