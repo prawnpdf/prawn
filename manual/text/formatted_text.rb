@@ -15,7 +15,7 @@
 # text string and may provide the following options: <code>:styles</code> (an
 # array of :symbols), <code>:size</code> (the font size),
 # <code>:character_spacing</code> (additional space between the characters),
-# <code>:font</code> (the name of a registered font), <code>color</color> (the
+# <code>:font</code> (the name of a registered font), <code>:color</code> (the
 # same input accepted by <code>fill_color</code> and <code>stroke_color</code>),
 # <code>:link</code> (an URL to create a link), and <code>:anchor</code> (a
 # destination inside the document).
