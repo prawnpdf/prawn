@@ -121,6 +121,49 @@ module Prawn
 
       alias_method :text_direction=, :text_direction
 
+      # Call with no argument to retrieve the current fallback fonts.
+      #
+      # Call with an array of font names. Each name must be the name of an AFM
+      # font or the name that was used to register a family of TTF fonts (see
+      # Prawn::Document#font_families). If present, then each glyph will be
+      # rendered using the first font that includes the glyph, starting with the
+      # current font and then moving through :fallback_fonts from left to right.
+      #
+      # Call with an empty array to turn off fallback fonts
+      #
+      # file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+      # font_families["Kai"] = {
+      #   :normal => { :file => file, :font => "Kai" }
+      # }
+      # file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+      # font_families["Action Man"] = {
+      #   :normal      => { :file => file, :font => "ActionMan" },
+      # }
+      # fallback_fonts ["Times-Roman", "Kai"]
+      # font "Action Man"
+      # text "hello ƒ 你好"
+      # > hello prints in Action Man
+      # > ƒ prints in Times-Roman
+      # > 你好 prints in Kai
+      #
+      # fallback_fonts [] # clears document wide fallback fonts
+      #
+      # Side effects:
+      #
+      # * Increased overhead when fallback fonts are declared as each glyph is
+      #   checked to see whether it exists in the current font
+      #
+      def fallback_fonts(fallback_fonts=nil)
+        if fallback_fonts.nil?
+          return [] if @fallback_fonts.nil?
+          @fallback_fonts
+        else
+          @fallback_fonts = fallback_fonts
+        end
+      end
+
+      alias_method :fallback_fonts=, :fallback_fonts
+
       # Call with no argument to retrieve the current text rendering mode.
       #
       # Call with a symbol and block to temporarily change the current

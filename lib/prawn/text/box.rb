@@ -59,7 +59,7 @@ module Prawn
     #     Prawn::Document#font_families). If present, then each glyph will be
     #     rendered using the first font that includes the glyph, starting with
     #     the current font and then moving through :fallback_fonts from
-    #     left to right..
+    #     left to right.
     # <tt>:align</tt>::
     #     <tt>:left</tt>, <tt>:center</tt>, <tt>:right</tt>, or
     #     <tt>:justify</tt> Alignment within the bounding box

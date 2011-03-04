@@ -78,7 +78,7 @@ module Prawn
       # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
       # any text
       #
-      def formatted_text_box(array, options)
+      def formatted_text_box(array, options={})
         Text::Formatted::Box.new(array, options.merge(:document => self)).render
       end
 
@@ -182,12 +182,13 @@ module Prawn
 
           @overflow          = options[:overflow] || :truncate
 
-          @fallback_fonts    = options[:fallback_fonts]
           self.original_text = formatted_text
           @text              = nil
 
           @document          = options[:document]
           @direction         = options[:direction] || @document.text_direction
+          @fallback_fonts    = options[:fallback_fonts] ||
+                               @document.fallback_fonts
           @at                = options[:at] ||
                                [@document.bounds.left, @document.bounds.top]
           @width             = options[:width] ||
@@ -330,7 +331,7 @@ module Prawn
         def normalize_encoding
           formatted_text = original_text
 
-          if @fallback_fonts
+          unless @fallback_fonts.empty?
             formatted_text = process_fallback_fonts(formatted_text)
           end
 

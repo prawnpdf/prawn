@@ -59,6 +59,56 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
   end
 end
 
+describe "Text::Formatted::Box" do
+  before(:each) do
+    create_pdf
+    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    @pdf.font_families["Kai"] = {
+      :normal => { :file => file, :font => "Kai" }
+    }
+    @formatted_text = [{ :text => "hello你好" }]
+    @pdf.fallback_fonts(["Kai"])
+    @pdf.fallback_fonts = ["Kai"]
+  end
+  it "#fallback_fonts should return the document wide fallback fonts" do
+    @pdf.fallback_fonts.should == ["Kai"]
+  end
+  it "should be able to set text fallback_fonts document wide" do
+    @pdf.formatted_text_box(@formatted_text)
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    fonts_used = text.font_settings.map { |e| e[:name] }
+    fonts_used.length.should == 2
+    fonts_used[0].should == :"Helvetica"
+    fonts_used[1].to_s.should =~ /GBZenKai-Medium/
+  end
+  it "should be able to override document wide fallback_fonts" do
+    @pdf.formatted_text_box(@formatted_text, :fallback_fonts => ["Courier"])
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+
+    fonts_used = text.font_settings.map { |e| e[:name] }
+    fonts_used.length.should == 1
+    fonts_used[0].should == :"Helvetica"
+  end
+  it "passing an empty array for :fallback_fonts should omit the " +
+    "fallback fonts overhead" do
+    box = Prawn::Text::Formatted::Box.new(@formatted_text,
+                                          :document => @pdf,
+                                          :fallback_fonts => [])
+    box.expects(:process_fallback_fonts).never
+    box.render
+  end
+  it "should be able to clear document wide fallback_fonts" do
+    @pdf.fallback_fonts([])
+    box = Prawn::Text::Formatted::Box.new(@formatted_text,
+                                          :document => @pdf)
+    box.expects(:process_fallback_fonts).never
+    box.render
+  end
+end
+
 describe "Text::Formatted::Box with :fallback_fonts option " +
   "with glyphs not in the primary or the fallback fonts" do
   it "should use the primary font" do
