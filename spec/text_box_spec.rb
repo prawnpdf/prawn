@@ -56,7 +56,7 @@ describe "Text::Box#line_gap" do
 end
 
 describe "Text::Box" do
-  it "should be able to set text direction document wide" do
+  it "should be able to set text direction document-wide" do
     create_pdf
     @pdf.text_direction(:rtl)
     @pdf.text_direction = :rtl
@@ -81,7 +81,7 @@ describe "Text::Box" do
     text.strings[0].should == "小个写"
   end
 
-  it "option should be able to override document wide text direction" do
+  it "option should be able to override document-wide text direction" do
     create_pdf
     @pdf.text_direction = :rtl
     string = "Hello world, how are you?\nI'm fine, thank you."
@@ -97,7 +97,7 @@ end
 
 describe "Text::Box" do
 
-  it "should be able to set leading document wide" do
+  it "should be able to set leading document-wide" do
     create_pdf
     @pdf.default_leading(7)
     @pdf.default_leading = 7
@@ -106,7 +106,7 @@ describe "Text::Box" do
     text_box.leading.should == 7
   end
 
-  it "option should be able to override document wide leading" do
+  it "option should be able to override document-wide leading" do
     create_pdf
     @pdf.default_leading = 7
     text_box = Prawn::Text::Box.new("hello world",

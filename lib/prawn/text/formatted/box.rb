@@ -363,16 +363,17 @@ module Prawn
           font_glyph_pairs = []
 
           original_font = @document.font.family
+          fragment_font = hash[:font] || original_font
+          @document.font(fragment_font)
 
-          @document.font(hash[:font]) unless hash[:font].nil?
           fallback_fonts = @fallback_fonts.dup
           # always default back to the current font if the glyph is missing from
           # all fonts
-          fallback_fonts << @document.font.family
+          fallback_fonts << fragment_font
 
           hash[:text].unpack("U*").each do |char_int|
             char = [char_int].pack("U")
-            @document.font(original_font)
+            @document.font(fragment_font)
             font_glyph_pairs << [find_font_for_this_glyph(char,
                                                           @document.font.family,
                                                           fallback_fonts.dup),

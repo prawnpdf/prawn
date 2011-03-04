@@ -146,7 +146,7 @@ module Prawn
       # > ƒ prints in Times-Roman
       # > 你好 prints in Kai
       #
-      # fallback_fonts [] # clears document wide fallback fonts
+      # fallback_fonts [] # clears document-wide fallback fonts
       #
       # Side effects:
       #

@@ -1,6 +1,8 @@
 # encoding: utf-8
 #
-#
+# Prawn enables the declaration of fallback fonts for those glyphs that may not
+# be present in the desired font. Use the :fallback_fonts option with any of the
+# text or text box methods, or set fallback_fonts document-wide.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -23,4 +25,11 @@ Prawn::Example.generate(filename) do
          "hello ƒ 你好\n再见 ƒ goodbye",
          :fallback_fonts => ["Times-Roman", "Kai"])
   end
+  move_down 20
+
+  formatted_text([
+                  { :text => "Fallback fonts can even override" },
+                  { :text => "fragment fonts (你好)", :font => "Times-Roman" },
+                 ],
+                 :fallback_fonts => ["Times-Roman", "Kai"])
 end

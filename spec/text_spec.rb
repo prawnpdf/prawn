@@ -101,7 +101,7 @@ describe "#text" do
     text.kerned[0].should.be false
   end
 
-  it "should be able to disable kerning document wide" do
+  it "should be able to disable kerning document-wide" do
     @pdf.default_kerning(false)
     @pdf.default_kerning = false
     @pdf.text "hello world"
@@ -109,7 +109,7 @@ describe "#text" do
     text.kerned[0].should.be false
   end
 
-  it "option should be able to override document wide kerning disabling" do
+  it "option should be able to override document-wide kerning disabling" do
     @pdf.default_kerning = false
     @pdf.text "hello world", :kerning => true
     text = PDF::Inspector::Text.analyze(@pdf.render)
