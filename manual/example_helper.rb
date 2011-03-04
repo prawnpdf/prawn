@@ -147,10 +147,14 @@ module Prawn
       font_families["Kai"] = {
         :normal => { :file => kai_file, :font => "Kai" }
       }
-      
+      dejavu_file = "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+      font_families["DejaVu"] = {
+        :normal => { :file => dejavu_file, :font => "DejaVu" }
+      }
+
       font('Courier', :size => 11) do
         text(example_source.gsub(' ', Prawn::Text::NBSP),
-             :fallback_fonts => ["Kai"])
+             :fallback_fonts => ["DejaVu", "Kai"])
       end
       
       if options[:eval_source]
