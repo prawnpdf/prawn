@@ -2,6 +2,59 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Formatted::Fragment#space_count" do
+  it "should return the number of spaces in the fragment" do
+    create_pdf
+    format_state = { }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
+                                                     format_state,
+                                                     @pdf)
+    fragment.space_count.should == 2
+  end
+  it "should exclude trailing spaces from the count when " +
+    ":exclude_trailing_white_space => true" do
+    create_pdf
+    format_state = { :exclude_trailing_white_space => true }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
+                                                     format_state,
+                                                     @pdf)
+    fragment.space_count.should == 1
+  end
+end
+
+describe "Text::Formatted::Fragment#include_trailing_white_space!" do
+  it "should make the fragment include trailing white space" do
+    create_pdf
+    format_state = { :exclude_trailing_white_space => true }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
+                                                     format_state,
+                                                     @pdf)
+    fragment.space_count.should == 1
+    fragment.include_trailing_white_space!
+    fragment.space_count.should == 2
+  end
+end
+
+describe "Text::Formatted::Fragment#text" do
+  it "should return the fragment text" do
+    create_pdf
+    format_state = { }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
+                                                     format_state,
+                                                     @pdf)
+    fragment.text.should == "hello world "
+  end
+  it "should return the fragment text without trailing spaces when " +
+    ":exclude_trailing_white_space => true" do
+    create_pdf
+    format_state = { :exclude_trailing_white_space => true }
+    fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
+                                                     format_state,
+                                                     @pdf)
+    fragment.text.should == "hello world"
+  end
+end
+
 describe "Text::Formatted::Fragment#word_spacing=" do
   before(:each) do
     create_pdf
@@ -241,23 +294,5 @@ describe "Text::Formatted::Fragment default_direction=" do
                                                     @pdf)
     fragment.default_direction = :ltr
     fragment.direction.should == :rtl
-  end
-end
-
-describe "Text::Formatted::Fragment#exclude_trailing_white_space?" do
-  it "should be true iff :exclude_trailing_white_space was true in " +
-    "the initial hash from which the fragment was created" do
-    create_pdf
-    format_state = { }
-    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
-                                                     format_state,
-                                                     @pdf)
-    fragment.exclude_trailing_white_space?.should.not.be true
-
-    format_state = { :exclude_trailing_white_space => true }
-    fragment = Prawn::Text::Formatted::Fragment.new("hello world",
-                                                     format_state,
-                                                     @pdf)
-    fragment.exclude_trailing_white_space?.should.be true
   end
 end

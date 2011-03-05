@@ -224,7 +224,7 @@ describe "Core::Text::Formatted::Arranger#space_count" do
 end
 describe "Core::Text::Formatted::Arranger#finalize_line" do
   it "should make it so that all trailing white space fragments " +
-     "are marked as exclude_trailing_white_space" do
+     "exclude trailing white space" do
     create_pdf
     arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
@@ -240,12 +240,10 @@ describe "Core::Text::Formatted::Arranger#finalize_line" do
     fragment.text.should == "hello "
 
     fragment = arranger.retrieve_fragment
-    fragment.text.should == "world how "
-    fragment.exclude_trailing_white_space?.should.be true
+    fragment.text.should == "world how"
 
     fragment = arranger.retrieve_fragment
-    fragment.text.should == "   "
-    fragment.exclude_trailing_white_space?.should.be true
+    fragment.text.should == ""
   end
 end
 

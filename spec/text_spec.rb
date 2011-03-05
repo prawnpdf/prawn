@@ -346,10 +346,10 @@ describe "#text" do
       hello2 = "hello " * 50
       @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings[0].should == ("hello " * 19)
-      text.strings[1].should == ("hello " * 21)
-      text.strings[3].should == ("hello " * 19)
-      text.strings[4].should == ("hello " * 21)
+      text.strings[0].should == ("hello " * 19).strip
+      text.strings[1].should == ("hello " * 21).strip
+      text.strings[3].should == ("hello " * 19).strip
+      text.strings[4].should == ("hello " * 21).strip
     end
     describe "when wrap to new page, and first line of new page" +
              " is not the start of a new paragraph, that line should" +
@@ -360,10 +360,10 @@ describe "#text" do
         @pdf.move_cursor_to(@pdf.font.height)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings[0].should == ("hello " * 19)
-        text.strings[1].should == ("hello " * 21)
-        text.strings[3].should == ("hello " * 19)
-        text.strings[4].should == ("hello " * 21)
+        text.strings[0].should == ("hello " * 19).strip
+        text.strings[1].should == ("hello " * 21).strip
+        text.strings[3].should == ("hello " * 19).strip
+        text.strings[4].should == ("hello " * 21).strip
       end
     end
     describe "when wrap to new page, and first line of new page" +
@@ -375,10 +375,10 @@ describe "#text" do
         @pdf.move_cursor_to(@pdf.font.height * 3)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings[0].should == ("hello " * 19)
-        text.strings[1].should == ("hello " * 21)
-        text.strings[3].should == ("hello " * 19)
-        text.strings[4].should == ("hello " * 21)
+        text.strings[0].should == ("hello " * 19).strip
+        text.strings[1].should == ("hello " * 21).strip
+        text.strings[3].should == ("hello " * 19).strip
+        text.strings[4].should == ("hello " * 21).strip
       end
     end
   end

@@ -28,21 +28,22 @@ module Prawn
         end
 
         def text
+          string = exclude_trailing_white_space? ? @text.rstrip : @text
           case direction
           when :rtl
             if ruby_18 { true }
-              @text.scan(/./mu).reverse.join
+              string.scan(/./mu).reverse.join
             else
-              @text.reverse
+              string.reverse
             end
           else
-            @text
+            string
           end
         end
 
         def width
           if @word_spacing == 0 then @width
-          else @width + @word_spacing * @text.count(" ")
+          else @width + @word_spacing * space_count
           end
         end
 
@@ -125,8 +126,13 @@ module Prawn
           @format_state[:direction] = direction unless @format_state[:direction]
         end
 
-        def exclude_trailing_white_space?
-          @format_state[:exclude_trailing_white_space]
+        def include_trailing_white_space!
+          @format_state.delete(:exclude_trailing_white_space)
+        end
+
+        def space_count
+          string = exclude_trailing_white_space? ? @text.rstrip : @text
+          string.count(" ")
         end
 
         def callback_objects
@@ -198,6 +204,12 @@ module Prawn
 
         def absolute_bottom_right
           [absolute_right, absolute_bottom]
+        end
+
+        private
+
+        def exclude_trailing_white_space?
+          @format_state[:exclude_trailing_white_space]
         end
 
       end

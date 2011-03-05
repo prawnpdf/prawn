@@ -217,7 +217,7 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == " era woh ,"
+    text.strings[0].should == "era woh ,"
     text.strings[1].should == "world"
     text.strings[2].should == " olleh" * number_of_hellos
     text.strings[3].should == "?uoy"
