@@ -50,6 +50,26 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello"
   end
 
+  it "should break on zero-width space" do
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    array = [{ :text => "hello#{Prawn::Text::ZWSP}world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string.should == "hello"
+  end
+
+  it "should not display zero-width space" do
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    array = [{ :text => "hello#{Prawn::Text::ZWSP}world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => 300,
+                                  :document => @pdf)
+    string.should == "helloworld"
+  end
+
   it "should break on tab" do
     array = [{ :text => "hello\tworld" }]
     @arranger.format_array = array
@@ -86,30 +106,30 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
   end
 
   it "should break on a soft hyphen" do
-    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SOFT_HYPHEN}world")
+    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}world")
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    expected = @pdf.font.normalize_encoding("hello#{Prawn::Text::SOFT_HYPHEN}")
-    ruby_19 { expected.force_encoding("utf-8") }
+    expected = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}")
+    expected.force_encoding("utf-8") if "".respond_to?(:force_encoding)
     string.should == expected
 
     @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
-    string = "hello#{Prawn::Text::SOFT_HYPHEN}world"
+    string = "hello#{Prawn::Text::SHY}world"
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    string.should == "hello#{Prawn::Text::SOFT_HYPHEN}"
+    string.should == "hello#{Prawn::Text::SHY}"
   end
 
   it "should not display soft hyphens except at the end of a line" do
-    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SOFT_HYPHEN}world")
+    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}world")
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -120,7 +140,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
-    string = "hello#{Prawn::Text::SOFT_HYPHEN}world"
+    string = "hello#{Prawn::Text::SHY}world"
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -167,7 +187,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
 
   it "should not break after a hard hyphen that follows a soft hyphen and" +
     "precedes a word" do
-    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SOFT_HYPHEN}-")
+    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}-")
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -175,20 +195,20 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "hello-"
 
-    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SOFT_HYPHEN}-world")
+    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}-world")
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    expected = @pdf.font.normalize_encoding("hello#{Prawn::Text::SOFT_HYPHEN}")
-    ruby_19 { expected.force_encoding("utf-8") }
+    expected = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}")
+    expected.force_encoding("utf-8") if "".respond_to?(:force_encoding)
     string.should == expected
 
     @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
-    string = "hello#{Prawn::Text::SOFT_HYPHEN}-"
+    string = "hello#{Prawn::Text::SHY}-"
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -196,13 +216,13 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "hello-"
 
-    string = "hello#{Prawn::Text::SOFT_HYPHEN}-world"
+    string = "hello#{Prawn::Text::SHY}-world"
     array = [{ :text => string }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => @one_word_width,
                                   :document => @pdf)
-    string.should == "hello#{Prawn::Text::SOFT_HYPHEN}"
+    string.should == "hello#{Prawn::Text::SHY}"
   end
 end
 
