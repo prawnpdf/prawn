@@ -165,12 +165,13 @@ module Prawn
             end
           end
 
-          def update_last_string(printed, unprinted)
+          def update_last_string(printed, unprinted, normalized_soft_hyphen)
             return if printed.nil?
             if printed.empty?
               @consumed.pop
             else
               @consumed.last[:text] = printed
+              @consumed.last[:normalized_soft_hyphen] = normalized_soft_hyphen
             end
 
             unless unprinted.empty?
