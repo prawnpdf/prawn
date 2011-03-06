@@ -37,7 +37,7 @@ Prawn::Example.generate("text.pdf") do
                           ]
       ],
       [ "M17n", [ "utf8",
-                  "chinese_text_wrapping",
+                  "line_wrapping",
                   "right_to_left_text",
                   "fallback_fonts"
                 ]

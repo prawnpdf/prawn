@@ -121,7 +121,7 @@ module Prawn
           # word breaking is needed
           #
           def word_division_scan_pattern
-            new_regexp("\\s|[#{soft_hyphen}#{hyphen}]")
+            new_regexp("\\s|[#{zero_width_space}#{soft_hyphen}#{hyphen}]")
           end
 
           def break_chars
@@ -129,7 +129,7 @@ module Prawn
           end
 
           def whitespace
-            " \\t"
+            " \\t#{zero_width_space}"
           end
 
           def hyphen
@@ -137,7 +137,11 @@ module Prawn
           end
 
           def soft_hyphen
-            @document.font.normalize_encoding(Prawn::Text::SOFT_HYPHEN)
+            @document.font.normalize_encoding(Prawn::Text::SHY)
+          end
+
+          def zero_width_space
+            @document.font.unicode? ? Prawn::Text::ZWSP : ""
           end
 
           def line_empty?

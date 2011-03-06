@@ -28,16 +28,11 @@ module Prawn
         end
 
         def text
-          string = if exclude_trailing_white_space?
-                     string = @text.rstrip
-                     if string.length > 0 && normalized_soft_hyphen
-                       string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
-                     else
-                       string
-                     end
-                   else
-                     @text
-                   end
+          string = strip_zero_width_spaces(@text)
+          if exclude_trailing_white_space?
+            string = string.rstrip
+            string = process_soft_hyphens(string)
+          end
           case direction
           when :rtl
             if ruby_18 { true }
@@ -223,6 +218,22 @@ module Prawn
 
         def normalized_soft_hyphen
           @format_state[:normalized_soft_hyphen]
+        end
+
+        def process_soft_hyphens(string)
+          if string.length > 0 && normalized_soft_hyphen
+            string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
+          else
+            string
+          end
+        end
+
+        def strip_zero_width_spaces(string)
+          if !"".respond_to?(:encoding) || string.encoding.to_s == "UTF-8"
+            string.gsub(Prawn::Text::ZWSP, "")
+          else
+            string
+          end
         end
 
       end

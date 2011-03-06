@@ -18,8 +18,10 @@ module Prawn
 
     # No-Break Space
     Prawn::Text::NBSP = " "
+    # Zero Width Space (indicate word boundaries without a space)
+    Prawn::Text::ZWSP = [8203].pack("U")
     # Soft Hyphen (invisible, except when causing a line break)
-    Prawn::Text::SOFT_HYPHEN = "­"
+    Prawn::Text::SHY = "­"
 
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of
