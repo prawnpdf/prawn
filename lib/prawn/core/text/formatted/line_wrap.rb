@@ -87,7 +87,11 @@ module Prawn
               false
             else
               fragment.scan(scan_pattern).each do |segment|
-                segment_width = @document.width_of(segment, :kerning => @kerning)
+                if segment == zero_width_space
+                  segment_width = 0
+                else
+                  segment_width = @document.width_of(segment, :kerning => @kerning)
+                end
 
                 if @accumulated_width + segment_width <= @width
                   @accumulated_width += segment_width
