@@ -112,7 +112,7 @@ module Prawn
           # word breaking is needed
           #
           def word_division_scan_pattern
-            new_regexp("\\s|[#{hyphen}#{soft_hyphen}]")
+            new_regexp("\\s|[#{soft_hyphen}#{hyphen}]")
           end
 
           def break_chars
