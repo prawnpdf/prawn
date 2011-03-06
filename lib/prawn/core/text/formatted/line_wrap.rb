@@ -58,7 +58,7 @@ module Prawn
 
           def empty_line?(fragment)
             empty = line_empty? && fragment.empty? && @arranger.preview_next_string == "\n"
-            @arranger.update_last_string("", "") if empty
+            @arranger.update_last_string("", "", soft_hyphen) if empty
             empty
           end
 
@@ -128,7 +128,7 @@ module Prawn
           end
 
           def soft_hyphen
-            @document.font.normalize_encoding("­")
+            @document.font.normalize_encoding(Prawn::Text::SOFT_HYPHEN)
           end
 
           def line_empty?
@@ -161,7 +161,7 @@ module Prawn
             remaining_text = fragment.slice(@fragment_output.length..fragment.length)
             raise Errors::CannotFit if finished_line && line_empty? &&
               @fragment_output.empty? && !fragment.strip.empty?
-            @arranger.update_last_string(@fragment_output, remaining_text)
+            @arranger.update_last_string(@fragment_output, remaining_text, soft_hyphen)
           end
 
           def update_line_status_based_on_last_output

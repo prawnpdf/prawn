@@ -28,7 +28,16 @@ module Prawn
         end
 
         def text
-          string = exclude_trailing_white_space? ? @text.rstrip : @text
+          string = if exclude_trailing_white_space?
+                     string = @text.rstrip
+                     if string.length > 0 && normalized_soft_hyphen
+                       string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
+                     else
+                       string
+                     end
+                   else
+                     @text
+                   end
           case direction
           when :rtl
             if ruby_18 { true }
@@ -210,6 +219,10 @@ module Prawn
 
         def exclude_trailing_white_space?
           @format_state[:exclude_trailing_white_space]
+        end
+
+        def normalized_soft_hyphen
+          @format_state[:normalized_soft_hyphen]
         end
 
       end

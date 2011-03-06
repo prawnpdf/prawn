@@ -178,11 +178,12 @@ describe "Core::Text::Formatted::Arranger#update_last_string" do
     arranger.format_array = array
     while string = arranger.next_string
     end
-    arranger.update_last_string(" you", " now?")
+    arranger.update_last_string(" you", " now?", nil)
     arranger.consumed[3].should == { :text => " you",
-                                      :styles => [:bold, :italic] }
+                                     :styles => [:bold, :italic],
+                                     :normalized_soft_hyphen => nil }
     arranger.unconsumed.should == [{ :text => " now?",
-                                      :styles => [:bold, :italic] }]
+                                     :styles => [:bold, :italic] }]
   end
   context "when the entire string was used" do
     it "should not push empty string onto unconsumed" do
@@ -195,7 +196,7 @@ describe "Core::Text::Formatted::Arranger#update_last_string" do
     arranger.format_array = array
       while string = arranger.next_string
       end
-      arranger.update_last_string(" you now?", "")
+      arranger.update_last_string(" you now?", "", nil)
       arranger.unconsumed.should == []
     end
   end
@@ -351,7 +352,7 @@ describe "Core::Text::Formatted::Arranger#finished" do
     arranger.format_array = array
     while string = arranger.next_string
     end
-    arranger.update_last_string(" you", "now?")
+    arranger.update_last_string(" you", "now?", nil)
     arranger.should.not.be.finished
   end
   it "should be false if everything was printed" do
