@@ -204,6 +204,16 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\n\nworld"
+
+
+    array = [{ :text => "hello" + " " * 500},
+             { :text => " " * 500 },
+             { :text => " " * 500 + "\n"},
+             { :text => "world"}]
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text_box.text.should == "hello\n\nworld"
   end
   it "should enable fragment level direction setting" do
     create_pdf
@@ -453,6 +463,20 @@ describe "Text::Formatted::Box#render with fragment level :character_spacing opt
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\nworld"
+  end
+end
+
+describe "Text::Formatted::Box#render with :align => :justify" do
+  it "should not justify the last line of a paragraph" do
+    create_pdf
+    array = [{ :text => "hello world " },
+             { :text => "\n" },
+             { :text => "goodbye" }]
+    options = { :document => @pdf, :align => :justify }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.word_spacing.should.be.empty
   end
 end
 

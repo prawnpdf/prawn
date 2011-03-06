@@ -22,9 +22,11 @@ module Prawn
           end
 
           # The number of spaces in the last wrapped line
-          #
-          def space_count
-            @space_count
+          attr_reader :space_count
+
+          # Whether this line is the last line in the paragraph
+          def paragraph_finished?
+            @newline_encountered || is_next_string_newline? || @arranger.finished?
           end
 
           # Work in conjunction with the Prawn::Core::Formatted::Arranger
@@ -57,9 +59,13 @@ module Prawn
           end
 
           def empty_line?(fragment)
-            empty = line_empty? && fragment.empty? && @arranger.preview_next_string == "\n"
+            empty = line_empty? && fragment.empty? && is_next_string_newline?
             @arranger.update_last_string("", "", soft_hyphen) if empty
             empty
+          end
+
+          def is_next_string_newline?
+            @arranger.preview_next_string == "\n"
           end
 
           def apply_font_settings_and_add_fragment_to_line(fragment)
@@ -74,25 +80,28 @@ module Prawn
           # the line
           #
           def add_fragment_to_line(fragment)
-            return true if fragment == ""
-            return false if fragment == "\n"
+            if fragment == ""
+              true
+            elsif fragment == "\n"
+              @newline_encountered = true
+              false
+            else
+              fragment.scan(scan_pattern).each do |segment|
+                segment_width = @document.width_of(segment, :kerning => @kerning)
 
-            fragment.scan(scan_pattern).each do |segment|
-              segment_width = @document.width_of(segment, :kerning => @kerning)
-
-              if @accumulated_width + segment_width <= @width
-                @accumulated_width += segment_width
-                @fragment_output += segment
-              else
-                end_of_the_line(segment)
-                fragment_finished(fragment, true)
-                return false
+                if @accumulated_width + segment_width <= @width
+                  @accumulated_width += segment_width
+                  @fragment_output += segment
+                else
+                  end_of_the_line_reached(segment)
+                  fragment_finished(fragment)
+                  return false
+                end
               end
-            end
 
-            preview = @arranger.preview_next_string
-            fragment_finished(fragment, preview == "\n" || preview.nil?)
-            true
+              fragment_finished(fragment)
+              true
+            end
           end
 
           # The pattern used to determine chunks of text to place on a given line
@@ -146,31 +155,40 @@ module Prawn
 
             @arranger = options[:arranger]
             @arranger.initialize_line
+
+            @newline_encountered = false
+            @line_full = false
           end
 
-          def fragment_finished(fragment, finished_line)
+          def fragment_finished(fragment)
             if fragment == "\n"
+              @newline_encountered = true
               @line_empty = false
             else
-              update_output_based_on_last_fragment(fragment, finished_line)
+              update_output_based_on_last_fragment(fragment)
               update_line_status_based_on_last_output
             end
           end
 
-          def update_output_based_on_last_fragment(fragment, finished_line)
+          def update_output_based_on_last_fragment(fragment)
             remaining_text = fragment.slice(@fragment_output.length..fragment.length)
-            raise Errors::CannotFit if finished_line && line_empty? &&
+            raise Errors::CannotFit if line_finished? && line_empty? &&
               @fragment_output.empty? && !fragment.strip.empty?
             @arranger.update_last_string(@fragment_output, remaining_text, soft_hyphen)
+          end
+
+          def line_finished?
+            @line_full || paragraph_finished?
           end
 
           def update_line_status_based_on_last_output
             @line_contains_more_than_one_word = true if @fragment_output =~ word_division_scan_pattern
           end
 
-          def end_of_the_line(segment)
+          def end_of_the_line_reached(segment)
             update_line_status_based_on_last_output
             wrap_by_char(segment) unless @line_contains_more_than_one_word
+            @line_full = true
           end
 
           def wrap_by_char(segment)

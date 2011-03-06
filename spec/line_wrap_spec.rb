@@ -261,3 +261,53 @@ describe "Core::Text::Formatted::LineWrap" do
     line.should.be.empty
   end
 end
+
+describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
+  before(:each) do
+    create_pdf
+    @arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+    @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
+    @one_word_width = 50
+  end
+  it "should be false when the last printed line is not the end of the paragraph" do
+    array = [{ :text => "hello world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+
+    @line_wrap.paragraph_finished?.should == false
+  end
+  it "should be true when the last printed line is the last fragment to print" do
+    array = [{ :text => "hello world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+
+    @line_wrap.paragraph_finished?.should == true
+  end
+  it "should be true when a newline exists on the current line" do
+    array = [{ :text => "hello\n world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+
+    @line_wrap.paragraph_finished?.should == true
+  end
+  it "should be true when a newline exists in the next fragment" do
+    array = [{ :text => "hello " },
+             { :text => " \n" },
+             { :text => "world" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => @one_word_width,
+                                  :document => @pdf)
+
+    @line_wrap.paragraph_finished?.should == true
+  end
+end

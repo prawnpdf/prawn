@@ -123,12 +123,21 @@ end
 describe "Text::Box#render with :align => :justify" do
   it "should draw the word spacing to the document" do
     create_pdf
-    string = "hello world " * 10
+    string = "hello world " * 20
     options = { :document => @pdf, :align => :justify }
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.word_spacing[0].should.be > 0
+  end
+  it "should not justify the last line of a paragraph" do
+    create_pdf
+    string = "hello world "
+    options = { :document => @pdf, :align => :justify }
+    text_box = Prawn::Text::Box.new(string, options)
+    text_box.render
+    contents = PDF::Inspector::Text.analyze(@pdf.render)
+    contents.word_spacing.should.be.empty
   end
 end
 
