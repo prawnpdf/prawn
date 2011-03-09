@@ -1,10 +1,11 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # text.rb: Text table cells.
 #
 # Copyright December 2009, Gregory Brown and Brad Ediger. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Table
     class Cell
@@ -28,6 +29,10 @@ module Prawn
         def initialize(pdf, point, options={})
           @text_options = {}
           super
+        end
+
+        def self.can_render_with?(content)
+          content.kind_of? String
         end
 
         # Returns the font that will be used to draw this cell.
@@ -64,10 +69,10 @@ module Prawn
         # Draws the text content into its bounding box.
         #
         def draw_content
-          with_font do 
+          with_font do
             @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
             with_text_color do
-              text_box(:width => content_width + FPTolerance, 
+              text_box(:width => content_width + FPTolerance,
                        :height => content_height + FPTolerance,
                        :at => [0, @pdf.cursor]).render
             end
@@ -103,7 +108,7 @@ module Prawn
         ensure
           @pdf.fill_color(old_color)
         end
-        
+
         def text_box(extra_options={})
           if @text_options[:inline_format]
             options = @text_options.dup
@@ -133,3 +138,5 @@ module Prawn
     end
   end
 end
+
+Prawn::Table::CellFactory.register(Prawn::Table::Cell::Text)

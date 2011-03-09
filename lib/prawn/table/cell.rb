@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # cell.rb: Table cell drawing.
 #
@@ -9,7 +9,7 @@
 module Prawn
   class Document
 
-    # Instantiates and draws a cell on the document. 
+    # Instantiates and draws a cell on the document.
     #
     #   cell(:content => "Hello world!", :at => [12, 34])
     #
@@ -20,9 +20,9 @@ module Prawn
       cell.draw
       cell
     end
-    
-    # Set up, but do not draw, a cell. Useful for creating cells with 
-    # formatting options to be inserted into a Table. Call +draw+ on the 
+
+    # Set up, but do not draw, a cell. Useful for creating cells with
+    # formatting options to be inserted into a Table. Call +draw+ on the
     # resulting Cell to ink it.
     #
     # See the documentation on Prawn::Cell for details on the arguments.
@@ -34,7 +34,7 @@ module Prawn
   end
 
   class Table
-    
+
     # A Cell is a rectangular area of the page into which content is drawn. It
     # has a framework for sizing itself and adding padding and simple styling.
     # There are several standard Cell subclasses that handle things like text,
@@ -54,12 +54,12 @@ module Prawn
       attr_reader :padding
 
       # If provided, the minimum width that this cell will permit.
-      # 
+      #
       def min_width
         set_width_constraints
         @min_width
       end
-      
+
       # If provided, the maximum width that this cell can be drawn in.
       #
       def max_width
@@ -88,7 +88,7 @@ module Prawn
       # "Data" section of the Prawn::Table documentation for details on cellable
       # objects.
       #
-      attr_accessor :content 
+      attr_accessor :content
 
       # The background color, if any, for this cell. Specified in HTML RGB
       # format, e.g., "ccffff". The background is drawn under the whole cell,
@@ -104,7 +104,7 @@ module Prawn
         at = options.delete(:at) || [0, pdf.cursor]
         content = content.to_s if content.nil? || content.kind_of?(Numeric) ||
           content.kind_of?(Date)
-        
+
         if content.is_a?(Hash)
           options.update(content)
           content = options[:content]
@@ -112,20 +112,19 @@ module Prawn
           options[:content] = content
         end
 
-        case content
-        when Prawn::Table::Cell
+        cell_class = Prawn::Table::CellFactory.find_cell_for_content(content)
+        if cell_class
+          cell_class.new(pdf,at,options)
+        elsif content.kind_of? Prawn::Table::Cell
           content
-        when String
-          Cell::Text.new(pdf, at, options)
-        when Prawn::Table
-          Cell::Subtable.new(pdf, at, options)
-        when Array
-          subtable = Prawn::Table.new(options[:content], pdf, {})
-          Cell::Subtable.new(pdf, at, options.merge(:content => subtable))
         else
-          # TODO: other types of content
           raise ArgumentError, "Content type not recognized: #{content.inspect}"
         end
+      end
+
+      # Used by CellFactory to tell if the subclass can render with the content
+      def self.can_render_with?(content)
+        raise 'Define in subclasses'
       end
 
       # A small amount added to the bounding box width to cover over floating-
@@ -200,7 +199,7 @@ module Prawn
       # constraints. Must be implemented in subclasses.
       #
       def natural_content_width
-        raise NotImplementedError, 
+        raise NotImplementedError,
           "subclasses must implement natural_content_width"
       end
 
@@ -218,7 +217,7 @@ module Prawn
         if @height # manually set
           return @height - padding_top - padding_bottom
         end
-        
+
         natural_content_height
       end
 
@@ -226,7 +225,7 @@ module Prawn
       # constraints. Must be implemented in subclasses.
       #
       def natural_content_height
-        raise NotImplementedError, 
+        raise NotImplementedError,
           "subclasses must implement natural_content_height"
       end
 
@@ -238,7 +237,7 @@ module Prawn
 
         draw_background(pt)
         draw_borders(pt)
-        @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
+        @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top],
                           :width  => content_width + FPTolerance,
                           :height => content_height + FPTolerance) do
           draw_content
@@ -297,7 +296,7 @@ module Prawn
       def padding_top
         @padding[0]
       end
-      
+
       def padding_top=(val)
         @padding[0] = val
       end
@@ -305,7 +304,7 @@ module Prawn
       def padding_right
         @padding[1]
       end
-      
+
       def padding_right=(val)
         @padding[1] = val
       end
@@ -313,7 +312,7 @@ module Prawn
       def padding_bottom
         @padding[2]
       end
-      
+
       def padding_bottom=(val)
         @padding[2] = val
       end
@@ -321,7 +320,7 @@ module Prawn
       def padding_left
         @padding[3]
       end
-      
+
       def padding_left=(val)
         @padding[3] = val
       end

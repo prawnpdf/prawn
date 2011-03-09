@@ -1,10 +1,11 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # subtable.rb: Yo dawg.
 #
 # Copyright January 2010, Brad Ediger. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Table
     class Cell
@@ -17,12 +18,23 @@ module Prawn
 
         def initialize(pdf, point, options={})
           super
-          @subtable = options[:content]
+          case options[:content]
+            when Prawn::Table
+              subtable = options[:content]
+            when Array
+              subtable = Prawn::Table.new(options.delete(:content), pdf, options)
+            else
+              raise ArgumentError, 'No idea what to do'
+          end
+          @subtable = subtable
 
           # Subtable padding defaults to zero
           @padding = [0, 0, 0, 0]
         end
 
+        def self.can_render_with?(content)
+          content.kind_of?(Prawn::Table) || content.kind_of?(Array)
+        end
         # Sets the text color of the entire subtable.
         #
         def text_color=(color)
@@ -47,7 +59,7 @@ module Prawn
           @subtable.cells.max_width
         end
 
-        # Proxied to subtable. 
+        # Proxied to subtable.
         #
         def natural_content_height
           @subtable.cells.height
@@ -63,3 +75,5 @@ module Prawn
     end
   end
 end
+
+Prawn::Table::CellFactory.register(Prawn::Table::Cell::Subtable)

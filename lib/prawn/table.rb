@@ -7,15 +7,19 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'prawn/table/cells'
+require 'prawn/table/cell_factory'
+
 require 'prawn/table/cell'
 require 'prawn/table/cell/in_table'
 require 'prawn/table/cell/text'
 require 'prawn/table/cell/subtable'
 
+
+
 module Prawn
 
   class Document
-    
+
     # Set up and draw a table on this document. A block can be given, which will
     # be run after cell setup but before layout and drawing.
     #
@@ -49,7 +53,7 @@ module Prawn
   #   Produces a text cell. This is the most common usage.
   # Prawn::Table::Cell::
   #   If you have already built a Cell or have a custom subclass of Cell you
-  #   want to use in a table, you can pass through Cell objects. 
+  #   want to use in a table, you can pass through Cell objects.
   # Prawn::Table::
   #   Creates a subtable (a table within a cell). You can use
   #   Prawn::Document#make_table to create a table for use as a subtable
@@ -76,7 +80,7 @@ module Prawn
   #   (for styling and other row-specific options) always indexes based on
   #   your data array. Whether or not you have a header, row(n) always refers
   #   to the nth element (starting from 0) of the +data+ array.
-  # +column_widths+:: 
+  # +column_widths+::
   #   Sets widths for individual columns. Manually setting widths can give
   #   better results than letting Prawn guess at them, as Prawn's algorithm
   #   for defaulting widths is currently pretty boneheaded. If you experience
@@ -95,7 +99,7 @@ module Prawn
   #   pdf.table(data) do |table|
   #     table.rows(1..3).width = 72
   #   end
-  # 
+  #
   # As with Prawn::Document#initialize, if the block has no arguments, it will
   # be evaluated in the context of the object itself. The above code could be
   # rewritten as:
@@ -104,7 +108,7 @@ module Prawn
   #     rows(1..3).width = 72
   #   end
   #
-  class Table  
+  class Table
 
     # Set up a table on the given document. Arguments:
     #
@@ -130,7 +134,7 @@ module Prawn
       set_column_widths
       set_row_heights
       position_cells
-    end                                        
+    end
 
     # Number of rows in the table.
     #
@@ -153,9 +157,9 @@ module Prawn
     # Sets column widths for the table. The argument can be one of the following
     # types:
     #
-    # +Array+:: 
+    # +Array+::
     #   <tt>[w0, w1, w2, ...]</tt> (specify a width for each column)
-    # +Hash+:: 
+    # +Hash+::
     #   <tt>{0 => w0, 1 => w1, ...}</tt> (keys are column names, values are
     #   widths)
     # +Numeric+::
@@ -267,14 +271,14 @@ module Prawn
           offset = @pdf.y - cell.y
           started_new_page_at_row = cell.row
         end
- 
+
         # Don't modify cell.x / cell.y here, as we want to reuse the original
         # values when re-inking the table. #draw should be able to be called
         # multiple times.
         x, y = cell.x, cell.y
-        y += offset 
+        y += offset
 
-        # Translate coordinates to the bounds we are in, since drawing is 
+        # Translate coordinates to the bounds we are in, since drawing is
         # relative to the cursor, not ref_bounds.
         x += @pdf.bounds.left_side - @pdf.bounds.absolute_left
         y -= @pdf.bounds.absolute_bottom
@@ -353,7 +357,7 @@ module Prawn
       assert_proper_table_data(data)
 
       cells = []
-      
+
       @row_length = data.length
       @column_length = data.map{ |r| r.length }.max
 
@@ -419,7 +423,7 @@ module Prawn
     # values that will be used to ink the table.
     #
     def set_column_widths
-      column_widths.each_with_index do |w, col_num| 
+      column_widths.each_with_index do |w, col_num|
         column(col_num).width = w
       end
     end
@@ -436,7 +440,7 @@ module Prawn
     #
     def position_cells
       # Calculate x- and y-positions as running sums of widths / heights.
-      x_positions = column_widths.inject([0]) { |ary, x| 
+      x_positions = column_widths.inject([0]) { |ary, x|
         ary << (ary.last + x); ary }[0..-2]
       x_positions.each_with_index { |x, i| column(i).x = x }
 
