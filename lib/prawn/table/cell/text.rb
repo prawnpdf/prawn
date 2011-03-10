@@ -57,7 +57,7 @@ module Prawn
           with_font do
             b = text_box(:width => content_width + FPTolerance)
             b.render(:dry_run => true)
-            b.height
+            b.height + b.line_gap
           end
         end
 

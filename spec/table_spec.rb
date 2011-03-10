@@ -419,7 +419,7 @@ describe "Prawn::Table" do
 
         num_rows = data.length
         table_height.should.be.close(
-          num_rows * (font_height - line_gap) + 2*vpad*num_rows, 0.001 )
+          num_rows * font_height + 2*vpad*num_rows, 0.001 )
       end
 
     end
@@ -428,9 +428,9 @@ describe "Prawn::Table" do
 
   describe "Multi-page tables" do
     it "should flow to the next page when hitting the bottom of the bounds" do
-      Prawn::Document.new { table([["foo"]] * 34) }.page_count.should == 1
-      Prawn::Document.new { table([["foo"]] * 35) }.page_count.should == 2
-      Prawn::Document.new { table([["foo"]] * 35); table([["foo"]] * 35) }.
+      Prawn::Document.new { table([["foo"]] * 30) }.page_count.should == 1
+      Prawn::Document.new { table([["foo"]] * 31) }.page_count.should == 2
+      Prawn::Document.new { table([["foo"]] * 31); table([["foo"]] * 35) }.
         page_count.should == 3
     end
 
@@ -607,7 +607,7 @@ describe "Prawn::Table" do
     end
 
     it "should repeat headers across pages" do
-      data = [["foo","bar"]] * 34
+      data = [["foo","bar"]] * 30
       headers = ["baz","foobar"]
       @pdf = Prawn::Document.new
       @pdf.table([headers] + data, :header => true)
