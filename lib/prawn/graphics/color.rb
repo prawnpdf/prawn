@@ -26,8 +26,9 @@ module Prawn
       #
       def fill_color(*color)
         return current_fill_color if color.empty?
-        self.current_fill_color = process_color(*color)
-        set_fill_color
+        color = process_color(*color)
+        self.current_fill_color = color
+        set_fill_color(color)
       end
 
       alias_method :fill_color=, :fill_color
@@ -48,8 +49,9 @@ module Prawn
       #
       def stroke_color(*color)
         return current_stroke_color if color.empty?
-        self.current_stroke_color = process_color(*color)
-        set_stroke_color
+        color = process_color(*color)
+        self.current_stroke_color = color
+        set_stroke_color(color)
       end
 
       alias_method :stroke_color=, :stroke_color
@@ -126,7 +128,7 @@ module Prawn
 
       def set_color_space(type, color_space)
         # don't set the same color space again
-        return if current_color_space(type) == color_space
+        return if current_color_space(type) == color_space && !state.page.in_stamp_stream?
         set_current_color_space(color_space, type)
 
         unless COLOR_SPACES.include?(color_space)
@@ -158,19 +160,19 @@ module Prawn
         if options[:pattern]
           set_color_space type, :Pattern
           add_content "/#{color} #{operator}"
-        else
+        else          
           set_color_space type, color_space(color)
           color = color_to_s(color)
           write_color(color, operator)
         end
       end
 
-      def set_fill_color
-        set_color :fill, current_fill_color
+      def set_fill_color(color = nil)
+        set_color :fill, color || current_fill_color        
       end
 
-      def set_stroke_color
-        set_color :stroke, current_stroke_color
+      def set_stroke_color(color = nil)
+        set_color :stroke, color || current_stroke_color
       end
 
       def update_colors
@@ -184,8 +186,8 @@ module Prawn
         graphic_state.color_space[type]
       end
 
-      def set_current_color_space(color_space, type)
-        return if state.page.in_stamp_stream?
+      def set_current_color_space(color_space, type)                
+        return if state.page.in_stamp_stream?        
         save_graphics_state if graphic_state.nil?
         graphic_state.color_space[type] = color_space
       end
@@ -194,7 +196,7 @@ module Prawn
         graphic_state.fill_color
       end
 
-      def current_fill_color=(color)
+      def current_fill_color=(color)        
         return if state.page.in_stamp_stream?
         graphic_state.fill_color = color
       end
