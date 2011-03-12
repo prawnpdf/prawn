@@ -129,7 +129,7 @@ describe "Outline" do
         @pdf.start_new_page
         @pdf.text "Page 3. An added subsection "
         @pdf.outline.update do
-          add_subsection_to 'Chapter 1' do
+          add_subsection_to :title => 'Chapter 1' do
             section 'Added SubSection', :destination => 3 do
               page :destination => 3, :title => 'Added Page 3'
             end
@@ -176,7 +176,7 @@ describe "Outline" do
         @pdf.start_new_page
         @pdf.text "Page 3. An added subsection "
         @pdf.outline.update do
-          add_subsection_to 'Chapter 1', :first do
+          add_subsection_to :title => 'Chapter 1', :position => :first do
             section 'Added SubSection', :destination => 3 do
               page :destination => 3, :title => 'Added Page 3'
             end
@@ -222,7 +222,7 @@ describe "Outline" do
         @pdf.start_new_page
         @pdf.text "Inserted Page"
         @pdf.outline.update do
-          add_subsection_to 'Wrong page' do
+          add_subsection_to :title => 'Wrong page' do
             page page_number, :title => "Inserted Page"
           end
         end
@@ -238,7 +238,7 @@ describe "Outline" do
         @pdf.start_new_page
         @pdf.text "Inserted Page"
         @pdf.outline.update do
-          insert_section_after 'Page 1' do
+          insert_section_after :title => 'Page 1' do
             page :destination => page_number, :title => "Inserted Page"
           end
         end
@@ -303,7 +303,7 @@ describe "Outline" do
          @pdf.start_new_page
          @pdf.text "Inserted Page"
          @pdf.outline.update do
-           insert_section_after 'Page 2' do
+           insert_section_after :title => 'Page 2' do
              page :destination => page_number, :title => "Inserted Page"
            end 
          end
@@ -334,7 +334,7 @@ describe "Outline" do
         @pdf.start_new_page
         @pdf.text "Inserted Page"
         @pdf.outline.update do
-          insert_section_after 'Wrong page' do
+          insert_section_after :title => 'Wrong page' do
             page :destination => page_number, :title => "Inserted Page"
           end
         end
