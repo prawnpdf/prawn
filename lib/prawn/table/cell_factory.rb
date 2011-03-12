@@ -18,7 +18,7 @@ module Prawn
       end
 
       def find_cell_for_content(content)
-        @cells.detect {|cell| cell.can_render_with?(content) }
+        @cells.reverse.detect {|cell| cell.can_render_with?(content) }
       end
     end
   end

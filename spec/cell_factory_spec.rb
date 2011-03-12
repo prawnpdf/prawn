@@ -6,7 +6,21 @@ class Foo < Prawn::Table::Cell
   end
 end
 
+class Bar < Prawn::Table::Cell
+  def self.can_render_with?(content)
+    content.kind_of? String
+  end
+end
+
 describe 'Prawn::Table::CellFactory' do
+  before(:each) do
+    @currently_registered = Prawn::Table::CellFactory.instance_variable_get("@cells").dup
+  end
+
+  after(:each) do
+    Prawn::Table::CellFactory.instance_variable_set("@cells", @currently_registered.dup)
+  end
+  
   describe '#register' do
     it "should raise an exception if not a Prawn::Table::Cell" do
       lambda {
@@ -22,23 +36,20 @@ describe 'Prawn::Table::CellFactory' do
   end
 
   describe '#find_cell_for_content' do
-    setup do
-      @currently_registered = Prawn::Table::CellFactory.instance_variable_get("@cells").dup
-      Prawn::Table::CellFactory.clear
-      Prawn::Table::CellFactory.register(Foo)
+    before(:each) do
+      Prawn::Table::CellFactory.instance_variable_set('@cells', [Bar, Foo])
     end
-
-    teardown do
-      Prawn::Table::CellFactory.clear
-      Prawn::Table::CellFactory.instance_variable_set("@cells", @currently_registered.dup)
-    end
-
+ 
     it 'should find the cell for String' do
-      Prawn::Table::CellFactory.find_cell_for_content("Blah").should.equal(Foo)
+      Prawn::Table::CellFactory.find_cell_for_content("Blah").should.not.be.nil
     end
-
+ 
     it 'should not find the cell for Fixnum' do
-      Prawn::Table::CellFactory.find_cell_for_content(1).should.not.equal(Foo)
+      Prawn::Table::CellFactory.find_cell_for_content(1).should.be.nil
+    end
+ 
+    it 'should search in reverse order' do
+      Prawn::Table::CellFactory.find_cell_for_content("Blah").should.equal(Foo)
     end
   end
 end
