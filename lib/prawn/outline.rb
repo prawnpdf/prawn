@@ -89,10 +89,11 @@ module Prawn
     # Currently the only way to locate the place of entry is with the title for the 
     # item. If your title names are not unique consider using define_outline.
     # The method takes the following arguments:
-    #   title: a string that must match an outline title to add the subsection to
-    #   position: either :first or :last(the default) where the subsection will be placed relative 
-    #      to other child elements. If you need to position your subsection in between 
-    #      other elements then consider using #insert_section_after   
+    #   options:
+    #       - title: REQUIRED. A string that must match an outline title to add the subsection to
+    #       - position: either :first or :last(the default) where the subsection will be placed relative 
+    #         to other child elements. If you need to position your subsection in between 
+    #         other elements then consider using #insert_section_after   
     #   block: uses the same DSL syntax as outline#define, for example: 
     #
     # Consider using this method inside of outline.update if you want to have the outline object
@@ -101,14 +102,15 @@ module Prawn
     #   go_to_page 2
     #   start_new_page
     #   text "Inserted Page"
-    #   outline.add_subsection_to :title => 'Page 2', :first do 
+    #   outline.add_subsection_to :title => 'Page 2', :position => :first do 
     #     outline.page :destination => page_number, :title => "Inserted Page"
     #   end
     # 
-    def add_subsection_to(title, position = :last, &block)
-      @parent = items[title]
+    def add_subsection_to(options={}, &block)
+      @parent = items[check_for_title(options)]
       raise Prawn::Errors::UnknownOutlineTitle, 
-        "\n No outline item with title: '#{title}' exists in the outline tree" unless @parent
+        "\n No outline item with title: '#{options[:title]}' exists in the outline tree" unless @parent
+      position = options[:position]
       @prev = position == :first ? nil : @parent.data.last
       nxt = position == :first ? @parent.data.first : nil
       insert_section(nxt, &block)  
@@ -123,8 +125,9 @@ module Prawn
     # Currently the only way to locate the place of entry is with the title for the 
     # item. If your title names are not unique consider using define_outline.
     # The method takes the following arguments:
-    #   title: the title of other section or page to insert new section after
-    #   block: uses the same DSL syntax as outline#define, for example: 
+    #   options:
+    #       - title: REQUIRED. The title of other section or page to insert new section after
+    #       - block: uses the same DSL syntax as outline#define, for example: 
     # 
     #   go_to_page 2
     #   start_new_page
@@ -135,10 +138,10 @@ module Prawn
     #     end
     #   end
     #
-    def insert_section_after(title, &block)
-      @prev = items[title]
+    def insert_section_after(options={}, &block)
+      @prev = items[check_for_title(options)]
       raise Prawn::Errors::UnknownOutlineTitle, 
-        "\n No outline item with title: '#{title}' exists in the outline tree" unless @prev
+        "\n No outline item with title: '#{options[:title]}' exists in the outline tree" unless @prev
       @parent = @prev.data.parent
       nxt = @prev.data.next
       insert_section(nxt, &block)   
@@ -194,12 +197,7 @@ module Prawn
     # Note: this method is almost identical to section except that it does not accept a block 
     # thereby defining the outline item as a leaf on the outline tree structure. 
     def page(options = {})
-      if options[:title]
-        title = options[:title] 
-      else
-        raise Prawn::Errors::RequiredOption, 
-          "\nTitle is a required option for page"
-      end
+      title = check_for_title(options)
       add_outline_item(title, options)
     end
       
@@ -283,6 +281,15 @@ module Prawn
     def reset_root_positioning
       @parent = root
       @prev = root.data.last
+    end
+    
+    def check_for_title(options = {})
+      if options[:title]
+        options[:title] 
+      else
+        raise Prawn::Errors::RequiredOption, 
+          "\nTitle is a required option for #{caller[0][/`.*'/][1..-2]}"
+      end
     end
     
   end
