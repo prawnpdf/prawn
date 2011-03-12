@@ -509,27 +509,78 @@ module Prawn
 
     # Specify a template for page numbering.  This should be called
     # towards the end of document creation, after all your content is already in
-    # place.  In your template string, <page> refers to the current page, and
+    # place.  This method uses a formatted textbox and therefore similar parameters are
+    # used.  In your text, <page> refers to the current page, and
     # <total> refers to the total amount of pages in the doucment.
+    # Two additional options (in addition to those provided by formatted textbox) are
+    # :page_filter and :start_at.
     #
-    # Example:
+    # <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.  
+    # Refer to the method page_match?
+    # <tt>:start_at</tt>:: The starting count to increment pages from.
+    # Example: Print page numbers on every page except for the first.  Start counting from
+    #          five.
     #
-    #   Prawn::Document.generate("page_with_numbering.pdf") do
-    #     text "Hai"
-    #     start_new_page
-    #     text "bai"
-    #     start_new_page
-    #     text "-- Hai again"
-    #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]
-    #   end
-    #
-    def number_pages(string, position)
-      page_count.times do |i|
-        go_to_page(i+1)
-        str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
-        draw_text str, :at => position
+    #  pdf.number_pages [:text => "Page <page> of <total>",
+    #                    :font => "Eras",
+    #                    :size => 14,
+    #                    :color => "333333",
+    #                    :styles => [:bold]],
+    #                    {:width => 100,
+    #                     :height => 50,
+    #                     :overflow => :truncate,
+    #                     :at => [bounds.right - 50, bounds.bottom-35],
+    #                     :page_filter => lambda{ |pg| pg != 1 },
+    #                     :start_at => 5}
+    def number_pages(strarray, options={})
+      start_count = false
+      pseudopage = 0
+      (1..page_count).each do |p|
+        unless start_count
+          pseudopage = options[:start_at].nil? ? p : options[:start_at].to_i
+        end        
+        if page_match?(options[:page_filter], p)
+          print_page_number(strarray, options, p, pseudopage)
+          start_count = true  # increment page count as soon as first match found
+        end 
+        pseudopage += 1 if start_count
       end
     end
+    def print_page_number(strarray, options, i, pseudopage)
+      go_to_page(i)
+      newarray = []
+      strarray.each_with_index do |strhash, j|
+        newarray[j] = strhash.merge(:text => strhash[:text].to_s
+                                             .gsub("<page>","#{pseudopage}")
+                                             .gsub("<total>","#{page_count}"))
+      end
+      formatted_text_box newarray, options
+    end  
+    
+    # Provides a way to execute a block of code repeatedly based on a
+    # page_filter.  
+    #
+    # Available page filters are:
+    #   :all        -- repeats on every page
+    #   :odd        -- repeats on odd pages
+    #   :even       -- repeats on even pages
+    #   some_array  -- repeats on every page listed in the array
+    #   some_range  -- repeats on every page included in the range
+    #   some_lambda -- yields page number and repeats for true return values 
+    def page_match?(page_filter, page_number)
+      case page_filter
+      when :all
+        true
+      when :odd
+        page_number % 2 == 1
+      when :even
+        page_number % 2 == 0
+      when Range, Array
+        page_filter.include?(page_number)
+      when Proc
+        page_filter.call(page_number)
+      end
+    end  
 
     # Returns true if content streams will be compressed before rendering,
     # false otherwise
