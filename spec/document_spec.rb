@@ -511,3 +511,126 @@ describe "content stream characteristics" do
     streams.size.should == 1
   end
 end
+
+describe "The number_pages method" do
+  before do
+    @pdf = Prawn::Document.new(:skip_page_creation => true)
+  end
+ 
+  it "must print the page if the page number matches" do
+    10.times { @pdf.start_new_page }
+    @pdf.expects(:print_page_number).at_least_once
+    @pdf.number_pages [], {:page_filter => :all}
+  end
+
+  it "must not print the page number without a filter" do
+    10.times { @pdf.start_new_page }
+    @pdf.expects(:print_page_number).never
+    @pdf.number_pages [], {:page_filter => nil}
+  end
+  
+  context "start_at parameter" do
+    [0, 2].each do |startat|
+      context "equal to #{startat}" do
+        it "increments the pages" do
+          2.times { @pdf.start_new_page }
+          options = {:page_filter => :all, :start_at => startat}
+          @pdf.expects(:print_page_number).with([], options, 1, startat)
+          @pdf.expects(:print_page_number).with([], options, 2, startat+1)
+          @pdf.number_pages [], options
+        end  
+      end
+    end
+    context "missing" do
+      it "defaults to start at page 1" do
+        3.times { @pdf.start_new_page }
+        options = {:page_filter => :all}
+        @pdf.expects(:print_page_number).with([], options, 1, 1)
+        @pdf.expects(:print_page_number).with([], options, 2, 2)
+        @pdf.expects(:print_page_number).with([], options, 3, 3)
+        @pdf.number_pages [], options
+      end
+    end
+  end
+  context "special page filter" do
+    context "such as :odd" do
+      it "increments the pages" do
+        3.times { @pdf.start_new_page }
+        options = {:page_filter => :odd}
+        @pdf.expects(:print_page_number).with([], options, 1, 1)
+        @pdf.expects(:print_page_number).with([], options, 3, 3)
+        @pdf.expects(:print_page_number).with([], options, 2, 2).never
+        @pdf.number_pages [], options
+      end
+    end
+    context "missing" do
+      it "does not print any page numbers" do
+        3.times { @pdf.start_new_page }
+        options = {:page_filter => nil}
+        @pdf.expects(:print_page_number).never
+        @pdf.number_pages [], options
+      end
+    end
+  end 
+  context "given both a special page filter and a start_at parameter" do
+    context "such as :odd and 7" do
+      it "increments the pages" do
+        3.times { @pdf.start_new_page }
+        options = {:page_filter => :odd, :start_at => 7}
+        @pdf.expects(:print_page_number).with([], options, 1, 7)
+        @pdf.expects(:print_page_number).with([], options, 3, 9)
+        @pdf.expects(:print_page_number).with([], options, 2, 8).never
+        @pdf.number_pages [], options
+      end
+    end
+    context "some crazy proc and 2" do
+      it "increments the pages" do
+        6.times { @pdf.start_new_page }
+        options = {:page_filter => lambda {|p| p != 2 && p != 5}, :start_at => 4}
+        @pdf.expects(:print_page_number).with([], options, 1, 4)
+        @pdf.expects(:print_page_number).with([], options, 3, 6)
+        @pdf.expects(:print_page_number).with([], options, 4, 7)
+        @pdf.expects(:print_page_number).with([], options, 6, 9)
+        @pdf.number_pages [], options
+      end
+    end
+  end
+  
+end
+
+describe "The page_match? method" do
+  before do
+    @pdf = Prawn::Document.new(:skip_page_creation => true)
+    10.times {@pdf.start_new_page}
+  end
+  
+  it "returns nil given no filter" do
+    assert ! @pdf.page_match?(:nil, 1)
+  end
+  
+  it "must provide an :all filter" do
+    assert (1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }
+  end
+
+  it "must provide an :odd filter" do
+    odd, even = (1..@pdf.page_count).partition { |e| e % 2 == 1 }
+    assert odd.all? { |i| @pdf.page_match?(:odd, i) }
+    assert ! even.any? { |i| @pdf.page_match?(:odd, i) }
+  end
+
+  it "must be able to filter by an array of page numbers" do
+    fltr = [1,2,7]
+    assert_equal [1,2,7], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+  end
+
+  it "must be able to filter by a range of page numbers" do
+    fltr = 2..4
+    assert_equal [2,3,4], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+  end
+
+  it "must be able to filter by an arbitrary proc" do
+    fltr = lambda { |x| x == 1 or x % 3 == 0 }
+    assert_equal [1,3,6,9], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+  end    
+  
+end
