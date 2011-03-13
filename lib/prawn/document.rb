@@ -546,17 +546,7 @@ module Prawn
         pseudopage += 1 if start_count
       end
     end
-    def print_page_number(strarray, options, i, pseudopage)
-      go_to_page(i)
-      newarray = []
-      strarray.each_with_index do |strhash, j|
-        newarray[j] = strhash.merge(:text => strhash[:text].to_s
-                                             .gsub("<page>","#{pseudopage}")
-                                             .gsub("<total>","#{page_count}"))
-      end
-      formatted_text_box newarray, options
-    end  
-    
+        
     # Provides a way to execute a block of code repeatedly based on a
     # page_filter.  
     #
@@ -590,6 +580,18 @@ module Prawn
     end
 
     private
+    
+    # refer to number_pages
+    def print_page_number(strarray, options, i, pseudopage)
+      go_to_page(i)
+      newarray = []
+      strarray.each_with_index do |strhash, j|
+        newarray[j] = strhash.merge(:text => strhash[:text].to_s
+                                             .gsub("<page>","#{pseudopage}")
+                                             .gsub("<total>","#{page_count}"))
+      end
+      formatted_text_box newarray, options
+    end  
 
     def merge_template_options(page_options, options)
       object_id = state.store.import_page(options[:template], options[:template_page] || 1)
