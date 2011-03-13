@@ -12,5 +12,14 @@ Prawn::Document.generate("page_with_numbering.pdf") do
   text "bai"
   start_new_page
   text "-- Hai again"
-  number_pages "<page> in a total of <total>", [bounds.right - 50, 0]  
+  pdf.number_pages [:text => "Page <page> of <total>",
+                    :size => 14,
+                    :color => "333333",
+                    :styles => [:bold]],
+                    {:width => 100,
+                     :height => 50,
+                     :overflow => :truncate,
+                     :at => [bounds.right - 50, bounds.bottom-50],
+                     :page_filter => lambda{ |pg| pg != 1 },
+                     :start_at => 5}
 end
