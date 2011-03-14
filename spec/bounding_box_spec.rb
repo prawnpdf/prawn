@@ -82,9 +82,9 @@ describe "A bounding box" do
   end
 
   it "should require width to be set" do
-    assert_raises(ArgumentError) do
+    lambda do
       Prawn::Document::BoundingBox.new(nil, nil, [100,100])
-    end
+    end.should raise_error(ArgumentError)
   end
 
 end
@@ -137,7 +137,7 @@ describe "drawing bounding boxes" do
       @pdf.move_up 15
     end
 
-    assert_equal 100, box.height
+    box.height.should == 100
   end
   
 end
