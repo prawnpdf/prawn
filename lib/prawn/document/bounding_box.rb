@@ -8,34 +8,34 @@
 
 module Prawn
   class Document
-    
-    # :call-seq: 
-    #   bounding_box(point, options={}, &block) 
+
+    # :call-seq:
+    #   bounding_box(point, options={}, &block)
     #
     # A bounding box serves two important purposes:
     # * Provide bounds for flowing text, starting at a given point
     # * Translate the origin (0,0) for graphics primitives
     #
-    # A point and :width must be provided. :height is optional. 
+    # A point and :width must be provided. :height is optional.
     # (See stretchyness below)
-    # 
+    #
     # ==Positioning
-    # 
+    #
     # Bounding boxes are positioned relative to their top left corner and
     # the width measurement is towards the right and height measurement is
     # downwards.
-    # 
+    #
     # Usage:
-    # 
-    # * Bounding box 100pt x 100pt in the absolute bottom left of the 
+    #
+    # * Bounding box 100pt x 100pt in the absolute bottom left of the
     #   containing box:
-    # 
+    #
     #   pdf.bounding_box([0,100], :width => 100, :height => 100)
     #     stroke_bounds
     #   end
-    # 
+    #
     # * Bounding box 200pt x 400pt high in the center of the page:
-    # 
+    #
     #   x_pos = ((bounds.width / 2) - 150)
     #   y_pos = ((bounds.height / 2) + 200)
     #   pdf.bounding_box([x_pos, y_pos], :width => 300, :height => 400) do
@@ -64,7 +64,7 @@ module Prawn
     # will want to look at span() and text_box() instead
     #
     # ==Translating Coordinates
-    # 
+    #
     # When translating coordinates, the idea is to allow the user to draw
     # relative to the origin, and then translate their drawing to a specified
     # area of the document, rather than adjust all their drawing coordinates
@@ -104,30 +104,30 @@ module Prawn
     # move this drawing around the document, we simply need to recalculate the
     # top-left corner of the rectangular bounding-box, and all of our graphics
     # calls remain unmodified.
-    # 
+    #
     # ==Nesting Bounding Boxes
-    # 
-    # At the top level, bounding boxes are specified relative to the document's 
+    #
+    # At the top level, bounding boxes are specified relative to the document's
     # margin_box (which is itself a bounding box).  You can also nest bounding
     # boxes, allowing you to build components which are relative to each other
     #
     # Usage:
-    # 
+    #
     #  pdf.bounding_box([200,450], :width => 200, :height => 250) do
-    #    pdf.stroke_bounds   # Show the containing bounding box 
+    #    pdf.stroke_bounds   # Show the containing bounding box
     #    pdf.bounding_box([50,200], :width => 50, :height => 50) do
-    #      # a 50x50 bounding box that starts 50 pixels left and 50 pixels down 
+    #      # a 50x50 bounding box that starts 50 pixels left and 50 pixels down
     #      # the parent bounding box.
     #      pdf.stroke_bounds
     #    end
     #  end
-    # 
+    #
     # ==Stretchyness
-    # 
+    #
     # If you do not specify a height to a bounding box, it will become stretchy
     # and its height will be calculated automatically as you stretch the box
     # downwards.
-    # 
+    #
     #  pdf.bounding_box([100,400], :width => 400) do
     #    pdf.text("The height of this box is #{pdf.bounds.height}")
     #    pdf.text('this is some text')
@@ -135,9 +135,9 @@ module Prawn
     #    pdf.text('and finally a bit more')
     #    pdf.text("Now the height of this box is #{pdf.bounds.height}")
     #  end
-    # 
+    #
     # ==Absolute Positioning
-    # 
+    #
     # If you wish to position the bounding boxes at absolute coordinates rather
     # than relative to the margins or other bounding boxes, you can use canvas()
     #
@@ -154,13 +154,13 @@ module Prawn
     # Of course, if you use canvas, you will be responsible for ensuring that
     # you remain within the printable area of your document.
     #
-    def bounding_box(*args, &block)    
+    def bounding_box(*args, &block)
       init_bounding_box(block) do |parent_box|
-        map_to_absolute!(args[0])     
+        map_to_absolute!(args[0])
         @bounding_box = BoundingBox.new(self, parent_box, *args)
       end
-    end 
-        
+    end
+
     # A shortcut to produce a bounding box which is mapped to the document's
     # absolute coordinates, regardless of how things are nested or margin sizes.
     #
@@ -168,7 +168,7 @@ module Prawn
     #     pdf.line pdf.bounds.bottom_left, pdf.bounds.top_right
     #   end
     #
-    def canvas(&block)     
+    def canvas(&block)
       init_bounding_box(block, :hold_position => true) do |_|
         # Canvas bbox acts like margin_box in that its parent bounds are unset.
         @bounding_box = BoundingBox.new(self, nil, [0,page.dimensions[3]],
@@ -176,23 +176,23 @@ module Prawn
           :height => page.dimensions[3]
         )
       end
-    end  
-        
+    end
+
     private
-    
+
     def init_bounding_box(user_block, options={}, &init_block)
-      parent_box = @bounding_box       
+      parent_box = @bounding_box
 
-      init_block.call(parent_box)     
+      init_block.call(parent_box)
 
-      self.y = @bounding_box.absolute_top       
-      user_block.call   
+      self.y = @bounding_box.absolute_top
+      user_block.call
       self.y = @bounding_box.absolute_bottom unless options[:hold_position]
 
       created_box, @bounding_box = @bounding_box, parent_box
 
       return created_box
-    end   
+    end
 
     # Low level layout helper that simplifies coordinate math.
     #
@@ -200,7 +200,7 @@ module Prawn
     # is used for.
     #
     class BoundingBox
-      
+
       def initialize(document, parent, point, options={}) #:nodoc:
         unless options[:width]
           raise ArgumentError, "BoundingBox needs the :width option to be set"
@@ -216,25 +216,29 @@ module Prawn
       end
 
       attr_reader :document, :parent
-      
+      # The current indentation of the left side of the bounding box.
+      attr_reader :total_left_padding
+      # The current indentation of the right side of the bounding box.
+      attr_reader :total_right_padding
+
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box
       #
       def anchor
         [@x, @y - height]
       end
-      
+
       # Relative left x-coordinate of the bounding box. (Always 0)
-      # 
+      #
       # Example, position some text 3 pts from the left of the containing box:
-      # 
+      #
       #  draw_text('hello', :at => [(bounds.left + 3), 0])
       #
       def left
         0
       end
-      
-      
+
+
       # Temporarily adjust the @x coordinate to allow for left_padding
       #
       # Example:
@@ -258,67 +262,57 @@ module Prawn
         self.subtract_left_padding(left_padding)
         self.subtract_right_padding(right_padding)
       end
-      
-      # The current indentation of the left side of the bounding box.
-      def total_left_padding
-        @total_left_padding
-      end
-      
-      # The current indentation of the right side of the bounding box.
-      def total_right_padding
-        @total_right_padding
-      end
-      
+
       # Increase the left padding of the bounding box.
       def add_left_padding(left_padding)
         @total_left_padding += left_padding
         @x += left_padding
         @width -= left_padding
       end
-      
+
       # Decrease the left padding of the bounding box.
       def subtract_left_padding(left_padding)
         @total_left_padding -= left_padding
         @x -= left_padding
         @width += left_padding
       end
-      
+
       # Increase the right padding of the bounding box.
       def add_right_padding(right_padding)
         @total_right_padding += right_padding
         @width -= right_padding
       end
-      
+
       # Decrease the right padding of the bounding box.
       def subtract_right_padding(right_padding)
         @total_right_padding -= right_padding
         @width += right_padding
       end
-      
+
       # Relative right x-coordinate of the bounding box. (Equal to the box width)
-      # 
+      #
       # Example, position some text 3 pts from the right of the containing box:
-      # 
+      #
       #  draw_text('hello', :at => [(bounds.right - 3), 0])
       #
       def right
         @width
       end
-      
+
       # Relative top y-coordinate of the bounding box. (Equal to the box height)
       #
       # Example, position some text 3 pts from the top of the containing box:
-      # 
+      #
       #  draw_text('hello', :at => [0, (bounds.top - 3)])
       #
       def top
         height
       end
-      
+
       # Relative bottom y-coordinate of the bounding box (Always 0)
       #
       # Example, position some text 3 pts from the bottom of the containing box:
-      # 
+      #
       #  draw_text('hello', :at => [0, (bounds.bottom + 3)])
       #
       def bottom
@@ -327,9 +321,9 @@ module Prawn
 
       # Relative top-left point of the bounding_box
       #
-      # Example, draw a line from the top left of the box diagonally to the 
+      # Example, draw a line from the top left of the box diagonally to the
       # bottom right:
-      # 
+      #
       #  stroke do
       #    line(bounds.top_left, bounds.bottom_right)
       #  end
@@ -340,9 +334,9 @@ module Prawn
 
       # Relative top-right point of the bounding box
       #
-      # Example, draw a line from the top_right of the box diagonally to the 
+      # Example, draw a line from the top_right of the box diagonally to the
       # bottom left:
-      # 
+      #
       #  stroke do
       #    line(bounds.top_right, bounds.bottom_left)
       #  end
@@ -354,7 +348,7 @@ module Prawn
       # Relative bottom-right point of the bounding box
       #
       # Example, draw a line along the right hand side of the page:
-      # 
+      #
       #  stroke do
       #    line(bounds.bottom_right, bounds.top_right)
       #  end
@@ -366,7 +360,7 @@ module Prawn
       # Relative bottom-left point of the bounding box
       #
       # Example, draw a line along the left hand side of the page:
-      # 
+      #
       #  stroke do
       #    line(bounds.bottom_left, bounds.top_left)
       #  end
@@ -374,25 +368,25 @@ module Prawn
       def bottom_left
         [left,bottom]
       end
-      
+
       # Absolute left x-coordinate of the bounding box
       #
       def absolute_left
         @x
       end
-      
+
       # Absolute right x-coordinate of the bounding box
       #
       def absolute_right
         @x + width
       end
-      
+
       # Absolute top y-coordinate of the bounding box
       #
       def absolute_top
         @y
       end
-      
+
       # Absolute bottom y-coordinate of the bottom box
       #
       def absolute_bottom
@@ -422,22 +416,22 @@ module Prawn
       def absolute_bottom_right
         [absolute_right, absolute_bottom]
       end
-      
+
       # Width of the bounding box
       #
       def width
         @width
       end
-      
+
       # Height of the bounding box.  If the box is 'stretchy' (unspecified
       # height attribute), height is calculated as the distance from the top of
       # the box to the current drawing position.
       #
-      def height  
+      def height
         return @height if @height
         @stretched_height = [(absolute_top - @document.y),
                              @stretched_height.to_f].max
-      end    
+      end
 
       # an alias for absolute_left
       def left_side
@@ -456,15 +450,15 @@ module Prawn
 
 
       alias_method :update_height, :height
-       
+
       # Returns +false+ when the box has a defined height, +true+ when the height
       # is being calculated on the fly based on the current vertical position.
       #
       def stretchy?
-        !@height 
+        !@height
       end
 
-    end    
-    
+    end
+
   end
 end
