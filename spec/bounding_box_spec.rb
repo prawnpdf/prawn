@@ -14,21 +14,21 @@ describe "A bounding box" do
   end
 
   it "should have an anchor at (x, y - height)" do
-    @box.anchor.should == [@x,@y-@height]           
+    @box.anchor.should == [@x,@y-@height]
   end
 
   it "should have a left boundary of 0" do
     @box.left.should == 0
   end
-  
+
   it "should have a right boundary equal to the width" do
     @box.right.should == @width
   end
-  
+
   it "should have a top boundary of height" do
     @box.top.should == @height
   end
-  
+
   it "should have a bottom boundary of 0" do
     @box.bottom.should == 0
   end
@@ -52,15 +52,15 @@ describe "A bounding box" do
   it "should have an absolute left boundary of x" do
     @box.absolute_left.should == @x
   end
-  
+
   it "should have an absolute right boundary of x + width" do
     @box.absolute_right.should == @x + @width
   end
-  
+
   it "should have an absolute top boundary of y" do
     @box.absolute_top.should == @y
   end
-  
+
   it "should have an absolute bottom boundary of y - height" do
     @box.absolute_bottom.should == @y - @height
   end
@@ -82,16 +82,16 @@ describe "A bounding box" do
   end
 
   it "should require width to be set" do
-    assert_raises(ArgumentError) do
+    lambda do
       Prawn::Document::BoundingBox.new(nil, nil, [100,100])
-    end
+    end.should.raise(ArgumentError)
   end
 
 end
 
-describe "drawing bounding boxes" do    
-  
-  before(:each) { create_pdf }   
+describe "drawing bounding boxes" do
+
+  before(:each) { create_pdf }
 
   it "should restore the margin box when bounding box exits" do
     margin_box = @pdf.bounds
@@ -105,7 +105,7 @@ describe "drawing bounding boxes" do
   end
 
   it "should restore the parent bounding box when calls are nested" do
-    @pdf.bounding_box [100,500], :width => 300, :height => 300 do 
+    @pdf.bounding_box [100,500], :width => 300, :height => 300 do
 
       @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
       @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
@@ -121,14 +121,14 @@ describe "drawing bounding boxes" do
       @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
 
     end
-  end   
-  
-  it "should calculate a height if none is specified" do 
+  end
+
+  it "should calculate a height if none is specified" do
     @pdf.bounding_box([100, 500], :width => 100) do
-      @pdf.text "The rain in Spain falls mainly on the plains." 
-    end     
-    
-    @pdf.y.should.be.close 458.384, 0.001 
+      @pdf.text "The rain in Spain falls mainly on the plains."
+    end
+
+    @pdf.y.should.be.close 458.384, 0.001
   end
 
   it "should keep track of the max height the box was stretched to" do
@@ -137,9 +137,9 @@ describe "drawing bounding boxes" do
       @pdf.move_up 15
     end
 
-    assert_equal 100, box.height
+    box.height.should == 100
   end
-  
+
 end
 
 describe "Indentation" do
@@ -175,6 +175,28 @@ describe "Indentation" do
     end
   end
 
+  it "should maintain left indentation across a page break" do
+    original_left = @pdf.bounds.absolute_left
+
+    @pdf.indent(20) do
+      @pdf.bounds.absolute_left.should == original_left + 20
+      @pdf.start_new_page
+      @pdf.bounds.absolute_left.should == original_left + 20
+    end
+
+  end
+
+  it "should maintain right indentation across a page break" do
+    original_width = @pdf.bounds.width
+
+    @pdf.indent(0, 20) do
+      @pdf.bounds.width.should == original_width - 20
+      @pdf.start_new_page
+      @pdf.bounds.width.should == original_width - 20
+    end
+
+  end
+
   it "optionally allows adjustment of the right bound as well" do
     @pdf.bounding_box([100,100], :width => 200) do
       @pdf.indent(20, 30) do
@@ -189,12 +211,11 @@ end
 
 describe "A canvas" do
   before(:each) { create_pdf }
-  
+
   it "should use whatever the last set y position is" do
     @pdf.canvas do
       @pdf.bounding_box([100,500],:width => 200) { @pdf.move_down 50 }
     end
     @pdf.y.should == 450
   end
-end      
-  
+end
