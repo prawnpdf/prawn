@@ -210,7 +210,9 @@ module Prawn
         @parent = parent
         @x, @y = point
         @width, @height = options[:width], options[:height]
-	      @stretched_height = nil
+        @total_left_padding = 0
+        @total_right_padding = 0
+        @stretched_height = nil
       end
 
       attr_reader :document, :parent
@@ -249,12 +251,48 @@ module Prawn
       #  end
       #
       def indent(left_padding, right_padding = 0, &block)
-        @x += left_padding
-        @width -= (left_padding + right_padding)
+        self.add_left_padding(left_padding)
+        self.add_right_padding(right_padding)
         yield
       ensure
+        self.subtract_left_padding(left_padding)
+        self.subtract_right_padding(right_padding)
+      end
+      
+      # The current indentation of the left side of the bounding box.
+      def total_left_padding
+        @total_left_padding
+      end
+      
+      # The current indentation of the right side of the bounding box.
+      def total_right_padding
+        @total_right_padding
+      end
+      
+      # Increase the left padding of the bounding box.
+      def add_left_padding(left_padding)
+        @total_left_padding += left_padding
+        @x += left_padding
+        @width -= left_padding
+      end
+      
+      # Decrease the left padding of the bounding box.
+      def subtract_left_padding(left_padding)
+        @total_left_padding -= left_padding
         @x -= left_padding
-        @width += (left_padding + right_padding)
+        @width += left_padding
+      end
+      
+      # Increase the right padding of the bounding box.
+      def add_right_padding(right_padding)
+        @total_right_padding += right_padding
+        @width -= right_padding
+      end
+      
+      # Decrease the right padding of the bounding box.
+      def subtract_right_padding(right_padding)
+        @total_right_padding -= right_padding
+        @width += right_padding
       end
       
       # Relative right x-coordinate of the bounding box. (Equal to the box width)

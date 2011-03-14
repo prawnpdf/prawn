@@ -174,6 +174,28 @@ describe "Indentation" do
       end
     end
   end
+  
+  it "should maintain left indentation across a page break" do
+    original_left = @pdf.bounds.absolute_left
+    
+    @pdf.indent(20) do
+      @pdf.bounds.absolute_left.should == original_left + 20
+      @pdf.start_new_page
+      @pdf.bounds.absolute_left.should == original_left + 20
+    end
+    
+  end
+  
+  it "should maintain right indentation across a page break" do
+    original_width = @pdf.bounds.width
+    
+    @pdf.indent(0, 20) do
+      @pdf.bounds.width.should == original_width - 20
+      @pdf.start_new_page
+      @pdf.bounds.width.should == original_width - 20
+    end
+    
+  end
 
   it "optionally allows adjustment of the right bound as well" do
     @pdf.bounding_box([100,100], :width => 200) do
@@ -196,5 +218,4 @@ describe "A canvas" do
     end
     @pdf.y.should == 450
   end
-end      
-  
+end
