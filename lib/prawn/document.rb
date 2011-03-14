@@ -570,7 +570,13 @@ module Prawn
         :width => page.dimensions[-2] - (page.margins[:left] + page.margins[:right]),
         :height => page.dimensions[-1] - (page.margins[:top] + page.margins[:bottom])
       )
-
+      
+      # This check maintains indentation settings across page breaks
+      if (old_margin_box)
+        @margin_box.add_left_padding(old_margin_box.total_left_padding)
+        @margin_box.add_right_padding(old_margin_box.total_right_padding)
+      end
+      
       # we must update bounding box if not flowing from the previous page
       #
       # FIXME: This may have a bug where the old margin is restored
