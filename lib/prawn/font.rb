@@ -240,7 +240,7 @@ module Prawn
     #
     def self.load(document,name,options={})
       case name
-      when /\.ttf$/   then TTF.new(document, name, options)
+      when /\.ttf$/, /\.TTF$/ then TTF.new(document, name, options)
       when /\.dfont$/ then DFont.new(document, name, options)
       when /\.afm$/   then AFM.new(document, name, options)
       else                 AFM.new(document, name, options)
