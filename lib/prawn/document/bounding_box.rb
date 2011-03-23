@@ -255,12 +255,12 @@ module Prawn
       #  end
       #
       def indent(left_padding, right_padding = 0, &block)
-        self.add_left_padding(left_padding)
-        self.add_right_padding(right_padding)
+        add_left_padding(left_padding)
+        add_right_padding(right_padding)
         yield
       ensure
-        self.subtract_left_padding(left_padding)
-        self.subtract_right_padding(right_padding)
+        @document.bounds.subtract_left_padding(left_padding)
+        @document.bounds.subtract_right_padding(right_padding)
       end
 
       # Increase the left padding of the bounding box.

@@ -184,6 +184,7 @@ describe "Indentation" do
       @pdf.bounds.absolute_left.should == original_left + 20
     end
 
+    @pdf.bounds.absolute_left.should == original_left
   end
 
   it "should maintain right indentation across a page break" do
@@ -195,6 +196,7 @@ describe "Indentation" do
       @pdf.bounds.width.should == original_width - 20
     end
 
+    @pdf.bounds.width.should == original_width
   end
 
   it "optionally allows adjustment of the right bound as well" do
