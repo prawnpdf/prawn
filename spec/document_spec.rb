@@ -511,3 +511,159 @@ describe "content stream characteristics" do
     streams.size.should == 1
   end
 end
+
+describe "The number_pages method" do
+  before do
+    @pdf = Prawn::Document.new(:skip_page_creation => true)
+  end
+  
+  it "replaces the '<page>' string with the proper page number" do
+    @pdf.start_new_page
+    @pdf.expects(:draw_text).with("1, test", :at => nil)
+    @pdf.number_pages "<page>, test", {:page_filter => :all}
+  end
+  
+  it "replaces the '<total>' string with the total page count" do
+    @pdf.start_new_page
+    @pdf.expects(:draw_text).with("test, 1", :at => nil)
+    @pdf.number_pages "test, <total>", {:page_filter => :all}
+  end
+ 
+  it "must print the page if the page number matches" do
+    10.times { @pdf.start_new_page }
+    @pdf.expects(:draw_text).at_least_once
+    @pdf.number_pages "test", {:page_filter => :all}
+  end
+
+  it "must not print the page number without a filter" do
+    10.times { @pdf.start_new_page }
+    @pdf.expects(:draw_text).never
+    @pdf.number_pages "test", {:page_filter => nil}
+  end
+  
+  context "position option" do
+    it "places the text in the correct position" do
+      @pdf.start_new_page
+      @pdf.expects(:draw_text).with("test, 1", :at => [1,1])
+      @pdf.number_pages "test, <total>", {:page_filter => :all,
+                                          :position => [1, 1]}
+    end
+  end
+  
+  context "start_count_at option" do    
+    [1, 2].each do |startat|
+      context "equal to #{startat}" do
+        it "increments the pages" do
+          2.times { @pdf.start_new_page }
+          options = {:page_filter => :all, :start_count_at => startat}
+          @pdf.expects(:draw_text).with("#{startat} 2", :at => nil)
+          @pdf.expects(:draw_text).with("#{startat+1} 2", :at => nil)
+          @pdf.number_pages "<page> <total>", options
+        end  
+      end
+    end
+      
+    [0, nil].each do |val|
+      context "equal to #{val}" do
+        it "defaults to start at page 1" do
+          3.times { @pdf.start_new_page }
+          options = {:page_filter => :all, :start_count_at => val}
+          @pdf.expects(:draw_text).with("1 3", :at => nil)
+          @pdf.expects(:draw_text).with("2 3", :at => nil)
+          @pdf.expects(:draw_text).with("3 3", :at => nil)
+          @pdf.number_pages "<page> <total>", options
+        end
+      end
+    end
+  end
+  
+  context "total_pages option" do
+    it "allows the total pages count to be overridden" do
+      2.times { @pdf.start_new_page }
+      @pdf.expects(:draw_text).with("1 10", :at => nil)
+      @pdf.expects(:draw_text).with("2 10", :at => nil)
+      @pdf.number_pages "<page> <total>", :page_filter => :all, :total_pages => 10
+    end
+  end
+  
+  context "special page filter" do
+    context "such as :odd" do
+      it "increments the pages" do
+        3.times { @pdf.start_new_page }
+        @pdf.expects(:draw_text).with("1 3", :at => nil)
+        @pdf.expects(:draw_text).with("3 3", :at => nil)
+        @pdf.expects(:draw_text).with("2 3", :at => nil).never
+        @pdf.number_pages "<page> <total>", :page_filter => :odd
+      end
+    end
+    context "missing" do
+      it "does not print any page numbers" do
+        3.times { @pdf.start_new_page }
+        @pdf.expects(:draw_text).never
+        @pdf.number_pages "<page> <total>", :page_filter => nil
+      end
+    end
+  end
+
+  context "given both a special page filter and a start_count_at parameter" do
+    context "such as :odd and 7" do
+      it "increments the pages" do
+        3.times { @pdf.start_new_page }
+        @pdf.expects(:draw_text).with("1 3", :at => nil).never
+        @pdf.expects(:draw_text).with("5 3", :at => nil) # page 1
+        @pdf.expects(:draw_text).with("6 3", :at => nil).never # page 2
+        @pdf.expects(:draw_text).with("7 3", :at => nil) # page 3
+        @pdf.number_pages "<page> <total>", :page_filter => :odd, :start_count_at => 5
+      end
+    end
+    context "some crazy proc and 2" do
+      it "increments the pages" do
+        6.times { @pdf.start_new_page }
+        options = {:page_filter => lambda {|p| p != 2 && p != 5}, :start_count_at => 4}
+        @pdf.expects(:draw_text).with("4 6", :at => nil) # page 1
+        @pdf.expects(:draw_text).with("5 6", :at => nil).never # page 2
+        @pdf.expects(:draw_text).with("6 6", :at => nil) # page 3
+        @pdf.expects(:draw_text).with("7 6", :at => nil) # page 4
+        @pdf.expects(:draw_text).with("8 6", :at => nil).never # page 5
+        @pdf.expects(:draw_text).with("9 6", :at => nil) # page 6
+        @pdf.number_pages "<page> <total>", options
+      end
+    end
+  end
+end
+
+describe "The page_match? method" do
+  before do
+    @pdf = Prawn::Document.new(:skip_page_creation => true)
+    10.times {@pdf.start_new_page}
+  end
+  
+  it "returns nil given no filter" do
+    assert ! @pdf.page_match?(:nil, 1)
+  end
+  
+  it "must provide an :all filter" do
+    assert (1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }
+  end
+
+  it "must provide an :odd filter" do
+    odd, even = (1..@pdf.page_count).partition { |e| e % 2 == 1 }
+    assert odd.all? { |i| @pdf.page_match?(:odd, i) }
+    assert ! even.any? { |i| @pdf.page_match?(:odd, i) }
+  end
+
+  it "must be able to filter by an array of page numbers" do
+    fltr = [1,2,7]
+    assert_equal [1,2,7], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+  end
+
+  it "must be able to filter by a range of page numbers" do
+    fltr = 2..4
+    assert_equal [2,3,4], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+  end
+
+  it "must be able to filter by an arbitrary proc" do
+    fltr = lambda { |x| x == 1 or x % 3 == 0 }
+    assert_equal [1,3,6,9], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+  end    
+end
