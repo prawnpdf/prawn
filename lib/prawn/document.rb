@@ -513,26 +513,79 @@ module Prawn
     # Specify a template for page numbering.  This should be called
     # towards the end of document creation, after all your content is already in
     # place.  In your template string, <page> refers to the current page, and
-    # <total> refers to the total amount of pages in the doucment.
+    # <total> refers to the total amount of pages in the doucment.  Page numbering should
+    # occur at the end of your Prawn::Document.generate block because the method iterates
+    # through existing pages after they are created.
     #
-    # Example:
+    # Available options are:
+    #
+    # <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.  
+    # Refer to the method 'page_match?'
+    # <tt>:start_count_at</tt>:: The starting count to increment pages from.
+    # <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
+    # Useful to override the total number of pages when using the start_count_at option.
+    # <tt>:position</tt>:: Where to place the text on the page.
+    #
+    # Example: Print page numbers on every page except for the first.  Start counting from
+    #          five.
     #
     #   Prawn::Document.generate("page_with_numbering.pdf") do
-    #     text "Hai"
-    #     start_new_page
-    #     text "bai"
-    #     start_new_page
-    #     text "-- Hai again"
-    #     number_pages "<page> in a total of <total>", [bounds.right - 50, 0]
+    #     number_pages "<page> in a total of <total>", 
+    #                                          :start_count_at => 5,
+    #                                          :page_filter => lambda{ |pg| pg != 1 },
+    #                                          :position => [bounds.right - 50, 0]
     #   end
     #
-    def number_pages(string, position)
-      page_count.times do |i|
-        go_to_page(i+1)
-        str = string.gsub("<page>","#{i+1}").gsub("<total>","#{page_count}")
-        draw_text str, :at => position
+    def number_pages(string, options={})
+      start_count = false
+      pseudopage = 0
+      (1..page_count).each do |p|
+        unless start_count
+          pseudopage = case options[:start_count_at]
+                       when nil
+                         1
+                       when 0
+                         1
+                       else
+                         options[:start_count_at].to_i
+                       end
+        end        
+        if page_match?(options[:page_filter], p)
+          go_to_page(p)
+          total_pages = options[:total_pages].nil? ? page_count : options[:total_pages]
+          str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
+          draw_text str, :at => options[:position]
+          start_count = true  # increment page count as soon as first match found
+        end 
+        pseudopage += 1 if start_count
       end
     end
+
+    # Provides a way to execute a block of code repeatedly based on a
+    # page_filter.  
+    #
+    # Available page filters are:
+    #   :all         repeats on every page
+    #   :odd         repeats on odd pages
+    #   :even        repeats on even pages
+    #   some_array   repeats on every page listed in the array
+    #   some_range   repeats on every page included in the range
+    #   some_lambda  yields page number and repeats for true return values 
+    def page_match?(page_filter, page_number)
+      case page_filter
+      when :all
+        true
+      when :odd
+        page_number % 2 == 1
+      when :even
+        page_number % 2 == 0
+      when Range, Array
+        page_filter.include?(page_number)
+      when Proc
+        page_filter.call(page_number)
+      end
+    end  
+
 
     # Returns true if content streams will be compressed before rendering,
     # false otherwise
