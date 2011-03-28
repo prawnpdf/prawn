@@ -519,35 +519,26 @@ describe "The number_pages method" do
   
   it "replaces the '<page>' string with the proper page number" do
     @pdf.start_new_page
-    @pdf.expects(:draw_text).with("1, test", :at => nil)
+    @pdf.expects(:text_box).with("1, test", {})
     @pdf.number_pages "<page>, test", {:page_filter => :all}
   end
   
   it "replaces the '<total>' string with the total page count" do
     @pdf.start_new_page
-    @pdf.expects(:draw_text).with("test, 1", :at => nil)
+    @pdf.expects(:text_box).with("test, 1", {})
     @pdf.number_pages "test, <total>", {:page_filter => :all}
   end
  
   it "must print the page if the page number matches" do
     10.times { @pdf.start_new_page }
-    @pdf.expects(:draw_text).at_least_once
+    @pdf.expects(:text_box).at_least_once
     @pdf.number_pages "test", {:page_filter => :all}
   end
 
   it "must not print the page number without a filter" do
     10.times { @pdf.start_new_page }
-    @pdf.expects(:draw_text).never
+    @pdf.expects(:text_box).never
     @pdf.number_pages "test", {:page_filter => nil}
-  end
-  
-  context "position option" do
-    it "places the text in the correct position" do
-      @pdf.start_new_page
-      @pdf.expects(:draw_text).with("test, 1", :at => [1,1])
-      @pdf.number_pages "test, <total>", {:page_filter => :all,
-                                          :position => [1, 1]}
-    end
   end
   
   context "start_count_at option" do    
@@ -556,8 +547,8 @@ describe "The number_pages method" do
         it "increments the pages" do
           2.times { @pdf.start_new_page }
           options = {:page_filter => :all, :start_count_at => startat}
-          @pdf.expects(:draw_text).with("#{startat} 2", :at => nil)
-          @pdf.expects(:draw_text).with("#{startat+1} 2", :at => nil)
+          @pdf.expects(:text_box).with("#{startat} 2", {})
+          @pdf.expects(:text_box).with("#{startat+1} 2", {})
           @pdf.number_pages "<page> <total>", options
         end  
       end
@@ -568,9 +559,9 @@ describe "The number_pages method" do
         it "defaults to start at page 1" do
           3.times { @pdf.start_new_page }
           options = {:page_filter => :all, :start_count_at => val}
-          @pdf.expects(:draw_text).with("1 3", :at => nil)
-          @pdf.expects(:draw_text).with("2 3", :at => nil)
-          @pdf.expects(:draw_text).with("3 3", :at => nil)
+          @pdf.expects(:text_box).with("1 3", {})
+          @pdf.expects(:text_box).with("2 3", {})
+          @pdf.expects(:text_box).with("3 3", {})
           @pdf.number_pages "<page> <total>", options
         end
       end
@@ -580,8 +571,8 @@ describe "The number_pages method" do
   context "total_pages option" do
     it "allows the total pages count to be overridden" do
       2.times { @pdf.start_new_page }
-      @pdf.expects(:draw_text).with("1 10", :at => nil)
-      @pdf.expects(:draw_text).with("2 10", :at => nil)
+      @pdf.expects(:text_box).with("1 10", {})
+      @pdf.expects(:text_box).with("2 10", {})
       @pdf.number_pages "<page> <total>", :page_filter => :all, :total_pages => 10
     end
   end
@@ -590,16 +581,16 @@ describe "The number_pages method" do
     context "such as :odd" do
       it "increments the pages" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:draw_text).with("1 3", :at => nil)
-        @pdf.expects(:draw_text).with("3 3", :at => nil)
-        @pdf.expects(:draw_text).with("2 3", :at => nil).never
+        @pdf.expects(:text_box).with("1 3", {})
+        @pdf.expects(:text_box).with("3 3", {})
+        @pdf.expects(:text_box).with("2 3", {}).never
         @pdf.number_pages "<page> <total>", :page_filter => :odd
       end
     end
     context "missing" do
       it "does not print any page numbers" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:draw_text).never
+        @pdf.expects(:text_box).never
         @pdf.number_pages "<page> <total>", :page_filter => nil
       end
     end
@@ -609,10 +600,10 @@ describe "The number_pages method" do
     context "such as :odd and 7" do
       it "increments the pages" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:draw_text).with("1 3", :at => nil).never
-        @pdf.expects(:draw_text).with("5 3", :at => nil) # page 1
-        @pdf.expects(:draw_text).with("6 3", :at => nil).never # page 2
-        @pdf.expects(:draw_text).with("7 3", :at => nil) # page 3
+        @pdf.expects(:text_box).with("1 3", {}).never
+        @pdf.expects(:text_box).with("5 3", {}) # page 1
+        @pdf.expects(:text_box).with("6 3", {}).never # page 2
+        @pdf.expects(:text_box).with("7 3", {}) # page 3
         @pdf.number_pages "<page> <total>", :page_filter => :odd, :start_count_at => 5
       end
     end
@@ -620,12 +611,12 @@ describe "The number_pages method" do
       it "increments the pages" do
         6.times { @pdf.start_new_page }
         options = {:page_filter => lambda {|p| p != 2 && p != 5}, :start_count_at => 4}
-        @pdf.expects(:draw_text).with("4 6", :at => nil) # page 1
-        @pdf.expects(:draw_text).with("5 6", :at => nil).never # page 2
-        @pdf.expects(:draw_text).with("6 6", :at => nil) # page 3
-        @pdf.expects(:draw_text).with("7 6", :at => nil) # page 4
-        @pdf.expects(:draw_text).with("8 6", :at => nil).never # page 5
-        @pdf.expects(:draw_text).with("9 6", :at => nil) # page 6
+        @pdf.expects(:text_box).with("4 6", {}) # page 1
+        @pdf.expects(:text_box).with("5 6", {}).never # page 2
+        @pdf.expects(:text_box).with("6 6", {}) # page 3
+        @pdf.expects(:text_box).with("7 6", {}) # page 4
+        @pdf.expects(:text_box).with("8 6", {}).never # page 5
+        @pdf.expects(:text_box).with("9 6", {}) # page 6
         @pdf.number_pages "<page> <total>", options
       end
     end
