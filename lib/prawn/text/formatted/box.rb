@@ -189,8 +189,8 @@ module Prawn
           @direction         = options[:direction] || @document.text_direction
           @fallback_fonts    = options[:fallback_fonts] ||
                                @document.fallback_fonts
-          @at                = options[:at] ||
-                               [@document.bounds.left, @document.bounds.top]
+          @at                = (options[:at] ||
+                               [@document.bounds.left, @document.bounds.top]).dup
           @width             = options[:width] ||
                                @document.bounds.right - @at[0]
           @height            = options[:height] || default_height
@@ -452,8 +452,8 @@ module Prawn
         # Decrease the font size until the text fits or the min font
         # size is reached
         def shrink_to_fit(text)
-          while !@everything_printed && @font_size > @min_font_size
-            @font_size -= 0.5
+          until @everything_printed || @font_size <= @min_font_size
+            @font_size = [@font_size - 0.5, @min_font_size].max
             @document.font_size = @font_size
           end
         end

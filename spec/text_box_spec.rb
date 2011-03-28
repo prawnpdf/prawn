@@ -656,6 +656,18 @@ describe "Text::Box with more text than can fit in the box" do
       @text_box.render.should == ""
     end
   end
+
+  context "shrink_to_fit overflow" do
+    it "should not drop below the minimum font size" do
+      @options[:overflow] = :shrink_to_fit
+      @options[:min_font_size] = 5.1
+      @text_box = Prawn::Text::Box.new(@text, @options)
+      @text_box.render
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.font_settings[0][:size].should == 5.1
+    end
+  end
 end
 
 describe "Text::Box with a solid block of Chinese characters" do
