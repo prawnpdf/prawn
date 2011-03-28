@@ -546,12 +546,13 @@ module Prawn
     #   end
     #
     def number_pages(string, options={})
-      start_count = false
-      start_count_at = options.delete(:start_count_at).to_i
-      page_filter = options.delete(:page_filter)
-      total_pages = options.delete(:total_pages)
-      txtcolor = options.delete(:color)
+      opts = options.dup
+      start_count_at = opts.delete(:start_count_at).to_i
+      page_filter = opts.delete(:page_filter)
+      total_pages = opts.delete(:total_pages)
+      txtcolor = opts.delete(:color)
       
+      start_count = false
       pseudopage = 0
       (1..page_count).each do |p|
         unless start_count
@@ -568,7 +569,7 @@ module Prawn
           fill_color txtcolor unless txtcolor.nil?
           total_pages = total_pages.nil? ? page_count : total_pages
           str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
-          text_box str, options
+          text_box str, opts
           start_count = true  # increment page count as soon as first match found
         end 
         pseudopage += 1 if start_count
