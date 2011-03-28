@@ -528,6 +528,7 @@ module Prawn
     #     <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
     #                             Useful to override the total number of pages when using 
     #                             the start_count_at option.
+    #     <tt>:color</tt>:: Text fill color.
     #
     #     Please refer to Prawn::Text::text_box for additional options concerning text
     #     formatting and placement.  More specifically, do not forget the width option.
@@ -549,6 +550,7 @@ module Prawn
       start_count_at = options.delete(:start_count_at).to_i
       page_filter = options.delete(:page_filter)
       total_pages = options.delete(:total_pages)
+      txtcolor = options.delete(:color)
       
       pseudopage = 0
       (1..page_count).each do |p|
@@ -562,6 +564,8 @@ module Prawn
         end        
         if page_match?(page_filter, p)
           go_to_page(p)
+          # have to use fill_color here otherwise text reverts back to default fill color
+          fill_color txtcolor unless txtcolor.nil?
           total_pages = total_pages.nil? ? page_count : total_pages
           str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
           text_box str, options

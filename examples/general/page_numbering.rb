@@ -35,5 +35,6 @@ Prawn::Document.generate("page_with_numbering_extra_options.pdf") do
                                                :align => :left,
                                                :page_filter => :even,
                                                :start_count_at => 13,
-                                               :total_pages => 15
+                                               :total_pages => 15,
+                                               :color => "FF0000"
 end
