@@ -513,11 +513,11 @@ module Prawn
     # Places a text box on specified pages for page numbering.  This should be called
     # towards the end of document creation, after all your content is already in
     # place.  In your template string, <page> refers to the current page, and
-    # <total> refers to the total amount of pages in the doucment.  Page numbering should
+    # <total> refers to the total amount of pages in the document.  Page numbering should
     # occur at the end of your Prawn::Document.generate block because the method iterates
     # through existing pages after they are created.
     #
-    # Paramaters are:
+    # Parameters are:
     # 
     # <tt>string</tt>:: Template string for page number wording.  
     #                   Should include '<page>' and '<total>'.
@@ -531,7 +531,7 @@ module Prawn
     #     <tt>:color</tt>:: Text fill color.
     #
     #     Please refer to Prawn::Text::text_box for additional options concerning text
-    #     formatting and placement.  More specifically, do not forget the width option.
+    #     formatting and placement.
     #
     # Example: Print page numbers on every page except for the first.  Start counting from
     #          five.
