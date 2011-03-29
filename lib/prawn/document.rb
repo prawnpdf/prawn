@@ -510,51 +510,66 @@ module Prawn
       success
     end
 
-    # Specify a template for page numbering.  This should be called
+    # Places a text box on specified pages for page numbering.  This should be called
     # towards the end of document creation, after all your content is already in
     # place.  In your template string, <page> refers to the current page, and
-    # <total> refers to the total amount of pages in the doucment.  Page numbering should
+    # <total> refers to the total amount of pages in the document.  Page numbering should
     # occur at the end of your Prawn::Document.generate block because the method iterates
     # through existing pages after they are created.
     #
-    # Available options are:
+    # Parameters are:
+    # 
+    # <tt>string</tt>:: Template string for page number wording.  
+    #                   Should include '<page>' and '<total>'.
+    # <tt>options</tt>:: A hash for page numbering and text box options.
+    #     <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.  
+    #                             Refer to the method 'page_match?'
+    #     <tt>:start_count_at</tt>:: The starting count to increment pages from.
+    #     <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
+    #                             Useful to override the total number of pages when using 
+    #                             the start_count_at option.
+    #     <tt>:color</tt>:: Text fill color.
     #
-    # <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.  
-    # Refer to the method 'page_match?'
-    # <tt>:start_count_at</tt>:: The starting count to increment pages from.
-    # <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
-    # Useful to override the total number of pages when using the start_count_at option.
-    # <tt>:position</tt>:: Where to place the text on the page.
+    #     Please refer to Prawn::Text::text_box for additional options concerning text
+    #     formatting and placement.
     #
     # Example: Print page numbers on every page except for the first.  Start counting from
     #          five.
     #
     #   Prawn::Document.generate("page_with_numbering.pdf") do
     #     number_pages "<page> in a total of <total>", 
-    #                                          :start_count_at => 5,
-    #                                          :page_filter => lambda{ |pg| pg != 1 },
-    #                                          :position => [bounds.right - 50, 0]
+    #                                          {:start_count_at => 5,
+    #                                           :page_filter => lambda{ |pg| pg != 1 },
+    #                                           :at => [bounds.right - 50, 0],
+    #                                           :align => :right,
+    #                                           :size => 14}
     #   end
     #
     def number_pages(string, options={})
+      opts = options.dup
+      start_count_at = opts.delete(:start_count_at).to_i
+      page_filter = opts.delete(:page_filter)
+      total_pages = opts.delete(:total_pages)
+      txtcolor = opts.delete(:color)
+      
       start_count = false
       pseudopage = 0
       (1..page_count).each do |p|
         unless start_count
-          pseudopage = case options[:start_count_at]
-                       when nil
-                         1
+          pseudopage = case start_count_at
                        when 0
                          1
                        else
-                         options[:start_count_at].to_i
+                         start_count_at.to_i
                        end
         end        
-        if page_match?(options[:page_filter], p)
+        if page_match?(page_filter, p)
           go_to_page(p)
-          total_pages = options[:total_pages].nil? ? page_count : options[:total_pages]
+          # have to use fill_color here otherwise text reverts back to default fill color
+          fill_color txtcolor unless txtcolor.nil?
+          total_pages = total_pages.nil? ? page_count : total_pages
           str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
-          draw_text str, :at => options[:position]
+          text_box str, opts
           start_count = true  # increment page count as soon as first match found
         end 
         pseudopage += 1 if start_count
