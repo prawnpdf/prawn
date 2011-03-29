@@ -520,7 +520,7 @@ module Prawn
     # Parameters are:
     # 
     # <tt>string</tt>:: Template string for page number wording.  
-    #                   Should include '<page>' and '<total>'.
+    #                   Should include '<page>' and, optionally, '<total>'.
     # <tt>options</tt>:: A hash for page numbering and text box options.
     #     <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.  
     #                             Refer to the method 'page_match?'
@@ -551,6 +551,8 @@ module Prawn
       page_filter = opts.delete(:page_filter)
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
+      # An explicit height so that we can draw page numbers in the margins
+      opts[:height] = 50
       
       start_count = false
       pseudopage = 0
