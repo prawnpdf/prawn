@@ -66,21 +66,23 @@ Prawn::Document.generate("text_box.pdf") do
       options[:at][1] = bounds.top - (bounds.height - options[:height]) * 0.33 * j
       box = Prawn::Text::Box.new(get_string(i, j), options)
 
-      fill_color("ffeeee")
-      if i == 1
+      if j >= 2
         # bound with a box of a particular size, regardless of how
         # much text it contains
+        fill_color("ffeeee")
         fill_and_stroke_rectangle(options[:at],
                                   options[:width],
                                   options[:height])
       else
         # bound with a box that exactly fits the printed text using
         # dry_run look-ahead
+        fill_color("eeeeff")
         box.render(:dry_run => true)
-        fill_and_stroke_rectangle(options[:at],
+        fill_and_stroke_rectangle(box.at,
                                   options[:width],
                                   box.height)
       end
+
       fill_color("000000")
       box.render
     end
