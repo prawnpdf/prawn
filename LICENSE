@@ -1,10 +1,10 @@
 Prawn is copyrighted free software produced by Gregory Brown along with 
 community contributions.  See git log for authorship information.
 
-Licensing terms follow (License of Ruby 1.8):
+Licensing terms follow (License of Ruby):
 
-You can redistribute Prawn and/or modify it under either the terms of the GPL
-(see COPYING file), or the conditions below:
+You can redistribute Prawn and/or modify it under either the terms of the GPLv2
+or GPLv3 (see GPLv2 and GPLv3 files), or the conditions below:
 
   1. You may make and give away verbatim copies of the source form of the
      software without restriction, provided that you duplicate all of the
