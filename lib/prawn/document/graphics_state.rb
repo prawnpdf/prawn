@@ -103,7 +103,7 @@ module Prawn
       end
         
       def save_graphics_state(graphic_state = nil)
-        graphic_stack.save_graphic_state(graphic_state) unless state.page.in_stamp_stream?
+        graphic_stack.save_graphic_state(graphic_state)
         open_graphics_state
         if block_given?
           yield
@@ -119,7 +119,7 @@ module Prawn
             "\n You have reached the end of the graphic state stack" 
         end
         close_graphics_state 
-        graphic_stack.restore_graphic_state unless state.page.in_stamp_stream?
+        graphic_stack.restore_graphic_state
       end
       
       def graphic_stack

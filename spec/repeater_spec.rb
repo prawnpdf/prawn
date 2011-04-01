@@ -131,7 +131,6 @@ describe "Repeaters" do
         @pdf.fill_color "666666"
         @pdf.cap_style :round
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        #puts text.strings
         text.strings.include?("fill_color: 666666").should == false
         text.strings.include?("fill_color: 000000").should == true
         text.strings.include?("cap_style: round").should == false
