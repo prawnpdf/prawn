@@ -23,12 +23,12 @@ module Prawn
                                            :right   => 36,
                                            :top     => 36,
                                            :bottom  => 36  }
+        @stack = Prawn::GraphicStateStack.new(options[:graphic_state])
         if options[:object_id]
           init_from_object(options)
         else
           init_new_page(options)
-        end
-        @stack = Prawn::GraphicStateStack.new(options[:graphic_state])
+        end 
       end
 
       def layout
@@ -86,7 +86,7 @@ module Prawn
         end
         @content    = document.ref(:Length => 0)
         dictionary.data[:Contents] << document.state.store[@content]
-        document.save_graphics_state
+        document.open_graphics_state
       end
 
       def dictionary
