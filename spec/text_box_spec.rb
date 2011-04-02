@@ -522,6 +522,73 @@ describe "Text::Box with text than can fit in the box" do
   end
 end
 
+describe "Text::Box with text that fits exactly in the box" do
+  before(:each) do
+    create_pdf
+    @lines = 3
+    @interlines = @lines - 1
+    @text = (1..@lines).to_a.join("\n")
+    @options = {
+      :width => 162.0,
+      :height => @pdf.font.ascender + @pdf.font.height * @interlines + @pdf.font.descender,
+      :document => @pdf
+    }
+  end
+  
+  it "should have the expected height" do
+    expected_height = @options.delete(:height)
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.height.should.be.close(expected_height, 0.0001)
+  end
+
+  it "should print everything" do
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.text.should == @text
+  end
+
+  describe "with leading" do
+    before(:each) do
+      @options[:leading] = 15
+    end
+
+    it "should not overflow when enough height is added" do
+      @options[:height] += @options[:leading] * @interlines
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should == @text
+    end
+
+    it "should overflow when insufficient height is added" do
+      @options[:height] += @options[:leading] * @interlines - 1
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should.not == @text
+    end
+  end
+
+  describe "with negative leading" do
+    before(:each) do
+      @options[:leading] = -4
+    end
+
+    it "should not overflow when enough height is removed" do
+      @options[:height] += @options[:leading] * @interlines
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should == @text
+    end
+
+    it "should overflow when too much height is removed" do
+      @options[:height] += @options[:leading] * @interlines - 1
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should.not == @text
+    end
+  end
+end
+
 describe "Text::Box printing UTF-8 string with higher bit characters" do
   before(:each) do
     create_pdf    
