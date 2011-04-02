@@ -102,18 +102,7 @@ module Prawn
     end
 
     def match?(page_number)
-      case @page_filter
-      when :all
-        true
-      when :odd
-        page_number % 2 == 1
-      when :even
-        page_number % 2 == 0
-      when Range, Array
-        @page_filter.include?(page_number)
-      when Proc
-        @page_filter.call(page_number)
-      end
+      @document.page_match?(@page_filter, page_number)
     end
 
     def run(page_number)

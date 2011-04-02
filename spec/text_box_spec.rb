@@ -258,6 +258,23 @@ describe "Text::Box#render(:dry_run => true)" do
   end
 end
 
+describe "Text::Box#render(:valign => :bottom)" do
+  it "#at should be the same from one dry run to the next" do
+    create_pdf
+    text = "this is center text " * 12
+    options = { :width => 162,
+                :valign => :bottom,
+                :document => @pdf }
+    text_box = Prawn::Text::Box.new(text, options)
+
+    text_box.render(:dry_run => true)
+    original_at = text_box.at.dup
+
+    text_box.render(:dry_run => true)
+    text_box.at.should == original_at
+  end
+end
+
 describe "Text::Box#render with :rotate option of 30)" do
   before(:each) do
     create_pdf
@@ -505,6 +522,73 @@ describe "Text::Box with text than can fit in the box" do
   end
 end
 
+describe "Text::Box with text that fits exactly in the box" do
+  before(:each) do
+    create_pdf
+    @lines = 3
+    @interlines = @lines - 1
+    @text = (1..@lines).to_a.join("\n")
+    @options = {
+      :width => 162.0,
+      :height => @pdf.font.ascender + @pdf.font.height * @interlines + @pdf.font.descender,
+      :document => @pdf
+    }
+  end
+  
+  it "should have the expected height" do
+    expected_height = @options.delete(:height)
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.height.should.be.close(expected_height, 0.0001)
+  end
+
+  it "should print everything" do
+    text_box = Prawn::Text::Box.new(@text, @options)
+    text_box.render
+    text_box.text.should == @text
+  end
+
+  describe "with leading" do
+    before(:each) do
+      @options[:leading] = 15
+    end
+
+    it "should not overflow when enough height is added" do
+      @options[:height] += @options[:leading] * @interlines
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should == @text
+    end
+
+    it "should overflow when insufficient height is added" do
+      @options[:height] += @options[:leading] * @interlines - 1
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should.not == @text
+    end
+  end
+
+  describe "with negative leading" do
+    before(:each) do
+      @options[:leading] = -4
+    end
+
+    it "should not overflow when enough height is removed" do
+      @options[:height] += @options[:leading] * @interlines
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should == @text
+    end
+
+    it "should overflow when too much height is removed" do
+      @options[:height] += @options[:leading] * @interlines - 1
+      text_box = Prawn::Text::Box.new(@text, @options)
+      text_box.render
+      text_box.text.should.not == @text
+    end
+  end
+end
+
 describe "Text::Box printing UTF-8 string with higher bit characters" do
   before(:each) do
     create_pdf    
@@ -655,6 +739,38 @@ describe "Text::Box with more text than can fit in the box" do
     it "render should return an empty string because no text remains unprinted" do
       @text_box.render.should == ""
     end
+  end
+
+  context "shrink_to_fit overflow" do
+    it "should not drop below the minimum font size" do
+      @options[:overflow] = :shrink_to_fit
+      @options[:min_font_size] = 10.1
+      @text_box = Prawn::Text::Box.new(@text, @options)
+      @text_box.render
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.font_settings[0][:size].should == 10.1
+    end
+  end
+end
+
+describe "Text::Box with enough space to fit the text but using the " +
+  "shrink_to_fit overflow" do
+  it "should not shrink the text when there is no need to" do
+    create_pdf
+    @bounding_height = 162.0
+    @options = {
+      :width => 162.0,
+      :height => @bounding_height,
+      :overflow => :shrink_to_fit,
+      :min_font_size => 5,
+      :document => @pdf
+    }
+    @text_box = Prawn::Text::Box.new("hello\nworld", @options)
+    @text_box.render
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.font_settings[0][:size].should == 12
   end
 end
 
