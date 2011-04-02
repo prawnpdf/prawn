@@ -266,13 +266,17 @@ module Prawn
     def extract_introduction_text(source)
       intro = source.slice(/# encoding.*?\n(.*)require File\.expand_path/m, 1)
       intro.gsub!(/\n# (?=\S)/m, ' ')
-      intro.gsub!('#', '')
+      intro.gsub!(/^#/, '')
       intro.gsub!("\n", "\n\n")
       intro.rstrip!
       
       # Process the <code> tags
       intro.gsub!(/<code>([^<]+?)<\/code>/,
                   "<font name='Courier'>\\1<\/font>")
+      
+      # Process the links
+      intro.gsub!(/(https?:\/\/\S+)/,
+                  "<link href=\"\\1\">\\1</link>")
       
       intro
     end

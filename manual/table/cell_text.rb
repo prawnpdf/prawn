@@ -5,7 +5,7 @@
 # <code>kerning</code>, <code>leading</code>, <code>min_font_size</code>,
 # <code>overflow</code>, <code>rotate</code>, <code>rotate_around</code>,
 # <code>single_line</code>, <code>size</code>, <code>text_color</code>,
-# and <code>valign</code>
+# and <code>valign</code>.
 #
 # Most of these style options are direct translations from the text methods
 # styling options.

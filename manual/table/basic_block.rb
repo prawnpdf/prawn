@@ -4,8 +4,8 @@
 # at once.
 #
 # With initializer blocks we may deal with specific cells.
-# A block passed to one of the table methods (Prawn::Table.new, Prawn::Document#table,
-# Prawn::Document#make_table) will be called after cell setup but
+# A block passed to one of the table methods (<code>Prawn::Table.new</code>, <code>Prawn::Document#table</code>,
+# <code>Prawn::Document#make_table</code>) will be called after cell setup but
 # before layout. This is a very flexible way to specify styling and layout
 # constraints.
 #

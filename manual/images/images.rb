@@ -23,7 +23,7 @@ Prawn::Example.generate("images.pdf") do
     ]
 
   ) do
-    text "Embedding images on pdf documents is fairly easy. Prawn supports both JPG and PNG images.
+    text "Embedding images on PDF documents is fairly easy. Prawn supports both JPG and PNG images.
 
     The examples show:"
 

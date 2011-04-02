@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # The <code>encrypt_document</code> method, as you might have already guessed, is used to
-# encrypt the pdf document.
+# encrypt the PDF document.
 #
 # Once encrypted whoever is using the document will need the user password to
 # read the document. This password can be set with the
@@ -18,7 +18,7 @@
 # set to <code>:random</code> so that users will never be able to bypass
 # permissions.
 #
-# There are some caveats when encrypting your pdfs. Be sure to read the source
+# There are some caveats when encrypting your PDFs. Be sure to read the source
 # documentation (you can find it on lib/prawn/security.rb) before using this
 # for anything super serious.
 #

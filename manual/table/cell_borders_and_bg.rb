@@ -21,7 +21,7 @@ Prawn::Example.generate(filename) do
     :border_width => 3,
     :border_color => "FF0000"}.each do |property, value|
       
-      text "Cell #{property}: #{value}"
+      text "Cell #{property}: #{value.inspect}"
       table(data, :cell_style => {property => value})
       move_down 20
   end

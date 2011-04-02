@@ -15,12 +15,12 @@ Prawn::Example.generate("templates.pdf") do
     ]
     
   ) do
-    text "Templates let you embed other pdf documents inside the current one.
+    text "Templates let you embed other PDF documents inside the current one.
 
     The examples show:"
 
-    list( "How to load the whole content from another pdf",
-          "How to load single pages from another pdf"
+    list( "How to load the whole content from another PDF",
+          "How to load single pages from another PDF"
         )
   end
 end
