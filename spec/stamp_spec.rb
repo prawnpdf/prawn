@@ -122,7 +122,10 @@ describe "Document with a stamp" do
     
     @pdf.create_stamp("MyStamp") do
       @pdf.save_graphics_state
+      @pdf.save_graphics_state
+      @pdf.save_graphics_state
       @pdf.text "This should have a 'q' before it and a 'Q' after it"
+      @pdf.restore_graphics_state
     end
     @pdf.state.page.stack.stack.size.should == 1
   end

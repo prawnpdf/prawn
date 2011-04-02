@@ -12,9 +12,9 @@ require 'prawn/document/graphics_state'
 module Prawn
   module Core
     class Page #:nodoc:
-      
+
       include Prawn::Core::Page::GraphicsState
-      
+
       attr_accessor :document, :content, :dictionary, :margins, :stack
 
       def initialize(document, options={})
@@ -23,12 +23,12 @@ module Prawn
                                            :right   => 36,
                                            :top     => 36,
                                            :bottom  => 36  }
+        @stack = Prawn::GraphicStateStack.new(options[:graphic_state])
         if options[:object_id]
           init_from_object(options)
         else
           init_new_page(options)
-        end
-        @stack = Prawn::GraphicStateStack.new(options[:graphic_state])
+        end 
       end
 
       def layout
@@ -53,11 +53,15 @@ module Prawn
       def stamp_stream(dictionary)
         @stamp_stream     = ""
         @stamp_dictionary = dictionary
+        graphic_stack_size = stack.stack.size
 
-        document.open_graphics_state
+        document.save_graphics_state
         document.send(:freeze_stamp_graphics)
         yield if block_given?
-        document.close_graphics_state
+        
+        until graphic_stack_size == stack.stack.size
+          document.restore_graphics_state
+        end
 
         @stamp_dictionary.data[:Length] = @stamp_stream.length + 1
         @stamp_dictionary << @stamp_stream
@@ -82,7 +86,7 @@ module Prawn
         end
         @content    = document.ref(:Length => 0)
         dictionary.data[:Contents] << document.state.store[@content]
-        document.save_graphics_state
+        document.open_graphics_state
       end
 
       def dictionary
@@ -166,9 +170,9 @@ module Prawn
       end
 
       def init_new_page(options)
-        @size     = options[:size]    ||  "LETTER" 
-        @layout   = options[:layout]  || :portrait         
-        
+        @size     = options[:size]    ||  "LETTER"
+        @layout   = options[:layout]  || :portrait
+
         @content    = document.ref(:Length      => 0)
         content << "q" << "\n"
         @dictionary = document.ref(:Type        => :Page,
@@ -203,7 +207,7 @@ module Prawn
       end
 
     end
-    
+
   end
 end
 
