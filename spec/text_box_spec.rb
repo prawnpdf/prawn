@@ -962,7 +962,6 @@ describe "Text::Box wrapping" do
 
     results_with_accent.first_line.length.should == results_without_accent.first_line.length
   end
-  
 end
 
 describe "Text::Box#render with :mode option" do

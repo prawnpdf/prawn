@@ -2,6 +2,81 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
+describe "Text::Formatted::Box wrapping" do
+  before(:each) do
+    create_pdf
+  end
+
+  it "should not wrap between two fragments" do
+    texts = [
+      {:text => "Hello "},
+      {:text => "World"},
+      {:text => "2", :styles => [:superscript]},
+      ]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    text_box.render
+    text_box.text.should == "Hello\nWorld2"
+  end
+
+  it "should not raise Encoding::CompatibilityError when keeping a TTF and an " +
+    "AFM font together" do
+    ruby_19 do
+      file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+      @pdf.font_families["Kai"] = {
+        :normal => { :file => file, :font => "Kai" }
+      }
+
+      texts = [{ :text => "Hello " },
+               { :text => "再见", :font => "Kai"},
+               { :text => "World" }]
+      text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+      lambda {
+        text_box.render
+      }.should.not.raise(Encoding::CompatibilityError)
+    end
+  end
+
+  it "should wrap between two fragments when the preceding fragment ends with white space" do
+    texts = [
+      {:text => "Hello "},
+      {:text => "World "},
+      {:text => "2", :styles => [:superscript]},
+      ]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    text_box.render
+    text_box.text.should == "Hello World\n2"
+
+    texts = [
+      {:text => "Hello "},
+      {:text => "World\n"},
+      {:text => "2", :styles => [:superscript]},
+      ]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    text_box.render
+    text_box.text.should == "Hello World\n2"
+  end
+
+  it "should wrap between two fragments when the final fragment begins with white space" do
+    texts = [
+      {:text => "Hello "},
+      {:text => "World"},
+      {:text => " 2", :styles => [:superscript]},
+      ]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    text_box.render
+    text_box.text.should == "Hello World\n2"
+
+    texts = [
+      {:text => "Hello "},
+      {:text => "World"},
+      {:text => "\n2", :styles => [:superscript]},
+      ]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    text_box.render
+    text_box.text.should == "Hello World\n2"
+  end
+end
+
 describe "Text::Formatted::Box with :fallback_fonts option that includes" +
   "a Chinese font and set of Chinese glyphs not in the current font" do
   it "should change the font to the Chinese font for the Chinese glyphs" do
