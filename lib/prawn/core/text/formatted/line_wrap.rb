@@ -173,16 +173,46 @@ module Prawn
               @newline_encountered = true
               @line_empty = false
             else
-              update_output_based_on_last_fragment(fragment)
+              update_output_based_on_last_fragment(fragment, soft_hyphen)
               update_line_status_based_on_last_output
+              determine_whether_to_pull_preceding_fragment_to_join_this_one(fragment)
             end
+            remember_this_fragment_for_backward_looking_ops
           end
 
-          def update_output_based_on_last_fragment(fragment)
+          def update_output_based_on_last_fragment(fragment, normalized_soft_hyphen=nil)
             remaining_text = fragment.slice(@fragment_output.length..fragment.length)
             raise Errors::CannotFit if line_finished? && line_empty? &&
               @fragment_output.empty? && !fragment.strip.empty?
-            @arranger.update_last_string(@fragment_output, remaining_text, soft_hyphen)
+            @arranger.update_last_string(@fragment_output, remaining_text, normalized_soft_hyphen)
+          end
+
+          def determine_whether_to_pull_preceding_fragment_to_join_this_one(current_fragment)
+            if @fragment_output.empty? &&
+                !current_fragment.empty? &&
+                @line_contains_more_than_one_word
+              unless previous_fragment_ended_with_breakable? ||
+                  fragment_begins_with_breakable?(current_fragment)
+                @fragment_output = @previous_fragment_output_without_last_word
+                update_output_based_on_last_fragment(@previous_fragment)
+              end
+            end
+          end
+
+          def remember_this_fragment_for_backward_looking_ops
+            @previous_fragment = @fragment_output.dup
+            pf = @previous_fragment
+            @previous_fragment_ended_with_breakable = pf =~ /[#{break_chars}]$/
+            last_word_length = pf.slice(/[^#{break_chars}]*$/).length
+            @previous_fragment_output_without_last_word = pf.slice(0, pf.length - last_word_length)
+          end
+
+          def previous_fragment_ended_with_breakable?
+            @previous_fragment_ended_with_breakable
+          end
+
+          def fragment_begins_with_breakable?(fragment)
+            fragment =~ /^[#{break_chars}]/
           end
 
           def line_finished?

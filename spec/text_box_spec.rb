@@ -962,17 +962,6 @@ describe "Text::Box wrapping" do
 
     results_with_accent.first_line.length.should == results_without_accent.first_line.length
   end
-  
-  it "should not wrap between two fragments" do
-    texts = [
-      {:text => "Hello "},
-      {:text => "World"},
-      {:text => "2", :styles => [:superscript]},
-      ]
-    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
-    text_box.render
-    text_box.text.should == "Hello\nWorld2"
-  end
 end
 
 describe "Text::Box#render with :mode option" do

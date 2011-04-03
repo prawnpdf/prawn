@@ -180,11 +180,24 @@ describe "Core::Text::Formatted::Arranger#update_last_string" do
     end
     arranger.update_last_string(" you", " now?", nil)
     arranger.consumed[3].should == { :text => " you",
-                                     :styles => [:bold, :italic],
-                                     :normalized_soft_hyphen => nil }
+                                     :styles => [:bold, :italic] }
     arranger.unconsumed.should == [{ :text => " now?",
                                      :styles => [:bold, :italic] }]
   end
+  it "should set the format state to the previously processed fragment" do
+    create_pdf
+    arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
+    array = [{ :text => "hello " },
+             { :text => "world how ", :styles => [:bold] },
+             { :text => "are", :styles => [:bold, :italic] },
+             { :text => " you now?" }]
+    arranger.format_array = array
+    3.times { arranger.next_string }
+    arranger.current_format_state.should == { :styles => [:bold, :italic] }
+    arranger.update_last_string("", "are", "-")
+    arranger.current_format_state.should == { :styles => [:bold] }
+  end
+
   context "when the entire string was used" do
     it "should not push empty string onto unconsumed" do
     create_pdf
