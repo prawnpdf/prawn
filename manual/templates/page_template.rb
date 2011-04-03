@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# If you only need load some pages from another PDF you can accomplish it with
+# If you only need to load some pages from another PDF you can accomplish it with
 # the <code>start_new_page</code> method. You may pass it a
 # <code>:template</code> option with the path for an existing PDF and a
 # <code>:template_page</code> option to specify which page to load.
