@@ -31,7 +31,11 @@ END_DESC
   ********************************************
 
 
-  A lot has changed since 0.8.4. Please read https://github.com/sandal/prawn/wiki/CHANGELOG for details.
+  A lot has changed since 0.8.4
+
+  Please read the changelog for details:
+
+  https://github.com/sandal/prawn/wiki/CHANGELOG
 
 
   ********************************************
