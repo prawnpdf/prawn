@@ -26,9 +26,8 @@ module Prawn
       #
       def fill_color(*color)
         return current_fill_color if color.empty?
-        color = process_color(*color)
-        self.current_fill_color = color
-        set_fill_color(color)
+        self.current_fill_color = process_color(*color)
+        set_fill_color
       end
 
       alias_method :fill_color=, :fill_color
@@ -187,7 +186,6 @@ module Prawn
       end
 
       def set_current_color_space(color_space, type)                
-        return if state.page.in_stamp_stream?        
         save_graphics_state if graphic_state.nil?
         graphic_state.color_space[type] = color_space
       end
@@ -197,7 +195,6 @@ module Prawn
       end
 
       def current_fill_color=(color)        
-        return if state.page.in_stamp_stream?
         graphic_state.fill_color = color
       end
 
@@ -206,7 +203,6 @@ module Prawn
       end
 
       def current_stroke_color=(color)
-        return if state.page.in_stamp_stream?
         graphic_state.stroke_color = color
       end
 
