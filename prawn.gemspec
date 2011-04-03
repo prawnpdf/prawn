@@ -27,6 +27,14 @@ Gem::Specification.new do |spec|
   Prawn is a fast, tiny, and nimble PDF generator for Ruby
 END_DESC
   spec.post_install_message = <<END_DESC
+
+  ********************************************
+
+
   A lot has changed since 0.8.4. Please read https://github.com/sandal/prawn/wiki/CHANGELOG for details.
+
+
+  ********************************************
+
 END_DESC
 end
