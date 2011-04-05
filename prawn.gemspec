@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 1.8.7'
   spec.required_rubygems_version = ">= 1.3.6"
 
-  spec.test_files = Dir[ "test/*_test.rb" ]
+  spec.test_files = Dir[ "spec/*_spec.rb" ]
   spec.has_rdoc = true
   spec.extra_rdoc_files = %w{HACKING README LICENSE COPYING}
   spec.rdoc_options << '--title' << 'Prawn Documentation' <<
