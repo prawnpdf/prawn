@@ -1,0 +1,1275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: Prawn::Graphics::Color</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/graphics/color_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/graphics/color.rb">lib/prawn/graphics/color.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-color_space">#color_space</a></li>
+					
+					<li><a href="#method-i-color_to_s">#color_to_s</a></li>
+					
+					<li><a href="#method-i-color_type">#color_type</a></li>
+					
+					<li><a href="#method-i-current_color_space">#current_color_space</a></li>
+					
+					<li><a href="#method-i-current_fill_color">#current_fill_color</a></li>
+					
+					<li><a href="#method-i-current_fill_color%3D">#current_fill_color=</a></li>
+					
+					<li><a href="#method-i-current_stroke_color">#current_stroke_color</a></li>
+					
+					<li><a href="#method-i-current_stroke_color%3D">#current_stroke_color=</a></li>
+					
+					<li><a href="#method-i-fill_color">#fill_color</a></li>
+					
+					<li><a href="#method-i-fill_color%3D">#fill_color=</a></li>
+					
+					<li><a href="#method-i-hex2rgb">#hex2rgb</a></li>
+					
+					<li><a href="#method-i-normalize_color">#normalize_color</a></li>
+					
+					<li><a href="#method-i-process_color">#process_color</a></li>
+					
+					<li><a href="#method-i-rgb2hex">#rgb2hex</a></li>
+					
+					<li><a href="#method-i-set_color">#set_color</a></li>
+					
+					<li><a href="#method-i-set_color_space">#set_color_space</a></li>
+					
+					<li><a href="#method-i-set_current_color_space">#set_current_color_space</a></li>
+					
+					<li><a href="#method-i-set_fill_color">#set_fill_color</a></li>
+					
+					<li><a href="#method-i-set_stroke_color">#set_stroke_color</a></li>
+					
+					<li><a href="#method-i-stroke_color">#stroke_color</a></li>
+					
+					<li><a href="#method-i-stroke_color%3D">#stroke_color=</a></li>
+					
+					<li><a href="#method-i-update_colors">#update_colors</a></li>
+					
+					<li><a href="#method-i-write_color">#write_color</a></li>
+					
+					<li><a href="#method-i-write_fill_color">#write_fill_color</a></li>
+					
+					<li><a href="#method-i-write_stroke_color">#write_stroke_color</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">Prawn::Graphics::Color</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+		<div id="constants-list" class="section">
+			<h3 class="section-header">Constants</h3>
+			<dl>
+			
+				<dt><a name="COLOR_SPACES">COLOR_SPACES</a></dt>
+				
+				<dd class="description"></dd>
+				
+			
+			</dl>
+		</div>
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="fill-color-method" class="method-detail ">
+				<a name="method-i-fill_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">fill_color</span><span
+						class="method-args">(*color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets or returns the fill color.
+</p>
+<p>
+When called with no argument, it returns the current fill color.
+</p>
+<p>
+If a single argument is provided, it should be a 6 digit HTML color code.
+</p>
+<pre>
+  pdf.fill_color &quot;f0ffc1&quot;
+</pre>
+<p>
+If 4 arguments are provided, the color is assumed to be a CMYK value Values
+range from 0 - 100.
+</p>
+<pre>
+  pdf.fill_color 0, 99, 95, 0</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="fill-color-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 27</span>
+27:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fill_color</span>(*<span class="ruby-identifier">color</span>)
+28:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">current_fill_color</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">empty?</span>
+29:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">current_fill_color</span> = <span class="ruby-identifier">process_color</span>(*<span class="ruby-identifier">color</span>)
+30:         <span class="ruby-identifier">set_fill_color</span>
+31:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="Color.html#method-i-fill_color%3D">fill_color=</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="fill-color--method" class="method-detail method-alias">
+				<a name="method-i-fill_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">fill_color=</span><span
+						class="method-args">(*color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="Color.html#method-i-fill_color">fill_color</a>
+				</div>
+				
+			</div>
+
+		
+			<div id="hex-rgb-method" class="method-detail ">
+				<a name="method-i-hex2rgb"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">hex2rgb</span><span
+						class="method-args">(hex)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Converts hex string into RGB value array:
+</p>
+<pre>
+ &gt;&gt; Prawn::Graphics::Color.hex2rgb(&quot;ff7808&quot;)
+ =&gt; [255, 120, 8]</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="hex-rgb-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 75</span>
+75:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">hex2rgb</span>(<span class="ruby-identifier">hex</span>)
+76:         <span class="ruby-identifier">r</span>,<span class="ruby-identifier">g</span>,<span class="ruby-identifier">b</span> = <span class="ruby-identifier">hex</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">1</span>], <span class="ruby-identifier">hex</span>[<span class="ruby-value">2</span><span class="ruby-operator">..</span><span class="ruby-value">3</span>], <span class="ruby-identifier">hex</span>[<span class="ruby-value">4</span><span class="ruby-operator">..</span><span class="ruby-value">5</span>]
+77:         [<span class="ruby-identifier">r</span>,<span class="ruby-identifier">g</span>,<span class="ruby-identifier">b</span>].<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">to_i</span>(<span class="ruby-value">16</span>) }
+78:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="rgb-hex-method" class="method-detail ">
+				<a name="method-i-rgb2hex"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">rgb2hex</span><span
+						class="method-args">(rgb)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Converts RGB value array to hex string suitable for use with <a
+href="Color.html#method-i-fill_color">fill_color</a> and <a
+href="Color.html#method-i-stroke_color">stroke_color</a>
+</p>
+<pre>
+  &gt;&gt; Prawn::Graphics::Color.rgb2hex([255,120,8])
+  =&gt; &quot;ff7808&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="rgb-hex-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 66</span>
+66:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rgb2hex</span>(<span class="ruby-identifier">rgb</span>)
+67:         <span class="ruby-identifier">rgb</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-value str">&quot;%02x&quot;</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">e</span> }.<span class="ruby-identifier">join</span>
+68:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="stroke-color-method" class="method-detail ">
+				<a name="method-i-stroke_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stroke_color</span><span
+						class="method-args">(*color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets or returns the line stroking color.
+</p>
+<p>
+When called with no argument, it returns the current stroking color.
+</p>
+<p>
+If a single argument is provided, it should be a 6 digit HTML color code.
+</p>
+<pre>
+  pdf.stroke_color &quot;f0ffc1&quot;
+</pre>
+<p>
+If 4 arguments are provided, the color is assumed to be a CMYK value Values
+range from 0 - 100.
+</p>
+<pre>
+  pdf.stroke_color 0, 99, 95, 0</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="stroke-color-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 49</span>
+49:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stroke_color</span>(*<span class="ruby-identifier">color</span>)
+50:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">current_stroke_color</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">empty?</span>
+51:         <span class="ruby-identifier">color</span> = <span class="ruby-identifier">process_color</span>(*<span class="ruby-identifier">color</span>)
+52:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">current_stroke_color</span> = <span class="ruby-identifier">color</span>
+53:         <span class="ruby-identifier">set_stroke_color</span>(<span class="ruby-identifier">color</span>)
+54:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="Color.html#method-i-stroke_color%3D">stroke_color=</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="stroke-color--method" class="method-detail method-alias">
+				<a name="method-i-stroke_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stroke_color=</span><span
+						class="method-args">(*color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="Color.html#method-i-stroke_color">stroke_color</a>
+				</div>
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="color-space-method" class="method-detail ">
+				<a name="method-i-color_space"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">color_space</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="color-space-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 117</span>
+117:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">color_space</span>(<span class="ruby-identifier">color</span>)
+118:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">color_type</span>(<span class="ruby-identifier">color</span>)
+119:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:RGB</span>
+120:           <span class="ruby-value">:DeviceRGB</span>
+121:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:CMYK</span>
+122:           <span class="ruby-value">:DeviceCMYK</span>
+123:         <span class="ruby-keyword kw">end</span>
+124:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="color-to-s-method" class="method-detail ">
+				<a name="method-i-color_to_s"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">color_to_s</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="color-to-s-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 113</span>
+113:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">color_to_s</span>(<span class="ruby-identifier">color</span>)
+114:         <span class="ruby-identifier">normalize_color</span>(<span class="ruby-identifier">color</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-value str">'%.3f'</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">c</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">' '</span>)
+115:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="color-type-method" class="method-detail ">
+				<a name="method-i-color_type"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">color_type</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="color-type-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 93</span>
+ 93:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">color_type</span>(<span class="ruby-identifier">color</span>)
+ 94:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">color</span>
+ 95:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span>
+ 96:           <span class="ruby-value">:RGB</span>
+ 97:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Array</span>
+ 98:           <span class="ruby-value">:CMYK</span>
+ 99:         <span class="ruby-keyword kw">end</span>
+100:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="current-color-space-method" class="method-detail ">
+				<a name="method-i-current_color_space"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">current_color_space</span><span
+						class="method-args">(type)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="current-color-space-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 184</span>
+184:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_color_space</span>(<span class="ruby-identifier">type</span>)
+185:         <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">color_space</span>[<span class="ruby-identifier">type</span>]
+186:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="current-fill-color-method" class="method-detail ">
+				<a name="method-i-current_fill_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">current_fill_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="current-fill-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 193</span>
+193:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_fill_color</span>
+194:         <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">fill_color</span>
+195:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="current-fill-color--method" class="method-detail ">
+				<a name="method-i-current_fill_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">current_fill_color=</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="current-fill-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 197</span>
+197:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_fill_color=</span>(<span class="ruby-identifier">color</span>)        
+198:         <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">fill_color</span> = <span class="ruby-identifier">color</span>
+199:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="current-stroke-color-method" class="method-detail ">
+				<a name="method-i-current_stroke_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">current_stroke_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="current-stroke-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 201</span>
+201:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_stroke_color</span>
+202:         <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">stroke_color</span>
+203:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="current-stroke-color--method" class="method-detail ">
+				<a name="method-i-current_stroke_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">current_stroke_color=</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="current-stroke-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 205</span>
+205:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_stroke_color=</span>(<span class="ruby-identifier">color</span>)
+206:         <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">stroke_color</span> = <span class="ruby-identifier">color</span>
+207:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="normalize-color-method" class="method-detail ">
+				<a name="method-i-normalize_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">normalize_color</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="normalize-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 102</span>
+102:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">normalize_color</span>(<span class="ruby-identifier">color</span>)
+103:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">color_type</span>(<span class="ruby-identifier">color</span>)
+104:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:RGB</span>
+105:           <span class="ruby-identifier">r</span>,<span class="ruby-identifier">g</span>,<span class="ruby-identifier">b</span> = <span class="ruby-identifier">hex2rgb</span>(<span class="ruby-identifier">color</span>)
+106:           [<span class="ruby-identifier">r</span> <span class="ruby-operator">/</span> <span class="ruby-value">255.0</span>, <span class="ruby-identifier">g</span> <span class="ruby-operator">/</span> <span class="ruby-value">255.0</span>, <span class="ruby-identifier">b</span> <span class="ruby-operator">/</span> <span class="ruby-value">255.0</span>]
+107:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:CMYK</span>
+108:           <span class="ruby-identifier">c</span>,<span class="ruby-identifier">m</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">k</span> = *<span class="ruby-identifier">color</span>
+109:           [<span class="ruby-identifier">c</span> <span class="ruby-operator">/</span> <span class="ruby-value">100.0</span>, <span class="ruby-identifier">m</span> <span class="ruby-operator">/</span> <span class="ruby-value">100.0</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">/</span> <span class="ruby-value">100.0</span>, <span class="ruby-identifier">k</span> <span class="ruby-operator">/</span> <span class="ruby-value">100.0</span>]
+110:         <span class="ruby-keyword kw">end</span>
+111:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="process-color-method" class="method-detail ">
+				<a name="method-i-process_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">process_color</span><span
+						class="method-args">(*color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="process-color-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 82</span>
+82:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_color</span>(*<span class="ruby-identifier">color</span>)
+83:         <span class="ruby-keyword kw">case</span>(<span class="ruby-identifier">color</span>.<span class="ruby-identifier">size</span>)
+84:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span>
+85:           <span class="ruby-identifier">color</span>[<span class="ruby-value">0</span>]
+86:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">4</span>
+87:           <span class="ruby-identifier">color</span>
+88:         <span class="ruby-keyword kw">else</span>
+89:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">'wrong number of arguments supplied'</span>
+90:         <span class="ruby-keyword kw">end</span>
+91:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-color-method" class="method-detail ">
+				<a name="method-i-set_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_color</span><span
+						class="method-args">(type, color, options = {})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 149</span>
+149:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_color</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">color</span>, <span class="ruby-identifier">options</span> = {})
+150:         <span class="ruby-identifier">operator</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+151:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:fill</span>
+152:           <span class="ruby-value str">'scn'</span>
+153:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:stroke</span>
+154:           <span class="ruby-value str">'SCN'</span>
+155:         <span class="ruby-keyword kw">else</span>
+156:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;unknown type '#{type}'&quot;</span>
+157:         <span class="ruby-keyword kw">end</span>
+158: 
+159:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:pattern</span>]
+160:           <span class="ruby-identifier">set_color_space</span> <span class="ruby-identifier">type</span>, <span class="ruby-value">:Pattern</span>
+161:           <span class="ruby-identifier">add_content</span> <span class="ruby-node">&quot;/#{color} #{operator}&quot;</span>
+162:         <span class="ruby-keyword kw">else</span>          
+163:           <span class="ruby-identifier">set_color_space</span> <span class="ruby-identifier">type</span>, <span class="ruby-identifier">color_space</span>(<span class="ruby-identifier">color</span>)
+164:           <span class="ruby-identifier">color</span> = <span class="ruby-identifier">color_to_s</span>(<span class="ruby-identifier">color</span>)
+165:           <span class="ruby-identifier">write_color</span>(<span class="ruby-identifier">color</span>, <span class="ruby-identifier">operator</span>)
+166:         <span class="ruby-keyword kw">end</span>
+167:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-color-space-method" class="method-detail ">
+				<a name="method-i-set_color_space"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_color_space</span><span
+						class="method-args">(type, color_space)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-color-space-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 128</span>
+128:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_color_space</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">color_space</span>)
+129:         <span class="ruby-comment cmt"># don't set the same color space again</span>
+130:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">current_color_space</span>(<span class="ruby-identifier">type</span>) <span class="ruby-operator">==</span> <span class="ruby-identifier">color_space</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">in_stamp_stream?</span>
+131:         <span class="ruby-identifier">set_current_color_space</span>(<span class="ruby-identifier">color_space</span>, <span class="ruby-identifier">type</span>)
+132: 
+133:         <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">COLOR_SPACES</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">color_space</span>)
+134:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;unknown color space: '#{color_space}'&quot;</span>
+135:         <span class="ruby-keyword kw">end</span>
+136: 
+137:         <span class="ruby-identifier">operator</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+138:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:fill</span>
+139:           <span class="ruby-value str">'cs'</span>
+140:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">:stroke</span>
+141:           <span class="ruby-value str">'CS'</span>
+142:         <span class="ruby-keyword kw">else</span>
+143:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;unknown type '#{type}'&quot;</span>
+144:         <span class="ruby-keyword kw">end</span>
+145: 
+146:         <span class="ruby-identifier">add_content</span> <span class="ruby-node">&quot;/#{color_space} #{operator}&quot;</span>
+147:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-current-color-space-method" class="method-detail ">
+				<a name="method-i-set_current_color_space"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_current_color_space</span><span
+						class="method-args">(color_space, type)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-current-color-space-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 188</span>
+188:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_current_color_space</span>(<span class="ruby-identifier">color_space</span>, <span class="ruby-identifier">type</span>)                
+189:         <span class="ruby-identifier">save_graphics_state</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">nil?</span>
+190:         <span class="ruby-identifier">graphic_state</span>.<span class="ruby-identifier">color_space</span>[<span class="ruby-identifier">type</span>] = <span class="ruby-identifier">color_space</span>
+191:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-fill-color-method" class="method-detail ">
+				<a name="method-i-set_fill_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_fill_color</span><span
+						class="method-args">(color = nil)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-fill-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 169</span>
+169:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_fill_color</span>(<span class="ruby-identifier">color</span> = <span class="ruby-keyword kw">nil</span>)
+170:         <span class="ruby-identifier">set_color</span> <span class="ruby-value">:fill</span>, <span class="ruby-identifier">color</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">current_fill_color</span>        
+171:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-stroke-color-method" class="method-detail ">
+				<a name="method-i-set_stroke_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_stroke_color</span><span
+						class="method-args">(color = nil)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="set-stroke-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 173</span>
+173:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_stroke_color</span>(<span class="ruby-identifier">color</span> = <span class="ruby-keyword kw">nil</span>)
+174:         <span class="ruby-identifier">set_color</span> <span class="ruby-value">:stroke</span>, <span class="ruby-identifier">color</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">current_stroke_color</span>
+175:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="update-colors-method" class="method-detail ">
+				<a name="method-i-update_colors"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">update_colors</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="update-colors-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 177</span>
+177:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_colors</span>
+178:         <span class="ruby-identifier">set_fill_color</span>
+179:         <span class="ruby-identifier">set_stroke_color</span>
+180:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="write-color-method" class="method-detail ">
+				<a name="method-i-write_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">write_color</span><span
+						class="method-args">(color, operator)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="write-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 217</span>
+217:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_color</span>(<span class="ruby-identifier">color</span>, <span class="ruby-identifier">operator</span>)
+218:         <span class="ruby-identifier">add_content</span> <span class="ruby-node">&quot;#{color} #{operator}&quot;</span>
+219:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="write-fill-color-method" class="method-detail ">
+				<a name="method-i-write_fill_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">write_fill_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="write-fill-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 209</span>
+209:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_fill_color</span>
+210:         <span class="ruby-identifier">write_color</span>(<span class="ruby-identifier">current_fill_color</span>, <span class="ruby-value str">'scn'</span>)
+211:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="write-stroke-color-method" class="method-detail ">
+				<a name="method-i-write_stroke_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">write_stroke_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="write-stroke-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/graphics/color.rb, line 213</span>
+213:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_stroke_color</span>
+214:         <span class="ruby-identifier">write_color</span>(<span class="ruby-identifier">current_fill_color</span>, <span class="ruby-value str">'SCN'</span>)
+215:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

@@ -1,0 +1,1969 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Text::Formatted::Fragment</title>
+
+	<link rel="stylesheet" href="../../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../../index.html">Home</a>
+          <a href="../../../index.html#classes">Classes</a>
+          <a href="../../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../../lib/prawn/text/formatted/fragment_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/text/formatted/fragment.rb">lib/prawn/text/formatted/fragment.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-absolute_bottom">#absolute_bottom</a></li>
+					
+					<li><a href="#method-i-absolute_bottom_left">#absolute_bottom_left</a></li>
+					
+					<li><a href="#method-i-absolute_bottom_right">#absolute_bottom_right</a></li>
+					
+					<li><a href="#method-i-absolute_bounding_box">#absolute_bounding_box</a></li>
+					
+					<li><a href="#method-i-absolute_left">#absolute_left</a></li>
+					
+					<li><a href="#method-i-absolute_right">#absolute_right</a></li>
+					
+					<li><a href="#method-i-absolute_top">#absolute_top</a></li>
+					
+					<li><a href="#method-i-absolute_top_left">#absolute_top_left</a></li>
+					
+					<li><a href="#method-i-absolute_top_right">#absolute_top_right</a></li>
+					
+					<li><a href="#method-i-anchor">#anchor</a></li>
+					
+					<li><a href="#method-i-bottom">#bottom</a></li>
+					
+					<li><a href="#method-i-bottom_left">#bottom_left</a></li>
+					
+					<li><a href="#method-i-bottom_right">#bottom_right</a></li>
+					
+					<li><a href="#method-i-bounding_box">#bounding_box</a></li>
+					
+					<li><a href="#method-i-callback_objects">#callback_objects</a></li>
+					
+					<li><a href="#method-i-character_spacing">#character_spacing</a></li>
+					
+					<li><a href="#method-i-color">#color</a></li>
+					
+					<li><a href="#method-i-default_direction%3D">#default_direction=</a></li>
+					
+					<li><a href="#method-i-direction">#direction</a></li>
+					
+					<li><a href="#method-i-exclude_trailing_white_space%3F">#exclude_trailing_white_space?</a></li>
+					
+					<li><a href="#method-i-font">#font</a></li>
+					
+					<li><a href="#method-i-height">#height</a></li>
+					
+					<li><a href="#method-i-include_trailing_white_space%21">#include_trailing_white_space!</a></li>
+					
+					<li><a href="#method-i-link">#link</a></li>
+					
+					<li><a href="#method-i-normalized_soft_hyphen">#normalized_soft_hyphen</a></li>
+					
+					<li><a href="#method-i-process_soft_hyphens">#process_soft_hyphens</a></li>
+					
+					<li><a href="#method-i-right">#right</a></li>
+					
+					<li><a href="#method-i-size">#size</a></li>
+					
+					<li><a href="#method-i-space_count">#space_count</a></li>
+					
+					<li><a href="#method-i-strikethrough_points">#strikethrough_points</a></li>
+					
+					<li><a href="#method-i-strip_zero_width_spaces">#strip_zero_width_spaces</a></li>
+					
+					<li><a href="#method-i-styles">#styles</a></li>
+					
+					<li><a href="#method-i-subscript%3F">#subscript?</a></li>
+					
+					<li><a href="#method-i-superscript%3F">#superscript?</a></li>
+					
+					<li><a href="#method-i-text">#text</a></li>
+					
+					<li><a href="#method-i-top">#top</a></li>
+					
+					<li><a href="#method-i-top_left">#top_left</a></li>
+					
+					<li><a href="#method-i-top_right">#top_right</a></li>
+					
+					<li><a href="#method-i-underline_points">#underline_points</a></li>
+					
+					<li><a href="#method-i-width">#width</a></li>
+					
+					<li><a href="#method-i-y_offset">#y_offset</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Text::Formatted::Fragment</h1>
+
+		<div id="description">
+			<p>
+<a href="Fragment.html">Prawn::Text::Formatted::Fragment</a> is a state
+store for a formatted text fragment. It does not render anything.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="format-state-attribute-method" class="method-detail">
+				<a name="format_state"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">format_state</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="width-attribute-method" class="method-detail">
+				<a name="width"></a>
+				
+				<a name="width="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">width</span><span
+						class="attribute-access-type">[W]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="line-height-attribute-method" class="method-detail">
+				<a name="line_height"></a>
+				
+				<a name="line_height="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">line_height</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="descender-attribute-method" class="method-detail">
+				<a name="descender"></a>
+				
+				<a name="descender="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">descender</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="ascender-attribute-method" class="method-detail">
+				<a name="ascender"></a>
+				
+				<a name="ascender="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">ascender</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="word-spacing-attribute-method" class="method-detail">
+				<a name="word_spacing"></a>
+				
+				<a name="word_spacing="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">word_spacing</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="left-attribute-method" class="method-detail">
+				<a name="left"></a>
+				
+				<a name="left="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">left</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="baseline-attribute-method" class="method-detail">
+				<a name="baseline"></a>
+				
+				<a name="baseline="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">baseline</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(text, format_state, document)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 23</span>
+23:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">text</span>, <span class="ruby-identifier">format_state</span>, <span class="ruby-identifier">document</span>)
+24:           <span class="ruby-ivar">@text</span> = <span class="ruby-identifier">text</span>
+25:           <span class="ruby-ivar">@format_state</span> = <span class="ruby-identifier">format_state</span>
+26:           <span class="ruby-ivar">@document</span> = <span class="ruby-identifier">document</span>
+27:           <span class="ruby-ivar">@word_spacing</span> = <span class="ruby-value">0</span>
+28:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="absolute-bottom-method" class="method-detail ">
+				<a name="method-i-absolute_bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 193</span>
+193:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom</span>
+194:           <span class="ruby-identifier">absolute_bounding_box</span>[<span class="ruby-value">1</span>]
+195:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-bottom-left-method" class="method-detail ">
+				<a name="method-i-absolute_bottom_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bottom_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bottom-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 205</span>
+205:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom_left</span>
+206:           [<span class="ruby-identifier">absolute_left</span>, <span class="ruby-identifier">absolute_bottom</span>]
+207:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-bottom-right-method" class="method-detail ">
+				<a name="method-i-absolute_bottom_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bottom_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bottom-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 209</span>
+209:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom_right</span>
+210:           [<span class="ruby-identifier">absolute_right</span>, <span class="ruby-identifier">absolute_bottom</span>]
+211:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-bounding-box-method" class="method-detail ">
+				<a name="method-i-absolute_bounding_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bounding_box</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bounding-box-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 77</span>
+77:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bounding_box</span>
+78:           <span class="ruby-identifier">box</span> = <span class="ruby-identifier">bounding_box</span>
+79:           <span class="ruby-identifier">box</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">+=</span> <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_left</span>
+80:           <span class="ruby-identifier">box</span>[<span class="ruby-value">2</span>] <span class="ruby-operator">+=</span> <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_left</span>
+81:           <span class="ruby-identifier">box</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">+=</span> <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+82:           <span class="ruby-identifier">box</span>[<span class="ruby-value">3</span>] <span class="ruby-operator">+=</span> <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span>
+83:           <span class="ruby-identifier">box</span>
+84:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-left-method" class="method-detail ">
+				<a name="method-i-absolute_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 181</span>
+181:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_left</span>
+182:           <span class="ruby-identifier">absolute_bounding_box</span>[<span class="ruby-value">0</span>]
+183:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-right-method" class="method-detail ">
+				<a name="method-i-absolute_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 185</span>
+185:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_right</span>
+186:           <span class="ruby-identifier">absolute_bounding_box</span>[<span class="ruby-value">2</span>]
+187:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-top-method" class="method-detail ">
+				<a name="method-i-absolute_top"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_top</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-top-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 189</span>
+189:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top</span>
+190:           <span class="ruby-identifier">absolute_bounding_box</span>[<span class="ruby-value">3</span>]
+191:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-top-left-method" class="method-detail ">
+				<a name="method-i-absolute_top_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_top_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-top-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 197</span>
+197:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top_left</span>
+198:           [<span class="ruby-identifier">absolute_left</span>, <span class="ruby-identifier">absolute_top</span>]
+199:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-top-right-method" class="method-detail ">
+				<a name="method-i-absolute_top_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_top_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-top-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 201</span>
+201:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top_right</span>
+202:           [<span class="ruby-identifier">absolute_right</span>, <span class="ruby-identifier">absolute_top</span>]
+203:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="anchor-method" class="method-detail ">
+				<a name="method-i-anchor"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">anchor</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="anchor-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 104</span>
+104:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">anchor</span>
+105:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:anchor</span>]
+106:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bottom-method" class="method-detail ">
+				<a name="method-i-bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 161</span>
+161:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom</span>
+162:           <span class="ruby-identifier">baseline</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">descender</span>
+163:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bottom-left-method" class="method-detail ">
+				<a name="method-i-bottom_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bottom_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="bottom-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 177</span>
+177:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom_left</span>
+178:           [<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bottom</span>]
+179:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bottom-right-method" class="method-detail ">
+				<a name="method-i-bottom_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bottom_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="bottom-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 173</span>
+173:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom_right</span>
+174:           [<span class="ruby-identifier">right</span>, <span class="ruby-identifier">bottom</span>]
+175:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bounding-box-method" class="method-detail ">
+				<a name="method-i-bounding_box"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bounding_box</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="bounding-box-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 73</span>
+73:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bounding_box</span>
+74:           [<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bottom</span>, <span class="ruby-identifier">right</span>, <span class="ruby-identifier">top</span>]
+75:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="callback-objects-method" class="method-detail ">
+				<a name="method-i-callback_objects"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">callback_objects</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="callback-objects-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 142</span>
+142:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">callback_objects</span>
+143:           <span class="ruby-identifier">callback</span> = <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:callback</span>]
+144:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">callback</span>.<span class="ruby-identifier">nil?</span>
+145:             []
+146:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">callback</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+147:             <span class="ruby-identifier">callback</span>
+148:           <span class="ruby-keyword kw">else</span>
+149:             [<span class="ruby-identifier">callback</span>]
+150:           <span class="ruby-keyword kw">end</span>
+151:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="character-spacing-method" class="method-detail ">
+				<a name="method-i-character_spacing"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">character_spacing</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="character-spacing-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 120</span>
+120:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">character_spacing</span>
+121:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:character_spacing</span>] <span class="ruby-operator">||</span>
+122:             <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">character_spacing</span>
+123:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="color-method" class="method-detail ">
+				<a name="method-i-color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 108</span>
+108:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">color</span>
+109:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:color</span>]
+110:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="default-direction--method" class="method-detail ">
+				<a name="method-i-default_direction%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">default_direction=</span><span
+						class="method-args">(direction)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="default-direction--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 129</span>
+129:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_direction=</span>(<span class="ruby-identifier">direction</span>)
+130:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:direction</span>] = <span class="ruby-identifier">direction</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:direction</span>]
+131:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="direction-method" class="method-detail ">
+				<a name="method-i-direction"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">direction</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="direction-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 125</span>
+125:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">direction</span>
+126:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:direction</span>]
+127:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="font-method" class="method-detail ">
+				<a name="method-i-font"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">font</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="font-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 112</span>
+112:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">font</span>
+113:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:font</span>]
+114:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="height-method" class="method-detail ">
+				<a name="method-i-height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="height-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 54</span>
+54:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>
+55:           <span class="ruby-identifier">top</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">bottom</span>
+56:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="include-trailing-white-space--method" class="method-detail ">
+				<a name="method-i-include_trailing_white_space%21"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">include_trailing_white_space!</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="include-trailing-white-space--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 133</span>
+133:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">include_trailing_white_space!</span>
+134:           <span class="ruby-ivar">@format_state</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:exclude_trailing_white_space</span>)
+135:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="link-method" class="method-detail ">
+				<a name="method-i-link"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">link</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="link-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 100</span>
+100:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">link</span>
+101:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:link</span>]
+102:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="right-method" class="method-detail ">
+				<a name="method-i-right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 153</span>
+153:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right</span>
+154:           <span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span>
+155:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="size-method" class="method-detail ">
+				<a name="method-i-size"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">size</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="size-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 116</span>
+116:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>
+117:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:size</span>]
+118:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="space-count-method" class="method-detail ">
+				<a name="method-i-space_count"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">space_count</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="space-count-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 137</span>
+137:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">space_count</span>
+138:           <span class="ruby-identifier">string</span> = <span class="ruby-identifier">exclude_trailing_white_space?</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@text</span>.<span class="ruby-identifier">rstrip</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@text</span>
+139:           <span class="ruby-identifier">string</span>.<span class="ruby-identifier">count</span>(<span class="ruby-value str">&quot; &quot;</span>)
+140:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="strikethrough-points-method" class="method-detail ">
+				<a name="method-i-strikethrough_points"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">strikethrough_points</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="strikethrough-points-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 91</span>
+91:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">strikethrough_points</span>
+92:           <span class="ruby-identifier">y</span> = <span class="ruby-identifier">baseline</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">ascender</span> * <span class="ruby-value">0.3</span>
+93:           [[<span class="ruby-identifier">left</span>, <span class="ruby-identifier">y</span>], [<span class="ruby-identifier">right</span>, <span class="ruby-identifier">y</span>]]
+94:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="styles-method" class="method-detail ">
+				<a name="method-i-styles"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">styles</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="styles-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 96</span>
+96:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">styles</span>
+97:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:styles</span>] <span class="ruby-operator">||</span> []
+98:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="subscript--method" class="method-detail ">
+				<a name="method-i-subscript%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">subscript?</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="subscript--source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 58</span>
+58:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">subscript?</span>
+59:           <span class="ruby-identifier">styles</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:subscript</span>)
+60:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="superscript--method" class="method-detail ">
+				<a name="method-i-superscript%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">superscript?</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="superscript--source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 62</span>
+62:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">superscript?</span>
+63:           <span class="ruby-identifier">styles</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:superscript</span>)
+64:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="text-method" class="method-detail ">
+				<a name="method-i-text"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">text</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="text-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 30</span>
+30:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text</span>
+31:           <span class="ruby-identifier">string</span> = <span class="ruby-identifier">strip_zero_width_spaces</span>(<span class="ruby-ivar">@text</span>)
+32:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">exclude_trailing_white_space?</span>
+33:             <span class="ruby-identifier">string</span> = <span class="ruby-identifier">string</span>.<span class="ruby-identifier">rstrip</span>
+34:             <span class="ruby-identifier">string</span> = <span class="ruby-identifier">process_soft_hyphens</span>(<span class="ruby-identifier">string</span>)
+35:           <span class="ruby-keyword kw">end</span>
+36:           <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">direction</span>
+37:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">:rtl</span>
+38:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">ruby_18</span> { <span class="ruby-keyword kw">true</span> }
+39:               <span class="ruby-identifier">string</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp re">/./</span><span class="ruby-identifier">u</span>).<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">join</span>
+40:             <span class="ruby-keyword kw">else</span>
+41:               <span class="ruby-identifier">string</span>.<span class="ruby-identifier">reverse</span>
+42:             <span class="ruby-keyword kw">end</span>
+43:           <span class="ruby-keyword kw">else</span>
+44:             <span class="ruby-identifier">string</span>
+45:           <span class="ruby-keyword kw">end</span>
+46:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="top-method" class="method-detail ">
+				<a name="method-i-top"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">top</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="top-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 157</span>
+157:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top</span>
+158:           <span class="ruby-identifier">baseline</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">ascender</span>
+159:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="top-left-method" class="method-detail ">
+				<a name="method-i-top_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">top_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="top-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 165</span>
+165:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top_left</span>
+166:           [<span class="ruby-identifier">left</span>, <span class="ruby-identifier">top</span>]
+167:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="top-right-method" class="method-detail ">
+				<a name="method-i-top_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">top_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="top-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 169</span>
+169:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top_right</span>
+170:           [<span class="ruby-identifier">right</span>, <span class="ruby-identifier">top</span>]
+171:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="underline-points-method" class="method-detail ">
+				<a name="method-i-underline_points"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">underline_points</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="underline-points-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 86</span>
+86:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">underline_points</span>
+87:           <span class="ruby-identifier">y</span> = <span class="ruby-identifier">baseline</span> <span class="ruby-operator">-</span> <span class="ruby-value">1.25</span>
+88:           [[<span class="ruby-identifier">left</span>, <span class="ruby-identifier">y</span>], [<span class="ruby-identifier">right</span>, <span class="ruby-identifier">y</span>]]
+89:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="width-method" class="method-detail ">
+				<a name="method-i-width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="width-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 48</span>
+48:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width</span>
+49:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@word_spacing</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span> <span class="ruby-ivar">@width</span>
+50:           <span class="ruby-keyword kw">else</span> <span class="ruby-ivar">@width</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@word_spacing</span> * <span class="ruby-identifier">space_count</span>
+51:           <span class="ruby-keyword kw">end</span>
+52:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="y-offset-method" class="method-detail ">
+				<a name="method-i-y_offset"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">y_offset</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="y-offset-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 66</span>
+66:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">y_offset</span>
+67:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">subscript?</span> <span class="ruby-keyword kw">then</span> <span class="ruby-operator">-</span><span class="ruby-identifier">descender</span>
+68:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">superscript?</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value">0.85</span> * <span class="ruby-identifier">ascender</span>
+69:           <span class="ruby-keyword kw">else</span> <span class="ruby-value">0</span>
+70:           <span class="ruby-keyword kw">end</span>
+71:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="exclude-trailing-white-space--method" class="method-detail ">
+				<a name="method-i-exclude_trailing_white_space%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">exclude_trailing_white_space?</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="exclude-trailing-white-space--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 215</span>
+215:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exclude_trailing_white_space?</span>
+216:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:exclude_trailing_white_space</span>]
+217:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="normalized-soft-hyphen-method" class="method-detail ">
+				<a name="method-i-normalized_soft_hyphen"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">normalized_soft_hyphen</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="normalized-soft-hyphen-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 219</span>
+219:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">normalized_soft_hyphen</span>
+220:           <span class="ruby-ivar">@format_state</span>[<span class="ruby-value">:normalized_soft_hyphen</span>]
+221:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="process-soft-hyphens-method" class="method-detail ">
+				<a name="method-i-process_soft_hyphens"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">process_soft_hyphens</span><span
+						class="method-args">(string)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="process-soft-hyphens-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 223</span>
+223:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_soft_hyphens</span>(<span class="ruby-identifier">string</span>)
+224:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">normalized_soft_hyphen</span>
+225:             <span class="ruby-identifier">string</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">2</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-identifier">normalized_soft_hyphen</span>, <span class="ruby-value str">&quot;&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">string</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">1</span>]
+226:           <span class="ruby-keyword kw">else</span>
+227:             <span class="ruby-identifier">string</span>
+228:           <span class="ruby-keyword kw">end</span>
+229:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="strip-zero-width-spaces-method" class="method-detail ">
+				<a name="method-i-strip_zero_width_spaces"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">strip_zero_width_spaces</span><span
+						class="method-args">(string)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="strip-zero-width-spaces-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/text/formatted/fragment.rb, line 231</span>
+231:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">strip_zero_width_spaces</span>(<span class="ruby-identifier">string</span>)
+232:           <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-value str">&quot;&quot;</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:encoding</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">encoding</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;UTF-8&quot;</span>
+233:             <span class="ruby-identifier">string</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">ZWSP</span>, <span class="ruby-value str">&quot;&quot;</span>)
+234:           <span class="ruby-keyword kw">else</span>
+235:             <span class="ruby-identifier">string</span>
+236:           <span class="ruby-keyword kw">end</span>
+237:         <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

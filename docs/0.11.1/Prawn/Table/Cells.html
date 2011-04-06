@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Table::Cells</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/table/cells_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table/cells.rb">lib/prawn/table/cells.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Array</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-%5B%5D">#[]</a></li>
+					
+					<li><a href="#method-i-column">#column</a></li>
+					
+					<li><a href="#method-i-columns">#columns</a></li>
+					
+					<li><a href="#method-i-filter">#filter</a></li>
+					
+					<li><a href="#method-i-height">#height</a></li>
+					
+					<li><a href="#method-i-index_cells">#index_cells</a></li>
+					
+					<li><a href="#method-i-max_width">#max_width</a></li>
+					
+					<li><a href="#method-i-method_missing">#method_missing</a></li>
+					
+					<li><a href="#method-i-min_width">#min_width</a></li>
+					
+					<li><a href="#method-i-row">#row</a></li>
+					
+					<li><a href="#method-i-rows">#rows</a></li>
+					
+					<li><a href="#method-i-style">#style</a></li>
+					
+					<li><a href="#method-i-transform_spec">#transform_spec</a></li>
+					
+					<li><a href="#method-i-width">#width</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Table::Cells</h1>
+
+		<div id="description">
+			<p>
+Represents a selection of cells to be styled. Operations on a CellProxy can
+be chained, and cell properties can be set one-for-all on the proxy.
+</p>
+<p>
+To set vertical borders only:
+</p>
+<pre>
+  table.cells.borders = [:left, :right]
+</pre>
+<p>
+To highlight a rectangular area of the table:
+</p>
+<pre>
+  table.rows(1..3).columns(2..4).background_color = 'ff0000'</pre>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="--method" class="method-detail ">
+				<a name="method-i-%5B%5D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">[]</span><span
+						class="method-args">(row, col)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Retrieves a cell based on its 0-based row and column. Returns an individual
+<a href="Cell.html">Cell</a>, not a <a href="Cells.html">Cells</a>
+collection.
+</p>
+<pre>
+  table.cells[0, 0].content # =&gt; &quot;First cell content&quot;</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="--source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 90</span>
+90:       <span class="ruby-keyword kw">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col</span>)
+91:         <span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">column</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col</span> }
+92:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="column-method" class="method-detail method-alias">
+				<a name="method-i-column"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">column</span><span
+						class="method-args">(col_spec)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="Cells.html#method-i-columns">columns</a>
+				</div>
+				
+			</div>
+
+		
+			<div id="columns-method" class="method-detail ">
+				<a name="method-i-columns"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">columns</span><span
+						class="method-args">(col_spec)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Limits selection to the given column or columns. <tt>col_spec</tt> can be
+anything that responds to the === operator selecting a set of 0-based
+column numbers; most commonly a number or a range.
+</p>
+<pre>
+  table.column(0)     # selects first column
+  table.columns(3..4) # selects columns four and five</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="columns-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 69</span>
+69:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">columns</span>(<span class="ruby-identifier">col_spec</span>)
+70:         <span class="ruby-identifier">index_cells</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@indexed</span>
+71:         <span class="ruby-identifier">col_spec</span> = <span class="ruby-identifier">transform_spec</span>(<span class="ruby-identifier">col_spec</span>, <span class="ruby-ivar">@column_count</span>)
+72:         <span class="ruby-constant">Cells</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@columns</span>[<span class="ruby-identifier">col_spec</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">select</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">col_spec</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">column</span> })
+73:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="Cells.html#method-i-column">column</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="filter-method" class="method-detail ">
+				<a name="method-i-filter"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">filter</span><span
+						class="method-args">(&block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Allows you to filter the given cells by arbitrary properties.
+</p>
+<pre>
+  table.column(4).filter { |cell| cell.content =~ /Yes/ }.
+    background_color = '00ff00'</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="filter-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 81</span>
+81:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filter</span>(&amp;<span class="ruby-identifier">block</span>)
+82:         <span class="ruby-constant">Cells</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">select</span>(&amp;<span class="ruby-identifier">block</span>))
+83:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="height-method" class="method-detail ">
+				<a name="method-i-height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the total height of all rows in the selected set.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="height-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 147</span>
+147:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>
+148:         <span class="ruby-identifier">row_heights</span> = {}
+149:         <span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span> 
+150:           <span class="ruby-identifier">row_heights</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span>] = 
+151:             [<span class="ruby-identifier">row_heights</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span>], <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">height</span>].<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">max</span>
+152:         <span class="ruby-keyword kw">end</span>
+153:         <span class="ruby-identifier">row_heights</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sum</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span> }
+154:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="max-width-method" class="method-detail ">
+				<a name="method-i-max_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">max_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns maximum width that can contain cells in the set.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="max-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 136</span>
+136:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">max_width</span>
+137:         <span class="ruby-identifier">column_max_widths</span> = {}
+138:         <span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span> 
+139:           <span class="ruby-identifier">column_max_widths</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>] = 
+140:             [<span class="ruby-identifier">column_max_widths</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>], <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">max_width</span>].<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">min</span>
+141:         <span class="ruby-keyword kw">end</span>
+142:         <span class="ruby-identifier">column_max_widths</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sum</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span> }
+143:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="method-missing-method" class="method-detail ">
+				<a name="method-i-method_missing"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">method_missing</span><span
+						class="method-args">(id, *args, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Supports setting arbitrary properties on a group of cells.
+</p>
+<pre>
+  table.cells.row(3..6).background_color = 'cc0000'</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="method-missing-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 160</span>
+160:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">id</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+161:         <span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">id</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>) }
+162:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="min-width-method" class="method-detail ">
+				<a name="method-i-min_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">min_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns minimum width required to contain cells in the set.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="min-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 125</span>
+125:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">min_width</span>
+126:         <span class="ruby-identifier">column_min_widths</span> = {}
+127:         <span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span> 
+128:           <span class="ruby-identifier">column_min_widths</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>] = 
+129:             [<span class="ruby-identifier">column_min_widths</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>], <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">min_width</span>].<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">max</span>
+130:         <span class="ruby-keyword kw">end</span>
+131:         <span class="ruby-identifier">column_min_widths</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sum</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span> }
+132:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="row-method" class="method-detail method-alias">
+				<a name="method-i-row"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">row</span><span
+						class="method-args">(row_spec)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="Cells.html#method-i-rows">rows</a>
+				</div>
+				
+			</div>
+
+		
+			<div id="rows-method" class="method-detail ">
+				<a name="method-i-rows"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">rows</span><span
+						class="method-args">(row_spec)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Limits selection to the given row or rows. <tt>row_spec</tt> can be
+anything that responds to the === operator selecting a set of 0-based row
+numbers; most commonly a number or a range.
+</p>
+<pre>
+  table.row(0)     # selects first row
+  table.rows(3..4) # selects rows four and five</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="rows-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 55</span>
+55:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rows</span>(<span class="ruby-identifier">row_spec</span>)
+56:         <span class="ruby-identifier">index_cells</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@indexed</span>
+57:         <span class="ruby-identifier">row_spec</span> = <span class="ruby-identifier">transform_spec</span>(<span class="ruby-identifier">row_spec</span>, <span class="ruby-ivar">@row_count</span>)
+58:         <span class="ruby-constant">Cells</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@rows</span>[<span class="ruby-identifier">row_spec</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">select</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row_spec</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> })
+59:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="Cells.html#method-i-row">row</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="style-method" class="method-detail ">
+				<a name="method-i-style"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">style</span><span
+						class="method-args">(options={}, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Supports setting multiple properties at once.
+</p>
+<pre>
+  table.cells.style(:padding =&gt; 0, :border_width =&gt; 2)
+</pre>
+<p>
+is the same as:
+</p>
+<pre>
+  table.cells.padding = 0
+  table.cells.border_width = 2
+</pre>
+<p>
+You can also pass a block, which will be called for each cell in turn. This
+allows you to set more complicated properties:
+</p>
+<pre>
+  table.cells.style { |cell| cell.border_width += 12 }</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="style-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 108</span>
+108:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">style</span>(<span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">block</span>)
+109:         <span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">style</span>(<span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">block</span>) }
+110:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="width-method" class="method-detail ">
+				<a name="method-i-width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the total width of all columns in the selected set.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 114</span>
+114:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width</span>
+115:         <span class="ruby-identifier">column_widths</span> = {}
+116:         <span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span> 
+117:           <span class="ruby-identifier">column_widths</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>] = 
+118:             [<span class="ruby-identifier">column_widths</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>], <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">width</span>].<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">max</span>
+119:         <span class="ruby-keyword kw">end</span>
+120:         <span class="ruby-identifier">column_widths</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sum</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span> }
+121:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="protected-instance-method-details" class="method-section section">
+			<h3 class="section-header">Protected Instance Methods</h3>
+
+		
+			<div id="index-cells-method" class="method-detail ">
+				<a name="method-i-index_cells"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">index_cells</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Defers indexing until rows() or columns() is actually called on the <a
+href="Cells.html">Cells</a> object. Without this, we would needlessly index
+the leaf nodes of the object graph, the ones that are only there to be
+iterated over.
+</p>
+<p>
+Make sure to call this before using @rows or @columns.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="index-cells-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 172</span>
+172:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index_cells</span>
+173:         <span class="ruby-ivar">@rows</span> = {}
+174:         <span class="ruby-ivar">@columns</span> = {}
+175: 
+176:         <span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span>
+177:           <span class="ruby-ivar">@rows</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span>] <span class="ruby-operator">||=</span> []
+178:           <span class="ruby-ivar">@rows</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">row</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cell</span>
+179: 
+180:           <span class="ruby-ivar">@columns</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>] <span class="ruby-operator">||=</span> []
+181:           <span class="ruby-ivar">@columns</span>[<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">column</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cell</span>
+182:         <span class="ruby-keyword kw">end</span>
+183: 
+184:         <span class="ruby-ivar">@row_count</span>    = <span class="ruby-ivar">@rows</span>.<span class="ruby-identifier">size</span>
+185:         <span class="ruby-ivar">@column_count</span> = <span class="ruby-ivar">@columns</span>.<span class="ruby-identifier">size</span>
+186: 
+187:         <span class="ruby-ivar">@indexed</span> = <span class="ruby-keyword kw">true</span>
+188:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="transform-spec-method" class="method-detail ">
+				<a name="method-i-transform_spec"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">transform_spec</span><span
+						class="method-args">(spec, total)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Transforms <tt>spec</tt>, a column / row specification, into an object that
+can be compared against a row or column number using ===. Normalizes
+negative indices to be positive, given a total size of <tt>total</tt>.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="transform-spec-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cells.rb, line 194</span>
+194:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">transform_spec</span>(<span class="ruby-identifier">spec</span>, <span class="ruby-identifier">total</span>)
+195:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">spec</span>
+196:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Range</span>
+197:           <span class="ruby-identifier">transform_spec</span>(<span class="ruby-identifier">spec</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-identifier">total</span>)<span class="ruby-operator">..</span><span class="ruby-identifier">transform_spec</span>(<span class="ruby-identifier">spec</span>.<span class="ruby-identifier">end</span>, <span class="ruby-identifier">total</span>)
+198:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Integer</span>
+199:           <span class="ruby-identifier">spec</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> (<span class="ruby-identifier">total</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">spec</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">spec</span>
+200:         <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># pass through</span>
+201:           <span class="ruby-identifier">spec</span>
+202:         <span class="ruby-keyword kw">end</span>
+203:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

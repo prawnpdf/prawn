@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: Prawn::Images</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/prawn/images_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/images.rb">lib/prawn/images.rb</a></li>
+					
+						<li><a href="../lib/prawn/images/jpg_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/images/jpg.rb">lib/prawn/images/jpg.rb</a></li>
+					
+						<li><a href="../lib/prawn/images/png_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/images/png.rb">lib/prawn/images/png.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">CLASS</span> <a href="Images/JPG.html">Prawn::Images::JPG</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Images/PNG.html">Prawn::Images::PNG</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-calc_image_dimensions">#calc_image_dimensions</a></li>
+					
+					<li><a href="#method-i-detect_image_format">#detect_image_format</a></li>
+					
+					<li><a href="#method-i-determine_y_with_page_flow">#determine_y_with_page_flow</a></li>
+					
+					<li><a href="#method-i-image">#image</a></li>
+					
+					<li><a href="#method-i-image_position">#image_position</a></li>
+					
+					<li><a href="#method-i-image_registry">#image_registry</a></li>
+					
+					<li><a href="#method-i-next_image_id">#next_image_id</a></li>
+					
+					<li><a href="#method-i-overruns_page%3F">#overruns_page?</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">Prawn::Images</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="image-method" class="method-detail ">
+				<a name="method-i-image"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">image</span><span
+						class="method-args">(file, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Add the image at filename to the current page. Currently only <a
+href="Images/JPG.html">JPG</a> and <a href="Images/PNG.html">PNG</a> files
+are supported.
+</p>
+<p>
+NOTE: Prawn is very slow at rendering PNGs with alpha channels.  The
+workaround for those who don&#8217;t mind installing RMagick is to use:
+</p>
+<p>
+<a
+href="http://github.com/amberbit/prawn-fast-png">github.com/amberbit/prawn-fast-png</a>
+</p>
+<p>
+Arguments:
+</p>
+<table>
+<tr><td valign="top"><tt>file</tt></td><td><p>
+path to file or an object that responds to #
+</p>
+</td></tr>
+</table>
+<p>
+Options:
+</p>
+<table>
+<tr><td valign="top"><tt>:at</tt></td><td><p>
+an array [x,y] with the location of the top left corner of the image.
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:position</tt></td><td><p>
+One of (:left, :center, :right) or an x-offset
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:vposition</tt></td><td><p>
+One of (:top, :center, :center) or an y-offset    
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:height</tt></td><td><p>
+the height of the image [actual height of the image]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:width</tt></td><td><p>
+the width of the image [actual width of the image]
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:scale</tt></td><td><p>
+scale the dimensions of the image proportionally
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:fit</tt></td><td><p>
+scale the dimensions of the image proportionally to fit inside
+[width,height]
+</p>
+</td></tr>
+</table>
+<pre>
+  Prawn::Document.generate(&quot;image2.pdf&quot;, :page_layout =&gt; :landscape) do     
+    pigs = &quot;#{Prawn::BASEDIR}/data/images/pigs.jpg&quot; 
+    image pigs, :at =&gt; [50,450], :width =&gt; 450                                      
+
+    dice = &quot;#{Prawn::BASEDIR}/data/images/dice.png&quot;
+    image dice, :at =&gt; [50, 450], :scale =&gt; 0.75 
+  end   
+</pre>
+<p>
+If only one of :width / :height are provided, the image will be scaled
+proportionally.  When both are provided, the image will be stretched to 
+fit the dimensions without maintaining the aspect ratio.
+</p>
+<p>
+If :at is provided, the image will be place in the current page but the
+text position will not be changed.
+</p>
+<p>
+If instead of an explicit filename, an object with a read method is passed
+as <tt>file</tt>, you can embed images from IO objects and things that act
+like them (including Tempfiles and open-uri objects).
+</p>
+<pre>
+  require &quot;open-uri&quot;
+
+  Prawn::Document.generate(&quot;remote_images.pdf&quot;) do 
+    image open(&quot;http://prawn.majesticseacreature.com/media/prawn_logo.png&quot;)
+  end
+</pre>
+<p>
+This method returns an image info object which can be used to check the
+dimensions of an image object if needed.  (See also: <a
+href="Images/PNG.html">Prawn::Images::PNG</a> , <a
+href="Images/JPG.html">Prawn::Images::JPG</a>)
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="image-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 65</span>
+ 65:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">options</span>={})
+ 66:       <span class="ruby-constant">Prawn</span>.<span class="ruby-identifier">verify_options</span> [<span class="ruby-value">:at</span>, <span class="ruby-value">:position</span>, <span class="ruby-value">:vposition</span>, <span class="ruby-value">:height</span>, 
+ 67:                             <span class="ruby-value">:width</span>, <span class="ruby-value">:scale</span>, <span class="ruby-value">:fit</span>], <span class="ruby-identifier">options</span>
+ 68: 
+ 69:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:read</span>)
+ 70:         <span class="ruby-identifier">image_content</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>
+ 71:       <span class="ruby-keyword kw">else</span>
+ 72:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;#{file} not found&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">file</span>)  
+ 73:         <span class="ruby-identifier">image_content</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">binread</span>(<span class="ruby-identifier">file</span>)
+ 74:       <span class="ruby-keyword kw">end</span>
+ 75:       
+ 76:       <span class="ruby-identifier">image_sha1</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">image_content</span>)
+ 77: 
+ 78:       <span class="ruby-comment cmt"># if this image has already been embedded, just reuse it</span>
+ 79:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>]
+ 80:         <span class="ruby-identifier">info</span> = <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>][<span class="ruby-value">:info</span>]
+ 81:         <span class="ruby-identifier">image_obj</span> = <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>][<span class="ruby-value">:obj</span>]
+ 82:       <span class="ruby-keyword kw">else</span>
+ 83:         <span class="ruby-comment cmt"># Build the image object</span>
+ 84:         <span class="ruby-identifier">klass</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">detect_image_format</span>(<span class="ruby-identifier">image_content</span>)
+ 85:                 <span class="ruby-keyword kw">when</span> <span class="ruby-value">:jpg</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Images</span><span class="ruby-operator">::</span><span class="ruby-constant">JPG</span>
+ 86:                 <span class="ruby-keyword kw">when</span> <span class="ruby-value">:png</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Images</span><span class="ruby-operator">::</span><span class="ruby-constant">PNG</span>
+ 87:                 <span class="ruby-keyword kw">end</span>
+ 88:         <span class="ruby-identifier">info</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">image_content</span>)
+ 89: 
+ 90:         <span class="ruby-comment cmt"># Bump PDF version if the image requires it</span>
+ 91:         <span class="ruby-identifier">min_version</span>(<span class="ruby-identifier">info</span>.<span class="ruby-identifier">min_pdf_version</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:min_pdf_version</span>)
+ 92: 
+ 93:         <span class="ruby-comment cmt"># Add the image to the PDF and register it in case we see it again.</span>
+ 94:         <span class="ruby-identifier">image_obj</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">build_pdf_object</span>(<span class="ruby-keyword kw">self</span>)
+ 95:         <span class="ruby-identifier">image_registry</span>[<span class="ruby-identifier">image_sha1</span>] = {<span class="ruby-value">:obj</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">image_obj</span>, <span class="ruby-value">:info</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">info</span>}
+ 96:       <span class="ruby-keyword kw">end</span>
+ 97: 
+ 98:       <span class="ruby-comment cmt"># find where the image will be placed and how big it will be  </span>
+ 99:       <span class="ruby-identifier">w</span>,<span class="ruby-identifier">h</span> = <span class="ruby-identifier">calc_image_dimensions</span>(<span class="ruby-identifier">info</span>, <span class="ruby-identifier">options</span>)
+100: 
+101:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:at</span>]     
+102:         <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">map_to_absolute</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:at</span>]) 
+103:       <span class="ruby-keyword kw">else</span>                  
+104:         <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span> = <span class="ruby-identifier">image_position</span>(<span class="ruby-identifier">w</span>,<span class="ruby-identifier">h</span>,<span class="ruby-identifier">options</span>) 
+105:         <span class="ruby-identifier">move_text_position</span> <span class="ruby-identifier">h</span>   
+106:       <span class="ruby-keyword kw">end</span>
+107: 
+108:       <span class="ruby-comment cmt"># add a reference to the image object to the current page</span>
+109:       <span class="ruby-comment cmt"># resource list and give it a label</span>
+110:       <span class="ruby-identifier">label</span> = <span class="ruby-node">&quot;I#{next_image_id}&quot;</span>
+111:       <span class="ruby-identifier">state</span>.<span class="ruby-identifier">page</span>.<span class="ruby-identifier">xobjects</span>.<span class="ruby-identifier">merge!</span>( <span class="ruby-identifier">label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">image_obj</span> )
+112: 
+113:       <span class="ruby-comment cmt"># add the image to the current page</span>
+114:       <span class="ruby-identifier">instruct</span> = <span class="ruby-value str">&quot;\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ&quot;</span>
+115:       <span class="ruby-identifier">add_content</span> <span class="ruby-identifier">instruct</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">w</span>, <span class="ruby-identifier">h</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">h</span>, <span class="ruby-identifier">label</span> ]
+116:       
+117:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">info</span>
+118:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="calc-image-dimensions-method" class="method-detail ">
+				<a name="method-i-calc_image_dimensions"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">calc_image_dimensions</span><span
+						class="method-args">(info, options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="calc-image-dimensions-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 164</span>
+164:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">calc_image_dimensions</span>(<span class="ruby-identifier">info</span>, <span class="ruby-identifier">options</span>)
+165:       <span class="ruby-identifier">w</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:width</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">width</span>
+166:       <span class="ruby-identifier">h</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:height</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">height</span>
+167: 
+168:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:width</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:height</span>]
+169:         <span class="ruby-identifier">wp</span> = <span class="ruby-identifier">w</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">width</span>.<span class="ruby-identifier">to_f</span> 
+170:         <span class="ruby-identifier">w</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">width</span> * <span class="ruby-identifier">wp</span>
+171:         <span class="ruby-identifier">h</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">height</span> * <span class="ruby-identifier">wp</span>
+172:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:height</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">options</span>[<span class="ruby-value">:width</span>]         
+173:         <span class="ruby-identifier">hp</span> = <span class="ruby-identifier">h</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">height</span>.<span class="ruby-identifier">to_f</span>
+174:         <span class="ruby-identifier">w</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">width</span> * <span class="ruby-identifier">hp</span>
+175:         <span class="ruby-identifier">h</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">height</span> * <span class="ruby-identifier">hp</span>   
+176:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:scale</span>] 
+177:         <span class="ruby-identifier">w</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">width</span> * <span class="ruby-identifier">options</span>[<span class="ruby-value">:scale</span>]
+178:         <span class="ruby-identifier">h</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">height</span> * <span class="ruby-identifier">options</span>[<span class="ruby-value">:scale</span>]
+179:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:fit</span>] 
+180:         <span class="ruby-identifier">bw</span>, <span class="ruby-identifier">bh</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:fit</span>]
+181:         <span class="ruby-identifier">bp</span> = <span class="ruby-identifier">bw</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">bh</span>.<span class="ruby-identifier">to_f</span>
+182:         <span class="ruby-identifier">ip</span> = <span class="ruby-identifier">info</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">height</span>.<span class="ruby-identifier">to_f</span>
+183:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">ip</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bp</span>
+184:           <span class="ruby-identifier">w</span> = <span class="ruby-identifier">bw</span>
+185:           <span class="ruby-identifier">h</span> = <span class="ruby-identifier">bw</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">ip</span>
+186:         <span class="ruby-keyword kw">else</span>
+187:           <span class="ruby-identifier">h</span> = <span class="ruby-identifier">bh</span>
+188:           <span class="ruby-identifier">w</span> = <span class="ruby-identifier">bh</span> * <span class="ruby-identifier">ip</span>
+189:         <span class="ruby-keyword kw">end</span>
+190:       <span class="ruby-keyword kw">end</span>
+191:       <span class="ruby-identifier">info</span>.<span class="ruby-identifier">scaled_width</span> = <span class="ruby-identifier">w</span>
+192:       <span class="ruby-identifier">info</span>.<span class="ruby-identifier">scaled_height</span> = <span class="ruby-identifier">h</span>
+193:       [<span class="ruby-identifier">w</span>,<span class="ruby-identifier">h</span>]
+194:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="detect-image-format-method" class="method-detail ">
+				<a name="method-i-detect_image_format"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">detect_image_format</span><span
+						class="method-args">(content)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="detect-image-format-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 196</span>
+196:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">detect_image_format</span>(<span class="ruby-identifier">content</span>)
+197:       <span class="ruby-identifier">top</span> = <span class="ruby-identifier">content</span>[<span class="ruby-value">0</span>,<span class="ruby-value">128</span>]                       
+198: 
+199:       <span class="ruby-comment cmt"># Unpack before comparing for JPG header, so as to avoid having to worry</span>
+200:       <span class="ruby-comment cmt"># about the source string encoding. We just want a byte-by-byte compare.</span>
+201:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">top</span>[<span class="ruby-value">0</span>, <span class="ruby-value">3</span>].<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;C*&quot;</span>) <span class="ruby-operator">==</span> [<span class="ruby-value">255</span>, <span class="ruby-value">216</span>, <span class="ruby-value">255</span>]
+202:         <span class="ruby-keyword kw">return</span> <span class="ruby-value">:jpg</span>
+203:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">top</span>[<span class="ruby-value">0</span>, <span class="ruby-value">8</span>].<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;C*&quot;</span>) <span class="ruby-operator">==</span> [<span class="ruby-value">137</span>, <span class="ruby-value">80</span>, <span class="ruby-value">78</span>, <span class="ruby-value">71</span>, <span class="ruby-value">13</span>, <span class="ruby-value">10</span>, <span class="ruby-value">26</span>, <span class="ruby-value">10</span>]
+204:         <span class="ruby-keyword kw">return</span> <span class="ruby-value">:png</span>
+205:       <span class="ruby-keyword kw">else</span>
+206:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnsupportedImageType</span>, <span class="ruby-value str">&quot;image file is an unrecognised format&quot;</span>
+207:       <span class="ruby-keyword kw">end</span>
+208:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="determine-y-with-page-flow-method" class="method-detail ">
+				<a name="method-i-determine_y_with_page_flow"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">determine_y_with_page_flow</span><span
+						class="method-args">(h)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="determine-y-with-page-flow-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 151</span>
+151:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">determine_y_with_page_flow</span>(<span class="ruby-identifier">h</span>)
+152:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">overruns_page?</span>(<span class="ruby-identifier">h</span>)
+153:         <span class="ruby-identifier">start_new_page</span>
+154:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_top</span> 
+155:       <span class="ruby-keyword kw">else</span>
+156:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span>
+157:       <span class="ruby-keyword kw">end</span>
+158:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="image-position-method" class="method-detail ">
+				<a name="method-i-image_position"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">image_position</span><span
+						class="method-args">(w,h,options)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="image-position-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 122</span>
+122:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image_position</span>(<span class="ruby-identifier">w</span>,<span class="ruby-identifier">h</span>,<span class="ruby-identifier">options</span>)
+123:       <span class="ruby-identifier">options</span>[<span class="ruby-value">:position</span>] <span class="ruby-operator">||=</span> <span class="ruby-value">:left</span>
+124:       
+125:       <span class="ruby-identifier">x</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:position</span>] 
+126:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:left</span>
+127:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_left</span>
+128:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:center</span>
+129:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_left</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">w</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span> 
+130:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:right</span>
+131:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_right</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">w</span>
+132:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Numeric</span>
+133:         <span class="ruby-identifier">options</span>[<span class="ruby-value">:position</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_left</span>
+134:       <span class="ruby-keyword kw">end</span>
+135: 
+136:       <span class="ruby-identifier">y</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:vposition</span>]
+137:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:top</span>
+138:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_top</span>
+139:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:center</span>
+140:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_top</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">h</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+141:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:bottom</span>
+142:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">h</span>
+143:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Numeric</span>
+144:         <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_top</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:vposition</span>]
+145:       <span class="ruby-keyword kw">else</span>
+146:         <span class="ruby-identifier">determine_y_with_page_flow</span>(<span class="ruby-identifier">h</span>)
+147:       <span class="ruby-keyword kw">end</span>
+148:       <span class="ruby-keyword kw">return</span> [<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>]
+149:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="image-registry-method" class="method-detail ">
+				<a name="method-i-image_registry"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">image_registry</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="image-registry-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 210</span>
+210:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image_registry</span>
+211:       <span class="ruby-ivar">@image_registry</span> <span class="ruby-operator">||=</span> {}
+212:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="next-image-id-method" class="method-detail ">
+				<a name="method-i-next_image_id"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">next_image_id</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="next-image-id-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 214</span>
+214:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">next_image_id</span>
+215:       <span class="ruby-ivar">@image_counter</span> <span class="ruby-operator">||=</span> <span class="ruby-value">0</span>
+216:       <span class="ruby-ivar">@image_counter</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+217:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="overruns-page--method" class="method-detail ">
+				<a name="method-i-overruns_page%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">overruns_page?</span><span
+						class="method-args">(h)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="overruns-page--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images.rb, line 160</span>
+160:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">overruns_page?</span>(<span class="ruby-identifier">h</span>)
+161:       (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">h</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">absolute_bottom</span> 
+162:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

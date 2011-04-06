@@ -1,0 +1,1640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Document::BoundingBox</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/document/bounding_box_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/bounding_box.rb">lib/prawn/document/bounding_box.rb</a></li>
+					
+						<li><a href="../../lib/prawn/document/column_box_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/document/column_box.rb">lib/prawn/document/column_box.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-absolute_bottom">#absolute_bottom</a></li>
+					
+					<li><a href="#method-i-absolute_bottom_left">#absolute_bottom_left</a></li>
+					
+					<li><a href="#method-i-absolute_bottom_right">#absolute_bottom_right</a></li>
+					
+					<li><a href="#method-i-absolute_left">#absolute_left</a></li>
+					
+					<li><a href="#method-i-absolute_right">#absolute_right</a></li>
+					
+					<li><a href="#method-i-absolute_top">#absolute_top</a></li>
+					
+					<li><a href="#method-i-absolute_top_left">#absolute_top_left</a></li>
+					
+					<li><a href="#method-i-absolute_top_right">#absolute_top_right</a></li>
+					
+					<li><a href="#method-i-add_left_padding">#add_left_padding</a></li>
+					
+					<li><a href="#method-i-add_right_padding">#add_right_padding</a></li>
+					
+					<li><a href="#method-i-anchor">#anchor</a></li>
+					
+					<li><a href="#method-i-bottom">#bottom</a></li>
+					
+					<li><a href="#method-i-bottom_left">#bottom_left</a></li>
+					
+					<li><a href="#method-i-bottom_right">#bottom_right</a></li>
+					
+					<li><a href="#method-i-height">#height</a></li>
+					
+					<li><a href="#method-i-indent">#indent</a></li>
+					
+					<li><a href="#method-i-left">#left</a></li>
+					
+					<li><a href="#method-i-left_side">#left_side</a></li>
+					
+					<li><a href="#method-i-left_side">#left_side</a></li>
+					
+					<li><a href="#method-i-move_past_bottom">#move_past_bottom</a></li>
+					
+					<li><a href="#method-i-move_past_bottom">#move_past_bottom</a></li>
+					
+					<li><a href="#method-i-right">#right</a></li>
+					
+					<li><a href="#method-i-right_side">#right_side</a></li>
+					
+					<li><a href="#method-i-right_side">#right_side</a></li>
+					
+					<li><a href="#method-i-stretchy%3F">#stretchy?</a></li>
+					
+					<li><a href="#method-i-subtract_left_padding">#subtract_left_padding</a></li>
+					
+					<li><a href="#method-i-subtract_right_padding">#subtract_right_padding</a></li>
+					
+					<li><a href="#method-i-top">#top</a></li>
+					
+					<li><a href="#method-i-top_left">#top_left</a></li>
+					
+					<li><a href="#method-i-top_right">#top_right</a></li>
+					
+					<li><a href="#method-i-update_height">#update_height</a></li>
+					
+					<li><a href="#method-i-width">#width</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Document::BoundingBox</h1>
+
+		<div id="description">
+			<p>
+Low level layout helper that simplifies coordinate math.
+</p>
+<p>
+See <a
+href="../Document.html#method-i-bounding_box">Prawn::Document#bounding_box</a>
+for a description of what this class is used for.
+</p>
+<hr style="height: 1px"></hr><p>
+Template methods to support <a href="ColumnBox.html">ColumnBox</a>
+extensions
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="document-attribute-method" class="method-detail">
+				<a name="document"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">document</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="parent-attribute-method" class="method-detail">
+				<a name="parent"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">parent</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="total-left-padding-attribute-method" class="method-detail">
+				<a name="total_left_padding"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">total_left_padding</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+The current indentation of the left side of the bounding box.
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="total-right-padding-attribute-method" class="method-detail">
+				<a name="total_right_padding"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">total_right_padding</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+The current indentation of the right side of the bounding box.
+</p>
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="absolute-bottom-method" class="method-detail ">
+				<a name="method-i-absolute_bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute bottom y-coordinate of the bottom box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 392</span>
+392:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom</span>
+393:         <span class="ruby-ivar">@y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>
+394:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-bottom-left-method" class="method-detail ">
+				<a name="method-i-absolute_bottom_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bottom_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute bottom-left point of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bottom-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 410</span>
+410:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom_left</span>
+411:         [<span class="ruby-identifier">absolute_left</span>, <span class="ruby-identifier">absolute_bottom</span>]
+412:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-bottom-right-method" class="method-detail ">
+				<a name="method-i-absolute_bottom_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_bottom_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute bottom-left point of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-bottom-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 416</span>
+416:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_bottom_right</span>
+417:         [<span class="ruby-identifier">absolute_right</span>, <span class="ruby-identifier">absolute_bottom</span>]
+418:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-left-method" class="method-detail ">
+				<a name="method-i-absolute_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute left x-coordinate of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 374</span>
+374:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_left</span>
+375:         <span class="ruby-ivar">@x</span>
+376:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-right-method" class="method-detail ">
+				<a name="method-i-absolute_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute right x-coordinate of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 380</span>
+380:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_right</span>
+381:         <span class="ruby-ivar">@x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">width</span>
+382:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-top-method" class="method-detail ">
+				<a name="method-i-absolute_top"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_top</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute top y-coordinate of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-top-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 386</span>
+386:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top</span>
+387:         <span class="ruby-ivar">@y</span>
+388:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-top-left-method" class="method-detail ">
+				<a name="method-i-absolute_top_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_top_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute top-left point of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-top-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 398</span>
+398:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top_left</span>
+399:         [<span class="ruby-identifier">absolute_left</span>, <span class="ruby-identifier">absolute_top</span>]
+400:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="absolute-top-right-method" class="method-detail ">
+				<a name="method-i-absolute_top_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">absolute_top_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Absolute top-right point of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="absolute-top-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 404</span>
+404:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">absolute_top_right</span>
+405:         [<span class="ruby-identifier">absolute_right</span>, <span class="ruby-identifier">absolute_top</span>]
+406:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="add-left-padding-method" class="method-detail ">
+				<a name="method-i-add_left_padding"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_left_padding</span><span
+						class="method-args">(left_padding)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Increase the left padding of the bounding box.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="add-left-padding-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 267</span>
+267:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_left_padding</span>(<span class="ruby-identifier">left_padding</span>)
+268:         <span class="ruby-ivar">@total_left_padding</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">left_padding</span>
+269:         <span class="ruby-ivar">@x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">left_padding</span>
+270:         <span class="ruby-ivar">@width</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">left_padding</span>
+271:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="add-right-padding-method" class="method-detail ">
+				<a name="method-i-add_right_padding"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_right_padding</span><span
+						class="method-args">(right_padding)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Increase the right padding of the bounding box.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="add-right-padding-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 281</span>
+281:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_right_padding</span>(<span class="ruby-identifier">right_padding</span>)
+282:         <span class="ruby-ivar">@total_right_padding</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">right_padding</span>
+283:         <span class="ruby-ivar">@width</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">right_padding</span>
+284:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="anchor-method" class="method-detail ">
+				<a name="method-i-anchor"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">anchor</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The translated origin (x,y-height) which describes the location of the
+bottom left corner of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="anchor-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 227</span>
+227:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">anchor</span>
+228:         [<span class="ruby-ivar">@x</span>, <span class="ruby-ivar">@y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span>]
+229:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bottom-method" class="method-detail ">
+				<a name="method-i-bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative bottom y-coordinate of the bounding box (Always 0)
+</p>
+<p>
+Example, position some text 3 pts from the bottom of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [0, (bounds.bottom + 3)])</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 318</span>
+318:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom</span>
+319:         <span class="ruby-value">0</span>
+320:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bottom-left-method" class="method-detail ">
+				<a name="method-i-bottom_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bottom_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative bottom-left point of the bounding box
+</p>
+<p>
+Example, draw a line along the left hand side of the page:
+</p>
+<pre>
+ stroke do
+   line(bounds.bottom_left, bounds.top_left)
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="bottom-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 368</span>
+368:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom_left</span>
+369:         [<span class="ruby-identifier">left</span>,<span class="ruby-identifier">bottom</span>]
+370:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="bottom-right-method" class="method-detail ">
+				<a name="method-i-bottom_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">bottom_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative bottom-right point of the bounding box
+</p>
+<p>
+Example, draw a line along the right hand side of the page:
+</p>
+<pre>
+ stroke do
+   line(bounds.bottom_right, bounds.top_right)
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="bottom-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 356</span>
+356:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bottom_right</span>
+357:         [<span class="ruby-identifier">right</span>,<span class="ruby-identifier">bottom</span>]
+358:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="height-method" class="method-detail ">
+				<a name="method-i-height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Height of the bounding box.  If the box is &#8216;stretchy&#8217;
+(unspecified height attribute), height is calculated as the distance from
+the top of the box to the current drawing position.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="height-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 430</span>
+430:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>
+431:         <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@height</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@height</span>
+432:         <span class="ruby-ivar">@stretched_height</span> = [(<span class="ruby-identifier">absolute_top</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">y</span>),
+433:                              <span class="ruby-ivar">@stretched_height</span>.<span class="ruby-identifier">to_f</span>].<span class="ruby-identifier">max</span>
+434:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="BoundingBox.html#method-i-update_height">update_height</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="indent-method" class="method-detail ">
+				<a name="method-i-indent"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">indent</span><span
+						class="method-args">(left_padding, right_padding = 0, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Temporarily adjust the @x coordinate to allow for left_padding
+</p>
+<p>
+Example:
+</p>
+<pre>
+ indent 20 do
+    text &quot;20 points in&quot;
+    indent 30 do
+      text &quot;50 points in&quot;
+    end
+  end
+
+ indent 20, 20 do
+   text &quot;indented on both sides&quot;
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="indent-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 257</span>
+257:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">indent</span>(<span class="ruby-identifier">left_padding</span>, <span class="ruby-identifier">right_padding</span> = <span class="ruby-value">0</span>, &amp;<span class="ruby-identifier">block</span>)
+258:         <span class="ruby-identifier">add_left_padding</span>(<span class="ruby-identifier">left_padding</span>)
+259:         <span class="ruby-identifier">add_right_padding</span>(<span class="ruby-identifier">right_padding</span>)
+260:         <span class="ruby-keyword kw">yield</span>
+261:       <span class="ruby-keyword kw">ensure</span>
+262:         <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">subtract_left_padding</span>(<span class="ruby-identifier">left_padding</span>)
+263:         <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">subtract_right_padding</span>(<span class="ruby-identifier">right_padding</span>)
+264:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="left-method" class="method-detail ">
+				<a name="method-i-left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative left x-coordinate of the bounding box. (Always 0)
+</p>
+<p>
+Example, position some text 3 pts from the left of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [(bounds.left + 3), 0])</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 237</span>
+237:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">left</span>
+238:         <span class="ruby-value">0</span>
+239:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="left-side-method" class="method-detail ">
+				<a name="method-i-left_side"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">left_side</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+an alias for <a
+href="BoundingBox.html#method-i-absolute_left">absolute_left</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="left-side-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 437</span>
+437:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">left_side</span>
+438:          <span class="ruby-identifier">absolute_left</span>
+439:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="left-side-method" class="method-detail ">
+				<a name="method-i-left_side"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">left_side</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+an alias for <a
+href="BoundingBox.html#method-i-absolute_left">absolute_left</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="left-side-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 48</span>
+48:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">left_side</span>
+49:          <span class="ruby-identifier">absolute_left</span>
+50:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="move-past-bottom-method" class="method-detail ">
+				<a name="method-i-move_past_bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">move_past_bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+starts a new page
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="move-past-bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 447</span>
+447:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_past_bottom</span>
+448:         <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">start_new_page</span>
+449:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="move-past-bottom-method" class="method-detail ">
+				<a name="method-i-move_past_bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">move_past_bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+starts a new page
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="move-past-bottom-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 58</span>
+58:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">move_past_bottom</span>
+59:          <span class="ruby-ivar">@document</span>.<span class="ruby-identifier">start_new_page</span>
+60:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="right-method" class="method-detail ">
+				<a name="method-i-right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative right x-coordinate of the bounding box. (Equal to the box width)
+</p>
+<p>
+Example, position some text 3 pts from the right of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [(bounds.right - 3), 0])</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 298</span>
+298:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right</span>
+299:         <span class="ruby-ivar">@width</span>
+300:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="right-side-method" class="method-detail ">
+				<a name="method-i-right_side"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">right_side</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+an alias for <a
+href="BoundingBox.html#method-i-absolute_right">absolute_right</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="right-side-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/document/column_box.rb, line 53</span>
+53:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right_side</span>
+54:          <span class="ruby-identifier">absolute_right</span>
+55:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="right-side-method" class="method-detail ">
+				<a name="method-i-right_side"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">right_side</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+an alias for <a
+href="BoundingBox.html#method-i-absolute_right">absolute_right</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="right-side-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 442</span>
+442:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right_side</span>
+443:          <span class="ruby-identifier">absolute_right</span>
+444:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="stretchy--method" class="method-detail ">
+				<a name="method-i-stretchy%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">stretchy?</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns <tt>false</tt> when the box has a defined height, <tt>true</tt>
+when the height is being calculated on the fly based on the current
+vertical position.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="stretchy--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 457</span>
+457:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stretchy?</span>
+458:         <span class="ruby-operator">!</span><span class="ruby-ivar">@height</span>
+459:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="subtract-left-padding-method" class="method-detail ">
+				<a name="method-i-subtract_left_padding"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">subtract_left_padding</span><span
+						class="method-args">(left_padding)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Decrease the left padding of the bounding box.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="subtract-left-padding-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 274</span>
+274:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">subtract_left_padding</span>(<span class="ruby-identifier">left_padding</span>)
+275:         <span class="ruby-ivar">@total_left_padding</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">left_padding</span>
+276:         <span class="ruby-ivar">@x</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">left_padding</span>
+277:         <span class="ruby-ivar">@width</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">left_padding</span>
+278:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="subtract-right-padding-method" class="method-detail ">
+				<a name="method-i-subtract_right_padding"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">subtract_right_padding</span><span
+						class="method-args">(right_padding)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Decrease the right padding of the bounding box.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="subtract-right-padding-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 287</span>
+287:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">subtract_right_padding</span>(<span class="ruby-identifier">right_padding</span>)
+288:         <span class="ruby-ivar">@total_right_padding</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">right_padding</span>
+289:         <span class="ruby-ivar">@width</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">right_padding</span>
+290:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="top-method" class="method-detail ">
+				<a name="method-i-top"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">top</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative top y-coordinate of the bounding box. (Equal to the box height)
+</p>
+<p>
+Example, position some text 3 pts from the top of the containing box:
+</p>
+<pre>
+ draw_text('hello', :at =&gt; [0, (bounds.top - 3)])</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="top-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 308</span>
+308:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top</span>
+309:         <span class="ruby-identifier">height</span>
+310:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="top-left-method" class="method-detail ">
+				<a name="method-i-top_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">top_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative top-left point of the bounding_box
+</p>
+<p>
+Example, draw a line from the top left of the box diagonally to the bottom
+right:
+</p>
+<pre>
+ stroke do
+   line(bounds.top_left, bounds.bottom_right)
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="top-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 331</span>
+331:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top_left</span>
+332:         [<span class="ruby-identifier">left</span>,<span class="ruby-identifier">top</span>]
+333:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="top-right-method" class="method-detail ">
+				<a name="method-i-top_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">top_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Relative top-right point of the bounding box
+</p>
+<p>
+Example, draw a line from the <a
+href="BoundingBox.html#method-i-top_right">top_right</a> of the box
+diagonally to the bottom left:
+</p>
+<pre>
+ stroke do
+   line(bounds.top_right, bounds.bottom_left)
+ end</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="top-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 344</span>
+344:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">top_right</span>
+345:         [<span class="ruby-identifier">right</span>,<span class="ruby-identifier">top</span>]
+346:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="update-height-method" class="method-detail method-alias">
+				<a name="method-i-update_height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">update_height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="BoundingBox.html#method-i-height">height</a>
+				</div>
+				
+			</div>
+
+		
+			<div id="width-method" class="method-detail ">
+				<a name="method-i-width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Width of the bounding box
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/document/bounding_box.rb, line 422</span>
+422:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width</span>
+423:         <span class="ruby-ivar">@width</span>
+424:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

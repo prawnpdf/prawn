@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: Prawn::Document::Security</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/security_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/security.rb">lib/prawn/security.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-encrypt_string">::encrypt_string</a></li>
+					
+					<li><a href="#method-i-encrypt_document">#encrypt_document</a></li>
+					
+					<li><a href="#method-i-encryption_dictionary">#encryption_dictionary</a></li>
+					
+					<li><a href="#method-i-owner_password_hash">#owner_password_hash</a></li>
+					
+					<li><a href="#method-i-pad_password">#pad_password</a></li>
+					
+					<li><a href="#method-i-permissions%3D">#permissions=</a></li>
+					
+					<li><a href="#method-i-permissions_value">#permissions_value</a></li>
+					
+					<li><a href="#method-i-user_encryption_key">#user_encryption_key</a></li>
+					
+					<li><a href="#method-i-user_password_hash">#user_password_hash</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+			<div id="includes-section" class="section">
+				<h3 class="section-header">Included Modules</h3>
+				<ul class="link-list">
+				
+				
+					<li><a class="include" href="../Core.html">Prawn::Core</a></li>
+				
+				
+				</ul>
+			</div>
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">Prawn::Document::Security</h1>
+
+		<div id="description">
+			<p>
+Implements PDF encryption (password protection and permissions) as
+specified in the PDF Reference, version 1.3, section 3.5
+&#8220;Encryption&#8221;.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+		<div id="constants-list" class="section">
+			<h3 class="section-header">Constants</h3>
+			<dl>
+			
+				<dt><a name="PermissionsBits">PermissionsBits</a></dt>
+				
+				<dd class="description"><p>
+Flags in the permissions word, numbered as LSB = 1
+</p></dd>
+				
+			
+				<dt><a name="FullPermissions">FullPermissions</a></dt>
+				
+				<dd class="description"></dd>
+				
+			
+				<dt><a name="PasswordPadding">PasswordPadding</a></dt>
+				
+				<dd class="description"></dd>
+				
+			
+			</dl>
+		</div>
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="encrypt-string-method" class="method-detail ">
+				<a name="method-c-encrypt_string"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">encrypt_string</span><span
+						class="method-args">(str, key, id, gen)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Encrypts the given string under the given key, also requiring the object ID
+and generation number of the reference. See Algorithm 3.1.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="encrypt-string-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 111</span>
+111:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">encrypt_string</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">gen</span>)
+112:         <span class="ruby-comment cmt"># Convert ID and Gen number into little-endian truncated byte strings</span>
+113:         <span class="ruby-identifier">id</span> = [<span class="ruby-identifier">id</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-value str">'V'</span>)[<span class="ruby-value">0</span>,<span class="ruby-value">3</span>]
+114:         <span class="ruby-identifier">gen</span> = [<span class="ruby-identifier">gen</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-value str">'V'</span>)[<span class="ruby-value">0</span>,<span class="ruby-value">2</span>]
+115:         <span class="ruby-identifier">extended_key</span> = <span class="ruby-node">&quot;#{key}#{id}#{gen}&quot;</span>
+116: 
+117:         <span class="ruby-comment cmt"># Compute the RC4 key from the extended key and perform the encryption</span>
+118:         <span class="ruby-identifier">rc4_key</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">digest</span>(<span class="ruby-identifier">extended_key</span>)[<span class="ruby-value">0</span>, <span class="ruby-value">10</span>]
+119:         <span class="ruby-constant">Arcfour</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">rc4_key</span>).<span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">str</span>)
+120:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="encrypt-document-method" class="method-detail ">
+				<a name="method-i-encrypt_document"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">encrypt_document</span><span
+						class="method-args">(options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Encrypts the document, to protect confidential data or control
+modifications to the document. The encryption algorithm used is detailed in
+the PDF Reference 1.3, section 3.5 &#8220;Encryption&#8221;, and it is
+implemented by all major PDF readers.
+</p>
+<p>
+<tt>options</tt> can contain the following:
+</p>
+<table>
+<tr><td valign="top"><tt>:user_password</tt></td><td><p>
+Password required to open the document. If  this is omitted or empty, no
+password will be required. The document will still be encrypted, but anyone
+can read it.
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:owner_password</tt></td><td><p>
+Password required to make modifications to  the document or change or
+override its permissions. If this is set to <tt>:random</tt>, a random
+password will be used; this can be useful if you never want users to be
+able to override the document permissions.
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:permissions</tt></td><td><p>
+A hash mapping permission symbols (see below) to <tt>true</tt> or
+<tt>false</tt>. True means &#8220;permitted&#8221;, and false means
+&#8220;not permitted&#8221;. All permissions default to <tt>true</tt>.
+</p>
+</td></tr>
+</table>
+<p>
+The following permissions can be specified:
+</p>
+<table>
+<tr><td valign="top"><tt>:print_document</tt></td><td><p>
+Print document.
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:modify_contents</tt></td><td><p>
+Modify contents of document (other than text annotations and interactive
+form fields).
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:copy_contents</tt></td><td><p>
+Copy text and graphics from document.
+</p>
+</td></tr>
+<tr><td valign="top"><tt>:modify_annotations</tt></td><td><p>
+Add or modify text annotations and  interactive form fields.
+</p>
+</td></tr>
+</table>
+<h2>Examples</h2>
+<p>
+Deny printing to everyone, but allow anyone to open without a password:
+</p>
+<pre>
+  encrypt_document :permissions =&gt; { :print_document =&gt; false },
+                   :owner_password =&gt; :random
+</pre>
+<p>
+Set a user and owner password on the document, with full permissions for
+both the user and the owner:
+</p>
+<pre>
+  encrypt_document :user_password =&gt; 'foo', :owner_password =&gt; 'bar'
+</pre>
+<p>
+Set no passwords, grant all permissions (This is useful because the 
+default in some readers, if no permissions are specified, is
+&#8220;deny&#8221;):
+</p>
+<pre>
+  encrypt_document
+</pre>
+<h2>Caveats</h2>
+<ul>
+<li><p>
+The encryption used is weak; the key is password-derived and is limited to
+40 bits, due to US export controls in effect at the time the PDF standard
+was written.
+</p>
+</li>
+<li><p>
+There is nothing technologically requiring PDF readers to respect the
+permissions embedded in a document. Many PDF readers do not.
+</p>
+</li>
+<li><p>
+In short, you have <b>no security at all</b> against a moderately motivated
+person. Don&#8217;t use this for anything super-serious. This is not a
+limitation of Prawn, but is rather a built-in limitation of the PDF format.
+</p>
+</li>
+</ul>
+					
+
+					
+					<div class="method-source-code"
+						id="encrypt-document-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 89</span>
+ 89:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encrypt_document</span>(<span class="ruby-identifier">options</span>={})
+ 90:         <span class="ruby-constant">Prawn</span>.<span class="ruby-identifier">verify_options</span> [<span class="ruby-value">:user_password</span>, <span class="ruby-value">:owner_password</span>, <span class="ruby-value">:permissions</span>],
+ 91:           <span class="ruby-identifier">options</span>
+ 92:         <span class="ruby-ivar">@user_password</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:user_password</span>) <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;&quot;</span>
+ 93: 
+ 94:         <span class="ruby-ivar">@owner_password</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:owner_password</span>) <span class="ruby-operator">||</span> <span class="ruby-ivar">@user_password</span>
+ 95:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@owner_password</span> <span class="ruby-operator">==</span> <span class="ruby-value">:random</span>
+ 96:           <span class="ruby-comment cmt"># Generate a completely ridiculous password</span>
+ 97:           <span class="ruby-ivar">@owner_password</span> = (<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">32</span>).<span class="ruby-identifier">map</span>{ <span class="ruby-identifier">rand</span>(<span class="ruby-value">256</span>) }.<span class="ruby-identifier">pack</span>(<span class="ruby-value str">&quot;c*&quot;</span>)
+ 98:         <span class="ruby-keyword kw">end</span>
+ 99: 
+100:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:permissions</span>) <span class="ruby-operator">||</span> {}
+101: 
+102:         <span class="ruby-comment cmt"># Shove the necessary entries in the trailer and enable encryption.</span>
+103:         <span class="ruby-identifier">state</span>.<span class="ruby-identifier">trailer</span>[<span class="ruby-value">:Encrypt</span>] = <span class="ruby-identifier">encryption_dictionary</span>
+104:         <span class="ruby-identifier">state</span>.<span class="ruby-identifier">encrypt</span> = <span class="ruby-keyword kw">true</span>
+105:         <span class="ruby-identifier">state</span>.<span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">user_encryption_key</span>
+106:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="encryption-dictionary-method" class="method-detail ">
+				<a name="method-i-encryption_dictionary"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">encryption_dictionary</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Provides the values for the trailer encryption dictionary.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="encryption-dictionary-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 125</span>
+125:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encryption_dictionary</span>
+126:         { <span class="ruby-value">:Filter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Standard</span>, <span class="ruby-comment cmt"># default PDF security handler</span>
+127:           <span class="ruby-value">:V</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>,         <span class="ruby-comment cmt"># &quot;Algorithm 3.1&quot;, PDF reference 1.3</span>
+128:           <span class="ruby-value">:R</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>,         <span class="ruby-comment cmt"># Revision 2 of the algorithm</span>
+129:           <span class="ruby-value">:O</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">ByteString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">owner_password_hash</span>),
+130:           <span class="ruby-value">:U</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">ByteString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">user_password_hash</span>),
+131:           <span class="ruby-value">:P</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">permissions_value</span> }
+132:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="owner-password-hash-method" class="method-detail ">
+				<a name="method-i-owner_password_hash"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">owner_password_hash</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The O (owner) value in the encryption dictionary. Algorithm 3.3.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="owner-password-hash-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 186</span>
+186:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">owner_password_hash</span>
+187:         <span class="ruby-ivar">@owner_password_hash</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword kw">begin</span>
+188:           <span class="ruby-identifier">key</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">digest</span>(<span class="ruby-identifier">pad_password</span>(<span class="ruby-ivar">@owner_password</span>))[<span class="ruby-value">0</span>, <span class="ruby-value">5</span>]
+189:           <span class="ruby-constant">Arcfour</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key</span>).<span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">pad_password</span>(<span class="ruby-ivar">@user_password</span>))
+190:         <span class="ruby-keyword kw">end</span>
+191:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="pad-password-method" class="method-detail ">
+				<a name="method-i-pad_password"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">pad_password</span><span
+						class="method-args">(password)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Pads or truncates a password to 32 bytes as per Alg 3.2.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="pad-password-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 170</span>
+170:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pad_password</span>(<span class="ruby-identifier">password</span>)
+171:         <span class="ruby-identifier">password</span> = <span class="ruby-identifier">password</span>[<span class="ruby-value">0</span>, <span class="ruby-value">32</span>]
+172:         <span class="ruby-identifier">password</span> <span class="ruby-operator">+</span> <span class="ruby-constant">PasswordPadding</span>[<span class="ruby-value">0</span>, <span class="ruby-value">32</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">length</span>]
+173:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="permissions--method" class="method-detail ">
+				<a name="method-i-permissions%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">permissions=</span><span
+						class="method-args">(perms={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="permissions--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 142</span>
+142:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">permissions=</span>(<span class="ruby-identifier">perms</span>={})
+143:         <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">FullPermissions</span>
+144:         <span class="ruby-identifier">perms</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+145:           <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">PermissionsBits</span>[<span class="ruby-identifier">key</span>]
+146:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Unknown permission :#{key}. Valid options: &quot;</span> <span class="ruby-operator">+</span>
+147:               <span class="ruby-constant">PermissionsBits</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">inspect</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;, &quot;</span>)
+148:           <span class="ruby-keyword kw">end</span>
+149: 
+150:           <span class="ruby-comment cmt"># 0-based bit number, from LSB</span>
+151:           <span class="ruby-identifier">bit_position</span> = <span class="ruby-constant">PermissionsBits</span>[<span class="ruby-identifier">key</span>] <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+152: 
+153:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span> <span class="ruby-comment cmt"># set bit</span>
+154:             <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">|=</span> (<span class="ruby-value">1</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">bit_position</span>)
+155:           <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># clear bit</span>
+156:             <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">&amp;=</span> <span class="ruby-operator">~</span>(<span class="ruby-value">1</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">bit_position</span>)
+157:           <span class="ruby-keyword kw">end</span>
+158:         <span class="ruby-keyword kw">end</span>
+159:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="permissions-value-method" class="method-detail ">
+				<a name="method-i-permissions_value"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">permissions_value</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="permissions-value-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 161</span>
+161:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">permissions_value</span>
+162:         <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">||</span> <span class="ruby-constant">FullPermissions</span>
+163:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="user-encryption-key-method" class="method-detail ">
+				<a name="method-i-user_encryption_key"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">user_encryption_key</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="user-encryption-key-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 175</span>
+175:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">user_encryption_key</span>
+176:         <span class="ruby-ivar">@user_encryption_key</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword kw">begin</span>
+177:           <span class="ruby-identifier">md5</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">new</span>
+178:           <span class="ruby-identifier">md5</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">pad_password</span>(<span class="ruby-ivar">@user_password</span>)
+179:           <span class="ruby-identifier">md5</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">owner_password_hash</span>
+180:           <span class="ruby-identifier">md5</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">permissions_value</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-value str">&quot;V&quot;</span>)
+181:           <span class="ruby-identifier">md5</span>.<span class="ruby-identifier">digest</span>[<span class="ruby-value">0</span>, <span class="ruby-value">5</span>]
+182:         <span class="ruby-keyword kw">end</span>
+183:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="user-password-hash-method" class="method-detail ">
+				<a name="method-i-user_password_hash"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">user_password_hash</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The U (user) value in the encryption dictionary. Algorithm 3.4.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="user-password-hash-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/security.rb, line 194</span>
+194:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">user_password_hash</span>
+195:         <span class="ruby-constant">Arcfour</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">user_encryption_key</span>).<span class="ruby-identifier">encrypt</span>(<span class="ruby-constant">PasswordPadding</span>)
+196:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

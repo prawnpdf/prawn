@@ -1,0 +1,2602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Table::Cell</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/table/cell/text_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table/cell/text.rb">lib/prawn/table/cell/text.rb</a></li>
+					
+						<li><a href="../../lib/prawn/table/cell/in_table_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table/cell/in_table.rb">lib/prawn/table/cell/in_table.rb</a></li>
+					
+						<li><a href="../../lib/prawn/table/cell/subtable_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table/cell/subtable.rb">lib/prawn/table/cell/subtable.rb</a></li>
+					
+						<li><a href="../../lib/prawn/table/cell_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/table/cell.rb">lib/prawn/table/cell.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">MODULE</span> <a href="Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-make">::make</a></li>
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-border_bottom_color">#border_bottom_color</a></li>
+					
+					<li><a href="#method-i-border_bottom_color%3D">#border_bottom_color=</a></li>
+					
+					<li><a href="#method-i-border_bottom_width">#border_bottom_width</a></li>
+					
+					<li><a href="#method-i-border_bottom_width%3D">#border_bottom_width=</a></li>
+					
+					<li><a href="#method-i-border_color%3D">#border_color=</a></li>
+					
+					<li><a href="#method-i-border_colors%3D">#border_colors=</a></li>
+					
+					<li><a href="#method-i-border_left_color">#border_left_color</a></li>
+					
+					<li><a href="#method-i-border_left_color%3D">#border_left_color=</a></li>
+					
+					<li><a href="#method-i-border_left_width">#border_left_width</a></li>
+					
+					<li><a href="#method-i-border_left_width%3D">#border_left_width=</a></li>
+					
+					<li><a href="#method-i-border_right_color">#border_right_color</a></li>
+					
+					<li><a href="#method-i-border_right_color%3D">#border_right_color=</a></li>
+					
+					<li><a href="#method-i-border_right_width">#border_right_width</a></li>
+					
+					<li><a href="#method-i-border_right_width%3D">#border_right_width=</a></li>
+					
+					<li><a href="#method-i-border_top_color">#border_top_color</a></li>
+					
+					<li><a href="#method-i-border_top_color">#border_top_color</a></li>
+					
+					<li><a href="#method-i-border_top_color%3D">#border_top_color=</a></li>
+					
+					<li><a href="#method-i-border_top_color%3D">#border_top_color=</a></li>
+					
+					<li><a href="#method-i-border_top_width">#border_top_width</a></li>
+					
+					<li><a href="#method-i-border_top_width%3D">#border_top_width=</a></li>
+					
+					<li><a href="#method-i-border_width%3D">#border_width=</a></li>
+					
+					<li><a href="#method-i-border_widths%3D">#border_widths=</a></li>
+					
+					<li><a href="#method-i-content_height">#content_height</a></li>
+					
+					<li><a href="#method-i-content_width">#content_width</a></li>
+					
+					<li><a href="#method-i-draw">#draw</a></li>
+					
+					<li><a href="#method-i-draw_background">#draw_background</a></li>
+					
+					<li><a href="#method-i-draw_borders">#draw_borders</a></li>
+					
+					<li><a href="#method-i-draw_content">#draw_content</a></li>
+					
+					<li><a href="#method-i-height">#height</a></li>
+					
+					<li><a href="#method-i-max_width">#max_width</a></li>
+					
+					<li><a href="#method-i-min_width">#min_width</a></li>
+					
+					<li><a href="#method-i-natural_content_height">#natural_content_height</a></li>
+					
+					<li><a href="#method-i-natural_content_width">#natural_content_width</a></li>
+					
+					<li><a href="#method-i-padding%3D">#padding=</a></li>
+					
+					<li><a href="#method-i-padding_bottom">#padding_bottom</a></li>
+					
+					<li><a href="#method-i-padding_bottom%3D">#padding_bottom=</a></li>
+					
+					<li><a href="#method-i-padding_left">#padding_left</a></li>
+					
+					<li><a href="#method-i-padding_left%3D">#padding_left=</a></li>
+					
+					<li><a href="#method-i-padding_right">#padding_right</a></li>
+					
+					<li><a href="#method-i-padding_right%3D">#padding_right=</a></li>
+					
+					<li><a href="#method-i-padding_top">#padding_top</a></li>
+					
+					<li><a href="#method-i-padding_top%3D">#padding_top=</a></li>
+					
+					<li><a href="#method-i-set_width_constraints">#set_width_constraints</a></li>
+					
+					<li><a href="#method-i-style">#style</a></li>
+					
+					<li><a href="#method-i-width">#width</a></li>
+					
+					<li><a href="#method-i-width%3D">#width=</a></li>
+					
+					<li><a href="#method-i-x">#x</a></li>
+					
+					<li><a href="#method-i-x%3D">#x=</a></li>
+					
+					<li><a href="#method-i-y">#y</a></li>
+					
+					<li><a href="#method-i-y%3D">#y=</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Table::Cell</h1>
+
+		<div id="description">
+			<p>
+A <a href="Cell.html">Cell</a> is a rectangular area of the page into which
+content is drawn. It has a framework for sizing itself and adding padding
+and simple styling. There are several standard <a href="Cell.html">Cell</a>
+subclasses that handle things like text, Tables, and (in the future)
+stamps, images, and arbitrary content.
+</p>
+<p>
+<a href="Cells.html">Cells</a> are a basic building block for table support
+(see <a href="../Table.html">Prawn::Table</a>).
+</p>
+<p>
+Please subclass me if you want new content types! I&#8217;m designed to be
+very extensible. See the different standard <a href="Cell.html">Cell</a>
+subclasses in lib/prawn/table/cell/*.rb for a template.
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+		<div id="constants-list" class="section">
+			<h3 class="section-header">Constants</h3>
+			<dl>
+			
+				<dt><a name="FPTolerance">FPTolerance</a></dt>
+				
+				<dd class="description"><p>
+A small amount added to the bounding box width to cover over floating-
+point errors when round-tripping from <a
+href="Cell.html#method-i-content_width">content_width</a> to width and
+back. This does not change cell positioning; it only slightly expands each
+cell&#8217;s bounding box width so that rounding error does not prevent a
+cell from rendering.
+</p></dd>
+				
+			
+			</dl>
+		</div>
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="padding-attribute-method" class="method-detail">
+				<a name="padding"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">padding</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+Amount of dead space (in PDF points) inside the borders but outside the
+content. Padding defaults to 5pt.
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="height-attribute-method" class="method-detail">
+				<a name="height"></a>
+				
+				<a name="height="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">height</span><span
+						class="attribute-access-type">[W]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+Manually specify the cell&#8217;s height.
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="borders-attribute-method" class="method-detail">
+				<a name="borders"></a>
+				
+				<a name="borders="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">borders</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+Specifies which borders to enable. Must be an array of zero or more of:
+<tt>[:left, :right, :top, :bottom]</tt>.
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="border-widths-attribute-method" class="method-detail">
+				<a name="border_widths"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">border_widths</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+Width, in PDF points, of the cell&#8217;s borders: [top, right, bottom,
+left].
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="border-colors-attribute-method" class="method-detail">
+				<a name="border_colors"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">border_colors</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+HTML RGB-format (&#8220;ccffff&#8221;) border colors: [top, right, bottom,
+left].
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="content-attribute-method" class="method-detail">
+				<a name="content"></a>
+				
+				<a name="content="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">content</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+Specifies the content for the cell. Must be a &#8220;cellable&#8221;
+object. See the &#8220;Data&#8221; section of the <a
+href="../Table.html">Prawn::Table</a> documentation for details on cellable
+objects.
+</p>
+				
+				</div>
+			</div>
+			
+			<div id="background-color-attribute-method" class="method-detail">
+				<a name="background_color"></a>
+				
+				<a name="background_color="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">background_color</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				<p>
+The background color, if any, for this cell. Specified in HTML RGB format,
+e.g., &#8220;ccffff&#8221;. The background is drawn under the whole cell,
+including any padding.
+</p>
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="make-method" class="method-detail ">
+				<a name="method-c-make"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">make</span><span
+						class="method-args">(pdf, content, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Instantiates a <a href="Cell.html">Cell</a> based on the given options. The
+particular class of cell returned depends on the :content argument. See the
+<a href="../Table.html">Prawn::Table</a> documentation under
+&#8220;Data&#8221; for allowable content types.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="make-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 103</span>
+103:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">make</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">content</span>, <span class="ruby-identifier">options</span>={})
+104:         <span class="ruby-identifier">at</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:at</span>) <span class="ruby-operator">||</span> [<span class="ruby-value">0</span>, <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">cursor</span>]
+105:         <span class="ruby-identifier">content</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Numeric</span>) <span class="ruby-operator">||</span>
+106:           <span class="ruby-identifier">content</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Date</span>)
+107:         
+108:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+109:           <span class="ruby-identifier">options</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">content</span>)
+110:           <span class="ruby-identifier">content</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:content</span>]
+111:         <span class="ruby-keyword kw">else</span>
+112:           <span class="ruby-identifier">options</span>[<span class="ruby-value">:content</span>] = <span class="ruby-identifier">content</span>
+113:         <span class="ruby-keyword kw">end</span>
+114: 
+115:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">content</span>
+116:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Table</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>
+117:           <span class="ruby-identifier">content</span>
+118:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span>
+119:           <span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">at</span>, <span class="ruby-identifier">options</span>)
+120:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Table</span>
+121:           <span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">Subtable</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">at</span>, <span class="ruby-identifier">options</span>)
+122:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Array</span>
+123:           <span class="ruby-identifier">subtable</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:content</span>], <span class="ruby-identifier">pdf</span>, {})
+124:           <span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">Subtable</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">at</span>, <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:content</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">subtable</span>))
+125:         <span class="ruby-keyword kw">else</span>
+126:           <span class="ruby-comment cmt"># TODO: other types of content</span>
+127:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Content type not recognized: #{content.inspect}&quot;</span>
+128:         <span class="ruby-keyword kw">end</span>
+129:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(pdf, point, options={})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets up a cell on the document <tt>pdf</tt>, at the given x/y location
+<tt>point</tt>, with the given <tt>options</tt>. <a
+href="Cell.html">Cell</a>, like <a href="../Table.html">Table</a>, follows
+the &#8220;options set accessors&#8221; paradigm (see &#8220;Options&#8221;
+under the <a href="../Table.html">Table</a> documentation), so any cell
+accessor <tt>cell.foo = :bar</tt> can be set by providing the option
+<tt>:foo =&gt; :bar</tt> here.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 145</span>
+145:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">point</span>, <span class="ruby-identifier">options</span>={})
+146:         <span class="ruby-ivar">@pdf</span>   = <span class="ruby-identifier">pdf</span>
+147:         <span class="ruby-ivar">@point</span> = <span class="ruby-identifier">point</span>
+148: 
+149:         <span class="ruby-comment cmt"># Set defaults; these can be changed by options</span>
+150:         <span class="ruby-ivar">@padding</span>       = [<span class="ruby-value">5</span>, <span class="ruby-value">5</span>, <span class="ruby-value">5</span>, <span class="ruby-value">5</span>]
+151:         <span class="ruby-ivar">@borders</span>       = [<span class="ruby-value">:top</span>, <span class="ruby-value">:bottom</span>, <span class="ruby-value">:left</span>, <span class="ruby-value">:right</span>]
+152:         <span class="ruby-ivar">@border_widths</span> = [<span class="ruby-value">1</span>] * <span class="ruby-value">4</span>
+153:         <span class="ruby-ivar">@border_colors</span> = [<span class="ruby-value str">'000000'</span>] * <span class="ruby-value">4</span>
+154: 
+155:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{k}=&quot;</span>, <span class="ruby-identifier">v</span>) }
+156:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="border-bottom-color-method" class="method-detail ">
+				<a name="method-i-border_bottom_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_bottom_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-bottom-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 379</span>
+379:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_bottom_color</span>
+380:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">2</span>]
+381:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-bottom-color--method" class="method-detail ">
+				<a name="method-i-border_bottom_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_bottom_color=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-bottom-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 383</span>
+383:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_bottom_color=</span>(<span class="ruby-identifier">val</span>)
+384:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">2</span>] = <span class="ruby-identifier">val</span>
+385:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-bottom-width-method" class="method-detail ">
+				<a name="method-i-border_bottom_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_bottom_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-bottom-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 437</span>
+437:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_bottom_width</span>
+438:         <span class="ruby-ivar">@borders</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:bottom</span>) <span class="ruby-operator">?</span> <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">2</span>] <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+439:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-bottom-width--method" class="method-detail ">
+				<a name="method-i-border_bottom_width%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_bottom_width=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-bottom-width--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 441</span>
+441:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_bottom_width=</span>(<span class="ruby-identifier">val</span>)
+442:         <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">2</span>] = <span class="ruby-identifier">val</span>
+443:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-color--method" class="method-detail ">
+				<a name="method-i-border_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_color=</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets border colors on this cell. The argument can be one of:
+</p>
+<ul>
+<li><p>
+an integer (sets all colors)
+</p>
+</li>
+<li><p>
+a two-element array [vertical, horizontal]
+</p>
+</li>
+<li><p>
+a three-element array [top, horizontal, bottom]
+</p>
+</li>
+<li><p>
+a four-element array [top, right, bottom, left]
+</p>
+</li>
+</ul>
+					
+
+					
+					<div class="method-source-code"
+						id="border-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 336</span>
+336:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_color=</span>(<span class="ruby-identifier">color</span>)
+337:         <span class="ruby-ivar">@border_colors</span> = <span class="ruby-keyword kw">case</span>
+338:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">nil?</span>
+339:           [<span class="ruby-value str">&quot;000000&quot;</span>] * <span class="ruby-value">4</span>
+340:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">color</span> <span class="ruby-comment cmt"># all colors</span>
+341:           [<span class="ruby-identifier">color</span>, <span class="ruby-identifier">color</span>, <span class="ruby-identifier">color</span>, <span class="ruby-identifier">color</span>]
+342:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-comment cmt"># vert, horiz</span>
+343:           [<span class="ruby-identifier">color</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">1</span>]]
+344:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">3</span> <span class="ruby-comment cmt"># top, horiz, bottom</span>
+345:           [<span class="ruby-identifier">color</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">1</span>]]
+346:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">4</span> <span class="ruby-comment cmt"># top, right, bottom, left</span>
+347:           [<span class="ruby-identifier">color</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">color</span>[<span class="ruby-value">3</span>]]
+348:         <span class="ruby-keyword kw">else</span>
+349:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;:border_color must be a string &quot;</span> <span class="ruby-operator">+</span>
+350:             <span class="ruby-value str">&quot;or an array [v,h] or [t,r,b,l]&quot;</span>
+351:         <span class="ruby-keyword kw">end</span>
+352:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="Cell.html#method-i-border_colors%3D">border_colors=</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="border-colors--method" class="method-detail method-alias">
+				<a name="method-i-border_colors%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_colors=</span><span
+						class="method-args">(color)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="Cell.html#method-i-border_color%3D">border_color=</a>
+				</div>
+				
+			</div>
+
+		
+			<div id="border-left-color-method" class="method-detail ">
+				<a name="method-i-border_left_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_left_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-left-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 387</span>
+387:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_left_color</span>
+388:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">3</span>]
+389:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-left-color--method" class="method-detail ">
+				<a name="method-i-border_left_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_left_color=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-left-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 391</span>
+391:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_left_color=</span>(<span class="ruby-identifier">val</span>)
+392:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">3</span>] = <span class="ruby-identifier">val</span>
+393:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-left-width-method" class="method-detail ">
+				<a name="method-i-border_left_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_left_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-left-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 445</span>
+445:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_left_width</span>
+446:         <span class="ruby-ivar">@borders</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:left</span>) <span class="ruby-operator">?</span> <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">3</span>] <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+447:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-left-width--method" class="method-detail ">
+				<a name="method-i-border_left_width%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_left_width=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-left-width--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 449</span>
+449:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_left_width=</span>(<span class="ruby-identifier">val</span>)
+450:         <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">3</span>] = <span class="ruby-identifier">val</span>
+451:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-right-color-method" class="method-detail ">
+				<a name="method-i-border_right_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_right_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-right-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 371</span>
+371:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_right_color</span>
+372:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">1</span>]
+373:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-right-color--method" class="method-detail ">
+				<a name="method-i-border_right_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_right_color=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-right-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 375</span>
+375:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_right_color=</span>(<span class="ruby-identifier">val</span>)
+376:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">1</span>] = <span class="ruby-identifier">val</span>
+377:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-right-width-method" class="method-detail ">
+				<a name="method-i-border_right_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_right_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-right-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 429</span>
+429:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_right_width</span>
+430:         <span class="ruby-ivar">@borders</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:right</span>) <span class="ruby-operator">?</span> <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+431:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-right-width--method" class="method-detail ">
+				<a name="method-i-border_right_width%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_right_width=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-right-width--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 433</span>
+433:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_right_width=</span>(<span class="ruby-identifier">val</span>)
+434:         <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">1</span>] = <span class="ruby-identifier">val</span>
+435:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-top-color-method" class="method-detail ">
+				<a name="method-i-border_top_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_top_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-top-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 363</span>
+363:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_top_color</span>
+364:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">0</span>]
+365:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-top-color-method" class="method-detail ">
+				<a name="method-i-border_top_color"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_top_color</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-top-color-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 355</span>
+355:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_top_color</span>
+356:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">0</span>]
+357:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-top-color--method" class="method-detail ">
+				<a name="method-i-border_top_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_top_color=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-top-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 367</span>
+367:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_top_color=</span>(<span class="ruby-identifier">val</span>)
+368:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">val</span>
+369:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-top-color--method" class="method-detail ">
+				<a name="method-i-border_top_color%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_top_color=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-top-color--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 359</span>
+359:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_top_color=</span>(<span class="ruby-identifier">val</span>)
+360:         <span class="ruby-ivar">@border_colors</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">val</span>
+361:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-top-width-method" class="method-detail ">
+				<a name="method-i-border_top_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_top_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-top-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 421</span>
+421:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_top_width</span>
+422:         <span class="ruby-ivar">@borders</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:top</span>) <span class="ruby-operator">?</span> <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+423:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-top-width--method" class="method-detail ">
+				<a name="method-i-border_top_width%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_top_width=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="border-top-width--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 425</span>
+425:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_top_width=</span>(<span class="ruby-identifier">val</span>)
+426:         <span class="ruby-ivar">@border_widths</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">val</span>
+427:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="border-width--method" class="method-detail ">
+				<a name="method-i-border_width%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_width=</span><span
+						class="method-args">(width)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets border widths on this cell. The argument can be one of:
+</p>
+<ul>
+<li><p>
+an integer (sets all widths)
+</p>
+</li>
+<li><p>
+a two-element array [vertical, horizontal]
+</p>
+</li>
+<li><p>
+a three-element array [top, horizontal, bottom]
+</p>
+</li>
+<li><p>
+a four-element array [top, right, bottom, left]
+</p>
+</li>
+</ul>
+					
+
+					
+					<div class="method-source-code"
+						id="border-width--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 402</span>
+402:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">border_width=</span>(<span class="ruby-identifier">width</span>)
+403:         <span class="ruby-ivar">@border_widths</span> = <span class="ruby-keyword kw">case</span>
+404:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">nil?</span>
+405:           [<span class="ruby-value str">&quot;000000&quot;</span>] * <span class="ruby-value">4</span>
+406:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Numeric</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">width</span> <span class="ruby-comment cmt"># all widths</span>
+407:           [<span class="ruby-identifier">width</span>, <span class="ruby-identifier">width</span>, <span class="ruby-identifier">width</span>, <span class="ruby-identifier">width</span>]
+408:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-comment cmt"># vert, horiz</span>
+409:           [<span class="ruby-identifier">width</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">1</span>]]
+410:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">3</span> <span class="ruby-comment cmt"># top, horiz, bottom</span>
+411:           [<span class="ruby-identifier">width</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">1</span>]]
+412:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">4</span> <span class="ruby-comment cmt"># top, right, bottom, left</span>
+413:           [<span class="ruby-identifier">width</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">width</span>[<span class="ruby-value">3</span>]]
+414:         <span class="ruby-keyword kw">else</span>
+415:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;:border_width must be a string &quot;</span> <span class="ruby-operator">+</span>
+416:             <span class="ruby-value str">&quot;or an array [v,h] or [t,r,b,l]&quot;</span>
+417:         <span class="ruby-keyword kw">end</span>
+418:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+				<div class="aliases">
+					Also aliased as: <a href="Cell.html#method-i-border_widths%3D">border_widths=</a>
+				</div>
+				
+
+				
+			</div>
+
+		
+			<div id="border-widths--method" class="method-detail method-alias">
+				<a name="method-i-border_widths%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">border_widths=</span><span
+						class="method-args">(width)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+				</div>
+
+				
+
+				
+				<div class="aliases">
+          Alias for: <a href="Cell.html#method-i-border_width%3D">border_width=</a>
+				</div>
+				
+			</div>
+
+		
+			<div id="content-height-method" class="method-detail ">
+				<a name="method-i-content_height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">content_height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the height of the bare content in the cell, excluding padding.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="content-height-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 217</span>
+217:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">content_height</span>
+218:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@height</span> <span class="ruby-comment cmt"># manually set</span>
+219:           <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@height</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">padding_top</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">padding_bottom</span>
+220:         <span class="ruby-keyword kw">end</span>
+221:         
+222:         <span class="ruby-identifier">natural_content_height</span>
+223:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="content-width-method" class="method-detail ">
+				<a name="method-i-content_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">content_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the width of the bare content in the cell, excluding padding.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="content-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 191</span>
+191:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">content_width</span>
+192:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@width</span> <span class="ruby-comment cmt"># manually set</span>
+193:           <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">padding_left</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">padding_right</span>
+194:         <span class="ruby-keyword kw">end</span>
+195: 
+196:         <span class="ruby-identifier">natural_content_width</span>
+197:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="draw-method" class="method-detail ">
+				<a name="method-i-draw"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">draw</span><span
+						class="method-args">(pt=[x, y])</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Draws the cell onto the document. Pass in a point [x,y] to override the
+location at which the cell is drawn.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="draw-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 236</span>
+236:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw</span>(<span class="ruby-identifier">pt</span>=[<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>])
+237:         <span class="ruby-identifier">set_width_constraints</span>
+238: 
+239:         <span class="ruby-identifier">draw_background</span>(<span class="ruby-identifier">pt</span>)
+240:         <span class="ruby-identifier">draw_borders</span>(<span class="ruby-identifier">pt</span>)
+241:         <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">pt</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">padding_left</span>, <span class="ruby-identifier">pt</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">-</span> <span class="ruby-identifier">padding_top</span>], 
+242:                           <span class="ruby-value">:width</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">content_width</span> <span class="ruby-operator">+</span> <span class="ruby-constant">FPTolerance</span>,
+243:                           <span class="ruby-value">:height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">content_height</span> <span class="ruby-operator">+</span> <span class="ruby-constant">FPTolerance</span>) <span class="ruby-keyword kw">do</span>
+244:           <span class="ruby-identifier">draw_content</span>
+245:         <span class="ruby-keyword kw">end</span>
+246:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="height-method" class="method-detail ">
+				<a name="method-i-height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the cell&#8217;s height in points, inclusive of padding.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="height-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 209</span>
+209:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">height</span>
+210:         <span class="ruby-comment cmt"># We can't ||= here because the FP error accumulates on the round-trip</span>
+211:         <span class="ruby-comment cmt"># from #content_height.</span>
+212:         <span class="ruby-ivar">@height</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">content_height</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">padding_top</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">padding_bottom</span>)
+213:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="max-width-method" class="method-detail ">
+				<a name="method-i-max_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">max_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+If provided, the maximum width that this cell can be drawn in.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="max-width-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 65</span>
+65:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">max_width</span>
+66:         <span class="ruby-identifier">set_width_constraints</span>
+67:         <span class="ruby-ivar">@max_width</span>
+68:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="min-width-method" class="method-detail ">
+				<a name="method-i-min_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">min_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+If provided, the minimum width that this cell will permit.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="min-width-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 58</span>
+58:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">min_width</span>
+59:         <span class="ruby-identifier">set_width_constraints</span>
+60:         <span class="ruby-ivar">@min_width</span>
+61:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="natural-content-height-method" class="method-detail ">
+				<a name="method-i-natural_content_height"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">natural_content_height</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the height this cell would naturally take on, absent constraints.
+Must be implemented in subclasses.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="natural-content-height-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 228</span>
+228:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">natural_content_height</span>
+229:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, 
+230:           <span class="ruby-value str">&quot;subclasses must implement natural_content_height&quot;</span>
+231:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="natural-content-width-method" class="method-detail ">
+				<a name="method-i-natural_content_width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">natural_content_width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the width this cell would naturally take on, absent other
+constraints. Must be implemented in subclasses.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="natural-content-width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 202</span>
+202:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">natural_content_width</span>
+203:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, 
+204:           <span class="ruby-value str">&quot;subclasses must implement natural_content_width&quot;</span>
+205:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding--method" class="method-detail ">
+				<a name="method-i-padding%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding=</span><span
+						class="method-args">(pad)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets padding on this cell. The argument can be one of:
+</p>
+<ul>
+<li><p>
+an integer (sets all padding)
+</p>
+</li>
+<li><p>
+a two-element array [vertical, horizontal]
+</p>
+</li>
+<li><p>
+a three-element array [top, horizontal, bottom]
+</p>
+</li>
+<li><p>
+a four-element array [top, right, bottom, left]
+</p>
+</li>
+</ul>
+					
+
+					
+					<div class="method-source-code"
+						id="padding--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 279</span>
+279:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding=</span>(<span class="ruby-identifier">pad</span>)
+280:         <span class="ruby-ivar">@padding</span> = <span class="ruby-keyword kw">case</span>
+281:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">pad</span>.<span class="ruby-identifier">nil?</span>
+282:           [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">0</span>]
+283:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Numeric</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">pad</span> <span class="ruby-comment cmt"># all padding</span>
+284:           [<span class="ruby-identifier">pad</span>, <span class="ruby-identifier">pad</span>, <span class="ruby-identifier">pad</span>, <span class="ruby-identifier">pad</span>]
+285:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">pad</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-comment cmt"># vert, horiz</span>
+286:           [<span class="ruby-identifier">pad</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">1</span>]]
+287:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">pad</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">3</span> <span class="ruby-comment cmt"># top, horiz, bottom</span>
+288:           [<span class="ruby-identifier">pad</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">1</span>]]
+289:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">pad</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">4</span> <span class="ruby-comment cmt"># top, right, bottom, left</span>
+290:           [<span class="ruby-identifier">pad</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">pad</span>[<span class="ruby-value">3</span>]]
+291:         <span class="ruby-keyword kw">else</span>
+292:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;:padding must be a number or an array [v,h] &quot;</span> <span class="ruby-operator">+</span>
+293:             <span class="ruby-value str">&quot;or [t,r,b,l]&quot;</span>
+294:         <span class="ruby-keyword kw">end</span>
+295:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-bottom-method" class="method-detail ">
+				<a name="method-i-padding_bottom"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_bottom</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-bottom-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 313</span>
+313:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_bottom</span>
+314:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">2</span>]
+315:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-bottom--method" class="method-detail ">
+				<a name="method-i-padding_bottom%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_bottom=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-bottom--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 317</span>
+317:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_bottom=</span>(<span class="ruby-identifier">val</span>)
+318:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">2</span>] = <span class="ruby-identifier">val</span>
+319:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-left-method" class="method-detail ">
+				<a name="method-i-padding_left"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_left</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-left-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 321</span>
+321:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_left</span>
+322:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">3</span>]
+323:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-left--method" class="method-detail ">
+				<a name="method-i-padding_left%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_left=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-left--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 325</span>
+325:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_left=</span>(<span class="ruby-identifier">val</span>)
+326:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">3</span>] = <span class="ruby-identifier">val</span>
+327:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-right-method" class="method-detail ">
+				<a name="method-i-padding_right"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_right</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-right-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 305</span>
+305:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_right</span>
+306:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">1</span>]
+307:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-right--method" class="method-detail ">
+				<a name="method-i-padding_right%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_right=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-right--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 309</span>
+309:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_right=</span>(<span class="ruby-identifier">val</span>)
+310:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">1</span>] = <span class="ruby-identifier">val</span>
+311:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-top-method" class="method-detail ">
+				<a name="method-i-padding_top"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_top</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-top-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 297</span>
+297:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_top</span>
+298:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">0</span>]
+299:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="padding-top--method" class="method-detail ">
+				<a name="method-i-padding_top%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">padding_top=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="padding-top--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 301</span>
+301:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">padding_top=</span>(<span class="ruby-identifier">val</span>)
+302:         <span class="ruby-ivar">@padding</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">val</span>
+303:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="style-method" class="method-detail ">
+				<a name="method-i-style"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">style</span><span
+						class="method-args">(options={}, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Supports setting multiple properties at once.
+</p>
+<pre>
+  cell.style(:padding =&gt; 0, :border_width =&gt; 2)
+</pre>
+<p>
+is the same as:
+</p>
+<pre>
+  cell.padding = 0
+  cell.border_width = 2</pre>
+					
+
+					
+					<div class="method-source-code"
+						id="style-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 167</span>
+167:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">style</span>(<span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">block</span>)
+168:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{k}=&quot;</span>, <span class="ruby-identifier">v</span>) }
+169: 
+170:         <span class="ruby-comment cmt"># The block form supports running a single block for multiple cells, as</span>
+171:         <span class="ruby-comment cmt"># in Cells#style.</span>
+172:         <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword kw">self</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+173:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="width-method" class="method-detail ">
+				<a name="method-i-width"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">width</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the cell&#8217;s width in points, inclusive of padding.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="width-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 177</span>
+177:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width</span>
+178:         <span class="ruby-comment cmt"># We can't ||= here because the FP error accumulates on the round-trip</span>
+179:         <span class="ruby-comment cmt"># from #content_width.</span>
+180:         <span class="ruby-ivar">@width</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">content_width</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">padding_left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">padding_right</span>)
+181:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="width--method" class="method-detail ">
+				<a name="method-i-width%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">width=</span><span
+						class="method-args">(w)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Manually sets the cell&#8217;s width, inclusive of padding.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="width--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 185</span>
+185:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">width=</span>(<span class="ruby-identifier">w</span>)
+186:         <span class="ruby-ivar">@width</span> = <span class="ruby-ivar">@min_width</span> = <span class="ruby-ivar">@max_width</span> = <span class="ruby-identifier">w</span>
+187:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="x-method" class="method-detail ">
+				<a name="method-i-x"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">x</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+x-position of the cell within the parent bounds.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="x-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 250</span>
+250:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">x</span>
+251:         <span class="ruby-ivar">@point</span>[<span class="ruby-value">0</span>]
+252:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="x--method" class="method-detail ">
+				<a name="method-i-x%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">x=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Set the x-position of the cell within the parent bounds.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="x--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 256</span>
+256:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">x=</span>(<span class="ruby-identifier">val</span>)
+257:         <span class="ruby-ivar">@point</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">val</span>
+258:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="y-method" class="method-detail ">
+				<a name="method-i-y"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">y</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+y-position of the cell within the parent bounds.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="y-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 262</span>
+262:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">y</span>
+263:         <span class="ruby-ivar">@point</span>[<span class="ruby-value">1</span>]
+264:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="y--method" class="method-detail ">
+				<a name="method-i-y%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">y=</span><span
+						class="method-args">(val)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Set the y-position of the cell within the parent bounds.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="y--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 268</span>
+268:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">y=</span>(<span class="ruby-identifier">val</span>)
+269:         <span class="ruby-ivar">@point</span>[<span class="ruby-value">1</span>] = <span class="ruby-identifier">val</span>
+270:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="protected-instance-method-details" class="method-section section">
+			<h3 class="section-header">Protected Instance Methods</h3>
+
+		
+			<div id="draw-background-method" class="method-detail ">
+				<a name="method-i-draw_background"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">draw_background</span><span
+						class="method-args">(pt)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Draws the cell&#8217;s background color.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="draw-background-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 465</span>
+465:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw_background</span>(<span class="ruby-identifier">pt</span>)
+466:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@background_color</span>
+467:           <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">mask</span>(<span class="ruby-value">:fill_color</span>) <span class="ruby-keyword kw">do</span>
+468:             <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">fill_color</span> <span class="ruby-ivar">@background_color</span>
+469:             <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">fill_rectangle</span> <span class="ruby-identifier">pt</span>, <span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span>
+470:           <span class="ruby-keyword kw">end</span>
+471:         <span class="ruby-keyword kw">end</span>
+472:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="draw-borders-method" class="method-detail ">
+				<a name="method-i-draw_borders"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">draw_borders</span><span
+						class="method-args">(pt)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Draws borders around the cell. Borders are centered on the bounds of the
+cell outside of any padding, so the caller is responsible for setting
+appropriate padding to ensure the border does not overlap with cell
+content.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="draw-borders-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 479</span>
+479:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw_borders</span>(<span class="ruby-identifier">pt</span>)
+480:         <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> = <span class="ruby-identifier">pt</span>
+481: 
+482:         <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">mask</span>(<span class="ruby-value">:line_width</span>, <span class="ruby-value">:stroke_color</span>) <span class="ruby-keyword kw">do</span>
+483:           <span class="ruby-ivar">@borders</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">border</span><span class="ruby-operator">|</span>
+484:             <span class="ruby-identifier">idx</span> = {<span class="ruby-value">:top</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:right</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-value">:bottom</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>, <span class="ruby-value">:left</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>}[<span class="ruby-identifier">border</span>]
+485:             <span class="ruby-identifier">border_color</span> = <span class="ruby-ivar">@border_colors</span>[<span class="ruby-identifier">idx</span>]
+486:             <span class="ruby-identifier">border_width</span> = <span class="ruby-ivar">@border_widths</span>[<span class="ruby-identifier">idx</span>]
+487: 
+488:             <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">border_width</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
+489: 
+490:             <span class="ruby-comment cmt"># Left and right borders are drawn one-half border beyond the center</span>
+491:             <span class="ruby-comment cmt"># of the corner, so that the corners end up square.</span>
+492:             <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">border</span>
+493:                        <span class="ruby-keyword kw">when</span> <span class="ruby-value">:top</span>
+494:                          [[<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>], [<span class="ruby-identifier">x</span><span class="ruby-operator">+</span><span class="ruby-identifier">width</span>, <span class="ruby-identifier">y</span>]]
+495:                        <span class="ruby-keyword kw">when</span> <span class="ruby-value">:bottom</span>
+496:                          [[<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">height</span>], [<span class="ruby-identifier">x</span><span class="ruby-operator">+</span><span class="ruby-identifier">width</span>, <span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">height</span>]]
+497:                        <span class="ruby-keyword kw">when</span> <span class="ruby-value">:left</span>
+498:                          [[<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">border_top_width</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>)],
+499:                           [<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">border_bottom_width</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>)]]
+500:                        <span class="ruby-keyword kw">when</span> <span class="ruby-value">:right</span>
+501:                          [[<span class="ruby-identifier">x</span><span class="ruby-operator">+</span><span class="ruby-identifier">width</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">border_top_width</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>)],
+502:                           [<span class="ruby-identifier">x</span><span class="ruby-operator">+</span><span class="ruby-identifier">width</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">border_bottom_width</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>)]]
+503:                        <span class="ruby-keyword kw">end</span>
+504: 
+505:             <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">line_width</span>   = <span class="ruby-identifier">border_width</span>
+506:             <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">stroke_color</span> = <span class="ruby-identifier">border_color</span>
+507:             <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">stroke_line</span>(<span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span>)
+508:           <span class="ruby-keyword kw">end</span>
+509:         <span class="ruby-keyword kw">end</span>
+510:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="draw-content-method" class="method-detail ">
+				<a name="method-i-draw_content"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">draw_content</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Draws cell content within the cell&#8217;s bounding box. Must be
+implemented in subclasses.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="draw-content-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 515</span>
+515:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw_content</span>
+516:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-value str">&quot;subclasses must implement draw_content&quot;</span>
+517:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="set-width-constraints-method" class="method-detail ">
+				<a name="method-i-set_width_constraints"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">set_width_constraints</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets the cell&#8217;s minimum and maximum width. Deferred until requested
+because padding and size can change.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="set-width-constraints-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/table/cell.rb, line 458</span>
+458:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_width_constraints</span>
+459:         <span class="ruby-ivar">@min_width</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">padding_left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">padding_right</span>
+460:         <span class="ruby-ivar">@max_width</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@pdf</span>.<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>
+461:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

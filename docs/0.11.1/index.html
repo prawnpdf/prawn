@@ -1,0 +1,1423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Prawn Documentation</title>
+
+	<link type="text/css" media="screen" href="rdoc.css" rel="stylesheet" />
+
+	<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body class="indexpage">
+
+	
+	<h1>Prawn Documentation</h1>
+
+	
+	<div id="main">
+		
+<p>
+Prawn is a PDF writing library for Ruby designed to be tiny, fast, and
+nimble, just like the majestic sea creature.
+</p>
+<p>
+Development on this library was initially made possible thanks to  the many
+people who donated to the Ruby Mendicant project:  <a
+href="http://rubymendicant.wikidot.com">rubymendicant.wikidot.com</a> 
+</p>
+<p>
+The project is currently maintained by Gregory Brown, with lots of help
+from Prawn&#8217;s core developers and the community.
+</p>
+<h2>Quick Start</h2>
+<p>
+Getting started with Prawn can be as simple as:
+</p>
+<pre>
+ require 'prawn'
+ pdf = Prawn::Document.new
+ pdf.text(&quot;Prawn Rocks&quot;)
+ pdf.render_file('prawn.pdf')
+</pre>
+<p>
+But prawn can do a lot more:
+</p>
+<h3>Any page size you can think of</h3>
+<pre>
+ Prawn::Document.new('A0')
+</pre>
+<p>
+&#8230;gives you an <em>really</em> big page.
+</p>
+<pre>
+ Prawn::Document.new(:page_size   =&gt; [11.32, 8.49],
+                     :page_layout =&gt; :portrait)
+</pre>
+<p>
+&#8230;giving you a postage stamp.
+</p>
+<p>
+<a href="classes/Prawn/Document.html">Learn more</a>
+</p>
+<h3>Multiple Font Handling with UTF-8 Support</h3>
+<pre>
+ pdf.text(&quot;Prawn Rocks&quot;)
+ pdf.font(&quot;/myfont.ttf&quot;)
+ pdf.text(&quot;Prawn still rocks in a different font&quot;)
+</pre>
+<p>
+&#8230;allowing you to use any font you want.
+</p>
+<p>
+<a href="classes/Prawn/Font.html">Learn more</a>
+</p>
+<h3>Drawing graphics directly into the page</h3>
+<p>
+Simple shapes:
+</p>
+<pre>
+ pdf.stroke do
+   pdf.circle_at [100,100], :radius =&gt; 25
+   pdf.rectangle [300,300], 100, 200
+ end
+</pre>
+<p>
+(note, you need to stroke the path to put &#8220;ink&#8221; there)
+</p>
+<p>
+<a href="classes/Prawn/Graphics.html">Learn more</a>
+</p>
+<h3>Embedding JPEG and PNG Images Natively</h3>
+<p>
+Reading an image directly from a file:
+</p>
+<pre>
+ prawn_logo = &quot;#{Prawn::BASEDIR}/data/images/prawn_logo.png&quot;
+ pdf.image prawn_logo, :at =&gt; [50,450], :width =&gt; 450
+</pre>
+<p>
+Or reading it from an IO stream:
+</p>
+<pre>
+ require &quot;open-uri&quot;
+ pdf.image open(&quot;http://prawn.majesticseacreature.com/media/prawn_logo.png&quot;)
+</pre>
+<p>
+<a href="classes/Prawn/Images.html">Learn more</a>
+</p>
+<h3>Measurement Conversion Tools for Your Sanity</h3>
+<p>
+Prawn deals exclusively in PDF points... which work out to about
+2.83464567mm...  don&#8217;t try and do it in your head, instead, let Prawn
+help you:
+</p>
+<pre>
+ require &quot;prawn/measurement_extensions&quot;
+
+ Prawn::Document.generate(:page_layout =&gt; :portrait, 
+                     :left_margin =&gt; 10.mm,    # different
+                     :right_margin =&gt; 1.cm,    # units
+                     :top_margin =&gt; 0.1.dm,    # work
+                     :bottom_margin =&gt; 0.01.m, # well 
+                     :page_size =&gt; 'A4') do
+   text &quot;Prawn Rocks&quot;
+ end
+</pre>
+<p>
+<a href="classes/Prawn/Measurements.html">Learn more</a>
+</p>
+<h3>Document Security, Permissions, and Encryption</h3>
+<p>
+See examples/security/ for example code, such as this:
+</p>
+<pre>
+  require 'prawn/security'
+
+  Prawn::Document.generate(&quot;hello_foo.pdf&quot;) do
+    text &quot;Hello, world!&quot;
+    encrypt_document :user_password =&gt; 'foo', :owner_password =&gt; 'bar',
+      :permissions =&gt; { :print_document =&gt; false }
+  end
+</pre>
+<p>
+This creates a document that requires the password &#8216;foo&#8217; to be
+opened, and cannot be printed without entering the owner password
+&#8216;bar&#8217;.
+</p>
+<p>
+If you want to prohibit most anyone from performing a certain activity, you
+can pass :owner_password => :random to generate a probably-unguessable
+owner  password.
+</p>
+<h2>Resources</h2>
+<h3>Examples:</h3>
+<p>
+<a
+href="http://github.com/sandal/prawn/tree/stable/examples">github.com/sandal/prawn/tree/stable/examples</a>
+</p>
+<h3>Bug Tracker:</h3>
+<p>
+<a
+href="http://github.com/sandal/prawn/issues">github.com/sandal/prawn/issues</a>
+</p>
+<h3>Source Code:</h3>
+<p>
+<a href="http://github.com/sandal/prawn">github.com/sandal/prawn</a>
+</p>
+<h3>Mailing List:</h3>
+<p>
+<a
+href="http://groups.google.com/group/prawn-ruby">groups.google.com/group/prawn-ruby</a>
+</p>
+<h3>IRC:</h3>
+<p>
+Find us in # on irc.freenode.net
+</p>
+<pre>
+  Gregory Brown: &lt;sandal&gt;
+  James Healy: &lt;yob&gt;               
+  Brad Ediger: &lt;bradediger&gt;
+  Daniel Nelson: &lt;bluejade&gt;
+  Jonathan Greenberg: &lt;jonsgreen&gt;
+  
+</pre>
+<h2>Notes to Developers: </h2>
+<p>
+See <a href="HACKING.html">HACKING</a> file for details on getting set up
+with a local build.
+</p>
+
+	</div>
+	
+
+	
+	
+	<h2>Files</h2>
+	<ul>
+		
+			<li class="file"><a href="COPYING.html">COPYING</a></li>
+		
+			<li class="file"><a href="HACKING.html">HACKING</a></li>
+		
+			<li class="file"><a href="LICENSE.html">LICENSE</a></li>
+		
+			<li class="file"><a href="README.html">README</a></li>
+		
+	</ul>
+	
+
+	<h2 id="classes">Classes/Modules</h2>
+	<ul>
+		
+		<li class="module"><a href="Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+		
+		<li class="class"><a href="Prawn/Document.html">Prawn::Document</a></li>
+		
+		<li class="class"><a href="Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+		
+		<li class="class"><a href="Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+		
+		<li class="module"><a href="Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+		
+		<li class="class"><a href="Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+		
+		<li class="module"><a href="Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+		
+		<li class="module"><a href="Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+		
+		<li class="module"><a href="Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+		
+		<li class="module"><a href="Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+		
+		<li class="module"><a href="Prawn/Encoding.html">Prawn::Encoding</a></li>
+		
+		<li class="module"><a href="Prawn/Errors.html">Prawn::Errors</a></li>
+		
+		<li class="class"><a href="Prawn/Font.html">Prawn::Font</a></li>
+		
+		<li class="class"><a href="Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+		
+		<li class="class"><a href="Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+		
+		<li class="class"><a href="Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+		
+		<li class="class"><a href="Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+		
+		<li class="class"><a href="Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics.html">Prawn::Graphics</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+		
+		<li class="module"><a href="Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+		
+		<li class="module"><a href="Prawn/Images.html">Prawn::Images</a></li>
+		
+		<li class="class"><a href="Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+		
+		<li class="class"><a href="Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+		
+		<li class="module"><a href="Prawn/Layout.html">Prawn::Layout</a></li>
+		
+		<li class="module"><a href="Prawn/Measurements.html">Prawn::Measurements</a></li>
+		
+		<li class="class"><a href="Prawn/Outline.html">Prawn::Outline</a></li>
+		
+		<li class="module"><a href="Prawn/Stamp.html">Prawn::Stamp</a></li>
+		
+		<li class="class"><a href="Prawn/Table.html">Prawn::Table</a></li>
+		
+		<li class="class"><a href="Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+		
+		<li class="module"><a href="Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+		
+		<li class="class"><a href="Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+		
+		<li class="class"><a href="Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+		
+		<li class="class"><a href="Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+		
+		<li class="module"><a href="Prawn/Text.html">Prawn::Text</a></li>
+		
+		<li class="class"><a href="Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+		
+		<li class="module"><a href="Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+		
+		<li class="class"><a href="Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+		
+		<li class="class"><a href="Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+		
+		<li class="class"><a href="Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+		
+		<li class="class"><a href="Arcfour.html">Arcfour</a></li>
+		
+		<li class="class"><a href="Numeric.html">Numeric</a></li>
+		
+	</ul>
+
+	<h2 id="methods">Methods</h2>
+	<ul>
+		
+			<li><a href="Prawn/Text/Formatted/Parser.html#method-c-array_from_tokens">::array_from_tokens &mdash; Prawn::Text::Formatted::Parser</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-c-encrypt_string">::encrypt_string &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Document.html#method-c-extensions">::extensions &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-c-extensions">::extensions &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Font/DFont.html#method-c-font_count">::font_count &mdash; Prawn::Font::DFont</a></li>
+		
+			<li><a href="Prawn/Document.html#method-c-generate">::generate &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font.html#method-c-load">::load &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-c-make">::make &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-c-metrics_path">::metrics_path &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/DFont.html#method-c-named_fonts">::named_fonts &mdash; Prawn::Font::DFont</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-c-new">::new &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Table.html#method-c-new">::new &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-c-new">::new &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-c-new">::new &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Images/JPG.html#method-c-new">::new &mdash; Prawn::Images::JPG</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-c-new">::new &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Arcfour.html#method-c-new">::new &mdash; Arcfour</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-c-new">::new &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-c-new">::new &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Document.html#method-c-new">::new &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Text/Box.html#method-c-new">::new &mdash; Prawn::Text::Box</a></li>
+		
+			<li><a href="Prawn/GraphicStateStack.html#method-c-new">::new &mdash; Prawn::GraphicStateStack</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-c-new">::new &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-c-new">::new &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/GraphicState.html#method-c-new">::new &mdash; Prawn::GraphicState</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Parser.html#method-c-to_array">::to_array &mdash; Prawn::Text::Formatted::Parser</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Parser.html#method-c-to_string">::to_string &mdash; Prawn::Text::Formatted::Parser</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-%5B%5D">#[] &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_bottom">#absolute_bottom &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_bottom">#absolute_bottom &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_bottom_left">#absolute_bottom_left &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_bottom_left">#absolute_bottom_left &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_bottom_right">#absolute_bottom_right &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_bottom_right">#absolute_bottom_right &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_bounding_box">#absolute_bounding_box &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_left">#absolute_left &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_left">#absolute_left &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_right">#absolute_right &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_right">#absolute_right &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_top">#absolute_top &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_top">#absolute_top &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_top_left">#absolute_top_left &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_top_left">#absolute_top_left &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-absolute_top_right">#absolute_top_right &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-absolute_top_right">#absolute_top_right &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-add_content">#add_content &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-add_left_padding">#add_left_padding &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-add_outline_item">#add_outline_item &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-add_right_padding">#add_right_padding &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-add_subsection_to">#add_subsection_to &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-add_to_current_page">#add_to_current_page &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-adjust_relations">#adjust_relations &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-alpha_channel%3F">#alpha_channel? &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-alpha_channel_bits">#alpha_channel_bits &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-analyze_glyphs_for_fallback_font_support">#analyze_glyphs_for_fallback_font_support &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-anchor">#anchor &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-anchor">#anchor &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-apply_margin_options">#apply_margin_options &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-ascender">#ascender &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-assert_proper_table_data">#assert_proper_table_data &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-available_width">#available_width &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-basename">#basename &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-bbox">#bbox &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-bbox">#bbox &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-before_render">#before_render &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_bottom_color">#border_bottom_color &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_bottom_color%3D">#border_bottom_color= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_bottom_width">#border_bottom_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_bottom_width%3D">#border_bottom_width= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_color%3D">#border_color= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_colors%3D">#border_colors= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_left_color">#border_left_color &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_left_color%3D">#border_left_color= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_left_width">#border_left_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_left_width%3D">#border_left_width= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_right_color">#border_right_color &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_right_color%3D">#border_right_color= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_right_width">#border_right_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_right_width%3D">#border_right_width= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_top_color">#border_top_color &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_top_color">#border_top_color &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_top_color%3D">#border_top_color= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_top_color%3D">#border_top_color= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_top_width">#border_top_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_top_width%3D">#border_top_width= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_width%3D">#border_width= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-border_widths%3D">#border_widths= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-bottom">#bottom &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-bottom">#bottom &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-bottom_left">#bottom_left &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-bottom_left">#bottom_left &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-bottom_right">#bottom_right &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-bottom_right">#bottom_right &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-bounding_box">#bounding_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-bounding_box">#bounding_box &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-bounds">#bounds &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-bounds%3D">#bounds= &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-build_pdf_object">#build_pdf_object &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Images/JPG.html#method-i-build_pdf_object">#build_pdf_object &mdash; Prawn::Images::JPG</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-calc_image_dimensions">#calc_image_dimensions &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-callback_objects">#callback_objects &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-canvas">#canvas &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-cap_height">#cap_height &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics/CapStyle.html#method-i-cap_style">#cap_style &mdash; Prawn::Graphics::CapStyle</a></li>
+		
+			<li><a href="Prawn/Graphics/CapStyle.html#method-i-cap_style%3D">#cap_style= &mdash; Prawn::Graphics::CapStyle</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-cell">#cell &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-cell_style%3D">#cell_style= &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-cells">#cells &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-character_spacing">#character_spacing &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-character_width_by_code">#character_width_by_code &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-cid_to_gid_map">#cid_to_gid_map &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-circle">#circle &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-circle_at">#circle_at &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-close_and_stroke">#close_and_stroke &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Document/GraphicsState.html#method-i-close_graphics_state">#close_graphics_state &mdash; Prawn::Document::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-close_path">#close_path &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Numeric.html#method-i-cm">#cm &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-cm2mm">#cm2mm &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-cm2pt">#cm2pt &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-cmap">#cmap &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-color">#color &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-color_space">#color_space &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-color_to_s">#color_to_s &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-color_type">#color_type &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-colors">#colors &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-column">#column &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-column">#column &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-column_box">#column_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Grid.html#method-i-column_width">#column_width &mdash; Prawn::Document::Grid</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-column_widths">#column_widths &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-column_widths%3D">#column_widths= &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-columns">#columns &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-columns">#columns &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-compression_enabled%3F">#compression_enabled? &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-content_height">#content_height &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-content_width">#content_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-create_outline_item">#create_outline_item &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-create_stamp">#create_stamp &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-create_stamp_dictionary">#create_stamp_dictionary &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Graphics/CapStyle.html#method-i-current_cap_style">#current_cap_style &mdash; Prawn::Graphics::CapStyle</a></li>
+		
+			<li><a href="Prawn/Graphics/CapStyle.html#method-i-current_cap_style%3D">#current_cap_style= &mdash; Prawn::Graphics::CapStyle</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-current_color_space">#current_color_space &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-current_dash_state">#current_dash_state &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-current_dash_state%3D">#current_dash_state= &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-current_fill_color">#current_fill_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-current_fill_color%3D">#current_fill_color= &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/JoinStyle.html#method-i-current_join_style">#current_join_style &mdash; Prawn::Graphics::JoinStyle</a></li>
+		
+			<li><a href="Prawn/Graphics/JoinStyle.html#method-i-current_join_style%3D">#current_join_style= &mdash; Prawn::Graphics::JoinStyle</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-current_line_width">#current_line_width &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-current_line_width%3D">#current_line_width= &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/GraphicStateStack.html#method-i-current_state">#current_state &mdash; Prawn::GraphicStateStack</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-current_stroke_color">#current_stroke_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-current_stroke_color%3D">#current_stroke_color= &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-cursor">#cursor &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-curve">#curve &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-curve_to">#curve_to &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-dash">#dash &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-dash%3D">#dash= &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-dash_setting">#dash_setting &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/GraphicState.html#method-i-dash_setting">#dash_setting &mdash; Prawn::GraphicState</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-dashed%3F">#dashed? &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-default_direction%3D">#default_direction= &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-default_height">#default_height &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-define">#define &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-define_grid">#define_grid &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-degree_to_rad">#degree_to_rad &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-deref">#deref &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-descender">#descender &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-detect_image_format">#detect_image_format &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-determine_y_with_page_flow">#determine_y_with_page_flow &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-direction">#direction &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Numeric.html#method-i-dm">#dm &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-dm2mm">#dm2mm &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-dm2pt">#dm2pt &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-draw">#draw &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-draw">#draw &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-draw_background">#draw_background &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-draw_borders">#draw_borders &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-i-draw_content">#draw_content &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-draw_content">#draw_content &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-draw_content">#draw_content &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-draw_fragment_overlay_anchor">#draw_fragment_overlay_anchor &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-draw_fragment_overlay_link">#draw_fragment_overlay_link &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-draw_fragment_overlay_styles">#draw_fragment_overlay_styles &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-draw_fragment_overlays">#draw_fragment_overlays &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-draw_fragment_underlays">#draw_fragment_underlays &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-draw_header">#draw_header &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-draw_indented_formatted_line">#draw_indented_formatted_line &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-draw_remaining_formatted_text_on_new_pages">#draw_remaining_formatted_text_on_new_pages &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-draw_text">#draw_text &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-ellipse">#ellipse &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-ellipse_at">#ellipse_at &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-embed">#embed &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/GraphicStateStack.html#method-i-empty%3F">#empty? &mdash; Prawn::GraphicStateStack</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-encode_text">#encode_text &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-encode_text">#encode_text &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Arcfour.html#method-i-encrypt">#encrypt &mdash; Arcfour</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-encrypt_document">#encrypt_document &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-encryption_dictionary">#encryption_dictionary &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-everything_printed%3F">#everything_printed? &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-exclude_trailing_white_space%3F">#exclude_trailing_white_space? &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-family_class">#family_class &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-fill">#fill &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-fill_and_stroke">#fill_and_stroke &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-fill_color">#fill_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-fill_color%3D">#fill_color= &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-fill_formatted_text_box">#fill_formatted_text_box &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Graphics/Gradient.html#method-i-fill_gradient">#fill_gradient &mdash; Prawn::Graphics::Gradient</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-filter">#filter &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-finalize_all_page_contents">#finalize_all_page_contents &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-find_font">#find_font &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-find_font_for_this_glyph">#find_font_for_this_glyph &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-float">#float &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-font">#font &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-font">#font &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-font">#font &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-font_families">#font_families &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-font_size">#font_size &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-font_style%3D">#font_style= &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-form_fragments_from_like_font_glyph_pairs">#form_fragments_from_like_font_glyph_pairs &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-formatted_text">#formatted_text &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text/Formatted.html#method-i-formatted_text_box">#formatted_text_box &mdash; Prawn::Text::Formatted</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-freeze_stamp_graphics">#freeze_stamp_graphics &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-fresh_content_streams">#fresh_content_streams &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Numeric.html#method-i-ft">#ft &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-ft2in">#ft2in &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-ft2pt">#ft2pt &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-generate_margin_box">#generate_margin_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-generate_unique_id">#generate_unique_id &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-glyph_present%3F">#glyph_present? &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-glyph_present%3F">#glyph_present? &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-go_to_page">#go_to_page &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/GraphicsState.html#method-i-graphic_stack">#graphic_stack &mdash; Prawn::Document::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Document/GraphicsState.html#method-i-graphic_state">#graphic_state &mdash; Prawn::Document::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Core/Page/GraphicsState.html#method-i-graphic_state">#graphic_state &mdash; Prawn::Core::Page::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-grid">#grid &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-group">#group &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-has_kerning_data%3F">#has_kerning_data? &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-has_kerning_data%3F">#has_kerning_data? &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-height">#height &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-height">#height &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-height">#height &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-height">#height &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-height">#height &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-height">#height &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-height">#height &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-height_at">#height_at &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-height_of">#height_of &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-height_of_formatted">#height_of_formatted &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-hex2rgb">#hex2rgb &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-hmtx">#hmtx &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-horizontal_line">#horizontal_line &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-horizontal_rule">#horizontal_rule &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-identifier_for">#identifier_for &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-image">#image &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-image_position">#image_position &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-image_registry">#image_registry &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Numeric.html#method-i-in">#in &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-in2pt">#in2pt &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-include_trailing_white_space%21">#include_trailing_white_space! &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-increase_count">#increase_count &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-indent">#indent &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-indent">#indent &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-index_cells">#index_cells &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-init_bounding_box">#init_bounding_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-init_column_box">#init_column_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-insert_section">#insert_section &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-insert_section_after">#insert_section_after &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-inspect">#inspect &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-inspect_options_for_draw_text">#inspect_options_for_draw_text &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-inspect_options_for_text">#inspect_options_for_text &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-italic_angle">#italic_angle &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics/JoinStyle.html#method-i-join_style">#join_style &mdash; Prawn::Graphics::JoinStyle</a></li>
+		
+			<li><a href="Prawn/Graphics/JoinStyle.html#method-i-join_style%3D">#join_style= &mdash; Prawn::Graphics::JoinStyle</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-kern">#kern &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-kern">#kern &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-kern_pairs_table">#kern_pairs_table &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Arcfour.html#method-i-key_byte">#key_byte &mdash; Arcfour</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-latin_glyphs_table">#latin_glyphs_table &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-latin_kern_pairs_table">#latin_kern_pairs_table &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-left">#left &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-left_side">#left_side &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/ColumnBox.html#method-i-left_side">#left_side &mdash; Prawn::Document::ColumnBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-left_side">#left_side &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-line">#line &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-line_gap">#line_gap &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-line_gap">#line_gap &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-line_to">#line_to &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-line_width">#line_width &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-line_width%3D">#line_width= &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-link">#link &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Numeric.html#method-i-m">#m &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-m2mm">#m2mm &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-m2pt">#m2pt &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-make_cell">#make_cell &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-make_cells">#make_cells &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-make_table">#make_table &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-map_to_absolute">#map_to_absolute &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-map_to_absolute%21">#map_to_absolute! &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-i-max_width">#max_width &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-max_width">#max_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-max_width">#max_width &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-merge_template_options">#merge_template_options &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-merge_text_box_positioning_options">#merge_text_box_positioning_options &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-method_missing">#method_missing &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-method_missing">#method_missing &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-min_pdf_version">#min_pdf_version &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-min_version">#min_version &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-min_width">#min_width &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-min_width">#min_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-i-min_width">#min_width &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Numeric.html#method-i-mm">#mm &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-mm2pt">#mm2pt &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-move_baseline_down">#move_baseline_down &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-move_cursor_to">#move_cursor_to &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-move_down">#move_down &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/ColumnBox.html#method-i-move_past_bottom">#move_past_bottom &mdash; Prawn::Document::ColumnBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-move_past_bottom">#move_past_bottom &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-move_past_bottom">#move_past_bottom &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-move_text_position">#move_text_position &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-move_to">#move_to &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-move_up">#move_up &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-multi_box">#multi_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-names">#names &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-names%3F">#names? &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-natural_column_widths">#natural_column_widths &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-natural_content_height">#natural_content_height &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-natural_content_height">#natural_content_height &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-i-natural_content_height">#natural_content_height &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-i-natural_content_width">#natural_content_width &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-natural_content_width">#natural_content_width &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-natural_content_width">#natural_content_width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-natural_width">#natural_width &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-next_image_id">#next_image_id &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Graphics/Transparency.html#method-i-next_opacity_dictionary_id">#next_opacity_dictionary_id &mdash; Prawn::Graphics::Transparency</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-next_stamp_dictionary_id">#next_stamp_dictionary_id &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-normalize_color">#normalize_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-normalize_encoding">#normalize_encoding &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-normalize_encoding">#normalize_encoding &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-normalize_encoding">#normalize_encoding &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-normalize_encoding">#normalize_encoding &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-normalize_encoding%21">#normalize_encoding! &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-normalized_soft_hyphen">#normalized_soft_hyphen &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-nothing_printed%3F">#nothing_printed? &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-number_pages">#number_pages &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-on_page_create">#on_page_create &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Graphics/Transparency.html#method-i-opacity_dictionary_name">#opacity_dictionary_name &mdash; Prawn::Graphics::Transparency</a></li>
+		
+			<li><a href="Prawn/Graphics/Transparency.html#method-i-opacity_dictionary_registry">#opacity_dictionary_registry &mdash; Prawn::Graphics::Transparency</a></li>
+		
+			<li><a href="Prawn/Document/GraphicsState.html#method-i-open_graphics_state">#open_graphics_state &mdash; Prawn::Document::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-original_text">#original_text &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-original_text%3D">#original_text= &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-outline">#outline &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Images.html#method-i-overruns_page%3F">#overruns_page? &mdash; Prawn::Images</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-owner_password_hash">#owner_password_hash &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-pad">#pad &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-pad_bottom">#pad_bottom &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-pad_password">#pad_password &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-pad_top">#pad_top &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding%3D">#padding= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_bottom">#padding_bottom &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_bottom%3D">#padding_bottom= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_left">#padding_left &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_left%3D">#padding_left= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_right">#padding_right &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_right%3D">#padding_right= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_top">#padding_top &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-padding_top%3D">#padding_top= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-page">#page &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-page">#page &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-page_contains_font_id%3F">#page_contains_font_id? &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-page_count">#page_count &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-page_match%3F">#page_match? &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-parse_afm">#parse_afm &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-parse_generic_afm_attribute">#parse_generic_afm_attribute &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-pdf_flags">#pdf_flags &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-permissions%3D">#permissions= &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-permissions_value">#permissions_value &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-pixel_bitlength">#pixel_bitlength &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-point_on_line">#point_on_line &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-polygon">#polygon &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-position_cells">#position_cells &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/GraphicStateStack.html#method-i-present%3F">#present? &mdash; Prawn::GraphicStateStack</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-process_color">#process_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-process_fallback_fonts">#process_fallback_fonts &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-process_final_gap_option">#process_final_gap_option &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-process_indent_paragraphs_option">#process_indent_paragraphs_option &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-process_options">#process_options &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-process_soft_hyphens">#process_soft_hyphens &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-process_vertical_alignment">#process_vertical_alignment &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Numeric.html#method-i-pt">#pt &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-pt2mm">#pt2mm &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Font/DFont.html#method-i-read_ttf_file">#read_ttf_file &mdash; Prawn::Font::DFont</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-read_ttf_file">#read_ttf_file &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-rectangle">#rectangle &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-ref">#ref &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-ref%21">#ref! &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-register">#register &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-register">#register &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-render">#render &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Text/Box.html#method-i-render">#render &mdash; Prawn::Text::Box</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-render">#render &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-render_body">#render_body &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-render_file">#render_file &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-render_header">#render_header &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-render_rotated">#render_rotated &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-render_trailer">#render_trailer &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Document/Internals.html#method-i-render_xref">#render_xref &mdash; Prawn::Document::Internals</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-repeat">#repeat &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-repeaters">#repeaters &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-reset_parent">#reset_parent &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-reset_root_positioning">#reset_root_positioning &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/GraphicStateStack.html#method-i-restore_graphic_state">#restore_graphic_state &mdash; Prawn::GraphicStateStack</a></li>
+		
+			<li><a href="Prawn/Document/GraphicsState.html#method-i-restore_graphics_state">#restore_graphics_state &mdash; Prawn::Document::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Document/Snapshot.html#method-i-restore_snapshot">#restore_snapshot &mdash; Prawn::Document::Snapshot</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-rgb2hex">#rgb2hex &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-right">#right &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-right">#right &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-right_side">#right_side &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-right_side">#right_side &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/ColumnBox.html#method-i-right_side">#right_side &mdash; Prawn::Document::ColumnBox</a></li>
+		
+			<li><a href="Prawn/Document/Snapshot.html#method-i-rollback">#rollback &mdash; Prawn::Document::Snapshot</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-root">#root &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Graphics/Transformation.html#method-i-rotate">#rotate &mdash; Prawn::Graphics::Transformation</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-rounded_polygon">#rounded_polygon &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-rounded_rectangle">#rounded_rectangle &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-rounded_vertex">#rounded_vertex &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-row">#row &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-row">#row &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Document/Grid.html#method-i-row_height">#row_height &mdash; Prawn::Document::Grid</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-row_heights">#row_heights &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-rows">#rows &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-rows">#rows &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-save_font">#save_font &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/GraphicStateStack.html#method-i-save_graphic_state">#save_graphic_state &mdash; Prawn::GraphicStateStack</a></li>
+		
+			<li><a href="Prawn/Document/GraphicsState.html#method-i-save_graphics_state">#save_graphics_state &mdash; Prawn::Document::GraphicsState</a></li>
+		
+			<li><a href="Prawn/Graphics/Transformation.html#method-i-scale">#scale &mdash; Prawn::Graphics::Transformation</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-scale_factor">#scale_factor &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-script%3F">#script? &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-section">#section &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-serif%3F">#serif? &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-set_color">#set_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-set_color_space">#set_color_space &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-set_column_widths">#set_column_widths &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-set_current_color_space">#set_current_color_space &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-set_fill_color">#set_fill_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Gradient.html#method-i-set_gradient">#set_gradient &mdash; Prawn::Graphics::Gradient</a></li>
+		
+			<li><a href="Prawn/Document/Grid.html#method-i-set_gutter">#set_gutter &mdash; Prawn::Document::Grid</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-set_relations">#set_relations &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-set_row_heights">#set_row_heights &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-set_stroke_color">#set_stroke_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-set_variables_for_block">#set_variables_for_block &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-set_width_constraints">#set_width_constraints &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-set_width_constraints">#set_width_constraints &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Document/Grid.html#method-i-show_all">#show_all &mdash; Prawn::Document::Grid</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-shrink_to_fit">#shrink_to_fit &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-single_box">#single_box &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font.html#method-i-size">#size &mdash; Prawn::Font</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-size">#size &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-space_count">#space_count &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-span">#span &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-split_alpha_channel%21">#split_alpha_channel! &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-stamp">#stamp &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-stamp_at">#stamp_at &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-stamp_dictionary">#stamp_dictionary &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Stamp.html#method-i-stamp_dictionary_registry">#stamp_dictionary_registry &mdash; Prawn::Stamp</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-start_new_page">#start_new_page &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-state">#state &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-stemV">#stemV &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-stretchy%3F">#stretchy? &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-strikethrough_points">#strikethrough_points &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-strip_zero_width_spaces">#strip_zero_width_spaces &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-stroke">#stroke &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-stroke_bounds">#stroke_bounds &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-stroke_color">#stroke_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-stroke_color%3D">#stroke_color= &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Gradient.html#method-i-stroke_gradient">#stroke_gradient &mdash; Prawn::Graphics::Gradient</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-style">#style &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-style">#style &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-style">#style &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-styled_width_of">#styled_width_of &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-styles">#styles &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/Grid.html#method-i-subdivide">#subdivide &mdash; Prawn::Document::Grid</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-subscript%3F">#subscript? &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-subtract_left_padding">#subtract_left_padding &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-subtract_right_padding">#subtract_right_padding &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-superscript%3F">#superscript? &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-symbolic%3F">#symbolic? &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-table">#table &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Snapshot.html#method-i-take_snapshot">#take_snapshot &mdash; Prawn::Document::Snapshot</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-text">#text &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-text">#text &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Text.html#method-i-text_box">#text_box &mdash; Prawn::Text</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-text_box">#text_box &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Subtable.html#method-i-text_color%3D">#text_color= &mdash; Prawn::Table::Cell::Subtable</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-top">#top &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-top">#top &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-top_left">#top_left &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-top_left">#top_left &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-top_right">#top_right &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-top_right">#top_right &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document/Snapshot.html#method-i-transaction">#transaction &mdash; Prawn::Document::Snapshot</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-transform_spec">#transform_spec &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Graphics/Transformation.html#method-i-transformation_matrix">#transformation_matrix &mdash; Prawn::Graphics::Transformation</a></li>
+		
+			<li><a href="Prawn/Graphics/Transformation.html#method-i-translate">#translate &mdash; Prawn::Graphics::Transformation</a></li>
+		
+			<li><a href="Prawn/Graphics/Transparency.html#method-i-transparent">#transparent &mdash; Prawn::Graphics::Transparency</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-undash">#undash &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-undashed_setting">#undashed_setting &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-underline_points">#underline_points &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Images/PNG.html#method-i-unfilter_image_data">#unfilter_image_data &mdash; Prawn::Images::PNG</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-unicode%3F">#unicode? &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-unicode%3F">#unicode? &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Font/AFM.html#method-i-unscaled_width_of">#unscaled_width_of &mdash; Prawn::Font::AFM</a></li>
+		
+			<li><a href="Prawn/Outline.html#method-i-update">#update &mdash; Prawn::Outline</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-update_colors">#update_colors &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-update_height">#update_height &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-use_graphic_settings">#use_graphic_settings &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-user_encryption_key">#user_encryption_key &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Document/Security.html#method-i-user_password_hash">#user_password_hash &mdash; Prawn::Document::Security</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Box.html#method-i-valid_options">#valid_options &mdash; Prawn::Text::Formatted::Box</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-vertical_line">#vertical_line &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-width">#width &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cells.html#method-i-width">#width &mdash; Prawn::Table::Cells</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-width">#width &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Prawn/Document/BoundingBox.html#method-i-width">#width &mdash; Prawn::Document::BoundingBox</a></li>
+		
+			<li><a href="Prawn/Table.html#method-i-width">#width &mdash; Prawn::Table</a></li>
+		
+			<li><a href="Prawn/Document/ColumnBox.html#method-i-width">#width &mdash; Prawn::Document::ColumnBox</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-width%3D">#width= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-width_of">#width_of &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Document/ColumnBox.html#method-i-width_of_column">#width_of_column &mdash; Prawn::Document::ColumnBox</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-with_font">#with_font &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Table/Cell/Text.html#method-i-with_text_color">#with_text_color &mdash; Prawn::Table::Cell::Text</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-write_color">#write_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-write_fill_color">#write_fill_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics.html#method-i-write_line_width">#write_line_width &mdash; Prawn::Graphics</a></li>
+		
+			<li><a href="Prawn/Graphics/CapStyle.html#method-i-write_stroke_cap_style">#write_stroke_cap_style &mdash; Prawn::Graphics::CapStyle</a></li>
+		
+			<li><a href="Prawn/Graphics/Color.html#method-i-write_stroke_color">#write_stroke_color &mdash; Prawn::Graphics::Color</a></li>
+		
+			<li><a href="Prawn/Graphics/Dash.html#method-i-write_stroke_dash">#write_stroke_dash &mdash; Prawn::Graphics::Dash</a></li>
+		
+			<li><a href="Prawn/Graphics/JoinStyle.html#method-i-write_stroke_join_style">#write_stroke_join_style &mdash; Prawn::Graphics::JoinStyle</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-x">#x &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-x%3D">#x= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Font/TTF.html#method-i-x_height">#x_height &mdash; Prawn::Font::TTF</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-y">#y &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Document.html#method-i-y%3D">#y= &mdash; Prawn::Document</a></li>
+		
+			<li><a href="Prawn/Table/Cell.html#method-i-y%3D">#y= &mdash; Prawn::Table::Cell</a></li>
+		
+			<li><a href="Prawn/Text/Formatted/Fragment.html#method-i-y_offset">#y_offset &mdash; Prawn::Text::Formatted::Fragment</a></li>
+		
+			<li><a href="Numeric.html#method-i-yd">#yd &mdash; Numeric</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-yd2in">#yd2in &mdash; Prawn::Measurements</a></li>
+		
+			<li><a href="Prawn/Measurements.html#method-i-yd2pt">#yd2pt &mdash; Prawn::Measurements</a></li>
+		
+	</ul>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+</body>
+</html>

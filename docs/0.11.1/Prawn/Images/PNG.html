@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Prawn::Images::PNG</title>
+
+	<link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../../lib/prawn/images/png_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/prawn/images/png.rb">lib/prawn/images/png.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-alpha_channel%3F">#alpha_channel?</a></li>
+					
+					<li><a href="#method-i-alpha_channel_bits">#alpha_channel_bits</a></li>
+					
+					<li><a href="#method-i-build_pdf_object">#build_pdf_object</a></li>
+					
+					<li><a href="#method-i-colors">#colors</a></li>
+					
+					<li><a href="#method-i-min_pdf_version">#min_pdf_version</a></li>
+					
+					<li><a href="#method-i-pixel_bitlength">#pixel_bitlength</a></li>
+					
+					<li><a href="#method-i-split_alpha_channel%21">#split_alpha_channel!</a></li>
+					
+					<li><a href="#method-i-unfilter_image_data">#unfilter_image_data</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../../COPYING.html">COPYING</a></li>
+				
+					<li class="file"><a href="../../HACKING.html">HACKING</a></li>
+				
+					<li class="file"><a href="../../LICENSE.html">LICENSE</a></li>
+				
+					<li class="file"><a href="../../README.html">README</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../../Prawn/Core/Page/GraphicsState.html">Prawn::Core::Page::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document.html">Prawn::Document</a></li>
+				
+					<li><a href="../../Prawn/Document/BoundingBox.html">Prawn::Document::BoundingBox</a></li>
+				
+					<li><a href="../../Prawn/Document/ColumnBox.html">Prawn::Document::ColumnBox</a></li>
+				
+					<li><a href="../../Prawn/Document/GraphicsState.html">Prawn::Document::GraphicsState</a></li>
+				
+					<li><a href="../../Prawn/Document/Grid.html">Prawn::Document::Grid</a></li>
+				
+					<li><a href="../../Prawn/Document/Internals.html">Prawn::Document::Internals</a></li>
+				
+					<li><a href="../../Prawn/Document/PageGeometry.html">Prawn::Document::PageGeometry</a></li>
+				
+					<li><a href="../../Prawn/Document/Security.html">Prawn::Document::Security</a></li>
+				
+					<li><a href="../../Prawn/Document/Snapshot.html">Prawn::Document::Snapshot</a></li>
+				
+					<li><a href="../../Prawn/Encoding.html">Prawn::Encoding</a></li>
+				
+					<li><a href="../../Prawn/Errors.html">Prawn::Errors</a></li>
+				
+					<li><a href="../../Prawn/Font.html">Prawn::Font</a></li>
+				
+					<li><a href="../../Prawn/Font/AFM.html">Prawn::Font::AFM</a></li>
+				
+					<li><a href="../../Prawn/Font/DFont.html">Prawn::Font::DFont</a></li>
+				
+					<li><a href="../../Prawn/Font/TTF.html">Prawn::Font::TTF</a></li>
+				
+					<li><a href="../../Prawn/GraphicState.html">Prawn::GraphicState</a></li>
+				
+					<li><a href="../../Prawn/GraphicStateStack.html">Prawn::GraphicStateStack</a></li>
+				
+					<li><a href="../../Prawn/Graphics.html">Prawn::Graphics</a></li>
+				
+					<li><a href="../../Prawn/Graphics/CapStyle.html">Prawn::Graphics::CapStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Color.html">Prawn::Graphics::Color</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Dash.html">Prawn::Graphics::Dash</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Gradient.html">Prawn::Graphics::Gradient</a></li>
+				
+					<li><a href="../../Prawn/Graphics/JoinStyle.html">Prawn::Graphics::JoinStyle</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transformation.html">Prawn::Graphics::Transformation</a></li>
+				
+					<li><a href="../../Prawn/Graphics/Transparency.html">Prawn::Graphics::Transparency</a></li>
+				
+					<li><a href="../../Prawn/Images.html">Prawn::Images</a></li>
+				
+					<li><a href="../../Prawn/Images/JPG.html">Prawn::Images::JPG</a></li>
+				
+					<li><a href="../../Prawn/Images/PNG.html">Prawn::Images::PNG</a></li>
+				
+					<li><a href="../../Prawn/Layout.html">Prawn::Layout</a></li>
+				
+					<li><a href="../../Prawn/Measurements.html">Prawn::Measurements</a></li>
+				
+					<li><a href="../../Prawn/Outline.html">Prawn::Outline</a></li>
+				
+					<li><a href="../../Prawn/Stamp.html">Prawn::Stamp</a></li>
+				
+					<li><a href="../../Prawn/Table.html">Prawn::Table</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell.html">Prawn::Table::Cell</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/InTable.html">Prawn::Table::Cell::InTable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Subtable.html">Prawn::Table::Cell::Subtable</a></li>
+				
+					<li><a href="../../Prawn/Table/Cell/Text.html">Prawn::Table::Cell::Text</a></li>
+				
+					<li><a href="../../Prawn/Table/Cells.html">Prawn::Table::Cells</a></li>
+				
+					<li><a href="../../Prawn/Text.html">Prawn::Text</a></li>
+				
+					<li><a href="../../Prawn/Text/Box.html">Prawn::Text::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted.html">Prawn::Text::Formatted</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Box.html">Prawn::Text::Formatted::Box</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Fragment.html">Prawn::Text::Formatted::Fragment</a></li>
+				
+					<li><a href="../../Prawn/Text/Formatted/Parser.html">Prawn::Text::Formatted::Parser</a></li>
+				
+					<li><a href="../../Arcfour.html">Arcfour</a></li>
+				
+					<li><a href="../../Numeric.html">Numeric</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Prawn::Images::PNG</h1>
+
+		<div id="description">
+			<p>
+A convenience class that wraps the logic for extracting the parts of a <a
+href="PNG.html">PNG</a> image that we need to embed them in a PDF
+</p>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="palette-attribute-method" class="method-detail">
+				<a name="palette"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">palette</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="img-data-attribute-method" class="method-detail">
+				<a name="img_data"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">img_data</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="transparency-attribute-method" class="method-detail">
+				<a name="transparency"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">transparency</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="width-attribute-method" class="method-detail">
+				<a name="width"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">width</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="height-attribute-method" class="method-detail">
+				<a name="height"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">height</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="bits-attribute-method" class="method-detail">
+				<a name="bits"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">bits</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="color-type-attribute-method" class="method-detail">
+				<a name="color_type"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">color_type</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="compression-method-attribute-method" class="method-detail">
+				<a name="compression_method"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">compression_method</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="filter-method-attribute-method" class="method-detail">
+				<a name="filter_method"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">filter_method</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="interlace-method-attribute-method" class="method-detail">
+				<a name="interlace_method"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">interlace_method</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="alpha-channel-attribute-method" class="method-detail">
+				<a name="alpha_channel"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">alpha_channel</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="scaled-width-attribute-method" class="method-detail">
+				<a name="scaled_width"></a>
+				
+				<a name="scaled_width="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">scaled_width</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="scaled-height-attribute-method" class="method-detail">
+				<a name="scaled_height"></a>
+				
+				<a name="scaled_height="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">scaled_height</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(data)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Process a new <a href="PNG.html">PNG</a> image
+</p>
+<table>
+<tr><td valign="top"><tt>data</tt></td><td><p>
+A binary string of <a href="PNG.html">PNG</a> data
+</p>
+</td></tr>
+</table>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 30</span>
+30:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span>)
+31:         <span class="ruby-identifier">data</span> = <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">dup</span>)
+32: 
+33:         <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">8</span>)  <span class="ruby-comment cmt"># Skip the default header</span>
+34: 
+35:         <span class="ruby-ivar">@palette</span>  = <span class="ruby-value str">&quot;&quot;</span>
+36:         <span class="ruby-ivar">@img_data</span> = <span class="ruby-value str">&quot;&quot;</span>
+37:         <span class="ruby-ivar">@transparency</span> = {}
+38: 
+39:         <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+40:           <span class="ruby-identifier">chunk_size</span>  = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">4</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;N&quot;</span>)[<span class="ruby-value">0</span>]
+41:           <span class="ruby-identifier">section</span>     = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">4</span>)
+42:           <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">section</span>
+43:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'IHDR'</span>
+44:             <span class="ruby-comment cmt"># we can grab other interesting values from here (like width,</span>
+45:             <span class="ruby-comment cmt"># height, etc)</span>
+46:             <span class="ruby-identifier">values</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">chunk_size</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;NNCCCCC&quot;</span>)
+47: 
+48:             <span class="ruby-ivar">@width</span>              = <span class="ruby-identifier">values</span>[<span class="ruby-value">0</span>]
+49:             <span class="ruby-ivar">@height</span>             = <span class="ruby-identifier">values</span>[<span class="ruby-value">1</span>]
+50:             <span class="ruby-ivar">@bits</span>               = <span class="ruby-identifier">values</span>[<span class="ruby-value">2</span>]
+51:             <span class="ruby-ivar">@color_type</span>         = <span class="ruby-identifier">values</span>[<span class="ruby-value">3</span>]
+52:             <span class="ruby-ivar">@compression_method</span> = <span class="ruby-identifier">values</span>[<span class="ruby-value">4</span>]
+53:             <span class="ruby-ivar">@filter_method</span>      = <span class="ruby-identifier">values</span>[<span class="ruby-value">5</span>]
+54:             <span class="ruby-ivar">@interlace_method</span>   = <span class="ruby-identifier">values</span>[<span class="ruby-value">6</span>]
+55:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'PLTE'</span>
+56:             <span class="ruby-ivar">@palette</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">chunk_size</span>)
+57:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'IDAT'</span>
+58:             <span class="ruby-ivar">@img_data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">chunk_size</span>)
+59:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'tRNS'</span>
+60:             <span class="ruby-comment cmt"># This chunk can only occur once and it must occur after the</span>
+61:             <span class="ruby-comment cmt"># PLTE chunk and before the IDAT chunk</span>
+62:             <span class="ruby-ivar">@transparency</span> = {}
+63:             <span class="ruby-keyword kw">case</span> <span class="ruby-ivar">@color_type</span>
+64:             <span class="ruby-keyword kw">when</span> <span class="ruby-value">3</span>
+65:               <span class="ruby-comment cmt"># Indexed colour, RGB. Each byte in this chunk is an alpha for</span>
+66:               <span class="ruby-comment cmt"># the palette index in the PLTE (&quot;palette&quot;) chunk up until the</span>
+67:               <span class="ruby-comment cmt"># last non-opaque entry. Set up an array, stretching over all</span>
+68:               <span class="ruby-comment cmt"># palette entries which will be 0 (opaque) or 1 (transparent).</span>
+69:               <span class="ruby-ivar">@transparency</span>[<span class="ruby-value">:indexed</span>]  = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">chunk_size</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;C*&quot;</span>)
+70:               <span class="ruby-identifier">short</span> = <span class="ruby-value">255</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@transparency</span>[<span class="ruby-value">:indexed</span>].<span class="ruby-identifier">size</span>
+71:               <span class="ruby-ivar">@transparency</span>[<span class="ruby-value">:indexed</span>] <span class="ruby-operator">+=</span> ([<span class="ruby-value">255</span>] * <span class="ruby-identifier">short</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">short</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+72:             <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span>
+73:               <span class="ruby-comment cmt"># Greyscale. Corresponding to entries in the PLTE chunk.</span>
+74:               <span class="ruby-comment cmt"># Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1</span>
+75:               <span class="ruby-identifier">grayval</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">chunk_size</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;n&quot;</span>).<span class="ruby-identifier">first</span>
+76:               <span class="ruby-ivar">@transparency</span>[<span class="ruby-value">:grayscale</span>] = <span class="ruby-identifier">grayval</span>
+77:             <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span>
+78:               <span class="ruby-comment cmt"># True colour with proper alpha channel.</span>
+79:               <span class="ruby-ivar">@transparency</span>[<span class="ruby-value">:rgb</span>] = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">chunk_size</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;nnn&quot;</span>)
+80:             <span class="ruby-keyword kw">end</span>
+81:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'IEND'</span>
+82:             <span class="ruby-comment cmt"># we've got everything we need, exit the loop</span>
+83:             <span class="ruby-keyword kw">break</span>
+84:           <span class="ruby-keyword kw">else</span>
+85:             <span class="ruby-comment cmt"># unknown (or un-important) section, skip over it</span>
+86:             <span class="ruby-identifier">data</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">pos</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">chunk_size</span>)
+87:           <span class="ruby-keyword kw">end</span>
+88: 
+89:           <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">4</span>)  <span class="ruby-comment cmt"># Skip the CRC</span>
+90:         <span class="ruby-keyword kw">end</span>
+91:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="alpha-channel--method" class="method-detail ">
+				<a name="method-i-alpha_channel%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">alpha_channel?</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="alpha-channel--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 121</span>
+121:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">alpha_channel?</span>
+122:         <span class="ruby-ivar">@color_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">4</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@color_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">6</span>
+123:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="alpha-channel-bits-method" class="method-detail ">
+				<a name="method-i-alpha_channel_bits"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">alpha_channel_bits</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Adobe Reader can&#8217;t handle 16-bit png channels &#8212; chop off the
+second byte (least significant)
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="alpha-channel-bits-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 128</span>
+128:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">alpha_channel_bits</span>
+129:         <span class="ruby-value">8</span>
+130:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="build-pdf-object-method" class="method-detail ">
+				<a name="method-i-build_pdf_object"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">build_pdf_object</span><span
+						class="method-args">(document)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Build a PDF object representing this image in <tt>document</tt>, and return
+a Reference to it.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="build-pdf-object-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 135</span>
+135:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">build_pdf_object</span>(<span class="ruby-identifier">document</span>)
+136:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">compression_method</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+137:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnsupportedImageType</span>,
+138:             <span class="ruby-value str">'PNG uses an unsupported compression method'</span>
+139:         <span class="ruby-keyword kw">end</span>
+140: 
+141:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">filter_method</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+142:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnsupportedImageType</span>,
+143:             <span class="ruby-value str">'PNG uses an unsupported filter method'</span>
+144:         <span class="ruby-keyword kw">end</span>
+145: 
+146:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">interlace_method</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+147:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnsupportedImageType</span>,
+148:             <span class="ruby-value str">'PNG uses unsupported interlace method'</span>
+149:         <span class="ruby-keyword kw">end</span>
+150: 
+151:         <span class="ruby-comment cmt"># some PNG types store the colour and alpha channel data together,</span>
+152:         <span class="ruby-comment cmt"># which the PDF spec doesn't like, so split it out.</span>
+153:         <span class="ruby-identifier">split_alpha_channel!</span>
+154: 
+155:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">colors</span>
+156:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span>
+157:           <span class="ruby-identifier">color</span> = <span class="ruby-value">:DeviceGray</span>
+158:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">3</span>
+159:           <span class="ruby-identifier">color</span> = <span class="ruby-value">:DeviceRGB</span>
+160:         <span class="ruby-keyword kw">else</span>
+161:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnsupportedImageType</span>,
+162:             <span class="ruby-node">&quot;PNG uses an unsupported number of colors (#{png.colors})&quot;</span>
+163:         <span class="ruby-keyword kw">end</span>
+164: 
+165:         <span class="ruby-comment cmt"># build the image dict</span>
+166:         <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">document</span>.<span class="ruby-identifier">ref!</span>(
+167:           <span class="ruby-value">:Type</span>             =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:XObject</span>,
+168:           <span class="ruby-value">:Subtype</span>          =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Image</span>,
+169:           <span class="ruby-value">:Height</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">height</span>,
+170:           <span class="ruby-value">:Width</span>            =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">width</span>,
+171:           <span class="ruby-value">:BitsPerComponent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bits</span>,
+172:           <span class="ruby-value">:Length</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">img_data</span>.<span class="ruby-identifier">size</span>,
+173:           <span class="ruby-value">:Filter</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:FlateDecode</span>
+174:         )
+175: 
+176:         <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">alpha_channel</span>
+177:           <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:DecodeParms</span>] = {<span class="ruby-value">:Predictor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">15</span>,
+178:                                     <span class="ruby-value">:Colors</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">colors</span>,
+179:                                     <span class="ruby-value">:BitsPerComponent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bits</span>,
+180:                                     <span class="ruby-value">:Columns</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">width</span>}
+181:         <span class="ruby-keyword kw">end</span>
+182: 
+183:         <span class="ruby-comment cmt"># append the actual image data to the object as a stream</span>
+184:         <span class="ruby-identifier">obj</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">img_data</span>
+185:         
+186:         <span class="ruby-comment cmt"># sort out the colours of the image</span>
+187:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">palette</span>.<span class="ruby-identifier">empty?</span>
+188:           <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:ColorSpace</span>] = <span class="ruby-identifier">color</span>
+189:         <span class="ruby-keyword kw">else</span>
+190:           <span class="ruby-comment cmt"># embed the colour palette in the PDF as a object stream</span>
+191:           <span class="ruby-identifier">palette_obj</span> = <span class="ruby-identifier">document</span>.<span class="ruby-identifier">ref!</span>(<span class="ruby-value">:Length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">palette</span>.<span class="ruby-identifier">size</span>)
+192:           <span class="ruby-identifier">palette_obj</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">palette</span>
+193: 
+194:           <span class="ruby-comment cmt"># build the color space array for the image</span>
+195:           <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:ColorSpace</span>] = [<span class="ruby-value">:Indexed</span>, 
+196:                                    <span class="ruby-value">:DeviceRGB</span>,
+197:                                    (<span class="ruby-identifier">palette</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">/</span> <span class="ruby-value">3</span>) <span class="ruby-operator">-</span><span class="ruby-value">1</span>,
+198:                                    <span class="ruby-identifier">palette_obj</span>]
+199:         <span class="ruby-keyword kw">end</span>
+200: 
+201:         <span class="ruby-comment cmt"># *************************************</span>
+202:         <span class="ruby-comment cmt"># add transparency data if necessary</span>
+203:         <span class="ruby-comment cmt"># *************************************</span>
+204: 
+205:         <span class="ruby-comment cmt"># For PNG color types 0, 2 and 3, the transparency data is stored in</span>
+206:         <span class="ruby-comment cmt"># a dedicated PNG chunk, and is exposed via the transparency attribute</span>
+207:         <span class="ruby-comment cmt"># of the PNG class.</span>
+208:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">transparency</span>[<span class="ruby-value">:grayscale</span>]
+209:           <span class="ruby-comment cmt"># Use Color Key Masking (spec section 4.8.5)</span>
+210:           <span class="ruby-comment cmt"># - An array with N elements, where N is two times the number of color</span>
+211:           <span class="ruby-comment cmt">#   components.</span>
+212:           <span class="ruby-identifier">val</span> = <span class="ruby-identifier">transparency</span>[<span class="ruby-value">:grayscale</span>]
+213:           <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Mask</span>] = [<span class="ruby-identifier">val</span>, <span class="ruby-identifier">val</span>]
+214:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">transparency</span>[<span class="ruby-value">:rgb</span>]
+215:           <span class="ruby-comment cmt"># Use Color Key Masking (spec section 4.8.5)</span>
+216:           <span class="ruby-comment cmt"># - An array with N elements, where N is two times the number of color</span>
+217:           <span class="ruby-comment cmt">#   components.</span>
+218:           <span class="ruby-identifier">rgb</span> = <span class="ruby-identifier">transparency</span>[<span class="ruby-value">:rgb</span>]
+219:           <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:Mask</span>] = <span class="ruby-identifier">rgb</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">x</span>,<span class="ruby-identifier">x</span>] }.<span class="ruby-identifier">flatten</span>
+220:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">transparency</span>[<span class="ruby-value">:indexed</span>]
+221:           <span class="ruby-comment cmt"># TODO: broken. I was attempting to us Color Key Masking, but I think</span>
+222:           <span class="ruby-comment cmt">#       we need to construct an SMask i think. Maybe do it inside</span>
+223:           <span class="ruby-comment cmt">#       the PNG class, and store it in alpha_channel</span>
+224:           <span class="ruby-comment cmt">#obj.data[:Mask] = transparency[:indexed]</span>
+225:         <span class="ruby-keyword kw">end</span>
+226: 
+227:         <span class="ruby-comment cmt"># For PNG color types 4 and 6, the transparency data is stored as a alpha</span>
+228:         <span class="ruby-comment cmt"># channel mixed in with the main image data. The PNG class seperates</span>
+229:         <span class="ruby-comment cmt"># it out for us and makes it available via the alpha_channel attribute</span>
+230:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">alpha_channel?</span>
+231:           <span class="ruby-identifier">smask_obj</span> = <span class="ruby-identifier">document</span>.<span class="ruby-identifier">ref!</span>(
+232:             <span class="ruby-value">:Type</span>             =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:XObject</span>,
+233:             <span class="ruby-value">:Subtype</span>          =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:Image</span>,
+234:             <span class="ruby-value">:Height</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">height</span>,
+235:             <span class="ruby-value">:Width</span>            =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">width</span>,
+236:             <span class="ruby-value">:BitsPerComponent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">alpha_channel_bits</span>,
+237:             <span class="ruby-value">:Length</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">alpha_channel</span>.<span class="ruby-identifier">size</span>,
+238:             <span class="ruby-value">:Filter</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:FlateDecode</span>,
+239:             <span class="ruby-value">:ColorSpace</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:DeviceGray</span>,
+240:             <span class="ruby-value">:Decode</span>           =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>, <span class="ruby-value">1</span>]
+241:           )
+242:           <span class="ruby-identifier">smask_obj</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">alpha_channel</span>
+243:           <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span>[<span class="ruby-value">:SMask</span>] = <span class="ruby-identifier">smask_obj</span>
+244:         <span class="ruby-keyword kw">end</span>
+245: 
+246:         <span class="ruby-identifier">obj</span>
+247:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="colors-method" class="method-detail ">
+				<a name="method-i-colors"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">colors</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+number of color components to each pixel
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="colors-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 95</span>
+ 95:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">colors</span>
+ 96:         <span class="ruby-keyword kw">case</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">color_type</span>
+ 97:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>
+ 98:           <span class="ruby-keyword kw">return</span> <span class="ruby-value">1</span>
+ 99:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span>, <span class="ruby-value">6</span>
+100:           <span class="ruby-keyword kw">return</span> <span class="ruby-value">3</span>
+101:         <span class="ruby-keyword kw">end</span>
+102:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="min-pdf-version-method" class="method-detail ">
+				<a name="method-i-min_pdf_version"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">min_pdf_version</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the minimum PDF version required to support this image.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="min-pdf-version-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 250</span>
+250:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">min_pdf_version</span>
+251:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bits</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">8</span>
+252:           <span class="ruby-comment cmt"># 16-bit color only supported in 1.5+ (ISO 32000-1:2008 8.9.5.1)</span>
+253:           <span class="ruby-value">1.5</span>
+254:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">alpha_channel?</span>
+255:           <span class="ruby-comment cmt"># Need transparency for SMask</span>
+256:           <span class="ruby-value">1.4</span>
+257:         <span class="ruby-keyword kw">else</span>
+258:           <span class="ruby-value">1.0</span>
+259:         <span class="ruby-keyword kw">end</span>
+260:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="pixel-bitlength-method" class="method-detail ">
+				<a name="method-i-pixel_bitlength"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">pixel_bitlength</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+number of bits used per pixel
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="pixel-bitlength-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 106</span>
+106:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pixel_bitlength</span>
+107:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">alpha_channel?</span>
+108:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">bits</span> * (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">colors</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>)
+109:         <span class="ruby-keyword kw">else</span>
+110:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">bits</span> * <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">colors</span>
+111:         <span class="ruby-keyword kw">end</span>
+112:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="split-alpha-channel--method" class="method-detail ">
+				<a name="method-i-split_alpha_channel%21"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">split_alpha_channel!</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+split the alpha channel data from the raw image data in images where
+it&#8217;s required.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="split-alpha-channel--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 117</span>
+117:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">split_alpha_channel!</span>
+118:         <span class="ruby-identifier">unfilter_image_data</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">alpha_channel?</span>
+119:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="unfilter-image-data-method" class="method-detail ">
+				<a name="method-i-unfilter_image_data"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">unfilter_image_data</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="unfilter-image-data-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/prawn/images/png.rb, line 264</span>
+264:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unfilter_image_data</span>
+265:         <span class="ruby-identifier">data</span> = <span class="ruby-constant">Zlib</span><span class="ruby-operator">::</span><span class="ruby-constant">Inflate</span>.<span class="ruby-identifier">inflate</span>(<span class="ruby-ivar">@img_data</span>).<span class="ruby-identifier">unpack</span> <span class="ruby-value str">'C*'</span>
+266:         <span class="ruby-ivar">@img_data</span> = <span class="ruby-value str">&quot;&quot;</span>
+267:         <span class="ruby-ivar">@alpha_channel</span> = <span class="ruby-value str">&quot;&quot;</span>
+268: 
+269:         <span class="ruby-identifier">pixel_bytes</span>     = <span class="ruby-identifier">pixel_bitlength</span> <span class="ruby-operator">/</span> <span class="ruby-value">8</span>
+270:         <span class="ruby-identifier">scanline_length</span> = <span class="ruby-identifier">pixel_bytes</span> * <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+271:         <span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>
+272:         <span class="ruby-identifier">pixels</span> = []
+273:         <span class="ruby-identifier">paeth</span>, <span class="ruby-identifier">pa</span>, <span class="ruby-identifier">pb</span>, <span class="ruby-identifier">pc</span> = <span class="ruby-keyword kw">nil</span>
+274:         <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">do</span>
+275:           <span class="ruby-identifier">row_data</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">slice!</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">scanline_length</span>
+276:           <span class="ruby-identifier">filter</span> = <span class="ruby-identifier">row_data</span>.<span class="ruby-identifier">shift</span>
+277:           <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">filter</span>
+278:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span> <span class="ruby-comment cmt"># None</span>
+279:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span> <span class="ruby-comment cmt"># Sub</span>
+280:             <span class="ruby-identifier">row_data</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">byte</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+281:               <span class="ruby-identifier">left</span> = <span class="ruby-identifier">index</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pixel_bytes</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">pixel_bytes</span>]
+282:               <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span>] = (<span class="ruby-identifier">byte</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">left</span>) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+283:               <span class="ruby-comment cmt">#p [byte, left, row_data[index]]</span>
+284:             <span class="ruby-keyword kw">end</span>
+285:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span> <span class="ruby-comment cmt"># Up</span>
+286:             <span class="ruby-identifier">row_data</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">byte</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+287:               <span class="ruby-identifier">col</span> = <span class="ruby-identifier">index</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">pixel_bytes</span>
+288:               <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">row</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">pixels</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>][<span class="ruby-identifier">col</span>][<span class="ruby-identifier">index</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">pixel_bytes</span>]
+289:               <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span>] = (<span class="ruby-identifier">upper</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">byte</span>) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+290:             <span class="ruby-keyword kw">end</span>
+291:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">3</span>  <span class="ruby-comment cmt"># Average</span>
+292:             <span class="ruby-identifier">row_data</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">byte</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+293:               <span class="ruby-identifier">col</span> = <span class="ruby-identifier">index</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">pixel_bytes</span>
+294:               <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">row</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">pixels</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>][<span class="ruby-identifier">col</span>][<span class="ruby-identifier">index</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">pixel_bytes</span>]
+295:               <span class="ruby-identifier">left</span> = <span class="ruby-identifier">index</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pixel_bytes</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">pixel_bytes</span>]
+296: 
+297:               <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span>] = (<span class="ruby-identifier">byte</span> <span class="ruby-operator">+</span> ((<span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">upper</span>)<span class="ruby-operator">/</span><span class="ruby-value">2</span>).<span class="ruby-identifier">floor</span>) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+298:             <span class="ruby-keyword kw">end</span>
+299:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">4</span> <span class="ruby-comment cmt"># Paeth</span>
+300:             <span class="ruby-identifier">left</span> = <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">upper_left</span> = <span class="ruby-keyword kw">nil</span>
+301:             <span class="ruby-identifier">row_data</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">byte</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+302:               <span class="ruby-identifier">col</span> = <span class="ruby-identifier">index</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">pixel_bytes</span>
+303: 
+304:               <span class="ruby-identifier">left</span> = <span class="ruby-identifier">index</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pixel_bytes</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">pixel_bytes</span>]
+305:               <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">zero?</span>
+306:                 <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">upper_left</span> = <span class="ruby-value">0</span>
+307:               <span class="ruby-keyword kw">else</span>
+308:                 <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">pixels</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>][<span class="ruby-identifier">col</span>][<span class="ruby-identifier">index</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">pixel_bytes</span>]
+309:                 <span class="ruby-identifier">upper_left</span> = <span class="ruby-identifier">col</span>.<span class="ruby-identifier">zero?</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span>
+310:                   <span class="ruby-identifier">pixels</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>][<span class="ruby-identifier">col</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>][<span class="ruby-identifier">index</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">pixel_bytes</span>]
+311:               <span class="ruby-keyword kw">end</span>
+312: 
+313:               <span class="ruby-identifier">p</span> = <span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">upper</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">upper_left</span>
+314:               <span class="ruby-identifier">pa</span> = (<span class="ruby-identifier">p</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">left</span>).<span class="ruby-identifier">abs</span>
+315:               <span class="ruby-identifier">pb</span> = (<span class="ruby-identifier">p</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">upper</span>).<span class="ruby-identifier">abs</span>
+316:               <span class="ruby-identifier">pc</span> = (<span class="ruby-identifier">p</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">upper_left</span>).<span class="ruby-identifier">abs</span>
+317: 
+318:               <span class="ruby-identifier">paeth</span> = <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pa</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">pb</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pa</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">pc</span>
+319:                 <span class="ruby-identifier">left</span>
+320:               <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">pb</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">pc</span>
+321:                 <span class="ruby-identifier">upper</span>
+322:               <span class="ruby-keyword kw">else</span>
+323:                 <span class="ruby-identifier">upper_left</span>
+324:               <span class="ruby-keyword kw">end</span>
+325: 
+326:               <span class="ruby-identifier">row_data</span>[<span class="ruby-identifier">index</span>] = (<span class="ruby-identifier">byte</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">paeth</span>) <span class="ruby-operator">%</span> <span class="ruby-value">256</span>
+327:             <span class="ruby-keyword kw">end</span>
+328:           <span class="ruby-keyword kw">else</span>
+329:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Invalid filter algorithm #{filter}&quot;</span>
+330:           <span class="ruby-keyword kw">end</span>
+331: 
+332:           <span class="ruby-identifier">s</span> = []
+333:           <span class="ruby-identifier">row_data</span>.<span class="ruby-identifier">each_slice</span> <span class="ruby-identifier">pixel_bytes</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">slice</span><span class="ruby-operator">|</span>
+334:             <span class="ruby-identifier">s</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">slice</span>
+335:           <span class="ruby-keyword kw">end</span>
+336:           <span class="ruby-identifier">pixels</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">s</span>
+337:           <span class="ruby-identifier">row</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+338:         <span class="ruby-keyword kw">end</span>
+339: 
+340:         <span class="ruby-comment cmt"># convert the pixel data to seperate strings for colours and alpha</span>
+341:         <span class="ruby-identifier">color_byte_size</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">colors</span> * <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">bits</span> <span class="ruby-operator">/</span> <span class="ruby-value">8</span>
+342:         <span class="ruby-identifier">alpha_byte_size</span> = <span class="ruby-identifier">alpha_channel_bits</span> <span class="ruby-operator">/</span> <span class="ruby-value">8</span>
+343:         <span class="ruby-identifier">pixels</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">this_row</span><span class="ruby-operator">|</span>
+344:           <span class="ruby-identifier">this_row</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pixel</span><span class="ruby-operator">|</span>
+345:             <span class="ruby-ivar">@img_data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">pixel</span>[<span class="ruby-value">0</span>, <span class="ruby-identifier">color_byte_size</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-value str">&quot;C*&quot;</span>)
+346:             <span class="ruby-ivar">@alpha_channel</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">pixel</span>[<span class="ruby-identifier">color_byte_size</span>, <span class="ruby-identifier">alpha_byte_size</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-value str">&quot;C*&quot;</span>)
+347:           <span class="ruby-keyword kw">end</span>
+348:         <span class="ruby-keyword kw">end</span>
+349: 
+350:         <span class="ruby-comment cmt"># compress the data</span>
+351:         <span class="ruby-ivar">@img_data</span> = <span class="ruby-constant">Zlib</span><span class="ruby-operator">::</span><span class="ruby-constant">Deflate</span>.<span class="ruby-identifier">deflate</span>(<span class="ruby-ivar">@img_data</span>)
+352:         <span class="ruby-ivar">@alpha_channel</span> = <span class="ruby-constant">Zlib</span><span class="ruby-operator">::</span><span class="ruby-constant">Deflate</span>.<span class="ruby-identifier">deflate</span>(<span class="ruby-ivar">@alpha_channel</span>)
+353:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+
