@@ -258,12 +258,18 @@ module Prawn
         end
       end
 
+      lazy_draw_borders = []
       @cells.each do |cell|
         if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom &&
            cell.row > started_new_page_at_row
+          lazy_draw_borders.each do |cell_, pt_|
+            cell_.send(:draw_borders, pt_)
+          end
+          lazy_draw_borders.clear
+
           # start a new page or column
           @pdf.bounds.move_past_bottom
-          draw_header unless cell.row == 0
+          lazy_draw_borders = draw_header unless cell.row == 0
           offset = @pdf.y - cell.y
           started_new_page_at_row = cell.row
         end
@@ -286,8 +292,13 @@ module Prawn
         end
 
         cell.draw([x, y])
+        lazy_draw_borders << [cell, [x, y]]
         last_y = y
       end
+      lazy_draw_borders.each do |cell_, pt_|
+        cell_.send(:draw_borders, pt_)
+      end
+      lazy_draw_borders.clear
 
       @pdf.move_cursor_to(last_y - @cells.last.height)
     end
@@ -390,12 +401,14 @@ module Prawn
     def draw_header
       if @header
         y = @pdf.cursor
-        row(0).each do |cell|
+        lazy_draw_borders = row(0).map {|cell|
           cell.y = y
           cell.draw
-        end
+          [cell, [cell.x, y]]
+        }
         @pdf.move_cursor_to(y - row(0).height)
-      end
+        lazy_draw_borders
+      end || []
     end
 
     # Returns an array of each column's natural (unconstrained) width.
