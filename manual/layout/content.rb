@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Now that we now how to access the boxes we might as well add some content
+# Now that we know how to access the boxes we might as well add some content
 # to them.
 #
 # This can be done by taping into the bounding box for a given grid box or

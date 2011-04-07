@@ -3,7 +3,7 @@
 # The document outline tree is the set of links used to navigate through the
 # various document sections and pages.
 #
-# To define the document outline we use first use the <code>outline</code>
+# To define the document outline we first use the <code>outline</code>
 # method to lazily instantiate an outline object. Then we use the
 # <code>define</code> method with a block to start the outline tree.
 #
@@ -58,7 +58,7 @@ Prawn::Example.generate(filename) do
   outline.page :title => "Page 10", :destination => 10
   
   # Section and Pages without links. While a section without a link may be
-  # useful to group some pages a page without a link is useless
+  # useful to group some pages, a page without a link is useless
   outline.update do  # update is an alias to define
     section("Section without link") do 
       page :title => "Page without link"

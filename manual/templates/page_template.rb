@@ -5,9 +5,9 @@
 # <code>:template</code> option with the path for an existing pdf and a
 # <code>:template_page</code> option to specify which page to load.
 #
-# The following example loads some pages from an existing pdf. If we don't
+# The following example loads some pages from an existing PDF. If we don't
 # specify the <code>:template_page</code> option, the first page of the template
-# pdf will be loaded. That's what happens on the first load below. Then we load
+# PDF will be loaded. That's what happens on the first load below. Then we load
 # a page by specifying the <code>:template_page</code> option and then we do it
 # again this time adding some content to the loaded page.
 #
@@ -18,7 +18,9 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   text "Please scan the next 3 pages to see the page templates in action."
   move_down 10
-  text "You also might want to look at the pdf used as a template: https://github.com/sandal/prawn/raw/master/data/pdfs/form.pdf"
+  text "You also might want to look at the pdf used as a template: "
+  url = "https://github.com/sandal/prawn/raw/master/data/pdfs/form.pdf"
+  formatted_text [{:text => url, :link => url}]
   
   filename = "#{Prawn::BASEDIR}/data/pdfs/form.pdf"
   start_new_page(:template => filename)

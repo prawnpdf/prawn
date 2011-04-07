@@ -4,7 +4,7 @@
 # the intervals at which the content block should repeat.
 #
 # The interval may be a symbol (<code>:all</code>, <code>:odd</code>,
-# <code>:even</code>), an array listing the pages, a range or a Proc that
+# <code>:even</code>), an array listing the pages, a range or a <code>Proc</code> that
 # receives the page number as an argument and should return true if the content
 # is to be repeated on the given page.
 #

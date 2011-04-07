@@ -1,10 +1,10 @@
 # encoding: utf-8
 #
-# You may load another pdf while creating a new one. Just pass the loaded pdf
+# You may load another PDF while creating a new one. Just pass the loaded PDF
 # filename to the <code>:template</code> option when creating/generating the new
-# pdf.
+# PDF.
 #
-# The provided pdf will be loaded and the its first page will be set as the
+# The provided PDF will be loaded and the its first page will be set as the
 # current page. If you'd like to resume the document you may take advantage of
 # two helpers: <code>page_count</code> and <code>go_to_page</code>.
 #
