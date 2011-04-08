@@ -2,7 +2,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Document built from a template" do
   it "should have the same page count as the source document" do
-    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
     @pdf = Prawn::Document.new(:template => filename)
     page_counter = PDF::Inspector::Page.analyze(@pdf.render)
 
@@ -10,14 +10,14 @@ describe "Document built from a template" do
   end
 
   it "should have start with the Y cursor at the top of the document" do
-    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     (@pdf.y == nil).should == false
   end
 
   it "should respect margins set by Prawn" do
-    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
 
     @pdf = Prawn::Document.new(:template => filename, :margin => 0)
     assert_equal @pdf.page.margins, { :left   => 0,
@@ -44,7 +44,7 @@ describe "Document built from a template" do
   end
 
   it "should not add an extra restore_graphics_state operator to the end of any content stream" do
-    filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+    filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
@@ -165,7 +165,7 @@ describe "Document built from a template" do
 end
 
 describe "Document#start_new_page with :template option" do
-  filename = "#{Prawn::BASEDIR}/reference_pdfs/curves.pdf"
+  filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
   
   it "should set start the Y cursor at the top of the page" do
     @pdf = Prawn::Document.new()
