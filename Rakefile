@@ -34,17 +34,6 @@ Rake::RDocTask.new do |rdoc|
   rdoc.main     = "README"
   rdoc.rdoc_dir = "doc/html"
   rdoc.title    = "Prawn Documentation"
-end     
-
-desc "run all examples"
-task :examples do
-  mkdir_p "output"
-  examples = Dir["examples/**/*.rb"]
-  t = Time.now
-  puts "Running Examples"
-  examples.each { |file| `ruby -Ilib #{file}` }
-  puts "Ran in #{Time.now - t} s"
-  `mv *.pdf output`
 end
 
 desc "Generate the 'Prawn by Example' manual"
@@ -60,4 +49,3 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
-

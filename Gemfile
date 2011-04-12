@@ -9,6 +9,6 @@ group :test do
   gem "pdf-inspector", "~>1.0.0", :require => "pdf/inspector", :git => "https://github.com/sandal/pdf-inspector.git"
   gem "test-spec"
   gem "mocha"
-  gem "test-unit", "1.2.3", :platform => :ruby_19
+  gem "test-unit", "1.2.3", :platforms => [:ruby_19, :mingw_19]
   gem "rake"
 end

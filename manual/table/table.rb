@@ -36,7 +36,7 @@ Prawn::Example.generate("table.pdf") do
           "What content can be placed on tables",
           "Subtables (or tables within tables)",
           "How to style the whole table",
-          "How to use Initializer Blocks to style only specific portions of the table"
+          "How to use initializer blocks to style only specific portions of the table"
         )
   end
 end

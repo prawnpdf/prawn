@@ -1,8 +1,8 @@
 # encoding: utf-8
 #
-# This option can only be used on document creation. Pass an image path to the
-# <code>:image</code> option and it will be used as the background for all
-# pages.
+# Pass an image path to the <code>:background</code> option and it will be used
+# as the background for all pages.
+# This option can only be used on document creation. 
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
