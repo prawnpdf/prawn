@@ -258,9 +258,17 @@ module Prawn
         end
       end
 
+      # Track cells to be drawn on this page. They will all be drawn when this
+      # page is finished.
+      cells_this_page = []
+
       @cells.each do |cell|
         if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom &&
            cell.row > started_new_page_at_row
+          # Ink all cells on the current page
+          Cell.draw_cells(cells_this_page)
+          cells_this_page = []
+
           # start a new page or column
           @pdf.bounds.move_past_bottom
           draw_header unless cell.row == 0
@@ -285,9 +293,11 @@ module Prawn
           cell.background_color = @row_colors[index % @row_colors.length]
         end
 
-        cell.draw([x, y])
+        cells_this_page << [cell, [x, y]]
         last_y = y
       end
+      # Draw the last page of cells
+      Cell.draw_cells(cells_this_page)
 
       @pdf.move_cursor_to(last_y - @cells.last.height)
     end

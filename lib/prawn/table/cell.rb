@@ -233,11 +233,33 @@ module Prawn
       # Draws the cell onto the document. Pass in a point [x,y] to override the
       # location at which the cell is drawn.
       #
+      # If drawing a group of cells at known positions, look into
+      # Cell.draw_cells, which ensures that the backgrounds, borders, and
+      # content are all drawn in correct order so as not to overlap.
+      #
       def draw(pt=[x, y])
-        set_width_constraints
+        self.class.draw_cells([[self, pt]])
+      end
 
-        draw_background(pt)
-        draw_borders(pt)
+      # Given an array of pairs [cell, pt], draws each cell at its
+      # corresponding pt, making sure all backgrounds are behind all borders
+      # and content.
+      #
+      def self.draw_cells(cells)
+        cells.each do |cell, pt|
+          cell.set_width_constraints
+          cell.draw_background(pt)
+        end
+
+        cells.each do |cell, pt|
+          cell.draw_borders(pt)
+          cell.draw_bounded_content(pt)
+        end
+      end
+
+      # Draws the cell's content at the point provided.
+      #
+      def draw_bounded_content(pt)
         @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
                           :width  => content_width + FPTolerance,
                           :height => content_height + FPTolerance) do
@@ -449,8 +471,6 @@ module Prawn
       def border_left_width=(val)
         @border_widths[3] = val
       end
-
-      protected
 
       # Sets the cell's minimum and maximum width. Deferred until requested
       # because padding and size can change.

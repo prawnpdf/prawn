@@ -74,8 +74,6 @@ module Prawn
           end
         end
 
-        protected
-
         def set_width_constraints
           # Sets a reasonable minimum width. If the cell has any content, make
           # sure we have enough width to be at least one character wide. This is
@@ -84,6 +82,8 @@ module Prawn
           @min_width ||= padding_left + padding_right + min_content_width
           super
         end
+
+        protected
 
         def with_font
           @pdf.save_font do

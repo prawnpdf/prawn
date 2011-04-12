@@ -485,6 +485,37 @@ describe "Prawn::Table" do
       output.pages[0][:strings].should.be.empty
       output.pages[1][:strings].should == ["Header", "Body"]
     end
+
+    it "should draw background before borders, but only within pages" do
+      seq = sequence("drawing_order")
+
+      @pdf = Prawn::Document.new
+
+      # give enough room for only the first row
+      @pdf.y = @pdf.bounds.absolute_bottom + 30
+      t = @pdf.make_table([["A", "B"],
+                           ["C", "D"]],
+            :cell_style => {:background_color => 'ff0000'})
+
+      ca = t.cells[0, 0]
+      cb = t.cells[0, 1]
+      cc = t.cells[1, 0]
+      cd = t.cells[1, 1]
+
+      # All backgrounds should draw before any borders on page 1...
+      ca.expects(:draw_background).in_sequence(seq)
+      cb.expects(:draw_background).in_sequence(seq)
+      ca.expects(:draw_borders).in_sequence(seq)
+      cb.expects(:draw_borders).in_sequence(seq)
+      # ...and page 2
+      @pdf.expects(:start_new_page).in_sequence(seq)
+      cc.expects(:draw_background).in_sequence(seq)
+      cd.expects(:draw_background).in_sequence(seq)
+      cc.expects(:draw_borders).in_sequence(seq)
+      cd.expects(:draw_borders).in_sequence(seq)
+
+      t.draw
+    end
   end
 
   describe "#style" do
@@ -579,6 +610,27 @@ describe "Prawn::Table" do
           table(arr)
         }.should.not.raise
       end
+    end
+
+    it "should draw all backgrounds before any borders" do
+      # lest backgrounds overlap borders:
+      # https://github.com/sandal/prawn/pull/226
+
+      seq = sequence("drawing_order")
+
+      t = @pdf.make_table([["A", "B"]],
+            :cell_style => {:background_color => 'ff0000'})
+      ca = t.cells[0, 0]
+      cb = t.cells[0, 1]
+
+      # XXX Not a perfectly general test, because it would still be acceptable
+      # if we drew B then A
+      ca.expects(:draw_background).in_sequence(seq)
+      cb.expects(:draw_background).in_sequence(seq)
+      ca.expects(:draw_borders).in_sequence(seq)
+      cb.expects(:draw_borders).in_sequence(seq)
+
+      t.draw
     end
 
     it "should allow multiple inkings of the same table" do
