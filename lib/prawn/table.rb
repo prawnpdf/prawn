@@ -121,6 +121,7 @@ module Prawn
       @pdf = document
       @cells = make_cells(data)
       @header = false
+      @epsilon = 1e-9
       options.each { |k, v| send("#{k}=", v) }
 
       if block
@@ -313,19 +314,19 @@ module Prawn
     #
     def column_widths
       @column_widths ||= begin
-        if width < cells.min_width
+        if width - cells.min_width < -epsilon
           raise Errors::CannotFit,
             "Table's width was set too small to contain its contents " +
             "(min width #{cells.min_width}, requested #{width})"
         end
 
-        if width > cells.max_width
+        if width - cells.max_width > epsilon
           raise Errors::CannotFit,
             "Table's width was set larger than its contents' maximum width " +
             "(max width #{cells.max_width}, requested #{width})"
         end
 
-        if width < natural_width
+        if width - natural_width < -epsilon
           # Shrink the table to fit the requested width.
           f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
 
@@ -333,7 +334,7 @@ module Prawn
             min, nat = column(c).min_width, column(c).width
             (f * (nat - min)) + min
           end
-        elsif width > natural_width
+        elsif width - natural_width > epsilon
           # Expand the table to fit the requested width.
           f = (width - cells.width).to_f / (cells.max_width - cells.width)
 
@@ -457,6 +458,11 @@ module Prawn
       y_positions.each_with_index { |y, i| row(i).y = y }
     end
 
+    private
+
+    def epsilon
+      @epsilon
+    end
   end
 
 
