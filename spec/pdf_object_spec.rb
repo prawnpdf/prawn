@@ -167,4 +167,45 @@ describe "PDF Object Serialization" do
     res = PDF::Inspector.parse(data)
     res.should == {:Names => ["hello", 1.0, "world", 2.0]}
   end
+
+  ruby_18 do
+    def u16(str)
+      str
+    end
+    def u8(str)
+      str
+    end
+  end
+
+  ruby_19 do
+    def u16(str)
+      str.dup.force_encoding("UTF-16BE")
+    end
+    def u8(str)
+      str.dup.force_encoding("UTF-8")
+    end
+  end
+
+  it "should have a utf8_to_utf16 method that works" do
+    Prawn::Core.utf8_to_utf16("\x00").should == u16("\xfe\xff\x00\x00")                      # U+0000
+    Prawn::Core.utf8_to_utf16("\x7f").should == u16("\xfe\xff\x00\x7f")                      # U+007F
+    Prawn::Core.utf8_to_utf16("\xc2\x80").should == u16("\xfe\xff\x00\x80")                  # U+0080
+    Prawn::Core.utf8_to_utf16("\xc9\x9a").should == u16("\xfe\xff\x02\x5a")                  # U+025A
+    Prawn::Core.utf8_to_utf16("\xe2\x98\x80").should == u16("\xfe\xff\x26\x00")              # U+2600
+    Prawn::Core.utf8_to_utf16("\xf0\x90\x80\x88").should == u16("\xfe\xff\xd8\x00\xdc\x08")  # U+10008 (outside the BMP)
+    Prawn::Core.utf8_to_utf16("").should == u16("\xfe\xff")                                  # empty string
+    Prawn::Core.utf8_to_utf16("hello").should == u16("\xfe\xff\x00h\x00e\x00l\x00l\x00o")    # 'hello'
+  end
+
+  it "should have a utf16_to_utf8 method that works" do
+    Prawn::Core.utf16_to_utf8("\xfe\xff\x00\x00").should == u8("\x00")                      # U+0000
+    Prawn::Core.utf16_to_utf8("\xfe\xff\x00\x7f").should == u8("\x7f")                      # U+007F
+    Prawn::Core.utf16_to_utf8("\xfe\xff\x00\x80").should == u8("\xc2\x80")                  # U+0080
+    Prawn::Core.utf16_to_utf8("\xfe\xff\x02\x5a").should == u8("\xc9\x9a")                  # U+025A
+    Prawn::Core.utf16_to_utf8("\xfe\xff\x26\x00").should == u8("\xe2\x98\x80")              # U+2600
+    Prawn::Core.utf16_to_utf8("\xfe\xff\xd8\x00\xdc\x08").should == u8("\xf0\x90\x80\x88")  # U+10008 (outside the BMP)
+    Prawn::Core.utf16_to_utf8("\xfe\xff").should == u8("")                                  # empty string
+    Prawn::Core.utf16_to_utf8("\xfe\xff\x00h\x00e\x00l\x00l\x00o").should == u8("hello")    # 'hello'
+    Prawn::Core.utf16_to_utf8("\x00h\x00e\x00l\x00l\x00o").should == u8("hello")            # 'hello' without BOM
+  end
 end

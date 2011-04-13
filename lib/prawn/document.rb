@@ -60,6 +60,7 @@ module Prawn
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
+    include Prawn::Forms
     include Prawn::Stamp
 
     # Any module added to this array will be included into instances of

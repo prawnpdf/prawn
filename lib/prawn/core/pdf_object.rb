@@ -30,11 +30,53 @@ module Prawn
 
         utf16
       end
+
+      def utf16_to_utf8(str)
+        # Strip the BOM if it's present
+        str = str[2..-1] if str =~ /\A\xFE\xFF/n
+
+        # Build an array of code points while handling surrogate pairs
+        codepoints = []
+        hi = nil    # for handling of surrogate pairs
+        str.unpack("n*").each do |cp|
+          if cp >= 0xd800 and cp <= 0xdbff    # surrogate pairs - high surrogate
+            codepoints << 0xfffd if hi    # decode error - two high surrogates mashed together
+            hi = cp & 0x3ff
+            next
+          elsif cp >= 0xdc00 and cp <= 0xdfff    # surrogate pairs - low surrogate
+            if hi
+              lo = cp & 0x3ff
+              codepoints << ((hi << 10) | lo) + 0x10000
+              hi = nil
+            else    # decode error - add the "unknown" character
+              codepoints << 0xfffd
+            end
+            next
+          end
+          if hi
+            # decode error - high surrogate without low surrogate
+            codepoints << 0xfffd
+            hi = nil
+          end
+          codepoints << cp
+        end
+        codepoints << 0xfffd if hi    # decode error - trailing high surrogate
+
+        # encode as UTF-8
+        codepoints.pack("U*")
+      end
     end
 
     ruby_19 do
       def utf8_to_utf16(str)
+        str = str.dup.force_encoding('UTF-8')
         "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+      end
+
+      def utf16_to_utf8(str)
+        str = str.dup.force_encoding("ASCII-8BIT")
+        str = str[2..-1] if str =~ /\A\xFE\xFF/n   # Strip the BOM if it's present
+        str.force_encoding('UTF-16BE').encode("UTF-8")
       end
     end
       
