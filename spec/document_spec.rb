@@ -529,13 +529,19 @@ describe "The number_pages method" do
     @pdf.number_pages "test, <total>", {:page_filter => :all}
   end
  
-  it "must print the page if the page number matches" do
+  it "must print each page if given the :all page_filter" do
     10.times { @pdf.start_new_page }
-    @pdf.expects(:text_box).at_least_once
+    @pdf.expects(:text_box).times(10)
     @pdf.number_pages "test", {:page_filter => :all}
   end
+  
+  it "must print each page if no :page_filter is specified" do
+    10.times { @pdf.start_new_page }
+    @pdf.expects(:text_box).times(10)
+    @pdf.number_pages "test"
+  end
 
-  it "must not print the page number without a filter" do
+  it "must not print the page number if given a nil filter" do
     10.times { @pdf.start_new_page }
     @pdf.expects(:text_box).never
     @pdf.number_pages "test", {:page_filter => nil}

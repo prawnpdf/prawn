@@ -548,7 +548,11 @@ module Prawn
     def number_pages(string, options={})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
-      page_filter = opts.delete(:page_filter)
+      page_filter = if opts.has_key?(:page_filter)
+        opts.delete(:page_filter)
+      else
+        :all
+      end
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
