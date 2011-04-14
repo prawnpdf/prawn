@@ -52,7 +52,7 @@ module Prawn
         raise Prawn::Errors::NotOnPage 
       end
       
-      new_font = find_font(name, options)
+      new_font = find_font(name.to_s, options)
 
       if block_given?
         save_font do
