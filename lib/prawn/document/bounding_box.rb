@@ -458,6 +458,28 @@ module Prawn
         !@height
       end
 
+      # Returns a deep copy of these bounds (including all parent bounds but
+      # not copying the reference to the Document).
+      #
+      def deep_copy
+        copy = dup
+        # Deep-copy the parent bounds
+        copy.instance_variable_set("@parent", if BoundingBox === @parent
+                                                @parent.deep_copy
+                                              end)
+        copy.instance_variable_set("@document", nil)
+        copy
+      end
+
+      # Restores a copy of the bounds taken by BoundingBox.deep_copy in the
+      # context of the given +document+. Does *not* set the bounds of the
+      # document to the resulting BoundingBox, only returns it.
+      #
+      def self.restore_deep_copy(bounds, document)
+        bounds.instance_variable_set("@document", document)
+        bounds
+      end
+
     end
 
   end

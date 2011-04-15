@@ -221,3 +221,31 @@ describe "A canvas" do
     @pdf.y.should == 450
   end
 end
+
+describe "Deep-copying" do
+  it "should create a new object that does not copy @document" do
+    Prawn::Document.new do
+      orig = bounds
+      copy = orig.deep_copy
+
+      copy.should.not == bounds
+      copy.document.should.be.nil
+    end
+  end
+
+  it "should deep-copy parent bounds" do
+    Prawn::Document.new do |pdf|
+      outside = pdf.bounds
+      pdf.bounding_box [100, 100], :width => 100 do
+        copy = pdf.bounds.deep_copy
+
+        # the parent bounds should have the same parameters
+        copy.parent.width.should  == outside.width
+        copy.parent.height.should == outside.height
+
+        # but should not be the same object
+        copy.parent.should.not == outside
+      end
+    end
+  end
+end

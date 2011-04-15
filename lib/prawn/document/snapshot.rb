@@ -51,6 +51,7 @@ module Prawn
         # between the old and new copies.
         {:page_content    => state.page.content.deep_copy,
          :current_page    => state.page.dictionary.deep_copy(share=[:Parent]),
+         :bounds          => bounds.deep_copy,
          :page_number     => page_number,
          :page_kids       => state.store.pages.data[:Kids].map{|kid| kid.identifier},
          :dests           => names? && 
@@ -76,6 +77,8 @@ module Prawn
 
         state.store.pages.data[:Kids] = shot[:page_kids].map{|id| state.store[id]}
         state.store.pages.data[:Count] = shot[:page_kids].size
+
+        self.bounds = BoundingBox.restore_deep_copy(shot[:bounds], self)
 
         if shot[:dests]
           names.data[:Dests] = shot[:dests] 
