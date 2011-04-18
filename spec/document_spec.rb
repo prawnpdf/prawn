@@ -250,6 +250,15 @@ describe "When reopening pages" do
     pages[1][:strings].should == ["New page 2"]
     pages[2][:strings].should == ["Old page 2"]
   end
+
+  it "should update the bounding box to the new page's margin box" do
+    Prawn::Document.new do
+      start_new_page :layout => :landscape
+      lsize = [bounds.width, bounds.height]
+      go_to_page 1
+      [bounds.width, bounds.height].should == lsize.reverse
+    end
+  end
 end
 
 describe "When setting page size" do
