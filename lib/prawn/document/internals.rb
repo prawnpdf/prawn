@@ -98,6 +98,7 @@ module Prawn
           go_to_page i
           state.page.new_content_stream
           apply_margin_options(options)
+          generate_margin_box
           use_graphic_settings(options[:template])
         end
       end

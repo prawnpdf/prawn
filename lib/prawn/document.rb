@@ -260,6 +260,7 @@ module Prawn
        state.page = Prawn::Core::Page.new(self, page_options)
 
        apply_margin_options(options)
+       generate_margin_box
        state.page.new_content_stream if options[:template]
        use_graphic_settings(options[:template])
 
@@ -675,8 +676,6 @@ module Prawn
            state.page.margins[side] = margin
          end
       end
-
-      generate_margin_box
     end
   end
 end
