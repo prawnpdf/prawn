@@ -261,6 +261,13 @@ module Prawn
 
        apply_margin_options(options)
        generate_margin_box
+
+       # Reset the bounding box if the new page has different size or layout
+       if last_page && (last_page.size != state.page.size ||
+                        last_page.layout != state.page.layout)
+         @bounding_box = @margin_box
+       end
+
        state.page.new_content_stream if options[:template]
        use_graphic_settings(options[:template])
 
