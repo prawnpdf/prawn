@@ -141,13 +141,13 @@ module Prawn
       # Imports nothing and returns nil if the requested page number doesn't
       # exist. page_num is 1 indexed, so 1 indicates the first page.
       #
-      def import_page(filename, page_num)
+      def import_page(template, page_num)
         @loaded_objects = {}
-        unless File.file?(filename)
-          raise ArgumentError, "#{filename} does not exist"
+        unless (template.respond_to?(:seek) && template.respond_to?(:read)) || File.file?(template) 
+          raise ArgumentError, "#{template} does not exist"
         end
 
-        hash = PDF::Reader::ObjectHash.new(filename)
+        hash = PDF::Reader::ObjectHash.new(template)
         ref  = hash.page_references[page_num - 1]
 
         ref.nil? ? nil : load_object_graph(hash, ref).identifier
@@ -175,8 +175,7 @@ module Prawn
       # takes a source PDF and uses it as a template for this document.
       #
       def load_file(template)
-        unless (template.respond_to?(:seek) && template.respond_to?(:read)) ||
-               File.file?(template)
+        unless (template.respond_to?(:seek) && template.respond_to?(:read)) || File.file?(template) 
           raise ArgumentError, "#{template} does not exist"
         end
 
