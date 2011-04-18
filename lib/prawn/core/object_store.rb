@@ -175,7 +175,8 @@ module Prawn
       # takes a source PDF and uses it as a template for this document.
       #
       def load_file(template)
-        unless (template.respond_to?(:seek) && template.respond_to?(:read)) || File.file?(template) 
+        unless (template.respond_to?(:seek) && template.respond_to?(:read)) ||
+               File.file?(template)
           raise ArgumentError, "#{template} does not exist"
         end
 
