@@ -646,7 +646,7 @@ module Prawn
       )
 
       # This check maintains indentation settings across page breaks
-      if (old_margin_box)
+      if old_margin_box
         @margin_box.add_left_padding(old_margin_box.total_left_padding)
         @margin_box.add_right_padding(old_margin_box.total_right_padding)
       end
