@@ -175,8 +175,15 @@ module Prawn
     # Returns the data read from a file in a given package
     #
     def read_file(package, file)
-      File.read(File.expand_path(File.join(
-                          File.dirname(__FILE__), package, file)))
+      data = File.read(File.expand_path(File.join(
+        File.dirname(__FILE__), package, file)))
+
+      # XXX If we ever have manual files with source encodings other than
+      # UTF-8, we will need to fix this to work on Ruby 1.9.
+      if data.respond_to?(:encode!)
+        data.encode!("UTF-8")
+      end
+      data
     end
     
     # Render a page header. Used on the manual lone pages and package
