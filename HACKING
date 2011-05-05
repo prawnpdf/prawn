@@ -5,16 +5,9 @@ now, here is the bare minimum to get you up and running
 
 == NOTES 
 
-Install test-spec, pdf-reader, and mocha from RubyGems
+Install gem dependencies from RubyGems
 
-Be sure to load in the necessary git submodules as well:
-
-  git submodule init
-  git submodule update
-
-If you are running on Ruby 1.9, you will need Test::Unit 1.2.3:
-
-  gem install test-unit -v 1.2.3
+  bundle install
   
 == Patch process 
 
