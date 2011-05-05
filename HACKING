@@ -7,6 +7,7 @@ now, here is the bare minimum to get you up and running
 
 Install gem dependencies from RubyGems
 
+  gem install bundler
   bundle install
   
 == Patch process 
