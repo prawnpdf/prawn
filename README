@@ -25,7 +25,7 @@ But prawn can do a lot more:
 
  Prawn::Document.new('A0')
 
-...gives you an _really_ big page.
+...gives you a _really_ big page.
 
  Prawn::Document.new(:page_size   => [11.32, 8.49],
                      :page_layout => :portrait)
