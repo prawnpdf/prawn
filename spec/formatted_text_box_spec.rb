@@ -75,6 +75,46 @@ describe "Text::Formatted::Box wrapping" do
     text_box.render
     text_box.text.should == "Hello World\n2"
   end
+
+  it "should properly handle empty slices using default encoding" do
+    texts = [{ :text => "Noua Delineatio Geographica generalis | Apostolicarum peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli", :font => 'Courier', :size => 10 }]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Noua Delineatio Geographica gen"))
+    assert_nothing_raised do
+      text_box.render
+    end
+    text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
+  end
+  
+  describe "Unicode" do
+    before do
+      if RUBY_VERSION < '1.9'
+        @reset_value = $KCODE
+        $KCODE='u'
+      else
+        @reset_value = [Encoding.default_external, Encoding.default_internal]
+        Encoding.default_external = Encoding::UTF_8
+        Encoding.default_internal = Encoding::UTF_8
+      end
+    end
+    
+    after do
+      if RUBY_VERSION < '1.9'
+        $KCODE=@reset_value
+      else
+        Encoding.default_external = @reset_value[0]
+        Encoding.default_internal = @reset_value[1]
+      end
+    end
+
+    it "should properly handle empty slices using Unicode encoding" do
+      texts = [{ :text => "Noua Delineatio Geographica generalis | Apostolicarum peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli", :font => 'Courier', :size => 10 }]
+      text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Noua Delineatio Geographica gen"))
+      assert_nothing_raised do
+        text_box.render
+      end
+      text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
+    end
+  end
 end
 
 describe "Text::Formatted::Box with :fallback_fonts option that includes" +
