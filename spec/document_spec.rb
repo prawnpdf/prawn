@@ -3,6 +3,14 @@ require "tempfile"
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
 
+describe "Prawn::Document.new" do
+  it "should not modify its argument" do
+    options = {:page_layout => :landscape}
+    Prawn::Document.new(options)
+    options.should == {:page_layout => :landscape}
+  end
+end
+
 describe "The cursor" do
   it "should equal pdf.y - bounds.absolute_bottom" do
     pdf = Prawn::Document.new

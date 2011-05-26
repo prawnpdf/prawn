@@ -169,6 +169,8 @@ module Prawn
     #   pdf = Prawn::Document.new(:background => "#{Prawn::BASEDIR}/data/images/pigs.jpg")
     #
     def initialize(options={},&block)
+      options = options.dup
+
        Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
          :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
          :compress, :skip_encoding, :background, :info,
