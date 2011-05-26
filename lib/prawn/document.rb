@@ -171,121 +171,120 @@ module Prawn
     def initialize(options={},&block)
       options = options.dup
 
-       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
-         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-         :compress, :skip_encoding, :background, :info,
-         :optimize_objects, :template], options
+      Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
+        :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
+        :compress, :skip_encoding, :background, :info,
+        :optimize_objects, :template], options
 
-       # need to fix, as the refactoring breaks this
-       # raise NotImplementedError if options[:skip_page_creation]
+      # need to fix, as the refactoring breaks this
+      # raise NotImplementedError if options[:skip_page_creation]
 
-       self.class.extensions.reverse_each { |e| extend e }
-       @internal_state = Prawn::Core::DocumentState.new(options)
-       @internal_state.populate_pages_from_store(self)
-       min_version(state.store.min_version) if state.store.min_version
+      self.class.extensions.reverse_each { |e| extend e }
+      @internal_state = Prawn::Core::DocumentState.new(options)
+      @internal_state.populate_pages_from_store(self)
+      min_version(state.store.min_version) if state.store.min_version
 
-       @background = options[:background]
-       @font_size  = 12
+      @background = options[:background]
+      @font_size  = 12
 
-       @bounding_box  = nil
-       @margin_box    = nil
+      @bounding_box  = nil
+      @margin_box    = nil
 
-       @page_number = 0
+      @page_number = 0
 
-       options[:size] = options.delete(:page_size)
-       options[:layout] = options.delete(:page_layout)
+      options[:size] = options.delete(:page_size)
+      options[:layout] = options.delete(:page_layout)
 
-       if options[:template]
-         fresh_content_streams(options)
-         go_to_page(1)
-       else
-         if options[:skip_page_creation] || options[:template]
-           start_new_page(options.merge(:orphan => true))
-         else
-           start_new_page(options)
-         end
-       end
+      if options[:template]
+        fresh_content_streams(options)
+        go_to_page(1)
+      else
+        if options[:skip_page_creation] || options[:template]
+          start_new_page(options.merge(:orphan => true))
+        else
+          start_new_page(options)
+        end
+      end
 
-       @bounding_box = @margin_box
+      @bounding_box = @margin_box
 
-       if block
-         block.arity < 1 ? instance_eval(&block) : block[self]
-       end
-     end
+      if block
+        block.arity < 1 ? instance_eval(&block) : block[self]
+      end
+    end
 
-     attr_accessor :margin_box
-     attr_reader   :margins, :y
-     attr_writer   :font_size
-     attr_accessor :page_number
+    attr_accessor :margin_box
+    attr_reader   :margins, :y
+    attr_writer   :font_size
+    attr_accessor :page_number
 
-     def state
-       @internal_state
-     end
+    def state
+      @internal_state
+    end
 
-     def page
-       state.page
-     end
+    def page
+      state.page
+    end
 
-     # Creates and advances to a new page in the document.
-     #
-     # Page size, margins, and layout can also be set when generating a
-     # new page. These values will become the new defaults for page creation
-     #
-     #   pdf.start_new_page #=> Starts new page keeping current values
-     #   pdf.start_new_page(:size => "LEGAL", :layout => :landscape)
-     #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
-     #   pdf.start_new_page(:margin => 100)
-     #
-     # A template for a page can be specified by pointing to the path of and existing pdf.
-     # One can also specify which page of the template which defaults otherwise to 1.
-     #
-     #  pdf.start_new_page(:template => multipage_template.pdf, :template_page => 2)
-     #
-     def start_new_page(options = {})
-       if last_page = state.page
-         last_page_size    = last_page.size
-         last_page_layout  = last_page.layout
-         last_page_margins = last_page.margins
-       end
+    # Creates and advances to a new page in the document.
+    #
+    # Page size, margins, and layout can also be set when generating a
+    # new page. These values will become the new defaults for page creation
+    #
+    #   pdf.start_new_page #=> Starts new page keeping current values
+    #   pdf.start_new_page(:size => "LEGAL", :layout => :landscape)
+    #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
+    #   pdf.start_new_page(:margin => 100)
+    #
+    # A template for a page can be specified by pointing to the path of and existing pdf.
+    # One can also specify which page of the template which defaults otherwise to 1.
+    #
+    #  pdf.start_new_page(:template => multipage_template.pdf, :template_page => 2)
+    #
+    def start_new_page(options = {})
+      if last_page = state.page
+        last_page_size    = last_page.size
+        last_page_layout  = last_page.layout
+        last_page_margins = last_page.margins
+      end
 
-       page_options = {:size => options[:size] || last_page_size,
-                       :layout  => options[:layout] || last_page_layout,
-                       :margins => last_page_margins}
-       if last_page
-         new_graphic_state = last_page.graphic_state.dup
-         #erase the color space so that it gets reset on new page for fussy pdf-readers
-         new_graphic_state.color_space = {}
-         page_options.merge!(:graphic_state => new_graphic_state)
-       end
-       merge_template_options(page_options, options) if options[:template]
+      page_options = {:size => options[:size] || last_page_size,
+                      :layout  => options[:layout] || last_page_layout,
+                      :margins => last_page_margins}
+      if last_page
+        new_graphic_state = last_page.graphic_state.dup
+        #erase the color space so that it gets reset on new page for fussy pdf-readers
+        new_graphic_state.color_space = {}
+        page_options.merge!(:graphic_state => new_graphic_state)
+      end
+      merge_template_options(page_options, options) if options[:template]
 
-       state.page = Prawn::Core::Page.new(self, page_options)
+      state.page = Prawn::Core::Page.new(self, page_options)
 
-       apply_margin_options(options)
-       generate_margin_box
+      apply_margin_options(options)
+      generate_margin_box
 
-       # Reset the bounding box if the new page has different size or layout
-       if last_page && (last_page.size != state.page.size ||
-                        last_page.layout != state.page.layout)
-         @bounding_box = @margin_box
-       end
+      # Reset the bounding box if the new page has different size or layout
+      if last_page && (last_page.size != state.page.size ||
+                       last_page.layout != state.page.layout)
+        @bounding_box = @margin_box
+      end
 
-       state.page.new_content_stream if options[:template]
-       use_graphic_settings(options[:template])
+      state.page.new_content_stream if options[:template]
+      use_graphic_settings(options[:template])
 
-       unless options[:orphan]
-         state.insert_page(state.page, @page_number)
-         @page_number += 1
+      unless options[:orphan]
+        state.insert_page(state.page, @page_number)
+        @page_number += 1
 
-         canvas { image(@background, :at => bounds.top_left) } if @background
-         @y = @bounding_box.absolute_top
+        canvas { image(@background, :at => bounds.top_left) } if @background
+        @y = @bounding_box.absolute_top
 
-         float do
-           state.on_page_create_action(self)
-         end
-       end
-
-     end
+        float do
+          state.on_page_create_action(self)
+        end
+      end
+    end
 
     # Returns the number of pages in the document
     #
