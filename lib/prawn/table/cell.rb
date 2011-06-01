@@ -260,10 +260,12 @@ module Prawn
       # Draws the cell's content at the point provided.
       #
       def draw_bounded_content(pt)
-        @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
-                          :width  => content_width + FPTolerance,
-                          :height => content_height + FPTolerance) do
-          draw_content
+        @pdf.float do
+          @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
+                            :width  => content_width + FPTolerance,
+                            :height => content_height + FPTolerance) do
+            draw_content
+          end
         end
       end
 

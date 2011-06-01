@@ -647,6 +647,22 @@ describe "Prawn::Table" do
       pdf.move_cursor_to(400)
       t.draw
     end
+
+    describe "in stretchy bounding boxes" do
+      it "should draw all cells on a row at the same y-position" do
+        pdf = Prawn::Document.new
+        
+        text_y = pdf.y.to_i - 5 # text starts 5pt below current y pos (padding)
+
+        pdf.bounding_box([0, pdf.cursor], :width => pdf.bounds.width) do
+          pdf.expects(:draw_text!).checking { |text, options|
+            pdf.bounds.absolute_top.should == text_y
+          }.times(3)
+
+          pdf.table([%w[a b c]])
+        end
+      end
+    end
   end
 
   describe "headers" do
