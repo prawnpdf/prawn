@@ -228,7 +228,7 @@ module Prawn
 
       # Reference bounds are the non-stretchy bounds used to decide when to
       # flow to a new column / page.
-      ref_bounds = @pdf.bounds.stretchy? ? @pdf.margin_box : @pdf.bounds
+      ref_bounds = @pdf.reference_bounds
 
       last_y = @pdf.y
 
