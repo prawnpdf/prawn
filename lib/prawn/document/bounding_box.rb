@@ -458,6 +458,17 @@ module Prawn
         !@height
       end
 
+      # Returns the innermost non-stretchy bounding box.
+      #
+      def reference_bounds
+        if stretchy?
+          raise "Can't find reference bounds: my parent is unset" unless @parent
+          @parent.reference_bounds
+        else
+          self
+        end
+      end
+
       # Returns a deep copy of these bounds (including all parent bounds but
       # not copying the reference to the Document).
       #

@@ -397,6 +397,12 @@ module Prawn
       @bounding_box
     end
 
+    # Returns the innermost non-stretchy bounding box.
+    #
+    def reference_bounds
+      @bounding_box.reference_bounds
+    end
+
     # Sets Document#bounds to the BoundingBox provided.  See above for a brief
     # description of what a bounding box is.  This function is useful if you
     # really need to change the bounding box manually, but usually, just entering

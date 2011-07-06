@@ -249,3 +249,54 @@ describe "Deep-copying" do
     end
   end
 end
+
+describe "Prawn::Document#reference_bounds" do
+  before(:each) { create_pdf }
+
+  it "should return self for non-stretchy bounds" do
+    @pdf.bounding_box([0, @pdf.cursor], :width => 100, :height => 100) do
+      @pdf.reference_bounds.should == @pdf.bounds
+    end
+  end
+
+  it "should return the parent bounds if in a stretchy box" do
+    @pdf.bounding_box([0, @pdf.cursor], :width => 100, :height => 100) do
+      correct_bounds = @pdf.bounds
+      @pdf.bounding_box([0, @pdf.cursor], :width => 100) do
+        @pdf.reference_bounds.should == correct_bounds
+      end
+    end
+  end
+
+  it "should find the non-stretchy box through 2 levels" do
+    @pdf.bounding_box([0, @pdf.cursor], :width => 100, :height => 100) do
+      correct_bounds = @pdf.bounds
+      @pdf.bounding_box([0, @pdf.cursor], :width => 100) do
+        @pdf.bounding_box([0, @pdf.cursor], :width => 100) do
+          @pdf.reference_bounds.should == correct_bounds
+        end
+      end
+    end
+  end
+
+  it "should return the margin box if there's no explicit bbox" do
+    @pdf.reference_bounds.should == @pdf.margin_box
+
+    @pdf.bounding_box([0, @pdf.cursor], :width => 100) do
+      @pdf.reference_bounds.should == @pdf.margin_box
+    end
+  end
+
+  it "should return the canvas box if we're in a canvas" do
+    @pdf.canvas do
+      canvas_box = @pdf.bounds
+
+      @pdf.reference_bounds.should == canvas_box
+
+      @pdf.bounding_box([0, @pdf.cursor], :width => 100) do
+        @pdf.reference_bounds.should == canvas_box
+      end
+    end
+  end
+
+end
