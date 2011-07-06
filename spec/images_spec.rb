@@ -91,6 +91,13 @@ describe "the image() function" do
     Set.new(hash[pages[0]][:Resources][:XObject].keys).should ==
       Set.new([:I1, :I2])
   end
+
+  it "should not start a new page just for a stretchy bounding box" do
+    @pdf.expects(:start_new_page).times(0)
+    @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
+      @pdf.image @filename
+    end
+  end
   
   describe ":fit option" do
     it "should fit inside the defined constraints" do

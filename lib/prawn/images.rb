@@ -158,7 +158,7 @@ module Prawn
     end 
     
     def overruns_page?(h)
-      (self.y - h) < bounds.absolute_bottom 
+      (self.y - h) < reference_bounds.absolute_bottom 
     end
 
     def calc_image_dimensions(info, options)
