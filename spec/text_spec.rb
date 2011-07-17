@@ -388,4 +388,30 @@ describe "#text" do
       end
     end
   end
+
+  describe "kerning" do
+    it "should respect text kerning setting (document default)" do
+      create_pdf
+      @pdf.font.expects(:compute_width_of).with do |str, options|
+        str == "VAT" && options[:kerning] == true
+      end.at_least_once.returns(10)
+      @pdf.text "VAT"
+    end
+
+    it "should respect text kerning setting (kerning=true)" do
+      create_pdf
+      @pdf.font.expects(:compute_width_of).with do |str, options|
+        str == "VAT" && options[:kerning] == true
+      end.at_least_once.returns(10)
+      @pdf.text "VAT", :kerning => true
+    end
+
+    it "should respect text kerning setting (kerning=false)" do
+      create_pdf
+      @pdf.font.expects(:compute_width_of).with do |str, options|
+        str == "VAT" && options[:kerning] == false
+      end.at_least_once.returns(10)
+      @pdf.text "VAT", :kerning => false
+    end
+  end
 end

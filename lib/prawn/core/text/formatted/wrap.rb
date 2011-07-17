@@ -9,7 +9,8 @@ module Prawn
 
           def initialize(array, options)
             @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
-            @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document)
+            @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document,
+              :kerning => options[:kerning])
           end
           
 

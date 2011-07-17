@@ -23,10 +23,11 @@ module Prawn
           attr_reader :fragments
           attr_reader :current_format_state
 
-          def initialize(document)
+          def initialize(document, options={})
             @document = document
             @fragments = []
             @unconsumed = []
+            @kerning = options[:kerning]
           end
 
           def space_count
