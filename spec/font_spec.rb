@@ -353,3 +353,17 @@ describe "DFont fonts" do
     assert_equal f2.object_id, @pdf.find_font(@file, :font => "ActionMan-Bold").object_id
   end
 end
+
+describe "#character_count(text)" do
+  it "should work on TTF fonts" do
+    create_pdf
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+    @pdf.font.character_count("こんにちは世界").should == 7
+    @pdf.font.character_count("Hello, world!").should == 13
+  end
+
+  it "should work on AFM fonts" do
+    create_pdf
+    @pdf.font.character_count("Hello, world!").should == 13
+  end
+end

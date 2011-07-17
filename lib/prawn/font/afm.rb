@@ -94,6 +94,12 @@ module Prawn
           "Arguments to text methods must be UTF-8 encoded"
       end
 
+      # Returns the number of characters in +str+ (a WinAnsi-encoded string).
+      #
+      def character_count(str)
+        str.length
+      end
+
       # Perform any changes to the string that need to happen
       # before it is rendered to the canvas. Returns an array of
       # subset "chunks", where each chunk is an array of two elements.

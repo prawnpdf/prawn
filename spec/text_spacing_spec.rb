@@ -36,6 +36,24 @@ describe "#character_spacing" do
     end
     @pdf.character_spacing.should == 0
   end
+
+  # ensure that we properly internationalize by using the number of characters
+  # in a string, not the number of bytes, to insert character spaces
+  #
+  it "should calculate character spacing widths by characters, not bytes" do
+    create_pdf
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+
+    str = "こんにちは世界"
+    @pdf.character_spacing(0) do
+      @raw_width = @pdf.width_of(str)
+    end
+
+    @pdf.character_spacing(10) do
+      # the new width should include seven 10-pt character spaces.
+      @pdf.width_of(str).should.be.close(@raw_width + (10 * 7), 0.001)
+    end
+  end
 end
 
 describe "#word_spacing" do

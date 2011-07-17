@@ -190,6 +190,16 @@ module Prawn
         cmap[code] > 0
       end
 
+      # Returns the number of characters in +str+ (a UTF-8-encoded string).
+      #
+      def character_count(str)
+        if str.respond_to?(:encode)
+          str.length
+        else
+          str.unpack("U*").length
+        end
+      end
+
       private
 
       def cmap
