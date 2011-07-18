@@ -20,6 +20,15 @@ describe "#width_of" do
       @pdf.width_of("hello world").should == original_width + 11 * 7
     end
   end
+
+  it "should exclude newlines" do
+    create_pdf
+    # Use a TTF font that has a non-zero width for \n
+    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+
+    @pdf.width_of("\nhello world\n").should ==
+      @pdf.width_of("hello world")
+  end
 end
 
 describe "#font_size" do

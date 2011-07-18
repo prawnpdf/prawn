@@ -243,6 +243,11 @@ module Prawn
 
       def character_width_by_code(code)    
         return 0 unless cmap[code]
+
+        # Some TTF fonts have nonzero widths for \n (UTF-8 / ASCII code: 10).
+        # Patch around this as we'll never be drawing a newline with a width.
+        return 0.0 if code == 10
+
         @char_widths[code] ||= Integer(hmtx.widths[cmap[code]] * scale_factor)
       end                   
 
