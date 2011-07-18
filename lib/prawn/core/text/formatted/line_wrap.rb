@@ -39,7 +39,7 @@ module Prawn
             while fragment = @arranger.next_string
               @fragment_output = ""
 
-              fragment.lstrip! if first_fragment_on_this_line?(fragment)
+              fragment.to_s.lstrip! if first_fragment_on_this_line?(fragment)
               next if empty_line?(fragment)
 
               unless apply_font_settings_and_add_fragment_to_line(fragment)
