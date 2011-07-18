@@ -41,25 +41,6 @@ module Prawn
       @bounding_box = parent_box
     end
     
-    # Template methods to support ColumnBox extensions
-    class BoundingBox
-      
-      # an alias for absolute_left
-      def left_side
-         absolute_left
-      end
-
-      # an alias for absolute_right
-      def right_side
-         absolute_right
-      end
-
-      # starts a new page
-      def move_past_bottom
-         @document.start_new_page
-      end
-    end
-
     # Implements the necessary functionality to allow Document#column_box to
     # work.
     #
