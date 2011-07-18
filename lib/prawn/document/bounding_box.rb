@@ -435,17 +435,23 @@ module Prawn
 
       # an alias for absolute_left
       def left_side
-         absolute_left
+        absolute_left
       end
 
       # an alias for absolute_right
       def right_side
-         absolute_right
+        absolute_right
       end
 
-      # starts a new page
+      # Moves to the top of the next page of the document, starting a new page
+      # if necessary.
+      #
       def move_past_bottom
-        @document.start_new_page
+        if @document.page_number == @document.page_count
+          @document.start_new_page
+        else
+          @document.go_to_page(@document.page_number + 1)
+        end
       end
 
 

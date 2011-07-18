@@ -300,3 +300,36 @@ describe "Prawn::Document#reference_bounds" do
   end
 
 end
+
+describe "BoundingBox#move_past_bottom" do
+  before(:each) { create_pdf }
+
+  it "should ordinarily start a new page" do
+    @pdf.bounds.move_past_bottom
+    @pdf.text "Foo"
+
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == []
+    pages[1][:strings].should == ["Foo"]
+  end
+
+  it "should move to the top of the next page if it exists already" do
+    # save away the y-position at the top of a page
+    top_y = @pdf.y
+
+    # create a blank page but go to the page before it
+    @pdf.start_new_page
+    @pdf.go_to_page 1
+    @pdf.text "Foo"
+
+    @pdf.bounds.move_past_bottom
+    @pdf.y.should.be.close(top_y, 0.001) # we should be at the top
+    @pdf.text "Bar"
+
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == ["Foo"]
+    pages[1][:strings].should == ["Bar"]
+  end
+end
