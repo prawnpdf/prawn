@@ -140,6 +140,44 @@ describe "drawing bounding boxes" do
     box.height.should == 100
   end
 
+  it "should advance the y-position by bbox.height by default" do
+    orig_y = @pdf.y
+    @pdf.bounding_box [0, @pdf.cursor], :width => @pdf.bounds.width,
+        :height => 30 do
+      @pdf.text "hello"
+    end
+    @pdf.y.should.be.close(orig_y - 30, 0.001)
+  end
+
+  it "should not advance y-position if passed :hold_position => true" do
+    orig_y = @pdf.y
+    @pdf.bounding_box [0, @pdf.cursor], :width => @pdf.bounds.width,
+        :hold_position => true do
+      @pdf.text "hello"
+    end
+    # y only advances by height of one line ("hello")
+    @pdf.y.should.be.close(orig_y - @pdf.height_of("hello"), 0.001)
+  end
+
+  it "should not advance y-position of a stretchy bbox if it would stretch " +
+     "the bbox further" do
+    bottom = @pdf.y = @pdf.margin_box.absolute_bottom
+    @pdf.bounding_box [0, @pdf.margin_box.top], :width => @pdf.bounds.width do
+      @pdf.y = bottom
+      @pdf.text "hello" # starts a new page
+    end
+    @pdf.page_count.should == 2
+
+    # Restoring the position (to the absolute bottom) would stretch the bbox to
+    # the bottom of the page, which we don't want. This should be equivalent to
+    # a bbox with :hold_position => true, where we only advance by the amount
+    # that was actually drawn.
+    @pdf.y.should.be.close(
+      @pdf.margin_box.absolute_top - @pdf.height_of("hello"),
+      0.001
+    )
+  end
+
 end
 
 describe "Indentation" do

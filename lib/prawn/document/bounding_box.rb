@@ -187,7 +187,9 @@ module Prawn
 
       self.y = @bounding_box.absolute_top
       user_block.call
-      self.y = @bounding_box.absolute_bottom unless options[:hold_position]
+      unless options[:hold_position] || @bounding_box.stretchy?
+        self.y = @bounding_box.absolute_bottom
+      end
 
       created_box, @bounding_box = @bounding_box, parent_box
 
