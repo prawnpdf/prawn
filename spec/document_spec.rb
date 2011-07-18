@@ -109,6 +109,31 @@ describe "When beginning each new page" do
   
 end
 
+describe "Prawn::Document#float" do
+  it "should restore the original y-position" do
+    create_pdf
+    orig_y = @pdf.y
+    @pdf.float { @pdf.text "Foo" }
+    @pdf.y.should == orig_y
+  end
+
+  it "should teleport across pages if necessary" do
+    create_pdf
+    
+    @pdf.float do
+      @pdf.text "Foo"
+      @pdf.start_new_page
+      @pdf.text "Bar"
+    end
+    @pdf.text "Baz"
+
+    pages = PDF::Inspector::Page.analyze(@pdf.render).pages
+    pages.size.should == 2
+    pages[0][:strings].should == ["Foo", "Baz"]
+    pages[1][:strings].should == ["Bar"]
+  end
+end
+
 describe "The page_number method" do
   it "should be 1 for a new document" do
     pdf = Prawn::Document.new

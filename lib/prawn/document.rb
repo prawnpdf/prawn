@@ -327,7 +327,9 @@ module Prawn
       self.y = new_y + bounds.absolute_bottom
     end
 
-    # Executes a block and then restores the original y position
+    # Executes a block and then restores the original y position. If new pages
+    # were created during this block, it will teleport back to the original
+    # page when done.
     #
     #   pdf.text "A"
     #
@@ -339,7 +341,11 @@ module Prawn
     #   pdf.text "B"
     #
     def float
-      mask(:y) { yield }
+      original_page = page_number
+      original_y = y
+      yield
+      go_to_page(original_page) unless page_number == original_page
+      self.y = original_y
     end
 
     # Renders the PDF document to string
