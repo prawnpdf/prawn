@@ -169,7 +169,7 @@ module Prawn
       when Hash
         widths.each { |i, w| column(i).width = w }
       when Numeric
-        columns.width = widths
+        cells.width = widths
       else
         raise ArgumentError, "cannot interpret column widths"
       end

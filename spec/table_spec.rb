@@ -219,6 +219,13 @@ describe "Prawn::Table" do
         table.width.should == 300
       end
 
+      it "should accept Numeric for column_widths" do
+        table = Prawn::Table.new([%w[ a b c ], %w[d e f]], @pdf) do |t|
+          t.column_widths = 50
+        end
+        table.width.should == 150
+      end
+
       it "should calculate unspecified column widths as "+
          "(max(string_width) + 2*horizontal_padding)" do
         hpad, fs = 3, 12
