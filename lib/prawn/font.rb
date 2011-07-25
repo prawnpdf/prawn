@@ -179,7 +179,7 @@ module Prawn
     # custom ones, like :thin, and use them in font calls.
     #
     def font_families
-      @font_families ||= Hash.new { |h,k| h[k] = {} }.merge!(
+      @font_families ||= Hash.new.merge!(
         { "Courier"     => { :bold        => "Courier-Bold",
                              :italic      => "Courier-Oblique",
                              :bold_italic => "Courier-BoldOblique",

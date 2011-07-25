@@ -136,6 +136,15 @@ describe "Prawn::Document#transaction" do
       [bounds.width, bounds.height].should == size.reverse
     end
   end
+
+  it "should work with dests" do
+    Prawn::Document.new do |pdf|
+      pdf.add_dest("dest", pdf.dest_fit_horizontally(pdf.cursor,
+                                                     pdf.page.dictionary))
+      pdf.text("Hello world")
+      lambda { pdf.transaction{} }.should.not.raise
+    end
+  end
   
   describe "with a stamp dictionary present" do
 
