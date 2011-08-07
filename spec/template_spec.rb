@@ -167,6 +167,12 @@ end
 describe "Document#start_new_page with :template option" do
   filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
   
+  it "should set the imported page's parent to the document pages catalog" do
+    @pdf = Prawn::Document.new()
+    @pdf.start_new_page(:template => filename)
+    @pdf.state.page.dictionary.data[:Parent].should == @pdf.state.store.pages
+  end
+  
   it "should set start the Y cursor at the top of the page" do
     @pdf = Prawn::Document.new()
     @pdf.start_new_page(:template => filename)

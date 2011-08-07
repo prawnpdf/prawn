@@ -28,7 +28,7 @@ module Prawn
           init_from_object(options)
         else
           init_new_page(options)
-        end 
+        end
       end
 
       def layout
@@ -58,7 +58,7 @@ module Prawn
         document.save_graphics_state
         document.send(:freeze_stamp_graphics)
         yield if block_given?
-        
+
         until graphic_stack_size == stack.stack.size
           document.restore_graphics_state
         end
@@ -160,6 +160,8 @@ module Prawn
 
       def init_from_object(options)
         @dictionary = options[:object_id].to_i
+        dictionary.data[:Parent] = document.state.store.pages
+
         unless dictionary.data[:Contents].is_a?(Array) # content only on leafs
           @content    = dictionary.data[:Contents].identifier
         end
