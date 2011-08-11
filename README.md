@@ -78,3 +78,9 @@ Over the last several years, we've received code contributions from over 50 peop
 While he was only with us for a short time before moving on to other things, we'd also like to thank Prawn core team emeritus Jamis Buck for his contributions. He was responsible for introducing font subsetting as well as the first implementation of our inline formatting support.
 
 You can find the full list of folks who have at least patch accepted to Prawn on github at https://github.com/sandal/prawn/contributors
+
+## License
+
+Prawn is released under a slightly modified form of the License of Ruby, allowing you to choose between Matz's terms, the GPLv2, or GPLv3. For details, please see the LICENSE, GPLv2, and GPLv3 files.
+
+If you wish to contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
