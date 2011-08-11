@@ -25,13 +25,13 @@ One thing Prawn is not, and will never be, is an HTML to PDF generator. For thos
 
 Because Prawn is pure Ruby and virtually all of its dependencies are maintained by our core team, it should run pretty much anywhere, including Rubinius, JRuby, MacRuby, etc. While we officially support MRI 1.8.7 and 1.9.2 only, we will accept patches to fix problems on other Ruby platforms if they aren't too invasive.
 
-## Installation
+## Installation and Versioning
 
 Prawn is distributed via RubyGems, and can be installed the usual way that you install gems: by simply typing `gem install prawn` on the command line. 
 
 You can also install from git if you'd like, the _master_ branch contains the latest developments, and _stable_ represents the latest bug fixes to the currently released version of Prawn. If you go this route, using Bundler is encouraged.
 
-Note that we may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly.
+Note that we may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly. You can find the project CHANGELOG at: https://github.com/sandal/prawn/wiki/CHANGELOG
 
 ## Hello World!
 
