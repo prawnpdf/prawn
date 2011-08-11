@@ -19,7 +19,9 @@ Prawn can be used for many things, but is primarily meant to serve those who are
 
 ## Installation
 
-Prawn is distributed via RubyGems, and can be installed the usual way that you install gems: by simply typing `gem install prawn` on the command line. You can also install from git if you'd like, the _master_ branch contains the latest developments, and _stable_ represents the latest bug fixes to the currently released version of Prawn. If you go this route, using Bundler is encouraged.
+Prawn is distributed via RubyGems, and can be installed the usual way that you install gems: by simply typing `gem install prawn` on the command line. 
+
+You can also install from git if you'd like, the _master_ branch contains the latest developments, and _stable_ represents the latest bug fixes to the currently released version of Prawn. If you go this route, using Bundler is encouraged.
 
 Note that we may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly.
 
