@@ -17,6 +17,8 @@ Prawn is a pure Ruby PDF generation library that provides a lot of great functio
 
 Prawn can be used for many things, but is primarily meant to serve those who are specifically looking for highly flexible PDF document generation. One thing it is not, and will never be, is an HTML to PDF generator. For those needs, consider looking into FlyingSaucer via JRuby, or one of the webkit based tools, like Wicked or PDFKit. Prawn is also not a reporting tool or a publishing toolchain, though it could be fairly easily used to build those things.
 
+Because Prawn is pure Ruby and virtually all of its dependencies are maintained by our core team, it should run pretty much anywhere, including Rubinius, JRuby, MacRuby, etc. While we officially support MRI 1.8.7 and 1.9.2 only, we will accept patches to fix problems on other Ruby platforms if they aren't too invasive.
+
 ## Installation
 
 Prawn is distributed via RubyGems, and can be installed the usual way that you install gems: by simply typing `gem install prawn` on the command line. 
