@@ -7,5 +7,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  header("Foreword, by Greg Brown")
-end
+  header("Foreword, by Gregory Brown")
+  text "This will be written just before 1.0, to give the"+
+       " core team something to look forward to."
+  end

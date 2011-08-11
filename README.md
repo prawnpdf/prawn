@@ -37,7 +37,15 @@ Of course, you'll probably want to do more interesting things than that...
 
 ## Manual
 
-Felipe Doria provided us with a beautiful system for generating a user manual from our examples. This can be generated from the prawn source code by running `rake manual`, but we've also put the document online for you to download. Check that out for a full overview of what Prawn can do for you.
+Mendicant University student Felipe Doria provided us with a beautiful system for generating a user manual from our examples. This can be generated from the prawn source or you can download a pre-generated snapshot of it at http://prawn.majesticseacreature.com/manual.pdf
+
+Note that while we will try to keep the downloadable manual up to date, that it's provided as a convenience only and you should generate the manual yourself if you want to be sure the code in it actually runs and works as expected. To build the manual, here's what you need to do:
+
+1. clone the repository
+2. switch to the stable branch (optional, stay on master for development version)
+3. install bundler if necessay
+4. run `bundle install`
+5. run `bundle exec rake manual`, which will generate _manual.pdf_ in the project root
 
 ## Support 
 
@@ -66,3 +74,5 @@ Prawn was originally developed by Gregory Brown, under the auspices of the Ruby 
 Over the last several years, we've received code contributions from over 50 people, which is amazing considering the low-level nature of this project. In 2010, Gregory officially handed the project off to the Prawn core team. Currently active maintainers include Brad Ediger, Daniel Nelson, James Healy, and Jonathan Greenberg.
 
 While he was only with us for a short time before moving on to other things, we'd also like to thank Prawn core team emeritus Jamis Buck for his contributions. He was responsible for introducing font subsetting as well as the first implementation of our inline formatting support.
+
+You can find the full list of folks who have at least patch accepted to Prawn on github at https://github.com/sandal/prawn/contributors
