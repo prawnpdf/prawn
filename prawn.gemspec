@@ -1,5 +1,5 @@
 # Version numbering: http://wiki.github.com/sandal/prawn/development-roadmap
-PRAWN_VERSION = "0.11.1"
+PRAWN_VERSION = "0.12.0"
 
 Gem::Specification.new do |spec|
   spec.name = "prawn"
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = ">= 1.3.6"
 
   spec.test_files = Dir[ "spec/*_spec.rb" ]
-  spec.extra_rdoc_files = %w{HACKING README LICENSE COPYING}
+  spec.extra_rdoc_files = %w{README.md LICENSE COPYING GPLv2 GPLv3}
   spec.rdoc_options << '--title' << 'Prawn Documentation' <<
                        '--main'  << 'README' << '-q'
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
