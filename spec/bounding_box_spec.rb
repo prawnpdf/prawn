@@ -87,6 +87,13 @@ describe "A bounding box" do
     end.should.raise(ArgumentError)
   end
 
+  it "should raise an ArgumentError if a block is not passed" do
+    pdf = Prawn::Document.new
+    lambda do
+      pdf.bounding_box([0, 0], :width => 200)
+    end.should.raise(ArgumentError)
+  end
+
 end
 
 describe "drawing bounding boxes" do

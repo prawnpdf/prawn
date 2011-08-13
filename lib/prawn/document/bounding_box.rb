@@ -181,6 +181,11 @@ module Prawn
     private
 
     def init_bounding_box(user_block, options={}, &init_block)
+      unless user_block
+        raise ArgumentError,
+          "bounding boxes require a block to be drawn within the box"
+      end
+
       parent_box = @bounding_box
 
       init_block.call(parent_box)
