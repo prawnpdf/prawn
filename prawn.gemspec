@@ -16,11 +16,11 @@ Gem::Specification.new do |spec|
   spec.extra_rdoc_files = %w{HACKING README LICENSE COPYING}
   spec.rdoc_options << '--title' << 'Prawn Documentation' <<
                        '--main'  << 'README' << '-q'
-  spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathen Greenberg","James Healy"]
+  spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
   spec.add_dependency('pdf-reader', '>=0.9.0')
-  spec.add_dependency('ttfunk', '~>1.0.0')
+  spec.add_dependency('ttfunk', '~>1.0.2')
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
   Prawn is a fast, tiny, and nimble PDF generator for Ruby
