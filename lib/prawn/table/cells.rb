@@ -55,7 +55,9 @@ module Prawn
       def rows(row_spec)
         index_cells unless @indexed
         row_spec = transform_spec(row_spec, @row_count)
-        Cells.new(@rows[row_spec] ||= select{ |c| row_spec === c.row })
+        Cells.new(@rows[row_spec] ||= select { |c|
+                    row_spec.respond_to?(:include?) ?
+                      row_spec.include?(c.row) : row_spec === c.row })
       end
       alias_method :row, :rows
       
@@ -69,7 +71,9 @@ module Prawn
       def columns(col_spec)
         index_cells unless @indexed
         col_spec = transform_spec(col_spec, @column_count)
-        Cells.new(@columns[col_spec] ||= select{ |c| col_spec === c.column })
+        Cells.new(@columns[col_spec] ||= select { |c|
+                    col_spec.respond_to?(:include?) ? 
+                      col_spec.include?(c.column) : col_spec === c.column })
       end
       alias_method :column, :columns
 
