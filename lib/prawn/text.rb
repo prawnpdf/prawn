@@ -107,6 +107,7 @@ module Prawn
     #                     [value of document.default_kerning?]
     # <tt>:size</tt>:: <tt>number</tt>. The font size to use. [current font
     #                  size]
+    # <tt>:color</tt>:: an RGB color ("ff0000") or CMYK array [10, 20, 30, 40].
     # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
     #                               to or remove from the default character
     #                               spacing. [0]
@@ -187,6 +188,12 @@ module Prawn
     #
     def formatted_text(array, options={})
       options = inspect_options_for_text(options.dup)
+
+      if color = options.delete(:color)
+        array = array.map do |fragment| 
+          fragment[:color] ? fragment : fragment.merge(:color => color)
+        end
+      end
 
       if @indent_paragraphs
         Text::Formatted::Parser.array_paragraphs(array).each do |paragraph|
