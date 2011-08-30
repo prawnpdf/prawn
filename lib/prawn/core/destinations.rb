@@ -33,57 +33,57 @@ module Prawn
       # Return a Dest specification for a specific location (and optional zoom
       # level).
       #
-      def dest_xyz(left, top, zoom=nil, page=current_page)
-        [page, :XYZ, left, top, zoom]
+      def dest_xyz(left, top, zoom=nil, dest_page=page)
+        [dest_page.dictionary, :XYZ, left, top, zoom]
       end
 
       # Return a Dest specification that will fit the given page into the
       # viewport.
       #
-      def dest_fit(page=current_page)
-        [page, :Fit]
+      def dest_fit(dest_page=page)
+        [dest_page.dictionary, :Fit]
       end
 
       # Return a Dest specification that will fit the given page horizontally
       # into the viewport, aligned vertically at the given top coordinate.
       #
-      def dest_fit_horizontally(top, page=current_page)
-        [page, :FitH, top]
+      def dest_fit_horizontally(top, dest_page=page)
+        [dest_page.dictionary, :FitH, top]
       end
 
       # Return a Dest specification that will fit the given page vertically
       # into the viewport, aligned horizontally at the given left coordinate.
       #
-      def dest_fit_vertically(left, page=current_page)
-        [page, :FitV, left]
+      def dest_fit_vertically(left, dest_page=page)
+        [dest_page.dictionary, :FitV, left]
       end
 
       # Return a Dest specification that will fit the given rectangle into the
       # viewport, for the given page.
       #
-      def dest_fit_rect(left, bottom, right, top, page=current_page)
-        [page, :FitR, left, bottom, right, top]
+      def dest_fit_rect(left, bottom, right, top, dest_page=page)
+        [dest_page.dictionary, :FitR, left, bottom, right, top]
       end
 
       # Return a Dest specfication that will fit the given page's bounding box
       # into the viewport.
       #
-      def dest_fit_bounds(page=current_page)
-        [page, :FitB]
+      def dest_fit_bounds(dest_page=page)
+        [dest_page.dictionary, :FitB]
       end
 
       # Same as #dest_fit_horizontally, but works on the page's bounding box
       # instead of the entire page.
       #
-      def dest_fit_bounds_horizontally(top, page=current_page)
-        [page, :FitBH, top]
+      def dest_fit_bounds_horizontally(top, dest_page=page)
+        [dest_page.dictionary, :FitBH, top]
       end
 
       # Same as #dest_fit_vertically, but works on the page's bounding box
       # instead of the entire page.
       #
-      def dest_fit_bounds_vertically(left, page=current_page)
-        [page, :FitBV, left]
+      def dest_fit_bounds_vertically(left, dest_page=page)
+        [dest_page.dictionary, :FitBV, left]
       end
     end
   end
