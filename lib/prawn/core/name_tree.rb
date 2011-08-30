@@ -98,6 +98,18 @@ module Prawn
           end
         end
 
+        # Returns a deep copy of this node, without copying expensive things
+        # like the ref to @document.
+        #
+        def deep_copy
+          node = dup
+          node.instance_variable_set("@children",
+                                     Marshal.load(Marshal.dump(children)))
+          node.instance_variable_set("@ref",
+                                     node.ref ? node.ref.deep_copy : nil)
+          node
+        end
+
         protected
 
           def split(node)

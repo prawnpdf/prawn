@@ -58,11 +58,14 @@ module Prawn
       def deep_copy(share=[])
         r = dup
 
-        if r.data.is_a?(Hash)
+        case r.data
+        when Hash
           # Copy each entry not in +share+.
           (r.data.keys - share).each do |k|
             r.data[k] = Marshal.load(Marshal.dump(r.data[k]))
           end
+        when Prawn::Core::NameTree::Node
+          r.data = r.data.deep_copy
         else
           r.data = Marshal.load(Marshal.dump(r.data))
         end
