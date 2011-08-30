@@ -217,8 +217,25 @@ module Prawn
     # it and redefine the width calculation behavior.
     #++
     def width_of(string, options={})
-      font.compute_width_of(string, options) +
-        (character_spacing * font.character_count(string))
+      if options[:inline_format]
+        # Build up an Arranger with the entire string on one line, finalize it,
+        # and find its width.
+        arranger = Core::Text::Formatted::Arranger.new(self, options)
+        arranger.consumed = Text::Formatted::Parser.to_array(string)
+        arranger.finalize_line
+
+        arranger.line_width
+      else
+        f = if options[:style]
+              # override style with :style => :bold
+              find_font(@font ? @font.name : 'Helvetica',
+                        :style => options[:style])
+            else
+              font
+            end
+        f.compute_width_of(string, options) +
+          (character_spacing * font.character_count(string))
+      end
     end
   end
 

@@ -492,6 +492,12 @@ describe "Prawn::Table::Cell" do
       font = @pdf.find_font('Helvetica-Bold')
       c.content_width.should == font.compute_width_of("text")
     end
+
+    it "should properly calculate inline-formatted text" do
+      c = cell(:content => "<b>text</b>", :inline_format => true)
+      font = @pdf.find_font('Helvetica-Bold')
+      c.content_width.should == font.compute_width_of("text")
+    end
   end
 
 end

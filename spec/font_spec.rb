@@ -29,6 +29,30 @@ describe "#width_of" do
     @pdf.width_of("\nhello world\n").should ==
       @pdf.width_of("hello world")
   end
+
+  it "should take formatting into account" do
+    create_pdf
+
+    normal_hello = @pdf.width_of("hello")
+    inline_bold_hello = @pdf.width_of("<b>hello</b>", :inline_format => true)
+    @pdf.font("Helvetica", :style => :bold) {
+      @bold_hello = @pdf.width_of("hello")
+    }
+    
+    inline_bold_hello.should.be > normal_hello
+    inline_bold_hello.should == @bold_hello
+  end
+
+  it "should accept :style as an argument" do
+    create_pdf
+
+    styled_bold_hello = @pdf.width_of("hello", :style => :bold)
+    @pdf.font("Helvetica", :style => :bold) {
+      @bold_hello = @pdf.width_of("hello")
+    }
+
+    styled_bold_hello.should == @bold_hello
+  end
 end
 
 describe "#font_size" do
