@@ -302,6 +302,19 @@ describe "TTF fonts" do
     @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
   end
 
+  it "should use the ascender, descender, and cap height from the TTF verbatim" do
+    # These metrics are relative to the font's own bbox. They should not be
+    # scaled with font size.
+    ref = @pdf.ref!({})
+    @activa.send :embed, ref, 0
+
+    # Pull out the embedded font descriptor
+    descriptor = ref.data[:FontDescriptor].data
+    descriptor[:Ascent].should == 804
+    descriptor[:Descent].should == -195
+    descriptor[:CapHeight].should == 804
+  end
+
   describe "when normalizing encoding" do
 
     it "should not modify the original string when normalize_encoding() is used" do

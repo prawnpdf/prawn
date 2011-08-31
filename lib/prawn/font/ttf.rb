@@ -126,7 +126,7 @@ module Prawn
       def cap_height
         @cap_height ||= begin
           height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
-          height == 0 ? ascender : height
+          height == 0 ? @ascender : height
         end
       end
 
@@ -294,8 +294,8 @@ module Prawn
                                    :Flags       => pdf_flags,
                                    :StemV       => stemV,
                                    :ItalicAngle => italic_angle,
-                                   :Ascent      => ascender,
-                                   :Descent     => descender,
+                                   :Ascent      => @ascender,
+                                   :Descent     => @descender,
                                    :CapHeight   => cap_height,
                                    :XHeight     => x_height)
 
