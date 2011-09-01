@@ -66,6 +66,34 @@ module Prawn
       Prawn.verify_options [:at, :position, :vposition, :height, 
                             :width, :scale, :fit], options
 
+      pdf_obj, info = build_image_object(file)
+
+      # find where the image will be placed and how big it will be  
+      w,h = calc_image_dimensions(info, options)
+
+      if options[:at]     
+        x,y = map_to_absolute(options[:at]) 
+      else                  
+        x,y = image_position(w,h,options) 
+        move_text_position h   
+      end
+
+      # add a reference to the image object to the current page
+      # resource list and give it a label
+      label = "I#{next_image_id}"
+      state.page.xobjects.merge!(label => pdf_obj)
+
+      # add the image to the current page
+      instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
+      add_content instruct % [ w, h, x, y - h, label ]
+      
+      return info
+    end
+
+    # Builds an info object (Prawn::Images::*) and a PDF reference representing
+    # the given image. Return a pair: [pdf_obj, info].
+    #
+    def build_image_object(file)
       if file.respond_to?(:read)
         image_content = file.read
       else
@@ -95,30 +123,11 @@ module Prawn
         image_registry[image_sha1] = {:obj => image_obj, :info => info}
       end
 
-      # find where the image will be placed and how big it will be  
-      w,h = calc_image_dimensions(info, options)
-
-      if options[:at]     
-        x,y = map_to_absolute(options[:at]) 
-      else                  
-        x,y = image_position(w,h,options) 
-        move_text_position h   
-      end
-
-      # add a reference to the image object to the current page
-      # resource list and give it a label
-      label = "I#{next_image_id}"
-      state.page.xobjects.merge!( label => image_obj )
-
-      # add the image to the current page
-      instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      add_content instruct % [ w, h, x, y - h, label ]
-      
-      return info
+      [image_obj, info]
     end
-
-    private   
     
+    private   
+
     def image_position(w,h,options)
       options[:position] ||= :left
       
