@@ -67,27 +67,9 @@ module Prawn
                             :width, :scale, :fit], options
 
       pdf_obj, info = build_image_object(file)
+      embed_image(pdf_obj, info, options)
 
-      # find where the image will be placed and how big it will be  
-      w,h = calc_image_dimensions(info, options)
-
-      if options[:at]     
-        x,y = map_to_absolute(options[:at]) 
-      else                  
-        x,y = image_position(w,h,options) 
-        move_text_position h   
-      end
-
-      # add a reference to the image object to the current page
-      # resource list and give it a label
-      label = "I#{next_image_id}"
-      state.page.xobjects.merge!(label => pdf_obj)
-
-      # add the image to the current page
-      instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      add_content instruct % [ w, h, x, y - h, label ]
-      
-      return info
+      info
     end
 
     # Builds an info object (Prawn::Images::*) and a PDF reference representing
@@ -124,6 +106,32 @@ module Prawn
       end
 
       [image_obj, info]
+    end
+
+    # Given a PDF image resource <tt>pdf_obj</tt> that has been added to the
+    # page's resources and an <tt>info</tt> object (the pair returned from
+    # build_image_object), embed the image according to the <tt>options</tt>
+    # given.
+    #
+    def embed_image(pdf_obj, info, options)
+      # find where the image will be placed and how big it will be  
+      w,h = calc_image_dimensions(info, options)
+
+      if options[:at]     
+        x,y = map_to_absolute(options[:at]) 
+      else                  
+        x,y = image_position(w,h,options) 
+        move_text_position h   
+      end
+
+      # add a reference to the image object to the current page
+      # resource list and give it a label
+      label = "I#{next_image_id}"
+      state.page.xobjects.merge!(label => pdf_obj)
+
+      # add the image to the current page
+      instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
+      add_content instruct % [ w, h, x, y - h, label ]
     end
     
     private   
