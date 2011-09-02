@@ -13,7 +13,7 @@ module Prawn
     # A convenience class that wraps the logic for extracting the parts
     # of a JPG image that we need to embed them in a PDF
     #
-    class JPG 
+    class JPG < Image
       attr_reader :width, :height, :bits, :channels
       attr_accessor :scaled_width, :scaled_height
       

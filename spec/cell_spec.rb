@@ -5,7 +5,6 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 module CellHelpers
 
   # Build, but do not draw, a cell on @pdf.
-  # TODO: differentiate class based on :content.
   def cell(options={})
     at = options[:at] || [0, @pdf.cursor]
     Prawn::Table::Cell::Text.new(@pdf, at, options)
@@ -500,4 +499,30 @@ describe "Prawn::Table::Cell" do
     end
   end
 
+end
+
+describe "Image cells" do
+  before(:each) do
+    create_pdf
+  end
+
+  describe "with default options" do
+    before(:each) do
+      @cell = Prawn::Table::Cell.make(@pdf,
+        :image => "#{Prawn::BASEDIR}/data/images/prawn.png")
+    end
+
+    it "should create a Cell::Image" do
+      @cell.should.be.a.kind_of(Prawn::Table::Cell::Image)
+    end
+
+    it "should pull the natural width and height from the image" do
+      @cell.natural_content_width.should == 141
+      @cell.natural_content_height.should == 142
+    end
+  end
+
+
+
+  # TODO more specs
 end

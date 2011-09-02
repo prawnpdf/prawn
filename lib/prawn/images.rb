@@ -91,7 +91,7 @@ module Prawn
         image_obj = image_registry[image_sha1][:obj]
       else
         # Build the image object
-        klass = case detect_image_format(image_content)
+        klass = case Image.detect_image_format(image_content)
                 when :jpg then Prawn::Images::JPG
                 when :png then Prawn::Images::PNG
                 end
@@ -115,7 +115,7 @@ module Prawn
     #
     def embed_image(pdf_obj, info, options)
       # find where the image will be placed and how big it will be  
-      w,h = calc_image_dimensions(info, options)
+      w,h = info.calc_image_dimensions(options)
 
       if options[:at]     
         x,y = map_to_absolute(options[:at]) 
@@ -176,52 +176,6 @@ module Prawn
     
     def overruns_page?(h)
       (self.y - h) < reference_bounds.absolute_bottom 
-    end
-
-    def calc_image_dimensions(info, options)
-      w = options[:width] || info.width
-      h = options[:height] || info.height
-
-      if options[:width] && !options[:height]
-        wp = w / info.width.to_f 
-        w = info.width * wp
-        h = info.height * wp
-      elsif options[:height] && !options[:width]         
-        hp = h / info.height.to_f
-        w = info.width * hp
-        h = info.height * hp   
-      elsif options[:scale] 
-        w = info.width * options[:scale]
-        h = info.height * options[:scale]
-      elsif options[:fit] 
-        bw, bh = options[:fit]
-        bp = bw / bh.to_f
-        ip = info.width / info.height.to_f
-        if ip > bp
-          w = bw
-          h = bw / ip
-        else
-          h = bh
-          w = bh * ip
-        end
-      end
-      info.scaled_width = w
-      info.scaled_height = h
-      [w,h]
-    end
-
-    def detect_image_format(content)
-      top = content[0,128]                       
-
-      # Unpack before comparing for JPG header, so as to avoid having to worry
-      # about the source string encoding. We just want a byte-by-byte compare.
-      if top[0, 3].unpack("C*") == [255, 216, 255]
-        return :jpg
-      elsif top[0, 8].unpack("C*") == [137, 80, 78, 71, 13, 10, 26, 10]
-        return :png
-      else
-        raise Errors::UnsupportedImageType, "image file is an unrecognised format"
-      end
     end
 
     def image_registry

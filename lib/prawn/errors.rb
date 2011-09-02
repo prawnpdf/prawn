@@ -86,6 +86,10 @@ module Prawn
     # This error is raise when trying to restore a graphic state that 
     #
     EmptyGraphicStateStack = Class.new(StandardError)
+
+    # Raised when unrecognized content is provided for a table cell.
+    #
+    UnrecognizedTableContent = Class.new(StandardError)
     
   end
 end   
