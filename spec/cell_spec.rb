@@ -522,7 +522,37 @@ describe "Image cells" do
     end
   end
 
+  describe "hash syntax" do
+    before(:each) do
+      @table = @pdf.make_table([[{
+        :image => "#{Prawn::BASEDIR}/data/images/prawn.png",
+        :scale => 2,
+        :fit => [100, 200],
+        :image_width => 123,
+        :image_height => 456,
+        :position => :center,
+        :vposition => :center
+      }]])
+      @cell = @table.cells[0, 0]
+    end
 
 
-  # TODO more specs
+    it "should create a Cell::Image" do
+      @cell.should.be.a.kind_of(Prawn::Table::Cell::Image)
+    end
+
+    it "should pass through image options" do
+      @pdf.expects(:embed_image).checking do |_, _, options|
+        options[:scale].should == 2
+        options[:fit].should == [100, 200]
+        options[:width].should == 123
+        options[:height].should == 456
+        options[:position].should == :center
+        options[:vposition].should == :center
+      end
+
+      @table.draw
+    end
+  end
+
 end
