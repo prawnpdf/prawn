@@ -17,7 +17,8 @@ Prawn::Example.generate("table.pdf") do
                      "row_colors",
                      "cell_dimensions",
                      "cell_borders_and_bg",
-                     "cell_text"
+                     "cell_text",
+                     "image_cells"
                    ]
       ],
       ["Initializer Block", [ "basic_block",
