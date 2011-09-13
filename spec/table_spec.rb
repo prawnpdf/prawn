@@ -463,6 +463,41 @@ describe "Prawn::Table" do
 
     end
 
+    describe "position" do
+      it "should center tables with :position => :center" do
+        @pdf.expects(:bounding_box).with do |(x, y), opts|
+          expected = (@pdf.bounds.width - 500) / 2.0
+          (x - expected).abs < 0.001
+        end
+
+        @pdf.table([["foo"]], :column_widths => 500, :position => :center)
+      end
+
+      it "should right-align tables with :position => :right" do
+        @pdf.expects(:bounding_box).with do |(x, y), opts|
+          expected = @pdf.bounds.width - 500
+          (x - expected).abs < 0.001
+        end
+
+        @pdf.table([["foo"]], :column_widths => 500, :position => :right)
+      end
+
+      it "should accept a Numeric" do
+        @pdf.expects(:bounding_box).with do |(x, y), opts|
+          expected = 123
+          (x - expected).abs < 0.001
+        end
+
+        @pdf.table([["foo"]], :column_widths => 500, :position => 123)
+      end
+
+      it "should raise an ArgumentError on unknown :position" do
+        lambda do
+          @pdf.table([["foo"]], :position => :bratwurst)
+        end.should.raise(ArgumentError)
+      end
+    end
+
   end
 
   describe "Multi-page tables" do
