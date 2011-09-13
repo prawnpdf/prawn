@@ -272,6 +272,28 @@ describe "Prawn::Table" do
                               col0_width + col3_width
       end
 
+      it "should preserve all manually requested column widths" do
+        col0_width = 50
+        col1_width = 20
+        col3_width = 60
+
+        table = Prawn::Table.new( [["snake", "foo", "b", 
+                                      "some long, long text that will wrap"],
+                                   %w[kitten d foobar banana]], @pdf,
+                                 :width => 150) do
+
+          column(0).width = col0_width
+          column(1).width = col1_width
+          column(3).width = col3_width
+        end
+
+        table.draw
+
+        table.column(0).width.should == col0_width
+        table.column(1).width.should == col1_width
+        table.column(3).width.should == col3_width
+      end
+
       it "should not exceed the maximum width of the margin_box" do
         expected_width = @pdf.margin_box.width
         data = [
