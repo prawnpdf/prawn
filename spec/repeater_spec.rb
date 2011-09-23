@@ -58,7 +58,7 @@ describe "Repeaters" do
     repeater(doc, :odd).run(3)
   end
 
-  it "must not try to run a stamp if the page number matches" do
+  it "must not try to run a stamp unless the page number matches" do
     doc = sample_document
 
     doc.expects(:stamp).never
@@ -70,6 +70,20 @@ describe "Repeaters" do
 
     doc.expects(:stamp).never
     (1..10).each { |p| repeater(doc, :all, true){:do_nothing}.run(p) }
+  end
+
+  it "must try to run a block if the page number matches" do
+    doc = sample_document
+
+    doc.expects(:draw_text).twice
+    (1..10).each { |p| repeater(doc, [1,2], true){doc.draw_text "foo"}.run(p) }
+  end
+
+  it "must not try to run a block unless the page number matches" do
+    doc = sample_document
+
+    doc.expects(:draw_text).never
+    repeater(doc, :odd, true){doc.draw_text "foo"}.run(2)
   end
 
   it "must treat any block as a closure" do
