@@ -636,6 +636,15 @@ describe "Prawn::Table" do
       t.cells.map{|x| x.background_color}.should == 
         %w[333333 cccccc ffffff cccccc]
     end
+
+    it "should not override an explicit background_color" do
+      data = [["foo"], ["bar"], ["baz"]]
+      pdf = Prawn::Document.new
+      table = pdf.table(data, :row_colors => ['cccccc', 'ffffff']) { |t|
+        t.cells[0, 0].background_color = 'dddddd'
+      }
+      table.cells.map{|x| x.background_color}.should == %w[dddddd ffffff cccccc]
+    end
   end
 
   describe "inking" do

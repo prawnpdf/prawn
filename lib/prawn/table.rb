@@ -302,7 +302,7 @@ module Prawn
           # Set background color, if any.
           if @row_colors && (!@header || cell.row > 0)
             index = @header ? (cell.row - 1) : cell.row
-            cell.background_color = @row_colors[index % @row_colors.length]
+            cell.background_color ||= @row_colors[index % @row_colors.length]
           end
 
           cells_this_page << [cell, [x, y]]
