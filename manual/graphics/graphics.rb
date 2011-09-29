@@ -23,7 +23,8 @@ Prawn::Example.generate("graphics.pdf") do
                                       "stroke_join",
                                       "stroke_dash",
                                       "color",
-                                      "transparency"
+                                      "transparency",
+                                      "fill_rules"
                                     ]
       ],
       [ "Transformations", [ "rotate",

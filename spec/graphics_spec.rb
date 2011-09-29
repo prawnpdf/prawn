@@ -183,6 +183,30 @@ describe "When drawing a circle" do
   end
 end
 
+describe "When filling" do
+  before(:each) { create_pdf }
+
+  it "should default to the f operator (nonzero winding number rule)" do
+    @pdf.expects(:add_content).with("f")
+    @pdf.fill
+  end
+
+  it "should use f* for :fill_rule => :even_odd" do
+    @pdf.expects(:add_content).with("f*")
+    @pdf.fill(:fill_rule => :even_odd)
+  end
+
+  it "should use b by default for fill_and_stroke (nonzero winding number)" do
+    @pdf.expects(:add_content).with("b")
+    @pdf.fill_and_stroke
+  end
+
+  it "should use b* for fill_and_stroke(:fill_rule => :even_odd)" do
+    @pdf.expects(:add_content).with("b*")
+    @pdf.fill_and_stroke(:fill_rule => :even_odd)
+  end
+end
+
 describe "When setting colors" do
 
   before(:each) { create_pdf }
