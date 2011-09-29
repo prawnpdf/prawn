@@ -57,7 +57,7 @@ module Prawn
       # how long a line of text can be.
       #
       def width
-        super / @columns - @spacer
+        super / @columns - @spacer - @total_left_padding - @total_right_padding
       end
 
       # Column width including the spacer.
@@ -89,6 +89,26 @@ module Prawn
         end
       end
 
+      # Override the padding functions so as not to split the padding amount
+      # between all columns on the page.
+
+      def add_left_padding(left_padding)
+        @total_left_padding += left_padding
+        @x += left_padding
+      end
+
+      def subtract_left_padding(left_padding)
+        @total_left_padding -= left_padding
+        @x -= left_padding
+      end
+
+      def add_right_padding(right_padding)
+        @total_right_padding += right_padding
+      end
+
+      def subtract_right_padding(right_padding)
+        @total_right_padding -= right_padding
+      end
     end
   end
 end

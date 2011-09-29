@@ -254,6 +254,29 @@ describe "Indentation" do
       @pdf.bounds.width.should == 200
     end
   end
+
+  describe "in a ColumnBox" do
+    it "should subtract the given indentation from the available width" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width,
+                      :height => 200, :columns => 2, :spacer => 20) do
+        width = @pdf.bounds.width
+        @pdf.indent(20) do
+          @pdf.bounds.width.should.be.close(width - 20, 0.01)
+        end
+      end
+    end
+
+    it "should subtract right padding from the available width" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width,
+                      :height => 200, :columns => 2, :spacer => 20) do
+        width = @pdf.bounds.width
+        @pdf.indent(20, 30) do
+          @pdf.bounds.width.should.be.close(width - 50, 0.01)
+        end
+      end
+    end
+
+  end
 end
 
 describe "A canvas" do
