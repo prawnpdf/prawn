@@ -108,7 +108,7 @@ module Prawn
     def run(page_number)
       if !@dynamic
         @document.stamp(@stamp_name) if match?(page_number)
-      elsif @block
+      elsif @block && match?(page_number)
         @document.save_graphics_state(@graphic_state) do
           @document.send(:freeze_stamp_graphics)
           @block.call
