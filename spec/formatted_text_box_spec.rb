@@ -7,6 +7,11 @@ describe "Text::Formatted::Box wrapping" do
     create_pdf
   end
 
+  it "should generate a formatted text box with text_box(:inline_format => true)" do
+    text_box = @pdf.text_box("<b>hello</b>", :inline_format => true)
+    text_box.should.be.a.kind_of(Prawn::Text::Formatted::Box)
+  end
+
   it "should not wrap between two fragments" do
     texts = [
       {:text => "Hello "},

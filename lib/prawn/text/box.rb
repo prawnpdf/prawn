@@ -105,7 +105,18 @@ module Prawn
     # any text
     #
     def text_box(string, options={})
-      Text::Box.new(string, options.merge(:document => self)).render
+      options = options.dup
+      options[:document] = self
+
+      box = if options.delete(:inline_format)
+              array = Text::Formatted::Parser.to_array(string)
+              Text::Formatted::Box.new(array, options)
+            else
+              Text::Box.new(string, options)
+            end
+
+      box.render
+      box
     end
 
     # Generally, one would use the Prawn::Text#text_box convenience
