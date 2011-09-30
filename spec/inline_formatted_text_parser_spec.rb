@@ -302,6 +302,11 @@ describe "Text::Formatted::Parser#to_array" do
                          :size => nil,
                          :character_spacing => nil }
   end
+
+  it "should turn <br>, <br/> into newline" do
+    array = Prawn::Text::Formatted::Parser.to_array("hello<br>big<br/>world")
+    array.map { |frag| frag[:text] }.join.should == "hello\nbig\nworld"
+  end
 end
 
 

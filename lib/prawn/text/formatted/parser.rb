@@ -30,7 +30,7 @@ module Prawn
                          "<a[^>]*>|</a>|" +
                          "[^<\n]+"
           regex = Regexp.new(regex_string, Regexp::MULTILINE)
-          tokens = string.scan(regex)
+          tokens = string.gsub(/<br\s*\/?>/, "\n").scan(regex)
           self.array_from_tokens(tokens)
         end
 
