@@ -451,7 +451,7 @@ module Prawn
           when :center
             @at[1] = @at[1] - (@height - height) * 0.5
           when :bottom
-            @at[1] = @at[1] - (@height - height)
+            @at[1] = @at[1] - (@height - height) + @descender
           end
           @height = height
         end
