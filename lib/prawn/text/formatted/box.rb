@@ -437,6 +437,13 @@ module Prawn
         end
 
         def process_vertical_alignment(text)
+          # The vertical alignment must only be done once per text box, but
+          # we need to wait until render() is called so that the fonts are set
+          # up properly for wrapping. So guard with a boolean to ensure this is
+          # only run once.
+          return if @vertical_alignment_processed
+          @vertical_alignment_processed = true
+
           return if @vertical_align == :top
           wrap(text)
 

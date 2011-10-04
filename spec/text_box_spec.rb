@@ -275,6 +275,23 @@ describe "Text::Box#render(:valign => :bottom)" do
   end
 end
 
+describe "Text::Box#render(:valign => :center)" do
+  it "#at should be the same from one dry run to the next" do
+    create_pdf
+    text = "this is center text " * 12
+    options = { :width => 162,
+                :valign => :center,
+                :document => @pdf }
+    text_box = Prawn::Text::Box.new(text, options)
+
+    text_box.render(:dry_run => true)
+    original_at = text_box.at.dup
+
+    text_box.render(:dry_run => true)
+    text_box.at.should == original_at
+  end
+end
+
 describe "Text::Box#render with :rotate option of 30)" do
   before(:each) do
     create_pdf
