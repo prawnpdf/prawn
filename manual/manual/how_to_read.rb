@@ -29,8 +29,6 @@ Prawn::Example.generate(filename) do
   The first body of text is the introductory text for the example. Generaly it is a short description of the feature or features illustrated by the example.
   
   Next comes the example source code in fixed width font. Most of the example snippets illustrate features that alter the page in place. The effect of these snippets is shown right below a dashed line.
-  
-  Some examples illustrate features that are not suitable to run inside this document so they are better left for you to run on your local machine.
   END_TEXT
 
 end
