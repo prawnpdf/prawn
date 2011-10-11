@@ -1,5 +1,4 @@
-# Version numbering: http://wiki.github.com/sandal/prawn/development-roadmap
-PRAWN_VERSION = "0.12.0"
+PRAWN_VERSION = "1.0.0.rc1"
 
 Gem::Specification.new do |spec|
   spec.name = "prawn"
@@ -15,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir[ "spec/*_spec.rb" ]
   spec.extra_rdoc_files = %w{README.md LICENSE COPYING GPLv2 GPLv3}
   spec.rdoc_options << '--title' << 'Prawn Documentation' <<
-                       '--main'  << 'README' << '-q'
+                       '--main'  << 'README.md' << '-q'
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
@@ -31,7 +30,7 @@ END_DESC
   ********************************************
 
 
-  A lot has changed since 0.8.4
+  A lot has changed recently in Prawn.
 
   Please read the changelog for details:
 
