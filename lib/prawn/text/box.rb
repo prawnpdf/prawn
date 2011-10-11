@@ -116,7 +116,6 @@ module Prawn
             end
 
       box.render
-      box
     end
 
     # Generally, one would use the Prawn::Text#text_box convenience
