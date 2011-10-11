@@ -166,7 +166,10 @@ module Prawn
         move_down 10
         begin
           eval example_source
-        rescue
+        rescue => e
+          puts "Error evaluating example: #{e.message}"
+          puts
+          puts "---- Source: ----"
           puts example_source
         end
       end
