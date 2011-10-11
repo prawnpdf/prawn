@@ -40,7 +40,8 @@ Prawn::Example.generate("text.pdf") do
       [ "M17n", [ "utf8",
                   "line_wrapping",
                   "right_to_left_text",
-                  "fallback_fonts"
+                  "fallback_fonts",
+                  "win_ansi_charset"
                 ]
       ]
     ]
