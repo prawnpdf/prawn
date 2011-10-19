@@ -176,7 +176,7 @@ module Prawn
     #   text([{ :text => "hello" },
     #         { :text => "world",
     #           :size => 24,
-    #           :style => [:bold, :italic] }])
+    #           :styles => [:bold, :italic] }])
     #
     # == Options
     #
@@ -314,7 +314,7 @@ module Prawn
     #   height_of_formatted([{ :text => "hello" },
     #                        { :text => "world",
     #                          :size => 24,
-    #                          :style => [:bold, :italic] }])
+    #                          :styles => [:bold, :italic] }])
     #
     def height_of_formatted(array, options={})
       if options[:indent_paragraphs]
