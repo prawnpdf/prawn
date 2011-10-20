@@ -29,6 +29,8 @@ Prawn::Example.generate(filename) do
   The first body of text is the introductory text for the example. Generaly it is a short description of the feature or features illustrated by the example.
   
   Next comes the example source code in fixed width font. Most of the example snippets illustrate features that alter the page in place. The effect of these snippets is shown right below a dashed line.
+
+  Note that the 'stroke_axis' method, used occasionally in the manual, is not part of standard Prawn and is used for demonstrative purposes. It is defined in manual/example_helper.rb.
   END_TEXT
 
 end
