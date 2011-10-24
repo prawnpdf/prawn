@@ -16,7 +16,14 @@ module Prawn
     if "".respond_to?(:encode)
       # Ruby 1.9+
       def utf8_to_utf16(str)
-        "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+        utf16 = "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+      end
+
+      # encodes any string into a hex representation. The result is a string
+      # with only 0-9 and a-f characters. That result is valid ASCII so tag
+      # it as such to account for behaviour of different ruby VMs
+      def string_to_hex(str)
+        str.unpack("H*").first.force_encoding("ascii")
       end
     else
       # Ruby 1.8
@@ -35,6 +42,10 @@ module Prawn
         end
 
         utf16
+      end
+
+      def string_to_hex(str)
+        str.unpack("H*").first
       end
     end
       
@@ -71,7 +82,7 @@ module Prawn
         "<" << obj.unpack("H*").first << ">"
       when String
         obj = utf8_to_utf16(obj) unless in_content_stream
-        "<" << obj.unpack("H*").first << ">"
+        "<" << string_to_hex(obj) << ">"
        when Symbol                                                         
          "/" + obj.to_s.unpack("C*").map { |n|
           if n < 33 || n > 126 || [35,40,41,47,60,62].include?(n)
