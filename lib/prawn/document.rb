@@ -136,6 +136,7 @@ module Prawn
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
     # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
+    # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     #
@@ -185,6 +186,7 @@ module Prawn
       min_version(state.store.min_version) if state.store.min_version
 
       @background = options[:background]
+      @background_scale = options[:background_scale] || 1
       @font_size  = 12
 
       @bounding_box  = nil
@@ -277,7 +279,7 @@ module Prawn
         state.insert_page(state.page, @page_number)
         @page_number += 1
 
-        canvas { image(@background, :at => bounds.top_left) } if @background
+        canvas { image(@background, :scale => @background_scale, :at => bounds.top_left) } if @background
         @y = @bounding_box.absolute_top
 
         float do
