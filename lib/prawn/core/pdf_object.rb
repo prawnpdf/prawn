@@ -68,7 +68,13 @@ module Prawn
       when NilClass   then "null" 
       when TrueClass  then "true"
       when FalseClass then "false"
-      when Numeric    then String(obj)
+      when Numeric
+        if (str = String(obj)) =~ /e/i
+          # scientific notation is not supported in PDF
+          sprintf("%.16f", obj).gsub(/\.?0+\z/, "")
+        else
+          str
+        end
       when Array
         "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
       when Prawn::Core::LiteralString

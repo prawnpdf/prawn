@@ -17,6 +17,8 @@ describe "PDF Object Serialization" do
   it "should convert a Ruby number to PDF number" do
     Prawn::Core::PdfObject(1).should == "1"
     Prawn::Core::PdfObject(1.214112421).should == "1.214112421" 
+    # scientific notation is not valid in PDF
+    Prawn::Core::PdfObject(0.000005).should == "0.000005"
   end
   
   it "should convert a Ruby time object to a PDF timestamp" do
