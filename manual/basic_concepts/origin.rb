@@ -2,13 +2,15 @@
 #
 # This is the most important concept you need to learn about Prawn:
 #
-# Pdf documents have the origin [0,0] at the bottom left corner of the page.
+# PDF documents have the origin [0,0] at the bottom-left corner of the page.
 #
-# A Bounding Box is a structure which provides boundaries for inserting content.
-# A Bounding Box also has the property of relocating the origin to its relative bottom
-# left corner.
+# A bounding box is a structure which provides boundaries for inserting content.
+# A bounding box also has the property of relocating the origin to its relative
+# bottom-left corner. However, be aware that the location specified when
+# creating a bounding box is its top-left corner, not bottom-left (hence the
+# <code>[100, 300]</code> coordinates below).
 #
-# Even if you never create a Bounding Box explictly, each document already comes
+# Even if you never create a bounding box explictly, each document already comes
 # with one called the margin box. This initial bounding box is the one
 # responsible for the document margins.
 #
