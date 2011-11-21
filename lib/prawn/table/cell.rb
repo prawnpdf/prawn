@@ -6,6 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require 'date'
 module Prawn
   class Document
 
