@@ -107,9 +107,9 @@ describe "#draw_text" do
         Prawn::Errors::IncompatibleStringEncoding)
     end
     it "should not raise an exception when a shift-jis string is rendered" do
-      datafile = "#{Prawn::BASEDIR}/data/shift_jis_text.txt"
+      datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
-      @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+      @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
       lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should.not.raise(
         Prawn::Errors::IncompatibleStringEncoding)
     end
@@ -121,7 +121,7 @@ describe "#draw_text" do
         Prawn::Errors::IncompatibleStringEncoding)
     end
     it "should raise an exception when a shift-jis string is rendered" do
-      sjis_str = File.read("#{Prawn::BASEDIR}/data/shift_jis_text.txt")
+      sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
       lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should.raise(
         Prawn::Errors::IncompatibleStringEncoding)
     end

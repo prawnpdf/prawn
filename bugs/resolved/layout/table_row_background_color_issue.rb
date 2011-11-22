@@ -13,7 +13,7 @@ require "prawn"
 require "prawn/layout"
 
 Prawn::Document.generate("table_with_background_color_problems.pdf") do 
-  font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+  font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
   table [["ὕαλον ϕαγεῖν",    "baaar",             "1" ],
          ["This is","a sample",          "2" ],
          ["Table",  "dont\ncha\nknow?",  "3" ],

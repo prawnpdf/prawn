@@ -74,7 +74,7 @@ describe "Text::Box" do
     @pdf.text_direction(:rtl)
     @pdf.text_direction = :rtl
     @pdf.text_direction = :rtl
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf", :size => 16) do
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf", :size => 16) do
       @pdf.text "写个小"
     end
     text = PDF::Inspector::Text.analyze(@pdf.render)
@@ -617,7 +617,7 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       :height => bounding_height,
       :document => @pdf
     }
-    file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+    file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
     @pdf.font_families["Action Man"] = {
       :normal      => { :file => file, :font => "ActionMan" },
       :italic      => { :file => file, :font => "ActionMan-Italic" },
@@ -800,7 +800,7 @@ describe "Text::Box with a solid block of Chinese characters" do
       :height => 162.0,
       :document => @pdf
     }
-    @pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    @pdf.font "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     @options[:overflow] = :truncate
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render

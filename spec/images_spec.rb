@@ -7,7 +7,7 @@ require 'pathname'
 describe "the image() function" do
 
   before(:each) do
-    @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
+    @filename = "#{Prawn::DATADIR}/images/pigs.jpg" 
     create_pdf
   end
 
@@ -44,17 +44,17 @@ describe "the image() function" do
   end
 
   it "should raise an UnsupportedImageType if passed a BMP" do
-    filename = "#{Prawn::BASEDIR}/data/images/tru256.bmp"
+    filename = "#{Prawn::DATADIR}/images/tru256.bmp"
     lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should raise an UnsupportedImageType if passed an interlaced PNG" do
-    filename = "#{Prawn::BASEDIR}/data/images/dice_interlaced.png"
+    filename = "#{Prawn::DATADIR}/images/dice_interlaced.png"
     lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should bump PDF version to 1.5 or greater on embedding 16-bit PNGs" do
-    @pdf.image "#{Prawn::BASEDIR}/data/images/16bit.png"
+    @pdf.image "#{Prawn::DATADIR}/images/16bit.png"
     @pdf.state.version.should >= 1.5
   end
 
@@ -63,7 +63,7 @@ describe "the image() function" do
   # or anything. OS X Preview handles those files just fine.
   #
   it "should embed 8-bit alpha channels for 16-bit PNGs" do
-    @pdf.image "#{Prawn::BASEDIR}/data/images/16bit.png"
+    @pdf.image "#{Prawn::DATADIR}/images/16bit.png"
 
     output = @pdf.render
     output.should =~ /\/BitsPerComponent 16/

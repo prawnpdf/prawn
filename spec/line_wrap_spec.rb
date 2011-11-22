@@ -51,7 +51,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
   end
 
   it "should break on zero-width space" do
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     array = [{ :text => "hello#{Prawn::Text::ZWSP}world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -61,7 +61,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
   end
 
   it "should not display zero-width space" do
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     array = [{ :text => "hello#{Prawn::Text::ZWSP}world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -116,7 +116,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     expected.force_encoding("utf-8") if "".respond_to?(:force_encoding)
     string.should == expected
 
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
     string = "hello#{Prawn::Text::SHY}world"
@@ -137,7 +137,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "helloworld"
 
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
     string = "hello#{Prawn::Text::SHY}world"
@@ -166,7 +166,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "hello"
 
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     enough_width_for_hello_world = 68
 
@@ -205,7 +205,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     expected.force_encoding("utf-8") if "".respond_to?(:force_encoding)
     string.should == expected
 
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
 
     string = "hello#{Prawn::Text::SHY}-"

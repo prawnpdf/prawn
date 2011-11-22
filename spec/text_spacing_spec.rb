@@ -42,7 +42,7 @@ describe "#character_spacing" do
   #
   it "should calculate character spacing widths by characters, not bytes" do
     create_pdf
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
 
     str = "こんにちは世界"
     @pdf.character_spacing(0) do

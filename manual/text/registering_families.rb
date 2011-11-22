@@ -15,7 +15,7 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   # Registering a single TTF font
   font_families.update("Chalkboard" => {
-    :normal => "#{Prawn::BASEDIR}/data/fonts/Chalkboard.ttf"
+    :normal => "#{Prawn::DATADIR}/fonts/Chalkboard.ttf"
   })
   
   font("Chalkboard") do
@@ -24,7 +24,7 @@ Prawn::Example.generate(filename) do
   move_down 20
   
   # Registering a DFONT package
-  font_path = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+  font_path = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
   font_families.update("Action Man" => {
     :normal      => { :file => font_path, :font => "ActionMan" },
     :italic      => { :file => font_path, :font => "ActionMan-Italic" },

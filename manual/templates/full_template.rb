@@ -11,7 +11,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-filename = "#{Prawn::BASEDIR}/data/pdfs/multipage_template.pdf"
+filename = "#{Prawn::DATADIR}/pdfs/multipage_template.pdf"
 
 Prawn::Example.generate("full_template.pdf", :template => filename) do
   go_to_page(page_count)
