@@ -154,10 +154,10 @@ module Prawn
     # Of course, if you use canvas, you will be responsible for ensuring that
     # you remain within the printable area of your document.
     #
-    def bounding_box(*args, &block)
+    def bounding_box(pt, *args, &block)
       init_bounding_box(block) do |parent_box|
-        map_to_absolute!(args[0])
-        @bounding_box = BoundingBox.new(self, parent_box, *args)
+        pt = map_to_absolute(pt)
+        @bounding_box = BoundingBox.new(self, parent_box, pt, *args)
       end
     end
 

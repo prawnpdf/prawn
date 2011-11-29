@@ -100,6 +100,15 @@ describe "drawing bounding boxes" do
 
   before(:each) { create_pdf }
 
+  it "should not stomp on the arguments to bounding_box" do
+    pdf = Prawn::Document.new
+    x = [100, 500]
+    pdf.bounding_box x, :width => 100 do
+      pdf.text "bork-bork-bork"
+    end
+    x.should == [100, 500]
+  end
+
   it "should restore the margin box when bounding box exits" do
     margin_box = @pdf.bounds
 
