@@ -72,11 +72,23 @@ module Prawn
         absolute_left + (width_of_column * @current_column)
       end
 
+      # Relative position of the left edge of the current column
+      #
+      def left
+        width_of_column * @current_column
+      end
+
       # x co-orordinate of the right edge of the current column
       #
       def right_side
         columns_from_right = @columns - (1 + @current_column)
         absolute_right - (width_of_column * columns_from_right)
+      end
+
+      # Relative position of the right edge of the current column.
+      #
+      def right
+        left + width
       end
 
       # Moves to the next column or starts a new page if currently positioned at
