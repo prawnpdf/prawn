@@ -57,7 +57,8 @@ module Prawn
       # how long a line of text can be.
       #
       def width
-        super / @columns - @spacer - @total_left_padding - @total_right_padding
+        (super - @spacer * (@columns - 1)) / @columns -
+          (@total_left_padding + @total_right_padding)
       end
 
       # Column width including the spacer.
