@@ -222,19 +222,19 @@ module Prawn
 
       # Upper right hand corner
       curve_to [x,  y + r2],
-        :bounds => [[x + r1, y + l1], [x + l2, y + r2]]
+        :bounds => [[x + r1, y + l2], [x + l1, y + r2]]
 
       # Upper left hand corner
       curve_to [x - r1, y],
-        :bounds => [[x - l2, y + r2], [x - r1, y + l1]]
+        :bounds => [[x - l1, y + r2], [x - r1, y + l2]]
 
       # Lower left hand corner
       curve_to [x, y - r2],
-        :bounds => [[x - r1, y - l1], [x - l2, y - r2]]
+        :bounds => [[x - r1, y - l2], [x - l1, y - r2]]
 
       # Lower right hand corner
       curve_to [x + r1, y],
-        :bounds => [[x + l2, y - r2], [x + r1, y - l1]]
+        :bounds => [[x + l1, y - r2], [x + r1, y - l2]]
 
       move_to(x, y)
     end
