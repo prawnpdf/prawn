@@ -9,11 +9,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+  file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
   font_families["Kai"] = {
     :normal => { :file => file, :font => "Kai" }
   }
-  file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+  file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
   font_families["Action Man"] = {
     :normal      => { :file => file, :font => "ActionMan" },
   }

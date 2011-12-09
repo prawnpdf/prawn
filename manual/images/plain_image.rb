@@ -14,5 +14,5 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   text "The image will go right below this line of text."
-  image "#{Prawn::BASEDIR}/data/images/pigs.jpg"
+  image "#{Prawn::DATADIR}/images/pigs.jpg"
 end

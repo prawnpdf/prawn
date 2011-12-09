@@ -143,11 +143,11 @@ module Prawn
   
       text(extract_introduction_text(data), :inline_format => true)
 
-      kai_file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+      kai_file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       font_families["Kai"] = {
         :normal => { :file => kai_file, :font => "Kai" }
       }
-      dejavu_file = "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+      dejavu_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
       font_families["DejaVu"] = {
         :normal => { :file => dejavu_file, :font => "DejaVu" }
       }

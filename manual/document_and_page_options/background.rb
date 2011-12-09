@@ -7,7 +7,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-img = "#{Prawn::BASEDIR}/data/images/letterhead.jpg"
+img = "#{Prawn::DATADIR}/images/letterhead.jpg"
 
 Prawn::Document.generate("background.pdf",
                          :background => img,

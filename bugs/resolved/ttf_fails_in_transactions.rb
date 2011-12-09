@@ -18,7 +18,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
 require 'prawn/core' 
 
 Prawn::Document.generate("err.pdf") do
-  font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+  font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
   text "Hi there"
   transaction { text "Nice, thank you" }
 end

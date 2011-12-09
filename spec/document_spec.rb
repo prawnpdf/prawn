@@ -89,7 +89,7 @@ describe "When beginning each new page" do
 
   describe "Background template feature" do
     before(:each) do
-      @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg"
+      @filename = "#{Prawn::DATADIR}/images/pigs.jpg"
       @pdf = Prawn::Document.new(:background => @filename)
     end
     it "should place a background image if it is in options block" do
@@ -235,7 +235,7 @@ describe "Document compression" do
     doc_uncompressed = Prawn::Document.new
     doc_compressed   = Prawn::Document.new(:compress => true)
     [doc_compressed, doc_uncompressed].each do |pdf|
-       pdf.font "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+       pdf.font "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
        pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
     end
 

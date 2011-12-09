@@ -32,10 +32,10 @@ module Prawn
     # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [width,height]
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
-    #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
+    #     pigs = "#{Prawn::DATADIR}/images/pigs.jpg" 
     #     image pigs, :at => [50,450], :width => 450                                      
     #
-    #     dice = "#{Prawn::BASEDIR}/data/images/dice.png"
+    #     dice = "#{Prawn::DATADIR}/images/dice.png"
     #     image dice, :at => [50, 450], :scale => 0.75 
     #   end   
     #
