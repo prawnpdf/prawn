@@ -9,7 +9,7 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   move_down 200
 
-  image "#{Prawn::BASEDIR}/data/images/prawn.png",
+  image "#{Prawn::DATADIR}/images/prawn.png",
         :scale => 0.9,
         :at => [10, cursor]
         

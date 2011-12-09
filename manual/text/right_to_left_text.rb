@@ -16,7 +16,7 @@ Prawn::Example.generate(filename) do
   # set the direction document-wide
   self.text_direction = :rtl
 
-  font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf", :size => 16) do
+  font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf", :size => 16) do
     long_text = "写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小"
     text long_text
     move_down 20

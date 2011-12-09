@@ -21,7 +21,7 @@ describe "Text::Formatted::Box wrapping" do
   it "should not raise Encoding::CompatibilityError when keeping a TTF and an " +
     "AFM font together" do
     ruby_19 do
-      file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+      file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       @pdf.font_families["Kai"] = {
         :normal => { :file => file, :font => "Kai" }
       }
@@ -121,7 +121,7 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
   "a Chinese font and set of Chinese glyphs not in the current font" do
   it "should change the font to the Chinese font for the Chinese glyphs" do
     create_pdf
-    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }
@@ -149,7 +149,7 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
   "an AFM font and Win-Ansi glyph not in the current Chinese font" do
   it "should change the font to the AFM font for the Win-Ansi glyph" do
     create_pdf
-    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }
@@ -178,7 +178,7 @@ describe "Text::Formatted::Box with :fallback_fonts option and fragment " +
   "level font" do
   it "should use the fragment level font except for glyphs not in that font" do
     create_pdf
-    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }
@@ -205,7 +205,7 @@ end
 describe "Text::Formatted::Box" do
   before(:each) do
     create_pdf
-    file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }

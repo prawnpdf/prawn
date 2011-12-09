@@ -9,7 +9,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "When reading a JPEG file" do
 
   before(:each) do
-    @filename = "#{Prawn::BASEDIR}/data/images/pigs.jpg"
+    @filename = "#{Prawn::DATADIR}/images/pigs.jpg"
     @img_data = File.open(@filename, "rb") { |f| f.read }
   end
    

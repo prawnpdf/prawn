@@ -16,10 +16,10 @@ Prawn::Example.generate(filename) do
     
     [:left, :center, :right].each do |position|
       text "Image aligned to the #{position}."
-      image "#{Prawn::BASEDIR}/data/images/stef.jpg", :position => position
+      image "#{Prawn::DATADIR}/images/stef.jpg", :position => position
     end
     
     text "The next image has a 50 point offset from the left boundary"
-    image "#{Prawn::BASEDIR}/data/images/stef.jpg", :position => 50
+    image "#{Prawn::DATADIR}/images/stef.jpg", :position => 50
   end
 end

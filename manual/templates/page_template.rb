@@ -22,7 +22,7 @@ Prawn::Example.generate(filename) do
   url = "https://github.com/sandal/prawn/raw/master/data/pdfs/form.pdf"
   formatted_text [{:text => url, :link => url}]
   
-  filename = "#{Prawn::BASEDIR}/data/pdfs/form.pdf"
+  filename = "#{Prawn::DATADIR}/pdfs/form.pdf"
   start_new_page(:template => filename)
   
   start_new_page(:template => filename, :template_page => 2)

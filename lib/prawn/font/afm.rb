@@ -28,7 +28,7 @@ module Prawn
             ".", "/usr/lib/afm",
             "/usr/local/lib/afm",
             "/usr/openwin/lib/fonts/afm/",
-             Prawn::BASEDIR+'/data/fonts/']
+             Prawn::DATADIR+'/fonts/']
         end
       end
 

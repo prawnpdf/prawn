@@ -35,7 +35,7 @@ describe "Prawn::ObjectStore" do
   end
 
   it "should import all objects from a PDF that has an indirect reference in a stream dict" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/indirect_reference.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/indirect_reference.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.size.should == 8
   end
@@ -47,13 +47,13 @@ describe "Prawn::ObjectStore" do
   end
 
   it "should raise Prawn::Errors::TemplateError when given a non PDF as a template" do
-    filename = "#{Prawn::BASEDIR}/data/images/dice.png"
+    filename = "#{Prawn::DATADIR}/images/dice.png"
 
     lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
   end
 
   it "should raise Prawn::Errors::TemplateError when given an encrypted PDF as a template" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/encrypted.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/encrypted.pdf"
 
     lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
   end
@@ -118,37 +118,37 @@ end
 
 describe "Prawn::ObjectStorie#object_id_for_page" do
   it "should return the object ID of an imported template page" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.object_id_for_page(0).should == 4
   end
 
   it "should return the object ID of the first imported template page" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/two_hexagons.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.object_id_for_page(1).should == 4
   end
 
   it "should return the object ID of the last imported template page" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/two_hexagons.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/two_hexagons.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.object_id_for_page(-1).should == 6
   end
 
   it "should return the object ID of the first page of a template that uses nested Pages" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/nested_pages.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/nested_pages.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.object_id_for_page(1).should == 5
   end
 
   it "should return the object ID of the last page of a template that uses nested Pages" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/nested_pages.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/nested_pages.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.object_id_for_page(-1).should == 8
   end
 
   it "should return nil if given an invalid page number" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
     store = Prawn::Core::ObjectStore.new(:template => filename)
     store.object_id_for_page(10).should == nil
   end

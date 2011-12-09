@@ -24,7 +24,7 @@ describe "#width_of" do
   it "should exclude newlines" do
     create_pdf
     # Use a TTF font that has a non-zero width for \n
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
 
     @pdf.width_of("\nhello world\n").should ==
       @pdf.width_of("hello world")
@@ -96,7 +96,7 @@ describe "font style support" do
   end
 
   it "should allow font familes to be defined in a single dfont" do
-    file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+    file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
     @pdf.font_families["Action Man"] = {
       :normal      => { :file => file, :font => "ActionMan" },
       :italic      => { :file => file, :font => "ActionMan-Italic" },
@@ -253,15 +253,15 @@ describe "#glyph_present" do
   end
 
   it "should return true when present in a TTF font" do
-    font = @pdf.find_font("#{Prawn::BASEDIR}/data/fonts/Activa.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
     font.glyph_present?("H").should.be true
   end
 
   it "should return false when absent in a TTF font" do
-    font = @pdf.find_font("#{Prawn::BASEDIR}/data/fonts/Activa.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
     font.glyph_present?("再").should.be false
 
-    font = @pdf.find_font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
     font.glyph_present?("€").should.be false
   end
 end
@@ -270,7 +270,7 @@ describe "TTF fonts" do
   
   setup do
     create_pdf
-    @activa = @pdf.find_font "#{Prawn::BASEDIR}/data/fonts/Activa.ttf"
+    @activa = @pdf.find_font "#{Prawn::DATADIR}/fonts/Activa.ttf"
   end
   
   it "should calculate string width taking into account accented characters" do
@@ -336,7 +336,7 @@ describe "TTF fonts" do
     it "should allow TTF fonts to be used alongside document transactions" do
       lambda {
         Prawn::Document.new do
-          font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+          font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
           text "Hi there"
           transaction { text "Nice, thank you" }
         end
@@ -346,7 +346,7 @@ describe "TTF fonts" do
     it "should allow TTF fonts to be used inside transactions" do
       pdf = Prawn::Document.new do
         transaction do
-          font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+          font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
           text "Hi there"
         end
       end
@@ -364,7 +364,7 @@ end
 describe "DFont fonts" do
   setup do
     create_pdf
-    @file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+    @file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
   end
 
   it "should list all named fonts" do
@@ -403,7 +403,7 @@ end
 describe "#character_count(text)" do
   it "should work on TTF fonts" do
     create_pdf
-    @pdf.font("#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf")
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
     @pdf.font.character_count("こんにちは世界").should == 7
     @pdf.font.character_count("Hello, world!").should == 13
   end

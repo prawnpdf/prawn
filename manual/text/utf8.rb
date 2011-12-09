@@ -21,7 +21,7 @@ Prawn::Example.generate(filename) do
   text "Let's try them with another font."
   move_down 20
   
-  font("#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf") do
+  font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do
     text "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει."
     text "There you go."
   end
