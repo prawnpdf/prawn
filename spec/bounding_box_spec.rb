@@ -285,6 +285,88 @@ describe "Indentation" do
       end
     end
 
+    it "should maintain the same left indentation across column breaks" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 3, :spacer => 15) do
+        3.times do |column|
+          x = @pdf.bounds.left_side
+          @pdf.indent(20) do
+            @pdf.bounds.left_side.should == x+20
+          end
+          @pdf.bounds.move_past_bottom
+        end
+      end
+    end
+
+    it "should not change the right margin if only left indentation is requested" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 3, :spacer => 15) do
+        3.times do |column|
+          x = @pdf.bounds.right_side
+          @pdf.indent(20) do
+            @pdf.bounds.right_side.should == x
+          end
+          @pdf.bounds.move_past_bottom
+        end
+      end
+    end
+
+    it "should maintain the same right indentation across columns" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 3, :spacer => 15) do
+        3.times do |column|
+          x = @pdf.bounds.right_side
+          @pdf.indent(20, 10) do
+            @pdf.bounds.right_side.should == x-10
+          end
+          @pdf.bounds.move_past_bottom
+        end
+      end
+    end
+
+    it "should keep the right indentation after nesting indents" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 3, :spacer => 15) do
+        3.times do |column|
+          # I am giving a right indent of 10...
+          @pdf.indent(20, 10) do
+            x = @pdf.bounds.right_side
+            # ...and no right indent here...
+            @pdf.indent(20) do
+              # right indent is inherited from the parent!
+              @pdf.bounds.right_side.should == x
+            end
+          end
+          @pdf.bounds.move_past_bottom
+        end
+      end
+    end
+
+    it "should revert the right indentation if negative indent is given in nested indent" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 3, :spacer => 15) do
+        3.times do |column|
+          x = @pdf.bounds.right_side
+          @pdf.indent(20, 10) do
+            # requesting a negative right-indent of equivalent size...
+            @pdf.indent(20, -10) do
+              # ...resets the right margin to that of the column!
+              @pdf.bounds.right_side.should == x
+            end
+          end
+          @pdf.bounds.move_past_bottom
+        end
+      end
+    end
+
+    it "should reduce the available column width by the sum of all nested indents" do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 3, :spacer => 15) do
+        3.times do |column|
+          w = @pdf.bounds.width
+          @pdf.indent(20, 10) do
+            @pdf.indent(20, 10) do
+              @pdf.bounds.width.should == w - 60
+            end
+          end
+          @pdf.bounds.move_past_bottom
+        end
+      end
+    end
   end
 end
 
