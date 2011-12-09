@@ -162,6 +162,29 @@ describe "When drawing an ellipse" do
     @pdf.ellipse [100,100], 25, 50
     @curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
   end
+  
+  it "should use a Bézier approximation" do
+    @curve.coords.should == 
+      [125.0, 100.0,
+
+       125.0, 127.614,
+       113.807, 150,
+       100.0, 150.0,
+       
+       86.193, 150.0,
+       75.0, 127.614,
+       75.0, 100.0,
+       
+       75.0, 72.386,
+       86.193, 50.0,
+       100.0, 50.0,
+       
+       113.807, 50.0,
+       125.0, 72.386,
+       125.0, 100.0,
+       
+       100.0, 100.0]
+  end
 
   it "should move the pointer to the center of the ellipse after drawing" do
     @curve.coords[-2..-1].should == [100,100]
