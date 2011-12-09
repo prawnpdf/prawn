@@ -5,8 +5,9 @@ Gem::Specification.new do |spec|
   spec.version = PRAWN_VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.files =  Dir.glob("{examples,lib,spec,data}/**/**/*") +
-    ["Rakefile", "prawn.gemspec", "COPYING", "LICENSE", "GPLv2", "GPLv3"]
+  spec.files =  Dir.glob("{examples,lib,spec,data,manual}/**/**/*") +
+    ["Rakefile", "prawn.gemspec", "COPYING", "LICENSE", "GPLv2", "GPLv3",
+     "Gemfile"]
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.8.7'
   spec.required_rubygems_version = ">= 1.3.6"
