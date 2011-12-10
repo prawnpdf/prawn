@@ -403,25 +403,26 @@ describe "Prawn::Table" do
         table.width.should == expected_width
       end
 
-      # TODO: pending colspan
-      xit "should calculate unspecified column widths even " +
+      it "should calculate unspecified column widths even " +
          "with colspan cells declared" do
         pdf = Prawn::Document.new
         hpad, fs = 3, 5
         columns  = 3
 
-        data = [ [ { :text => 'foo', :colspan => 2 }, "foobar" ],
+        data = [ [ { :content => 'foo', :colspan => 2 }, "foobar" ],
                  [ "foo", "foo", "foo" ] ]
         table = Prawn::Table.new( data, pdf,
-          :horizontal_padding => hpad,
-          :font_size => fs )
+          :cell_style => {
+            :padding_left => hpad, :padding_right => hpad,
+            :size => fs
+          })
 
         col0_width = pdf.width_of("foo",    :size => fs) # cell 1, 0
         col1_width = pdf.width_of("foo",    :size => fs) # cell 1, 1
         col2_width = pdf.width_of("foobar", :size => fs) # cell 0, 1 (at col 2)
 
-        table.width.should == col0_width.ceil + col1_width.ceil +
-                              col2_width.ceil + 2*columns*hpad
+        table.width.should == col0_width + col1_width +
+                              col2_width + 2*columns*hpad
       end
     end
 
