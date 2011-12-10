@@ -119,47 +119,25 @@ module Prawn
       # Returns the total width of all columns in the selected set.
       #
       def width
-        column_widths = {}
-        each do |cell| 
-          column_widths[cell.column] = 
-            [column_widths[cell.column], cell.width_ignoring_span].compact.max
-        end
-        column_widths.values.inject(0, &:+)
+        aggregate_cell_values(:column, :width_ignoring_span, :max)
       end
 
       # Returns minimum width required to contain cells in the set.
       #
       def min_width
-        column_min_widths = {}
-        each do |cell| 
-          column_min_widths[cell.column] = 
-            [column_min_widths[cell.column],
-             cell.min_width_ignoring_span].compact.max
-        end
-        column_min_widths.values.inject(0, &:+)
+        aggregate_cell_values(:column, :min_width_ignoring_span, :max)
       end
 
       # Returns maximum width that can contain cells in the set.
       #
       def max_width
-        column_max_widths = {}
-        each do |cell| 
-          column_max_widths[cell.column] = 
-            [column_max_widths[cell.column],
-             cell.max_width_ignoring_span].compact.min
-        end
-        column_max_widths.values.inject(0, &:+)
+        aggregate_cell_values(:column, :max_width_ignoring_span, :min)
       end
 
       # Returns the total height of all rows in the selected set.
       #
       def height
-        row_heights = {}
-        each do |cell| 
-          row_heights[cell.row] = 
-            [row_heights[cell.row], cell.height_ignoring_span].compact.max
-        end
-        row_heights.values.inject(0, &:+)
+        aggregate_cell_values(:row, :height_ignoring_span, :max)
       end
 
       # Supports setting arbitrary properties on a group of cells.
@@ -194,6 +172,19 @@ module Prawn
         @column_count = @columns.size
 
         @indexed = true
+      end
+
+      # Sum up a min/max value over rows or columns in the cells selected.
+      # Takes the min/max (per +aggregate+) of the result of sending +meth+ to
+      # each cell, grouped by +row_or_column+.
+      #
+      def aggregate_cell_values(row_or_column, meth, aggregate)
+        values = {}
+        each do |cell|
+          index = cell.send(row_or_column)
+          values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
+        end
+        values.values.inject(0, &:+)
       end
 
       # Transforms +spec+, a column / row specification, into an object that
