@@ -900,6 +900,12 @@ describe "colspan / rowspan" do
     t3.height.should == t1.height
   end
 
+  it "dummy cells ignored by #style" do
+    t = @pdf.table([[{:content => "blah", :colspan => 2}]],
+                   :cell_style => { :size => 9 })
+    t.cells[0, 0].size.should == 9
+  end
+
   it "splits natural width between cols in the group" do
     t = @pdf.table([[{:content => "foo", :colspan => 2}]])
     widths = t.column_widths
