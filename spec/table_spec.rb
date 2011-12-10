@@ -880,7 +880,7 @@ describe "colspan / rowspan" do
     w = @pdf.make_table([["foo"]]).cells[0, 0].content_width
     
     t = @pdf.make_table([[{:content => "foo", :colspan => 2}]])
-    t.cells[0, 0].content_width.should == w
+    t.cells[0, 0].spanned_content_width.should == w
   end
 
   it "dummy cells are not drawn" do
@@ -898,6 +898,12 @@ describe "colspan / rowspan" do
 
     t3 = @pdf.table([[{:content => "foo", :rowspan => 2}]])
     t3.height.should == t1.height
+  end
+
+  it "splits natural width between cols in the group" do
+    t = @pdf.table([[{:content => "foo", :colspan => 2}]])
+    widths = t.column_widths
+    widths[0].should == widths[1]
   end
 
   # TODO:

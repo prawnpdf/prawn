@@ -457,7 +457,21 @@ module Prawn
     # Returns an array of each column's natural (unconstrained) width.
     #
     def natural_column_widths
-      @natural_column_widths ||= (0...column_length).map { |c| column(c).width }
+      @natural_column_widths ||=
+        begin
+          widths_by_column = Hash.new(0)
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+
+            # Split the width of colspanned cells evenly by columns
+            width_per_column = cell.width.to_f / cell.colspan
+            cell.colspan.times do |i|
+              widths_by_column[cell.column + i] =
+                [widths_by_column[cell.column + i], width_per_column].max
+            end
+          end
+          widths_by_column.sort_by { |col, _| col }.map { |_, w| w }
+        end
     end
 
     # Returns the "natural" (unconstrained) width of the table. This may be
@@ -466,7 +480,7 @@ module Prawn
     # a mile long.
     #
     def natural_width
-      @natural_width ||= natural_column_widths.inject(0) { |sum, w| sum + w }
+      @natural_width ||= natural_column_widths.inject(0, &:+)
     end
 
     # Assigns the calculated column widths to each cell. This ensures that each

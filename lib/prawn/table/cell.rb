@@ -267,6 +267,12 @@ module Prawn
         natural_content_width
       end
 
+      # Width of the entire span group.
+      #
+      def spanned_content_width
+        width - padding_left - padding_right
+      end
+
       # Returns the width this cell would naturally take on, absent other
       # constraints. Must be implemented in subclasses.
       #
@@ -309,6 +315,12 @@ module Prawn
         end
         
         natural_content_height
+      end
+
+      # Height of the entire span group.
+      #
+      def spanned_content_height
+        height - padding_top - padding_bottom
       end
 
       # Returns the height this cell would naturally take on, absent
@@ -361,8 +373,8 @@ module Prawn
       def draw_bounded_content(pt)
         @pdf.float do
           @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
-                            :width  => content_width + FPTolerance,
-                            :height => content_height + FPTolerance) do
+                            :width  => spanned_content_width + FPTolerance,
+                            :height => spanned_content_height + FPTolerance) do
             draw_content
           end
         end
