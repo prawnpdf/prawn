@@ -877,10 +877,18 @@ describe "colspan / rowspan" do
     spanned.height.should == 200
   end
 
+  it "provides the full content_width as drawing space" do
+    w = @pdf.make_table([["foo"]]).cells[0, 0].content_width
+    
+    t = @pdf.make_table([[{:content => "foo", :colspan => 2}]])
+    t.cells[0, 0].content_width.should == w
+  end
+
   it "dummy cells are not drawn" do
     @pdf.expects(:stroke_line).never
     @pdf.expects(:draw_text!).never
-    @pdf.table([[Prawn::Table::Cell::SpanDummy.new(@pdf, nil)]])
+    cell = @pdf.make_cell("foo")
+    @pdf.table([[Prawn::Table::Cell::SpanDummy.new(@pdf, cell)]])
   end
 
   it "dummy cells do not add any height or width" do
