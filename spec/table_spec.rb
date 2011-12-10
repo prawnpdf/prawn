@@ -36,10 +36,9 @@ describe "Prawn::Table" do
       lambda { @pdf.table([["Header"]], :header => true) }.should.not.raise
     end
 
-    # TODO: pending colspan
-    xit "should accurately count columns from data" do
+    it "should accurately count columns from data" do
       # First data row may contain colspan which would hide true column count
-      data = [["Name:",{:text => "Some very long name", :colspan => 5}]]
+      data = [["Name:", {:content => "Some very long name", :colspan => 5}]]
       pdf = Prawn::Document.new
       table = Prawn::Table.new data, pdf
       table.column_widths.length.should == 6
