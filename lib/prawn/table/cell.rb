@@ -54,18 +54,50 @@ module Prawn
       #
       attr_reader :padding
 
-      # If provided, the minimum width that this cell will permit.
+      # If provided, the minimum width that this cell in its column will permit.
       # 
-      def min_width
+      def min_width_ignoring_span
         set_width_constraints
         @min_width
       end
-      
-      # If provided, the maximum width that this cell can be drawn in.
+
+      # Minimum width of the entire span group this cell controls.
       #
-      def max_width
+      def min_width
+        return min_width_ignoring_span if @colspan == 1
+
+        # Sum up the largest min-width from each column, including myself.
+        min_widths = Hash.new(0)
+        dummy_cells.each do |cell|
+          min_widths[cell.column] = 
+            [min_widths[cell.column], cell.min_width].max
+        end
+        min_widths[column] = [min_widths[column], min_width_ignoring_span].max
+        min_widths.values.inject(0, &:+)
+      end
+      
+      # If provided, the maximum width that this cell can be drawn in, within
+      # its column.
+      #
+      def max_width_ignoring_span
         set_width_constraints
         @max_width
+      end
+
+      # Maximum width of the entire span group this cell controls.
+      #
+      def max_width
+        return max_width_ignoring_span if @colspan == 1
+        
+        # Sum the smallest max-width from each column in the group, including
+        # myself.
+        max_widths = Hash.new(0)
+        dummy_cells.each do |cell|
+          max_widths[cell.column] =
+            [max_widths[cell.column], cell.max_width].min
+        end
+        max_widths[column] = [max_widths[column], max_width_ignoring_span].min
+        max_widths.values.inject(0, &:+)
       end
 
       # Manually specify the cell's height.
@@ -96,6 +128,20 @@ module Prawn
       # including any padding.
       #
       attr_accessor :background_color
+
+      # Number of columns this cell spans. Defaults to 1.
+      # 
+      attr_reader :colspan
+
+      # Number of rows this cell spans. Defaults to 1.
+      #
+      attr_reader :rowspan
+
+      # Array of SpanDummy cells (if any) that represent the other cells in
+      # this span group. They know their own width / height, but do not draw
+      # anything.
+      #
+      attr_reader :dummy_cells # :nodoc:
 
       # Instantiates a Cell based on the given options. The particular class of
       # cell returned depends on the :content argument. See the Prawn::Table
@@ -154,6 +200,9 @@ module Prawn
         @borders       = [:top, :bottom, :left, :right]
         @border_widths = [1] * 4
         @border_colors = ['000000'] * 4
+        @colspan = 1
+        @rowspan = 1
+        @dummy_cells = []
 
         options.each { |k, v| send("#{k}=", v) }
       end
@@ -175,12 +224,31 @@ module Prawn
         block.call(self) if block
       end
 
-      # Returns the cell's width in points, inclusive of padding.
+      # Returns the width of the cell in its first column alone, ignoring any
+      # colspans.
       #
-      def width
+      def width_ignoring_span
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_width.
         @width || (content_width + padding_left + padding_right)
+      end
+
+      # Returns the cell's width in points, inclusive of padding. If the cell is
+      # the master cell of a colspan, returns the width of the entire span
+      # group.
+      #
+      def width
+        return width_ignoring_span if @colspan == 1 && @rowspan == 1
+
+        # We're in a span group; get the maximum width per column (including
+        # the master cell) and sum each column.
+        column_widths = Hash.new(0)
+        dummy_cells.each do |cell|
+          column_widths[cell.column] = 
+            [column_widths[cell.column], cell.width].max
+        end
+        column_widths[column] = [column_widths[column], width_ignoring_span].max
+        column_widths.values.inject(0, &:+)
       end
 
       # Manually sets the cell's width, inclusive of padding.
@@ -207,12 +275,30 @@ module Prawn
           "subclasses must implement natural_content_width"
       end
 
-      # Returns the cell's height in points, inclusive of padding.
+      # Returns the cell's height in points, inclusive of padding, in its first
+      # row only.
       #
-      def height
+      def height_ignoring_span
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_height.
         @height || (content_height + padding_top + padding_bottom)
+      end
+
+      # Returns the cell's height in points, inclusive of padding. If the cell
+      # is the master cell of a rowspan, returns the width of the entire span
+      # group.
+      #
+      def height
+        return height_ignoring_span if @colspan == 1 && @rowspan == 1
+
+        # We're in a span group; get the maximum height per row (including the
+        # master cell) and sum each row.
+        row_heights = Hash.new(0)
+        dummy_cells.each do |cell|
+          row_heights[cell.row] = [row_heights[cell.row], cell.height].max
+        end
+        row_heights[row] = [row_heights[row], height_ignoring_span].max
+        row_heights.values.inject(0, &:+)
       end
 
       # Returns the height of the bare content in the cell, excluding padding.
@@ -231,6 +317,16 @@ module Prawn
       def natural_content_height
         raise NotImplementedError, 
           "subclasses must implement natural_content_height"
+      end
+
+      def colspan=(span)
+        @colspan = span
+        # TODO prevent this from being called in initializer block
+      end
+
+      def rowspan=(span)
+        @rowspan = span
+        # TODO prevent this from being called in initializer block
       end
 
       # Draws the cell onto the document. Pass in a point [x,y] to override the

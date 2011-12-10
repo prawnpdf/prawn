@@ -9,13 +9,6 @@
 module Prawn
   class Table
 
-    # Returns a Cells object that can be used to select and style cells. See
-    # the Cells documentation for things you can do with cells.
-    #
-    def cells
-      @cell_proxy ||= Cells.new(@cells)
-    end
-
     # Selects the given rows (0-based) for styling. Returns a Cells object --
     # see the documentation on Cells for things you can do with cells.
     #
@@ -95,6 +88,16 @@ module Prawn
         find { |c| c.row == row && c.column == col }
       end
 
+      # Puts a cell in the collection at the given position. Internal use only.
+      #
+      def []=(row, col, cell) # :nodoc:
+        cell.extend(Cell::InTable)
+        cell.row = row
+        cell.column = col
+
+        self << cell
+      end
+
       # Supports setting multiple properties at once.
       #
       #   table.cells.style(:padding => 0, :border_width => 2)
@@ -119,9 +122,9 @@ module Prawn
         column_widths = {}
         each do |cell| 
           column_widths[cell.column] = 
-            [column_widths[cell.column], cell.width].compact.max
+            [column_widths[cell.column], cell.width_ignoring_span].compact.max
         end
-        column_widths.values.inject(0) { |sum, width| sum + width }
+        column_widths.values.inject(0, &:+)
       end
 
       # Returns minimum width required to contain cells in the set.
@@ -130,9 +133,10 @@ module Prawn
         column_min_widths = {}
         each do |cell| 
           column_min_widths[cell.column] = 
-            [column_min_widths[cell.column], cell.min_width].compact.max
+            [column_min_widths[cell.column],
+             cell.min_width_ignoring_span].compact.max
         end
-        column_min_widths.values.inject(0) { |sum, width| sum + width }
+        column_min_widths.values.inject(0, &:+)
       end
 
       # Returns maximum width that can contain cells in the set.
@@ -141,9 +145,10 @@ module Prawn
         column_max_widths = {}
         each do |cell| 
           column_max_widths[cell.column] = 
-            [column_max_widths[cell.column], cell.max_width].compact.min
+            [column_max_widths[cell.column],
+             cell.max_width_ignoring_span].compact.min
         end
-        column_max_widths.values.inject(0) { |sum, width| sum + width }
+        column_max_widths.values.inject(0, &:+)
       end
 
       # Returns the total height of all rows in the selected set.
@@ -152,9 +157,9 @@ module Prawn
         row_heights = {}
         each do |cell| 
           row_heights[cell.row] = 
-            [row_heights[cell.row], cell.height].compact.max
+            [row_heights[cell.row], cell.height_ignoring_span].compact.max
         end
-        row_heights.values.inject(0) { |sum, width| sum + width }
+        row_heights.values.inject(0, &:+)
       end
 
       # Supports setting arbitrary properties on a group of cells.

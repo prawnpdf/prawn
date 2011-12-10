@@ -837,3 +837,66 @@ describe "Prawn::Table" do
 
 end
 
+describe "colspan / rowspan" do
+  before(:each) { create_pdf }
+  
+  it "doesn't raise an error" do
+    lambda {
+      @pdf.table([[{:content => "foo", :colspan => 2, :rowspan => 2}]])
+    }.should.not.raise
+  end
+
+  it "colspan is properly counted" do
+    t = @pdf.make_table([[{:content => "foo", :colspan => 2}]])
+    t.column_length.should == 2
+  end
+
+  it "rowspan is properly counted" do
+    t = @pdf.make_table([[{:content => "foo", :rowspan => 2}]])
+    t.row_length.should == 2
+  end
+
+  it "table and cell width account for colspan" do
+    t = @pdf.table([["a", {:content => "b", :colspan => 2}]],
+                   :column_widths => [100, 100, 100])
+    spanned = t.cells[0, 1]
+    spanned.colspan.should == 2
+    t.width.should == 300
+    t.cells.min_width.should == 300
+    t.cells.max_width.should == 300
+    spanned.width.should == 200
+  end
+
+  it "table and cell height account for rowspan" do
+    t = @pdf.table([["a"], [{:content => "b", :rowspan => 2}]]) do
+      row(0..2).height = 100
+    end
+    spanned = t.cells[1, 0]
+    spanned.rowspan.should == 2
+    t.height.should == 300
+    spanned.height.should == 200
+  end
+
+  it "dummy cells are not drawn" do
+    @pdf.expects(:stroke_line).never
+    @pdf.expects(:draw_text!).never
+    @pdf.table([[Prawn::Table::Cell::SpanDummy.new(@pdf, nil)]])
+  end
+
+  it "dummy cells do not add any height or width" do
+    t1 = @pdf.table([["foo"]])
+
+    t2 = @pdf.table([[{:content => "foo", :colspan => 2}]])
+    t2.width.should == t1.width
+
+    t3 = @pdf.table([[{:content => "foo", :rowspan => 2}]])
+    t3.height.should == t1.height
+  end
+
+  # TODO:
+  # - properly number cells below / to the right of a span
+  # - ensure that the natural_content_width stuff on SpanDummy doesn't end up
+  #   making width calculations funky
+  # - ack for TODO comments
+end
+

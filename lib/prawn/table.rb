@@ -12,6 +12,7 @@ require 'prawn/table/cell/in_table'
 require 'prawn/table/cell/text'
 require 'prawn/table/cell/subtable'
 require 'prawn/table/cell/image'
+require 'prawn/table/cell/span_dummy'
 
 module Prawn
 
@@ -154,6 +155,11 @@ module Prawn
     # points from the left edge) of the table within its parent bounds.
     #
     attr_writer :position
+
+    # Returns a Prawn::Table::Cells object representing all of the cells in
+    # this table.
+    #
+    attr_reader :cells
 
     # Returns the width of the table in PDF points.
     #
@@ -375,20 +381,47 @@ module Prawn
     def make_cells(data)
       assert_proper_table_data(data)
 
-      cells = []
+      cells = Cells.new
       
-      @row_length = data.length
-      @column_length = data.map{ |r| r.length }.max
-
-      data.each_with_index do |row_cells, row_number|
-        row_cells.each_with_index do |cell_data, column_number|
+      row_number = 0
+      data.each do |row_cells|
+        column_number = 0
+        row_cells.each do |cell_data|
+          # Build the cell and store it in the Cells collection.
           cell = Cell.make(@pdf, cell_data)
-          cell.extend(Cell::InTable)
-          cell.row = row_number
-          cell.column = column_number
-          cells << cell
+          cells[row_number, column_number] = cell
+
+          # Add dummy cells for the rest of the cells in the span group. This
+          # allows Prawn to keep track of the horizontal and vertical space
+          # occupied in each column and row spanned by this cell, while still
+          # leaving the master (top left) cell in the group responsible for
+          # drawing. Dummy cells do not put ink on the page.
+          cell.rowspan.times do |i|
+            cell.colspan.times do |j|
+              next if i == 0 && j == 0
+              dummy = Cell::SpanDummy.new(@pdf, cell)
+              cells[row_number + i, column_number + j] = dummy
+              cell.dummy_cells << dummy
+            end
+          end
+
+          column_number += 1
         end
+
+        row_number += 1
       end
+
+      # Calculate the number of rows and columns in the table, taking into
+      # account that some cells may span past the end of the physical cells we
+      # have.
+      @row_length = cells.map do |cell|
+        cell.row + cell.rowspan
+      end.max
+
+      @column_length = cells.map do |cell|
+        cell.column + cell.colspan
+      end.max
+
       cells
     end
 
