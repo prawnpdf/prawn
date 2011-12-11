@@ -866,6 +866,13 @@ describe "colspan / rowspan" do
     }.should.raise(Prawn::Errors::InvalidTableSpan)
   end
 
+  it "raises when spans overlap" do
+    lambda {
+      @pdf.table([["foo", {:content => "bar", :rowspan => 2}],
+                  [{:content => "baz", :colspan => 2}]])
+    }.should.raise(Prawn::Errors::InvalidTableSpan)
+  end
+
   it "table and cell width account for colspan" do
     t = @pdf.table([["a", {:content => "b", :colspan => 2}]],
                    :column_widths => [100, 100, 100])

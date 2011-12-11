@@ -417,6 +417,14 @@ module Prawn
           cell.rowspan.times do |i|
             cell.colspan.times do |j|
               next if i == 0 && j == 0
+
+              # It is an error to specify spans that overlap; catch this here
+              if bad_cell = cells[row_number + i, column_number + j]
+                raise Prawn::Errors::InvalidTableSpan,
+                  "Spans overlap at row #{row_number + i}, " +
+                  "column #{column_number + j}."
+              end
+
               dummy = Cell::SpanDummy.new(@pdf, cell)
               cells[row_number + i, column_number + j] = dummy
               cell.dummy_cells << dummy
