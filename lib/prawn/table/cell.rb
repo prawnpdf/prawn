@@ -205,6 +205,8 @@ module Prawn
         @dummy_cells = []
 
         options.each { |k, v| send("#{k}=", v) }
+
+        @initializer_run = true
       end
 
       # Supports setting multiple properties at once.
@@ -331,14 +333,47 @@ module Prawn
           "subclasses must implement natural_content_height"
       end
 
+      # Indicates the number of columns that this cell is to span. Defaults to
+      # 1.
+      #
+      # This must be provided as part of the table data, like so:
+      #
+      #   pdf.table([["foo", {:content => "bar", :colspan => 2}]])
+      #
+      # Setting colspan from the initializer block is invalid because layout
+      # has already run. For example, this will NOT work:
+      #
+      #   pdf.table([["foo", "bar"]]) { cells[0, 1].colspan = 2 }
+      #
       def colspan=(span)
+        if @initializer_run
+          raise Prawn::Errors::InvalidTableSpan,
+            "colspan must be provided in the table's structure, never in the " +
+            "initialization block. See Prawn's documentation for details."
+        end
+
         @colspan = span
-        # TODO prevent this from being called in initializer block
       end
 
+      # Indicates the number of rows that this cell is to span. Defaults to 1.
+      #
+      # This must be provided as part of the table data, like so:
+      #
+      #   pdf.table([["foo", {:content => "bar", :rowspan => 2}], ["baz"]])
+      #
+      # Setting rowspan from the initializer block is invalid because layout
+      # has already run. For example, this will NOT work:
+      #
+      #   pdf.table([["foo", "bar"], ["baz"]]) { cells[0, 1].rowspan = 2 }
+      #
       def rowspan=(span)
+        if @initializer_run
+          raise Prawn::Errors::InvalidTableSpan,
+            "rowspan must be provided in the table's structure, never in the " +
+            "initialization block. See Prawn's documentation for details."
+        end
+
         @rowspan = span
-        # TODO prevent this from being called in initializer block
       end
 
       # Draws the cell onto the document. Pass in a point [x,y] to override the

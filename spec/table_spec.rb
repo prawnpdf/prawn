@@ -856,6 +856,16 @@ describe "colspan / rowspan" do
     t.row_length.should == 2
   end
 
+  it "raises if colspan or rowspan are called after layout" do
+    lambda {
+      @pdf.table([["foo"]]) { cells[0, 0].colspan = 2 }
+    }.should.raise(Prawn::Errors::InvalidTableSpan)
+
+    lambda {
+      @pdf.table([["foo"]]) { cells[0, 0].rowspan = 2 }
+    }.should.raise(Prawn::Errors::InvalidTableSpan)
+  end
+
   it "table and cell width account for colspan" do
     t = @pdf.table([["a", {:content => "b", :colspan => 2}]],
                    :column_widths => [100, 100, 100])
@@ -948,10 +958,5 @@ describe "colspan / rowspan" do
     t.cells[2, 2].content.should == "h"
     t.cells[2, 3].content.should == "i"
   end
-
-  # TODO:
-  # - ensure that the natural_content_width stuff on SpanDummy doesn't end up
-  #   making width calculations funky
-  # - ack for TODO comments
 end
 
