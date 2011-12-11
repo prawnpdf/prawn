@@ -128,7 +128,7 @@ module Prawn
       # Returns minimum width required to contain cells in the set.
       #
       def min_width
-        aggregate_cell_values(:column, :min_width_ignoring_span, :max)
+        aggregate_cell_values(:column, :avg_spanned_min_width, :max)
       end
 
       # Returns maximum width that can contain cells in the set.

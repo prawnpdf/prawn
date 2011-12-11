@@ -31,6 +31,10 @@ module Prawn
           0
         end
 
+        def avg_spanned_min_width
+          @master_cell.avg_spanned_min_width
+        end
+
         # Dummy cells have nothing to draw.
         #
         def draw_borders(pt)

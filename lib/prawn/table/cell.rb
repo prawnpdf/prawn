@@ -75,6 +75,12 @@ module Prawn
         min_widths[column] = [min_widths[column], min_width_ignoring_span].max
         min_widths.values.inject(0, &:+)
       end
+
+      # Min-width of the span divided by the number of columns.
+      #
+      def avg_spanned_min_width
+        min_width.to_f / colspan
+      end
       
       # If provided, the maximum width that this cell can be drawn in, within
       # its column.

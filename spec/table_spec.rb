@@ -939,6 +939,31 @@ describe "colspan / rowspan" do
     widths[0].should == widths[1]
   end
 
+  it "splits natural width between cols when width is increased" do
+    t = @pdf.table([[{:content => "foo", :colspan => 2}]],
+                   :width => @pdf.bounds.width)
+    widths = t.column_widths
+    widths[0].should == widths[1]
+  end
+
+  it "splits min-width between cols in the group" do
+    # Since column_widths, when reducing column widths, reduces proportional to
+    # the remaining width after each column's min width, we must ensure that the
+    # min-width is split proportionally in order to ensure the width is still
+    # split evenly when the width is reduced. (See "splits natural width between
+    # cols when width is reduced".)
+    t = @pdf.table([[{:content => "foo", :colspan => 2}]],
+                   :width => 20)
+    t.column(0).min_width.should == t.column(1).min_width
+  end
+
+  it "splits natural width between cols when width is reduced" do
+    t = @pdf.table([[{:content => "foo", :colspan => 2}]],
+                   :width => 20)
+    widths = t.column_widths
+    widths[0].should == widths[1]
+  end
+
   it "splits natural_content_height between rows in the group" do
     t = @pdf.table([[{:content => "foo", :rowspan => 2}]])
     heights = t.row_heights

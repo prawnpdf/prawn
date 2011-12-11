@@ -349,7 +349,7 @@ module Prawn
           f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
 
           (0...column_length).map do |c|
-            min, nat = column(c).min_width, column(c).width
+            min, nat = column(c).min_width, natural_column_widths[c]
             (f * (nat - min)) + min
           end
         elsif width - natural_width > epsilon
@@ -357,7 +357,7 @@ module Prawn
           f = (width - cells.width).to_f / (cells.max_width - cells.width)
 
           (0...column_length).map do |c|
-            nat, max = column(c).width, column(c).max_width
+            nat, max = natural_column_widths[c], column(c).max_width
             (f * (max - nat)) + nat
           end
         else
