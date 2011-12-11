@@ -908,10 +908,13 @@ describe "colspan / rowspan" do
   end
 
   it "dummy cells are not drawn" do
+    # make a fake master cell for the dummy cell to slave to
+    t = @pdf.make_table([[{:content => "foo", :colspan => 2}]])
+
+    # drawing just a dummy cell should not ink
     @pdf.expects(:stroke_line).never
     @pdf.expects(:draw_text!).never
-    cell = @pdf.make_cell("foo")
-    @pdf.table([[Prawn::Table::Cell::SpanDummy.new(@pdf, cell)]])
+    Prawn::Table::Cell.draw_cells([t.cells[0, 1]])
   end
 
   it "dummy cells do not add any height or width" do
