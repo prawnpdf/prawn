@@ -913,6 +913,12 @@ describe "colspan / rowspan" do
     widths[0].should == widths[1]
   end
 
+  it "splits natural_content_height between rows in the group" do
+    t = @pdf.table([[{:content => "foo", :rowspan => 2}]])
+    heights = t.row_heights
+    heights[0].should == heights[1]
+  end
+
   # TODO:
   # - properly number cells below / to the right of a span
   # - ensure that the natural_content_width stuff on SpanDummy doesn't end up

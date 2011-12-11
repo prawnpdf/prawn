@@ -369,7 +369,21 @@ module Prawn
     # Returns an array with the height of each row.
     #
     def row_heights
-      @natural_row_heights ||= (0...row_length).map{ |r| row(r).height }
+      @natural_row_heights ||=
+        begin
+          heights_by_row = Hash.new(0)
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+
+            # Split the height of row-spanned cells evenly by rows
+            height_per_row = cell.height.to_f / cell.rowspan
+            cell.rowspan.times do |i|
+              heights_by_row[cell.row + i] =
+                [heights_by_row[cell.row + i], height_per_row].max
+            end
+          end
+          heights_by_row.sort_by { |row, _| row }.map { |_, h| h }
+        end
     end
 
     protected
