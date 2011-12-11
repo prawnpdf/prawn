@@ -401,6 +401,10 @@ module Prawn
       data.each do |row_cells|
         column_number = 0
         row_cells.each do |cell_data|
+          # If we landed on a spanned cell (from a rowspan above), continue
+          # until we find an empty spot.
+          column_number += 1 until cells[row_number, column_number].nil?
+
           # Build the cell and store it in the Cells collection.
           cell = Cell.make(@pdf, cell_data)
           cells[row_number, column_number] = cell
@@ -419,7 +423,7 @@ module Prawn
             end
           end
 
-          column_number += 1
+          column_number += cell.colspan
         end
 
         row_number += 1

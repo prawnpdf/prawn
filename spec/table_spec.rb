@@ -919,8 +919,37 @@ describe "colspan / rowspan" do
     heights[0].should == heights[1]
   end
 
+  it "skips column numbers that have been col-spanned" do
+    t = @pdf.table([["a", "b", {:content => "c", :colspan => 3}, "d"]])
+    t.cells[0, 0].content.should == "a"
+    t.cells[0, 1].content.should == "b"
+    t.cells[0, 2].content.should == "c"
+    t.cells[0, 3].should.be.kind_of(Prawn::Table::Cell::SpanDummy)
+    t.cells[0, 4].should.be.kind_of(Prawn::Table::Cell::SpanDummy)
+    t.cells[0, 5].content.should == "d"
+  end
+
+  it "skips row/col positions that have been row-spanned" do
+    t = @pdf.table([["a", {:content => "b", :colspan => 2, :rowspan => 2}, "c"],
+                    ["d",                                                  "e"],
+                    ["f",               "g",              "h",             "i"]])
+    t.cells[0, 0].content.should == "a"
+    t.cells[0, 1].content.should == "b"
+    t.cells[0, 2].should.be.kind_of(Prawn::Table::Cell::SpanDummy)
+    t.cells[0, 3].content.should == "c"
+
+    t.cells[1, 0].content.should == "d"
+    t.cells[1, 1].should.be.kind_of(Prawn::Table::Cell::SpanDummy)
+    t.cells[1, 2].should.be.kind_of(Prawn::Table::Cell::SpanDummy)
+    t.cells[1, 3].content.should == "e"
+
+    t.cells[2, 0].content.should == "f"
+    t.cells[2, 1].content.should == "g"
+    t.cells[2, 2].content.should == "h"
+    t.cells[2, 3].content.should == "i"
+  end
+
   # TODO:
-  # - properly number cells below / to the right of a span
   # - ensure that the natural_content_width stuff on SpanDummy doesn't end up
   #   making width calculations funky
   # - ack for TODO comments
