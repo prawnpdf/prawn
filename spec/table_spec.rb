@@ -159,6 +159,12 @@ describe "Prawn::Table" do
       @table.cells[1, 0].height.should == 100
     end
 
+    it "should ignore non-setter methods" do
+      lambda {
+        @table.cells.content_width
+      }.should.raise(NoMethodError)
+    end
+
     it "should accept the style method, proxying its calls to the cells" do
       @table.cells.style(:height => 200, :width => 200)
       @table.column(0).style(:width => 100)
