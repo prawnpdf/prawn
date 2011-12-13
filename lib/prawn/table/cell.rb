@@ -390,7 +390,7 @@ module Prawn
       # content are all drawn in correct order so as not to overlap.
       #
       def draw(pt=[x, y])
-        self.class.draw_cells([[self, pt]])
+        Prawn::Table::Cell.draw_cells([[self, pt]])
       end
 
       # Given an array of pairs [cell, pt], draws each cell at its

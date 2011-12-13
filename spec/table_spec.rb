@@ -643,6 +643,35 @@ describe "Prawn::Table" do
         %w[333333 cccccc ffffff cccccc]
     end
 
+    it "stripes rows consistently from page to page, skipping header rows" do
+      data = [["header"]] + [["foo"]] * 70
+      pdf = Prawn::Document.new
+      t = pdf.make_table(data, :header => true,
+          :row_colors => ['cccccc', 'ffffff']) do
+        cells.padding = 0
+        cells.size = 9
+        row(0).size = 11
+      end
+
+      # page 1: header + 67 cells (odd number -- verifies that the next
+      # page disrupts the even/odd coloring, since both the last data cell
+      # on this page and the first one on the next are colored cccccc)
+      Prawn::Table::Cell.expects(:draw_cells).with do |cells|
+        cells.map { |c, (x, y)| c.background_color } ==
+          [nil] + (%w[cccccc ffffff] * 33) + %w[cccccc]
+      end
+      # page 2: header 
+      Prawn::Table::Cell.expects(:draw_cells).with do |cells|
+        cells.map { |c, (x, y)| c.background_color } == [nil]
+      end
+      # page 2: 3 data cells
+      Prawn::Table::Cell.expects(:draw_cells).with do |cells|
+        cells.map { |c, (x, y)| c.background_color } ==
+          %w[cccccc ffffff cccccc]
+      end
+      t.draw
+    end
+
     it "should not override an explicit background_color" do
       data = [["foo"], ["bar"], ["baz"]]
       pdf = Prawn::Document.new
