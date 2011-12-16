@@ -49,6 +49,9 @@ module Prawn
       #     created to that destination. Note that you must explicitly underline
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
+      # <tt>:draw_text_callback</tt>:
+      #     if provided, this Proc will be called instead of #draw_text! once
+      #     per fragment for every low-level addition of text to the page.
       # <tt>:callback</tt>::
       #     an object (or array of such objects) with two methods:
       #     #render_behind and #render_in_front, which are called immediately
@@ -101,7 +104,8 @@ module Prawn
                                               :skip_encoding,
                                               :document,
                                               :direction,
-                                              :fallback_fonts]
+                                              :fallback_fonts,
+                                              :draw_text_callback]
         end
 
         # The text that was successfully printed (or, if <tt>dry_run</tt> was
@@ -205,6 +209,7 @@ module Prawn
           @rotate_around     = options[:rotate_around] || :upper_left
           @single_line       = options[:single_line]
           @skip_encoding     = options[:skip_encoding] || @document.skip_encoding
+          @draw_text_callback = options[:draw_text_callback]
 
           if @overflow == :expand
             # if set to expand, then we simply set the bottom
@@ -310,8 +315,13 @@ module Prawn
             draw_fragment_underlays(fragment)
 
             @document.word_spacing(word_spacing) {
-              @document.draw_text!(fragment.text, :at => [x, y],
-                                   :kerning => @kerning)
+              if @draw_text_callback
+                @draw_text_callback.call(fragment.text, :at => [x, y],
+                                         :kerning => @kerning)
+              else
+                @document.draw_text!(fragment.text, :at => [x, y],
+                                     :kerning => @kerning)
+              end
             }
 
             draw_fragment_overlays(fragment)
