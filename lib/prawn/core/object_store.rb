@@ -141,13 +141,26 @@ module Prawn
       # Imports nothing and returns nil if the requested page number doesn't
       # exist. page_num is 1 indexed, so 1 indicates the first page.
       #
-      def import_page(filename, page_num)
+      def import_page(input, page_num)
         @loaded_objects = {}
-        unless File.file?(filename)
-          raise ArgumentError, "#{filename} does not exist"
+        
+        io = if input.respond_to?(:seek) && input.respond_to?(:read)
+          input
+        elsif File.file?(input.to_s)
+          if File.respond_to?(:binread)
+            StringIO.new(File.binread(input.to_s))
+          else
+            StringIO.new(File.read(input.to_s))
+          end
+        else
+          raise ArgumentError, "input must be an IO-like object or a filename"
         end
 
-        hash = PDF::Reader::ObjectHash.new(filename)
+        # unless File.file?(filename)
+        #   raise ArgumentError, "#{filename} does not exist"
+        # end
+
+        hash = PDF::Reader::ObjectHash.new(io)
         ref  = hash.page_references[page_num - 1]
 
         ref.nil? ? nil : load_object_graph(hash, ref).identifier
