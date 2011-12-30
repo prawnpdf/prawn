@@ -165,6 +165,14 @@ describe "Prawn::Table" do
       }.should.raise(NoMethodError)
     end
 
+    it "skips cells that don't respond to the given method" do
+      table = @pdf.make_table([[{:content => "R0", :colspan => 2}],
+                               %w[R1C0 R1C1]])
+      lambda {
+        table.row(0).font_style = :bold
+      }.should.not.raise
+    end
+
     it "should accept the style method, proxying its calls to the cells" do
       @table.cells.style(:height => 200, :width => 200)
       @table.column(0).style(:width => 100)

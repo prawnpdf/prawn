@@ -149,7 +149,7 @@ module Prawn
       #
       def method_missing(id, *args, &block)
         if id.to_s =~ /=\z/
-          each { |c| c.send(id, *args, &block) }
+          each { |c| c.send(id, *args, &block) if c.respond_to?(id) }
         else
           super
         end
