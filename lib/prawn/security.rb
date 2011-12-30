@@ -239,6 +239,8 @@ module Prawn
       when NameTree::Value
         PdfObject(obj.name) + " " +
           EncryptedPdfObject(obj.value, key, id, gen, in_content_stream)
+      when Prawn::OutlineRoot, Prawn::OutlineItem
+        EncryptedPdfObject(obj.to_hash, key, id, gen, in_content_stream)
       else # delegate back to PdfObject
         PdfObject(obj, in_content_stream)
       end
