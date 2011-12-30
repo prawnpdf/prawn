@@ -161,6 +161,16 @@ describe "Document built from a template" do
     str = @pdf.render
     str[0,4].should == "%PDF"
   end
+  
+  context "with the template as a stream" do
+    it "should correctly import a template file from a stream" do
+      filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
+      io = StringIO.new(File.read(filename))      
+      @pdf = Prawn::Document.new(:template => io)
+      str = @pdf.render
+      str[0,4].should == "%PDF"      
+    end
+  end
 
 end
 
@@ -282,6 +292,19 @@ describe "Document#start_new_page with :template option" do
     resources = template_page[:Resources]
     fonts = resources[:Font]
     fonts.size.should == 2
+  end
+  
+  context "with the template as a stream" do
+    it "should correctly import a template file from a stream" do
+      filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
+      io = StringIO.new(File.read(filename))
+      
+      @pdf = Prawn::Document.new()
+      @pdf.start_new_page(:template => io)
+      
+      str = @pdf.render
+      str[0,4].should == "%PDF"      
+    end
   end
   
   context "using template_page option" do
