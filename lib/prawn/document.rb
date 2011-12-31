@@ -511,20 +511,18 @@ module Prawn
     # the current page or column.
     #
     def group(second_attempt=false)
-      old_bounding_box = @bounding_box
-      @bounding_box = SimpleDelegator.new(@bounding_box)
-
-      def @bounding_box.move_past_bottom
-        raise RollbackTransaction
+      old_page_num = page_number
+      
+      success = transaction do
+        yield
+        if(y < bounds.absolute_bottom || old_page_num != page_number)
+          raise RollbackTransaction
+        end
       end
-
-      success = transaction { yield }
-
-      @bounding_box = old_bounding_box
-
+      
       unless success
         raise Prawn::Errors::CannotGroup if second_attempt
-        old_bounding_box.move_past_bottom
+        @bounding_box.move_past_bottom   
         group(second_attempt=true) { yield }
       end
 

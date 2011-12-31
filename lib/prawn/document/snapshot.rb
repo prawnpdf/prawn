@@ -54,13 +54,19 @@ module Prawn
          :bounds          => bounds.deep_copy,
          :page_number     => page_number,
          :page_kids       => state.store.pages.data[:Kids].map{|kid| kid.identifier},
-         :dests           => names? && names.data[:Dests].deep_copy}
+         :dests           => names? && names.data[:Dests].deep_copy,
+         :page_count      => state.page_count
+       }
       end
 
       # Rolls the page state back to the state of the given snapshot.
       #
       def restore_snapshot(shot)
         page = state.page
+        
+    		old_page_count = shot[:page_count]
+    		state.pages = state.pages.first(old_page_count)
+        
         # Because these objects are referenced by identifier from the Pages
         # dictionary, we can't just restore them over the current refs in
         # page_content and current_page. We have to restore them over the old
