@@ -663,6 +663,7 @@ module Prawn
         else
           raise ArgumentError, "border_line must be a string " +
             "or an array [v,h] or [t,r,b,l]"
+        end
       end
       alias_method :border_lines=, :border_line=
 
