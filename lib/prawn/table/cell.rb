@@ -652,7 +652,7 @@ module Prawn
         @border_lines = case
         when line.nil?
           [] * 4
-        when Numeric == line # all lines
+        when line.length == 1 # all lines
           [line, line, line, line]
         when line.length == 2
           [line[0], line[1], line[0], line[1]]
@@ -723,7 +723,7 @@ module Prawn
             idx = {:top => 0, :right => 1, :bottom => 2, :left => 3}[border]
             border_color = @border_colors[idx]
             border_width = @border_widths[idx]
-            border_line  = @border_lines[ids]
+            border_line  = @border_lines[idx]
 
             next if border_width <= 0
 
