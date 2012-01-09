@@ -653,7 +653,7 @@ module Prawn
         when line.nil?
           [] * 4
         when line.length == 1 # all lines
-          [line, line, line, line]
+          [line[0]] * 4
         when line.length == 2
           [line[0], line[1], line[0], line[1]]
         when line.length == 2
