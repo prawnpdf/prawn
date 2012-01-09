@@ -651,17 +651,17 @@ module Prawn
       def border_line=(line)
         @border_lines = case
         when line.nil?
-          [] * 4
+          [:solid] * 4
         when line.length == 1 # all lines
           [line[0]] * 4
         when line.length == 2
           [line[0], line[1], line[0], line[1]]
-        when line.length == 2
+        when line.length == 3
           [line[0], line[1], line[2], line[1]]
-        when line.length == 2
+        when line.length == 4
           [line[0], line[1], line[2], line[3]]
         else
-          raise ArgumentError, "border_line must be a string " +
+          raise ArgumentError, "border_line must be one of :solid, :dashed, :dotted " +
             "or an array [v,h] or [t,r,b,l]"
         end
       end
