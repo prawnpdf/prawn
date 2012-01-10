@@ -746,7 +746,7 @@ module Prawn
             when :dashed
               @pdf.dash border_width * 4
             when :dotted
-              @pdf.dash border_width
+              @pdf.dash border_width, :space => border_width * 2
             else
               @pdf.undash
             end
