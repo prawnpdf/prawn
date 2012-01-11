@@ -661,8 +661,8 @@ module Prawn
         when line.length == 4
           [line[0], line[1], line[2], line[3]]
         else
-          raise ArgumentError, "border_line must be one of :solid, :dashed, :dotted " +
-            "or an array [v,h] or [t,r,b,l]"
+          raise ArgumentError, "border_line must be one of :solid, :dashed, "
+            ":dotted or an array [v,h] or [t,r,b,l]"
         end
       end
       alias_method :border_lines=, :border_line=
@@ -747,13 +747,17 @@ module Prawn
               @pdf.dash border_width * 4
             when :dotted
               @pdf.dash border_width, :space => border_width * 2
+            when :solid
+              # normal line style
             else
-              @pdf.undash
+              raise ArgumentError, "border_line must be :solid, :dotted or" +
+                " :dashed"
             end
             
             @pdf.line_width   = border_width
             @pdf.stroke_color = border_color
             @pdf.stroke_line(from, to)
+            @pdf.undash
           end
         end
       end

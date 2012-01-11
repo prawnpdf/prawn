@@ -18,6 +18,7 @@ Prawn::Example.generate("table.pdf") do
                      "row_colors",
                      "cell_dimensions",
                      "cell_borders_and_bg",
+                     "cell_border_lines",
                      "cell_text",
                      "image_cells",
                      "span"
