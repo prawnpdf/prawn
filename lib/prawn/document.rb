@@ -521,9 +521,8 @@ module Prawn
       end
       
       unless success
-        raise Prawn::Errors::CannotGroup if second_attempt
         @bounding_box.move_past_bottom   
-        group(second_attempt=true) { yield }
+        yield if second_attempt
       end
 
       success
