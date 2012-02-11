@@ -1001,6 +1001,25 @@ describe "colspan / rowspan" do
     widths[0].should == widths[1]
   end
 
+  it "honors a large, explicitly set table width" do
+    t = @pdf.table([[{:content => "AAAAAAAAAA", :colspan => 3}],
+                    ["A", "B", "C"]],
+                   :width => 400)
+
+    t.column_widths.inject(0) { |sum, w| sum + w }.
+      should.be.close(400, 0.01)
+  end
+
+  it "honors a small, explicitly set table width" do
+    t = @pdf.table([[{:content => "Lorem ipsum dolor sit amet " * 20,
+                      :colspan => 3}],
+                    ["A", "B", "C"]],
+                   :width => 200)
+
+    t.column_widths.inject(0) { |sum, w| sum + w }.
+      should.be.close(200, 0.01)
+  end
+
   it "splits natural_content_height between rows in the group" do
     t = @pdf.table([[{:content => "foo", :rowspan => 2}]])
     heights = t.row_heights

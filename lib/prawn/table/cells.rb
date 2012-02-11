@@ -122,7 +122,16 @@ module Prawn
       # Returns the total width of all columns in the selected set.
       #
       def width
-        aggregate_cell_values(:column, :width_ignoring_span, :max)
+        widths = {}
+        each do |cell|
+          index = cell.column
+          per_cell_width = cell.width_ignoring_span.to_f / cell.colspan
+          cell.colspan.times do |n|
+            widths[cell.column+n] = [widths[cell.column+n], per_cell_width].
+              compact.max
+          end
+        end
+        widths.values.inject(0, &:+)
       end
 
       # Returns minimum width required to contain cells in the set.
