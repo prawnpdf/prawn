@@ -3,6 +3,8 @@
 # This transformation is used to translate the user space. Just provide the
 # x and y coordinates for the new origin.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

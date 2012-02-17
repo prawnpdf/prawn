@@ -3,6 +3,8 @@
 # As of 200fc36455fa3bee0e1e3bb25d1b5bf73dbf3b52,
 # the following code does not correctly render a PNG image
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
 require "prawn/core"
 

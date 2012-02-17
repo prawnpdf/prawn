@@ -4,6 +4,8 @@
 # is UTF-8. The only thing you need to worry about is if the font support the
 # glyphs of your language.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

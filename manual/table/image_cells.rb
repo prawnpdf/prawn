@@ -12,6 +12,8 @@
 # <code>:width</code> and <code>:height</code> arguments, which set the table
 # cell's dimensions.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

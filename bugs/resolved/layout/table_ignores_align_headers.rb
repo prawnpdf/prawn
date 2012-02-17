@@ -10,6 +10,8 @@
 # I think a bad merge created issues in edge, and this code fixes previous
 # problems that are present in stable.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $DEBUG = true
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')

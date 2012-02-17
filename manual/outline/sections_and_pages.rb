@@ -24,6 +24,8 @@
 # <code>define</code> method but they will need to instantiate the
 # <code>outline</code> object every time.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

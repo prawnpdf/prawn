@@ -2,6 +2,8 @@
 #
 # Helper for organizing examples
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'

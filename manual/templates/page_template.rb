@@ -16,6 +16,8 @@
 # a page by specifying the <code>:template_page</code> option and then we do it
 # again this time adding some content to the loaded page.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

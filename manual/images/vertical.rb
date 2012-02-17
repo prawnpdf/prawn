@@ -5,6 +5,8 @@
 # It may be <code>:top</code>, <code>:center</code>, <code>:bottom</code> or a
 # number representing the y-offset from the top boundary.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

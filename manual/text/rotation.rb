@@ -8,6 +8,8 @@
 # passing an angle in degrees and an optional <code>:rotate_around</code> to
 # indicate the origin of the rotation (the default is <code>:upper_left</code>).
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

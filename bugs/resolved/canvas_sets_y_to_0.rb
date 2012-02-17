@@ -4,6 +4,8 @@
 #
 # This was resolved in 998a5c3fad40c9e0a79e1468e3a83815ed948a74 [#88]
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
 require "prawn/core"
 

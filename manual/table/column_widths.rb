@@ -8,6 +8,8 @@
 # or a hash were each key-value pair represents the column 0-based index and its
 # width.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

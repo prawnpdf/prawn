@@ -7,6 +7,8 @@
 # Because this almost appears to be a feature display-wise, we will leave it 
 # alone for now.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "rubygems"
 require "prawn"

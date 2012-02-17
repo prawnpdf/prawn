@@ -8,6 +8,8 @@
 # This example renders as much of the text as will fit in a larger font inside one
 # text_box and then proceeds to render the remaining text in the default size in a second text_box.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

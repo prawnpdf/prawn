@@ -5,6 +5,8 @@
 # There's also <code>rounded_rectangle</code>. Just provide an additional radius
 # value for the rounded corners.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

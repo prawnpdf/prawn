@@ -8,6 +8,8 @@
 # These options are available both for starting new pages and creating new
 # documents.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

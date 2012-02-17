@@ -6,6 +6,8 @@
 # There is one helper just for that. Just provide the <code>:row_colors</code>
 # option an array with color values.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

@@ -15,6 +15,8 @@
 # It is illegal to overlap cells via spanning. A Prawn::Errors::InvalidTableSpan
 # error will be raised if spans would cause cells to overlap.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

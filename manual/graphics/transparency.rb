@@ -8,6 +8,8 @@
 # and the second value sets stroke opacity. If the second value is omitted fill
 # and stroke will have the same opacity.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

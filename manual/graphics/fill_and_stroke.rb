@@ -17,6 +17,8 @@
 # Most of the methods which define drawing paths have methods of the same name starting with stroke_ and fill_ which
 # create the drawing path and then stroke or fill it.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

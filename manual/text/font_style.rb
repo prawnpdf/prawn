@@ -6,6 +6,8 @@
 # The style can be set the using the <code>:style</code> option, with either the <code>font</code> method
 # which will set the font and style for rest of the document or until it is changed again; or with the inline text methods.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

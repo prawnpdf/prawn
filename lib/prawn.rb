@@ -4,6 +4,8 @@
 # Those looking to contribute code or write extensions should look
 # into the lib/prawn/core/* source tree.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.s
+#
 module Prawn #:nodoc:
   VERSION = "1.0.0.rc1"
 end

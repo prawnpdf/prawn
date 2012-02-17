@@ -4,6 +4,8 @@
 # contents of palette and transparency to ensure they're correct.
 # Need to find files that have these sections first.
 
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
 
 describe "When reading a JPEG file" do

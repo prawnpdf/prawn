@@ -9,6 +9,8 @@
 # won't be moved after the image is rendered and there is nothing forbidding the
 # text to overlap with the image.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

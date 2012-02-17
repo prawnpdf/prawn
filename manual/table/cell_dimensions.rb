@@ -10,6 +10,8 @@
 # in a CSS like syntax setting the top, right, bottom, left sequentially. The
 # default is 5pt for all sides.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

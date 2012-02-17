@@ -7,6 +7,8 @@
 # <code>Prawn::Document.generate</code> without passing params you will need to
 # call <code>line_width</code> on self.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

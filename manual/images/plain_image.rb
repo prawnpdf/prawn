@@ -8,6 +8,8 @@
 # the cursor position. No manipulation is done with the image even if it doesn't
 # fit entirely on the page like the following snippet.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

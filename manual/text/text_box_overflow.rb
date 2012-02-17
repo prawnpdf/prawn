@@ -12,6 +12,8 @@
 # <code>:min_font_size</code> option set. The font size will not be reduced to
 # less than the value provided even if it means truncating some text.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

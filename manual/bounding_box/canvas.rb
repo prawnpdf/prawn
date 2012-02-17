@@ -10,6 +10,8 @@
 #
 # The following snippet draws a circle on each of the four absolute corners.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

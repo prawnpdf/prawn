@@ -1,3 +1,5 @@
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require "prawn/table"
 require 'prawn/layout/grid'
 

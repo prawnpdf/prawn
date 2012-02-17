@@ -3,6 +3,8 @@
 # We can change the stroke and fill colors providing an HTML rgb 6 digit color
 # code string ("AB1234") or 4 values for CMYK.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

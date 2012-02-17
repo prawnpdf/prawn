@@ -9,6 +9,8 @@
 # As is the case with <code>add_subsection_to</code> the section added
 # doesn't need to be a section, it may be just a page.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

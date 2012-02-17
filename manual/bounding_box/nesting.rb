@@ -9,6 +9,8 @@
 # Note how the <code>cursor</code> method returns coordinates relative to
 # the current bounding box.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

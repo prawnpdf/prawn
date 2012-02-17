@@ -3,6 +3,8 @@
 # generates outline dictionary and items for document
 #
 # Author Jonathan Greenberg
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'forwardable'
 

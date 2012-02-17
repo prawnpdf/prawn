@@ -3,6 +3,8 @@
 #
 # Resolved in 7c62bbf.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..','lib')
 require "prawn/core"

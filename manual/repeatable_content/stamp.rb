@@ -16,6 +16,8 @@
 # <code>stamp_at</code>. The first will render the stamp as is while the
 # second accepts a point to serve as an offset to the stamp content.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

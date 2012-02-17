@@ -21,6 +21,8 @@
 # The following snippet strokes a circle on the margin box origin. Then strokes
 # the boundaries of a bounding box and a circle on its origin.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
