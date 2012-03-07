@@ -12,6 +12,7 @@ require 'prawn/table/cell/in_table'
 require 'prawn/table/cell/text'
 require 'prawn/table/cell/subtable'
 require 'prawn/table/cell/image'
+require 'prawn/table/cell/span_dummy'
 
 module Prawn
 
@@ -154,6 +155,11 @@ module Prawn
     # points from the left edge) of the table within its parent bounds.
     #
     attr_writer :position
+
+    # Returns a Prawn::Table::Cells object representing all of the cells in
+    # this table.
+    #
+    attr_reader :cells
 
     # Returns the width of the table in PDF points.
     #
@@ -301,7 +307,9 @@ module Prawn
 
           # Set background color, if any.
           if @row_colors && (!@header || cell.row > 0)
-            index = @header ? (cell.row - 1) : cell.row
+            # Ensure coloring restarts on every page (to make sure the header
+            # and first row of a page are not colored the same way).
+            index = cell.row - [started_new_page_at_row, @header ? 1 : 0].max
             cell.background_color ||= @row_colors[index % @row_colors.length]
           end
 
@@ -343,7 +351,7 @@ module Prawn
           f = (width - cells.min_width).to_f / (natural_width - cells.min_width)
 
           (0...column_length).map do |c|
-            min, nat = column(c).min_width, column(c).width
+            min, nat = column(c).min_width, natural_column_widths[c]
             (f * (nat - min)) + min
           end
         elsif width - natural_width > epsilon
@@ -351,7 +359,7 @@ module Prawn
           f = (width - cells.width).to_f / (cells.max_width - cells.width)
 
           (0...column_length).map do |c|
-            nat, max = column(c).width, column(c).max_width
+            nat, max = natural_column_widths[c], column(c).max_width
             (f * (max - nat)) + nat
           end
         else
@@ -363,7 +371,21 @@ module Prawn
     # Returns an array with the height of each row.
     #
     def row_heights
-      @natural_row_heights ||= (0...row_length).map{ |r| row(r).height }
+      @natural_row_heights ||=
+        begin
+          heights_by_row = Hash.new(0)
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+
+            # Split the height of row-spanned cells evenly by rows
+            height_per_row = cell.height.to_f / cell.rowspan
+            cell.rowspan.times do |i|
+              heights_by_row[cell.row + i] =
+                [heights_by_row[cell.row + i], height_per_row].max
+            end
+          end
+          heights_by_row.sort_by { |row, _| row }.map { |_, h| h }
+        end
     end
 
     protected
@@ -375,20 +397,59 @@ module Prawn
     def make_cells(data)
       assert_proper_table_data(data)
 
-      cells = []
+      cells = Cells.new
       
-      @row_length = data.length
-      @column_length = data.map{ |r| r.length }.max
+      row_number = 0
+      data.each do |row_cells|
+        column_number = 0
+        row_cells.each do |cell_data|
+          # If we landed on a spanned cell (from a rowspan above), continue
+          # until we find an empty spot.
+          column_number += 1 until cells[row_number, column_number].nil?
 
-      data.each_with_index do |row_cells, row_number|
-        row_cells.each_with_index do |cell_data, column_number|
+          # Build the cell and store it in the Cells collection.
           cell = Cell.make(@pdf, cell_data)
-          cell.extend(Cell::InTable)
-          cell.row = row_number
-          cell.column = column_number
-          cells << cell
+          cells[row_number, column_number] = cell
+
+          # Add dummy cells for the rest of the cells in the span group. This
+          # allows Prawn to keep track of the horizontal and vertical space
+          # occupied in each column and row spanned by this cell, while still
+          # leaving the master (top left) cell in the group responsible for
+          # drawing. Dummy cells do not put ink on the page.
+          cell.rowspan.times do |i|
+            cell.colspan.times do |j|
+              next if i == 0 && j == 0
+
+              # It is an error to specify spans that overlap; catch this here
+              if bad_cell = cells[row_number + i, column_number + j]
+                raise Prawn::Errors::InvalidTableSpan,
+                  "Spans overlap at row #{row_number + i}, " +
+                  "column #{column_number + j}."
+              end
+
+              dummy = Cell::SpanDummy.new(@pdf, cell)
+              cells[row_number + i, column_number + j] = dummy
+              cell.dummy_cells << dummy
+            end
+          end
+
+          column_number += cell.colspan
         end
+
+        row_number += 1
       end
+
+      # Calculate the number of rows and columns in the table, taking into
+      # account that some cells may span past the end of the physical cells we
+      # have.
+      @row_length = cells.map do |cell|
+        cell.row + cell.rowspan
+      end.max
+
+      @column_length = cells.map do |cell|
+        cell.column + cell.colspan
+      end.max
+
       cells
     end
 
@@ -424,7 +485,21 @@ module Prawn
     # Returns an array of each column's natural (unconstrained) width.
     #
     def natural_column_widths
-      @natural_column_widths ||= (0...column_length).map { |c| column(c).width }
+      @natural_column_widths ||=
+        begin
+          widths_by_column = Hash.new(0)
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+
+            # Split the width of colspanned cells evenly by columns
+            width_per_column = cell.width.to_f / cell.colspan
+            cell.colspan.times do |i|
+              widths_by_column[cell.column + i] =
+                [widths_by_column[cell.column + i], width_per_column].max
+            end
+          end
+          widths_by_column.sort_by { |col, _| col }.map { |_, w| w }
+        end
     end
 
     # Returns the "natural" (unconstrained) width of the table. This may be
@@ -433,7 +508,7 @@ module Prawn
     # a mile long.
     #
     def natural_width
-      @natural_width ||= natural_column_widths.inject(0) { |sum, w| sum + w }
+      @natural_width ||= natural_column_widths.inject(0, &:+)
     end
 
     # Assigns the calculated column widths to each cell. This ensures that each

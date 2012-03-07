@@ -84,7 +84,7 @@ module Prawn
       ]    
       
       def initialize
-        @mapping_file = "#{Prawn::BASEDIR}/data/encodings/win_ansi.txt"
+        @mapping_file = "#{Prawn::DATADIR}/encodings/win_ansi.txt"
         load_mapping if self.class.mapping.empty?
       end
 

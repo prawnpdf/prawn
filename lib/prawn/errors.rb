@@ -18,6 +18,10 @@ module Prawn
      # other than :portrait or :landscape            
      #
      InvalidPageLayout = Class.new(StandardError)       
+
+     # Raised when a table is spanned in an impossible way.
+     #
+     InvalidTableSpan = Class.new(StandardError)
      
      # This error is raised when a method requiring a current page is called 
      # without being on a page.

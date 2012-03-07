@@ -166,7 +166,7 @@ module Prawn
     #   pdf = Prawn::Document.new(:page_size => [200, 300])
     #
     #   # New document, with background
-    #   pdf = Prawn::Document.new(:background => "#{Prawn::BASEDIR}/data/images/pigs.jpg")
+    #   pdf = Prawn::Document.new(:background => "#{Prawn::DATADIR}/images/pigs.jpg")
     #
     def initialize(options={},&block)
       options = options.dup

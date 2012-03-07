@@ -7,5 +7,5 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
 require "prawn/core"
 
 Prawn::Document.generate('png_barcode_issue.pdf') do
-  image "#{Prawn::BASEDIR}/data/images/barcode_issue.png"
+  image "#{Prawn::DATADIR}/images/barcode_issue.png"
 end

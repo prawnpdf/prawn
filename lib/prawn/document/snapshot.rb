@@ -53,7 +53,7 @@ module Prawn
          :current_page    => state.page.dictionary.deep_copy(share=[:Parent]),
          :bounds          => bounds.deep_copy,
          :page_number     => page_number,
-         :page_kids       => state.store.pages.data[:Kids].map{|kid| kid.identifier},
+         :page_kids       => state.store.pages.data[:Kids].compact.map{|kid| kid.identifier},
          :dests           => names? && names.data[:Dests].deep_copy,
          :page_count      => state.page_count
        }

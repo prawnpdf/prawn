@@ -59,7 +59,7 @@ describe "Document built from a template" do
   end
     
   it "should have a single page object if importing a single page template" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
@@ -71,7 +71,7 @@ describe "Document built from a template" do
   end
 
   it "should have two content streams if importing a single page template" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
@@ -83,7 +83,7 @@ describe "Document built from a template" do
   end
 
   it "should not die if using this PDF as a template" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/complex_template.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/complex_template.pdf"
 
     assert_nothing_raised do
       @pdf = Prawn::Document.new(:template => filename)
@@ -92,7 +92,7 @@ describe "Document built from a template" do
 
 
   it "should have balance q/Q operators on all content streams" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     output = StringIO.new(@pdf.render)
@@ -108,7 +108,7 @@ describe "Document built from a template" do
   end
 
   it "should allow text to be added to a single page template" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
 
@@ -119,7 +119,7 @@ describe "Document built from a template" do
   end
 
   it "should allow PDFs with page resources behind an indirect object to be used as templates" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/resources_as_indirect_object.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/resources_as_indirect_object.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
 
@@ -131,7 +131,7 @@ describe "Document built from a template" do
   end
 
   it "should copy the PDF version from the template file" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/version_1_6.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/version_1_6.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     str = @pdf.render
@@ -139,9 +139,9 @@ describe "Document built from a template" do
   end
 
   it "should correctly add a TTF font to a template that has existing fonts" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/contains_ttf_font.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/contains_ttf_font.pdf"
     @pdf = Prawn::Document.new(:template => filename)
-    @pdf.font "#{Prawn::BASEDIR}/data/fonts/Chalkboard.ttf"
+    @pdf.font "#{Prawn::DATADIR}/fonts/Chalkboard.ttf"
     @pdf.move_down(40)
     @pdf.text "Hi There"
 
@@ -155,11 +155,21 @@ describe "Document built from a template" do
   end
 
   it "should correctly import a template file that is missing a MediaBox entry" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/page_without_mediabox.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/page_without_mediabox.pdf"
 
     @pdf = Prawn::Document.new(:template => filename)
     str = @pdf.render
     str[0,4].should == "%PDF"
+  end
+  
+  context "with the template as a stream" do
+    it "should correctly import a template file from a stream" do
+      filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
+      io = StringIO.new(File.read(filename))      
+      @pdf = Prawn::Document.new(:template => io)
+      str = @pdf.render
+      str[0,4].should == "%PDF"      
+    end
   end
 
 end
@@ -215,7 +225,7 @@ describe "Document#start_new_page with :template option" do
   end
   
   it "should have two content streams if importing a single page template" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
     @pdf = Prawn::Document.new()
     @pdf.start_new_page(:template => filename)
     output = StringIO.new(@pdf.render)
@@ -226,7 +236,7 @@ describe "Document#start_new_page with :template option" do
   end
   
   it "should have balance q/Q operators on all content streams" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/hexagon.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
 
     @pdf = Prawn::Document.new()
     @pdf.start_new_page(:template => filename)
@@ -254,7 +264,7 @@ describe "Document#start_new_page with :template option" do
   end
   
   it "should allow PDFs with page resources behind an indirect object to be used as templates" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/resources_as_indirect_object.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/resources_as_indirect_object.pdf"
 
     @pdf = Prawn::Document.new()
     @pdf.start_new_page(:template => filename)
@@ -267,10 +277,10 @@ describe "Document#start_new_page with :template option" do
   end
   
   it "should correctly add a TTF font to a template that has existing fonts" do
-    filename = "#{Prawn::BASEDIR}/data/pdfs/contains_ttf_font.pdf"
+    filename = "#{Prawn::DATADIR}/pdfs/contains_ttf_font.pdf"
     @pdf = Prawn::Document.new()
     @pdf.start_new_page(:template => filename)
-    @pdf.font "#{Prawn::BASEDIR}/data/fonts/Chalkboard.ttf"
+    @pdf.font "#{Prawn::DATADIR}/fonts/Chalkboard.ttf"
     @pdf.move_down(40)
     @pdf.text "Hi There"
 
@@ -284,9 +294,22 @@ describe "Document#start_new_page with :template option" do
     fonts.size.should == 2
   end
   
+  context "with the template as a stream" do
+    it "should correctly import a template file from a stream" do
+      filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
+      io = StringIO.new(File.read(filename))
+      
+      @pdf = Prawn::Document.new()
+      @pdf.start_new_page(:template => io)
+      
+      str = @pdf.render
+      str[0,4].should == "%PDF"      
+    end
+  end
+  
   context "using template_page option" do
     it "uses the specified page option" do
-      filename = "#{Prawn::BASEDIR}/data/pdfs/multipage_template.pdf"
+      filename = "#{Prawn::DATADIR}/pdfs/multipage_template.pdf"
       @pdf = Prawn::Document.new()
       @pdf.start_new_page(:template => filename, :template_page => 2)
       text = PDF::Inspector::Text.analyze(@pdf.render)

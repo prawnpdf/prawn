@@ -131,11 +131,11 @@ module Prawn
       #
       # Call with an empty array to turn off fallback fonts
       #
-      # file = "#{Prawn::BASEDIR}/data/fonts/gkai00mp.ttf"
+      # file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       # font_families["Kai"] = {
       #   :normal => { :file => file, :font => "Kai" }
       # }
-      # file = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+      # file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
       # font_families["Action Man"] = {
       #   :normal      => { :file => file, :font => "ActionMan" },
       # }

@@ -14,8 +14,9 @@ module Prawn
     # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported.
     #
-    # NOTE: Prawn is very slow at rendering PNGs with alpha channels.  The
-    # workaround for those who don't mind installing RMagick is to use:
+    # NOTE: Prawn is very slow at rendering PNGs with alpha channels, and this
+    # uses a lot of RAM. The workaround for those who don't mind installing
+    # RMagick is to use:
     #
     # http://github.com/amberbit/prawn-fast-png
     #
@@ -32,10 +33,10 @@ module Prawn
     # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [width,height]
     # 
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do     
-    #     pigs = "#{Prawn::BASEDIR}/data/images/pigs.jpg" 
+    #     pigs = "#{Prawn::DATADIR}/images/pigs.jpg" 
     #     image pigs, :at => [50,450], :width => 450                                      
     #
-    #     dice = "#{Prawn::BASEDIR}/data/images/dice.png"
+    #     dice = "#{Prawn::DATADIR}/images/dice.png"
     #     image dice, :at => [50, 450], :scale => 0.75 
     #   end   
     #

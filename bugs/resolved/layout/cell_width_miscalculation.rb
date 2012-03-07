@@ -12,7 +12,7 @@ require "prawn"
 require "prawn/layout"
 
 Prawn::Document.generate("broken_table.pdf") do 
-  font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf"
+  font "#{Prawn::DATADIR}/fonts/comicsans.ttf"
   table [["foo",    "baaar",             "1" ],
          ["This is","a sample",          "2" ],
          ["Table",  "dont\ncha\nknow?",  "3" ]],
