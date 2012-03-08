@@ -152,6 +152,7 @@ module Prawn
     # any text
     #
     def text(string, options={})
+      return false if string.nil?
       # we modify the options. don't change the user's hash
       options = options.dup
 

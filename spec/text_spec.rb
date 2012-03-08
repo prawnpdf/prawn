@@ -66,6 +66,10 @@ describe "#text" do
     # If anything is rendered to the page, it should be whitespace.
     text.strings.each { |str| str.should =~ /\A\s*\z/ }
   end
+  
+  it "should ignore call when string is nil" do
+    @pdf.text(nil).should.be false
+  end
 
   it "should correctly render empty paragraphs" do
     @pdf.text "text\n\ntext"
