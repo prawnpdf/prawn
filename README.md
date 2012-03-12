@@ -33,7 +33,7 @@ You can also install from git if you'd like, the _master_ branch contains the la
 
 ## Release Policies
 
-We may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly. You can find the project CHANGELOG at: https://github.com/sandal/prawn/wiki/CHANGELOG
+We may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly. You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 ## Hello World!
 
@@ -73,7 +73,7 @@ Please make your posts to the list as specific as possible, including code sampl
 
 If you've found a bug, want to submit a patch, or have a feature request, please enter a ticket into our github tracker:
 
-<http://github.com/sandal/prawn/issues>
+<http://github.com/prawnpdf/prawn/issues>
 
 We strongly encourage bug reports to come with failing tests or at least a reduced example that demonstrates the problem. Similarly, patches should include tests, API documentation, and an update to the manual where relevant. Feel free to send a pull request early though, if you just want some feedback or a code review before preparing your code to be merged.
 
@@ -87,7 +87,7 @@ Over the last several years, we've received code contributions from over 50 peop
 
 While he was only with us for a short time before moving on to other things, we'd also like to thank Prawn core team emeritus Jamis Buck for his contributions. He was responsible for introducing font subsetting as well as the first implementation of our inline formatting support.
 
-You can find the full list of folks who have at least one patch accepted to Prawn on github at https://github.com/sandal/prawn/contributors
+You can find the full list of folks who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
 
 ## License
 
