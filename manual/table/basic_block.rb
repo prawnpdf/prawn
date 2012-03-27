@@ -29,6 +29,8 @@
 # All of the cell styling options we've seen on previous examples may be set as
 # properties of the selection of cells.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

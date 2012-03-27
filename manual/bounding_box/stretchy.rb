@@ -4,6 +4,8 @@
 # is provided the bounding box will be stretchy. It will expand the height to
 # fit all content generated inside it.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

@@ -12,6 +12,8 @@
 # Just like <code>line_width=</code> the <code>cap_style=</code> method needs an explicit receiver to
 # work.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

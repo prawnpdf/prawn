@@ -7,6 +7,8 @@
 # When both are provided, the image will be stretched to fit the dimensions
 # without maintaining the aspect ratio.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

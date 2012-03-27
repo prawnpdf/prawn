@@ -13,6 +13,8 @@
 # Both forms of alignment will be evaluated in the context of the current
 # bounding_box.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

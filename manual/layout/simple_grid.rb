@@ -8,6 +8,8 @@
 # self-explanatory: <code>:rows</code>, <code>:columns</code>,
 # <code>:gutter</code>, <code>:row_gutter</code>, <code>:column_gutter</code>
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

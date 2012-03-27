@@ -4,6 +4,8 @@
 # in fonts, along with their character widths and WinAnsi codes.  Be sure
 # to pass these glyphs as UTF-8, and Prawn will transcode them for you.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

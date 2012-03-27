@@ -10,6 +10,8 @@
 # we need to do is append the <code>Prawn::Text::Box.extensions</code> array
 # with a module.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

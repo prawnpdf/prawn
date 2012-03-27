@@ -1,3 +1,6 @@
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require "prawn/core/text/formatted/line_wrap"
 require "prawn/core/text/formatted/arranger"
 

@@ -13,6 +13,8 @@
 # Just use the <code>start_new_page</code> method and a shiny new page will be
 # created for you just like in the following snippet.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

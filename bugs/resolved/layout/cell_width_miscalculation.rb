@@ -6,6 +6,8 @@
 # Simple rounding of string_width floats seems to fix this issue, see the patch
 # in 09c837466c31bb715f1276118c606e20477577df.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "rubygems"
 require "prawn"

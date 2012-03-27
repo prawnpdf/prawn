@@ -13,6 +13,8 @@
 # don't break TTF subsetting support, adding specs if necessary.
 #
 # Resolved in 36ef89c2bc21e504df623f61d918c5bfdc1fdab1.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', '..','lib')
 require 'prawn/core' 

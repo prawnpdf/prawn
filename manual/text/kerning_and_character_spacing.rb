@@ -9,6 +9,8 @@
 # decreased and will have effect on the whole text. Just pass a number to the
 # <code>:character_spacing</code> option from the text methods.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

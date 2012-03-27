@@ -4,6 +4,8 @@
 # can simplify calculations. See the "Bounding Box" section of the manual
 # for more basic uses.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

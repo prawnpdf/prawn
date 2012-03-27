@@ -14,6 +14,8 @@
 # Both curve methods define a Bezier curve bounded by two aditional points
 # provided as the <code>:bounds</code> param
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

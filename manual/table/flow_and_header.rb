@@ -4,6 +4,8 @@
 # like free flowing text. If you would like to have the first row treated as a header which will be repeated on
 # subsequent pages set the <code>:header</code> option to true.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

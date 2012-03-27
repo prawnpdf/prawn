@@ -7,6 +7,8 @@
 # <code>Prawn::Table::Cells</code> instance containing only those cells for
 # which the block was not false.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

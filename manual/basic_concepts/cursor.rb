@@ -12,6 +12,8 @@
 # page and demonstrates some of the helpers to manage the cursor position. The
 # <code>cursor</code> method returns the current cursor position.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

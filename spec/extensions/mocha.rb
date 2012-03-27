@@ -8,6 +8,8 @@
 # Note that the outer expectation does *not* fail only because the inner one
 # does; in the above example, the outer expectation would only fail if
 # stroke_line were not called.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 class ParameterChecker < Mocha::ParametersMatcher
   def initialize(&matching_block)

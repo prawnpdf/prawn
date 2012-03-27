@@ -11,6 +11,8 @@
 # This is reasonable if a font is used only once, but, if a font used several times, providing the path each time it is used becomes cumbersome.
 # The example on the next page shows a better way to deal with fonts which are used several times in a document
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

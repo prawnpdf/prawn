@@ -9,6 +9,8 @@
 # <code>float</code> is a method for not changing the cursor. Pass it a block
 # and the cursor will remain on the same place when the block returns.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

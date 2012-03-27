@@ -13,6 +13,8 @@
 # This example also shows text flowing across pages folowing the margin box and
 # other bounding boxes.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

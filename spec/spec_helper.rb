@@ -1,4 +1,6 @@
 # encoding: utf-8
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 

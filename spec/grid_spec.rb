@@ -1,5 +1,8 @@
 # encoding: utf-8
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "A document's grid" do
   before do

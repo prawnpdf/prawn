@@ -8,6 +8,8 @@
 # will return the grid box at those indices. With two arrays it will return a
 # multi-box spanning the region of the two grid boxes at the arrays indices.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

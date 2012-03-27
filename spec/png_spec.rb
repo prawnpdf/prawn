@@ -7,6 +7,8 @@
 # see http://www.w3.org/TR/PNG/ for a detailed description of the PNG spec,
 # particuarly Table 11.1 for the different color types
 
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "When reading a greyscale PNG file (color type 0)" do

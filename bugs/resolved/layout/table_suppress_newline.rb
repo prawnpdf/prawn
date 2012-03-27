@@ -3,6 +3,8 @@
 #
 # Fixed in e28cf53b5d05e6cb343e8dd5265c57d5f24ef4da [#76]
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "rubygems"
 require "prawn"

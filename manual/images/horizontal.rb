@@ -6,6 +6,8 @@
 # It may be <code>:left</code>, <code>:center</code>, <code>:right</code> or a
 # number representing an x-offset from the left boundary.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

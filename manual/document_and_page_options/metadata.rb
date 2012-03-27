@@ -3,6 +3,8 @@
 # To set the document metadata just pass a hash to the <code>:info</code>
 # option when creating new documents.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

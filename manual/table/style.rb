@@ -7,6 +7,8 @@
 # also accepts a block that will be called for each cell and can be used for
 # some complex styling.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

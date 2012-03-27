@@ -3,6 +3,9 @@
 # column_box.rb: Extends BoundingBox to allow for columns of text
 #
 # Author Paul Ostazeski.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 
 require "prawn/document/bounding_box"
 module Prawn

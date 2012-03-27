@@ -7,6 +7,8 @@
 # For writing styles that do not make use of spaces, the zero width space serves
 # to mark word boundaries. Zero width spaces are available only with TTF fonts.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

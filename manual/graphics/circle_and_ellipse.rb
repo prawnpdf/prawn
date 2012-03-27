@@ -6,6 +6,8 @@
 # values. If the second radius value is ommitted, both radii will be equal and
 # you will end up drawing a circle.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

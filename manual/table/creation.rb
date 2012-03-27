@@ -11,6 +11,8 @@
 # The most simple table can be created by providing only an array of arrays
 # containing your data where each inner array represents one row.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

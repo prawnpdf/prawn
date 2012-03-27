@@ -8,6 +8,8 @@
 # current page. If you'd like to resume the document you may take advantage of
 # two helpers: <code>page_count</code> and <code>go_to_page</code>.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

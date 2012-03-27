@@ -1,3 +1,6 @@
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 module Prawn
   module Core
     class DocumentState #:nodoc:

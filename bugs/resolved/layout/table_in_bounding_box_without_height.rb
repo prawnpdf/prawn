@@ -9,6 +9,8 @@
 # boxes.  Ideally, this would instead use the nesting bounding box dimensions
 # [#80] , but this works for now.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require "rubygems"
 require "prawn"

@@ -1,4 +1,6 @@
 # encoding: utf-8
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
 require 'set'

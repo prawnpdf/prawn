@@ -8,6 +8,8 @@
 # Both <code>border_color</code> and <code>background_color</code> accept an
 # HTML like RGB color string ("FF0000")
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

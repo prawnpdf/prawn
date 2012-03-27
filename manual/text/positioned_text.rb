@@ -17,6 +17,8 @@
 #
 # Given that said, <code>text_box</code> is the better option available.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

@@ -9,6 +9,8 @@
 # horizontal line on the current bounding box from border to border, using the
 # current y position.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

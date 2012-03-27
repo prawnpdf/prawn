@@ -4,6 +4,8 @@
 # as the background for all pages.
 # This option can only be used on document creation. 
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

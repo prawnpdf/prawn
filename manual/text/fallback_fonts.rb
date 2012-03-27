@@ -4,6 +4,8 @@
 # be present in the desired font. Use the :fallback_fonts option with any of the
 # text or text box methods, or set fallback_fonts document-wide.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

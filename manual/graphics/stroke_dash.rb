@@ -10,6 +10,8 @@
 # The <code>:phase</code> option defines the start point of the sequence of
 # dashes and spaces. 
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

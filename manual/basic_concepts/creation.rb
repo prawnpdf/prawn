@@ -20,6 +20,8 @@
 # less typing and defines and renders the pdf document in one shot.
 # Almost all of the examples are coded this way.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

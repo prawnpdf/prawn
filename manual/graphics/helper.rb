@@ -11,6 +11,8 @@
 # <code>reset_drawing_settings</code> sets all drawing options to the default
 # values
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

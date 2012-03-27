@@ -9,6 +9,8 @@
 # The other is to use the <code>:indent_paragraphs</code> option with the text methods.
 # Just pass a number with the space to indent the first line in each paragraph.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

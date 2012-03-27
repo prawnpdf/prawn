@@ -8,6 +8,8 @@
 # To register a font family update the <code>font_families</code>
 # hash with the font path for each style you want to use.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

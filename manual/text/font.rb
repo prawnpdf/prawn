@@ -11,6 +11,8 @@
 # It can also be used by passing a font name and a block. In this case the
 # specified font will only be used to render text inside the block.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

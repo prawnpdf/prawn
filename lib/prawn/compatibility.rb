@@ -3,6 +3,8 @@
 # Why would we ever use Ruby 1.8.7 when we can backport with something
 # as simple as this?
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 class String  #:nodoc:
   def first_line
     self.each_line { |line| return line }

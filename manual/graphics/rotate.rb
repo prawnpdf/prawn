@@ -8,6 +8,8 @@
 #
 # If you omit the <code>:origin</code> option the page origin will be used.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

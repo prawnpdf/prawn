@@ -3,6 +3,8 @@
 #
 # Copyright December 2008, Florian Witteler.  All Rights Reserved.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 module Prawn  
   module Measurements
   

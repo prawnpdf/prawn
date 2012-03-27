@@ -1,4 +1,7 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module TransparencyHelper
   def make_transparent(opacity, stroke_opacity=opacity)

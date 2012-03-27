@@ -5,6 +5,8 @@
 # on the page, and only when the last column overflows will a new page be
 # created.
 #
+# This is free software. Please see the LICENSE and COPYING files for details.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
