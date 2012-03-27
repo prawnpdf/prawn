@@ -38,6 +38,14 @@ describe "the image() function" do
     info.height.should == 453
   end
 
+  it "rewinds IO objects to be able to embed them multiply" do
+    file = File.open(@filename, "rb")
+
+    @pdf.image(file)
+    info = @pdf.image(file)
+    info.height.should == 453
+  end
+
   it "should accept Pathname objects" do
     info = @pdf.image(Pathname.new(@filename))
     info.height.should == 453

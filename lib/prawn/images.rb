@@ -77,6 +77,10 @@ module Prawn
     # the given image. Return a pair: [pdf_obj, info].
     #
     def build_image_object(file)
+      # Rewind if the object we're passed is an IO, so that multiple embeds of
+      # the same IO object will work
+      file.rewind if file.respond_to?(:rewind)
+
       if file.respond_to?(:read)
         image_content = file.read
       else
