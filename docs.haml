@@ -19,9 +19,9 @@
       #links
         %a{:href=>"#", :onclick => "Effect.ScrollTo('about'); return false;"} About
         %a{:href=>"http://prawn.majesticseacreature.com/docs"} Documentation
-        %a{:href=>"http://wiki.github.com/sandal/prawn/"} Wiki
+        %a{:href=>"http://wiki.github.com/prawnpdf/prawn/"} Wiki
         %a{:href=>"http://groups.google.com/group/prawn-ruby"} Mailing List
-        %a{:href=>"http://github.com/sandal/prawn"} Github
+        %a{:href=>"http://github.com/prawnpdf/prawn"} Github
       
       .content
         .column 
@@ -47,19 +47,14 @@
             gems, including Prawn.   If this doesn't work or you prefer not to run a gem server,
             follow the manual instructions below.
 
-          %h2 Manual building for Prawn 0.8.4:
+          %h2 Manual building for Prawn:
 
           %p 
             To get the source, you can clone the 
-            %a{:href => "http://github.com/sandal/prawn/tree/0.8.4"} sandal/prawn, 
-            %a{:href => "http://github.com/sandal/prawn-layout/tree/0.8.4"} sandal/prawn-layout
-            and 
-            %a{:href => "http://github.com/madriska/prawn-security/tree/0.8.3"} madriska/prawn-security
-            repositories from Github, or you can unpack your gems like this:
+            %a{:href => "http://github.com/prawnpdf/prawn"} prawnpdf/prawn
+            repository from Github, or you can unpack the Prawn gem:
          
           %pre
-            gem unpack prawn-core
-            gem unpack prawn-layout
-            gem unpack prawn-security
+            gem unpack prawn
 
         = "- Fast, Nimble PDF Generation for Ruby -"
