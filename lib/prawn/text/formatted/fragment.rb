@@ -105,6 +105,10 @@ module Prawn
           @format_state[:anchor]
         end
 
+        def local
+          @format_state[:local]
+        end
+
         def color
           @format_state[:color]
         end

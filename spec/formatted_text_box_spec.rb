@@ -512,6 +512,16 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
   end
+  it "should be able to add local actions" do
+    create_pdf
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+           :A => { :Type => :Action, :S => :Launch, :F => "../example.pdf", :NewWindow => true })
+    array = [{ :text => "click " },
+             { :text => "here", :local => "../example.pdf" },
+             { :text => " to open a local file" }]
+    text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
+    text_box.render
+  end
   it "should be able to set font size" do
     create_pdf
     array = [{ :text => "this contains " },
