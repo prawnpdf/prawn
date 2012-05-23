@@ -41,7 +41,7 @@ module Prawn
       def normalize_metadata(options)
         options[:info] ||= {}
         options[:info][:Creator] ||= "Prawn"
-        options[:info][:Producer] = "Prawn"
+        options[:info][:Producer] ||= "Prawn"
 
         info = options[:info]
       end
