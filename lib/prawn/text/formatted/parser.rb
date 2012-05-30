@@ -8,11 +8,14 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 
+require "prawn/measurements"
+
 module Prawn
   module Text
     module Formatted
 
       class Parser
+        extend ::Prawn::Measurements
 
         def self.to_array(string)
           regex_string = "\n|" +
@@ -24,6 +27,7 @@ module Prawn
                          "<sup>|</sup>|" +
                          "<link[^>]*>|</link>|" +
                          "<color[^>]*>|</color>|" +
+                         "<span[^>]*>|</span>|" +
                          "<font[^>]*>|</font>|" +
                          "<strong>|</strong>|" +
                          "<em>|</em>|" +
@@ -57,16 +61,12 @@ module Prawn
               end
             end
 
-            font = hash[:font] ? " name='#{hash[:font]}'" : nil
-            size = hash[:size] ? " size='#{hash[:size]}'" : nil
-            if hash[:character_spacing]
-              character_spacing = " character_spacing='#{hash[:character_spacing]}'"
-            else
-              character_spacing = nil
-            end
+            font = hash[:font] ? "font-family: #{hash[:font]};" : nil
+            size = hash[:size] ? "font-size: #{hash[:size]}pt;" : nil
+            character_spacing = hash[:character_spacing] ? "letter-spacing: #{hash[:character_spacing]}pt;" : nil
             if font || size || character_spacing
-              prefix = prefix + "<font#{font}#{size}#{character_spacing}>"
-              suffix = "</font>"
+              prefix = prefix + "<span style='#{font}#{size}#{character_spacing}'>"
+              suffix = "</span>"
             end
 
             link = hash[:link] ? " href='#{hash[:link]}'" : nil
@@ -157,7 +157,7 @@ module Prawn
               anchor = nil
             when "</color>"
               colors.pop
-            when "</font>"
+            when "</font>", "</span>"
               fonts.pop
               sizes.pop
               character_spacings.pop
@@ -183,6 +183,25 @@ module Prawn
                 # color = { :rgb => "#ffffff" }
                 # color = { :r => 255, :g => 255, :b => 255 }
                 # color = { :c => 100, :m => 100, :y => 100, :k => 100 }
+              elsif token =~ /^<span[^>]*>$/
+                matches = /style="([^"]*)"/.match(token) || /style='([^']*)'/.match(token)
+                style_attribute = matches.nil? ? "" : matches[1]
+
+                font_family = /font\-familiy:\s*([a-zA-Z]+)/.match(style_attribute)
+                fonts << font_family[1] unless font_family.nil?
+
+                font_size = /font\-size:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(style_attribute)
+
+                unless font_size.nil?
+                  length, unit = font_size[1].to_f, font_size[3]
+                  sizes << self.send(:"#{unit}2pt", length)
+                end
+
+                letter_spacing = /letter\-spacing:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(style_attribute)
+                unless letter_spacing.nil?
+                  length, unit = letter_spacing[1].to_f, letter_spacing[3]
+                  character_spacings << self.send(:"#{unit}2pt", length)
+                end
               elsif token =~ /^<font[^>]*>$/
                 matches = /name="([^"]*)"/.match(token) || /name='([^']*)'/.match(token)
                 fonts << matches[1] unless matches.nil?
