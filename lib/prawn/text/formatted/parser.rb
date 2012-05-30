@@ -8,11 +8,22 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 
+require "prawn/measurements"
+
 module Prawn
   module Text
     module Formatted
 
       class Parser
+        extend ::Prawn::Measurements
+
+        def self.class_lookup=(l)
+          @class_lookup = l
+        end
+
+        def self.class_lookup
+          @class_lookup ||= Hash.new("")
+        end
 
         def self.to_array(string)
           regex_string = "\n|" +
@@ -24,6 +35,7 @@ module Prawn
                          "<sup>|</sup>|" +
                          "<link[^>]*>|</link>|" +
                          "<color[^>]*>|</color>|" +
+                         "<span[^>]*>|</span>|" +
                          "<font[^>]*>|</font>|" +
                          "<strong>|</strong>|" +
                          "<em>|</em>|" +
@@ -57,16 +69,12 @@ module Prawn
               end
             end
 
-            font = hash[:font] ? " name='#{hash[:font]}'" : nil
-            size = hash[:size] ? " size='#{hash[:size]}'" : nil
-            if hash[:character_spacing]
-              character_spacing = " character_spacing='#{hash[:character_spacing]}'"
-            else
-              character_spacing = nil
-            end
+            font = hash[:font] ? "font-family: #{hash[:font]};" : nil
+            size = hash[:size] ? "font-size: #{hash[:size]}pt;" : nil
+            character_spacing = hash[:character_spacing] ? "letter-spacing: #{hash[:character_spacing]}pt;" : nil
             if font || size || character_spacing
-              prefix = prefix + "<font#{font}#{size}#{character_spacing}>"
-              suffix = "</font>"
+              prefix = prefix + "<span style='#{font}#{size}#{character_spacing}'>"
+              suffix = "</span>"
             end
 
             link = hash[:link] ? " href='#{hash[:link]}'" : nil
@@ -157,7 +165,7 @@ module Prawn
               anchor = nil
             when "</color>"
               colors.pop
-            when "</font>"
+            when "</font>", "</span>"
               fonts.pop
               sizes.pop
               character_spacings.pop
@@ -183,6 +191,25 @@ module Prawn
                 # color = { :rgb => "#ffffff" }
                 # color = { :r => 255, :g => 255, :b => 255 }
                 # color = { :c => 100, :m => 100, :y => 100, :k => 100 }
+              elsif token =~ /^<span[^>]*>$/
+                props = {} # list of parsed css properties
+
+                matches = /class="([^"]*)"/.match(token) || /class='([^']*)'/.match(token)
+                unless matches.nil?
+                  # lookup css properties corresponding to the class:
+                  props_string = self.class_lookup[matches[1]]
+                  props.merge!(self.parse_css(props_string))
+                end
+
+                matches = /style="([^"]*)"/.match(token) || /style='([^']*)'/.match(token)
+                unless matches.nil?
+                  props_string = matches[1]
+                  props.merge!(self.parse_css(props_string))
+                end
+
+                fonts << props[:font_family] if props[:font_family]
+                sizes << props[:font_size] if props[:font_size]
+                character_spacings << props[:letter_spacing] if props[:letter_spacing]
               elsif token =~ /^<font[^>]*>$/
                 matches = /name="([^"]*)"/.match(token) || /name='([^']*)'/.match(token)
                 fonts << matches[1] unless matches.nil?
@@ -206,6 +233,27 @@ module Prawn
             end
           end
           array
+        end
+
+        def self.parse_css(s)
+          props = {}
+
+          font_family = /font\-family:\s*([a-zA-Z]+)/.match(s)
+          props[:font_family] = font_family[1] unless font_family.nil?
+
+          font_size = /font\-size:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(s)
+          unless font_size.nil?
+            length, unit = font_size[1].to_f, font_size[3]
+            props[:font_size] = self.send(:"#{unit}2pt", length)
+          end
+
+          letter_spacing = /letter\-spacing:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(s)
+          unless letter_spacing.nil?
+            length, unit = letter_spacing[1].to_f, letter_spacing[3]
+            props[:letter_spacing] = self.send(:"#{unit}2pt", length)
+          end
+
+          props
         end
 
       end
