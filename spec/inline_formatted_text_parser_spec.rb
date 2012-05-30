@@ -66,8 +66,8 @@ describe "Text::Formatted::Parser#to_array" do
   end
 
   context "<span> element with font-family styling" do
-    it "recognizes font Courier in style='font-familiy: Courier;' attribute" do
-      string = "<span style='font-familiy: Courier;'>Foooo</span>"
+    it "recognizes style='font-family: Courier;' attribute" do
+      string = "<span style='font-family: Courier;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
                            :styles => [],
@@ -77,10 +77,9 @@ describe "Text::Formatted::Parser#to_array" do
                            :font => "Courier",
                            :size => nil,
                            :character_spacing => nil }
-
     end
-    it "recognizes font Verdana in style='font-familiy: Verdana, Courier;' attribute" do
-      string = "<span style='font-familiy: Verdana, Courier;'>Foooo</span>"
+    it "recognizes style='font-family: Verdana, Courier;' attribute" do
+      string = "<span style='font-family: Verdana, Courier;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
                            :styles => [],
@@ -91,8 +90,37 @@ describe "Text::Formatted::Parser#to_array" do
                            :size => nil,
                            :character_spacing => nil }
     end
-    it "recognizes font Courier in style='font-familiy: Courier, sans-serif;' attribute" do
-      string = "<span style='font-familiy: Courier, sans-serif;'>Foooo</span>"
+    it "recognizes style='font-family: Courier, sans-serif;' attribute" do
+      string = "<span style='font-family: Courier, sans-serif;'>Foooo</span>"
+      array = Prawn::Text::Formatted::Parser.to_array(string)
+      array[0].should == { :text => "Foooo",
+                           :styles => [],
+                           :color => nil,
+                           :link => nil,
+                           :anchor => nil,
+                           :font => "Courier",
+                           :size => nil,
+                           :character_spacing => nil }
+    end
+  end
+
+  context "<span> element with font-family styling via class" do
+    it "recognizes 'font-family: Courier;' via class" do
+      Prawn::Text::Formatted::Parser.class_lookup = {"class-for-tests" => "font-family:Courier;"}
+      string = "<span class='class-for-tests'>Foooo</span>"
+      array = Prawn::Text::Formatted::Parser.to_array(string)
+      array[0].should == { :text => "Foooo",
+                           :styles => [],
+                           :color => nil,
+                           :link => nil,
+                           :anchor => nil,
+                           :font => "Courier",
+                           :size => nil,
+                           :character_spacing => nil }
+    end
+    it "style attribute properties take precendence over class properties" do
+      Prawn::Text::Formatted::Parser.class_lookup = {"class-for-tests" => "font-family:Ignore;"}
+      string = "<span class='class-for-tests' style='font-family:Courier;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
                            :styles => [],
@@ -107,7 +135,7 @@ describe "Text::Formatted::Parser#to_array" do
 
   context "<span> element with font-size styling" do
     include Prawn::Measurements
-    it "recognizes font size 10pt in style='font-size: 10pt;' attribute" do
+    it "recognizes style='font-size: 10pt;' attribute" do
       string = "<span style='font-size: 10pt;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
@@ -119,7 +147,7 @@ describe "Text::Formatted::Parser#to_array" do
                            :size => 10.0,
                            :character_spacing => nil }
     end
-    it "recognizes font size mm2pt(5) in style='font-size: 5mm;' attribute" do
+    it "recognizes style='font-size: 5mm;' attribute" do
       string = "<span style='font-size: 5mm;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
@@ -131,7 +159,7 @@ describe "Text::Formatted::Parser#to_array" do
                            :size => mm2pt(5),
                            :character_spacing => nil }
     end
-    it "recognizes font size cm2pt(2) in style='font-size: 2cm;' attribute" do
+    it "recognizes style='font-size: 2cm;' attribute" do
       string = "<span style='font-size: 2cm;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
@@ -145,9 +173,38 @@ describe "Text::Formatted::Parser#to_array" do
     end
   end
 
+  context "<span> element with font-size styling via class" do
+    it "recognizes 'font-size: 10pt;' via class" do
+      Prawn::Text::Formatted::Parser.class_lookup = {"class-for-tests" => "font-size:10pt;"}
+      string = "<span class='class-for-tests'>Foooo</span>"
+      array = Prawn::Text::Formatted::Parser.to_array(string)
+      array[0].should == { :text => "Foooo",
+                           :styles => [],
+                           :color => nil,
+                           :link => nil,
+                           :anchor => nil,
+                           :font => nil,
+                           :size => 10.0,
+                           :character_spacing => nil }
+    end
+    it "style attribute properties take precendence over class properties" do
+      Prawn::Text::Formatted::Parser.class_lookup = {"class-for-tests" => "font-size:77pt;"}
+      string = "<span class='class-for-tests' style='font-size:12pt;'>Foooo</span>"
+      array = Prawn::Text::Formatted::Parser.to_array(string)
+      array[0].should == { :text => "Foooo",
+                           :styles => [],
+                           :color => nil,
+                           :link => nil,
+                           :anchor => nil,
+                           :font => nil,
+                           :size => 12.0,
+                           :character_spacing => nil }
+    end
+  end
+
   context "<span> element with letter-spacing styling" do
     include Prawn::Measurements
-    it "recognizes font size 10pt in style='letter-spacing: 10pt;' attribute" do
+    it "recognizes style='letter-spacing: 10pt;' attribute" do
       string = "<span style='letter-spacing: 10pt;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
@@ -159,7 +216,7 @@ describe "Text::Formatted::Parser#to_array" do
                            :size => nil,
                            :character_spacing => 10.0 }
     end
-    it "recognizes font size mm2pt(5) in style='letter-spacing: 5mm;' attribute" do
+    it "recognizes style='letter-spacing: 5mm;' attribute" do
       string = "<span style='letter-spacing: 5mm;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
@@ -171,7 +228,7 @@ describe "Text::Formatted::Parser#to_array" do
                            :size => nil,
                            :character_spacing => mm2pt(5) }
     end
-    it "recognizes font size cm2pt(2) in style='letter-spacing: 2cm;' attribute" do
+    it "recognizes style='letter-spacing: 2cm;' attribute" do
       string = "<span style='letter-spacing: 2cm;'>Foooo</span>"
       array = Prawn::Text::Formatted::Parser.to_array(string)
       array[0].should == { :text => "Foooo",
@@ -182,6 +239,35 @@ describe "Text::Formatted::Parser#to_array" do
                            :font => nil,
                            :size => nil,
                            :character_spacing => cm2pt(2) }
+    end
+  end
+
+  context "<span> element with letter-spacing styling via class" do
+    it "recognizes 'letter-spacing: 10pt;' via class" do
+      Prawn::Text::Formatted::Parser.class_lookup = {"class-for-tests" => "letter-spacing:10pt;"}
+      string = "<span class='class-for-tests'>Foooo</span>"
+      array = Prawn::Text::Formatted::Parser.to_array(string)
+      array[0].should == { :text => "Foooo",
+                           :styles => [],
+                           :color => nil,
+                           :link => nil,
+                           :anchor => nil,
+                           :font => nil,
+                           :size => 10.0,
+                           :character_spacing => nil }
+    end
+    it "style attribute properties take precendence over class properties" do
+      Prawn::Text::Formatted::Parser.class_lookup = {"class-for-tests" => "letter-spacing:77pt;"}
+      string = "<span class='class-for-tests' style='letter-spacing:3pt;'>Foooo</span>"
+      array = Prawn::Text::Formatted::Parser.to_array(string)
+      array[0].should == { :text => "Foooo",
+                           :styles => [],
+                           :color => nil,
+                           :link => nil,
+                           :anchor => nil,
+                           :font => nil,
+                           :size => nil,
+                           :character_spacing => 3.0 }
     end
   end
 
@@ -507,7 +593,7 @@ describe "Text::Formatted::Parser#to_string" do
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should handle character spacing" do
-    string = "<span style='letter-space: 2.5pt;'>2.5 extra character spacing</font>"
+    string = "<span style='letter-spacing: 2.5pt;'>2.5 extra character spacing</span>"
     array = [{ :text => "2.5 extra character spacing",
                          :styles => [],
                          :color => nil,
@@ -606,7 +692,7 @@ describe "Text::Formatted::Parser#to_string" do
                :size => nil,
                :character_spacing => nil }
              ]
-    string = "<span style='font-size: 14pt;'>hello </font><b>world</b><b>\n</b><b>how </b><b><i>are</i></b> you?"
+    string = "<span style='font-size: 14pt;'>hello </span><b>world</b><b>\n</b><b>how </b><b><i>are</i></b> you?"
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
 end

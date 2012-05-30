@@ -17,6 +17,14 @@ module Prawn
       class Parser
         extend ::Prawn::Measurements
 
+        def self.class_lookup=(l)
+          @class_lookup = l
+        end
+
+        def self.class_lookup
+          @class_lookup ||= Hash.new("")
+        end
+
         def self.to_array(string)
           regex_string = "\n|" +
                          "<b>|</b>|" +
@@ -184,24 +192,24 @@ module Prawn
                 # color = { :r => 255, :g => 255, :b => 255 }
                 # color = { :c => 100, :m => 100, :y => 100, :k => 100 }
               elsif token =~ /^<span[^>]*>$/
+                props = {} # list of parsed css properties
+
+                matches = /class="([^"]*)"/.match(token) || /class='([^']*)'/.match(token)
+                unless matches.nil?
+                  # lookup css properties corresponding to the class:
+                  props_string = self.class_lookup[matches[1]]
+                  props.merge!(self.parse_css(props_string))
+                end
+
                 matches = /style="([^"]*)"/.match(token) || /style='([^']*)'/.match(token)
-                style_attribute = matches.nil? ? "" : matches[1]
-
-                font_family = /font\-familiy:\s*([a-zA-Z]+)/.match(style_attribute)
-                fonts << font_family[1] unless font_family.nil?
-
-                font_size = /font\-size:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(style_attribute)
-
-                unless font_size.nil?
-                  length, unit = font_size[1].to_f, font_size[3]
-                  sizes << self.send(:"#{unit}2pt", length)
+                unless matches.nil?
+                  props_string = matches[1]
+                  props.merge!(self.parse_css(props_string))
                 end
 
-                letter_spacing = /letter\-spacing:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(style_attribute)
-                unless letter_spacing.nil?
-                  length, unit = letter_spacing[1].to_f, letter_spacing[3]
-                  character_spacings << self.send(:"#{unit}2pt", length)
-                end
+                fonts << props[:font_family] if props[:font_family]
+                sizes << props[:font_size] if props[:font_size]
+                character_spacings << props[:letter_spacing] if props[:letter_spacing]
               elsif token =~ /^<font[^>]*>$/
                 matches = /name="([^"]*)"/.match(token) || /name='([^']*)'/.match(token)
                 fonts << matches[1] unless matches.nil?
@@ -225,6 +233,27 @@ module Prawn
             end
           end
           array
+        end
+
+        def self.parse_css(s)
+          props = {}
+
+          font_family = /font\-family:\s*([a-zA-Z]+)/.match(s)
+          props[:font_family] = font_family[1] unless font_family.nil?
+
+          font_size = /font\-size:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(s)
+          unless font_size.nil?
+            length, unit = font_size[1].to_f, font_size[3]
+            props[:font_size] = self.send(:"#{unit}2pt", length)
+          end
+
+          letter_spacing = /letter\-spacing:\s*([0-9]+(\.[0-9]+)?)((pt)|(mm)|(cm))/.match(s)
+          unless letter_spacing.nil?
+            length, unit = letter_spacing[1].to_f, letter_spacing[3]
+            props[:letter_spacing] = self.send(:"#{unit}2pt", length)
+          end
+
+          props
         end
 
       end
