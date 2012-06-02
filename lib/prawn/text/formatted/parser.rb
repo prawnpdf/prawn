@@ -14,7 +14,7 @@ module Prawn
 
       class Parser
 
-        def self.to_array(string)
+        def self.to_array(string, *args)
           regex_string = "\n|" +
                          "<b>|</b>|" +
                          "<i>|</i>|" +
