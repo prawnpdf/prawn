@@ -108,8 +108,8 @@ module Prawn
       options = options.dup
       options[:document] = self
 
-      box = if options.delete(:inline_format)
-              array = Text::Formatted::Parser.to_array(string)
+      box = if p = options.delete(:inline_format)
+              array = Text::Formatted.invoke_parser(p, string)
               Text::Formatted::Box.new(array, options)
             else
               Text::Box.new(string, options)

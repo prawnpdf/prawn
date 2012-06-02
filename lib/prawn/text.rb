@@ -156,9 +156,9 @@ module Prawn
       # we modify the options. don't change the user's hash
       options = options.dup
 
-      if options[:inline_format]
+      if p = options[:inline_format]
         options.delete(:inline_format)
-        array = Text::Formatted::Parser.to_array(string)
+        array = Text::Formatted.invoke_parser(p, string)
       else
         array = [{ :text => string }]
       end
