@@ -1010,6 +1010,34 @@ describe "Text::Box wrapping" do
 
     results_with_accent.first_line.length.should == results_without_accent.first_line.length
   end
+
+  it "should allow you disable wrapping by char" do
+    text = "You_can_wrap_this_text_HERE"
+
+    @pdf.font "Courier"
+    text_box = Prawn::Text::Box.new(text,
+                                    :width => 180,
+                                    :overflow => :expand,
+                                    :disable_wrap_by_char => true,
+                                    :document => @pdf)
+    expect { text_box.render }.to raise_error(Prawn::Errors::CannotFit)
+  end
+
+  it "should retain full words with :shrink_to_fit if char wrapping is disabled" do
+    text = "Wrapped_words"
+    expect = "Wrapped_words"
+
+    @pdf.font "Courier"
+    text_box = Prawn::Text::Box.new(text,
+                                    :width => 50,
+                                    :height => 50,
+                                    :size => 50,
+                                    :overflow => :shrink_to_fit,
+                                    :disable_wrap_by_char => true,
+                                    :document => @pdf)
+    text_box.render
+    text_box.text.should == expect
+  end
 end
 
 describe "Text::Box#render with :mode option" do

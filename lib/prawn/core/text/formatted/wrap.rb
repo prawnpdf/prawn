@@ -11,8 +11,9 @@ module Prawn
             @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
             @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document,
               :kerning => options[:kerning])
+
+            @disable_wrap_by_char = options[:disable_wrap_by_char]
           end
-          
 
           # See the developer documentation for Prawn::Core::Text#wrap
           #
@@ -45,7 +46,8 @@ module Prawn
               @line_wrap.wrap_line(:document => @document,
                                    :kerning => @kerning,
                                    :width => available_width,
-                                   :arranger => @arranger)
+                                   :arranger => @arranger,
+                                   :disable_wrap_by_char => @disable_wrap_by_char)
 
               if enough_height_for_this_line?
                 move_baseline_down
