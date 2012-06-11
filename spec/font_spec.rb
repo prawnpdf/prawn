@@ -285,8 +285,8 @@ describe "TTF fonts" do
   it "should encode text without kerning by default" do
     @activa.encode_text("To").should == [[0, "To"]]
 
-    tele = (RUBY_VERSION < '1.9') ? "T\216l\216" :
-      "T\216l\216".force_encoding("US-ASCII")
+    tele = "T\216l\216"
+    tele.force_encoding("binary") if tele.respond_to?(:force_encoding)
     @activa.encode_text("Télé").should == [[0, tele]]
 
     @activa.encode_text("Technology").should == [[0, "Technology"]]
