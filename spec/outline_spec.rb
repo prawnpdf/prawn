@@ -374,6 +374,22 @@ context "foreign character encoding" do
   end
 end
 
+context "with optimize_objects option" do
+  before(:each) do
+    pdf = Prawn::Document.new(:optimize_objects => true) do
+      outline.define do
+        section 'section', :destination => 1, :closed => true
+      end
+    end
+    @hash = PDF::Reader::ObjectHash.new(StringIO.new(pdf.render, 'r+'))
+  end
+
+  it "should generate an outline" do
+    object = find_by_title('section')
+    object.should.not == nil
+  end
+end
+
 def render_and_find_objects
   output = StringIO.new(@pdf.render, 'r+')
   @hash = PDF::Reader::ObjectHash.new(output)
