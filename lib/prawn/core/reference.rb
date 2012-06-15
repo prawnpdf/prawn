@@ -100,6 +100,8 @@ module Prawn
           obj.values.map{|v| [v] + referenced_objects(v) }
         when Array
           obj.map{|v| [v] + referenced_objects(v) }
+        when OutlineRoot, OutlineItem
+          referenced_objects(obj.to_hash)
         else []
         end.flatten.grep(self.class)
       end
