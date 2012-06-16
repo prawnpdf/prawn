@@ -109,7 +109,8 @@ module Prawn
       options[:document] = self
 
       box = if p = options.delete(:inline_format)
-              array = Text::Formatted.invoke_parser(p, string)
+              p = [] unless p.is_a?(Array)
+              array = self.parser.to_array(string, *p)
               Text::Formatted::Box.new(array, options)
             else
               Text::Box.new(string, options)

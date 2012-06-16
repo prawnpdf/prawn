@@ -218,10 +218,12 @@ module Prawn
     #++
     def width_of(string, options={})
       if p = options[:inline_format]
+        p = [] unless p.is_a?(Array)
+
         # Build up an Arranger with the entire string on one line, finalize it,
         # and find its width.
         arranger = Core::Text::Formatted::Arranger.new(self, options)
-        arranger.consumed = Text::Formatted.invoke_parser(p, string)
+        arranger.consumed = self.parser.to_array(string, *p)
         arranger.finalize_line
 
         arranger.line_width
