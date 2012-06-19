@@ -86,7 +86,7 @@ module Prawn
 
       def compact
         # Clear live markers
-        each { |o| o.live = false }
+        each { |o| o.live = o.data.is_a?(Prawn::OutlineItem) }
 
         # Recursively mark reachable objects live, starting from the roots
         # (the only objects referenced in the trailer)
