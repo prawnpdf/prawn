@@ -20,7 +20,8 @@ Prawn::Example.generate("table.pdf") do
                      "cell_borders_and_bg",
                      "cell_text",
                      "image_cells",
-                     "span"
+                     "span",
+                     "before_rendering_page"
                    ]
       ],
       ["Initializer Block", [ "basic_block",

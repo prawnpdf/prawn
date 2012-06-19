@@ -161,6 +161,13 @@ module Prawn
     #
     attr_reader :cells
 
+    # Specify a callback to be called before each page of cells is rendered.
+    # The block is passed a Cells object containing all cells to be rendered on
+    # that page. You can change styling of the cells in this block, but keep in
+    # mind that the cells have already been positioned and sized.
+    # 
+    attr_writer :before_rendering_page
+
     # Returns the width of the table in PDF points.
     #
     def width
@@ -284,6 +291,10 @@ module Prawn
           if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom &&
              cell.row > started_new_page_at_row
             # Ink all cells on the current page
+            if @before_rendering_page
+              c = Cells.new(cells_this_page.map { |c, _| c })
+              @before_rendering_page.call(c)
+            end
             Cell.draw_cells(cells_this_page)
             cells_this_page = []
 
@@ -317,6 +328,10 @@ module Prawn
           last_y = y
         end
         # Draw the last page of cells
+        if @before_rendering_page
+          c = Cells.new(cells_this_page.map { |c, _| c })
+          @before_rendering_page.call(c)
+        end
         Cell.draw_cells(cells_this_page)
 
         @pdf.move_cursor_to(last_y - @cells.last.height)

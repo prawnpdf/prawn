@@ -47,13 +47,20 @@ module Prawn
       #
       def rows(row_spec)
         index_cells unless @indexed
-        row_spec = transform_spec(row_spec, @row_count)
+        row_spec = transform_spec(row_spec, @first_row, @row_count)
         Cells.new(@rows[row_spec] ||= select { |c|
                     row_spec.respond_to?(:include?) ?
                       row_spec.include?(c.row) : row_spec === c.row })
       end
       alias_method :row, :rows
-      
+
+      # Returns the number of rows in the list.
+      #
+      def row_count
+        index_cells unless @indexed
+        @row_count
+      end
+
       # Limits selection to the given column or columns. +col_spec+ can be
       # anything that responds to the === operator selecting a set of 0-based
       # column numbers; most commonly a number or a range.
@@ -63,12 +70,19 @@ module Prawn
       #
       def columns(col_spec)
         index_cells unless @indexed
-        col_spec = transform_spec(col_spec, @column_count)
+        col_spec = transform_spec(col_spec, @first_column, @column_count)
         Cells.new(@columns[col_spec] ||= select { |c|
                     col_spec.respond_to?(:include?) ? 
                       col_spec.include?(c.column) : col_spec === c.column })
       end
       alias_method :column, :columns
+
+      # Returns the number of columns in the list.
+      #
+      def column_count
+        index_cells unless @indexed
+        @column_count
+      end
 
       # Allows you to filter the given cells by arbitrary properties.
       #
@@ -85,7 +99,9 @@ module Prawn
       #   table.cells[0, 0].content # => "First cell content"
       #
       def [](row, col)
-        find { |c| c.row == row && c.column == col }
+        index_cells unless @indexed
+        find { |c| c.row == @first_row + row &&
+                   c.column == @first_column + col }
       end
 
       # Puts a cell in the collection at the given position. Internal use only.
@@ -94,6 +110,8 @@ module Prawn
         cell.extend(Cell::InTable)
         cell.row = row
         cell.column = col
+
+        @indexed = false
 
         self << cell
       end
@@ -184,6 +202,9 @@ module Prawn
           @columns[cell.column] << cell
         end
 
+        @first_row    = @rows.keys.min
+        @first_column = @columns.keys.min
+
         @row_count    = @rows.size
         @column_count = @columns.size
 
@@ -205,16 +226,21 @@ module Prawn
 
       # Transforms +spec+, a column / row specification, into an object that
       # can be compared against a row or column number using ===. Normalizes
-      # negative indices to be positive, given a total size of +total+.
+      # negative indices to be positive, given a total size of +total+. The
+      # first row/column is indicated by +first+; this value is considered row
+      # or column 0.
       #
-      def transform_spec(spec, total)
+      def transform_spec(spec, first, total)
         case spec
         when Range
-          transform_spec(spec.begin, total)..transform_spec(spec.end, total)
+          transform_spec(spec.begin, first, total) ..
+            transform_spec(spec.end, first, total)
         when Integer
-          spec < 0 ? (total + spec) : spec
+          spec < 0 ? (first + total + spec) : first + spec
+        when Enumerable
+          spec.map { |x| first + x }
         else # pass through
-          spec
+          raise "Don't understand spec #{spec.inspect}"
         end
       end
     end

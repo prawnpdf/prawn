@@ -604,6 +604,49 @@ describe "Prawn::Table" do
 
       t.draw
     end
+
+    describe "before_rendering_page callback" do
+      before(:each) { @pdf = Prawn::Document.new }
+
+      it "is passed all cells to be rendered on that page" do
+        kicked = 0
+        callback = lambda do |cells|
+          cells.row_count.should == ((kicked < 3) ? 30 : 10)
+          cells.column_count.should == 1
+          cells.row(0).first.content.should == "foo"
+          cells.row(-1).first.content.should == "foo"
+          kicked += 1
+        end
+
+        @pdf.table([["foo"]] * 100, :before_rendering_page => callback)
+        kicked.should == 4
+      end
+
+      it "numbers cells relative to their position on page" do
+        callback = lambda do |cells|
+          cells[0, 0].content.should == "foo"
+        end
+        @pdf.table([["foo"]] * 100, :before_rendering_page => callback)
+      end
+
+      it "changing cells in the callback affects their rendering" do
+        seq = sequence("render order")
+
+        callback = lambda do |cells|
+          cells[0, 0].background_color = "ff0000"
+        end
+        t = @pdf.make_table([["foo"]] * 40, :before_rendering_page => callback)
+
+        t.cells[30, 0].stubs(:draw_background).checking do |xy|
+          t.cells[30, 0].background_color.should == 'ff0000'
+        end
+        t.cells[31, 0].stubs(:draw_background).checking do |xy|
+          t.cells[31, 0].background_color.should == nil
+        end
+
+        t.draw
+      end
+    end
   end
 
   describe "#style" do
