@@ -2,6 +2,9 @@
 #
 # Generates the Prawn by example manual.
 #
+
+Encoding.default_external = "UTF-8" if defined? Encoding
+
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
