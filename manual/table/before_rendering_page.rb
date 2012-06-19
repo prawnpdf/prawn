@@ -13,12 +13,13 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  table [["foo", "bar", "baz"]] * 40,
-    :cell_style => { :border_width => 1 },
-    :before_rendering_page => lambda { |page|
+  table [["foo", "bar", "baz"]] * 40 do |t|
+    t.cells.border_width = 1
+    t.before_rendering_page do |page|
       page.row(0).border_top_width = 3
       page.row(-1).border_bottom_width = 3
       page.column(0).border_left_width = 3
       page.column(-1).border_right_width = 3
-    }
+    end
+  end
 end

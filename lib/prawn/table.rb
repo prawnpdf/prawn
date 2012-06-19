@@ -166,7 +166,9 @@ module Prawn
     # that page. You can change styling of the cells in this block, but keep in
     # mind that the cells have already been positioned and sized.
     # 
-    attr_writer :before_rendering_page
+    def before_rendering_page(&block)
+      @before_rendering_page = block
+    end
 
     # Returns the width of the table in PDF points.
     #

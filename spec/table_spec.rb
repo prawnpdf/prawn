@@ -610,32 +610,36 @@ describe "Prawn::Table" do
 
       it "is passed all cells to be rendered on that page" do
         kicked = 0
-        callback = lambda do |cells|
-          cells.row_count.should == ((kicked < 3) ? 30 : 10)
-          cells.column_count.should == 1
-          cells.row(0).first.content.should == "foo"
-          cells.row(-1).first.content.should == "foo"
-          kicked += 1
+
+        @pdf.table([["foo"]] * 100) do |t|
+          t.before_rendering_page do |page|
+            page.row_count.should == ((kicked < 3) ? 30 : 10)
+            page.column_count.should == 1
+            page.row(0).first.content.should == "foo"
+            page.row(-1).first.content.should == "foo"
+            kicked += 1
+          end
         end
 
-        @pdf.table([["foo"]] * 100, :before_rendering_page => callback)
         kicked.should == 4
       end
 
       it "numbers cells relative to their position on page" do
-        callback = lambda do |cells|
-          cells[0, 0].content.should == "foo"
+        @pdf.table([["foo"]] * 100) do |t|
+          t.before_rendering_page do |page|
+            page[0, 0].content.should == "foo"
+          end
         end
-        @pdf.table([["foo"]] * 100, :before_rendering_page => callback)
       end
 
       it "changing cells in the callback affects their rendering" do
         seq = sequence("render order")
 
-        callback = lambda do |cells|
-          cells[0, 0].background_color = "ff0000"
+        t = @pdf.make_table([["foo"]] * 40) do |table|
+          table.before_rendering_page do |page|
+            page[0, 0].background_color = "ff0000"
+          end
         end
-        t = @pdf.make_table([["foo"]] * 40, :before_rendering_page => callback)
 
         t.cells[30, 0].stubs(:draw_background).checking do |xy|
           t.cells[30, 0].background_color.should == 'ff0000'
