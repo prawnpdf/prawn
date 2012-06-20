@@ -182,7 +182,7 @@ module Prawn
 
         # append the actual image data to the object as a stream
         obj << img_data
-        
+
         # sort out the colours of the image
         if palette.empty?
           obj.data[:ColorSpace] = color
@@ -192,7 +192,7 @@ module Prawn
           palette_obj << palette
 
           # build the color space array for the image
-          obj.data[:ColorSpace] = [:Indexed, 
+          obj.data[:ColorSpace] = [:Indexed,
                                    :DeviceRGB,
                                    (palette.size / 3) -1,
                                    palette_obj]
@@ -284,13 +284,13 @@ module Prawn
             end
           when 2 # Up
             row_data.each_with_index do |byte, index|
-              col = index / pixel_bytes
+              col = (index / pixel_bytes).floor
               upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
               row_data[index] = (upper + byte) % 256
             end
           when 3  # Average
             row_data.each_with_index do |byte, index|
-              col = index / pixel_bytes
+              col = (index / pixel_bytes).floor
               upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
               left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
 
@@ -299,7 +299,7 @@ module Prawn
           when 4 # Paeth
             left = upper = upper_left = nil
             row_data.each_with_index do |byte, index|
-              col = index / pixel_bytes
+              col = (index / pixel_bytes).floor
 
               left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
               if row.zero?
