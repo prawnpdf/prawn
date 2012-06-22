@@ -285,6 +285,13 @@ module Prawn
           end
         end
 
+        # Duplicate each cell of the header row into @header_row so it can be
+        # modified in before_rendering_page callbacks.
+        if @header
+          @header_row = Cells.new
+          row(0).each { |cell| @header_row[cell.row, cell.column] = cell.dup }
+        end
+
         # Track cells to be drawn on this page. They will all be drawn when this
         # page is finished.
         cells_this_page = []
@@ -302,8 +309,12 @@ module Prawn
 
             # start a new page or column
             @pdf.bounds.move_past_bottom
-            draw_header unless cell.row == 0
-            offset = @pdf.y - cell.y
+            if cell.row > 0 && @header
+              header_height = add_header(cells_this_page, @pdf.cursor, cell.row-1)
+            else
+              header_height = 0
+            end
+            offset = @pdf.y - cell.y - header_height
             started_new_page_at_row = cell.row
           end
    
@@ -470,6 +481,21 @@ module Prawn
       cells
     end
 
+    # Add the header row to the given array of cells at the given y-position.
+    # Number the row with the given +row+ index, so that the header appears (in
+    # any Cells built for this page) immediately prior to the first data row on
+    # this page.
+    #
+    # Return the height of the header.
+    #
+    def add_header(page_of_cells, y, row)
+      @header_row.each do |cell|
+        cell.row = row
+        page_of_cells << [cell, [cell.x, y]]
+      end
+      @header_row.height
+    end
+
     # Raises an error if the data provided cannot be converted into a valid
     # table.
     #
@@ -483,19 +509,6 @@ module Prawn
       unless data.all? { |e| Array === e }
         raise Prawn::Errors::InvalidTableData,
           "data must be a two dimensional array of cellable objects"
-      end
-    end
-
-    # If the table has a header, draw it at the current position.
-    #
-    def draw_header
-      if @header
-        y = @pdf.cursor
-        row(0).each do |cell|
-          cell.y = y
-          cell.draw
-        end
-        @pdf.move_cursor_to(y - row(0).height)
       end
     end
 

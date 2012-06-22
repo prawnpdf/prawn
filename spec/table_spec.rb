@@ -650,6 +650,32 @@ describe "Prawn::Table" do
 
         t.draw
       end
+
+      it "passes headers on page 2+" do
+        @pdf.table([["header"]] + [["foo"]] * 100, :header => true) do |t|
+          t.before_rendering_page do |page|
+            page[0, 0].content.should == "header"
+          end
+        end
+      end
+
+      it "allows headers to be changed" do
+        seq = sequence("render order")
+        @pdf.expects(:draw_text!).with { |t, _| t == "hdr1"}.in_sequence(seq)
+        @pdf.expects(:draw_text!).with { |t, _| t == "foo"}.times(29).in_sequence(seq)
+        # Verify that the changed cell doesn't mutate subsequent pages
+        @pdf.expects(:draw_text!).with { |t, _| t == "header"}.in_sequence(seq)
+        @pdf.expects(:draw_text!).with { |t, _| t == "foo"}.times(11).in_sequence(seq)
+
+        set_first_page_headers = false
+        @pdf.table([["header"]] + [["foo"]] * 40, :header => true) do |t|
+          t.before_rendering_page do |page|
+            # only change first page header
+            page[0, 0].content = "hdr1" unless set_first_page_headers
+            set_first_page_headers = true
+          end
+        end
+      end
     end
   end
 
@@ -715,14 +741,10 @@ describe "Prawn::Table" do
         cells.map { |c, (x, y)| c.background_color } ==
           [nil] + (%w[cccccc ffffff] * 33) + %w[cccccc]
       end
-      # page 2: header 
+      # page 2: header and 3 data cells
       Prawn::Table::Cell.expects(:draw_cells).with do |cells|
-        cells.map { |c, (x, y)| c.background_color } == [nil]
-      end
-      # page 2: 3 data cells
-      Prawn::Table::Cell.expects(:draw_cells).with do |cells|
-        cells.map { |c, (x, y)| c.background_color } ==
-          %w[cccccc ffffff cccccc]
+        cells.map { |c, (x, y)| c.background_color } == 
+          [nil] + %w[cccccc ffffff cccccc]
       end
       t.draw
     end
@@ -855,6 +877,25 @@ describe "Prawn::Table" do
       output = PDF::Inspector::Text.analyze(@pdf.render)   
       output.strings.should == headers + data.flatten[0..-3] + headers +
         data.flatten[-2..-1]
+    end
+
+    it "draws headers at the correct position" do
+      data = [["header"]] + [["foo"]] * 40
+
+      Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+        cells.each do |cell, pt|
+          if cell.content == "header"
+            # Assert that header text is drawn at the same location on each page
+            if @header_location
+              pt.should == @header_location
+            else
+              @header_location = pt
+            end
+          end
+        end
+      end
+      @pdf = Prawn::Document.new
+      @pdf.table(data, :header => true)
     end
 
     it "should not draw header twice when starting new page" do
