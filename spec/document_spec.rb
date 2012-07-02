@@ -676,6 +676,27 @@ describe "The number_pages method" do
       end
     end
   end
+
+  context "height option" do
+    before do
+      @pdf.start_new_page
+    end
+
+    it "with 10 height" do
+      @pdf.expects(:text_box).with("1 1", { :height => 10 })
+      @pdf.number_pages "<page> <total>", :height => 10
+    end
+
+    it "with nil height" do
+      @pdf.expects(:text_box).with("1 1", { :height => nil })
+      @pdf.number_pages "<page> <total>", :height => nil
+    end
+
+    it "with no height" do
+      @pdf.expects(:text_box).with("1 1", { :height => 50 })
+      @pdf.number_pages "<page> <total>", :height => 50
+    end
+  end
 end
 
 describe "The page_match? method" do

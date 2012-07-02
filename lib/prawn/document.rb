@@ -577,7 +577,7 @@ module Prawn
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
-      opts[:height] = 50
+      opts[:height] = 50 unless opts.has_key?(:height)
       
       start_count = false
       pseudopage = 0
