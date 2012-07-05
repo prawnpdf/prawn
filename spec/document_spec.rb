@@ -694,7 +694,7 @@ describe "The number_pages method" do
 
     it "with no height" do
       @pdf.expects(:text_box).with("1 1", { :height => 50 })
-      @pdf.number_pages "<page> <total>", :height => 50
+      @pdf.number_pages "<page> <total>"
     end
   end
 end
