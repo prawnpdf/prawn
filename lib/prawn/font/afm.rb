@@ -205,13 +205,17 @@ module Prawn
             kerned << -k << [byte]
           else
             kerned.last << byte
-          end         
+          end
           last_byte = byte
         end
 
         kerned.map { |e| 
           e = (Array === e ? e.pack("C*") : e)
-          e.respond_to?(:force_encoding) ? e.force_encoding("Windows-1252") : e  
+          # Only force encoding if we know about Windows-1252:
+          # WriteExcel creates an Encoding-compatibility layer in Ruby 1.8
+          # but it doesn't know about Windows-1252, so it woulc break this
+          e.respond_to?(:force_encoding) && Encoding::Windows_1252 ? 
+            e.force_encoding("Windows-1252") : e
         }
       end
 
