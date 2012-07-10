@@ -122,6 +122,10 @@ module Prawn
       # HTML RGB-format ("ccffff") border colors: [top, right, bottom, left].
       #
       attr_reader :border_colors
+      
+      # Line style
+      #
+      attr_reader :border_lines
 
       # Specifies the content for the cell. Must be a "cellable" object. See the
       # "Data" section of the Prawn::Table documentation for details on cellable
@@ -206,6 +210,7 @@ module Prawn
         @borders       = [:top, :bottom, :left, :right]
         @border_widths = [1] * 4
         @border_colors = ['000000'] * 4
+        @border_lines  = [:solid] * 4
         @colspan = 1
         @rowspan = 1
         @dummy_cells = []
@@ -633,6 +638,66 @@ module Prawn
         @min_width ||= padding_left + padding_right
         @max_width ||= @pdf.bounds.width
       end
+      
+      # Sets border line style on this cell. The argument can be one of:
+      #
+      # Possible values are: :solid, :dashed, :dotted
+      #
+      # * one value (sets all lines)
+      # * a two-element array [vertical, horizontal]
+      # * a three-element array [top, horizontal, bottom]
+      # * a four-element array [top, right, bottom, left]
+      #
+      def border_line=(line)
+        @border_lines = case
+        when line.nil?
+          [:solid] * 4
+        when line.length == 1 # all lines
+          [line[0]] * 4
+        when line.length == 2
+          [line[0], line[1], line[0], line[1]]
+        when line.length == 3
+          [line[0], line[1], line[2], line[1]]
+        when line.length == 4
+          [line[0], line[1], line[2], line[3]]
+        else
+          raise ArgumentError, "border_line must be one of :solid, :dashed, "
+            ":dotted or an array [v,h] or [t,r,b,l]"
+        end
+      end
+      alias_method :border_lines=, :border_line=
+
+      def border_top_line
+        @borders.include?(:top) ? @border_lines[0] : 0
+      end
+
+      def border_top_line=(val)
+        @border_lines[0] = val
+      end
+
+      def border_right_line
+        @borders.include?(:right) ? @border_lines[1] : 0
+      end
+
+      def border_right_line=(val)
+        @border_lines[1] = val
+      end
+
+      def border_bottom_line
+        @borders.include?(:bottom) ? @border_lines[2] : 0
+      end
+
+      def border_bottom_line=(val)
+        @border_lines[2] = val
+      end
+
+      def border_left_line
+        @borders.include?(:left) ? @border_lines[3] : 0
+      end
+
+      def border_left_line=(val)
+        @border_lines[3] = val
+      end
 
       # Draws the cell's background color.
       #
@@ -658,6 +723,7 @@ module Prawn
             idx = {:top => 0, :right => 1, :bottom => 2, :left => 3}[border]
             border_color = @border_colors[idx]
             border_width = @border_widths[idx]
+            border_line  = @border_lines[idx]
 
             next if border_width <= 0
 
@@ -676,9 +742,22 @@ module Prawn
                           [x+width, y - height - (border_bottom_width / 2.0)]]
                        end
 
+            case border_line
+            when :dashed
+              @pdf.dash border_width * 4
+            when :dotted
+              @pdf.dash border_width, :space => border_width * 2
+            when :solid
+              # normal line style
+            else
+              raise ArgumentError, "border_line must be :solid, :dotted or" +
+                " :dashed"
+            end
+            
             @pdf.line_width   = border_width
             @pdf.stroke_color = border_color
             @pdf.stroke_line(from, to)
+            @pdf.undash
           end
         end
       end
