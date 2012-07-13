@@ -491,7 +491,7 @@ module Prawn
     def add_header(page_of_cells, y, row)
       @header_row.each do |cell|
         cell.row = row
-        page_of_cells << [cell, [cell.x, y]]
+        page_of_cells << [cell, [cell.x + @pdf.bounds.left_side - @pdf.bounds.absolute_left, y]]
       end
       @header_row.height
     end
