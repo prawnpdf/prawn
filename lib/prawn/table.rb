@@ -295,7 +295,7 @@ module Prawn
         # Track cells to be drawn on this page. They will all be drawn when this
         # page is finished.
         cells_this_page = []
-
+        
         @cells.each do |cell|
           if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom &&
              cell.row > started_new_page_at_row
@@ -309,8 +309,9 @@ module Prawn
 
             # start a new page or column
             @pdf.bounds.move_past_bottom
+            x_offset = @pdf.bounds.left_side - @pdf.bounds.absolute_left
             if cell.row > 0 && @header
-              header_height = add_header(cells_this_page, @pdf.cursor, cell.row-1)
+              header_height = add_header(cells_this_page, x_offset, @pdf.cursor, cell.row-1)
             else
               header_height = 0
             end
@@ -488,10 +489,10 @@ module Prawn
     #
     # Return the height of the header.
     #
-    def add_header(page_of_cells, y, row)
+    def add_header(page_of_cells, x_offset, y, row)
       @header_row.each do |cell|
         cell.row = row
-        page_of_cells << [cell, [cell.x + @pdf.bounds.left_side - @pdf.bounds.absolute_left, y]]
+        page_of_cells << [cell, [cell.x + x_offset, y]]
       end
       @header_row.height
     end
