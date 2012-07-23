@@ -1,9 +1,10 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")           
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 require 'iconv'
+require 'pathname'
 
-describe "Font behavior" do  
+describe "Font behavior" do
 
   it "should default to Helvetica if no font is specified" do
     @pdf = Prawn::Document.new
@@ -111,6 +112,21 @@ describe "font style support" do
     name = text.font_settings.map { |e| e[:name] }.first.to_s
     name = name.sub(/\w+\+/, "subset+")
     name.should == "subset+ActionMan-Italic"
+  end
+
+  it "should accept Pathname objects for font files" do
+    file = Pathname.new( "#{Prawn::DATADIR}/fonts/Chalkboard.ttf" )
+    @pdf.font_families["Chalkboard"] = {
+      :normal => file
+    }
+
+    @pdf.font "Chalkboard"
+    @pdf.text "In Chalkboard"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    name = text.font_settings.map { |e| e[:name] }.first.to_s
+    name = name.sub(/\w+\+/, "subset+")
+    name.should == "subset+Chalkboard"
   end
 end
 
