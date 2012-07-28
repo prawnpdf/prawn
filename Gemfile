@@ -1,7 +1,7 @@
 source :rubygems
 
 gem "ttfunk", "~>1.0.3"
-gem "pdf-reader", ">=0.9.0"
+gem "pdf-reader", ">=0.9.0", "<2.0"
 
 group :test do
   gem "pdf-inspector", "~>1.0.1", :require => "pdf/inspector"
