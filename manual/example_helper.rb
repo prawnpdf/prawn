@@ -175,6 +175,8 @@ module Prawn
           puts example_source
         end
       end
+      
+      reset_settings
     end
     
     # Render a page header. Used on the manual lone pages and package
@@ -231,9 +233,18 @@ module Prawn
       end
     end
     
-    # Reset some of the drawing settings to their defaults. Used on examples.
+    # Reset some of the Prawn settings including graphics and text to their
+    # defaults.
+    # 
+    # Used after rendering examples so that each new example starts with a clean
+    # slate.
     #
-    def reset_drawing_settings
+    def reset_settings
+      
+      # Text settings
+      font("Helvetica", :size => 12)
+      
+      # Graphics settings
       self.line_width = 1
       self.cap_style  = :butt
       self.join_style = :miter

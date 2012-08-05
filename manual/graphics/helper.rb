@@ -8,9 +8,6 @@
 # <code>stroke_axis</code> prints the x and y axis for the current bounding box
 # with markers in 100 increments
 #
-# <code>reset_drawing_settings</code> sets all drawing options to the default
-# values
-#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 

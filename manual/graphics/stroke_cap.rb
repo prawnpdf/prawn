@@ -34,6 +34,4 @@ Prawn::Example.generate(filename) do
     
     y -= 100
   end
-  
-  reset_drawing_settings
 end

@@ -27,6 +27,4 @@ Prawn::Example.generate(filename) do
   bounding_box [10, 300], :width => 450, :height => 150 do
     text "Gradient!", :size => 60
   end
-  
-  reset_drawing_settings
 end

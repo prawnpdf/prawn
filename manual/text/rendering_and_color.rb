@@ -34,6 +34,4 @@ Prawn::Example.generate(filename) do
       text "This text is filled with green and stroked with blue"
     end
   end
-  
-  reset_drawing_settings
 end

@@ -32,6 +32,4 @@ Prawn::Example.generate(filename) do
     
     base_x += 150
   end
-  
-  reset_drawing_settings
 end
