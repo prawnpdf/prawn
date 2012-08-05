@@ -7,17 +7,10 @@ module Prawn
   #
   class ExampleFile
     
-    # Read the data from a file in a given package
+    # Stores the file data
     #
     def initialize(package, file)
-      @data = File.read(File.expand_path(File.join(
-        File.dirname(__FILE__), package, file)))
-      
-      # XXX If we ever have manual files with source encodings other than
-      # UTF-8, we will need to fix this to work on Ruby 1.9.
-      if @data.respond_to?(:encode!)
-        @data.encode!("UTF-8")
-      end
+      @data = read_file(package, file)
     end
     
     # Return the example source code excluding the initial comments and
@@ -55,6 +48,22 @@ module Prawn
                   "<link href=\"\\1\">\\1</link>")
 
       intro
+    end
+    
+  private
+  
+    # Read the data from a file in a given package
+    #
+    def read_file(package, file)
+      data = File.read(File.expand_path(File.join(
+        File.dirname(__FILE__), package, file)))
+      
+      # XXX If we ever have manual files with source encodings other than
+      # UTF-8, we will need to fix this to work on Ruby 1.9.
+      if data.respond_to?(:encode!)
+        data.encode!("UTF-8")
+      end
+      data
     end
     
   end
