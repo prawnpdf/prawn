@@ -11,6 +11,8 @@ require 'prawn/layout'
 
 require 'enumerator'
 
+require File.expand_path(File.join(File.dirname(__FILE__), 'example_file'))
+
 Prawn.debug = true
 
 module Prawn
@@ -54,8 +56,8 @@ module Prawn
     #
     def load_file(package, file)
       start_new_page
-      data = read_file(package, "#{file}.rb")
-      eval extract_generate_block(data)
+      example = ExampleFile.new(package, "#{file}.rb")
+      eval example.generate_block_source
     end
     
     # Create a package cover and load the examples provided in examples_outline
@@ -122,26 +124,26 @@ module Prawn
     # <tt>:full_source</tt>:: Extract the full source code when true. Extract
     # only the code between the generate block when false (default: false)
     #
-    def load_example(package, example, options={})
+    def load_example(package, example_name, options={})
       options = { :eval_source => true,
                   :full_source => false
                 }.merge(options)
       
-      data = read_file(package, example)
+      example = ExampleFile.new(package, example_name)
       
       if options[:full_source]
-        example_source = extract_full_source(data)
+        example_source = example.full_source
       else  
-        example_source = extract_generate_block(data)
+        example_source = example.generate_block_source
       end
       
       start_new_page
       
-      text("<color rgb='999999'>#{package}/</color>#{example}",
+      text("<color rgb='999999'>#{package}/</color>#{example_name}",
            :size => 20, :inline_format => true)
       move_down 10
   
-      text(extract_introduction_text(data), :inline_format => true)
+      text(example.introduction_text, :inline_format => true)
 
       kai_file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       font_families["Kai"] = {
@@ -173,20 +175,6 @@ module Prawn
           puts example_source
         end
       end
-    end
-    
-    # Returns the data read from a file in a given package
-    #
-    def read_file(package, file)
-      data = File.read(File.expand_path(File.join(
-        File.dirname(__FILE__), package, file)))
-
-      # XXX If we ever have manual files with source encodings other than
-      # UTF-8, we will need to fix this to work on Ruby 1.9.
-      if data.respond_to?(:encode!)
-        data.encode!("UTF-8")
-      end
-      data
     end
     
     # Render a page header. Used on the manual lone pages and package
@@ -254,42 +242,5 @@ module Prawn
       stroke_color "000000"
     end
 
-  private
-
-    # Retrieve the source code by excluding initial comments and require calls
-    #
-    def extract_full_source(source)
-      source.gsub(/# encoding.*?\n.*require.*?\n\n/m, "\n")
-    end
-    
-    # Retrieve the code inside the generate block
-    #
-    def extract_generate_block(source)
-      source.slice(/\w+\.generate.*? do(.*)end/m, 1) or source
-    end
-  
-    # Retrieve the comments between the encoding declaration and the require
-    # call for example_helper.rb
-    #
-    # Then removes the '#' signs and reflows the line breaks
-    #
-    def extract_introduction_text(source)
-      intro = source.slice(/# encoding.*?\n(.*)require File\.expand_path/m, 1)
-      intro.gsub!(/\n# (?=\S)/m, ' ')
-      intro.gsub!(/^#/, '')
-      intro.gsub!("\n", "\n\n")
-      intro.rstrip!
-      
-      # Process the <code> tags
-      intro.gsub!(/<code>([^<]+?)<\/code>/,
-                  "<font name='Courier'>\\1<\/font>")
-      
-      # Process the links
-      intro.gsub!(/(https?:\/\/\S+)/,
-                  "<link href=\"\\1\">\\1</link>")
-      
-      intro
-    end
   end
-
 end
