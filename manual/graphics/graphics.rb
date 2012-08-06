@@ -6,45 +6,51 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Example.generate("graphics.pdf") do
-  build_package("graphics", [
-      [ "Basics", [ "helper",
-                    "fill_and_stroke"
-                  ]
-      ],
-      [ "Shapes", [ "lines_and_curves",
-                    "common_lines",
-                    "rectangle",
-                    "polygon",
-                    "circle_and_ellipse"
-                  ]
-      ],
-      [ "Fill and Stroke settings", [ "line_width",
-                                      "stroke_cap",
-                                      "stroke_join",
-                                      "stroke_dash",
-                                      "color",
-                                      "transparency",
-                                      "fill_rules"
-                                    ]
-      ],
-      [ "Transformations", [ "rotate",
-                             "translate",
-                             "scale"
-                           ]
-      ]
-    ]
+  
+  package "graphics" do |p|
     
-  ) do
-    text "Here we show all the drawing methods provided by Prawn. Use them to draw the most beautiful imaginable things.
+    p.section "Basics" do |s|
+      s.example "helper"
+      s.example "fill_and_stroke"
+    end
     
-    Most of the content that you'll add to your pdf document will use the graphics package. Even text is rendered on a page just like a rectangle is so even if you never use any of the shapes described here you should at least read the basic examples.
+    p.section "Shapes" do |s|
+      s.example "lines_and_curves"
+      s.example "common_lines"
+      s.example "rectangle"
+      s.example "polygon"
+      s.example "circle_and_ellipse"
+    end
     
-    The examples show:"
+    p.section "Fill and Stroke settings" do |s|
+      s.example "line_width"
+      s.example "stroke_cap"
+      s.example "stroke_join"
+      s.example "stroke_dash"
+      s.example "color"
+      s.example "transparency"
+      s.example "fill_rules"
+    end
     
-    list( "All the possible ways that you can fill or stroke shapes on a page",
-          "How to draw all the shapes that Prawn has to offer from a measly line to a mighty polygon or ellipse",
-          "What the configuration options are for stroking lines and filling shapes.",
-          "How to apply transformations to your drawing space"
-        )
+    p.section "Transformations" do |s|
+      s.example "rotate"
+      s.example "translate"
+      s.example "scale"
+    end
+    
+    p.intro do
+      text "Here we show all the drawing methods provided by Prawn. Use them to draw the most beautiful imaginable things.
+
+      Most of the content that you'll add to your pdf document will use the graphics package. Even text is rendered on a page just like a rectangle is so even if you never use any of the shapes described here you should at least read the basic examples.
+
+      The examples show:"
+
+      list( "All the possible ways that you can fill or stroke shapes on a page",
+            "How to draw all the shapes that Prawn has to offer from a measly line to a mighty polygon or ellipse",
+            "What the configuration options are for stroking lines and filling shapes.",
+            "How to apply transformations to your drawing space"
+          )
+    end
+    
   end
 end

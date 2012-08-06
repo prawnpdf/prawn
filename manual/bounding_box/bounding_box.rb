@@ -6,30 +6,34 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Example.generate("bounding_box.pdf") do
-  build_package("bounding_box", [
-      [ "Basics", [ "creation",
-                    "bounds"
-                  ]
-      ],
-      [ "Advanced", [ "stretchy",
-                      "nesting",
-                      "indentation",
-                      "canvas",
-                      "russian_boxes"
-                    ]
-      ]
-    ]
+  
+  package "bounding_box" do |p|
     
-  ) do
-    text "Bounding boxes are the basic containers for structuring the content flow. Even being low level building blocks sometimes their simplicity is very welcome.
+    p.section "Basics" do |s|
+      s.example "creation"
+      s.example "bounds"
+    end
     
-    The examples show:"
+    p.section "Advanced" do |s|
+      s.example "stretchy"
+      s.example "nesting"
+      s.example "indentation"
+      s.example "canvas"
+      s.example "russian_boxes"
+    end
+    
+    p.intro do
+      text "Bounding boxes are the basic containers for structuring the content flow. Even being low level building blocks sometimes their simplicity is very welcome.
 
-    list( "How to create bounding boxes with specific dimensions",
-          "How to inspect the current bounding box for its coordinates",
-          "Stretchy bounding boxes",
-          "Nested bounding boxes",
-          "Indent blocks"
-        )
+      The examples show:"
+
+      list( "How to create bounding boxes with specific dimensions",
+            "How to inspect the current bounding box for its coordinates",
+            "Stretchy bounding boxes",
+            "Nested bounding boxes",
+            "Indent blocks"
+          )
+    end
+    
   end
 end

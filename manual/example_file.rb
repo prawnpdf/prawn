@@ -6,11 +6,24 @@ module Prawn
   # and extraction of source code and comments from the actual example files
   #
   class ExampleFile
+    attr_reader :package, :filename
     
-    # Stores the file data
+    # Stores the file data, filename and parent, which will be either an
+    # ExampleSection or an ExamplePackage.
     #
-    def initialize(package, file)
-      @data = read_file(package, file)
+    # Available boolean options are:
+    # 
+    # <tt>:eval_source</tt>:: Evals the example source code (default: true)
+    # <tt>:full_source</tt>:: Extract the full source code when true. Extract
+    # only the code between the generate block when false (default: false)
+    #
+    def initialize(parent, filename, options={})
+      @parent   = parent.is_a?(String) ? ExamplePackage.new(parent) : parent
+      
+      @filename = filename
+      @data     = read_file(@parent.folder_name, filename)
+      
+      @options  = {:eval_source => true, :full_source => false}.merge(options)
     end
     
     # Return the example source code excluding the initial comments and
@@ -25,6 +38,20 @@ module Prawn
     #
     def generate_block_source
       @data.slice(/\w+\.generate.*? do(.*)end/m, 1) or full_source
+    end
+    
+    # Return either the full_source or the generate_block_source according
+    # to the options
+    #
+    def source
+      @options[:full_source] ? full_source : generate_block_source
+    end
+    
+    # Return true if the example source should be evaluated inline within
+    # the manual according to the options
+    #
+    def eval?
+      @options[:eval_source]
     end
     
     # Retrieve the comments between the encoding declaration and the require
@@ -50,13 +77,37 @@ module Prawn
       intro
     end
     
+    # Returns a human friendly version of the example file name
+    #
+    def name
+      @name ||= @filename[/(.*)\.rb/, 1].gsub("_", " ").capitalize
+    end
+    
+    # Returns this example's parent original folder name
+    #
+    def parent_folder_name
+      @parent.folder_name
+    end
+    
+    # Returns the human friendly version of this example parent name
+    #
+    def parent_name
+      @parent.name
+    end
+    
+    # Renders this example to a pdf
+    #
+    def render(pdf)
+      pdf.render_example(self)
+    end
+    
   private
   
     # Read the data from a file in a given package
     #
-    def read_file(package, file)
+    def read_file(folder_name, filename)
       data = File.read(File.expand_path(File.join(
-        File.dirname(__FILE__), package, file)))
+        File.dirname(__FILE__), folder_name, filename)))
       
       # XXX If we ever have manual files with source encodings other than
       # UTF-8, we will need to fix this to work on Ruby 1.9.

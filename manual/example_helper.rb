@@ -12,6 +12,8 @@ require 'prawn/layout'
 require 'enumerator'
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'example_file'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'example_section'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'example_package'))
 
 Prawn.debug = true
 
@@ -35,111 +37,53 @@ module Prawn
   # whole load of manuals)
   #
   class Example < Prawn::Document
-
-    # Loads a package. Used on the manual.
+    
+    # Creates a new ExamplePackage object and yields it to a block in order for
+    # it to be populated with examples, sections and some introduction text.
+    # Used on the package files.
     #
-    def load_package(package)
-      load_file(package, package)
+    def package(package, &block)
+      ep = ExamplePackage.new(package)
+      ep.instance_eval(&block)
+      ep.render(self)
     end
     
-    # Loads a page with outline support. Used on the manual.
+    # Renders an ExamplePackage cover page.
     #
-    def load_page(page, page_name = nil)
-      load_file("manual", page)
+    # Starts a new page and renders the package introduction text.
+    #
+    def render_package_cover(package)
+      header(package.name)
+      instance_eval &(package.intro_block)
 
       outline.define do
-        section(page_name || page.capitalize, :destination => page_number)
+        section(package.name, :destination => page_number, :closed => true)
       end
-    end
-
-    # Opens a file in a given package and evals the source
-    #
-    def load_file(package, file)
-      start_new_page
-      example = ExampleFile.new(package, "#{file}.rb")
-      eval example.generate_block_source
     end
     
-    # Create a package cover and load the examples provided in examples_outline
-    # with outline support. Accepts an optional block to be used as the cover
-    # content. Used by the package files.
+    # Add the ExampleSection to the document outline within the appropriate
+    # package.
     #
-    def build_package(package, examples_outline, &block)
-      title = package.gsub("_", " ").capitalize
-      header(title)
-      
-      if block_given?
-        instance_eval(&block)
+    def render_section(section)
+      outline.add_subsection_to(section.package_name) do 
+        outline.section(section.name, :closed => true)
       end
-
-      outline.define do
-        section(title, :destination => page_number, :closed => true)
-      end
-      
-      build_package_examples(package, title, examples_outline)
     end
     
-    # Recursively iterates through the examples subsections or pages according
-    # to the examples_outline.
+    # Renders an ExampleFile.
     #
-    def build_package_examples(package, title, examples_outline)
-      examples_outline.each do |example_or_subsection|
-        
-        case example_or_subsection
-        when Array
-          
-          outline.add_subsection_to(title) do 
-            outline.section(example_or_subsection.first, :closed => true)
-          end
-          
-          build_package_examples(package,
-                                 example_or_subsection.first,
-                                 example_or_subsection.last)
-          
-        when Hash
-          example = example_or_subsection.delete(:name)
-          load_example(package, "#{example}.rb", example_or_subsection)
-          
-          outline.add_subsection_to(title) do 
-            outline.page(:destination => page_number,
-                         :title => example.gsub("_", " ").capitalize)
-          end
-        
-        else
-          initial_page = page_number + 1
-          load_example(package, "#{example_or_subsection}.rb")
-          
-          outline.add_subsection_to(title) do 
-            outline.page(:destination => initial_page,
-                    :title => example_or_subsection.gsub("_", " ").capitalize)
-          end
-        end
-      end
-    end
-  
-    # Starts a new page to load an example from a given package. Renders an
-    # introductory text and the example source. Available boolean options are:
-    # 
-    # <tt>:eval_source</tt>:: Evals the example source code (default: true)
-    # <tt>:full_source</tt>:: Extract the full source code when true. Extract
-    # only the code between the generate block when false (default: false)
+    # Starts a new page and renders an introductory text, the example source and
+    # evaluates the example source inline whenever that is appropriate according
+    # to the ExampleFile directives.
     #
-    def load_example(package, example_name, options={})
-      options = { :eval_source => true,
-                  :full_source => false
-                }.merge(options)
-      
-      example = ExampleFile.new(package, example_name)
-      
-      if options[:full_source]
-        example_source = example.full_source
-      else  
-        example_source = example.generate_block_source
-      end
-      
+    def render_example(example)
       start_new_page
       
-      text("<color rgb='999999'>#{package}/</color>#{example_name}",
+      outline.add_subsection_to(example.parent_name) do 
+        outline.page(:destination => page_number, :title => example.name)
+      end
+      
+      text("<color rgb='999999'>#{example.parent_folder_name}/</color>#{example.filename}",
            :size => 20, :inline_format => true)
       move_down 10
   
@@ -155,28 +99,52 @@ module Prawn
       }
 
       font('Courier', :size => 11) do
-        text(example_source.gsub(' ', Prawn::Text::NBSP),
+        text(example.source.gsub(' ', Prawn::Text::NBSP),
              :fallback_fonts => ["DejaVu", "Kai"])
       end
       
-      if options[:eval_source]
+      if example.eval?
         move_down 10
         dash(3)
         stroke_horizontal_line(-36, bounds.width + 36)
         undash
-      
+    
         move_down 10
         begin
-          eval example_source
+          eval example.source
         rescue => e
           puts "Error evaluating example: #{e.message}"
           puts
           puts "---- Source: ----"
-          puts example_source
+          puts example.source
         end
       end
       
       reset_settings
+    end
+
+    # Loads a package. Used on the manual.
+    #
+    def load_package(package)
+      load_file(package, package)
+    end
+    
+    # Loads a page with outline support. Used on the manual.
+    #
+    def load_page(page)
+      load_file("manual", page)
+
+      outline.define do
+        section(page.gsub("_", " ").capitalize, :destination => page_number)
+      end
+    end
+
+    # Opens a file in a given package and evals the source
+    #
+    def load_file(package, file)
+      start_new_page
+      example = ExampleFile.new(package, "#{file}.rb")
+      eval example.generate_block_source
     end
     
     # Render a page header. Used on the manual lone pages and package

@@ -6,27 +6,27 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Example.generate("outline.pdf") do
-  build_package("outline", [
-      [ "Basics", [ { :name => "sections_and_pages",
-                      :eval_source => false }
-                  ]
-      ],
-      [ "Adding nodes later",
-                  [ { :name => "add_subsection_to",
-                      :eval_source => false },
-                    { :name => "insert_section_after",
-                      :eval_source => false }
-                  ]
-      ]
-    ]
+  
+  package "outline" do |p|
     
-  ) do
-    text "The outline of a PDF document is the table of contents tab you see to the right or left of your PDF viewer.
+    p.section "Basics" do |s|
+      s.example "sections_and_pages", :eval_source => false
+    end
+    
+    p.section "Adding nodes later" do |s|
+      s.example "add_subsection_to",    :eval_source => false
+      s.example "insert_section_after", :eval_source => false
+    end
+    
+    p.intro do
+      text "The outline of a PDF document is the table of contents tab you see to the right or left of your PDF viewer.
 
-    The examples include:"
+      The examples include:"
 
-    list( "How to define sections and pages",
-          "How to insert sections and/or pages to a previously defined outline structure"
-        )
+      list( "How to define sections and pages",
+            "How to insert sections and/or pages to a previously defined outline structure"
+          )
+    end
+    
   end
 end

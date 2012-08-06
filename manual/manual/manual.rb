@@ -11,7 +11,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
   load_page "cover"
   load_page "foreword"
-  load_page "how_to_read", "How to read this manual"
+  load_page "how_to_read_this_manual"
   
   # Core chapters
   load_package "basic_concepts"
