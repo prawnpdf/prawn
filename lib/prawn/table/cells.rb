@@ -99,9 +99,14 @@ module Prawn
       #   table.cells[0, 0].content # => "First cell content"
       #
       def [](row, col)
+        return nil if empty?
         index_cells unless @indexed
-        find { |c| c.row == @first_row + row &&
-                   c.column == @first_column + col }
+        row_array, col_array = @rows[@first_row + row] || [], @columns[@first_column + col] || []
+        if row_array.length < col_array.length
+          row_array.find { |c| c.column == @first_column + col }
+        else
+          col_array.find { |c| c.row == @first_row + row }
+        end
       end
 
       # Puts a cell in the collection at the given position. Internal use only.
