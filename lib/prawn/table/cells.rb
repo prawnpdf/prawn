@@ -111,7 +111,14 @@ module Prawn
         cell.row = row
         cell.column = col
 
-        @indexed = false
+        if @indexed
+          (@rows[row]    ||= []) << cell
+          (@columns[col] ||= []) << cell
+          @first_row    = row if !@first_row    || row < @first_row
+          @first_column = col if !@first_column || col < @first_column
+          @row_count    = @rows.size
+          @column_count = @columns.size
+        end
 
         self << cell
       end
