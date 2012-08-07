@@ -186,7 +186,7 @@ module Prawn
       #
       def text_rendering_mode(mode=nil)
         return @text_rendering_mode || :fill if mode.nil?
-        unless MODES.keys.include?(mode)
+        unless MODES.key?(mode)
           raise ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
         end
         original_mode = text_rendering_mode
