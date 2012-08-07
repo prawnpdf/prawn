@@ -344,13 +344,11 @@ module Prawn
     #    fill_and_stroke_some_method(*args) #=> some_method(*args); fill_and_stroke
     #
     def method_missing(id,*args,&block)
-      case(id.to_s)
-      when /^fill_and_stroke_(.*)/
-        send($1,*args,&block); fill_and_stroke
-      when /^stroke_(.*)/
-        send($1,*args,&block); stroke
-      when /^fill_(.*)/
-        send($1,*args,&block); fill
+      # When a shortcut is used, define it as a method so future calls will use "normal" method invocation,
+      #   which is faster than "method_missing"
+      if id.to_s =~ /^(fill|stroke|fill_and_stroke)_(.*)$/
+        define_shortcut_method(id, $2, $1)
+        send(id,*args,&block) # now try again
       else
         super
       end
@@ -358,6 +356,11 @@ module Prawn
 
     private
     
+    # Define a method of the form: some_method(*args); some_other_method 
+    def define_shortcut_method(shortcut_method_name, some_method, some_other_method)
+      Prawn::Graphics.class_eval "def #{shortcut_method_name}(*args); #{some_method}(*args); #{some_other_method}; end"      
+    end
+
     def current_line_width
       graphic_state.line_width
     end
