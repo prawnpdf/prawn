@@ -97,11 +97,17 @@ module Prawn
         end
 
         def with_text_color
-          old_color = @pdf.fill_color || '000000'
-          @pdf.fill_color(@text_color) if @text_color
-          yield
-        ensure
-          @pdf.fill_color(old_color)
+          if @text_color
+            begin
+              old_color = @pdf.fill_color || '000000'
+              @pdf.fill_color(@text_color)
+              yield
+            ensure
+              @pdf.fill_color(old_color)
+            end
+          else
+            yield
+          end
         end
         
         def text_box(extra_options={})
