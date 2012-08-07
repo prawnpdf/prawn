@@ -78,9 +78,11 @@ module Prawn
           # Sets a reasonable minimum width. If the cell has any content, make
           # sure we have enough width to be at least one character wide. This is
           # a bit of a hack, but it should work well enough.
-          min_content_width = [natural_content_width, styled_width_of("M")].min
-          @min_width ||= padding_left + padding_right + min_content_width
-          super
+          unless @min_width
+            min_content_width = [natural_content_width, styled_width_of("M")].min
+            @min_width = padding_left + padding_right + min_content_width
+            super
+          end
         end
 
         protected
