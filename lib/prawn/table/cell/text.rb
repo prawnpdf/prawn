@@ -47,7 +47,7 @@ module Prawn
         # from the final width if the text is long.
         #
         def natural_content_width
-          [styled_width_of(@content), @pdf.bounds.width].min
+          @natural_content_width ||= [styled_width_of(@content), @pdf.bounds.width].min
         end
 
         # Returns the natural height of this block of text, wrapped to the
@@ -79,7 +79,7 @@ module Prawn
           # sure we have enough width to be at least one character wide. This is
           # a bit of a hack, but it should work well enough.
           unless @min_width
-            min_content_width = [natural_content_width, styled_width_of("M")].min
+            min_content_width = [natural_content_width, styled_width_of_M].min
             @min_width = padding_left + padding_right + min_content_width
             super
           end
@@ -116,10 +116,11 @@ module Prawn
           if @text_options[:inline_format]
             options = @text_options.dup
             options.delete(:inline_format)
+            options.merge!(extra_options)
+            options[:document] = @pdf
 
             array = ::Prawn::Text::Formatted::Parser.to_array(@content)
-            ::Prawn::Text::Formatted::Box.new(array,
-              options.merge(extra_options).merge(:document => @pdf))
+            ::Prawn::Text::Formatted::Box.new(array, options)
           else
             ::Prawn::Text::Box.new(@content, @text_options.merge(extra_options).
                merge(:document => @pdf))
@@ -132,6 +133,16 @@ module Prawn
           @pdf.width_of(text, @text_options)
         end
 
+        private
+
+        # Returns the width of "M" under the given text options.
+        # We use this to determine the minimum width of a table cell
+        # (Perhaps because "M" is the widest character under certain fonts?)
+        #
+        def styled_width_of_M
+          cache = (@text_options[:style] == :bold) ? (Thread.current[:width_of_bold_m] ||= {}) : (Thread.current[:width_of_m] ||= {})
+          cache[@pdf.font] ||= styled_width_of("M")
+        end
       end
     end
   end
