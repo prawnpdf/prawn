@@ -189,7 +189,7 @@ module Prawn
         unless MODES.key?(mode)
           raise ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
         end
-        original_mode = text_rendering_mode
+        original_mode = @text_rendering_mode || :fill
         if original_mode == mode
           yield
         else

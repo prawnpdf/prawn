@@ -14,7 +14,7 @@ module Prawn
 
       class Parser
 
-        def self.to_array(string)
+        PARSER_REGEX = begin
           regex_string = "\n|" +
                          "<b>|</b>|" +
                          "<i>|</i>|" +
@@ -30,7 +30,10 @@ module Prawn
                          "<a[^>]*>|</a>|" +
                          "[^<\n]+"
           regex = Regexp.new(regex_string, Regexp::MULTILINE)
-          tokens = string.gsub(/<br\s*\/?>/, "\n").scan(regex)
+        end
+
+        def self.to_array(string)
+          tokens = string.gsub(/<br\s*\/?>/, "\n").scan(PARSER_REGEX)
           self.array_from_tokens(tokens)
         end
 
