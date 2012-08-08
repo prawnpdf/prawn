@@ -33,7 +33,7 @@ END_DESC
 
   Please read the changelog for details:
 
-  https://github.com/sandal/prawn/wiki/CHANGELOG
+  https://github.com/pdfprawn/prawn/wiki/CHANGELOG
 
 
   ********************************************
