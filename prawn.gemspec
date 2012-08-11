@@ -33,7 +33,7 @@ END_DESC
 
   Please read the changelog for details:
 
-  https://github.com/pdfprawn/prawn/wiki/CHANGELOG
+  https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 
   ********************************************
