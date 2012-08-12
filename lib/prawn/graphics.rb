@@ -358,7 +358,7 @@ module Prawn
     
     # Define a method of the form: some_method(*args); some_other_method 
     def define_shortcut_method(shortcut_method_name, some_method, some_other_method)
-      Prawn::Graphics.class_eval "def #{shortcut_method_name}(*args); #{some_method}(*args); #{some_other_method}; end"      
+      Prawn::Graphics.class_eval "def #{shortcut_method_name}(*args,&block); #{some_method}(*args,&block); #{some_other_method}; end"      
     end
 
     def current_line_width
