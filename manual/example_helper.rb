@@ -83,25 +83,11 @@ module Prawn
         outline.page(:destination => page_number, :title => example.name)
       end
       
-      text("<color rgb='999999'>#{example.parent_folder_name}/</color>#{example.filename}",
-           :size => 20, :inline_format => true)
-      move_down 10
+      example_header(example.parent_folder_name, example.filename)
   
-      text(example.introduction_text, :inline_format => true)
-
-      kai_file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
-      font_families["Kai"] = {
-        :normal => { :file => kai_file, :font => "Kai" }
-      }
-      dejavu_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-      font_families["DejaVu"] = {
-        :normal => { :file => dejavu_file, :font => "DejaVu" }
-      }
-
-      font('Courier', :size => 11) do
-        text(example.source.gsub(' ', Prawn::Text::NBSP),
-             :fallback_fonts => ["DejaVu", "Kai"])
-      end
+      prose(example.introduction_text)
+      
+      code(example.source)
       
       if example.eval?
         move_down 10
@@ -121,6 +107,39 @@ module Prawn
       end
       
       reset_settings
+    end
+    
+    # Render the example header. Used on the example pages of the manual
+    #
+    def example_header(package, example)
+      text("<color rgb='999999'>#{package}/</color>#{example}",
+           :size => 20, :inline_format => true)
+      move_down 10
+    end
+    
+    # Render a block of text. Used on the introducory text for example pages of
+    # the manual
+    #
+    def prose(str)
+      text(str, :inline_format => true)
+    end
+    
+    # Render a code block. Used on the example pages of the manual
+    #
+    def code(str)
+      kai_file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+      font_families["Kai"] = {
+        :normal => { :file => kai_file, :font => "Kai" }
+      }
+      dejavu_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+      font_families["DejaVu"] = {
+        :normal => { :file => dejavu_file, :font => "DejaVu" }
+      }
+      
+      font('Courier', :size => 11) do
+        text(str.gsub(' ', Prawn::Text::NBSP),
+             :fallback_fonts => ["DejaVu", "Kai"])
+      end
     end
 
     # Loads a package. Used on the manual.
