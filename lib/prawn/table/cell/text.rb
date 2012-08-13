@@ -79,7 +79,7 @@ module Prawn
           # sure we have enough width to be at least one character wide. This is
           # a bit of a hack, but it should work well enough.
           unless @min_width
-            min_content_width = [natural_content_width, styled_width_of_M].min
+            min_content_width = [natural_content_width, styled_width_of_single_character].min
             @min_width = padding_left + padding_right + min_content_width
             super
           end
@@ -135,12 +135,15 @@ module Prawn
 
         private
 
-        # Returns the width of "M" under the given text options.
-        # We use this to determine the minimum width of a table cell
-        # (Perhaps because "M" is the widest character under certain fonts?)
+        # Returns the greatest possible width of any single character
+        #   under the given text options.
+        # (We use this to determine the minimum width of a table cell)
+        # (Although we currently determine this by measuring "M", it should really
+        #   use whichever character is widest under the current font)
         #
-        def styled_width_of_M
-          cache = (@text_options[:style] == :bold) ? (Thread.current[:width_of_bold_m] ||= {}) : (Thread.current[:width_of_m] ||= {})
+        def styled_width_of_single_character
+          key   = (@text_options[:style] == :bold) ? :bold_char_width : :plain_char_width
+          cache = Thread.current[key] ||= {}
           cache[@pdf.font] ||= styled_width_of("M")
         end
       end
