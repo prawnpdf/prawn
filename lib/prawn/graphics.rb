@@ -337,30 +337,152 @@ module Prawn
       add_content "h"
     end
 
-    # Provides the following shortcuts:
-    #
-    #    stroke_some_method(*args) #=> some_method(*args); stroke
-    #    fill_some_method(*args) #=> some_method(*args); fill
-    #    fill_and_stroke_some_method(*args) #=> some_method(*args); fill_and_stroke
-    #
-    def method_missing(id,*args,&block)
-      # When a shortcut is used, define it as a method so future calls will use "normal" method invocation,
-      #   which is faster than "method_missing"
-      if id.to_s =~ /^(fill|stroke|fill_and_stroke)_(.*)$/
-        define_shortcut_method(id, $2, $1)
-        send(id,*args,&block) # now try again
-      else
-        super
-      end
+    ##
+    # :method: stroke_rectangle
+    # Draws and strokes a rectangle given +point+, +width+ and +height+. The rectangle is bounded by its upper-left corner.
+    # :call-seq:
+    #   stroke_rectangle(point,width,height)
+
+    ##
+    # :method: fill_rectangle
+    # Draws and fills ills a rectangle given +point+, +width+ and +height+. The rectangle is bounded by its upper-left corner.
+    # :call-seq:
+    #   fill_rectangle(point,width,height)
+
+    ##
+    # :method: fill_and_stroke_rectangle
+    # Draws, fills, and strokes a rectangle given +point+, +width+ and +height+. The rectangle is bounded by its upper-left corner.
+    # :call-seq:
+    #   fill_and_stroke_rectangle(point,width,height)
+
+    ##
+    # :method: stroke_rounded_rectangle
+    # Draws and strokes a rounded rectangle given +point+, +width+ and +height+ and +radius+ for the rounded corner. The rectangle is bounded by its upper-left corner.
+    # :call-seq:
+    #   stroke_rounded_rectangle(point,width,height,radius)
+
+    ##
+    # :method: fill_rounded_rectangle
+    # Draws and fills a rounded rectangle given +point+, +width+ and +height+ and +radius+ for the rounded corner. The rectangle is bounded by its upper-left corner.
+    # :call-seq:
+    #   fill_rounded_rectangle(point,width,height,radius)
+
+    ##
+    # :method: stroke_and_fill_rounded_rectangle
+    # Draws, fills, and strokes a rounded rectangle given +point+, +width+ and +height+ and +radius+ for the rounded corner. The rectangle is bounded by its upper-left corner.
+    # :call-seq:
+    #   stroke_and_fill_rounded_rectangle(point,width,height,radius)
+
+    ##
+    # :method: stroke_line
+    # Strokes a line from one point to another. Points may be specified as tuples or flattened argument list.
+    # :call-seq:
+    #   stroke_line(*points)
+
+    ##
+    # :method: stroke_horizontal_line
+    # Strokes a horizontal line from +x1+ to +x2+ at the current y position, or the position specified by the :at option.
+    # :call-seq:
+    #   stroke_horizontal_line(x1,x2,options={})
+
+    ##
+    # :method: stroke_horizontal_rule
+    # Strokes a horizontal line from the left border to the right border of the bounding box at the current y position.
+
+    ##
+    # :method: stroke_vertical_line
+    # Strokes a vertical line at the x coordinate given by :at from y1 to y2.
+    # :call-seq:
+    #   stroke_vertical_line(y1,y2,params)
+
+    ##
+    # :method: stroke_curve
+    # Strokes a Bezier curve between two points, bounded by two additional points. 
+    # :call-seq:
+    #   stroke_curve(origin,dest,options={})
+
+    ##
+    # :method: stroke_circle
+    # Draws and strokes a circle of radius +radius+ with the centre-point at +point+.
+    # :call-seq:
+    #   stroke_circle(center,radius)
+
+    ##
+    # :method: fill_circle
+    # Draws and fills a circle of radius +radius+ with the centre-point at +point+.
+    # :call-seq:
+    #   fill_circle(center,radius)
+
+    ##
+    # :method: fill_and_stroke_circle
+    # Draws, strokes, and fills a circle of radius +radius+ with the centre-point at +point+.
+    # :call-seq:
+    #   fill_and_stroke_circle(center,radius)
+
+    ##
+    # :method: stroke_ellipse
+    # Draws and strokes an ellipse of x radius +r1+ and y radius +r2+ with the centre-point at +point+.
+    # :call-seq:
+    #   stroke_ellipse(point, r1, r2 = r1)
+
+    ##
+    # :method: fill_ellipse
+    # Draws and fills an ellipse of x radius +r1+ and y radius +r2+ with the centre-point at +point+.
+    # :call-seq:
+    #   fill_ellipse(point, r1, r2 = r1)
+
+    ##
+    # :method: fill_and_stroke_ellipse
+    # Draws, strokes, and fills an ellipse of x radius +r1+ and y radius +r2+ with the centre-point at +point+.
+    # :call-seq:
+    #   fill_and_stroke_ellipse(point, r1, r2 = r1)
+
+    ##
+    # :method: stroke_polygon
+    # Draws and strokes a polygon from the specified points.
+    # :call-seq:
+    #   stroke_polygon(*points)
+
+    ##
+    # :method: fill_polygon
+    # Draws and fills a polygon from the specified points.
+    # :call-seq:
+    #   fill_polygon(*points)
+
+    ##
+    # :method: fill_and_stroke_polygon
+    # Draws, strokes, and fills a polygon from the specified points.
+    # :call-seq:
+    #   fill_and_stroke_polygon(*points)
+
+    ##
+    # :method: stroke_rounded_polygon
+    # Draws and strokes a rounded polygon from specified points, using +radius+ to define Bezier curves.
+    # :call-seq:
+    #   stroke_rounded_polygon(radius, *points)
+
+    ##
+    # :method: fill_rounded_polygon
+    # Draws and fills a rounded polygon from specified points, using +radius+ to define Bezier curves.
+    # :call-seq:
+    #   fill_rounded_polygon(radius, *points)
+
+    ##
+    # :method: fill_and_stroke_rounded_polygon
+    # Draws, strokes, and fills a rounded polygon from specified points, using +radius+ to define Bezier curves.
+    # :call-seq:
+    #   fill_and_stroke_rounded_polygon(radius, *points)
+    
+    ops    = %w{fill stroke fill_and_stroke}
+    shapes = %w{line_to curve_to rectangle rounded_rectangle line horizontal_line horizontal_rule vertical_line
+                curve circle_at circle ellipse_at ellipse polygon rounded_polygon rounded_vertex}
+
+    ops.product(shapes).each do |operation,shape|
+      class_eval "def #{operation}_#{shape}(*args); #{shape}(*args); #{operation}; end"
     end
 
     private
     
-    # Define a method of the form: some_method(*args); some_other_method 
-    def define_shortcut_method(shortcut_method_name, some_method, some_other_method)
-      Prawn::Graphics.class_eval "def #{shortcut_method_name}(*args,&block); #{some_method}(*args,&block); #{some_other_method}; end"      
-    end
-
     def current_line_width
       graphic_state.line_width
     end
