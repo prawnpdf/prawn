@@ -69,15 +69,6 @@ module Prawn
       intro.gsub!(/^#/, '')
       intro.gsub!("\n", "\n\n")
       intro.rstrip!
-
-      # Process the <code> tags
-      intro.gsub!(/<code>([^<]+?)<\/code>/,
-          "<font name='Courier'><b>\\1<\/b><\/font>")
-
-      # Process the links
-      intro.gsub!(/(https?:\/\/\S+)/,
-                  "<link href=\"\\1\">\\1</link>")
-
       intro
     end
     

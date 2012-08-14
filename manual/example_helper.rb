@@ -161,10 +161,22 @@ module Prawn
       }
     end
     
-    # Render a block of text. Used on the introducory text for example pages of
-    # the manual and on package pages intro
+    # Render a block of text after processing code tags and URLs to be used with
+    # the inline_format option.
+    #
+    # Used on the introducory text for example pages of the manual and on
+    # package pages intro
     #
     def prose(str)
+      
+      # Process the <code> tags
+      str.gsub!(/<code>([^<]+?)<\/code>/,
+          "<font name='Courier'><b>\\1<\/b><\/font>")
+
+      # Process the links
+      str.gsub!(/(https?:\/\/\S+)/,
+                  "<link href=\"\\1\">\\1</link>")
+      
       inner_box do
         font("Helvetica", :size => 11) do
           str.split(/\n\n+/).each do |paragraph|
