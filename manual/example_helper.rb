@@ -69,6 +69,32 @@ module Prawn
     #
     MANUAL_URL = "http://github.com/prawnpdf/prawn/tree/master/manual"
     
+    
+    # Loads a package. Used on the manual.
+    #
+    def load_package(package)
+      load_file(package, package)
+    end
+    
+    # Loads a page with outline support. Used on the manual.
+    #
+    def load_page(page)
+      load_file("manual", page)
+
+      outline.define do
+        section(page.gsub("_", " ").capitalize, :destination => page_number)
+      end
+    end
+
+    # Opens a file in a given package and evals the source
+    #
+    def load_file(package, file)
+      start_new_page
+      example = ExampleFile.new(package, "#{file}.rb")
+      eval example.generate_block_source
+    end
+    
+    
     # Creates a new ExamplePackage object and yields it to a block in order for
     # it to be populated with examples, sections and some introduction text.
     # Used on the package files.
@@ -194,34 +220,13 @@ module Prawn
     # Render a code block. Used on the example pages of the manual
     #
     def code(str)
-      pre_text = str.gsub(' ', Prawn::Text::NBSP)
+      pre_text = [{ :text  => str.gsub(' ', Prawn::Text::NBSP),
+                    :color => LIGHT_GRAY
+                 }]
       
       font('Courier', :size => 9.5) do
-        
-        box_height = height_of(pre_text,
-                               :leading => LEADING,
-                               :fallback_fonts => ["DejaVu", "Kai"])
-        
-        bounding_box([INNER_MARGIN + RHYTHM, cursor],
-                     :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
-          
-          fill_color DARK_GRAY
-          fill_rounded_rectangle([bounds.left - RHYTHM, cursor],
-                                  bounds.left + bounds.right + RHYTHM*2,
-                                  box_height + RHYTHM*2,
-                                  5)
-          fill_color BLACK
-          
-          pad(RHYTHM) do
-            text(pre_text,
-                 :color   => LIGHT_GRAY,
-                 :leading => LEADING,
-                 :fallback_fonts => ["DejaVu", "Kai"])
-          end
-        end
+        colored_box(pre_text, :fill_color => DARK_GRAY)
       end
-      
-      move_down(RHYTHM*2)
     end
 
     # Renders a dashed line and evaluates the code inline
@@ -262,56 +267,11 @@ module Prawn
                ]
       
       font('Helvetica', :size => 9) do
-        
-        box_height = height_of_formatted(reason,
-                               :leading        => LEADING*3,
-                               :fallback_fonts => ["DejaVu", "Kai"])
-        
-        bounding_box([INNER_MARGIN + RHYTHM, cursor],
-                     :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
-          
-          stroke_color DARK_GOLD
-          fill_color   LIGHT_GOLD
-          fill_and_stroke_rounded_rectangle(
-            [bounds.left - RHYTHM, cursor],
-            bounds.left + bounds.right + RHYTHM*2,
-            box_height + RHYTHM*2,
-            5
-          )
-          stroke_color BLACK
-          fill_color   BLACK
-          
-          pad(RHYTHM) do
-            formatted_text(reason,
-                 :leading        => LEADING*3,
-                 :fallback_fonts => ["DejaVu", "Kai"])
-          end
-        end
+        colored_box(reason,
+                    :fill_color   => LIGHT_GOLD,
+                    :stroke_color => DARK_GOLD,
+                    :leading      => LEADING*3)
       end
-    end
-
-    # Loads a package. Used on the manual.
-    #
-    def load_package(package)
-      load_file(package, package)
-    end
-    
-    # Loads a page with outline support. Used on the manual.
-    #
-    def load_page(page)
-      load_file("manual", page)
-
-      outline.define do
-        section(page.gsub("_", " ").capitalize, :destination => page_number)
-      end
-    end
-
-    # Opens a file in a given package and evals the source
-    #
-    def load_file(package, file)
-      start_new_page
-      example = ExampleFile.new(package, "#{file}.rb")
-      eval example.generate_block_source
     end
     
     # Render a page header. Used on the manual lone pages and package
@@ -378,6 +338,45 @@ module Prawn
       bounding_box([INNER_MARGIN, cursor],
                    :width => bounds.width - INNER_MARGIN*2,
                    &block)
+    end
+    
+    # Renders a Bounding Box with some background color and the formatted text
+    # inside it
+    #
+    def colored_box(box_text, options={})
+      options = { :fill_color   => DARK_GRAY,
+                  :stroke_color => nil,
+                  :text_color   => LIGHT_GRAY,
+                  :leading      => LEADING
+                }.merge(options)
+      
+      register_fonts
+      text_options = { :leading        => options[:leading], 
+                       :fallback_fonts => ["DejaVu", "Kai"]
+                     }
+      
+      box_height = height_of_formatted(box_text, text_options)
+      
+      bounding_box([INNER_MARGIN + RHYTHM, cursor],
+                   :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
+        
+        fill_color   options[:fill_color]
+        stroke_color options[:stroke_color] || options[:fill_color]
+        fill_and_stroke_rounded_rectangle(
+            [bounds.left - RHYTHM, cursor],
+            bounds.left + bounds.right + RHYTHM*2,
+            box_height + RHYTHM*2,
+            5
+        )
+        fill_color   BLACK
+        stroke_color BLACK
+        
+        pad(RHYTHM) do
+          formatted_text(box_text, text_options)
+        end
+      end
+      
+      move_down(RHYTHM*2)
     end
     
     # Draws X and Y axis rulers beginning at the margin box origin. Used on
