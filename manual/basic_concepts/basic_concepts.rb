@@ -17,7 +17,7 @@ Prawn::Example.generate("basic_concepts.pdf") do
     p.example "measurement"
     
     p.intro do
-      text "This chapter covers the minimum amount of functionality you'll need to start using Prawn.
+      prose "This chapter covers the minimum amount of functionality you'll need to start using Prawn.
 
       If you are new to Prawn this is the first chapter to read. Once you are comfortable with the concepts shown here you might want to check the Basics section of the Graphics, Bounding Box and Text sections.
 

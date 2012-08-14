@@ -30,14 +30,18 @@ module Prawn
     # require calls
     #
     def full_source
-      @data.gsub(/# encoding.*?\n.*require.*?\n\n/m, "\n")
+      @data.gsub(/# encoding.*?\n.*require.*?\n\n/m, "\n").strip
     end
     
     # Return the example source contained inside the first generate block or
     # the full source if no generate block is found
     #
     def generate_block_source
-      @data.slice(/\w+\.generate.*? do(.*)end/m, 1) or full_source
+      block = @data.slice(/\w+\.generate.*? do\n(.*)end/m, 1)
+        
+      return full_source unless block
+      
+      block.gsub(/^( ){2}/, "")
     end
     
     # Return either the full_source or the generate_block_source according
@@ -68,7 +72,7 @@ module Prawn
 
       # Process the <code> tags
       intro.gsub!(/<code>([^<]+?)<\/code>/,
-                  "<font name='Courier'>\\1<\/font>")
+          "<font name='Courier'><b>\\1<\/b><\/font>")
 
       # Process the links
       intro.gsub!(/(https?:\/\/\S+)/,
