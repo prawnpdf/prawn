@@ -60,7 +60,13 @@ module Prawn
     DARK_GRAY  = "333333"
     BROWN      = "A4441C"
     ORANGE     = "F28157"
+    LIGHT_GOLD = "FBFBBE"
+    DARK_GOLD  = "EBE389"
+    BLUE       = "0000D0"
     
+    # Used to generate the url for the example files
+    #
+    MANUAL_URL = "http://github.com/prawnpdf/prawn/tree/master/manual"
     
     # Creates a new ExamplePackage object and yields it to a block in order for
     # it to be populated with examples, sections and some introduction text.
@@ -114,20 +120,9 @@ module Prawn
       code(example.source)
       
       if example.eval?
-        move_down(RHYTHM)
-        dash(3)
-        stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN)
-        undash
-    
-        move_down(RHYTHM)
-        begin
-          eval example.source
-        rescue => e
-          puts "Error evaluating example: #{e.message}"
-          puts
-          puts "---- Source: ----"
-          puts example.source
-        end
+        eval_code(example.source) 
+      else
+        source_link(example)
       end
       
       reset_settings
@@ -226,6 +221,72 @@ module Prawn
       end
       
       move_down(RHYTHM*2)
+    end
+
+    # Renders a dashed line and evaluates the code inline
+    #
+    def eval_code(source)
+      move_down(RHYTHM)
+
+      dash(3)
+      stroke_color(BROWN)
+      stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN)
+      stroke_color(BLACK)
+      undash
+
+      move_down(RHYTHM*3)
+      begin
+        eval(source)
+      rescue => e
+        puts "Error evaluating example: #{e.message}"
+        puts
+        puts "---- Source: ----"
+        puts source
+      end
+    end
+
+    # Renders a box with the link for the example file
+    #
+    def source_link(example)
+      url = "#{MANUAL_URL}/#{example.parent_folder_name}/#{example.filename}"
+      
+      reason = [{ :text  => "This code snippet was not evaluated inline. " +
+                            "You may see its output by running the " +
+                            "example file located here:\n",
+                  :color => DARK_GRAY },
+                  
+                { :text   => url,
+                  :color  => BLUE,
+                  :link   => url}
+               ]
+      
+      font('Helvetica', :size => 9) do
+        
+        box_height = height_of_formatted(reason,
+                               :leading        => LEADING*3,
+                               :fallback_fonts => ["DejaVu", "Kai"])
+        
+        bounding_box([INNER_MARGIN + RHYTHM, cursor],
+                     :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
+          
+          stroke_color DARK_GOLD
+          fill_color   LIGHT_GOLD
+          fill_and_stroke_rounded_rectangle(
+            [bounds.left - RHYTHM, cursor],
+            bounds.left + bounds.right + RHYTHM*2,
+            box_height + RHYTHM*2,
+            5
+          )
+          stroke_color BLACK
+          fill_color   BLACK
+          
+          pad(RHYTHM) do
+            formatted_text(reason,
+                 :leading        => LEADING*3,
+                 :fallback_fonts => ["DejaVu", "Kai"])
+          end
+        end
+      end
     end
 
     # Loads a package. Used on the manual.
