@@ -48,9 +48,18 @@ module Prawn
     # 
     INNER_MARGIN = 30
     
-    # Vertical Rhythm
+    # Vertical Rhythm settings
     #
-    RHYTHM = 10
+    RHYTHM  = 10
+    LEADING = 2
+    
+    # Colors
+    #
+    BLACK      = "000000"
+    LIGHT_GRAY = "F2F2F2"
+    DARK_GRAY  = "333333"
+    BROWN      = "A4441C"
+    ORANGE     = "F28157"
     
     
     # Creates a new ExamplePackage object and yields it to a block in order for
@@ -130,9 +139,10 @@ module Prawn
       header_box do
         register_fonts
         font('DejaVu', :size => 18) do
-          text("<color rgb='A4441C'>#{package}/</color><color rgb='F28157'>#{example}</color>",
-               :inline_format => true,
-               :valign        => :center)
+          formatted_text([ { :text => package, :color => BROWN  },
+                           { :text => "/",     :color => BROWN  },
+                           { :text => example, :color => ORANGE }
+                         ], :valign => :center)
         end
       end
     end
@@ -157,13 +167,14 @@ module Prawn
     def prose(str)
       inner_box do
         font("Helvetica", :size => 11) do
-          
           str.split(/\n\n+/).each do |paragraph|
+            
             text(paragraph.gsub(/\s+/," "),
                  :align         => :justify,
                  :inline_format => true,
-                 :leading       => 2,
-                 :color         => "333333")
+                 :leading       => LEADING,
+                 :color         => DARK_GRAY)
+            
             move_down(RHYTHM)
           end
         end
@@ -180,23 +191,23 @@ module Prawn
       font('Courier', :size => 9.5) do
         
         box_height = height_of(pre_text,
-                               :leading => 2,
+                               :leading => LEADING,
                                :fallback_fonts => ["DejaVu", "Kai"])
         
         bounding_box([INNER_MARGIN + RHYTHM, cursor],
                      :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
           
-          fill_color "333333"
+          fill_color DARK_GRAY
           fill_rounded_rectangle([bounds.left - RHYTHM, cursor],
                                   bounds.left + bounds.right + RHYTHM*2,
                                   box_height + RHYTHM*2,
                                   5)
-          fill_color "000000"
+          fill_color BLACK
           
           pad(RHYTHM) do
             text(pre_text,
-                 :color   => "F2F2F2",
-                 :leading => 2,
+                 :color   => LIGHT_GRAY,
+                 :leading => LEADING,
                  :fallback_fonts => ["DejaVu", "Kai"])
           end
         end
@@ -236,9 +247,7 @@ module Prawn
       header_box do
         register_fonts
         font('DejaVu', :size => 24) do
-          text("<color rgb='A4441C'>#{str}</color>",
-               :inline_format => true,
-               :valign        => :center)
+          text(str, :color  => BROWN, :valign => :center)
         end
       end
     end
@@ -252,12 +261,12 @@ module Prawn
       inner_box do
         font("Helvetica", :size => 11) do
           items.each do |li|
-            float { text("•", :color => "333333") }
+            float { text("•", :color => DARK_GRAY) }
             indent(RHYTHM) do
               text(li.gsub(/\s+/," "), 
-                :inline_format => true,
-                :color         => "333333",
-                :leading       => 2)
+                   :inline_format => true,
+                   :color         => DARK_GRAY,
+                   :leading       => LEADING)
             end
 
             move_down(RHYTHM)
@@ -273,11 +282,11 @@ module Prawn
                    :width  => bounds.absolute_left + bounds.absolute_right,
                    :height => BOX_MARGIN*2 + RHYTHM*2) do
         
-        fill_color "F2F2F2"
+        fill_color LIGHT_GRAY
         fill_rectangle([bounds.left, bounds.top],
                         bounds.right,
                         bounds.top - bounds.bottom)
-        fill_color "000000"
+        fill_color BLACK
         
         indent(BOX_MARGIN + INNER_MARGIN, &block)
       end
@@ -335,8 +344,8 @@ module Prawn
       self.cap_style  = :butt
       self.join_style = :miter
       undash
-      fill_color "000000"
-      stroke_color "000000"
+      fill_color   BLACK
+      stroke_color BLACK
     end
 
   end
