@@ -114,14 +114,14 @@ module Prawn
     def example_header(package, example)
       bounding_box([-bounds.absolute_left, bounds.absolute_top],
                    :width  => bounds.absolute_left + bounds.absolute_right,
-                   :height => 36+20+36) do
+                   :height => 36 + 20 + 36) do
 
         fill_color "F2F2F2"
         fill_rectangle([bounds.left, bounds.top],
                        bounds.right, bounds.top-bounds.bottom)
         fill_color "000000"
         
-        indent(36+30) do
+        indent(36 + 30) do
           register_fonts
           font('DejaVu', :size => 18) do
             text("<color rgb='A4441C'>#{package}/</color><color rgb='F28157'>#{example}</color>",
@@ -221,7 +221,7 @@ module Prawn
     # introductory pages
     #
     def header(str)
-      bounding_box([-bounds.absolute_left, bounds.absolute_top],
+      bounding_box([-bounds.absolute_left, cursor+36],
                    :width  => bounds.absolute_left + bounds.absolute_right,
                    :height => 36+20+36) do
 

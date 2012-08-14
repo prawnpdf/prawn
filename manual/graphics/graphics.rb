@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("graphics.pdf") do
+Prawn::Example.generate("graphics.pdf", :page_size => "FOLIO") do
   
   package "graphics" do |p|
     
@@ -39,11 +39,11 @@ Prawn::Example.generate("graphics.pdf") do
     end
     
     p.intro do
-      text "Here we show all the drawing methods provided by Prawn. Use them to draw the most beautiful imaginable things.
+      prose("Here we show all the drawing methods provided by Prawn. Use them to draw the most beautiful imaginable things.
 
       Most of the content that you'll add to your pdf document will use the graphics package. Even text is rendered on a page just like a rectangle is so even if you never use any of the shapes described here you should at least read the basic examples.
 
-      The examples show:"
+      The examples show:")
 
       list( "All the possible ways that you can fill or stroke shapes on a page",
             "How to draw all the shapes that Prawn has to offer from a measly line to a mighty polygon or ellipse",

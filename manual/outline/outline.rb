@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("outline.pdf") do
+Prawn::Example.generate("outline.pdf", :page_size => "FOLIO") do
   
   package "outline" do |p|
     
@@ -19,9 +19,9 @@ Prawn::Example.generate("outline.pdf") do
     end
     
     p.intro do
-      text "The outline of a PDF document is the table of contents tab you see to the right or left of your PDF viewer.
+      prose("The outline of a PDF document is the table of contents tab you see to the right or left of your PDF viewer.
 
-      The examples include:"
+      The examples include:")
 
       list( "How to define sections and pages",
             "How to insert sections and/or pages to a previously defined outline structure"

@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("images.pdf") do
+Prawn::Example.generate("images.pdf", :page_size => "FOLIO") do
   
   package "images" do |p|
     
@@ -26,9 +26,9 @@ Prawn::Example.generate("images.pdf") do
     end
     
     p.intro do
-      text "Embedding images on PDF documents is fairly easy. Prawn supports both JPG and PNG images.
+      prose("Embedding images on PDF documents is fairly easy. Prawn supports both JPG and PNG images.
 
-      The examples show:"
+      The examples show:")
 
       list( "How to add an image to a page",
             "How place the image on a specific position",

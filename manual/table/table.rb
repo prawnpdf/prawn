@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("table.pdf") do
+Prawn::Example.generate("table.pdf", :page_size => "FOLIO") do
   
   package "table" do |p|
     
@@ -35,9 +35,9 @@ Prawn::Example.generate("table.pdf") do
     end
     
     p.intro do
-      text "Prawn comes with table support out of the box. Tables can be styled in whatever way you see fit. The whole table, rows, columns and cells can be styled independently from each other.
+      prose("Prawn comes with table support out of the box. Tables can be styled in whatever way you see fit. The whole table, rows, columns and cells can be styled independently from each other.
 
-      The examples show:"
+      The examples show:")
 
       list( "How to create tables",
             "What content can be placed on tables",

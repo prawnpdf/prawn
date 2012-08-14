@@ -9,7 +9,7 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   header("How to read this manual")
   
-  text <<-END_TEXT
+  prose <<-END_TEXT
   This manual is a collection of examples categorized by theme and organized from the least to the most complex. While it covers most of the common use cases it is not a comprehensive guide.
   
   The best way to read it depends on your previous knowledge of Prawn and what you need to accomplish.
@@ -21,9 +21,10 @@ Prawn::Example.generate(filename) do
   Advanced users are encouraged to go beyond this manual and read the source code directly if any doubt you have is not directly covered on this manual.
   END_TEXT
   
+  move_down(36)
   header("Reading the examples")
   
-  text <<-END_TEXT
+  prose <<-END_TEXT
   The title of each example is the relative path from the Prawn source manual/ folder.
   
   The first body of text is the introductory text for the example. Generaly it is a short description of the feature or features illustrated by the example.

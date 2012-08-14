@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("text.pdf") do
+Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
   
   package "text" do |p|
     
@@ -52,9 +52,9 @@ Prawn::Example.generate("text.pdf") do
     end
     
     p.intro do
-      text "This is probably the feature people will use the most. There is no shortage of options when it comes to text. You'll be hard pressed to find a use case that is not covered by one of the text methods and confgurable options.
+      prose("This is probably the feature people will use the most. There is no shortage of options when it comes to text. You'll be hard pressed to find a use case that is not covered by one of the text methods and confgurable options.
 
-      The examples show:"
+      The examples show:")
 
       list( "Text that flows from page to page without the need to start the new pages",
             "How to use text boxes and place them on specific positions",

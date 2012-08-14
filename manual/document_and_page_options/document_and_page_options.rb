@@ -5,7 +5,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("document_and_page_options.pdf") do
+Prawn::Example.generate("document_and_page_options.pdf",
+                        :page_size => "FOLIO") do
   
   package "document_and_page_options" do |p|
     
@@ -15,9 +16,9 @@ Prawn::Example.generate("document_and_page_options.pdf") do
     p.example "metadata",     :eval_source => false, :full_source => true
     
     p.intro do
-      text "So far we've already seen how to create new documents and start new pages. This chapter expands on the previous examples by showing the options avialable. Some of the options are only available when creating new documents.
+      prose("So far we've already seen how to create new documents and start new pages. This chapter expands on the previous examples by showing the options avialable. Some of the options are only available when creating new documents.
 
-      The examples show:"
+      The examples show:")
 
       list( "How to configure page size",
             "How to configure page margins",
