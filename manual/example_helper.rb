@@ -57,6 +57,7 @@ module Prawn
     #
     BLACK      = "000000"
     LIGHT_GRAY = "F2F2F2"
+    GRAY       = "DDDDDD"
     DARK_GRAY  = "333333"
     BROWN      = "A4441C"
     ORANGE     = "F28157"
@@ -363,6 +364,10 @@ module Prawn
         
         indent(BOX_MARGIN + INNER_MARGIN, &block)
       end
+      
+      stroke_color GRAY
+      stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN, :at => cursor)
+      stroke_color BLACK
       
       move_down(RHYTHM*3)
     end
