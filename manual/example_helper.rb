@@ -38,6 +38,21 @@ module Prawn
   #
   class Example < Prawn::Document
     
+    # Values used for the manual design:
+    
+    # This is the default value for the margin box
+    #
+    BOX_MARGIN   = 36
+    
+    # Additional indentation to keep the line measure with a reasonable size
+    # 
+    INNER_MARGIN = 30
+    
+    # Vertical Rhythm
+    #
+    RHYTHM = 10
+    
+    
     # Creates a new ExamplePackage object and yields it to a block in order for
     # it to be populated with examples, sections and some introduction text.
     # Used on the package files.
@@ -90,12 +105,12 @@ module Prawn
       code(example.source)
       
       if example.eval?
-        move_down 10
+        move_down(RHYTHM)
         dash(3)
-        stroke_horizontal_line(-36, bounds.width + 36)
+        stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN)
         undash
     
-        move_down 10
+        move_down(RHYTHM)
         begin
           eval example.source
         rescue => e
@@ -112,26 +127,14 @@ module Prawn
     # Render the example header. Used on the example pages of the manual
     #
     def example_header(package, example)
-      bounding_box([-bounds.absolute_left, bounds.absolute_top],
-                   :width  => bounds.absolute_left + bounds.absolute_right,
-                   :height => 36 + 20 + 36) do
-
-        fill_color "F2F2F2"
-        fill_rectangle([bounds.left, bounds.top],
-                       bounds.right, bounds.top-bounds.bottom)
-        fill_color "000000"
-        
-        indent(36 + 30) do
-          register_fonts
-          font('DejaVu', :size => 18) do
-            text("<color rgb='A4441C'>#{package}/</color><color rgb='F28157'>#{example}</color>",
-                 :inline_format => true,
-                 :valign        => :center)
-          end
+      header_box do
+        register_fonts
+        font('DejaVu', :size => 18) do
+          text("<color rgb='A4441C'>#{package}/</color><color rgb='F28157'>#{example}</color>",
+               :inline_format => true,
+               :valign        => :center)
         end
       end
-      
-      move_down 20
     end
     
     # Register fonts used on the manual
@@ -149,16 +152,24 @@ module Prawn
     end
     
     # Render a block of text. Used on the introducory text for example pages of
-    # the manual
+    # the manual and on package pages intro
     #
     def prose(str)
-      bounding_box([30, cursor], :width => bounds.width-60) do
+      inner_box do
         font("Helvetica", :size => 11) do
-          text(str, :inline_format => true, :leading => 2, :color => "333333", :align => :justify)
+          
+          str.split(/\n\n+/).each do |paragraph|
+            text(paragraph.gsub(/\s+/," "),
+                 :align         => :justify,
+                 :inline_format => true,
+                 :leading       => 2,
+                 :color         => "333333")
+            move_down(RHYTHM)
+          end
         end
       end
       
-      move_down 20
+      move_down(RHYTHM)
     end
     
     # Render a code block. Used on the example pages of the manual
@@ -172,16 +183,17 @@ module Prawn
                                :leading => 2,
                                :fallback_fonts => ["DejaVu", "Kai"])
         
-        bounding_box([40, cursor], :width => bounds.width-80) do
+        bounding_box([INNER_MARGIN + RHYTHM, cursor],
+                     :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
           
           fill_color "333333"
-          fill_rounded_rectangle([bounds.left - 10, cursor],
-                                  bounds.left + bounds.right + 20,
-                                  box_height + 20,
+          fill_rounded_rectangle([bounds.left - RHYTHM, cursor],
+                                  bounds.left + bounds.right + RHYTHM*2,
+                                  box_height + RHYTHM*2,
                                   5)
           fill_color "000000"
           
-          pad(10) do
+          pad(RHYTHM) do
             text(pre_text,
                  :color   => "F2F2F2",
                  :leading => 2,
@@ -190,7 +202,7 @@ module Prawn
         end
       end
       
-      move_down 20
+      move_down(RHYTHM*2)
     end
 
     # Loads a package. Used on the manual.
@@ -221,46 +233,64 @@ module Prawn
     # introductory pages
     #
     def header(str)
-      bounding_box([-bounds.absolute_left, cursor+36],
-                   :width  => bounds.absolute_left + bounds.absolute_right,
-                   :height => 36+20+36) do
-
-        fill_color "F2F2F2"
-        fill_rectangle([bounds.left, bounds.top],
-                       bounds.right, bounds.top-bounds.bottom)
-        fill_color "000000"
-
-        indent(36+30) do
-          register_fonts
-          font('DejaVu', :size => 24) do
-            text("<color rgb='A4441C'>#{str}</color>",
-                 :inline_format => true,
-                 :valign        => :center)
-          end
+      header_box do
+        register_fonts
+        font('DejaVu', :size => 24) do
+          text("<color rgb='A4441C'>#{str}</color>",
+               :inline_format => true,
+               :valign        => :center)
         end
       end
-      move_down 20
     end
     
     # Render the arguments as a bulleted list. Used on the manual package
     # introductory pages
     #
     def list(*items)
-      bounding_box([30, cursor], :width => bounds.width-60) do
+      move_up(RHYTHM)
+      
+      inner_box do
         font("Helvetica", :size => 11) do
           items.each do |li|
-            float { text "•" }
-            indent(10) do
+            float { text("•", :color => "333333") }
+            indent(RHYTHM) do
               text(li.gsub(/\s+/," "), 
                 :inline_format => true,
                 :color         => "333333",
                 :leading       => 2)
             end
 
-            move_down 10
+            move_down(RHYTHM)
           end
         end
       end
+    end
+    
+    # Renders the page-wide headers
+    #
+    def header_box(&block)
+      bounding_box([-bounds.absolute_left, cursor + BOX_MARGIN],
+                   :width  => bounds.absolute_left + bounds.absolute_right,
+                   :height => BOX_MARGIN*2 + RHYTHM*2) do
+        
+        fill_color "F2F2F2"
+        fill_rectangle([bounds.left, bounds.top],
+                        bounds.right,
+                        bounds.top - bounds.bottom)
+        fill_color "000000"
+        
+        indent(BOX_MARGIN + INNER_MARGIN, &block)
+      end
+      
+      move_down(RHYTHM*3)
+    end
+    
+    # Renders a Bounding Box for the inner margin
+    #
+    def inner_box(&block)
+      bounding_box([INNER_MARGIN, cursor],
+                   :width => bounds.width - INNER_MARGIN*2,
+                   &block)
     end
     
     # Draws X and Y axis rulers beginning at the margin box origin. Used on

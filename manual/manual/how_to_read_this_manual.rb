@@ -21,7 +21,7 @@ Prawn::Example.generate(filename) do
   Advanced users are encouraged to go beyond this manual and read the source code directly if any doubt you have is not directly covered on this manual.
   END_TEXT
   
-  move_down(36)
+  move_down(BOX_MARGIN)
   header("Reading the examples")
   
   prose <<-END_TEXT
