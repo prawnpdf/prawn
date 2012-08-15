@@ -14,6 +14,7 @@ require 'enumerator'
 require File.expand_path(File.join(File.dirname(__FILE__), 'example_file'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'example_section'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'example_package'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'syntax_highlight'))
 
 Prawn.debug = true
 
@@ -197,7 +198,7 @@ module Prawn
 
       # Process the links
       str.gsub!(/(https?:\/\/\S+)/,
-                  "<link href=\"\\1\">\\1</link>")
+                  "<color rgb='#{BLUE}'><link href=\"\\1\">\\1</link></color>")
       
       inner_box do
         font("Helvetica", :size => 11) do
@@ -220,9 +221,8 @@ module Prawn
     # Render a code block. Used on the example pages of the manual
     #
     def code(str)
-      pre_text = [{ :text  => str.gsub(' ', Prawn::Text::NBSP),
-                    :color => LIGHT_GRAY
-                 }]
+      pre_text = str.gsub(' ', Prawn::Text::NBSP)
+      pre_text = ::CodeRay.scan(pre_text, :ruby).to_prawn
       
       font('Courier', :size => 9.5) do
         colored_box(pre_text, :fill_color => DARK_GRAY)
