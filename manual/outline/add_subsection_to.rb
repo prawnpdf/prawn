@@ -11,8 +11,8 @@
 # <code>:first</code> or <code>:last</code> (defaults to <code>:last</code>)
 # and a block to declare the subsection.
 #
-# The <code>add_subsection_to</code> block doesn't necessarily create new sections, it
-# may also create new pages.
+# The <code>add_subsection_to</code> block doesn't necessarily create new
+# sections, it may also create new pages.
 #
 # If the parent title provided is the title of a page. The page will be
 # converted into a section to receive the subsection created.
@@ -45,17 +45,17 @@ Prawn::Example.generate(filename) do
   
   outline.add_subsection_to("Section 1") do
     outline.page :title => "Added later - last position",
-         :destination => 6
+                 :destination => 6
   end
   
   outline.add_subsection_to("Added later - first position") do
     outline.page :title => "Another page added later",
-         :destination => 7
+                 :destination => 7
   end
   
   # The title provided is for a page which will be converted into a section
   outline.add_subsection_to("Page 3") do
     outline.page :title => "Last page added",
-         :destination => 8
+                 :destination => 8
   end
 end

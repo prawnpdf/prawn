@@ -8,8 +8,8 @@
 # haven't read it before, read it now before continuing.
 #
 # Text can be rendered by
-# being filled (the default mode) or just stroked or both filled and stroked. This can be
-# set using the <code>text_rendering_mode</code> method or the
+# being filled (the default mode) or just stroked or both filled and stroked.
+# This can be set using the <code>text_rendering_mode</code> method or the
 # <code>:mode</code> option on the text methods.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
@@ -34,6 +34,4 @@ Prawn::Example.generate(filename) do
       text "This text is filled with green and stroked with blue"
     end
   end
-  
-  reset_drawing_settings
 end

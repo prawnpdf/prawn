@@ -22,8 +22,8 @@ Prawn::Example.generate(filename) do
   end
 
   y_position = cursor - 10
-  width = 100
-  height = 100
+  width      = 100
+  height     = 100
   
   Prawn::Text::Box.extensions << TriangleBox
   stroke_rectangle([0, y_position], width, height)

@@ -1,15 +1,12 @@
 # encoding: utf-8
 #
-# To produce this manual we use some helper methods used that are
-# not from the Prawn API.
+# To produce this manual we use the <code>stroke_axis</code> helper method
+# within examples but it is not from the Prawn API. It is defined on this file:
 #
-# They are defined on the example_helper.rb file
+# https://github.com/prawnpdf/prawn/blob/master/manual/example_helper.rb
 #
 # <code>stroke_axis</code> prints the x and y axis for the current bounding box
 # with markers in 100 increments
-#
-# <code>reset_drawing_settings</code> sets all drawing options to the default
-# values
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

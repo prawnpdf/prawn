@@ -1,8 +1,8 @@
 # encoding: utf-8
 #
 # Although the name of the method is <code>transparency</code>, what we are
-# actually setting is the opacity for fill and stroke. So 0 means completely
-# transparent and 1.0 means completely opaque
+# actually setting is the opacity for fill and stroke. So <code>0</code> means
+# completely transparent and <code>1.0</code> means completely opaque
 #
 # You may call it providing one or two values. The first value sets fill opacity
 # and the second value sets stroke opacity. If the second value is omitted fill
@@ -32,6 +32,4 @@ Prawn::Example.generate(filename) do
     
     base_x += 150
   end
-  
-  reset_drawing_settings
 end

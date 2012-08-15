@@ -18,6 +18,7 @@ Prawn::Example.generate(filename) do
   move_down 25
 
   text "Also works with <color rgb='ff0000'>inline</color> formatting",
-    :color => "0000FF", :inline_format => true
+       :color => "0000FF",
+       :inline_format => true
 end
 

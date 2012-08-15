@@ -45,6 +45,4 @@ Prawn::Example.generate(filename) do
          :style => style
     move_down 10
   end
-  
-  font "Helvetica"  # Back to normal
 end

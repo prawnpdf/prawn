@@ -19,5 +19,5 @@ Prawn::Example.generate("full_template.pdf", :template => filename) do
   start_new_page
   
   text "Previous pages and content imported.", :align => :center
-  text "This page and content is brand new.", :align => :center
+  text "This page and content is brand new.",  :align => :center
 end

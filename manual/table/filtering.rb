@@ -2,7 +2,7 @@
 #
 # Another way to reduce the number of cells is to <code>filter</code> the table.
 #
-# <code>filter</code> is just like <code>Enumerable#select</code>. Pass is a
+# <code>filter</code> is just like <code>Enumerable#select</code>. Pass it a
 # block and it will iterate through the cells returning a new 
 # <code>Prawn::Table::Cells</code> instance containing only those cells for
 # which the block was not false.

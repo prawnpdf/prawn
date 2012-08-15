@@ -6,8 +6,9 @@
 # One is to use non-breaking spaces which Prawn won't strip. One shortcut to
 # using them is the <code>Prawn::Text::NBSP</code>.
 #
-# The other is to use the <code>:indent_paragraphs</code> option with the text methods.
-# Just pass a number with the space to indent the first line in each paragraph.
+# The other is to use the <code>:indent_paragraphs</code> option with the text
+# methods. Just pass a number with the space to indent the first line in each
+# paragraph.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

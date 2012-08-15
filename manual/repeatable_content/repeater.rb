@@ -4,9 +4,9 @@
 # the intervals at which the content block should repeat.
 #
 # The interval may be a symbol (<code>:all</code>, <code>:odd</code>,
-# <code>:even</code>), an array listing the pages, a range or a <code>Proc</code> that
-# receives the page number as an argument and should return true if the content
-# is to be repeated on the given page.
+# <code>:even</code>), an array listing the pages, a range or a
+# <code>Proc</code> that receives the page number as an argument and should
+# return true if the content is to be repeated on the given page.
 #
 # You may also pass an option <code>:dynamic</code> to reevaluate the code block
 # on every call which is useful when the content changes based on the page
@@ -20,23 +20,23 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  repeat :all do
+  repeat(:all) do
     draw_text "All pages", :at => bounds.top_left
   end
 
-  repeat :odd do
+  repeat(:odd) do
     draw_text "Only odd pages", :at => [0,0]
   end
 
-  repeat :even do
+  repeat(:even) do
     draw_text "Only even pages", :at => [0,0]
   end
 
-  repeat [1,3,7] do 
+  repeat([1,3,7]) do 
     draw_text "Only on pages 1, 3 and 7", :at => [100,0]
   end
 
-  repeat 2..4 do
+  repeat(2..4) do
     draw_text "From the 2nd to the 4th page", :at => [300,0]
   end
 

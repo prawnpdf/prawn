@@ -9,8 +9,8 @@
 # element because the viewer application can cache the rendered
 # results
 #
-# The <code>create_stamp</code> method does just what it says. Pass it a block with
-# the content that should be generated and the stamp will be created.
+# The <code>create_stamp</code> method does just what it says. Pass it a block
+# with the content that should be generated and the stamp will be created.
 #
 # There are two methods to render the stamp on a page <code>stamp</code> and
 # <code>stamp_at</code>. The first will render the stamp as is while the
