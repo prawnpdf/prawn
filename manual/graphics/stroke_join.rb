@@ -15,22 +15,16 @@ Prawn::Example.generate(filename) do
   stroke_axis
   
   self.line_width = 25
-  y = 200
   
-  3.times do |i|
-    case i
-    when 0; self.join_style = :miter
-    when 1; self.join_style = :round
-    when 2; self.join_style = :bevel
-    end
+  [:miter, :round, :bevel].each_with_index do |style, i|
+    self.join_style = style
     
+    y = 200 - i*100
     stroke do
       move_to(100, y)
       line_to(200, y + 100)
       line_to(300, y)
     end
     stroke_rectangle [400, y + 75], 50, 50
-    
-    y -= 100
   end
 end

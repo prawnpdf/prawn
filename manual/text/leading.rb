@@ -3,8 +3,10 @@
 # Leading is the additional space between lines of text.
 #
 # The leading can be set using the <code>default_leading</code> method which
-# applies to the rest of the document or until it is changed, or inline in the text methods with the
-# <code>:leading</code> option.
+# applies to the rest of the document or until it is changed, or inline in the
+# text methods with the <code>:leading</code> option.
+#
+# The default leading is <code>0</code>.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -20,6 +22,4 @@ Prawn::Example.generate(filename) do
   
   move_down 20
   text string, :leading => 10
-  
-  default_leading 0  # back to normal
 end

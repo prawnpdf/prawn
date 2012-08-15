@@ -415,6 +415,8 @@ module Prawn
       
       # Text settings
       font("Helvetica", :size => 12)
+      default_leading 0
+      self.text_direction = :ltr
       
       # Graphics settings
       self.line_width = 1

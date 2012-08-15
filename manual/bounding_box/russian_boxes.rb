@@ -33,7 +33,7 @@ Prawn::Example.generate(filename) do
   end
 
   # Set up a bbox from the dashed line to the bottom of the page
-  bounding_box [0, cursor], :width => bounds.width, :height => cursor do
+  bounding_box([0, cursor], :width => bounds.width, :height => cursor) do
     recurse_bounding_box
   end
 end

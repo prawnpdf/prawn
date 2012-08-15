@@ -12,13 +12,14 @@ require "coderay"
 class PrawnEncoder < CodeRay::Encoders::Encoder
   register_for :to_prawn
 
-  COLORS = { :comment           => "AEAEAE",
+  COLORS = { :default           => "FFFFFF",
+             
+             :comment           => "AEAEAE",
              :constant          => "88A5D2",
-             :default           => "FFFFFF",
              :instance_variable => "E8ED97",
              :integer           => "C8FF0E",
              :float             => "C8FF0E",
-             :inline_delimiter  => "EF804F",
+             :inline_delimiter  => "EF804F",  # #{} within a string
              :keyword           => "FEE100",
              
              # BUG: There appear to be some problem with this token. Method

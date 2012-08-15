@@ -8,7 +8,7 @@
 #
 # <code>require 'open-uri'</code>
 #
-# <code> start_new_page(:template => open('http://server.com/document.pdf'))</code>
+# <code>start_new_page(:template => open('url_for_your.pdf'))</code>
 #
 # The following example loads some pages from an existing PDF. If we don't
 # specify the <code>:template_page</code> option, the first page of the template

@@ -32,7 +32,7 @@ Prawn::Example.generate("images.pdf", :page_size => "FOLIO") do
 
       list( "How to add an image to a page",
             "How place the image on a specific position",
-            "How to configure the image dimensions by setting the width and height or by using scaling it"
+            "How to configure the image dimensions by setting the width and height or by scaling it"
           )
     end
     

@@ -1,14 +1,13 @@
 # encoding: utf-8
 #
-# Horizontal text alignment can be achieved by supplying the <code>:align</code> option
-# to the text methods. Available options are <code>:left</code>,
-# <code>:right</code>, <code>:center</code>, and <code>:justify</code>, with
-# <code>:left</code> as default.
+# Horizontal text alignment can be achieved by supplying the <code>:align</code>
+# option to the text methods. Available options are <code>:left</code>
+# (default), <code>:right</code>, <code>:center</code>, and
+# <code>:justify</code>.
 #
 # Vertical text alignment can be achieved using the <code>:valign</code> option
-# with the text methods. Available options are <code>:top</code>,
-# <code>:center</code>, and <code>:bottom</code>, with <code>:top</code> as
-# default.
+# with the text methods. Available options are <code>:top</code> (default),
+# <code>:center</code>, and <code>:bottom</code>.
 #
 # Both forms of alignment will be evaluated in the context of the current
 # bounding_box.

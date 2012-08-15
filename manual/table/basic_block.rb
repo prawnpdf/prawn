@@ -4,13 +4,13 @@
 # at once.
 #
 # With initializer blocks we may deal with specific cells.
-# A block passed to one of the table methods (<code>Prawn::Table.new</code>, <code>Prawn::Document#table</code>,
-# <code>Prawn::Document#make_table</code>) will be called after cell setup but
-# before layout. This is a very flexible way to specify styling and layout
-# constraints.
+# A block passed to one of the table methods (<code>Prawn::Table.new</code>,
+# <code>Prawn::Document#table</code>, <code>Prawn::Document#make_table</code>)
+# will be called after cell setup but before layout. This is a very flexible way
+# to specify styling and layout constraints.
 #
-# Just like the <code>Prawn::Document.generate</code> method, the table initializer
-# blocks may be used with and without a block argument.
+# Just like the <code>Prawn::Document.generate</code> method, the table
+# initializer blocks may be used with and without a block argument.
 #
 # The table class has three methods that are handy within an initializer block:
 # <code>cells</code>, <code>rows</code> and <code>columns</code>. All three
@@ -42,9 +42,9 @@ Prawn::Example.generate(filename) do
     cells.padding = 12
     cells.borders = []
     
-    row(0).borders = [:bottom]
+    row(0).borders      = [:bottom]
     row(0).border_width = 2
-    row(0).font_style = :bold
+    row(0).font_style   = :bold
     
     columns(0..1).borders = [:right]
     

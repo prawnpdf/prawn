@@ -18,7 +18,7 @@ Prawn::Example.generate(filename) do
   
   Once you understand the basics you might want to come back to this manual looking for examples that accomplish tasks you need.
   
-  Advanced users are encouraged to go beyond this manual and read the source code directly if any doubt you have is not directly covered on this manual.
+  Advanced users are encouraged to go beyond this manual and read the source code directly if any doubt is not directly covered on this manual.
   END_TEXT
   
   move_down(BOX_MARGIN)
@@ -27,11 +27,15 @@ Prawn::Example.generate(filename) do
   prose <<-END_TEXT
   The title of each example is the relative path from the Prawn source manual/ folder.
   
-  The first body of text is the introductory text for the example. Generaly it is a short description of the feature or features illustrated by the example.
+  The first body of text is the introductory text for the example. Generaly it is a short description of the features illustrated by the example.
   
-  Next comes the example source code in fixed width font. Most of the example snippets illustrate features that alter the page in place. The effect of these snippets is shown right below a dashed line.
+  Next comes the example source code block in fixed width font.
+  
+  Most of the example snippets illustrate features that alter the page in place. The effect of these snippets is shown right below a dashed line. If it doesn't make sense to evaluate the snippet inline, a box with the link for the example file is shown instead.
 
-  Note that the 'stroke_axis' method, used occasionally in the manual, is not part of standard Prawn and is used for demonstrative purposes. It is defined in manual/example_helper.rb.
+  Note that the <code>stroke_axis</code> method, used occasionally in the manual, is not part of standard Prawn and is used for demonstrative purposes. It is defined in this file:
+  
+  https://github.com/prawnpdf/prawn/blob/master/manual/example_helper.rb
   END_TEXT
 
 end

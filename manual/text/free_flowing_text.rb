@@ -10,7 +10,7 @@
 # The text will start being rendered on the current cursor position. When it
 # finishes rendering, the cursor is left directly below the text.
 #
-# This example also shows text flowing across pages folowing the margin box and
+# This example also shows text flowing across pages following the margin box and
 # other bounding boxes.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
@@ -22,12 +22,12 @@ Prawn::Example.generate(filename) do
   text "This text will flow to the next page. " * 20
   
   y_position = cursor - 50
-  bounding_box [0, y_position], :width => 200, :height => 150 do
+  bounding_box([0, y_position], :width => 200, :height => 150) do
     transparent(0.5) { stroke_bounds }
     text "This text will flow along this bounding box we created for it. " * 5
   end
   
-  bounding_box [300, y_position], :width => 200, :height => 150 do
+  bounding_box([300, y_position], :width => 200, :height => 150) do
     transparent(0.5) { stroke_bounds }  # This will stroke on one page
     
     text "Now look what happens when the free flowing text reaches the end " +
@@ -40,7 +40,7 @@ Prawn::Example.generate(filename) do
     transparent(0.5) { stroke_bounds }  # And this will stroke on the next
   end
   
-  move_down 200
+  move_cursor_to 200
   span(350, :position => :center) do
     text "Span is a different kind of bounding box as it lets the text " +
          "flow gracefully onto the next page. It doesn't matter if the text " +

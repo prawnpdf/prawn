@@ -27,7 +27,7 @@ Prawn::Example.generate(filename) do
   line_width 2
 
   text_box "Nonzero Winding Number", :at => [50, 215], :width => 170,
-    :align => :center
+           :align => :center
   polygon(*pentagram.map { |x, y| [x+50, y] })
   fill_and_stroke
 

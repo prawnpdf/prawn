@@ -8,12 +8,12 @@
 # be used for free flowing text just like the <code>text</code> method and the
 # last should be used for positioned text just like <code>text_box</code>.
 #
-# The main difference between these methods and the <code>text</code> and <code>text_box</code> methods is how the text is provided.
-# The <code>formatted_text</code> and
-# <code>formatted_text_box</code> methods accept an array
-# of hashes. Each hash must provide a <code>:text</code> option which is the
-# text string and may provide the following options: <code>:styles</code> (an
-# array of :symbols), <code>:size</code> (the font size),
+# The main difference between these methods and the <code>text</code> and
+# <code>text_box</code> methods is how the text is provided. The
+# <code>formatted_text</code> and <code>formatted_text_box</code> methods accept
+# an array of hashes. Each hash must provide a <code>:text</code> option which
+# is the text string and may provide the following options: <code>:styles</code>
+# (an array of symbols), <code>:size</code> (the font size),
 # <code>:character_spacing</code> (additional space between the characters),
 # <code>:font</code> (the name of a registered font), <code>:color</code> (the
 # same input accepted by <code>fill_color</code> and <code>stroke_color</code>),
@@ -34,7 +34,7 @@ Prawn::Example.generate(filename) do
                    { :text => "Some coloring. ",  :color => "FF00FF" },
                    { :text => "Link to the wiki. ",
                      :color => "0000FF",
-                     :link => "https://github.com/sandal/prawn/wiki/" },
+                     :link => "https://github.com/prawnpdf/prawn/wiki" },
                    { :text => "Link to the Text Reference. "  ,
                      :color => "0000FF",
                      :anchor => "Text Reference" }

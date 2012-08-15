@@ -36,17 +36,17 @@ Prawn::Example.generate(filename) do
     char = index.chr
 
     width = 1000 * width_of(char, :size => FONT_SIZE) / FONT_SIZE
-    size = "%d" % width
+    size  = "%d" % width
 
     data = [code, nil, char, size, nil, name]
-    dx = x
+    dx   = x
     fields.zip(data).each do |(total_width, align), field|
       if field
         width = width_of(field, :size => FONT_SIZE)
 
         case align
-        when :left then offset = 0
-        when :right then offset = total_width - width
+        when :left   then offset = 0
+        when :right  then offset = total_width - width
         when :center then offset = (total_width - width)/2
         end
 
