@@ -9,7 +9,8 @@ Prawn::Example.generate("security.pdf", :page_size => "FOLIO") do
   
   package "security" do |p|
     
-    p.example "encryption", :eval_source => false, :full_source => true
+    p.example "encryption",  :eval_source => false, :full_source => true
+    p.example "permissions", :eval_source => false, :full_source => true
     
     p.intro do
       prose("Security lets you control who can read the document by defining a password.
