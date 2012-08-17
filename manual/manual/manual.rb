@@ -9,6 +9,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Example.generate("manual.pdf",
+                        :optimize_objects => true,
+                        :compress => true,
                         :skip_page_creation => true,
                         :page_size => "FOLIO") do
   
