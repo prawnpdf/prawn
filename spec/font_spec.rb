@@ -302,8 +302,10 @@ describe "TTF fonts" do
     @activa.encode_text("To").should == [[0, "To"]]
 
     tele = "T\216l\216"
-    tele.force_encoding("binary") if tele.respond_to?(:force_encoding)
-    @activa.encode_text("Télé").should == [[0, tele]]
+    result = @activa.encode_text("Télé")
+    result.length.should == 1
+    result[0][0].should == 0
+    result[0][1].bytes.to_a.should == tele.bytes.to_a
 
     @activa.encode_text("Technology").should == [[0, "Technology"]]
     @activa.encode_text("Technology...").should == [[0, "Technology..."]]
