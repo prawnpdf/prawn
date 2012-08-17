@@ -12,8 +12,9 @@
 # will be missing at least one cell in the row below it. See the code and table
 # below for an example.
 #
-# It is illegal to overlap cells via spanning. A Prawn::Errors::InvalidTableSpan
-# error will be raised if spans would cause cells to overlap.
+# It is illegal to overlap cells via spanning. A
+# <code>Prawn::Errors::InvalidTableSpan</code> error will be raised if spans
+# would cause cells to overlap.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

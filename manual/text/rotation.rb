@@ -13,11 +13,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  width = 100
+  width  = 100
   height = 60
-  angle = 30
-  x = 200
-  y = cursor - 30
+  angle  = 30
+  x      = 200
+  y      = cursor - 30
 
   stroke_rectangle [0, y], width, height
   text_box("This text was not rotated",
@@ -25,19 +25,19 @@ Prawn::Example.generate(filename) do
   
   stroke_rectangle [0, y - 100], width, height
   text_box("This text was rotated around the center",
-          :at => [0, y - 100], :width => width, :height => height,
-          :rotate => angle, :rotate_around => :center)
+           :at => [0, y - 100], :width => width, :height => height,
+           :rotate => angle, :rotate_around => :center)
   
   [:lower_left, :upper_left,
-   :lower_right, :upper_right].each_with_index do |around, index|
+   :lower_right, :upper_right].each_with_index do |corner, index|
     
     y = y - 100 if index == 2
     stroke_rectangle [x + (index % 2) * 200, y], width, height
-    text_box("This text was rotated around the #{around} corner.",
-             :at => [x + (index % 2) * 200, y],
-             :width => width,
+    text_box("This text was rotated around the #{corner} corner.",
+             :at     => [x + (index % 2) * 200, y],
+             :width  => width,
              :height => height,
              :rotate => angle,
-             :rotate_around => around)
+             :rotate_around => corner)
   end
 end

@@ -1,6 +1,7 @@
 # encoding: utf-8
 #
-# Prawn supports drawing both lines and curves starting either at the current position, or from a speciied starting position.
+# Prawn supports drawing both lines and curves starting either at the current
+# position, or from a specified starting position.
 #
 # <code>line_to</code> and <code>curve_to</code> set the drawing path from the
 # current drawing position to the specified point. The initial drawing position
@@ -12,7 +13,7 @@
 # specified points.
 #
 # Both curve methods define a Bezier curve bounded by two aditional points
-# provided as the <code>:bounds</code> param
+# provided as the <code>:bounds</code> param.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -29,7 +30,7 @@ Prawn::Example.generate(filename) do
     line_to 0, 100
   
     curve_to [150, 250], :bounds => [[20, 200], [120, 200]]
-    curve_to [200, 0], :bounds => [[150, 200], [450, 10]]
+    curve_to [200, 0],   :bounds => [[150, 200], [450, 10]]
   end
   
   # line and curve

@@ -1,8 +1,8 @@
 # encoding: utf-8
 #
 # A PDF document is a collection of pages. When we create a new document be it
-# with Document.new or on a Document.generate block one initial page is created
-# for us.
+# with <code>Document.new</code> or on a <code>Document.generate</code> block
+# one initial page is created for us.
 #
 # Some methods might create new pages automatically like <code>text</code> which
 # will create a new page whenever the text string cannot fit on the current

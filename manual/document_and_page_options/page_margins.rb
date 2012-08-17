@@ -28,7 +28,7 @@ Prawn::Document.generate("page_margins.pdf",
   stroke_bounds
 
   start_new_page(:margin => 50)
-  text "50 pts margins. Using the margin option will reset previous specific " + 
+  text "50 pts margins. Using the margin option will reset previous specific " +
        "calls to left, right, top and bottom margins."
   stroke_bounds
   

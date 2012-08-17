@@ -11,6 +11,11 @@ require 'prawn/layout'
 
 require 'enumerator'
 
+require File.expand_path(File.join(File.dirname(__FILE__), 'example_file'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'example_section'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'example_package'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'syntax_highlight'))
+
 Prawn.debug = true
 
 module Prawn
@@ -33,7 +38,39 @@ module Prawn
   # whole load of manuals)
   #
   class Example < Prawn::Document
-
+    
+    # Values used for the manual design:
+    
+    # This is the default value for the margin box
+    #
+    BOX_MARGIN   = 36
+    
+    # Additional indentation to keep the line measure with a reasonable size
+    # 
+    INNER_MARGIN = 30
+    
+    # Vertical Rhythm settings
+    #
+    RHYTHM  = 10
+    LEADING = 2
+    
+    # Colors
+    #
+    BLACK      = "000000"
+    LIGHT_GRAY = "F2F2F2"
+    GRAY       = "DDDDDD"
+    DARK_GRAY  = "333333"
+    BROWN      = "A4441C"
+    ORANGE     = "F28157"
+    LIGHT_GOLD = "FBFBBE"
+    DARK_GOLD  = "EBE389"
+    BLUE       = "0000D0"
+    
+    # Used to generate the url for the example files
+    #
+    MANUAL_URL = "http://github.com/prawnpdf/prawn/tree/master/manual"
+    
+    
     # Loads a package. Used on the manual.
     #
     def load_package(package)
@@ -42,11 +79,11 @@ module Prawn
     
     # Loads a page with outline support. Used on the manual.
     #
-    def load_page(page, page_name = nil)
+    def load_page(page)
       load_file("manual", page)
 
       outline.define do
-        section(page_name || page.capitalize, :destination => page_number)
+        section(page.gsub("_", " ").capitalize, :destination => page_number)
       end
     end
 
@@ -54,167 +91,292 @@ module Prawn
     #
     def load_file(package, file)
       start_new_page
-      data = read_file(package, "#{file}.rb")
-      eval extract_generate_block(data)
+      example = ExampleFile.new(package, "#{file}.rb")
+      eval example.generate_block_source
     end
     
-    # Create a package cover and load the examples provided in examples_outline
-    # with outline support. Accepts an optional block to be used as the cover
-    # content. Used by the package files.
+    
+    # Creates a new ExamplePackage object and yields it to a block in order for
+    # it to be populated with examples, sections and some introduction text.
+    # Used on the package files.
     #
-    def build_package(package, examples_outline, &block)
-      title = package.gsub("_", " ").capitalize
-      header(title)
-      
-      if block_given?
-        instance_eval(&block)
-      end
+    def package(package, &block)
+      ep = ExamplePackage.new(package)
+      ep.instance_eval(&block)
+      ep.render(self)
+    end
+    
+    # Renders an ExamplePackage cover page.
+    #
+    # Starts a new page and renders the package introduction text.
+    #
+    def render_package_cover(package)
+      header(package.name)
+      instance_eval &(package.intro_block)
 
       outline.define do
-        section(title, :destination => page_number, :closed => true)
+        section(package.name, :destination => page_number, :closed => true)
       end
-      
-      build_package_examples(package, title, examples_outline)
     end
     
-    # Recursively iterates through the examples subsections or pages according
-    # to the examples_outline.
+    # Add the ExampleSection to the document outline within the appropriate
+    # package.
     #
-    def build_package_examples(package, title, examples_outline)
-      examples_outline.each do |example_or_subsection|
-        
-        case example_or_subsection
-        when Array
-          
-          outline.add_subsection_to(title) do 
-            outline.section(example_or_subsection.first, :closed => true)
-          end
-          
-          build_package_examples(package,
-                                 example_or_subsection.first,
-                                 example_or_subsection.last)
-          
-        when Hash
-          example = example_or_subsection.delete(:name)
-          load_example(package, "#{example}.rb", example_or_subsection)
-          
-          outline.add_subsection_to(title) do 
-            outline.page(:destination => page_number,
-                         :title => example.gsub("_", " ").capitalize)
-          end
-        
-        else
-          initial_page = page_number + 1
-          load_example(package, "#{example_or_subsection}.rb")
-          
-          outline.add_subsection_to(title) do 
-            outline.page(:destination => initial_page,
-                    :title => example_or_subsection.gsub("_", " ").capitalize)
-          end
+    def render_section(section)
+      outline.add_subsection_to(section.package_name) do 
+        outline.section(section.name, :closed => true)
+      end
+    end
+    
+    # Renders an ExampleFile.
+    #
+    # Starts a new page and renders an introductory text, the example source and
+    # evaluates the example source inline whenever that is appropriate according
+    # to the ExampleFile directives.
+    #
+    def render_example(example)
+      start_new_page
+      
+      outline.add_subsection_to(example.parent_name) do 
+        outline.page(:destination => page_number, :title => example.name)
+      end
+      
+      example_header(example.parent_folder_name, example.filename)
+  
+      prose(example.introduction_text)
+      
+      code(example.source)
+      
+      if example.eval?
+        eval_code(example.source) 
+      else
+        source_link(example)
+      end
+      
+      reset_settings
+    end
+    
+    # Render the example header. Used on the example pages of the manual
+    #
+    def example_header(package, example)
+      header_box do
+        register_fonts
+        font('DejaVu', :size => 18) do
+          formatted_text([ { :text => package, :color => BROWN  },
+                           { :text => "/",     :color => BROWN  },
+                           { :text => example, :color => ORANGE }
+                         ], :valign => :center)
         end
       end
     end
-  
-    # Starts a new page to load an example from a given package. Renders an
-    # introductory text and the example source. Available boolean options are:
-    # 
-    # <tt>:eval_source</tt>:: Evals the example source code (default: true)
-    # <tt>:full_source</tt>:: Extract the full source code when true. Extract
-    # only the code between the generate block when false (default: false)
+    
+    # Register fonts used on the manual
     #
-    def load_example(package, example, options={})
-      options = { :eval_source => true,
-                  :full_source => false
-                }.merge(options)
-      
-      data = read_file(package, example)
-      
-      if options[:full_source]
-        example_source = extract_full_source(data)
-      else  
-        example_source = extract_generate_block(data)
-      end
-      
-      start_new_page
-      
-      text("<color rgb='999999'>#{package}/</color>#{example}",
-           :size => 20, :inline_format => true)
-      move_down 10
-  
-      text(extract_introduction_text(data), :inline_format => true)
-
+    def register_fonts
       kai_file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       font_families["Kai"] = {
         :normal => { :file => kai_file, :font => "Kai" }
       }
+
       dejavu_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
       font_families["DejaVu"] = {
         :normal => { :file => dejavu_file, :font => "DejaVu" }
       }
-
-      font('Courier', :size => 11) do
-        text(example_source.gsub(' ', Prawn::Text::NBSP),
-             :fallback_fonts => ["DejaVu", "Kai"])
-      end
-      
-      if options[:eval_source]
-        move_down 10
-        dash(3)
-        stroke_horizontal_line(-36, bounds.width + 36)
-        undash
-      
-        move_down 10
-        begin
-          eval example_source
-        rescue => e
-          puts "Error evaluating example: #{e.message}"
-          puts
-          puts "---- Source: ----"
-          puts example_source
-        end
-      end
     end
     
-    # Returns the data read from a file in a given package
+    # Render a block of text after processing code tags and URLs to be used with
+    # the inline_format option.
     #
-    def read_file(package, file)
-      data = File.read(File.expand_path(File.join(
-        File.dirname(__FILE__), package, file)))
+    # Used on the introducory text for example pages of the manual and on
+    # package pages intro
+    #
+    def prose(str)
+      
+      # Process the <code> tags
+      str.gsub!(/<code>([^<]+?)<\/code>/,
+          "<font name='Courier'><b>\\1<\/b><\/font>")
 
-      # XXX If we ever have manual files with source encodings other than
-      # UTF-8, we will need to fix this to work on Ruby 1.9.
-      if data.respond_to?(:encode!)
-        data.encode!("UTF-8")
+      # Process the links
+      str.gsub!(/(https?:\/\/\S+)/,
+                  "<color rgb='#{BLUE}'><link href=\"\\1\">\\1</link></color>")
+      
+      inner_box do
+        font("Helvetica", :size => 11) do
+          str.split(/\n\n+/).each do |paragraph|
+            
+            text(paragraph.gsub(/\s+/," "),
+                 :align         => :justify,
+                 :inline_format => true,
+                 :leading       => LEADING,
+                 :color         => DARK_GRAY)
+            
+            move_down(RHYTHM)
+          end
+        end
       end
-      data
+      
+      move_down(RHYTHM)
+    end
+    
+    # Render a code block. Used on the example pages of the manual
+    #
+    def code(str)
+      pre_text = str.gsub(' ', Prawn::Text::NBSP)
+      pre_text = ::CodeRay.scan(pre_text, :ruby).to_prawn
+      
+      font('Courier', :size => 9.5) do
+        colored_box(pre_text, :fill_color => DARK_GRAY)
+      end
+    end
+
+    # Renders a dashed line and evaluates the code inline
+    #
+    def eval_code(source)
+      move_down(RHYTHM)
+
+      dash(3)
+      stroke_color(BROWN)
+      stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN)
+      stroke_color(BLACK)
+      undash
+
+      move_down(RHYTHM*3)
+      begin
+        eval(source)
+      rescue => e
+        puts "Error evaluating example: #{e.message}"
+        puts
+        puts "---- Source: ----"
+        puts source
+      end
+    end
+
+    # Renders a box with the link for the example file
+    #
+    def source_link(example)
+      url = "#{MANUAL_URL}/#{example.parent_folder_name}/#{example.filename}"
+      
+      reason = [{ :text  => "This code snippet was not evaluated inline. " +
+                            "You may see its output by running the " +
+                            "example file located here:\n",
+                  :color => DARK_GRAY },
+                  
+                { :text   => url,
+                  :color  => BLUE,
+                  :link   => url}
+               ]
+      
+      font('Helvetica', :size => 9) do
+        colored_box(reason,
+                    :fill_color   => LIGHT_GOLD,
+                    :stroke_color => DARK_GOLD,
+                    :leading      => LEADING*3)
+      end
     end
     
     # Render a page header. Used on the manual lone pages and package
     # introductory pages
     #
     def header(str)
-      move_down 40
-      text(str, :size => 25, :style => :bold)
-      stroke_horizontal_rule
-      move_down 30
+      header_box do
+        register_fonts
+        font('DejaVu', :size => 24) do
+          text(str, :color  => BROWN, :valign => :center)
+        end
+      end
     end
     
     # Render the arguments as a bulleted list. Used on the manual package
     # introductory pages
     #
     def list(*items)
-      move_down 20
+      move_up(RHYTHM)
       
-      items.each do |li|
-        float { text "•" }
-        indent(10) do
-          text li.gsub(/\s+/," "), 
-            :inline_format => true,
-            :leading       => 2
-        end
+      inner_box do
+        font("Helvetica", :size => 11) do
+          items.each do |li|
+            float { text("•", :color => DARK_GRAY) }
+            indent(RHYTHM) do
+              text(li.gsub(/\s+/," "), 
+                   :inline_format => true,
+                   :color         => DARK_GRAY,
+                   :leading       => LEADING)
+            end
 
-        move_down 10
+            move_down(RHYTHM)
+          end
+        end
       end
+    end
+    
+    # Renders the page-wide headers
+    #
+    def header_box(&block)
+      bounding_box([-bounds.absolute_left, cursor + BOX_MARGIN],
+                   :width  => bounds.absolute_left + bounds.absolute_right,
+                   :height => BOX_MARGIN*2 + RHYTHM*2) do
+        
+        fill_color LIGHT_GRAY
+        fill_rectangle([bounds.left, bounds.top],
+                        bounds.right,
+                        bounds.top - bounds.bottom)
+        fill_color BLACK
+        
+        indent(BOX_MARGIN + INNER_MARGIN, &block)
+      end
+      
+      stroke_color GRAY
+      stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN, :at => cursor)
+      stroke_color BLACK
+      
+      move_down(RHYTHM*3)
+    end
+    
+    # Renders a Bounding Box for the inner margin
+    #
+    def inner_box(&block)
+      bounding_box([INNER_MARGIN, cursor],
+                   :width => bounds.width - INNER_MARGIN*2,
+                   &block)
+    end
+    
+    # Renders a Bounding Box with some background color and the formatted text
+    # inside it
+    #
+    def colored_box(box_text, options={})
+      options = { :fill_color   => DARK_GRAY,
+                  :stroke_color => nil,
+                  :text_color   => LIGHT_GRAY,
+                  :leading      => LEADING
+                }.merge(options)
+      
+      register_fonts
+      text_options = { :leading        => options[:leading], 
+                       :fallback_fonts => ["DejaVu", "Kai"]
+                     }
+      
+      box_height = height_of_formatted(box_text, text_options)
+      
+      bounding_box([INNER_MARGIN + RHYTHM, cursor],
+                   :width => bounds.width - (INNER_MARGIN+RHYTHM)*2) do
+        
+        fill_color   options[:fill_color]
+        stroke_color options[:stroke_color] || options[:fill_color]
+        fill_and_stroke_rounded_rectangle(
+            [bounds.left - RHYTHM, cursor],
+            bounds.left + bounds.right + RHYTHM*2,
+            box_height + RHYTHM*2,
+            5
+        )
+        fill_color   BLACK
+        stroke_color BLACK
+        
+        pad(RHYTHM) do
+          formatted_text(box_text, text_options)
+        end
+      end
+      
+      move_down(RHYTHM*2)
     end
     
     # Draws X and Y axis rulers beginning at the margin box origin. Used on
@@ -243,53 +405,27 @@ module Prawn
       end
     end
     
-    # Reset some of the drawing settings to their defaults. Used on examples.
+    # Reset some of the Prawn settings including graphics and text to their
+    # defaults.
+    # 
+    # Used after rendering examples so that each new example starts with a clean
+    # slate.
     #
-    def reset_drawing_settings
+    def reset_settings
+      
+      # Text settings
+      font("Helvetica", :size => 12)
+      default_leading 0
+      self.text_direction = :ltr
+      
+      # Graphics settings
       self.line_width = 1
       self.cap_style  = :butt
       self.join_style = :miter
       undash
-      fill_color "000000"
-      stroke_color "000000"
+      fill_color   BLACK
+      stroke_color BLACK
     end
 
-  private
-
-    # Retrieve the source code by excluding initial comments and require calls
-    #
-    def extract_full_source(source)
-      source.gsub(/# encoding.*?\n.*require.*?\n\n/m, "\n")
-    end
-    
-    # Retrieve the code inside the generate block
-    #
-    def extract_generate_block(source)
-      source.slice(/\w+\.generate.*? do(.*)end/m, 1) or source
-    end
-  
-    # Retrieve the comments between the encoding declaration and the require
-    # call for example_helper.rb
-    #
-    # Then removes the '#' signs and reflows the line breaks
-    #
-    def extract_introduction_text(source)
-      intro = source.slice(/# encoding.*?\n(.*)require File\.expand_path/m, 1)
-      intro.gsub!(/\n# (?=\S)/m, ' ')
-      intro.gsub!(/^#/, '')
-      intro.gsub!("\n", "\n\n")
-      intro.rstrip!
-      
-      # Process the <code> tags
-      intro.gsub!(/<code>([^<]+?)<\/code>/,
-                  "<font name='Courier'>\\1<\/font>")
-      
-      # Process the links
-      intro.gsub!(/(https?:\/\/\S+)/,
-                  "<link href=\"\\1\">\\1</link>")
-      
-      intro
-    end
   end
-
 end

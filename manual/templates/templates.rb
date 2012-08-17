@@ -5,22 +5,22 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("templates.pdf") do
-  build_package("templates", [
-      { :name        => "full_template",
-        :eval_source => false,
-        :full_source => true
-      },
-      "page_template"
-    ]
+Prawn::Example.generate("templates.pdf", :page_size => "FOLIO") do
+  
+  package "templates" do |p|
     
-  ) do
-    text "Templates let you embed other PDF documents inside the current one.
+    p.example "full_template", :eval_source => false, :full_source => true
+    p.example "page_template"
+    
+    p.intro do
+      prose("Templates let you embed other PDF documents inside the current one.
 
-    The examples show:"
+      The examples show:")
 
-    list( "How to load the whole content from another PDF",
-          "How to load single pages from another PDF"
-        )
+      list( "How to load the whole content from another PDF",
+            "How to load single pages from another PDF"
+          )
+    end
+    
   end
 end

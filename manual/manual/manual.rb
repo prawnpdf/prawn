@@ -8,10 +8,13 @@ Encoding.default_external = "UTF-8" if defined? Encoding
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
+Prawn::Example.generate("manual.pdf",
+                        :skip_page_creation => true,
+                        :page_size => "FOLIO") do
+  
   load_page "cover"
   load_page "foreword"
-  load_page "how_to_read", "How to read this manual"
+  load_page "how_to_read_this_manual"
   
   # Core chapters
   load_package "basic_concepts"
@@ -21,8 +24,8 @@ Prawn::Example.generate("manual.pdf", :skip_page_creation => true) do
   
   # Remaining chapters
   load_package "layout"
-  load_package "table"
   load_package "images"
+  load_package "table"
   load_package "document_and_page_options"
   load_package "outline"
   load_package "repeatable_content"

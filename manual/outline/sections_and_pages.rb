@@ -51,7 +51,7 @@ Prawn::Example.generate(filename) do
   end
   
   # Outside of the define block
-  outline.section "Section 3", :destination => 8 do
+  outline.section("Section 3", :destination => 8) do
     outline.page :title => "Page 9", :destination => 9
   end
   

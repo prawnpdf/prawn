@@ -5,23 +5,27 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("document_and_page_options.pdf") do
-  build_package("document_and_page_options", [
-      {:name => "page_size",    :eval_source => false, :full_source => true},
-      {:name => "page_margins", :eval_source => false, :full_source => true},
-      {:name => "background",   :eval_source => false, :full_source => true},
-      {:name => "metadata",     :eval_source => false, :full_source => true}
-    ]
+Prawn::Example.generate("document_and_page_options.pdf",
+                        :page_size => "FOLIO") do
+  
+  package "document_and_page_options" do |p|
     
-  ) do
-    text "So far we've already seen how to create new documents and start new pages. This chapter expands on the previous examples by showing the options avialable. Some of the options are only available when creating new documents.
+    p.example "page_size",    :eval_source => false, :full_source => true
+    p.example "page_margins", :eval_source => false, :full_source => true
+    p.example "background",   :eval_source => false, :full_source => true
+    p.example "metadata",     :eval_source => false, :full_source => true
+    
+    p.intro do
+      prose("So far we've already seen how to create new documents and start new pages. This chapter expands on the previous examples by showing other options avialable. Some of the options are only available when creating new documents.
 
-    The examples show:"
+      The examples show:")
 
-    list( "How to configure page size",
-          "How to configure page margins",
-          "How to use a background image",
-          "How to add metadata to the generated PDF"
-        )
+      list( "How to configure page size",
+            "How to configure page margins",
+            "How to use a background image",
+            "How to add metadata to the generated PDF"
+          )
+    end
+    
   end
 end

@@ -25,9 +25,9 @@ Prawn::Example.generate(filename) do
     [":fit => [100, 200]",    {:image => image, :fit => [100, 200]}],
     [":image_height => 50,
       :image_width => 100",   {:image => image, :image_height => 50,
-                               :image_width => 100}],
-    [":position => :center",  {:image => image, :position => :center}],
+                                                :image_width  => 100}],
+    [":position => :center",  {:image => image, :position  => :center}],
     [":vposition => :center", {:image => image, :vposition => :center,
-                               :height => 200}]
+                                                :height => 200}]
   ], :width => bounds.width
 end

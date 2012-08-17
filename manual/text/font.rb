@@ -11,6 +11,8 @@
 # It can also be used by passing a font name and a block. In this case the
 # specified font will only be used to render text inside the block.
 #
+# The default font is Helvetica.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
@@ -33,5 +35,7 @@ Prawn::Example.generate(filename) do
   move_down 20
   text "Let's see which font we are using again: #{font.inspect}"
   
-  font "Helvetica"  # back to normal
+  move_down 20
+  font "Helvetica"
+  text "Back to normal."
 end

@@ -7,7 +7,8 @@
 # You probably want to use the <code>group</code> method instead. It will try
 # to render the block within the current page. If the content would fall to a
 # new page it just renders everything on the following page. If the block cannot
-# be executed on a single blank page a CannotGroup exception will be raised.
+# be executed on a single blank page a <code>CannotGroup</code> exception will
+# be raised.
 #
 # So if you can split your text blocks in paragraphs you can have every
 # paragraph contained on a single page.

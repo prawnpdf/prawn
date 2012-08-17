@@ -8,8 +8,8 @@
 # to PDF Points.
 #
 # Just <code>require "prawn/measurement_extensions"</code> and it will mix some
-# helpers onto Numeric for converting common measurement units to PDF
-# Points.
+# helpers onto <code>Numeric</code> for converting common measurement units to
+# PDF Points.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))

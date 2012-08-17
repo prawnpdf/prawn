@@ -13,7 +13,7 @@
 # <code>text_box</code> gives us much more control over the output. Just provide
 # <code>:width</code> and <code>:height</code> options and the text will flow
 # accordingly. Even if you don't provide a <code>:width</code> option the text
-# will flow to a new line if it reaches right border.
+# will flow to a new line if it reaches the right border.
 #
 # Given that said, <code>text_box</code> is the better option available.
 #
