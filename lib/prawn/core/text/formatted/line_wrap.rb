@@ -71,6 +71,7 @@ module Prawn
           def apply_font_settings_and_add_fragment_to_line(fragment)
             result = nil
             @arranger.apply_font_settings do
+              init_soft_hyphen_and_zero_width_space
               result = add_fragment_to_line(fragment)
             end
             result
@@ -141,11 +142,11 @@ module Prawn
           end
 
           def soft_hyphen
-            @document.font.normalize_encoding(Prawn::Text::SHY)
+            @soft_hyphen
           end
 
           def zero_width_space
-            @document.font.unicode? ? Prawn::Text::ZWSP : ""
+            @zero_width_space 
           end
 
           def line_empty?
@@ -166,6 +167,13 @@ module Prawn
 
             @newline_encountered = false
             @line_full = false
+            
+            init_soft_hyphen_and_zero_width_space
+          end
+
+          def init_soft_hyphen_and_zero_width_space
+            @soft_hyphen = @document.font.normalize_encoding(Prawn::Text::SHY) 
+            @zero_width_space = @document.font.unicode? ? Prawn::Text::ZWSP : ""
           end
 
           def fragment_finished(fragment)
