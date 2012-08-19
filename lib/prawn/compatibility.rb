@@ -47,9 +47,9 @@ class String  #:nodoc:
     end
     def unicode_characters
       if block_given?
-        unpack("U*").each { |c| yield [c].pack("U*") }
+        unpack("U*").each { |c| yield [c].pack("U") }
       else
-        unpack("U*").map { |c| [c].pack("U*") }
+        unpack("U*").map { |c| [c].pack("U") }
       end
     end
     def unicode_length
