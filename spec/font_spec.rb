@@ -301,9 +301,11 @@ describe "TTF fonts" do
   it "should encode text without kerning by default" do
     @activa.encode_text("To").should == [[0, "To"]]
 
-    tele = "T\216l\216"
-    tele.force_encoding("binary") if tele.respond_to?(:force_encoding)
-    @activa.encode_text("Télé").should == [[0, tele]]
+    encoded = @activa.encode_text("Télé").first
+    encoded[0].should == 0
+    # use encoding-insensitive comparison
+    # (because Ruby 1.9.2 doesn't extend US-ASCII to ASCII-8BIT the same as 1.9.3) 
+    encoded[1].bytes.to_a.should == [84, 142, 108, 142]
 
     @activa.encode_text("Technology").should == [[0, "Technology"]]
     @activa.encode_text("Technology...").should == [[0, "Technology..."]]
