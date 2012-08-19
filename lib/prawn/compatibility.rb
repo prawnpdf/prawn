@@ -1,23 +1,59 @@
 # coding: utf-8
 #
-# Why would we ever use Ruby 1.8.7 when we can backport with something
-# as simple as this?
-#
+# Compatibility layer to smooth over differences between Ruby implementations
+# The oldest version of Ruby which is supported is MRI 1.8.7
+# Ideally, all version-specific or implementation-specific code should be
+#   kept in this file (but that ideal has not been attained yet)
+
 class String  #:nodoc:
   def first_line
     self.each_line { |line| return line }
   end
-  unless "".respond_to?(:lines)
-    alias_method :lines, :to_a
-  end
-  unless "".respond_to?(:each_char)
-    def each_char #:nodoc:
-      # copied from jcode
+
+  unless "".respond_to?(:codepoints)
+    def codepoints(&block)
       if block_given?
-        scan(/./m) { |x| yield x }
+        unpack("U*").each(&block)
       else
-        scan(/./m)
+        unpack("U*")
       end
+    end
+  end
+
+  if "".respond_to?(:encode)
+    def normalize_to_utf8
+      begin
+        encode(Encoding::UTF_8)
+      rescue
+        raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
+        "#{text.encoding} can not be transparently converted to UTF-8. " +
+        "Please ensure the encoding of the string you are attempting " +
+        "to use is set correctly"
+      end      
+    end
+    alias :unicode_characters :each_char
+    alias :unicode_length     :length
+
+  else
+    def normalize_to_utf8
+      begin
+        # use unpack as a hackish way to verify the string is valid utf-8
+        unpack("U*")
+        return dup
+      rescue
+        raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
+        "are attempting to render is not encoded in valid UTF-8."
+      end
+    end
+    def unicode_characters
+      if block_given?
+        unpack("U*").each { |c| yield [c].pack("U*") }
+      else
+        unpack("U*").map { |c| [c].pack("U*") }
+      end
+    end
+    def unicode_length
+      unpack("U*").length
     end
   end
 end
