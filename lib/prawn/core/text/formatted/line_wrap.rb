@@ -242,20 +242,21 @@ module Prawn
             # this conditional is only necessary for Ruby 1.8 compatibility
             # String#unicode_characters is a helper which iterates over UTF-8 characters
             #   under Ruby 1.9, it is implemented simply by aliasing #each_char
-            if @document.font.unicode?
+            font = @document.font
+            if font.unicode?
               segment.unicode_characters do |char|
-                break unless append_char(char)
+                break unless append_char(char,font)
               end
             else
               segment.each_char do |char|
-                break unless append_char(char)
+                break unless append_char(char,font)
               end
             end
           end
 
-          def append_char(char)
+          def append_char(char,font)
             # kerning doesn't make sense in the context of a single character
-            char_width = @document.width_of(char)
+            char_width = font.compute_width_of(char)
 
             if @accumulated_width + char_width <= @width
               @accumulated_width += char_width
