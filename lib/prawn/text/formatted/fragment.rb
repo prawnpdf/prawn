@@ -15,34 +15,20 @@ module Prawn
       #
       class Fragment
 
-        attr_reader :format_state
+        attr_reader :format_state, :text
         attr_writer :width
         attr_accessor :line_height, :descender, :ascender
         attr_accessor :word_spacing, :left, :baseline
 
         def initialize(text, format_state, document)
-          @text = text
           @format_state = format_state
           @document = document
           @word_spacing = 0
-        end
 
-        def text
-          string = strip_zero_width_spaces(@text)
-          if exclude_trailing_white_space?
-            string = string.rstrip
-            string = process_soft_hyphens(string)
-          end
-          case direction
-          when :rtl
-            if ruby_18 { true }
-              string.scan(/./mu).reverse.join
-            else
-              string.reverse
-            end
-          else
-            string
-          end
+          # keep the original value of "text", so we can reinitialize @text if formatting parameters
+          #   like text direction are changed
+          @original_text = text
+          @text = process_text(@original_text)
         end
 
         def width
@@ -127,16 +113,19 @@ module Prawn
         end
 
         def default_direction=(direction)
-          @format_state[:direction] = direction unless @format_state[:direction]
+          unless @format_state[:direction]
+            @format_state[:direction] = direction
+            @text = process_text(@original_text)
+          end
         end
 
         def include_trailing_white_space!
           @format_state.delete(:exclude_trailing_white_space)
+          @text = process_text(@original_text)
         end
 
         def space_count
-          string = exclude_trailing_white_space? ? @text.rstrip : @text
-          string.count(" ")
+          @text.count(" ")
         end
 
         def callback_objects
@@ -211,6 +200,23 @@ module Prawn
         end
 
         private
+
+        def process_text(text)
+          string = strip_zero_width_spaces(text)
+          if exclude_trailing_white_space?
+            string = process_soft_hyphens(string.rstrip)
+          end
+          case direction
+          when :rtl
+            if ruby_18 { true }
+              string.scan(/./mu).reverse.join
+            else
+              string.reverse
+            end
+          else
+            string
+          end
+        end
 
         def exclude_trailing_white_space?
           @format_state[:exclude_trailing_white_space]
