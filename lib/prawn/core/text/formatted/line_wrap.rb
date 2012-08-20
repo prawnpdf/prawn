@@ -71,7 +71,9 @@ module Prawn
           def apply_font_settings_and_add_fragment_to_line(fragment)
             result = nil
             @arranger.apply_font_settings do
-              init_soft_hyphen_and_zero_width_space
+              # if font has changed from Unicode to non-Unicode, or vice versa, the characters used for soft hyphens
+              #   and zero-width spaces will be different
+              set_soft_hyphen_and_zero_width_space
               result = add_fragment_to_line(fragment)
             end
             result
@@ -167,11 +169,11 @@ module Prawn
 
             @newline_encountered = false
             @line_full = false
-            
-            init_soft_hyphen_and_zero_width_space
           end
 
-          def init_soft_hyphen_and_zero_width_space
+          def set_soft_hyphen_and_zero_width_space
+            # this is done once per fragment, after the font settings for the fragment are applied --
+            #   it could actually be skipped if the font hasn't changed
             @soft_hyphen = @document.font.normalize_encoding(Prawn::Text::SHY) 
             @zero_width_space = @document.font.unicode? ? Prawn::Text::ZWSP : ""
           end
