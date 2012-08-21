@@ -41,6 +41,8 @@ module Prawn
 
         super
 
+        @@winansi     ||= Prawn::Encoding::WinAnsi.new
+
         @attributes     = {}
         @glyph_widths   = {}
         @bounding_boxes = {}
@@ -86,8 +88,8 @@ module Prawn
       # string. Changes the encoding in-place, so the argument itself
       # is replaced with a string in WinAnsi encoding.
       #
-      def normalize_encoding(text)
-        enc = Prawn::Encoding::WinAnsi.new
+      def normalize_encoding(text) 
+        enc = @@winansi
         text.unpack("U*").collect { |i| enc[i] }.pack("C*")
       rescue ArgumentError
         raise Prawn::Errors::IncompatibleStringEncoding,
