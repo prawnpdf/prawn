@@ -174,8 +174,9 @@ module Prawn
           def set_soft_hyphen_and_zero_width_space
             # this is done once per fragment, after the font settings for the fragment are applied --
             #   it could actually be skipped if the font hasn't changed
-            @soft_hyphen = @document.font.normalize_encoding(Prawn::Text::SHY) 
-            @zero_width_space = @document.font.unicode? ? Prawn::Text::ZWSP : ""
+            font = @document.font
+            @soft_hyphen = font.normalize_encoding(Prawn::Text::SHY) 
+            @zero_width_space = font.unicode? ? Prawn::Text::ZWSP : ""
           end
 
           def fragment_finished(fragment)
