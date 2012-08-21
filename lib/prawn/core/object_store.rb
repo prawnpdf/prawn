@@ -147,11 +147,7 @@ module Prawn
         io = if input.respond_to?(:seek) && input.respond_to?(:read)
           input
         elsif File.file?(input.to_s)
-          if File.respond_to?(:binread)
-            StringIO.new(File.binread(input.to_s))
-          else
-            StringIO.new(File.read(input.to_s))
-          end
+          StringIO.new(File.binread(input.to_s))
         else
           raise ArgumentError, "input must be an IO-like object or a filename"
         end

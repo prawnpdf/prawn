@@ -231,9 +231,12 @@ module Prawn
           end
 
           def wrap_by_char(segment)
+            # this conditional is only necessary for Ruby 1.8 compatibility
+            # String#unicode_characters is a helper which iterates over UTF-8 characters
+            #   under Ruby 1.9, it is implemented simply by aliasing #each_char
             if @document.font.unicode?
-              segment.unpack("U*").each do |char_int|
-                break unless append_char([char_int].pack("U"))
+              segment.unicode_characters do |char|
+                break unless append_char(char)
               end
             else
               segment.each_char do |char|
