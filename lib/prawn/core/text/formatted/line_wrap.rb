@@ -71,6 +71,9 @@ module Prawn
           def apply_font_settings_and_add_fragment_to_line(fragment)
             result = nil
             @arranger.apply_font_settings do
+              # if font has changed from Unicode to non-Unicode, or vice versa, the characters used for soft hyphens
+              #   and zero-width spaces will be different
+              set_soft_hyphen_and_zero_width_space
               result = add_fragment_to_line(fragment)
             end
             result
@@ -141,11 +144,11 @@ module Prawn
           end
 
           def soft_hyphen
-            @document.font.normalize_encoding(Prawn::Text::SHY)
+            @soft_hyphen
           end
 
           def zero_width_space
-            @document.font.unicode? ? Prawn::Text::ZWSP : ""
+            @zero_width_space 
           end
 
           def line_empty?
@@ -166,6 +169,14 @@ module Prawn
 
             @newline_encountered = false
             @line_full = false
+          end
+
+          def set_soft_hyphen_and_zero_width_space
+            # this is done once per fragment, after the font settings for the fragment are applied --
+            #   it could actually be skipped if the font hasn't changed
+            font = @document.font
+            @soft_hyphen = font.normalize_encoding(Prawn::Text::SHY) 
+            @zero_width_space = font.unicode? ? Prawn::Text::ZWSP : ""
           end
 
           def fragment_finished(fragment)
@@ -234,20 +245,21 @@ module Prawn
             # this conditional is only necessary for Ruby 1.8 compatibility
             # String#unicode_characters is a helper which iterates over UTF-8 characters
             #   under Ruby 1.9, it is implemented simply by aliasing #each_char
-            if @document.font.unicode?
+            font = @document.font
+            if font.unicode?
               segment.unicode_characters do |char|
-                break unless append_char(char)
+                break unless append_char(char,font)
               end
             else
               segment.each_char do |char|
-                break unless append_char(char)
+                break unless append_char(char,font)
               end
             end
           end
 
-          def append_char(char)
+          def append_char(char,font)
             # kerning doesn't make sense in the context of a single character
-            char_width = @document.width_of(char)
+            char_width = font.compute_width_of(char)
 
             if @accumulated_width + char_width <= @width
               @accumulated_width += char_width
