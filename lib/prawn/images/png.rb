@@ -262,7 +262,7 @@ module Prawn
       private
 
       def unfilter_image_data
-        data = Zlib::Inflate.inflate(@img_data).unpack 'C*'
+        data = Zlib::Inflate.inflate(@img_data).bytes
         @img_data = ""
         @alpha_channel = ""
 
@@ -270,9 +270,16 @@ module Prawn
         scanline_length = pixel_bytes * self.width + 1
         row = 0
         pixels = []
+        row_data = [] # reused for each row of the image
         paeth, pa, pb, pc = nil
-        until data.empty? do
-          row_data = data.slice! 0, scanline_length
+
+        data.each do |byte|
+          # accumulate a whole scanline of bytes, and then process it all at once
+          # we could do this with Enumerable#each_slice, but it allocates memory,
+          #   and we are trying to avoid that
+          row_data << byte
+          next if row_data.length < scanline_length
+          
           filter = row_data.shift
           case filter
           when 0 # None
@@ -335,9 +342,10 @@ module Prawn
           end
           pixels << s
           row += 1
+          row_data.clear
         end
 
-        # convert the pixel data to seperate strings for colours and alpha
+        # convert the pixel data to separate strings for colours and alpha
         color_byte_size = self.colors * self.bits / 8
         alpha_byte_size = alpha_channel_bits / 8
         pixels.each do |this_row|
