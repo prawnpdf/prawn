@@ -8,6 +8,7 @@ module Prawn #:nodoc:
   VERSION = "1.0.0.rc1"
 end
 
+require "prawn/utilities"
 require "prawn/core"
 require "prawn/text"
 require "prawn/graphics"
