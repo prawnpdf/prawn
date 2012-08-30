@@ -24,7 +24,7 @@ Prawn::Example.generate(filename) do
   # Now you can display total in bottom of each page
   pdf.page_count.times do |i|
     pdf.go_to_page(i+1)
-    total_price = data[i*t.per_page_number_rows[i],(i+1)*t.per_page_number_rows[i]].sum{|s| s[5]}
+    total_price = data[t.per_page_number_rows[0,i].count,t.per_page_number_rows[i]].sum{|s| s[5]}
     pdf.text "Total Price : #{total_price}"
   end
 
