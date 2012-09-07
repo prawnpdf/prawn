@@ -280,37 +280,75 @@ describe "When setting colors" do
   end
 end
 
-describe "Gradients" do
+describe "Patterns" do
   before(:each) { create_pdf }
 
-  it "should create a /Pattern resource" do
-    @pdf.fill_gradient [0, @pdf.bounds.height],
-      @pdf.bounds.width, @pdf.bounds.height, 'FF0000', '0000FF'
+  describe 'linear gradients' do
+    it "should create a /Pattern resource" do
+      @pdf.fill_color @pdf.linear_gradient [0, @pdf.bounds.height],
+        [@pdf.bounds.width, @pdf.bounds.height], 'FF0000', '0000FF'
 
-    grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
-    pattern = grad.patterns[:SP1]
+      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+      pattern = grad.patterns[:SP1]
 
-    pattern.should.not.be.nil
-    assert pattern[:Shading][:Function][:C0].zip([1, 0, 0]).
-      all?{ |x1, x2| (x1-x2).abs < 0.01 }
-    assert pattern[:Shading][:Function][:C1].zip([0, 0, 1]).
-      all?{ |x1, x2| (x1-x2).abs < 0.01 }
+      pattern.should.not.be.nil
+      pattern[:Shading][:ShadingType].should == 2
+      pattern[:Shading][:Coords].should == [0, 0, @pdf.bounds.width, 0]
+      assert pattern[:Shading][:Function][:C0].zip([1, 0, 0]).
+        all?{ |x1, x2| (x1-x2).abs < 0.01 }
+      assert pattern[:Shading][:Function][:C1].zip([0, 0, 1]).
+        all?{ |x1, x2| (x1-x2).abs < 0.01 }
+    end
+
+    it "fill_gradient should set fill color to the pattern" do
+      @pdf.fill_color @pdf.linear_gradient [0, @pdf.bounds.height],
+        [@pdf.bounds.width, @pdf.bounds.height], 'FF0000', '0000FF'
+
+      str = @pdf.render
+      str.should =~ %r{/Pattern\s+cs\s*/SP1\s+scn}
+    end
+
+    it "stroke_gradient should set stroke color to the pattern" do
+      @pdf.stroke_color @pdf.linear_gradient [0, @pdf.bounds.height],
+        [@pdf.bounds.width, @pdf.bounds.height], 'FF0000', '0000FF'
+
+      str = @pdf.render
+      str.should =~ %r{/Pattern\s+CS\s*/SP1\s+SCN}
+    end
   end
 
-  it "fill_gradient should set fill color to the pattern" do
-    @pdf.fill_gradient [0, @pdf.bounds.height],
-      @pdf.bounds.width, @pdf.bounds.height, 'FF0000', '0000FF'
+  describe 'radial gradients' do
+    it "should create a /Pattern resource" do
+      @pdf.fill_color @pdf.radial_gradient [0, @pdf.bounds.height], 10,
+        [@pdf.bounds.width, @pdf.bounds.height], 20, 'FF0000', '0000FF'
 
-    str = @pdf.render
-    str.should =~ %r{/Pattern\s+cs\s*/SP1\s+scn}
-  end
+      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+      pattern = grad.patterns[:SP1]
 
-  it "stroke_gradient should set stroke color to the pattern" do
-    @pdf.stroke_gradient [0, @pdf.bounds.height],
-      @pdf.bounds.width, @pdf.bounds.height, 'FF0000', '0000FF'
+      pattern.should.not.be.nil
+      pattern[:Shading][:ShadingType].should == 3
+      pattern[:Shading][:Coords].should == [0, 0, 10, @pdf.bounds.width, 0, 20]
+      assert pattern[:Shading][:Function][:C0].zip([1, 0, 0]).
+        all?{ |x1, x2| (x1-x2).abs < 0.01 }
+      assert pattern[:Shading][:Function][:C1].zip([0, 0, 1]).
+        all?{ |x1, x2| (x1-x2).abs < 0.01 }
+    end
 
-    str = @pdf.render
-    str.should =~ %r{/Pattern\s+CS\s*/SP1\s+SCN}
+    it "fill_gradient should set fill color to the pattern" do
+      @pdf.fill_color @pdf.radial_gradient [0, @pdf.bounds.height], 10,
+        [@pdf.bounds.width, @pdf.bounds.height], 20, 'FF0000', '0000FF'
+
+      str = @pdf.render
+      str.should =~ %r{/Pattern\s+cs\s*/SP1\s+scn}
+    end
+
+    it "stroke_gradient should set stroke color to the pattern" do
+      @pdf.stroke_color @pdf.radial_gradient [0, @pdf.bounds.height], 10,
+        [@pdf.bounds.width, @pdf.bounds.height], 20, 'FF0000', '0000FF'
+
+      str = @pdf.render
+      str.should =~ %r{/Pattern\s+CS\s*/SP1\s+SCN}
+    end
   end
 end
 

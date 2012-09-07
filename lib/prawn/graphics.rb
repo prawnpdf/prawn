@@ -12,7 +12,7 @@ require "prawn/graphics/cap_style"
 require "prawn/graphics/join_style"
 require "prawn/graphics/transparency"
 require "prawn/graphics/transformation"
-require "prawn/graphics/gradient"
+require "prawn/graphics/patterns"
 
 module Prawn
 
@@ -30,7 +30,7 @@ module Prawn
     include JoinStyle
     include Transparency
     include Transformation
-    include Gradient
+    include Patterns
 
     #######################################################################
     # Low level drawing operations must map the point to absolute coords! #
