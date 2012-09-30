@@ -165,6 +165,18 @@ module Prawn
         gradient
       end
 
+
+      def fill_gradient(point, width, height, color1, color2, options = {})
+        warn "[DEPRECATION] 'fill_gradient' is deprecated in favor of 'set_gradient :fill, linear_gradient(...)'. " +
+             "'fill_gradient' will be removed in release 1.1"
+        set_gradient :fill, point, [point.first, point.last - height], color1, color2
+      end
+
+      def stroke_gradient(point, width, height, color1, color2, options = {})
+        warn "[DEPRECATION] 'stroke_gradient' is deprecated in favor of 'set_gradient :stroke, linear_gradient(...)'. " +
+             "'stroke_gradient' will be removed in release 1.1"
+        set_gradient :stroke, point, [point.first, point.last - height], color1, color2
+      end
     end
   end
 end
