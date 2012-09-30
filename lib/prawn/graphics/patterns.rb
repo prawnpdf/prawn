@@ -2,6 +2,7 @@
 
 # patterns.rb : Implements axial & radial gradients
 #
+# Originally implemented by Wojciech Piekutowski. November, 2009
 # Copyright September 2012, Alexander Mankuta. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
