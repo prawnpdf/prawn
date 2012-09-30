@@ -26,7 +26,11 @@ module Prawn
       #
       def fill_color(*color)
         return current_fill_color if color.empty?
-        self.current_fill_color = process_color(*color)
+        if color[0].is_a? Patterns::Gradient
+          self.current_fill_color = color[0]
+        else
+          self.current_fill_color = process_color(*color)
+        end
         set_fill_color
       end
 
@@ -48,9 +52,12 @@ module Prawn
       #
       def stroke_color(*color)
         return current_stroke_color if color.empty?
-        color = process_color(*color)
-        self.current_stroke_color = color
-        set_stroke_color(color)
+        if color[0].is_a? Patterns::Gradient
+          self.current_stroke_color = color[0]
+        else
+          self.current_stroke_color = process_color(*color)
+        end
+        set_stroke_color
       end
 
       alias_method :stroke_color=, :stroke_color
@@ -95,7 +102,16 @@ module Prawn
         when String
           :RGB
         when Array
-          :CMYK
+          case color.length
+          when 3
+            :RGB
+          when 4
+            :CMYK
+          else
+            raise ArgumentError, "Unknown type of color: #{color.inspect}"
+          end
+        else
+          raise ArgumentError, "Unknown type of color: #{color.inspect}"
         end
       end
 
@@ -156,10 +172,16 @@ module Prawn
           raise ArgumentError, "unknown type '#{type}'"
         end
 
-        if options[:pattern]
+        if options[:pattern] || color.is_a?(Patterns::Gradient)
           set_color_space type, :Pattern
-          add_content "/#{color} #{operator}"
-        else          
+
+           patterns = page.resources[:Pattern] ||= {}
+           unless patterns[color.id]
+             color = color.dup
+           end
+
+          add_content "/#{color.id} #{operator}"
+        else
           set_color_space type, color_space(color)
           color = color_to_s(color)
           write_color(color, operator)
@@ -167,7 +189,7 @@ module Prawn
       end
 
       def set_fill_color(color = nil)
-        set_color :fill, color || current_fill_color        
+        set_color :fill, color || current_fill_color
       end
 
       def set_stroke_color(color = nil)
@@ -185,7 +207,7 @@ module Prawn
         graphic_state.color_space[type]
       end
 
-      def set_current_color_space(color_space, type)                
+      def set_current_color_space(color_space, type)
         save_graphics_state if graphic_state.nil?
         graphic_state.color_space[type] = color_space
       end
@@ -194,7 +216,7 @@ module Prawn
         graphic_state.fill_color
       end
 
-      def current_fill_color=(color)        
+      def current_fill_color=(color)
         graphic_state.fill_color = color
       end
 
