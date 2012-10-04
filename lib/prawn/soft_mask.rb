@@ -27,6 +27,8 @@ module Prawn
   #
   module SoftMask
     def soft_mask(&block)
+      min_version(1.4)
+
       group_attrs = ref!({
         :Type => :Group,
         :S => :Transparency,
