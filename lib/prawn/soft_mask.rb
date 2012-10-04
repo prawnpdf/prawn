@@ -64,11 +64,31 @@ module Prawn
         :SA => true,
       })
 
-      masks = page.resources[:ExtGState] ||= {}
-      id = masks.empty? ? 'GS1' : masks.keys.sort.last.succ
-      masks[id] = g_state
+      registry_key = {
+        :bbox => state.page.dimensions,
+        :mask => group.stream,
+        :page => state.page_count,
+      }.hash
 
-      add_content "/#{id} gs"
+      if soft_mask_registry[registry_key]
+        [g_state, mask, group, group_attrs].each { |ref| ref.live = false }
+
+        add_content "/#{soft_mask_registry[registry_key]} gs"
+      else
+        masks = page.resources[:ExtGState] ||= {}
+        id = masks.empty? ? 'GS1' : masks.keys.sort.last.succ
+        masks[id] = g_state
+
+        soft_mask_registry[registry_key] = id
+
+        add_content "/#{id} gs"
+      end
+    end
+
+    private
+
+    def soft_mask_registry
+      @soft_mask_registry ||= {}
     end
   end
 end

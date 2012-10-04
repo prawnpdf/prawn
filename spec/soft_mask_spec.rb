@@ -71,4 +71,61 @@ describe "Document with soft masks" do
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates.first
     extgstate[:soft_mask][:G].data.should == "q\n/DeviceRGB cs\n0.000 0.000 0.000 scn\n/DeviceRGB CS\n0.000 0.000 0.000 SCN\n1 w\n0 J\n0 j\n[ ] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n100.000 -100.000 200.000 200.000 re\nf\nQ\n\n"
   end
+
+  it "should not create duplicate extended graphics states" do
+    create_pdf
+
+    make_soft_mask do
+      @pdf.fill_color '808080'
+      @pdf.fill_rectangle [100, 100], 200, 200
+    end
+
+    make_soft_mask do
+      @pdf.fill_color '808080'
+      @pdf.fill_rectangle [100, 100], 200, 200
+    end
+
+    extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
+    extgstates.length.should == 1
+  end
+
+  it "should not have objects that are not used for extended graphic state" do
+    @pdf = Prawn::Document.new(:margin => 0, :optimize_objects => true)
+
+    make_soft_mask do
+      @pdf.fill_color '808080'
+      @pdf.fill_rectangle [100, 100], 200, 200
+    end
+
+    make_soft_mask do
+      @pdf.fill_color '808080'
+      @pdf.fill_rectangle [100, 100], 200, 200
+    end
+
+    reader = PDF::Reader.new(StringIO.open(@pdf.render))
+
+    groups = reader.objects.select { |obj|
+      o = obj[1]
+      o.is_a?(Hash) && o[:Type] == :Group
+    }
+    groups.length.should == 1
+
+    forms = reader.objects.select { |obj|
+      o = obj[1]
+      o.is_a?(PDF::Reader::Stream) && o.hash[:Type] == :XObject && o.hash[:Subtype] == :Form
+    }
+    forms.length.should == 1
+
+    masks = reader.objects.select { |obj|
+      o = obj[1]
+      o.is_a?(Hash) && o[:Type] == :Mask
+    }
+    masks.length.should == 1
+
+    ext_g_states = reader.objects.select { |obj|
+      o = obj[1]
+      o.is_a?(Hash) && o[:Type] == :ExtGState
+    }
+    ext_g_states.length.should == 1
+  end
 end
