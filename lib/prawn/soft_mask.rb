@@ -40,7 +40,7 @@ module Prawn
       group = ref!({
         :Type => :XObject,
         :Subtype => :Form,
-        :BBox => [0, 0, state.page.dimensions[2], state.page.dimensions[3]],
+        :BBox => state.page.dimensions,
         :Group => group_attrs,
       })
 
