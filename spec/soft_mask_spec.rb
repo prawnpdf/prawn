@@ -36,15 +36,14 @@ describe "Document with soft masks" do
 
   include SoftMaskHelper
 
-  it "the PDF version should be at least 1.4" do
+  it "should have PDF version at least 1.4" do
     create_pdf
     make_soft_mask
     str = @pdf.render
     str[0,8].should == "%PDF-1.4"
   end
 
-  it "a new extended graphics state should be created for "+
-     "each unique soft mask" do
+  it "should create a new extended graphics state for each unique soft mask" do
     create_pdf
 
     make_soft_mask do
