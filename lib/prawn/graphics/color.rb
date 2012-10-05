@@ -95,7 +95,14 @@ module Prawn
         when String
           :RGB
         when Array
-          :CMYK
+          case color.length
+          when 3
+            :RGB
+          when 4
+            :CMYK
+          else
+            raise ArgumentError, "Unknown type of color: #{color.inspect}"
+          end
         end
       end
 
