@@ -10,6 +10,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -22,6 +23,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -34,6 +36,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => "ff0000",
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -46,6 +49,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => "ff0000",
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -58,6 +62,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => [0, 100, 0, 0],
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -70,6 +75,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => "Courier",
                          :size => nil,
                          :character_spacing => nil }
@@ -82,6 +88,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => 14,
                          :character_spacing => nil }
@@ -94,6 +101,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => 2.5 }
@@ -106,6 +114,20 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => "http://example.com",
                          :anchor => nil,
+                         :local => nil,
+                         :font => nil,
+                         :size => nil,
+                         :character_spacing => nil }
+  end
+  it "should handle local links" do
+    string = "<link local='/home/example/foo.bar'>local link</link>"
+    array = Prawn::Text::Formatted::Parser.to_array(string)
+    array[0].should == { :text => "local link",
+                         :styles => [],
+                         :color => nil,
+                         :link => nil,
+                         :anchor => nil,
+                         :local => "/home/example/foo.bar",
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -118,6 +140,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => "ToC",
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -130,6 +153,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -138,6 +162,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -146,6 +171,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -158,6 +184,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -170,6 +197,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => 14,
                          :character_spacing => nil }
@@ -182,6 +210,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => 14,
                          :character_spacing => nil }
@@ -195,6 +224,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -203,6 +233,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -211,6 +242,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -219,6 +251,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -227,6 +260,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -235,6 +269,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -248,6 +283,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -256,6 +292,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -269,6 +306,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -277,6 +315,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -290,6 +329,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => "http://example.com",
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -298,6 +338,7 @@ describe "Text::Formatted::Parser#to_array" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }
@@ -318,6 +359,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }]
@@ -330,6 +372,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }]
@@ -342,6 +385,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => "ff0000",
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }]
@@ -354,6 +398,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => [0, 100, 0, 0],
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => nil }]
@@ -366,6 +411,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => "Courier",
                          :size => nil,
                          :character_spacing => nil }]
@@ -378,6 +424,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => 14,
                          :character_spacing => nil }]
@@ -390,6 +437,7 @@ describe "Text::Formatted::Parser#to_string" do
                          :color => nil,
                          :link => nil,
                          :anchor => nil,
+                         :local => nil,
                          :font => nil,
                          :size => nil,
                          :character_spacing => 2.5 }]
@@ -401,6 +449,7 @@ describe "Text::Formatted::Parser#to_string" do
                :color => nil,
                :link => "http://example.com",
                :anchor => nil,
+               :local => nil,
                :font => nil,
                :size => nil,
                :character_spacing => nil }]
