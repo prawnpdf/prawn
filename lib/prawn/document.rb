@@ -61,6 +61,7 @@ module Prawn
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
+    include Prawn::SoftMask
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
