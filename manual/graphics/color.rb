@@ -21,10 +21,4 @@ Prawn::Example.generate(filename) do
   
   # Both together
   fill_and_stroke_circle [400, 100], 50
-
-  # Gradient
-  fill_gradient [10, 330], 400, 50, 'F0FF00', '0000FF'
-  bounding_box [10, 300], :width => 450, :height => 150 do
-    text "Gradient!", :size => 60
-  end
 end
