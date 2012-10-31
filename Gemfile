@@ -1,7 +1,7 @@
 source :rubygems
 
 gem "ttfunk", "~>1.0.3"
-gem "pdf-reader", ">=0.9.0", "<2.0"
+gem "pdf-reader", "~> 1.2"
 
 group :development do
   gem "coderay", "~> 1.0.7"
