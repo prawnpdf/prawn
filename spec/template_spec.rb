@@ -172,6 +172,19 @@ describe "Document built from a template" do
     end
   end
 
+  it "merges metadata info" do
+    filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
+    info = { :Title => "Sample METADATA",
+             :Author => "Me",
+             :Subject => "Not Working",
+             :CreationDate => Time.now }
+
+    @pdf = Prawn::Document.new(:template => filename, :info => info)
+    output = StringIO.new(@pdf.render)
+    hash = PDF::Reader::ObjectHash.new(output)
+    info.keys.each { |k| hash[hash.trailer[:Info]].keys.include?(k).should == true }
+  end
+
 end
 
 describe "Document#start_new_page with :template option" do
