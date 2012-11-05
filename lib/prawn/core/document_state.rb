@@ -6,6 +6,7 @@ module Prawn
 
         if options[:template]
           @store = Prawn::Core::ObjectStore.new(:template => options[:template])
+          @store.info.data.merge!(options[:info]) if options[:info]
         else
           @store = Prawn::Core::ObjectStore.new(:info => options[:info])
         end
