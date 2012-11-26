@@ -4,8 +4,8 @@ Bundler.setup
 
 require 'rake'
 require 'rake/testtask'
-require "rake/rdoctask"
-require "rake/gempackagetask"  
+require 'rdoc/task'
+require 'rubygems/package_task'
 
 task :default => [:test]
        
@@ -26,7 +26,7 @@ task :stats do
 end
 
 desc "genrates documentation"
-Rake::RDocTask.new do |rdoc|
+RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include( "README",
                            "COPYING",
                            "LICENSE", 
@@ -45,7 +45,7 @@ task :manual do
 end
 
 spec = Gem::Specification.load "prawn.gemspec"
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end

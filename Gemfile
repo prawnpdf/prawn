@@ -5,6 +5,7 @@ gem "pdf-reader", "~> 1.2"
 
 group :development do
   gem "coderay", "~> 1.0.7"
+  gem "rdoc"
 end
 
 group :test do
