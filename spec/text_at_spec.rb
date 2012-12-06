@@ -5,12 +5,12 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "#draw_text" do
   before(:each) { create_pdf }
 
-  it "should raise ArgumentError if :at option omitted" do
-    lambda { @pdf.draw_text("hai", { }) }.should.raise(ArgumentError)
+  it "should raise_error ArgumentError if :at option omitted" do
+    lambda { @pdf.draw_text("hai", { }) }.should raise_error(ArgumentError)
   end
 
-  it "should raise ArgumentError if :align option included" do
-    lambda { @pdf.draw_text("hai", :at => [0, 0], :align => :center) }.should.raise(ArgumentError)
+  it "should raise_error ArgumentError if :align option included" do
+    lambda { @pdf.draw_text("hai", :at => [0, 0], :align => :center) }.should raise_error(ArgumentError)
   end
 
   it "should allow drawing empty strings to the page" do
@@ -85,8 +85,8 @@ describe "#draw_text" do
     text.font_settings[1][:name].should == :Courier
   end
 
-  it "should raise an exception when an unknown font is used" do
-    lambda { @pdf.font "Pao bu" }.should.raise(Prawn::Errors::UnknownFont)
+  it "should raise_error an exception when an unknown font is used" do
+    lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
   end
 
   it "should correctly render a utf-8 string when using a built-in font" do
@@ -100,29 +100,29 @@ describe "#draw_text" do
 
   if "spec".respond_to?(:encode!)
     # Handle non utf-8 string encodings in a sane way on M17N aware VMs
-    it "should raise an exception when a utf-8 incompatible string is rendered" do
+    it "should raise_error an exception when a utf-8 incompatible string is rendered" do
       str = "Blah \xDD"
       str.force_encoding("ASCII-8BIT")
-      lambda { @pdf.draw_text(str, :at => [0, 0]) }.should.raise(
+      lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
-    it "should not raise an exception when a shift-jis string is rendered" do
+    it "should_not raise_error an exception when a shift-jis string is rendered" do
       datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
       @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should.not.raise(
+      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should_not raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
   else
     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
-    it "should raise an exception when a corrupt utf-8 string is rendered" do
+    it "should raise_error an exception when a corrupt utf-8 string is rendered" do
       str = "Blah \xDD"
-      lambda { @pdf.draw_text(str, :at => [0, 0]) }.should.raise(
+      lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
-    it "should raise an exception when a shift-jis string is rendered" do
+    it "should raise_error an exception when a shift-jis string is rendered" do
       sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
-      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should.raise(
+      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
   end

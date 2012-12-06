@@ -3,18 +3,15 @@ require "bundler"
 Bundler.setup
 
 require 'rake'
-require 'rake/testtask'
+require 'rspec/core/rake_task'
 require 'rdoc/task'
 require 'rubygems/package_task'
 
-task :default => [:test]
+task :default => [:spec]
        
-desc "Run all tests, test-spec, mocha, and pdf-reader required"
-Rake::TestTask.new do |test|
-  # test.ruby_opts  << "-w"  # .should == true triggers a lot of warnings
-  test.libs       << "spec"
-  test.test_files =  Dir[ "spec/*_spec.rb" ]
-  test.verbose    =  true
+desc "Run all rspec files"
+RSpec::Core::RakeTask.new("spec") do |t|
+  t.rspec_opts  = ["--color", "--format progress"]
 end
 
 desc "Show library's code statistics"

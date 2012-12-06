@@ -18,7 +18,7 @@ describe "#text_rendering_mode" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.text_rendering_mode.should.be.empty
+    contents.text_rendering_mode.should be_empty
   end
   it "should restore character spacing to 0" do
     create_pdf
@@ -36,10 +36,10 @@ describe "#text_rendering_mode" do
     end
     @pdf.text_rendering_mode.should == :fill
   end
-  it "should raise an exception when passed an invalid mode" do
+  it "should raise_error an exception when passed an invalid mode" do
     create_pdf
-    lambda { @pdf.text_rendering_mode(-1) }.should.raise(ArgumentError)
-    lambda { @pdf.text_rendering_mode(8) }.should.raise(ArgumentError)
-    lambda { @pdf.text_rendering_mode(:flil) }.should.raise(ArgumentError)
+    lambda { @pdf.text_rendering_mode(-1) }.should raise_error(ArgumentError)
+    lambda { @pdf.text_rendering_mode(8) }.should raise_error(ArgumentError)
+    lambda { @pdf.text_rendering_mode(:flil) }.should raise_error(ArgumentError)
   end
 end

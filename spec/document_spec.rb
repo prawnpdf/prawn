@@ -12,7 +12,7 @@ describe "Prawn::Document.new" do
 end
 
 describe "The cursor" do
-  it "should equal pdf.y - bounds.absolute_bottom" do
+  it "should == pdf.y - bounds.absolute_bottom" do
     pdf = Prawn::Document.new
     pdf.cursor.should == pdf.bounds.top
     
@@ -34,7 +34,7 @@ describe "when generating a document from a subclass" do
     custom_document = Class.new(Prawn::Document)
     custom_document.generate(Tempfile.new("generate_test").path) do |e| 
       e.class.should == custom_document
-      e.should.be.kind_of(Prawn::Document)
+      e.should be_a_kind_of(Prawn::Document)
     end
   end
 
@@ -45,20 +45,20 @@ describe "when generating a document from a subclass" do
     Prawn::Document.extensions << mod1 << mod2
 
     custom_document = Class.new(Prawn::Document)
-    assert_equal [mod1, mod2], custom_document.extensions
+    custom_document.extensions.should == [mod1, mod2]
 
     # remove the extensions we added to prawn document
     Prawn::Document.extensions.delete(mod1)
     Prawn::Document.extensions.delete(mod2)
 
-    assert ! Prawn::Document.new.respond_to?(:test_extensions1)
-    assert ! Prawn::Document.new.respond_to?(:test_extensions2)
+    Prawn::Document.new.respond_to?(:test_extensions1).should be_false
+    Prawn::Document.new.respond_to?(:test_extensions2).should be_false
 
     # verify these still exist on custom class
-    assert_equal [mod1, mod2], custom_document.extensions
+    custom_document.extensions.should == [mod1, mod2]
 
-    assert custom_document.new.respond_to?(:test_extensions1)
-    assert custom_document.new.respond_to?(:test_extensions2)
+    custom_document.new.respond_to?(:test_extensions1).should be_true
+    custom_document.new.respond_to?(:test_extensions2).should be_true
   end
 
 end
@@ -239,7 +239,7 @@ describe "Document compression" do
        pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
     end
 
-    doc_compressed.render.length.should.be < doc_uncompressed.render.length
+    doc_compressed.render.length.should be < doc_uncompressed.render.length
   end 
 
 end                                 
@@ -266,7 +266,7 @@ describe "When reopening pages" do
     # MalformedPDFError raised if content stream actual length does not match
     # dictionary length
     lambda{ PDF::Inspector::Page.analyze(@pdf.render) }.
-      should.not.raise(PDF::Reader::MalformedPDFError)
+      should_not raise_error(PDF::Reader::MalformedPDFError)
   end
 
   it "should insert pages after the current page when calling start_new_page" do
@@ -358,8 +358,8 @@ describe "The mask() feature" do
     @pdf.mask(:y, :line_width) do
       @pdf.y = y + 1
       @pdf.line_width = line_width + 1
-      @pdf.y.should.not == y
-      @pdf.line_width.should.not == line_width
+      @pdf.y.should_not == y
+      @pdf.line_width.should_not == line_width
     end
     @pdf.y.should == y
     @pdf.line_width.should == line_width 
@@ -391,14 +391,14 @@ describe "The group() feature" do
     pages[1][:strings].should == ["Hello", "World"]
   end
 
-  it "should raise CannotGroup if the content is too tall" do
+  it "should raise_error CannotGroup if the content is too tall" do
     lambda {
       Prawn::Document.new do
         group do
           100.times { text "Too long" }
         end
       end.render
-    }.should.raise(Prawn::Errors::CannotGroup)
+    }.should raise_error(Prawn::Errors::CannotGroup)
   end
 
    it "should group within individual column boxes" do
@@ -478,7 +478,7 @@ describe "The :optimize_objects option" do
     wasteful_pdf = Prawn::Document.new(&@wasteful_doc)
     frugal_pdf   = Prawn::Document.new(:optimize_objects => true,
                                        &@wasteful_doc)
-    frugal_pdf.render.size.should.be < wasteful_pdf.render.size
+    frugal_pdf.render.size.should be < wasteful_pdf.render.size
   end
 
   it "should default to :false" do
@@ -706,31 +706,31 @@ describe "The page_match? method" do
   end
   
   it "returns nil given no filter" do
-    assert ! @pdf.page_match?(:nil, 1)
+    @pdf.page_match?(:nil, 1).should be_false
   end
   
   it "must provide an :all filter" do
-    assert (1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }
+    (1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }.should be_true
   end
 
   it "must provide an :odd filter" do
     odd, even = (1..@pdf.page_count).partition { |e| e % 2 == 1 }
-    assert odd.all? { |i| @pdf.page_match?(:odd, i) }
-    assert ! even.any? { |i| @pdf.page_match?(:odd, i) }
+    odd.all? { |i| @pdf.page_match?(:odd, i) }.should be_true
+    even.any? { |i| @pdf.page_match?(:odd, i) }.should be_false
   end
 
   it "must be able to filter by an array of page numbers" do
     fltr = [1,2,7]
-    assert_equal [1,2,7], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+    (1..10).select { |i| @pdf.page_match?(fltr, i) }.should == [1,2,7]
   end
 
   it "must be able to filter by a range of page numbers" do
     fltr = 2..4
-    assert_equal [2,3,4], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+    (1..10).select { |i| @pdf.page_match?(fltr, i) }.should == [2,3,4]
   end
 
   it "must be able to filter by an arbitrary proc" do
     fltr = lambda { |x| x == 1 or x % 3 == 0 }
-    assert_equal [1,3,6,9], (1..10).select { |i| @pdf.page_match?(fltr, i) }
+    (1..10).select { |i| @pdf.page_match?(fltr, i) }.should == [1,3,6,9]
   end    
 end

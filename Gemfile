@@ -5,13 +5,15 @@ gem "pdf-reader", "~> 1.2"
 
 group :development do
   gem "coderay", "~> 1.0.7"
-  gem "rdoc"
+
+  # require the rdoc gem for building docs, but only on MRI. On Jruby this
+  # pulls in a json dependency that bundler fails to resolve
+  gem "rdoc", :platforms => [:ruby_19]
 end
 
 group :test do
   gem "pdf-inspector", "~> 1.0.2", :require => "pdf/inspector"
-  gem "test-spec"
-  gem "mocha"
-  gem "test-unit", "1.2.3", :platforms => [:ruby_19, :mingw_19, :jruby]
+  gem "rspec"
+  gem "mocha", :require => false
   gem "rake"
 end

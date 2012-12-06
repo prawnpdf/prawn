@@ -11,10 +11,15 @@ require "prawn"
 
 Prawn.debug = true
 
-require "test/spec"
-require "mocha"
+#require "test/spec"
+require "rspec"
+require "mocha/api"
 require "pdf/reader"
 require "pdf/inspector"
+
+RSpec.configure do |config|
+  config.mock_framework = :mocha
+end
 
 def create_pdf(klass=Prawn::Document)
   @pdf = klass.new(:margin => 0)

@@ -84,14 +84,14 @@ describe "A bounding box" do
   it "should require width to be set" do
     lambda do
       Prawn::Document::BoundingBox.new(nil, nil, [100,100])
-    end.should.raise(ArgumentError)
+    end.should raise_error(ArgumentError)
   end
 
-  it "should raise an ArgumentError if a block is not passed" do
+  it "should raise_error an ArgumentError if a block is not passed" do
     pdf = Prawn::Document.new
     lambda do
       pdf.bounding_box([0, 0], :width => 200)
-    end.should.raise(ArgumentError)
+    end.should raise_error(ArgumentError)
   end
 
 end
@@ -144,7 +144,7 @@ describe "drawing bounding boxes" do
       @pdf.text "The rain in Spain falls mainly on the plains."
     end
 
-    @pdf.y.should.be.close 458.384, 0.001
+    @pdf.y.should be_close 458.384, 0.001
   end
 
   it "should keep track of the max height the box was stretched to" do
@@ -162,7 +162,7 @@ describe "drawing bounding boxes" do
         :height => 30 do
       @pdf.text "hello"
     end
-    @pdf.y.should.be.close(orig_y - 30, 0.001)
+    @pdf.y.should be_close(orig_y - 30, 0.001)
   end
 
   it "should not advance y-position if passed :hold_position => true" do
@@ -172,7 +172,7 @@ describe "drawing bounding boxes" do
       @pdf.text "hello"
     end
     # y only advances by height of one line ("hello")
-    @pdf.y.should.be.close(orig_y - @pdf.height_of("hello"), 0.001)
+    @pdf.y.should be_close(orig_y - @pdf.height_of("hello"), 0.001)
   end
 
   it "should not advance y-position of a stretchy bbox if it would stretch " +
@@ -188,7 +188,7 @@ describe "drawing bounding boxes" do
     # the bottom of the page, which we don't want. This should be equivalent to
     # a bbox with :hold_position => true, where we only advance by the amount
     # that was actually drawn.
-    @pdf.y.should.be.close(
+    @pdf.y.should be_close(
       @pdf.margin_box.absolute_top - @pdf.height_of("hello"),
       0.001
     )
@@ -270,7 +270,7 @@ describe "Indentation" do
                       :height => 200, :columns => 2, :spacer => 20) do
         width = @pdf.bounds.width
         @pdf.indent(20) do
-          @pdf.bounds.width.should.be.close(width - 20, 0.01)
+          @pdf.bounds.width.should be_close(width - 20, 0.01)
         end
       end
     end
@@ -280,7 +280,7 @@ describe "Indentation" do
                       :height => 200, :columns => 2, :spacer => 20) do
         width = @pdf.bounds.width
         @pdf.indent(20, 30) do
-          @pdf.bounds.width.should.be.close(width - 50, 0.01)
+          @pdf.bounds.width.should be_close(width - 50, 0.01)
         end
       end
     end
@@ -383,12 +383,12 @@ end
 
 describe "Deep-copying" do
   it "should create a new object that does not copy @document" do
-    Prawn::Document.new do
-      orig = bounds
+    Prawn::Document.new do |pdf|
+      orig = pdf.bounds
       copy = orig.deep_copy
 
-      copy.should.not == bounds
-      copy.document.should.be.nil
+      copy.should_not == pdf.bounds
+      copy.document.should be_nil
     end
   end
 
@@ -403,7 +403,7 @@ describe "Deep-copying" do
         copy.parent.height.should == outside.height
 
         # but should not be the same object
-        copy.parent.should.not == outside
+        copy.parent.should_not == outside
       end
     end
   end
@@ -483,7 +483,7 @@ describe "BoundingBox#move_past_bottom" do
     @pdf.text "Foo"
 
     @pdf.bounds.move_past_bottom
-    @pdf.y.should.be.close(top_y, 0.001) # we should be at the top
+    @pdf.y.should be_close(top_y, 0.001) # we should be at the top
     @pdf.text "Bar"
 
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages

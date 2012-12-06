@@ -68,7 +68,7 @@ describe "When drawing a line" do
     end
     it "should require a y coordinate" do
       lambda { @pdf.vertical_line(400,500) }.
-        should.raise(ArgumentError)
+        should raise_error(ArgumentError)
     end
   end
 
@@ -291,13 +291,15 @@ describe "Patterns" do
       grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
       pattern = grad.patterns.values.first
 
-      pattern.should.not.be.nil
+      pattern.should_not be_nil
       pattern[:Shading][:ShadingType].should == 2
       pattern[:Shading][:Coords].should == [0, 0, @pdf.bounds.width, 0]
-      assert pattern[:Shading][:Function][:C0].zip([1, 0, 0]).
-        all?{ |x1, x2| (x1-x2).abs < 0.01 }
-      assert pattern[:Shading][:Function][:C1].zip([0, 0, 1]).
-        all?{ |x1, x2| (x1-x2).abs < 0.01 }
+      pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all?{ |x1, x2|
+        (x1-x2).abs < 0.01
+      }.should be_true
+      pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all?{ |x1, x2|
+        (x1-x2).abs < 0.01
+      }.should be_true
     end
 
     it "fill_gradient should set fill color to the pattern" do
@@ -325,13 +327,15 @@ describe "Patterns" do
       grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
       pattern = grad.patterns.values.first
 
-      pattern.should.not.be.nil
+      pattern.should_not be_nil
       pattern[:Shading][:ShadingType].should == 3
       pattern[:Shading][:Coords].should == [0, 0, 10, @pdf.bounds.width, 0, 20]
-      assert pattern[:Shading][:Function][:C0].zip([1, 0, 0]).
-        all?{ |x1, x2| (x1-x2).abs < 0.01 }
-      assert pattern[:Shading][:Function][:C1].zip([0, 0, 1]).
-        all?{ |x1, x2| (x1-x2).abs < 0.01 }
+      pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all?{ |x1, x2|
+        (x1-x2).abs < 0.01
+      }.should be_true
+      pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all?{ |x1, x2|
+        (x1-x2).abs < 0.01
+      }.should be_true
     end
 
     it "fill_gradient should set fill color to the pattern" do
@@ -371,7 +375,7 @@ describe "When using painting shortcuts" do
 
   it "should not break method_missing" do
     lambda { @pdf.i_have_a_pretty_girlfriend_named_jia }.
-      should.raise(NoMethodError)
+      should raise_error(NoMethodError)
   end
 end
 
@@ -468,11 +472,11 @@ describe "When using graphics states" do
   end
     
   
-  it "should raise error if closing an empty graphic stack" do
-    assert_raise Prawn::Errors::EmptyGraphicStateStack do
+  it "should raise_error error if closing an empty graphic stack" do
+    lambda {
       @pdf.render
       @pdf.restore_graphics_state
-    end
+    }.should raise_error(Prawn::Errors::EmptyGraphicStateStack)
   end
 end
 
@@ -570,10 +574,10 @@ describe "When using transformations shortcuts" do
                                       reduce_precision(@cos), 0, 0]
     end
 
-    it "should raise BlockRequired if no block is given" do
+    it "should raise_error BlockRequired if no block is given" do
       lambda {
         @pdf.rotate(@angle, :origin => [@x, @y])
-      }.should.raise(Prawn::Errors::BlockRequired)
+      }.should raise_error(Prawn::Errors::BlockRequired)
     end
 
     def reduce_precision(float)
@@ -626,10 +630,10 @@ describe "When using transformations shortcuts" do
       matrices.matrices[1].should == [@factor, 0, 0, @factor, 0, 0]
     end
 
-    it "should raise BlockRequired if no block is given" do
+    it "should raise_error BlockRequired if no block is given" do
       lambda {
         @pdf.scale(@factor, :origin => [@x, @y])
-      }.should.raise(Prawn::Errors::BlockRequired)
+      }.should raise_error(Prawn::Errors::BlockRequired)
     end
 
     def reduce_precision(float)

@@ -4,22 +4,22 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "drawing span" do    
   
-  def setup
+  before do
     Prawn.debug = false
     create_pdf
   end
 
-  def teardown
+  after do
     Prawn.debug = true
   end
 
   it "should only accept :position as option in debug mode" do
     Prawn.debug = true
-    lambda { @pdf.span(350, {:x => 3}) {} }.should.raise(Prawn::Errors::UnknownOption)
+    lambda { @pdf.span(350, {:x => 3}) {} }.should raise_error(Prawn::Errors::UnknownOption)
   end
 
   it "should have raise an error if :position is invalid" do
-    lambda { @pdf.span(350, :position => :x) {} }.should.raise(ArgumentError)
+    lambda { @pdf.span(350, :position => :x) {} }.should raise_error(ArgumentError)
   end
 
   it "should restore the margin box when bounding box exits" do

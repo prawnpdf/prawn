@@ -40,7 +40,7 @@ describe "#width_of" do
       @bold_hello = @pdf.width_of("hello")
     }
     
-    inline_bold_hello.should.be > normal_hello
+    inline_bold_hello.should be > normal_hello
     inline_bold_hello.should == @bold_hello
   end
 
@@ -71,7 +71,7 @@ describe "font style support" do
     pdf_without_page = Prawn::Document.new(:skip_page_creation => true)
 
     lambda{ pdf_without_page.font "Helvetica" }.
-      should.raise(Prawn::Errors::NotOnPage)
+      should raise_error(Prawn::Errors::NotOnPage)
   end
   
   it "should allow specifying font style by style name and font family" do    
@@ -186,22 +186,18 @@ describe "Document#page_fonts" do
   end                             
   
   def page_should_include_font(font)    
-    assert_block("Expected page to include font: #{font}") do
-      page_includes_font?(font)
-    end
+    page_includes_font?(font).should be_true
   end   
   
   def page_should_not_include_font(font)
-    assert_block("Did not expect page to include font: #{font}") do
-      not page_includes_font?(font) 
-    end
+    page_includes_font?(font).should be_false
   end
       
 end
     
 describe "AFM fonts" do
   
-  setup do
+  before do
     create_pdf
     @times = @pdf.find_font "Times-Roman"
     @iconv = ::Iconv.new('Windows-1252', 'utf-8')
@@ -236,13 +232,13 @@ describe "AFM fonts" do
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
       normalized = @times.normalize_encoding(original)
-      assert ! original.equal?(normalized)
+      original.equal?(normalized).should be_false
     end
 
     it "should modify the original string when normalize_encoding!() is used" do
       original = "Foo"
       normalized = @times.normalize_encoding!(original)
-      assert original.equal?(normalized)
+      original.equal?(normalized).should be_true
     end
 
   end
@@ -260,31 +256,31 @@ describe "#glyph_present" do
 
   it "should return true when present in an AFM font" do
     font = @pdf.find_font("Helvetica")
-    font.glyph_present?("H").should.be true
+    font.glyph_present?("H").should be_true
   end
 
   it "should return false when absent in an AFM font" do
     font = @pdf.find_font("Helvetica")
-    font.glyph_present?("再").should.be false
+    font.glyph_present?("再").should be_false
   end
 
   it "should return true when present in a TTF font" do
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
-    font.glyph_present?("H").should.be true
+    font.glyph_present?("H").should be_true
   end
 
   it "should return false when absent in a TTF font" do
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
-    font.glyph_present?("再").should.be false
+    font.glyph_present?("再").should be_false
 
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-    font.glyph_present?("€").should.be false
+    font.glyph_present?("€").should be_false
   end
 end
 
 describe "TTF fonts" do
   
-  setup do
+  before do
     create_pdf
     @activa = @pdf.find_font "#{Prawn::DATADIR}/fonts/Activa.ttf"
   end
@@ -338,13 +334,13 @@ describe "TTF fonts" do
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
       normalized = @activa.normalize_encoding(original)
-      assert ! original.equal?(normalized)
+      original.equal?(normalized).should be_false
     end
 
     it "should modify the original string when normalize_encoding!() is used" do
       original = "Foo"
       normalized = @activa.normalize_encoding!(original)
-      assert original.equal?(normalized)
+      original.equal?(normalized).should be_true
     end
 
   end
@@ -358,7 +354,7 @@ describe "TTF fonts" do
           text "Hi there"
           transaction { text "Nice, thank you" }
         end
-      }.should.not.raise
+      }.should_not raise_error
     end
 
     it "should allow TTF fonts to be used inside transactions" do
@@ -380,7 +376,7 @@ describe "TTF fonts" do
 end
 
 describe "DFont fonts" do
-  setup do
+  before do
     create_pdf
     @file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
   end
@@ -412,9 +408,9 @@ describe "DFont fonts" do
   it "should cache font object based on selected font" do
     f1 = @pdf.find_font(@file, :font => "ActionMan")
     f2 = @pdf.find_font(@file, :font => "ActionMan-Bold")
-    assert_not_equal f1.object_id, f2.object_id
-    assert_equal f1.object_id, @pdf.find_font(@file, :font => "ActionMan").object_id
-    assert_equal f2.object_id, @pdf.find_font(@file, :font => "ActionMan-Bold").object_id
+    f2.object_id.should_not == f1.object_id
+    @pdf.find_font(@file, :font => "ActionMan").object_id.should == f1.object_id
+    @pdf.find_font(@file, :font => "ActionMan-Bold").object_id.should == f2.object_id
   end
 end
 

@@ -56,12 +56,12 @@ describe "Core::Text::Formatted::Arranger#next_string" do
              { :text => " you?" }]
     @arranger.format_array = array
   end
-  it "should raise an error if called after a line was finalized and" +
+  it "should raise_error an error if called after a line was finalized and" +
      " before a new line was initialized" do
     @arranger.finalize_line
     lambda do
       @arranger.next_string
-    end.should.raise(RuntimeError)
+    end.should raise_error(RuntimeError)
   end
   it "should populate consumed array" do
     while string = @arranger.next_string
@@ -99,7 +99,7 @@ describe "Core::Text::Formatted::Arranger#next_string" do
 end
 
 describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
-  it "should raise an error if called before finalize_line was called" do
+  it "should raise_error an error if called before finalize_line was called" do
     create_pdf
     arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
@@ -111,7 +111,7 @@ describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
     end
     lambda do
       arranger.retrieve_fragment
-    end.should.raise(RuntimeError)
+    end.should raise_error(RuntimeError)
   end
   it "should return the consumed fragments in order of consumption" +
      " and update" do
@@ -147,7 +147,7 @@ describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
     end
     arranger.finalize_line
     while fragment = arranger.retrieve_fragment
-      fragment.text.should.not.be.empty
+      fragment.text.should_not be_empty
     end
   end
   it "should not alter the current font style" do
@@ -162,7 +162,7 @@ describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
     end
     arranger.finalize_line
     arranger.retrieve_fragment
-    arranger.current_format_state[:styles].should.be.nil
+    arranger.current_format_state[:styles].should be_nil
   end
 end
 
@@ -226,10 +226,10 @@ describe "Core::Text::Formatted::Arranger#space_count" do
     while string = @arranger.next_string
     end
   end
-  it "should raise an error if called before finalize_line was called" do
+  it "should raise_error an error if called before finalize_line was called" do
     lambda do
       @arranger.space_count
-    end.should.raise(RuntimeError)
+    end.should raise_error(RuntimeError)
   end
   it "should return the total number of spaces in all fragments" do
     @arranger.finalize_line
@@ -271,14 +271,14 @@ describe "Core::Text::Formatted::Arranger#line_width" do
     while string = @arranger.next_string
     end
   end
-  it "should raise an error if called before finalize_line was called" do
+  it "should raise_error an error if called before finalize_line was called" do
     lambda do
       @arranger.line_width
-    end.should.raise(RuntimeError)
+    end.should raise_error(RuntimeError)
   end
   it "should return the width of the complete line" do
     @arranger.finalize_line
-    @arranger.line_width.should.be > 0
+    @arranger.line_width.should be > 0
   end
 end
 
@@ -304,7 +304,7 @@ describe "Core::Text::Formatted::Arranger#line_width with character_spacing > 0"
     while string = arranger.next_string
     end
     arranger.finalize_line
-    arranger.line_width.should.be > base_line_width
+    arranger.line_width.should be > base_line_width
   end
 end
 
@@ -318,10 +318,10 @@ describe "Core::Text::Formatted::Arranger#line" do
     while string = @arranger.next_string
     end
   end
-  it "should raise an error if called before finalize_line was called" do
+  it "should raise_error an error if called before finalize_line was called" do
     lambda do
       @arranger.line
-    end.should.raise(RuntimeError)
+    end.should raise_error(RuntimeError)
   end
   it "should return the complete line" do
     @arranger.finalize_line
@@ -355,7 +355,7 @@ describe "Core::Text::Formatted::Arranger#unconsumed" do
 end
 
 describe "Core::Text::Formatted::Arranger#finished" do
-  it "should be false if anything was not printed" do
+  it "should be_false if anything was not printed" do
     create_pdf
     arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
@@ -366,9 +366,9 @@ describe "Core::Text::Formatted::Arranger#finished" do
     while string = arranger.next_string
     end
     arranger.update_last_string(" you", "now?", nil)
-    arranger.should.not.be.finished
+    arranger.should_not be_finished
   end
-  it "should be false if everything was printed" do
+  it "should be_false if everything was printed" do
     create_pdf
     arranger = Prawn::Core::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello " },
@@ -378,7 +378,7 @@ describe "Core::Text::Formatted::Arranger#finished" do
     arranger.format_array = array
     while string = arranger.next_string
     end
-    arranger.should.be.finished
+    arranger.should be_finished
   end
 end
 
@@ -395,7 +395,7 @@ describe "Core::Text::Formatted::Arranger.max_line_height" do
     while string = arranger.next_string
     end
     arranger.finalize_line
-    arranger.max_line_height.should.be.close(33.32, 0.0001)
+    arranger.max_line_height.should be_close(33.32, 0.0001)
   end
 end
 
