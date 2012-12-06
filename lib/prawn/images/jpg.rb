@@ -25,8 +25,9 @@ module Prawn
       # <tt>:data</tt>:: A binary string of JPEG data
       #
       def initialize(data)
-        @data = data
-        data = StringIO.new(data.dup)
+        @data = data.dup
+        ruby_19 { data.force_encoding("binary") }
+        data = StringIO.new(data)
 
         c_marker = "\xff" # Section marker.
         data.read(2)   # Skip the first two bytes of JPEG identifier.
