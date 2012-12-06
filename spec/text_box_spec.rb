@@ -51,7 +51,7 @@ describe "Text::Box#line_gap" do
     text_box = Prawn::Text::Box.new(string,
                                     :document => @pdf)
     text_box.render
-    text_box.line_gap.should be_close(@pdf.font.line_gap, 0.0001)
+    text_box.line_gap.should be_within(0.0001).of(@pdf.font.line_gap)
   end
 end
 
@@ -167,7 +167,7 @@ describe "Text::Box#height without leading" do
     options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.height.should be_close(@pdf.font.height * 2 - @pdf.font.line_gap, 0.001)
+    text_box.height.should be_within(0.001).of(@pdf.font.height * 2 - @pdf.font.line_gap)
   end
 end
 
@@ -180,7 +180,7 @@ describe "Text::Box#height with leading" do
     options = { :document => @pdf, :leading => leading }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.height.should be_close((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading, 0.001)
+    text_box.height.should be_within(0.001).of((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading)
   end
 end
 
@@ -487,7 +487,7 @@ describe "Text::Box default height" do
     @text = "Oh hai\n" * 60
     text_box = Prawn::Text::Box.new(@text, :document => @pdf)
     text_box.render
-    text_box.height.should be_close(target_height, @pdf.font.height)
+    text_box.height.should be_within(@pdf.font.height).of(target_height)
   end
 
   it "should use the margin-box bottom if only in a stretchy bbox" do
@@ -496,7 +496,7 @@ describe "Text::Box default height" do
       @text = "Oh hai\n" * 60
       text_box = Prawn::Text::Box.new(@text, :document => @pdf)
       text_box.render
-      text_box.height.should be_close(target_height, @pdf.font.height)
+      text_box.height.should be_within(@pdf.font.height).of(target_height)
     end
   end
 
@@ -508,7 +508,7 @@ describe "Text::Box default height" do
       text_box = Prawn::Text::Box.new(@text, :document => @pdf,
         :height => 100, :overflow => :expand)
       text_box.render
-      text_box.height.should be_close(target_height, @pdf.font.height)
+      text_box.height.should be_within(@pdf.font.height).of(target_height)
     end
   end
 
@@ -519,7 +519,7 @@ describe "Text::Box default height" do
         @text = "Oh hai\n" * 60
         text_box = Prawn::Text::Box.new(@text, :document => @pdf)
         text_box.render
-        text_box.height.should be_close(200, @pdf.font.height)
+        text_box.height.should be_within(@pdf.font.height).of(200)
       end
     end
   end
@@ -587,7 +587,7 @@ describe "Text::Box with text that fits exactly in the box" do
     expected_height = @options.delete(:height)
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.height.should be_close(expected_height, 0.0001)
+    text_box.height.should be_within(0.0001).of(expected_height)
   end
 
   it "should print everything" do
@@ -722,7 +722,7 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "#height should be within one font height of the specified height" do
       @text_box.render
-      @bounding_height.should be_close(@text_box.height, @pdf.font.height)
+      @bounding_height.should be_within(@pdf.font.height).of(@text_box.height)
     end
     context "with :rotate option" do
       it "unrendered text should be the same as when not rotated" do

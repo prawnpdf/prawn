@@ -51,7 +51,7 @@ describe "#character_spacing" do
 
     @pdf.character_spacing(10) do
       # the new width should include seven 10-pt character spaces.
-      @pdf.width_of(str).should be_close(@raw_width + (10 * 7), 0.001)
+      @pdf.width_of(str).should be_within(0.001).of(@raw_width + (10 * 7))
     end
   end
 end

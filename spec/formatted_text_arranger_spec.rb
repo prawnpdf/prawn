@@ -395,7 +395,7 @@ describe "Core::Text::Formatted::Arranger.max_line_height" do
     while string = arranger.next_string
     end
     arranger.finalize_line
-    arranger.max_line_height.should be_close(33.32, 0.0001)
+    arranger.max_line_height.should be_within(0.0001).of(33.32)
   end
 end
 

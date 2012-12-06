@@ -144,7 +144,7 @@ describe "drawing bounding boxes" do
       @pdf.text "The rain in Spain falls mainly on the plains."
     end
 
-    @pdf.y.should be_close 458.384, 0.001
+    @pdf.y.should be_within(0.001).of(458.384)
   end
 
   it "should keep track of the max height the box was stretched to" do
@@ -162,7 +162,7 @@ describe "drawing bounding boxes" do
         :height => 30 do
       @pdf.text "hello"
     end
-    @pdf.y.should be_close(orig_y - 30, 0.001)
+    @pdf.y.should be_within(0.001).of(orig_y - 30)
   end
 
   it "should not advance y-position if passed :hold_position => true" do
@@ -172,7 +172,7 @@ describe "drawing bounding boxes" do
       @pdf.text "hello"
     end
     # y only advances by height of one line ("hello")
-    @pdf.y.should be_close(orig_y - @pdf.height_of("hello"), 0.001)
+    @pdf.y.should be_within(0.001).of(orig_y - @pdf.height_of("hello"))
   end
 
   it "should not advance y-position of a stretchy bbox if it would stretch " +
@@ -188,9 +188,8 @@ describe "drawing bounding boxes" do
     # the bottom of the page, which we don't want. This should be equivalent to
     # a bbox with :hold_position => true, where we only advance by the amount
     # that was actually drawn.
-    @pdf.y.should be_close(
-      @pdf.margin_box.absolute_top - @pdf.height_of("hello"),
-      0.001
+    @pdf.y.should be_within(0.001).of(
+      @pdf.margin_box.absolute_top - @pdf.height_of("hello")
     )
   end
 
@@ -270,7 +269,7 @@ describe "Indentation" do
                       :height => 200, :columns => 2, :spacer => 20) do
         width = @pdf.bounds.width
         @pdf.indent(20) do
-          @pdf.bounds.width.should be_close(width - 20, 0.01)
+          @pdf.bounds.width.should be_within(0.01).of(width - 20)
         end
       end
     end
@@ -280,7 +279,7 @@ describe "Indentation" do
                       :height => 200, :columns => 2, :spacer => 20) do
         width = @pdf.bounds.width
         @pdf.indent(20, 30) do
-          @pdf.bounds.width.should be_close(width - 50, 0.01)
+          @pdf.bounds.width.should be_within(0.01).of(width - 50)
         end
       end
     end
@@ -483,7 +482,7 @@ describe "BoundingBox#move_past_bottom" do
     @pdf.text "Foo"
 
     @pdf.bounds.move_past_bottom
-    @pdf.y.should be_close(top_y, 0.001) # we should be at the top
+    @pdf.y.should be_within(0.001).of(top_y)
     @pdf.text "Bar"
 
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages

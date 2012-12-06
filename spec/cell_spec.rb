@@ -99,7 +99,7 @@ describe "Prawn::Table::Cell" do
 
     it "should incorporate padding when specified" do
       c = cell(:content => "text", :padding => [1, 2, 3, 4])
-      c.width.should be_close(@pdf.width_of("text") + 6, 0.01)
+      c.width.should be_within(0.01).of(@pdf.width_of("text") + 6)
     end
 
     it "should allow width to be reset after it has been calculated" do
@@ -124,7 +124,7 @@ describe "Prawn::Table::Cell" do
 
     it "content_width should exclude padding even with manual :width" do
       c = cell(:content => "text", :padding => 10, :width => 400)
-      c.content_width.should be_close(380, 0.01)
+      c.content_width.should be_within(0.01).of(380)
     end
 
     it "should have a reasonable minimum width that can fit @content" do
@@ -172,8 +172,8 @@ describe "Prawn::Table::Cell" do
 
     it "should incorporate :padding when specified" do
       c = cell(:content => "text", :padding => [1, 2, 3, 4])
-      c.height.should be_close(1 + 3 +
-        @pdf.height_of("text", :width => @pdf.width_of("text")), 0.01)
+      c.height.should be_within(0.01).of(1 + 3 +
+        @pdf.height_of("text", :width => @pdf.width_of("text")))
     end
 
     it "should allow height to be reset after it has been calculated" do
@@ -210,7 +210,7 @@ describe "Prawn::Table::Cell" do
     
     it "content_height should exclude padding even with manual :height" do
       c = cell(:content => "text", :padding => 10, :height => 400)
-      c.content_height.should be_close(380, 0.01)
+      c.content_height.should be_within(0.01).of(380)
     end
   end
 
@@ -259,10 +259,10 @@ describe "Prawn::Table::Cell" do
       @pdf.stubs(:fill_color)
       @pdf.expects(:fill_color).with('123456')
       @pdf.expects(:fill_rectangle).checking do |(x, y), w, h|
-        x.should be_close(0, 0.01)
-        y.should be_close(@pdf.cursor, 0.01)
-        w.should be_close(29.344, 0.01)
-        h.should be_close(23.872, 0.01)
+        x.should be_within(0.01).of(0)
+        y.should be_within(0.01).of(@pdf.cursor)
+        w.should be_within(0.01).of(29.344)
+        h.should be_within(0.01).of(23.872)
       end
       @pdf.cell(:content => "text", :background_color => '123456')
     end
@@ -275,10 +275,10 @@ describe "Prawn::Table::Cell" do
       @pdf.stubs(:fill_color)
       @pdf.expects(:fill_color).with('123456')
       @pdf.expects(:fill_rectangle).checking do |(x, y), w, h|
-        x.should be_close(12.0, 0.01)
-        y.should be_close(34.0, 0.01)
-        w.should be_close(29.344, 0.01)
-        h.should be_close(23.872, 0.01)
+        x.should be_within(0.01).of(12.0)
+        y.should be_within(0.01).of(34.0)
+        w.should be_within(0.01).of(29.344)
+        h.should be_within(0.01).of(23.872)
       end
       c = @pdf.make_cell(:content => "text", :background_color => '123456')
       c.draw([12.0, 34.0])

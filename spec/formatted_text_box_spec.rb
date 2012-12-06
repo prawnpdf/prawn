@@ -449,7 +449,7 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
-    contents.font_settings[1][:size].should be_close(18 * 0.583, 0.0001)
+    contents.font_settings[1][:size].should be_within(0.0001).of(18 * 0.583)
   end
   it "should be able to set superscript" do
     create_pdf
@@ -460,7 +460,7 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
-    contents.font_settings[1][:size].should be_close(18 * 0.583, 0.0001)
+    contents.font_settings[1][:size].should be_within(0.0001).of(18 * 0.583)
   end
   it "should be able to set compound bold and italic text" do
     create_pdf
@@ -531,7 +531,7 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     @pdf.font_size(24) do
-      text_box.height.should be_close(@pdf.font.ascender + @pdf.font.descender, 0.001)
+      text_box.height.should be_within(0.001).of(@pdf.font.ascender + @pdf.font.descender)
     end
   end
   it "should be able to set color via an rgb hex string" do

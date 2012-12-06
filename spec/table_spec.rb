@@ -472,8 +472,8 @@ describe "Prawn::Table" do
         line_gap = @pdf.font.line_gap
 
         num_rows = data.length
-        table_height.should be_close(
-          num_rows * font_height + 2*vpad*num_rows, 0.001 )
+        table_height.should be_within(0.001).of(
+          num_rows * font_height + 2*vpad*num_rows )
       end
 
     end
@@ -782,7 +782,7 @@ describe "Prawn::Table" do
 
       (0..2).each do |row|
         cell = @table.cells[row, 0]
-        cell.y.should be_close(y, 0.01)
+        cell.y.should be_within(0.01).of(y)
         y -= cell.height
       end
     end
@@ -1096,7 +1096,7 @@ describe "colspan / rowspan" do
                    :width => 400)
 
     t.column_widths.inject(0) { |sum, w| sum + w }.
-      should be_close(400, 0.01)
+      should be_within(0.01).of(400)
   end
 
   it "honors a small, explicitly set table width" do
@@ -1106,7 +1106,7 @@ describe "colspan / rowspan" do
                    :width => 200)
 
     t.column_widths.inject(0) { |sum, w| sum + w }.
-      should be_close(200, 0.01)
+      should be_within(0.01).of(200)
   end
 
   it "splits natural_content_height between rows in the group" do
