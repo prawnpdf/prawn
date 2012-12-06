@@ -17,8 +17,13 @@ require "mocha/api"
 require "pdf/reader"
 require "pdf/inspector"
 
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/extensions/ and its subdirectories.
+Dir[File.dirname(__FILE__) + "/extensions/**/*.rb"].each {|f| require f }
+
 RSpec.configure do |config|
   config.mock_framework = :mocha
+  config.include EncodingHelpers
 end
 
 def create_pdf(klass=Prawn::Document)
@@ -29,7 +34,4 @@ end
 module Prawn::Graphics
   public :map_to_absolute
 end
-
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[extensions mocha]))
 

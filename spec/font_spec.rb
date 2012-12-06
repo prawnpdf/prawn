@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
-require 'iconv'
 require 'pathname'
 
 describe "Font behavior" do
@@ -200,31 +199,36 @@ describe "AFM fonts" do
   before do
     create_pdf
     @times = @pdf.find_font "Times-Roman"
-    @iconv = ::Iconv.new('Windows-1252', 'utf-8')
   end
   
   it "should calculate string width taking into account accented characters" do
-    @times.compute_width_of(@iconv.iconv("é"), :size => 12).should == @times.compute_width_of("e", :size => 12)
+    input = win1252_string("\xE9")# é in win-1252
+    @times.compute_width_of(input, :size => 12).should == @times.compute_width_of("e", :size => 12)
   end
   
   it "should calculate string width taking into account kerning pairs" do
-    @times.compute_width_of(@iconv.iconv("To"), :size => 12).should == 13.332
-    @times.compute_width_of(@iconv.iconv("To"), :size => 12, :kerning => true).should == 12.372
-    @times.compute_width_of(@iconv.iconv("Tö"), :size => 12, :kerning => true).should == 12.372
+    @times.compute_width_of(win1252_string("To"), :size => 12).should == 13.332
+    @times.compute_width_of(win1252_string("To"), :size => 12, :kerning => true).should == 12.372
+
+    input = win1252_string("T\xF6") # Tö in win-1252
+    @times.compute_width_of(input, :size => 12, :kerning => true).should == 12.372
   end
 
   it "should encode text without kerning by default" do
-    @times.encode_text(@iconv.iconv("To")).should == [[0, "To"]]
-    @times.encode_text(@iconv.iconv("Télé")).should == [[0, @iconv.iconv("Télé")]]
-    @times.encode_text(@iconv.iconv("Technology")).should == [[0, "Technology"]]
-    @times.encode_text(@iconv.iconv("Technology...")).should == [[0, "Technology..."]]
+    @times.encode_text(win1252_string("To")).should == [[0, "To"]]
+    input = win1252_string("T\xE9l\xE9") # Télé in win-1252
+    @times.encode_text(input).should == [[0, input]]
+    @times.encode_text(win1252_string("Technology")).should == [[0, "Technology"]]
+    @times.encode_text(win1252_string("Technology...")).should == [[0, "Technology..."]]
   end
 
   it "should encode text with kerning if requested" do
-    @times.encode_text(@iconv.iconv("To"), :kerning => true).should == [[0, ["T", 80, "o"]]]
-    @times.encode_text(@iconv.iconv("Télé"), :kerning => true).should == [[0, ["T", 70, @iconv.iconv("élé")]]]
-    @times.encode_text(@iconv.iconv("Technology"), :kerning => true).should == [[0, ["T", 70, "echnology"]]]
-    @times.encode_text(@iconv.iconv("Technology..."), :kerning => true).should == [[0, ["T", 70, "echnology", 65, "..."]]]
+    @times.encode_text(win1252_string("To"), :kerning => true).should == [[0, ["T", 80, "o"]]]
+    input  = win1252_string("T\xE9l\xE9") # Télé in win-1252
+    output = win1252_string("\xE9l\xE9")  # élé  in win-1252
+    @times.encode_text(input, :kerning => true).should == [[0, ["T", 70, output]]]
+    @times.encode_text(win1252_string("Technology"), :kerning => true).should == [[0, ["T", 70, "echnology"]]]
+    @times.encode_text(win1252_string("Technology..."), :kerning => true).should == [[0, ["T", 70, "echnology", 65, "..."]]]
   end
 
   describe "when normalizing encoding" do
