@@ -10,9 +10,7 @@ require 'rubygems/package_task'
 task :default => [:spec]
        
 desc "Run all rspec files"
-RSpec::Core::RakeTask.new("spec") do |t|
-  t.rspec_opts  = ["--color", "--format progress"]
-end
+RSpec::Core::RakeTask.new("spec")
 
 desc "Show library's code statistics"
 task :stats do
