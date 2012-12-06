@@ -165,7 +165,7 @@ describe "Document built from a template" do
   context "with the template as a stream" do
     it "should correctly import a template file from a stream" do
       filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
-      io = StringIO.new(File.read(filename))
+      io = StringIO.new(File.binread(filename))
       @pdf = Prawn::Document.new(:template => io)
       str = @pdf.render
       str[0,4].should == "%PDF"
@@ -321,7 +321,7 @@ describe "Document#start_new_page with :template option" do
   context "with the template as a stream" do
     it "should correctly import a template file from a stream" do
       filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
-      io = StringIO.new(File.read(filename))
+      io = StringIO.new(File.binread(filename))
 
       @pdf = Prawn::Document.new()
       @pdf.start_new_page(:template => io)
