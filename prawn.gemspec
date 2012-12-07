@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.rubyforge_project = "prawn"
   spec.add_dependency('pdf-reader', '>=0.9.0', '<2.0')
   spec.add_dependency('ttfunk', '~>1.0.3')
+  spec.add_dependency('ruby-rc4')
   spec.add_development_dependency('pdf-inspector', '~> 1.0.1')
   spec.add_development_dependency('coderay', '~> 1.0.7')
   spec.add_development_dependency('rdoc')
