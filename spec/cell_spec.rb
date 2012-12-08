@@ -33,6 +33,11 @@ describe "Prawn::Table::Cell" do
       @pdf.cell(:content => "text").should.be.a.kind_of Prawn::Table::Cell
     end
 
+    it "accepts :content => nil in a hash" do
+      @pdf.cell(:content => nil).should.be.a.kind_of Prawn::Table::Cell::Text
+      @pdf.make_cell(:content => nil).should.be.a.kind_of Prawn::Table::Cell::Text
+    end
+
     it "should convert nil, Numeric, and Date values to strings" do
       [nil, 123, 123.45, Date.today].each do |value|
         c = @pdf.cell(:content => value)

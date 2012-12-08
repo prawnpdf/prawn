@@ -168,6 +168,8 @@ module Prawn
           options[:content] = content
         end
 
+        options[:content] = content = "" if content.nil?
+
         case content
         when Prawn::Table::Cell
           content
