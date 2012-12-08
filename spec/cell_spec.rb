@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module CellHelpers
 
@@ -56,20 +56,20 @@ describe "Prawn::Table::Cell" do
       @pdf.expects(:move_down)
       @pdf.expects(:draw_text!).with { |text, options| text == "hello world" }
 
-      @pdf.cell(:content => "hello world", 
+      @pdf.cell(:content => "hello world",
                 :at => [10, 20],
                 :padding => [30, 40],
-                :size => 7, 
+                :size => 7,
                 :font_style => :bold)
     end
   end
-  
+
   describe "Prawn::Document#make_cell" do
     it "should not draw the cell" do
       Prawn::Table::Cell::Text.any_instance.expects(:draw).never
       @pdf.make_cell("text")
     end
-    
+
     it "should return a Cell" do
       @pdf.make_cell("text", :size => 7).should.be.a.kind_of Prawn::Table::Cell
     end
@@ -117,7 +117,7 @@ describe "Prawn::Table::Cell" do
     it "should return proper width with size set" do
       text = "text " * 4
       c = cell(:content => text, :size => 7)
-      c.width.should == 
+      c.width.should ==
         @pdf.width_of(text, :size => 7) + c.padding[1] + c.padding[3]
     end
 
@@ -164,7 +164,7 @@ describe "Prawn::Table::Cell" do
 
     it "should be calculated for text" do
       c = cell(:content => "text")
-      c.height.should == 
+      c.height.should ==
         @pdf.height_of("text", :width => @pdf.width_of("text")) +
         c.padding[0] + c.padding[3]
     end
@@ -211,7 +211,7 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => 10)
       c.content_height.should == @pdf.height_of("text")
     end
-    
+
     it "content_height should exclude padding even with manual :height" do
       c = cell(:content => "text", :padding => 10, :height => 400)
       c.content_height.should.be.close(380, 0.01)
@@ -235,7 +235,7 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => [20, 30])
       c.padding.should == [20, 30, 20, 30]
     end
-    
+
     it "should accept [t,h,b]" do
       c = cell(:content => "text", :padding => [10, 20, 30])
       c.padding.should == [10, 20, 30, 20]
