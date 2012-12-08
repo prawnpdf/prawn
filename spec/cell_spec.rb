@@ -413,6 +413,27 @@ describe "Prawn::Table::Cell" do
         :border_width => [2, 3, 4, 5])
       c.border_widths.should == [2, 3, 4, 5]
     end
+    
+    it "should set default border lines to :solid" do
+      c = @pdf.cell(:content => "text")
+      c.border_top_line.should == :solid
+      c.border_right_line.should == :solid
+      c.border_bottom_line.should == :solid
+      c.border_left_line.should == :solid
+      c.border_lines.should == [:solid] * 4
+    end
+    
+    it "should set border line with :border_..._line" do
+      c = @pdf.cell(:content => "text", :border_bottom_line => :dotted)
+      c.border_bottom_line.should == :dotted
+      c.border_lines[2].should == :dotted
+    end
+
+    it "should set border lines with :border_lines" do
+      c = @pdf.cell(:content => "text",
+        :border_lines => [:solid, :dotted, :dashed, :solid])
+      c.border_lines.should == [:solid, :dotted, :dashed, :solid]
+    end
   end
 
   describe "Text cell attributes" do
