@@ -128,6 +128,7 @@ module Prawn
       @cells = make_cells(data)
       @header = false
       @epsilon = 1e-9
+      @per_page_number_rows = []
       options.each { |k, v| send("#{k}=", v) }
 
       if block
@@ -160,6 +161,10 @@ module Prawn
     # this table.
     #
     attr_reader :cells
+
+    # Array which contains the number of rows per page
+    #
+    attr_reader :per_page_number_rows
 
     # Specify a callback to be called before each page of cells is rendered.
     # The block is passed a Cells object containing all cells to be rendered on
@@ -305,6 +310,7 @@ module Prawn
               @before_rendering_page.call(c)
             end
             Cell.draw_cells(cells_this_page)
+            @per_page_number_rows <<  cells_this_page.size / column_length
             cells_this_page = []
 
             # start a new page or column
@@ -346,7 +352,7 @@ module Prawn
           @before_rendering_page.call(c)
         end
         Cell.draw_cells(cells_this_page)
-
+        @per_page_number_rows <<  cells_this_page.size / column_length
         @pdf.move_cursor_to(last_y - @cells.last.height)
       end
     end

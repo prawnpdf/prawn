@@ -1145,3 +1145,19 @@ describe "colspan / rowspan" do
   end
 end
 
+
+
+describe "#per_page_number_rows" do
+  before(:each) { create_pdf }
+
+  it "should return the correct number of rows per page" do
+    t = @pdf.table([["foo"]] * 100)
+    t.per_page_number_rows.eql?([33, 33, 33, 1])
+  end
+
+  it "should be an array" do
+    t = @pdf.table([["foo"]] * 100)
+    t.per_page_number_rows.is_a?(Array)
+  end
+
+end
