@@ -45,7 +45,8 @@ module Prawn
               @line_wrap.wrap_line(:document => @document,
                                    :kerning => @kerning,
                                    :width => available_width,
-                                   :arranger => @arranger)
+                                   :arranger => @arranger,
+                                   :disable_wrap_by_char => (@overflow == :shrink_to_fit))
 
               if enough_height_for_this_line?
                 move_baseline_down

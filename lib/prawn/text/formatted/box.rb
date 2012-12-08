@@ -468,11 +468,13 @@ module Prawn
         # Decrease the font size until the text fits or the min font
         # size is reached
         def shrink_to_fit(text)
-          wrap(text)
-          until @everything_printed || @font_size <= @min_font_size
+          loop do
+            wrap(text) rescue Errors::CannotFit
+
+            break if @everything_printed || @font_size <= @min_font_size
+
             @font_size = [@font_size - 0.5, @min_font_size].max
             @document.font_size = @font_size
-            wrap(text)
           end
         end
 
