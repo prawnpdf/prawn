@@ -9,6 +9,13 @@ describe "Document built from a template" do
     page_counter.pages.size.should == 1
   end
 
+  it "should not set the template page's parent to the document pages catalog (especially with nested pages)" do
+    filename = "#{Prawn::DATADIR}/pdfs/nested_pages.pdf"
+    @pdf = Prawn::Document.new(:template => filename, :skip_page_creation => true)
+    assert @pdf.state.page.dictionary.data[:Parent] != @pdf.state.store.pages
+  end
+
+
   it "should have start with the Y cursor at the top of the document" do
     filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
 
