@@ -12,6 +12,32 @@ describe "Font behavior" do
 
 end
 
+describe "Font objects" do
+
+  it "should be equal" do
+    font1 = Prawn::Document.new.font
+    font2 = Prawn::Document.new.font
+
+    font1.should.eql( font2 )
+  end
+
+  it "should always be the same key" do
+    font1 = Prawn::Document.new.font
+    font2 = Prawn::Document.new.font
+
+    hash = Hash.new
+
+    hash[ font1 ] = "Original"
+    hash[ font2 ] = "Overwritten"
+
+    hash.size.should == 1
+
+    hash[ font1 ].should == "Overwritten"
+    hash[ font2 ].should == "Overwritten"
+  end
+
+end
+
 describe "#width_of" do
   it "should take character spacing into account" do
     create_pdf
