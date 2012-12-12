@@ -122,7 +122,7 @@ module Prawn
       # HTML RGB-format ("ccffff") border colors: [top, right, bottom, left].
       #
       attr_reader :border_colors
-      
+
       # Line style
       #
       attr_reader :border_lines
@@ -640,7 +640,7 @@ module Prawn
         @min_width ||= padding_left + padding_right
         @max_width ||= @pdf.bounds.width
       end
-      
+
       # Sets border line style on this cell. The argument can be one of:
       #
       # Possible values are: :solid, :dashed, :dotted
@@ -755,7 +755,7 @@ module Prawn
               raise ArgumentError, "border_line must be :solid, :dotted or" +
                 " :dashed"
             end
-            
+
             @pdf.line_width   = border_width
             @pdf.stroke_color = border_color
             @pdf.stroke_line(from, to)

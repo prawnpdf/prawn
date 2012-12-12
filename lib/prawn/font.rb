@@ -38,7 +38,7 @@ module Prawn
     #
     # If a ttf font is specified, the glyphs necessary to render your document
     # will be embedded in the rendered PDF. This should be your preferred option
-    # in most cases. It will increase the size of the resulting file, but also 
+    # in most cases. It will increase the size of the resulting file, but also
     # make it more portable.
     #
     # The options parameter is an optional hash providing size and style. To use
@@ -49,9 +49,9 @@ module Prawn
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
-        raise Prawn::Errors::NotOnPage 
+        raise Prawn::Errors::NotOnPage
       end
-      
+
       new_font = find_font(name.to_s, options)
 
       if block_given?
@@ -134,18 +134,18 @@ module Prawn
     # font will be embedded twice. Since we do font subsetting, this double
     # embedding won't be catastrophic, just annoying.
     # ++
-    def find_font(name, options={}) #:nodoc: 
-      if font_families.key?(name) 
-        family, name = name, font_families[name][options[:style] || :normal] 
-        if name.is_a?(Hash) 
-          options = options.merge(name) 
-          name = options[:file] 
-        end 
-      end 
-      key = "#{name}:#{options[:font] || 0}" 
-      font_registry[key] ||= Font.load(self, name, options.merge(:family => family)) 
-    end 
-    
+    def find_font(name, options={}) #:nodoc:
+      if font_families.key?(name)
+        family, name = name, font_families[name][options[:style] || :normal]
+        if name.is_a?(Hash)
+          options = options.merge(name)
+          name = options[:file]
+        end
+      end
+      key = "#{name}:#{options[:font] || 0}"
+      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
+    end
+
     # Hash of Font objects keyed by names
     #
     def font_registry #:nodoc:
@@ -277,7 +277,7 @@ module Prawn
       @references = {}
     end
 
-    # The size of the font ascender in PDF points 
+    # The size of the font ascender in PDF points
     #
     def ascender
       @ascender / 1000.0 * size
