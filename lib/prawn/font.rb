@@ -348,6 +348,21 @@ module Prawn
       "#{self.class.name}< #{name}: #{size} >"
     end
 
+    # Return a hash (as in Object#hash) for the font based on the output of
+    # #inspect. This is required since font objects are used as keys in hashes
+    # that cache certain values (See
+    # Prawn::Table::Text#styled_with_of_single_character)
+    #
+    def hash #:nodoc:
+      inspect.hash
+    end
+
+    # Compliments the #hash implementation above
+    #
+    def eql?( other ) #:nodoc:
+      self.hash == other.hash
+    end
+
     private
 
     # generate a font identifier that hasn't been used on the curretn page yet
