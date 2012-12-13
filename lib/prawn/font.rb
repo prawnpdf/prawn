@@ -346,14 +346,14 @@ module Prawn
     # Prawn::Table::Text#styled_with_of_single_character)
     #
     def hash #:nodoc:
-      [ self.class, self.name, self.family, self.size ].hash
+      [ self.class, self.name, self.family, size ].hash
     end
 
     # Compliments the #hash implementation above
     #
     def eql?( other ) #:nodoc:
       self.class == other.class && self.name == other.name &&
-        self.family == other.family && self.size == other.size
+        self.family == other.family && size == other.send(:size)
     end
 
     private
