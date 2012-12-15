@@ -2,7 +2,6 @@
 
 puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 
-require "rubygems"
 require "bundler"
 Bundler.setup
 

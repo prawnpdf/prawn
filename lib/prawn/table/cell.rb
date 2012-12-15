@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # cell.rb: Table cell drawing.
 #
@@ -10,7 +10,7 @@ require 'date'
 module Prawn
   class Document
 
-    # Instantiates and draws a cell on the document. 
+    # Instantiates and draws a cell on the document.
     #
     #   cell(:content => "Hello world!", :at => [12, 34])
     #
@@ -21,9 +21,9 @@ module Prawn
       cell.draw
       cell
     end
-    
-    # Set up, but do not draw, a cell. Useful for creating cells with 
-    # formatting options to be inserted into a Table. Call +draw+ on the 
+
+    # Set up, but do not draw, a cell. Useful for creating cells with
+    # formatting options to be inserted into a Table. Call +draw+ on the
     # resulting Cell to ink it.
     #
     # See the documentation on Prawn::Cell for details on the arguments.
@@ -35,7 +35,7 @@ module Prawn
   end
 
   class Table
-    
+
     # A Cell is a rectangular area of the page into which content is drawn. It
     # has a framework for sizing itself and adding padding and simple styling.
     # There are several standard Cell subclasses that handle things like text,
@@ -55,7 +55,7 @@ module Prawn
       attr_reader :padding
 
       # If provided, the minimum width that this cell in its column will permit.
-      # 
+      #
       def min_width_ignoring_span
         set_width_constraints
         @min_width
@@ -69,7 +69,7 @@ module Prawn
         # Sum up the largest min-width from each column, including myself.
         min_widths = Hash.new(0)
         dummy_cells.each do |cell|
-          min_widths[cell.column] = 
+          min_widths[cell.column] =
             [min_widths[cell.column], cell.min_width].max
         end
         min_widths[column] = [min_widths[column], min_width_ignoring_span].max
@@ -81,7 +81,7 @@ module Prawn
       def avg_spanned_min_width
         min_width.to_f / colspan
       end
-      
+
       # If provided, the maximum width that this cell can be drawn in, within
       # its column.
       #
@@ -94,7 +94,7 @@ module Prawn
       #
       def max_width
         return max_width_ignoring_span if @colspan == 1
-        
+
         # Sum the smallest max-width from each column in the group, including
         # myself.
         max_widths = Hash.new(0)
@@ -122,12 +122,16 @@ module Prawn
       # HTML RGB-format ("ccffff") border colors: [top, right, bottom, left].
       #
       attr_reader :border_colors
+      
+      # Line style
+      #
+      attr_reader :border_lines
 
       # Specifies the content for the cell. Must be a "cellable" object. See the
       # "Data" section of the Prawn::Table documentation for details on cellable
       # objects.
       #
-      attr_accessor :content 
+      attr_accessor :content
 
       # The background color, if any, for this cell. Specified in HTML RGB
       # format, e.g., "ccffff". The background is drawn under the whole cell,
@@ -136,7 +140,7 @@ module Prawn
       attr_accessor :background_color
 
       # Number of columns this cell spans. Defaults to 1.
-      # 
+      #
       attr_reader :colspan
 
       # Number of rows this cell spans. Defaults to 1.
@@ -157,7 +161,7 @@ module Prawn
         at = options.delete(:at) || [0, pdf.cursor]
         content = content.to_s if content.nil? || content.kind_of?(Numeric) ||
           content.kind_of?(Date)
-        
+
         if content.is_a?(Hash)
           if img = content[:image]
             return Cell::Image.new(pdf, at, content)
@@ -167,6 +171,8 @@ module Prawn
         else
           options[:content] = content
         end
+
+        options[:content] = content = "" if content.nil?
 
         case content
         when Prawn::Table::Cell
@@ -206,6 +212,7 @@ module Prawn
         @borders       = [:top, :bottom, :left, :right]
         @border_widths = [1] * 4
         @border_colors = ['000000'] * 4
+        @border_lines  = [:solid] * 4
         @colspan = 1
         @rowspan = 1
         @dummy_cells = []
@@ -252,7 +259,7 @@ module Prawn
         # the master cell) and sum each column.
         column_widths = Hash.new(0)
         dummy_cells.each do |cell|
-          column_widths[cell.column] = 
+          column_widths[cell.column] =
             [column_widths[cell.column], cell.width].max
         end
         column_widths[column] = [column_widths[column], width_ignoring_span].max
@@ -285,7 +292,7 @@ module Prawn
       # constraints. Must be implemented in subclasses.
       #
       def natural_content_width
-        raise NotImplementedError, 
+        raise NotImplementedError,
           "subclasses must implement natural_content_width"
       end
 
@@ -321,7 +328,7 @@ module Prawn
         if @height # manually set
           return @height - padding_top - padding_bottom
         end
-        
+
         natural_content_height
       end
 
@@ -335,7 +342,7 @@ module Prawn
       # constraints. Must be implemented in subclasses.
       #
       def natural_content_height
-        raise NotImplementedError, 
+        raise NotImplementedError,
           "subclasses must implement natural_content_height"
       end
 
@@ -413,7 +420,7 @@ module Prawn
       #
       def draw_bounded_content(pt)
         @pdf.float do
-          @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top], 
+          @pdf.bounding_box([pt[0] + padding_left, pt[1] - padding_top],
                             :width  => spanned_content_width + FPTolerance,
                             :height => spanned_content_height + FPTolerance) do
             draw_content
@@ -473,7 +480,7 @@ module Prawn
       def padding_top
         @padding[0]
       end
-      
+
       def padding_top=(val)
         @padding[0] = val
       end
@@ -481,7 +488,7 @@ module Prawn
       def padding_right
         @padding[1]
       end
-      
+
       def padding_right=(val)
         @padding[1] = val
       end
@@ -489,7 +496,7 @@ module Prawn
       def padding_bottom
         @padding[2]
       end
-      
+
       def padding_bottom=(val)
         @padding[2] = val
       end
@@ -497,7 +504,7 @@ module Prawn
       def padding_left
         @padding[3]
       end
-      
+
       def padding_left=(val)
         @padding[3] = val
       end
@@ -633,6 +640,66 @@ module Prawn
         @min_width ||= padding_left + padding_right
         @max_width ||= @pdf.bounds.width
       end
+      
+      # Sets border line style on this cell. The argument can be one of:
+      #
+      # Possible values are: :solid, :dashed, :dotted
+      #
+      # * one value (sets all lines)
+      # * a two-element array [vertical, horizontal]
+      # * a three-element array [top, horizontal, bottom]
+      # * a four-element array [top, right, bottom, left]
+      #
+      def border_line=(line)
+        @border_lines = case
+        when line.nil?
+          [:solid] * 4
+        when line.length == 1 # all lines
+          [line[0]] * 4
+        when line.length == 2
+          [line[0], line[1], line[0], line[1]]
+        when line.length == 3
+          [line[0], line[1], line[2], line[1]]
+        when line.length == 4
+          [line[0], line[1], line[2], line[3]]
+        else
+          raise ArgumentError, "border_line must be one of :solid, :dashed, "
+            ":dotted or an array [v,h] or [t,r,b,l]"
+        end
+      end
+      alias_method :border_lines=, :border_line=
+
+      def border_top_line
+        @borders.include?(:top) ? @border_lines[0] : 0
+      end
+
+      def border_top_line=(val)
+        @border_lines[0] = val
+      end
+
+      def border_right_line
+        @borders.include?(:right) ? @border_lines[1] : 0
+      end
+
+      def border_right_line=(val)
+        @border_lines[1] = val
+      end
+
+      def border_bottom_line
+        @borders.include?(:bottom) ? @border_lines[2] : 0
+      end
+
+      def border_bottom_line=(val)
+        @border_lines[2] = val
+      end
+
+      def border_left_line
+        @borders.include?(:left) ? @border_lines[3] : 0
+      end
+
+      def border_left_line=(val)
+        @border_lines[3] = val
+      end
 
       # Draws the cell's background color.
       #
@@ -658,6 +725,7 @@ module Prawn
             idx = {:top => 0, :right => 1, :bottom => 2, :left => 3}[border]
             border_color = @border_colors[idx]
             border_width = @border_widths[idx]
+            border_line  = @border_lines[idx]
 
             next if border_width <= 0
 
@@ -676,9 +744,22 @@ module Prawn
                           [x+width, y - height - (border_bottom_width / 2.0)]]
                        end
 
+            case border_line
+            when :dashed
+              @pdf.dash border_width * 4
+            when :dotted
+              @pdf.dash border_width, :space => border_width * 2
+            when :solid
+              # normal line style
+            else
+              raise ArgumentError, "border_line must be :solid, :dotted or" +
+                " :dashed"
+            end
+            
             @pdf.line_width   = border_width
             @pdf.stroke_color = border_color
             @pdf.stroke_line(from, to)
+            @pdf.undash
           end
         end
       end

@@ -22,6 +22,7 @@ Prawn::Example.generate("table.pdf", :page_size => "FOLIO") do
       s.example "row_colors"
       s.example "cell_dimensions"
       s.example "cell_borders_and_bg"
+      s.example "cell_border_lines"
       s.example "cell_text"
       s.example "image_cells"
       s.example "span"

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module CellHelpers
 
@@ -29,6 +29,11 @@ describe "Prawn::Table::Cell" do
       @pdf.cell(:content => "text").should be_a_kind_of Prawn::Table::Cell
     end
 
+    it "accepts :content => nil in a hash" do
+      @pdf.cell(:content => nil).should be_a_kind_of(Prawn::Table::Cell::Text)
+      @pdf.make_cell(:content => nil).should be_a_kind_of(Prawn::Table::Cell::Text)
+    end
+
     it "should convert nil, Numeric, and Date values to strings" do
       [nil, 123, 123.45, Date.today].each do |value|
         c = @pdf.cell(:content => value)
@@ -52,20 +57,20 @@ describe "Prawn::Table::Cell" do
       @pdf.expects(:move_down)
       @pdf.expects(:draw_text!).with { |text, options| text == "hello world" }
 
-      @pdf.cell(:content => "hello world", 
+      @pdf.cell(:content => "hello world",
                 :at => [10, 20],
                 :padding => [30, 40],
-                :size => 7, 
+                :size => 7,
                 :font_style => :bold)
     end
   end
-  
+
   describe "Prawn::Document#make_cell" do
     it "should not draw the cell" do
       Prawn::Table::Cell::Text.any_instance.expects(:draw).never
       @pdf.make_cell("text")
     end
-    
+
     it "should return a Cell" do
       @pdf.make_cell("text", :size => 7).should be_a_kind_of Prawn::Table::Cell
     end
@@ -113,7 +118,7 @@ describe "Prawn::Table::Cell" do
     it "should return proper width with size set" do
       text = "text " * 4
       c = cell(:content => text, :size => 7)
-      c.width.should == 
+      c.width.should ==
         @pdf.width_of(text, :size => 7) + c.padding[1] + c.padding[3]
     end
 
@@ -160,7 +165,7 @@ describe "Prawn::Table::Cell" do
 
     it "should be calculated for text" do
       c = cell(:content => "text")
-      c.height.should == 
+      c.height.should ==
         @pdf.height_of("text", :width => @pdf.width_of("text")) +
         c.padding[0] + c.padding[3]
     end
@@ -207,7 +212,7 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => 10)
       c.content_height.should == @pdf.height_of("text")
     end
-    
+
     it "content_height should exclude padding even with manual :height" do
       c = cell(:content => "text", :padding => 10, :height => 400)
       c.content_height.should be_within(0.01).of(380)
@@ -231,7 +236,7 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => [20, 30])
       c.padding.should == [20, 30, 20, 30]
     end
-    
+
     it "should accept [t,h,b]" do
       c = cell(:content => "text", :padding => [10, 20, 30])
       c.padding.should == [10, 20, 30, 20]
@@ -403,6 +408,27 @@ describe "Prawn::Table::Cell" do
       c = @pdf.cell(:content => "text",
         :border_width => [2, 3, 4, 5])
       c.border_widths.should == [2, 3, 4, 5]
+    end
+    
+    it "should set default border lines to :solid" do
+      c = @pdf.cell(:content => "text")
+      c.border_top_line.should == :solid
+      c.border_right_line.should == :solid
+      c.border_bottom_line.should == :solid
+      c.border_left_line.should == :solid
+      c.border_lines.should == [:solid] * 4
+    end
+    
+    it "should set border line with :border_..._line" do
+      c = @pdf.cell(:content => "text", :border_bottom_line => :dotted)
+      c.border_bottom_line.should == :dotted
+      c.border_lines[2].should == :dotted
+    end
+
+    it "should set border lines with :border_lines" do
+      c = @pdf.cell(:content => "text",
+        :border_lines => [:solid, :dotted, :dashed, :solid])
+      c.border_lines.should == [:solid, :dotted, :dashed, :solid]
     end
   end
 
