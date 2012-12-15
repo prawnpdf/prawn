@@ -62,8 +62,8 @@ describe "A document's grid" do
       @pdf.grid.show_all('cccccc')
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-      colors.fill_color.should.not   == [0.8,0.8,0.8]
-      colors.stroke_color.should.not == [0.8,0.8,0.8]
+      colors.fill_color.should_not   == [0.8,0.8,0.8]
+      colors.stroke_color.should_not == [0.8,0.8,0.8]
       
       # Hardcoded default color as I haven't been able to come up with a stable converter
       # between fill_color without lots code.

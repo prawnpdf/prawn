@@ -48,7 +48,7 @@ describe "Name Tree" do
     ref_count = @pdf.object_store.length
     node = Prawn::Core::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
-    @pdf.object_store.length.should.equal ref_count+2
+    @pdf.object_store.length.should == ref_count+2
   end
   
   it "should create a one new reference when subtree is split" do
@@ -58,7 +58,7 @@ describe "Name Tree" do
     ref_count = @pdf.object_store.length # save when root is split
     tree_add(node, ["five", 5], ["six", 6], ["seven", 7])
     tree_dump(node).should == "[[five=5,four=4,one=1],[seven=7,six=6],[three=3,two=2]]"
-    @pdf.object_store.length.should.equal ref_count+1
+    @pdf.object_store.length.should == ref_count+1
   end
 
   it "should keep tree balanced when subtree split cascades to root" do
@@ -78,7 +78,7 @@ describe "Name Tree" do
   it "should emit only :Names key with to_hash if root is only node" do
     node = Prawn::Core::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3])
-    node.to_hash.should.equal(
+    node.to_hash.should ==(
       { :Names => [tree_value("one", 1), tree_value("three", 3), tree_value("two", 2)] }
     )
   end
@@ -86,13 +86,13 @@ describe "Name Tree" do
   it "should emit only :Kids key with to_hash if root has children" do
     node = Prawn::Core::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
-    node.to_hash.should.equal({ :Kids => node.children.map { |child| child.ref } })
+    node.to_hash.should ==({ :Kids => node.children.map { |child| child.ref } })
   end
 
   it "should emit :Limits and :Names keys with to_hash for leaf node" do
     node = Prawn::Core::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
-    node.children.first.to_hash.should.equal(
+    node.children.first.to_hash.should ==(
       { :Limits => %w(four one),
         :Names => [tree_value("four", 4), tree_value("one", 1)] }
     )
@@ -104,7 +104,7 @@ describe "Name Tree" do
     tree_add(node, ["five", 5], ["six", 6], ["seven", 7], ["eight", 8])
     tree_add(node, ["nine", 9], ["ten", 10], ["eleven", 11], ["twelve", 12])
     tree_add(node, ["thirteen", 13], ["fourteen", 14], ["fifteen", 15], ["sixteen", 16])
-    node.children.first.to_hash.should.equal(
+    node.children.first.to_hash.should ==(
       { :Limits => %w(eight one),
         :Kids => node.children.first.children.map { |child| child.ref } }
     )

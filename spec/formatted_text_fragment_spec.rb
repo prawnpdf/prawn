@@ -224,13 +224,13 @@ describe "Text::Formatted::Fragment that is a subscript" do
     @fragment.ascender = 17
   end
   describe "#subscript?" do
-    it "should be true" do
-      @fragment.should.be.subscript
+    it "should be_true" do
+      @fragment.should be_subscript
     end
   end
   describe "#y_offset" do
     it "should return a negative value" do
-      @fragment.y_offset.should.be < 0
+      @fragment.y_offset.should be < 0
     end
   end
 end
@@ -252,13 +252,13 @@ describe "Text::Formatted::Fragment that is a superscript" do
     @fragment.ascender = 17
   end
   describe "#superscript?" do
-    it "should be true" do
-      @fragment.should.be.superscript
+    it "should be_true" do
+      @fragment.should be_superscript
     end
   end
   describe "#y_offset" do
     it "should return a positive value" do
-      @fragment.y_offset.should.be > 0
+      @fragment.y_offset.should be > 0
     end
   end
 end

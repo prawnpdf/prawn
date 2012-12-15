@@ -26,7 +26,7 @@ describe "the image() function" do
   it "should return the image info object" do
     info =  @pdf.image(@filename)
     
-    info.should.be.kind_of(Prawn::Images::JPG)
+    info.should be_a_kind_of(Prawn::Images::JPG)
     
     info.height.should == 453
   end
@@ -51,14 +51,14 @@ describe "the image() function" do
     info.height.should == 453
   end
 
-  it "should raise an UnsupportedImageType if passed a BMP" do
+  it "should raise_error an UnsupportedImageType if passed a BMP" do
     filename = "#{Prawn::DATADIR}/images/tru256.bmp"
-    lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
+    lambda { @pdf.image filename, :at => [100,100] }.should raise_error(Prawn::Errors::UnsupportedImageType)
   end
 
-  it "should raise an UnsupportedImageType if passed an interlaced PNG" do
+  it "should raise_error an UnsupportedImageType if passed an interlaced PNG" do
     filename = "#{Prawn::DATADIR}/images/dice_interlaced.png"
-    lambda { @pdf.image filename, :at => [100,100] }.should.raise(Prawn::Errors::UnsupportedImageType)
+    lambda { @pdf.image filename, :at => [100,100] }.should raise_error(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should bump PDF version to 1.5 or greater on embedding 16-bit PNGs" do

@@ -3,55 +3,55 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Text::Box#nothing_printed?" do
-  it "should be true when nothing printed" do
+  it "should be_true when nothing printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :height => 2,
                                     :document => @pdf)
     text_box.render
-    text_box.nothing_printed?.should.be true
+    text_box.nothing_printed?.should be_true
   end
-  it "should be false when something printed" do
+  it "should be_false when something printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :height => 14,
                                     :document => @pdf)
     text_box.render
-    text_box.nothing_printed?.should.be false
+    text_box.nothing_printed?.should be_false
   end
 end
 
 describe "Text::Box#everything_printed?" do
-  it "should be false when not everything printed" do
+  it "should be_false when not everything printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :height => 14,
                                     :document => @pdf)
     text_box.render
-    text_box.everything_printed?.should.be false
+    text_box.everything_printed?.should be_false
   end
-  it "should be true when everything printed" do
+  it "should be_true when everything printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :document => @pdf)
     text_box.render
-    text_box.everything_printed?.should.be true
+    text_box.everything_printed?.should be_true
   end
 end
 
 describe "Text::Box#line_gap" do
-  it "should equal the line gap of the font when using a single " +
+  it "should == the line gap of the font when using a single " +
     "font and font size" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :document => @pdf)
     text_box.render
-    text_box.line_gap.should.be.close(@pdf.font.line_gap, 0.0001)
+    text_box.line_gap.should be_within(0.0001).of(@pdf.font.line_gap)
   end
 end
 
@@ -128,7 +128,7 @@ describe "Text::Box#render with :align => :justify" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing[0].should.be > 0
+    contents.word_spacing[0].should be > 0
   end
   it "should not justify the last line of a paragraph" do
     create_pdf
@@ -137,7 +137,7 @@ describe "Text::Box#render with :align => :justify" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.should.be.empty
+    contents.word_spacing.should be_empty
   end
 end
 
@@ -160,19 +160,19 @@ describe "Text::Box" do
 end
 
 describe "Text::Box#height without leading" do
-  it "should equal the sum of the height of each line, " +
+  it "should == the sum of the height of each line, " +
     "not including the space below the last line" do
     create_pdf
     text = "Oh hai text rect.\nOh hai text rect."
     options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.height.should.be.close(@pdf.font.height * 2 - @pdf.font.line_gap, 0.001)
+    text_box.height.should be_within(0.001).of(@pdf.font.height * 2 - @pdf.font.line_gap)
   end
 end
 
 describe "Text::Box#height with leading" do
-  it "should equal the sum of the height of each line plus leading, " +
+  it "should == the sum of the height of each line plus leading, " +
     "but not including the space below the last line" do
     create_pdf
     text = "Oh hai text rect.\nOh hai text rect."
@@ -180,7 +180,7 @@ describe "Text::Box#height with leading" do
     options = { :document => @pdf, :leading => leading }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.height.should.be.close((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading, 0.001)
+    text_box.height.should be_within(0.001).of((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading)
   end
 end
 
@@ -219,7 +219,7 @@ describe "Text::Box#valid_options" do
   it "should return an array" do
     create_pdf
     text_box = Prawn::Text::Box.new("", :document => @pdf)
-    text_box.valid_options.should.be.kind_of(Array)
+    text_box.valid_options.should be_a_kind_of(Array)
   end
 end
 
@@ -242,7 +242,7 @@ describe "Text::Box#render" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.should.not.be.empty
+    text.strings.should_not be_empty
   end
   it "should not draw a transformation matrix" do
     create_pdf
@@ -276,15 +276,15 @@ describe "Text::Box#render(:dry_run => true)" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.should.be.empty
+    text.strings.should be_empty
   end
-  it "subsequent calls to render should not raise an ArgumentError exception" do
+  it "subsequent calls to render should_not raise_error an ArgumentError exception" do
     create_pdf
     @text = "™©"
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
-    lambda { text_box.render }.should.not.raise(
+    lambda { text_box.render }.should_not raise_error(
       Prawn::Errors::IncompatibleStringEncoding)
   end
 end
@@ -360,7 +360,7 @@ describe "Text::Box#render with :rotate option of 30)" do
                                       reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should.not.be.empty
+      text.strings.should_not be_empty
     end
   end
   context ":rotate_around option of :upper_left" do
@@ -383,7 +383,7 @@ describe "Text::Box#render with :rotate option of 30)" do
                                       reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should.not.be.empty
+      text.strings.should_not be_empty
     end
   end
   context "default :rotate_around" do
@@ -405,7 +405,7 @@ describe "Text::Box#render with :rotate option of 30)" do
                                       reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should.not.be.empty
+      text.strings.should_not be_empty
     end
   end
   context ":rotate_around option of :upper_right" do
@@ -428,7 +428,7 @@ describe "Text::Box#render with :rotate option of 30)" do
                                       reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should.not.be.empty
+      text.strings.should_not be_empty
     end
   end
   context ":rotate_around option of :lower_right" do
@@ -451,7 +451,7 @@ describe "Text::Box#render with :rotate option of 30)" do
                                       reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should.not.be.empty
+      text.strings.should_not be_empty
     end
   end
   context ":rotate_around option of :lower_left" do
@@ -474,7 +474,7 @@ describe "Text::Box#render with :rotate option of 30)" do
                                       reduce_precision(@cos), 0, 0]
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should.not.be.empty
+      text.strings.should_not be_empty
     end
   end
 end
@@ -487,7 +487,7 @@ describe "Text::Box default height" do
     @text = "Oh hai\n" * 60
     text_box = Prawn::Text::Box.new(@text, :document => @pdf)
     text_box.render
-    text_box.height.should.be.close(target_height, @pdf.font.height)
+    text_box.height.should be_within(@pdf.font.height).of(target_height)
   end
 
   it "should use the margin-box bottom if only in a stretchy bbox" do
@@ -496,7 +496,7 @@ describe "Text::Box default height" do
       @text = "Oh hai\n" * 60
       text_box = Prawn::Text::Box.new(@text, :document => @pdf)
       text_box.render
-      text_box.height.should.be.close(target_height, @pdf.font.height)
+      text_box.height.should be_within(@pdf.font.height).of(target_height)
     end
   end
 
@@ -508,7 +508,7 @@ describe "Text::Box default height" do
       text_box = Prawn::Text::Box.new(@text, :document => @pdf,
         :height => 100, :overflow => :expand)
       text_box.render
-      text_box.height.should.be.close(target_height, @pdf.font.height)
+      text_box.height.should be_within(@pdf.font.height).of(target_height)
     end
   end
 
@@ -519,7 +519,7 @@ describe "Text::Box default height" do
         @text = "Oh hai\n" * 60
         text_box = Prawn::Text::Box.new(@text, :document => @pdf)
         text_box.render
-        text_box.height.should.be.close(200, @pdf.font.height)
+        text_box.height.should be_within(@pdf.font.height).of(200)
       end
     end
   end
@@ -566,7 +566,7 @@ describe "Text::Box with text than can fit in the box" do
     @options[:leading] = 40
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.gsub("\n", " ").should.not == @text.strip
+    text_box.text.gsub("\n", " ").should_not == @text.strip
   end
 end
 
@@ -587,7 +587,7 @@ describe "Text::Box with text that fits exactly in the box" do
     expected_height = @options.delete(:height)
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.height.should.be.close(expected_height, 0.0001)
+    text_box.height.should be_within(0.0001).of(expected_height)
   end
 
   it "should print everything" do
@@ -612,7 +612,7 @@ describe "Text::Box with text that fits exactly in the box" do
       @options[:height] += @options[:leading] * @interlines - 1
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render
-      text_box.text.should.not == @text
+      text_box.text.should_not == @text
     end
   end
 
@@ -632,7 +632,7 @@ describe "Text::Box with text that fits exactly in the box" do
       @options[:height] += @options[:leading] * @interlines - 1
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render
-      text_box.text.should.not == @text
+      text_box.text.should_not == @text
     end
   end
 end
@@ -669,7 +669,7 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       lambda {
         @pdf.text_box(remaining_text, :document => @pdf)
-      }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
+      }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
 
@@ -683,11 +683,11 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       lambda {
         @pdf.text_box(remaining_text, :document => @pdf)
-      }.should.raise(Prawn::Errors::IncompatibleStringEncoding)
+      }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
       lambda {
         @pdf.text_box(remaining_text, :skip_encoding => true,
                                       :document => @pdf)
-      }.should.not.raise(Prawn::Errors::IncompatibleStringEncoding)
+      }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
 end
@@ -711,18 +711,18 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "should be truncated" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should.not == @text.strip
+      @text_box.text.gsub("\n", " ").should_not == @text.strip
     end
     it "render should not return an empty string because some text remains unprinted" do
-      @text_box.render.should.not.be.empty
+      @text_box.render.should_not be_empty
     end
     it "#height should be no taller than the specified height" do
       @text_box.render
-      @text_box.height.should.be <= @bounding_height
+      @text_box.height.should be <= @bounding_height
     end
     it "#height should be within one font height of the specified height" do
       @text_box.render
-      @bounding_height.should.be.close(@text_box.height, @pdf.font.height)
+      @bounding_height.should be_within(@pdf.font.height).of(@text_box.height)
     end
     context "with :rotate option" do
       it "unrendered text should be the same as when not rotated" do

@@ -4,7 +4,7 @@ require "prawn/measurement_extensions"
 describe "Measurement units" do
   
   it "should convert units to PostScriptPoints" do
-    1.mm.should.be.close(2.834645669, 0.000000001)
+    1.mm.should be_within(0.000000001).of(2.834645669)
     1.mm.should == (72 / 25.4)
     2.mm.should == (2 * 72 / 25.4)
     3.mm.should == 3 * 72 / 25.4

@@ -12,7 +12,7 @@ describe "Document built from a template" do
   it "should not set the template page's parent to the document pages catalog (especially with nested pages)" do
     filename = "#{Prawn::DATADIR}/pdfs/nested_pages.pdf"
     @pdf = Prawn::Document.new(:template => filename, :skip_page_creation => true)
-    assert @pdf.state.page.dictionary.data[:Parent] != @pdf.state.store.pages
+    @pdf.state.page.dictionary.data[:Parent].should_not == @pdf.state.store.pages
   end
 
 
@@ -27,24 +27,24 @@ describe "Document built from a template" do
     filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
 
     @pdf = Prawn::Document.new(:template => filename, :margin => 0)
-    assert_equal @pdf.page.margins, { :left   => 0,
-                                      :right  => 0,
-                                      :top    => 0,
-                                      :bottom => 0 }
+    @pdf.page.margins.should == { :left   => 0,
+                                  :right  => 0,
+                                  :top    => 0,
+                                  :bottom => 0 }
 
     @pdf = Prawn::Document.new(:template => filename, :left_margin => 0)
 
-    assert_equal @pdf.page.margins, { :left   => 0,
-                                      :right  => 36,
-                                      :top    => 36,
-                                      :bottom => 36 }
+    @pdf.page.margins.should == { :left   => 0,
+                                  :right  => 36,
+                                  :top    => 36,
+                                  :bottom => 36 }
 
     @pdf.start_new_page(:right_margin => 0)
 
-    assert_equal @pdf.page.margins, { :left   => 0,
-                                      :right  => 0,
-                                      :top    => 36,
-                                      :bottom => 36 }
+    @pdf.page.margins.should == { :left   => 0,
+                                  :right  => 0,
+                                  :top    => 36,
+                                  :bottom => 36 }
 
 
 
@@ -92,9 +92,9 @@ describe "Document built from a template" do
   it "should not die if using this PDF as a template" do
     filename = "#{Prawn::DATADIR}/pdfs/complex_template.pdf"
 
-    assert_nothing_raised do
+    lambda {
       @pdf = Prawn::Document.new(:template => filename)
-    end
+    }.should_not raise_error
   end
 
 
@@ -172,7 +172,7 @@ describe "Document built from a template" do
   context "with the template as a stream" do
     it "should correctly import a template file from a stream" do
       filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
-      io = StringIO.new(File.read(filename))
+      io = StringIO.new(File.binread(filename))
       @pdf = Prawn::Document.new(:template => io)
       str = @pdf.render
       str[0,4].should == "%PDF"
@@ -212,22 +212,22 @@ describe "Document#start_new_page with :template option" do
   it "should respect margins set by Prawn" do
     @pdf = Prawn::Document.new(:margin => 0)
     @pdf.start_new_page(:template => filename)
-    assert_equal @pdf.page.margins, { :left   => 0,
-                                      :right  => 0,
-                                      :top    => 0,
-                                      :bottom => 0 }
+    @pdf.page.margins.should == { :left   => 0,
+                                  :right  => 0,
+                                  :top    => 0,
+                                  :bottom => 0 }
 
     @pdf = Prawn::Document.new(:left_margin => 0)
     @pdf.start_new_page(:template => filename)
-    assert_equal @pdf.page.margins, { :left   => 0,
-                                    :right  => 36,
-                                    :top    => 36,
-                                    :bottom => 36 }
+    @pdf.page.margins.should == { :left   => 0,
+                                  :right  => 36,
+                                  :top    => 36,
+                                  :bottom => 36 }
     @pdf.start_new_page(:template => filename, :right_margin => 0)
-    assert_equal @pdf.page.margins, { :left   => 0,
-                                      :right  => 0,
-                                      :top    => 36,
-                                      :bottom => 36 }
+    @pdf.page.margins.should == { :left   => 0,
+                                  :right  => 0,
+                                  :top    => 36,
+                                  :bottom => 36 }
   end
 
   it "should not add an extra restore_graphics_state operator to the end of any content stream" do
@@ -328,7 +328,7 @@ describe "Document#start_new_page with :template option" do
   context "with the template as a stream" do
     it "should correctly import a template file from a stream" do
       filename = "#{Prawn::DATADIR}/pdfs/hexagon.pdf"
-      io = StringIO.new(File.read(filename))
+      io = StringIO.new(File.binread(filename))
 
       @pdf = Prawn::Document.new()
       @pdf.start_new_page(:template => io)
