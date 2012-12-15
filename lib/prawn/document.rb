@@ -646,7 +646,7 @@ module Prawn
 
     def merge_template_options(page_options, options)
       object_id = state.store.import_page(options[:template], options[:template_page] || 1)
-      page_options.merge!(:object_id => object_id )
+      page_options.merge!(:object_id => object_id, :page_template => true)
     end
 
     # setting override_settings to true ensures that a new graphic state does not end up using

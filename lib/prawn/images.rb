@@ -79,7 +79,9 @@ module Prawn
     def build_image_object(file)
       # Rewind if the object we're passed is an IO, so that multiple embeds of
       # the same IO object will work
-      file.rewind if file.respond_to?(:rewind)
+      file.rewind  if file.respond_to?(:rewind)
+      # read the file as binary so the size is calculated correctly
+      file.binmode if file.respond_to?(:binmode)
 
       if file.respond_to?(:read)
         image_content = file.read
