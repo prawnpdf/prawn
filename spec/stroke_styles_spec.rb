@@ -12,8 +12,8 @@ describe "When stroking with default settings" do
     @pdf.join_style.should == :miter
   end
 
-  it "dashed? should be false" do
-    @pdf.should.not.be.dashed
+  it "dashed? should be_false" do
+    @pdf.should_not be_dashed
   end
 end
 
@@ -104,13 +104,13 @@ describe "Dashes" do
   
    it "should be able to use assignment operator" do
      @pdf.dash = 2
-     @pdf.should.be.dashed
+     @pdf.should be_dashed
   end
 
   describe "setting a dash" do
-    it "dashed? should be true" do
+    it "dashed? should be_true" do
       @pdf.dash(2)
-      @pdf.should.be.dashed
+      @pdf.should be_dashed
     end
     it "rendered PDF should include a stroked dash" do
       @pdf.dash(2)

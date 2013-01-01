@@ -18,7 +18,7 @@ describe "Text::Formatted::Box wrapping" do
     text_box.text.should == "Hello\nWorld2"
   end
 
-  it "should not raise Encoding::CompatibilityError when keeping a TTF and an " +
+  it "should_not raise_error Encoding::CompatibilityError when keeping a TTF and an " +
     "AFM font together" do
     ruby_19 do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
@@ -32,7 +32,7 @@ describe "Text::Formatted::Box wrapping" do
       text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
       lambda {
         text_box.render
-      }.should.not.raise(Encoding::CompatibilityError)
+      }.should_not raise_error(Encoding::CompatibilityError)
     end
   end
 
@@ -79,9 +79,9 @@ describe "Text::Formatted::Box wrapping" do
   it "should properly handle empty slices using default encoding" do
     texts = [{ :text => "Noua Delineatio Geographica generalis | Apostolicarum peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli", :font => 'Courier', :size => 10 }]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Noua Delineatio Geographica gen"))
-    assert_nothing_raised do
+    lambda {
       text_box.render
-    end
+    }.should_not raise_error
     text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
   end
   
@@ -109,9 +109,9 @@ describe "Text::Formatted::Box wrapping" do
     it "should properly handle empty slices using Unicode encoding" do
       texts = [{ :text => "Noua Delineatio Geographica generalis | Apostolicarum peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli", :font => 'Courier', :size => 10 }]
       text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Noua Delineatio Geographica gen"))
-      assert_nothing_raised do
+      lambda {
         text_box.render
-      end
+      }.should_not raise_error
       text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
     end
   end
@@ -397,7 +397,7 @@ describe "Text::Formatted::Box#render" do
              { :text => "callback now",
                :callback => [behind, in_front] }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
-    lambda { text_box.render }.should.not.raise(NoMethodError)
+    lambda { text_box.render }.should_not raise_error(NoMethodError)
   end
   it "should be able to set the font" do
     create_pdf
@@ -449,7 +449,7 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
-    contents.font_settings[1][:size].should.be.close(18 * 0.583, 0.0001)
+    contents.font_settings[1][:size].should be_within(0.0001).of(18 * 0.583)
   end
   it "should be able to set superscript" do
     create_pdf
@@ -460,7 +460,7 @@ describe "Text::Formatted::Box#render" do
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.font_settings[0][:size].should == 12
-    contents.font_settings[1][:size].should.be.close(18 * 0.583, 0.0001)
+    contents.font_settings[1][:size].should be_within(0.0001).of(18 * 0.583)
   end
   it "should be able to set compound bold and italic text" do
     create_pdf
@@ -531,7 +531,7 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
     text_box.render
     @pdf.font_size(24) do
-      text_box.height.should.be.close(@pdf.font.ascender + @pdf.font.descender, 0.001)
+      text_box.height.should be_within(0.001).of(@pdf.font.ascender + @pdf.font.descender)
     end
   end
   it "should be able to set color via an rgb hex string" do
@@ -591,7 +591,7 @@ describe "Text::Formatted::Box#render with :align => :justify" do
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.should.be.empty
+    contents.word_spacing.should be_empty
   end
 end
 

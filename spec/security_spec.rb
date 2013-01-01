@@ -66,10 +66,10 @@ describe "Document encryption" do
         should == 0b1111_1111_1111_1111_1111_1111_1101_1111
     end
 
-    it "should raise ArgumentError if invalid option is provided" do
+    it "should raise_error ArgumentError if invalid option is provided" do
       lambda {
         doc_with_permissions(:modify_document => false)
-      }.should.raise(ArgumentError)
+      }.should raise_error(ArgumentError)
     end
 
   end
@@ -89,7 +89,7 @@ describe "Document encryption" do
     end
 
     it "should calculate the correct owner hash" do
-      @pdf.owner_password_hash.unpack("H*").first.should.match(/^61CA855012/i)
+      @pdf.owner_password_hash.unpack("H*").first.should match(/^61CA855012/i)
     end
 
     it "should calculate the correct user hash" do

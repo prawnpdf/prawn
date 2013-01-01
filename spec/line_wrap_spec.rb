@@ -30,7 +30,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                  :document => @pdf)
     string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   end
-  it "should raise CannotFit if a too-small width is given" do
+  it "should raise_error CannotFit if a too-small width is given" do
     array = [{ :text => " hello world, " },
              { :text => "goodbye  ", :style => [:bold] }]
     @arranger.format_array = array
@@ -38,7 +38,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
       @line_wrap.wrap_line(:arranger => @arranger,
                            :width => 1,
                            :document => @pdf)
-    end.should.raise(Prawn::Errors::CannotFit)
+    end.should raise_error(Prawn::Errors::CannotFit)
   end
 
   it "should break on space" do
@@ -273,12 +273,12 @@ describe "Core::Text::Formatted::LineWrap" do
       line = @line_wrap.wrap_line(:arranger => @arranger,
                                  :width => 200,
                                  :document => @pdf)
-      line.should.not.be.empty
+      line.should_not be_empty
     end
     line = @line_wrap.wrap_line(:arranger => @arranger,
                                :width => 200,
                                :document => @pdf)
-    line.should.be.empty
+    line.should be_empty
   end
 end
 
@@ -289,7 +289,7 @@ describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
     @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
     @one_word_width = 50
   end
-  it "should be false when the last printed line is not the end of the paragraph" do
+  it "should be_false when the last printed line is not the end of the paragraph" do
     array = [{ :text => "hello world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -298,7 +298,7 @@ describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
 
     @line_wrap.paragraph_finished?.should == false
   end
-  it "should be true when the last printed line is the last fragment to print" do
+  it "should be_true when the last printed line is the last fragment to print" do
     array = [{ :text => "hello world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -310,7 +310,7 @@ describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
 
     @line_wrap.paragraph_finished?.should == true
   end
-  it "should be true when a newline exists on the current line" do
+  it "should be_true when a newline exists on the current line" do
     array = [{ :text => "hello\n world" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
@@ -319,7 +319,7 @@ describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
 
     @line_wrap.paragraph_finished?.should == true
   end
-  it "should be true when a newline exists in the next fragment" do
+  it "should be_true when a newline exists in the next fragment" do
     array = [{ :text => "hello " },
              { :text => " \n" },
              { :text => "world" }]

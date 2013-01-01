@@ -40,22 +40,22 @@ describe "Prawn::ObjectStore" do
     store.size.should == 8
   end
 
-  it "should raise ArgumentError when given a file that doesn exist as a template" do
+  it "should raise_error ArgumentError when given a file that doesn exist as a template" do
     filename = "not_really_there.pdf"
 
-    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(ArgumentError)
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should raise_error(ArgumentError)
   end
 
-  it "should raise Prawn::Errors::TemplateError when given a non PDF as a template" do
+  it "should raise_error Prawn::Errors::TemplateError when given a non PDF as a template" do
     filename = "#{Prawn::DATADIR}/images/dice.png"
 
-    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should raise_error(Prawn::Errors::TemplateError)
   end
 
-  it "should raise Prawn::Errors::TemplateError when given an encrypted PDF as a template" do
+  it "should raise_error Prawn::Errors::TemplateError when given an encrypted PDF as a template" do
     filename = "#{Prawn::DATADIR}/pdfs/encrypted.pdf"
 
-    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should.raise(Prawn::Errors::TemplateError)
+    lambda { Prawn::Core::ObjectStore.new(:template => filename) }.should raise_error(Prawn::Errors::TemplateError)
   end
 
   it "should add to its objects when ref() is called" do
@@ -100,7 +100,7 @@ describe "Prawn::ObjectStore#compact" do
     old_size = store.size
     store.compact
     
-    store.size.should.be < old_size
+    store.size.should be < old_size
     store.map{ |o| o.identifier }.should == (1..store.size).to_a
   end
 
@@ -111,7 +111,7 @@ describe "Prawn::ObjectStore#compact" do
     old_size = store.size
     store.compact
     
-    store.size.should.be < old_size
+    store.size.should be < old_size
     store.map{ |o| o.identifier }.should == (1..store.size).to_a
   end
 end

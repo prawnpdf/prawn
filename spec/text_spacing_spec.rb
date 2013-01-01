@@ -18,7 +18,7 @@ describe "#character_spacing" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.character_spacing.should.be.empty
+    contents.character_spacing.should be_empty
   end
   it "should restore character spacing to 0" do
     create_pdf
@@ -51,7 +51,7 @@ describe "#character_spacing" do
 
     @pdf.character_spacing(10) do
       # the new width should include seven 10-pt character spaces.
-      @pdf.width_of(str).should.be.close(@raw_width + (10 * 7), 0.001)
+      @pdf.width_of(str).should be_within(0.001).of(@raw_width + (10 * 7))
     end
   end
 end
@@ -72,7 +72,7 @@ describe "#word_spacing" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.should.be.empty
+    contents.word_spacing.should be_empty
   end
   it "should restore word spacing to 0" do
     create_pdf

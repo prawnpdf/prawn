@@ -7,7 +7,7 @@ describe "create_stamp before any page is added" do
       @pdf.create_stamp("my_stamp") do
         @pdf.font.height
       end
-    }.should.not.raise(Prawn::Errors::NotOnPage)
+    }.should_not raise_error(Prawn::Errors::NotOnPage)
   end
   it "should work with setting color" do
     @pdf = Prawn::Document.new(:skip_page_creation => true)
@@ -15,7 +15,7 @@ describe "create_stamp before any page is added" do
       @pdf.create_stamp("my_stamp") do
         @pdf.fill_color = 'ff0000'
       end
-    }.should.not.raise(Prawn::Errors::NotOnPage)
+    }.should_not raise_error(Prawn::Errors::NotOnPage)
   end
 end
 
@@ -33,21 +33,21 @@ describe "#stamp_at" do
 end
 
 describe "Document with a stamp" do
-  it "should raise NameTaken error when attempt to create stamp "+
+  it "should raise_error NameTaken error when attempt to create stamp "+
      "with same name as an existing stamp" do
     create_pdf
     @pdf.create_stamp("MyStamp")
     lambda {
       @pdf.create_stamp("MyStamp")
-    }.should.raise(Prawn::Errors::NameTaken)
+    }.should raise_error(Prawn::Errors::NameTaken)
   end
   
-  it "should raise InvalidName error when attempt to create "+
+  it "should raise_error InvalidName error when attempt to create "+
      "stamp with a blank name" do
     create_pdf
     lambda {
       @pdf.create_stamp("")
-    }.should.raise(Prawn::Errors::InvalidName)
+    }.should raise_error(Prawn::Errors::InvalidName)
   end
   
   it "a new XObject should be defined for each stamp created" do
@@ -63,12 +63,12 @@ describe "Document with a stamp" do
   end
 
   it "calling stamp with a name that does not match an existing stamp "+
-     "should raise UndefinedObjectName" do
+     "should raise_error UndefinedObjectName" do
     create_pdf
     @pdf.create_stamp("MyStamp")
     lambda {
       @pdf.stamp("OtherStamp")
-    }.should.raise(Prawn::Errors::UndefinedObjectName)
+    }.should raise_error(Prawn::Errors::UndefinedObjectName)
   end
 
   it "stamp should be drawn into the document each time stamp is called" do
@@ -99,7 +99,7 @@ describe "Document with a stamp" do
     objects = output.split("endobj")
     objects.each do |object|
       if object =~ /\/Type \/Page$/
-        object.should.not =~ /\/ExtGState/
+        object.should_not =~ /\/ExtGState/
       elsif object =~ /\/Type \/XObject$/
         object.should =~ /\/ExtGState/
       end
@@ -139,8 +139,8 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamp_stream = stamps.xobject_streams[:Stamp1].data
-    stamp_stream.should.include "/DeviceCMYK cs\n1.000 1.000 0.200 0.000 scn"
-    stamp_stream.should.include "/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN"
+    stamp_stream.should include("/DeviceCMYK cs\n1.000 1.000 0.200 0.000 scn")
+    stamp_stream.should include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
   end
   
   it "should save the color space even when same as current page color space" do
@@ -152,7 +152,7 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamp_stream = stamps.xobject_streams[:Stamp1].data
-    stamp_stream.should.include "/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN"
+    stamp_stream.should include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
   end
     
 

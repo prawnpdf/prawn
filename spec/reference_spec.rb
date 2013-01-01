@@ -35,7 +35,7 @@ describe "A Reference object" do
     cref << "Hi There " * 20
     cref.compress_stream
 
-    assert cref.stream.size < ref.stream.size, 
+    cref.stream.size.should be < ref.stream.size,
       "compressed stream expected to be smaller than source but wasn't"
     cref.data[:Filter].should == :FlateDecode
   end
