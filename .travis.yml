@@ -13,5 +13,3 @@ matrix:
     - rvm: 2.0.0
     - rvm: rbx-18mode
     - rvm: rbx-19mode
-    - rvm: jruby-18mode
-    - rvm: jruby-19mode
