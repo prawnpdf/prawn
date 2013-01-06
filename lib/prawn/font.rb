@@ -9,6 +9,7 @@
 require "prawn/font/afm"
 require "prawn/font/ttf"
 require "prawn/font/dfont"
+require "prawn/font_metric_cache"
 
 module Prawn
 
@@ -237,15 +238,7 @@ module Prawn
     end
 
     def width_of_string(string, options={})
-      f = if options[:style]
-            # override style with :style => :bold
-            find_font(@font ? @font.name : 'Helvetica',
-                      :style => options[:style])
-          else
-            font
-          end
-      f.compute_width_of(string, options) +
-        (character_spacing * font.character_count(string))
+      font_metric_cache.width_of( string, options )
     end
   end
 
