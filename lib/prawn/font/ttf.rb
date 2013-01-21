@@ -256,8 +256,7 @@ module Prawn
 
         compressed_font = Zlib::Deflate.deflate(font_content)
 
-        fontfile = @document.ref!(:Length => compressed_font.size,
-                                 :Length1 => font_content.size,
+        fontfile = @document.ref!(:Length1 => font_content.size,
                                  :Filter => :FlateDecode )
         fontfile << compressed_font
 

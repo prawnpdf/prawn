@@ -66,8 +66,7 @@ module Prawn
           :ColorSpace       => color_space,
           :BitsPerComponent => bits,
           :Width            => width,
-          :Height           => height,
-          :Length           => @data.size
+          :Height           => height
         ) 
 
         # add extra decode params for CMYK images. By swapping the
