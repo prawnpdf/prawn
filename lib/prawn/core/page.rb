@@ -63,7 +63,6 @@ module Prawn
           document.restore_graphics_state
         end
 
-        @stamp_dictionary.data[:Length] = @stamp_stream.length + 1
         @stamp_dictionary << @stamp_stream
 
         @stamp_stream      = nil
@@ -84,7 +83,7 @@ module Prawn
         unless dictionary.data[:Contents].is_a?(Array)
           dictionary.data[:Contents] = [content]
         end
-        @content    = document.ref(:Length => 0)
+        @content    = document.ref({})
         dictionary.data[:Contents] << document.state.store[@content]
         document.open_graphics_state
       end
@@ -129,11 +128,9 @@ module Prawn
         if dictionary.data[:Contents].is_a?(Array)
           dictionary.data[:Contents].each do |stream|
             stream.compress_stream if document.compression_enabled?
-            stream.data[:Length] = stream.stream.size
           end
         else
           content.compress_stream if document.compression_enabled?
-          content.data[:Length] = content.stream.size
         end
       end
 
@@ -175,7 +172,7 @@ module Prawn
         @size     = options[:size]    ||  "LETTER"
         @layout   = options[:layout]  || :portrait
 
-        @content    = document.ref(:Length      => 0)
+        @content    = document.ref({})
         content << "q" << "\n"
         @dictionary = document.ref(:Type        => :Page,
                                    :Parent      => document.state.store.pages,

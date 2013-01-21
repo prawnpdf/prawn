@@ -34,7 +34,9 @@ module Prawn
       
       def <<(data)
         raise 'Cannot add data to a stream that is compressed' if @compressed
-        (@stream ||= "") << data  
+        (@stream ||= "") << data
+        @data[:Length] = @stream.length
+        @stream
       end  
       
       def to_s            
@@ -44,7 +46,7 @@ module Prawn
       def compress_stream
         @stream = Zlib::Deflate.deflate(@stream)
         @data[:Filter] = :FlateDecode
-        @data[:Length] ||= @stream.length
+        @data[:Length] = @stream.length
         @compressed = true
       end
 

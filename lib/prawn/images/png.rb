@@ -169,7 +169,6 @@ module Prawn
           :Height           => height,
           :Width            => width,
           :BitsPerComponent => bits,
-          :Length           => img_data.size,
           :Filter           => :FlateDecode
         )
 
@@ -188,7 +187,7 @@ module Prawn
           obj.data[:ColorSpace] = color
         else
           # embed the colour palette in the PDF as a object stream
-          palette_obj = document.ref!(:Length => palette.size)
+          palette_obj = document.ref!({})
           palette_obj << palette
 
           # build the color space array for the image
@@ -234,7 +233,6 @@ module Prawn
             :Height           => height,
             :Width            => width,
             :BitsPerComponent => alpha_channel_bits,
-            :Length           => alpha_channel.size,
             :Filter           => :FlateDecode,
             :ColorSpace       => :DeviceGray,
             :Decode           => [0, 1]
