@@ -22,7 +22,7 @@ module Prawn
   #       pdf.fill_polygon [0, 40], [60, 10], [120, 40], [60, 68]
   #     end
   #     pdf.fill_color '000000'
-  #     pdf.fill_rectangle [0, 10], 120, 68
+  #     pdf.fill_rectangle [0, 50], 120, 68
   #   end
   #
   module SoftMask
