@@ -170,7 +170,7 @@ module Prawn
           :Subtype          => :Image,
           :Height           => height,
           :Width            => width,
-          :BitsPerComponent => bits,
+          :BitsPerComponent => bits
         )
 
         # append the actual image data to the object as a stream

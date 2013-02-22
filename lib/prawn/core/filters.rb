@@ -93,7 +93,7 @@ module Prawn
           result = ''
 
           until s.eos?
-            group = s.scan(/z|[^z]{,5}/)
+            group = s.scan(/z|[^z]{0,5}/)
             if group == 'z'
               group = '!!!!!'
             end
