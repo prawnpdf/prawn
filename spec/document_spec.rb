@@ -214,8 +214,8 @@ describe "Document compression" do
   it "should not compress the page content stream if compression is disabled" do
 
     pdf = Prawn::Document.new(:compress => false)
-    pdf.page.content.stubs(:compress_stream).returns(true)
-    pdf.page.content.expects(:compress_stream).never
+    pdf.page.content.stream.stubs(:compress!).returns(true)
+    pdf.page.content.stream.expects(:compress!).never
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -224,8 +224,8 @@ describe "Document compression" do
   it "should compress the page content stream if compression is enabled" do
 
     pdf = Prawn::Document.new(:compress => true)
-    pdf.page.content.stubs(:compress_stream).returns(true)
-    pdf.page.content.expects(:compress_stream).once
+    pdf.page.content.stream.stubs(:compress!).returns(true)
+    pdf.page.content.stream.expects(:compress!).once
 
     pdf.text "Hi There" * 20
     pdf.render

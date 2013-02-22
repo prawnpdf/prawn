@@ -31,7 +31,7 @@ describe "When reading a greyscale PNG file (color type 0)" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.binread(@data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@data_filename))
     png.img_data.should == data
   end
 end
@@ -75,7 +75,7 @@ describe "When reading an RGB PNG file (color type 2)" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.binread(@data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@data_filename))
     png.img_data.should == data
   end
 end
@@ -122,7 +122,7 @@ describe "When reading an indexed color PNG file (color type 3)" do
 
   it "should read the image data chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
-    data = File.binread(@data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@data_filename))
     png.img_data.should == data
   end
 end
@@ -151,14 +151,14 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@data_filename))
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@alpha_data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@alpha_data_filename))
     png.alpha_channel.should == data
   end
 end
@@ -187,18 +187,18 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@data_filename))
     # compare decompressed rather than compressed image data
     # because JRuby's implementation of Zlib is different from MRI --
     #   both generate valid gzipped data, but not bit-identical to each other
-    Zlib::Inflate.inflate(png.img_data).should == Zlib::Inflate.inflate(data)
+    png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@alpha_data_filename)
-    Zlib::Inflate.inflate(png.alpha_channel).should == Zlib::Inflate.inflate(data)
+    data = Zlib::Inflate.inflate(File.binread(@alpha_data_filename))
+    png.alpha_channel.should == data
   end
 end
 
@@ -227,14 +227,14 @@ describe "When reading a 16bit RGB+alpha PNG file (color type 6)" do
   it "should correctly return the raw image data (with no alpha channel) from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@data_filename))
     png.img_data.should == data
   end
 
   it "should correctly extract the alpha channel data from the image data chunk" do
     png = Prawn::Images::PNG.new(@img_data)
     png.split_alpha_channel!
-    data = File.binread(@alpha_data_filename)
+    data = Zlib::Inflate.inflate(File.binread(@alpha_data_filename))
     png.alpha_channel.should == data
   end
 end

@@ -66,7 +66,7 @@ module Prawn
 
       registry_key = {
         :bbox => state.page.dimensions,
-        :mask => group.stream,
+        :mask => [group.stream.filters.normalized, group.stream.filtered_stream],
         :page => state.page_count,
       }.hash
 
