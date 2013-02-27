@@ -5,10 +5,10 @@ module PDF
         normalize_metadata(options)
 
         if options[:template]
-          @store = PDF::Core::ObjectStore.new(:template => options[:template])
+          @store = Prawn::Core::ObjectStore.new(:template => options[:template], :print_scaling => options[:print_scaling])
           @store.info.data.merge!(options[:info]) if options[:info]
         else
-          @store = PDF::Core::ObjectStore.new(:info => options[:info])
+          @store = Prawn::Core::ObjectStore.new(:info => options[:info], :print_scaling => options[:print_scaling])
         end
 
         @version                 = 1.3

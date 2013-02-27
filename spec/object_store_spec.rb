@@ -82,6 +82,12 @@ describe "Prawn::ObjectStore" do
     end
     @store.map{|ref| ref.identifier}[-3..-1].should == [10, 11, 12]
   end
+
+  it "should accept option to disabling PDF scaling in PDF clients" do
+    @store = Prawn::Core::ObjectStore.new(:print_scaling => :none)
+    @store.root.data[:ViewerPreferences].should == {:PrintScaling => :None}
+  end
+
 end
 
 describe "Prawn::ObjectStore#compact" do
