@@ -10,20 +10,20 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 Prawn::Example.generate("manual.pdf",
                         :optimize_objects => true,
-                        :compress => true,
+                        :compress => false,
                         :skip_page_creation => true,
                         :page_size => "FOLIO") do
-  
+
   load_page "cover"
   load_page "foreword"
   load_page "how_to_read_this_manual"
-  
+
   # Core chapters
   load_package "basic_concepts"
   load_package "graphics"
   load_package "text"
   load_package "bounding_box"
-  
+
   # Remaining chapters
   load_package "layout"
   load_package "images"
