@@ -3,8 +3,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 FILTERS = {
-  :ASCIIHexDecode => {'test' => "74657374>"},
-  :ASCII85Decode  => {'test' => "FCfN8!~>"},
   :FlateDecode    => {'test' => ruby_19 { "x\x9C+I-.\x01\x00\x04]\x01\xC1".force_encoding(Encoding::ASCII_8BIT) } || "x\x9C+I-.\x01\x00\x04]\x01\xC1" },
   :DCTDecode      => {'test' => "test"}
 }
