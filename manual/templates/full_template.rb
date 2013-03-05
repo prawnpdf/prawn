@@ -4,7 +4,7 @@
 # filename to the <code>:template</code> option when creating/generating the new
 # PDF.
 #
-# The provided PDF will be loaded and the its first page will be set as the
+# The provided PDF will be loaded and it's first page will be set as the
 # current page. If you'd like to resume the document you may take advantage of
 # two helpers: <code>page_count</code> and <code>go_to_page</code>.
 #
