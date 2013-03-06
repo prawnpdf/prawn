@@ -13,14 +13,14 @@ Prawn::Example.generate(filename) do
     Ruby was grim. The best general purpose tool that existed was 
     Austin Ziegler's PDF::Writer, which was an ambitious but
     painfully unsustainable project. Despite years of hard work
-    from Austin, the code was slow, buggy, and difficult to 
+    from Austin, the code was slow, buggy, and hard to 
     understand. All of those things made it very difficult
     to extend with the many features that its users needed,
     and so it gradually turned into abandonware.
 
     Because I had a lot of work that depended on PDF generation
     I eventually volunteered to become the new maintainer of
-    PDF::Writer. In my first couple months as maintainer, I
+    PDF::Writer. In the first couple months after I got commit bit, I
     managed to get out a couple minor releases that fixed
     known issues that had been left unresolved for years,
     and that made some people happy. However, the cliff
@@ -47,7 +47,7 @@ Prawn::Example.generate(filename) do
     about the intricacies of the format. I relied heavily
     on the insights of our core team and casual contributors
     to educate me on various issues, and to help develop
-    virtually every feature of this project. From day one,
+    nearly every feature of this project. From day one,
     Prawn was a stone soup in which virtually all of the
     tasty bits were provided by the community at large --
     my most significant contribution was to simply 
