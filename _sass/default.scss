@@ -1,3 +1,5 @@
+@import "partials/github.scss";
+
 body{
   background-color: silver;
   font-family: "Gill Sans","Tacoma","Arial",sans-serif;
@@ -16,7 +18,7 @@ body{
   box-shadow: 0px 3px 10px #000;
   -moz-box-shadow: 0px 3px 10px #000;
   -webkit-box-shadow: 0px 3px 10px #000;
-  
+
   /* Crazy IE shadow */
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.Shadow(color='#fff', Direction=135, Strength=3);
@@ -46,7 +48,7 @@ body{
   vertical-align: bottom;
   float:right;
   margin-left: 20px;
-  margin-right: 10px;  
+  margin-right: 10px;
 }
 
 #links{
@@ -105,10 +107,10 @@ a, a:visited{
   font-family:'Monaco',monospace;
 
   border: 1px solid gray;
-  
+
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  
+
 }
 
 #image_placeholder{

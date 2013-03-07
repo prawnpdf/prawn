@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Set up the prawn pdf site. Run this script immediately after cloning the codebase.
+
+# We need bundler to get up and running
+
+if ! which -s bundle; then
+  gem install bundler
+fi
+
+# Set up Ruby dependencies
+bundle install
+
+# Set up upstream git remote
+git remote add upstream git://github.com/prawnpdf/prawn.git
+
+echo "All done! To start the server run 'foreman start'"
+
