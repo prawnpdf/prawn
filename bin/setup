@@ -12,7 +12,7 @@ fi
 bundle install
 
 # Set up upstream git remote
-git remote add upstream git://github.com/mission-of-mercy/mission-of-mercy.git
+git remote add upstream git://github.com/prawnpdf/prawn.git
 
 echo "All done! To start the server run 'foreman start'"
 
