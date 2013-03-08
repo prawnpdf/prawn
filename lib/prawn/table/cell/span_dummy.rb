@@ -13,6 +13,9 @@ module Prawn
       # group.
       #
       class SpanDummy < Cell
+        extend Forwardable
+        def_delegator :@master_cell, :background_color
+
         def initialize(pdf, master_cell)
           super(pdf, [0, pdf.cursor])
           @master_cell = master_cell
