@@ -660,6 +660,17 @@ describe "Prawn::Table" do
         end
       end
 
+      it "updates dummy cell header rows" do
+        header = [[{:content => "header", :colspan => 2}]]
+        data   = [["foo", "bar"]] * 31
+        @pdf.table(header + data, :header => true) do |t|
+          t.before_rendering_page do |page|
+            cell = page[0, 0]
+            cell.dummy_cells.each {|dc| dc.row.should == cell.row }
+          end
+        end
+      end
+
       it "allows headers to be changed" do
         seq = sequence("render order")
         @pdf.expects(:draw_text!).with { |t, _| t == "hdr1"}.in_sequence(seq)
