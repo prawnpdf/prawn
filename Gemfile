@@ -1,4 +1,4 @@
-source :rubygems
+source "https://rubygems.org"
 
 gem "ttfunk", "~>1.0.3"
 gem "pdf-reader", "~> 1.2"
