@@ -9,16 +9,6 @@
 
 module Prawn
 
-  class Document
-
-    private
-
-    def font_metric_cache #:nodoc:
-      @font_metric_cache ||= FontMetricCache.new( self )
-    end
-
-  end
-
   # Cache used internally by Prawn::Document instances to calculate the width
   # of various strings for layout purposes.
   class FontMetricCache
