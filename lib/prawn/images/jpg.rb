@@ -62,7 +62,6 @@ module Prawn
         obj = document.ref!(
           :Type             => :XObject,
           :Subtype          => :Image,
-          :Filter           => :DCTDecode,
           :ColorSpace       => color_space,
           :BitsPerComponent => bits,
           :Width            => width,
@@ -76,7 +75,8 @@ module Prawn
           obj.data[:Decode] = [ 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 ]
         end
 
-        obj << @data
+        obj.stream << @data
+        obj.stream.filters << :DCTDecode
         obj
       end
 
