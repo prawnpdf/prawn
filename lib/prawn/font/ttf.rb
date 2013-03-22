@@ -254,11 +254,9 @@ module Prawn
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-        compressed_font = Zlib::Deflate.deflate(font_content)
-
-        fontfile = @document.ref!(:Length1 => font_content.size,
-                                 :Filter => :FlateDecode )
-        fontfile << compressed_font
+        fontfile = @document.ref!(:Length1 => font_content.size)
+        fontfile.stream << font_content
+        fontfile.stream.compress!
 
         descriptor = @document.ref!(:Type        => :FontDescriptor,
                                    :FontName    => basename.to_sym,
@@ -303,7 +301,7 @@ module Prawn
 
         cmap = @document.ref!({})
         cmap << to_unicode_cmap
-        cmap.compress_stream
+        cmap.stream.compress!
 
         reference.data.update(:Subtype => :TrueType,
                               :BaseFont => basename.to_sym,
