@@ -47,4 +47,12 @@ describe "Stream object" do
     stream << " world"
     stream.data[:Length].should == 11
   end
+
+  it "should corecly handle decode params" do
+    stream = Prawn::Core::Stream.new
+    stream << "Hello"
+    stream.filters << { :FlateDecode => { :Predictor => 15 } }
+
+    stream.data[:DecodeParams].should == [{ :Predictor => 15 }]
+  end
 end

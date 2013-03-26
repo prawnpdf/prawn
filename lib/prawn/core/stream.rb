@@ -82,7 +82,7 @@ module Prawn
             d[:Filter] = filter_names
           end
           if filter_params.any? {|f| !f.nil? }
-            f[:DecodeParams] = filter_params
+            d[:DecodeParams] = filter_params
           end
 
           d
