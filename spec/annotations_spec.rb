@@ -2,23 +2,6 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
                                
-class PageAnnotations
-  attr_reader :pages
-
-  def self.parse(document)
-    receiver = new
-    PDF::Reader.string(document.render, receiver)
-    return receiver
-  end
-
-  def initialize
-    @pages = []
-  end
-
-  def begin_page(params)
-    @pages << params
-  end
-end
 
 describe "When creating annotations" do 
  
@@ -27,9 +10,10 @@ describe "When creating annotations" do
   it "should append annotation to current page" do 
     @pdf.start_new_page
     @pdf.annotate(:Rect => [0,0,10,10], :Subtype => :Text, :Contents => "Hello world!")
-    obj = PageAnnotations.parse(@pdf)
-    obj.pages[0][:Annots].nil?.should == true
-    obj.pages[1][:Annots].length.should == 1
+    PDF::Reader.open(StringIO.new(@pdf.render)) do |pdf|
+      pdf.page(1).attributes[:Annots].should be_nil
+      pdf.page(2).attributes[:Annots].size.should == 1
+    end
   end
 
   it "should force :Type to be :Annot" do
