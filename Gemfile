@@ -11,7 +11,7 @@ group :development do
 end
 
 group :test do
-  gem "pdf-inspector", "~> 1.0.2", :require => "pdf/inspector"
+  gem "pdf-inspector", "~> 1.1.0", :require => "pdf/inspector"
   gem "rspec"
   gem "mocha", :require => false
   gem "rake"
