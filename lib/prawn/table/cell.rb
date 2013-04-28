@@ -217,7 +217,11 @@ module Prawn
         @rowspan = 1
         @dummy_cells = []
 
-        options.each { |k, v| send("#{k}=", v) }
+        options.each do |k, v|
+          if respond_to? "#{k}="
+            send("#{k}=", v)
+          end
+        end
 
         @initializer_run = true
       end
@@ -232,7 +236,11 @@ module Prawn
       #   cell.border_width = 2
       #
       def style(options={}, &block)
-        options.each { |k, v| send("#{k}=", v) }
+        options.each do |k, v| 
+          if respond_to? "#{k}="
+            send("#{k}=", v)
+          end
+        end
 
         # The block form supports running a single block for multiple cells, as
         # in Cells#style.
