@@ -103,16 +103,16 @@ end
 describe "When reading an indexed color PNG file (color type 3)" do
 
   before(:each) do
-    @filename = "#{Prawn::DATADIR}/images/rails.png"
-    @data_filename = "#{Prawn::DATADIR}/images/rails.dat"
+    @filename = "#{Prawn::DATADIR}/images/indexed_color.png"
+    @data_filename = "#{Prawn::DATADIR}/images/indexed_color.dat"
     @img_data = File.binread(@filename)
   end
 
   it "should read the attributes from the header chunk correctly" do
     png = Prawn::Images::PNG.new(@img_data)
 
-    png.width.should == 50
-    png.height.should == 64
+    png.width.should == 150
+    png.height.should == 200
     png.bits.should == 8
     png.color_type.should == 3
     png.compression_method.should == 0
