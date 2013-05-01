@@ -18,12 +18,12 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   class HighlightCallback
     def initialize(options)
-      @color = options[:color]
+      @color    = options[:color]
       @document = options[:document]
     end
 
     def render_behind(fragment)
-      original_color = @document.fill_color
+      original_color       = @document.fill_color
       @document.fill_color = @color
       @document.fill_rectangle(fragment.top_left, fragment.width,
                                                   fragment.height)
@@ -33,7 +33,7 @@ Prawn::Example.generate(filename) do
 
   class ConnectedBorderCallback
     def initialize(options)
-      @radius = options[:radius]
+      @radius   = options[:radius]
       @document = options[:document]
     end
 

@@ -11,8 +11,8 @@
 # pairs inside arrays.
 #
 # All these methods have an "absolute" version like <code>absolute_right</code>.
-# The absolute version also returns the same boundary relative to the page
-# absolute coordinates.
+# The absolute version returns the same boundary relative to the page absolute
+# coordinates.
 #
 # The following snippet shows the boundaries for the margin box side by side
 # with the boundaries for a custom bounding box.

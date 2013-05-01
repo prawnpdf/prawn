@@ -1,7 +1,7 @@
 # encoding: utf-8
 # 
-# Sometimes you just need to indent a portion of the contents of a bounding box, and
-# using a nested bounding box is just pure overkill. The <code>indent</code>
+# Sometimes you just need to indent a portion of the contents of a bounding box,
+# and using a nested bounding box is pure overkill. The <code>indent</code>
 # method is what you might need.
 #
 # Just provide a number for it to indent all content generated inside the
@@ -24,7 +24,7 @@ Prawn::Example.generate(filename) do
     move_down 10
     text "No indentation inside this bounding box."
     indent(40) do
-      text "Inside an indent block. And so is the following line:"
+      text "Inside an indent block. And so is this horizontal line:"
       
       stroke_horizontal_rule
     end

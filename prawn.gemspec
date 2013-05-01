@@ -1,8 +1,6 @@
-PRAWN_VERSION = "1.0.0.rc1"
-
 Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = PRAWN_VERSION
+  spec.version = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).strip
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
   spec.files =  Dir.glob("{examples,lib,spec,data,manual}/**/**/*") +
@@ -19,9 +17,13 @@ Gem::Specification.new do |spec|
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
-  spec.add_dependency('pdf-reader', '>=0.9.0')
+  spec.add_dependency('pdf-reader', '~>1.2')
   spec.add_dependency('ttfunk', '~>1.0.3')
-  spec.add_development_dependency('pdf-inspector', '~> 1.0.1')
+  spec.add_dependency('ruby-rc4')
+  spec.add_dependency('afm')
+  spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
+  spec.add_development_dependency('coderay', '~> 1.0.7')
+  spec.add_development_dependency('rdoc')
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
   Prawn is a fast, tiny, and nimble PDF generator for Ruby
@@ -35,7 +37,7 @@ END_DESC
 
   Please read the changelog for details:
 
-  https://github.com/sandal/prawn/wiki/CHANGELOG
+  https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 
   ********************************************

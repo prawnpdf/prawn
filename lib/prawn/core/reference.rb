@@ -6,50 +6,38 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'zlib'
 
-module Prawn  
+module Prawn
   module Core
-  
     class Reference #:nodoc:
 
       attr_accessor :gen, :data, :offset, :stream, :live, :identifier
-      
+
       def initialize(id, data)
-        @identifier = id 
-        @gen        = 0       
-        @data       = data     
-        @compressed = false
-        @stream     = nil
-      end            
-      
-      def object 
-        output = "#{@identifier} #{gen} obj\n" <<
-                 Prawn::Core::PdfObject(data) << "\n"
-        if @stream
-          output << "stream\n" << @stream << "\nendstream\n" 
+        @identifier = id
+        @gen        = 0
+        @data       = data
+        @stream     = Stream.new
+      end
+
+      def object
+        output = "#{@identifier} #{gen} obj\n"
+        unless @stream.empty?
+          output << Prawn::Core::PdfObject(data.merge @stream.data) << "\n" << @stream.object
+        else
+          output << Prawn::Core::PdfObject(data) << "\n"
         end
+
         output << "endobj\n"
-      end  
-      
-      def <<(data)
-        raise 'Cannot add data to a stream that is compressed' if @compressed
-        (@stream ||= "") << data  
-      end  
-      
-      def to_s            
+      end
+
+      def <<(io)
+        raise "Cannot attach stream to non-dictionary object" unless @data.is_a?(Hash)
+        (@stream ||= Stream.new) << io
+      end
+
+      def to_s
         "#{@identifier} #{gen} R"
-      end
-
-      def compress_stream
-        @stream = Zlib::Deflate.deflate(@stream)
-        @data[:Filter] = :FlateDecode
-        @data[:Length] ||= @stream.length
-        @compressed = true
-      end
-
-      def compressed?
-        @compressed
       end
 
       # Creates a deep copy of this ref. If +share+ is provided, shares the
@@ -73,13 +61,11 @@ module Prawn
         r.stream = Marshal.load(Marshal.dump(r.stream))
         r
       end
-      
-      # Replaces the data and stream with that of other_ref. Preserves compressed
-      # status.
+
+      # Replaces the data and stream with that of other_ref.
       def replace(other_ref)
-        @data       = other_ref.data
-        @stream     = other_ref.stream
-        @compressed = other_ref.compressed?
+        @data   = other_ref.data
+        @stream = other_ref.stream
       end
 
       # Marks this and all referenced objects live, recursively.
@@ -100,16 +86,18 @@ module Prawn
           obj.values.map{|v| [v] + referenced_objects(v) }
         when Array
           obj.map{|v| [v] + referenced_objects(v) }
+        when OutlineRoot, OutlineItem
+          referenced_objects(obj.to_hash)
         else []
         end.flatten.grep(self.class)
       end
 
-    end         
+    end
 
     module_function
-    
+
     def Reference(*args, &block) #:nodoc:
       Reference.new(*args, &block)
-    end     
+    end
   end
 end

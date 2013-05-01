@@ -259,7 +259,7 @@ module Prawn
     # will be passed through to Font::AFM.new()
     #
     def self.load(document,name,options={})
-      case name
+      case name.to_s
       when /\.ttf$/i   then TTF.new(document, name, options)
       when /\.dfont$/i then DFont.new(document, name, options)
       when /\.afm$/i   then AFM.new(document, name, options)

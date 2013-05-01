@@ -16,7 +16,7 @@ describe "#height_of" do
     original_y = @pdf.y
     @pdf.text("Foo")
     new_y = @pdf.y
-    @pdf.height_of("Foo").should.be.close(original_y - new_y, 0.0001)
+    @pdf.height_of("Foo").should be_within(0.0001).of(original_y - new_y)
   end
 
   it "should omit the gap below the last descender if :final_gap => false " +
@@ -24,27 +24,27 @@ describe "#height_of" do
     original_y = @pdf.y
     @pdf.text("Foo", :final_gap => false)
     new_y = @pdf.y
-    @pdf.height_of("Foo", :final_gap => false).should.be.close(original_y - new_y, 0.0001)
+    @pdf.height_of("Foo", :final_gap => false).should be_within(0.0001).of(original_y - new_y)
   end
 
-  it "should raise CannotFit if a too-small width is given" do
+  it "should raise_error CannotFit if a too-small width is given" do
     lambda do
       @pdf.height_of("text", :width => 1)
-    end.should.raise(Prawn::Errors::CannotFit)
+    end.should raise_error(Prawn::Errors::CannotFit)
   end
 
-  it "should raise NotImplementedError if :indent_paragraphs option is provided" do
+  it "should raise_error NotImplementedError if :indent_paragraphs option is provided" do
     lambda {
       @pdf.height_of("hai", :width => 300,
                      :indent_paragraphs => 60)
-    }.should.raise(NotImplementedError)
+    }.should raise_error(NotImplementedError)
   end
 
-  it "should not raise Prawn::Errors::UnknownOption if :final_gap option is provided" do
+  it "should_not raise_error Prawn::Errors::UnknownOption if :final_gap option is provided" do
     lambda {
       @pdf.height_of("hai", :width => 300,
                      :final_gap => true)
-    }.should.not.raise(Prawn::Errors::UnknownOption)
+    }.should_not raise_error(Prawn::Errors::UnknownOption)
   end
 end
 
@@ -57,7 +57,7 @@ describe "#text" do
     pdf = Prawn::Document.new
     lambda {
       pdf.text "transparency " * 150, :size => 18
-    }.should.not.raise(TypeError)
+    }.should_not raise_error(TypeError)
   end
 
   it "should allow drawing empty strings to the page" do
@@ -68,7 +68,7 @@ describe "#text" do
   end
   
   it "should ignore call when string is nil" do
-    @pdf.text(nil).should.be false
+    @pdf.text(nil).should be_false
   end
 
   it "should correctly render empty paragraphs" do
@@ -96,13 +96,13 @@ describe "#text" do
   it "should default to use kerning information" do
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should.be true
+    text.kerned[0].should be_true
   end
 
   it "should be able to disable kerning with an option" do
     @pdf.text "hello world", :kerning => false
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should.be false
+    text.kerned[0].should be_false
   end
 
   it "should be able to disable kerning document-wide" do
@@ -110,29 +110,29 @@ describe "#text" do
     @pdf.default_kerning = false
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should.be false
+    text.kerned[0].should be_false
   end
 
   it "option should be able to override document-wide kerning disabling" do
     @pdf.default_kerning = false
     @pdf.text "hello world", :kerning => true
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should.be true
+    text.kerned[0].should be_true
   end
 
-  it "should raise ArgumentError if :at option included" do
-    lambda { @pdf.text("hai", :at => [0, 0]) }.should.raise(ArgumentError)
+  it "should raise_error ArgumentError if :at option included" do
+    lambda { @pdf.text("hai", :at => [0, 0]) }.should raise_error(ArgumentError)
   end
 
   it "should advance down the document based on font_height" do
     position = @pdf.y
     @pdf.text "Foo"
 
-    @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - @pdf.font.height)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - 3*@pdf.font.height)
   end
 
   it "should advance down the document based on font_height" +
@@ -141,11 +141,11 @@ describe "#text" do
     @pdf.text "Foo", :size => 15
 
     @pdf.font_size = 15
-    @pdf.y.should.be.close(position - @pdf.font.height, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - @pdf.font.height)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should.be.close(position - 3 * @pdf.font.height, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
   it "should advance down the document based on font_height" +
@@ -154,11 +154,11 @@ describe "#text" do
     leading = 2
     @pdf.text "Foo", :leading => leading
 
-    @pdf.y.should.be.close(position - @pdf.font.height - leading, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - @pdf.font.height - leading)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should.be.close(position - 3*@pdf.font.height, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - 3*@pdf.font.height)
   end
 
   it "should advance only to the bottom of the final descender "+
@@ -166,11 +166,11 @@ describe "#text" do
     position = @pdf.y
     @pdf.text "Foo", :final_gap => false
 
-    @pdf.y.should.be.close(position - @pdf.font.ascender - @pdf.font.descender, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - @pdf.font.ascender - @pdf.font.descender)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz", :final_gap => false
-    @pdf.y.should.be.close(position - 2*@pdf.font.height - @pdf.font.ascender - @pdf.font.descender, 0.0001)
+    @pdf.y.should be_within(0.0001).of(position - 2*@pdf.font.height - @pdf.font.ascender - @pdf.font.descender)
   end
 
   it "should be able to print text starting at the last line of a page" do
@@ -257,14 +257,14 @@ describe "#text" do
     text.font_settings[1][:name].should == :Helvetica
   end
 
-  it "should raise an exception when an unknown font is used" do
-    lambda { @pdf.font "Pao bu" }.should.raise(Prawn::Errors::UnknownFont)
+  it "should raise_error an exception when an unknown font is used" do
+    lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
   end
   
-  it "should not raise an exception when providing Pathname instance as font" do
+  it "should_not raise_error an exception when providing Pathname instance as font" do
     lambda {
       @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
-    }.should.not.raise(Prawn::Errors::UnknownFont)
+    }.should_not raise_error(Prawn::Errors::UnknownFont)
   end
 
   it "should correctly render a utf-8 string when using a built-in font" do
@@ -312,29 +312,29 @@ describe "#text" do
 
   if "spec".respond_to?(:encode!)
     # Handle non utf-8 string encodings in a sane way on M17N aware VMs
-    it "should raise an exception when a utf-8 incompatible string is rendered" do
+    it "should raise_error an exception when a utf-8 incompatible string is rendered" do
       str = "Blah \xDD"
       str.force_encoding("ASCII-8BIT")
-      lambda { @pdf.text str }.should.raise(
+      lambda { @pdf.text str }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
-    it "should not raise an exception when a shift-jis string is rendered" do
+    it "should_not raise_error an exception when a shift-jis string is rendered" do
       datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
       @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      lambda { @pdf.text sjis_str }.should.not.raise(
+      lambda { @pdf.text sjis_str }.should_not raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
   else
     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
-    it "should raise an exception when a corrupt utf-8 string is rendered" do
+    it "should raise_error an exception when a corrupt utf-8 string is rendered" do
       str = "Blah \xDD"
-      lambda { @pdf.text str }.should.raise(
+      lambda { @pdf.text str }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
-    it "should raise an exception when a shift-jis string is rendered" do
+    it "should raise_error an exception when a shift-jis string is rendered" do
       sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
-      lambda { @pdf.text sjis_str }.should.raise(
+      lambda { @pdf.text sjis_str }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
   end

@@ -12,9 +12,9 @@ describe "A column box" do
 
         @pdf.bounds.move_past_bottom # next column
 
-        @pdf.bounds.left.should.be > left
-        @pdf.bounds.left.should.be > right
-        @pdf.bounds.right.should.be > @pdf.bounds.left
+        @pdf.bounds.left.should be > left
+        @pdf.bounds.left.should be > right
+        @pdf.bounds.right.should be > @pdf.bounds.left
       end
   end
 

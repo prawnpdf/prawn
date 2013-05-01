@@ -76,7 +76,7 @@ describe "Prawn::Document#transaction" do
         rescue Prawn::Errors::CannotGroup
           add_lines(pdf)
         end
-      end.should.not.raise#(Prawn::Document::Snapshot::RollbackTransaction)
+      end.should_not raise_error#(Prawn::Document::Snapshot::RollbackTransaction)
     end
   end
 
@@ -141,7 +141,7 @@ describe "Prawn::Document#transaction" do
     Prawn::Document.new do |pdf|
       pdf.add_dest("dest", pdf.dest_fit_horizontally(pdf.cursor, pdf.page))
       pdf.text("Hello world")
-      lambda { pdf.transaction{} }.should.not.raise
+      lambda { pdf.transaction{} }.should_not raise_error
     end
   end
   
@@ -166,7 +166,7 @@ describe "Prawn::Document#transaction" do
           rollback
         end
       end
-      pdf.render.should.not =~ /\/Stamp1 Do/
+      pdf.render.should_not =~ /\/Stamp1 Do/
     end 
 
   end

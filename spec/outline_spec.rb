@@ -36,7 +36,7 @@ describe "Outline" do
     end
 
     it "should create a root outline dictionary item" do
-      assert_not_nil @outline_root
+      @outline_root.should_not be_nil
     end
 
     it "should set the first and last top items of the root outline dictionary item" do
@@ -46,7 +46,7 @@ describe "Outline" do
 
     describe "#create_outline_item" do
       it "should create outline items for each section and page" do
-        [@section_1, @page_1, @page_2].each {|item| assert_not_nil item}
+        [@section_1, @page_1, @page_2].each {|item| item.should_not be_nil}
       end
     end
 
@@ -70,7 +70,7 @@ describe "Outline" do
 
       it "should add the count of all descendant items" do
         @outline_root[:Count].should == 3
-        @section_1[:Count].should.abs == 2
+        @section_1[:Count].abs.should == 2
         @page_1[:Count].should == 0
         @page_2[:Count].should == 0
       end
@@ -100,7 +100,7 @@ describe "Outline" do
     end
 
     it "should add new outline items to document" do
-      [@section_2, @page_3].each { |item| assert_not_nil item}
+      [@section_2, @page_3].each { |item| item.should_not be_nil}
     end
 
     it "should reset the last items for root outline dictionary" do
@@ -139,7 +139,7 @@ describe "Outline" do
       end
     
       it "should add new outline items to document" do
-        [@subsection, @added_page_3].each { |item| assert_not_nil item}
+        [@subsection, @added_page_3].each { |item| item.should_not be_nil}
       end
     
       it "should reset the last item for parent item dictionary" do
@@ -186,7 +186,7 @@ describe "Outline" do
       end
 
       it "should add new outline items to document" do
-        [@subsection, @added_page_3].each { |item| assert_not_nil item}
+        [@subsection, @added_page_3].each { |item| item.should_not be_nil}
       end
 
       it "should reset the first item for parent item dictionary" do
@@ -217,7 +217,7 @@ describe "Outline" do
     end
     
     it "should require an existing title" do
-      assert_raise Prawn::Errors::UnknownOutlineTitle do
+      lambda do
         @pdf.go_to_page 1
         @pdf.start_new_page
         @pdf.text "Inserted Page"
@@ -227,7 +227,7 @@ describe "Outline" do
           end
         end
         render_and_find_objects
-      end
+      end.should raise_error(Prawn::Errors::UnknownOutlineTitle)
     end
   end     
 
@@ -246,13 +246,13 @@ describe "Outline" do
 
       it "should insert new outline items to document" do
         render_and_find_objects
-        assert_not_nil @inserted_page
+        @inserted_page.should_not be_nil
       end
       
       it "should adjust the count of all ancestors" do
         render_and_find_objects
         @outline_root[:Count].should == 4
-        @section_1[:Count].should.abs == 3
+        @section_1[:Count].abs.should == 3
       end
        
       describe "#adjust_relations" do
@@ -317,7 +317,7 @@ describe "Outline" do
         end
 
         it "should set the sibling relation of added item to adjoining items" do
-          assert_nil referenced_object(@inserted_page[:Next])
+          referenced_object(@inserted_page[:Next]).should be_nil
           referenced_object(@inserted_page[:Prev]).should == @page_2
         end
 
@@ -329,7 +329,7 @@ describe "Outline" do
     end
 
     it "should require an existing title" do
-      assert_raise Prawn::Errors::UnknownOutlineTitle do
+      lambda do
         @pdf.go_to_page 1
         @pdf.start_new_page
         @pdf.text "Inserted Page"
@@ -339,26 +339,26 @@ describe "Outline" do
           end
         end
         render_and_find_objects
-      end
+      end.should raise_error(Prawn::Errors::UnknownOutlineTitle)
     end
 
   end
 
   describe "#page" do
     it "should require a title option to be set" do
-      assert_raise Prawn::Errors::RequiredOption do
+      lambda do
         @pdf = Prawn::Document.new() do
           text "Page 1. This is the first Chapter. "
           outline.define do
             page :destination => 1, :title => nil
           end
         end
-      end
+      end.should raise_error(Prawn::Errors::RequiredOption)
     end
   end
 end
   
-context "foreign character encoding" do
+describe "foreign character encoding" do
   before(:each) do
     pdf = Prawn::Document.new() do
       outline.define do
@@ -370,7 +370,25 @@ context "foreign character encoding" do
 
   it "should handle other encodings for the title" do
     object = find_by_title('La pomme croquée')
-    object.should.not == nil
+    object.should_not == nil
+  end
+end
+
+describe "with optimize_objects option" do
+  before(:each) do
+    @pdf = Prawn::Document.new(:optimize_objects => true) do
+      outline.define do
+        section 'Chapter 1', :destination => 1, :closed => true do
+          page :destination => 1, :title => 'Page 1'
+        end
+      end
+    end
+    render_and_find_objects
+  end
+
+  it "should generate an outline" do
+    @section_1.should_not be_nil
+    @page_1.should_not be_nil
   end
 end
 

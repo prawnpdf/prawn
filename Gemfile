@@ -1,12 +1,18 @@
-source :rubygems
+source "https://rubygems.org"
 
 gem "ttfunk", "~>1.0.3"
-gem "pdf-reader", ">=0.9.0"
+gem "pdf-reader", "~> 1.2"
+gem "ruby-rc4"
+gem "afm"
+
+group :development do
+  gem "coderay", "~> 1.0.7"
+  gem "rdoc"
+end
 
 group :test do
-  gem "pdf-inspector", "~>1.0.1", :require => "pdf/inspector"
-  gem "test-spec"
-  gem "mocha"
-  gem "test-unit", "1.2.3", :platforms => [:ruby_19, :mingw_19]
+  gem "pdf-inspector", "~> 1.1.0", :require => "pdf/inspector"
+  gem "rspec"
+  gem "mocha", :require => false
   gem "rake"
 end

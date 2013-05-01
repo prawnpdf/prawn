@@ -9,13 +9,13 @@
 # <code>start_count_at</code> is the value from which to start numbering pages
 #
 # <code>total_pages</code> If provided, will replace <code>total</code> with
-# the value given.  Useful for overriding the total number of pages when using the
-# start_count_at option.
+# the value given.  Useful for overriding the total number of pages when using
+# the start_count_at option.
 #
-# <code>page_filter</code>, which is one of: <code>:all</code>, <code>:odd</code>,
-# <code>:even</code>, an array, a range, or a Proc that receives the page number
-# as an argument and should return true if the page number should be printed on
-# that page.
+# <code>page_filter</code>, which is one of: <code>:all</code>,
+# <code>:odd</code>, <code>:even</code>, an array, a range, or a Proc that
+# receives the page number as an argument and should return true if the page
+# number should be printed on that page.
 #
 # <code>color</code> which accepts the same values as <code>fill_color</code>
 #
@@ -44,9 +44,9 @@ Prawn::Example.generate(filename) do
   number_pages string, options
 
   # Gray page numbers from 8 on up
-  options[:page_filter] = lambda{ |pg| pg > 7}
+  options[:page_filter]    = lambda{ |pg| pg > 7}
   options[:start_count_at] = 8
-  options[:color] = "333333"
+  options[:color]          = "333333"
   number_pages string, options
   
   start_new_page

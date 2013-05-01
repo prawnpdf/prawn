@@ -8,7 +8,7 @@
 #
 # <code>require 'open-uri'</code>
 #
-# <code> start_new_page(:template => open('http://server.com/document.pdf'))</code>
+# <code>start_new_page(:template => open('url_for_your.pdf'))</code>
 #
 # The following example loads some pages from an existing PDF. If we don't
 # specify the <code>:template_page</code> option, the first page of the template
@@ -24,7 +24,7 @@ Prawn::Example.generate(filename) do
   text "Please scan the next 3 pages to see the page templates in action."
   move_down 10
   text "You also might want to look at the pdf used as a template: "
-  url = "https://github.com/sandal/prawn/raw/master/data/pdfs/form.pdf"
+  url = "https://github.com/prawnpdf/prawn/raw/master/data/pdfs/form.pdf"
   move_down 10
   
   formatted_text [{:text => url, :link => url}]

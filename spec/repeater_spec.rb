@@ -10,14 +10,14 @@ describe "Repeaters" do
 
     r = repeater(doc, :all) { :do_nothing }
 
-    assert_equal orig_count + 1,  Prawn::Repeater.count
+    Prawn::Repeater.count.should == orig_count + 1
   end
 
   it "must provide an :all filter" do
     doc = sample_document
     r = repeater(doc, :all) { :do_nothing }
 
-    assert (1..doc.page_count).all? { |i| r.match?(i) }
+    (1..doc.page_count).all? { |i| r.match?(i) }.should be_true
   end
 
   it "must provide an :odd filter" do
@@ -26,29 +26,29 @@ describe "Repeaters" do
 
     odd, even = (1..doc.page_count).partition { |e| e % 2 == 1 }
 
-    assert odd.all? { |i| r.match?(i) }
-    assert ! even.any? { |i| r.match?(i) }
+    odd.all? { |i| r.match?(i) }.should be_true
+    even.any? { |i| r.match?(i) }.should be_false
   end
 
   it "must be able to filter by an array of page numbers" do
     doc = sample_document
     r = repeater(doc, [1,2,7]) { :do_nothing }
 
-    assert_equal [1,2,7], (1..10).select { |i| r.match?(i) }
+    (1..10).select { |i| r.match?(i) }.should == [1,2,7]
   end
 
   it "must be able to filter by a range of page numbers" do
     doc = sample_document
     r = repeater(doc, 2..4) { :do_nothing }
 
-    assert_equal [2,3,4], (1..10).select { |i| r.match?(i) }
+    (1..10).select { |i| r.match?(i) }.should == [2,3,4]
   end
 
   it "must be able to filter by an arbitrary proc" do
     doc = sample_document
     r = repeater(doc, lambda { |x| x == 1 or x % 3 == 0 })
 
-    assert_equal [1,3,6,9], (1..10).select { |i| r.match?(i) }
+    (1..10).select { |i| r.match?(i) }.should == [1,3,6,9]
   end
 
   it "must try to run a stamp if the page number matches" do
@@ -95,7 +95,7 @@ describe "Repeaters" do
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
-    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings
+    text.strings.should == (1..10).to_a.map{|p| "Page #{p}"}
   end
 
   it "must treat any block as a closure (Document.new instance_eval form)" do
@@ -110,7 +110,7 @@ describe "Repeaters" do
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
-    assert_equal (1..10).to_a.map{|p| "Page #{p}"}, text.strings
+    text.strings.should == (1..10).to_a.map{|p| "Page #{p}"}
   end
 
   def sample_document

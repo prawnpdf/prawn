@@ -6,38 +6,31 @@ describe "A Reference object" do
   it "should produce a PDF reference on #to_s call" do
     ref = Prawn::Core::Reference(1,true)
     ref.to_s.should == "1 0 R"
-  end                                        
-  
+  end
+
   it "should allow changing generation number" do
     ref = Prawn::Core::Reference(1,true)
     ref.gen = 1
     ref.to_s.should == "1 1 R"
   end
-  
+
   it "should generate a valid PDF object for the referenced data" do
-    ref = Prawn::Core::Reference(2,[1,"foo"]) 
-    ref.object.should == "2 0 obj\n#{Prawn::Core::PdfObject([1,"foo"])}\nendobj\n" 
-  end             
-  
-  it "should automatically open a stream when #<< is used" do
-     ref = Prawn::Core::Reference(1, :Length => 41)
-     ref << "BT\n/F1 12 Tf\n72 712 Td\n( A stream ) Tj\nET"   
+    ref = Prawn::Core::Reference(2,[1,"foo"])
+    ref.object.should == "2 0 obj\n#{Prawn::Core::PdfObject([1,"foo"])}\nendobj\n"
+  end
+
+  it "should include stream fileds in dictionary when serializing" do
+     ref = Prawn::Core::Reference(1, {})
+     ref.stream << 'Hello'
+     ref.object.should == "1 0 obj\n<< /Length 5\n>>\nstream\nHello\nendstream\nendobj\n"
+  end
+
+  it "should append data to stream when #<< is used" do
+     ref = Prawn::Core::Reference(1, {})
+     ref << "BT\n/F1 12 Tf\n72 712 Td\n( A stream ) Tj\nET"
      ref.object.should == "1 0 obj\n<< /Length 41\n>>\nstream"+
                            "\nBT\n/F1 12 Tf\n72 712 Td\n( A stream ) Tj\nET" +
                            "\nendstream\nendobj\n"
-  end
-
-  it "should compress a stream upon request" do
-    ref = Prawn::Core::Reference(2,{})
-    ref << "Hi There " * 20
-
-    cref = Prawn::Core::Reference(2,{})
-    cref << "Hi There " * 20
-    cref.compress_stream
-
-    assert cref.stream.size < ref.stream.size, 
-      "compressed stream expected to be smaller than source but wasn't"
-    cref.data[:Filter].should == :FlateDecode
   end
 
   it "should copy the data and stream from another ref on #replace" do
@@ -56,7 +49,7 @@ describe "A Reference object" do
   it "should copy a compressed stream from a compressed ref on #replace" do
     from = Prawn::Core::Reference(5, {:foo => 'bar'})
     from << "has a stream too " * 20
-    from.compress_stream
+    from.stream.compress!
 
     to = Prawn::Core::Reference(6, {:foo => 'baz'})
     to.replace from
@@ -64,7 +57,7 @@ describe "A Reference object" do
     to.identifier.should == 6
     to.data.should == from.data
     to.stream.should == from.stream
-    to.compressed?.should == true
+    to.stream.compressed?.should == true
   end
 
   describe "generated via Prawn::Document" do
@@ -77,6 +70,13 @@ describe "A Reference object" do
       pdf = Prawn::Document.new
       r = pdf.ref({})
       r.is_a?(Integer).should == true
+    end
+
+    it "should have :Length of stream if it has one when compression disabled" do
+      pdf = Prawn::Document.new :compress => false
+      ref = pdf.ref!({})
+      ref << 'Hello'
+      ref.stream.data[:Length].should == 5
     end
   end
 end

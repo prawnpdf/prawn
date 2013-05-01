@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # span_dummy.rb: Placeholder for non-master spanned cells.
 #
@@ -43,6 +43,48 @@ module Prawn
         # Dummy cells have nothing to draw.
         #
         def draw_bounded_content(pt)
+        end
+
+        def padding_right=(val)
+          @master_cell.padding_right = val if rightmost?
+        end
+
+        def padding_bottom=(val)
+          @master_cell.padding_bottom = val if bottommost?
+        end
+
+        def border_right_color=(val)
+          @master_cell.border_right_color = val if rightmost?
+        end
+
+        def border_bottom_color=(val)
+          @master_cell.border_bottom_color = val if bottommost?
+        end
+
+        def border_right_width=(val)
+          @master_cell.border_right_width = val if rightmost?
+        end
+
+        def border_bottom_width=(val)
+          @master_cell.border_bottom_width = val if bottommost?
+        end
+
+        def background_color
+          @master_cell.background_color
+        end
+
+        private
+
+        # Are we on the right border of the span?
+        #
+        def rightmost?
+          @column == @master_cell.column + @master_cell.colspan - 1
+        end
+
+        # Are we on the bottom border of the span?
+        #
+        def bottommost?
+          @row == @master_cell.row + @master_cell.rowspan - 1
         end
       end
     end

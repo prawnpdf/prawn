@@ -25,8 +25,9 @@ module Prawn
       # <tt>:data</tt>:: A binary string of JPEG data
       #
       def initialize(data)
-        @data = data
-        data = StringIO.new(data.dup)
+        @data = data.dup
+        ruby_19 { data.force_encoding("binary") }
+        data = StringIO.new(data)
 
         c_marker = "\xff" # Section marker.
         data.read(2)   # Skip the first two bytes of JPEG identifier.
@@ -61,12 +62,10 @@ module Prawn
         obj = document.ref!(
           :Type             => :XObject,
           :Subtype          => :Image,
-          :Filter           => :DCTDecode,
           :ColorSpace       => color_space,
           :BitsPerComponent => bits,
           :Width            => width,
-          :Height           => height,
-          :Length           => @data.size
+          :Height           => height
         ) 
 
         # add extra decode params for CMYK images. By swapping the
@@ -76,7 +75,8 @@ module Prawn
           obj.data[:Decode] = [ 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 ]
         end
 
-        obj << @data
+        obj.stream << @data
+        obj.stream.filters << :DCTDecode
         obj
       end
 

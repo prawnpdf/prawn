@@ -2,7 +2,7 @@
 #
 # Prawn comes with support for most of the common page sizes so you'll only need
 # to provide specific values if your intended format is not supported. To see a
-# list with all supported sizes take a look at: https://github.com/sandal/prawn/blob/master/lib/prawn/document/page_geometry.rb
+# list with all supported sizes take a look at: https://github.com/prawnpdf/prawn/blob/master/lib/prawn/document/page_geometry.rb
 #
 # To define the size use <code>:page_size</code> when creating new documents
 # and <code>:size</code> when starting new pages. The default page size for new

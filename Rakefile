@@ -1,21 +1,15 @@
-require "rubygems"
 require "bundler"
 Bundler.setup
 
 require 'rake'
-require 'rake/testtask'
-require "rake/rdoctask"
-require "rake/gempackagetask"  
+require 'rspec/core/rake_task'
+require 'rdoc/task'
+require 'rubygems/package_task'
 
-task :default => [:test]
+task :default => [:spec]
        
-desc "Run all tests, test-spec, mocha, and pdf-reader required"
-Rake::TestTask.new do |test|
-  # test.ruby_opts  << "-w"  # .should == true triggers a lot of warnings
-  test.libs       << "spec"
-  test.test_files =  Dir[ "spec/*_spec.rb" ]
-  test.verbose    =  true
-end
+desc "Run all rspec files"
+RSpec::Core::RakeTask.new("spec")
 
 desc "Show library's code statistics"
 task :stats do
@@ -26,7 +20,7 @@ task :stats do
 end
 
 desc "genrates documentation"
-Rake::RDocTask.new do |rdoc|
+RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include( "README",
                            "COPYING",
                            "LICENSE", 
@@ -45,7 +39,7 @@ task :manual do
 end
 
 spec = Gem::Specification.load "prawn.gemspec"
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end

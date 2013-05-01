@@ -79,7 +79,9 @@ module Prawn
     def build_image_object(file)
       # Rewind if the object we're passed is an IO, so that multiple embeds of
       # the same IO object will work
-      file.rewind if file.respond_to?(:rewind)
+      file.rewind  if file.respond_to?(:rewind)
+      # read the file as binary so the size is calculated correctly
+      file.binmode if file.respond_to?(:binmode)
 
       if file.respond_to?(:read)
         image_content = file.read
@@ -144,17 +146,6 @@ module Prawn
     def image_position(w,h,options)
       options[:position] ||= :left
       
-      x = case options[:position] 
-      when :left
-        bounds.absolute_left
-      when :center
-        bounds.absolute_left + (bounds.width - w) / 2.0 
-      when :right
-        bounds.absolute_right - w
-      when Numeric
-        options[:position] + bounds.absolute_left
-      end
-
       y = case options[:vposition]
       when :top
         bounds.absolute_top
@@ -167,16 +158,26 @@ module Prawn
       else
         determine_y_with_page_flow(h)
       end
+
+      x = case options[:position] 
+      when :left
+        bounds.left_side
+      when :center
+        bounds.left_side + (bounds.width - w) / 2.0 
+      when :right
+        bounds.right_side - w
+      when Numeric
+        options[:position] + bounds.left_side
+      end
+
       return [x,y]
     end 
     
     def determine_y_with_page_flow(h)
       if overruns_page?(h)
-        start_new_page
-        bounds.absolute_top 
-      else
-        self.y
+        bounds.move_past_bottom
       end
+      self.y
     end 
     
     def overruns_page?(h)

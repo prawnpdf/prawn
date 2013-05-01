@@ -1,12 +1,15 @@
 # encoding: utf-8
 # 
-# The <code>font_size</code> method works just like the <code>font</code> method.
+# The <code>font_size</code> method works just like the <code>font</code>
+# method.
 #
 # In fact we can even use <code>font</code> with the <code>:size</code> option
 # to declare which size we want.
 #
-# Another way to change the font size is by supplying the <code>:size</code> option to the
-# text methods
+# Another way to change the font size is by supplying the <code>:size</code>
+# option to the text methods.
+#
+# The default font size is <code>12</code>.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -36,5 +39,7 @@ Prawn::Example.generate(filename) do
     text "Yeah, using Courier 10 courtesy of the font method."
   end
   
-  font("Helvetica", :size => 12)  # back to normal
+  move_down 10
+  font("Helvetica", :size => 12)
+  text "Back to normal"
 end

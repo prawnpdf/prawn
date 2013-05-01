@@ -40,6 +40,4 @@ Prawn::Example.generate(filename) do
     dash(length, :space => space, :phase => phase)
     stroke_horizontal_line 50, 500, :at => base_y - (2 * i)
   end
-  
-  undash                      # revert stroke back to normal
 end

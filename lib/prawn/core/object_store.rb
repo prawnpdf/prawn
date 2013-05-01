@@ -143,27 +143,30 @@ module Prawn
       #
       def import_page(input, page_num)
         @loaded_objects = {}
-        
-        io = if input.respond_to?(:seek) && input.respond_to?(:read)
-          input
-        elsif File.file?(input.to_s)
-          if File.respond_to?(:binread)
-            StringIO.new(File.binread(input.to_s))
-          else
-            StringIO.new(File.read(input.to_s))
-          end
-        else
-          raise ArgumentError, "input must be an IO-like object or a filename"
+        if template_id = indexed_template(input, page_num)
+          return template_id
         end
 
-        # unless File.file?(filename)
+        io = if input.respond_to?(:seek) && input.respond_to?(:read)
+               input
+             elsif File.file?(input.to_s)
+               StringIO.new(File.binread(input.to_s))
+             else
+               raise ArgumentError, "input must be an IO-like object or a filename"
+             end
+
+                # unless File.file?(filename)
         #   raise ArgumentError, "#{filename} does not exist"
         # end
 
-        hash = PDF::Reader::ObjectHash.new(io)
+        hash = indexed_hash(input, io)
         ref  = hash.page_references[page_num - 1]
 
-        ref.nil? ? nil : load_object_graph(hash, ref).identifier
+        if ref.nil?
+          nil
+        else
+          index_template(input, page_num, load_object_graph(hash, ref).identifier)
+        end
 
       rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
@@ -174,6 +177,46 @@ module Prawn
       end
 
       private
+
+      # An index for page templates so that their loaded object graph
+      # can be reused without multiple loading
+      def template_index
+        @template_index ||= {}
+      end
+
+      # An index for the read object hash of a pdf template so that the
+      # object hash does not need to be parsed multiple times when using
+      # different pages of the pdf as page templates
+      def hash_index
+        @hash_index ||= {}
+      end
+
+      # returns the indexed object graph identifier for a template page if
+      # it exists
+      def indexed_template(input, page_number)
+        key = indexing_key(input)
+        template_index[key] && template_index[key][page_number]
+      end
+
+      # indexes the identifier for a page from a template
+      def index_template(input, page_number, id)
+        (template_index[indexing_key(input)] ||= {})[page_number] ||= id
+      end
+
+      # reads and indexes a new IO for a template
+      # if the IO has been indexed already then the parsed object hash
+      # is returned directly
+      def indexed_hash(input, io)
+        hash_index[indexing_key(input)] ||= PDF::Reader::ObjectHash.new(io)
+      end
+
+      # the index key for the input.
+      # uses object_id so that both a string filename or an IO stream can be
+      # indexed and reused provided the same object gets used in multiple page
+      # template calls.
+      def indexing_key(input)
+        input.object_id
+      end
 
       # returns a nested array of object IDs for all pages in this object store.
       #

@@ -11,6 +11,7 @@
 
 class ParameterChecker < Mocha::ParametersMatcher
   def initialize(&matching_block)
+    @expected_parameters = [Mocha::ParameterMatchers::AnyParameters.new]
     @matching_block = matching_block
   end
 

@@ -2,7 +2,8 @@
 #
 # This is the most important concept you need to learn about Prawn:
 #
-# PDF documents have the origin [0,0] at the bottom-left corner of the page.
+# PDF documents have the origin <code>[0,0]</code> at the bottom-left corner of
+# the page.
 #
 # A bounding box is a structure which provides boundaries for inserting content.
 # A bounding box also has the property of relocating the origin to its relative
@@ -30,7 +31,7 @@ Prawn::Example.generate(filename) do
   
   stroke_circle [0, 0], 10
   
-  bounding_box [100, 300], :width => 300, :height => 200 do
+  bounding_box([100, 300], :width => 300, :height => 200) do
     stroke_bounds
     stroke_circle [0, 0], 10
   end

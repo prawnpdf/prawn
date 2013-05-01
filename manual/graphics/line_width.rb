@@ -1,27 +1,27 @@
 # encoding: utf-8
 #
-# The <code>line_width=</code> method sets the stroke width for subsequent stroke calls.
+# The <code>line_width=</code> method sets the stroke width for subsequent
+# stroke calls.
 #
-# Since Ruby assumes that an unknown variable on the left hand side of an assignment is a local temporary,
-# rather than a setter method, if you are using the block call to
-# <code>Prawn::Document.generate</code> without passing params you will need to
-# call <code>line_width</code> on self.
+# Since Ruby assumes that an unknown variable on the left hand side of an
+# assignment is a local temporary, rather than a setter method, if you are using
+# the block call to <code>Prawn::Document.generate</code> without passing params
+# you will need to call <code>line_width</code> on self.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  # Prawn::Document.generate() do
   stroke_axis
   
   y = 250
   
   3.times do |i|
     case i
-    when 0; line_width = 10        # This call will have no effect
-    when 1; self.line_width = 10
-    when 2; self.line_width = 25
+    when 0 then line_width = 10        # This call will have no effect
+    when 1 then self.line_width = 10
+    when 2 then self.line_width = 25
     end
     
     stroke do
@@ -32,7 +32,4 @@ Prawn::Example.generate(filename) do
     
     y -= 100
   end
-  
-  # Return line_width back to normal
-  self.line_width = 1
 end

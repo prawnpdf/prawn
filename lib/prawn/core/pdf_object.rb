@@ -30,7 +30,7 @@ module Prawn
       def utf8_to_utf16(str)
         utf16 = "\xFE\xFF"
 
-        str.unpack("U*").each do |cp|
+        str.codepoints do |cp|
           if cp < 0x10000 # Basic Multilingual Plane
             utf16 << [cp].pack("n")
           else

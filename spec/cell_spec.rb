@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")  
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module CellHelpers
 
@@ -8,10 +8,6 @@ module CellHelpers
   def cell(options={})
     at = options[:at] || [0, @pdf.cursor]
     Prawn::Table::Cell::Text.new(@pdf, at, options)
-  end
-
-  def close?(actual, expected, epsilon=0.01)
-    (actual - expected).abs < epsilon
   end
 
 end
@@ -30,13 +26,18 @@ describe "Prawn::Table::Cell" do
     end
 
     it "should return a Cell" do
-      @pdf.cell(:content => "text").should.be.a.kind_of Prawn::Table::Cell
+      @pdf.cell(:content => "text").should be_a_kind_of Prawn::Table::Cell
+    end
+
+    it "accepts :content => nil in a hash" do
+      @pdf.cell(:content => nil).should be_a_kind_of(Prawn::Table::Cell::Text)
+      @pdf.make_cell(:content => nil).should be_a_kind_of(Prawn::Table::Cell::Text)
     end
 
     it "should convert nil, Numeric, and Date values to strings" do
       [nil, 123, 123.45, Date.today].each do |value|
         c = @pdf.cell(:content => value)
-        c.should.be.a.kind_of Prawn::Table::Cell::Text
+        c.should be_a_kind_of Prawn::Table::Cell::Text
         c.content.should == value.to_s
       end
     end
@@ -45,7 +46,7 @@ describe "Prawn::Table::Cell" do
       # used for table([[{:text => "...", :font_style => :bold, ...}, ...]])
       c = Prawn::Table::Cell.make(@pdf,
                                   {:content => 'hello', :font_style => :bold})
-      c.should.be.a.kind_of Prawn::Table::Cell::Text
+      c.should be_a_kind_of Prawn::Table::Cell::Text
       c.content.should == "hello"
       c.font.name.should == 'Helvetica-Bold'
     end
@@ -56,22 +57,22 @@ describe "Prawn::Table::Cell" do
       @pdf.expects(:move_down)
       @pdf.expects(:draw_text!).with { |text, options| text == "hello world" }
 
-      @pdf.cell(:content => "hello world", 
+      @pdf.cell(:content => "hello world",
                 :at => [10, 20],
                 :padding => [30, 40],
-                :size => 7, 
+                :size => 7,
                 :font_style => :bold)
     end
   end
-  
+
   describe "Prawn::Document#make_cell" do
     it "should not draw the cell" do
       Prawn::Table::Cell::Text.any_instance.expects(:draw).never
       @pdf.make_cell("text")
     end
-    
+
     it "should return a Cell" do
-      @pdf.make_cell("text", :size => 7).should.be.a.kind_of Prawn::Table::Cell
+      @pdf.make_cell("text", :size => 7).should be_a_kind_of Prawn::Table::Cell
     end
   end
 
@@ -103,7 +104,7 @@ describe "Prawn::Table::Cell" do
 
     it "should incorporate padding when specified" do
       c = cell(:content => "text", :padding => [1, 2, 3, 4])
-      c.width.should.be.close(@pdf.width_of("text") + 6, 0.01)
+      c.width.should be_within(0.01).of(@pdf.width_of("text") + 6)
     end
 
     it "should allow width to be reset after it has been calculated" do
@@ -117,7 +118,7 @@ describe "Prawn::Table::Cell" do
     it "should return proper width with size set" do
       text = "text " * 4
       c = cell(:content => text, :size => 7)
-      c.width.should == 
+      c.width.should ==
         @pdf.width_of(text, :size => 7) + c.padding[1] + c.padding[3]
     end
 
@@ -128,7 +129,7 @@ describe "Prawn::Table::Cell" do
 
     it "content_width should exclude padding even with manual :width" do
       c = cell(:content => "text", :padding => 10, :width => 400)
-      c.content_width.should.be.close(380, 0.01)
+      c.content_width.should be_within(0.01).of(380)
     end
 
     it "should have a reasonable minimum width that can fit @content" do
@@ -136,9 +137,9 @@ describe "Prawn::Table::Cell" do
       min_content_width = c.min_width - c.padding[1] - c.padding[3]
 
       lambda { @pdf.height_of("text", :width => min_content_width) }.
-        should.not.raise(Prawn::Errors::CannotFit)
+        should_not raise_error(Prawn::Errors::CannotFit)
 
-      @pdf.height_of("text", :width => min_content_width).should.be <
+      @pdf.height_of("text", :width => min_content_width).should be <
         (5 * @pdf.height_of("text"))
     end
 
@@ -147,14 +148,14 @@ describe "Prawn::Table::Cell" do
       c.padding = 0
 
       # Make sure we use the new value of padding in calculating min_width
-      c.min_width.should.be < 100
+      c.min_width.should be < 100
     end
 
     it "should defer min_width's evaluation of size" do
       c = cell(:content => "text", :size => 50)
       c.size = 8
       c.padding = 0
-      c.min_width.should.be < 10
+      c.min_width.should be < 10
     end
 
   end
@@ -164,7 +165,7 @@ describe "Prawn::Table::Cell" do
 
     it "should be calculated for text" do
       c = cell(:content => "text")
-      c.height.should == 
+      c.height.should ==
         @pdf.height_of("text", :width => @pdf.width_of("text")) +
         c.padding[0] + c.padding[3]
     end
@@ -176,8 +177,8 @@ describe "Prawn::Table::Cell" do
 
     it "should incorporate :padding when specified" do
       c = cell(:content => "text", :padding => [1, 2, 3, 4])
-      c.height.should.be.close(1 + 3 +
-        @pdf.height_of("text", :width => @pdf.width_of("text")), 0.01)
+      c.height.should be_within(0.01).of(1 + 3 +
+        @pdf.height_of("text", :width => @pdf.width_of("text")))
     end
 
     it "should allow height to be reset after it has been calculated" do
@@ -211,10 +212,10 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => 10)
       c.content_height.should == @pdf.height_of("text")
     end
-    
+
     it "content_height should exclude padding even with manual :height" do
       c = cell(:content => "text", :padding => 10, :height => 400)
-      c.content_height.should.be.close(380, 0.01)
+      c.content_height.should be_within(0.01).of(380)
     end
   end
 
@@ -235,7 +236,7 @@ describe "Prawn::Table::Cell" do
       c = cell(:content => "text", :padding => [20, 30])
       c.padding.should == [20, 30, 20, 30]
     end
-    
+
     it "should accept [t,h,b]" do
       c = cell(:content => "text", :padding => [10, 20, 30])
       c.padding.should == [10, 20, 30, 20]
@@ -249,7 +250,7 @@ describe "Prawn::Table::Cell" do
     it "should reject other formats" do
       lambda{
         cell(:content => "text", :padding => [10])
-      }.should.raise(ArgumentError)
+      }.should raise_error(ArgumentError)
     end
   end
 
@@ -263,10 +264,10 @@ describe "Prawn::Table::Cell" do
       @pdf.stubs(:fill_color)
       @pdf.expects(:fill_color).with('123456')
       @pdf.expects(:fill_rectangle).checking do |(x, y), w, h|
-        x.should.be.close(0, 0.01)
-        y.should.be.close(@pdf.cursor, 0.01)
-        w.should.be.close(29.344, 0.01)
-        h.should.be.close(23.872, 0.01)
+        x.should be_within(0.01).of(0)
+        y.should be_within(0.01).of(@pdf.cursor)
+        w.should be_within(0.01).of(29.344)
+        h.should be_within(0.01).of(23.872)
       end
       @pdf.cell(:content => "text", :background_color => '123456')
     end
@@ -279,10 +280,10 @@ describe "Prawn::Table::Cell" do
       @pdf.stubs(:fill_color)
       @pdf.expects(:fill_color).with('123456')
       @pdf.expects(:fill_rectangle).checking do |(x, y), w, h|
-        x.should.be.close(12.0, 0.01)
-        y.should.be.close(34.0, 0.01)
-        w.should.be.close(29.344, 0.01)
-        h.should.be.close(23.872, 0.01)
+        x.should be_within(0.01).of(12.0)
+        y.should be_within(0.01).of(34.0)
+        w.should be_within(0.01).of(29.344)
+        h.should be_within(0.01).of(23.872)
       end
       c = @pdf.make_cell(:content => "text", :background_color => '123456')
       c.draw([12.0, 34.0])
@@ -408,7 +409,33 @@ describe "Prawn::Table::Cell" do
         :border_width => [2, 3, 4, 5])
       c.border_widths.should == [2, 3, 4, 5]
     end
+
+    it "should set default border lines to :solid" do
+      c = @pdf.cell(:content => "text")
+      c.border_top_line.should == :solid
+      c.border_right_line.should == :solid
+      c.border_bottom_line.should == :solid
+      c.border_left_line.should == :solid
+      c.border_lines.should == [:solid] * 4
+    end
+
+    it "should set border line with :border_..._line" do
+      c = @pdf.cell(:content => "text", :border_bottom_line => :dotted)
+      c.border_bottom_line.should == :dotted
+      c.border_lines[2].should == :dotted
+    end
+
+    it "should set border lines with :border_lines" do
+      c = @pdf.cell(:content => "text",
+        :border_lines => [:solid, :dotted, :dashed, :solid])
+      c.border_lines.should == [:solid, :dotted, :dashed, :solid]
+    end
   end
+
+
+
+
+
 
   describe "Text cell attributes" do
     include CellHelpers
@@ -434,6 +461,26 @@ describe "Prawn::Table::Cell" do
       Prawn::Text::Box.expects(:new).checking do |text, options|
         text.should == "text"
         options[:style].should == :bold
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
+    it "supports variant styles of the current font" do
+      font_path = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+      @pdf.font_families.merge!("Action Man" => {
+        :normal    => { :file => font_path, :font => "ActionMan" },
+        :bold      => { :file => font_path, :font => "ActionMan-Bold" },
+      })
+      @pdf.font "Action Man"
+
+      c = cell(:content => "text", :font_style => :bold)
+
+      box = Prawn::Text::Box.new("text", :document => @pdf)
+      Prawn::Text::Box.expects(:new).checking do |text, options|
+        text.should == "text"
+        options[:style].should == :bold
+        @pdf.font.family.should == 'Action Man'
       end.at_least_once.returns(box)
 
       c.draw
@@ -498,7 +545,6 @@ describe "Prawn::Table::Cell" do
       c.content_width.should == font.compute_width_of("text")
     end
   end
-
 end
 
 describe "Image cells" do
@@ -513,7 +559,7 @@ describe "Image cells" do
     end
 
     it "should create a Cell::Image" do
-      @cell.should.be.a.kind_of(Prawn::Table::Cell::Image)
+      @cell.should be_a_kind_of(Prawn::Table::Cell::Image)
     end
 
     it "should pull the natural width and height from the image" do
@@ -538,7 +584,7 @@ describe "Image cells" do
 
 
     it "should create a Cell::Image" do
-      @cell.should.be.a.kind_of(Prawn::Table::Cell::Image)
+      @cell.should be_a_kind_of(Prawn::Table::Cell::Image)
     end
 
     it "should pass through image options" do

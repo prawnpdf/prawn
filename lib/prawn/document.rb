@@ -61,6 +61,7 @@ module Prawn
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
+    include Prawn::SoftMask
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
@@ -136,6 +137,7 @@ module Prawn
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
     # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
+    # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     # <tt>:parser</tt>: The parser to use for <tt>:inline_format</tt>ted text [Prawn::Text::Formatted::Parser]
@@ -186,6 +188,7 @@ module Prawn
       min_version(state.store.min_version) if state.store.min_version
 
       @background = options[:background]
+      @background_scale = options[:background_scale] || 1
       @font_size  = 12
 
       @bounding_box  = nil
@@ -245,6 +248,9 @@ module Prawn
     #
     #  pdf.start_new_page(:template => multipage_template.pdf, :template_page => 2)
     #
+    # Note: templates get indexed by either the object_id of the filename or stream
+    # entered so that if you reuse the same template multiple times be sure to use the
+    # same instance for more efficient use of resources and smaller rendered pdfs.
     def start_new_page(options = {})
       if last_page = state.page
         last_page_size    = last_page.size
@@ -281,7 +287,7 @@ module Prawn
         state.insert_page(state.page, @page_number)
         @page_number += 1
 
-        canvas { image(@background, :at => bounds.top_left) } if @background
+        canvas { image(@background, :scale => @background_scale, :at => bounds.top_left) } if @background
         @y = @bounding_box.absolute_top
 
         float do
@@ -543,15 +549,15 @@ module Prawn
     # through existing pages after they are created.
     #
     # Parameters are:
-    # 
-    # <tt>string</tt>:: Template string for page number wording.  
+    #
+    # <tt>string</tt>:: Template string for page number wording.
     #                   Should include '<page>' and, optionally, '<total>'.
     # <tt>options</tt>:: A hash for page numbering and text box options.
-    #     <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.  
+    #     <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.
     #                             Refer to the method 'page_match?'
     #     <tt>:start_count_at</tt>:: The starting count to increment pages from.
     #     <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
-    #                             Useful to override the total number of pages when using 
+    #                             Useful to override the total number of pages when using
     #                             the start_count_at option.
     #     <tt>:color</tt>:: Text fill color.
     #
@@ -562,7 +568,7 @@ module Prawn
     #          five.
     #
     #   Prawn::Document.generate("page_with_numbering.pdf") do
-    #     number_pages "<page> in a total of <total>", 
+    #     number_pages "<page> in a total of <total>",
     #                                          {:start_count_at => 5,
     #                                           :page_filter => lambda{ |pg| pg != 1 },
     #                                           :at => [bounds.right - 50, 0],
@@ -581,8 +587,8 @@ module Prawn
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
-      opts[:height] = 50
-      
+      opts[:height] = 50 unless opts.has_key?(:height)
+
       start_count = false
       pseudopage = 0
       (1..page_count).each do |p|
@@ -593,7 +599,7 @@ module Prawn
                        else
                          start_count_at.to_i
                        end
-        end        
+        end
         if page_match?(page_filter, p)
           go_to_page(p)
           # have to use fill_color here otherwise text reverts back to default fill color
@@ -602,13 +608,13 @@ module Prawn
           str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
           text_box str, opts
           start_count = true  # increment page count as soon as first match found
-        end 
+        end
         pseudopage += 1 if start_count
       end
     end
 
     # Provides a way to execute a block of code repeatedly based on a
-    # page_filter.  
+    # page_filter.
     #
     # Available page filters are:
     #   :all         repeats on every page
@@ -616,7 +622,7 @@ module Prawn
     #   :even        repeats on even pages
     #   some_array   repeats on every page listed in the array
     #   some_range   repeats on every page included in the range
-    #   some_lambda  yields page number and repeats for true return values 
+    #   some_lambda  yields page number and repeats for true return values
     def page_match?(page_filter, page_number)
       case page_filter
       when :all
@@ -630,7 +636,7 @@ module Prawn
       when Proc
         page_filter.call(page_number)
       end
-    end  
+    end
 
 
     # Returns true if content streams will be compressed before rendering,
@@ -644,7 +650,7 @@ module Prawn
 
     def merge_template_options(page_options, options)
       object_id = state.store.import_page(options[:template], options[:template_page] || 1)
-      page_options.merge!(:object_id => object_id )
+      page_options.merge!(:object_id => object_id, :page_template => true)
     end
 
     # setting override_settings to true ensures that a new graphic state does not end up using

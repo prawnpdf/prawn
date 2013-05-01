@@ -5,8 +5,9 @@
 #
 # We just need to take some precautions.
 #
-# This example renders as much of the text as will fit in a larger font inside one
-# text_box and then proceeds to render the remaining text in the default size in a second text_box.
+# This example renders as much of the text as will fit in a larger font inside
+# one text_box and then proceeds to render the remaining text in the default
+# size in a second text_box.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -27,5 +28,5 @@ Prawn::Example.generate(filename) do
   
   text_box excess_text,
            :width    => 300,
-           :at       => [100, y_position - 50]
+           :at       => [100, y_position - 100]
 end
