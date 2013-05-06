@@ -246,19 +246,31 @@ module Prawn
       end
     end
 
+    class Stream
+      def encrypted_object(key, id, gen)
+        if filtered_stream
+          "stream\n#{Document::Security.encrypt_string filtered_stream, key, id, gen}\nendstream\n"
+        else
+          ''
+        end
+      end
+    end
+
     class Reference
 
       # Returns the object definition for the object this references, keyed from
       # +key+.
       def encrypted_object(key)
         @on_encode.call(self) if @on_encode
-        output = "#{@identifier} #{gen} obj\n" <<
-          Prawn::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
-        if @stream
-          output << "stream\n" <<
-            Document::Security.encrypt_string(@stream, key, @identifier, gen) <<
-            "\nendstream\n"
+
+        output = "#{@identifier} #{gen} obj\n"
+        unless @stream.empty?
+          output << Prawn::Core::EncryptedPdfObject(data.merge(@stream.data), key, @identifier, gen) << "\n" <<
+            @stream.encrypted_object(key, @identifier, gen)
+        else
+          output << Prawn::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
         end
+
         output << "endobj\n"
       end
 

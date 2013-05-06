@@ -123,4 +123,27 @@ describe "Document encryption" do
     
   end
 
+  describe "Refernce#ecrypted_object" do
+    it "should encryp references properly" do
+      ref = Prawn::Core::Reference(1,["foo"])
+      ref.encrypted_object(nil).should == "1 0 obj\n[<4fca3f>]\nendobj\n"
+    end
+
+    it "should encryp references with streams properly" do
+      ref = Prawn::Core::Reference(1, {})
+      ref << 'foo'
+      result = ruby_19 { "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n".force_encoding('ASCII-8BIT') } || ruby_18 { "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n" }
+      ref.encrypted_object(nil).should == result
+    end
+  end
+
+  describe "String#encrypted_object" do
+    it "should encryp stream properly" do
+      stream = Prawn::Core::Stream.new
+      stream << "foo"
+      result = ruby_19 { "stream\nO\xCA?\nendstream\n".force_encoding('ASCII-8BIT') } || ruby_18 { "stream\nO\xCA?\nendstream\n" }
+      stream.encrypted_object(nil, 1, 0).should == result
+    end
+  end
+
 end
