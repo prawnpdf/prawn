@@ -53,6 +53,6 @@ describe "Stream object" do
     stream << "Hello"
     stream.filters << { :FlateDecode => { :Predictor => 15 } }
 
-    stream.data[:DecodeParams].should == [{ :Predictor => 15 }]
+    stream.data[:DecodeParms].should == [{ :Predictor => 15 }]
   end
 end
