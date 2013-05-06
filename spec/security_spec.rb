@@ -1,7 +1,7 @@
 # encoding: utf-8
 require "tempfile"
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Document encryption" do
 
@@ -31,9 +31,9 @@ describe "Document encryption" do
     end
 
   end
-  
+
   describe "Setting permissions" do
-    
+
     def doc_with_permissions(permissions)
       pdf = Prawn::Document.new
 
@@ -120,16 +120,16 @@ describe "Document encryption" do
       Prawn::Core::EncryptedPdfObject(["foo", "bar"], "12345", 123, 0).should ==
         "[<4ad6e3> <4ed8fe>]"
     end
-    
+
   end
 
-  describe "Refernce#ecrypted_object" do
-    it "should encryp references properly" do
+  describe "Reference#encrypted_object" do
+    it "should encrypt references properly" do
       ref = Prawn::Core::Reference(1,["foo"])
       ref.encrypted_object(nil).should == "1 0 obj\n[<4fca3f>]\nendobj\n"
     end
 
-    it "should encryp references with streams properly" do
+    it "should encrypt references with streams properly" do
       ref = Prawn::Core::Reference(1, {})
       ref << 'foo'
       result = ruby_19 { "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n".force_encoding('ASCII-8BIT') } || ruby_18 { "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n" }
@@ -138,7 +138,7 @@ describe "Document encryption" do
   end
 
   describe "String#encrypted_object" do
-    it "should encryp stream properly" do
+    it "should encrypt stream properly" do
       stream = Prawn::Core::Stream.new
       stream << "foo"
       result = ruby_19 { "stream\nO\xCA?\nendstream\n".force_encoding('ASCII-8BIT') } || ruby_18 { "stream\nO\xCA?\nendstream\n" }
