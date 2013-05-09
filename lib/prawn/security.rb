@@ -215,9 +215,8 @@ module Prawn
         obj = ByteString.new(Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
-        # FIXME: encrypted?
         obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
-        obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        obj = ByteString.new(Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
         PdfObject(
