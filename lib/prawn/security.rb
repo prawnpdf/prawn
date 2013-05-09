@@ -212,8 +212,7 @@ module Prawn
             EncryptedPdfObject(e, key, id, gen, in_content_stream)
         }.join(' ') << "]"
       when LiteralString
-        # FIXME: encrypted?
-        obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        obj = ByteString.new(Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         # FIXME: encrypted?

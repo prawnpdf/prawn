@@ -114,6 +114,11 @@ describe "Document encryption" do
       Prawn::Core::EncryptedPdfObject("foo", "12345", 123, 0).should == "<4ad6e3>"
     end
 
+    it "should encrypt literal strings properly" do
+       Prawn::Core::EncryptedPdfObject(Prawn::Core::LiteralString.new("foo"), "12345", 123, 0).should == bin_string("(J\xD6\xE3)")
+       Prawn::Core::EncryptedPdfObject(Prawn::Core::LiteralString.new("lhfbqg3do5u0satu3fjf"), nil, 123, 0).should == bin_string("(\xF1\x8B\\(\b\xBB\xE18S\x130~4*#\\(%\x87\xE7\x8E\\\n)")
+    end
+
     it "should properly handle compound types" do
       Prawn::Core::EncryptedPdfObject({:Bar => "foo"}, "12345", 123, 0).should ==
         "<< /Bar <4ad6e3>\n>>"
