@@ -3,9 +3,12 @@ Gem::Specification.new do |spec|
   spec.version = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).strip
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
-  spec.files =  Dir.glob("{examples,lib,spec,data,manual}/**/**/*") +
-    ["Rakefile", "prawn.gemspec", "COPYING", "LICENSE", "GPLv2", "GPLv3",
-     "Gemfile"]
+  spec.files =  Dir.glob("{examples,lib,spec,manual}/**/**/*") +
+                Dir.glob("data/{encodings,images,pdfs}/*") +
+                Dir.glob("data/fonts/{MustRead.html,*.afm}") +
+                ["data/shift_jis_text.txt"] +
+                ["Rakefile", "prawn.gemspec", "Gemfile",
+                 "COPYING", "LICENSE", "GPLv2", "GPLv3"]
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.8.7'
   spec.required_rubygems_version = ">= 1.3.6"
