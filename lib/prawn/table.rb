@@ -327,7 +327,8 @@ module Prawn
                 header_height = 0
                 y_coord = @pdf.cursor
                 @header.times do |h|
-                  header_height += add_header(cells_this_page, y_coord-(cell.height * (h)), cell.row-1, h)
+                  additional_header_height = add_header(cells_this_page, y_coord-header_height, cell.row-1, h)
+                  header_height += additional_header_height
                 end
               else
                 header_height = add_header(cells_this_page, @pdf.cursor, cell.row-1)
