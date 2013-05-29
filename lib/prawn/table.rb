@@ -355,7 +355,15 @@ module Prawn
           if @row_colors && (!@header || cell.row > 0)
             # Ensure coloring restarts on every page (to make sure the header
             # and first row of a page are not colored the same way).
-            index = cell.row - [started_new_page_at_row, @header ? (@header.is_a? Integer ? @header : 1) : 0].max
+            if @header.is_a? Integer
+              rows = @header
+            elsif @header
+              rows = 1
+            else
+              rows = 0
+            end
+            index = cell.row - [started_new_page_at_row, rows].max
+
             cell.background_color ||= @row_colors[index % @row_colors.length]
           end
 
