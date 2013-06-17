@@ -13,6 +13,9 @@ require 'prawn/table/cell/text'
 require 'prawn/table/cell/subtable'
 require 'prawn/table/cell/image'
 require 'prawn/table/cell/span_dummy'
+require 'prawn/table/cell/formatted/wrap'
+require 'prawn/table/cell/formatted/box'
+require 'prawn/table/cell/box'
 
 module Prawn
 

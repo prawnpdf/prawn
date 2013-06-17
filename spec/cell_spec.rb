@@ -443,9 +443,9 @@ describe "Prawn::Table::Cell" do
     it "should pass through text options like :align to Text::Box" do
       c = cell(:content => "text", :align => :right)
 
-      box = Prawn::Text::Box.new("text", :document => @pdf)
+      box = Prawn::Table::Cell::Box.new("text", :document => @pdf)
 
-      Prawn::Text::Box.expects(:new).checking do |text, options|
+      Prawn::Table::Cell::Box.expects(:new).checking do |text, options|
         text.should == "text"
         options[:align].should == :right
       end.at_least_once.returns(box)
@@ -456,9 +456,9 @@ describe "Prawn::Table::Cell" do
     it "should use font_style for Text::Box#style" do
       c = cell(:content => "text", :font_style => :bold)
 
-      box = Prawn::Text::Box.new("text", :document => @pdf)
+      box = Prawn::Table::Cell::Box.new("text", :document => @pdf)
 
-      Prawn::Text::Box.expects(:new).checking do |text, options|
+      Prawn::Table::Cell::Box.expects(:new).checking do |text, options|
         text.should == "text"
         options[:style].should == :bold
       end.at_least_once.returns(box)
@@ -476,8 +476,8 @@ describe "Prawn::Table::Cell" do
 
       c = cell(:content => "text", :font_style => :bold)
 
-      box = Prawn::Text::Box.new("text", :document => @pdf)
-      Prawn::Text::Box.expects(:new).checking do |text, options|
+      box = Prawn::Table::Cell::Box.new("text", :document => @pdf)
+      Prawn::Table::Cell::Box.expects(:new).checking do |text, options|
         text.should == "text"
         options[:style].should == :bold
         @pdf.font.family.should == 'Action Man'
@@ -489,9 +489,9 @@ describe "Prawn::Table::Cell" do
     it "should allow inline formatting in cells" do
       c = cell(:content => "foo <b>bar</b> baz", :inline_format => true)
 
-      box = Prawn::Text::Formatted::Box.new([], :document => @pdf)
+      box = Prawn::Table::Cell::Formatted::Box.new([], :document => @pdf)
 
-      Prawn::Text::Formatted::Box.expects(:new).checking do |array, options|
+      Prawn::Table::Cell::Formatted::Box.expects(:new).checking do |array, options|
         array[0][:text].should == "foo "
         array[0][:styles].should == []
 

@@ -2,6 +2,8 @@
 nbproject
 pkg 
 .rvmrc
+.ruby-version
+.ruby-gemset
 .bundle
 Gemfile.lock
 drop_to_console.rb
