@@ -1218,3 +1218,45 @@ describe "colspan / rowspan" do
   end
 end
 
+describe "Table::Cell::Box#render with :rotate option)" do
+  before(:each) do
+    create_pdf
+    @x = 50
+    @y = 200
+    @width = 450
+    @height = 200
+    @text = "Oh hai text rect. " * 10
+  end
+  context ":rotate table cells" do
+    it "should draw table with three angles" do
+
+      table = nil
+      @pdf.bounding_box([@x,@y], :width => @width, :height => @height, :height => @height) do
+        table = [[
+          {:content => @text, :rotate => 30},
+          {:content => @text, :rotate => 60},
+          {:content => @text, :rotate => 90},
+        ]]
+        table = @pdf.table(table, :width => @width)
+      end
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
+      matrices.matrices[0].should == [1, 0, 0, 1, 87.46635, -31.78886]
+      matrices.matrices[2].should == [1, 0, 0, 1, 254.10886, -145.48946]
+      matrices.matrices[4].should == [1, 0, 0, 1, 550.372, -255.732]
+      [30,60,90].each_with_index do |rotate, i|
+        cos = reduce_precision(Math.cos(rotate * Math::PI / 180))
+        sin = reduce_precision(Math.sin(rotate * Math::PI / 180))
+        matrices.matrices[i*2+1].should == [cos, sin, -sin, cos, 0, 0]
+      end
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.length.should == 27
+    end
+  end
+  
+  def reduce_precision(float)
+    ("%.5f" % float).to_f
+  end
+end
+
