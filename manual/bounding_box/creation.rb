@@ -16,7 +16,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   bounding_box([200, cursor - 100], :width => 200, :height => 100) do
-    text "Just your regular bounding box"
+    text 'Just your regular bounding box'
     
     transparent(0.5) { stroke_bounds }
   end

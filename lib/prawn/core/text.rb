@@ -32,7 +32,7 @@ module Prawn
       #
       def process_text_options(options)
         if options[:style]
-          raise "Bad font family" unless font.family
+          raise 'Bad font family' unless font.family
           font(font.family, :style => options[:style])
         end
 
@@ -247,7 +247,7 @@ module Prawn
         if options[:rotate]
           rad = options[:rotate].to_f * Math::PI / 180
           arr = [ Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), x, y ]
-          add_content "%.3f %.3f %.3f %.3f %.3f %.3f Tm" % arr
+          add_content '%.3f %.3f %.3f %.3f %.3f %.3f Tm' % arr
         else
           add_content "#{x} #{y} Td"
         end
@@ -256,8 +256,8 @@ module Prawn
           font.add_to_current_page(subset)
           add_content "/#{font.identifier_for(subset)} #{font_size} Tf"
 
-          operation = options[:kerning] && string.is_a?(Array) ? "TJ" : "Tj"
-          add_content Prawn::Core::PdfObject(string, true) << " " << operation
+          operation = options[:kerning] && string.is_a?(Array) ? 'TJ' : 'Tj'
+          add_content Prawn::Core::PdfObject(string, true) << ' ' << operation
         end
 
         add_content "ET\n"

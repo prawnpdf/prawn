@@ -64,7 +64,7 @@ module Prawn
       #   => "ff7808"
       #
       def rgb2hex(rgb)
-        rgb.map { |e| "%02x" % e }.join
+        rgb.map { |e| '%02x' % e }.join
       end
 
       # Converts hex string into RGB value array:

@@ -17,21 +17,21 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  fill_color   "00ff00"
-  stroke_color "0000ff"
+  fill_color '00ff00'
+  stroke_color '0000ff'
   
   font_size(40) do
     # normal rendering mode: fill
-    text "This text is filled with green."
+    text 'This text is filled with green.'
     move_down 20
 
     # inline rendering mode: stroke
-    text "This text is stroked with blue", :mode => :stroke
+    text 'This text is stroked with blue', :mode => :stroke
     move_down 20
 
     # block rendering mode: fill and stroke
     text_rendering_mode(:fill_stroke) do
-      text "This text is filled with green and stroked with blue"
+      text 'This text is filled with green and stroked with blue'
     end
   end
 end

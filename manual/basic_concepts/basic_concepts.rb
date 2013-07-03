@@ -5,16 +5,16 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
+Prawn::Example.generate('basic_concepts.pdf', :page_size => 'FOLIO') do
   
-  package "basic_concepts" do |p|
+  package 'basic_concepts' do |p|
     
-    p.example "creation", :eval_source => false, :full_source => true
-    p.example "origin"
-    p.example "cursor"
-    p.example "other_cursor_helpers"
-    p.example "adding_pages"
-    p.example "measurement"
+    p.example 'creation', :eval_source => false, :full_source => true
+    p.example 'origin'
+    p.example 'cursor'
+    p.example 'other_cursor_helpers'
+    p.example 'adding_pages'
+    p.example 'measurement'
     
     p.intro do
       prose("This chapter covers the minimum amount of functionality you'll need to start using Prawn.
@@ -23,11 +23,11 @@ Prawn::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
 
       The examples show:")
 
-      list( "How to create new pdf documents in every possible way",
-            "Where the origin for the document coordinates is. What are Bounding Boxes and how they interact with the origin",
-            "How the cursor behaves",
-            "How to start new pages",
-            "What the base unit for measurement and coordinates is and how to use other convenient measures"
+      list( 'How to create new pdf documents in every possible way',
+            'Where the origin for the document coordinates is. What are Bounding Boxes and how they interact with the origin',
+            'How the cursor behaves',
+            'How to start new pages',
+            'What the base unit for measurement and coordinates is and how to use other convenient measures'
           )
     end
   end

@@ -18,26 +18,26 @@ Prawn::Example.generate(filename) do
   self.text_direction = :rtl
 
   font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf", :size => 16) do
-    long_text = "写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小"
+    long_text = '写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小'
     text long_text
     move_down 20
 
-    text "You can override the document direction.", :direction => :ltr
+    text 'You can override the document direction.', :direction => :ltr
     move_down 20
 
-    formatted_text [{ :text => "更可怕的是，同质化竞争对手可以按照" },
-                    { :text => "URL", :direction => :ltr },
-                    { :text => "中后面这个" },
-                    { :text => "ID",  :direction => :ltr },
-                    { :text => "来遍历您的" },
-                    { :text => "DB",  :direction => :ltr },
-                    { :text => "中的内容，写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事，这样的话，你就非常被动了。" }]
+    formatted_text [{ :text => '更可怕的是，同质化竞争对手可以按照'},
+                    { :text => 'URL', :direction => :ltr },
+                    { :text => '中后面这个'},
+                    { :text => 'ID',  :direction => :ltr },
+                    { :text => '来遍历您的'},
+                    { :text => 'DB',  :direction => :ltr },
+                    { :text => '中的内容，写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事，这样的话，你就非常被动了。'}]
     move_down 20
 
-    formatted_text [{ :text => "更可怕的是，同质化竞争对手可以按照" },
-                    { :text => "this",  :direction => :ltr },
+    formatted_text [{ :text => '更可怕的是，同质化竞争对手可以按照'},
+                    { :text => 'this',  :direction => :ltr },
                     { :text => "won't", :direction => :ltr, :size => 24 },
-                    { :text => "work",  :direction => :ltr },
-                    { :text => "中的内容，写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事" }]
+                    { :text => 'work',  :direction => :ltr },
+                    { :text => '中的内容，写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事'}]
   end
 end

@@ -148,7 +148,7 @@ module Prawn
         output << "0 #{state.store.size + 1}\n"
         output << "0000000000 65535 f \n"
         state.store.each do |ref|
-          output.printf("%010d", ref.offset)
+          output.printf('%010d', ref.offset)
           output << " 00000 n \n"
         end
       end
@@ -165,7 +165,7 @@ module Prawn
         output << Prawn::Core::PdfObject(trailer_hash) << "\n"
         output << "startxref\n" 
         output << @xref_offset << "\n"
-        output << "%%EOF" << "\n"
+        output << '%%EOF' << "\n"
       end
                  
     end

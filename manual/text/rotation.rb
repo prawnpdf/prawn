@@ -20,11 +20,11 @@ Prawn::Example.generate(filename) do
   y      = cursor - 30
 
   stroke_rectangle [0, y], width, height
-  text_box("This text was not rotated",
+  text_box('This text was not rotated',
            :at => [0, y], :width => width, :height => height)
   
   stroke_rectangle [0, y - 100], width, height
-  text_box("This text was rotated around the center",
+  text_box('This text was rotated around the center',
            :at => [0, y - 100], :width => width, :height => height,
            :rotate => angle, :rotate_around => :center)
   

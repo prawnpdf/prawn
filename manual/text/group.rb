@@ -22,8 +22,8 @@ Prawn::Example.generate(filename) do
   text "Let's move to the end of the page so that you can see group in action."
   
   group do
-    text "This block of text was too big to be rendered on the bottom of the " +
-         " previous page. So it was rendered entirely on this new page. " +
-         " _ " * 200
+    text 'This block of text was too big to be rendered on the bottom of the ' +
+             ' previous page. So it was rendered entirely on this new page. ' +
+         ' _ ' * 200
   end
 end

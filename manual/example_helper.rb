@@ -55,19 +55,19 @@ module Prawn
     
     # Colors
     #
-    BLACK      = "000000"
-    LIGHT_GRAY = "F2F2F2"
-    GRAY       = "DDDDDD"
-    DARK_GRAY  = "333333"
-    BROWN      = "A4441C"
-    ORANGE     = "F28157"
-    LIGHT_GOLD = "FBFBBE"
-    DARK_GOLD  = "EBE389"
-    BLUE       = "0000D0"
+    BLACK      = '000000'
+    LIGHT_GRAY = 'F2F2F2'
+    GRAY       = 'DDDDDD'
+    DARK_GRAY  = '333333'
+    BROWN      = 'A4441C'
+    ORANGE     = 'F28157'
+    LIGHT_GOLD = 'FBFBBE'
+    DARK_GOLD  = 'EBE389'
+    BLUE       = '0000D0'
     
     # Used to generate the url for the example files
     #
-    MANUAL_URL = "http://github.com/prawnpdf/prawn/tree/master/manual"
+    MANUAL_URL = 'http://github.com/prawnpdf/prawn/tree/master/manual'
     
     
     # Loads a package. Used on the manual.
@@ -79,10 +79,10 @@ module Prawn
     # Loads a page with outline support. Used on the manual.
     #
     def load_page(page)
-      load_file("manual", page)
+      load_file('manual', page)
 
       outline.define do
-        section(page.gsub("_", " ").capitalize, :destination => page_number)
+        section(page.gsub('_', ' ').capitalize, :destination => page_number)
       end
     end
 
@@ -162,7 +162,7 @@ module Prawn
         register_fonts
         font('DejaVu', :size => 18) do
           formatted_text([ { :text => package, :color => BROWN  },
-                           { :text => "/",     :color => BROWN  },
+                           { :text => '/',     :color => BROWN  },
                            { :text => example, :color => ORANGE }
                          ], :valign => :center)
         end
@@ -173,13 +173,13 @@ module Prawn
     #
     def register_fonts
       kai_file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
-      font_families["Kai"] = {
-        :normal => { :file => kai_file, :font => "Kai" }
+      font_families['Kai'] = {
+        :normal => { :file => kai_file, :font => 'Kai'}
       }
 
       dejavu_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-      font_families["DejaVu"] = {
-        :normal => { :file => dejavu_file, :font => "DejaVu" }
+      font_families['DejaVu'] = {
+        :normal => { :file => dejavu_file, :font => 'DejaVu'}
       }
     end
     
@@ -200,10 +200,10 @@ module Prawn
                   "<color rgb='#{BLUE}'><link href=\"\\1\">\\1</link></color>")
       
       inner_box do
-        font("Helvetica", :size => 11) do
+        font('Helvetica', :size => 11) do
           str.split(/\n\n+/).each do |paragraph|
             
-            text(paragraph.gsub(/\s+/," "),
+            text(paragraph.gsub(/\s+/, ' '),
                  :align         => :justify,
                  :inline_format => true,
                  :leading       => LEADING,
@@ -245,7 +245,7 @@ module Prawn
       rescue => e
         puts "Error evaluating example: #{e.message}"
         puts
-        puts "---- Source: ----"
+        puts '---- Source: ----'
         puts source
       end
     end
@@ -255,8 +255,8 @@ module Prawn
     def source_link(example)
       url = "#{MANUAL_URL}/#{example.parent_folder_name}/#{example.filename}"
       
-      reason = [{ :text  => "This code snippet was not evaluated inline. " +
-                            "You may see its output by running the " +
+      reason = [{ :text  => 'This code snippet was not evaluated inline. ' +
+          'You may see its output by running the ' +
                             "example file located here:\n",
                   :color => DARK_GRAY },
                   
@@ -292,11 +292,11 @@ module Prawn
       move_up(RHYTHM)
       
       inner_box do
-        font("Helvetica", :size => 11) do
+        font('Helvetica', :size => 11) do
           items.each do |li|
-            float { text("•", :color => DARK_GRAY) }
+            float { text('•', :color => DARK_GRAY) }
             indent(RHYTHM) do
-              text(li.gsub(/\s+/," "), 
+              text(li.gsub(/\s+/, ' '),
                    :inline_format => true,
                    :color         => DARK_GRAY,
                    :leading       => LEADING)
@@ -351,7 +351,7 @@ module Prawn
       
       register_fonts
       text_options = { :leading        => options[:leading], 
-                       :fallback_fonts => ["DejaVu", "Kai"]
+                       :fallback_fonts => ['DejaVu', 'Kai']
                      }
       
       box_height = height_of_formatted(box_text, text_options)
@@ -413,7 +413,7 @@ module Prawn
     def reset_settings
       
       # Text settings
-      font("Helvetica", :size => 12)
+      font('Helvetica', :size => 12)
       default_leading 0
       self.text_direction = :ltr
       

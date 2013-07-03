@@ -1,4 +1,4 @@
-require "prawn/table"
+require 'prawn/table'
 require 'prawn/layout/grid'
 
 module Prawn

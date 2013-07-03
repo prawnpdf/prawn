@@ -21,10 +21,10 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  text "Please scan the next 3 pages to see the page templates in action."
+  text 'Please scan the next 3 pages to see the page templates in action.'
   move_down 10
-  text "You also might want to look at the pdf used as a template: "
-  url = "https://github.com/prawnpdf/prawn/raw/master/data/pdfs/form.pdf"
+  text 'You also might want to look at the pdf used as a template: '
+  url = 'https://github.com/prawnpdf/prawn/raw/master/data/pdfs/form.pdf'
   move_down 10
   
   formatted_text [{:text => url, :link => url}]
@@ -36,12 +36,12 @@ Prawn::Example.generate(filename) do
   
   start_new_page(:template => filename, :template_page => 2)
   
-  fill_color "FF8888"
+  fill_color 'FF8888'
   
-  text_box "John Doe", :at => [75, cursor-75]
-  text_box "john@doe.com", :at => [75, cursor-105]
-  text_box "John Doe inc", :at => [75, cursor-135]
+  text_box 'John Doe', :at => [75, cursor-75]
+  text_box 'john@doe.com', :at => [75, cursor-105]
+  text_box 'John Doe inc', :at => [75, cursor-135]
   text_box "You didn't think I'd tell, did you?", :at => [75, cursor-165]
   
-  fill_color "000000"
+  fill_color '000000'
 end

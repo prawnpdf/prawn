@@ -21,25 +21,25 @@ Prawn::Example.generate(filename) do
   
   gap = 20
   bounding_box([50, cursor], :width => 400, :height => 200) do
-    box_content("Fixed height")
+    box_content('Fixed height')
     
     bounding_box([gap, cursor - gap], :width => 300) do
-      text "Stretchy height"
+      text 'Stretchy height'
       
       bounding_box([gap, bounds.top - gap], :width => 100) do
-        text "Stretchy height"
+        text 'Stretchy height'
         transparent(0.5) { dash(1); stroke_bounds; undash }
       end
       
       bounding_box([gap * 7, bounds.top - gap], :width => 100, :height => 50) do
-        box_content("Fixed height")
+        box_content('Fixed height')
       end
       
       transparent(0.5) { dash(1); stroke_bounds; undash }
     end
     
     bounding_box([gap, cursor - gap], :width => 300, :height => 50) do
-      box_content("Fixed height")
+      box_content('Fixed height')
     end
   end
 end

@@ -22,9 +22,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   table([
-    ["A", {:content => "2x1", :colspan => 2}, "B"],
-    [{:content => "1x2", :rowspan => 2}, "C", "D", "E"],
-    [{:content => "2x2", :colspan => 2, :rowspan => 2}, "F"],
-    ["G", "H"]
+    ['A', {:content => '2x1', :colspan => 2}, 'B'],
+    [{:content => '1x2', :rowspan => 2}, 'C', 'D', 'E'],
+    [{:content => '2x2', :colspan => 2, :rowspan => 2}, 'F'],
+    ['G', 'H']
   ])
 end

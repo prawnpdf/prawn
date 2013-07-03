@@ -16,18 +16,18 @@ module Prawn
 
         PARSER_REGEX = begin
           regex_string = "\n|" +
-                         "<b>|</b>|" +
-                         "<i>|</i>|" +
-                         "<u>|</u>|" +
-                         "<strikethrough>|</strikethrough>|" +
-                         "<sub>|</sub>|" +
-                         "<sup>|</sup>|" +
-                         "<link[^>]*>|</link>|" +
-                         "<color[^>]*>|</color>|" +
-                         "<font[^>]*>|</font>|" +
-                         "<strong>|</strong>|" +
-                         "<em>|</em>|" +
-                         "<a[^>]*>|</a>|" +
+              '<b>|</b>|' +
+              '<i>|</i>|' +
+              '<u>|</u>|' +
+              '<strikethrough>|</strikethrough>|' +
+              '<sub>|</sub>|' +
+              '<sup>|</sup>|' +
+              '<link[^>]*>|</link>|' +
+              '<color[^>]*>|</color>|' +
+              '<font[^>]*>|</font>|' +
+              '<strong>|</strong>|' +
+              '<em>|</em>|' +
+              '<a[^>]*>|</a>|' +
                          "[^<\n]+"
           regex = Regexp.new(regex_string, Regexp::MULTILINE)
         end
@@ -38,21 +38,21 @@ module Prawn
         end
 
         def self.to_string(array)
-          prefixes = { :bold => "<b>",
-                       :italic => "<i>",
-                       :underline => "<u>",
-                       :strikethrough => "<strikethrough>",
-                       :subscript => "<sub>",
-                       :superscript => "<sup>" }
-          suffixes = { :bold => "</b>",
-                       :italic => "</i>",
-                       :underline => "</u>",
-                       :strikethrough => "</strikethrough>",
-                       :subscript => "</sub>",
-                       :superscript => "</sup>" }
+          prefixes = { :bold => '<b>',
+                       :italic => '<i>',
+                       :underline => '<u>',
+                       :strikethrough => '<strikethrough>',
+                       :subscript => '<sub>',
+                       :superscript => '<sup>'}
+          suffixes = { :bold => '</b>',
+                       :italic => '</i>',
+                       :underline => '</u>',
+                       :strikethrough => '</strikethrough>',
+                       :subscript => '</sub>',
+                       :superscript => '</sup>'}
           array.collect do |hash|
-            prefix = ""
-            suffix = ""
+            prefix = ''
+            suffix = ''
             if hash[:styles]
               hash[:styles].each do |style|
                 prefix = prefix + prefixes[style]
@@ -69,14 +69,14 @@ module Prawn
             end
             if font || size || character_spacing
               prefix = prefix + "<font#{font}#{size}#{character_spacing}>"
-              suffix = "</font>"
+              suffix = '</font>'
             end
 
             link = hash[:link] ? " href='#{hash[:link]}'" : nil
             anchor = hash[:anchor] ? " anchor='#{hash[:anchor]}'" : nil
             if link || anchor
               prefix = prefix + "<link#{link}#{anchor}>"
-              suffix = "</link>"
+              suffix = '</link>'
             end
 
             if hash[:color]
@@ -88,10 +88,10 @@ module Prawn
               else
                 prefix = prefix + "<color rgb='#{hash[:color]}'>"
               end
-              suffix = "</color>"
+              suffix = '</color>'
             end
 
-            string = hash[:text].gsub("&", "&amp;").gsub(">", "&gt;").gsub("<", "&lt;")
+            string = hash[:text].gsub('&', '&amp;').gsub('>', '&gt;').gsub('<', '&lt;')
             prefix + string + suffix
           end.join
         end
@@ -131,36 +131,36 @@ module Prawn
           
           while token = tokens.shift
             case token
-            when "<b>", "<strong>"
+            when '<b>', '<strong>'
               styles << :bold
-            when "<i>", "<em>"
+            when '<i>', '<em>'
               styles << :italic
-            when "<u>"
+            when '<u>'
               styles << :underline
-            when "<strikethrough>"
+            when '<strikethrough>'
               styles << :strikethrough
-            when "<sub>"
+            when '<sub>'
               styles << :subscript
-            when "<sup>"
+            when '<sup>'
               styles << :superscript
-            when "</b>", "</strong>"
+            when '</b>', '</strong>'
               styles.delete(:bold)
-            when "</i>", "</em>"
+            when '</i>', '</em>'
               styles.delete(:italic)
-            when "</u>"
+            when '</u>'
               styles.delete(:underline)
-            when "</strikethrough>"
+            when '</strikethrough>'
               styles.delete(:strikethrough)
-            when "</sub>"
+            when '</sub>'
               styles.delete(:subscript)
-            when "</sup>"
+            when '</sup>'
               styles.delete(:superscript)
-            when "</link>", "</a>"
+            when '</link>', '</a>'
               link = nil
               anchor = nil
-            when "</color>"
+            when '</color>'
               colors.pop
-            when "</font>"
+            when '</font>'
               fonts.pop
               sizes.pop
               character_spacings.pop
@@ -196,7 +196,7 @@ module Prawn
                 matches = /character_spacing="([^"]*)"/.match(token) || /character_spacing='([^']*)'/.match(token)
                 character_spacings << matches[1].to_f unless matches.nil?
               else
-                string = token.gsub("&lt;", "<").gsub("&gt;", ">").gsub("&amp;", "&")
+                string = token.gsub('&lt;', '<').gsub('&gt;', '>').gsub('&amp;', '&')
                 array << { :text => string,
                            :styles => styles.dup,
                            :color => colors.last,

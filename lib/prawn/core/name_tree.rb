@@ -103,9 +103,9 @@ module Prawn
         #
         def deep_copy
           node = dup
-          node.instance_variable_set("@children",
+          node.instance_variable_set('@children',
                                      Marshal.load(Marshal.dump(children)))
-          node.instance_variable_set("@ref",
+          node.instance_variable_set('@ref',
                                      node.ref ? node.ref.deep_copy : nil)
           node
         end

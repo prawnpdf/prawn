@@ -26,27 +26,27 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  text "This is the first page!"
+  text 'This is the first page!'
   
   10.times do
     start_new_page
-    text "Here comes yet another page."
+    text 'Here comes yet another page.'
   end
 
-  string = "page <page> of <total>"
+  string = 'page <page> of <total>'
   # Green page numbers 1 to 7
   options = { :at => [bounds.right - 150, 0],
               :width => 150,
               :align => :right,
               :page_filter => (1..7),
               :start_count_at => 1,
-              :color => "007700" }
+              :color => '007700'}
   number_pages string, options
 
   # Gray page numbers from 8 on up
   options[:page_filter]    = lambda{ |pg| pg > 7}
   options[:start_count_at] = 8
-  options[:color]          = "333333"
+  options[:color]          = '333333'
   number_pages string, options
   
   start_new_page

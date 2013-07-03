@@ -6,13 +6,13 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "prawn/graphics/color"
-require "prawn/graphics/dash"
-require "prawn/graphics/cap_style"
-require "prawn/graphics/join_style"
-require "prawn/graphics/transparency"
-require "prawn/graphics/transformation"
-require "prawn/graphics/patterns"
+require 'prawn/graphics/color'
+require 'prawn/graphics/dash'
+require 'prawn/graphics/cap_style'
+require 'prawn/graphics/join_style'
+require 'prawn/graphics/transparency'
+require 'prawn/graphics/transformation'
+require 'prawn/graphics/patterns'
 
 module Prawn
 
@@ -44,7 +44,7 @@ module Prawn
     #
     def move_to(*point)
       x,y = map_to_absolute(point)
-      add_content("%.3f %.3f m" % [ x, y ])
+      add_content('%.3f %.3f m' % [ x, y ])
     end
 
     # Draws a line from the current drawing position to the specified point.
@@ -55,7 +55,7 @@ module Prawn
     #
     def line_to(*point)
       x,y = map_to_absolute(point)
-      add_content("%.3f %.3f l" % [ x, y ])
+      add_content('%.3f %.3f l' % [ x, y ])
     end
 
     # Draws a Bezier curve from the current drawing position to the
@@ -65,11 +65,11 @@ module Prawn
     #
     def curve_to(dest,options={})
        options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
-         "Bounding points for bezier curve must be specified "+
-         "as :bounds => [[x1,y1],[x2,y2]]"
+         'Bounding points for bezier curve must be specified '+
+         'as :bounds => [[x1,y1],[x2,y2]]'
 
        curve_points = (options[:bounds] << dest).map { |e| map_to_absolute(e) }
-       add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" %
+       add_content('%.3f %.3f %.3f %.3f %.3f %.3f c' %
                      curve_points.flatten )
     end
 
@@ -80,7 +80,7 @@ module Prawn
     #
     def rectangle(point,width,height)
       x,y = map_to_absolute(point)
-      add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
+      add_content('%.3f %.3f %.3f %.3f re' % [ x, y - height, width, height ])
     end
     
     # Draws a rounded rectangle given <tt>point</tt>, <tt>width</tt> and
@@ -250,7 +250,7 @@ module Prawn
         line_to(*point)
       end
       # close the path
-      add_content "h"
+      add_content 'h'
     end
     
     # Draws a rounded polygon from specified points using the radius to define bezier curves
@@ -266,7 +266,7 @@ module Prawn
         rounded_vertex(radius, points[i], points[i + 1], points[i + 2])
       end
       # close the path
-      add_content "h"
+      add_content 'h'
     end
     
     
@@ -288,7 +288,7 @@ module Prawn
     #
     def stroke
       yield if block_given?
-      add_content "S"
+      add_content 'S'
     end
 
     # Closes and strokes the current path. If a block is provided, yields to
@@ -296,7 +296,7 @@ module Prawn
     #
     def close_and_stroke
       yield if block_given?
-      add_content "s"
+      add_content 's'
     end
     
     # Draws and strokes a rectangle represented by the current bounding box
@@ -314,7 +314,7 @@ module Prawn
     #
     def fill(options={})
       yield if block_given?
-      add_content(options[:fill_rule] == :even_odd ? "f*" : "f")
+      add_content(options[:fill_rule] == :even_odd ? 'f*' : 'f')
     end
 
     # Closes, fills, and strokes the current path. If a block is provided,
@@ -328,13 +328,13 @@ module Prawn
     #
     def fill_and_stroke(options={})
       yield if block_given?
-      add_content(options[:fill_rule] == :even_odd ? "b*" : "b")
+      add_content(options[:fill_rule] == :even_odd ? 'b*' : 'b')
     end
 
     # Closes the current path.
     #
     def close_path
-      add_content "h"
+      add_content 'h'
     end
 
     ##

@@ -196,7 +196,7 @@ module Prawn
       when Numeric
         cells.width = widths
       else
-        raise ArgumentError, "cannot interpret column widths"
+        raise ArgumentError, 'cannot interpret column widths'
       end
     end
 
@@ -503,13 +503,13 @@ module Prawn
     def assert_proper_table_data(data)
       if data.nil? || data.empty?
         raise Prawn::Errors::EmptyTable,
-          "data must be a non-empty, non-nil, two dimensional array " +
-          "of cell-convertible objects"
+          'data must be a non-empty, non-nil, two dimensional array ' +
+          'of cell-convertible objects'
       end
 
       unless data.all? { |e| Array === e }
         raise Prawn::Errors::InvalidTableData,
-          "data must be a two dimensional array of cellable objects"
+          'data must be a two dimensional array of cellable objects'
       end
     end
 

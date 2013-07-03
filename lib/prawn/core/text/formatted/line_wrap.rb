@@ -37,7 +37,7 @@ module Prawn
             initialize_line(options)
 
             while fragment = @arranger.next_string
-              @fragment_output = ""
+              @fragment_output = ''
 
               fragment.lstrip! if first_fragment_on_this_line?(fragment)
               next if empty_line?(fragment)
@@ -60,7 +60,7 @@ module Prawn
 
           def empty_line?(fragment)
             empty = line_empty? && fragment.empty? && is_next_string_newline?
-            @arranger.update_last_string("", "", soft_hyphen) if empty
+            @arranger.update_last_string('', '', soft_hyphen) if empty
             empty
           end
 
@@ -83,7 +83,7 @@ module Prawn
           # the line
           #
           def add_fragment_to_line(fragment)
-            if fragment == ""
+            if fragment == ''
               true
             elsif fragment == "\n"
               @newline_encountered = true
@@ -140,7 +140,7 @@ module Prawn
           end
 
           def hyphen
-            "-"
+            '-'
           end
 
           def soft_hyphen
@@ -176,7 +176,7 @@ module Prawn
             #   it could actually be skipped if the font hasn't changed
             font = @document.font
             @soft_hyphen = font.normalize_encoding(Prawn::Text::SHY) 
-            @zero_width_space = font.unicode? ? Prawn::Text::ZWSP : ""
+            @zero_width_space = font.unicode? ? Prawn::Text::ZWSP : ''
           end
 
           def fragment_finished(fragment)

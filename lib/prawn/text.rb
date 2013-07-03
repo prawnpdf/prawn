@@ -5,10 +5,10 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-require "prawn/core/text"
-require "prawn/text/formatted"
-require "prawn/text/box"
-require "zlib"
+require 'prawn/core/text'
+require 'prawn/text/formatted'
+require 'prawn/text/box'
+require 'zlib'
 
 module Prawn
   module Text
@@ -17,11 +17,11 @@ module Prawn
     include Prawn::Text::Formatted
 
     # No-Break Space
-    Prawn::Text::NBSP = " "
+    Prawn::Text::NBSP = ' '
     # Zero Width Space (indicate word boundaries without a space)
-    Prawn::Text::ZWSP = [8203].pack("U")
+    Prawn::Text::ZWSP = [8203].pack('U')
     # Soft Hyphen (invisible, except when causing a line break)
-    Prawn::Text::SHY = "­"
+    Prawn::Text::SHY = '­'
 
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of
@@ -319,8 +319,8 @@ module Prawn
     #
     def height_of_formatted(array, options={})
       if options[:indent_paragraphs]
-        raise NotImplementedError, ":indent_paragraphs option not available" +
-          "with height_of"
+        raise NotImplementedError, ':indent_paragraphs option not available' +
+          'with height_of'
       end
       process_final_gap_option(options)
       box = Text::Formatted::Box.new(array,
@@ -375,9 +375,9 @@ module Prawn
 
     def inspect_options_for_draw_text(options)
       if options[:at].nil?
-        raise ArgumentError, "The :at option is required for draw_text"
+        raise ArgumentError, 'The :at option is required for draw_text'
       elsif options[:align]
-        raise ArgumentError, "The :align option does not work with draw_text"
+        raise ArgumentError, 'The :align option does not work with draw_text'
       end
       if options[:kerning].nil? then
         options[:kerning] = default_kerning?
@@ -389,8 +389,8 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        raise ArgumentError, ":at is no longer a valid option with text." +
-                             "use draw_text or text_box instead"
+        raise ArgumentError, ':at is no longer a valid option with text.' +
+                             'use draw_text or text_box instead'
       end
       process_final_gap_option(options)
       process_indent_paragraphs_option(options)

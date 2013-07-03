@@ -89,12 +89,12 @@ module Prawn
       def encrypt_document(options={})
         Prawn.verify_options [:user_password, :owner_password, :permissions],
           options
-        @user_password = options.delete(:user_password) || ""
+        @user_password = options.delete(:user_password) || ''
 
         @owner_password = options.delete(:owner_password) || @user_password
         if @owner_password == :random
           # Generate a completely ridiculous password
-          @owner_password = (1..32).map{ rand(256) }.pack("c*")
+          @owner_password = (1..32).map{ rand(256) }.pack('c*')
         end
 
         self.permissions = options.delete(:permissions) || {}
@@ -144,7 +144,7 @@ module Prawn
         perms.each do |key, value|
           unless PermissionsBits[key]
             raise ArgumentError, "Unknown permission :#{key}. Valid options: " +
-              PermissionsBits.keys.map { |k| k.inspect }.join(", ")
+              PermissionsBits.keys.map { |k| k.inspect }.join(', ')
           end
 
           # 0-based bit number, from LSB
@@ -163,8 +163,8 @@ module Prawn
       end
 
       PasswordPadding = 
-        "28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A".
-        scan(/../).map{|x| x.to_i(16)}.pack("c*")
+        '28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A'.
+        scan(/../).map{|x| x.to_i(16)}.pack('c*')
       
       # Pads or truncates a password to 32 bytes as per Alg 3.2.
       def pad_password(password)
@@ -177,7 +177,7 @@ module Prawn
           md5 = Digest::MD5.new
           md5 << pad_password(@user_password)
           md5 << owner_password_hash
-          md5 << [permissions_value].pack("V")
+          md5 << [permissions_value].pack('V')
           md5.digest[0, 5]
         end
       end
@@ -208,16 +208,16 @@ module Prawn
     def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
       case obj
       when Array
-        "[" << obj.map { |e|
+        '[' << obj.map { |e|
             EncryptedPdfObject(e, key, id, gen, in_content_stream)
-        }.join(' ') << "]"
+        }.join(' ') << ']'
       when LiteralString
         # FIXME: encrypted?
         obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         # FIXME: encrypted?
-        obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
+        obj = obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop + "'00'"
         obj = obj.gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
@@ -226,18 +226,18 @@ module Prawn
             Document::Security.encrypt_string(obj, key, id, gen)),
           in_content_stream)
       when Hash
-        output = "<< "
+        output = '<< '
         obj.each do |k,v|
           unless String === k || Symbol === k
             raise Prawn::Errors::FailedObjectConversion,
-              "A PDF Dictionary must be keyed by names"
+              'A PDF Dictionary must be keyed by names'
           end
-          output << PdfObject(k.to_sym, in_content_stream) << " " <<
+          output << PdfObject(k.to_sym, in_content_stream) << ' ' <<
                     EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
         end
-        output << ">>"
+        output << '>>'
       when NameTree::Value
-        PdfObject(obj.name) + " " +
+        PdfObject(obj.name) + ' ' +
           EncryptedPdfObject(obj.value, key, id, gen, in_content_stream)
       when Prawn::OutlineRoot, Prawn::OutlineItem
         EncryptedPdfObject(obj.to_hash, key, id, gen, in_content_stream)

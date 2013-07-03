@@ -16,11 +16,11 @@ Prawn::Example.generate(filename) do
   stroke_axis
 
   self.line_width = 5
-  fill_color "ff0000"
+  fill_color 'ff0000'
   fill_rectangle [0, 100], 500, 100
   
-  fill_color "000000"
-  stroke_color "ffffff"
+  fill_color '000000'
+  stroke_color 'ffffff'
   
   base_x = 100
   [[0.5, 1], 0.5, [1, 0.5]].each do |args|

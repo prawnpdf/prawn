@@ -10,20 +10,20 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [["The quick brown fox jumped over the lazy dogs."]] * 2
+  data = [['The quick brown fox jumped over the lazy dogs.']] * 2
 
-  text "Left:"
+  text 'Left:'
   table data, :position => :left
   move_down 10
 
-  text "Center:"
+  text 'Center:'
   table data, :position => :center
   move_down 10
 
-  text "Right:"
+  text 'Right:'
   table data, :position => :right
   move_down 10
 
-  text "100pt:"
+  text '100pt:'
   table data, :position => 100
 end

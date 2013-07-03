@@ -13,7 +13,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   text "Hard hyphens:\n" +
-       "Slip-sliding away, slip sliding awaaaay. You know the " +
+           'Slip-sliding away, slip sliding awaaaay. You know the ' +
        "nearer your destination the more you're slip-sliding away."
   move_down 20
 

@@ -41,7 +41,7 @@ module Prawn
         
       return full_source unless block
       
-      block.gsub(/^( ){2}/, "")
+      block.gsub(/^( ){2}/, '')
     end
     
     # Return either the full_source or the generate_block_source according
@@ -75,7 +75,7 @@ module Prawn
     # Returns a human friendly version of the example file name
     #
     def name
-      @name ||= @filename[/(.*)\.rb/, 1].gsub("_", " ").capitalize
+      @name ||= @filename[/(.*)\.rb/, 1].gsub('_', ' ').capitalize
     end
     
     # Returns this example's parent original folder name
@@ -107,7 +107,7 @@ module Prawn
       # XXX If we ever have manual files with source encodings other than
       # UTF-8, we will need to fix this to work on Ruby 1.9.
       if data.respond_to?(:encode!)
-        data.encode!("UTF-8")
+        data.encode!('UTF-8')
       end
       data
     end

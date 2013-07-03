@@ -1,5 +1,5 @@
-require "prawn/core/text/formatted/line_wrap"
-require "prawn/core/text/formatted/arranger"
+require 'prawn/core/text/formatted/line_wrap'
+require 'prawn/core/text/formatted/arranger'
 
 module Prawn
   module Core
@@ -10,9 +10,9 @@ module Prawn
           def initialize(array, options)
             @line_wrap = Prawn::Core::Text::Formatted::LineWrap.new
             @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document,
-              :kerning => options[:kerning])
+                                                                   :kerning => options[:kerning])
           end
-          
+
 
           # See the developer documentation for Prawn::Core::Text#wrap
           #
@@ -72,7 +72,7 @@ module Prawn
             while fragment = @arranger.retrieve_fragment
               fragment.word_spacing = word_spacing
               if fragment.text == "\n"
-                printed_fragments << "\n" if @printed_lines.last == ""
+                printed_fragments << "\n" if @printed_lines.last == ''
                 break
               end
               printed_fragments << fragment.text
@@ -88,8 +88,8 @@ module Prawn
               accumulated_width += fragment.width
             end
 
-            if "".respond_to?(:force_encoding)
-              printed_fragments.map! { |s| s.force_encoding("utf-8") }
+            if ''.respond_to?(:force_encoding)
+              printed_fragments.map! { |s| s.force_encoding('utf-8') }
             end
             @printed_lines << printed_fragments.join
           end
@@ -106,8 +106,8 @@ module Prawn
 
           def enough_height_for_this_line?
             @line_height = @arranger.max_line_height
-            @descender   = @arranger.max_descender
-            @ascender    = @arranger.max_ascender
+            @descender = @arranger.max_descender
+            @ascender = @arranger.max_ascender
             if @baseline_y == 0
               diff = @ascender + @descender
             else
@@ -129,9 +129,9 @@ module Prawn
 
             # these values will depend on the maximum value within a given line
             @line_height = 0
-            @descender   = 0
-            @ascender    = 0
-            @baseline_y  = 0
+            @descender = 0
+            @ascender = 0
+            @baseline_y = 0
 
             @printed_lines = []
             @nothing_printed = true
@@ -139,7 +139,7 @@ module Prawn
           end
 
           def format_and_draw_fragment(fragment, accumulated_width,
-                                       line_width, word_spacing)
+              line_width, word_spacing)
             @arranger.apply_color_and_font_settings(fragment) do
               draw_fragment(fragment, accumulated_width,
                             line_width, word_spacing)

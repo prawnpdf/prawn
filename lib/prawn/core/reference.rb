@@ -32,7 +32,7 @@ module Prawn
       end
 
       def <<(io)
-        raise "Cannot attach stream to non-dictionary object" unless @data.is_a?(Hash)
+        raise 'Cannot attach stream to non-dictionary object' unless @data.is_a?(Hash)
         (@stream ||= Stream.new) << io
       end
 

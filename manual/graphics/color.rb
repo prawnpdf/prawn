@@ -11,7 +11,7 @@ Prawn::Example.generate(filename) do
   stroke_axis
   
   # Fill with Yellow using RGB
-  fill_color "FFFFCC"
+  fill_color 'FFFFCC'
   fill_polygon [50, 150], [150, 200], [250, 150],
                [250, 50], [150, 0], [50, 50]
   

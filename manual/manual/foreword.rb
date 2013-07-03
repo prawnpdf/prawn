@@ -7,7 +7,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  header("Foreword, by Gregory Brown")
+  header('Foreword, by Gregory Brown')
   prose %{
     Back in 2008, the state of PDF generation in
     Ruby was grim. The best general purpose tool that existed was

@@ -13,7 +13,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  string = "Hey, what did you do with the space between my lines? " * 10
+  string = 'Hey, what did you do with the space between my lines? ' * 10
   text string, :leading => 0
   
   move_down 20

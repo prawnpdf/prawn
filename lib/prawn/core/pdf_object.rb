@@ -13,17 +13,17 @@ module Prawn
                                              
     module_function
 
-    if "".respond_to?(:encode)
+    if ''.respond_to?(:encode)
       # Ruby 1.9+
       def utf8_to_utf16(str)
-        utf16 = "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+        utf16 = "\xFE\xFF".force_encoding('UTF-16BE') + str.encode('UTF-16BE')
       end
 
       # encodes any string into a hex representation. The result is a string
       # with only 0-9 and a-f characters. That result is valid ASCII so tag
       # it as such to account for behaviour of different ruby VMs
       def string_to_hex(str)
-        str.unpack("H*").first.force_encoding("ascii")
+        str.unpack('H*').first.force_encoding('ascii')
       end
     else
       # Ruby 1.8
@@ -32,12 +32,12 @@ module Prawn
 
         str.codepoints do |cp|
           if cp < 0x10000 # Basic Multilingual Plane
-            utf16 << [cp].pack("n")
+            utf16 << [cp].pack('n')
           else
             # pull out high/low 10 bits
             hi, lo = (cp - 0x10000).divmod(2**10)
             # encode a surrogate pair
-            utf16 << [0xD800 + hi, 0xDC00 + lo].pack("n*")
+            utf16 << [0xD800 + hi, 0xDC00 + lo].pack('n*')
           end
         end
 
@@ -45,7 +45,7 @@ module Prawn
       end
 
       def string_to_hex(str)
-        str.unpack("H*").first
+        str.unpack('H*').first
       end
     end
       
@@ -65,55 +65,58 @@ module Prawn
     # 
     def PdfObject(obj, in_content_stream = false)
       case(obj)        
-      when NilClass   then "null" 
-      when TrueClass  then "true"
-      when FalseClass then "false"
+      when NilClass   then
+        'null'
+        when TrueClass  then
+          'true'
+      when FalseClass then
+        'false'
       when Numeric
         if (str = String(obj)) =~ /e/i
           # scientific notation is not supported in PDF
-          sprintf("%.16f", obj).gsub(/\.?0+\z/, "")
+          sprintf('%.16f', obj).gsub(/\.?0+\z/, '')
         else
           str
         end
       when Array
-        "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
+        '[' << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << ']'
       when Prawn::Core::LiteralString
         obj = obj.gsub(/[\\\n\r\t\b\f\(\)]/n) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
-        obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
+        obj = obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop + "'00'"
         obj = obj.gsub(/[\\\n\r\t\b\f\(\)]/n) { |m| "\\#{m}" }
         "(#{obj})"
       when Prawn::Core::ByteString
-        "<" << obj.unpack("H*").first << ">"
+        '<' << obj.unpack('H*').first << '>'
       when String
         obj = utf8_to_utf16(obj) unless in_content_stream
-        "<" << string_to_hex(obj) << ">"
+        '<' << string_to_hex(obj) << '>'
        when Symbol                                                         
-         "/" + obj.to_s.unpack("C*").map { |n|
+         '/' + obj.to_s.unpack('C*').map { |n|
           if n < 33 || n > 126 || [35,40,41,47,60,62].include?(n)
-            "#" + n.to_s(16).upcase
+            '#' + n.to_s(16).upcase
           else
-            [n].pack("C*")
+            [n].pack('C*')
           end
          }.join
       when Hash           
-        output = "<< "
+        output = '<< '
         obj.each do |k,v|  
           unless String === k || Symbol === k
-            raise Prawn::Errors::FailedObjectConversion, 
-              "A PDF Dictionary must be keyed by names"
+            raise Prawn::Errors::FailedObjectConversion,
+                  'A PDF Dictionary must be keyed by names'
           end                          
-          output << PdfObject(k.to_sym, in_content_stream) << " " << 
+          output << PdfObject(k.to_sym, in_content_stream) << ' ' <<
                     PdfObject(v, in_content_stream) << "\n"
         end  
-        output << ">>"  
-      when Prawn::Core::Reference
+        output << '>>'
+        when Prawn::Core::Reference
         obj.to_s      
       when Prawn::Core::NameTree::Node
         PdfObject(obj.to_hash)
       when Prawn::Core::NameTree::Value
-        PdfObject(obj.name) + " " + PdfObject(obj.value)
+        PdfObject(obj.name) + ' ' + PdfObject(obj.value)
       when Prawn::OutlineRoot, Prawn::OutlineItem
         PdfObject(obj.to_hash)
       else

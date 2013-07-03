@@ -6,9 +6,9 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/font/afm"
-require "prawn/font/ttf"
-require "prawn/font/dfont"
+require 'prawn/font/afm'
+require 'prawn/font/ttf'
+require 'prawn/font/dfont'
 
 module Prawn
 
@@ -46,7 +46,7 @@ module Prawn
     # See font_families for more information.
     #
     def font(name=nil, options={})
-      return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
+      return((defined?(@font) && @font) || font('Helvetica')) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
         raise Prawn::Errors::NotOnPage 
@@ -109,7 +109,7 @@ module Prawn
     # finishes, the original font is restored.
     #
     def save_font
-      @font ||= find_font("Helvetica")
+      @font ||= find_font('Helvetica')
       original_font = @font
       original_size = @font_size
 
@@ -180,20 +180,20 @@ module Prawn
     #
     def font_families
       @font_families ||= Hash.new.merge!(
-        { "Courier"     => { :bold        => "Courier-Bold",
-                             :italic      => "Courier-Oblique",
-                             :bold_italic => "Courier-BoldOblique",
-                             :normal      => "Courier" },
+        { 'Courier'     => { :bold        => 'Courier-Bold',
+                             :italic      => 'Courier-Oblique',
+                             :bold_italic => 'Courier-BoldOblique',
+                             :normal      => 'Courier' },
 
-          "Times-Roman" => { :bold         => "Times-Bold",
-                             :italic       => "Times-Italic",
-                             :bold_italic  => "Times-BoldItalic",
-                             :normal       => "Times-Roman" },
+          'Times-Roman' => { :bold         => 'Times-Bold',
+                             :italic       => 'Times-Italic',
+                             :bold_italic  => 'Times-BoldItalic',
+                             :normal       => 'Times-Roman' },
 
-          "Helvetica"   => { :bold         => "Helvetica-Bold",
-                             :italic       => "Helvetica-Oblique",
-                             :bold_italic  => "Helvetica-BoldOblique",
-                             :normal       => "Helvetica" }
+          'Helvetica'   => { :bold         => 'Helvetica-Bold',
+                             :italic       => 'Helvetica-Oblique',
+                             :bold_italic  => 'Helvetica-BoldOblique',
+                             :normal       => 'Helvetica' }
         })
     end
 
@@ -295,20 +295,14 @@ module Prawn
       @line_gap / 1000.0 * size
     end
 
-    def identifier_for(subset)
-      "#{@identifier}.#{subset}".to_sym
-    end
 
-    def inspect
-      "#{self.class.name}< #{name}: #{size} >"
-    end
 
     # Normalizes the encoding of the string to an encoding supported by the
     # font. The string is expected to be UTF-8 going in. It will be re-encoded
     # and the new string will be returned. For an in-place (destructive)
     # version, see normalize_encoding!.
     def normalize_encoding(string)
-      raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
+      raise NotImplementedError, 'subclasses of Prawn::Font must implement #normalize_encoding'
     end
 
     # Destructive version of normalize_encoding; normalizes the encoding of a

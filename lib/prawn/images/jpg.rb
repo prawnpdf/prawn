@@ -26,17 +26,17 @@ module Prawn
       #
       def initialize(data)
         @data = data.dup
-        ruby_19 { data.force_encoding("binary") }
+        ruby_19 { data.force_encoding('binary') }
         data = StringIO.new(data)
 
         c_marker = "\xff" # Section marker.
         data.read(2)   # Skip the first two bytes of JPEG identifier.
         loop do
           marker, code, length = data.read(4).unpack('aan')
-          raise "JPEG marker not found!" if marker != c_marker
+          raise 'JPEG marker not found!' if marker != c_marker
 
           if JPEG_SOF_BLOCKS.include?(code)
-            @bits, @height, @width, @channels = data.read(6).unpack("CnnC")
+            @bits, @height, @width, @channels = data.read(6).unpack('CnnC')
             break
           end
 

@@ -18,7 +18,7 @@ Prawn::Example.generate(filename) do
                         :size => 100}
                      ], :at => [170, cursor - 50])
 
-  formatted_text_box([ {:text => "by example",
+  formatted_text_box([ {:text => 'by example',
                         :font => 'Courier',
                         :size => 60}
                      ], :at => [170, cursor - 160])

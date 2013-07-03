@@ -99,7 +99,7 @@ module Prawn
             end
           end
         else
-          @subsets.encode(text.unpack("U*"))
+          @subsets.encode(text.unpack('U*'))
         end
       end
       
@@ -177,7 +177,7 @@ module Prawn
       private
 
       def cmap
-        @cmap ||= @ttf.cmap.unicode.first or raise("no unicode cmap for font")
+        @cmap ||= @ttf.cmap.unicode.first or raise('no unicode cmap for font')
       end
       
       # +string+ must be UTF8-encoded.
@@ -208,7 +208,7 @@ module Prawn
 
       def cid_to_gid_map
         max = cmap.code_map.keys.max
-        (0..max).map { |cid| cmap[cid] }.pack("n*")
+        (0..max).map { |cid| cmap[cid] }.pack('n*')
       end
 
       def hmtx
@@ -230,7 +230,7 @@ module Prawn
       end
 
       def register(subset)
-        temp_name = @ttf.name.postscript_name.gsub("\0","").to_sym
+        temp_name = @ttf.name.postscript_name.gsub("\0", '').to_sym
         ref = @document.ref!(:Type => :Font, :BaseFont => temp_name)
 
         # Embed the font metrics in the document after everything has been 
@@ -250,7 +250,7 @@ module Prawn
 
         # empirically, it looks like Adobe Reader will not display fonts
         # if their font name is more than 33 bytes long. Strange. But true.
-        basename = font.name.postscript_name[0, 33].gsub("\0","")
+        basename = font.name.postscript_name[0, 33].gsub("\0", '')
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 
@@ -287,13 +287,13 @@ module Prawn
         map = @subsets[subset].to_unicode_map
 
         ranges = [[]]
-        lines = map.keys.sort.inject("") do |s, code|
+        lines = map.keys.sort.inject('') do |s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
-          ranges.last << "<%02x><%04x>" % [code, unicode]
+          ranges.last << '<%02x><%04x>' % [code, unicode]
         end
 
-        range_blocks = ranges.inject("") do |s, list|
+        range_blocks = ranges.inject('') do |s, list|
           s << "%d beginbfchar\n%s\nendbfchar\n" % [list.length, list.join("\n")]
         end
 
@@ -312,7 +312,7 @@ module Prawn
                               :ToUnicode => cmap)
       end
 
-      UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, "")
+      UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, '')
         /CIDInit /ProcSet findresource begin
         12 dict begin
         begincmap

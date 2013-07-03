@@ -20,18 +20,18 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   # Using a TTF font file
   font("#{Prawn::DATADIR}/fonts/Chalkboard.ttf") do
-    text "Written with the Chalkboard TTF font."
+    text 'Written with the Chalkboard TTF font.'
   end
   move_down 20
   
-  text "Written with the default font."
+  text 'Written with the default font.'
   move_down 20
   
   # Using an DFONT font file
   font("#{Prawn::DATADIR}/fonts/Action Man.dfont") do
-    text "Written with the Action Man DFONT font"
+    text 'Written with the Action Man DFONT font'
   end
   move_down 20
 
-  text "Written with the default font once more."
+  text 'Written with the default font once more.'
 end

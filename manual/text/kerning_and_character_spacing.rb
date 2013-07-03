@@ -15,22 +15,22 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   font_size(30) do
-    text_box "With kerning:",    :kerning => true,  :at => [0, y - 40]
-    text_box "Without kerning:", :kerning => false, :at => [0, y - 80]
+    text_box 'With kerning:',    :kerning => true,  :at => [0, y - 40]
+    text_box 'Without kerning:', :kerning => false, :at => [0, y - 80]
     
-    text_box "Tomato", :kerning => true,  :at => [250, y - 40]
-    text_box "Tomato", :kerning => false, :at => [250, y - 80]
+    text_box 'Tomato', :kerning => true,  :at => [250, y - 40]
+    text_box 'Tomato', :kerning => false, :at => [250, y - 80]
     
-    text_box "WAR", :kerning => true,  :at => [400, y - 40]
-    text_box "WAR", :kerning => false, :at => [400, y - 80]
+    text_box 'WAR', :kerning => true,  :at => [400, y - 40]
+    text_box 'WAR', :kerning => false, :at => [400, y - 80]
     
-    text_box "F.", :kerning => true,  :at => [500, y - 40]
-    text_box "F.", :kerning => false, :at => [500, y - 80]
+    text_box 'F.', :kerning => true,  :at => [500, y - 40]
+    text_box 'F.', :kerning => false, :at => [500, y - 80]
   end
   
   move_down 80
   
-  string = "What have you done to the space between the characters?"
+  string = 'What have you done to the space between the characters?'
   [-2, -1, 0, 0.5, 1, 2].each do |spacing|
     move_down 20
     text "#{string} (character_spacing: #{spacing})",

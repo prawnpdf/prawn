@@ -172,7 +172,7 @@ module Prawn
           options[:content] = content
         end
 
-        options[:content] = content = "" if content.nil?
+        options[:content] = content = '' if content.nil?
 
         case content
         when Prawn::Table::Cell
@@ -293,7 +293,7 @@ module Prawn
       #
       def natural_content_width
         raise NotImplementedError,
-          "subclasses must implement natural_content_width"
+              'subclasses must implement natural_content_width'
       end
 
       # Returns the cell's height in points, inclusive of padding, in its first
@@ -343,7 +343,7 @@ module Prawn
       #
       def natural_content_height
         raise NotImplementedError,
-          "subclasses must implement natural_content_height"
+              'subclasses must implement natural_content_height'
       end
 
       # Indicates the number of columns that this cell is to span. Defaults to
@@ -472,8 +472,8 @@ module Prawn
         when pad.length == 4 # top, right, bottom, left
           [pad[0], pad[1], pad[2], pad[3]]
         else
-          raise ArgumentError, ":padding must be a number or an array [v,h] " +
-            "or [t,r,b,l]"
+          raise ArgumentError, ':padding must be a number or an array [v,h] ' +
+              'or [t,r,b,l]'
         end
       end
 
@@ -519,7 +519,7 @@ module Prawn
       def border_color=(color)
         @border_colors = case
         when color.nil?
-          ["000000"] * 4
+          ['000000'] * 4
         when String === color # all colors
           [color, color, color, color]
         when color.length == 2 # vert, horiz
@@ -529,19 +529,12 @@ module Prawn
         when color.length == 4 # top, right, bottom, left
           [color[0], color[1], color[2], color[3]]
         else
-          raise ArgumentError, ":border_color must be a string " +
-            "or an array [v,h] or [t,r,b,l]"
+          raise ArgumentError, ':border_color must be a string ' +
+              'or an array [v,h] or [t,r,b,l]'
         end
       end
       alias_method :border_colors=, :border_color=
 
-      def border_top_color
-        @border_colors[0]
-      end
-
-      def border_top_color=(val)
-        @border_colors[0] = val
-      end
 
       def border_top_color
         @border_colors[0]
@@ -585,7 +578,7 @@ module Prawn
       def border_width=(width)
         @border_widths = case
         when width.nil?
-          ["000000"] * 4
+          ['000000'] * 4
         when Numeric === width # all widths
           [width, width, width, width]
         when width.length == 2 # vert, horiz
@@ -595,8 +588,8 @@ module Prawn
         when width.length == 4 # top, right, bottom, left
           [width[0], width[1], width[2], width[3]]
         else
-          raise ArgumentError, ":border_width must be a string " +
-            "or an array [v,h] or [t,r,b,l]"
+          raise ArgumentError, ':border_width must be a string ' +
+              'or an array [v,h] or [t,r,b,l]'
         end
       end
       alias_method :border_widths=, :border_width=
@@ -663,8 +656,8 @@ module Prawn
         when line.length == 4
           [line[0], line[1], line[2], line[3]]
         else
-          raise ArgumentError, "border_line must be one of :solid, :dashed, "
-            ":dotted or an array [v,h] or [t,r,b,l]"
+          raise ArgumentError, 'border_line must be one of :solid, :dashed, '
+          ':dotted or an array [v,h] or [t,r,b,l]'
         end
       end
       alias_method :border_lines=, :border_line=
@@ -752,8 +745,8 @@ module Prawn
             when :solid
               # normal line style
             else
-              raise ArgumentError, "border_line must be :solid, :dotted or" +
-                " :dashed"
+              raise ArgumentError, 'border_line must be :solid, :dotted or' +
+                  ' :dashed'
             end
             
             @pdf.line_width   = border_width
@@ -768,7 +761,7 @@ module Prawn
       # in subclasses.
       #
       def draw_content
-        raise NotImplementedError, "subclasses must implement draw_content"
+        raise NotImplementedError, 'subclasses must implement draw_content'
       end
 
     end

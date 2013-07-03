@@ -144,7 +144,7 @@ module Prawn
         def styled_width_of_single_character
           key   = (@text_options[:style] == :bold) ? :bold_char_width : :plain_char_width
           cache = Thread.current[key] ||= {}
-          cache[@pdf.font] ||= styled_width_of("M")
+          cache[@pdf.font] ||= styled_width_of('M')
         end
       end
     end

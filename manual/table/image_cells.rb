@@ -20,14 +20,14 @@ Prawn::Example.generate(filename) do
   image = "#{Prawn::DATADIR}/images/prawn.png"
 
   table [
-    ["Standard image cell",   {:image => image}],
-    [":scale => 0.5",         {:image => image, :scale => 0.5}],
-    [":fit => [100, 200]",    {:image => image, :fit => [100, 200]}],
-    [":image_height => 50,
-      :image_width => 100",   {:image => image, :image_height => 50,
+    ['Standard image cell',   {:image => image}],
+    [':scale => 0.5',         {:image => image, :scale => 0.5}],
+    [':fit => [100, 200]',    {:image => image, :fit => [100, 200]}],
+    [':image_height => 50,
+      :image_width => 100',   {:image => image, :image_height => 50,
                                                 :image_width  => 100}],
-    [":position => :center",  {:image => image, :position  => :center}],
-    [":vposition => :center", {:image => image, :vposition => :center,
+    [':position => :center',  {:image => image, :position  => :center}],
+    [':vposition => :center', {:image => image, :vposition => :center,
                                                 :height => 200}]
   ], :width => bounds.width
 end

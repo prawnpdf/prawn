@@ -10,8 +10,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  text "The Prince",          :align => :center, :size => 18
-  text "Niccolò Machiavelli", :align => :center, :size => 14
+  text 'The Prince',          :align => :center, :size => 18
+  text 'Niccolò Machiavelli', :align => :center, :size => 14
   move_down 12
 
   column_box([0, cursor], :columns => 2, :width => bounds.width) do
