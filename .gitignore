@@ -9,3 +9,5 @@ manual.pdf
 /doc
 /bin
 .idea
+vendor
+.DS_Store
