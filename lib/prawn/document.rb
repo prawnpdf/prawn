@@ -358,6 +358,9 @@ module Prawn
     # Pass an open file descriptor to render to file.
     #
     def render(output = StringIO.new)
+      if !output.respond_to?(:size)
+        raise RuntimeException.new("Ouput needs to respond to 'size'. You cannot use ruby 1.8 with a file on this method.")
+      end
       finalize_all_page_contents
 
       render_header(output)
