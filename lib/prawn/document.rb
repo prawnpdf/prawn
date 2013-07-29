@@ -379,7 +379,13 @@ module Prawn
     #
     def render_file(filename)
       Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
-      File.open(filename,mode) { |f| render(f) }
+      File.open(filename,mode) do |f|
+        if f.respond_to?(:size) # Ruby .8 compat
+          render(f)
+        else
+          f << render
+        end
+      end
     end
 
     # The bounds method returns the current bounding box you are currently in,
