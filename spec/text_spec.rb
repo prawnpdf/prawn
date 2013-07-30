@@ -66,7 +66,7 @@ describe "#text" do
     # If anything is rendered to the page, it should be whitespace.
     text.strings.each { |str| str.should =~ /\A\s*\z/ }
   end
-  
+
   it "should ignore call when string is nil" do
     @pdf.text(nil).should be_false
   end
@@ -260,7 +260,7 @@ describe "#text" do
   it "should raise_error an exception when an unknown font is used" do
     lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
   end
-  
+
   it "should_not raise_error an exception when providing Pathname instance as font" do
     lambda {
       @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
@@ -282,6 +282,16 @@ describe "#text" do
     @pdf.text str
 
     # grab the text from the rendered PDF and ensure it matches
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    text.strings.first.should == str
+  end
+
+  it "subsets mixed low-ASCII and non-ASCII characters when they can be " +
+     "subsetted together" do
+    str = "It’s super effective!"
+    @pdf.font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+    @pdf.text str
+
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.first.should == str
   end
