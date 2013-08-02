@@ -50,27 +50,27 @@ describe "Prawn::Table" do
       #normal entries in line 1
       data = [ 
         [ '','',''],
-        [ { content: "", colspan: 3 } ],
+        [ { :content => "", :colspan => 3 } ],
         [ "", "", "" ],
       ]
       pdf = Prawn::Document.new
-      table = Prawn::Table.new data, pdf, column_widths: [100 , 200, 240]
+      table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
 
       #colspan entry in line 1
       data = [ 
-        [ { content: "", colspan: 3 } ],
+        [ { :content => "", :colspan => 3 } ],
         [ "", "", "" ],
       ]
       pdf = Prawn::Document.new
-      table = Prawn::Table.new data, pdf, column_widths: [100 , 200, 240]
+      table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
 
       #mixed entries in line 1
       data = [ 
-        [ { content: "", colspan: 2 }, "" ],
+        [ { :content => "", :colspan =>2 }, "" ],
         [ "", "", "" ],
       ]
       pdf = Prawn::Document.new
-      table = Prawn::Table.new data, pdf, column_widths: [100 , 200, 240]
+      table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
     end
   end
 
