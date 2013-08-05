@@ -80,7 +80,6 @@ describe "Prawn::Table" do
 
     end
 
-    end
   end
 
   describe "#initialize" do
