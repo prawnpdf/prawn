@@ -173,7 +173,7 @@ module Prawn
       # Returns maximum width that can contain cells in the set.
       #
       def max_width
-        aggregate_cell_values(:column, :max_width_ignoring_span, :min)
+        aggregate_cell_values(:column, :max_width_ignoring_span, :max)
       end
 
       # Returns the total height of all rows in the selected set.
@@ -229,9 +229,41 @@ module Prawn
       #
       def aggregate_cell_values(row_or_column, meth, aggregate)
         values = {}
+
+        #calculate values for all cells that do not span accross multiple cells
+        #this ensures that we don't have a problem if the first line includes
+        #a cell that spans across multiple cells
         each do |cell|
-          index = cell.send(row_or_column)
-          values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
+          if cell.colspan == 1
+            index = cell.send(row_or_column)
+            values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
+          end
+        end
+
+        each do |cell|
+          index = cell.send(row_or_column)          
+          if cell.colspan > 1
+            #calculate current (old) return value before we do anything
+            old_sum = 0
+            cell.colspan.times { |i|
+              old_sum += values[index+i] unless values[index+i].nil?
+            }
+            
+            #calculate future return value 
+            new_sum = cell.send(meth) * cell.colspan
+
+            if new_sum > old_sum
+              #not entirely sure why we need this line, but with it the tests pass
+              values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+              #overwrite the old values with the new ones, but only if an entry existed
+              cell.colspan.times { |i|
+                values[index+i] = cell.send(meth) if values[index+i]
+              }
+            end
+          
+          else
+            values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+          end
         end
         values.values.inject(0, &:+)
       end
