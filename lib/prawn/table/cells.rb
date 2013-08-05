@@ -173,7 +173,7 @@ module Prawn
       # Returns maximum width that can contain cells in the set.
       #
       def max_width
-        aggregate_cell_values(:column, :max_width_ignoring_span, :min)
+        aggregate_cell_values(:column, :max_width_ignoring_span, :max)
       end
 
       # Returns the total height of all rows in the selected set.

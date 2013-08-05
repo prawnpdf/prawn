@@ -71,6 +71,15 @@ describe "Prawn::Table" do
       ]
       pdf = Prawn::Document.new
       table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
+
+      data = [['', '', {:content => '', :colspan => 2}, '',''],
+              ['',{:content => '', :colspan => 5}]
+              ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50 , 100, 50, 50, 50, 50]
+
+    end
+
     end
   end
 
