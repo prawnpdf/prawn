@@ -48,7 +48,7 @@ describe "Prawn::Table" do
   describe "You can explicitly set the column widths and use a colspan > 1" do
     it "should work with a colspan > 1 with given column_widths (issue #407)" do
       #normal entries in line 1
-      data = [ 
+      data = [
         [ '','',''],
         [ { :content => "", :colspan => 3 } ],
         [ "", "", "" ],
@@ -57,7 +57,7 @@ describe "Prawn::Table" do
       table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
 
       #colspan entry in line 1
-      data = [ 
+      data = [
         [ { :content => "", :colspan => 3 } ],
         [ "", "", "" ],
       ]
@@ -65,7 +65,7 @@ describe "Prawn::Table" do
       table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
 
       #mixed entries in line 1
-      data = [ 
+      data = [
         [ { :content => "", :colspan =>2 }, "" ],
         [ "", "", "" ],
       ]
@@ -1213,7 +1213,6 @@ describe "colspan / rowspan" do
                       :colspan => 3}],
                     ["A", "B", "C"]],
                    :width => 200)
-    puts "result: #{t.column_widths.inject(0) { |sum, w| sum + w }}"
     t.column_widths.inject(0) { |sum, w| sum + w }.
       should be_within(0.01).of(200)
   end
