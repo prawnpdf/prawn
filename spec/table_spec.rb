@@ -93,7 +93,6 @@ describe "Prawn::Table" do
       second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
       third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>55,:align=>:center}
       fourth = {:content=>"Bar",:width=>15,:align=>:center}
-
       table_content = [[
       first,
       [[second],[third,fourth]]
