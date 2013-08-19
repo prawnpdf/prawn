@@ -80,6 +80,12 @@ describe "Prawn::Table" do
 
     end
 
+    it "illustrate issue #533" do
+      data = [['', '', '', '', '',''],
+              ['',{:content => '', :colspan => 5}]]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200, 40, 40, 50, 50]
+    end
   end
 
   describe "#initialize" do
