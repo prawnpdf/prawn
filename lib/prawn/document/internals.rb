@@ -100,6 +100,7 @@ module Prawn
           apply_margin_options(options)
           generate_margin_box
           use_graphic_settings(options[:template])
+          forget_text_rendering_mode!
         end
       end
 
