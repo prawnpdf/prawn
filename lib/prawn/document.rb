@@ -278,6 +278,7 @@ module Prawn
 
       state.page.new_content_stream if options[:template]
       use_graphic_settings(options[:template])
+      forget_text_rendering_mode! if options[:template]
 
       unless options[:orphan]
         state.insert_page(state.page, @page_number)
