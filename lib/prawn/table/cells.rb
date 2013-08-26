@@ -234,7 +234,8 @@ module Prawn
         #this ensures that we don't have a problem if the first line includes
         #a cell that spans across multiple cells
         each do |cell|
-          if cell.colspan == 1
+          #don't take spanned cells
+          if cell.colspan == 1 and cell.class != Prawn::Table::Cell::SpanDummy
             index = cell.send(row_or_column)
             values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
           end
@@ -252,17 +253,20 @@ module Prawn
             #calculate future return value 
             new_sum = cell.send(meth) * cell.colspan
 
-            if new_sum > old_sum
+            if new_sum >= old_sum
               #not entirely sure why we need this line, but with it the tests pass
               values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
-              #overwrite the old values with the new ones, but only if an entry existed
+              #overwrite the old values with the new ones, but only if all entries existed
+              entries_exist = true
+              cell.colspan.times { |i| entries_exist = false if values[index+i].nil? }
               cell.colspan.times { |i|
-                values[index+i] = cell.send(meth) if values[index+i]
+                values[index+i] = cell.send(meth) if entries_exist
               }
             end
-          
           else
-            values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+            if cell.class == Prawn::Table::Cell::SpanDummy
+              values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+            end
           end
         end
         values.values.inject(0, &:+)

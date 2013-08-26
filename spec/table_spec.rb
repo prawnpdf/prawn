@@ -80,6 +80,26 @@ describe "Prawn::Table" do
 
     end
 
+    it "illustrate issue #533" do
+      data = [['', '', '', '', '',''],
+              ['',{:content => '', :colspan => 5}]]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200, 40, 40, 50, 50]
+    end
+
+    it "illustrates issue #502" do
+      pdf = Prawn::Document.new
+      first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
+      second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
+      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>55,:align=>:center}
+      fourth = {:content=>"Bar",:width=>15,:align=>:center}
+      table_content = [[
+      first,
+      [[second],[third,fourth]]
+      ]]
+      pdf.move_down(20)
+      pdf.table(table_content)
+    end
   end
 
   describe "#initialize" do
