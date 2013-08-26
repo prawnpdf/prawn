@@ -184,12 +184,19 @@ module Prawn
       # * :fill_stroke_clip - fill then stroke text, then add to path for clipping
       # * :clip             - add text to path for clipping
       #
+      # There's the special mode :unknown which only occurs when we're working
+      # with templates.  If left in :unknown, the first text command will force
+      # an assertion to :fill.
       def text_rendering_mode(mode=nil)
         return @text_rendering_mode || :fill if mode.nil?
         unless MODES.key?(mode)
           raise ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
         end
         original_mode = @text_rendering_mode || :fill
+        if original_mode == :unknown
+          original_mode = :fill
+          add_content "\n#{MODES[:fill]} Tr"
+        end
         if original_mode == mode
           yield
         else
@@ -199,6 +206,10 @@ module Prawn
           add_content "\n#{MODES[original_mode]} Tr"
           @text_rendering_mode = original_mode
         end
+      end
+
+      def forget_text_rendering_mode!
+        @text_rendering_mode = :unknown
       end
 
       # Increases or decreases the space between characters.

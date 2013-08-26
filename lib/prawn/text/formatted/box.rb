@@ -211,6 +211,11 @@ module Prawn
           @skip_encoding     = options[:skip_encoding] || @document.skip_encoding
           @draw_text_callback = options[:draw_text_callback]
 
+          # if the text rendering mode is :unknown, force it back to :fill
+          if @mode == :unknown
+            @mode = :fill
+          end
+
           if @overflow == :expand
             # if set to expand, then we simply set the bottom
             # as the bottom of the document bounds, since that
