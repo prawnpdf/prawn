@@ -493,7 +493,7 @@ describe "Prawn::Table::Cell" do
         :normal    => { :file => font_path, :font => "ActionMan" },
         :bold      => { :file => font_path, :font => "ActionMan-Bold" },
       })
-      @pdf.font "Action Man", style: :bold
+      @pdf.font "Action Man", :style => :bold
 
       c = cell(:content => "text")
 
