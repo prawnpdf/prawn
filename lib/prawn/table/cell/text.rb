@@ -91,6 +91,7 @@ module Prawn
           @pdf.save_font do
             options = {}
             options[:style] = @text_options[:style] if @text_options[:style]
+            options[:style] ||= @pdf.font.options[:style] if @pdf.font.options[:style]
 
             @pdf.font(@font || @pdf.font.family, options)
 
