@@ -486,6 +486,27 @@ describe "Prawn::Table::Cell" do
       c.draw
     end
 
+
+    it "uses the style of the current font if none given" do
+      font_path = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+      @pdf.font_families.merge!("Action Man" => {
+        :normal    => { :file => font_path, :font => "ActionMan" },
+        :bold      => { :file => font_path, :font => "ActionMan-Bold" },
+      })
+      @pdf.font "Action Man", style: :bold
+
+      c = cell(:content => "text")
+
+      box = Prawn::Text::Box.new("text", :document => @pdf)
+      Prawn::Text::Box.expects(:new).checking do |text, options|
+        text.should == "text"
+        @pdf.font.family.should == 'Action Man'
+        @pdf.font.options[:style].should == :bold
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
     it "should allow inline formatting in cells" do
       c = cell(:content => "foo <b>bar</b> baz", :inline_format => true)
 
