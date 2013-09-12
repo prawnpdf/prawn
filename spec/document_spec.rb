@@ -288,6 +288,10 @@ describe "When reopening pages" do
     Prawn::Document.new do
       start_new_page :layout => :landscape
       lsize = [bounds.width, bounds.height]
+      bounding_box([10, 20], :width => 30, :height => 40) do
+        text 'some text to move the bounding box'
+      end
+
       go_to_page 1
       [bounds.width, bounds.height].should == lsize.reverse
     end
