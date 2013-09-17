@@ -19,5 +19,5 @@ Prawn::Example.generate(filename) do
   
   image "#{Prawn::DATADIR}/images/fractal.jpg", :at => [200, y_position]
   
-  text "And this line of text will go just below the previous one."
+  text 'And this line of text will go just below the previous one.'
 end

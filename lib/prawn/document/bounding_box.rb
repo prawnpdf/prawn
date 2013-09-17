@@ -183,7 +183,7 @@ module Prawn
     def init_bounding_box(user_block, options={}, &init_block)
       unless user_block
         raise ArgumentError,
-          "bounding boxes require a block to be drawn within the box"
+              'bounding boxes require a block to be drawn within the box'
       end
 
       parent_box = @bounding_box
@@ -210,7 +210,7 @@ module Prawn
 
       def initialize(document, parent, point, options={}) #:nodoc:
         unless options[:width]
-          raise ArgumentError, "BoundingBox needs the :width option to be set"
+          raise ArgumentError, 'BoundingBox needs the :width option to be set'
         end
 
         @document = document
@@ -488,10 +488,10 @@ module Prawn
       def deep_copy
         copy = dup
         # Deep-copy the parent bounds
-        copy.instance_variable_set("@parent", if BoundingBox === @parent
+        copy.instance_variable_set('@parent', if BoundingBox === @parent
                                                 @parent.deep_copy
                                               end)
-        copy.instance_variable_set("@document", nil)
+        copy.instance_variable_set('@document', nil)
         copy
       end
 
@@ -500,7 +500,7 @@ module Prawn
       # document to the resulting BoundingBox, only returns it.
       #
       def self.restore_deep_copy(bounds, document)
-        bounds.instance_variable_set("@document", document)
+        bounds.instance_variable_set('@document', document)
         bounds
       end
 

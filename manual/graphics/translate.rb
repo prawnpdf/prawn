@@ -22,7 +22,7 @@ Prawn::Example.generate(filename) do
                 :at => [5, -2], :size => 8
       
       stroke_rectangle [100, 75], 100, 50
-      text_box "Top left corner at [100,75]",
+      text_box 'Top left corner at [100,75]',
                 :at => [110, 65], :width => 80, :size => 8
     end
   end

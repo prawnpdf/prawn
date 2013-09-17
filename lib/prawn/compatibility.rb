@@ -10,25 +10,25 @@ class String  #:nodoc:
     self.each_line { |line| return line }
   end
 
-  unless "".respond_to?(:codepoints)
+  unless ''.respond_to?(:codepoints)
     def codepoints(&block)
       if block_given?
-        unpack("U*").each(&block)
+        unpack('U*').each(&block)
       else
-        unpack("U*")
+        unpack('U*')
       end
     end
   end
 
-  if "".respond_to?(:encode)
+  if ''.respond_to?(:encode)
     def normalize_to_utf8
       begin
         encode(Encoding::UTF_8)
       rescue
-        raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
+        raise Prawn::Errors::IncompatibleStringEncoding, 'Encoding ' +
         "#{text.encoding} can not be transparently converted to UTF-8. " +
-        "Please ensure the encoding of the string you are attempting " +
-        "to use is set correctly"
+            'Please ensure the encoding of the string you are attempting ' +
+            'to use is set correctly'
       end      
     end
     alias :unicode_characters :each_char
@@ -38,33 +38,33 @@ class String  #:nodoc:
     def normalize_to_utf8
       begin
         # use unpack as a hackish way to verify the string is valid utf-8
-        unpack("U*")
+        unpack('U*')
         return dup
       rescue
-        raise Prawn::Errors::IncompatibleStringEncoding, "The string you " +
-        "are attempting to render is not encoded in valid UTF-8."
+        raise Prawn::Errors::IncompatibleStringEncoding, 'The string you ' +
+            'are attempting to render is not encoded in valid UTF-8.'
       end
     end
     def unicode_characters
       if block_given?
-        unpack("U*").each { |c| yield [c].pack("U") }
+        unpack('U*').each { |c| yield [c].pack('U') }
       else
-        unpack("U*").map { |c| [c].pack("U") }
+        unpack('U*').map { |c| [c].pack('U') }
       end
     end
     def unicode_length
-      unpack("U*").length
+      unpack('U*').length
     end
   end
 end
 
 unless File.respond_to?(:binread) 
   def File.binread(file) #:nodoc:
-    File.open(file,"rb") { |f| f.read } 
+    File.open(file, 'rb') { |f| f.read }
   end
 end
 
-if RUBY_VERSION < "1.9"
+if RUBY_VERSION < '1.9'
   
   def ruby_18  #:nodoc:  
     yield

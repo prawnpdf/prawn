@@ -39,7 +39,7 @@ module Prawn
       when Numeric
         margin_box.absolute_left + options[:position]
       else
-        raise ArgumentError, "Invalid option for :position"
+        raise ArgumentError, 'Invalid option for :position'
       end
       
       # we need to bust out of whatever nested bounding boxes we're in.

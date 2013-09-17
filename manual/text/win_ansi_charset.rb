@@ -17,14 +17,14 @@ Prawn::Example.generate(filename) do
   fields = [[20, :right], [8, :left], [12, :center], [30, :right], [8, :left],
             [0, :left]]
 
-  font "Helvetica", :size => FONT_SIZE
+  font 'Helvetica', :size => FONT_SIZE
 
   move_down 30
-  text "(See next page for WinAnsi table)", :align => :center
+  text '(See next page for WinAnsi table)', :align => :center
   start_new_page
 
   Prawn::Encoding::WinAnsi::CHARACTERS.each_with_index do |name, index|
-    next if name == ".notdef"
+    next if name == '.notdef'
     y -= FONT_SIZE
 
     if y < FONT_SIZE
@@ -32,11 +32,11 @@ Prawn::Example.generate(filename) do
       x += 170
     end
 
-    code = "%d." % index
+    code = '%d.' % index
     char = index.chr
 
     width = 1000 * width_of(char, :size => FONT_SIZE) / FONT_SIZE
-    size  = "%d" % width
+    size  = '%d' % width
 
     data = [code, nil, char, size, nil, name]
     dx   = x

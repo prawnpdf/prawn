@@ -14,9 +14,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  string = "This is the beginning of the text. It will be cut somewhere and " +
-           "the rest of the text will procede to be rendered this time by " +
-           "calling another method." + " . " * 50
+  string = 'This is the beginning of the text. It will be cut somewhere and ' +
+      'the rest of the text will procede to be rendered this time by ' +
+      'calling another method.' + ' . ' * 50
 
   y_position = cursor - 20
   excess_text = text_box string,

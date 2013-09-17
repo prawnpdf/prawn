@@ -6,14 +6,14 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "stringio"
-require "prawn/document/page_geometry"
-require "prawn/document/bounding_box"
-require "prawn/document/column_box"
-require "prawn/document/internals"
-require "prawn/document/span"
-require "prawn/document/snapshot"
-require "prawn/document/graphics_state"
+require 'stringio'
+require 'prawn/document/page_geometry'
+require 'prawn/document/bounding_box'
+require 'prawn/document/column_box'
+require 'prawn/document/internals'
+require 'prawn/document/span'
+require 'prawn/document/snapshot'
+require 'prawn/document/graphics_state'
 
 module Prawn
 
@@ -366,7 +366,7 @@ module Prawn
       render_xref(output)
       render_trailer(output)
       str = output.string
-      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+      str.force_encoding('ASCII-8BIT') if str.respond_to?(:force_encoding)
       str
     end
 
@@ -375,7 +375,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
+      Kernel.const_defined?('Encoding') ? mode = 'wb:ASCII-8BIT' : mode = 'wb'
       File.open(filename,mode) { |f| f << render }
     end
 
@@ -602,7 +602,7 @@ module Prawn
           # have to use fill_color here otherwise text reverts back to default fill color
           fill_color txtcolor unless txtcolor.nil?
           total_pages = total_pages.nil? ? page_count : total_pages
-          str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
+          str = string.gsub('<page>',"#{pseudopage}").gsub('<total>',"#{total_pages}")
           text_box str, opts
           start_count = true  # increment page count as soon as first match found
         end
@@ -653,8 +653,8 @@ module Prawn
     # setting override_settings to true ensures that a new graphic state does not end up using
     # previous settings especially from imported template streams
     def use_graphic_settings(override_settings = false)
-      set_fill_color if current_fill_color != "000000" || override_settings
-      set_stroke_color if current_stroke_color != "000000" || override_settings
+      set_fill_color if current_fill_color != '000000' || override_settings
+      set_stroke_color if current_stroke_color != '000000' || override_settings
       write_line_width if line_width != 1 || override_settings
       write_stroke_cap_style if cap_style != :butt || override_settings
       write_stroke_join_style if join_style != :miter || override_settings

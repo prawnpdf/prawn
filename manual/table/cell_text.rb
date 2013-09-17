@@ -15,22 +15,22 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [ ["Look at how the cells will look when styled", "", ""],
-           ["They probably won't look the same", "", ""]
+  data = [ ['Look at how the cells will look when styled', '', ''],
+           ["They probably won't look the same", '', '']
          ]
   
-  table data, :cell_style => { :font => "Times-Roman", :font_style => :italic }
+  table data, :cell_style => { :font => 'Times-Roman', :font_style => :italic }
   move_down 20
   
-  table data, :cell_style => { :size => 18, :text_color => "346842" }
+  table data, :cell_style => { :size => 18, :text_color => '346842'}
   move_down 20
   
-  table [["Just <font size='18'>some</font> <b><i>inline</i></b>", "", ""],
-         ["<color rgb='FF00FF'>styles</color> being applied here", "", ""]],
+  table [["Just <font size='18'>some</font> <b><i>inline</i></b>", '', ''],
+         ["<color rgb='FF00FF'>styles</color> being applied here", '', '']],
          :cell_style => { :inline_format => true }
   move_down 20
   
-  table [["1", "2", "3", "rotate"]], :cell_style => { :rotate => 30 }
+  table [['1', '2', '3', 'rotate']], :cell_style => { :rotate => 30 }
   move_down 20
   
   table data, :cell_style => { :overflow => :shrink_to_fit, :min_font_size => 8,

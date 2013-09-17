@@ -125,7 +125,7 @@ module Prawn
         end
 
         def space_count
-          @text.count(" ")
+          @text.count(' ')
         end
 
         def callback_objects
@@ -233,15 +233,15 @@ module Prawn
                 string.force_encoding(normalized_soft_hyphen.encoding)
               end
             }
-            string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
+            string[0..-2].gsub(normalized_soft_hyphen, '') + string[-1..-1]
           else
             string
           end
         end
 
         def strip_zero_width_spaces(string)
-          if !"".respond_to?(:encoding) || string.encoding.to_s == "UTF-8"
-            string.gsub(Prawn::Text::ZWSP, "")
+          if !''.respond_to?(:encoding) || string.encoding.to_s == 'UTF-8'
+            string.gsub(Prawn::Text::ZWSP, '')
           else
             string
           end

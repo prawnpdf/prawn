@@ -34,9 +34,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [ ["Header",           "A " * 5, "B"],
-           ["Data row",         "C",      "D " * 5],
-           ["Another data row", "E",      "F"]]
+  data = [ ['Header',           'A ' * 5, 'B'],
+           ['Data row', 'C',      'D ' * 5],
+           ['Another data row', 'E', 'F']]
   
   table(data) do
     cells.padding = 12

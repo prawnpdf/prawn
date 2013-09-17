@@ -12,7 +12,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  table([[""] * 8] * 8) do
+  table([[''] * 8] * 8) do
     cells.style(:width => 24, :height => 24)
     
     cells.style do |c| 

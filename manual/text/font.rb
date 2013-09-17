@@ -21,21 +21,21 @@ Prawn::Example.generate(filename) do
   text "Let's see which font we are using: #{font.inspect}"
   
   move_down 20
-  font "Times-Roman"
-  text "Written in Times."
+  font 'Times-Roman'
+  text 'Written in Times.'
   
   move_down 20
-  font("Courier") do
-    text "Written in Courier because we are inside the block."
+  font('Courier') do
+    text 'Written in Courier because we are inside the block.'
   end
   
   move_down 20
-  text "Written in Times again as we left the previous block."
+  text 'Written in Times again as we left the previous block.'
   
   move_down 20
   text "Let's see which font we are using again: #{font.inspect}"
   
   move_down 20
-  font "Helvetica"
-  text "Back to normal."
+  font 'Helvetica'
+  text 'Back to normal.'
 end

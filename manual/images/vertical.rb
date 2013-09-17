@@ -20,7 +20,7 @@ Prawn::Example.generate(filename) do
                                                  :vposition => vposition
     end
     
-    text_box "The next image has a 100 point offset from the top boundary",
+    text_box 'The next image has a 100 point offset from the top boundary',
              :at => [bounds.width - 110, bounds.top - 10], :width => 100
     image "#{Prawn::DATADIR}/images/stef.jpg", :position  => :right,
                                                :vposition => 100

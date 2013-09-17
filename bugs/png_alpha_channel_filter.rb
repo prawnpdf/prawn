@@ -5,9 +5,9 @@ image_file = File.expand_path('../../data/images/prawn.png', __FILE__)
 
 pdf = Prawn::Document.new
 pdf.image image_file
-pdf.render_file("works.pdf")
+pdf.render_file('works.pdf')
 
 require 'mathn'  # Re-defines '/' operation !
 pdf = Prawn::Document.new
 pdf.image image_file
-pdf.render_file("broken.pdf")
+pdf.render_file('broken.pdf')

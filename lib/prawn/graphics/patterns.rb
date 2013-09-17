@@ -20,7 +20,7 @@ module Prawn
           set_gradient(:fill, *args)
         else
           warn "[DEPRECATION] 'fill_gradient(point, width, height,...)' is deprecated in favor of 'fill_gradient(from, to,...)'. " +
-               "Old arguments will be removed in release 1.1"
+                   'Old arguments will be removed in release 1.1'
           set_gradient :fill, args[0], [args[0].first, args[0].last - args[2]], args[3], args[4]
         end
       end
@@ -34,7 +34,7 @@ module Prawn
           set_gradient(:stroke, *args)
         else
           warn "[DEPRECATION] 'stroke_gradient(point, width, height,...)' is deprecated in favor of 'stroke_gradient(from, to,...)'. " +
-               "Old arguments will be removed in release 1.1"
+                   'Old arguments will be removed in release 1.1'
           set_gradient :stroke, args[0], [args[0].first, args[0].last - args[2]], args[3], args[4]
         end
       end

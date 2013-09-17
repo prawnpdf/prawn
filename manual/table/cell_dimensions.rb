@@ -15,8 +15,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [ ["Look at how the cells will look when styled", "", ""],
-           ["They probably won't look the same", "", ""]
+  data = [ ['Look at how the cells will look when styled', '', ''],
+           ["They probably won't look the same", '', '']
          ]
   
   {:width => 160, :height => 50, :padding => 12}.each do |property, value|
@@ -25,6 +25,6 @@ Prawn::Example.generate(filename) do
     move_down 20
   end
   
-  text "Padding can also be set with an array: [0, 0, 0, 30]"
+  text 'Padding can also be set with an array: [0, 0, 0, 30]'
   table(data, :cell_style => {:padding => [0, 0, 0, 30]})
 end

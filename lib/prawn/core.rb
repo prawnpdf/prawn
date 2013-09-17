@@ -5,7 +5,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "set"
+require 'set'
 
 %w[ttfunk/lib].each do |dep|
   $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
@@ -14,9 +14,9 @@ end
 begin
   require 'ttfunk'
 rescue LoadError
-  puts "Failed to load ttfunk. If you are running Prawn from git:"
-  puts "  git submodule init"
-  puts "  git submodule update"
+  puts 'Failed to load ttfunk. If you are running Prawn from git:'
+  puts '  git submodule init'
+  puts '  git submodule update'
   exit
 end
 
@@ -72,19 +72,19 @@ module Prawn
   end
 end
  
-require "prawn/compatibility"
-require "prawn/errors"
-require "prawn/core/pdf_object"
-require "prawn/core/filters"
-require "prawn/core/filter_list"
-require "prawn/core/stream"
-require "prawn/core/reference"
-require "prawn/core/page"
-require "prawn/core/object_store"
-require "prawn/core/document_state"
-require "prawn/core/literal_string"
-require "prawn/core/byte_string"
-require "prawn/core/name_tree"
-require "prawn/core/annotations"
-require "prawn/core/destinations"
+require 'prawn/compatibility'
+require 'prawn/errors'
+require 'prawn/core/pdf_object'
+require 'prawn/core/filters'
+require 'prawn/core/filter_list'
+require 'prawn/core/stream'
+require 'prawn/core/reference'
+require 'prawn/core/page'
+require 'prawn/core/object_store'
+require 'prawn/core/document_state'
+require 'prawn/core/literal_string'
+require 'prawn/core/byte_string'
+require 'prawn/core/name_tree'
+require 'prawn/core/annotations'
+require 'prawn/core/destinations'
 

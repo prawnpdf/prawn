@@ -12,10 +12,10 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  data = [ ["Item", "Jan Sales", "Feb Sales"],
-           ["Oven", 17, 89],
-           ["Fridge", 62, 30],
-           ["Microwave", 71, 47]
+  data = [ ['Item', 'Jan Sales', 'Feb Sales'],
+           ['Oven', 17, 89],
+           ['Fridge', 62, 30],
+           ['Microwave', 71, 47]
          ]
   
   table(data) do
@@ -25,12 +25,12 @@ Prawn::Example.generate(filename) do
       cell.content.to_i < 40
     end
     
-    bad_sales.background_color = "FFAAAA"
+    bad_sales.background_color = 'FFAAAA'
 
     good_sales = values.filter do |cell|
       cell.content.to_i > 70
     end
     
-    good_sales.background_color = "AAFFAA"
+    good_sales.background_color = 'AAFFAA'
   end
 end

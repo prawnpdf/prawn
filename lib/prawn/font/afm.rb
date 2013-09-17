@@ -26,9 +26,9 @@ module Prawn
           @metrics_path ||= m.split(':')
         else
           @metrics_path ||= [
-            ".", "/usr/lib/afm",
-            "/usr/local/lib/afm",
-            "/usr/openwin/lib/fonts/afm",
+            '.', '/usr/lib/afm',
+            '/usr/local/lib/afm',
+            '/usr/openwin/lib/fonts/afm',
              Prawn::DATADIR+'/fonts']
         end
       end
@@ -46,7 +46,7 @@ module Prawn
         @@font_data ||= SynchronizedCache.new        # parse each ATM font file once only
 
         file_name = @name.dup
-        file_name << ".afm" unless file_name =~ /\.afm$/
+        file_name << '.afm' unless file_name =~ /\.afm$/
         file_name = file_name[0] == ?/ ? file_name : find_font(file_name)
 
         font_data = @@font_data[file_name] ||= ::AFM::Font.new(file_name)
@@ -55,8 +55,8 @@ module Prawn
         @kern_pair_table = build_kern_pair_table(@kern_pairs)
         @attributes      = font_data.metadata
 
-        @ascender  = @attributes["Ascender"].to_i
-        @descender = @attributes["Descender"].to_i
+        @ascender  = @attributes['Ascender'].to_i
+        @descender = @attributes['Descender'].to_i
         @line_gap  = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
       end
 
@@ -91,10 +91,10 @@ module Prawn
       #
       def normalize_encoding(text) 
         enc = @@winansi
-        text.unpack("U*").collect { |i| enc[i] }.pack("C*")
+        text.unpack('U*').collect { |i| enc[i] }.pack('C*')
       rescue ArgumentError
         raise Prawn::Errors::IncompatibleStringEncoding,
-          "Arguments to text methods must be UTF-8 encoded"
+              'Arguments to text methods must be UTF-8 encoded'
       end
 
       # Returns the number of characters in +str+ (a WinAnsi-encoded string).
@@ -120,10 +120,10 @@ module Prawn
       end
 
       def glyph_present?(char)
-        if char == "_"
+        if char == '_'
           true
         else
-          normalize_encoding(char) != "_"
+          normalize_encoding(char) != '_'
         end
       end
 
@@ -141,7 +141,7 @@ module Prawn
       end
 
       def symbolic?
-        attributes["CharacterSet"] == "Special"
+        attributes['CharacterSet'] == 'Special'
       end
 
       def find_font(file)
@@ -171,8 +171,8 @@ module Prawn
         end
 
         kerned.map { |e| 
-          e = (Array === e ? e.pack("C*") : e)
-          e.respond_to?(:force_encoding) ? e.force_encoding("Windows-1252") : e  
+          e = (Array === e ? e.pack('C*') : e)
+          e.respond_to?(:force_encoding) ? e.force_encoding('Windows-1252') : e
         }
       end
       

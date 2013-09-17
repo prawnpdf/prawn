@@ -1,5 +1,5 @@
 if RUBY_VERSION =~ /1\.8/
-  require "rubygems"
+  require 'rubygems'
   class Array
     def sample
       self[rand(self.length)]
@@ -8,13 +8,13 @@ if RUBY_VERSION =~ /1\.8/
 end
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib')) 
-require "prawn"        
-require "benchmark"    
+require 'prawn'
+require 'benchmark'
 
 # Helpers for benchmark
 
 class String
-  CHARS = ("a".."z").to_a
+  CHARS = ('a'..'z').to_a
   def self.random(length)
     length.times.collect { CHARS.sample }.join
   end

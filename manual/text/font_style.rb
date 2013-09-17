@@ -12,7 +12,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  ["Courier", "Helvetica", "Times-Roman"].each do |example_font|
+  ['Courier', 'Helvetica', 'Times-Roman'].each do |example_font|
     move_down 20
     
     [:bold, :bold_italic, :italic, :normal].each do |style|

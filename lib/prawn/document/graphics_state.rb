@@ -46,8 +46,8 @@ module Prawn
     
     def initialize(previous_state = nil)
       @color_space = previous_state ? previous_state.color_space.dup : {}
-      @fill_color = previous_state ? previous_state.fill_color : "000000"
-      @stroke_color = previous_state ? previous_state.stroke_color : "000000"
+      @fill_color = previous_state ? previous_state.fill_color : '000000'
+      @stroke_color = previous_state ? previous_state.stroke_color : '000000'
       @dash = previous_state ? previous_state.dash : { :dash => nil, :space => nil, :phase => 0 }
       @cap_style = previous_state ? previous_state.cap_style : :butt
       @join_style = previous_state ? previous_state.join_style : :miter
@@ -95,11 +95,11 @@ module Prawn
       #
       
       def open_graphics_state
-        add_content "q"
+        add_content 'q'
       end
       
       def close_graphics_state
-        add_content "Q"
+        add_content 'Q'
       end
         
       def save_graphics_state(graphic_state = nil)

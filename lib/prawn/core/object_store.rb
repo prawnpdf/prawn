@@ -152,7 +152,7 @@ module Prawn
              elsif File.file?(input.to_s)
                StringIO.new(File.binread(input.to_s))
              else
-               raise ArgumentError, "input must be an IO-like object or a filename"
+               raise ArgumentError, 'input must be an IO-like object or a filename'
              end
 
                 # unless File.file?(filename)
@@ -172,7 +172,7 @@ module Prawn
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
         raise Prawn::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
-        msg = "Template file contains unsupported PDF features"
+        msg = 'Template file contains unsupported PDF features'
         raise Prawn::Errors::TemplateError, msg
       end
 
@@ -257,7 +257,7 @@ module Prawn
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
         raise Prawn::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
-        msg = "Template file contains unsupported PDF features"
+        msg = 'Template file contains unsupported PDF features'
         raise Prawn::Errors::TemplateError, msg
       end
 
@@ -302,7 +302,7 @@ module Prawn
       ruby_18 do
         def is_utf8?(str)
           begin
-            str.unpack("U*")
+            str.unpack('U*')
             true
           rescue
             false
@@ -311,7 +311,7 @@ module Prawn
       end
       ruby_19 do
         def is_utf8?(str)
-          str.force_encoding("utf-8")
+          str.force_encoding('utf-8')
           str.valid_encoding?
         end
       end

@@ -20,7 +20,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 
 # User cannot print the document.
-Prawn::Example.generate("cannot_print.pdf") do
+Prawn::Example.generate('cannot_print.pdf') do
   text "If you used the user password you won't be able to print the doc."
   encrypt_document(:user_password => 'foo', :owner_password => 'bar',
                    :permissions => { :print_document => false })
@@ -28,7 +28,7 @@ end
 
 
 # All permissions revoked and owner password set to random
-Prawn::Example.generate("no_permissions.pdf") do
+Prawn::Example.generate('no_permissions.pdf') do
   text "You may only view this and won't be able to use the owner password."
   encrypt_document(:user_password => 'foo', :owner_password => :random,
                    :permissions => { :print_document     => false,

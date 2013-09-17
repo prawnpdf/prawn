@@ -17,8 +17,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  string = "This is the sample text used for the text boxes. See how it " +
-           "behave with the various overflow options used."
+  string = 'This is the sample text used for the text boxes. See how it ' +
+      'behave with the various overflow options used.'
 
   text string
   
@@ -29,8 +29,8 @@ Prawn::Example.generate(filename) do
              :overflow => mode
   end
   
-  string = "If the box is too small for the text, :shrink_to_fit " +
-           "can render the text in a really small font size."
+  string = 'If the box is too small for the text, :shrink_to_fit ' +
+      'can render the text in a really small font size.'
   
   move_down 120
   text string

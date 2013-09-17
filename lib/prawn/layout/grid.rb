@@ -56,7 +56,7 @@ module Prawn
       end
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
-      def show_all(color = "CCCCCC")
+      def show_all(color = 'CCCCCC')
         self.rows.times do |i|
           self.columns.times do |j|
             pdf.grid(i,j).show(color)
@@ -168,7 +168,7 @@ module Prawn
       end
     
       # Diagnostic method
-      def show(grid_color = "CCCCCC")
+      def show(grid_color = 'CCCCCC')
         self.bounding_box do
           original_stroke_color = pdf.stroke_color
 
@@ -194,7 +194,7 @@ module Prawn
       end
     
       def name
-        @bs.map {|b| b.name}.join(":")
+        @bs.map {|b| b.name}.join(':')
       end
     
       def total_height

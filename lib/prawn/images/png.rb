@@ -32,18 +32,18 @@ module Prawn
 
         data.read(8)  # Skip the default header
 
-        @palette  = ""
-        @img_data = ""
+        @palette  = ''
+        @img_data = ''
         @transparency = {}
 
         loop do
-          chunk_size  = data.read(4).unpack("N")[0]
+          chunk_size  = data.read(4).unpack('N')[0]
           section     = data.read(4)
           case section
           when 'IHDR'
             # we can grab other interesting values from here (like width,
             # height, etc)
-            values = data.read(chunk_size).unpack("NNCCCCC")
+            values = data.read(chunk_size).unpack('NNCCCCC')
 
             @width              = values[0]
             @height             = values[1]
@@ -66,17 +66,17 @@ module Prawn
               # the palette index in the PLTE ("palette") chunk up until the
               # last non-opaque entry. Set up an array, stretching over all
               # palette entries which will be 0 (opaque) or 1 (transparent).
-              @transparency[:indexed]  = data.read(chunk_size).unpack("C*")
+              @transparency[:indexed]  = data.read(chunk_size).unpack('C*')
               short = 255 - @transparency[:indexed].size
               @transparency[:indexed] += ([255] * short) if short > 0
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
-              grayval = data.read(chunk_size).unpack("n").first
+              grayval = data.read(chunk_size).unpack('n').first
               @transparency[:grayscale] = grayval
             when 2
               # True colour with proper alpha channel.
-              @transparency[:rgb] = data.read(chunk_size).unpack("nnn")
+              @transparency[:rgb] = data.read(chunk_size).unpack('nnn')
             end
           when 'IEND'
             # we've got everything we need, exit the loop
@@ -269,8 +269,8 @@ module Prawn
       def unfilter_image_data
         data = @img_data.dup
 
-        @img_data = ""
-        @alpha_channel = ""
+        @img_data = ''
+        @alpha_channel = ''
 
         pixel_bytes     = pixel_bitlength / 8
         scanline_length = pixel_bytes * self.width + 1
@@ -356,8 +356,8 @@ module Prawn
         alpha_byte_size = alpha_channel_bits / 8
         pixels.each do |this_row|
           this_row.each do |pixel|
-            @img_data << pixel[0, color_byte_size].pack("C*")
-            @alpha_channel << pixel[color_byte_size, alpha_byte_size].pack("C*")
+            @img_data << pixel[0, color_byte_size].pack('C*')
+            @alpha_channel << pixel[color_byte_size, alpha_byte_size].pack('C*')
           end
         end
       end

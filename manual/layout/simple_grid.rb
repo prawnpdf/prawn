@@ -16,7 +16,7 @@ Prawn::Example.generate(filename) do
   # The grid only need to be defined once, but since all the examples should be
   # able to run alone we are repeating it on every example
   define_grid(:columns => 5, :rows => 8, :gutter => 10)
-  text "We defined the grid, roll over to the next page to see its outline"
+  text 'We defined the grid, roll over to the next page to see its outline'
   
   start_new_page
   grid.show_all

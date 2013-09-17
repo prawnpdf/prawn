@@ -9,12 +9,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  text "Take this example, a simple Euro sign:"
-  text "€", :size => 32
+  text 'Take this example, a simple Euro sign:'
+  text '€', :size => 32
   move_down 20
   
   text "Seems ok. Now let's try something more complex:"
-  text "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει."
+  text 'ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει.'
   move_down 20
   
   text "Looks like the current font (#{font.inspect}) doesn't support those."
@@ -22,7 +22,7 @@ Prawn::Example.generate(filename) do
   move_down 20
   
   font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do
-    text "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει."
-    text "There you go."
+    text 'ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει.'
+    text 'There you go.'
   end
 end

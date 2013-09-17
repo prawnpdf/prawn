@@ -51,7 +51,7 @@ module Prawn
       end
 
       def stamp_stream(dictionary)
-        @stamp_stream     = ""
+        @stamp_stream     = ''
         @stamp_dictionary = dictionary
         graphic_stack_size = stack.stack.size
 
@@ -149,7 +149,7 @@ module Prawn
           coords.reverse
         else
           raise Prawn::Errors::InvalidPageLayout,
-            "Layout must be either :portrait or :landscape"
+                'Layout must be either :portrait or :landscape'
         end
       end
 
@@ -169,11 +169,11 @@ module Prawn
       end
 
       def init_new_page(options)
-        @size     = options[:size]    ||  "LETTER"
+        @size     = options[:size]    || 'LETTER'
         @layout   = options[:layout]  || :portrait
 
         @content    = document.ref({})
-        content << "q" << "\n"
+        content << 'q' << "\n"
         @dictionary = document.ref(:Type        => :Page,
                                    :Parent      => document.state.store.pages,
                                    :MediaBox    => dimensions,

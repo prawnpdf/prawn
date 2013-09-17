@@ -18,14 +18,14 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 
 # Bare encryption. No password needed.
-Prawn::Example.generate("bare_encryption.pdf") do
-  text "See, no password was asked but the document is still encrypted."
+Prawn::Example.generate('bare_encryption.pdf') do
+  text 'See, no password was asked but the document is still encrypted.'
   encrypt_document
 end
 
 
 # Simple password. All permissions granted.
-Prawn::Example.generate("simple_password.pdf") do
-  text "You was asked for a password."
+Prawn::Example.generate('simple_password.pdf') do
+  text 'You was asked for a password.'
   encrypt_document(:user_password => 'foo', :owner_password => 'bar')
 end

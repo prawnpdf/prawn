@@ -35,9 +35,9 @@ Prawn::Example.generate(filename) do
        :inline_format => true
   move_down 10
   
-  text "This an external link to the " +
+  text 'This an external link to the ' +
        "<u><link href='https://github.com/prawnpdf/prawn/wiki'>Prawn wiki" +
-       "</link></u> and this is a link to the " +
+           '</link></u> and this is a link to the ' +
        "<u><link anchor='Text Reference'>Text Reference</link></u> anchor",
        :inline_format => true
 end

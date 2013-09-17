@@ -13,11 +13,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = "#{Prawn::DATADIR}/pdfs/multipage_template.pdf"
 
-Prawn::Example.generate("full_template.pdf", :template => filename) do
+Prawn::Example.generate('full_template.pdf', :template => filename) do
   go_to_page(page_count)
 
   start_new_page
 
-  text "Previous pages and content imported.", :align => :center
-  text "This page and content is brand new.",  :align => :center
+  text 'Previous pages and content imported.', :align => :center
+  text 'This page and content is brand new.',  :align => :center
 end

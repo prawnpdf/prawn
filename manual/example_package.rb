@@ -36,7 +36,7 @@ module Prawn
     # Returns a human friendly version of the package name
     #
     def name
-      @name ||= @folder_name.gsub("_", " ").capitalize
+      @name ||= @folder_name.gsub('_', ' ').capitalize
     end
     
     # Renders a cover page for the package to a pdf and iterates the examples

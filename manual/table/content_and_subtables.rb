@@ -22,18 +22,18 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
-  cell_1 = make_cell(:content => "this row content comes directly ")
-  cell_2 = make_cell(:content => "from cell objects")
+  cell_1 = make_cell(:content => 'this row content comes directly ')
+  cell_2 = make_cell(:content => 'from cell objects')
   
-  two_dimensional_array = [ ["..."], ["subtable from an array"], ["..."] ]
+  two_dimensional_array = [ ['...'], ['subtable from an array'], ['...'] ]
   
-  my_table = make_table([ ["..."], ["subtable from another table"], ["..."] ])
+  my_table = make_table([ ['...'], ['subtable from another table'], ['...'] ])
   
   image_path = "#{Prawn::DATADIR}/images/stef.jpg"
   
-  table([ ["just a regular row", "", "", "blah blah blah"],
-          [cell_1, cell_2, "", ""],
-          ["", "", two_dimensional_array, ""],
-          ["just another regular row", "", "", ""],
-          [{:image => image_path}, "", my_table, ""]])
+  table([ ['just a regular row', '', '', 'blah blah blah'],
+          [cell_1, cell_2, '', ''],
+          ['', '', two_dimensional_array, ''],
+          ['just another regular row', '', '', ''],
+          [{:image => image_path}, '', my_table, '']])
 end

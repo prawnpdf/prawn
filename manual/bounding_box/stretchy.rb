@@ -11,19 +11,19 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   y_position = cursor
   bounding_box([0, y_position], :width => 200, :height => 100) do
-    text "This bounding box has a height of 100. If this text gets too large " +
-         "it will flow to the next page."
+    text 'This bounding box has a height of 100. If this text gets too large ' +
+             'it will flow to the next page.'
     
     transparent(0.5) { stroke_bounds }
   end
   
   bounding_box([300, y_position], :width => 200) do
-    text "This bounding box has variable height. No matter how much text is " +
-         "written here, the height will expand to fit."
+    text 'This bounding box has variable height. No matter how much text is ' +
+             'written here, the height will expand to fit.'
     
-    text " _" * 100
+    text ' _' * 100
     
-    text " *" * 100
+    text ' *' * 100
     
     transparent(0.5) { stroke_bounds }
   end

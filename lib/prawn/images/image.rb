@@ -49,12 +49,12 @@ module Prawn
 
         # Unpack before comparing for JPG header, so as to avoid having to worry
         # about the source string encoding. We just want a byte-by-byte compare.
-        if top[0, 3].unpack("C*") == [255, 216, 255]
+        if top[0, 3].unpack('C*') == [255, 216, 255]
           return :jpg
-        elsif top[0, 8].unpack("C*") == [137, 80, 78, 71, 13, 10, 26, 10]
+        elsif top[0, 8].unpack('C*') == [137, 80, 78, 71, 13, 10, 26, 10]
           return :png
         else
-          raise Errors::UnsupportedImageType, "image file is an unrecognised format"
+          raise Errors::UnsupportedImageType, 'image file is an unrecognised format'
         end
       end
 

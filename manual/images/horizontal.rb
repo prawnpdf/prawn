@@ -19,7 +19,7 @@ Prawn::Example.generate(filename) do
       image "#{Prawn::DATADIR}/images/stef.jpg", :position => position
     end
     
-    text  "The next image has a 50 point offset from the left boundary"
+    text 'The next image has a 50 point offset from the left boundary'
     image "#{Prawn::DATADIR}/images/stef.jpg", :position => 50
   end
 end

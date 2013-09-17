@@ -20,7 +20,7 @@ module Prawn
       #
       def self.named_fonts(file)
         TTFunk::ResourceFile.open(file) do |f|
-          return f.resources_for("sfnt")
+          return f.resources_for('sfnt')
         end
       end
 
@@ -28,7 +28,7 @@ module Prawn
       #
       def self.font_count(file)
         TTFunk::ResourceFile.open(file) do |f|
-          return f.map["sfnt"][:list].length
+          return f.map['sfnt'][:list].length
         end
       end
 
