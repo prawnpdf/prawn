@@ -156,8 +156,10 @@ module Prawn
     # outline#add_subsection_to
     # Takes the following arguments:
     #   title: the outline text that appears for the section.
-    #   options: destination - optional integer defining the page number for a destination link.
-    #                 - currently only :FIT destination supported with link to top of page.
+    #   options: destination - optional integer defining the page number for a destination link
+    #                          to the top of the page (using a :FIT destination).
+    #                 - or an array with a custom destination (see the #dest_* methods of the
+    #                   Prawn::Core::Destination module)
     #            closed - whether the section should show its nested outline elements.
     #                   - defaults to false.
     #            block: more nested subsections and/or page blocks
@@ -184,8 +186,10 @@ module Prawn
     # Takes the following arguments:
     #     options:
     #            title - REQUIRED. The outline text that appears for the page.
-    #            destination - integer defining the page number for the destination link.
-    #              currently only :FIT destination supported with link to top of page.
+    #            destination - optional integer defining the page number for a destination link
+    #                          to the top of the page (using a :FIT destination).
+    #                 - or an array with a custom destination (see the #dest_* methods of the
+    #                   Prawn::Core::Destination module)
     #            closed - whether the section should show its nested outline elements.
     #                   - defaults to false.
     # example usage:
@@ -224,9 +228,12 @@ module Prawn
     def create_outline_item(title, options)
       outline_item = OutlineItem.new(title, parent, options)
 
-      if options[:destination]
+      case options[:destination]
+      when Integer
         page_index = options[:destination] - 1
         outline_item.dest = [document.state.pages[page_index].dictionary, :Fit]
+      when Array
+        outline_item.dest = options[:destination]
       end
 
       outline_item.prev = prev if @prev

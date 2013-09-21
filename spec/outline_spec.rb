@@ -87,6 +87,28 @@ describe "Outline" do
 
   end
 
+  describe "adding a custom destination" do
+    before(:each) do
+      @pdf.start_new_page
+      @pdf.text "Page 3 with a destination"
+      @pdf.add_dest('customdest', @pdf.dest_xyz(200, 200))
+      pdf = @pdf
+      @pdf.outline.update do
+        page :destination => pdf.dest_xyz(200, 200), :title => 'Custom Destination'
+      end
+      render_and_find_objects
+    end
+
+    it "should create an outline item" do
+      @custom_dest.should_not be_nil
+    end
+
+    it "should reference the custom destination" do
+      referenced_object(@custom_dest[:Dest].first).should == referenced_object(@pages.last)
+    end
+
+  end
+
   describe "addding a section later with outline#section" do
     before(:each) do
       @pdf.start_new_page
@@ -405,6 +427,7 @@ def render_and_find_objects
   @inserted_page = find_by_title('Inserted Page')
   @subsection = find_by_title('Added SubSection')
   @added_page_3 = find_by_title('Added Page 3')
+  @custom_dest = find_by_title('Custom Destination')
 end
 
 # Outline titles are stored as UTF-16. This method accepts a UTF-8 outline title
