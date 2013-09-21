@@ -120,11 +120,11 @@ describe "Outline" do
       @outline_root[:Count].should == 5
     end
 
-  end  
-  
-  describe "#outline.add_subsection_to" do  
+  end
+
+  describe "#outline.add_subsection_to" do
     context "positioned last" do
-    
+
       before(:each) do
         @pdf.start_new_page
         @pdf.text "Page 3. An added subsection "
@@ -133,45 +133,45 @@ describe "Outline" do
             section 'Added SubSection', :destination => 3 do
               page :destination => 3, :title => 'Added Page 3'
             end
-          end 
+          end
         end
         render_and_find_objects
       end
-    
+
       it "should add new outline items to document" do
         [@subsection, @added_page_3].each { |item| item.should_not be_nil}
       end
-    
+
       it "should reset the last item for parent item dictionary" do
         referenced_object(@section_1[:First]).should == @page_1
         referenced_object(@section_1[:Last]).should == @subsection
       end
-    
+
       it "should set the prev relation for the new subsection to its parent's old last item" do
         referenced_object(@subsection[:Prev]).should == @page_2
       end
-    
-    
+
+
       it "the subsection should become the next relation for its parent's old last item" do
          referenced_object(@page_2[:Next]).should == @subsection
        end
-    
+
       it "should set the first relation for the new subsection" do
         referenced_object(@subsection[:First]).should == @added_page_3
       end
-    
+
       it "should set the correct last relation of the added to section" do
         referenced_object(@subsection[:Last]).should == @added_page_3
       end
-    
+
       it "should increase the count of root outline dictionary" do
         @outline_root[:Count].should == 5
       end
-    
-    end  
-    
+
+    end
+
     context "positioned first" do
-    
+
       before(:each) do
         @pdf.start_new_page
         @pdf.text "Page 3. An added subsection "
@@ -193,7 +193,7 @@ describe "Outline" do
         referenced_object(@section_1[:First]).should == @subsection
         referenced_object(@section_1[:Last]).should == @page_2
       end
-    
+
       it "should set the next relation for the new subsection to its parent's old first item" do
         referenced_object(@subsection[:Next]).should == @page_1
       end
@@ -215,7 +215,7 @@ describe "Outline" do
       end
 
     end
-    
+
     it "should require an existing title" do
       lambda do
         @pdf.go_to_page 1
@@ -229,7 +229,7 @@ describe "Outline" do
         render_and_find_objects
       end.should raise_error(Prawn::Errors::UnknownOutlineTitle)
     end
-  end     
+  end
 
   describe "#outline.insert_section_after" do
     describe "inserting in the middle of another section" do
@@ -248,45 +248,45 @@ describe "Outline" do
         render_and_find_objects
         @inserted_page.should_not be_nil
       end
-      
+
       it "should adjust the count of all ancestors" do
         render_and_find_objects
         @outline_root[:Count].should == 4
         @section_1[:Count].abs.should == 3
       end
-       
+
       describe "#adjust_relations" do
-      
+
         it "should reset the sibling relations of adjoining items to inserted item" do
           render_and_find_objects
           referenced_object(@page_1[:Next]).should == @inserted_page
           referenced_object(@page_2[:Prev]).should == @inserted_page
         end
-      
+
         it "should set the sibling relation of added item to adjoining items" do
           render_and_find_objects
           referenced_object(@inserted_page[:Next]).should == @page_2
           referenced_object(@inserted_page[:Prev]).should == @page_1
         end
-      
+
         it "should not affect the first and last relations of parent item" do
           render_and_find_objects
           referenced_object(@section_1[:First]).should == @page_1
           referenced_object(@section_1[:Last]).should == @page_2
         end
-      
-      end 
-      
-      
-      context "when adding another section afterwards" do 
+
+      end
+
+
+      context "when adding another section afterwards" do
         it "should have reset the root position so that a new section is added at the end of root sections" do
           @pdf.start_new_page
           @pdf.text "Another Inserted Page"
           @pdf.outline.update do
             section 'Added Section' do
               page :destination => page_number, :title => "Inserted Page"
-            end 
-          end 
+            end
+          end
           render_and_find_objects
           referenced_object(@outline_root[:Last]).should == @section_2
           referenced_object(@section_1[:Next]).should == @section_2
@@ -305,7 +305,7 @@ describe "Outline" do
          @pdf.outline.update do
            insert_section_after 'Page 2' do
              page :destination => page_number, :title => "Inserted Page"
-           end 
+           end
          end
          render_and_find_objects
       end
@@ -357,7 +357,7 @@ describe "Outline" do
     end
   end
 end
-  
+
 describe "foreign character encoding" do
   before(:each) do
     pdf = Prawn::Document.new() do
@@ -402,7 +402,7 @@ def render_and_find_objects
   @page_2 = find_by_title('Page 2')
   @section_2 = find_by_title('Added Section')
   @page_3 = find_by_title('Page 3')
-  @inserted_page = find_by_title('Inserted Page') 
+  @inserted_page = find_by_title('Inserted Page')
   @subsection = find_by_title('Added SubSection')
   @added_page_3 = find_by_title('Added Page 3')
 end
@@ -423,4 +423,3 @@ end
 def referenced_object(reference)
   @hash[reference]
 end
-
