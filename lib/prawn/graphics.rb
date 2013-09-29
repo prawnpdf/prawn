@@ -305,6 +305,68 @@ module Prawn
       stroke_rectangle bounds.top_left, bounds.width, bounds.height
     end
 
+    # Draws and strokes X and Y axes rulers beginning at the current bounding
+    # box origin (or at a custom location).
+    #
+    # == Options
+    #
+    # +:at+::
+    #   Origin of the X and Y axes (default: [0, 0] = origin of the bounding
+    #   box)
+    #
+    # +:width+::
+    #   Length of the X axis (default: width of the bounding box)
+    #
+    # +:height+::
+    #   Length of the Y axis (default: height of the bounding box)
+    #
+    # +:step_length+::
+    #   Length of the step between markers (default: 100)
+    #
+    # +:negative_axes_length+::
+    #   Length of the negative parts of the axes (default: 20)
+    #
+    # +:color+:
+    #   The color of the axes and the text.
+    #
+    def stroke_axis(options = {})
+      options = {
+        :at => [0,0],
+        :height => bounds.height.to_i - (options[:at] || [0,0])[1],
+        :width => bounds.width.to_i - (options[:at] || [0,0])[0],
+        :step_length => 100,
+        :negative_axes_length => 20,
+        :color => "000000",
+      }.merge(options)
+
+      Prawn.verify_options([:at, :width, :height, :step_length,
+                            :negative_axes_length, :color], options)
+
+      save_graphics_state do
+        fill_color(options[:color])
+        stroke_color(options[:color])
+
+        dash(1, :space => 4)
+        stroke_horizontal_line(options[:at][0] - options[:negative_axes_length],
+                               options[:at][0] + options[:width], :at => options[:at][1])
+        stroke_vertical_line(options[:at][1] - options[:negative_axes_length],
+                             options[:at][1] + options[:height], :at => options[:at][0])
+        undash
+
+        fill_circle(options[:at], 1)
+
+        (options[:step_length]..options[:width]).step(options[:step_length]) do |point|
+          fill_circle([options[:at][0] + point, options[:at][1]], 1)
+          draw_text(point, :at => [options[:at][0] + point - 5, options[:at][1] - 10], :size => 7)
+        end
+
+        (options[:step_length]..options[:height]).step(options[:step_length]) do |point|
+          fill_circle([options[:at][0], options[:at][1] + point], 1)
+          draw_text(point, :at => [options[:at][0] - 17, options[:at][1] + point - 2], :size => 7)
+        end
+      end
+    end
+
     # Closes and fills the current path. See Graphics::Color for color details.
     #
     # If the option :fill_rule => :even_odd is specified, Prawn will use the
