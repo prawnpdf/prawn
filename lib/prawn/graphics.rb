@@ -82,9 +82,9 @@ module Prawn
       x,y = map_to_absolute(point)
       add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
     end
-    
+
     # Draws a rounded rectangle given <tt>point</tt>, <tt>width</tt> and
-    # <tt>height</tt> and <tt>radius</tt> for the rounded corner. The rectangle 
+    # <tt>height</tt> and <tt>radius</tt> for the rounded corner. The rectangle
     # is bounded by its upper-left corner.
     #
     #    pdf.rounded_rectangle [300,300], 100, 200, 10
@@ -93,7 +93,7 @@ module Prawn
       x, y = point
       rounded_polygon(radius, point, [x + width, y], [x + width, y - height], [x, y - height])
     end
-    
+
 
     ###########################################################
     #  Higher level functions: May use relative coords        #
@@ -138,7 +138,7 @@ module Prawn
     # current <tt>y</tt> position, or the position specified by the :at option.
     #
     #  # draw a line from [25, 75] to [100, 75]
-    #  horizontal_line 25, 100, :at => 75  
+    #  horizontal_line 25, 100, :at => 75
     #
     def horizontal_line(x1,x2,options={})
       if options[:at]
@@ -146,7 +146,7 @@ module Prawn
       else
         y1 = y - bounds.absolute_bottom
       end
-      
+
       line(x1,y1,x2,y1)
     end
 
@@ -252,7 +252,7 @@ module Prawn
       # close the path
       add_content "h"
     end
-    
+
     # Draws a rounded polygon from specified points using the radius to define bezier curves
     #
     #  # draws a rounded filled in polygon
@@ -268,8 +268,8 @@ module Prawn
       # close the path
       add_content "h"
     end
-    
-    
+
+
     # Creates a rounded vertex for a line segment used for building a rounded polygon
     # requires a radius to define bezier curve and three points. The first two points define
     # the line segment and the third point helps define the curve for the vertex.
@@ -281,7 +281,7 @@ module Prawn
       bezier_point_2 = point_on_line((radius - radius*KAPPA), points[2], points[1])
       line_to(radial_point_1)
       curve_to(radial_point_2, :bounds => [bezier_point_1, bezier_point_2])
-    end      
+    end
 
     # Strokes the current path. If a block is provided, yields to the block
     # before closing the path. See Graphics::Color for color details.
@@ -298,7 +298,7 @@ module Prawn
       yield if block_given?
       add_content "s"
     end
-    
+
     # Draws and strokes a rectangle represented by the current bounding box
     #
     def stroke_bounds
@@ -339,140 +339,210 @@ module Prawn
 
     ##
     # :method: stroke_rectangle
-    # Draws and strokes a rectangle given +point+, +width+ and +height+. The rectangle is bounded by its upper-left corner.
+    #
+    # Draws and strokes a rectangle given +point+, +width+ and +height+. The
+    # rectangle is bounded by its upper-left corner.
+    #
     # :call-seq:
     #   stroke_rectangle(point,width,height)
 
     ##
     # :method: fill_rectangle
-    # Draws and fills ills a rectangle given +point+, +width+ and +height+. The rectangle is bounded by its upper-left corner.
+    #
+    # Draws and fills ills a rectangle given +point+, +width+ and +height+. The
+    # rectangle is bounded by its upper-left corner.
+    #
     # :call-seq:
     #   fill_rectangle(point,width,height)
 
     ##
     # :method: fill_and_stroke_rectangle
-    # Draws, fills, and strokes a rectangle given +point+, +width+ and +height+. The rectangle is bounded by its upper-left corner.
+    #
+    # Draws, fills, and strokes a rectangle given +point+, +width+ and +height+.
+    # The rectangle is bounded by its upper-left corner.
+    #
     # :call-seq:
     #   fill_and_stroke_rectangle(point,width,height)
 
     ##
     # :method: stroke_rounded_rectangle
-    # Draws and strokes a rounded rectangle given +point+, +width+ and +height+ and +radius+ for the rounded corner. The rectangle is bounded by its upper-left corner.
+    #
+    # Draws and strokes a rounded rectangle given +point+, +width+ and +height+
+    # and +radius+ for the rounded corner. The rectangle is bounded by its
+    # upper-left corner.
+    #
     # :call-seq:
     #   stroke_rounded_rectangle(point,width,height,radius)
 
     ##
     # :method: fill_rounded_rectangle
-    # Draws and fills a rounded rectangle given +point+, +width+ and +height+ and +radius+ for the rounded corner. The rectangle is bounded by its upper-left corner.
+    #
+    # Draws and fills a rounded rectangle given +point+, +width+ and +height+
+    # and +radius+ for the rounded corner. The rectangle is bounded by its
+    # upper-left corner.
+    #
     # :call-seq:
     #   fill_rounded_rectangle(point,width,height,radius)
 
     ##
     # :method: stroke_and_fill_rounded_rectangle
-    # Draws, fills, and strokes a rounded rectangle given +point+, +width+ and +height+ and +radius+ for the rounded corner. The rectangle is bounded by its upper-left corner.
+    #
+    # Draws, fills, and strokes a rounded rectangle given +point+, +width+ and
+    # +height+ and +radius+ for the rounded corner. The rectangle is bounded by
+    # its upper-left corner.
+    #
     # :call-seq:
     #   stroke_and_fill_rounded_rectangle(point,width,height,radius)
 
     ##
     # :method: stroke_line
-    # Strokes a line from one point to another. Points may be specified as tuples or flattened argument list.
+    #
+    # Strokes a line from one point to another. Points may be specified as
+    # tuples or flattened argument list.
+    #
     # :call-seq:
     #   stroke_line(*points)
 
     ##
     # :method: stroke_horizontal_line
-    # Strokes a horizontal line from +x1+ to +x2+ at the current y position, or the position specified by the :at option.
+    #
+    # Strokes a horizontal line from +x1+ to +x2+ at the current y position, or
+    # the position specified by the :at option.
+    #
     # :call-seq:
     #   stroke_horizontal_line(x1,x2,options={})
 
     ##
     # :method: stroke_horizontal_rule
-    # Strokes a horizontal line from the left border to the right border of the bounding box at the current y position.
+    #
+    # Strokes a horizontal line from the left border to the right border of the
+    # bounding box at the current y position.
+    #
+    # :call-seq:
+    #   stroke_horizontal_rule
 
     ##
     # :method: stroke_vertical_line
+    #
     # Strokes a vertical line at the x coordinate given by :at from y1 to y2.
+    #
     # :call-seq:
     #   stroke_vertical_line(y1,y2,params)
 
     ##
     # :method: stroke_curve
-    # Strokes a Bezier curve between two points, bounded by two additional points. 
+    #
+    # Strokes a Bezier curve between two points, bounded by two additional
+    # points.
+    #
     # :call-seq:
     #   stroke_curve(origin,dest,options={})
 
     ##
     # :method: stroke_circle
-    # Draws and strokes a circle of radius +radius+ with the centre-point at +point+.
+    #
+    # Draws and strokes a circle of radius +radius+ with the centre-point at
+    # +point+.
+    #
     # :call-seq:
     #   stroke_circle(center,radius)
 
     ##
     # :method: fill_circle
-    # Draws and fills a circle of radius +radius+ with the centre-point at +point+.
+    #
+    # Draws and fills a circle of radius +radius+ with the centre-point at
+    # +point+.
+    #
     # :call-seq:
     #   fill_circle(center,radius)
 
     ##
     # :method: fill_and_stroke_circle
-    # Draws, strokes, and fills a circle of radius +radius+ with the centre-point at +point+.
+    #
+    # Draws, strokes, and fills a circle of radius +radius+ with the
+    # centre-point at +point+.
+    #
     # :call-seq:
     #   fill_and_stroke_circle(center,radius)
 
     ##
     # :method: stroke_ellipse
-    # Draws and strokes an ellipse of x radius +r1+ and y radius +r2+ with the centre-point at +point+.
+    #
+    # Draws and strokes an ellipse of x radius +r1+ and y radius +r2+ with the
+    # centre-point at +point+.
+    #
     # :call-seq:
     #   stroke_ellipse(point, r1, r2 = r1)
 
     ##
     # :method: fill_ellipse
-    # Draws and fills an ellipse of x radius +r1+ and y radius +r2+ with the centre-point at +point+.
+    #
+    # Draws and fills an ellipse of x radius +r1+ and y radius +r2+ with the
+    # centre-point at +point+.
+    #
     # :call-seq:
     #   fill_ellipse(point, r1, r2 = r1)
 
     ##
     # :method: fill_and_stroke_ellipse
-    # Draws, strokes, and fills an ellipse of x radius +r1+ and y radius +r2+ with the centre-point at +point+.
+    #
+    # Draws, strokes, and fills an ellipse of x radius +r1+ and y radius +r2+
+    # with the centre-point at +point+.
+    #
     # :call-seq:
     #   fill_and_stroke_ellipse(point, r1, r2 = r1)
 
     ##
     # :method: stroke_polygon
+    #
     # Draws and strokes a polygon from the specified points.
+    #
     # :call-seq:
     #   stroke_polygon(*points)
 
     ##
     # :method: fill_polygon
+    #
     # Draws and fills a polygon from the specified points.
+    #
     # :call-seq:
     #   fill_polygon(*points)
 
     ##
     # :method: fill_and_stroke_polygon
+    #
     # Draws, strokes, and fills a polygon from the specified points.
+    #
     # :call-seq:
     #   fill_and_stroke_polygon(*points)
 
     ##
     # :method: stroke_rounded_polygon
-    # Draws and strokes a rounded polygon from specified points, using +radius+ to define Bezier curves.
+    #
+    # Draws and strokes a rounded polygon from specified points, using +radius+
+    # to define Bezier curves.
+    #
     # :call-seq:
     #   stroke_rounded_polygon(radius, *points)
 
     ##
     # :method: fill_rounded_polygon
-    # Draws and fills a rounded polygon from specified points, using +radius+ to define Bezier curves.
+    #
+    # Draws and fills a rounded polygon from specified points, using +radius+ to
+    # define Bezier curves.
+    #
     # :call-seq:
     #   fill_rounded_polygon(radius, *points)
 
     ##
     # :method: fill_and_stroke_rounded_polygon
-    # Draws, strokes, and fills a rounded polygon from specified points, using +radius+ to define Bezier curves.
+    #
+    # Draws, strokes, and fills a rounded polygon from specified points, using
+    # +radius+ to define Bezier curves.
+    #
     # :call-seq:
     #   fill_and_stroke_rounded_polygon(radius, *points)
-    
+
     ops    = %w{fill stroke fill_and_stroke}
     shapes = %w{line_to curve_to rectangle rounded_rectangle line horizontal_line horizontal_rule vertical_line
                 curve circle_at circle ellipse_at ellipse polygon rounded_polygon rounded_vertex}
@@ -482,15 +552,15 @@ module Prawn
     end
 
     private
-    
+
     def current_line_width
       graphic_state.line_width
     end
-    
+
     def current_line_width=(width)
       graphic_state.line_width = width
     end
-    
+
     def write_line_width
       add_content("#{current_line_width} w")
     end
@@ -507,7 +577,7 @@ module Prawn
     def degree_to_rad(angle)
        angle * Math::PI / 180
     end
-    
+
     # Returns the coordinates for a point on a line that is a given distance away from the second
     # point defining the line segement
     def point_on_line(distance_from_end, *points)
@@ -518,6 +588,6 @@ module Prawn
       yr = y0 + p*(y1 - y0)
       [xr, yr]
     end
-    
+
   end
 end
