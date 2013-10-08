@@ -44,7 +44,7 @@ module Prawn
         options[:info][:Creator] ||= "Prawn"
         options[:info][:Producer] ||= "Prawn"
 
-        info = options[:info]
+        options[:info]
       end
 
       def insert_page(page, page_number)

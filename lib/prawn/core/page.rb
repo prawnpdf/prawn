@@ -15,7 +15,8 @@ module Prawn
 
       include Prawn::Core::Page::GraphicsState
 
-      attr_accessor :document, :content, :dictionary, :margins, :stack
+      attr_accessor :document, :margins, :stack
+      attr_writer :content, :dictionary
 
       def initialize(document, options={})
         @document = document
@@ -32,7 +33,7 @@ module Prawn
       end
 
       def layout
-        return @layout if @layout
+        return @layout if defined?(@layout) && @layout
 
         mb = dictionary.data[:MediaBox]
         if mb[3] > mb[2]
@@ -43,7 +44,7 @@ module Prawn
       end
 
       def size
-        @size || dimensions[2,2]
+        defined?(@size) && @size || dimensions[2,2]
       end
 
       def in_stamp_stream?
@@ -89,7 +90,7 @@ module Prawn
       end
 
       def dictionary
-        @stamp_dictionary || document.state.store[@dictionary]
+        defined?(@stamp_dictionary) && @stamp_dictionary || document.state.store[@dictionary]
       end
 
       def resources
@@ -172,6 +173,10 @@ module Prawn
         @size     = options[:size]    ||  "LETTER"
         @layout   = options[:layout]  || :portrait
 
+        @stamp_stream      = nil
+        @stamp_dictionary  = nil
+        @imported_page     = false
+
         @content    = document.ref({})
         content << "q" << "\n"
         @dictionary = document.ref(:Type        => :Page,
@@ -180,9 +185,6 @@ module Prawn
                                    :Contents    => content)
 
         resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]
-
-        @stamp_stream      = nil
-        @stamp_dictionary  = nil
       end
 
       # some entries in the Page dict can be inherited from parent Pages dicts.

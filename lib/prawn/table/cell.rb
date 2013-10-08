@@ -163,7 +163,7 @@ module Prawn
           content.kind_of?(Date)
 
         if content.is_a?(Hash)
-          if img = content[:image]
+          if content[:image]
             return Cell::Image.new(pdf, at, content)
           end
           options.update(content)
@@ -245,7 +245,7 @@ module Prawn
       def width_ignoring_span
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_width.
-        @width || (content_width + padding_left + padding_right)
+        defined?(@width) && @width || (content_width + padding_left + padding_right)
       end
 
       # Returns the cell's width in points, inclusive of padding. If the cell is
@@ -275,7 +275,7 @@ module Prawn
       # Returns the width of the bare content in the cell, excluding padding.
       #
       def content_width
-        if @width # manually set
+        if defined?(@width) && @width # manually set
           return @width - padding_left - padding_right
         end
 
@@ -302,7 +302,7 @@ module Prawn
       def height_ignoring_span
         # We can't ||= here because the FP error accumulates on the round-trip
         # from #content_height.
-        @height || (content_height + padding_top + padding_bottom)
+        defined?(@height) && @height || (content_height + padding_top + padding_bottom)
       end
 
       # Returns the cell's height in points, inclusive of padding. If the cell
@@ -325,7 +325,7 @@ module Prawn
       # Returns the height of the bare content in the cell, excluding padding.
       #
       def content_height
-        if @height # manually set
+        if defined?(@height) && @height # manually set
           return @height - padding_top - padding_bottom
         end
 
@@ -359,7 +359,7 @@ module Prawn
       #   pdf.table([["foo", "bar"]]) { cells[0, 1].colspan = 2 }
       #
       def colspan=(span)
-        if @initializer_run
+        if defined?(@initializer_run) && @initializer_run
           raise Prawn::Errors::InvalidTableSpan,
             "colspan must be provided in the table's structure, never in the " +
             "initialization block. See Prawn's documentation for details."
@@ -380,7 +380,7 @@ module Prawn
       #   pdf.table([["foo", "bar"], ["baz"]]) { cells[0, 1].rowspan = 2 }
       #
       def rowspan=(span)
-        if @initializer_run
+        if defined?(@initializer_run) && @initializer_run
           raise Prawn::Errors::InvalidTableSpan,
             "rowspan must be provided in the table's structure, never in the " +
             "initialization block. See Prawn's documentation for details."
@@ -543,14 +543,6 @@ module Prawn
         @border_colors[0] = val
       end
 
-      def border_top_color
-        @border_colors[0]
-      end
-
-      def border_top_color=(val)
-        @border_colors[0] = val
-      end
-
       def border_right_color
         @border_colors[1]
       end
@@ -704,7 +696,7 @@ module Prawn
       # Draws the cell's background color.
       #
       def draw_background(pt)
-        if @background_color
+        if defined?(@background_color) && @background_color
           @pdf.mask(:fill_color) do
             @pdf.fill_color @background_color
             @pdf.fill_rectangle pt, width, height

@@ -46,7 +46,7 @@ module Prawn
       #   table.rows(3..4) # selects rows four and five
       #
       def rows(row_spec)
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         row_spec = transform_spec(row_spec, @first_row, @row_count)
         Cells.new(@rows[row_spec] ||= select { |c|
                     row_spec.respond_to?(:include?) ?
@@ -57,7 +57,7 @@ module Prawn
       # Returns the number of rows in the list.
       #
       def row_count
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         @row_count
       end
 
@@ -69,7 +69,7 @@ module Prawn
       #   table.columns(3..4) # selects columns four and five
       #
       def columns(col_spec)
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         col_spec = transform_spec(col_spec, @first_column, @column_count)
         Cells.new(@columns[col_spec] ||= select { |c|
                     col_spec.respond_to?(:include?) ? 
@@ -80,7 +80,7 @@ module Prawn
       # Returns the number of columns in the list.
       #
       def column_count
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         @column_count
       end
 
@@ -100,7 +100,7 @@ module Prawn
       #
       def [](row, col)
         return nil if empty?
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         row_array, col_array = @rows[@first_row + row] || [], @columns[@first_column + col] || []
         if row_array.length < col_array.length
           row_array.find { |c| c.column == @first_column + col }
@@ -116,7 +116,7 @@ module Prawn
         cell.row = row
         cell.column = col
 
-        if @indexed
+        if defined?(@indexed) && @indexed
           (@rows[row]    ||= []) << cell
           (@columns[col] ||= []) << cell
           @first_row    = row if !@first_row    || row < @first_row
@@ -154,7 +154,6 @@ module Prawn
       def width
         widths = {}
         each do |cell|
-          index = cell.column
           per_cell_width = cell.width_ignoring_span.to_f / cell.colspan
           cell.colspan.times do |n|
             widths[cell.column+n] = [widths[cell.column+n], per_cell_width].

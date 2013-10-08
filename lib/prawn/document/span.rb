@@ -33,7 +33,7 @@ module Prawn
       when :left
         margin_box.absolute_left
       when :center
-        margin_box.absolute_left + margin_box.width / 2.0 - width /2.0
+        margin_box.absolute_left + margin_box.width / 2.0 - width / 2.0
       when :right
         margin_box.absolute_right - width
       when Numeric
