@@ -78,7 +78,7 @@ module Prawn
           # Sets a reasonable minimum width. If the cell has any content, make
           # sure we have enough width to be at least one character wide. This is
           # a bit of a hack, but it should work well enough.
-          unless @min_width
+          unless defined?(@min_width) && @min_width
             min_content_width = [natural_content_width, styled_width_of_single_character].min
             @min_width = padding_left + padding_right + min_content_width
             super
@@ -93,14 +93,14 @@ module Prawn
             options[:style] = @text_options[:style] if @text_options[:style]
             options[:style] ||= @pdf.font.options[:style] if @pdf.font.options[:style]
 
-            @pdf.font(@font || @pdf.font.family, options)
+            @pdf.font(defined?(@font) && @font || @pdf.font.family, options)
 
             yield
           end
         end
 
         def with_text_color
-          if @text_color
+          if defined?(@text_color) && @text_color
             begin
               old_color = @pdf.fill_color || '000000'
               @pdf.fill_color(@text_color)

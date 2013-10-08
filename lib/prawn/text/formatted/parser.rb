@@ -29,7 +29,7 @@ module Prawn
                          "<em>|</em>|" +
                          "<a[^>]*>|</a>|" +
                          "[^<\n]+"
-          regex = Regexp.new(regex_string, Regexp::MULTILINE)
+          Regexp.new(regex_string, Regexp::MULTILINE)
         end
 
         def self.to_array(string)

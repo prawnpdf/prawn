@@ -188,7 +188,7 @@ module Prawn
       def kern(string)
         a = []
 
-        string.codepoints do |r|
+        string.each_codepoint do |r|
           if a.empty?
             a << [r]
           elsif (kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]])
@@ -287,7 +287,7 @@ module Prawn
         map = @subsets[subset].to_unicode_map
 
         ranges = [[]]
-        lines = map.keys.sort.inject("") do |s, code|
+        map.keys.sort.inject("") do |s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
           ranges.last << "<%02x><%04x>" % [code, unicode]

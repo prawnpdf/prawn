@@ -274,7 +274,6 @@ module Prawn
     # requires a radius to define bezier curve and three points. The first two points define
     # the line segment and the third point helps define the curve for the vertex.
     def rounded_vertex(radius, *points)
-      x0,y0,x1,y1,x2,y2 = points.flatten
       radial_point_1 = point_on_line(radius, points[0], points[1])
       bezier_point_1 = point_on_line((radius - radius*KAPPA), points[0], points[1] )
       radial_point_2 = point_on_line(radius, points[2], points[1])

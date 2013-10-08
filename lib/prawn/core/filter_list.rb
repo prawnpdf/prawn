@@ -27,13 +27,13 @@ module Prawn
       alias_method :to_a, :normalized
 
       def names
-        @list.map do |(name, params)|
+        @list.map do |(name, _)|
           name
         end
       end
 
       def decode_params
-        @list.map do |(name, params)|
+        @list.map do |(_, params)|
           params
         end
       end

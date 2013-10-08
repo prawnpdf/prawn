@@ -18,6 +18,10 @@ class String  #:nodoc:
         unpack("U*")
       end
     end
+
+    def each_codepoint(&block)
+      unpack("U*").each(&block)
+    end
   end
 
   if "".respond_to?(:encode)

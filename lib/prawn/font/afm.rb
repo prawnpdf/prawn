@@ -161,7 +161,7 @@ module Prawn
         kerned = [[]]
         last_byte = nil
 
-        string.bytes do |byte|
+        string.each_byte do |byte|
           if k = last_byte && @kern_pair_table[[last_byte, byte]]
             kerned << -k << [byte]
           else

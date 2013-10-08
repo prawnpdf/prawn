@@ -40,7 +40,7 @@ module Prawn
             break
           end
 
-          buffer = data.read(length - 2)
+          data.read(length - 2)
         end
       end
 

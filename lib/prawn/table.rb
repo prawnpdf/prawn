@@ -300,8 +300,8 @@ module Prawn
           if cell.height > (cell.y + offset) - ref_bounds.absolute_bottom &&
              cell.row > started_new_page_at_row
             # Ink all cells on the current page
-            if @before_rendering_page
-              c = Cells.new(cells_this_page.map { |c, _| c })
+            if defined?(@before_rendering_page) && @before_rendering_page
+              c = Cells.new(cells_this_page.map { |ci, _| ci })
               @before_rendering_page.call(c)
             end
             Cell.draw_cells(cells_this_page)
@@ -330,7 +330,7 @@ module Prawn
           y -= @pdf.bounds.absolute_bottom
 
           # Set background color, if any.
-          if @row_colors && (!@header || cell.row > 0)
+          if defined?(@row_colors) && @row_colors && (!@header || cell.row > 0)
             # Ensure coloring restarts on every page (to make sure the header
             # and first row of a page are not colored the same way).
             index = cell.row - [started_new_page_at_row, @header ? 1 : 0].max
@@ -341,8 +341,8 @@ module Prawn
           last_y = y
         end
         # Draw the last page of cells
-        if @before_rendering_page
-          c = Cells.new(cells_this_page.map { |c, _| c })
+        if defined?(@before_rendering_page) && @before_rendering_page
+          c = Cells.new(cells_this_page.map { |ci, _| ci })
           @before_rendering_page.call(c)
         end
         Cell.draw_cells(cells_this_page)
@@ -449,7 +449,7 @@ module Prawn
               next if i == 0 && j == 0
 
               # It is an error to specify spans that overlap; catch this here
-              if bad_cell = cells[row_number + i, column_number + j]
+              if cells[row_number + i, column_number + j]
                 raise Prawn::Errors::InvalidTableSpan,
                   "Spans overlap at row #{row_number + i}, " +
                   "column #{column_number + j}."
@@ -580,7 +580,7 @@ module Prawn
     # :position option, and yields.
     #
     def with_position
-      x = case @position || :left
+      x = case defined?(@position) && @position || :left
           when :left   then return yield
           when :center then (@pdf.bounds.width - width) / 2.0
           when :right  then  @pdf.bounds.width - width

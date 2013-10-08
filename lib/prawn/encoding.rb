@@ -111,7 +111,7 @@ module Prawn
         RUBY_VERSION >= "1.9" ? mode = "r:BINARY" : mode = "r"
         File.open(@mapping_file, mode) do |f|
           f.each do |l|
-            m, single_byte, unicode = *l.match(/([0-9A-Za-z]+);([0-9A-F]{4})/)
+            _, single_byte, unicode = *l.match(/([0-9A-Za-z]+);([0-9A-F]{4})/)
             self.class.mapping["0x#{unicode}".hex] = "0x#{single_byte}".hex if single_byte
           end
         end
