@@ -70,37 +70,61 @@ module Prawn
     #
     # <tt>:inline_format</tt>::
     #      <tt>boolean</tt>. If true, then the string parameter is interpreted
-    #      as a HTML-esque string that recognizes the following tags:
-    #      <tt>\<b></b></tt>:: bold
-    #      <tt>\<i></i></tt>:: italic
-    #      <tt>\<u></u></tt>:: underline
-    #      <tt>\<strikethrough></strikethrough></tt>:: strikethrough
-    #      <tt>\<sub></sub></tt>:: subscript
-    #      <tt>\<sup></sup></tt>:: superscript
+    #      as a HTML-esque string that recognizes the following tags (note that
+    #      all other HTML-esque formatting is *not* recognized and displayed as
+    #      text):
+    #
+    #      <tt>\<b></b></tt>::
+    #          bold
+    #
+    #      <tt>\<i></i></tt>::
+    #          italic
+    #
+    #      <tt>\<u></u></tt>::
+    #          underline
+    #
+    #      <tt>\<strikethrough></strikethrough></tt>::
+    #          strikethrough
+    #
+    #      <tt>\<sub></sub></tt>::
+    #          subscript
+    #
+    #      <tt>\<sup></sup></tt>::
+    #          superscript
+    #
     #      <tt>\<font></font></tt>::
-    #          with the following attributes (using double or single quotes)
-    #            <tt>size="24"</tt>::
-    #                attribute for setting size
-    #            <tt>character_spacing="2.5"</tt>::
-    #                attribute for setting character spacing
-    #            <tt>name="Helvetica"</tt>::
-    #                attribute for setting the font. The font name must be an
-    #                AFM font with the desired faces or must be a font that is
-    #                already registered using Prawn::Document#font_families
+    #          With the following attributes (using double or single quotes)
+    #
+    #          <tt>size="24"</tt>::
+    #              attribute for setting size
+    #          <tt>character_spacing="2.5"</tt>::
+    #              attribute for setting character spacing
+    #          <tt>name="Helvetica"</tt>::
+    #              attribute for setting the font. The font name must be an
+    #              AFM font with the desired faces or must be a font that is
+    #              already registered using Prawn::Document#font_families
+    #
     #      <tt>\<color></color></tt>::
-    #          with the following attributes
-    #            <tt>rgb="ffffff" or rgb="#ffffff"</tt>::
-    #            <tt>c="100" m="100" y="100" k="100"</tt>::
+    #          With the following attributes
+    #
+    #          <tt>rgb="ffffff" or rgb="#ffffff"</tt>::
+    #              HTML like RGB color values
+    #          <tt>c="100" m="100" y="100" k="100"</tt>::
+    #              CMYK color values
+    #
     #      <tt>\<link></link></tt>::
-    #          with the following attributes
-    #            <tt>href="http://example.com"</tt>:: an external link
-    #            <tt>anchor="ToC"</tt>::
-    #                where the value of the anchor attribute is the name of a
-    #                destination that has already been or will be registered
-    #                using Prawn::Core::Destinations#add_dest. A clickable link
-    #                will be created to that destination.
+    #          With the following attributes
+    #
+    #          <tt>href="http://example.com"</tt>::
+    #              an external link
+    #          <tt>anchor="ToC"</tt>::
+    #              Where the value of the anchor attribute is the name of a
+    #              destination that has already been or will be registered
+    #              using Prawn::Core::Destinations#add_dest. A clickable link
+    #              will be created to that destination.
+    #
     #          Note that you must explicitly underline and color using the
-    #          appropriate tags if you which to draw attention to the link
+    #          appropriate tags if you which to draw attention to the link!
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
     #                     is available with the current font)
