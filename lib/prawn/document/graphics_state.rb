@@ -55,7 +55,11 @@ module Prawn
     end
 
     def dash_setting
-      "[#{@dash[:dash]} #{@dash[:space]}] #{@dash[:phase]} d"
+      if @dash[:dash].kind_of?(Array)
+        "[#{@dash[:dash].join(' ')}] #{@dash[:phase]} d"
+      else
+        "[#{@dash[:dash]} #{@dash[:space]}] #{@dash[:phase]} d"
+      end
     end
   end
 
