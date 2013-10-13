@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # dash.rb : Implements stroke dashing
 #
@@ -37,7 +37,7 @@ module Prawn
 
         write_stroke_dash
       end
-      
+
       alias_method :dash=, :dash
 
       # Stops dashing, restoring solid stroked lines and curves
@@ -46,37 +46,37 @@ module Prawn
         self.current_dash_state = undashed_setting
         write_stroke_dash
       end
-      
+
       # Returns when stroke is dashed, false otherwise
       #
       def dashed?
         current_dash_state != undashed_setting
       end
-      
+
       def write_stroke_dash
         add_content dash_setting
       end
 
     private
-      
+
       def undashed_setting
         { :dash => nil, :space => nil, :phase => 0 }
       end
-      
-      private 
-        
-      def current_dash_state=(dash_options)  
+
+      private
+
+      def current_dash_state=(dash_options)
         graphic_state.dash = dash_options
       end
-      
+
       def current_dash_state
         graphic_state.dash
       end
-      
+
       def dash_setting
         graphic_state.dash_setting
       end
-      
+
     end
   end
 end

@@ -7,7 +7,7 @@ describe "When stroking with default settings" do
   it "cap_style should be :butt" do
     @pdf.cap_style.should == :butt
   end
-  
+
   it "join_style should be :miter" do
     @pdf.join_style.should == :miter
   end
@@ -19,12 +19,12 @@ end
 
 describe "Cap styles" do
   before(:each) { create_pdf }
-  
+
   it "should be able to use assignment operator" do
     @pdf.cap_style = :round
     @pdf.cap_style.should == :round
   end
-  
+
   describe "#cap_style(:butt)" do
     it "rendered PDF should include butt style cap" do
       @pdf.cap_style(:butt)
@@ -60,12 +60,12 @@ end
 
 describe "Join styles" do
   before(:each) { create_pdf }
-  
+
   it "should be able to use assignment operator" do
     @pdf.join_style = :round
     @pdf.join_style.should == :round
   end
-  
+
   describe "#join_style(:miter)" do
     it "rendered PDF should include miter style join" do
       @pdf.join_style(:miter)
@@ -101,7 +101,7 @@ end
 
 describe "Dashes" do
   before(:each) { create_pdf }
-  
+
    it "should be able to use assignment operator" do
      @pdf.dash = 2
      @pdf.should be_dashed
@@ -151,7 +151,7 @@ describe "Dashes" do
       dashes.stroke_dash.should == [[], 0]
     end
   end
- 
+
   it "should carry the current dash settings over to new pages" do
     @pdf.dash(2)
     @pdf.start_new_page
@@ -159,19 +159,19 @@ describe "Dashes" do
     dashes.stroke_dash_count.should == 2
     dashes.stroke_dash.should == [[2, 2], 0]
   end
-  
+
   describe "#dashed?" do
-    
+
     it "an initial document should not be dashed" do
       @pdf.dashed?.should == false
     end
-    
+
     it "should return true if any of the currently active settings are dashed" do
       @pdf.dash(2)
       @pdf.save_graphics_state
       @pdf.dashed?.should == true
     end
-    
+
     it "should return false if the document was most recently undashed" do
       @pdf.dash(2)
       @pdf.save_graphics_state
@@ -179,7 +179,7 @@ describe "Dashes" do
       @pdf.save_graphics_state
       @pdf.dashed?.should == false
     end
-    
+
     it "should return true when restoring to a state that was dashed" do
       @pdf.dash(2)
       @pdf.save_graphics_state
@@ -187,7 +187,7 @@ describe "Dashes" do
       @pdf.restore_graphics_state
       @pdf.dashed?.should == true
     end
-    
+
   end
 
 end
