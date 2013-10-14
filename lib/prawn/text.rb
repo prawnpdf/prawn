@@ -27,7 +27,7 @@ module Prawn
     # method to use. If, instead, if you want to place bounded text outside of
     # the flow of a document (for captions, labels, charts, etc.), use Text::Box
     # or its convenience method text_box.
-    # 
+    #
     # Draws text on the page. Prawn attempts to wrap the text to fit within your
     # current bounding box (or margin_box if no bounding box is being used).
     # Text will flow onto the next page when it reaches the bottom of the
@@ -49,58 +49,82 @@ module Prawn
     # entire document, set default_kerning = false for that document
     #
     # === Text Positioning Details
-    # 
+    #
     # The text is positioned at font.ascender below the baseline,
     # making it easy to use this method within bounding boxes and spans.
     #
     # == Encoding
     #
     # Note that strings passed to this function should be encoded as UTF-8.
-    # If you get unexpected characters appearing in your rendered document, 
+    # If you get unexpected characters appearing in your rendered document,
     # check this.
     #
     # If the current font is a built-in one, although the string must be
     # encoded as UTF-8, only characters that are available in WinAnsi
     # are allowed.
     #
-    # If an empty box is rendered to your PDF instead of the character you 
+    # If an empty box is rendered to your PDF instead of the character you
     # wanted it usually means the current font doesn't include that character.
     #
     # == Options (default values marked in [])
     #
     # <tt>:inline_format</tt>::
     #      <tt>boolean</tt>. If true, then the string parameter is interpreted
-    #      as a HTML-esque string that recognizes the following tags:
-    #      <tt>\<b></b></tt>:: bold
-    #      <tt>\<i></i></tt>:: italic
-    #      <tt>\<u></u></tt>:: underline
-    #      <tt>\<strikethrough></strikethrough></tt>:: strikethrough
-    #      <tt>\<sub></sub></tt>:: subscript
-    #      <tt>\<sup></sup></tt>:: superscript
+    #      as a HTML-esque string that recognizes the following tags (note that
+    #      all other HTML-esque formatting is *not* recognized and displayed as
+    #      text):
+    #
+    #      <tt>\<b></b></tt>::
+    #          bold
+    #
+    #      <tt>\<i></i></tt>::
+    #          italic
+    #
+    #      <tt>\<u></u></tt>::
+    #          underline
+    #
+    #      <tt>\<strikethrough></strikethrough></tt>::
+    #          strikethrough
+    #
+    #      <tt>\<sub></sub></tt>::
+    #          subscript
+    #
+    #      <tt>\<sup></sup></tt>::
+    #          superscript
+    #
     #      <tt>\<font></font></tt>::
-    #          with the following attributes (using double or single quotes)
-    #            <tt>size="24"</tt>::
-    #                attribute for setting size
-    #            <tt>character_spacing="2.5"</tt>::
-    #                attribute for setting character spacing
-    #            <tt>name="Helvetica"</tt>::
-    #                attribute for setting the font. The font name must be an
-    #                AFM font with the desired faces or must be a font that is
-    #                already registered using Prawn::Document#font_families
+    #          With the following attributes (using double or single quotes)
+    #
+    #          <tt>size="24"</tt>::
+    #              attribute for setting size
+    #          <tt>character_spacing="2.5"</tt>::
+    #              attribute for setting character spacing
+    #          <tt>name="Helvetica"</tt>::
+    #              attribute for setting the font. The font name must be an
+    #              AFM font with the desired faces or must be a font that is
+    #              already registered using Prawn::Document#font_families
+    #
     #      <tt>\<color></color></tt>::
-    #          with the following attributes
-    #            <tt>rgb="ffffff" or rgb="#ffffff"</tt>::
-    #            <tt>c="100" m="100" y="100" k="100"</tt>::
+    #          With the following attributes
+    #
+    #          <tt>rgb="ffffff" or rgb="#ffffff"</tt>::
+    #              HTML like RGB color values
+    #          <tt>c="100" m="100" y="100" k="100"</tt>::
+    #              CMYK color values
+    #
     #      <tt>\<link></link></tt>::
-    #          with the following attributes
-    #            <tt>href="http://example.com"</tt>:: an external link
-    #            <tt>anchor="ToC"</tt>::
-    #                where the value of the anchor attribute is the name of a
-    #                destination that has already been or will be registered
-    #                using Prawn::Core::Destinations#add_dest. A clickable link
-    #                will be created to that destination. 
+    #          With the following attributes
+    #
+    #          <tt>href="http://example.com"</tt>::
+    #              an external link
+    #          <tt>anchor="ToC"</tt>::
+    #              Where the value of the anchor attribute is the name of a
+    #              destination that has already been or will be registered
+    #              using Prawn::Core::Destinations#add_dest. A clickable link
+    #              will be created to that destination.
+    #
     #          Note that you must explicitly underline and color using the
-    #          appropriate tags if you which to draw attention to the link
+    #          appropriate tags if you which to draw attention to the link!
     #
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
     #                     is available with the current font)
@@ -143,7 +167,7 @@ module Prawn
     #                  text should render with the fill color, stroke color or
     #                  both. See the comments to text_rendering_mode() to see
     #                  a list of valid options. [0]
-    #                        
+    #
     # == Exceptions
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
@@ -191,7 +215,7 @@ module Prawn
       options = inspect_options_for_text(options.dup)
 
       if color = options.delete(:color)
-        array = array.map do |fragment| 
+        array = array.map do |fragment|
           fragment[:color] ? fragment : fragment.merge(:color => color)
         end
       end
@@ -224,7 +248,7 @@ module Prawn
 
     # Draws text on the page, beginning at the point specified by the :at option
     # the string is assumed to be pre-formatted to properly fit the page.
-    # 
+    #
     #   pdf.draw_text "Hello World", :at => [100,100]
     #   pdf.draw_text "Goodbye World", :at => [50,50], :size => 16
     #
@@ -246,14 +270,14 @@ module Prawn
     # == Encoding
     #
     # Note that strings passed to this function should be encoded as UTF-8.
-    # If you get unexpected characters appearing in your rendered document, 
+    # If you get unexpected characters appearing in your rendered document,
     # check this.
     #
     # If the current font is a built-in one, although the string must be
     # encoded as UTF-8, only characters that are available in WinAnsi
     # are allowed.
     #
-    # If an empty box is rendered to your PDF instead of the character you 
+    # If an empty box is rendered to your PDF instead of the character you
     # wanted it usually means the current font doesn't include that character.
     #
     # == Options (default values marked in [])

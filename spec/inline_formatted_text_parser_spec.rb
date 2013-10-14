@@ -348,6 +348,34 @@ describe "Text::Formatted::Parser#to_array" do
     array = Prawn::Text::Formatted::Parser.to_array("hello<br>big<br/>world")
     array.map { |frag| frag[:text] }.join.should == "hello\nbig\nworld"
   end
+
+  it "should accept <, >, and & without escaping" do
+    string = "hello <b><, >, and &</b>"
+    array = Prawn::Text::Formatted::Parser.to_array(string)
+    array[1].should == { :text => "<, >, and &",
+                         :styles => [:bold],
+                         :color => nil,
+                         :link => nil,
+                         :local => nil,
+                         :anchor => nil,
+                         :font => nil,
+                         :size => nil,
+                         :character_spacing => nil }
+  end
+
+  it "should ignore all other HTML-esque tags" do
+    string = "hello <b><b, > and <span>is not</span> recognized</b>"
+    array = Prawn::Text::Formatted::Parser.to_array(string)
+    array[1].should == { :text => "<b, > and <span>is not</span> recognized",
+                         :styles => [:bold],
+                         :color => nil,
+                         :link => nil,
+                         :local => nil,
+                         :anchor => nil,
+                         :font => nil,
+                         :size => nil,
+                         :character_spacing => nil }
+  end
 end
 
 
