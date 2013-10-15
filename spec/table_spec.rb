@@ -771,6 +771,12 @@ describe "Prawn::Table" do
         table([["x"]]) { style(stylable) }
       end
     end
+
+    it "ignores unknown values on a cell-by-cell basis" do
+      Prawn::Document.new do
+        table([["x", [["y"]]]], :cell_style => {:overflow => :shrink_to_fit})
+      end
+    end
   end
 
   describe "row_colors" do
@@ -1331,4 +1337,3 @@ describe "colspan / rowspan" do
     t.cells[2, 3].content.should == "i"
   end
 end
-
