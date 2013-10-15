@@ -930,49 +930,107 @@ describe "Prawn::Table" do
   end
 
   describe "headers" do
-    it "should add headers to output when specified" do
-      data = [["a", "b"], ["foo","bar"],["baz","bang"]]
-      @pdf = Prawn::Document.new
-      @pdf.table(data, :header => true)
-      output = PDF::Inspector::Text.analyze(@pdf.render)
-      output.strings.should == data.flatten
-    end
+    context "single row header" do
+      it "should add headers to output when specified" do
+        data = [["a", "b"], ["foo","bar"],["baz","bang"]]
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => true)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == data.flatten
+      end
 
-    it "should repeat headers across pages" do
-      data = [["foo","bar"]] * 30
-      headers = ["baz","foobar"]
-      @pdf = Prawn::Document.new
-      @pdf.table([headers] + data, :header => true)
-      output = PDF::Inspector::Text.analyze(@pdf.render)
-      output.strings.should == headers + data.flatten[0..-3] + headers +
-        data.flatten[-2..-1]
-    end
+      it "should repeat headers across pages" do
+        data = [["foo","bar"]] * 30
+        headers = ["baz","foobar"]
+        @pdf = Prawn::Document.new
+        @pdf.table([headers] + data, :header => true)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == headers + data.flatten[0..-3] + headers +
+          data.flatten[-2..-1]
+      end
 
-    it "draws headers at the correct position" do
-      data = [["header"]] + [["foo"]] * 40
+      it "draws headers at the correct position" do
+        data = [["header"]] + [["foo"]] * 40
 
-      Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
-        cells.each do |cell, pt|
-          if cell.content == "header"
-            # Assert that header text is drawn at the same location on each page
-            if @header_location
-              pt.should == @header_location
-            else
-              @header_location = pt
+        Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+          cells.each do |cell, pt|
+            if cell.content == "header"
+              # Assert that header text is drawn at the same location on each page
+              if @header_location
+                pt.should == @header_location
+              else
+                @header_location = pt
+              end
             end
           end
         end
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => true)
       end
-      @pdf = Prawn::Document.new
-      @pdf.table(data, :header => true)
+
+      it "should_not draw header twice when starting new page" do
+        @pdf = Prawn::Document.new
+        @pdf.y = 0
+        @pdf.table([["Header"], ["Body"]], :header => true)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == ["Header", "Body"]
+      end
     end
 
-    it "should_not draw header twice when starting new page" do
-      @pdf = Prawn::Document.new
-      @pdf.y = 0
-      @pdf.table([["Header"], ["Body"]], :header => true)
-      output = PDF::Inspector::Text.analyze(@pdf.render)
-      output.strings.should == ["Header", "Body"]
+    context "multiple row header" do
+      it "should add headers to output when specified" do
+        data = [["a", "b"], ["c", "d"], ["foo","bar"],["baz","bang"]]
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => 2)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == data.flatten
+      end
+
+      it "should repeat headers across pages" do
+        data = [["foo","bar"]] * 30
+        headers = ["baz","foobar"] + ["bas", "foobaz"]
+        @pdf = Prawn::Document.new
+        @pdf.table([headers] + data, :header => 2)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == headers + data.flatten[0..-3] + headers +
+          data.flatten[-4..-1]
+      end
+
+      it "draws headers at the correct position" do
+        data = [["header"]] + [["header2"]] + [["foo"]] * 40
+
+        Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+          cells.each do |cell, pt|
+            if cell.content == "header"
+              # Assert that header text is drawn at the same location on each page
+              if @header_location
+                pt.should == @header_location
+              else
+                @header_location = pt
+              end
+            end
+
+            if cell.content == "header2"
+              # Assert that header text is drawn at the same location on each page
+              if @header2_location
+                pt.should == @header2_location
+              else
+                @header2_location = pt
+              end
+            end
+          end
+        end
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => 2)
+      end
+
+      it "should_not draw header twice when starting new page" do
+        @pdf = Prawn::Document.new
+        @pdf.y = 0
+        @pdf.table([["Header"], ["Header2"], ["Body"]], :header => 2)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == ["Header", "Header2", "Body"]
+      end
     end
   end
 
