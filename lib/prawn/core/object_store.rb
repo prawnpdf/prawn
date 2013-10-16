@@ -168,8 +168,8 @@ module Prawn
           index_template(input, page_num, load_object_graph(hash, ref).identifier)
         end
 
-      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError
-        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
+      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError => e
+        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
         raise Prawn::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
         msg = "Template file contains unsupported PDF features"
@@ -253,8 +253,8 @@ module Prawn
         if src_root
           @root = load_object_graph(hash, src_root).identifier
         end
-      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError
-        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug."
+      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError => e
+        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
         raise Prawn::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
         msg = "Template file contains unsupported PDF features"
