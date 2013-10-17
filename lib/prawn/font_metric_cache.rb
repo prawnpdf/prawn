@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# font.rb : The Prawn font class
+# font_metric_cache.rb : The Prawn font class
 #
 # Copyright Dec 2012, Kenneth Kalmer. All Rights Reserved.
 #
