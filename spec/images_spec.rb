@@ -51,6 +51,23 @@ describe "the image() function" do
     info.height.should == 453
   end
 
+  context "setting the length of the bytestream" do
+    it "should correctly work with images from Pathname objects" do
+      info = @pdf.image(Pathname.new(@filename))
+      expect(@pdf).to have_parseable_xobjects
+    end
+
+    it "should correctly work with images from IO objects" do
+      info = @pdf.image(File.open(@filename, 'rb'))
+      expect(@pdf).to have_parseable_xobjects
+    end
+
+    it "should correctly work with images from IO objects not set to mode rb" do
+      info = @pdf.image(File.open(@filename, 'r'))
+      expect(@pdf).to have_parseable_xobjects
+    end
+  end
+
   it "should raise_error an UnsupportedImageType if passed a BMP" do
     filename = "#{Prawn::DATADIR}/images/tru256.bmp"
     lambda { @pdf.image filename, :at => [100,100] }.should raise_error(Prawn::Errors::UnsupportedImageType)
