@@ -77,19 +77,8 @@ module Prawn
     # the given image. Return a pair: [pdf_obj, info].
     #
     def build_image_object(file)
-      # Rewind if the object we're passed is an IO, so that multiple embeds of
-      # the same IO object will work
-      file.rewind  if file.respond_to?(:rewind)
-      # read the file as binary so the size is calculated correctly
-      file.binmode if file.respond_to?(:binmode)
-
-      if file.respond_to?(:read)
-        image_content = file.read
-      else
-        raise ArgumentError, "#{file} not found" unless File.file?(file)  
-        image_content = File.binread(file)
-      end
-      
+      io = verify_and_open_image(file)
+      image_content = io.read
       image_sha1 = Digest::SHA1.hexdigest(image_content)
 
       # if this image has already been embedded, just reuse it
@@ -142,6 +131,24 @@ module Prawn
     end
     
     private   
+
+    def verify_and_open_image(io_or_path)
+      # File or IO
+      if io_or_path.respond_to?(:binmode)
+        io = io_or_path 
+        # Rewind if the object we're passed is an IO, so that multiple embeds of
+        # the same IO object will work
+        io.rewind
+        # read the file as binary so the size is calculated correctly
+        io.binmode
+        return io
+      end
+      # String or Pathname
+      io_or_path = Pathname.new(io_or_path)
+      raise ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
+      io = io_or_path.open(:mode => 'rb')
+      io
+    end
 
     def image_position(w,h,options)
       options[:position] ||= :left
