@@ -87,6 +87,12 @@ describe "Prawn::Table::Cell" do
 
       c.style(:padding => 50, :size => 7)
     end
+
+    it "ignores unknown properties" do
+      c = cell(:content => 'text')
+
+      c.style(:foobarbaz => 'frobnitz')
+    end
   end
 
   describe "cell width" do
