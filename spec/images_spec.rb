@@ -67,6 +67,7 @@ describe "the image() function" do
       def build_pdf_object(document)
       end
     end
+    Prawn::Images.add_image_handler Prawn::Images::TEST
     Prawn::Images::TEST.expects(:can_render?).returns(true)
     @pdf.image "#{Prawn::DATADIR}/images/tru256.bmp"
   end

@@ -11,6 +11,10 @@ module Prawn
 
   module Images
 
+    def self.add_image_handler(handler)
+      image_handlers.push handler unless image_handlers.include? handler
+    end
+
     # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported.
     #
@@ -126,8 +130,12 @@ module Prawn
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
       add_content instruct % [ w, h, x, y - h, label ]
     end
-    
-    private   
+
+    private
+
+    def self.image_handlers
+      @@image_handlers ||= []
+    end
 
     def verify_and_open_image(io_or_path)
       # File or IO
