@@ -523,8 +523,8 @@ module Prawn
       rows_to_operate_on = @header_row.rows(row_of_header) if row_of_header
       rows_to_operate_on.each do |cell|
         cell.row = row
-        cell.dummy_cells.each {|c| c.row = row }
-        page_of_cells << [cell, [cell.x, y]]
+        x = cell.x + @pdf.bounds.left_side - @pdf.bounds.absolute_left
+        page_of_cells << [cell, [x, y]]
       end
       rows_to_operate_on.height
     end
