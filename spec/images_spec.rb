@@ -51,21 +51,24 @@ describe "the image() function" do
     info.height.should == 453
   end
 
-  context "setting the length of the bytestream" do
-    it "should correctly work with images from Pathname objects" do
-      info = @pdf.image(Pathname.new(@filename))
-      expect(@pdf).to have_parseable_xobjects
-    end
+  it "should use classes that say it can render an image" do
+    class Prawn::Images::TEST < Prawn::Images::Image
+      attr_accessor :width, :height
+      attr_accessor :scaled_width, :scaled_height
 
-    it "should correctly work with images from IO objects" do
-      info = @pdf.image(File.open(@filename, 'rb'))
-      expect(@pdf).to have_parseable_xobjects
-    end
+      def self.can_render?(image_blob)
+      end
 
-    it "should correctly work with images from IO objects not set to mode rb" do
-      info = @pdf.image(File.open(@filename, 'r'))
-      expect(@pdf).to have_parseable_xobjects
+      def initialize(data)
+        self.width = 10
+        self.height = 10
+      end
+
+      def build_pdf_object(document)
+      end
     end
+    Prawn::Images::TEST.expects(:can_render?).returns(true)
+    @pdf.image "#{Prawn::DATADIR}/images/tru256.bmp"
   end
 
   it "should raise_error an UnsupportedImageType if passed a BMP" do

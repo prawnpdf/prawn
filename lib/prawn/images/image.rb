@@ -44,21 +44,14 @@ module Prawn
         [w,h]
       end
 
-      def self.detect_image_format(content)
-        top = content[0,128]                       
-
-        # Unpack before comparing for JPG header, so as to avoid having to worry
-        # about the source string encoding. We just want a byte-by-byte compare.
-        if top[0, 3].unpack("C*") == [255, 216, 255]
-          return :jpg
-        elsif top[0, 8].unpack("C*") == [137, 80, 78, 71, 13, 10, 26, 10]
-          return :png
-        else
-          raise Errors::UnsupportedImageType, "image file is an unrecognised format"
+      def self.find_image_handler_for(content)
+        Prawn::Images.constants.each do |handler_name|
+          handler = Prawn::Images.const_get handler_name
+          next unless handler.respond_to? :can_render?
+          return handler if handler.can_render? content
         end
+        raise Errors::UnsupportedImageType, "image file is an unrecognised format"
       end
-
-
     end
   end
 end

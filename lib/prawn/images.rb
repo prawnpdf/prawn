@@ -87,10 +87,7 @@ module Prawn
         image_obj = image_registry[image_sha1][:obj]
       else
         # Build the image object
-        klass = case Image.detect_image_format(image_content)
-                when :jpg then Prawn::Images::JPG
-                when :png then Prawn::Images::PNG
-                end
+        klass = Image.find_image_handler_for image_content
         info = klass.new(image_content)
 
         # Bump PDF version if the image requires it
