@@ -355,19 +355,26 @@ module Prawn
       self.y = original_y
     end
 
-    # Renders the PDF document to string
+    # Renders the PDF document to string.
+    # Pass an open file descriptor to render to file.
     #
-    def render
-      output = StringIO.new
+    def render(output = StringIO.new)
+      if !output.respond_to?(:size)
+        raise RuntimeException.new("Ouput needs to respond to 'size'. You cannot use ruby 1.8 with a file on this method.")
+      end
       finalize_all_page_contents
 
       render_header(output)
       render_body(output)
       render_xref(output)
       render_trailer(output)
-      str = output.string
-      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
-      str
+      if output.instance_of?(StringIO)
+        str = output.string
+        str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+        return str
+      else
+        return nil
+      end
     end
 
     # Renders the PDF document to file.
@@ -376,7 +383,13 @@ module Prawn
     #
     def render_file(filename)
       Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
-      File.open(filename,mode) { |f| f << render }
+      File.open(filename,mode) do |f|
+        if f.respond_to?(:size) # Ruby .8 compat
+          render(f)
+        else
+          f << render
+        end
+      end
     end
 
     # The bounds method returns the current bounding box you are currently in,
