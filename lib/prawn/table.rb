@@ -416,10 +416,24 @@ module Prawn
           # Expand the table to fit the requested width.
           f = (width - cells.width).to_f / (cells.max_width - cells.width)
 
-          (0...column_length).map do |c|
-            nat, max = natural_column_widths[c], column(c).max_width
-            (f * (max - nat)) + nat
+          widths = (0...column_length).map { |c| natural_column_widths[c] }
+
+          loop do
+            current_width = widths.inject(&:+)
+            extra_width = width - current_width
+            break if extra_width <= epsilon
+
+            (0...column_length).each do |c|
+              # Distribute extra space proportionally to the current width
+              column_ratio = widths[c].to_f / current_width
+              new_width = widths[c] + extra_width * column_ratio
+
+              new_width = [new_width, column(c).max_width].min
+              widths[c] = new_width
+            end
           end
+
+          widths
         else
           natural_column_widths
         end
