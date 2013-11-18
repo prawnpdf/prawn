@@ -416,10 +416,24 @@ module Prawn
           # Expand the table to fit the requested width.
           f = (width - cells.width).to_f / (cells.max_width - cells.width)
 
-          (0...column_length).map do |c|
-            nat, max = natural_column_widths[c], column(c).max_width
-            (f * (max - nat)) + nat
+          widths = (0...column_length).map { |c| natural_column_widths[c] }
+
+          loop do
+            current_width = widths.inject(&:+)
+            extra_width = width - current_width
+            break if extra_width <= epsilon
+
+            (0...column_length).each do |c|
+              # Distribute extra space proportionally to the current width
+              column_ratio = widths[c].to_f / current_width
+              new_width = widths[c] + extra_width * column_ratio
+
+              new_width = [new_width, column(c).max_width].min
+              widths[c] = new_width
+            end
           end
+
+          widths
         else
           natural_column_widths
         end
@@ -553,12 +567,28 @@ module Prawn
           widths_by_column = Hash.new(0)
           cells.each do |cell|
             next if cell.is_a?(Cell::SpanDummy)
+            next if cell.colspan > 1
 
-            # Split the width of colspanned cells evenly by columns
-            width_per_column = cell.width.to_f / cell.colspan
+            widths_by_column[cell.column] =
+                [widths_by_column[cell.column], cell.width].max
+          end
+
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+            next if cell.colspan <= 1
+
+            remaining_width = cell.width
+            # Deduce widths already allocated
             cell.colspan.times do |i|
-              widths_by_column[cell.column + i] =
-                [widths_by_column[cell.column + i], width_per_column].max
+              remaining_width -= widths_by_column[cell.column + i]
+            end
+
+            if remaining_width > 0
+              # Split the remaining width evenly by columns
+              width_per_column = remaining_width.to_f / cell.colspan
+              cell.colspan.times do |i|
+                widths_by_column[cell.column + i] += width_per_column
+              end
             end
           end
           widths_by_column.sort_by { |col, _| col }.map { |_, w| w }

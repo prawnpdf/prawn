@@ -78,6 +78,15 @@ describe "Prawn::Table" do
       pdf = Prawn::Document.new
       table = Prawn::Table.new data, pdf, :column_widths => [50 , 100, 50, 50, 50, 50]
 
+
+    end
+
+    it "should work with minimal span" do
+      data = [['', ''],
+              [{:content => '', :colspan => 2}]
+              ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200]
     end
 
     it "illustrate issue #533" do
@@ -92,7 +101,7 @@ describe "Prawn::Table" do
       first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
       second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
       third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>55,:align=>:center}
-      fourth = {:content=>"Bar",:width=>15,:align=>:center}
+      fourth = {:content=>"",:width=>15,:align=>:center}
       table_content = [[
       first,
       [[second],[third,fourth]]

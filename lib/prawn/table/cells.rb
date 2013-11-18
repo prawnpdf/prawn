@@ -152,13 +152,9 @@ module Prawn
       # Returns the total width of all columns in the selected set.
       #
       def width
-        widths = {}
+        widths = Hash.new(0)
         each do |cell|
-          per_cell_width = cell.width_ignoring_span.to_f / cell.colspan
-          cell.colspan.times do |n|
-            widths[cell.column+n] = [widths[cell.column+n], per_cell_width].
-              compact.max
-          end
+          widths[cell.column] = [widths[cell.column], cell.width_ignoring_span].max
         end
         widths.values.inject(0, &:+)
       end
