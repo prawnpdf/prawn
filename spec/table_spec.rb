@@ -974,6 +974,22 @@ describe "Prawn::Table" do
         @pdf.table(data, :header => true)
       end
 
+      it "draws headers at the correct position with column box" do
+        data = [["header"]] + [["foo"]] * 40
+
+        Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+          cells.each do |cell, pt|
+            if cell.content == "header"
+              pt[0].should == @pdf.bounds.left
+            end
+          end
+        end
+        @pdf = Prawn::Document.new
+        @pdf.column_box [0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 2 do
+            @pdf.table(data, :header => true)
+          end
+      end
+
       it "should_not draw header twice when starting new page" do
         @pdf = Prawn::Document.new
         @pdf.y = 0
