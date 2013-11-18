@@ -78,6 +78,15 @@ describe "Prawn::Table" do
       pdf = Prawn::Document.new
       table = Prawn::Table.new data, pdf, :column_widths => [50 , 100, 50, 50, 50, 50]
 
+
+    end
+
+    it "should work with minimal span" do
+      data = [['', ''],
+              [{:content => '', :colspan => 2}]
+              ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200]
     end
 
     it "illustrate issue #533" do

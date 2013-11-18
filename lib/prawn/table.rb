@@ -434,12 +434,26 @@ module Prawn
           heights_by_row = Hash.new(0)
           cells.each do |cell|
             next if cell.is_a?(Cell::SpanDummy)
+            next if cell.rowspan > 1
 
-            # Split the height of row-spanned cells evenly by rows
-            height_per_row = cell.height.to_f / cell.rowspan
+            heights_by_row[cell.row] =
+              [heights_by_row[cell.row], cell.height].max
+          end
+
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+            next if cell.rowspan <= 1
+
+            remaining_height = cell.height
+            # Deduce already allocated height
             cell.rowspan.times do |i|
-              heights_by_row[cell.row + i] =
-                [heights_by_row[cell.row + i], height_per_row].max
+              remaining_height -= heights_by_row[cell.row + i]
+            end
+
+            # Split the remaining height evenly by rows
+            height_per_row = remaining_height.to_f / cell.rowspan
+            cell.rowspan.times do |i|
+              heights_by_row[cell.row + i] += height_per_row
             end
           end
           heights_by_row.sort_by { |row, _| row }.map { |_, h| h }
@@ -553,12 +567,28 @@ module Prawn
           widths_by_column = Hash.new(0)
           cells.each do |cell|
             next if cell.is_a?(Cell::SpanDummy)
+            next if cell.colspan > 1
 
-            # Split the width of colspanned cells evenly by columns
-            width_per_column = cell.width.to_f / cell.colspan
+            widths_by_column[cell.column] =
+                [widths_by_column[cell.column], cell.width].max
+          end
+
+          cells.each do |cell|
+            next if cell.is_a?(Cell::SpanDummy)
+            next if cell.colspan <= 1
+
+            remaining_width = cell.width
+            # Deduce widths already allocated
             cell.colspan.times do |i|
-              widths_by_column[cell.column + i] =
-                [widths_by_column[cell.column + i], width_per_column].max
+              remaining_width -= widths_by_column[cell.column + i]
+            end
+
+            if remaining_width > 0
+              # Split the remaining width evenly by columns
+              width_per_column = remaining_width.to_f / cell.colspan
+              cell.colspan.times do |i|
+                widths_by_column[cell.column + i] += width_per_column
+              end
             end
           end
           widths_by_column.sort_by { |col, _| col }.map { |_, w| w }
