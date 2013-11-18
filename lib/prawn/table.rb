@@ -448,26 +448,12 @@ module Prawn
           heights_by_row = Hash.new(0)
           cells.each do |cell|
             next if cell.is_a?(Cell::SpanDummy)
-            next if cell.rowspan > 1
 
-            heights_by_row[cell.row] =
-              [heights_by_row[cell.row], cell.height].max
-          end
-
-          cells.each do |cell|
-            next if cell.is_a?(Cell::SpanDummy)
-            next if cell.rowspan <= 1
-
-            remaining_height = cell.height
-            # Deduce already allocated height
+            # Split the height of row-spanned cells evenly by rows
+            height_per_row = cell.height.to_f / cell.rowspan
             cell.rowspan.times do |i|
-              remaining_height -= heights_by_row[cell.row + i]
-            end
-
-            # Split the remaining height evenly by rows
-            height_per_row = remaining_height.to_f / cell.rowspan
-            cell.rowspan.times do |i|
-              heights_by_row[cell.row + i] += height_per_row
+              heights_by_row[cell.row + i] =
+                [heights_by_row[cell.row + i], height_per_row].max
             end
           end
           heights_by_row.sort_by { |row, _| row }.map { |_, h| h }
