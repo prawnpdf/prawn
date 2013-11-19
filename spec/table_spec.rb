@@ -431,13 +431,13 @@ describe "Prawn::Table" do
       end
 
       it "should allow table cells to be resized in block" do
-        lambda do
-          @pdf.table([%w[1 2 3 4 5]]) do |t|
-            t.width = 40
-            t.cells.size = 8
-            t.cells.padding = 0
-          end
-        end.should_not raise_error(Prawn::Errors::CannotFit)
+        # if anything goes wrong, a CannotFit error will be raised
+
+        @pdf.table([%w[1 2 3 4 5]]) do |t|
+          t.width = 40
+          t.cells.size = 8
+          t.cells.padding = 0
+        end
       end
 
       it "should be the width of the :width parameter" do

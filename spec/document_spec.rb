@@ -263,10 +263,9 @@ describe "When reopening pages" do
       pdf.text "More for page 1"
     end
     
-    # MalformedPDFError raised if content stream actual length does not match
-    # dictionary length
-    lambda{ PDF::Inspector::Page.analyze(@pdf.render) }.
-      should_not raise_error(PDF::Reader::MalformedPDFError)
+    # Indirectly verify that the actual length does not match dictionary length. 
+    # If it isn't, a MalformedPDFError will be raised
+    PDF::Inspector::Page.analyze(@pdf.render)
   end
 
   it "should insert pages after the current page when calling start_new_page" do

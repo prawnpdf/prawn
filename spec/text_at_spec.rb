@@ -106,12 +106,13 @@ describe "#draw_text" do
       lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
         Prawn::Errors::IncompatibleStringEncoding)
     end
-    it "should_not raise_error an exception when a shift-jis string is rendered" do
+
+    it "should not raise an exception when a shift-jis string is rendered" do
       datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
       @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should_not raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
+      
+      @pdf.draw_text(sjis_str, :at => [0, 0]) 
     end
   else
     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
