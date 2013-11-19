@@ -18,7 +18,7 @@ describe "Text::Formatted::Box wrapping" do
     text_box.text.should == "Hello\nWorld2"
   end
 
-  it "should_not raise_error Encoding::CompatibilityError when keeping a TTF and an " +
+  it "should not raise an Encoding::CompatibilityError when keeping a TTF and an " +
     "AFM font together" do
     ruby_19 do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
@@ -30,9 +30,8 @@ describe "Text::Formatted::Box wrapping" do
                { :text => "再见", :font => "Kai"},
                { :text => "World" }]
       text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
-      lambda {
-        text_box.render
-      }.should_not raise_error(Encoding::CompatibilityError)
+     
+      text_box.render
     end
   end
 
@@ -397,7 +396,8 @@ describe "Text::Formatted::Box#render" do
              { :text => "callback now",
                :callback => [behind, in_front] }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
-    lambda { text_box.render }.should_not raise_error(NoMethodError)
+
+    text_box.render # trigger callbacks
   end
   it "should be able to set the font" do
     create_pdf

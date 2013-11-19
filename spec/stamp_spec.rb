@@ -3,19 +3,20 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "create_stamp before any page is added" do
   it "should work with the font class" do
     @pdf = Prawn::Document.new(:skip_page_creation => true)
-    lambda {
-      @pdf.create_stamp("my_stamp") do
-        @pdf.font.height
-      end
-    }.should_not raise_error(Prawn::Errors::NotOnPage)
+
+    # If anything goes wrong, Prawn::Errors::NotOnPage will be raised
+    @pdf.create_stamp("my_stamp") do
+      @pdf.font.height
+    end
   end
+
   it "should work with setting color" do
     @pdf = Prawn::Document.new(:skip_page_creation => true)
-    lambda {
-      @pdf.create_stamp("my_stamp") do
-        @pdf.fill_color = 'ff0000'
-      end
-    }.should_not raise_error(Prawn::Errors::NotOnPage)
+
+    # If anything goes wrong, Prawn::Errors::NotOnPage will be raised
+    @pdf.create_stamp("my_stamp") do
+      @pdf.fill_color = 'ff0000'
+    end
   end
 end
 

@@ -41,10 +41,7 @@ describe "#height_of" do
   end
 
   it "should_not raise_error Prawn::Errors::UnknownOption if :final_gap option is provided" do
-    lambda {
-      @pdf.height_of("hai", :width => 300,
-                     :final_gap => true)
-    }.should_not raise_error(Prawn::Errors::UnknownOption)
+    @pdf.height_of("hai", :width => 300, :final_gap => true)
   end
 end
 
@@ -55,9 +52,7 @@ describe "#text" do
     # need a document with margins for these particulars to produce the
     # condition that was throwing the error
     pdf = Prawn::Document.new
-    lambda {
-      pdf.text "transparency " * 150, :size => 18
-    }.should_not raise_error(TypeError)
+    pdf.text "transparency " * 150, :size => 18
   end
 
   it "should allow drawing empty strings to the page" do
@@ -262,9 +257,7 @@ describe "#text" do
   end
 
   it "should_not raise_error an exception when providing Pathname instance as font" do
-    lambda {
-      @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
-    }.should_not raise_error(Prawn::Errors::UnknownFont)
+    @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
   end
 
   it "should correctly render a utf-8 string when using a built-in font" do
@@ -332,8 +325,9 @@ describe "#text" do
       datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
       @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      lambda { @pdf.text sjis_str }.should_not raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
+     
+      # Expect that the call to text will not raise an encoding error
+      @pdf.text(sjis_str)
     end
   else
     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
