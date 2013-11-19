@@ -29,7 +29,7 @@ module Prawn
                          "<em>|</em>|" +
                          "<a[^>]*>|</a>|" +
                          "[^<\n]+"
-          regex = Regexp.new(regex_string, Regexp::MULTILINE)
+          Regexp.new(regex_string, Regexp::MULTILINE)
         end
 
         def self.to_array(string)
@@ -125,6 +125,7 @@ module Prawn
           colors = []
           link = nil
           anchor = nil
+          local = nil
           fonts = []
           sizes = []
           character_spacings = []
@@ -158,6 +159,7 @@ module Prawn
             when "</link>", "</a>"
               link = nil
               anchor = nil
+              local = nil
             when "</color>"
               colors.pop
             when "</font>"
@@ -171,6 +173,9 @@ module Prawn
 
                 matches = /anchor="([^"]*)"/.match(token) || /anchor='([^']*)'/.match(token)
                 anchor = matches[1] unless matches.nil?
+
+                matches = /local="([^"]*)"/.match(token) || /local='([^']*)'/.match(token)
+                local = matches[1] unless matches.nil?
               elsif token =~ /^<color[^>]*>$/
                 matches = /rgb="#?([^"]*)"/.match(token) || /rgb='#?([^']*)'/.match(token)
                 colors << matches[1] if matches
@@ -200,6 +205,7 @@ module Prawn
                 array << { :text => string,
                            :styles => styles.dup,
                            :color => colors.last,
+                           :local => local,
                            :link => link,
                            :anchor => anchor,
                            :font => fonts.last,

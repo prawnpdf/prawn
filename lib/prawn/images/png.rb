@@ -290,28 +290,27 @@ module Prawn
           case filter
           when 0 # None
           when 1 # Sub
-            row_data.each_with_index do |byte, index|
+            row_data.each_with_index do |row_byte, index|
               left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
-              row_data[index] = (byte + left) % 256
-              #p [byte, left, row_data[index]]
+              row_data[index] = (row_byte + left) % 256
             end
           when 2 # Up
-            row_data.each_with_index do |byte, index|
+            row_data.each_with_index do |row_byte, index|
               col = (index / pixel_bytes).floor
               upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
-              row_data[index] = (upper + byte) % 256
+              row_data[index] = (upper + row_byte) % 256
             end
           when 3  # Average
-            row_data.each_with_index do |byte, index|
+            row_data.each_with_index do |row_byte, index|
               col = (index / pixel_bytes).floor
               upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
               left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
 
-              row_data[index] = (byte + ((left + upper)/2).floor) % 256
+              row_data[index] = (row_byte + ((left + upper)/2).floor) % 256
             end
           when 4 # Paeth
             left = upper = upper_left = nil
-            row_data.each_with_index do |byte, index|
+            row_data.each_with_index do |row_byte, index|
               col = (index / pixel_bytes).floor
 
               left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
@@ -336,7 +335,7 @@ module Prawn
                 upper_left
               end
 
-              row_data[index] = (byte + paeth) % 256
+              row_data[index] = (row_byte + paeth) % 256
             end
           else
             raise ArgumentError, "Invalid filter algorithm #{filter}"

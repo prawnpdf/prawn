@@ -49,7 +49,7 @@ module Prawn
       # Defaults to true
       #
       def default_kerning?
-        return true if @default_kerning.nil?
+        return true if !defined?(@default_kerning)
         @default_kerning
       end
 
@@ -81,8 +81,7 @@ module Prawn
       #
       def default_leading(number=nil)
         if number.nil?
-          return 0 if @default_leading.nil?
-          @default_leading
+          defined?(@default_leading) && @default_leading || 0
         else
           @default_leading = number
         end
@@ -112,8 +111,7 @@ module Prawn
       #
       def text_direction(direction=nil)
         if direction.nil?
-          return :ltr if @text_direction.nil?
-          @text_direction
+          defined?(@text_direction) && @text_direction || :ltr
         else
           @text_direction = direction
         end
@@ -155,8 +153,7 @@ module Prawn
       #
       def fallback_fonts(fallback_fonts=nil)
         if fallback_fonts.nil?
-          return [] if @fallback_fonts.nil?
-          @fallback_fonts
+          defined?(@fallback_fonts) && @fallback_fonts || []
         else
           @fallback_fonts = fallback_fonts
         end
@@ -184,12 +181,19 @@ module Prawn
       # * :fill_stroke_clip - fill then stroke text, then add to path for clipping
       # * :clip             - add text to path for clipping
       #
+      # There's the special mode :unknown which only occurs when we're working
+      # with templates.  If left in :unknown, the first text command will force
+      # an assertion to :fill.
       def text_rendering_mode(mode=nil)
-        return @text_rendering_mode || :fill if mode.nil?
+        return (defined?(@text_rendering_mode) && @text_rendering_mode || :fill) if mode.nil?
         unless MODES.key?(mode)
           raise ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
         end
-        original_mode = @text_rendering_mode || :fill
+        original_mode = self.text_rendering_mode
+        if original_mode == :unknown
+          original_mode = :fill
+          add_content "\n#{MODES[:fill]} Tr"
+        end
         if original_mode == mode
           yield
         else
@@ -201,12 +205,16 @@ module Prawn
         end
       end
 
+      def forget_text_rendering_mode!
+        @text_rendering_mode = :unknown
+      end
+
       # Increases or decreases the space between characters.
       # For horizontal text, a positive value will increase the space.
       # For veritical text, a positive value will decrease the space.
       #
       def character_spacing(amount=nil)
-        return @character_spacing || 0 if amount.nil?
+        return defined?(@character_spacing) && @character_spacing || 0 if amount.nil?
         original_character_spacing = character_spacing
         if original_character_spacing == amount
           yield
@@ -224,7 +232,7 @@ module Prawn
       # For veritical text, a positive value will decrease the space.
       #
       def word_spacing(amount=nil)
-        return @word_spacing || 0 if amount.nil?
+        return defined?(@word_spacing) && @word_spacing || 0 if amount.nil?
         original_word_spacing = word_spacing
         if original_word_spacing == amount
           yield

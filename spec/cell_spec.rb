@@ -87,6 +87,12 @@ describe "Prawn::Table::Cell" do
 
       c.style(:padding => 50, :size => 7)
     end
+
+    it "ignores unknown properties" do
+      c = cell(:content => 'text')
+
+      c.style(:foobarbaz => 'frobnitz')
+    end
   end
 
   describe "cell width" do
@@ -481,6 +487,27 @@ describe "Prawn::Table::Cell" do
         text.should == "text"
         options[:style].should == :bold
         @pdf.font.family.should == 'Action Man'
+      end.at_least_once.returns(box)
+
+      c.draw
+    end
+
+
+    it "uses the style of the current font if none given" do
+      font_path = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
+      @pdf.font_families.merge!("Action Man" => {
+        :normal    => { :file => font_path, :font => "ActionMan" },
+        :bold      => { :file => font_path, :font => "ActionMan-Bold" },
+      })
+      @pdf.font "Action Man", :style => :bold
+
+      c = cell(:content => "text")
+
+      box = Prawn::Text::Box.new("text", :document => @pdf)
+      Prawn::Text::Box.expects(:new).checking do |text, options|
+        text.should == "text"
+        @pdf.font.family.should == 'Action Man'
+        @pdf.font.options[:style].should == :bold
       end.at_least_once.returns(box)
 
       c.draw

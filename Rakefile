@@ -7,25 +7,25 @@ require 'rdoc/task'
 require 'rubygems/package_task'
 
 task :default => [:spec]
-       
+
 desc "Run all rspec files"
 RSpec::Core::RakeTask.new("spec")
 
 desc "Show library's code statistics"
 task :stats do
-	require 'code_statistics'
-  CodeStatistics::TEST_TYPES << "Specs"	
-	CodeStatistics.new( ["Prawn", "lib"], 
-	                    ["Specs", "spec"] ).to_s
+  require 'code_statistics'
+  CodeStatistics::TEST_TYPES << "Specs"
+  CodeStatistics.new( ["Prawn", "lib"],
+                      ["Specs", "spec"] ).to_s
 end
 
 desc "genrates documentation"
 RDoc::Task.new do |rdoc|
-  rdoc.rdoc_files.include( "README",
+  rdoc.rdoc_files.include( "README.md",
                            "COPYING",
-                           "LICENSE", 
-                           "HACKING", "lib/" )
-  rdoc.main     = "README"
+                           "LICENSE",
+                           "lib/" )
+  rdoc.main     = "README.md"
   rdoc.rdoc_dir = "doc/html"
   rdoc.title    = "Prawn Documentation"
 end

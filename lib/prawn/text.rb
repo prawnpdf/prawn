@@ -282,7 +282,7 @@ module Prawn
       text = text.to_s.dup
       save_font do
         process_text_options(options)
-        font.normalize_encoding!(text) unless @skip_encoding
+        font.normalize_encoding!(text)
         font_size(options[:size]) { draw_text!(text, options) }
       end
     end
@@ -326,7 +326,7 @@ module Prawn
       box = Text::Formatted::Box.new(array,
                           options.merge(:height   => 100000000,
                                         :document => self))
-      printed = box.render(:dry_run => true)
+      box.render(:dry_run => true)
 
       height = box.height
       height += box.line_gap + box.leading if @final_gap

@@ -16,7 +16,7 @@ module Prawn
     if "".respond_to?(:encode)
       # Ruby 1.9+
       def utf8_to_utf16(str)
-        utf16 = "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+        "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
       end
 
       # encodes any string into a hex representation. The result is a string

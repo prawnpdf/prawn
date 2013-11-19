@@ -49,6 +49,12 @@ module Prawn
       #     created to that destination. Note that you must explicitly underline
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
+      # <tt>:local</tt>::
+      #     a file or application to be opened locally. A clickable link will be
+      #     created to the provided local file or application. If the file is
+      #     another PDF, it will be opened in a new window. Note that you must
+      #     explicitly underline and color using the appropriate tags if you which
+      #     to draw attention to the link
       # <tt>:draw_text_callback</tt>:
       #     if provided, this Proc will be called instead of #draw_text! once
       #     per fragment for every low-level addition of text to the page.
@@ -210,6 +216,11 @@ module Prawn
           @single_line       = options[:single_line]
           @skip_encoding     = options[:skip_encoding] || @document.skip_encoding
           @draw_text_callback = options[:draw_text_callback]
+
+          # if the text rendering mode is :unknown, force it back to :fill
+          if @mode == :unknown
+            @mode = :fill
+          end
 
           if @overflow == :expand
             # if set to expand, then we simply set the bottom
@@ -450,7 +461,7 @@ module Prawn
           # we need to wait until render() is called so that the fonts are set
           # up properly for wrapping. So guard with a boolean to ensure this is
           # only run once.
-          return if @vertical_alignment_processed
+          return if defined?(@vertical_alignment_processed) && @vertical_alignment_processed
           @vertical_alignment_processed = true
 
           return if @vertical_align == :top
@@ -521,6 +532,7 @@ module Prawn
           draw_fragment_overlay_styles(fragment)
           draw_fragment_overlay_link(fragment)
           draw_fragment_overlay_anchor(fragment)
+          draw_fragment_overlay_local(fragment)
           fragment.callback_objects.each do |obj|
             obj.render_in_front(fragment) if obj.respond_to?(:render_in_front)
           end
@@ -544,12 +556,23 @@ module Prawn
                                     :Dest => fragment.anchor)
         end
 
+        def draw_fragment_overlay_local(fragment)
+          return unless fragment.local
+          box = fragment.absolute_bounding_box
+          @document.link_annotation(box,
+                                    :Border => [0, 0, 0],
+                                    :A => { :Type => :Action,
+                                            :S => :Launch,
+                                            :F => Prawn::Core::LiteralString.new(fragment.local),
+                                            :NewWindow => true })
+        end
+
         def draw_fragment_overlay_styles(fragment)
           underline = fragment.styles.include?(:underline)
           if underline
             @document.stroke_line(fragment.underline_points)
           end
-          
+
           strikethrough = fragment.styles.include?(:strikethrough)
           if strikethrough
             @document.stroke_line(fragment.strikethrough_points)
