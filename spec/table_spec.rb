@@ -100,6 +100,24 @@ describe "Prawn::Table" do
       pdf.move_down(20)
       pdf.table(table_content)
     end
+
+    #https://github.com/prawnpdf/prawn/issues/407#issuecomment-28556698
+    it "illustrates issue #407 - comment 28556698" do
+      data = [['', ''],
+              [{:content => '', :colspan => 2}]
+              ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200]
+    end
+
+    it "illustrates a variant of problem in issue #407 - comment 28556698" do 
+      pdf = Prawn::Document.new
+      table_data = [["a", "b", "c"], [{:content=>"d", :colspan=>3}]]
+      column_widths = [50, 60, 400]
+      pdf.table(table_data, 
+        :column_widths => column_widths
+      )
+    end
   end
 
   describe "#initialize" do
