@@ -214,10 +214,6 @@ module Prawn
       if block
         block.arity < 1 ? instance_eval(&block) : block[self]
       end
-
-      # Add our default image handlers for backwards compatibility
-      Prawn::Images.add_image_handler Prawn::Images::JPG
-      Prawn::Images.add_image_handler Prawn::Images::PNG
     end
 
     attr_accessor :margin_box

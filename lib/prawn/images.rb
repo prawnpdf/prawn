@@ -10,11 +10,6 @@ require 'digest/sha1'
 module Prawn
 
   module Images
-
-    def self.add_image_handler(handler)
-      image_handlers.push handler unless image_handlers.include? handler
-    end
-
     # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported.
     #
@@ -91,8 +86,7 @@ module Prawn
         image_obj = image_registry[image_sha1][:obj]
       else
         # Build the image object
-        klass = Image.find_image_handler_for image_content
-        info = klass.new(image_content)
+        info = ImageHandler.find image_content
 
         # Bump PDF version if the image requires it
         min_version(info.min_pdf_version) if info.respond_to?(:min_pdf_version)
@@ -132,10 +126,6 @@ module Prawn
     end
 
     private
-
-    def self.image_handlers
-      @@image_handlers ||= []
-    end
 
     def verify_and_open_image(io_or_path)
       # File or IO
