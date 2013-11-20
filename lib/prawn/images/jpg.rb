@@ -16,9 +16,15 @@ module Prawn
     class JPG < Image
       attr_reader :width, :height, :bits, :channels
       attr_accessor :scaled_width, :scaled_height
-      
+
       JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf)
       JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef)
+
+      def self.can_render?(image_blob)
+        # Unpack before comparing for JPG header, so as to avoid having to worry
+        # about the source string encoding. We just want a byte-by-byte compare.
+        image_blob[0, 3].unpack("C*") == [255, 216, 255]
+      end
 
       # Process a new JPG image
       #
@@ -66,7 +72,7 @@ module Prawn
           :BitsPerComponent => bits,
           :Width            => width,
           :Height           => height
-        ) 
+        )
 
         # add extra decode params for CMYK images. By swapping the
         # min and max values from the default, we invert the colours. See
