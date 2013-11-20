@@ -2,7 +2,8 @@
 shows your problem.
 
 2. For all support requests and feature requests, please use the [Prawn mailing
-list](https://groups.google.com/forum/#!forum/prawn-ruby) instead of the Github tracker.
+list](https://groups.google.com/forum/#!forum/prawn-ruby) instead of the Github tracker,
+or see if anyone is around in #prawn on Freenode to discuss your issue.
 
 3. Pull requests for bug fixes or enhancements are welcome. Feel free to open
 them in the early stages of your work so that we can give feedback
