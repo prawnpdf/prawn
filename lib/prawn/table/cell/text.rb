@@ -114,14 +114,16 @@ module Prawn
         end
 
         def text_box(extra_options={})
-          if @text_options[:inline_format]
+          if p = @text_options[:inline_format]
+            p = [] unless p.is_a?(Array)
             options = @text_options.dup
             options.delete(:inline_format)
             options.merge!(extra_options)
             options[:document] = @pdf
 
-            array = ::Prawn::Text::Formatted::Parser.to_array(@content)
-            ::Prawn::Text::Formatted::Box.new(array, options)
+            array = @pdf.parser.to_array(@content, *p)
+            ::Prawn::Text::Formatted::Box.new(array,
+              options.merge(extra_options).merge(:document => @pdf))
           else
             ::Prawn::Text::Box.new(@content, @text_options.merge(extra_options).
                merge(:document => @pdf))

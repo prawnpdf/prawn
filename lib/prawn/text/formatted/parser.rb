@@ -13,7 +13,6 @@ module Prawn
     module Formatted
 
       class Parser
-
         PARSER_REGEX = begin
           regex_string = "\n|" +
                          "<b>|</b>|" +
@@ -32,7 +31,7 @@ module Prawn
           Regexp.new(regex_string, Regexp::MULTILINE)
         end
 
-        def self.to_array(string)
+        def self.to_array(string, *args)
           tokens = string.gsub(/<br\s*\/?>/, "\n").scan(PARSER_REGEX)
           self.array_from_tokens(tokens)
         end

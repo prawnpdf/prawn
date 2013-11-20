@@ -140,6 +140,7 @@ module Prawn
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
+    # <tt>:parser</tt>: The parser to use for <tt>:inline_format</tt>ted text [Prawn::Text::Formatted::Parser]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
     # of 100 points on every side except for the left, where it will be 50.
@@ -176,7 +177,7 @@ module Prawn
       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
         :compress, :skip_encoding, :background, :info,
-        :optimize_objects, :template], options
+        :optimize_objects, :template, :parser], options
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
@@ -194,6 +195,8 @@ module Prawn
       @margin_box    = nil
 
       @page_number = 0
+
+      @parser = options.delete(:parser) || Text::Formatted::Parser
 
       options[:size] = options.delete(:page_size)
       options[:layout] = options.delete(:page_layout)
@@ -220,6 +223,7 @@ module Prawn
     attr_reader   :margins, :y
     attr_writer   :font_size
     attr_accessor :page_number
+    attr_accessor :parser
 
     def state
       @internal_state
