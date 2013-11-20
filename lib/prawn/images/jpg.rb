@@ -21,8 +21,6 @@ module Prawn
       JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef)
 
       def self.can_render?(image_blob)
-        # Unpack before comparing for JPG header, so as to avoid having to worry
-        # about the source string encoding. We just want a byte-by-byte compare.
         image_blob[0, 3].unpack("C*") == [255, 216, 255]
       end
 

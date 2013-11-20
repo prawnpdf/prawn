@@ -18,33 +18,22 @@ class TestImageHandlerB < TestImageHandlerBase
 end
 
 describe "ImageHandler" do
-  after(:each) do
-    Prawn::ImageHandler.unregister TestImageHandlerA
-    Prawn::ImageHandler.unregister TestImageHandlerB
-  end
+  let(:image_handler) { Prawn::ImageHandler.new }
 
   it "registers handlers" do
-    Prawn::ImageHandler.register TestImageHandlerA
+    image_handler.register TestImageHandlerA
   end
 
   it "prioritizes image handlers" do
-    Prawn::ImageHandler.register TestImageHandlerA
-    Prawn::ImageHandler.register! TestImageHandlerB
-    handler = Prawn::ImageHandler.find "matches a"
+    image_handler.register TestImageHandlerA
+    image_handler.register! TestImageHandlerB
+    handler = image_handler.find "matches a"
     handler.class.should be(TestImageHandlerB)
   end
 
   it "finds the image handler for an image" do
-    Prawn::ImageHandler.register TestImageHandlerA
-    handler = Prawn::ImageHandler.find "matches a"
+    image_handler.register TestImageHandlerA
+    handler = image_handler.find "matches a"
     handler.class.should be(TestImageHandlerA)
-  end
-
-  it "unregisters handlers" do
-    Prawn::ImageHandler.register TestImageHandlerA
-    Prawn::ImageHandler.unregister TestImageHandlerA
-    lambda {
-      Prawn::ImageHandler.find "matches a"
-    }.should raise_error(Prawn::Errors::UnsupportedImageType)
   end
 end
