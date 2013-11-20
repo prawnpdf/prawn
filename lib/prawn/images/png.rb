@@ -23,6 +23,10 @@ module Prawn
       attr_reader :interlace_method, :alpha_channel
       attr_accessor :scaled_width, :scaled_height
 
+      def self.can_render?(image_blob)
+        image_blob[0, 8].unpack("C*") == [137, 80, 78, 71, 13, 10, 26, 10]
+      end
+
       # Process a new PNG image
       #
       # <tt>data</tt>:: A binary string of PNG data

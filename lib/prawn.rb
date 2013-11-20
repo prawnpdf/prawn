@@ -27,3 +27,7 @@ require "prawn/repeater"
 require "prawn/outline"
 require "prawn/layout"
 
+require "prawn/image_handler"
+
+Prawn.image_handler.register(Prawn::Images::PNG)
+Prawn.image_handler.register(Prawn::Images::JPG)
