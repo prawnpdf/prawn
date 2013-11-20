@@ -43,16 +43,6 @@ module Prawn
 
         [w,h]
       end
-
-      def self.find_image_handler_for(content)
-        handler = Prawn::Images.image_handlers.find{ |h| h.can_render? content }
-        if handler
-          return handler
-        else
-          raise Errors::UnsupportedImageType, "image file is an unrecognised format"
-        end
-      end
     end
   end
 end
-

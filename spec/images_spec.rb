@@ -51,27 +51,6 @@ describe "the image() function" do
     info.height.should == 453
   end
 
-  it "should use classes that say it can render an image" do
-    class Prawn::Images::TEST < Prawn::Images::Image
-      attr_accessor :width, :height
-      attr_accessor :scaled_width, :scaled_height
-
-      def self.can_render?(image_blob)
-      end
-
-      def initialize(data)
-        self.width = 10
-        self.height = 10
-      end
-
-      def build_pdf_object(document)
-      end
-    end
-    Prawn::Images.add_image_handler Prawn::Images::TEST
-    Prawn::Images::TEST.expects(:can_render?).returns(true)
-    @pdf.image "#{Prawn::DATADIR}/images/tru256.bmp"
-  end
-
   it "should raise_error an UnsupportedImageType if passed a BMP" do
     filename = "#{Prawn::DATADIR}/images/tru256.bmp"
     lambda { @pdf.image filename, :at => [100,100] }.should raise_error(Prawn::Errors::UnsupportedImageType)
