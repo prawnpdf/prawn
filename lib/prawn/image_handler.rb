@@ -21,11 +21,10 @@ module Prawn
     def find(image_blob)
       handler = @handlers.find{ |h| h.can_render? image_blob }
 
-      if handler
-        return handler.new(image_blob)
-      else
-        raise Prawn::Errors::UnsupportedImageType, "image file is an unrecognised format"
-      end
+      return handler if handler
+
+      raise Prawn::Errors::UnsupportedImageType, 
+            "image file is an unrecognised format"
     end
   end
 end

@@ -86,7 +86,7 @@ module Prawn
         image_obj = image_registry[image_sha1][:obj]
       else
         # Build the image object
-        info = Prawn.image_handler.find(image_content)
+        info = Prawn.image_handler.find(image_content).new(image_content)
 
         # Bump PDF version if the image requires it
         min_version(info.min_pdf_version) if info.respond_to?(:min_pdf_version)
