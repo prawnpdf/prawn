@@ -9,6 +9,7 @@
 require "prawn/font/afm"
 require "prawn/font/ttf"
 require "prawn/font/dfont"
+require "prawn/font_metric_cache"
 
 module Prawn
 
@@ -218,24 +219,26 @@ module Prawn
     #++
     def width_of(string, options={})
       if options[:inline_format]
-        # Build up an Arranger with the entire string on one line, finalize it,
-        # and find its width.
-        arranger = Core::Text::Formatted::Arranger.new(self, options)
-        arranger.consumed = Text::Formatted::Parser.to_array(string)
-        arranger.finalize_line
-
-        arranger.line_width
+        width_of_inline_formatted_string(string, options)
       else
-        f = if options[:style]
-              # override style with :style => :bold
-              find_font(@font ? @font.name : 'Helvetica',
-                        :style => options[:style])
-            else
-              font
-            end
-        f.compute_width_of(string, options) +
-          (character_spacing * font.character_count(string))
+        width_of_string(string, options)
       end
+    end
+
+    private
+
+    def width_of_inline_formatted_string(string, options={})
+      # Build up an Arranger with the entire string on one line, finalize it,
+      # and find its width.
+      arranger = Core::Text::Formatted::Arranger.new(self, options)
+      arranger.consumed = Text::Formatted::Parser.to_array(string)
+      arranger.finalize_line
+
+      arranger.line_width
+    end
+
+    def width_of_string(string, options={})
+      font_metric_cache.width_of( string, options )
     end
   end
 
@@ -338,6 +341,22 @@ module Prawn
 
     def inspect #:nodoc:
       "#{self.class.name}< #{name}: #{size} >"
+    end
+
+    # Return a hash (as in Object#hash) for the font based on the output of
+    # #inspect. This is required since font objects are used as keys in hashes
+    # that cache certain values (See
+    # Prawn::Table::Text#styled_with_of_single_character)
+    #
+    def hash #:nodoc:
+      [ self.class, self.name, self.family, size ].hash
+    end
+
+    # Compliments the #hash implementation above
+    #
+    def eql?( other ) #:nodoc:
+      self.class == other.class && self.name == other.name &&
+        self.family == other.family && size == other.send(:size)
     end
 
     private

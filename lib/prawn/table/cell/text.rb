@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: utf-8   
 
 # text.rb: Text table cells.
 #
@@ -64,7 +64,7 @@ module Prawn
         # Draws the text content into its bounding box.
         #
         def draw_content
-          with_font do
+          with_font do 
             @pdf.move_down((@pdf.font.line_gap + @pdf.font.descender)/2)
             with_text_color do
               text_box(:width => spanned_content_width + FPTolerance,
@@ -112,7 +112,7 @@ module Prawn
             yield
           end
         end
-
+        
         def text_box(extra_options={})
           if @text_options[:inline_format]
             options = @text_options.dup
@@ -143,9 +143,7 @@ module Prawn
         #   use whichever character is widest under the current font)
         #
         def styled_width_of_single_character
-          key   = (@text_options[:style] == :bold) ? :bold_char_width : :plain_char_width
-          cache = Thread.current[key] ||= {}
-          cache[@pdf.font] ||= styled_width_of("M")
+          styled_width_of("M")
         end
       end
     end

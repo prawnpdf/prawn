@@ -704,5 +704,9 @@ module Prawn
          end
       end
     end
+
+    def font_metric_cache #:nodoc:
+      @font_metric_cache ||= FontMetricCache.new( self )
+    end
   end
 end
