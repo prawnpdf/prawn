@@ -45,6 +45,63 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "You can explicitly set the column widths and use a colspan > 1" do
+    it "should work with a colspan > 1 with given column_widths (issue #407)" do
+      #normal entries in line 1
+      data = [
+        [ '','',''],
+        [ { :content => "", :colspan => 3 } ],
+        [ "", "", "" ],
+      ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
+
+      #colspan entry in line 1
+      data = [
+        [ { :content => "", :colspan => 3 } ],
+        [ "", "", "" ],
+      ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
+
+      #mixed entries in line 1
+      data = [
+        [ { :content => "", :colspan =>2 }, "" ],
+        [ "", "", "" ],
+      ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [100 , 200, 240]
+
+      data = [['', '', {:content => '', :colspan => 2}, '',''],
+              ['',{:content => '', :colspan => 5}]
+              ]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50 , 100, 50, 50, 50, 50]
+
+    end
+
+    it "illustrate issue #533" do
+      data = [['', '', '', '', '',''],
+              ['',{:content => '', :colspan => 5}]]
+      pdf = Prawn::Document.new
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200, 40, 40, 50, 50]
+    end
+
+    it "illustrates issue #502" do
+      pdf = Prawn::Document.new
+      first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
+      second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
+      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>55,:align=>:center}
+      fourth = {:content=>"Bar",:width=>15,:align=>:center}
+      table_content = [[
+      first,
+      [[second],[third,fourth]]
+      ]]
+      pdf.move_down(20)
+      pdf.table(table_content)
+    end
+  end
+
   describe "#initialize" do
     before(:each) do
       @pdf = Prawn::Document.new
@@ -374,13 +431,13 @@ describe "Prawn::Table" do
       end
 
       it "should allow table cells to be resized in block" do
-        lambda do
-          @pdf.table([%w[1 2 3 4 5]]) do |t|
-            t.width = 40
-            t.cells.size = 8
-            t.cells.padding = 0
-          end
-        end.should_not raise_error(Prawn::Errors::CannotFit)
+        # if anything goes wrong, a CannotFit error will be raised
+
+        @pdf.table([%w[1 2 3 4 5]]) do |t|
+          t.width = 40
+          t.cells.size = 8
+          t.cells.padding = 0
+        end
       end
 
       it "should be the width of the :width parameter" do
@@ -714,6 +771,12 @@ describe "Prawn::Table" do
         table([["x"]]) { style(stylable) }
       end
     end
+
+    it "ignores unknown values on a cell-by-cell basis" do
+      Prawn::Document.new do
+        table([["x", [["y"]]]], :cell_style => {:overflow => :shrink_to_fit})
+      end
+    end
   end
 
   describe "row_colors" do
@@ -873,49 +936,107 @@ describe "Prawn::Table" do
   end
 
   describe "headers" do
-    it "should add headers to output when specified" do
-      data = [["a", "b"], ["foo","bar"],["baz","bang"]]
-      @pdf = Prawn::Document.new
-      @pdf.table(data, :header => true)
-      output = PDF::Inspector::Text.analyze(@pdf.render)
-      output.strings.should == data.flatten
-    end
+    context "single row header" do
+      it "should add headers to output when specified" do
+        data = [["a", "b"], ["foo","bar"],["baz","bang"]]
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => true)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == data.flatten
+      end
 
-    it "should repeat headers across pages" do
-      data = [["foo","bar"]] * 30
-      headers = ["baz","foobar"]
-      @pdf = Prawn::Document.new
-      @pdf.table([headers] + data, :header => true)
-      output = PDF::Inspector::Text.analyze(@pdf.render)
-      output.strings.should == headers + data.flatten[0..-3] + headers +
-        data.flatten[-2..-1]
-    end
+      it "should repeat headers across pages" do
+        data = [["foo","bar"]] * 30
+        headers = ["baz","foobar"]
+        @pdf = Prawn::Document.new
+        @pdf.table([headers] + data, :header => true)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == headers + data.flatten[0..-3] + headers +
+          data.flatten[-2..-1]
+      end
 
-    it "draws headers at the correct position" do
-      data = [["header"]] + [["foo"]] * 40
+      it "draws headers at the correct position" do
+        data = [["header"]] + [["foo"]] * 40
 
-      Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
-        cells.each do |cell, pt|
-          if cell.content == "header"
-            # Assert that header text is drawn at the same location on each page
-            if @header_location
-              pt.should == @header_location
-            else
-              @header_location = pt
+        Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+          cells.each do |cell, pt|
+            if cell.content == "header"
+              # Assert that header text is drawn at the same location on each page
+              if @header_location
+                pt.should == @header_location
+              else
+                @header_location = pt
+              end
             end
           end
         end
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => true)
       end
-      @pdf = Prawn::Document.new
-      @pdf.table(data, :header => true)
+
+      it "should_not draw header twice when starting new page" do
+        @pdf = Prawn::Document.new
+        @pdf.y = 0
+        @pdf.table([["Header"], ["Body"]], :header => true)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == ["Header", "Body"]
+      end
     end
 
-    it "should_not draw header twice when starting new page" do
-      @pdf = Prawn::Document.new
-      @pdf.y = 0
-      @pdf.table([["Header"], ["Body"]], :header => true)
-      output = PDF::Inspector::Text.analyze(@pdf.render)
-      output.strings.should == ["Header", "Body"]
+    context "multiple row header" do
+      it "should add headers to output when specified" do
+        data = [["a", "b"], ["c", "d"], ["foo","bar"],["baz","bang"]]
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => 2)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == data.flatten
+      end
+
+      it "should repeat headers across pages" do
+        data = [["foo","bar"]] * 30
+        headers = ["baz","foobar"] + ["bas", "foobaz"]
+        @pdf = Prawn::Document.new
+        @pdf.table([headers] + data, :header => 2)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == headers + data.flatten[0..-3] + headers +
+          data.flatten[-4..-1]
+      end
+
+      it "draws headers at the correct position" do
+        data = [["header"]] + [["header2"]] + [["foo"]] * 40
+
+        Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+          cells.each do |cell, pt|
+            if cell.content == "header"
+              # Assert that header text is drawn at the same location on each page
+              if @header_location
+                pt.should == @header_location
+              else
+                @header_location = pt
+              end
+            end
+
+            if cell.content == "header2"
+              # Assert that header text is drawn at the same location on each page
+              if @header2_location
+                pt.should == @header2_location
+              else
+                @header2_location = pt
+              end
+            end
+          end
+        end
+        @pdf = Prawn::Document.new
+        @pdf.table(data, :header => 2)
+      end
+
+      it "should_not draw header twice when starting new page" do
+        @pdf = Prawn::Document.new
+        @pdf.y = 0
+        @pdf.table([["Header"], ["Header2"], ["Body"]], :header => 2)
+        output = PDF::Inspector::Text.analyze(@pdf.render)
+        output.strings.should == ["Header", "Header2", "Body"]
+      end
     end
   end
 
@@ -1176,7 +1297,6 @@ describe "colspan / rowspan" do
                       :colspan => 3}],
                     ["A", "B", "C"]],
                    :width => 200)
-
     t.column_widths.inject(0) { |sum, w| sum + w }.
       should be_within(0.01).of(200)
   end
@@ -1217,4 +1337,3 @@ describe "colspan / rowspan" do
     t.cells[2, 3].content.should == "i"
   end
 end
-

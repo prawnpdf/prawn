@@ -125,7 +125,7 @@ module Prawn
           :Extend => [true, true],
         })
 
-        shading_pattern = ref!({
+        ref!({
           :PatternType => 2, # shading pattern
           :Shading => shading,
           :Matrix => [1, 0,

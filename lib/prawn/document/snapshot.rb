@@ -50,7 +50,7 @@ module Prawn
         # monotonically as data is added to the document, so we share that
         # between the old and new copies.
         {:page_content    => state.page.content.deep_copy,
-         :current_page    => state.page.dictionary.deep_copy(share=[:Parent]),
+         :current_page    => state.page.dictionary.deep_copy([:Parent]),
          :bounds          => bounds.deep_copy,
          :page_number     => page_number,
          :page_kids       => state.store.pages.data[:Kids].compact.map{|kid| kid.identifier},

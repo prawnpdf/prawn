@@ -70,7 +70,7 @@ module Prawn
 
       # Marks this and all referenced objects live, recursively.
       def mark_live
-        return if @live
+        return if defined?(@live) && @live
         @live = true
         referenced_objects.each { |o| o.mark_live }
       end

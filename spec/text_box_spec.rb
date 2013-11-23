@@ -278,14 +278,15 @@ describe "Text::Box#render(:dry_run => true)" do
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings.should be_empty
   end
+
   it "subsequent calls to render should_not raise_error an ArgumentError exception" do
     create_pdf
     @text = "™©"
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
-    lambda { text_box.render }.should_not raise_error(
-      Prawn::Errors::IncompatibleStringEncoding)
+    
+    text_box.render
   end
 end
 
@@ -663,13 +664,14 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       remaining_text.should == @text
     end
+
     it "subsequent calls to Text::Box need not include the" +
        " :skip_encoding => true option" do
       @pdf.font("Action Man")
       remaining_text = @text_box.render
-      lambda {
-        @pdf.text_box(remaining_text, :document => @pdf)
-      }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
+
+      # expect that calling text_box will not raise an encoding error
+      @pdf.text_box(remaining_text, :document => @pdf)
     end
   end
 
@@ -684,10 +686,9 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       lambda {
         @pdf.text_box(remaining_text, :document => @pdf)
       }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
-      lambda {
-        @pdf.text_box(remaining_text, :skip_encoding => true,
-                                      :document => @pdf)
-      }.should_not raise_error(Prawn::Errors::IncompatibleStringEncoding)
+
+      @pdf.text_box(remaining_text, :skip_encoding => true,
+                                    :document => @pdf)
     end
   end
 end

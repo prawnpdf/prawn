@@ -262,9 +262,9 @@ module Prawn
                       :layout  => options[:layout] || last_page_layout,
                       :margins => last_page_margins}
       if last_page
-        new_graphic_state = last_page.graphic_state.dup
+        new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
         #erase the color space so that it gets reset on new page for fussy pdf-readers
-        new_graphic_state.color_space = {}
+        new_graphic_state.color_space = {} if new_graphic_state
         page_options.merge!(:graphic_state => new_graphic_state)
       end
       merge_template_options(page_options, options) if options[:template]
@@ -282,6 +282,7 @@ module Prawn
 
       state.page.new_content_stream if options[:template]
       use_graphic_settings(options[:template])
+      forget_text_rendering_mode! if options[:template]
 
       unless options[:orphan]
         state.insert_page(state.page, @page_number)
@@ -706,6 +707,10 @@ module Prawn
            state.page.margins[side] = margin
          end
       end
+    end
+
+    def font_metric_cache #:nodoc:
+      @font_metric_cache ||= FontMetricCache.new( self )
     end
   end
 end

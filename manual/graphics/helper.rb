@@ -1,12 +1,15 @@
 # encoding: utf-8
 #
 # To produce this manual we use the <code>stroke_axis</code> helper method
-# within examples but it is not from the Prawn API. It is defined on this file:
-#
-# https://github.com/prawnpdf/prawn/blob/master/manual/example_helper.rb
+# within the examples.
 #
 # <code>stroke_axis</code> prints the x and y axis for the current bounding box
-# with markers in 100 increments
+# with markers in 100 increments. The defaults can be changed with various
+# options.
+#
+# Note that the examples define a custom <code>:height</code> option so that
+# only the example canvas is used (as seen with the output of the first line of
+# the example code).
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -14,4 +17,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   stroke_axis
+  stroke_axis(:at => [70, 70], :height => 200, :step_length => 50,
+              :negative_axes_length => 5, :color => '0000FF')
+  stroke_axis(:at => [140, 140], :width => 200, :height => cursor.to_i - 140,
+              :step_length => 20, :negative_axes_length => 40, :color => 'FF00')
 end

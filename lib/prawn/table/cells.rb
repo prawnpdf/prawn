@@ -46,7 +46,7 @@ module Prawn
       #   table.rows(3..4) # selects rows four and five
       #
       def rows(row_spec)
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         row_spec = transform_spec(row_spec, @first_row, @row_count)
         Cells.new(@rows[row_spec] ||= select { |c|
                     row_spec.respond_to?(:include?) ?
@@ -57,7 +57,7 @@ module Prawn
       # Returns the number of rows in the list.
       #
       def row_count
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         @row_count
       end
 
@@ -69,7 +69,7 @@ module Prawn
       #   table.columns(3..4) # selects columns four and five
       #
       def columns(col_spec)
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         col_spec = transform_spec(col_spec, @first_column, @column_count)
         Cells.new(@columns[col_spec] ||= select { |c|
                     col_spec.respond_to?(:include?) ? 
@@ -80,7 +80,7 @@ module Prawn
       # Returns the number of columns in the list.
       #
       def column_count
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         @column_count
       end
 
@@ -100,7 +100,7 @@ module Prawn
       #
       def [](row, col)
         return nil if empty?
-        index_cells unless @indexed
+        index_cells unless defined?(@indexed) && @indexed
         row_array, col_array = @rows[@first_row + row] || [], @columns[@first_column + col] || []
         if row_array.length < col_array.length
           row_array.find { |c| c.column == @first_column + col }
@@ -116,7 +116,7 @@ module Prawn
         cell.row = row
         cell.column = col
 
-        if @indexed
+        if defined?(@indexed) && @indexed
           (@rows[row]    ||= []) << cell
           (@columns[col] ||= []) << cell
           @first_row    = row if !@first_row    || row < @first_row
@@ -154,7 +154,6 @@ module Prawn
       def width
         widths = {}
         each do |cell|
-          index = cell.column
           per_cell_width = cell.width_ignoring_span.to_f / cell.colspan
           cell.colspan.times do |n|
             widths[cell.column+n] = [widths[cell.column+n], per_cell_width].
@@ -173,7 +172,7 @@ module Prawn
       # Returns maximum width that can contain cells in the set.
       #
       def max_width
-        aggregate_cell_values(:column, :max_width_ignoring_span, :min)
+        aggregate_cell_values(:column, :max_width_ignoring_span, :max)
       end
 
       # Returns the total height of all rows in the selected set.
@@ -229,9 +228,45 @@ module Prawn
       #
       def aggregate_cell_values(row_or_column, meth, aggregate)
         values = {}
+
+        #calculate values for all cells that do not span accross multiple cells
+        #this ensures that we don't have a problem if the first line includes
+        #a cell that spans across multiple cells
         each do |cell|
-          index = cell.send(row_or_column)
-          values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
+          #don't take spanned cells
+          if cell.colspan == 1 and cell.class != Prawn::Table::Cell::SpanDummy
+            index = cell.send(row_or_column)
+            values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
+          end
+        end
+
+        each do |cell|
+          index = cell.send(row_or_column)          
+          if cell.colspan > 1
+            #calculate current (old) return value before we do anything
+            old_sum = 0
+            cell.colspan.times { |i|
+              old_sum += values[index+i] unless values[index+i].nil?
+            }
+            
+            #calculate future return value 
+            new_sum = cell.send(meth) * cell.colspan
+
+            if new_sum >= old_sum
+              #not entirely sure why we need this line, but with it the tests pass
+              values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+              #overwrite the old values with the new ones, but only if all entries existed
+              entries_exist = true
+              cell.colspan.times { |i| entries_exist = false if values[index+i].nil? }
+              cell.colspan.times { |i|
+                values[index+i] = cell.send(meth) if entries_exist
+              }
+            end
+          else
+            if cell.class == Prawn::Table::Cell::SpanDummy
+              values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+            end
+          end
         end
         values.values.inject(0, &:+)
       end

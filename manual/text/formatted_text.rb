@@ -17,8 +17,9 @@
 # <code>:character_spacing</code> (additional space between the characters),
 # <code>:font</code> (the name of a registered font), <code>:color</code> (the
 # same input accepted by <code>fill_color</code> and <code>stroke_color</code>),
-# <code>:link</code> (an URL to create a link), and <code>:anchor</code> (a
-# destination inside the document).
+# <code>:link</code> (an URL to create a link), <code>:anchor</code> (a
+# destination inside the document), and <code>:local</code> (a link to a local
+# file).
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -37,7 +38,10 @@ Prawn::Example.generate(filename) do
                      :link => "https://github.com/prawnpdf/prawn/wiki" },
                    { :text => "Link to the Text Reference. "  ,
                      :color => "0000FF",
-                     :anchor => "Text Reference" }
+                     :anchor => "Text Reference" },
+                   { :text => "Link to a local file. ",
+                     :color => "0000FF",
+                     :local => "./local_file.txt" }
                  ]
   
   formatted_text_box [ { :text => "Just your regular" },

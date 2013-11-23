@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # dash.rb : Implements stroke dashing
 #
@@ -10,34 +10,57 @@ module Prawn
   module Graphics
     module Dash
 
-      # Sets the dash pattern for stroked lines and curves
+      # Sets the dash pattern for stroked lines and curves or return the
+      # current dash pattern setting if +length+ is nil.
       #
-      #   length is the length of the dash. If options is not present,
-      #   or options[:space] is nil, then length is also the length of
-      #   the space between dashes
+      # There are two ways to set the dash pattern:
       #
-      #   options may contain :space and :phase
-      #      :space is the space between the dashes
-      #      :phase is where in the cycle to begin dashing. For
-      #             example, a phase of 0 starts at the beginning of
-      #             the dash; whereas, if the phase is equal to the
-      #             length of the dash, then stroking will begin at
-      #             the beginning of the space. Default is 0
+      # * If the parameter +length+ is an Integer/Float, it specifies
+      #   the length of the dash and of the gap. The length of the gap
+      #   can be customized by setting the :space option.
       #
-      #   integers or floats may be used for length and the options
+      #   Examples:
       #
-      #   dash units are in PDF points ( 1/72 in )
-      #   
-      def dash(length=nil, options={})        
-        return current_dash_state || undash_hash if length.nil?
+      #     length = 3
+      #       3 on, 3 off, 3 on, 3 off, ...
+      #     length = 3, :space =2
+      #       3 on, 2 off, 3 on, 2 off, ...
+      #
+      # * If the parameter +length+ is an array, it specifies the
+      #   lengths of alternating dashes and gaps. The :space option is
+      #   ignored in this case.
+      #
+      #   Examples:
+      #
+      #     length = [2, 1]
+      #       2 on, 1 off, 2 on, 1 off, ...
+      #     length = [3, 1, 2, 3]
+      #       3 on, 1 off, 2 on, 3 off, 3 on, 1 off, ...
+      #
+      # Options may contain the keys :space and :phase
+      #
+      # :space:: The space between the dashes (only used when +length+
+      #          is not an array)
+      #
+      # :phase:: The distance into the dash pattern at which to start
+      #          the dash. For example, a phase of 0 starts at the
+      #          beginning of the dash; whereas, if the phase is equal
+      #          to the length of the dash, then stroking will begin at
+      #          the beginning of the space. Default is 0.
+      #
+      # Integers or Floats may be used for length and the option values.
+      # Dash units are in PDF points (1/72 inch).
+      #
+      def dash(length=nil, options={})
+        return current_dash_state if length.nil?
 
-        self.current_dash_state = { :dash  => length, 
-                  :space => options[:space] || length, 
+        self.current_dash_state = { :dash  => length,
+                  :space => length.kind_of?(Array) ? nil : options[:space] || length,
                   :phase => options[:phase] || 0 }
 
         write_stroke_dash
       end
-      
+
       alias_method :dash=, :dash
 
       # Stops dashing, restoring solid stroked lines and curves
@@ -46,37 +69,35 @@ module Prawn
         self.current_dash_state = undashed_setting
         write_stroke_dash
       end
-      
+
       # Returns when stroke is dashed, false otherwise
       #
       def dashed?
         current_dash_state != undashed_setting
       end
-      
+
       def write_stroke_dash
         add_content dash_setting
       end
 
-    private
-      
+      private
+
       def undashed_setting
         { :dash => nil, :space => nil, :phase => 0 }
       end
-      
-      private 
-        
-      def current_dash_state=(dash_options)  
+
+      def current_dash_state=(dash_options)
         graphic_state.dash = dash_options
       end
-      
+
       def current_dash_state
         graphic_state.dash
       end
-      
+
       def dash_setting
         graphic_state.dash_setting
       end
-      
+
     end
   end
 end

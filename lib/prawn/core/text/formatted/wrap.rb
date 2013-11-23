@@ -81,11 +81,11 @@ module Prawn
 
             accumulated_width = 0
             fragments_this_line.reverse! if @direction == :rtl
-            fragments_this_line.each do |fragment|
-              fragment.default_direction = @direction
-              format_and_draw_fragment(fragment, accumulated_width,
+            fragments_this_line.each do |fragment_this_line|
+              fragment_this_line.default_direction = @direction
+              format_and_draw_fragment(fragment_this_line, accumulated_width,
                                        @line_wrap.width, word_spacing)
-              accumulated_width += fragment.width
+              accumulated_width += fragment_this_line.width
             end
 
             if "".respond_to?(:force_encoding)
