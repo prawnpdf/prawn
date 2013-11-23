@@ -29,16 +29,6 @@ def create_pdf(klass=Prawn::Document)
   @pdf = klass.new(:margin => 0)
 end    
 
-RSpec::Matchers.define :have_parseable_xobjects do
-  match do |actual|
-    expect { PDF::Inspector::XObject.analyze(actual.render) }.not_to raise_error
-    true
-  end
-  failure_message_for_should do |actual|
-    "expected that #{actual}'s XObjects could be successfully parsed"
-  end
-end
-
 # Make some methods public to assist in testing
 module Prawn::Graphics
   public :map_to_absolute
