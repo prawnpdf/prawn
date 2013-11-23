@@ -110,7 +110,7 @@ module Prawn
 
       box = if p = options.delete(:inline_format)
               p = [] unless p.is_a?(Array)
-              array = self.parser.to_array(string, *p)
+              array = self.text_formatter.format(string, *p)
               Text::Formatted::Box.new(array, options)
             else
               Text::Box.new(string, options)

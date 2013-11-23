@@ -121,7 +121,7 @@ module Prawn
             options.merge!(extra_options)
             options[:document] = @pdf
 
-            array = @pdf.parser.to_array(@content, *p)
+            array = @pdf.text_formatter.format(@content, *p)
             ::Prawn::Text::Formatted::Box.new(array,
               options.merge(extra_options).merge(:document => @pdf))
           else

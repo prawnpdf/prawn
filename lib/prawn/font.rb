@@ -224,7 +224,7 @@ module Prawn
         # Build up an Arranger with the entire string on one line, finalize it,
         # and find its width.
         arranger = Core::Text::Formatted::Arranger.new(self, options)
-        arranger.consumed = self.parser.to_array(string, *p)
+        arranger.consumed = self.text_formatter.format(string, *p)
         arranger.finalize_line
 
         arranger.line_width
@@ -239,7 +239,7 @@ module Prawn
       # Build up an Arranger with the entire string on one line, finalize it,
       # and find its width.
       arranger = Core::Text::Formatted::Arranger.new(self, options)
-      arranger.consumed = Text::Formatted::Parser.to_array(string)
+      arranger.consumed = Text::Formatted::Parser.format(string)
       arranger.finalize_line
 
       arranger.line_width

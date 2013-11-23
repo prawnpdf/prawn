@@ -31,7 +31,7 @@ module Prawn
           Regexp.new(regex_string, Regexp::MULTILINE)
         end
 
-        def self.to_array(string, *args)
+        def self.format(string, *args)
           tokens = string.gsub(/<br\s*\/?>/, "\n").scan(PARSER_REGEX)
           self.array_from_tokens(tokens)
         end
