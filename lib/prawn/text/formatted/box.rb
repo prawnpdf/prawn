@@ -105,6 +105,7 @@ module Prawn
                                               :align, :valign,
                                               :rotate, :rotate_around,
                                               :overflow, :min_font_size,
+                                              :disable_wrap_by_char,
                                               :leading, :character_spacing,
                                               :mode, :single_line,
                                               :skip_encoding,
@@ -191,6 +192,7 @@ module Prawn
           self.class.extensions.reverse_each { |e| extend e }
 
           @overflow          = options[:overflow] || :truncate
+          @disable_wrap_by_char = options[:disable_wrap_by_char]
 
           self.original_text = formatted_text
           @text              = nil
@@ -479,11 +481,22 @@ module Prawn
         # Decrease the font size until the text fits or the min font
         # size is reached
         def shrink_to_fit(text)
-          wrap(text)
-          until @everything_printed || @font_size <= @min_font_size
+          loop do
+            if @disable_wrap_by_char && @font_size > @min_font_size
+              begin
+                wrap(text)
+              rescue Errors::CannotFit
+                # Ignore errors while we can still attempt smaller
+                # font sizes.
+              end
+            else
+              wrap(text)
+            end
+
+            break if @everything_printed || @font_size <= @min_font_size
+
             @font_size = [@font_size - 0.5, @min_font_size].max
             @document.font_size = @font_size
-            wrap(text)
           end
         end
 
