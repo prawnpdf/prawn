@@ -114,6 +114,15 @@ describe "Document encryption" do
       Prawn::Core::EncryptedPdfObject("foo", "12345", 123, 0).should == "<4ad6e3>"
     end
 
+    it "should encrypt literal strings properly" do
+       Prawn::Core::EncryptedPdfObject(Prawn::Core::LiteralString.new("foo"), "12345", 123, 0).should == bin_string("(J\xD6\xE3)")
+       Prawn::Core::EncryptedPdfObject(Prawn::Core::LiteralString.new("lhfbqg3do5u0satu3fjf"), nil, 123, 0).should == bin_string("(\xF1\x8B\\(\b\xBB\xE18S\x130~4*#\\(%\x87\xE7\x8E\\\n)")
+    end
+
+    it "should encrypt time properly" do
+       Prawn::Core::EncryptedPdfObject(Time.utc(2050, 04, 26, 10, 17, 10), "12345", 123, 0).should == bin_string("(h\x83\xBE\xDC\xEC\x99\x0F\xD7\\)%\x13\xD4$\xB8\xF0\x16\xB8\x80\xC5\xE91+\xCF)")
+    end
+
     it "should properly handle compound types" do
       Prawn::Core::EncryptedPdfObject({:Bar => "foo"}, "12345", 123, 0).should ==
         "<< /Bar <4ad6e3>\n>>"
@@ -132,7 +141,7 @@ describe "Document encryption" do
     it "should encrypt references with streams properly" do
       ref = Prawn::Core::Reference(1, {})
       ref << 'foo'
-      result = ruby_19 { "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n".force_encoding('ASCII-8BIT') } || ruby_18 { "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n" }
+      result = bin_string("1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n")
       ref.encrypted_object(nil).should == result
     end
   end
@@ -141,7 +150,7 @@ describe "Document encryption" do
     it "should encrypt stream properly" do
       stream = Prawn::Core::Stream.new
       stream << "foo"
-      result = ruby_19 { "stream\nO\xCA?\nendstream\n".force_encoding('ASCII-8BIT') } || ruby_18 { "stream\nO\xCA?\nendstream\n" }
+      result = bin_string("stream\nO\xCA?\nendstream\n")
       stream.encrypted_object(nil, 1, 0).should == result
     end
   end

@@ -129,13 +129,14 @@ module Prawn
 
     def verify_and_open_image(io_or_path)
       # File or IO
-      if io_or_path.respond_to?(:binmode)
-        io = io_or_path 
+      if io_or_path.respond_to?(:rewind)
+        io = io_or_path
         # Rewind if the object we're passed is an IO, so that multiple embeds of
         # the same IO object will work
         io.rewind
         # read the file as binary so the size is calculated correctly
-        io.binmode
+        # guard binmode because some objects acting io-like don't implement it
+        io.binmode if io.respond_to?(:binmode)
         return io
       end
       # String or Pathname
