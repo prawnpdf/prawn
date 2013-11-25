@@ -70,7 +70,8 @@ module Prawn
     #
     # <tt>:inline_format</tt>::
     #      <tt>boolean</tt>. If true, then the string parameter is interpreted
-    #      as a HTML-esque string that recognizes the following tags:
+    #      as a HTML-esque string that recognizes the following tags
+    #      (assuming the default text formatter is used):
     #      <tt>\<b></b></tt>:: bold
     #      <tt>\<i></i></tt>:: italic
     #      <tt>\<u></u></tt>:: underline
@@ -156,9 +157,10 @@ module Prawn
       # we modify the options. don't change the user's hash
       options = options.dup
 
-      if options[:inline_format]
+      if p = options[:inline_format]
+        p = [] unless p.is_a?(Array)
         options.delete(:inline_format)
-        array = Text::Formatted::Parser.to_array(string)
+        array = self.text_formatter.format(string, *p)
       else
         array = [{ :text => string }]
       end
@@ -197,7 +199,7 @@ module Prawn
       end
 
       if @indent_paragraphs
-        Text::Formatted::Parser.array_paragraphs(array).each do |paragraph|
+        self.text_formatter.array_paragraphs(array).each do |paragraph|
           options[:skip_encoding] = false
           remaining_text = draw_indented_formatted_line(paragraph, options)
           options[:skip_encoding] = true

@@ -41,6 +41,6 @@ class Numeric
   end
   
   def pt
-    return self
+    return pt2pt(self)
   end
 end        
