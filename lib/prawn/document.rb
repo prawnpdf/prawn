@@ -317,6 +317,7 @@ module Prawn
       @page_number = k
       state.page = state.pages[k-1]
       generate_margin_box
+      @bounding_box = @margin_box
       @y = @bounding_box.absolute_top
     end
 
