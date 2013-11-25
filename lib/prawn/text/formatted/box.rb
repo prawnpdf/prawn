@@ -186,6 +186,7 @@ module Prawn
           self.class.extensions.reverse_each { |e| extend e }
 
           @overflow          = options[:overflow] || :truncate
+          @disable_wrap_by_char = options[:disable_wrap_by_char]
 
           self.original_text = formatted_text
           @text              = nil
@@ -470,7 +471,11 @@ module Prawn
         # size is reached
         def shrink_to_fit(text)
           loop do
-            wrap(text) rescue Errors::CannotFit
+            if @disable_wrap_by_char && @font_size > @min_font_size
+              wrap_text rescue Errors::CannotFit
+            else
+              wrap(text)
+            end
 
             break if @everything_printed || @font_size <= @min_font_size
 
