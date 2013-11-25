@@ -29,6 +29,32 @@ describe "The cursor" do
   end
 end 
 
+describe "when generating a document with a custom text formatter" do
+  it "should use the provided text formatter" do
+    class TestTextFormatter
+      def self.format(string)
+        [
+          {
+            text: string.gsub("Dr. Who?", "Just 'The Doctor'."),
+            styles: [],
+            color: nil,
+            link: nil,
+            anchor: nil,
+            local: nil,
+            font: nil,
+            size: nil,
+            character_spacing: nil
+          }
+        ]
+      end
+    end
+    pdf = Prawn::Document.new text_formatter: TestTextFormatter
+    pdf.text "Dr. Who?", inline_format: true
+    text = PDF::Inspector::Text.analyze(pdf.render)
+    text.strings.first.should == "Just 'The Doctor'."
+  end
+end
+
 describe "when generating a document from a subclass" do
   it "should be an instance of the subclass" do
     custom_document = Class.new(Prawn::Document)

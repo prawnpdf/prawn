@@ -36,6 +36,10 @@ module Prawn
     # ============================================================================
     # PostscriptPoint-converisons
   
+    def pt2pt(pt)
+      return pt
+    end
+
     def in2pt(inch)
       return inch * 72    
     end
