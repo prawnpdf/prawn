@@ -1,5 +1,7 @@
 # encoding: utf-8
 #
+#<b>NOTE: Templates are currently unmaintained and may be removed by Prawn 1.0!</b>
+#
 # You may load another PDF while creating a new one. Just pass the loaded PDF
 # filename to the <code>:template</code> option when creating/generating the new
 # PDF.
