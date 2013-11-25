@@ -176,7 +176,7 @@ module Prawn
       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
         :compress, :skip_encoding, :background, :info,
-        :optimize_objects, :template, :text_formatter], options
+        :optimize_objects, :template, :text_formatter, :print_scaling], options
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
