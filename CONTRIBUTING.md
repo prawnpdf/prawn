@@ -18,12 +18,12 @@ Here are some notes on our issue tracker process:
 
 * We will close pull requests that need revisions, after tagging them
 with a "needs-revision" tag. Once the revisions are made, you can
-comment on the pull request and we'll review it again!
+comment on the pull request and we'll review it again.
 
 * We may close any issue after 30 days of inactivity, labeling it
 with a 'stale' tag. To re-open it, simply leave a comment on
 the issue. If there is a proper example in place and the
-issue still is relevant, we will open it back up!
+issue still is relevant, we will open it back up.
 
 * We will close all incoming issues related to the currently
 unmaintained templates feature, marking them with a 'templates'
