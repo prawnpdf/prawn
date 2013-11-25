@@ -472,7 +472,7 @@ module Prawn
         def shrink_to_fit(text)
           loop do
             if @disable_wrap_by_char && @font_size > @min_font_size
-              wrap_text rescue Errors::CannotFit
+              wrap(text) rescue Errors::CannotFit
             else
               wrap(text)
             end
