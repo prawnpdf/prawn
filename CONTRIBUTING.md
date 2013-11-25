@@ -18,7 +18,7 @@ Here are some notes on our issue tracker process:
 
 * We will close pull requests that need revisions, after tagging them
 with a "needs-revision" tag. Once the revisions are made, you can
-re-open the pull request and we'll review it again!
+comment on the pull request and we'll review it again!
 
 * We may close any issue after 30 days of inactivity, labeling it
 with a 'stale' tag. To re-open it, simply leave a comment on
