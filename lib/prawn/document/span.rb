@@ -8,8 +8,8 @@
 
 module Prawn
   class Document
-    # A span is a special purpose bounding box that allows a column of 
-    # elements to be positioned relative to the margin_box.  
+    # A span is a special purpose bounding box that allows a column of
+    # elements to be positioned relative to the margin_box.
     #
     # Arguments:
     # +width+:: The width of the column in PDF points
@@ -17,17 +17,17 @@ module Prawn
     # Options:
     # <tt>:position</tt>:: One of :left, :center, :right or an x offset
     #
-    # This method is typically used for flowing a column of text from one 
+    # This method is typically used for flowing a column of text from one
     # page to the next.
     #
     #  span(350, :position => :center) do
     #    text "Here's some centered text in a 350 point column. " * 100
     #  end
-    #  
+    #
     def span(width, options={})
       Prawn.verify_options [:position], options
-      original_position = self.y      
-     
+      original_position = self.y
+
       # FIXME: Any way to move this upstream?
       left_boundary = case(options[:position] || :left)
       when :left
@@ -41,15 +41,15 @@ module Prawn
       else
         raise ArgumentError, "Invalid option for :position"
       end
-      
+
       # we need to bust out of whatever nested bounding boxes we're in.
       canvas do
-        bounding_box([left_boundary, 
+        bounding_box([left_boundary,
                       margin_box.absolute_top], :width => width) do
           self.y = original_position
           yield
         end
-      end          
+      end
     end
   end
 end

@@ -17,14 +17,14 @@ module Prawn
     # == Encoding
     #
     # Note that strings passed to this function should be encoded as UTF-8.
-    # If you get unexpected characters appearing in your rendered document, 
+    # If you get unexpected characters appearing in your rendered document,
     # check this.
     #
     # If the current font is a built-in one, although the string must be
     # encoded as UTF-8, only characters that are available in WinAnsi
     # are allowed.
     #
-    # If an empty box is rendered to your PDF instead of the character you 
+    # If an empty box is rendered to your PDF instead of the character you
     # wanted it usually means the current font doesn't include that character.
     #
     # == Options (default values marked in [])
@@ -67,7 +67,7 @@ module Prawn
     # <tt>:valign</tt>::
     #     <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical
     #     alignment within the bounding box [:top]
-    #                   
+    #
     # <tt>:rotate</tt>::
     #     <tt>number</tt>. The angle to rotate the text
     # <tt>:rotate_around</tt>::
@@ -120,7 +120,7 @@ module Prawn
     end
 
     # Generally, one would use the Prawn::Text#text_box convenience
-    # method. However, using Text::Box.new in conjunction with 
+    # method. However, using Text::Box.new in conjunction with
     # #render(:dry_run=> true) enables one to do look-ahead calculations prior
     # to placing text on the page, or to determine how much vertical space was
     # consumed by the printed text

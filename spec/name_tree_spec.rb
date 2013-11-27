@@ -24,7 +24,7 @@ class RefExposingDocument < Prawn::Document
   end
 end
 
-describe "Name Tree" do     
+describe "Name Tree" do
   before(:each) { create_pdf(RefExposingDocument) }
 
   it "should have no children when first initialized" do
@@ -50,7 +50,7 @@ describe "Name Tree" do
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])
     @pdf.object_store.length.should == ref_count+2
   end
-  
+
   it "should create a one new reference when subtree is split" do
     node = Prawn::Core::NameTree::Node.new(@pdf, 3)
     tree_add(node, ["one", 1], ["two", 2], ["three", 3], ["four", 4])

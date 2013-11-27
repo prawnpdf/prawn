@@ -30,7 +30,7 @@ describe "Text::Formatted::Box wrapping" do
                { :text => "再见", :font => "Kai"},
                { :text => "World" }]
       text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
-     
+
       text_box.render
     end
   end
@@ -83,7 +83,7 @@ describe "Text::Formatted::Box wrapping" do
     }.should_not raise_error
     text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
   end
-  
+
   describe "Unicode" do
     before do
       if RUBY_VERSION < '1.9'
@@ -95,7 +95,7 @@ describe "Text::Formatted::Box wrapping" do
         Encoding.default_internal = Encoding::UTF_8
       end
     end
-    
+
     after do
       if RUBY_VERSION < '1.9'
         $KCODE=@reset_value

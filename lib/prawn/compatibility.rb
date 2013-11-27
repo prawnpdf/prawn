@@ -33,7 +33,7 @@ class String  #:nodoc:
         "#{text.encoding} can not be transparently converted to UTF-8. " +
         "Please ensure the encoding of the string you are attempting " +
         "to use is set correctly"
-      end      
+      end
     end
     alias :unicode_characters :each_char
     alias :unicode_length     :length
@@ -62,30 +62,30 @@ class String  #:nodoc:
   end
 end
 
-unless File.respond_to?(:binread) 
+unless File.respond_to?(:binread)
   def File.binread(file) #:nodoc:
-    File.open(file,"rb") { |f| f.read } 
+    File.open(file,"rb") { |f| f.read }
   end
 end
 
 if RUBY_VERSION < "1.9"
-  
-  def ruby_18  #:nodoc:  
+
+  def ruby_18  #:nodoc:
     yield
   end
-  
-  def ruby_19  #:nodoc:  
+
+  def ruby_19  #:nodoc:
     false
   end
-     
-else  
- 
-  def ruby_18  #:nodoc:  
-    false  
+
+else
+
+  def ruby_18  #:nodoc:
+    false
   end
-  
-  def ruby_19  #:nodoc:  
+
+  def ruby_19  #:nodoc:
     yield
-  end 
-  
-end 
+  end
+
+end

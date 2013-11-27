@@ -16,17 +16,17 @@ module Prawn
         h = options[:height] || height
 
         if options[:width] && !options[:height]
-          wp = w / width.to_f 
+          wp = w / width.to_f
           w = width * wp
           h = height * wp
-        elsif options[:height] && !options[:width]         
+        elsif options[:height] && !options[:width]
           hp = h / height.to_f
           w = width * hp
-          h = height * hp   
-        elsif options[:scale] 
+          h = height * hp
+        elsif options[:scale]
           w = width * options[:scale]
           h = height * options[:scale]
-        elsif options[:fit] 
+        elsif options[:fit]
           bw, bh = options[:fit]
           bp = bw / bh.to_f
           ip = width / height.to_f

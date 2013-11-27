@@ -99,7 +99,7 @@ describe "Prawn::ObjectStore#compact" do
     store.ref(:some => "structure")
     old_size = store.size
     store.compact
-    
+
     store.size.should be < old_size
     store.map{ |o| o.identifier }.should == (1..store.size).to_a
   end
@@ -110,7 +110,7 @@ describe "Prawn::ObjectStore#compact" do
     store.info.data[:Blah] = :overwritten
     old_size = store.size
     store.compact
-    
+
     store.size.should be < old_size
     store.map{ |o| o.identifier }.should == (1..store.size).to_a
   end

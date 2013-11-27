@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # cap_style.rb : Implements stroke cap styling
 #
@@ -30,11 +30,11 @@ module Prawn
 
       private
 
-      def current_cap_style  
+      def current_cap_style
         graphic_state.cap_style
       end
 
-      def current_cap_style=(style)  
+      def current_cap_style=(style)
         graphic_state.cap_style = style
       end
 

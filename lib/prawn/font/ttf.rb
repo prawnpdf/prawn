@@ -2,7 +2,7 @@
 
 # prawn/font/ttf.rb : Implements AFM font support for Prawn
 #
-# Copyright May 2008, Gregory Brown / James Healy / Jamis Buck  
+# Copyright May 2008, Gregory Brown / James Healy / Jamis Buck
 # All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
@@ -18,7 +18,7 @@ module Prawn
       def unicode?
         true
       end
-      
+
       def initialize(document, name, options={})
         super
 
@@ -26,8 +26,8 @@ module Prawn
         @subsets          = TTFunk::SubsetCollection.new(@ttf)
 
         @attributes       = {}
-        @bounding_boxes   = {} 
-        @char_widths      = {}   
+        @bounding_boxes   = {}
+        @char_widths      = {}
         @has_kerning_data = @ttf.kerning.exists? && @ttf.kerning.tables.any?
 
         @ascender         = Integer(@ttf.ascent * scale_factor)
@@ -42,7 +42,7 @@ module Prawn
           kern(string).inject(0) do |s,r|
             if r.is_a?(Numeric)
               s - r
-            else 
+            else
               r.inject(s) { |s2, u| s2 + character_width_by_code(u) }
             end
           end * scale
@@ -51,17 +51,17 @@ module Prawn
             s + character_width_by_code(r)
           end * scale
         end
-      end   
-     
+      end
+
       # The font bbox, as an array of integers
-      # 
+      #
       def bbox
         @bbox ||= @ttf.bbox.map { |i| Integer(i * scale_factor) }
       end
 
       # Returns true if the font has kerning data, false otherwise
       def has_kerning_data?
-        @has_kerning_data 
+        @has_kerning_data
       end
 
       # Perform any changes to the string that need to happen
@@ -77,7 +77,7 @@ module Prawn
 
         if options[:kerning]
           last_subset = nil
-          kern(text).inject([]) do |result, element| 
+          kern(text).inject([]) do |result, element|
             if element.is_a?(Numeric)
               result.last[1] = [result.last[1]] unless result.last[1].is_a?(Array)
               result.last[1] << element
@@ -102,7 +102,7 @@ module Prawn
           @subsets.encode(text.unpack("U*"))
         end
       end
-      
+
       def basename
         @basename ||= @ttf.name.postscript_name
       end
@@ -179,7 +179,7 @@ module Prawn
       def cmap
         @cmap ||= @ttf.cmap.unicode.first or raise("no unicode cmap for font")
       end
-      
+
       # +string+ must be UTF8-encoded.
       #
       # Returns an array. If an element is a numeric, it represents the
@@ -215,7 +215,7 @@ module Prawn
         @hmtx ||= @ttf.horizontal_metrics
       end
 
-      def character_width_by_code(code)    
+      def character_width_by_code(code)
         return 0 unless cmap[code]
 
         # Some TTF fonts have nonzero widths for \n (UTF-8 / ASCII code: 10).
@@ -223,7 +223,7 @@ module Prawn
         return 0.0 if code == 10
 
         @char_widths[code] ||= Integer(hmtx.widths[cmap[code]] * scale_factor)
-      end                   
+      end
 
       def scale_factor
         @scale ||= 1000.0 / @ttf.header.units_per_em
@@ -233,7 +233,7 @@ module Prawn
         temp_name = @ttf.name.postscript_name.gsub("\0","").to_sym
         ref = @document.ref!(:Type => :Font, :BaseFont => temp_name)
 
-        # Embed the font metrics in the document after everything has been 
+        # Embed the font metrics in the document after everything has been
         # drawn, just before the document is emitted.
         @document.before_render { |doc| embed(ref, subset) }
 

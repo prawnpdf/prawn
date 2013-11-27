@@ -325,7 +325,7 @@ describe "#text" do
       datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
       @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-     
+
       # Expect that the call to text will not raise an encoding error
       @pdf.text(sjis_str)
     end

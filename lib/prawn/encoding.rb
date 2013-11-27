@@ -18,7 +18,7 @@ module Prawn
         .notdef       .notdef        .notdef        .notdef
         .notdef       .notdef        .notdef        .notdef
         .notdef       .notdef        .notdef        .notdef
-        
+
         space         exclam         quotedbl       numbersign
         dollar        percent        ampersand      quotesingle
         parenleft     parenright     asterisk       plus
@@ -54,7 +54,7 @@ module Prawn
         quotedblright bullet         endash         emdash
         tilde         trademark      scaron         guilsinglright
         oe            .notdef        zcaron         ydieresis
-       
+
         space         exclamdown     cent           sterling
         currency      yen            brokenbar      section
         dieresis      copyright      ordfeminine    guillemotleft
@@ -81,8 +81,8 @@ module Prawn
         ocircumflex   otilde         odieresis      divide
         oslash        ugrave         uacute         ucircumflex
         udieresis     yacute         thorn          ydieresis
-      ]    
-      
+      ]
+
       def initialize
         @mapping_file = "#{Prawn::DATADIR}/encodings/win_ansi.txt"
         load_mapping if self.class.mapping.empty?
@@ -100,7 +100,7 @@ module Prawn
         # Replace anything else with an underscore
         self.class.mapping[codepoint] || 95
       end
-      
+
       def self.mapping
         @mapping ||= {}
       end

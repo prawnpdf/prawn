@@ -7,12 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 module Prawn
-  module Core 
-    
-    # Provides very low-level support for annotations. 
+  module Core
+
+    # Provides very low-level support for annotations.
     #
     module Annotations #:nodoc:
-      
+
       # Adds a new annotation (section 8.4 in PDF spec) to the current page.
       # +options+ must be a Hash describing the annotation.
       #
@@ -55,7 +55,7 @@ module Prawn
 
         options
       end
-      
+
     end
   end
 end

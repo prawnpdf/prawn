@@ -8,8 +8,8 @@
 require 'prawn/measurements'
 
 class Numeric
-  include Prawn::Measurements        
-  # prawns' basic unit is PostScript-Point        
+  include Prawn::Measurements
+  # prawns' basic unit is PostScript-Point
   # 72 points per inch
 
   def mm
@@ -39,8 +39,8 @@ class Numeric
   def ft
     return ft2pt(self)
   end
-  
+
   def pt
     return pt2pt(self)
   end
-end        
+end

@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # join_style.rb : Implements stroke join styling
 #
@@ -10,7 +10,7 @@ module Prawn
   module Graphics
     module JoinStyle
       JOIN_STYLES = { :miter => 0, :round => 1, :bevel => 2 }
-      
+
       # Sets the join style for stroked lines and curves
       #
       # style is one of :miter, :round, or :bevel
@@ -25,19 +25,19 @@ module Prawn
 
         write_stroke_join_style
       end
-      
+
       alias_method :join_style=, :join_style
 
       private
-      
-      def current_join_style  
+
+      def current_join_style
         graphic_state.join_style
       end
 
-      def current_join_style=(style)  
+      def current_join_style=(style)
         graphic_state.join_style = style
       end
-      
+
 
       def write_stroke_join_style
         add_content "#{JOIN_STYLES[current_join_style]} j"

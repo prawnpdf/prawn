@@ -3,7 +3,7 @@
 # Accessors for using a Cell inside a Table.
 
 module Prawn
-  class Table    
+  class Table
     class Cell
 
       # This module extends Cell objects when they are used in a table (as
@@ -15,7 +15,7 @@ module Prawn
         # Row number (0-based).
         #
         attr_accessor :row
-        
+
         # Column number (0-based).
         #
         attr_accessor :column

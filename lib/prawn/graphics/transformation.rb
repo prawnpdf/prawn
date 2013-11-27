@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # transformation.rb: Implements rotate, translate, skew, scale and a generic
-#                     transformation_matrix 
+#                     transformation_matrix
 #
 # Copyright January 2010, Michael Witrant. All Rights Reserved.
 #
@@ -10,7 +10,7 @@
 module Prawn
   module Graphics
     module Transformation
-      
+
       # Rotate the user space.  If a block is not provided, then you must save
       # and restore the graphics state yourself.
       #
@@ -22,7 +22,7 @@ module Prawn
       # provided, but no block is given
       #
       # Example without a block:
-      #   
+      #
       #   save_graphics_state
       #   rotate 30
       #   text "rotated text"
@@ -62,7 +62,7 @@ module Prawn
       # and restore the graphics state yourself.
       #
       # Example without a block: move the text up and over 10
-      #   
+      #
       #   save_graphics_state
       #   translate(10, 10)
       #   text "scaled text"
@@ -82,7 +82,7 @@ module Prawn
       def translate(x, y, &block)
         transformation_matrix(1, 0, 0, 1, x, y, &block)
       end
-      
+
       # Scale the user space.  If a block is not provided, then you must save
       # and restore the graphics state yourself.
       #
@@ -94,7 +94,7 @@ module Prawn
       # provided, but no block is given
       #
       # Example without a block:
-      #   
+      #
       #   save_graphics_state
       #   scale 1.5
       #   text "scaled text"
@@ -126,7 +126,7 @@ module Prawn
           end
         end
       end
-      
+
       # The following definition of skew would only work in a clearly
       # predicatable manner when if the document had no margin. don't provide
       # this shortcut until it behaves in a clearly understood manner
@@ -137,7 +137,7 @@ module Prawn
       #                         Math.tan(degree_to_rad(b)),
       #                         1, 0, 0, &block)
       # end
-      
+
       # Transform the user space (see notes for rotate regarding graphics state)
       # Generally, one would use the rotate, scale, translate, and skew
       # convenience methods instead of calling transformation_matrix directly
@@ -150,7 +150,7 @@ module Prawn
           restore_graphics_state
         end
       end
-      
+
     end
   end
 end

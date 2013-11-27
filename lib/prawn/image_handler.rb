@@ -23,7 +23,7 @@ module Prawn
 
       return handler if handler
 
-      raise Prawn::Errors::UnsupportedImageType, 
+      raise Prawn::Errors::UnsupportedImageType,
             "image file is an unrecognised format"
     end
   end

@@ -23,7 +23,7 @@ describe "ImageHandler" do
 
     image_handler.register(handler_a)
     image_handler.register!(handler_b)
-    
+
     handler = image_handler.find("arbitrary blob")
     handler.should == handler_b
   end

@@ -42,7 +42,7 @@ describe "Document with a stamp" do
       @pdf.create_stamp("MyStamp")
     }.should raise_error(Prawn::Errors::NameTaken)
   end
-  
+
   it "should raise_error InvalidName error when attempt to create "+
      "stamp with a blank name" do
     create_pdf
@@ -50,14 +50,14 @@ describe "Document with a stamp" do
       @pdf.create_stamp("")
     }.should raise_error(Prawn::Errors::InvalidName)
   end
-  
+
   it "a new XObject should be defined for each stamp created" do
     create_pdf
     @pdf.create_stamp("MyStamp")
     @pdf.create_stamp("AnotherStamp")
     @pdf.stamp("MyStamp")
     @pdf.stamp("AnotherStamp")
-    
+
     inspector = PDF::Inspector::XObject.analyze(@pdf.render)
     xobjects = inspector.page_xobjects.last
     xobjects.length.should == 2
@@ -106,7 +106,7 @@ describe "Document with a stamp" do
       end
     end
   end
-  
+
   it "stamp stream should be wrapped in a graphic state" do
     create_pdf
     @pdf.create_stamp("MyStamp") do
@@ -116,11 +116,11 @@ describe "Document with a stamp" do
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamps.xobject_streams[:Stamp1].data.chomp.should =~ /q(.|\s)*Q\Z/
   end
-  
+
   it "should not add to the page graphic state stack " do
     create_pdf
     @pdf.state.page.stack.stack.size.should == 1
-    
+
     @pdf.create_stamp("MyStamp") do
       @pdf.save_graphics_state
       @pdf.save_graphics_state
@@ -130,7 +130,7 @@ describe "Document with a stamp" do
     end
     @pdf.state.page.stack.stack.size.should == 1
   end
-  
+
   it "should be able to change fill and stroke colors within the stamp stream" do
     create_pdf
     @pdf.create_stamp("MyStamp") do
@@ -143,7 +143,7 @@ describe "Document with a stamp" do
     stamp_stream.should include("/DeviceCMYK cs\n1.000 1.000 0.200 0.000 scn")
     stamp_stream.should include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
   end
-  
+
   it "should save the color space even when same as current page color space" do
     create_pdf
     @pdf.stroke_color(100, 100, 20, 0)
@@ -155,6 +155,4 @@ describe "Document with a stamp" do
     stamp_stream = stamps.xobject_streams[:Stamp1].data
     stamp_stream.should include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
   end
-    
-
 end

@@ -72,7 +72,7 @@ module Prawn
         index_cells unless defined?(@indexed) && @indexed
         col_spec = transform_spec(col_spec, @first_column, @column_count)
         Cells.new(@columns[col_spec] ||= select { |c|
-                    col_spec.respond_to?(:include?) ? 
+                    col_spec.respond_to?(:include?) ?
                       col_spec.include?(c.column) : col_spec === c.column })
       end
       alias_method :column, :columns
@@ -95,7 +95,7 @@ module Prawn
 
       # Retrieves a cell based on its 0-based row and column. Returns an
       # individual Cell, not a Cells collection.
-      # 
+      #
       #   table.cells[0, 0].content # => "First cell content"
       #
       def [](row, col)
@@ -194,13 +194,13 @@ module Prawn
       end
 
       protected
-      
+
       # Defers indexing until rows() or columns() is actually called on the
       # Cells object. Without this, we would needlessly index the leaf nodes of
       # the object graph, the ones that are only there to be iterated over.
       #
       # Make sure to call this before using @rows or @columns.
-      # 
+      #
       def index_cells
         @rows = {}
         @columns = {}
@@ -241,20 +241,20 @@ module Prawn
         end
 
         each do |cell|
-          index = cell.send(row_or_column)          
+          index = cell.send(row_or_column)
           if cell.colspan > 1
             #calculate current (old) return value before we do anything
             old_sum = 0
             cell.colspan.times { |i|
               old_sum += values[index+i] unless values[index+i].nil?
             }
-            
-            #calculate future return value 
+
+            #calculate future return value
             new_sum = cell.send(meth) * cell.colspan
 
             if new_sum >= old_sum
               #not entirely sure why we need this line, but with it the tests pass
-              values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+              values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
               #overwrite the old values with the new ones, but only if all entries existed
               entries_exist = true
               cell.colspan.times { |i| entries_exist = false if values[index+i].nil? }
@@ -264,7 +264,7 @@ module Prawn
             end
           else
             if cell.class == Prawn::Table::Cell::SpanDummy
-              values[index] = [values[index], cell.send(meth)].compact.send(aggregate) 
+              values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
             end
           end
         end

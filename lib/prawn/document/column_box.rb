@@ -17,9 +17,9 @@ module Prawn
     # number of :columns and a :spacer (in points) between columns.
     #
     # Defaults are :columns = 3 and :spacer = font_size
-    # 
+    #
     # Under PDF::Writer, "spacer" was known as "gutter"
-    # 
+    #
     def column_box(*args, &block)
       init_column_box(block) do |parent_box|
         map_to_absolute!(args[0])
@@ -40,7 +40,7 @@ module Prawn
 
       @bounding_box = parent_box
     end
-    
+
     # Implements the necessary functionality to allow Document#column_box to
     # work.
     #
@@ -99,7 +99,7 @@ module Prawn
 
       # Moves to the next column or starts a new page if currently positioned at
       # the rightmost column.
-      def move_past_bottom 
+      def move_past_bottom
         @current_column = (@current_column + 1) % @columns
         @document.y = @y
         if 0 == @current_column

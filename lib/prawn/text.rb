@@ -27,7 +27,7 @@ module Prawn
     # method to use. If, instead, if you want to place bounded text outside of
     # the flow of a document (for captions, labels, charts, etc.), use Text::Box
     # or its convenience method text_box.
-    # 
+    #
     # Draws text on the page. Prawn attempts to wrap the text to fit within your
     # current bounding box (or margin_box if no bounding box is being used).
     # Text will flow onto the next page when it reaches the bottom of the
@@ -49,21 +49,21 @@ module Prawn
     # entire document, set default_kerning = false for that document
     #
     # === Text Positioning Details
-    # 
+    #
     # The text is positioned at font.ascender below the baseline,
     # making it easy to use this method within bounding boxes and spans.
     #
     # == Encoding
     #
     # Note that strings passed to this function should be encoded as UTF-8.
-    # If you get unexpected characters appearing in your rendered document, 
+    # If you get unexpected characters appearing in your rendered document,
     # check this.
     #
     # If the current font is a built-in one, although the string must be
     # encoded as UTF-8, only characters that are available in WinAnsi
     # are allowed.
     #
-    # If an empty box is rendered to your PDF instead of the character you 
+    # If an empty box is rendered to your PDF instead of the character you
     # wanted it usually means the current font doesn't include that character.
     #
     # == Options (default values marked in [])
@@ -99,7 +99,7 @@ module Prawn
     #                where the value of the anchor attribute is the name of a
     #                destination that has already been or will be registered
     #                using Prawn::Core::Destinations#add_dest. A clickable link
-    #                will be created to that destination. 
+    #                will be created to that destination.
     #          Note that you must explicitly underline and color using the
     #          appropriate tags if you which to draw attention to the link
     #
@@ -144,7 +144,7 @@ module Prawn
     #                  text should render with the fill color, stroke color or
     #                  both. See the comments to text_rendering_mode() to see
     #                  a list of valid options. [0]
-    #                        
+    #
     # == Exceptions
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
@@ -193,7 +193,7 @@ module Prawn
       options = inspect_options_for_text(options.dup)
 
       if color = options.delete(:color)
-        array = array.map do |fragment| 
+        array = array.map do |fragment|
           fragment[:color] ? fragment : fragment.merge(:color => color)
         end
       end
@@ -226,7 +226,7 @@ module Prawn
 
     # Draws text on the page, beginning at the point specified by the :at option
     # the string is assumed to be pre-formatted to properly fit the page.
-    # 
+    #
     #   pdf.draw_text "Hello World", :at => [100,100]
     #   pdf.draw_text "Goodbye World", :at => [50,50], :size => 16
     #
@@ -248,14 +248,14 @@ module Prawn
     # == Encoding
     #
     # Note that strings passed to this function should be encoded as UTF-8.
-    # If you get unexpected characters appearing in your rendered document, 
+    # If you get unexpected characters appearing in your rendered document,
     # check this.
     #
     # If the current font is a built-in one, although the string must be
     # encoded as UTF-8, only characters that are available in WinAnsi
     # are allowed.
     #
-    # If an empty box is rendered to your PDF instead of the character you 
+    # If an empty box is rendered to your PDF instead of the character you
     # wanted it usually means the current font doesn't include that character.
     #
     # == Options (default values marked in [])

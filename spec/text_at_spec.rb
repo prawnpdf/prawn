@@ -111,8 +111,8 @@ describe "#draw_text" do
       datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
       sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
       @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      
-      @pdf.draw_text(sjis_str, :at => [0, 0]) 
+
+      @pdf.draw_text(sjis_str, :at => [0, 0])
     end
   else
     # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs

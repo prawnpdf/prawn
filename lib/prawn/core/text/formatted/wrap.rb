@@ -12,7 +12,7 @@ module Prawn
             @arranger = Prawn::Core::Text::Formatted::Arranger.new(@document,
               :kerning => options[:kerning])
           end
-          
+
 
           # See the developer documentation for Prawn::Core::Text#wrap
           #

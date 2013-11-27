@@ -26,10 +26,10 @@ module Prawn
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)
   dir  = File.dirname(file)
-                          
+
   # The base source directory for Prawn as installed on the system
   #
-  # 
+  #
   BASEDIR = File.expand_path(File.join(dir, '..','..'))
   DATADIR = File.expand_path(File.join(dir, '..', '..', 'data'))
 
@@ -38,12 +38,12 @@ module Prawn
   #
   # Example:
   #   >> Prawn::Document.new(:tomato => "Juicy")
-  #   Prawn::Errors::UnknownOption: 
+  #   Prawn::Errors::UnknownOption:
   #   Detected unknown option(s): [:tomato]
   #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
   #
   attr_accessor :debug
-  
+
   def verify_options(accepted, actual) #:nodoc:
     return unless debug || $DEBUG
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
@@ -53,7 +53,7 @@ module Prawn
     end
     yield if block_given?
   end
-  
+
   module Configurable #:nodoc:
     def configuration(*args)
       @config ||= Marshal.load(Marshal.dump(default_configuration))
@@ -67,11 +67,11 @@ module Prawn
         @config
       end
     end
-    
+
     alias_method :C, :configuration
   end
 end
- 
+
 require "prawn/compatibility"
 require "prawn/errors"
 require "prawn/core/pdf_object"

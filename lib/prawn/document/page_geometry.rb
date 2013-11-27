@@ -8,25 +8,25 @@
 
 module Prawn
   class Document
-    
+
     # Dimensions pulled from PDF::Writer, rubyforge.org/projects/ruby-pdf
-    # 
+    #
     # All of these dimensions are in PDF Points, see Prawn::Measurements for
     # conversion utilities.
-    # 
+    #
     # Additionally, if the size you are after is not listed below, you can always
     # specify your size by passing an array of width and height to Prawn::Document.new
     # like:
-    # 
+    #
     #  Prawn::Document.new(:page_size => [1000, 20000])
     #
     # The sizes below can be used by passing the appropriate string to :size:
-    # 
+    #
     #  Prawn::Document.new(:page_size => '2A0')
-    # 
+    #
     # ===Inbuilt Sizes:
-    # 
-    # 
+    #
+    #
     # 4A0:: => 4767.87 x 6740.79
     # 2A0:: => 3370.39 x 4767.87
     # A0:: => 2383.94 x 3370.39
@@ -76,7 +76,7 @@ module Prawn
     # FOLIO:: => 612.00 x 936.00
     # LEGAL:: => 612.00 x 1008.00
     # LETTER:: => 612.00 x 792.00
-    # TABLOID:: => 792.00 x 1224.00 
+    # TABLOID:: => 792.00 x 1224.00
     #
     module PageGeometry
 
