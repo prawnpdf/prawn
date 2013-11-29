@@ -52,8 +52,8 @@ module Prawn
   #
   class Document
     include Prawn::Document::Internals
-    include Prawn::Core::Annotations
-    include Prawn::Core::Destinations
+    include PDF::Annotations
+    include PDF::Destinations
     include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
     include Prawn::Document::Security
@@ -183,7 +183,7 @@ module Prawn
       # raise NotImplementedError if options[:skip_page_creation]
 
       self.class.extensions.reverse_each { |e| extend e }
-      @internal_state = Prawn::Core::DocumentState.new(options)
+      @internal_state = PDF::DocumentState.new(options)
       @internal_state.populate_pages_from_store(self)
       min_version(state.store.min_version) if state.store.min_version
 
@@ -269,7 +269,7 @@ module Prawn
       end
       merge_template_options(page_options, options) if options[:template]
 
-      state.page = Prawn::Core::Page.new(self, page_options)
+      state.page = PDF::Page.new(self, page_options)
 
       apply_margin_options(options)
       generate_margin_box

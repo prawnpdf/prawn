@@ -42,7 +42,7 @@ module Prawn
       # of if it's hidden behind a Prawn::Reference, wrap it in deref().
       #
       def deref(obj)
-        obj.is_a?(Prawn::Core::Reference) ? obj.data : obj
+        obj.is_a?(PDF::Reference) ? obj.data : obj
       end
 
       # Appends a raw string to the current page content.
@@ -163,7 +163,7 @@ module Prawn
         trailer_hash.merge!(state.trailer) if state.trailer
 
         output << "trailer\n"
-        output << Prawn::Core::PdfObject(trailer_hash) << "\n"
+        output << PDF::PdfObject(trailer_hash) << "\n"
         output << "startxref\n"
         output << @xref_offset << "\n"
         output << "%%EOF" << "\n"

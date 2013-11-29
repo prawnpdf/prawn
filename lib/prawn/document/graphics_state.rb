@@ -6,6 +6,17 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
+module PDF
+  class Page
+    module GraphicsState
+
+      def graphic_state
+        stack.current_state
+      end
+
+    end
+  end
+end
 
 module Prawn
   class GraphicStateStack
@@ -63,17 +74,7 @@ module Prawn
     end
   end
 
-  module Core
-    class Page
-      module GraphicsState
 
-        def graphic_state
-          stack.current_state
-        end
-
-      end
-    end
-  end
 
   class Document
     module GraphicsState

@@ -4,10 +4,10 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Stream object" do
   it "should compress a stream upon request" do
-    stream = Prawn::Core::Stream.new
+    stream = PDF::Stream.new
     stream << "Hi There " * 20
 
-    cstream = Prawn::Core::Stream.new
+    cstream = PDF::Stream.new
     cstream << "Hi There " * 20
     cstream.compress!
 
@@ -17,7 +17,7 @@ describe "Stream object" do
   end
 
   it "should expose sompression state" do
-    stream = Prawn::Core::Stream.new
+    stream = PDF::Stream.new
     stream << "Hello"
     stream.compress!
 
@@ -25,7 +25,7 @@ describe "Stream object" do
   end
 
   it "should detect from filters if stream is compressed" do
-    stream = Prawn::Core::Stream.new
+    stream = PDF::Stream.new
     stream << "Hello"
     stream.filters << :FlateDecode
 
@@ -33,14 +33,14 @@ describe "Stream object" do
   end
 
   it "should have Length if in data" do
-    stream = Prawn::Core::Stream.new
+    stream = PDF::Stream.new
     stream << "hello"
 
     stream.data[:Length].should == 5
   end
 
   it "should update Length when updated" do
-    stream = Prawn::Core::Stream.new
+    stream = PDF::Stream.new
     stream << "hello"
     stream.data[:Length].should == 5
 
@@ -49,7 +49,7 @@ describe "Stream object" do
   end
 
   it "should corecly handle decode params" do
-    stream = Prawn::Core::Stream.new
+    stream = PDF::Stream.new
     stream << "Hello"
     stream.filters << { :FlateDecode => { :Predictor => 15 } }
 

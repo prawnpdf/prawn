@@ -45,7 +45,7 @@ module Prawn
       #     the appropriate tags if you which to draw attention to the link
       # <tt>:anchor</tt>::
       #     a destination that has already been or will be registered using
-      #     Prawn::Core::Destinations#add_dest. A clickable link will be
+      #     PDF::Destinations#add_dest. A clickable link will be
       #     created to that destination. Note that you must explicitly underline
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
@@ -98,10 +98,10 @@ module Prawn
       # vertical space was consumed by the printed text
       #
       class Box
-        include Prawn::Core::Text::Formatted::Wrap
+        include PDF::Text::Formatted::Wrap
 
         def valid_options
-          Prawn::Core::Text::VALID_OPTIONS + [:at, :height, :width,
+          PDF::Text::VALID_OPTIONS + [:at, :height, :width,
                                               :align, :valign,
                                               :rotate, :rotate_around,
                                               :overflow, :min_font_size,
@@ -545,7 +545,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :URI,
-                                            :URI => Prawn::Core::LiteralString.new(fragment.link) })
+                                            :URI => PDF::LiteralString.new(fragment.link) })
         end
 
         def draw_fragment_overlay_anchor(fragment)
@@ -563,7 +563,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :Launch,
-                                            :F => Prawn::Core::LiteralString.new(fragment.local),
+                                            :F => PDF::LiteralString.new(fragment.local),
                                             :NewWindow => true })
         end
 

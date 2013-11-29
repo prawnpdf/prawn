@@ -48,7 +48,7 @@ end
 describe "#text" do
   before(:each) { create_pdf }
 
-  it "should not fail when @output is nil when Prawn::Core::Text::LineWrap#finalize_line is called" do
+  it "should not fail when @output is nil when PDF::Text::LineWrap#finalize_line is called" do
     # need a document with margins for these particulars to produce the
     # condition that was throwing the error
     pdf = Prawn::Document.new

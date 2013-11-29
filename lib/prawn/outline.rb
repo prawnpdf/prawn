@@ -159,7 +159,7 @@ module Prawn
     #   options: destination - optional integer defining the page number for a destination link
     #                          to the top of the page (using a :FIT destination).
     #                 - or an array with a custom destination (see the #dest_* methods of the
-    #                   Prawn::Core::Destination module)
+    #                   PDF::Destination module)
     #            closed - whether the section should show its nested outline elements.
     #                   - defaults to false.
     #            block: more nested subsections and/or page blocks
@@ -189,7 +189,7 @@ module Prawn
     #            destination - optional integer defining the page number for a destination link
     #                          to the top of the page (using a :FIT destination).
     #                 - or an array with a custom destination (see the #dest_* methods of the
-    #                   Prawn::Core::Destination module)
+    #                   PDF::Destination module)
     #            closed - whether the section should show its nested outline elements.
     #                   - defaults to false.
     # example usage:

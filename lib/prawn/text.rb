@@ -5,15 +5,17 @@
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-require "prawn/core/text"
-require "prawn/text/formatted"
-require "prawn/text/box"
+
 require "zlib"
+
+require_relative "../pdf/text"
+require_relative "text/formatted"
+require_relative "text/box"
 
 module Prawn
   module Text
 
-    include Prawn::Core::Text
+    include PDF::Text
     include Prawn::Text::Formatted
 
     # No-Break Space
@@ -98,7 +100,7 @@ module Prawn
     #            <tt>anchor="ToC"</tt>::
     #                where the value of the anchor attribute is the name of a
     #                destination that has already been or will be registered
-    #                using Prawn::Core::Destinations#add_dest. A clickable link
+    #                using PDF::Destinations#add_dest. A clickable link
     #                will be created to that destination.
     #          Note that you must explicitly underline and color using the
     #          appropriate tags if you which to draw attention to the link
@@ -384,7 +386,7 @@ module Prawn
       if options[:kerning].nil? then
         options[:kerning] = default_kerning?
       end
-      valid_options = Prawn::Core::Text::VALID_OPTIONS + [:at, :rotate]
+      valid_options = PDF::Text::VALID_OPTIONS + [:at, :rotate]
       Prawn.verify_options(valid_options, options)
       options
     end
