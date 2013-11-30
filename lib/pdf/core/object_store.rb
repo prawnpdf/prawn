@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-# prawn/core/object_store.rb : Implements PDF object repository for Prawn
+# Implements PDF object repository
 #
 # Copyright August 2009, Brad Ediger.  All Rights Reserved.
 #
@@ -9,7 +9,7 @@
 
 require 'pdf/reader'
 
-module Prawn
+module PDF
   module Core
     class ObjectStore #:nodoc:
       include Enumerable
@@ -52,14 +52,14 @@ module Prawn
       end
 
       # Adds the given reference to the store and returns the reference object.
-      # If the object provided is not a Prawn::Core::Reference, one is created from the
+      # If the object provided is not a PDF::Core::Reference, one is created from the
       # arguments provided.
       #
       def push(*args, &block)
-        reference = if args.first.is_a?(Prawn::Core::Reference)
+        reference = if args.first.is_a?(PDF::Core::Reference)
           args.first
         else
-          Prawn::Core::Reference.new(*args, &block)
+          PDF::Core::Reference.new(*args, &block)
         end
 
         @objects[reference.identifier] = reference
@@ -170,10 +170,10 @@ module Prawn
 
       rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError => e
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
-        raise Prawn::Errors::TemplateError, msg
+        raise PDF::Core::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
         msg = "Template file contains unsupported PDF features"
-        raise Prawn::Errors::TemplateError, msg
+        raise PDF::Core::Errors::TemplateError, msg
       end
 
       private
@@ -243,7 +243,7 @@ module Prawn
 
         if hash.trailer[:Encrypt]
           msg = "Template file is an encrypted PDF, it can't be used as a template"
-          raise Prawn::Errors::TemplateError, msg
+          raise PDF::Core::Errors::TemplateError, msg
         end
 
         if src_info
@@ -255,10 +255,10 @@ module Prawn
         end
       rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError => e
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
-        raise Prawn::Errors::TemplateError, msg
+        raise PDF::Core::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
         msg = "Template file contains unsupported PDF features"
-        raise Prawn::Errors::TemplateError, msg
+        raise PDF::Core::Errors::TemplateError, msg
       end
 
       # recurse down an object graph from a source PDF, importing all the
@@ -293,7 +293,7 @@ module Prawn
           # being wrapped in a LiteralString
           object
         when String
-          is_utf8?(object) ? object : Prawn::Core::ByteString.new(object)
+          is_utf8?(object) ? object : PDF::Core::ByteString.new(object)
         else
           object
         end

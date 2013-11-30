@@ -8,9 +8,8 @@
 
 # Top level Module
 #
-module Prawn
-  module Core #:nodoc:
-
+module PDF
+  module Core
     module_function
 
     if "".respond_to?(:encode)
@@ -77,14 +76,14 @@ module Prawn
         end
       when Array
         "[" << obj.map { |e| PdfObject(e, in_content_stream) }.join(' ') << "]"
-      when Prawn::Core::LiteralString
+      when PDF::Core::LiteralString
         obj = obj.gsub(/[\\\n\r\t\b\f\(\)]/n) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
         obj = obj.gsub(/[\\\n\r\t\b\f\(\)]/n) { |m| "\\#{m}" }
         "(#{obj})"
-      when Prawn::Core::ByteString
+      when PDF::Core::ByteString
         "<" << obj.unpack("H*").first << ">"
       when String
         obj = utf8_to_utf16(obj) unless in_content_stream
@@ -97,27 +96,27 @@ module Prawn
             [n].pack("C*")
           end
          }.join
-      when Hash
+      when ::Hash
         output = "<< "
         obj.each do |k,v|
           unless String === k || Symbol === k
-            raise Prawn::Errors::FailedObjectConversion,
+            raise PDF::Core::Errors::FailedObjectConversion,
               "A PDF Dictionary must be keyed by names"
           end
           output << PdfObject(k.to_sym, in_content_stream) << " " <<
                     PdfObject(v, in_content_stream) << "\n"
         end
         output << ">>"
-      when Prawn::Core::Reference
+      when PDF::Core::Reference
         obj.to_s
-      when Prawn::Core::NameTree::Node
+      when PDF::Core::NameTree::Node
         PdfObject(obj.to_hash)
-      when Prawn::Core::NameTree::Value
+      when PDF::Core::NameTree::Value
         PdfObject(obj.name) + " " + PdfObject(obj.value)
-      when Prawn::OutlineRoot, Prawn::OutlineItem
+      when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
         PdfObject(obj.to_hash)
       else
-        raise Prawn::Errors::FailedObjectConversion,
+        raise PDF::Core::Errors::FailedObjectConversion,
           "This object cannot be serialized to PDF (#{obj.inspect})"
       end
     end

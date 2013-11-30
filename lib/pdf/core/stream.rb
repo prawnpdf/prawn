@@ -6,10 +6,9 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-module Prawn
+module PDF
   module Core
     class Stream
-
       attr_reader :filters
 
       def initialize(io = nil)
@@ -45,7 +44,7 @@ module Prawn
             @filtered_stream = @stream.dup
 
             @filters.each do |(filter_name, params)|
-              if filter = Prawn::Core::Filters.const_get(filter_name)
+              if filter = PDF::Core::Filters.const_get(filter_name)
                 @filtered_stream = filter.encode @filtered_stream, params
               end
             end

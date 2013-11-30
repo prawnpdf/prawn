@@ -7,7 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 
-module Prawn
+module PDF
   module Core
     class Reference #:nodoc:
 
@@ -23,16 +23,16 @@ module Prawn
       def object
         output = "#{@identifier} #{gen} obj\n"
         unless @stream.empty?
-          output << Prawn::Core::PdfObject(data.merge @stream.data) << "\n" << @stream.object
+          output << PDF::Core::PdfObject(data.merge @stream.data) << "\n" << @stream.object
         else
-          output << Prawn::Core::PdfObject(data) << "\n"
+          output << PDF::Core::PdfObject(data) << "\n"
         end
 
         output << "endobj\n"
       end
 
       def <<(io)
-        raise "Cannot attach stream to non-dictionary object" unless @data.is_a?(Hash)
+        raise "Cannot attach stream to non-dictionary object" unless @data.is_a?(::Hash)
         (@stream ||= Stream.new) << io
       end
 
@@ -47,12 +47,12 @@ module Prawn
         r = dup
 
         case r.data
-        when Hash
+        when ::Hash
           # Copy each entry not in +share+.
           (r.data.keys - share).each do |k|
             r.data[k] = Marshal.load(Marshal.dump(r.data[k]))
           end
-        when Prawn::Core::NameTree::Node
+        when PDF::Core::NameTree::Node
           r.data = r.data.deep_copy
         else
           r.data = Marshal.load(Marshal.dump(r.data))
@@ -82,11 +82,11 @@ module Prawn
         case obj
         when self.class
           []
-        when Hash
+        when ::Hash
           obj.values.map{|v| [v] + referenced_objects(v) }
         when Array
           obj.map{|v| [v] + referenced_objects(v) }
-        when OutlineRoot, OutlineItem
+        when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
           referenced_objects(obj.to_hash)
         else []
         end.flatten.grep(self.class)

@@ -138,7 +138,7 @@ module Prawn
     def find_font(name, options={}) #:nodoc:
       if font_families.key?(name)
         family, name = name, font_families[name][options[:style] || :normal]
-        if name.is_a?(Hash)
+        if name.is_a?(::Hash)
           options = options.merge(name)
           name = options[:file]
         end
@@ -180,7 +180,7 @@ module Prawn
     # custom ones, like :thin, and use them in font calls.
     #
     def font_families
-      @font_families ||= Hash.new.merge!(
+      @font_families ||= {}.merge!(
         { "Courier"     => { :bold        => "Courier-Bold",
                              :italic      => "Courier-Oblique",
                              :bold_italic => "Courier-BoldOblique",
@@ -223,7 +223,7 @@ module Prawn
 
         # Build up an Arranger with the entire string on one line, finalize it,
         # and find its width.
-        arranger = Core::Text::Formatted::Arranger.new(self, options)
+        arranger = Prawn::Text::Formatted::Arranger.new(self, options)
         arranger.consumed = self.text_formatter.format(string, *p)
         arranger.finalize_line
 
@@ -238,7 +238,7 @@ module Prawn
     def width_of_inline_formatted_string(string, options={})
       # Build up an Arranger with the entire string on one line, finalize it,
       # and find its width.
-      arranger = Core::Text::Formatted::Arranger.new(self, options)
+      arranger = Prawn::Text::Formatted::Arranger.new(self, options)
       arranger.consumed = Text::Formatted::Parser.format(string)
       arranger.finalize_line
 

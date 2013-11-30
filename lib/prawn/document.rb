@@ -7,7 +7,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/page_geometry"
 require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"
@@ -52,8 +51,8 @@ module Prawn
   #
   class Document
     include Prawn::Document::Internals
-    include Prawn::Core::Annotations
-    include Prawn::Core::Destinations
+    include PDF::Core::Annotations
+    include PDF::Core::Destinations
     include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
     include Prawn::Document::Security
@@ -183,7 +182,7 @@ module Prawn
       # raise NotImplementedError if options[:skip_page_creation]
 
       self.class.extensions.reverse_each { |e| extend e }
-      @internal_state = Prawn::Core::DocumentState.new(options)
+      @internal_state = PDF::Core::DocumentState.new(options)
       @internal_state.populate_pages_from_store(self)
       min_version(state.store.min_version) if state.store.min_version
 
@@ -269,7 +268,7 @@ module Prawn
       end
       merge_template_options(page_options, options) if options[:template]
 
-      state.page = Prawn::Core::Page.new(self, page_options)
+      state.page = PDF::Core::Page.new(self, page_options)
 
       apply_margin_options(options)
       generate_margin_box

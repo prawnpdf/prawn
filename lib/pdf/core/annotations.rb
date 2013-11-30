@@ -6,9 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-module Prawn
+module PDF
   module Core
-
     # Provides very low-level support for annotations.
     #
     module Annotations #:nodoc:
@@ -50,7 +49,7 @@ module Prawn
         options = options.merge(:Type => :Annot)
 
         if options[:Dest].is_a?(String)
-          options[:Dest] = Prawn::Core::LiteralString.new(options[:Dest])
+          options[:Dest] = PDF::Core::LiteralString.new(options[:Dest])
         end
 
         options

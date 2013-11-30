@@ -8,7 +8,7 @@ FILTERS = {
 }
 
 FILTERS.each do |filter_name, examples|
-  filter = Prawn::Core::Filters.const_get(filter_name)
+  filter = PDF::Core::Filters.const_get(filter_name)
 
   describe "#{filter_name} filter" do
     it "should encode stream" do

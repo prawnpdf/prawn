@@ -8,17 +8,6 @@
 #
 module Prawn
   module Errors
-
-     # This error is raised when Prawn::PdfObject() encounters a Ruby object it
-     # cannot convert to PDF
-     #
-     FailedObjectConversion = Class.new(StandardError)
-
-     # This error is raised when Document#page_layout is set to anything
-     # other than :portrait or :landscape
-     #
-     InvalidPageLayout = Class.new(StandardError)
-
      # Raised when a table is spanned in an impossible way.
      #
      InvalidTableSpan = Class.new(StandardError)
@@ -82,14 +71,6 @@ module Prawn
 
     # This error is rased when a graphics method is called with improper arguments
     InvalidGraphicsPath = Class.new(StandardError)
-
-    # This error is raised when Prawn fails to load a template file
-    #
-    TemplateError = Class.new(StandardError)
-
-    # This error is raise when trying to restore a graphic state that
-    #
-    EmptyGraphicStateStack = Class.new(StandardError)
 
     # Raised when unrecognized content is provided for a table cell.
     #
