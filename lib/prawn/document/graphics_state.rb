@@ -7,13 +7,15 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 module PDF
-  class Page
-    module GraphicsState
+  module Core
+    class Page
+      module GraphicsState
 
-      def graphic_state
-        stack.current_state
+        def graphic_state
+          stack.current_state
+        end
+
       end
-
     end
   end
 end

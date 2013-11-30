@@ -76,7 +76,7 @@ end
 require_relative "prawn/compatibility"
 require_relative "prawn/errors"
 
-require_relative "pdf"
+require_relative "pdf/core"
 
 require_relative "prawn/utilities"
 require_relative "prawn/text"

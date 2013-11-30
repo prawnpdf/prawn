@@ -45,7 +45,7 @@ module Prawn
       #     the appropriate tags if you which to draw attention to the link
       # <tt>:anchor</tt>::
       #     a destination that has already been or will be registered using
-      #     PDF::Destinations#add_dest. A clickable link will be
+      #     PDF::Core::Destinations#add_dest. A clickable link will be
       #     created to that destination. Note that you must explicitly underline
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
@@ -545,7 +545,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :URI,
-                                            :URI => PDF::LiteralString.new(fragment.link) })
+                                            :URI => PDF::Core::LiteralString.new(fragment.link) })
         end
 
         def draw_fragment_overlay_anchor(fragment)
@@ -563,7 +563,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :Launch,
-                                            :F => PDF::LiteralString.new(fragment.local),
+                                            :F => PDF::Core::LiteralString.new(fragment.local),
                                             :NewWindow => true })
         end
 

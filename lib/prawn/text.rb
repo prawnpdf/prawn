@@ -100,7 +100,7 @@ module Prawn
     #            <tt>anchor="ToC"</tt>::
     #                where the value of the anchor attribute is the name of a
     #                destination that has already been or will be registered
-    #                using PDF::Destinations#add_dest. A clickable link
+    #                using PDF::Core::Destinations#add_dest. A clickable link
     #                will be created to that destination.
     #          Note that you must explicitly underline and color using the
     #          appropriate tags if you which to draw attention to the link
