@@ -5,8 +5,8 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "Core::Text::Formatted::LineWrap#wrap_line" do
   before(:each) do
     create_pdf
-    @arranger = PDF::Core::Text::Formatted::Arranger.new(@pdf)
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
     @one_word_width = 50
   end
   it "should strip leading and trailing spaces" do
@@ -117,7 +117,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == expected
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
 
     string = "hello#{Prawn::Text::SHY}world"
     array = [{ :text => string }]
@@ -138,7 +138,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "helloworld"
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
 
     string = "hello#{Prawn::Text::SHY}world"
     array = [{ :text => string }]
@@ -167,7 +167,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello"
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
     enough_width_for_hello_world = 68
 
     array = [{ :text => "hello world" }]
@@ -206,7 +206,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == expected
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
 
     string = "hello#{Prawn::Text::SHY}-"
     array = [{ :text => string }]
@@ -229,8 +229,8 @@ end
 describe "Core::Text::Formatted::LineWrap#space_count" do
   before(:each) do
     create_pdf
-    @arranger = PDF::Core::Text::Formatted::Arranger.new(@pdf)
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
   end
   it "should return the number of spaces in the last wrapped line" do
     array = [{ :text => "hello world, " },
@@ -255,7 +255,7 @@ end
 describe "Core::Text::Formatted::LineWrap" do
   before(:each) do
     create_pdf
-    @arranger = PDF::Core::Text::Formatted::Arranger.new(@pdf)
+    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
     array = [{ :text => "hello\nworld\n\n\nhow are you?" },
              { :text => "\n" },
              { :text => "\n" },
@@ -265,7 +265,7 @@ describe "Core::Text::Formatted::LineWrap" do
              { :text => "\n" },
              { :text => "" }]
     @arranger.format_array = array
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
   end
   it "should only return an empty string if nothing fit or there" +
      "was nothing to wrap" do
@@ -285,8 +285,8 @@ end
 describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
   before(:each) do
     create_pdf
-    @arranger = PDF::Core::Text::Formatted::Arranger.new(@pdf)
-    @line_wrap = PDF::Core::Text::Formatted::LineWrap.new
+    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
     @one_word_width = 50
   end
   it "should be_false when the last printed line is not the end of the paragraph" do

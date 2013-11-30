@@ -86,7 +86,7 @@ module PDF
           obj.values.map{|v| [v] + referenced_objects(v) }
         when Array
           obj.map{|v| [v] + referenced_objects(v) }
-        when Prawn::OutlineRoot, Prawn::OutlineItem
+        when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
           referenced_objects(obj.to_hash)
         else []
         end.flatten.grep(self.class)

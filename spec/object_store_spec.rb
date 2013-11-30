@@ -46,16 +46,16 @@ describe "Prawn::ObjectStore" do
     lambda { PDF::Core::ObjectStore.new(:template => filename) }.should raise_error(ArgumentError)
   end
 
-  it "should raise_error Prawn::Errors::TemplateError when given a non PDF as a template" do
+  it "should raise_error PDF::Core::Errors::TemplateError when given a non PDF as a template" do
     filename = "#{Prawn::DATADIR}/images/dice.png"
 
-    lambda { PDF::Core::ObjectStore.new(:template => filename) }.should raise_error(Prawn::Errors::TemplateError)
+    lambda { PDF::Core::ObjectStore.new(:template => filename) }.should raise_error(PDF::Core::Errors::TemplateError)
   end
 
-  it "should raise_error Prawn::Errors::TemplateError when given an encrypted PDF as a template" do
+  it "should raise_error PDF::Core::Errors::TemplateError when given an encrypted PDF as a template" do
     filename = "#{Prawn::DATADIR}/pdfs/encrypted.pdf"
 
-    lambda { PDF::Core::ObjectStore.new(:template => filename) }.should raise_error(Prawn::Errors::TemplateError)
+    lambda { PDF::Core::ObjectStore.new(:template => filename) }.should raise_error(PDF::Core::Errors::TemplateError)
   end
 
   it "should add to its objects when ref() is called" do

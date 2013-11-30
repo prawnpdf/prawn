@@ -7,7 +7,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/page_geometry"
 require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"

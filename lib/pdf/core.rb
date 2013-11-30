@@ -11,3 +11,25 @@ require_relative "core/page"
 require_relative "core/object_store"
 require_relative "core/document_state"
 require_relative "core/name_tree"
+require_relative "core/graphics_state"
+require_relative "core/page_geometry"
+require_relative "core/outline"
+
+module PDF
+  module Core
+    module Errors
+      # This error is raised when PdfObject() fails
+      FailedObjectConversion = Class.new(StandardError)
+
+      # This error is raised when object store fails to load a template file
+      TemplateError = Class.new(StandardError)
+
+      # This error is raise when trying to restore a graphic state that
+      EmptyGraphicStateStack = Class.new(StandardError)
+
+      # This error is raised when Document#page_layout is set to anything
+      # other than :portrait or :landscape
+      InvalidPageLayout = Class.new(StandardError)
+    end
+  end
+end

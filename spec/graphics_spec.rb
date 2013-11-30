@@ -476,7 +476,7 @@ describe "When using graphics states" do
     lambda {
       @pdf.render
       @pdf.restore_graphics_state
-    }.should raise_error(Prawn::Errors::EmptyGraphicStateStack)
+    }.should raise_error(PDF::Core::Errors::EmptyGraphicStateStack)
   end
 end
 

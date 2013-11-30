@@ -323,14 +323,14 @@ describe "When setting page size" do
   it "should default to LETTER" do
     @pdf = Prawn::Document.new
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-    pages.first[:size].should == Prawn::Document::PageGeometry::SIZES["LETTER"]
+    pages.first[:size].should == PDF::Core::PageGeometry::SIZES["LETTER"]
   end
 
-  (Prawn::Document::PageGeometry::SIZES.keys - ["LETTER"]).each do |k|
+  (PDF::Core::PageGeometry::SIZES.keys - ["LETTER"]).each do |k|
     it "should provide #{k} geometry" do
       @pdf = Prawn::Document.new(:page_size => k)
       pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-      pages.first[:size].should == Prawn::Document::PageGeometry::SIZES[k]
+      pages.first[:size].should == PDF::Core::PageGeometry::SIZES[k]
     end
   end
 
@@ -346,7 +346,7 @@ describe "When setting page size" do
     @pdf.start_new_page
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
     pages.each do |page|
-      page[:size].should == Prawn::Document::PageGeometry::SIZES["LEGAL"]
+      page[:size].should == PDF::Core::PageGeometry::SIZES["LEGAL"]
     end
   end
 
@@ -356,7 +356,7 @@ describe "When setting page layout" do
   it "should reverse coordinates for landscape" do
     @pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-    pages.first[:size].should == Prawn::Document::PageGeometry::SIZES["A4"].reverse
+    pages.first[:size].should == PDF::Core::PageGeometry::SIZES["A4"].reverse
   end
 
   it "should retain page layout by default when starting a new page" do
@@ -364,7 +364,7 @@ describe "When setting page layout" do
     @pdf.start_new_page(:trace => true)
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
     pages.each do |page|
-      page[:size].should == Prawn::Document::PageGeometry::SIZES["LETTER"].reverse
+      page[:size].should == PDF::Core::PageGeometry::SIZES["LETTER"].reverse
     end
   end
 

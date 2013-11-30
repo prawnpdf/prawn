@@ -230,7 +230,7 @@ module PDF #:nodoc:
         output = "<< "
         obj.each do |k,v|
           unless String === k || Symbol === k
-            raise Prawn::Errors::FailedObjectConversion,
+            raise PDF::Core::Errors::FailedObjectConversion,
               "A PDF Dictionary must be keyed by names"
           end
           output << PdfObject(k.to_sym, in_content_stream) << " " <<
@@ -240,7 +240,7 @@ module PDF #:nodoc:
       when NameTree::Value
         PdfObject(obj.name) + " " +
           EncryptedPdfObject(obj.value, key, id, gen, in_content_stream)
-      when Prawn::OutlineRoot, Prawn::OutlineItem
+      when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
         EncryptedPdfObject(obj.to_hash, key, id, gen, in_content_stream)
       else # delegate back to PdfObject
         PdfObject(obj, in_content_stream)

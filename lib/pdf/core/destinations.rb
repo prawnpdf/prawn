@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-# prawn/core/destinations.rb : Implements destination support for PDF
+# Implements destination support for PDF
 #
 # Copyright November 2008, Jamis Buck. All Rights Reserved.
 #
@@ -22,7 +22,7 @@ module PDF
       end
 
       # Adds a new destination to the dests name tree (see #dests). The
-      # +reference+ parameter will be converted into a Prawn::Reference if
+      # +reference+ parameter will be converted into a PDF::Core::Reference if
       # it is not already one.
       #
       def add_dest(name, reference)

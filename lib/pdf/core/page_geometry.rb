@@ -1,28 +1,17 @@
 # encoding: utf-8
 
-# page_geometry.rb : Describes PDF page geometries
+# Describes PDF page geometries
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-module Prawn
-  class Document
+module PDF
+  module Core
 
     # Dimensions pulled from PDF::Writer, rubyforge.org/projects/ruby-pdf
     #
-    # All of these dimensions are in PDF Points, see Prawn::Measurements for
-    # conversion utilities.
-    #
-    # Additionally, if the size you are after is not listed below, you can always
-    # specify your size by passing an array of width and height to Prawn::Document.new
-    # like:
-    #
-    #  Prawn::Document.new(:page_size => [1000, 20000])
-    #
-    # The sizes below can be used by passing the appropriate string to :size:
-    #
-    #  Prawn::Document.new(:page_size => '2A0')
+    # All of these dimensions are in PDF Points (1/72 inch)
     #
     # ===Inbuilt Sizes:
     #
@@ -134,3 +123,4 @@ module Prawn
     end
   end
 end
+

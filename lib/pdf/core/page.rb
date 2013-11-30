@@ -7,14 +7,11 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 
-require 'prawn/document/graphics_state'
+require_relative 'graphics_state'
 
 module PDF
   module Core
     class Page #:nodoc:
-
-      include PDF::Core::Page::GraphicsState
-
       attr_accessor :document, :margins, :stack
       attr_writer :content, :dictionary
 
@@ -24,12 +21,16 @@ module PDF
                                            :right   => 36,
                                            :top     => 36,
                                            :bottom  => 36  }
-        @stack = Prawn::GraphicStateStack.new(options[:graphic_state])
+        @stack = GraphicStateStack.new(options[:graphic_state])
         if options[:object_id]
           init_from_object(options)
         else
           init_new_page(options)
         end
+      end
+
+      def graphic_state
+        stack.current_state
       end
 
       def layout
@@ -142,14 +143,14 @@ module PDF
       def dimensions
         return inherited_dictionary_value(:MediaBox) if imported_page?
 
-        coords = Prawn::Document::PageGeometry::SIZES[size] || size
+        coords = PDF::Core::PageGeometry::SIZES[size] || size
         [0,0] + case(layout)
         when :portrait
           coords
         when :landscape
           coords.reverse
         else
-          raise Prawn::Errors::InvalidPageLayout,
+          raise PDF::Core::Errors::InvalidPageLayout,
             "Layout must be either :portrait or :landscape"
         end
       end

@@ -100,7 +100,7 @@ module PDF
         output = "<< "
         obj.each do |k,v|
           unless String === k || Symbol === k
-            raise Prawn::Errors::FailedObjectConversion,
+            raise PDF::Core::Errors::FailedObjectConversion,
               "A PDF Dictionary must be keyed by names"
           end
           output << PdfObject(k.to_sym, in_content_stream) << " " <<
@@ -113,10 +113,10 @@ module PDF
         PdfObject(obj.to_hash)
       when PDF::Core::NameTree::Value
         PdfObject(obj.name) + " " + PdfObject(obj.value)
-      when Prawn::OutlineRoot, Prawn::OutlineItem
+      when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
         PdfObject(obj.to_hash)
       else
-        raise Prawn::Errors::FailedObjectConversion,
+        raise PDF::Core::Errors::FailedObjectConversion,
           "This object cannot be serialized to PDF (#{obj.inspect})"
       end
     end
