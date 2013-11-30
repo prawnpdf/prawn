@@ -8,14 +8,14 @@
 
 require "zlib"
 
-require_relative "../pdf/text"
+require_relative "../pdf/core/text"
 require_relative "text/formatted"
 require_relative "text/box"
 
 module Prawn
   module Text
 
-    include PDF::Text
+    include PDF::Core::Text
     include Prawn::Text::Formatted
 
     # No-Break Space
@@ -386,7 +386,7 @@ module Prawn
       if options[:kerning].nil? then
         options[:kerning] = default_kerning?
       end
-      valid_options = PDF::Text::VALID_OPTIONS + [:at, :rotate]
+      valid_options = PDF::Core::Text::VALID_OPTIONS + [:at, :rotate]
       Prawn.verify_options(valid_options, options)
       options
     end

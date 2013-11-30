@@ -98,10 +98,10 @@ module Prawn
       # vertical space was consumed by the printed text
       #
       class Box
-        include PDF::Text::Formatted::Wrap
+        include PDF::Core::Text::Formatted::Wrap
 
         def valid_options
-          PDF::Text::VALID_OPTIONS + [:at, :height, :width,
+          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
                                               :align, :valign,
                                               :rotate, :rotate_around,
                                               :overflow, :min_font_size,
