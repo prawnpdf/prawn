@@ -36,7 +36,12 @@ module PDF
       def layout
         return @layout if defined?(@layout) && @layout
 
-        mb = dictionary.data[:MediaBox]
+        mb = if imported_page?
+               inherited_dictionary_value(:MediaBox)
+             else
+               dictionary.data[:MediaBox]
+             end
+
         if mb[3] > mb[2]
           :portrait
         else
@@ -203,6 +208,8 @@ module PDF
           local_dict[key]
         elsif local_dict.has_key?(:Parent)
           inherited_dictionary_value(key, local_dict[:Parent].data)
+        elsif parent = document.state.store.detect { |ref| ref.data.has_key?(key) && ref.data.has_key?(:Kids) && ref.data[:Kids].include?(dictionary) }
+          parent.data[key]
         else
           nil
         end

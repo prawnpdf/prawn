@@ -161,12 +161,28 @@ describe "Document built from a template" do
     fonts.size.should == 2
   end
 
-  it "should correctly import a template file that is missing a MediaBox entry" do
-    filename = "#{Prawn::DATADIR}/pdfs/page_without_mediabox.pdf"
+  context "when the template is missing a MediaBox entry" do
+    it "should correctly import the template" do
+      filename = "#{Prawn::DATADIR}/pdfs/page_without_mediabox.pdf"
 
-    @pdf = Prawn::Document.new(:template => filename)
-    str = @pdf.render
-    str[0,4].should == "%PDF"
+      @pdf = Prawn::Document.new(:template => filename)
+      str = @pdf.render
+      str[0,4].should == "%PDF"
+    end
+
+    it "should allow you to create a new page manually" do
+      filename = "#{Prawn::DATADIR}/pdfs/page_without_mediabox.pdf"
+
+      @pdf = Prawn::Document.new(:template => filename, skip_page_creation: true)
+      lambda { @pdf.start_new_page }.should_not raise_error
+    end
+
+    it "should allow you to create a new page with the template manually" do
+      filename = "#{Prawn::DATADIR}/pdfs/page_without_mediabox.pdf"
+
+      @pdf = Prawn::Document.new(skip_page_creation: true)
+      lambda { @pdf.start_new_page(:template => filename) }.should_not raise_error
+    end
   end
 
   context "with the template as a stream" do
