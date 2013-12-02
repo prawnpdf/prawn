@@ -81,6 +81,17 @@ We strongly encourage bug reports to come with failing tests or at least a reduc
 
 If you are unsure about whether or not you've found a bug, or want to check to see whether we'd be interested in the feature you want to add before you start working on it, feel free to post to our mailing list.
 
+You can run our test suite in a few different ways:
+
+1. Running `rake` will run the entire test suite excluding any unresolved issues
+2. Running `rspec` will run the entire test suite including unresolved issues
+3. Running `rspec -t unresolved` will run *only* unresolved issues
+4. Running `rspec -t issue:NUMBER` will run the tests for a specific issue
+
+These filters make it possible for us to add failing test cases for bugs that
+are currently being researched or worked on, without breaking the typical
+full suite run.
+
 ## Authorship
 
 Prawn was originally developed by Gregory Brown, under the auspices of the Ruby Mendicant Project, a grassroots initiative in which the Ruby community collectively provided funding so that Gregory could take several months off of work to focus on this project.
