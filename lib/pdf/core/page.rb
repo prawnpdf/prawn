@@ -42,7 +42,9 @@ module PDF
                dictionary.data[:MediaBox]
              end
 
-        if mb[3] > mb[2]
+        _, _, width, height = mb.respond_to?(:data) ? mb.data : mb
+
+        if height > width
           :portrait
         else
           :landscape
@@ -205,11 +207,13 @@ module PDF
         local_dict ||= dictionary.data
 
         if local_dict.has_key?(key)
-          local_dict[key]
+          value = local_dict[key]
+          value.respond_to?(:data) ? value.data : value
         elsif local_dict.has_key?(:Parent)
           inherited_dictionary_value(key, local_dict[:Parent].data)
         elsif parent = document.state.store.detect { |ref| ref.data.has_key?(key) && ref.data.has_key?(:Kids) && ref.data[:Kids].include?(dictionary) }
-          parent.data[key]
+          value = parent.data[key]
+          value.respond_to?(:data) ? value.data : value
         else
           nil
         end
