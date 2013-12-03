@@ -723,19 +723,30 @@ module Prawn
 
             next if border_width <= 0
 
-            # Left and right borders are drawn one-half border beyond the center
-            # of the corner, so that the corners end up square.
+            # All borders are drawn one-half border beyond the center
+            # of the corner, so that the corners end up square and we can correctly specify
+            # vertical and horizontal lines in tables.
             from, to = case border
                        when :top
-                         [[x, y], [x+width, y]]
+                        [
+                          [x + (border_left_width / 2.0), y], 
+                          [x + width + (border_right_width / 2.0), y]
+                        ]
                        when :bottom
-                         [[x, y-height], [x+width, y-height]]
+                        [
+                          [x + (border_left_width / 2.0), y-height], 
+                          [x + width + (border_right_width / 2.0), y-height]
+                        ]
                        when :left
-                         [[x, y + (border_top_width / 2.0)],
-                          [x, y - height - (border_bottom_width / 2.0)]]
+                        [
+                          [x, y + (border_top_width / 2.0)],
+                          [x, y - height - (border_bottom_width / 2.0)]
+                        ]
                        when :right
-                         [[x+width, y + (border_top_width / 2.0)],
-                          [x+width, y - height - (border_bottom_width / 2.0)]]
+                        [
+                          [x + width, y + (border_top_width / 2.0)],
+                          [x + width, y - height - (border_bottom_width / 2.0)]
+                        ]
                        end
 
             case border_line
