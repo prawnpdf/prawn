@@ -577,7 +577,7 @@ module Prawn
               #calculate the current with of all cells that will be spanned by the current cell
               current_width_of_spanned_cells = widths_by_column.to_a[cell.column..(cell.column + cell.colspan - 1)].collect{|key, value| value}.inject(0, :+)
               #update the Hash only if the new with is at least equal to the old one
-              if cell.width.to_f >= current_width_of_spanned_cells
+              if cell.width.to_f > current_width_of_spanned_cells
                 # Split the width of colspanned cells evenly by columns
                 width_per_column = cell.width.to_f / cell.colspan
                 # Update the Hash

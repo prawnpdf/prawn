@@ -108,6 +108,7 @@ describe "Prawn::Table" do
               ]
       pdf = Prawn::Document.new
       table = Prawn::Table.new data, pdf, :column_widths => [50, 200]
+      table.column_widths.should == [50.0, 200.0]
     end
 
     it "illustrates a variant of problem in issue #407 - comment 28556698" do 
