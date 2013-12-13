@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
                 ["Rakefile", "prawn.gemspec", "Gemfile",
                  "COPYING", "LICENSE", "GPLv2", "GPLv3"]
   spec.require_path = "lib"
-  spec.required_ruby_version = '>= 1.8.7'
+  spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
 
   spec.test_files = Dir[ "spec/*_spec.rb" ]

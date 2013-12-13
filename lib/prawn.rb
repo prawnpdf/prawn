@@ -20,7 +20,7 @@ end
 require "set"
 
 module Prawn
-  VERSION = "1.0.0.rc2"
+  VERSION = "0.13.0"
 
   extend self
 
