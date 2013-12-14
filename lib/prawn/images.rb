@@ -6,6 +6,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'digest/sha1'
+require 'pathname'
 
 module Prawn
 
