@@ -276,7 +276,7 @@ module Prawn
         pixel_bytes     = pixel_bitlength / 8
         scanline_length = pixel_bytes * self.width + 1
 
-        splitter = PixelReader.new(@img_data.dup, pixel_bytes, scanline_length)
+        splitter = PixelReader.new(@img_data, pixel_bytes, scanline_length)
 
         @img_data      = ""
         @alpha_channel = ""
