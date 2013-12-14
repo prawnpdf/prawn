@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require "prawn"        
 require "benchmark"   
 
-N=20
+N=100
      
 Benchmark.bmbm do |x|         
   x.report("PNG Type 6") do     
