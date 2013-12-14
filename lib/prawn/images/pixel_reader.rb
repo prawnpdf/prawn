@@ -1,84 +1,108 @@
 module Prawn
   module Images
     class PixelReader
-      attr_reader :pixels
+      FILTERS = { 0 => :none, 
+                  1 => :sub, 
+                  2 => :up, 
+                  3 => :average, 
+                  4 => :paeth }
 
-      def initialize(data, pixel_bytes, scanline_length)
+      def initialize(data, pixel_bytes, scanline_length, color_size, alpha_size)
         @pixels = []
+        @pixel_bytes = pixel_bytes
 
-        row = 0
-        row_data = [] # reused for each row of the image
-        paeth, pa, pb, pc = nil
+        @rgb_data   = []
+        @alpha_data = []
 
-        data.bytes.each do |byte|
-          # accumulate a whole scanline of bytes, and then process it all at once
-          # we could do this with Enumerable#each_slice, but it allocates memory,
-          #   and we are trying to avoid that
-          row_data << byte
-          next if row_data.length < scanline_length
+        @row = 0
+        @previous_row_data = []
 
+        @color_size = color_size
+        @alpha_size = alpha_size
+
+        data.bytes.each_slice(scanline_length) do |row_data|
           filter = row_data.shift
-          case filter
-          when 0 # None
-          when 1 # Sub
-            row_data.each_with_index do |row_byte, index|
-              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
-              row_data[index] = (row_byte + left) % 256
-            end
-          when 2 # Up
-            row_data.each_with_index do |row_byte, index|
-              col = (index / pixel_bytes).floor
-              upper = row == 0 ? 0 : @pixels[row-1][col][index % pixel_bytes]
-              row_data[index] = (upper + row_byte) % 256
-            end
-          when 3  # Average
-            row_data.each_with_index do |row_byte, index|
-              col = (index / pixel_bytes).floor
-              upper = row == 0 ? 0 : @pixels[row-1][col][index % pixel_bytes]
-              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
 
-              row_data[index] = (row_byte + ((left + upper)/2).floor) % 256
-            end
-          when 4 # Paeth
-            left = upper = upper_left = nil
-            row_data.each_with_index do |row_byte, index|
-              col = (index / pixel_bytes).floor
-
-              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
-              if row.zero?
-                upper = upper_left = 0
-              else
-                upper = @pixels[row-1][col][index % pixel_bytes]
-                upper_left = col.zero? ? 0 :
-                  @pixels[row-1][col-1][index % pixel_bytes]
-              end
-
-              p = left + upper - upper_left
-              pa = (p - left).abs
-              pb = (p - upper).abs
-              pc = (p - upper_left).abs
-
-              paeth = if pa <= pb && pa <= pc
-                left
-              elsif pb <= pc
-                upper
-              else
-                upper_left
-              end
-
-              row_data[index] = (row_byte + paeth) % 256
-            end
+          if FILTERS.key?(filter)
+            send("filter_#{FILTERS[filter]}", row_data)
           else
             raise ArgumentError, "Invalid filter algorithm #{filter}"
           end
 
-          s = []
-          row_data.each_slice pixel_bytes do |slice|
-            s << slice
+          @previous_row_data.clear
+          @alpha_data.clear
+          @rgb_data.clear
+
+          row_data.each_slice(@pixel_bytes) do |pixel|
+            @rgb_data.concat(pixel[0, @color_size])
+            @alpha_data.concat(pixel[@color_size, @alpha_size])
+
+            @previous_row_data << pixel
           end
-          @pixels << s
-          row += 1
-          row_data.clear
+
+          yield @rgb_data.pack("C*"), @alpha_data.pack("C*")
+
+          @row += 1
+        end
+      end
+
+      def filter_none(row_data)
+        # do nothing
+      end
+
+      def filter_sub(row_data)
+        row_data.each_with_index do |row_byte, index|
+          left = index < @pixel_bytes ? 0 : row_data[index - @pixel_bytes]
+          row_data[index] = (row_byte + left) % 256
+        end
+      end
+
+      def filter_up(row_data)
+        row_data.each_with_index do |row_byte, index|
+          col = (index / @pixel_bytes).floor
+          upper = @row == 0 ? 0 : @previous_row_data[col][index % @pixel_bytes]
+          row_data[index] = (upper + row_byte) % 256
+        end
+      end
+
+      def filter_average(row_data)
+        row_data.each_with_index do |row_byte, index|
+          col = (index / @pixel_bytes).floor
+          upper = @row == 0 ? 0 : @previous_row_data[col][index % @pixel_bytes]
+          left = index < @pixel_bytes ? 0 : row_data[index - @pixel_bytes]
+
+          row_data[index] = (row_byte + ((left + upper)/2).floor) % 256
+        end
+      end
+
+      def filter_paeth(row_data)
+        left = upper = upper_left = nil
+        row_data.each_with_index do |row_byte, index|
+          col = (index / @pixel_bytes).floor
+
+          left = index < @pixel_bytes ? 0 : row_data[index - @pixel_bytes]
+          if @row.zero?
+            upper = upper_left = 0
+          else
+            upper = @previous_row_data[col][index % @pixel_bytes]
+            upper_left = col.zero? ? 0 :
+              @previous_row_data[col-1][index % @pixel_bytes]
+          end
+
+          p = left + upper - upper_left
+          pa = (p - left).abs
+          pb = (p - upper).abs
+          pc = (p - upper_left).abs
+
+          paeth = if pa <= pb && pa <= pc
+            left
+          elsif pb <= pc
+            upper
+          else
+            upper_left
+          end
+
+          row_data[index] = (row_byte + paeth) % 256
         end
       end
     end

@@ -276,19 +276,18 @@ module Prawn
         pixel_bytes     = pixel_bitlength / 8
         scanline_length = pixel_bytes * self.width + 1
 
-        splitter = PixelReader.new(@img_data, pixel_bytes, scanline_length)
-
-        @img_data      = ""
-        @alpha_channel = ""
-
         color_byte_size = self.colors * self.bits / 8
         alpha_byte_size = alpha_channel_bits / 8
 
-        splitter.pixels.each do |this_row|
-          this_row.each do |pixel|
-            @img_data      << pixel[0, color_byte_size].pack("C*")
-            @alpha_channel << pixel[color_byte_size, alpha_byte_size].pack("C*")
-          end
+        data = @img_data
+
+        @img_data = ""
+        @alpha_channel = ""
+
+        pixels = PixelReader.new(data, pixel_bytes, scanline_length, 
+                                 color_byte_size, alpha_byte_size) do |rgb, alpha|
+          @img_data << rgb
+          @alpha_channel << alpha
         end
       end
     end
