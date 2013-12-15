@@ -8,17 +8,14 @@ module Prawn
                   4 => :paeth }
 
       def initialize(data, pixel_bytes, scanline_length, color_size, alpha_size)
-        @pixels = []
         @pixel_bytes = pixel_bytes
+        @color_size = color_size
+        @alpha_size = alpha_size
 
         @rgb_data   = []
         @alpha_data = []
 
-        @row = 0
-        @previous_row_data = []
-
-        @color_size = color_size
-        @alpha_size = alpha_size
+        @previous_row_data = [0]*scanline_length
 
         data.bytes.each_slice(scanline_length) do |row_data|
           filter = row_data.shift
@@ -33,7 +30,6 @@ module Prawn
           @alpha_data.clear
           @rgb_data.clear
 
-
           row_data.each_with_index do |byte, index|
             pos = index % @pixel_bytes
 
@@ -47,8 +43,6 @@ module Prawn
           @previous_row_data = row_data
 
           yield @rgb_data.pack("C*"), @alpha_data.pack("C*")
-
-          @row += 1
         end
       end
 
@@ -66,7 +60,7 @@ module Prawn
       def filter_up(row_data)
         row_data.each_with_index do |row_byte, index|
           col = (index / @pixel_bytes).floor
-          upper = @row == 0 ? 0 : @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
+          upper = @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
           row_data[index] = (upper + row_byte) % 256
         end
       end
@@ -74,7 +68,7 @@ module Prawn
       def filter_average(row_data)
         row_data.each_with_index do |row_byte, index|
           col = (index / @pixel_bytes).floor
-          upper = @row == 0 ? 0 : @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
+          upper = @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
           left = index < @pixel_bytes ? 0 : row_data[index - @pixel_bytes]
 
           row_data[index] = (row_byte + ((left + upper)/2).floor) % 256
@@ -87,13 +81,10 @@ module Prawn
           col = (index / @pixel_bytes).floor
 
           left = index < @pixel_bytes ? 0 : row_data[index - @pixel_bytes]
-          if @row.zero?
-            upper = upper_left = 0
-          else
-            upper = @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
-            upper_left = col.zero? ? 0 :
-              @previous_row_data[(col-1)*@pixel_bytes + index % @pixel_bytes]
-          end
+ 
+          upper = @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
+          upper_left = col.zero? ? 0 :
+            @previous_row_data[(col-1)*@pixel_bytes + index % @pixel_bytes]
 
           p = left + upper - upper_left
           pa = (p - left).abs
