@@ -11,7 +11,12 @@ images = [
 Prawn::Document.generate("png_types.pdf", :page_size => "A5") do
   images.each do |header, file|
     start_new_page unless header.include?("0")
+
+    fill_color "FF0000"
+
+    fill_rectangle bounds.top_left, bounds.width, bounds.height
     text header 
+    
     image file, :at => [50,450]
   end 
 end
