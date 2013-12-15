@@ -1,11 +1,11 @@
 module Prawn
   module Images
     class PixelReader
-      FILTERS = { 0 => :none, 
-                  1 => :sub, 
-                  2 => :up, 
-                  3 => :average, 
-                  4 => :paeth }
+      FILTERS = { 0 => :filter_none, 
+                  1 => :filter_sub, 
+                  2 => :filter_up, 
+                  3 => :filter_average, 
+                  4 => :filter_paeth }
 
       def initialize(data, pixel_bytes, scanline_length, color_size, alpha_size)
         @pixel_bytes = pixel_bytes
@@ -21,7 +21,7 @@ module Prawn
           filter = row_data.shift
 
           if FILTERS.key?(filter)
-            send("filter_#{FILTERS[filter]}", row_data)
+            send(FILTERS[filter], row_data)
           else
             raise ArgumentError, "Invalid filter algorithm #{filter}"
           end
