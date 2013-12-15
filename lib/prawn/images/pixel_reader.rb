@@ -33,12 +33,18 @@ module Prawn
           @alpha_data.clear
           @rgb_data.clear
 
-          row_data.each_slice(@pixel_bytes) do |pixel|
-            @rgb_data.concat(pixel[0, @color_size])
-            @alpha_data.concat(pixel[@color_size, @alpha_size])
 
-            @previous_row_data << pixel
+          row_data.each_with_index do |byte, index|
+            pos = index % @pixel_bytes
+
+            if pos < @color_size
+              @rgb_data << byte 
+            elsif pos < @color_size + @alpha_size
+              @alpha_data << byte
+            end
           end
+
+          @previous_row_data = row_data
 
           yield @rgb_data.pack("C*"), @alpha_data.pack("C*")
 
@@ -60,7 +66,7 @@ module Prawn
       def filter_up(row_data)
         row_data.each_with_index do |row_byte, index|
           col = (index / @pixel_bytes).floor
-          upper = @row == 0 ? 0 : @previous_row_data[col][index % @pixel_bytes]
+          upper = @row == 0 ? 0 : @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
           row_data[index] = (upper + row_byte) % 256
         end
       end
@@ -68,7 +74,7 @@ module Prawn
       def filter_average(row_data)
         row_data.each_with_index do |row_byte, index|
           col = (index / @pixel_bytes).floor
-          upper = @row == 0 ? 0 : @previous_row_data[col][index % @pixel_bytes]
+          upper = @row == 0 ? 0 : @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
           left = index < @pixel_bytes ? 0 : row_data[index - @pixel_bytes]
 
           row_data[index] = (row_byte + ((left + upper)/2).floor) % 256
@@ -84,9 +90,9 @@ module Prawn
           if @row.zero?
             upper = upper_left = 0
           else
-            upper = @previous_row_data[col][index % @pixel_bytes]
+            upper = @previous_row_data[col*@pixel_bytes + index % @pixel_bytes]
             upper_left = col.zero? ? 0 :
-              @previous_row_data[col-1][index % @pixel_bytes]
+              @previous_row_data[(col-1)*@pixel_bytes + index % @pixel_bytes]
           end
 
           p = left + upper - upper_left
