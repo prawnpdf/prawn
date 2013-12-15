@@ -27,8 +27,6 @@ module Prawn
           end
 
           @previous_row_data.clear
-          @alpha_data.clear
-          @rgb_data.clear
 
           row_data.each_with_index do |byte, index|
             pos = index % @pixel_bytes
@@ -41,9 +39,15 @@ module Prawn
           end
 
           @previous_row_data = row_data
-
-          yield @rgb_data.pack("C*"), @alpha_data.pack("C*")
         end
+      end
+
+      def rgb_string
+        @rgb_data.pack("C*")
+      end
+
+      def alpha_string
+        @alpha_data.pack("C*")
       end
 
       def filter_none(row_data)

@@ -285,10 +285,11 @@ module Prawn
         @alpha_channel = ""
 
         pixels = PixelReader.new(data, pixel_bytes, scanline_length, 
-                                 color_byte_size, alpha_byte_size) do |rgb, alpha|
-          @img_data << rgb
-          @alpha_channel << alpha
-        end
+                                 color_byte_size, alpha_byte_size)
+        
+        
+        @img_data       = pixels.rgb_string
+        @alpha_channel  = pixels.alpha_string
       end
     end
   end
