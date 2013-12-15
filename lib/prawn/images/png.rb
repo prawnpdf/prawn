@@ -281,9 +281,6 @@ module Prawn
 
         data = @img_data
 
-        @img_data = ""
-        @alpha_channel = ""
-
         pixels = PixelReader.new(data, pixel_bytes, scanline_length, 
                                  color_byte_size, alpha_byte_size)
         
