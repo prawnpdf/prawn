@@ -121,7 +121,7 @@ module Prawn
       # where it's required.
       #
       def split_alpha_channel!
-        unfilter_image_data if alpha_channel?
+        split_image_data if alpha_channel?
       end
 
       def alpha_channel?
@@ -267,7 +267,7 @@ module Prawn
 
       private
 
-      def unfilter_image_data
+      def split_image_data
         pixel_bytes = pixel_bitlength / 8
         alpha_bytes = bits / 8
         color_bytes = pixel_bytes - alpha_bytes
