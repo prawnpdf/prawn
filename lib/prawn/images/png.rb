@@ -107,16 +107,6 @@ module Prawn
         end
       end
 
-      # number of bits used per pixel
-      #
-      def pixel_bitlength
-        if alpha_channel?
-          self.bits * (self.colors + 1)
-        else
-          self.bits * self.colors
-        end
-      end
-
       # split the alpha channel data from the raw image data in images
       # where it's required.
       #
@@ -268,11 +258,10 @@ module Prawn
       private
 
       def split_image_data
-        pixel_bytes = pixel_bitlength / 8
         alpha_bytes = bits / 8
-        color_bytes = pixel_bytes - alpha_bytes
+        color_bytes = colors * bits / 8
 
-        scanline_length  = pixel_bytes * self.width + 1
+        scanline_length  = (color_bytes + alpha_bytes) * self.width + 1
         scanlines = @img_data.bytesize / scanline_length
         pixels = self.width * self.height
 
