@@ -128,13 +128,6 @@ module Prawn
         @color_type == 4 || @color_type == 6
       end
 
-      # Adobe Reader can't handle 16-bit png channels -- chop off the second
-      # byte (least significant)
-      #
-      def alpha_channel_bits
-        8
-      end
-
       # Build a PDF object representing this image in +document+, and return
       # a Reference to it.
       #
@@ -239,7 +232,7 @@ module Prawn
             :Subtype          => :Image,
             :Height           => height,
             :Width            => width,
-            :BitsPerComponent => alpha_channel_bits,
+            :BitsPerComponent => bits,
             :ColorSpace       => :DeviceGray,
             :Decode           => [0, 1]
           )
@@ -249,7 +242,7 @@ module Prawn
             :FlateDecode => {
               :Predictor => 15,
               :Colors    => 1,
-              :BitsPerComponent => alpha_channel_bits,
+              :BitsPerComponent => bits,
               :Columns   => width
             }
           }
@@ -276,7 +269,7 @@ module Prawn
 
       def unfilter_image_data
         pixel_bytes = pixel_bitlength / 8
-        alpha_bytes = alpha_channel_bits / 8
+        alpha_bytes = bits / 8
         color_bytes = pixel_bytes - alpha_bytes
 
         scanline_length  = pixel_bytes * self.width + 1
