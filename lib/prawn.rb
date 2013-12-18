@@ -73,7 +73,6 @@ module Prawn
   end
 end
 
-require_relative "prawn/compatibility"
 require_relative "prawn/errors"
 
 require_relative "pdf/core"

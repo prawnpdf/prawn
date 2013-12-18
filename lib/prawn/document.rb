@@ -382,8 +382,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
-      File.open(filename,mode) { |f| render(f) }
+      File.open(filename, "wb:ASCII-8BIT") { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,

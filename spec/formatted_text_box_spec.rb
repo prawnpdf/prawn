@@ -20,19 +20,17 @@ describe "Text::Formatted::Box wrapping" do
 
   it "should not raise an Encoding::CompatibilityError when keeping a TTF and an " +
     "AFM font together" do
-    ruby_19 do
-      file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
-      @pdf.font_families["Kai"] = {
-        :normal => { :file => file, :font => "Kai" }
-      }
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+    @pdf.font_families["Kai"] = {
+      :normal => { :file => file, :font => "Kai" }
+    }
 
-      texts = [{ :text => "Hello " },
-               { :text => "再见", :font => "Kai"},
-               { :text => "World" }]
-      text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    texts = [{ :text => "Hello " },
+              { :text => "再见", :font => "Kai"},
+              { :text => "World" }]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
 
-      text_box.render
-    end
+    text_box.render
   end
 
   it "should wrap between two fragments when the preceding fragment ends with white space" do
@@ -86,23 +84,14 @@ describe "Text::Formatted::Box wrapping" do
 
   describe "Unicode" do
     before do
-      if RUBY_VERSION < '1.9'
-        @reset_value = $KCODE
-        $KCODE='u'
-      else
-        @reset_value = [Encoding.default_external, Encoding.default_internal]
-        Encoding.default_external = Encoding::UTF_8
-        Encoding.default_internal = Encoding::UTF_8
-      end
+      @reset_value = [Encoding.default_external, Encoding.default_internal]
+      Encoding.default_external = Encoding::UTF_8
+      Encoding.default_internal = Encoding::UTF_8
     end
 
     after do
-      if RUBY_VERSION < '1.9'
-        $KCODE=@reset_value
-      else
-        Encoding.default_external = @reset_value[0]
-        Encoding.default_internal = @reset_value[1]
-      end
+      Encoding.default_external = @reset_value[0]
+      Encoding.default_internal = @reset_value[1]
     end
 
     it "should properly handle empty slices using Unicode encoding" do

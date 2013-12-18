@@ -12,40 +12,15 @@ module PDF
   module Core
     module_function
 
-    if "".respond_to?(:encode)
-      # Ruby 1.9+
-      def utf8_to_utf16(str)
-        "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
-      end
+    def utf8_to_utf16(str)
+      "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+    end
 
-      # encodes any string into a hex representation. The result is a string
-      # with only 0-9 and a-f characters. That result is valid ASCII so tag
-      # it as such to account for behaviour of different ruby VMs
-      def string_to_hex(str)
-        str.unpack("H*").first.force_encoding("ascii")
-      end
-    else
-      # Ruby 1.8
-      def utf8_to_utf16(str)
-        utf16 = "\xFE\xFF"
-
-        str.codepoints do |cp|
-          if cp < 0x10000 # Basic Multilingual Plane
-            utf16 << [cp].pack("n")
-          else
-            # pull out high/low 10 bits
-            hi, lo = (cp - 0x10000).divmod(2**10)
-            # encode a surrogate pair
-            utf16 << [0xD800 + hi, 0xDC00 + lo].pack("n*")
-          end
-        end
-
-        utf16
-      end
-
-      def string_to_hex(str)
-        str.unpack("H*").first
-      end
+    # encodes any string into a hex representation. The result is a string
+    # with only 0-9 and a-f characters. That result is valid ASCII so tag
+    # it as such to account for behaviour of different ruby VMs
+    def string_to_hex(str)
+      str.unpack("H*").first.force_encoding("ascii")
     end
 
     # Serializes Ruby objects to their PDF equivalents.  Most primitive objects

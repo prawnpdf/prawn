@@ -108,8 +108,7 @@ module Prawn
       private
 
       def load_mapping
-        RUBY_VERSION >= "1.9" ? mode = "r:BINARY" : mode = "r"
-        File.open(@mapping_file, mode) do |f|
+        File.open(@mapping_file, "r:BINARY") do |f|
           f.each do |l|
             _, single_byte, unicode = *l.match(/([0-9A-Za-z]+);([0-9A-F]{4})/)
             self.class.mapping["0x#{unicode}".hex] = "0x#{single_byte}".hex if single_byte
