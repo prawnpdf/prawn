@@ -299,21 +299,9 @@ module PDF
         end
       end
 
-      ruby_18 do
-        def is_utf8?(str)
-          begin
-            str.unpack("U*")
-            true
-          rescue
-            false
-          end
-        end
-      end
-      ruby_19 do
-        def is_utf8?(str)
-          str.force_encoding("utf-8")
-          str.valid_encoding?
-        end
+      def is_utf8?(str)
+        str.force_encoding("utf-8")
+        str.valid_encoding?
       end
     end
   end
