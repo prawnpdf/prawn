@@ -370,7 +370,7 @@ module Prawn
       render_trailer(output)
       if output.instance_of?(StringIO)
         str = output.string
-        str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+        str.force_encoding("ASCII-8BIT")
         return str
       else
         return nil
