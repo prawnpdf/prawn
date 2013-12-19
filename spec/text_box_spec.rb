@@ -992,7 +992,7 @@ describe "Text::Box wrapping" do
 
     expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
-    expected = expected.force_encoding("utf-8") if expected.respond_to?(:force_encoding)
+    expected = expected.force_encoding("utf-8")
     text_box.text.should == expected
   end
 
