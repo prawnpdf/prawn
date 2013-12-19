@@ -382,7 +382,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      File.open(filename, "wb:ASCII-8BIT") { |f| render(f) }
+      File.open(filename, "wb") { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,
