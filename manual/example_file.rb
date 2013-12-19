@@ -104,7 +104,7 @@ module Prawn
       data = File.read(File.expand_path(File.join(
         File.dirname(__FILE__), folder_name, filename)))
 
-      data.encode("UTF-8")
+      data.encode(::Encoding::UTF_8)
     end
     
   end
