@@ -370,7 +370,7 @@ module Prawn
       render_trailer(output)
       if output.instance_of?(StringIO)
         str = output.string
-        str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+        str.force_encoding(::Encoding::ASCII_8BIT)
         return str
       else
         return nil
@@ -382,8 +382,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
-      File.open(filename,mode) { |f| render(f) }
+      File.open(filename, "wb") { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,

@@ -313,34 +313,20 @@ describe "#text" do
     pages[1][:strings].should == [str]
   end
 
-  if "spec".respond_to?(:encode!)
-    # Handle non utf-8 string encodings in a sane way on M17N aware VMs
-    it "should raise_error an exception when a utf-8 incompatible string is rendered" do
-      str = "Blah \xDD"
-      str.force_encoding("ASCII-8BIT")
-      lambda { @pdf.text str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should_not raise_error an exception when a shift-jis string is rendered" do
-      datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
-      sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
-      @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
+  it "should raise_error an exception when a utf-8 incompatible string is rendered" do
+    str = "Blah \xDD"
+    str.force_encoding(Encoding::ASCII_8BIT)
+    lambda { @pdf.text str }.should raise_error(
+      Prawn::Errors::IncompatibleStringEncoding)
+  end
 
-      # Expect that the call to text will not raise an encoding error
-      @pdf.text(sjis_str)
-    end
-  else
-    # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
-    it "should raise_error an exception when a corrupt utf-8 string is rendered" do
-      str = "Blah \xDD"
-      lambda { @pdf.text str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should raise_error an exception when a shift-jis string is rendered" do
-      sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
-      lambda { @pdf.text sjis_str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
+  it "should_not raise_error an exception when a shift-jis string is rendered" do
+    datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
+    sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
+
+    # Expect that the call to text will not raise an encoding error
+    @pdf.text(sjis_str)
   end
 
   it "should call move_past_bottom when printing more text than can fit" +

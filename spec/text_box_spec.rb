@@ -992,7 +992,7 @@ describe "Text::Box wrapping" do
 
     expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
-    expected = expected.force_encoding("utf-8") if expected.respond_to?(:force_encoding)
+    expected = expected.force_encoding(Encoding::UTF_8)
     text_box.text.should == expected
   end
 
@@ -1009,7 +1009,7 @@ describe "Text::Box wrapping" do
     text_box.render
     results_without_accent = text_box.text
 
-    results_with_accent.first_line.length.should == results_without_accent.first_line.length
+    first_line(results_with_accent).length.should == first_line(results_without_accent).length
   end
 end
 
@@ -1027,4 +1027,8 @@ end
 
 def reduce_precision(float)
   ("%.5f" % float).to_f
+end
+
+def first_line(str)
+  str.each_line { |line| return line }
 end

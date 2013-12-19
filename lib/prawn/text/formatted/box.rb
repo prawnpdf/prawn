@@ -392,7 +392,7 @@ module Prawn
           # all fonts
           fallback_fonts << fragment_font
 
-          hash[:text].unicode_characters do |char|
+          hash[:text].each_char do |char|
             @document.font(fragment_font)
             font_glyph_pairs << [find_font_for_this_glyph(char,
                                                           @document.font.family,

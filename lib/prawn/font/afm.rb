@@ -172,7 +172,7 @@ module Prawn
 
         kerned.map { |e|
           e = (Array === e ? e.pack("C*") : e)
-          e.respond_to?(:force_encoding) ? e.force_encoding("Windows-1252") : e
+          e.respond_to?(:force_encoding) ? e.force_encoding(::Encoding::Windows_1252) : e
         }
       end
 

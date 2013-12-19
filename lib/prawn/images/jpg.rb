@@ -30,7 +30,7 @@ module Prawn
       #
       def initialize(data)
         @data = data.dup
-        ruby_19 { data.force_encoding("binary") }
+        data.force_encoding(::Encoding::BINARY)
         data = StringIO.new(data)
 
         c_marker = "\xff" # Section marker.
