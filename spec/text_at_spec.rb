@@ -100,7 +100,7 @@ describe "#draw_text" do
 
   it "should raise_error an exception when a utf-8 incompatible string is rendered" do
     str = "Blah \xDD"
-    str.force_encoding("ASCII-8BIT")
+    str.force_encoding(Encoding::ASCII_8BIT)
     lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
       Prawn::Errors::IncompatibleStringEncoding)
   end

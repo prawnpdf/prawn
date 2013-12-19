@@ -52,7 +52,7 @@ module Prawn
             raise "Lines must be finalized before calling #line"
           end
           @fragments.collect do |fragment|
-            fragment.text.dup.force_encoding("utf-8")
+            fragment.text.dup.force_encoding(::Encoding::UTF_8)
           end.join
         end
 

@@ -13,14 +13,14 @@ module PDF
     module_function
 
     def utf8_to_utf16(str)
-      "\xFE\xFF".force_encoding("UTF-16BE") + str.encode("UTF-16BE")
+      "\xFE\xFF".force_encoding(::Encoding::UTF_16BE) + str.encode(::Encoding::UTF_16BE)
     end
 
     # encodes any string into a hex representation. The result is a string
     # with only 0-9 and a-f characters. That result is valid ASCII so tag
     # it as such to account for behaviour of different ruby VMs
     def string_to_hex(str)
-      str.unpack("H*").first.force_encoding("ascii")
+      str.unpack("H*").first.force_encoding(::Encoding::US_ASCII)
     end
 
     # Serializes Ruby objects to their PDF equivalents.  Most primitive objects
