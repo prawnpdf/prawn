@@ -18,7 +18,6 @@ module Prawn
       attr_accessor :scaled_width, :scaled_height
 
       JPEG_SOF_BLOCKS = [0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF]
-      JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef)
 
       def self.can_render?(image_blob)
         image_blob[0, 3].unpack("C*") == [255, 216, 255]
