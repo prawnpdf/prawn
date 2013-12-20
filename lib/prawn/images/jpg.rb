@@ -17,7 +17,7 @@ module Prawn
       attr_reader :width, :height, :bits, :channels
       attr_accessor :scaled_width, :scaled_height
 
-      JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf)
+      JPEG_SOF_BLOCKS = [0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF]
       JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef)
 
       def self.can_render?(image_blob)
@@ -29,22 +29,22 @@ module Prawn
       # <tt>:data</tt>:: A binary string of JPEG data
       #
       def initialize(data)
-        @data = data.dup
-        data.force_encoding(::Encoding::BINARY)
-        data = StringIO.new(data)
+        @data = data
+        d = StringIO.new(@data)
+        d.binmode
 
-        c_marker = "\xff" # Section marker.
-        data.read(2)   # Skip the first two bytes of JPEG identifier.
+        c_marker = 0xff # Section marker.
+        d.seek(2)    # Skip the first two bytes of JPEG identifier.
         loop do
-          marker, code, length = data.read(4).unpack('aan')
+          marker, code, length = d.read(4).unpack('CCn')
           raise "JPEG marker not found!" if marker != c_marker
 
           if JPEG_SOF_BLOCKS.include?(code)
-            @bits, @height, @width, @channels = data.read(6).unpack("CnnC")
+            @bits, @height, @width, @channels = d.read(6).unpack("CnnC")
             break
           end
 
-          data.read(length - 2)
+          d.seek(length - 2, IO::SEEK_CUR)
         end
       end
 
