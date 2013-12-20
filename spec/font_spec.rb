@@ -80,8 +80,9 @@ describe "#width_of" do
     styled_bold_hello.should == @bold_hello
   end
 
-  # This is not a fully confirmed bug report... needs further investigation
-  it "should not treat minus as if it were a hyphen", :unresolved, :issue => 578 do
+  it "should not treat minus as if it were a hyphen", :issue => 578 do
+    create_pdf
+
     @pdf.width_of("-0.75").should be < @pdf.width_of("25.00")
   end
 end
