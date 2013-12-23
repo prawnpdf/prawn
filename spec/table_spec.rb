@@ -87,20 +87,38 @@ describe "Prawn::Table" do
       table = Prawn::Table.new data, pdf, :column_widths => [50, 200, 40, 40, 50, 50]
     end
 
-    it "illustrates issue #502" do
+    it "illustrates issue #502", :focus => true do
       pdf = Prawn::Document.new
       first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
       second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
-      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>55,:align=>:center}
-      fourth = {:content=>"Bar",:width=>15,:align=>:center}
+      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>50,:align=>:center}
+      fourth = {:content=>"Bar",:width=>20,:align=>:center}
       table_content = [[
       first,
       [[second],[third,fourth]]
       ]]
       pdf.move_down(20)
+      table = Prawn::Table.new table_content, pdf
+      puts "column_widths: #{table.column_widths}"
+
       pdf.table(table_content)
     end
 
+    it "illustrates wrong width in a special case", :focus2 do 
+      pdf = Prawn::Document.new
+      first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
+      second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
+      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>50,:align=>:center}
+      fourth = {:content=>"Bar",:width=>20,:align=>:center}
+      table_content = [[
+      first,
+      [[second],[third,fourth]]
+      ]]
+      table = Prawn::Table.new table_content, pdf
+      puts "column_widths: #{table.column_widths}"
+      table.column_widths.should == [50.0, 70.0]
+    end
+    
     #https://github.com/prawnpdf/prawn/issues/407#issuecomment-28556698
     it "illustrates issue #407 - comment 28556698" do
       data = [['', ''],
