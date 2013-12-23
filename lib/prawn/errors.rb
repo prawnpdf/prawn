@@ -8,29 +8,18 @@
 #
 module Prawn
   module Errors
-     
-     # This error is raised when Prawn::PdfObject() encounters a Ruby object it
-     # cannot convert to PDF
-     #
-     FailedObjectConversion = Class.new(StandardError)
-     
-     # This error is raised when Document#page_layout is set to anything
-     # other than :portrait or :landscape            
-     #
-     InvalidPageLayout = Class.new(StandardError)       
-
      # Raised when a table is spanned in an impossible way.
      #
      InvalidTableSpan = Class.new(StandardError)
-     
-     # This error is raised when a method requiring a current page is called 
+
+     # This error is raised when a method requiring a current page is called
      # without being on a page.
      #
      NotOnPage = Class.new(StandardError)
-     
-     # This error is raised when Prawn cannot find a specified font   
+
+     # This error is raised when Prawn cannot find a specified font
      #
-     UnknownFont = Class.new(StandardError)   
+     UnknownFont = Class.new(StandardError)
 
      # Raised when Prawn is asked to draw something into a too-small box
      #
@@ -39,18 +28,18 @@ module Prawn
      # Raised if group() is called with a block that is too big to be
      # rendered in the current context.
      #
-     CannotGroup = Class.new(StandardError) 
+     CannotGroup = Class.new(StandardError)
 
      # This error is raised when Prawn is being used on a M17N aware VM,
      # and the user attempts to add text that isn't compatible with UTF-8
      # to their document
      #
      IncompatibleStringEncoding = Class.new(StandardError)
-     
+
      # This error is raised when Prawn encounters an unknown key in functions
      # that accept an options hash.  This usually means there is a typo in your
      # code or that the option you are trying to use has a different name than
-     # what you have specified. 
+     # what you have specified.
      #
      UnknownOption = Class.new(StandardError)
 
@@ -70,30 +59,22 @@ module Prawn
     # This error is raised when an object is attempted to be
     # referenced by name, but no such name is associated with an object
     UndefinedObjectName = Class.new(StandardError)
-    
+
     # This error is raised when a required option has not been set
     RequiredOption = Class.new(StandardError)
-    
+
     # This error is raised when a requested outline item with a given title does not exist
     UnknownOutlineTitle = Class.new(StandardError)
 
     # This error is raised when a block is required, but not provided
     BlockRequired = Class.new(StandardError)
-    
+
     # This error is rased when a graphics method is called with improper arguments
     InvalidGraphicsPath = Class.new(StandardError)
-    
-    # This error is raised when Prawn fails to load a template file
-    #
-    TemplateError = Class.new(StandardError)
-    
-    # This error is raise when trying to restore a graphic state that 
-    #
-    EmptyGraphicStateStack = Class.new(StandardError)
 
     # Raised when unrecognized content is provided for a table cell.
     #
     UnrecognizedTableContent = Class.new(StandardError)
-    
+
   end
-end   
+end

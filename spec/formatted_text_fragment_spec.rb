@@ -75,7 +75,7 @@ describe "Text::Formatted::Fragment#word_spacing=" do
     @fragment.ascender = 17
     @fragment.word_spacing = 10
   end
-  
+
   it "should account for word_spacing in #width" do
     @fragment.width.should == 110
   end
@@ -122,7 +122,7 @@ describe "Text::Formatted::Fragment" do
     @fragment.descender = 7
     @fragment.ascender = 17
   end
-  
+
   describe "#width" do
     it "should return the width" do
       @fragment.width.should == 100

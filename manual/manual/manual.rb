@@ -3,14 +3,13 @@
 # Generates the Prawn by example manual.
 #
 
-Encoding.default_external = "UTF-8" if defined? Encoding
+Encoding.default_external = Encoding::UTF_8
 
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Example.generate("manual.pdf",
                         :optimize_objects => true,
-                        :compress => false,
                         :skip_page_creation => true,
                         :page_size => "FOLIO") do
 

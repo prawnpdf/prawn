@@ -8,7 +8,7 @@
 
 require 'zlib'
 
-module Prawn
+module PDF
   module Core
     module Filters
       module FlateDecode

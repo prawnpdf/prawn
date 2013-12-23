@@ -29,10 +29,10 @@ module Prawn
     #   :even       -- repeats on even pages
     #   some_array  -- repeats on every page listed in the array
     #   some_range  -- repeats on every page included in the range
-    #   some_lambda -- yields page number and repeats for true return values 
+    #   some_lambda -- yields page number and repeats for true return values
     #
-    # Also accepts an optional second argument for dynamic content which executes the code 
-    # in the context of the filtered pages without using a Stamp. 
+    # Also accepts an optional second argument for dynamic content which executes the code
+    # in the context of the filtered pages without using a Stamp.
     #
     # Example:
     #
@@ -49,8 +49,8 @@ module Prawn
     #     repeat :even do
     #       draw_text "EVEN", :at => [0,0]
     #     end
-    # 
-    #     repeat [1,2] do 
+    #
+    #     repeat [1,2] do
     #       draw_text "[1,2]", :at => [100,0]
     #     end
     #
@@ -62,11 +62,11 @@ module Prawn
     #       draw_text "Every third", :at => [250, 20]
     #     end
     #
-    #     10.times do 
+    #     10.times do
     #       start_new_page
     #       draw_text "A wonderful page", :at => [400,400]
     #     end
-    #     
+    #
     #     repeat(:all, :dynamic => true) do
     #       text page_number, :at => [500, 0]
     #     end

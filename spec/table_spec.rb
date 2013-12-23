@@ -450,13 +450,13 @@ describe "Prawn::Table" do
       end
 
       it "should allow table cells to be resized in block" do
-        lambda do
-          @pdf.table([%w[1 2 3 4 5]]) do |t|
-            t.width = 40
-            t.cells.size = 8
-            t.cells.padding = 0
-          end
-        end.should_not raise_error(Prawn::Errors::CannotFit)
+        # if anything goes wrong, a CannotFit error will be raised
+
+        @pdf.table([%w[1 2 3 4 5]]) do |t|
+          t.width = 40
+          t.cells.size = 8
+          t.cells.padding = 0
+        end
       end
 
       it "should be the width of the :width parameter" do
@@ -991,6 +991,22 @@ describe "Prawn::Table" do
         end
         @pdf = Prawn::Document.new
         @pdf.table(data, :header => true)
+      end
+
+      it "draws headers at the correct position with column box" do
+        data = [["header"]] + [["foo"]] * 40
+
+        Prawn::Table::Cell.expects(:draw_cells).times(2).checking do |cells|
+          cells.each do |cell, pt|
+            if cell.content == "header"
+              pt[0].should == @pdf.bounds.left
+            end
+          end
+        end
+        @pdf = Prawn::Document.new
+        @pdf.column_box [0, @pdf.cursor], :width => @pdf.bounds.width, :columns => 2 do
+            @pdf.table(data, :header => true)
+          end
       end
 
       it "should_not draw header twice when starting new page" do

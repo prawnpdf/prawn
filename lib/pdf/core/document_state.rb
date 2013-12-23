@@ -1,14 +1,14 @@
-module Prawn
+module PDF
   module Core
     class DocumentState #:nodoc:
       def initialize(options)
         normalize_metadata(options)
 
         if options[:template]
-          @store = Prawn::Core::ObjectStore.new(:template => options[:template])
+          @store = PDF::Core::ObjectStore.new(:template => options[:template])
           @store.info.data.merge!(options[:info]) if options[:info]
         else
-          @store = Prawn::Core::ObjectStore.new(:info => options[:info])
+          @store = PDF::Core::ObjectStore.new(:info => options[:info])
         end
 
         @version                 = 1.3
@@ -34,7 +34,7 @@ module Prawn
         count = (1..@store.page_count)
         @pages = count.map do |index|
           orig_dict_id = @store.object_id_for_page(index)
-          Prawn::Core::Page.new(document, :object_id => orig_dict_id)
+          PDF::Core::Page.new(document, :object_id => orig_dict_id)
         end
 
       end
@@ -69,11 +69,10 @@ module Prawn
         store.compact if optimize_objects
         store.each do |ref|
           ref.offset = output.size
-          output << (@encrypt ? ref.encrypted_object(@encryption_key) : 
+          output << (@encrypt ? ref.encrypted_object(@encryption_key) :
                                 ref.object)
         end
       end
-
     end
   end
 end

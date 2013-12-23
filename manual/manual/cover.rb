@@ -22,5 +22,14 @@ Prawn::Example.generate(filename) do
                         :font => 'Courier',
                         :size => 60}
                      ], :at => [170, cursor - 160])
+
+  #long git commit hash
+  #commit = `git show --pretty=%H`
+  #short git commit hash
+  commit = `git show --pretty=%h`
+  formatted_text_box([  {:text => "Last Update: #{Time.now.strftime("%Y-%m-%d")}\n
+                                   git commit: #{commit}",
+                         :size => 12}
+                    ],   :at => [390, cursor - 620])
   
 end

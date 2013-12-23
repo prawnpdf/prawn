@@ -103,13 +103,8 @@ module Prawn
     def read_file(folder_name, filename)
       data = File.read(File.expand_path(File.join(
         File.dirname(__FILE__), folder_name, filename)))
-      
-      # XXX If we ever have manual files with source encodings other than
-      # UTF-8, we will need to fix this to work on Ruby 1.9.
-      if data.respond_to?(:encode!)
-        data.encode!("UTF-8")
-      end
-      data
+
+      data.encode(::Encoding::UTF_8)
     end
     
   end

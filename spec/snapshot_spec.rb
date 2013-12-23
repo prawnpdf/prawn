@@ -23,7 +23,7 @@ describe "Prawn::Document#transaction" do
     end
     text = PDF::Inspector::Text.analyze(pdf.render)
     text.strings.should == []
-  end 
+  end
 
   it "should return true/false value indicating success of the transaction" do
     Prawn::Document.new do
@@ -34,7 +34,7 @@ describe "Prawn::Document#transaction" do
       success.should == false
     end
   end
-  
+
   it "should support nested transactions" do
     pdf = Prawn::Document.new do
       transaction do
@@ -144,7 +144,7 @@ describe "Prawn::Document#transaction" do
       lambda { pdf.transaction{} }.should_not raise_error
     end
   end
-  
+
   describe "with a stamp dictionary present" do
 
     it "should properly commit if no error is raised" do
@@ -167,7 +167,7 @@ describe "Prawn::Document#transaction" do
         end
       end
       pdf.render.should_not =~ /\/Stamp1 Do/
-    end 
+    end
 
   end
 

@@ -322,16 +322,17 @@ module Prawn
 
             # start a new page or column
             @pdf.bounds.move_past_bottom
+            x_offset = @pdf.bounds.left_side - @pdf.bounds.absolute_left
             if cell.row > 0 && @header
               if @header.is_a? Integer
                 header_height = 0
                 y_coord = @pdf.cursor
                 @header.times do |h|
-                  additional_header_height = add_header(cells_this_page, y_coord-header_height, cell.row-1, h)
+                  additional_header_height = add_header(cells_this_page, x_offset, y_coord-header_height, cell.row-1, h)
                   header_height += additional_header_height
                 end
               else
-                header_height = add_header(cells_this_page, @pdf.cursor, cell.row-1)
+                header_height = add_header(cells_this_page, x_offset, @pdf.cursor, cell.row-1)
               end
             else
               header_height = 0
@@ -518,13 +519,13 @@ module Prawn
     #
     # Return the height of the header.
     #
-    def add_header(page_of_cells, y, row, row_of_header=nil)
+    def add_header(page_of_cells, x_offset, y, row, row_of_header=nil)
       rows_to_operate_on = @header_row
       rows_to_operate_on = @header_row.rows(row_of_header) if row_of_header
       rows_to_operate_on.each do |cell|
         cell.row = row
         cell.dummy_cells.each {|c| c.row = row }
-        page_of_cells << [cell, [cell.x, y]]
+        page_of_cells << [cell, [cell.x + x_offset, y]]
       end
       rows_to_operate_on.height
     end

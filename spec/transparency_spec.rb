@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper") 
+require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module TransparencyHelper
   def make_transparent(opacity, stroke_opacity=opacity)
@@ -17,7 +17,7 @@ describe "Document with transparency" do
     str = @pdf.render
     str[0,8].should == "%PDF-1.4"
   end
-  
+
   it "a new extended graphics state should be created for "+
      "each unique transparency setting" do
     create_pdf
@@ -27,7 +27,7 @@ describe "Document with transparency" do
     extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
     extgstates.length.should == 2
   end
-  
+
   it "a new extended graphics state should not be created for "+
      "each duplicate transparency setting" do
     create_pdf
@@ -70,7 +70,7 @@ describe "Document with transparency" do
     extgstate[:opacity].should == 1.0
     extgstate[:stroke_opacity].should == 1.0
   end
-  
+
   describe "with more than one page" do
     include TransparencyHelper
 
@@ -78,7 +78,7 @@ describe "Document with transparency" do
       create_pdf
       make_transparent(0.5, 0.2)
       @pdf.start_new_page
-      make_transparent(0.5, 0.2) 
+      make_transparent(0.5, 0.2)
       extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
       extgstate = extgstates[0]
       extgstates.length.should == 2

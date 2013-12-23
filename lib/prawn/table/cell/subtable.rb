@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # subtable.rb: Yo dawg.
 #
@@ -47,7 +47,7 @@ module Prawn
           @subtable.cells.max_width
         end
 
-        # Proxied to subtable. 
+        # Proxied to subtable.
         #
         def natural_content_height
           @subtable.cells.height

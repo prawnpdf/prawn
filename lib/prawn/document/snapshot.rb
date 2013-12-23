@@ -27,7 +27,7 @@ module Prawn
       # +rollback+ is called or a RollbackTransaction exception is raised
       # inside the block, all actions taken inside the block will be rolled
       # back (with the exception of y-position, which you must restore
-      # yourself). 
+      # yourself).
       #
       # Returns true on success, or false if the transaction was rolled back.
       #
@@ -41,7 +41,7 @@ module Prawn
       end
 
       private
-      
+
       # Takes a current snapshot of the document's state, sufficient to
       # reconstruct it after it was amended.
       #
@@ -80,7 +80,7 @@ module Prawn
         self.bounds = BoundingBox.restore_deep_copy(shot[:bounds], self)
 
         if shot[:dests]
-          names.data[:Dests] = shot[:dests] 
+          names.data[:Dests] = shot[:dests]
         end
       end
 

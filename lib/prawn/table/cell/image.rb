@@ -1,4 +1,4 @@
-# encoding: utf-8   
+# encoding: utf-8
 
 # image.rb: Table image cells.
 #

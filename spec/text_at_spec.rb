@@ -98,32 +98,18 @@ describe "#draw_text" do
     text.strings.first.should == str
   end
 
-  if "spec".respond_to?(:encode!)
-    # Handle non utf-8 string encodings in a sane way on M17N aware VMs
-    it "should raise_error an exception when a utf-8 incompatible string is rendered" do
-      str = "Blah \xDD"
-      str.force_encoding("ASCII-8BIT")
-      lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should_not raise_error an exception when a shift-jis string is rendered" do
-      datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
-      sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
-      @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should_not raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-  else
-    # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
-    it "should raise_error an exception when a corrupt utf-8 string is rendered" do
-      str = "Blah \xDD"
-      lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should raise_error an exception when a shift-jis string is rendered" do
-      sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
-      lambda { @pdf.draw_text(sjis_str, :at => [0, 0]) }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
+  it "should raise_error an exception when a utf-8 incompatible string is rendered" do
+    str = "Blah \xDD"
+    str.force_encoding(Encoding::ASCII_8BIT)
+    lambda { @pdf.draw_text(str, :at => [0, 0]) }.should raise_error(
+      Prawn::Errors::IncompatibleStringEncoding)
+  end
+
+  it "should not raise an exception when a shift-jis string is rendered" do
+    datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
+    sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
+
+    @pdf.draw_text(sjis_str, :at => [0, 0])
   end
 end

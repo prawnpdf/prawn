@@ -6,13 +6,12 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-module Prawn
-  module Core 
-    
-    # Provides very low-level support for annotations. 
+module PDF
+  module Core
+    # Provides very low-level support for annotations.
     #
     module Annotations #:nodoc:
-      
+
       # Adds a new annotation (section 8.4 in PDF spec) to the current page.
       # +options+ must be a Hash describing the annotation.
       #
@@ -50,12 +49,12 @@ module Prawn
         options = options.merge(:Type => :Annot)
 
         if options[:Dest].is_a?(String)
-          options[:Dest] = Prawn::Core::LiteralString.new(options[:Dest])
+          options[:Dest] = PDF::Core::LiteralString.new(options[:Dest])
         end
 
         options
       end
-      
+
     end
   end
 end

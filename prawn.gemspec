@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
                 ["Rakefile", "prawn.gemspec", "Gemfile",
                  "COPYING", "LICENSE", "GPLv2", "GPLv3"]
   spec.require_path = "lib"
-  spec.required_ruby_version = '>= 1.8.7'
+  spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
 
   spec.test_files = Dir[ "spec/*_spec.rb" ]
@@ -23,7 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency('pdf-reader', '~>1.2')
   spec.add_dependency('ttfunk', '~>1.0.3')
   spec.add_dependency('ruby-rc4')
-  spec.add_dependency('afm')
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
   spec.add_development_dependency('coderay', '~> 1.0.7')
   spec.add_development_dependency('rdoc')

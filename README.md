@@ -1,6 +1,7 @@
 # Prawn: Fast, Nimble PDF Generation For Ruby
 
 [![Build Status](https://secure.travis-ci.org/prawnpdf/prawn.png)](http://travis-ci.org/prawnpdf/prawn)
+[![Gem Version](https://badge.fury.io/rb/prawn.png)](http://badge.fury.io/rb/prawn)
 
 Prawn is a pure Ruby PDF generation library that provides a lot of great functionality while trying to remain simple and reasonably performant. Here are some of the important features we provide:
 
@@ -25,7 +26,7 @@ One thing Prawn is not, and will never be, is an HTML to PDF generator. For thos
 
 ## Supported Ruby Versions and Implementations
 
-Because Prawn is pure Ruby and virtually all of its dependencies are maintained by our core team, it should run pretty much anywhere, including Rubinius, JRuby, MacRuby, etc. While we officially support MRI 1.8.7 and 1.9.2 only, we will accept patches to fix problems on other Ruby platforms if they aren't too invasive.
+Because Prawn is pure Ruby and virtually all of its dependencies are maintained by our core team, it should run pretty much anywhere, including Rubinius, JRuby, MacRuby, etc. We officially support MRI {1.9.3 and 2.0.0} and jruby 1.7.x in 1.9 mode, however we will accept patches to fix problems on other Ruby platforms if they aren't too invasive.
 
 ## Installing Prawn
 
@@ -80,6 +81,17 @@ If you've found a bug, want to submit a patch, or have a feature request, please
 We strongly encourage bug reports to come with failing tests or at least a reduced example that demonstrates the problem. Similarly, patches should include tests, API documentation, and an update to the manual where relevant. Feel free to send a pull request early though, if you just want some feedback or a code review before preparing your code to be merged.
 
 If you are unsure about whether or not you've found a bug, or want to check to see whether we'd be interested in the feature you want to add before you start working on it, feel free to post to our mailing list.
+
+You can run our test suite in a few different ways:
+
+1. Running `rake` will run the entire test suite excluding any unresolved issues
+2. Running `rspec` will run the entire test suite including unresolved issues
+3. Running `rspec -t unresolved` will run *only* unresolved issues
+4. Running `rspec -t issue:NUMBER` will run the tests for a specific issue
+
+These filters make it possible for us to add failing test cases for bugs that
+are currently being researched or worked on, without breaking the typical
+full suite run.
 
 ## Authorship
 

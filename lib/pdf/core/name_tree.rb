@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-module Prawn
+module PDF
   module Core
     module NameTree #:nodoc:
       class Node #:nodoc:
@@ -157,7 +157,7 @@ module Prawn
         attr_reader :value
 
         def initialize(name, value)
-          @name, @value = Prawn::Core::LiteralString.new(name), value
+          @name, @value = PDF::Core::LiteralString.new(name), value
         end
 
         def <=>(leaf)

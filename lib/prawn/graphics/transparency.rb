@@ -86,7 +86,7 @@ module Prawn
                                     )
 
           dictionary_name = "Tr#{next_opacity_dictionary_id}"
-          opacity_dictionary_registry[key] = { :name => dictionary_name, 
+          opacity_dictionary_registry[key] = { :name => dictionary_name,
                                                :obj  => dictionary }
         end
 
