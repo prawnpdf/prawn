@@ -13,6 +13,7 @@ Prawn::Example.generate("templates.pdf", :page_size => "FOLIO") do
     p.example "page_template"
     
     p.intro do
+      prose("<b>NOTE: Templates are currently unmaintained and may be removed by Prawn 1.0!</b>")
       prose("Templates let you embed other PDF documents inside the current one.
 
       The examples show:")

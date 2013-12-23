@@ -150,7 +150,7 @@ describe "Repeaters" do
         text.strings.include?("cap_style: round").should == false
         text.strings.include?("cap_style: butt").should == true
       end
-      
+
     end
 
   end

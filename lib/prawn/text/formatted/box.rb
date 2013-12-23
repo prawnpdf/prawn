@@ -45,7 +45,7 @@ module Prawn
       #     the appropriate tags if you which to draw attention to the link
       # <tt>:anchor</tt>::
       #     a destination that has already been or will be registered using
-      #     Prawn::Core::Destinations#add_dest. A clickable link will be
+      #     PDF::Core::Destinations#add_dest. A clickable link will be
       #     created to that destination. Note that you must explicitly underline
       #     and color using the appropriate tags if you which to draw attention
       #     to the link
@@ -98,10 +98,10 @@ module Prawn
       # vertical space was consumed by the printed text
       #
       class Box
-        include Prawn::Core::Text::Formatted::Wrap
+        include Prawn::Text::Formatted::Wrap
 
         def valid_options
-          Prawn::Core::Text::VALID_OPTIONS + [:at, :height, :width,
+          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
                                               :align, :valign,
                                               :rotate, :rotate_around,
                                               :overflow, :min_font_size,
@@ -149,7 +149,7 @@ module Prawn
         # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
         # of the wrap method if you want to override the default wrapping
         # algorithm):
-        # 
+        #
         #
         #   module MyWrap
         #
@@ -289,7 +289,7 @@ module Prawn
         end
 
         # The height actually used during the previous <tt>render</tt>
-        # 
+        #
         def height
           return 0 if @baseline_y.nil? || @descender.nil?
           (@baseline_y - @descender).abs
@@ -392,7 +392,7 @@ module Prawn
           # all fonts
           fallback_fonts << fragment_font
 
-          hash[:text].unicode_characters do |char|
+          hash[:text].each_char do |char|
             @document.font(fragment_font)
             font_glyph_pairs << [find_font_for_this_glyph(char,
                                                           @document.font.family,
@@ -545,7 +545,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :URI,
-                                            :URI => Prawn::Core::LiteralString.new(fragment.link) })
+                                            :URI => PDF::Core::LiteralString.new(fragment.link) })
         end
 
         def draw_fragment_overlay_anchor(fragment)
@@ -563,7 +563,7 @@ module Prawn
                                     :Border => [0, 0, 0],
                                     :A => { :Type => :Action,
                                             :S => :Launch,
-                                            :F => Prawn::Core::LiteralString.new(fragment.local),
+                                            :F => PDF::Core::LiteralString.new(fragment.local),
                                             :NewWindow => true })
         end
 

@@ -1,5 +1,5 @@
 # encoding: utf-8
-module Prawn
+module PDF
   module Core
     # This is used to differentiate strings that must be encoded as
     # a *literal* string, versus those that can be encoded in

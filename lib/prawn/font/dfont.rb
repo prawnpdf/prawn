@@ -11,7 +11,7 @@ require 'prawn/font/ttf'
 module Prawn
   class Font
     class DFont < TTF
-      
+
       # Returns a list of the names of all named fonts in the given dfont file.
       # Note that fonts are not required to be named in a dfont file, so the
       # list may be empty even if the file does contain fonts. Also, note that
@@ -32,7 +32,7 @@ module Prawn
         end
       end
 
-      private 
+      private
 
       def read_ttf_file
         TTFunk::File.from_dfont(@name, @options[:font] || 0)

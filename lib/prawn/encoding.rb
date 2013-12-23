@@ -18,7 +18,7 @@ module Prawn
         .notdef       .notdef        .notdef        .notdef
         .notdef       .notdef        .notdef        .notdef
         .notdef       .notdef        .notdef        .notdef
-        
+
         space         exclam         quotedbl       numbersign
         dollar        percent        ampersand      quotesingle
         parenleft     parenright     asterisk       plus
@@ -54,7 +54,7 @@ module Prawn
         quotedblright bullet         endash         emdash
         tilde         trademark      scaron         guilsinglright
         oe            .notdef        zcaron         ydieresis
-       
+
         space         exclamdown     cent           sterling
         currency      yen            brokenbar      section
         dieresis      copyright      ordfeminine    guillemotleft
@@ -81,8 +81,8 @@ module Prawn
         ocircumflex   otilde         odieresis      divide
         oslash        ugrave         uacute         ucircumflex
         udieresis     yacute         thorn          ydieresis
-      ]    
-      
+      ]
+
       def initialize
         @mapping_file = "#{Prawn::DATADIR}/encodings/win_ansi.txt"
         load_mapping if self.class.mapping.empty?
@@ -100,7 +100,7 @@ module Prawn
         # Replace anything else with an underscore
         self.class.mapping[codepoint] || 95
       end
-      
+
       def self.mapping
         @mapping ||= {}
       end
@@ -108,8 +108,7 @@ module Prawn
       private
 
       def load_mapping
-        RUBY_VERSION >= "1.9" ? mode = "r:BINARY" : mode = "r"
-        File.open(@mapping_file, mode) do |f|
+        File.open(@mapping_file, "r:BINARY") do |f|
           f.each do |l|
             _, single_byte, unicode = *l.match(/([0-9A-Za-z]+);([0-9A-F]{4})/)
             self.class.mapping["0x#{unicode}".hex] = "0x#{single_byte}".hex if single_byte

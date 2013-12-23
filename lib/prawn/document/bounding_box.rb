@@ -188,10 +188,21 @@ module Prawn
 
       parent_box = @bounding_box
 
+      original_ypos = y
+
       init_block.call(parent_box)
 
       self.y = @bounding_box.absolute_top
       user_block.call
+
+      # If the user actions did not modify the y position
+      # restore the original y position before the bounding
+      # box was created.
+      
+      if y == @bounding_box.absolute_top
+        self.y = original_ypos
+      end
+
       unless options[:hold_position] || @bounding_box.stretchy?
         self.y = @bounding_box.absolute_bottom
       end

@@ -7,7 +7,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/page_geometry"
 require "prawn/document/bounding_box"
 require "prawn/document/column_box"
 require "prawn/document/internals"
@@ -52,8 +51,8 @@ module Prawn
   #
   class Document
     include Prawn::Document::Internals
-    include Prawn::Core::Annotations
-    include Prawn::Core::Destinations
+    include PDF::Core::Annotations
+    include PDF::Core::Destinations
     include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
     include Prawn::Document::Security
@@ -140,6 +139,7 @@ module Prawn
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
     # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
+    # <tt>:text_formatter</tt>: The text formatter to use for <tt>:inline_format</tt>ted text [Prawn::Text::Formatted::Parser]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
     # of 100 points on every side except for the left, where it will be 50.
@@ -176,13 +176,13 @@ module Prawn
       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
         :compress, :skip_encoding, :background, :info,
-        :optimize_objects, :template], options
+        :optimize_objects, :template, :text_formatter], options
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
 
       self.class.extensions.reverse_each { |e| extend e }
-      @internal_state = Prawn::Core::DocumentState.new(options)
+      @internal_state = PDF::Core::DocumentState.new(options)
       @internal_state.populate_pages_from_store(self)
       min_version(state.store.min_version) if state.store.min_version
 
@@ -194,6 +194,8 @@ module Prawn
       @margin_box    = nil
 
       @page_number = 0
+
+      @text_formatter = options.delete(:text_formatter) || Text::Formatted::Parser
 
       options[:size] = options.delete(:page_size)
       options[:layout] = options.delete(:page_layout)
@@ -220,6 +222,7 @@ module Prawn
     attr_reader   :margins, :y
     attr_writer   :font_size
     attr_accessor :page_number
+    attr_accessor :text_formatter
 
     def state
       @internal_state
@@ -265,7 +268,7 @@ module Prawn
       end
       merge_template_options(page_options, options) if options[:template]
 
-      state.page = Prawn::Core::Page.new(self, page_options)
+      state.page = PDF::Core::Page.new(self, page_options)
 
       apply_margin_options(options)
       generate_margin_box
@@ -355,19 +358,23 @@ module Prawn
       self.y = original_y
     end
 
-    # Renders the PDF document to string
+    # Renders the PDF document to string.
+    # Pass an open file descriptor to render to file.
     #
-    def render
-      output = StringIO.new
+    def render(output = StringIO.new)
       finalize_all_page_contents
 
       render_header(output)
       render_body(output)
       render_xref(output)
       render_trailer(output)
-      str = output.string
-      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
-      str
+      if output.instance_of?(StringIO)
+        str = output.string
+        str.force_encoding(::Encoding::ASCII_8BIT)
+        return str
+      else
+        return nil
+      end
     end
 
     # Renders the PDF document to file.
@@ -375,8 +382,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
-      File.open(filename,mode) { |f| f << render }
+      File.open(filename, "wb") { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,
@@ -703,6 +709,10 @@ module Prawn
            state.page.margins[side] = margin
          end
       end
+    end
+
+    def font_metric_cache #:nodoc:
+      @font_metric_cache ||= FontMetricCache.new( self )
     end
   end
 end

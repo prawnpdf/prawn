@@ -1,4 +1,5 @@
 # encoding: utf-8
+# <b>NOTE: Templates are currently unmaintained and may be removed by Prawn 1.0!</b>
 #
 # If you only need to load some pages from another PDF, you can accomplish it
 # with the <code>start_new_page</code> method. You may pass it a

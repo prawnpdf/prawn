@@ -378,6 +378,18 @@ describe "A canvas" do
     end
     @pdf.y.should == 450
   end
+
+  it "should restore the original ypos after execution", :issue => 523 do
+    doc = Prawn::Document.new(:skip_page_creation => true)
+    doc.start_new_page
+
+    original_ypos = doc.y
+
+    doc.canvas {}
+
+    doc.y.should == original_ypos
+  end
+
 end
 
 describe "Deep-copying" do

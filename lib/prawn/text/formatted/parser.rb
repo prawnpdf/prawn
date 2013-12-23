@@ -13,7 +13,6 @@ module Prawn
     module Formatted
 
       class Parser
-
         PARSER_REGEX = begin
           regex_string = "\n|" +
                          "<b>|</b>|" +
@@ -32,7 +31,7 @@ module Prawn
           Regexp.new(regex_string, Regexp::MULTILINE)
         end
 
-        def self.to_array(string)
+        def self.format(string, *args)
           tokens = string.gsub(/<br\s*\/?>/, "\n").scan(PARSER_REGEX)
           self.array_from_tokens(tokens)
         end
@@ -129,7 +128,7 @@ module Prawn
           fonts = []
           sizes = []
           character_spacings = []
-          
+
           while token = tokens.shift
             case token
             when "<b>", "<strong>"
@@ -187,7 +186,7 @@ module Prawn
                 # intend to support rgb="#ffffff" or rgb='#ffffff',
                 # r="255" g="255" b="255" or r='255' g='255' b='255',
                 # and c="100" m="100" y="100" k="100" or
-                # c='100' m='100' y='100' k='100' 
+                # c='100' m='100' y='100' k='100'
                 # color = { :rgb => "#ffffff" }
                 # color = { :r => 255, :g => 255, :b => 255 }
                 # color = { :c => 100, :m => 100, :y => 100, :k => 100 }

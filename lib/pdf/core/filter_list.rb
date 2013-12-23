@@ -1,5 +1,4 @@
-
-module Prawn
+module PDF 
   module Core
     class FilterList
       def initialize
@@ -10,7 +9,7 @@ module Prawn
         case filter
         when Symbol
           @list << [filter, nil]
-        when Hash
+        when ::Hash
           filter.each do |name, params|
             @list << [name, params]
           end

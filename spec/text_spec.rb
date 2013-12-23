@@ -41,23 +41,18 @@ describe "#height_of" do
   end
 
   it "should_not raise_error Prawn::Errors::UnknownOption if :final_gap option is provided" do
-    lambda {
-      @pdf.height_of("hai", :width => 300,
-                     :final_gap => true)
-    }.should_not raise_error(Prawn::Errors::UnknownOption)
+    @pdf.height_of("hai", :width => 300, :final_gap => true)
   end
 end
 
 describe "#text" do
   before(:each) { create_pdf }
 
-  it "should not fail when @output is nil when Prawn::Core::Text::LineWrap#finalize_line is called" do
+  it "should not fail when @output is nil when PDF::Core::Text::LineWrap#finalize_line is called" do
     # need a document with margins for these particulars to produce the
     # condition that was throwing the error
     pdf = Prawn::Document.new
-    lambda {
-      pdf.text "transparency " * 150, :size => 18
-    }.should_not raise_error(TypeError)
+    pdf.text "transparency " * 150, :size => 18
   end
 
   it "should allow drawing empty strings to the page" do
@@ -262,9 +257,7 @@ describe "#text" do
   end
 
   it "should_not raise_error an exception when providing Pathname instance as font" do
-    lambda {
-      @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
-    }.should_not raise_error(Prawn::Errors::UnknownFont)
+    @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
   end
 
   it "should correctly render a utf-8 string when using a built-in font" do
@@ -320,33 +313,20 @@ describe "#text" do
     pages[1][:strings].should == [str]
   end
 
-  if "spec".respond_to?(:encode!)
-    # Handle non utf-8 string encodings in a sane way on M17N aware VMs
-    it "should raise_error an exception when a utf-8 incompatible string is rendered" do
-      str = "Blah \xDD"
-      str.force_encoding("ASCII-8BIT")
-      lambda { @pdf.text str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should_not raise_error an exception when a shift-jis string is rendered" do
-      datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
-      sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
-      @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      lambda { @pdf.text sjis_str }.should_not raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-  else
-    # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
-    it "should raise_error an exception when a corrupt utf-8 string is rendered" do
-      str = "Blah \xDD"
-      lambda { @pdf.text str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should raise_error an exception when a shift-jis string is rendered" do
-      sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
-      lambda { @pdf.text sjis_str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
+  it "should raise_error an exception when a utf-8 incompatible string is rendered" do
+    str = "Blah \xDD"
+    str.force_encoding(Encoding::ASCII_8BIT)
+    lambda { @pdf.text str }.should raise_error(
+      Prawn::Errors::IncompatibleStringEncoding)
+  end
+
+  it "should_not raise_error an exception when a shift-jis string is rendered" do
+    datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
+    sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
+
+    # Expect that the call to text will not raise an encoding error
+    @pdf.text(sjis_str)
   end
 
   it "should call move_past_bottom when printing more text than can fit" +

@@ -16,20 +16,20 @@ describe "Outline" do
       end
     end
   end
-  if RUBY_VERSION >= "1.9"
-    describe "outline encoding" do
-      it "should store all outline titles as UTF-16" do
-        render_and_find_objects
-        @hash.values.each do |obj|
-          if obj.is_a?(Hash) && obj[:Title]
-            title = obj[:Title].dup
-            title.force_encoding("UTF-16LE")
-            title.valid_encoding?.should == true
-          end
+
+  describe "outline encoding" do
+    it "should store all outline titles as UTF-16" do
+      render_and_find_objects
+      @hash.values.each do |obj|
+        if obj.is_a?(Hash) && obj[:Title]
+          title = obj[:Title].dup
+          title.force_encoding(Encoding::UTF_16LE)
+          title.valid_encoding?.should == true
         end
       end
     end
   end
+
   describe "#generate_outline" do
     before(:each) do
       render_and_find_objects
