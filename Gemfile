@@ -1,18 +1,12 @@
 source "https://rubygems.org"
 
-gem "ttfunk", "~>1.0.3"
-gem "pdf-reader", "~> 1.2"
-gem "ruby-rc4"
+gemspec
+
 
 platforms :rbx do
   gem "rubysl-singleton", "~> 2.0"
   gem "rubysl-digest", "~> 2.0"
   gem "rubysl-enumerator", "~> 2.0"
-end
-
-group :development do
-  gem "coderay", "~> 1.0.7"
-  gem "rdoc"
 end
 
 group :test do

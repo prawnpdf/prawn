@@ -9,7 +9,7 @@
 require 'digest/md5'
 require 'rc4'
 
-require_relative '../pdf/core/byte_string'
+require 'pdf/core/byte_string'
 
 module Prawn
   class Document

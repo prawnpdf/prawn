@@ -8,7 +8,8 @@
 
 require "zlib"
 
-require_relative "../pdf/core/text"
+require "pdf/core/text"
+
 require_relative "text/formatted"
 require_relative "text/box"
 

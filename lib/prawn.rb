@@ -1,23 +1,10 @@
 # Welcome to Prawn, the best PDF Generation library ever.
 # This documentation covers user level functionality.
 #
-# Those looking to contribute code or write extensions should look
-# into the lib/prawn/core/* source tree.
-#
-%w[ttfunk/lib].each do |dep|
-  $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
-end
-
-begin
-  require 'ttfunk'
-rescue LoadError
-  puts "Failed to load ttfunk. If you are running Prawn from git:"
-  puts "  git submodule init"
-  puts "  git submodule update"
-  exit
-end
-
 require "set"
+
+require 'ttfunk'
+require "pdf/core"
 
 module Prawn
   VERSION = "0.14.0"
@@ -75,7 +62,6 @@ end
 
 require_relative "prawn/errors"
 
-require_relative "pdf/core"
 
 require_relative "prawn/utilities"
 require_relative "prawn/text"
