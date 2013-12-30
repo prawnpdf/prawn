@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'prawn/encoding'
+require_relative '../../prawn/encoding'
 
 module Prawn
   class Font
