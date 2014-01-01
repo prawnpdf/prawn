@@ -13,6 +13,7 @@ end
 group :development do
   gem "coderay", "~> 1.0.7"
   gem "rdoc"
+  gem "yard"
 end
 
 group :test do
