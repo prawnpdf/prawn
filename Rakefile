@@ -4,6 +4,7 @@ Bundler.setup
 require 'rake'
 require 'rspec/core/rake_task'
 require 'rdoc/task'
+require 'yard'
 require 'rubygems/package_task'
 
 task :default => [:spec]
@@ -31,6 +32,12 @@ RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = "doc/html"
   rdoc.title    = "Prawn Documentation"
 end
+
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['lib/**/*.rb', '-', 'README.md', 'COPYING', 'LICENSE', 'CONTRIBUTING.md']   # optional
+  t.options = ['--main', 'README.md', '--output-dir', 'doc/html', '--title', 'Prawn Documentation']
+end
+
 
 desc "Generate the 'Prawn by Example' manual"
 task :manual do
