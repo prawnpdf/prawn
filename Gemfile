@@ -9,6 +9,12 @@ platforms :rbx do
   gem "rubysl-enumerator", "~> 2.0"
 end
 
+group :development do
+  gem "coderay", "~> 1.0.7"
+  gem "rdoc"
+  gem "yard"
+end
+
 group :test do
   gem "pdf-inspector", "~> 1.1.0", :require => "pdf/inspector"
   gem "rspec"
