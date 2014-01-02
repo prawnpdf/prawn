@@ -91,14 +91,35 @@ describe "Prawn::Table" do
       pdf = Prawn::Document.new
       first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
       second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
-      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>55,:align=>:center}
-      fourth = {:content=>"Bar",:width=>15,:align=>:center}
+      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>50,:align=>:center}
+      fourth = {:content=>"Bar",:width=>20,:align=>:center}
       table_content = [[
       first,
       [[second],[third,fourth]]
       ]]
       pdf.move_down(20)
+      table = Prawn::Table.new table_content, pdf
       pdf.table(table_content)
+    end
+
+    #https://github.com/prawnpdf/prawn/issues/407#issuecomment-28556698
+    it "correctly computes column widths with empty cells + colspan" do
+      data = [['', ''],
+              [{:content => '', :colspan => 2}]
+              ]
+      pdf = Prawn::Document.new
+
+      table = Prawn::Table.new data, pdf, :column_widths => [50, 200]
+      table.column_widths.should == [50.0, 200.0]
+    end
+
+    it "illustrates a variant of problem in issue #407 - comment 28556698" do 
+      pdf = Prawn::Document.new
+      table_data = [["a", "b", "c"], [{:content=>"d", :colspan=>3}]]
+      column_widths = [50, 60, 400]
+
+      # Before we fixed #407, this line incorrectly raise a CannotFit error
+      pdf.table(table_data, :column_widths => column_widths)
     end
   end
 
