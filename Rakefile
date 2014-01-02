@@ -3,7 +3,6 @@ Bundler.setup
 
 require 'rake'
 require 'rspec/core/rake_task'
-require 'rdoc/task'
 require 'yard'
 require 'rubygems/package_task'
 
@@ -23,19 +22,11 @@ task :stats do
 end
 
 desc "genrates documentation"
-RDoc::Task.new do |rdoc|
-  rdoc.rdoc_files.include( "README.md",
-                           "COPYING",
-                           "LICENSE",
-                           "lib/" )
-  rdoc.main     = "README.md"
-  rdoc.rdoc_dir = "doc/html"
-  rdoc.title    = "Prawn Documentation"
-end
-
 YARD::Rake::YardocTask.new do |t|
-  t.files   = ['lib/**/*.rb', '-', 'README.md', 'COPYING', 'LICENSE', 'CONTRIBUTING.md']   # optional
-  t.options = ['--main', 'README.md', '--output-dir', 'doc/html', '--title', 'Prawn Documentation']
+  t.files   = ['lib/**/*.rb', '-', 'README.md', 
+               'COPYING', 'LICENSE', 'CONTRIBUTING.md']   # optional
+  t.options = ['--main', 'README.md', '--output-dir', 'doc/html', 
+               '--title', 'Prawn Documentation']
 end
 
 
