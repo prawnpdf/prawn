@@ -12,13 +12,8 @@ module Prawn
 
   module Images
     # Add the image at filename to the current page. Currently only
-    # JPG and PNG files are supported.
-    #
-    # NOTE: Prawn is very slow at rendering PNGs with alpha channels, and this
-    # uses a lot of RAM. The workaround for those who don't mind installing
-    # RMagick is to use:
-    #
-    # http://github.com/amberbit/prawn-fast-png
+    # JPG and PNG files are supported. (Note that processing PNG
+    # images with alpha channels can be processor and memory intensive.)
     #
     # Arguments:
     # <tt>file</tt>:: path to file or an object that responds to #read
