@@ -80,6 +80,25 @@ describe "Prawn::Table" do
 
     end
 
+    it "should not increase column width when rendering a subtable",
+       :unresolved, :issue => 612 do
+
+      pdf = Prawn::Document.new
+      
+      first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
+      second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
+      third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>50,:align=>:center}
+      fourth = {:content=>"Bar",:width=>20,:align=>:center}
+      
+      table_content = [[
+      first,
+      [[second],[third,fourth]]
+      ]]
+      
+      table = Prawn::Table.new table_content, pdf
+      table.column_widths.should == [50.0, 70.0]
+    end
+
     it "illustrate issue #533" do
       data = [['', '', '', '', '',''],
               ['',{:content => '', :colspan => 5}]]
