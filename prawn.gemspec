@@ -8,7 +8,8 @@ Gem::Specification.new do |spec|
                 Dir.glob("data/fonts/{MustRead.html,*.afm}") +
                 ["data/shift_jis_text.txt"] +
                 ["Rakefile", "prawn.gemspec", "Gemfile",
-                 "COPYING", "LICENSE", "GPLv2", "GPLv3"]
+                 "COPYING", "LICENSE", "GPLv2", "GPLv3",
+                 ".yardopts"]
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
