@@ -5,11 +5,17 @@ module PDF
         normalize_metadata(options)
 
         if options[:template]
-          @store = PDF::Core::ObjectStore.new(:template => options[:template],
-                                                :print_scaling => options[:print_scaling])
+<<<<<<< HEAD:lib/pdf/core/document_state.rb
+          @store = PDF::Core::ObjectStore.new(:template => options[:template])
           @store.info.data.merge!(options[:info]) if options[:info]
         else
-          @store = PDF::Core::ObjectStore.new(:info => options[:info], :print_scaling => options[:print_scaling])
+          @store = PDF::Core::ObjectStore.new(:info => options[:info])
+=======
+          @store = Prawn::Core::ObjectStore.new(:template => options[:template], :print_scaling => options[:print_scaling])
+          @store.info.data.merge!(options[:info]) if options[:info]
+        else
+          @store = Prawn::Core::ObjectStore.new(:info => options[:info], :print_scaling => options[:print_scaling])
+>>>>>>> Adds support for disabling PrintScaling in PDF clients:lib/prawn/core/document_state.rb
         end
 
         @version                 = 1.3

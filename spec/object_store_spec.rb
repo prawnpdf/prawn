@@ -84,7 +84,7 @@ describe "Prawn::ObjectStore" do
   end
 
   it "should accept option to disabling PDF scaling in PDF clients" do
-    @store = Prawn::Core::ObjectStore.new(:print_scaling => :none)
+    @store = PDF::Core::ObjectStore.new(:print_scaling => :none)
     @store.root.data[:ViewerPreferences].should == {:PrintScaling => :None}
   end
 
