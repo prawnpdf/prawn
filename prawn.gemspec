@@ -17,6 +17,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
+  spec.licenses = ['LICENSE', 'GPL-2', 'GPL-3']
+
   spec.add_dependency('pdf-reader', '~>1.2')
   spec.add_dependency('ttfunk', '~>1.0.3')
   spec.add_dependency('ruby-rc4')
