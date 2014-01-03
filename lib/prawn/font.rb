@@ -174,10 +174,9 @@ module Prawn
     # wish to support.
     #
     # By default the styles :bold, :italic, :bold_italic, and :normal are
-    # defined for fonts "Courier", "Times-Roman" and "Helvetica".
-    #
-    # You probably want to provide those four styles, but are free to define
-    # custom ones, like :thin, and use them in font calls.
+    # defined for fonts "Courier", "Times-Roman" and "Helvetica". When
+    # defining your own font families, you can map any or all of these
+    # styles to whatever font files you'd like.
     #
     def font_families
       @font_families ||= {}.merge!(
