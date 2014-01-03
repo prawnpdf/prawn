@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
                 Dir.glob("data/fonts/{MustRead.html,*.afm}") +
                 ["data/shift_jis_text.txt"] +
                 ["Rakefile", "prawn.gemspec", "Gemfile",
-                 "COPYING", "LICENSE", "GPLv2", "GPLv3", ".yardopts"]
+                 "COPYING", "LICENSE", "GPLv2", "GPLv3"]
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
-  spec.licenses = ['LICENSE', 'GPL-2', 'GPL-3']
+  spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
 
   spec.add_dependency('pdf-reader', '~>1.2')
   spec.add_dependency('ttfunk', '~>1.0.3')
