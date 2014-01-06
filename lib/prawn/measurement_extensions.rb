@@ -5,7 +5,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'prawn/measurements'
+require_relative 'measurements'
 
 class Numeric
   include Prawn::Measurements
