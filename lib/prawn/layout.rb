@@ -1,5 +1,5 @@
-require "prawn/table"
-require 'prawn/layout/grid'
+require_relative "table"
+require_relative "layout/grid"
 
 module Prawn
 

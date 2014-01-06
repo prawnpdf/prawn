@@ -6,13 +6,14 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "prawn/graphics/color"
-require "prawn/graphics/dash"
-require "prawn/graphics/cap_style"
-require "prawn/graphics/join_style"
-require "prawn/graphics/transparency"
-require "prawn/graphics/transformation"
-require "prawn/graphics/patterns"
+
+require_relative "graphics/color"
+require_relative "graphics/dash"
+require_relative "graphics/cap_style"
+require_relative "graphics/join_style"
+require_relative "graphics/transparency"
+require_relative "graphics/transformation"
+require_relative "graphics/patterns"
 
 module Prawn
 

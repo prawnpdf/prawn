@@ -6,10 +6,10 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/font/afm"
-require "prawn/font/ttf"
-require "prawn/font/dfont"
-require "prawn/font_metric_cache"
+require_relative "font/afm"
+require_relative "font/ttf"
+require_relative "font/dfont"
+require_relative "font_metric_cache"
 
 module Prawn
 

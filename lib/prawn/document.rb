@@ -7,12 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/bounding_box"
-require "prawn/document/column_box"
-require "prawn/document/internals"
-require "prawn/document/span"
-require "prawn/document/snapshot"
-require "prawn/document/graphics_state"
+require_relative "document/bounding_box"
+require_relative "document/column_box"
+require_relative "document/internals"
+require_relative "document/span"
+require_relative "document/snapshot"
+require_relative "document/graphics_state"
 
 module Prawn
 
