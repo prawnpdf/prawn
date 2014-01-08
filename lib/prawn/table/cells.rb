@@ -240,6 +240,9 @@ module Prawn
           end
         end
 
+        #if there are only colspanned or rowspanned cells in a table
+        spanned_width_needs_fixing = true
+
         each do |cell|
           index = cell.send(row_or_column)
           if cell.colspan > 1
@@ -251,8 +254,9 @@ module Prawn
 
             #calculate future return value
             new_sum = cell.send(meth) * cell.colspan
+            spanned_width_needs_fixing = (new_sum > old_sum)
 
-            if new_sum >= old_sum
+            if spanned_width_needs_fixing
               #not entirely sure why we need this line, but with it the tests pass
               values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
               #overwrite the old values with the new ones, but only if all entries existed
@@ -263,7 +267,7 @@ module Prawn
               }
             end
           else
-            if cell.class == Prawn::Table::Cell::SpanDummy
+            if spanned_width_needs_fixing && cell.class == Prawn::Table::Cell::SpanDummy
               values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
             end
           end

@@ -46,6 +46,19 @@ describe "Prawn::Table" do
   end
 
   describe "You can explicitly set the column widths and use a colspan > 1" do
+    it "should work with two different given colspans", :issue => 628 do 
+      data = [
+              [" ", " ", " "], 
+              [{:content=>" ", :colspan=>3}], 
+              [" ", {:content=>" ", :colspan=>2}]
+            ]
+      column_widths = [60, 240, 60]
+      pdf = Prawn::Document.new
+      #the next line raised an Prawn::Errors::CannotFit exception before issue 628 was fixed
+      table = Prawn::Table.new data, pdf, :column_widths => column_widths
+      table.column_widths.should == column_widths
+    end
+
     it "should work with a colspan > 1 with given column_widths (issue #407)" do
       #normal entries in line 1
       data = [
