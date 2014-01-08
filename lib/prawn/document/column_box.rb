@@ -4,7 +4,8 @@
 #
 # Author Paul Ostazeski.
 
-require "prawn/document/bounding_box"
+require_relative "bounding_box"
+
 module Prawn
   class Document
 
