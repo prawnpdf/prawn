@@ -2,6 +2,7 @@
 #
 # To set the document metadata just pass a hash to the <code>:info</code>
 # option when creating new documents.
+# The keys in the example below are arbitrary, so you may add whatever keys you want
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -14,10 +15,9 @@ Prawn::Document.generate("metadata.pdf",
     :Keywords     => "test metadata ruby pdf dry",
     :Creator      => "ACME Soft App", 
     :Producer     => "Prawn",
-    :CreationDate => Time.now,
-    :Grok         => "Test Property"
+    :CreationDate => Time.now
   }) do
   
   text "This is a test of setting metadata properties via the info option."
-  text "It allows one to specify non standard properties like 'Grok'."
+  text "If you want, it allows you to specify non standard properties too."
 end
