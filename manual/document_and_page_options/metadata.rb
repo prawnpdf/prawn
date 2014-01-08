@@ -19,5 +19,5 @@ Prawn::Document.generate("metadata.pdf",
   }) do
   
   text "This is a test of setting metadata properties via the info option."
-  text "If you want, it allows you to specify non standard properties too."
+  text "While the keys are arbitrary, the above example sets common attributes."
 end
