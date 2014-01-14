@@ -50,7 +50,7 @@ module PDF
         @color_space = previous_state ? previous_state.color_space.dup : {}
         @fill_color = previous_state ? previous_state.fill_color : "000000"
         @stroke_color = previous_state ? previous_state.stroke_color : "000000"
-        @dash = previous_state ? previous_state.dash : { :dash => nil, :space => nil, :phase => 0 }
+        @dash = previous_state ? previous_state.dash.dup : { :dash => nil, :space => nil, :phase => 0 }
         @cap_style = previous_state ? previous_state.cap_style : :butt
         @join_style = previous_state ? previous_state.join_style : :miter
         @line_width = previous_state ? previous_state.line_width : 1
