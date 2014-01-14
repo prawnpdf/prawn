@@ -484,6 +484,12 @@ describe "When using graphics states" do
     new_state.color_space.object_id.should_not == @pdf.graphic_state.color_space.object_id
     new_state.dash.object_id.should_not == @pdf.graphic_state.dash.object_id
   end
+
+  it "should dup the color_space and dash hashes when duping" do
+    new_state = @pdf.graphic_state.dup
+    new_state.color_space.object_id.should_not == @pdf.graphic_state.color_space.object_id
+    new_state.dash.object_id.should_not == @pdf.graphic_state.dash.object_id
+  end
 end
 
 describe "When using transformation matrix" do

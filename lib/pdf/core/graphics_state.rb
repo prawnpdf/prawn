@@ -63,6 +63,13 @@ module PDF
           "[#{@dash[:dash]} #{@dash[:space]}] #{@dash[:phase]} d"
         end
       end
+
+      private
+
+      def initialize_copy(other)
+        @color_space = other.color_space.dup
+        @dash = other.dash.dup
+      end
     end
   end
 end
