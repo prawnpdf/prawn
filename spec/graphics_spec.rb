@@ -478,6 +478,18 @@ describe "When using graphics states" do
       @pdf.restore_graphics_state
     }.should raise_error(PDF::Core::Errors::EmptyGraphicStateStack)
   end
+
+  it "should dup the color_space and dash hashes when passing in a previous_state to the initializer" do
+    new_state = PDF::Core::GraphicState.new(@pdf.graphic_state)
+    new_state.color_space.object_id.should_not == @pdf.graphic_state.color_space.object_id
+    new_state.dash.object_id.should_not == @pdf.graphic_state.dash.object_id
+  end
+
+  it "should dup the color_space and dash hashes when duping" do
+    new_state = @pdf.graphic_state.dup
+    new_state.color_space.object_id.should_not == @pdf.graphic_state.color_space.object_id
+    new_state.dash.object_id.should_not == @pdf.graphic_state.dash.object_id
+  end
 end
 
 describe "When using transformation matrix" do
