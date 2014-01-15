@@ -479,16 +479,22 @@ describe "When using graphics states" do
     }.should raise_error(PDF::Core::Errors::EmptyGraphicStateStack)
   end
 
-  it "should dup the color_space and dash hashes when passing in a previous_state to the initializer" do
+  it "should copy mutable attributes when passing a previous_state to the initializer" do
     new_state = PDF::Core::GraphicState.new(@pdf.graphic_state)
-    new_state.color_space.object_id.should_not == @pdf.graphic_state.color_space.object_id
-    new_state.dash.object_id.should_not == @pdf.graphic_state.dash.object_id
+
+    [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
+      new_state.send(attr).should == @pdf.graphic_state.send(attr)
+      new_state.send(attr).should_not equal(@pdf.graphic_state.send(attr))
+    end
   end
 
   it "should dup the color_space and dash hashes when duping" do
     new_state = @pdf.graphic_state.dup
-    new_state.color_space.object_id.should_not == @pdf.graphic_state.color_space.object_id
-    new_state.dash.object_id.should_not == @pdf.graphic_state.dash.object_id
+
+    [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
+      new_state.send(attr).should == @pdf.graphic_state.send(attr)
+      new_state.send(attr).should_not equal(@pdf.graphic_state.send(attr))
+    end
   end
 end
 
