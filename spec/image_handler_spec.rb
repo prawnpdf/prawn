@@ -28,6 +28,18 @@ describe "ImageHandler" do
     handler.should == handler_b
   end
 
+  it "can unregister a handler" do
+    handler_b.expects(:can_render? => true)
+
+    image_handler.register(handler_a)
+    image_handler.register(handler_b)
+
+    image_handler.unregister(handler_a)
+
+    handler = image_handler.find('arbitrary blob')
+    handler.should == handler_b
+  end
+
   it "raises an error when no matching handler is found" do
     handler_a.expects(:can_render? => false)
     handler_b.expects(:can_render? => false)
