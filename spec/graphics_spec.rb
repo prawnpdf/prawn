@@ -488,7 +488,7 @@ describe "When using graphics states" do
     end
   end
 
-  it "should dup the color_space and dash hashes when duping" do
+  it "should copy mutable attributes when duping" do
     new_state = @pdf.graphic_state.dup
 
     [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
