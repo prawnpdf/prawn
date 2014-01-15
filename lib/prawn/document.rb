@@ -178,8 +178,6 @@ module Prawn
         :compress, :skip_encoding, :background, :info,
         :optimize_objects, :template, :text_formatter, :print_scaling], options
 
-
-
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
 
@@ -207,12 +205,10 @@ module Prawn
       if options[:template]
         fresh_content_streams(options)
         go_to_page(1)
+      elsif options[:skip_page_creation]
+        start_new_page(options.merge(:orphan => true))
       else
-        if options[:skip_page_creation] || options[:template]
-          start_new_page(options.merge(:orphan => true))
-        else
-          start_new_page(options)
-        end
+        start_new_page(options)
       end
 
       @bounding_box = @margin_box
@@ -270,6 +266,7 @@ module Prawn
         new_graphic_state.color_space = {} if new_graphic_state
         page_options.merge!(:graphic_state => new_graphic_state)
       end
+
       merge_template_options(page_options, options) if options[:template]
 
       state.page = PDF::Core::Page.new(self, page_options)
