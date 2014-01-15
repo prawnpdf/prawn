@@ -62,6 +62,14 @@ module Prawn
     include Prawn::Stamp
     include Prawn::SoftMask
 
+    # NOTE: We probably need to rethink the options validation system, but this
+    # constant temporarily allows for extensions to modify the list.
+
+    VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
+                     :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
+                     :compress, :skip_encoding, :background, :info,
+                     :optimize_objects, :template, :text_formatter, :print_scaling]
+
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
     # any subclasses.
@@ -173,10 +181,7 @@ module Prawn
     def initialize(options={},&block)
       options = options.dup
 
-      Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
-        :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-        :compress, :skip_encoding, :background, :info,
-        :optimize_objects, :template, :text_formatter, :print_scaling], options
+      Prawn.verify_options VALID_OPTIONS, options
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
