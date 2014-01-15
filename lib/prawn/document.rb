@@ -230,10 +230,6 @@ module Prawn
     end
 
     def initialize_first_page(options)
-      success = super if defined?(super)
-
-      return if success
-
       if options[:skip_page_creation]
         start_new_page(options.merge(:orphan => true))
       else
@@ -252,8 +248,6 @@ module Prawn
     #   pdf.start_new_page(:margin => 100)
     #
     def start_new_page(options = {})
-      return super if defined?(super)
-
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout

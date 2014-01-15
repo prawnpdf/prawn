@@ -5,15 +5,19 @@ warn "Templates are no longer supported in Prawn!\n" +
 module Prawn
   module Templates
     def initialize_first_page(options)
-      if options[:template]
-        fresh_content_streams(options)
-        go_to_page(1)
-      else
-        defined?(super) ? super : false
-      end
+      return super unless options[:template]
+
+      fresh_content_streams(options)
+      go_to_page(1)
     end
-    
+   
+    ## FIXME: This is going to be terribly brittle because
+    # it copy-pastes the start_new_page method. But at least
+    # it should only run when templates are used.
+
     def start_new_page(options = {})
+      return super unless options[:template]
+
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout
@@ -30,7 +34,7 @@ module Prawn
         page_options.merge!(:graphic_state => new_graphic_state)
       end
 
-      merge_template_options(page_options, options) if options[:template]
+      merge_template_options(page_options, options)
 
       state.page = PDF::Core::Page.new(self, page_options)
 
@@ -43,9 +47,9 @@ module Prawn
         @bounding_box = @margin_box
       end
 
-      state.page.new_content_stream if options[:template]
-      use_graphic_settings(options[:template])
-      forget_text_rendering_mode! if options[:template]
+      state.page.new_content_stream
+      use_graphic_settings(true)
+      forget_text_rendering_mode!
 
       unless options[:orphan]
         state.insert_page(state.page, @page_number)
@@ -68,4 +72,4 @@ module Prawn
 end
 
 Prawn::Document::VALID_OPTIONS << :template
-Prawn::Document.send(:include, Prawn::Templates)
+Prawn::Document.extensions << Prawn::Templates
