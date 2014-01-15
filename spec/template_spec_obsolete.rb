@@ -1,7 +1,7 @@
 require_relative "spec_helper"
 require_relative "../lib/prawn/templates"
 
-describe "Document built from a template" do
+describe "Document built from a template", :unresolved do
   it "should have the same page count as the source document" do
     filename = "#{Prawn::BASEDIR}/spec/data/curves.pdf"
     @pdf = Prawn::Document.new(:template => filename)

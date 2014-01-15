@@ -146,7 +146,6 @@ module Prawn
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
-    # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     # <tt>:text_formatter</tt>: The text formatter to use for <tt>:inline_format</tt>ted text [Prawn::Text::Formatted::Parser]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
@@ -207,14 +206,7 @@ module Prawn
       options[:size] = options.delete(:page_size)
       options[:layout] = options.delete(:page_layout)
 
-      if options[:template]
-        fresh_content_streams(options)
-        go_to_page(1)
-      elsif options[:skip_page_creation]
-        start_new_page(options.merge(:orphan => true))
-      else
-        start_new_page(options)
-      end
+      initialize_first_page(options)
 
       @bounding_box = @margin_box
 
@@ -237,6 +229,18 @@ module Prawn
       state.page
     end
 
+    def initialize_first_page(options)
+      success = super if defined?(super)
+
+      return if success
+
+      if options[:skip_page_creation]
+        start_new_page(options.merge(:orphan => true))
+      else
+        start_new_page(options)
+      end
+    end
+
     # Creates and advances to a new page in the document.
     #
     # Page size, margins, and layout can also be set when generating a
@@ -247,15 +251,9 @@ module Prawn
     #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
     #   pdf.start_new_page(:margin => 100)
     #
-    # A template for a page can be specified by pointing to the path of and existing pdf.
-    # One can also specify which page of the template which defaults otherwise to 1.
-    #
-    #  pdf.start_new_page(:template => multipage_template.pdf, :template_page => 2)
-    #
-    # Note: templates get indexed by either the object_id of the filename or stream
-    # entered so that if you reuse the same template multiple times be sure to use the
-    # same instance for more efficient use of resources and smaller rendered pdfs.
     def start_new_page(options = {})
+      return super if defined?(super)
+
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout
@@ -272,8 +270,6 @@ module Prawn
         page_options.merge!(:graphic_state => new_graphic_state)
       end
 
-      merge_template_options(page_options, options) if options[:template]
-
       state.page = PDF::Core::Page.new(self, page_options)
 
       apply_margin_options(options)
@@ -285,9 +281,7 @@ module Prawn
         @bounding_box = @margin_box
       end
 
-      state.page.new_content_stream if options[:template]
-      use_graphic_settings(options[:template])
-      forget_text_rendering_mode! if options[:template]
+      use_graphic_settings
 
       unless options[:orphan]
         state.insert_page(state.page, @page_number)
@@ -657,13 +651,8 @@ module Prawn
 
     private
 
-    def merge_template_options(page_options, options)
-      object_id = state.store.import_page(options[:template], options[:template_page] || 1)
-      page_options.merge!(:object_id => object_id, :page_template => true)
-    end
-
     # setting override_settings to true ensures that a new graphic state does not end up using
-    # previous settings especially from imported template streams
+    # previous settings.
     def use_graphic_settings(override_settings = false)
       set_fill_color if current_fill_color != "000000" || override_settings
       set_stroke_color if current_stroke_color != "000000" || override_settings
