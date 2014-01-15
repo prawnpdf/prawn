@@ -26,6 +26,9 @@ module PDF
 
         @info  ||= ref(opts[:info] || {}).identifier
         @root  ||= ref(:Type => :Catalog).identifier
+        if opts[:print_scaling] == :none
+          root.data[:ViewerPreferences] = {:PrintScaling => :None}
+        end
         if pages.nil?
           root.data[:Pages] = ref(:Type => :Pages, :Count => 0, :Kids => [])
         end

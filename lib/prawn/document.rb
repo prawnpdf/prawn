@@ -176,7 +176,9 @@ module Prawn
       Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
         :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
         :compress, :skip_encoding, :background, :info,
-        :optimize_objects, :template, :text_formatter], options
+        :optimize_objects, :template, :text_formatter, :print_scaling], options
+
+
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
@@ -185,6 +187,8 @@ module Prawn
       @internal_state = PDF::Core::DocumentState.new(options)
       @internal_state.populate_pages_from_store(self)
       min_version(state.store.min_version) if state.store.min_version
+
+      min_version(1.6) if options[:print_scaling] == :none
 
       @background = options[:background]
       @background_scale = options[:background_scale] || 1
