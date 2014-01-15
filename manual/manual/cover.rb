@@ -27,8 +27,9 @@ Prawn::Example.generate(filename) do
   #commit = `git show --pretty=%H`
   #short git commit hash
   commit = `git show --pretty=%h`
-  formatted_text_box([  {:text => "Last Update: #{Time.now.strftime("%Y-%m-%d")}\n
-                                   git commit: #{commit}",
+  formatted_text_box([  {:text => "Last Update: #{Time.now.strftime("%Y-%m-%d")}\n"+
+                                  "Prawn Version: #{Prawn::VERSION}\n"+
+                                  "git commit: #{commit}",
                          :size => 12}
                     ],   :at => [390, cursor - 620])
   
