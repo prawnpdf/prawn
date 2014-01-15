@@ -46,6 +46,19 @@ describe "Prawn::Table" do
   end
 
   describe "You can explicitly set the column widths and use a colspan > 1" do
+
+    it "table widths should be correctly calculated even for column widths with lots of decimals", :focus do
+      data=[["a", "b ", "c ", "d", "e", "f", "g", "h", "i", "j", "k", "l"],
+            [{:content=>"Foobar", :colspan=>12}]
+          ]
+      #we need values with lots of decimals so that arithmetic errors will occur
+      #the values are not arbitrary but where found converting mm to pdf pt
+      column_widths=[137, 40, 40, 54.69291338582678, 54.69291338582678, 54.69291338582678, 54.69291338582678, 54.69291338582678, 54.69291338582678, 54.69291338582678, 54.69291338582678, 54.69291338582678]
+      pdf = Prawn::Document.new({:page_size => 'A4', :page_layout => :landscape})
+      table = Prawn::Table.new data, pdf, :column_widths => column_widths
+      table.column_widths.should == column_widths
+    end
+
     it "should work with two different given colspans", :issue => 628 do 
       data = [
               [" ", " ", " "], 

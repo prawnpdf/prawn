@@ -254,7 +254,11 @@ module Prawn
 
             #calculate future return value
             new_sum = cell.send(meth) * cell.colspan
-            spanned_width_needs_fixing = (new_sum > old_sum)
+
+            #due to arithmetic errors we need to ignore a small difference in the new and the old sum
+            #the same had to be done in the column_widht_calculator#natural_width
+            epsilon =1.0e-09
+            spanned_width_needs_fixing = ((new_sum - old_sum) > epsilon)
 
             if spanned_width_needs_fixing
               #not entirely sure why we need this line, but with it the tests pass
