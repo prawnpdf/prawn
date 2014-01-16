@@ -478,6 +478,24 @@ describe "When using graphics states" do
       @pdf.restore_graphics_state
     }.should raise_error(PDF::Core::Errors::EmptyGraphicStateStack)
   end
+
+  it "should copy mutable attributes when passing a previous_state to the initializer" do
+    new_state = PDF::Core::GraphicState.new(@pdf.graphic_state)
+
+    [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
+      new_state.send(attr).should == @pdf.graphic_state.send(attr)
+      new_state.send(attr).should_not equal(@pdf.graphic_state.send(attr))
+    end
+  end
+
+  it "should copy mutable attributes when duping" do
+    new_state = @pdf.graphic_state.dup
+
+    [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
+      new_state.send(attr).should == @pdf.graphic_state.send(attr)
+      new_state.send(attr).should_not equal(@pdf.graphic_state.send(attr))
+    end
+  end
 end
 
 describe "When using transformation matrix" do

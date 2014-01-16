@@ -1,4 +1,5 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+require_relative "spec_helper"
+require_relative "../lib/prawn/templates"
 
 describe "Document built from a template" do
   it "should have the same page count as the source document" do

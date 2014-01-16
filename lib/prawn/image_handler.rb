@@ -18,6 +18,10 @@ module Prawn
       @handlers.unshift handler
     end
 
+    def unregister(handler)
+      @handlers.reject!{ |h| h == handler }
+    end
+
     def find(image_blob)
       handler = @handlers.find{ |h| h.can_render? image_blob }
 
