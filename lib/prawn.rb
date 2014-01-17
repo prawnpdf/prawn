@@ -43,9 +43,9 @@ module Prawn
   #   Detected unknown option(s): [:tomato]
   #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
   #
-  attr_accessor :debug
+  attr_accessor :debug # @private
 
-  def verify_options(accepted, actual) #:nodoc:
+  def verify_options(accepted, actual) # @private
     return unless debug || $DEBUG
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
       raise Prawn::Errors::UnknownOption,
@@ -55,7 +55,7 @@ module Prawn
     yield if block_given?
   end
 
-  module Configurable #:nodoc:
+  module Configurable # @private
     def configuration(*args)
       @config ||= Marshal.load(Marshal.dump(default_configuration))
       if Hash === args[0]

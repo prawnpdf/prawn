@@ -3,7 +3,7 @@ warn "Templates are no longer supported in Prawn!\n" +
      "will extracted into its own gem in a future Prawn release"
 
 module Prawn
-  module Templates
+  module Templates # @private
     def initialize_first_page(options)
       return super unless options[:template]
 
