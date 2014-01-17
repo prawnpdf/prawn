@@ -1,0 +1,507 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Prawn::Document::GraphicsState
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (G)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Document.html" title="Prawn::Document (class)">Document</a></span></span>
+     &raquo; 
+    <span class="title">GraphicsState</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Prawn::Document::GraphicsState
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="../Document.html" title="Prawn::Document (class)">Prawn::Document</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/document/graphics_state.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_graphics_state-instance_method" title="#close_graphics_state (instance method)">- (Object) <strong>close_graphics_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#graphic_stack-instance_method" title="#graphic_stack (instance method)">- (Object) <strong>graphic_stack</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#graphic_state-instance_method" title="#graphic_state (instance method)">- (Object) <strong>graphic_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open_graphics_state-instance_method" title="#open_graphics_state (instance method)">- (Object) <strong>open_graphics_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Pushes the current graphics state on to the graphics state stack so we can
+restore it when finished with a change we want to isolate (such as
+modifying the transformation matrix).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restore_graphics_state-instance_method" title="#restore_graphics_state (instance method)">- (Object) <strong>restore_graphics_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Pops the last saved graphics state off the graphics state stack and
+restores the state to those values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_graphics_state-instance_method" title="#save_graphics_state (instance method)">- (Object) <strong>save_graphics_state</strong>(graphic_state = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="close_graphics_state-instance_method">
+  
+    - (<tt>Object</tt>) <strong>close_graphics_state</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/graphics_state.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_close_graphics_state'>close_graphics_state</span>
+  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Q</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="graphic_stack-instance_method">
+  
+    - (<tt>Object</tt>) <strong>graphic_stack</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/graphics_state.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_graphic_stack'>graphic_stack</span>
+  <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_stack'>stack</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="graphic_state-instance_method">
+  
+    - (<tt>Object</tt>) <strong>graphic_state</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/graphics_state.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_graphic_state'>graphic_state</span>
+  <span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span> <span class='kw'>unless</span> <span class='id identifier rubyid_graphic_stack'>graphic_stack</span><span class='period'>.</span><span class='id identifier rubyid_current_state'>current_state</span>
+  <span class='id identifier rubyid_graphic_stack'>graphic_stack</span><span class='period'>.</span><span class='id identifier rubyid_current_state'>current_state</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="open_graphics_state-instance_method">
+  
+    - (<tt>Object</tt>) <strong>open_graphics_state</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Pushes the current graphics state on to the graphics state stack so we can
+restore it when finished with a change we want to isolate (such as
+modifying the transformation matrix). Used in pairs with
+restore_graphics_state or passed a block</p>
+
+<p>Example without a block:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span>
+<span class='id identifier rubyid_rotate'>rotate</span> <span class='int'>30</span>
+<span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rotated text</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span></code></pre>
+
+<p>Example with a block:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_rotate'>rotate</span> <span class='int'>30</span>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rotated text</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/graphics_state.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_open_graphics_state'>open_graphics_state</span>
+  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>q</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="restore_graphics_state-instance_method">
+  
+    - (<tt>Object</tt>) <strong>restore_graphics_state</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Pops the last saved graphics state off the graphics state stack and
+restores the state to those values</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/graphics_state.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_graphic_stack'>graphic_stack</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>EmptyGraphicStateStack</span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n You have reached the end of the graphic state stack</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_close_graphics_state'>close_graphics_state</span>
+  <span class='id identifier rubyid_graphic_stack'>graphic_stack</span><span class='period'>.</span><span class='id identifier rubyid_restore_graphic_state'>restore_graphic_state</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save_graphics_state-instance_method">
+  
+    - (<tt>Object</tt>) <strong>save_graphics_state</strong>(graphic_state = nil) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/graphics_state.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span><span class='lparen'>(</span><span class='id identifier rubyid_graphic_state'>graphic_state</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_graphic_stack'>graphic_stack</span><span class='period'>.</span><span class='id identifier rubyid_save_graphic_state'>save_graphic_state</span><span class='lparen'>(</span><span class='id identifier rubyid_graphic_state'>graphic_state</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_open_graphics_state'>open_graphics_state</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='kw'>yield</span>
+    <span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 12:54:46 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Encoding::WinAnsi
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (W)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Encoding.html" title="Prawn::Encoding (module)">Encoding</a></span></span>
+     &raquo; 
+    <span class="title">WinAnsi</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Encoding::WinAnsi
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Prawn::Encoding::WinAnsi</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/encoding.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Map between unicode and WinAnsiEnoding</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="CHARACTERS-constant" class="">CHARACTERS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>:nodoc:</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qwords_beg'>%w[
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+
+</span><span class='tstring_content'>space</span><span class='words_sep'>         </span><span class='tstring_content'>exclam</span><span class='words_sep'>         </span><span class='tstring_content'>quotedbl</span><span class='words_sep'>       </span><span class='tstring_content'>numbersign</span><span class='words_sep'>
+</span><span class='tstring_content'>dollar</span><span class='words_sep'>        </span><span class='tstring_content'>percent</span><span class='words_sep'>        </span><span class='tstring_content'>ampersand</span><span class='words_sep'>      </span><span class='tstring_content'>quotesingle</span><span class='words_sep'>
+</span><span class='tstring_content'>parenleft</span><span class='words_sep'>     </span><span class='tstring_content'>parenright</span><span class='words_sep'>     </span><span class='tstring_content'>asterisk</span><span class='words_sep'>       </span><span class='tstring_content'>plus</span><span class='words_sep'>
+</span><span class='tstring_content'>comma</span><span class='words_sep'>         </span><span class='tstring_content'>hyphen</span><span class='words_sep'>         </span><span class='tstring_content'>period</span><span class='words_sep'>         </span><span class='tstring_content'>slash</span><span class='words_sep'>
+</span><span class='tstring_content'>zero</span><span class='words_sep'>          </span><span class='tstring_content'>one</span><span class='words_sep'>            </span><span class='tstring_content'>two</span><span class='words_sep'>            </span><span class='tstring_content'>three</span><span class='words_sep'>
+</span><span class='tstring_content'>four</span><span class='words_sep'>          </span><span class='tstring_content'>five</span><span class='words_sep'>           </span><span class='tstring_content'>six</span><span class='words_sep'>            </span><span class='tstring_content'>seven</span><span class='words_sep'>
+</span><span class='tstring_content'>eight</span><span class='words_sep'>         </span><span class='tstring_content'>nine</span><span class='words_sep'>           </span><span class='tstring_content'>colon</span><span class='words_sep'>          </span><span class='tstring_content'>semicolon</span><span class='words_sep'>
+</span><span class='tstring_content'>less</span><span class='words_sep'>          </span><span class='tstring_content'>equal</span><span class='words_sep'>          </span><span class='tstring_content'>greater</span><span class='words_sep'>        </span><span class='tstring_content'>question</span><span class='words_sep'>
+
+</span><span class='tstring_content'>at</span><span class='words_sep'>            </span><span class='tstring_content'>A</span><span class='words_sep'>              </span><span class='tstring_content'>B</span><span class='words_sep'>              </span><span class='tstring_content'>C</span><span class='words_sep'>
+</span><span class='tstring_content'>D</span><span class='words_sep'>             </span><span class='tstring_content'>E</span><span class='words_sep'>              </span><span class='tstring_content'>F</span><span class='words_sep'>              </span><span class='tstring_content'>G</span><span class='words_sep'>
+</span><span class='tstring_content'>H</span><span class='words_sep'>             </span><span class='tstring_content'>I</span><span class='words_sep'>              </span><span class='tstring_content'>J</span><span class='words_sep'>              </span><span class='tstring_content'>K</span><span class='words_sep'>
+</span><span class='tstring_content'>L</span><span class='words_sep'>             </span><span class='tstring_content'>M</span><span class='words_sep'>              </span><span class='tstring_content'>N</span><span class='words_sep'>              </span><span class='tstring_content'>O</span><span class='words_sep'>
+</span><span class='tstring_content'>P</span><span class='words_sep'>             </span><span class='tstring_content'>Q</span><span class='words_sep'>              </span><span class='tstring_content'>R</span><span class='words_sep'>              </span><span class='tstring_content'>S</span><span class='words_sep'>
+</span><span class='tstring_content'>T</span><span class='words_sep'>             </span><span class='tstring_content'>U</span><span class='words_sep'>              </span><span class='tstring_content'>V</span><span class='words_sep'>              </span><span class='tstring_content'>W</span><span class='words_sep'>
+</span><span class='tstring_content'>X</span><span class='words_sep'>             </span><span class='tstring_content'>Y</span><span class='words_sep'>              </span><span class='tstring_content'>Z</span><span class='words_sep'>              </span><span class='tstring_content'>bracketleft</span><span class='words_sep'>
+</span><span class='tstring_content'>backslash</span><span class='words_sep'>     </span><span class='tstring_content'>bracketright</span><span class='words_sep'>   </span><span class='tstring_content'>asciicircum</span><span class='words_sep'>    </span><span class='tstring_content'>underscore</span><span class='words_sep'>
+
+</span><span class='tstring_content'>grave</span><span class='words_sep'>         </span><span class='tstring_content'>a</span><span class='words_sep'>              </span><span class='tstring_content'>b</span><span class='words_sep'>              </span><span class='tstring_content'>c</span><span class='words_sep'>
+</span><span class='tstring_content'>d</span><span class='words_sep'>             </span><span class='tstring_content'>e</span><span class='words_sep'>              </span><span class='tstring_content'>f</span><span class='words_sep'>              </span><span class='tstring_content'>g</span><span class='words_sep'>
+</span><span class='tstring_content'>h</span><span class='words_sep'>             </span><span class='tstring_content'>i</span><span class='words_sep'>              </span><span class='tstring_content'>j</span><span class='words_sep'>              </span><span class='tstring_content'>k</span><span class='words_sep'>
+</span><span class='tstring_content'>l</span><span class='words_sep'>             </span><span class='tstring_content'>m</span><span class='words_sep'>              </span><span class='tstring_content'>n</span><span class='words_sep'>              </span><span class='tstring_content'>o</span><span class='words_sep'>
+</span><span class='tstring_content'>p</span><span class='words_sep'>             </span><span class='tstring_content'>q</span><span class='words_sep'>              </span><span class='tstring_content'>r</span><span class='words_sep'>              </span><span class='tstring_content'>s</span><span class='words_sep'>
+</span><span class='tstring_content'>t</span><span class='words_sep'>             </span><span class='tstring_content'>u</span><span class='words_sep'>              </span><span class='tstring_content'>v</span><span class='words_sep'>              </span><span class='tstring_content'>w</span><span class='words_sep'>
+</span><span class='tstring_content'>x</span><span class='words_sep'>             </span><span class='tstring_content'>y</span><span class='words_sep'>              </span><span class='tstring_content'>z</span><span class='words_sep'>              </span><span class='tstring_content'>braceleft</span><span class='words_sep'>
+</span><span class='tstring_content'>bar</span><span class='words_sep'>           </span><span class='tstring_content'>braceright</span><span class='words_sep'>     </span><span class='tstring_content'>asciitilde</span><span class='words_sep'>     </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+
+</span><span class='tstring_content'>Euro</span><span class='words_sep'>          </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>quotesinglbase</span><span class='words_sep'> </span><span class='tstring_content'>florin</span><span class='words_sep'>
+</span><span class='tstring_content'>quotedblbase</span><span class='words_sep'>  </span><span class='tstring_content'>ellipsis</span><span class='words_sep'>       </span><span class='tstring_content'>dagger</span><span class='words_sep'>         </span><span class='tstring_content'>daggerdbl</span><span class='words_sep'>
+</span><span class='tstring_content'>circumflex</span><span class='words_sep'>    </span><span class='tstring_content'>perthousand</span><span class='words_sep'>    </span><span class='tstring_content'>Scaron</span><span class='words_sep'>         </span><span class='tstring_content'>guilsinglleft</span><span class='words_sep'>
+</span><span class='tstring_content'>OE</span><span class='words_sep'>            </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>Zcaron</span><span class='words_sep'>         </span><span class='tstring_content'>.notdef</span><span class='words_sep'>
+</span><span class='tstring_content'>.notdef</span><span class='words_sep'>       </span><span class='tstring_content'>quoteleft</span><span class='words_sep'>      </span><span class='tstring_content'>quoteright</span><span class='words_sep'>     </span><span class='tstring_content'>quotedblleft</span><span class='words_sep'>
+</span><span class='tstring_content'>quotedblright</span><span class='words_sep'> </span><span class='tstring_content'>bullet</span><span class='words_sep'>         </span><span class='tstring_content'>endash</span><span class='words_sep'>         </span><span class='tstring_content'>emdash</span><span class='words_sep'>
+</span><span class='tstring_content'>tilde</span><span class='words_sep'>         </span><span class='tstring_content'>trademark</span><span class='words_sep'>      </span><span class='tstring_content'>scaron</span><span class='words_sep'>         </span><span class='tstring_content'>guilsinglright</span><span class='words_sep'>
+</span><span class='tstring_content'>oe</span><span class='words_sep'>            </span><span class='tstring_content'>.notdef</span><span class='words_sep'>        </span><span class='tstring_content'>zcaron</span><span class='words_sep'>         </span><span class='tstring_content'>ydieresis</span><span class='words_sep'>
+
+</span><span class='tstring_content'>space</span><span class='words_sep'>         </span><span class='tstring_content'>exclamdown</span><span class='words_sep'>     </span><span class='tstring_content'>cent</span><span class='words_sep'>           </span><span class='tstring_content'>sterling</span><span class='words_sep'>
+</span><span class='tstring_content'>currency</span><span class='words_sep'>      </span><span class='tstring_content'>yen</span><span class='words_sep'>            </span><span class='tstring_content'>brokenbar</span><span class='words_sep'>      </span><span class='tstring_content'>section</span><span class='words_sep'>
+</span><span class='tstring_content'>dieresis</span><span class='words_sep'>      </span><span class='tstring_content'>copyright</span><span class='words_sep'>      </span><span class='tstring_content'>ordfeminine</span><span class='words_sep'>    </span><span class='tstring_content'>guillemotleft</span><span class='words_sep'>
+</span><span class='tstring_content'>logicalnot</span><span class='words_sep'>    </span><span class='tstring_content'>hyphen</span><span class='words_sep'>         </span><span class='tstring_content'>registered</span><span class='words_sep'>     </span><span class='tstring_content'>macron</span><span class='words_sep'>
+</span><span class='tstring_content'>degree</span><span class='words_sep'>        </span><span class='tstring_content'>plusminus</span><span class='words_sep'>      </span><span class='tstring_content'>twosuperior</span><span class='words_sep'>    </span><span class='tstring_content'>threesuperior</span><span class='words_sep'>
+</span><span class='tstring_content'>acute</span><span class='words_sep'>         </span><span class='tstring_content'>mu</span><span class='words_sep'>             </span><span class='tstring_content'>paragraph</span><span class='words_sep'>      </span><span class='tstring_content'>periodcentered</span><span class='words_sep'>
+</span><span class='tstring_content'>cedilla</span><span class='words_sep'>       </span><span class='tstring_content'>onesuperior</span><span class='words_sep'>    </span><span class='tstring_content'>ordmasculine</span><span class='words_sep'>   </span><span class='tstring_content'>guillemotright</span><span class='words_sep'>
+</span><span class='tstring_content'>onequarter</span><span class='words_sep'>    </span><span class='tstring_content'>onehalf</span><span class='words_sep'>        </span><span class='tstring_content'>threequarters</span><span class='words_sep'>  </span><span class='tstring_content'>questiondown</span><span class='words_sep'>
+
+</span><span class='tstring_content'>Agrave</span><span class='words_sep'>        </span><span class='tstring_content'>Aacute</span><span class='words_sep'>         </span><span class='tstring_content'>Acircumflex</span><span class='words_sep'>    </span><span class='tstring_content'>Atilde</span><span class='words_sep'>
+</span><span class='tstring_content'>Adieresis</span><span class='words_sep'>     </span><span class='tstring_content'>Aring</span><span class='words_sep'>          </span><span class='tstring_content'>AE</span><span class='words_sep'>             </span><span class='tstring_content'>Ccedilla</span><span class='words_sep'>
+</span><span class='tstring_content'>Egrave</span><span class='words_sep'>        </span><span class='tstring_content'>Eacute</span><span class='words_sep'>         </span><span class='tstring_content'>Ecircumflex</span><span class='words_sep'>    </span><span class='tstring_content'>Edieresis</span><span class='words_sep'>
+</span><span class='tstring_content'>Igrave</span><span class='words_sep'>        </span><span class='tstring_content'>Iacute</span><span class='words_sep'>         </span><span class='tstring_content'>Icircumflex</span><span class='words_sep'>    </span><span class='tstring_content'>Idieresis</span><span class='words_sep'>
+</span><span class='tstring_content'>Eth</span><span class='words_sep'>           </span><span class='tstring_content'>Ntilde</span><span class='words_sep'>         </span><span class='tstring_content'>Ograve</span><span class='words_sep'>         </span><span class='tstring_content'>Oacute</span><span class='words_sep'>
+</span><span class='tstring_content'>Ocircumflex</span><span class='words_sep'>   </span><span class='tstring_content'>Otilde</span><span class='words_sep'>         </span><span class='tstring_content'>Odieresis</span><span class='words_sep'>      </span><span class='tstring_content'>multiply</span><span class='words_sep'>
+</span><span class='tstring_content'>Oslash</span><span class='words_sep'>        </span><span class='tstring_content'>Ugrave</span><span class='words_sep'>         </span><span class='tstring_content'>Uacute</span><span class='words_sep'>         </span><span class='tstring_content'>Ucircumflex</span><span class='words_sep'>
+</span><span class='tstring_content'>Udieresis</span><span class='words_sep'>     </span><span class='tstring_content'>Yacute</span><span class='words_sep'>         </span><span class='tstring_content'>Thorn</span><span class='words_sep'>          </span><span class='tstring_content'>germandbls</span><span class='words_sep'>
+
+</span><span class='tstring_content'>agrave</span><span class='words_sep'>        </span><span class='tstring_content'>aacute</span><span class='words_sep'>         </span><span class='tstring_content'>acircumflex</span><span class='words_sep'>    </span><span class='tstring_content'>atilde</span><span class='words_sep'>
+</span><span class='tstring_content'>adieresis</span><span class='words_sep'>     </span><span class='tstring_content'>aring</span><span class='words_sep'>          </span><span class='tstring_content'>ae</span><span class='words_sep'>             </span><span class='tstring_content'>ccedilla</span><span class='words_sep'>
+</span><span class='tstring_content'>egrave</span><span class='words_sep'>        </span><span class='tstring_content'>eacute</span><span class='words_sep'>         </span><span class='tstring_content'>ecircumflex</span><span class='words_sep'>    </span><span class='tstring_content'>edieresis</span><span class='words_sep'>
+</span><span class='tstring_content'>igrave</span><span class='words_sep'>        </span><span class='tstring_content'>iacute</span><span class='words_sep'>         </span><span class='tstring_content'>icircumflex</span><span class='words_sep'>    </span><span class='tstring_content'>idieresis</span><span class='words_sep'>
+</span><span class='tstring_content'>eth</span><span class='words_sep'>           </span><span class='tstring_content'>ntilde</span><span class='words_sep'>         </span><span class='tstring_content'>ograve</span><span class='words_sep'>         </span><span class='tstring_content'>oacute</span><span class='words_sep'>
+</span><span class='tstring_content'>ocircumflex</span><span class='words_sep'>   </span><span class='tstring_content'>otilde</span><span class='words_sep'>         </span><span class='tstring_content'>odieresis</span><span class='words_sep'>      </span><span class='tstring_content'>divide</span><span class='words_sep'>
+</span><span class='tstring_content'>oslash</span><span class='words_sep'>        </span><span class='tstring_content'>ugrave</span><span class='words_sep'>         </span><span class='tstring_content'>uacute</span><span class='words_sep'>         </span><span class='tstring_content'>ucircumflex</span><span class='words_sep'>
+</span><span class='tstring_content'>udieresis</span><span class='words_sep'>     </span><span class='tstring_content'>yacute</span><span class='words_sep'>         </span><span class='tstring_content'>thorn</span><span class='words_sep'>          </span><span class='tstring_end'>ydieresis</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mapping-class_method" title="mapping (class method)">+ (Object) <strong>mapping</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong>(codepoint) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts a Unicode codepoint into a valid WinAnsi single byte character.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (WinAnsi) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of WinAnsi.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Prawn::Encoding::WinAnsi (class)">WinAnsi</a></span></tt>) <strong>initialize</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of WinAnsi</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/encoding.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+  <span class='ivar'>@mapping_file</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>DATADIR</span><span class='embexpr_end'>}</span><span class='tstring_content'>/encodings/win_ansi.txt</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_load_mapping'>load_mapping</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mapping'>mapping</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="mapping-class_method">
+  
+    + (<tt>Object</tt>) <strong>mapping</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/encoding.rb', line 104</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mapping'>mapping</span>
+  <span class='ivar'>@mapping</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="[]-instance_method">
+  
+    - (<tt>Object</tt>) <strong>[]</strong>(codepoint) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts a Unicode codepoint into a valid WinAnsi single byte character.</p>
+
+<p>If there is no WinAnsi equivlant for a character, a _ will be substituted.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/encoding.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_codepoint'>codepoint</span><span class='rparen'>)</span>
+  <span class='comment'># unicode codepoints &lt; 255 map directly to the single byte value in WinAnsi
+</span>  <span class='kw'>return</span> <span class='id identifier rubyid_codepoint'>codepoint</span> <span class='kw'>if</span> <span class='id identifier rubyid_codepoint'>codepoint</span> <span class='op'>&lt;=</span> <span class='int'>255</span>
+
+  <span class='comment'># There are a handful of codepoints &gt; 255 that have equivilants in WinAnsi.
+</span>  <span class='comment'># Replace anything else with an underscore
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mapping'>mapping</span><span class='lbracket'>[</span><span class='id identifier rubyid_codepoint'>codepoint</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>95</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 12:54:06 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

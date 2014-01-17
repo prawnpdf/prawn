@@ -1,0 +1,2829 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Text::Formatted::Fragment
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../../';
+  framesUrl = "../../../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (F)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Text.html" title="Prawn::Text (module)">Text</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span></span>
+     &raquo; 
+    <span class="title">Fragment</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Text::Formatted::Fragment
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Prawn::Text::Formatted::Fragment</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/text/formatted/fragment.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Prawn::Text::Formatted::Fragment is a state store for a formatted text
+fragment. It does not render anything.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ascender-instance_method" title="#ascender (instance method)">- (Object) <strong>ascender</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute ascender.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#baseline-instance_method" title="#baseline (instance method)">- (Object) <strong>baseline</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute baseline.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#descender-instance_method" title="#descender (instance method)">- (Object) <strong>descender</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute descender.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#format_state-instance_method" title="#format_state (instance method)">- (Object) <strong>format_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute format_state.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#left-instance_method" title="#left (instance method)">- (Object) <strong>left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute left.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line_height-instance_method" title="#line_height (instance method)">- (Object) <strong>line_height</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute line_height.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text-instance_method" title="#text (instance method)">- (Object) <strong>text</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute text.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#width-instance_method" title="#width (instance method)">- (Object) <strong>width</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#word_spacing-instance_method" title="#word_spacing (instance method)">- (Object) <strong>word_spacing</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute word_spacing.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bottom-instance_method" title="#absolute_bottom (instance method)">- (Object) <strong>absolute_bottom</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bottom_left-instance_method" title="#absolute_bottom_left (instance method)">- (Object) <strong>absolute_bottom_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bottom_right-instance_method" title="#absolute_bottom_right (instance method)">- (Object) <strong>absolute_bottom_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bounding_box-instance_method" title="#absolute_bounding_box (instance method)">- (Object) <strong>absolute_bounding_box</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_left-instance_method" title="#absolute_left (instance method)">- (Object) <strong>absolute_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_right-instance_method" title="#absolute_right (instance method)">- (Object) <strong>absolute_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_top-instance_method" title="#absolute_top (instance method)">- (Object) <strong>absolute_top</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_top_left-instance_method" title="#absolute_top_left (instance method)">- (Object) <strong>absolute_top_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_top_right-instance_method" title="#absolute_top_right (instance method)">- (Object) <strong>absolute_top_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#anchor-instance_method" title="#anchor (instance method)">- (Object) <strong>anchor</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bottom-instance_method" title="#bottom (instance method)">- (Object) <strong>bottom</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bottom_left-instance_method" title="#bottom_left (instance method)">- (Object) <strong>bottom_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bottom_right-instance_method" title="#bottom_right (instance method)">- (Object) <strong>bottom_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bounding_box-instance_method" title="#bounding_box (instance method)">- (Object) <strong>bounding_box</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#callback_objects-instance_method" title="#callback_objects (instance method)">- (Object) <strong>callback_objects</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#character_spacing-instance_method" title="#character_spacing (instance method)">- (Object) <strong>character_spacing</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#color-instance_method" title="#color (instance method)">- (Object) <strong>color</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_direction%3D-instance_method" title="#default_direction= (instance method)">- (Object) <strong>default_direction=</strong>(direction) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#direction-instance_method" title="#direction (instance method)">- (Object) <strong>direction</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#font-instance_method" title="#font (instance method)">- (Object) <strong>font</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#height-instance_method" title="#height (instance method)">- (Object) <strong>height</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#include_trailing_white_space%21-instance_method" title="#include_trailing_white_space! (instance method)">- (Object) <strong>include_trailing_white_space!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Fragment) <strong>initialize</strong>(text, format_state, document) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Fragment.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#link-instance_method" title="#link (instance method)">- (Object) <strong>link</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#local-instance_method" title="#local (instance method)">- (Object) <strong>local</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#right-instance_method" title="#right (instance method)">- (Object) <strong>right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#size-instance_method" title="#size (instance method)">- (Object) <strong>size</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#space_count-instance_method" title="#space_count (instance method)">- (Object) <strong>space_count</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#strikethrough_points-instance_method" title="#strikethrough_points (instance method)">- (Object) <strong>strikethrough_points</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#styles-instance_method" title="#styles (instance method)">- (Object) <strong>styles</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#subscript%3F-instance_method" title="#subscript? (instance method)">- (Boolean) <strong>subscript?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#superscript%3F-instance_method" title="#superscript? (instance method)">- (Boolean) <strong>superscript?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#top-instance_method" title="#top (instance method)">- (Object) <strong>top</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#top_left-instance_method" title="#top_left (instance method)">- (Object) <strong>top_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#top_right-instance_method" title="#top_right (instance method)">- (Object) <strong>top_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#underline_points-instance_method" title="#underline_points (instance method)">- (Object) <strong>underline_points</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#y_offset-instance_method" title="#y_offset (instance method)">- (Object) <strong>y_offset</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Prawn::Text::Formatted::Fragment (class)">Fragment</a></span></tt>) <strong>initialize</strong>(text, format_state, document) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Fragment</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_format_state'>format_state</span><span class='comma'>,</span> <span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
+  <span class='ivar'>@format_state</span> <span class='op'>=</span> <span class='id identifier rubyid_format_state'>format_state</span>
+  <span class='ivar'>@document</span> <span class='op'>=</span> <span class='id identifier rubyid_document'>document</span>
+  <span class='ivar'>@word_spacing</span> <span class='op'>=</span> <span class='int'>0</span>
+
+  <span class='comment'># keep the original value of &quot;text&quot;, so we can reinitialize @text if formatting parameters
+</span>  <span class='comment'>#   like text direction are changed
+</span>  <span class='ivar'>@original_text</span> <span class='op'>=</span> <span class='id identifier rubyid_text'>text</span>
+  <span class='ivar'>@text</span> <span class='op'>=</span> <span class='id identifier rubyid_process_text'>process_text</span><span class='lparen'>(</span><span class='ivar'>@original_text</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="ascender=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="ascender-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ascender</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute ascender</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ascender'>ascender</span>
+  <span class='ivar'>@ascender</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="baseline=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="baseline-instance_method">
+  
+    - (<tt>Object</tt>) <strong>baseline</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute baseline</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_baseline'>baseline</span>
+  <span class='ivar'>@baseline</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="descender=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="descender-instance_method">
+  
+    - (<tt>Object</tt>) <strong>descender</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute descender</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_descender'>descender</span>
+  <span class='ivar'>@descender</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="format_state-instance_method">
+  
+    - (<tt>Object</tt>) <strong>format_state</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute format_state</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format_state'>format_state</span>
+  <span class='ivar'>@format_state</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="left=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute left</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_left'>left</span>
+  <span class='ivar'>@left</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="line_height=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="line_height-instance_method">
+  
+    - (<tt>Object</tt>) <strong>line_height</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute line_height</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_height'>line_height</span>
+  <span class='ivar'>@line_height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="text-instance_method">
+  
+    - (<tt>Object</tt>) <strong>text</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute text</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span>
+  <span class='ivar'>@text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="width=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="width-instance_method">
+  
+    - (<tt>Object</tt>) <strong>width</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
+  <span class='kw'>if</span> <span class='ivar'>@word_spacing</span> <span class='op'>==</span> <span class='int'>0</span> <span class='kw'>then</span> <span class='ivar'>@width</span>
+  <span class='kw'>else</span> <span class='ivar'>@width</span> <span class='op'>+</span> <span class='ivar'>@word_spacing</span> <span class='op'>*</span> <span class='id identifier rubyid_space_count'>space_count</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="word_spacing=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="word_spacing-instance_method">
+  
+    - (<tt>Object</tt>) <strong>word_spacing</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute word_spacing</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_word_spacing'>word_spacing</span>
+  <span class='ivar'>@word_spacing</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="absolute_bottom-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bottom</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+186
+187
+188</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 186</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+  <span class='id identifier rubyid_absolute_bounding_box'>absolute_bounding_box</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_bottom_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bottom_left</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom_left'>absolute_bottom_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_left'>absolute_left</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_bottom_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bottom_right</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+202
+203
+204</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 202</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom_right'>absolute_bottom_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_right'>absolute_right</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_bounding_box-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bounding_box</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65
+66
+67
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 63</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bounding_box'>absolute_bounding_box</span>
+  <span class='id identifier rubyid_box'>box</span> <span class='op'>=</span> <span class='id identifier rubyid_bounding_box'>bounding_box</span>
+  <span class='id identifier rubyid_box'>box</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_left'>absolute_left</span>
+  <span class='id identifier rubyid_box'>box</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_left'>absolute_left</span>
+  <span class='id identifier rubyid_box'>box</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+  <span class='id identifier rubyid_box'>box</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+  <span class='id identifier rubyid_box'>box</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_left</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 174</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_left'>absolute_left</span>
+  <span class='id identifier rubyid_absolute_bounding_box'>absolute_bounding_box</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_right</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_right'>absolute_right</span>
+  <span class='id identifier rubyid_absolute_bounding_box'>absolute_bounding_box</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_top-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_top</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 182</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span>
+  <span class='id identifier rubyid_absolute_bounding_box'>absolute_bounding_box</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_top_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_top_left</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 190</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_top_left'>absolute_top_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_left'>absolute_left</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_top_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_top_right</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+194
+195
+196</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 194</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_top_right'>absolute_top_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_right'>absolute_right</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="anchor-instance_method">
+  
+    - (<tt>Object</tt>) <strong>anchor</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 90</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_anchor'>anchor</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:anchor</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bottom-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bottom</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bottom'>bottom</span>
+  <span class='id identifier rubyid_baseline'>baseline</span> <span class='op'>-</span> <span class='id identifier rubyid_descender'>descender</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bottom_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bottom_left</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bottom_left'>bottom_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_bottom'>bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bottom_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bottom_right</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bottom_right'>bottom_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='id identifier rubyid_bottom'>bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bounding_box-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bounding_box</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bounding_box'>bounding_box</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_bottom'>bottom</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="callback_objects-instance_method">
+  
+    - (<tt>Object</tt>) <strong>callback_objects</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 135</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_callback_objects'>callback_objects</span>
+  <span class='id identifier rubyid_callback'>callback</span> <span class='op'>=</span> <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:callback</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_callback'>callback</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_callback'>callback</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_callback'>callback</span>
+  <span class='kw'>else</span>
+    <span class='lbracket'>[</span><span class='id identifier rubyid_callback'>callback</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="character_spacing-instance_method">
+  
+    - (<tt>Object</tt>) <strong>character_spacing</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_character_spacing'>character_spacing</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:character_spacing</span><span class='rbracket'>]</span> <span class='op'>||</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_character_spacing'>character_spacing</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="color-instance_method">
+  
+    - (<tt>Object</tt>) <strong>color</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_color'>color</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:color</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="default_direction=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>default_direction=</strong>(direction) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_direction='>default_direction=</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:direction</span><span class='rbracket'>]</span>
+    <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:direction</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_direction'>direction</span>
+    <span class='ivar'>@text</span> <span class='op'>=</span> <span class='id identifier rubyid_process_text'>process_text</span><span class='lparen'>(</span><span class='ivar'>@original_text</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="direction-instance_method">
+  
+    - (<tt>Object</tt>) <strong>direction</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_direction'>direction</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:direction</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="font-instance_method">
+  
+    - (<tt>Object</tt>) <strong>font</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_font'>font</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:font</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="height-instance_method">
+  
+    - (<tt>Object</tt>) <strong>height</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
+  <span class='id identifier rubyid_top'>top</span> <span class='op'>-</span> <span class='id identifier rubyid_bottom'>bottom</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="include_trailing_white_space!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>include_trailing_white_space!</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_include_trailing_white_space!'>include_trailing_white_space!</span>
+  <span class='ivar'>@format_state</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:exclude_trailing_white_space</span><span class='rparen'>)</span>
+  <span class='ivar'>@text</span> <span class='op'>=</span> <span class='id identifier rubyid_process_text'>process_text</span><span class='lparen'>(</span><span class='ivar'>@original_text</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="link-instance_method">
+  
+    - (<tt>Object</tt>) <strong>link</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_link'>link</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:link</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="local-instance_method">
+  
+    - (<tt>Object</tt>) <strong>local</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_local'>local</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:local</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>right</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_right'>right</span>
+  <span class='id identifier rubyid_left'>left</span> <span class='op'>+</span> <span class='id identifier rubyid_width'>width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="size-instance_method">
+  
+    - (<tt>Object</tt>) <strong>size</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_size'>size</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="space_count-instance_method">
+  
+    - (<tt>Object</tt>) <strong>space_count</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_space_count'>space_count</span>
+  <span class='ivar'>@text</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="strikethrough_points-instance_method">
+  
+    - (<tt>Object</tt>) <strong>strikethrough_points</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_strikethrough_points'>strikethrough_points</span>
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_baseline'>baseline</span> <span class='op'>+</span> <span class='id identifier rubyid_ascender'>ascender</span> <span class='op'>*</span> <span class='float'>0.3</span>
+  <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="styles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>styles</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_styles'>styles</span>
+  <span class='ivar'>@format_state</span><span class='lbracket'>[</span><span class='symbol'>:styles</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="subscript?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>subscript?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_subscript?'>subscript?</span>
+  <span class='id identifier rubyid_styles'>styles</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:subscript</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="superscript?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>superscript?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_superscript?'>superscript?</span>
+  <span class='id identifier rubyid_styles'>styles</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:superscript</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="top-instance_method">
+  
+    - (<tt>Object</tt>) <strong>top</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 150</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_top'>top</span>
+  <span class='id identifier rubyid_baseline'>baseline</span> <span class='op'>+</span> <span class='id identifier rubyid_ascender'>ascender</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="top_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>top_left</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_top_left'>top_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="top_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>top_right</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+162
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 162</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_top_right'>top_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="underline_points-instance_method">
+  
+    - (<tt>Object</tt>) <strong>underline_points</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_underline_points'>underline_points</span>
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_baseline'>baseline</span> <span class='op'>-</span> <span class='float'>1.25</span>
+  <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="y_offset-instance_method">
+  
+    - (<tt>Object</tt>) <strong>y_offset</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/fragment.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_y_offset'>y_offset</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_subscript?'>subscript?</span> <span class='kw'>then</span> <span class='op'>-</span><span class='id identifier rubyid_descender'>descender</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_superscript?'>superscript?</span> <span class='kw'>then</span> <span class='float'>0.85</span> <span class='op'>*</span> <span class='id identifier rubyid_ascender'>ascender</span>
+  <span class='kw'>else</span> <span class='int'>0</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 13:08:46 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

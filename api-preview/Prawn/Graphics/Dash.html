@@ -1,0 +1,448 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Prawn::Graphics::Dash
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span></span>
+     &raquo; 
+    <span class="title">Dash</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Prawn::Graphics::Dash
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Prawn::Graphics</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/graphics/dash.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dash-instance_method" title="#dash (instance method)">- (Object) <strong>dash</strong>(length = nil, options = {}) </a>
+    
+
+    
+      (also: #dash=)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the dash pattern for stroked lines and curves or return the current
+dash pattern setting if <code>length</code> is nil.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dashed%3F-instance_method" title="#dashed? (instance method)">- (Boolean) <strong>dashed?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns when stroke is dashed, false otherwise.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#undash-instance_method" title="#undash (instance method)">- (Object) <strong>undash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Stops dashing, restoring solid stroked lines and curves.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_stroke_dash-instance_method" title="#write_stroke_dash (instance method)">- (Object) <strong>write_stroke_dash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="dash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dash</strong>(length = nil, options = {}) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='dash=-instance_method'>dash=</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the dash pattern for stroked lines and curves or return the current
+dash pattern setting if <code>length</code> is nil.</p>
+
+<p>There are two ways to set the dash pattern:</p>
+<ul><li>
+<p>If the parameter <code>length</code> is an Integer/Float, it specifies the
+length of the dash and of the gap. The length of the gap can be customized
+by setting the :space option.</p>
+
+<p>Examples:</p>
+
+<pre class="code ruby"><code class="ruby">length = 3
+  3 on, 3 off, 3 on, 3 off, ...
+length = 3, :space =2
+  3 on, 2 off, 3 on, 2 off, ...</code></pre>
+</li><li>
+<p>If the parameter <code>length</code> is an array, it specifies the lengths
+of alternating dashes and gaps. The :space option is ignored in this case.</p>
+
+<p>Examples:</p>
+
+<pre class="code ruby"><code class="ruby">length = [2, 1]
+  2 on, 1 off, 2 on, 1 off, ...
+length = [3, 1, 2, 3]
+  3 on, 1 off, 2 on, 3 off, 3 on, 1 off, ...</code></pre>
+</li></ul>
+
+<p>Options may contain the keys :space and :phase</p>
+<dl class="rdoc-list note-list"><dt>:space
+<dd>
+<p>The space between the dashes (only used when <code>length</code> is not an
+array)</p>
+</dd><dt>:phase
+<dd>
+<p>The distance into the dash pattern at which to start the dash. For example,
+a phase of 0 starts at the beginning of the dash; whereas, if the phase is
+equal to the length of the dash, then stroking will begin at the beginning
+of the space. Default is 0.</p>
+</dd></dl>
+
+<p>Integers or Floats may be used for length and the option values. Dash units
+are in PDF points (1/72 inch).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dash'>dash</span><span class='lparen'>(</span><span class='id identifier rubyid_length'>length</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='kw'>if</span> <span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='symbol'>:dash</span>  <span class='op'>=&gt;</span> <span class='id identifier rubyid_length'>length</span><span class='comma'>,</span>
+            <span class='symbol'>:space</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:space</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_length'>length</span><span class='comma'>,</span>
+            <span class='symbol'>:phase</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:phase</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>0</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_write_stroke_dash'>write_stroke_dash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dashed?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>dashed?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns when stroke is dashed, false otherwise</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 75</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dashed?'>dashed?</span>
+  <span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='op'>!=</span> <span class='id identifier rubyid_undashed_setting'>undashed_setting</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="undash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>undash</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Stops dashing, restoring solid stroked lines and curves</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_undash'>undash</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='op'>=</span> <span class='id identifier rubyid_undashed_setting'>undashed_setting</span>
+  <span class='id identifier rubyid_write_stroke_dash'>write_stroke_dash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_stroke_dash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>write_stroke_dash</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write_stroke_dash'>write_stroke_dash</span>
+  <span class='id identifier rubyid_add_content'>add_content</span> <span class='id identifier rubyid_dash_setting'>dash_setting</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 13:08:41 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1945 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Table
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (T)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Prawn.html" title="Prawn (module)">Prawn</a></span></span>
+     &raquo; 
+    <span class="title">Table</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Table
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Prawn::Table</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/table.rb<span class="defines">,<br />
+  lib/prawn/table/cell.rb,<br /> lib/prawn/table/cells.rb,<br /> lib/prawn/table/cell/text.rb,<br /> lib/prawn/table/cell/image.rb,<br /> lib/prawn/table/cell/in_table.rb,<br /> lib/prawn/table/cell/subtable.rb,<br /> lib/prawn/table/cell/span_dummy.rb,<br /> lib/prawn/table/column_width_calculator.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Next-generation table drawing for Prawn.</p>
+
+<h1 id="label-Data">Data</h1>
+
+<p>Data, for a Prawn table, is a two-dimensional array of objects that can be
+converted to cells (“cellable” objects). Cellable objects can be:</p>
+<dl class="rdoc-list note-list"><dt>String
+<dd>
+<p>Produces a text cell. This is the most common usage.</p>
+</dd><dt>Prawn::Table::Cell
+<dd>
+<p>If you have already built a Cell or have a custom subclass of Cell you want
+to use in a table, you can pass through Cell objects.</p>
+</dd><dt>Prawn::Table
+<dd>
+<p>Creates a subtable (a table within a cell). You can use
+Prawn::Document#make_table to create a table for use as a subtable without
+immediately drawing it. See examples/table/bill.rb for a somewhat complex
+use of subtables.</p>
+</dd><dt>Array
+<dd>
+<p>Creates a simple subtable. Create a Table object using make_table (see
+above) if you need more control over the subtable&#39;s styling.</p>
+</dd></dl>
+
+<h1 id="label-Options">Options</h1>
+
+<p>Prawn/Layout provides many options to control style and layout of your
+table. These options are implemented with a uniform interface: the
+<code>:foo</code> option always sets the <code>foo=</code> accessor. See
+the accessor and method documentation for full details on the options you
+can pass. Some highlights:</p>
+<dl class="rdoc-list note-list"><dt><code>cell_style</code>
+<dd>
+<p>A hash of style options to style all cells. See the documentation on
+Prawn::Table::Cell for all cell style options.</p>
+</dd><dt><code>header</code>
+<dd>
+<p>If set to <code>true</code>, the first row will be repeated on every page.
+If set to an Integer, the first <code>x</code> rows will be repeated on
+every page. Row numbering (for styling and other row-specific options)
+always indexes based on your data array. Whether or not you have a header,
+row(n) always refers to the nth element (starting from 0) of the
+<code>data</code> array.</p>
+</dd><dt><code>column_widths</code>
+<dd>
+<p>Sets widths for individual columns. Manually setting widths can give better
+results than letting Prawn guess at them, as Prawn&#39;s algorithm for
+defaulting widths is currently pretty boneheaded. If you experience
+problems like weird column widths or CannotFit errors, try manually setting
+widths on more columns.</p>
+</dd><dt><code>position</code>
+<dd>
+<p>Either :left (the default), :center, :right, or a number. Specifies the
+horizontal position of the table within its bounding box. If a number is
+provided, it specifies the distance in points from the left edge.</p>
+</dd></dl>
+
+<h1 id="label-Initializer+Block">Initializer Block</h1>
+
+<p>If a block is passed to methods that initialize a table (Prawn::Table.new,
+Prawn::Document#table, Prawn::Document#make_table), it will be called after
+cell setup but before layout. This is a very flexible way to specify
+styling and layout constraints. This code sets up a table where the second
+through the fourth rows (1-3, indexed from 0) are each one inch (72 pt)
+wide:</p>
+
+<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">table</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">table</span>.<span class="ruby-identifier">rows</span>(<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">3</span>).<span class="ruby-identifier">width</span> = <span class="ruby-value">72</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>As with Prawn::Document#initialize, if the block has no arguments, it will
+be evaluated in the context of the object itself. The above code could be
+rewritten as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_rows'>rows</span><span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='int'>3</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='int'>72</span>
+<span class='kw'>end</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Table/Cell.html" title="Prawn::Table::Cell (class)">Cell</a></span>, <span class='object_link'><a href="Table/Cells.html" title="Prawn::Table::Cells (class)">Cells</a></span>
+    
+  
+</p>
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cells-instance_method" title="#cells (instance method)">- (Object) <strong>cells</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a Prawn::Table::Cells object representing all of the cells in this
+table.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#column_length-instance_method" title="#column_length (instance method)">- (Object) <strong>column_length</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Number of columns in the table.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#header%3D-instance_method" title="#header= (instance method)">- (Object) <strong>header</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+      <span class="note title writeonly">writeonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>If <code>true</code>, designates the first row as a header row to be
+repeated on every page.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#position%3D-instance_method" title="#position= (instance method)">- (Object) <strong>position</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+      <span class="note title writeonly">writeonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Position (:left, :right, :center, or a number indicating distance in points
+from the left edge) of the table within its parent bounds.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#row_colors%3D-instance_method" title="#row_colors= (instance method)">- (Object) <strong>row_colors</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+      <span class="note title writeonly">writeonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accepts an Array of alternating row colors to stripe the table.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#row_length-instance_method" title="#row_length (instance method)">- (Object) <strong>row_length</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Number of rows in the table.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#width-instance_method" title="#width (instance method)">- (Object) <strong>width</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the width of the table in PDF points.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#before_rendering_page-instance_method" title="#before_rendering_page (instance method)">- (Object) <strong>before_rendering_page</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Specify a callback to be called before each page of cells is rendered.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cell_style%3D-instance_method" title="#cell_style= (instance method)">- (Object) <strong>cell_style=</strong>(style_hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets styles for all cells.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#column_widths-instance_method" title="#column_widths (instance method)">- (Object) <strong>column_widths</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Calculate and return the constrained column widths, taking into account
+each cell&#39;s min_width, max_width, and any user-specified constraints on
+the table or column size.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#column_widths%3D-instance_method" title="#column_widths= (instance method)">- (Object) <strong>column_widths=</strong>(widths) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets column widths for the table.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#columns-instance_method" title="#columns (instance method)">- (Object) <strong>columns</strong>(col_spec) </a>
+    
+
+    
+      (also: #column)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Selects the given columns (0-based) for styling.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#draw-instance_method" title="#draw (instance method)">- (Object) <strong>draw</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws the table onto the document at the document&#39;s current y-position.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#height-instance_method" title="#height (instance method)">- (Object) <strong>height</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the height of the table in PDF points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Table) <strong>initialize</strong>(data, document, options = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set up a table on the given document.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#row_heights-instance_method" title="#row_heights (instance method)">- (Object) <strong>row_heights</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns an array with the height of each row.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rows-instance_method" title="#rows (instance method)">- (Object) <strong>rows</strong>(row_spec) </a>
+    
+
+    
+      (also: #row)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Selects the given rows (0-based) for styling.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#style-instance_method" title="#style (instance method)">- (Object) <strong>style</strong>(stylable, style_hash = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allows generic stylable content.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Prawn::Table (class)">Table</a></span></tt>) <strong>initialize</strong>(data, document, options = {}, &amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set up a table on the given document. Arguments:</p>
+<dl class="rdoc-list note-list"><dt><code>data</code>
+<dd>
+<p>A two-dimensional array of cell-like objects. See the “Data” section above
+for the types of objects that can be put in a table.</p>
+</dd><dt><code>document</code>
+<dd>
+<p>The Prawn::Document instance on which to draw the table.</p>
+</dd><dt><code>options</code>
+<dd>
+<p>A hash of attributes and values for the table. See the “Options” block
+above for details on available options.</p>
+</dd></dl>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 127</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@pdf</span> <span class='op'>=</span> <span class='id identifier rubyid_document'>document</span>
+  <span class='ivar'>@cells</span> <span class='op'>=</span> <span class='id identifier rubyid_make_cells'>make_cells</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='ivar'>@header</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@epsilon</span> <span class='op'>=</span> <span class='float'>1e-9</span>
+  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_block'>block</span>
+    <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_arity'>arity</span> <span class='op'>&lt;</span> <span class='int'>1</span> <span class='op'>?</span> <span class='id identifier rubyid_instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_block'>block</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_set_column_widths'>set_column_widths</span>
+  <span class='id identifier rubyid_set_row_heights'>set_row_heights</span>
+  <span class='id identifier rubyid_position_cells'>position_cells</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="cells-instance_method">
+  
+    - (<tt>Object</tt>) <strong>cells</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a Prawn::Table::Cells object representing all of the cells in this
+table.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 163</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cells'>cells</span>
+  <span class='ivar'>@cells</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="column_length-instance_method">
+  
+    - (<tt>Object</tt>) <strong>column_length</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Number of columns in the table.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_column_length'>column_length</span>
+  <span class='ivar'>@column_length</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="header=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>header=</strong>(value)  <span class="extras">(writeonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>If <code>true</code>, designates the first row as a header row to be
+repeated on every page. If an integer, designates the number of rows to be
+treated as a header Does not change row numbering – row numbers always
+index into the data array provided, with no modification.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+215
+216
+217</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 215</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_header='>header=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='ivar'>@header</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="position=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>position=</strong>(value)  <span class="extras">(writeonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Position (:left, :right, :center, or a number indicating distance in points
+from the left edge) of the table within its parent bounds.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_position='>position=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='ivar'>@position</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="row_colors=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>row_colors=</strong>(value)  <span class="extras">(writeonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accepts an Array of alternating row colors to stripe the table.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 219</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_row_colors='>row_colors=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='ivar'>@row_colors</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="row_length-instance_method">
+  
+    - (<tt>Object</tt>) <strong>row_length</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Number of rows in the table.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_row_length'>row_length</span>
+  <span class='ivar'>@row_length</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="width=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="width-instance_method">
+  
+    - (<tt>Object</tt>) <strong>width</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the width of the table in PDF points.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 176</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
+  <span class='ivar'>@width</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_natural_width'>natural_width</span><span class='comma'>,</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="before_rendering_page-instance_method">
+  
+    - (<tt>Object</tt>) <strong>before_rendering_page</strong>(&amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Specify a callback to be called before each page of cells is rendered. The
+block is passed a Cells object containing all cells to be rendered on that
+page. You can change styling of the cells in this block, but keep in mind
+that the cells have already been positioned and sized.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_before_rendering_page'>before_rendering_page</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@before_rendering_page</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cell_style=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>cell_style=</strong>(style_hash) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets styles for all cells.</p>
+
+<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">data</span>, :<span class="ruby-identifier">cell_style</span> =<span class="ruby-operator">&gt;</span> { :<span class="ruby-identifier">borders</span> =<span class="ruby-operator">&gt;</span> [:<span class="ruby-identifier">left</span>, :<span class="ruby-identifier">right</span>] })
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 225</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cell_style='>cell_style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style_hash'>style_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_style_hash'>style_hash</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="column_widths-instance_method">
+  
+    - (<tt>Object</tt>) <strong>column_widths</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Calculate and return the constrained column widths, taking into account
+each cell&#39;s min_width, max_width, and any user-specified constraints on
+the table or column size.</p>
+
+<p>Because the natural widths can be silly, this does not always work so well
+at guessing a good size for columns that have vastly different content. If
+you see weird problems like CannotFit errors or shockingly bad column
+sizes, you should specify more column widths manually.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 395</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_column_widths'>column_widths</span>
+  <span class='ivar'>@column_widths</span> <span class='op'>||=</span> <span class='kw'>begin</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_min_width'>min_width</span> <span class='op'>&lt;</span> <span class='op'>-</span><span class='id identifier rubyid_epsilon'>epsilon</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Errors</span><span class='op'>::</span><span class='const'>CannotFit</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Table&#39;s width was set too small to contain its contents </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(min width </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_min_width'>min_width</span><span class='embexpr_end'>}</span><span class='tstring_content'>, requested </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_width'>width</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_max_width'>max_width</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_epsilon'>epsilon</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Errors</span><span class='op'>::</span><span class='const'>CannotFit</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Table&#39;s width was set larger than its contents&#39; maximum width </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(max width </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_max_width'>max_width</span><span class='embexpr_end'>}</span><span class='tstring_content'>, requested </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_width'>width</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_natural_width'>natural_width</span> <span class='op'>&lt;</span> <span class='op'>-</span><span class='id identifier rubyid_epsilon'>epsilon</span>
+      <span class='comment'># Shrink the table to fit the requested width.
+</span>      <span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_min_width'>min_width</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='op'>/</span> <span class='lparen'>(</span><span class='id identifier rubyid_natural_width'>natural_width</span> <span class='op'>-</span> <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_min_width'>min_width</span><span class='rparen'>)</span>
+
+      <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_column_length'>column_length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+        <span class='id identifier rubyid_min'>min</span><span class='comma'>,</span> <span class='id identifier rubyid_nat'>nat</span> <span class='op'>=</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_min_width'>min_width</span><span class='comma'>,</span> <span class='id identifier rubyid_natural_column_widths'>natural_column_widths</span><span class='lbracket'>[</span><span class='id identifier rubyid_c'>c</span><span class='rbracket'>]</span>
+        <span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='id identifier rubyid_nat'>nat</span> <span class='op'>-</span> <span class='id identifier rubyid_min'>min</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_min'>min</span>
+      <span class='kw'>end</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_natural_width'>natural_width</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_epsilon'>epsilon</span>
+      <span class='comment'># Expand the table to fit the requested width.
+</span>      <span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='op'>/</span> <span class='lparen'>(</span><span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_max_width'>max_width</span> <span class='op'>-</span> <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='rparen'>)</span>
+
+      <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_column_length'>column_length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+        <span class='id identifier rubyid_nat'>nat</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span> <span class='op'>=</span> <span class='id identifier rubyid_natural_column_widths'>natural_column_widths</span><span class='lbracket'>[</span><span class='id identifier rubyid_c'>c</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_max_width'>max_width</span>
+        <span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='id identifier rubyid_max'>max</span> <span class='op'>-</span> <span class='id identifier rubyid_nat'>nat</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_nat'>nat</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_natural_column_widths'>natural_column_widths</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="column_widths=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>column_widths=</strong>(widths) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets column widths for the table. The argument can be one of the following
+types:</p>
+<dl class="rdoc-list note-list"><dt><code>Array</code>
+<dd>
+<p><code>[w0, w1, w2, ...]</code> (specify a width for each column)</p>
+</dd><dt><code>Hash</code>
+<dd>
+<p><code>{0 =&gt; w0, 1 =&gt; w1, ...}</code> (keys are column names, values
+are widths)</p>
+</dd><dt><code>Numeric</code>
+<dd>
+<p><code>72</code> (sets width for all columns)</p>
+</dd></dl>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 191</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_column_widths='>column_widths=</span><span class='lparen'>(</span><span class='id identifier rubyid_widths'>widths</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_widths'>widths</span>
+  <span class='kw'>when</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_widths'>widths</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span> <span class='rbrace'>}</span>
+  <span class='kw'>when</span> <span class='const'>Hash</span>
+    <span class='id identifier rubyid_widths'>widths</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span> <span class='rbrace'>}</span>
+  <span class='kw'>when</span> <span class='const'>Numeric</span>
+    <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='id identifier rubyid_widths'>widths</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cannot interpret column widths</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="columns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>columns</strong>(col_spec) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='column-instance_method'>column</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Selects the given columns (0-based) for styling. Returns a Cells object –
+see the documentation on Cells for things you can do with cells.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_columns'>columns</span><span class='lparen'>(</span><span class='id identifier rubyid_col_spec'>col_spec</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span><span class='lparen'>(</span><span class='id identifier rubyid_col_spec'>col_spec</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="draw-instance_method">
+  
+    - (<tt>Object</tt>) <strong>draw</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws the table onto the document at the document&#39;s current y-position.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_draw'>draw</span>
+  <span class='id identifier rubyid_with_position'>with_position</span> <span class='kw'>do</span>
+    <span class='comment'># The cell y-positions are based on an infinitely long canvas. The offset
+</span>    <span class='comment'># keeps track of how much we have to add to the original, theoretical
+</span>    <span class='comment'># y-position to get to the actual position on the current page.
+</span>    <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span>
+
+    <span class='comment'># Reference bounds are the non-stretchy bounds used to decide when to
+</span>    <span class='comment'># flow to a new column / page.
+</span>    <span class='id identifier rubyid_ref_bounds'>ref_bounds</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_reference_bounds'>reference_bounds</span>
+
+    <span class='id identifier rubyid_last_y'>last_y</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span>
+
+    <span class='comment'># Determine whether we&#39;re at the top of the current bounds (margin box or
+</span>    <span class='comment'># bounding box). If we&#39;re at the top, we couldn&#39;t gain any more room by
+</span>    <span class='comment'># breaking to the next page -- this means, in particular, that if the
+</span>    <span class='comment'># first row is taller than the margin box, we will only move to the next
+</span>    <span class='comment'># page if we&#39;re below the top. Some floating-point tolerance is added to
+</span>    <span class='comment'># the calculation.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># Note that we use the actual bounds, not the reference bounds. This is
+</span>    <span class='comment'># because even if we are in a stretchy bounding box, flowing to the next
+</span>    <span class='comment'># page will not buy us any space if we are at the top.
+</span>    <span class='kw'>if</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>&gt;</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span> <span class='op'>+</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span> <span class='op'>-</span> <span class='float'>0.001</span>
+      <span class='comment'># we&#39;re at the top of our bounds
+</span>      <span class='id identifier rubyid_started_new_page_at_row'>started_new_page_at_row</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_started_new_page_at_row'>started_new_page_at_row</span> <span class='op'>=</span> <span class='op'>-</span><span class='int'>1</span>
+
+      <span class='comment'># If there isn&#39;t enough room left on the page to fit the first data row
+</span>      <span class='comment'># (excluding the header), start the table on the next page.
+</span>      <span class='id identifier rubyid_needed_height'>needed_height</span> <span class='op'>=</span> <span class='id identifier rubyid_row'>row</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
+      <span class='kw'>if</span> <span class='ivar'>@header</span>
+        <span class='kw'>if</span> <span class='ivar'>@header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+          <span class='id identifier rubyid_needed_height'>needed_height</span> <span class='op'>+=</span> <span class='id identifier rubyid_row'>row</span><span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='ivar'>@header</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_needed_height'>needed_height</span> <span class='op'>+=</span> <span class='id identifier rubyid_row'>row</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_needed_height'>needed_height</span> <span class='op'>&gt;</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_ref_bounds'>ref_bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+        <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
+        <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span>
+        <span class='id identifier rubyid_started_new_page_at_row'>started_new_page_at_row</span> <span class='op'>=</span> <span class='int'>0</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Duplicate each cell of the header row into @header_row so it can be
+</span>    <span class='comment'># modified in before_rendering_page callbacks.
+</span>    <span class='kw'>if</span> <span class='ivar'>@header</span>
+      <span class='ivar'>@header_row</span> <span class='op'>=</span> <span class='const'>Cells</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+      <span class='kw'>if</span> <span class='ivar'>@header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+        <span class='ivar'>@header</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span>
+          <span class='id identifier rubyid_row'>row</span><span class='lparen'>(</span><span class='id identifier rubyid_r'>r</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_cell'>cell</span><span class='op'>|</span> <span class='ivar'>@header_row</span><span class='lbracket'>[</span><span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span><span class='comma'>,</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_column'>column</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_row'>row</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_cell'>cell</span><span class='op'>|</span> <span class='ivar'>@header_row</span><span class='lbracket'>[</span><span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span><span class='comma'>,</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_column'>column</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Track cells to be drawn on this page. They will all be drawn when this
+</span>    <span class='comment'># page is finished.
+</span>    <span class='id identifier rubyid_cells_this_page'>cells_this_page</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+    <span class='ivar'>@cells</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cell'>cell</span><span class='op'>|</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span> <span class='op'>&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>+</span> <span class='id identifier rubyid_offset'>offset</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_ref_bounds'>ref_bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span> <span class='op'>&amp;&amp;</span>
+         <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_started_new_page_at_row'>started_new_page_at_row</span>
+        <span class='comment'># Ink all cells on the current page
+</span>        <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@before_rendering_page</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@before_rendering_page</span>
+          <span class='id identifier rubyid_c'>c</span> <span class='op'>=</span> <span class='const'>Cells</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_cells_this_page'>cells_this_page</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ci'>ci</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='id identifier rubyid_ci'>ci</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+          <span class='ivar'>@before_rendering_page</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+        <span class='const'>Cell</span><span class='period'>.</span><span class='id identifier rubyid_draw_cells'>draw_cells</span><span class='lparen'>(</span><span class='id identifier rubyid_cells_this_page'>cells_this_page</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_cells_this_page'>cells_this_page</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+        <span class='comment'># start a new page or column
+</span>        <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
+        <span class='id identifier rubyid_x_offset'>x_offset</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_left_side'>left_side</span> <span class='op'>-</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_left'>absolute_left</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@header</span>
+          <span class='kw'>if</span> <span class='ivar'>@header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+            <span class='id identifier rubyid_header_height'>header_height</span> <span class='op'>=</span> <span class='int'>0</span>
+            <span class='id identifier rubyid_y_coord'>y_coord</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_cursor'>cursor</span>
+            <span class='ivar'>@header</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span>
+              <span class='id identifier rubyid_additional_header_height'>additional_header_height</span> <span class='op'>=</span> <span class='id identifier rubyid_add_header'>add_header</span><span class='lparen'>(</span><span class='id identifier rubyid_cells_this_page'>cells_this_page</span><span class='comma'>,</span> <span class='id identifier rubyid_x_offset'>x_offset</span><span class='comma'>,</span> <span class='id identifier rubyid_y_coord'>y_coord</span><span class='op'>-</span><span class='id identifier rubyid_header_height'>header_height</span><span class='comma'>,</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span><span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
+              <span class='id identifier rubyid_header_height'>header_height</span> <span class='op'>+=</span> <span class='id identifier rubyid_additional_header_height'>additional_header_height</span>
+            <span class='kw'>end</span>
+          <span class='kw'>else</span>
+            <span class='id identifier rubyid_header_height'>header_height</span> <span class='op'>=</span> <span class='id identifier rubyid_add_header'>add_header</span><span class='lparen'>(</span><span class='id identifier rubyid_cells_this_page'>cells_this_page</span><span class='comma'>,</span> <span class='id identifier rubyid_x_offset'>x_offset</span><span class='comma'>,</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_cursor'>cursor</span><span class='comma'>,</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+          <span class='kw'>end</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_header_height'>header_height</span> <span class='op'>=</span> <span class='int'>0</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_header_height'>header_height</span>
+        <span class='id identifier rubyid_started_new_page_at_row'>started_new_page_at_row</span> <span class='op'>=</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Don&#39;t modify cell.x / cell.y here, as we want to reuse the original
+</span>      <span class='comment'># values when re-inking the table. #draw should be able to be called
+</span>      <span class='comment'># multiple times.
+</span>      <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span>
+      <span class='id identifier rubyid_y'>y</span> <span class='op'>+=</span> <span class='id identifier rubyid_offset'>offset</span>
+
+      <span class='comment'># Translate coordinates to the bounds we are in, since drawing is
+</span>      <span class='comment'># relative to the cursor, not ref_bounds.
+</span>      <span class='id identifier rubyid_x'>x</span> <span class='op'>+=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_left_side'>left_side</span> <span class='op'>-</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_left'>absolute_left</span>
+      <span class='id identifier rubyid_y'>y</span> <span class='op'>-=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+
+      <span class='comment'># Set background color, if any.
+</span>      <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@row_colors</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@row_colors</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='op'>!</span><span class='ivar'>@header</span> <span class='op'>||</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span> <span class='op'>&gt;</span> <span class='int'>0</span><span class='rparen'>)</span>
+        <span class='comment'># Ensure coloring restarts on every page (to make sure the header
+</span>        <span class='comment'># and first row of a page are not colored the same way).
+</span>        <span class='kw'>if</span> <span class='ivar'>@header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+          <span class='id identifier rubyid_rows'>rows</span> <span class='op'>=</span> <span class='ivar'>@header</span>
+        <span class='kw'>elsif</span> <span class='ivar'>@header</span>
+          <span class='id identifier rubyid_rows'>rows</span> <span class='op'>=</span> <span class='int'>1</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_rows'>rows</span> <span class='op'>=</span> <span class='int'>0</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span> <span class='op'>-</span> <span class='lbracket'>[</span><span class='id identifier rubyid_started_new_page_at_row'>started_new_page_at_row</span><span class='comma'>,</span> <span class='id identifier rubyid_rows'>rows</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+
+        <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_background_color'>background_color</span> <span class='op'>||=</span> <span class='ivar'>@row_colors</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span> <span class='op'>%</span> <span class='ivar'>@row_colors</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_cells_this_page'>cells_this_page</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_cell'>cell</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_last_y'>last_y</span> <span class='op'>=</span> <span class='id identifier rubyid_y'>y</span>
+    <span class='kw'>end</span>
+    <span class='comment'># Draw the last page of cells
+</span>    <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@before_rendering_page</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@before_rendering_page</span>
+      <span class='id identifier rubyid_c'>c</span> <span class='op'>=</span> <span class='const'>Cells</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_cells_this_page'>cells_this_page</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ci'>ci</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='id identifier rubyid_ci'>ci</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+      <span class='ivar'>@before_rendering_page</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='const'>Cell</span><span class='period'>.</span><span class='id identifier rubyid_draw_cells'>draw_cells</span><span class='lparen'>(</span><span class='id identifier rubyid_cells_this_page'>cells_this_page</span><span class='rparen'>)</span>
+
+    <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_move_cursor_to'>move_cursor_to</span><span class='lparen'>(</span><span class='id identifier rubyid_last_y'>last_y</span> <span class='op'>-</span> <span class='ivar'>@cells</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="height-instance_method">
+  
+    - (<tt>Object</tt>) <strong>height</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the height of the table in PDF points.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+206
+207
+208</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 206</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
+  <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="row_heights-instance_method">
+  
+    - (<tt>Object</tt>) <strong>row_heights</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns an array with the height of each row.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 433</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_row_heights'>row_heights</span>
+  <span class='ivar'>@natural_row_heights</span> <span class='op'>||=</span>
+    <span class='kw'>begin</span>
+      <span class='id identifier rubyid_heights_by_row'>heights_by_row</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cell'>cell</span><span class='op'>|</span>
+        <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Cell</span><span class='op'>::</span><span class='const'>SpanDummy</span><span class='rparen'>)</span>
+
+        <span class='comment'># Split the height of row-spanned cells evenly by rows
+</span>        <span class='id identifier rubyid_height_per_row'>height_per_row</span> <span class='op'>=</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='op'>/</span> <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_rowspan'>rowspan</span>
+        <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_rowspan'>rowspan</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+          <span class='id identifier rubyid_heights_by_row'>heights_by_row</span><span class='lbracket'>[</span><span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span> <span class='op'>+</span> <span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span>
+            <span class='lbracket'>[</span><span class='id identifier rubyid_heights_by_row'>heights_by_row</span><span class='lbracket'>[</span><span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_row'>row</span> <span class='op'>+</span> <span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_height_per_row'>height_per_row</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_heights_by_row'>heights_by_row</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='id identifier rubyid_row'>row</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rows-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rows</strong>(row_spec) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='row-instance_method'>row</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Selects the given rows (0-based) for styling. Returns a Cells object – see
+the documentation on Cells for things you can do with cells.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rows'>rows</span><span class='lparen'>(</span><span class='id identifier rubyid_row_spec'>row_spec</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_rows'>rows</span><span class='lparen'>(</span><span class='id identifier rubyid_row_spec'>row_spec</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="style-instance_method">
+  
+    - (<tt>Object</tt>) <strong>style</strong>(stylable, style_hash = {}, &amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Allows generic stylable content. This is an alternate syntax that some
+prefer to the attribute-based syntax. This code using style:</p>
+
+<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">style</span>(<span class="ruby-identifier">row</span>(<span class="ruby-value">0</span>), :<span class="ruby-identifier">background_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;ff00ff&#39;</span>)
+  <span class="ruby-identifier">style</span>(<span class="ruby-identifier">column</span>(<span class="ruby-value">0</span>)) { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">border_width</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> }
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>is equivalent to:</p>
+
+<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">row</span>(<span class="ruby-value">0</span>).<span class="ruby-identifier">style</span> :<span class="ruby-identifier">background_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;ff00ff&#39;</span>
+  <span class="ruby-identifier">column</span>(<span class="ruby-value">0</span>).<span class="ruby-identifier">style</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">border_width</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> }
+<span class="ruby-keyword">end</span>
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+244
+245
+246</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 244</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_stylable'>stylable</span><span class='comma'>,</span> <span class='id identifier rubyid_style_hash'>style_hash</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_stylable'>stylable</span><span class='period'>.</span><span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_style_hash'>style_hash</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 13:08:43 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>
