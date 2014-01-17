@@ -1,9 +1,10 @@
-warn "Templates are no longer supported in Prawn!\n" +
-     "This code is for experimental testing only, and\n" +
-     "will extracted into its own gem in a future Prawn release"
-
 module Prawn
   module Templates
+    warn "Templates are no longer supported in Prawn!\n" +
+         "This code is for experimental testing only, and\n" +
+         "will be extracted into its own gem in a future Prawn release" \
+         unless defined? ::Prawn::Templates::PREVENT_EXPERIMENTAL_WARNING
+
     def initialize_first_page(options)
       return super unless options[:template]
 
