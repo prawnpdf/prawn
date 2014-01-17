@@ -1,0 +1,1049 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Font::AFM
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Font.html" title="Prawn::Font (class)">Font</a></span></span>
+     &raquo; 
+    <span class="title">AFM</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Font::AFM
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Font.html" title="Prawn::Font (class)">Prawn::Font</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../Font.html" title="Prawn::Font (class)">Prawn::Font</a></span></li>
+          
+            <li class="next">Prawn::Font::AFM</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/font/afm.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="BUILT_INS-constant" class="">BUILT_INS =
+          
+        </dt>
+        <dd><pre class="code"><span class='qwords_beg'>%w[ </span><span class='tstring_content'>Courier</span><span class='words_sep'> </span><span class='tstring_content'>Helvetica</span><span class='words_sep'> </span><span class='tstring_content'>Times-Roman</span><span class='words_sep'> </span><span class='tstring_content'>Symbol</span><span class='words_sep'> </span><span class='tstring_content'>ZapfDingbats</span><span class='words_sep'>
+</span><span class='tstring_content'>Courier-Bold</span><span class='words_sep'> </span><span class='tstring_content'>Courier-Oblique</span><span class='words_sep'> </span><span class='tstring_content'>Courier-BoldOblique</span><span class='words_sep'>
+</span><span class='tstring_content'>Times-Bold</span><span class='words_sep'> </span><span class='tstring_content'>Times-Italic</span><span class='words_sep'> </span><span class='tstring_content'>Times-BoldItalic</span><span class='words_sep'>
+</span><span class='tstring_content'>Helvetica-Bold</span><span class='words_sep'> </span><span class='tstring_content'>Helvetica-Oblique</span><span class='words_sep'> </span><span class='tstring_content'>Helvetica-BoldOblique</span><span class='words_sep'> ]</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#attributes-instance_method" title="#attributes (instance method)">- (Object) <strong>attributes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>:nodoc:.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Font.html" title="Prawn::Font (class)">Prawn::Font</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Font.html#family-instance_method" title="Prawn::Font#family (method)">#family</a></span>, <span class='object_link'><a href="../Font.html#name-instance_method" title="Prawn::Font#name (method)">#name</a></span>, <span class='object_link'><a href="../Font.html#options-instance_method" title="Prawn::Font#options (method)">#options</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#metrics_path-class_method" title="metrics_path (class method)">+ (Object) <strong>metrics_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bbox-instance_method" title="#bbox (instance method)">- (Object) <strong>bbox</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The font bbox, as an array of integers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#character_count-instance_method" title="#character_count (instance method)">- (Object) <strong>character_count</strong>(str) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the number of characters in <code>str</code> (a WinAnsi-encoded
+string).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#compute_width_of-instance_method" title="#compute_width_of (instance method)">- (Object) <strong>compute_width_of</strong>(string, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>NOTE: String <strong>must</strong> be encoded as WinAnsi.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#encode_text-instance_method" title="#encode_text (instance method)">- (Object) <strong>encode_text</strong>(text, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Perform any changes to the string that need to happen before it is rendered
+to the canvas.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#glyph_present%3F-instance_method" title="#glyph_present? (instance method)">- (Boolean) <strong>glyph_present?</strong>(char) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_kerning_data%3F-instance_method" title="#has_kerning_data? (instance method)">- (Boolean) <strong>has_kerning_data?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true if the font has kerning data, false otherwise.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (AFM) <strong>initialize</strong>(document, name, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>:nodoc:.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#normalize_encoding-instance_method" title="#normalize_encoding (instance method)">- (Object) <strong>normalize_encoding</strong>(text) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>built-in fonts only work with winansi encoding, so translate the string.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unicode%3F-instance_method" title="#unicode? (instance method)">- (Boolean) <strong>unicode?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Font.html" title="Prawn::Font (class)">Prawn::Font</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Font.html#add_to_current_page-instance_method" title="Prawn::Font#add_to_current_page (method)">#add_to_current_page</a></span>, <span class='object_link'><a href="../Font.html#ascender-instance_method" title="Prawn::Font#ascender (method)">#ascender</a></span>, <span class='object_link'><a href="../Font.html#descender-instance_method" title="Prawn::Font#descender (method)">#descender</a></span>, <span class='object_link'><a href="../Font.html#eql%3F-instance_method" title="Prawn::Font#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="../Font.html#hash-instance_method" title="Prawn::Font#hash (method)">#hash</a></span>, <span class='object_link'><a href="../Font.html#height-instance_method" title="Prawn::Font#height (method)">#height</a></span>, <span class='object_link'><a href="../Font.html#height_at-instance_method" title="Prawn::Font#height_at (method)">#height_at</a></span>, <span class='object_link'><a href="../Font.html#identifier_for-instance_method" title="Prawn::Font#identifier_for (method)">#identifier_for</a></span>, <span class='object_link'><a href="../Font.html#inspect-instance_method" title="Prawn::Font#inspect (method)">#inspect</a></span>, <span class='object_link'><a href="../Font.html#line_gap-instance_method" title="Prawn::Font#line_gap (method)">#line_gap</a></span>, <span class='object_link'><a href="../Font.html#load-class_method" title="Prawn::Font.load (method)">load</a></span>, <span class='object_link'><a href="../Font.html#normalize_encoding%21-instance_method" title="Prawn::Font#normalize_encoding! (method)">#normalize_encoding!</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Prawn::Font::AFM (class)">AFM</a></span></tt>) <strong>initialize</strong>(document, name, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>:nodoc:</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
+</span>  <span class='kw'>unless</span> <span class='const'>BUILT_INS</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>UnknownFont</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a known font.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>super</span>
+
+  <span class='cvar'>@@winansi</span>   <span class='op'>||=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Encoding</span><span class='op'>::</span><span class='const'>WinAnsi</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='comment'># parse data/encodings/win_ansi.txt once only
+</span>  <span class='cvar'>@@font_data</span> <span class='op'>||=</span> <span class='const'>SynchronizedCache</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>        <span class='comment'># parse each ATM font file once only
+</span>
+  <span class='id identifier rubyid_file_name'>file_name</span> <span class='op'>=</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='id identifier rubyid_file_name'>file_name</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.afm</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_file_name'>file_name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.afm$</span><span class='regexp_end'>/</span></span>
+  <span class='id identifier rubyid_file_name'>file_name</span> <span class='op'>=</span> <span class='id identifier rubyid_file_name'>file_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='CHAR'>?/</span> <span class='op'>?</span> <span class='id identifier rubyid_file_name'>file_name</span> <span class='op'>:</span> <span class='id identifier rubyid_find_font'>find_font</span><span class='lparen'>(</span><span class='id identifier rubyid_file_name'>file_name</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_font_data'>font_data</span> <span class='op'>=</span> <span class='cvar'>@@font_data</span><span class='lbracket'>[</span><span class='id identifier rubyid_file_name'>file_name</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_parse_afm'>parse_afm</span><span class='lparen'>(</span><span class='id identifier rubyid_file_name'>file_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@glyph_widths</span>    <span class='op'>=</span> <span class='id identifier rubyid_font_data'>font_data</span><span class='lbracket'>[</span><span class='symbol'>:glyph_widths</span><span class='rbracket'>]</span>
+  <span class='ivar'>@glyph_table</span>     <span class='op'>=</span> <span class='id identifier rubyid_font_data'>font_data</span><span class='lbracket'>[</span><span class='symbol'>:glyph_table</span><span class='rbracket'>]</span>
+  <span class='ivar'>@bounding_boxes</span>  <span class='op'>=</span> <span class='id identifier rubyid_font_data'>font_data</span><span class='lbracket'>[</span><span class='symbol'>:bounding_boxes</span><span class='rbracket'>]</span>
+  <span class='ivar'>@kern_pairs</span>      <span class='op'>=</span> <span class='id identifier rubyid_font_data'>font_data</span><span class='lbracket'>[</span><span class='symbol'>:kern_pairs</span><span class='rbracket'>]</span>
+  <span class='ivar'>@kern_pair_table</span> <span class='op'>=</span> <span class='id identifier rubyid_font_data'>font_data</span><span class='lbracket'>[</span><span class='symbol'>:kern_pair_table</span><span class='rbracket'>]</span>
+  <span class='ivar'>@attributes</span>      <span class='op'>=</span> <span class='id identifier rubyid_font_data'>font_data</span><span class='lbracket'>[</span><span class='symbol'>:attributes</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@ascender</span>  <span class='op'>=</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ascender</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='ivar'>@descender</span> <span class='op'>=</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>descender</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='ivar'>@line_gap</span>  <span class='op'>=</span> <span class='const'>Float</span><span class='lparen'>(</span><span class='id identifier rubyid_bbox'>bbox</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='id identifier rubyid_bbox'>bbox</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='ivar'>@ascender</span> <span class='op'>-</span> <span class='ivar'>@descender</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="attributes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>attributes</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>:nodoc:</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_attributes'>attributes</span>
+  <span class='ivar'>@attributes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="metrics_path-class_method">
+  
+    + (<tt>Object</tt>) <strong>metrics_path</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_metrics_path'>metrics_path</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_m'>m</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>METRICS</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+    <span class='ivar'>@metrics_path</span> <span class='op'>||=</span> <span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@metrics_path</span> <span class='op'>||=</span> <span class='lbracket'>[</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/usr/lib/afm</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/usr/local/lib/afm</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/usr/openwin/lib/fonts/afm</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+       <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>DATADIR</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/fonts</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="bbox-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bbox</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The font bbox, as an array of integers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bbox'>bbox</span>
+  <span class='ivar'>@bbox</span> <span class='op'>||=</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fontbbox</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\s+</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='const'>Integer</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="character_count-instance_method">
+  
+    - (<tt>Object</tt>) <strong>character_count</strong>(str) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the number of characters in <code>str</code> (a WinAnsi-encoded
+string).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_character_count'>character_count</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="compute_width_of-instance_method">
+  
+    - (<tt>Object</tt>) <strong>compute_width_of</strong>(string, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>NOTE: String <strong>must</strong> be encoded as WinAnsi</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_compute_width_of'>compute_width_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
+</span>  <span class='id identifier rubyid_scale'>scale</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='float'>1000.0</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_strings'>strings</span><span class='comma'>,</span> <span class='id identifier rubyid_numbers'>numbers</span> <span class='op'>=</span> <span class='id identifier rubyid_kern'>kern</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_total_kerning_offset'>total_kerning_offset</span> <span class='op'>=</span> <span class='id identifier rubyid_numbers'>numbers</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='float'>0.0</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='comma'>,</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span> <span class='op'>+</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_unscaled_width_of'>unscaled_width_of</span><span class='lparen'>(</span><span class='id identifier rubyid_strings'>strings</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_total_kerning_offset'>total_kerning_offset</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_scale'>scale</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_unscaled_width_of'>unscaled_width_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_scale'>scale</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="encode_text-instance_method">
+  
+    - (<tt>Object</tt>) <strong>encode_text</strong>(text, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Perform any changes to the string that need to happen before it is rendered
+to the canvas. Returns an array of subset “chunks”, where each chunk is an
+array of two elements. The first element is the font subset number, and the
+second is either a string or an array (for kerned text).</p>
+
+<p>For Adobe fonts, there is only ever a single subset, so the first element
+of the array is “0”, and the second is the string itself (or an array, if
+kerning is performed).</p>
+
+<p>The <code>text</code> parameter must be in WinAnsi encoding (cp1252).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_encode_text'>encode_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_kern'>kern</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_text'>text</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="glyph_present?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>glyph_present?</strong>(char) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_glyph_present?'>glyph_present?</span><span class='lparen'>(</span><span class='id identifier rubyid_char'>char</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_char'>char</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>true</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_normalize_encoding'>normalize_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_char'>char</span><span class='rparen'>)</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_kerning_data?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_kerning_data?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns true if the font has kerning data, false otherwise</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_kerning_data?'>has_kerning_data?</span>
+  <span class='ivar'>@kern_pairs</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="normalize_encoding-instance_method">
+  
+    - (<tt>Object</tt>) <strong>normalize_encoding</strong>(text) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>built-in fonts only work with winansi encoding, so translate the string.
+Changes the encoding in-place, so the argument itself is replaced with a
+string in WinAnsi encoding.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_normalize_encoding'>normalize_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_enc'>enc</span> <span class='op'>=</span> <span class='cvar'>@@winansi</span>
+  <span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>U*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_enc'>enc</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>ArgumentError</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>IncompatibleStringEncoding</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Arguments to text methods must be UTF-8 encoded</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unicode?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>unicode?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font/afm.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unicode?'>unicode?</span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 13:28:45 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Table::Cell::Image
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../../';
+  framesUrl = "../../../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (I)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Table.html" title="Prawn::Table (class)">Table</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Cell.html" title="Prawn::Table::Cell (class)">Cell</a></span></span>
+     &raquo; 
+    <span class="title">Image</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Table::Cell::Image
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Cell.html" title="Prawn::Table::Cell (class)">Prawn::Table::Cell</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../Cell.html" title="Prawn::Table::Cell (class)">Prawn::Table::Cell</a></span></li>
+          
+            <li class="next">Prawn::Table::Cell::Image</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/table/cell/image.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A Cell that contains another table.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="../Cell.html" title="Prawn::Table::Cell (class)">Prawn::Table::Cell</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Cell.html#FPTolerance-constant" title="Prawn::Table::Cell::FPTolerance (constant)">FPTolerance</a></span></p>
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Cell.html" title="Prawn::Table::Cell (class)">Prawn::Table::Cell</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Cell.html#background_color-instance_method" title="Prawn::Table::Cell#background_color (method)">#background_color</a></span>, <span class='object_link'><a href="../Cell.html#border_colors-instance_method" title="Prawn::Table::Cell#border_colors (method)">#border_colors</a></span>, <span class='object_link'><a href="../Cell.html#border_lines-instance_method" title="Prawn::Table::Cell#border_lines (method)">#border_lines</a></span>, <span class='object_link'><a href="../Cell.html#border_widths-instance_method" title="Prawn::Table::Cell#border_widths (method)">#border_widths</a></span>, <span class='object_link'><a href="../Cell.html#borders-instance_method" title="Prawn::Table::Cell#borders (method)">#borders</a></span>, <span class='object_link'><a href="../Cell.html#colspan-instance_method" title="Prawn::Table::Cell#colspan (method)">#colspan</a></span>, <span class='object_link'><a href="../Cell.html#content-instance_method" title="Prawn::Table::Cell#content (method)">#content</a></span>, <span class='object_link'><a href="../Cell.html#height-instance_method" title="Prawn::Table::Cell#height (method)">#height</a></span>, <span class='object_link'><a href="../Cell.html#padding-instance_method" title="Prawn::Table::Cell#padding (method)">#padding</a></span>, <span class='object_link'><a href="../Cell.html#rowspan-instance_method" title="Prawn::Table::Cell#rowspan (method)">#rowspan</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#draw_content-instance_method" title="#draw_content (instance method)">- (Object) <strong>draw_content</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draw the image on the page.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fit%3D-instance_method" title="#fit= (instance method)">- (Object) <strong>fit=</strong>(f) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image%3D-instance_method" title="#image= (instance method)">- (Object) <strong>image=</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image_height%3D-instance_method" title="#image_height= (instance method)">- (Object) <strong>image_height=</strong>(h) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image_width%3D-instance_method" title="#image_width= (instance method)">- (Object) <strong>image_width=</strong>(w) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Image) <strong>initialize</strong>(pdf, point, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Image.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#natural_content_height-instance_method" title="#natural_content_height (instance method)">- (Object) <strong>natural_content_height</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#natural_content_width-instance_method" title="#natural_content_width (instance method)">- (Object) <strong>natural_content_width</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#position%3D-instance_method" title="#position= (instance method)">- (Object) <strong>position=</strong>(p) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scale%3D-instance_method" title="#scale= (instance method)">- (Object) <strong>scale=</strong>(s) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vposition%3D-instance_method" title="#vposition= (instance method)">- (Object) <strong>vposition=</strong>(vp) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Cell.html" title="Prawn::Table::Cell (class)">Prawn::Table::Cell</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Cell.html#avg_spanned_min_width-instance_method" title="Prawn::Table::Cell#avg_spanned_min_width (method)">#avg_spanned_min_width</a></span>, <span class='object_link'><a href="../Cell.html#border_bottom_color-instance_method" title="Prawn::Table::Cell#border_bottom_color (method)">#border_bottom_color</a></span>, <span class='object_link'><a href="../Cell.html#border_bottom_color%3D-instance_method" title="Prawn::Table::Cell#border_bottom_color= (method)">#border_bottom_color=</a></span>, <span class='object_link'><a href="../Cell.html#border_bottom_line-instance_method" title="Prawn::Table::Cell#border_bottom_line (method)">#border_bottom_line</a></span>, <span class='object_link'><a href="../Cell.html#border_bottom_line%3D-instance_method" title="Prawn::Table::Cell#border_bottom_line= (method)">#border_bottom_line=</a></span>, <span class='object_link'><a href="../Cell.html#border_bottom_width-instance_method" title="Prawn::Table::Cell#border_bottom_width (method)">#border_bottom_width</a></span>, <span class='object_link'><a href="../Cell.html#border_bottom_width%3D-instance_method" title="Prawn::Table::Cell#border_bottom_width= (method)">#border_bottom_width=</a></span>, <span class='object_link'><a href="../Cell.html#border_color%3D-instance_method" title="Prawn::Table::Cell#border_color= (method)">#border_color=</a></span>, <span class='object_link'><a href="../Cell.html#border_left_color-instance_method" title="Prawn::Table::Cell#border_left_color (method)">#border_left_color</a></span>, <span class='object_link'><a href="../Cell.html#border_left_color%3D-instance_method" title="Prawn::Table::Cell#border_left_color= (method)">#border_left_color=</a></span>, <span class='object_link'><a href="../Cell.html#border_left_line-instance_method" title="Prawn::Table::Cell#border_left_line (method)">#border_left_line</a></span>, <span class='object_link'><a href="../Cell.html#border_left_line%3D-instance_method" title="Prawn::Table::Cell#border_left_line= (method)">#border_left_line=</a></span>, <span class='object_link'><a href="../Cell.html#border_left_width-instance_method" title="Prawn::Table::Cell#border_left_width (method)">#border_left_width</a></span>, <span class='object_link'><a href="../Cell.html#border_left_width%3D-instance_method" title="Prawn::Table::Cell#border_left_width= (method)">#border_left_width=</a></span>, <span class='object_link'><a href="../Cell.html#border_line%3D-instance_method" title="Prawn::Table::Cell#border_line= (method)">#border_line=</a></span>, <span class='object_link'><a href="../Cell.html#border_right_color-instance_method" title="Prawn::Table::Cell#border_right_color (method)">#border_right_color</a></span>, <span class='object_link'><a href="../Cell.html#border_right_color%3D-instance_method" title="Prawn::Table::Cell#border_right_color= (method)">#border_right_color=</a></span>, <span class='object_link'><a href="../Cell.html#border_right_line-instance_method" title="Prawn::Table::Cell#border_right_line (method)">#border_right_line</a></span>, <span class='object_link'><a href="../Cell.html#border_right_line%3D-instance_method" title="Prawn::Table::Cell#border_right_line= (method)">#border_right_line=</a></span>, <span class='object_link'><a href="../Cell.html#border_right_width-instance_method" title="Prawn::Table::Cell#border_right_width (method)">#border_right_width</a></span>, <span class='object_link'><a href="../Cell.html#border_right_width%3D-instance_method" title="Prawn::Table::Cell#border_right_width= (method)">#border_right_width=</a></span>, <span class='object_link'><a href="../Cell.html#border_top_color-instance_method" title="Prawn::Table::Cell#border_top_color (method)">#border_top_color</a></span>, <span class='object_link'><a href="../Cell.html#border_top_color%3D-instance_method" title="Prawn::Table::Cell#border_top_color= (method)">#border_top_color=</a></span>, <span class='object_link'><a href="../Cell.html#border_top_line-instance_method" title="Prawn::Table::Cell#border_top_line (method)">#border_top_line</a></span>, <span class='object_link'><a href="../Cell.html#border_top_line%3D-instance_method" title="Prawn::Table::Cell#border_top_line= (method)">#border_top_line=</a></span>, <span class='object_link'><a href="../Cell.html#border_top_width-instance_method" title="Prawn::Table::Cell#border_top_width (method)">#border_top_width</a></span>, <span class='object_link'><a href="../Cell.html#border_top_width%3D-instance_method" title="Prawn::Table::Cell#border_top_width= (method)">#border_top_width=</a></span>, <span class='object_link'><a href="../Cell.html#border_width%3D-instance_method" title="Prawn::Table::Cell#border_width= (method)">#border_width=</a></span>, <span class='object_link'><a href="../Cell.html#content_height-instance_method" title="Prawn::Table::Cell#content_height (method)">#content_height</a></span>, <span class='object_link'><a href="../Cell.html#content_width-instance_method" title="Prawn::Table::Cell#content_width (method)">#content_width</a></span>, <span class='object_link'><a href="../Cell.html#draw-instance_method" title="Prawn::Table::Cell#draw (method)">#draw</a></span>, <span class='object_link'><a href="../Cell.html#draw_background-instance_method" title="Prawn::Table::Cell#draw_background (method)">#draw_background</a></span>, <span class='object_link'><a href="../Cell.html#draw_borders-instance_method" title="Prawn::Table::Cell#draw_borders (method)">#draw_borders</a></span>, <span class='object_link'><a href="../Cell.html#draw_bounded_content-instance_method" title="Prawn::Table::Cell#draw_bounded_content (method)">#draw_bounded_content</a></span>, <span class='object_link'><a href="../Cell.html#draw_cells-class_method" title="Prawn::Table::Cell.draw_cells (method)">draw_cells</a></span>, <span class='object_link'><a href="../Cell.html#height_ignoring_span-instance_method" title="Prawn::Table::Cell#height_ignoring_span (method)">#height_ignoring_span</a></span>, <span class='object_link'><a href="../Cell.html#make-class_method" title="Prawn::Table::Cell.make (method)">make</a></span>, <span class='object_link'><a href="../Cell.html#max_width-instance_method" title="Prawn::Table::Cell#max_width (method)">#max_width</a></span>, <span class='object_link'><a href="../Cell.html#max_width_ignoring_span-instance_method" title="Prawn::Table::Cell#max_width_ignoring_span (method)">#max_width_ignoring_span</a></span>, <span class='object_link'><a href="../Cell.html#min_width-instance_method" title="Prawn::Table::Cell#min_width (method)">#min_width</a></span>, <span class='object_link'><a href="../Cell.html#min_width_ignoring_span-instance_method" title="Prawn::Table::Cell#min_width_ignoring_span (method)">#min_width_ignoring_span</a></span>, <span class='object_link'><a href="../Cell.html#padding_bottom-instance_method" title="Prawn::Table::Cell#padding_bottom (method)">#padding_bottom</a></span>, <span class='object_link'><a href="../Cell.html#padding_bottom%3D-instance_method" title="Prawn::Table::Cell#padding_bottom= (method)">#padding_bottom=</a></span>, <span class='object_link'><a href="../Cell.html#padding_left-instance_method" title="Prawn::Table::Cell#padding_left (method)">#padding_left</a></span>, <span class='object_link'><a href="../Cell.html#padding_left%3D-instance_method" title="Prawn::Table::Cell#padding_left= (method)">#padding_left=</a></span>, <span class='object_link'><a href="../Cell.html#padding_right-instance_method" title="Prawn::Table::Cell#padding_right (method)">#padding_right</a></span>, <span class='object_link'><a href="../Cell.html#padding_right%3D-instance_method" title="Prawn::Table::Cell#padding_right= (method)">#padding_right=</a></span>, <span class='object_link'><a href="../Cell.html#padding_top-instance_method" title="Prawn::Table::Cell#padding_top (method)">#padding_top</a></span>, <span class='object_link'><a href="../Cell.html#padding_top%3D-instance_method" title="Prawn::Table::Cell#padding_top= (method)">#padding_top=</a></span>, <span class='object_link'><a href="../Cell.html#set_width_constraints-instance_method" title="Prawn::Table::Cell#set_width_constraints (method)">#set_width_constraints</a></span>, <span class='object_link'><a href="../Cell.html#spanned_content_height-instance_method" title="Prawn::Table::Cell#spanned_content_height (method)">#spanned_content_height</a></span>, <span class='object_link'><a href="../Cell.html#spanned_content_width-instance_method" title="Prawn::Table::Cell#spanned_content_width (method)">#spanned_content_width</a></span>, <span class='object_link'><a href="../Cell.html#style-instance_method" title="Prawn::Table::Cell#style (method)">#style</a></span>, <span class='object_link'><a href="../Cell.html#width-instance_method" title="Prawn::Table::Cell#width (method)">#width</a></span>, <span class='object_link'><a href="../Cell.html#width%3D-instance_method" title="Prawn::Table::Cell#width= (method)">#width=</a></span>, <span class='object_link'><a href="../Cell.html#width_ignoring_span-instance_method" title="Prawn::Table::Cell#width_ignoring_span (method)">#width_ignoring_span</a></span>, <span class='object_link'><a href="../Cell.html#x-instance_method" title="Prawn::Table::Cell#x (method)">#x</a></span>, <span class='object_link'><a href="../Cell.html#x%3D-instance_method" title="Prawn::Table::Cell#x= (method)">#x=</a></span>, <span class='object_link'><a href="../Cell.html#y-instance_method" title="Prawn::Table::Cell#y (method)">#y</a></span>, <span class='object_link'><a href="../Cell.html#y%3D-instance_method" title="Prawn::Table::Cell#y= (method)">#y=</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Prawn::Table::Cell::Image (class)">Image</a></span></tt>) <strong>initialize</strong>(pdf, point, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Image</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>super</span>
+
+  <span class='ivar'>@pdf_object</span><span class='comma'>,</span> <span class='ivar'>@image_info</span> <span class='op'>=</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_build_image_object'>build_image_object</span><span class='lparen'>(</span><span class='ivar'>@file</span><span class='rparen'>)</span>
+  <span class='ivar'>@natural_width</span><span class='comma'>,</span> <span class='ivar'>@natural_height</span> <span class='op'>=</span> <span class='ivar'>@image_info</span><span class='period'>.</span><span class='id identifier rubyid_calc_image_dimensions'>calc_image_dimensions</span><span class='lparen'>(</span>
+    <span class='ivar'>@image_options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="draw_content-instance_method">
+  
+    - (<tt>Object</tt>) <strong>draw_content</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draw the image on the page.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 63</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_draw_content'>draw_content</span>
+  <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_embed_image'>embed_image</span><span class='lparen'>(</span><span class='ivar'>@pdf_object</span><span class='comma'>,</span> <span class='ivar'>@image_info</span><span class='comma'>,</span> <span class='ivar'>@image_options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fit=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fit=</strong>(f) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fit='>fit=</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span><span class='lbracket'>[</span><span class='symbol'>:fit</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_f'>f</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="image=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>image=</strong>(file) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_image='>image=</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='ivar'>@file</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="image_height=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>image_height=</strong>(h) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_image_height='>image_height=</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="image_width=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>image_width=</strong>(w) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_image_width='>image_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="natural_content_height-instance_method">
+  
+    - (<tt>Object</tt>) <strong>natural_content_height</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_natural_content_height'>natural_content_height</span>
+  <span class='ivar'>@natural_height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="natural_content_width-instance_method">
+  
+    - (<tt>Object</tt>) <strong>natural_content_width</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_natural_content_width'>natural_content_width</span>
+  <span class='ivar'>@natural_width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="position=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>position=</strong>(p) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_position='>position=</span><span class='lparen'>(</span><span class='id identifier rubyid_p'>p</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span><span class='lbracket'>[</span><span class='symbol'>:position</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="scale=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>scale=</strong>(s) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_scale='>scale=</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span><span class='lbracket'>[</span><span class='symbol'>:scale</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_s'>s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="vposition=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>vposition=</strong>(vp) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell/image.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_vposition='>vposition=</span><span class='lparen'>(</span><span class='id identifier rubyid_vp'>vp</span><span class='rparen'>)</span>
+  <span class='ivar'>@image_options</span><span class='lbracket'>[</span><span class='symbol'>:vposition</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_vp'>vp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jan 17 13:28:47 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>
