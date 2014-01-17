@@ -249,6 +249,7 @@ module PDF
     end
 
 
+    # @private
     class Stream
       def encrypted_object(key, id, gen)
         if filtered_stream
@@ -259,6 +260,7 @@ module PDF
       end
     end
 
+    # @private
     class Reference
 
       # Returns the object definition for the object this references, keyed from
