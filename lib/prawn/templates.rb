@@ -69,7 +69,6 @@ module Prawn
       object_id = state.store.import_page(options[:template], options[:template_page] || 1)
       page_options.merge!(:object_id => object_id, :page_template => true)
     end
-<<<<<<< HEAD
 
     module ObjectStoreExtensions
       # imports all objects required to render a page from another PDF. The
@@ -242,15 +241,10 @@ module Prawn
         end
       end
     end
-=======
->>>>>>> b6d28eae44137956bdaba43578216a4438391512
   end
 end
 
 Prawn::Document::VALID_OPTIONS << :template
 Prawn::Document.extensions << Prawn::Templates
-<<<<<<< HEAD
 
 PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)
-=======
->>>>>>> b6d28eae44137956bdaba43578216a4438391512
