@@ -11,13 +11,15 @@
 module Prawn
 
   class Document
-
     # A list of all repeaters in the document.
     # See Document#repeat for details
     #
+    # @private
     def repeaters
       @repeaters ||= []
     end
+
+    # @group Experimental API
 
     # Provides a way to execute a block of code repeatedly based on a
     # page_filter.  Since Stamp is used under the hood, this method is very space

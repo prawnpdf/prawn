@@ -11,6 +11,8 @@ module Prawn
 
   class Document
 
+    # @group Experimental API
+
     # Lazily instantiates an Outline object for document. This is used as point of entry
     # to methods to build the outline tree.
     def outline

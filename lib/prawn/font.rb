@@ -14,6 +14,8 @@ require_relative "font_metric_cache"
 module Prawn
 
   class Document
+    # @group Experimental API
+
     # Without arguments, this returns the currently selected font. Otherwise,
     # it sets the current font. When a block is used, the font is applied
     # transactionally and is rolled back when the block exits.
