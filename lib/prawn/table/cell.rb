@@ -151,7 +151,8 @@ module Prawn
       # this span group. They know their own width / height, but do not draw
       # anything.
       #
-      attr_reader :dummy_cells # :nodoc:
+      # @private
+      attr_reader :dummy_cells 
 
       # Instantiates a Cell based on the given options. The particular class of
       # cell returned depends on the :content argument. See the Prawn::Table

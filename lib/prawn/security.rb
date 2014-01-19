@@ -201,14 +201,15 @@ module Prawn
   end
 end
 
-module PDF #:nodoc:
+# @private
+module PDF
   module Core
     module_function
 
     # Like PdfObject, but returns an encrypted result if required.
     # For direct objects, requires the object identifier and generation number
     # from the indirect object referencing obj.
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
+    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false) 
       case obj
       when Array
         "[" << obj.map { |e|
@@ -248,6 +249,7 @@ module PDF #:nodoc:
     end
 
 
+    # @private
     class Stream
       def encrypted_object(key, id, gen)
         if filtered_stream
@@ -258,6 +260,7 @@ module PDF #:nodoc:
       end
     end
 
+    # @private
     class Reference
 
       # Returns the object definition for the object this references, keyed from

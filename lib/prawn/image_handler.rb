@@ -1,4 +1,6 @@
 module Prawn
+  # @group Extension API
+  
   def self.image_handler
     @image_handler ||= ImageHandler.new
   end
@@ -16,6 +18,10 @@ module Prawn
     def register!(handler)
       @handlers.delete(handler)
       @handlers.unshift handler
+    end
+
+    def unregister(handler)
+      @handlers.reject!{ |h| h == handler }
     end
 
     def find(image_blob)

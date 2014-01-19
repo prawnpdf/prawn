@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require 'prawn/font/ttf'
+require_relative 'ttf'
 
 module Prawn
   class Font

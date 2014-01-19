@@ -30,6 +30,5 @@ Prawn::Example.generate("manual.pdf",
   load_package "document_and_page_options"
   load_package "outline"
   load_package "repeatable_content"
-  load_package "templates"
   load_package "security"
 end
