@@ -414,6 +414,7 @@ module Prawn
 
     # Returns the innermost non-stretchy bounding box.
     #
+    # @private
     def reference_bounds
       @bounding_box.reference_bounds
     end
