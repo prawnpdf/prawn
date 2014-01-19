@@ -12,6 +12,8 @@ class Numeric
   # prawns' basic unit is PostScript-Point
   # 72 points per inch
 
+  # @group Experimental API
+  
   def mm
     return mm2pt(self)
   end

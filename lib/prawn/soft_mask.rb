@@ -26,6 +26,8 @@ module Prawn
   #   end
   #
   module SoftMask
+    # @group Experimental API
+
     def soft_mask(&block)
       min_version(1.4)
 
