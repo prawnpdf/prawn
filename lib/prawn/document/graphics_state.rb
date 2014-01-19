@@ -9,7 +9,7 @@
 
 module Prawn
   class Document
-    module GraphicsState
+    module GraphicsState # @private
 
       # Pushes the current graphics state on to the graphics state stack so we
       # can restore it when finished with a change we want to isolate (such as

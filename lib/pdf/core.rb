@@ -15,8 +15,8 @@ require_relative "core/graphics_state"
 require_relative "core/page_geometry"
 require_relative "core/outline"
 
-module PDF
-  module Core
+module PDF 
+  module Core 
     module Errors
       # This error is raised when PdfObject() fails
       FailedObjectConversion = Class.new(StandardError)
