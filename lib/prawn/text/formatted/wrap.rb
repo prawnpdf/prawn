@@ -4,6 +4,8 @@ require_relative "arranger"
 module Prawn
   module Text
     module Formatted #:nodoc:
+      # @private
+
       module Wrap #:nodoc:
 
         def initialize(array, options)

@@ -19,6 +19,8 @@ module Prawn
     module Security
       include PDF::Core
 
+      # @group Experimental API
+
       # Encrypts the document, to protect confidential data or control
       # modifications to the document. The encryption algorithm used is
       # detailed in the PDF Reference 1.3, section 3.5 "Encryption", and it is

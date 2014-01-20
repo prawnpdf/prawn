@@ -19,6 +19,8 @@ module Prawn
 
   class Document
 
+    # @group Experimental API
+
     # Set up and draw a table on this document. A block can be given, which will
     # be run after cell setup but before layout and drawing.
     #

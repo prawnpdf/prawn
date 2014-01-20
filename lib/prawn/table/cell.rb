@@ -10,6 +10,8 @@ require 'date'
 module Prawn
   class Document
 
+    # @group Experimental API
+
     # Instantiates and draws a cell on the document.
     #
     #   cell(:content => "Hello world!", :at => [12, 34])

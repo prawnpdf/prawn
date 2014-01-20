@@ -12,6 +12,8 @@ require_relative "formatted/box"
 module Prawn
   module Text
 
+    # @group Experimental API
+
     # Draws the requested text into a box. When the text overflows
     # the rectangle, you shrink to fit, or truncate the text. Text
     # boxes are independent of the document y position.

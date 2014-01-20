@@ -1,5 +1,6 @@
 module Prawn
   class Document
+    # @group Experimental API
 
     # Defines the grid system for a particular document.  Takes the number of
     # rows and columns and the width to use for the gutter as the

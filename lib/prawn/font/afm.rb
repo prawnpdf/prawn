@@ -10,6 +10,9 @@ require_relative '../../prawn/encoding'
 
 module Prawn
   class Font
+
+    # @private
+
     class AFM < Font
       BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats
                       Courier-Bold Courier-Oblique Courier-BoldOblique
