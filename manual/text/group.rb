@@ -1,5 +1,7 @@
 # encoding: utf-8
 #
+# <strong>NOTE: This feature is currently not working correctly</strong>
+#
 # Sometimes free flowing text might look ugly, specially when a paragraph is
 # split between two pages. Using a positioned text box just to overcome this
 # nuisance is not the right choice.

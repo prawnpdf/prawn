@@ -14,7 +14,7 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "positioned_text"
       s.example "text_box_overflow"
       s.example "text_box_excess"
-      s.example "group"
+      s.example "group", :eval_source => false
       s.example "column_box"
     end
     
