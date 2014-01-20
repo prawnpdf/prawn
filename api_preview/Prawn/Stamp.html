@@ -125,7 +125,7 @@ creating content anew each time it is placed on the page:</p>
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -253,14 +253,14 @@ if name.empty?</p>
       <pre class="lines">
 
 
-78
-79
 80
 81
-82</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_dictionary'>dictionary</span> <span class='op'>=</span> <span class='id identifier rubyid_create_stamp_dictionary'>create_stamp_dictionary</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -310,14 +310,14 @@ created with this name</p>
       <pre class="lines">
 
 
-43
-44
 45
 46
-47</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_dictionary_name'>dictionary_name</span><span class='comma'>,</span> <span class='id identifier rubyid_dictionary'>dictionary</span> <span class='op'>=</span> <span class='id identifier rubyid_stamp_dictionary'>stamp_dictionary</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -366,12 +366,12 @@ initial coords at which the elements of the stamp was created</p>
       <pre class="lines">
 
 
-62
-63
-64</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stamp_at'>stamp_at</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -386,7 +386,7 @@ initial coords at which the elements of the stamp was created</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:43 2014 by
+  Generated on Mon Jan 20 12:40:52 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

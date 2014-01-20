@@ -91,7 +91,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2">PDF::Core::Annotations, PDF::Core::Destinations, <span class='object_link'><a href="Document/Security.html" title="Prawn::Document::Security (module)">Security</a></span>, <span class='object_link'><a href="Document/Snapshot.html" title="Prawn::Document::Snapshot (module)">Snapshot</a></span>, <span class='object_link'><a href="Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span>, <span class='object_link'><a href="Images.html" title="Prawn::Images (module)">Images</a></span>, <span class='object_link'><a href="SoftMask.html" title="Prawn::SoftMask (module)">SoftMask</a></span>, <span class='object_link'><a href="Stamp.html" title="Prawn::Stamp (module)">Stamp</a></span>, <span class='object_link'><a href="Text.html" title="Prawn::Text (module)">Text</a></span></dd>
+      <dd class="r2">PDF::Core::Annotations, PDF::Core::Destinations, <span class='object_link'><a href="Document/Security.html" title="Prawn::Document::Security (module)">Security</a></span>, <span class='object_link'><a href="Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span>, <span class='object_link'><a href="Images.html" title="Prawn::Images (module)">Images</a></span>, <span class='object_link'><a href="SoftMask.html" title="Prawn::SoftMask (module)">SoftMask</a></span>, <span class='object_link'><a href="Stamp.html" title="Prawn::Stamp (module)">Stamp</a></span>, <span class='object_link'><a href="Text.html" title="Prawn::Text (module)">Text</a></span></dd>
       
     
   
@@ -152,7 +152,7 @@ document that you want to immediately save or render out.</p>
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Document/Security.html" title="Prawn::Document::Security (module)">Security</a></span>, <span class='object_link'><a href="Document/Snapshot.html" title="Prawn::Document::Snapshot (module)">Snapshot</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Document/Security.html" title="Prawn::Document::Security (module)">Security</a></span>
     
   
     
@@ -208,14 +208,8 @@ constant temporarily allows for extensions to modify the list.</p>
      from <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">Graphics::CapStyle</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Graphics/CapStyle.html#CAP_STYLES-constant" title="Prawn::Graphics::CapStyle::CAP_STYLES (constant)">Graphics::CapStyle::CAP_STYLES</a></span></p>
 
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Document/Snapshot.html" title="Prawn::Document::Snapshot (module)">Snapshot</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Document/Snapshot.html#RollbackTransaction-constant" title="Prawn::Document::Snapshot::RollbackTransaction (constant)">Snapshot::RollbackTransaction</a></span></p>
 
-
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -389,36 +383,11 @@ constant temporarily allows for extensions to modify the list.</p>
 
   
     <h2>
-      Class Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#extensions-class_method" title="extensions (class method)">+ (Object) <strong>extensions</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Any module added to this array will be included into instances of
-Prawn::Document at the per-object level.</p>
-</div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -447,30 +416,6 @@ Prawn::Document at the per-object level.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inherited-class_method" title="inherited (class method)">+ (Object) <strong>inherited</strong>(base) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>:nodoc:.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#move_past_bottom-class_method" title="move_past_bottom (class method)">+ (Object) <strong>move_past_bottom</strong> </a>
     
 
@@ -489,15 +434,6 @@ Prawn::Document at the per-object level.</p>
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -969,28 +905,6 @@ work with the grid system directly.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize_first_page-instance_method" title="#initialize_first_page (instance method)">- (Object) <strong>initialize_first_page</strong>(options) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#make_cell-instance_method" title="#make_cell (instance method)">- (Object) <strong>make_cell</strong>(content, options = {}) </a>
     
 
@@ -1031,30 +945,6 @@ work with the grid system directly.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Set up, but do not draw, a table.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#mask-instance_method" title="#mask (instance method)">- (Object) <strong>mask</strong>(*fields) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>:nodoc:.</p>
 </div></span>
   
 </li>
@@ -1258,28 +1148,6 @@ document by y again.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#page-instance_method" title="#page (instance method)">- (Object) <strong>page</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#page_count-instance_method" title="#page_count (instance method)">- (Object) <strong>page_count</strong> </a>
     
 
@@ -1321,30 +1189,6 @@ document by y again.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Provides a way to execute a block of code repeatedly based on a
 page_filter.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#reference_bounds-instance_method" title="#reference_bounds (instance method)">- (Object) <strong>reference_bounds</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the innermost non-stretchy bounding box.</p>
 </div></span>
   
 </li>
@@ -1418,30 +1262,6 @@ page_filter.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Provides a way to execute a block of code repeatedly based on a
 page_filter.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#repeaters-instance_method" title="#repeaters (instance method)">- (Object) <strong>repeaters</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A list of all repeaters in the document.</p>
 </div></span>
   
 </li>
@@ -1547,28 +1367,6 @@ to be positioned relative to the margin_box.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#state-instance_method" title="#state (instance method)">- (Object) <strong>state</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#table-instance_method" title="#table (instance method)">- (Object) <strong>table</strong>(data, options = {}, &amp;block) </a>
     
 
@@ -1616,6 +1414,62 @@ to be positioned relative to the margin_box.</p>
       
     </ul>
   
+    <h2>
+      Extension API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extensions-class_method" title="extensions (class method)">+ (Object) <strong>extensions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Any module added to this array will be included into instances of
+Prawn::Document at the per-object level.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_first_page-instance_method" title="#initialize_first_page (instance method)">- (Object) <strong>initialize_first_page</strong>(options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
 
 
   
@@ -1649,7 +1503,7 @@ to be positioned relative to the margin_box.</p>
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Images.html" title="Prawn::Images (module)">Images</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Images.html#build_image_object-instance_method" title="Prawn::Images#build_image_object (method)">#build_image_object</a></span>, <span class='object_link'><a href="Images.html#embed_image-instance_method" title="Prawn::Images#embed_image (method)">#embed_image</a></span>, <span class='object_link'><a href="Images.html#image-instance_method" title="Prawn::Images#image (method)">#image</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Images.html#image-instance_method" title="Prawn::Images#image (method)">#image</a></span></p>
 
   
   
@@ -1726,7 +1580,7 @@ to be positioned relative to the margin_box.</p>
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Graphics::Dash</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Graphics/Dash.html#dash-instance_method" title="Prawn::Graphics::Dash#dash (method)">#dash</a></span>, <span class='object_link'><a href="Graphics/Dash.html#dashed%3F-instance_method" title="Prawn::Graphics::Dash#dashed? (method)">#dashed?</a></span>, <span class='object_link'><a href="Graphics/Dash.html#undash-instance_method" title="Prawn::Graphics::Dash#undash (method)">#undash</a></span>, <span class='object_link'><a href="Graphics/Dash.html#write_stroke_dash-instance_method" title="Prawn::Graphics::Dash#write_stroke_dash (method)">#write_stroke_dash</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Graphics/Dash.html#dash-instance_method" title="Prawn::Graphics::Dash#dash (method)">#dash</a></span>, <span class='object_link'><a href="Graphics/Dash.html#dashed%3F-instance_method" title="Prawn::Graphics::Dash#dashed? (method)">#dashed?</a></span>, <span class='object_link'><a href="Graphics/Dash.html#undash-instance_method" title="Prawn::Graphics::Dash#undash (method)">#undash</a></span></p>
 
   
   
@@ -1796,11 +1650,6 @@ to be positioned relative to the margin_box.</p>
   
   
   
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Document/Snapshot.html" title="Prawn::Document::Snapshot (module)">Snapshot</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Document/Snapshot.html#rollback-instance_method" title="Prawn::Document::Snapshot#rollback (method)">#rollback</a></span>, <span class='object_link'><a href="Document/Snapshot.html#transaction-instance_method" title="Prawn::Document::Snapshot#transaction (method)">#transaction</a></span></p>
-
   
   
   
@@ -1913,14 +1762,6 @@ giving the width and height of the document you need in PDF Points.</p>
       <pre class="lines">
 
 
-180
-181
-182
-183
-184
-185
-186
-187
 188
 189
 190
@@ -1949,10 +1790,18 @@ giving the width and height of the document you need in PDF Points.</p>
 213
 214
 215
-216</pre>
+216
+217
+218
+219
+220
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -2050,16 +1899,16 @@ font_size.</p>
       <pre class="lines">
 
 
-93
-94
 95
 96
 97
 98
-99</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='id identifier rubyid_points'>points</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='ivar'>@font_size</span> <span class='kw'>unless</span> <span class='id identifier rubyid_points'>points</span>
@@ -2101,12 +1950,12 @@ font_size.</p>
       <pre class="lines">
 
 
-218
-219
-220</pre>
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 218</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 226</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_margin_box'>margin_box</span>
   <span class='ivar'>@margin_box</span>
@@ -2144,12 +1993,12 @@ font_size.</p>
       <pre class="lines">
 
 
-219
-220
-221</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_margins'>margins</span>
   <span class='ivar'>@margins</span>
@@ -2187,12 +2036,12 @@ font_size.</p>
       <pre class="lines">
 
 
-221
-222
-223</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 229</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_number'>page_number</span>
   <span class='ivar'>@page_number</span>
@@ -2230,12 +2079,12 @@ font_size.</p>
       <pre class="lines">
 
 
-222
-223
-224</pre>
+230
+231
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 230</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text_formatter'>text_formatter</span>
   <span class='ivar'>@text_formatter</span>
@@ -2273,12 +2122,12 @@ font_size.</p>
       <pre class="lines">
 
 
-219
-220
-221</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_y'>y</span>
   <span class='ivar'>@y</span>
@@ -2340,12 +2189,12 @@ any subclasses.</p>
       <pre class="lines">
 
 
-93
-94
-95</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span>
   <span class='ivar'>@extensions</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2408,58 +2257,17 @@ PDF::Document and the block is an ordinary closure:</p>
       <pre class="lines">
 
 
-128
-129
-130
-131</pre>
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_render_file'>render_file</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="inherited-class_method">
-  
-    + (<tt>Object</tt>) <strong>inherited</strong>(base) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>:nodoc:</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-97
-98
-99</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 97</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
-</span>  <span class='id identifier rubyid_extensions'>extensions</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2489,7 +2297,7 @@ PDF::Document and the block is an ordinary closure:</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Document/Snapshot.html#RollbackTransaction-constant" title="Prawn::Document::Snapshot::RollbackTransaction (constant)">RollbackTransaction</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'>RollbackTransaction</span></tt>)</span>
       
       
       
@@ -2503,12 +2311,12 @@ PDF::Document and the block is an ordinary closure:</p>
       <pre class="lines">
 
 
-524
-525
-526</pre>
+528
+529
+530</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 524</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 528</span>
 
 <span class='kw'>def</span> <span class='ivar'>@bounding_box</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RollbackTransaction</span>
@@ -2707,15 +2515,15 @@ remain within the printable area of your document.</p>
       <pre class="lines">
 
 
-157
 158
 159
 160
 161
-162</pre>
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='lparen'>(</span><span class='id identifier rubyid_pt'>pt</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_init_bounding_box'>init_bounding_box</span><span class='lparen'>(</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_parent_box'>parent_box</span><span class='op'>|</span>
@@ -2779,12 +2587,12 @@ left corner of the bounding box.</p>
       <pre class="lines">
 
 
-409
-410
-411</pre>
+411
+412
+413</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 409</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 411</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounds'>bounds</span>
   <span class='ivar'>@bounding_box</span>
@@ -2823,12 +2631,12 @@ and exiting bounding box code blocks is good enough.</p>
       <pre class="lines">
 
 
-424
-425
-426</pre>
+427
+428
+429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 424</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 427</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounds='>bounds=</span><span class='lparen'>(</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='rparen'>)</span>
   <span class='ivar'>@bounding_box</span> <span class='op'>=</span> <span class='id identifier rubyid_bounding_box'>bounding_box</span>
@@ -2869,7 +2677,6 @@ absolute coordinates, regardless of how things are nested or margin sizes.</p>
       <pre class="lines">
 
 
-171
 172
 173
 174
@@ -2877,10 +2684,11 @@ absolute coordinates, regardless of how things are nested or margin sizes.</p>
 176
 177
 178
-179</pre>
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_canvas'>canvas</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_init_bounding_box'>init_bounding_box</span><span class='lparen'>(</span><span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='symbol'>:hold_position</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='op'>|</span>
@@ -2927,14 +2735,14 @@ absolute coordinates, regardless of how things are nested or margin sizes.</p>
       <pre class="lines">
 
 
-19
-20
 21
 22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cell'>cell</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_cell'>cell</span> <span class='op'>=</span> <span class='const'>Table</span><span class='op'>::</span><span class='const'>Cell</span><span class='period'>.</span><span class='id identifier rubyid_make'>make</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:content</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -2984,15 +2792,15 @@ false</p>
       <pre class="lines">
 
 
-27
-28
 29
 30
 31
-32</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_box'>column_box</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_init_column_box'>init_column_box</span><span class='lparen'>(</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_parent_box'>parent_box</span><span class='op'>|</span>
@@ -3045,12 +2853,12 @@ otherwise</p>
       <pre class="lines">
 
 
-642
-643
-644</pre>
+646
+647
+648</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 642</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 646</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compression_enabled?'>compression_enabled?</span>
   <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_compress'>compress</span>
@@ -3087,12 +2895,12 @@ to the page margins at the top level.</p>
       <pre class="lines">
 
 
-324
-325
-326</pre>
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 324</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 326</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cursor'>cursor</span>
   <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
@@ -3130,12 +2938,12 @@ rows and columns and the width to use for the gutter as the keys :rows,
       <pre class="lines">
 
 
-8
 9
-10</pre>
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_grid'>define_grid</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@grid</span> <span class='op'>=</span> <span class='const'>Grid</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -3184,8 +2992,6 @@ won&#39;t be catastrophic, just annoying. ++</p>
       <pre class="lines">
 
 
-138
-139
 140
 141
 142
@@ -3194,10 +3000,12 @@ won&#39;t be catastrophic, just annoying. ++</p>
 145
 146
 147
-148</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_font'>find_font</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_font_families'>font_families</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -3252,16 +3060,16 @@ when done.</p>
       <pre class="lines">
 
 
-347
-348
 349
 350
 351
 352
-353</pre>
+353
+354
+355</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 349</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_float'>float</span>
   <span class='id identifier rubyid_original_page'>original_page</span> <span class='op'>=</span> <span class='id identifier rubyid_page_number'>page_number</span>
@@ -3332,8 +3140,6 @@ font files. See font_families for more information.</p>
       <pre class="lines">
 
 
-49
-50
 51
 52
 53
@@ -3351,10 +3157,12 @@ font files. See font_families for more information.</p>
 65
 66
 67
-68</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>return</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@font</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@font</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Helvetica</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3432,8 +3240,6 @@ files you&#39;d like.</p>
       <pre class="lines">
 
 
-181
-182
 183
 184
 185
@@ -3449,10 +3255,12 @@ files you&#39;d like.</p>
 195
 196
 197
-198</pre>
+198
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_font_families'>font_families</span>
   <span class='ivar'>@font_families</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span>
@@ -3503,12 +3311,12 @@ files you&#39;d like.</p>
       <pre class="lines">
 
 
-152
-153
-154</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_font_registry'>font_registry</span> <span class='comment'>#:nodoc:
 </span>  <span class='ivar'>@font_registry</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -3547,15 +3355,15 @@ on it.</p>
       <pre class="lines">
 
 
-309
-310
 311
 312
 313
-314</pre>
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 309</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 311</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_go_to_page'>go_to_page</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span>
   <span class='ivar'>@page_number</span> <span class='op'>=</span> <span class='id identifier rubyid_k'>k</span>
@@ -3599,7 +3407,6 @@ work with the grid system directly.</p>
       <pre class="lines">
 
 
-19
 20
 21
 22
@@ -3612,10 +3419,11 @@ work with the grid system directly.</p>
 29
 30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_grid'>grid</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='ivar'>@boxes</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -3669,10 +3477,6 @@ current page or column.</p>
       <pre class="lines">
 
 
-520
-521
-522
-523
 524
 525
 526
@@ -3688,10 +3492,14 @@ current page or column.</p>
 536
 537
 538
-539</pre>
+539
+540
+541
+542
+543</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 520</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 524</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_group'>group</span><span class='lparen'>(</span><span class='id identifier rubyid_second_attempt'>second_attempt</span><span class='op'>=</span><span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_old_bounding_box'>old_bounding_box</span> <span class='op'>=</span> <span class='ivar'>@bounding_box</span>
@@ -3754,12 +3562,12 @@ current page or column.</p>
       <pre class="lines">
 
 
-496
-497
-498</pre>
+499
+500
+501</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 496</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 499</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -3784,16 +3592,16 @@ current page or column.</p>
       <pre class="lines">
 
 
-232
-233
-234
-235
-236
-237
-238</pre>
+652
+653
+654
+655
+656
+657
+658</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 652</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize_first_page'>initialize_first_page</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:skip_page_creation</span><span class='rbracket'>]</span>
@@ -3837,12 +3645,12 @@ resulting Cell to ink it.</p>
       <pre class="lines">
 
 
-31
-32
-33</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_make_cell'>make_cell</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Table</span><span class='op'>::</span><span class='const'>Cell</span><span class='period'>.</span><span class='id identifier rubyid_make'>make</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -3882,68 +3690,15 @@ to ink it.</p>
       <pre class="lines">
 
 
-38
-39
-40</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_make_table'>make_table</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='const'>Table</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="mask-instance_method">
-  
-    - (<tt>Object</tt>) <strong>mask</strong>(*fields) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>:nodoc:</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-501
-502
-503
-504
-505
-506
-507
-508
-509</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 501</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_mask'>mask</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span> <span class='comment'># :nodoc:
-</span> <span class='comment'># Stores the current state of the named attributes, executes the block, and
-</span> <span class='comment'># then restores the original values after the block has executed.
-</span> <span class='comment'># -- I will remove the nodoc if/when this feature is a little less hacky
-</span>  <span class='id identifier rubyid_stored'>stored</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_stored'>stored</span><span class='lbracket'>[</span><span class='id identifier rubyid_f'>f</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='kw'>yield</span>
-  <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_f'>f</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_stored'>stored</span><span class='lbracket'>[</span><span class='id identifier rubyid_f'>f</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3976,12 +3731,12 @@ to ink it.</p>
       <pre class="lines">
 
 
-330
-331
-332</pre>
+332
+333
+334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 330</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 332</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_cursor_to'>move_cursor_to</span><span class='lparen'>(</span><span class='id identifier rubyid_new_y'>new_y</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_new_y'>new_y</span> <span class='op'>+</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
@@ -4018,12 +3773,12 @@ the current bounding box.</p>
       <pre class="lines">
 
 
-438
-439
-440</pre>
+441
+442
+443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 438</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 441</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-=</span> <span class='id identifier rubyid_n'>n</span>
@@ -4060,12 +3815,12 @@ the current bounding box.</p>
       <pre class="lines">
 
 
-431
-432
-433</pre>
+434
+435
+436</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 431</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 434</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_up'>move_up</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>+=</span> <span class='id identifier rubyid_n'>n</span>
@@ -4149,10 +3904,6 @@ counting from</p>
       <pre class="lines">
 
 
-576
-577
-578
-579
 580
 581
 582
@@ -4184,10 +3935,14 @@ counting from</p>
 608
 609
 610
-611</pre>
+611
+612
+613
+614
+615</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 576</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 580</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_number_pages'>number_pages</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -4257,12 +4012,12 @@ of entry to methods to build the outline tree.</p>
       <pre class="lines">
 
 
-16
-17
-18</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/outline.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/outline.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_outline'>outline</span>
   <span class='ivar'>@outline</span> <span class='op'>||=</span> <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='op'>::</span><span class='const'>Outline</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -4305,14 +4060,14 @@ document by y again.</p>
       <pre class="lines">
 
 
-477
-478
-479
 480
-481</pre>
+481
+482
+483
+484</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 477</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 480</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad'>pad</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
@@ -4356,13 +4111,13 @@ document by y again.</p>
       <pre class="lines">
 
 
-463
-464
-465
-466</pre>
+466
+467
+468
+469</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 463</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 466</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad_bottom'>pad_bottom</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='kw'>yield</span>
@@ -4405,47 +4160,17 @@ document by y again.</p>
       <pre class="lines">
 
 
-450
-451
-452
-453</pre>
+453
+454
+455
+456</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 450</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 453</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad_top'>pad_top</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='kw'>yield</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="page-instance_method">
-  
-    - (<tt>Object</tt>) <strong>page</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-228
-229
-230</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 228</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_page'>page</span>
-  <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4484,12 +4209,12 @@ document by y again.</p>
       <pre class="lines">
 
 
-300
-301
-302</pre>
+302
+303
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 302</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_count'>page_count</span>
   <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page_count'>page_count</span>
@@ -4548,10 +4273,6 @@ some_lambda  yields page number and repeats for true return values</code></pre>
       <pre class="lines">
 
 
-623
-624
-625
-626
 627
 628
 629
@@ -4561,10 +4282,14 @@ some_lambda  yields page number and repeats for true return values</code></pre>
 633
 634
 635
-636</pre>
+636
+637
+638
+639
+640</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 623</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 627</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_match?'>page_match?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_filter'>page_filter</span><span class='comma'>,</span> <span class='id identifier rubyid_page_number'>page_number</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_page_filter'>page_filter</span>
@@ -4579,47 +4304,6 @@ some_lambda  yields page number and repeats for true return values</code></pre>
   <span class='kw'>when</span> <span class='const'>Proc</span>
     <span class='id identifier rubyid_page_filter'>page_filter</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_page_number'>page_number</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="reference_bounds-instance_method">
-  
-    - (<tt>Object</tt>) <strong>reference_bounds</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the innermost non-stretchy bounding box.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-415
-416
-417</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 415</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_reference_bounds'>reference_bounds</span>
-  <span class='ivar'>@bounding_box</span><span class='period'>.</span><span class='id identifier rubyid_reference_bounds'>reference_bounds</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4653,8 +4337,6 @@ to file.</p>
       <pre class="lines">
 
 
-358
-359
 360
 361
 362
@@ -4667,10 +4349,12 @@ to file.</p>
 369
 370
 371
-372</pre>
+372
+373
+374</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 358</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 360</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='const'>StringIO</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_finalize_all_page_contents'>finalize_all_page_contents</span>
@@ -4720,12 +4404,12 @@ to file.</p>
       <pre class="lines">
 
 
-378
-379
-380</pre>
+380
+381
+382</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 378</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 380</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_file'>render_file</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>wb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -4815,56 +4499,15 @@ the code in the context of the filtered pages without using a Stamp.</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/repeater.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/repeater.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_repeat'>repeat</span><span class='lparen'>(</span><span class='id identifier rubyid_page_filter'>page_filter</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_repeaters'>repeaters</span> <span class='op'>&lt;&lt;</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Repeater</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_page_filter'>page_filter</span><span class='comma'>,</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:dynamic</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="repeaters-instance_method">
-  
-    - (<tt>Object</tt>) <strong>repeaters</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>A list of all repeaters in the document. See Document#repeat for details</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-18
-19
-20</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/repeater.rb', line 18</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_repeaters'>repeaters</span>
-  <span class='ivar'>@repeaters</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4898,18 +4541,18 @@ original font is restored.</p>
       <pre class="lines">
 
 
-112
-113
 114
 115
 116
 117
 118
 119
-120</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_font'>save_font</span>
   <span class='ivar'>@font</span> <span class='op'>||=</span> <span class='id identifier rubyid_find_font'>find_font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Helvetica</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -4951,13 +4594,13 @@ original font is restored.</p>
       <pre class="lines">
 
 
-104
-105
 106
-107</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_font'>set_font</span><span class='lparen'>(</span><span class='id identifier rubyid_font'>font</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span> <span class='comment'># :nodoc:
 </span>  <span class='ivar'>@font</span> <span class='op'>=</span> <span class='id identifier rubyid_font'>font</span>
@@ -5015,8 +4658,6 @@ the next.</p>
       <pre class="lines">
 
 
-27
-28
 29
 30
 31
@@ -5041,10 +4682,12 @@ the next.</p>
 50
 51
 52
-53</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/span.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/span.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_span'>span</span><span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='const'>Prawn</span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span> <span class='lbracket'>[</span><span class='symbol'>:position</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span>
@@ -5113,8 +4756,6 @@ These values will become the new defaults for page creation</p>
       <pre class="lines">
 
 
-250
-251
 252
 253
 254
@@ -5154,10 +4795,12 @@ These values will become the new defaults for page creation</p>
 288
 289
 290
-291</pre>
+291
+292
+293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_new_page'>start_new_page</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_last_page'>last_page</span> <span class='op'>=</span> <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span>
@@ -5207,36 +4850,6 @@ These values will become the new defaults for page creation</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="state-instance_method">
-  
-    - (<tt>Object</tt>) <strong>state</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-224
-225
-226</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 224</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_state'>state</span>
-  <span class='ivar'>@internal_state</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="table-instance_method">
   
     - (<tt>Object</tt>) <strong>table</strong>(data, options = {}, &amp;block) 
@@ -5265,14 +4878,14 @@ be run after cell setup but before layout and drawing.</p>
       <pre class="lines">
 
 
-27
-28
 29
 30
-31</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_t'>t</span> <span class='op'>=</span> <span class='const'>Table</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -5327,8 +4940,6 @@ override it and redefine the width calculation behavior. ++</p>
       <pre class="lines">
 
 
-219
-220
 221
 222
 223
@@ -5341,10 +4952,12 @@ override it and redefine the width calculation behavior. ++</p>
 230
 231
 232
-233</pre>
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 221</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width_of'>width_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:inline_format</span><span class='rbracket'>]</span>
@@ -5371,7 +4984,7 @@ override it and redefine the width calculation behavior. ++</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:45 2014 by
+  Generated on Mon Jan 20 12:40:54 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

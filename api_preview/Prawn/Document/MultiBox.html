@@ -126,7 +126,7 @@
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -399,13 +399,13 @@
       <pre class="lines">
 
 
-191
 192
 193
-194</pre>
+194
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='comma'>,</span> <span class='id identifier rubyid_b1'>b1</span><span class='comma'>,</span> <span class='id identifier rubyid_b2'>b2</span><span class='rparen'>)</span>
   <span class='ivar'>@pdf</span> <span class='op'>=</span> <span class='id identifier rubyid_pdf'>pdf</span>
@@ -438,12 +438,12 @@
       <pre class="lines">
 
 
-228
 229
-230</pre>
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 229</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bottom'>bottom</span>
   <span class='id identifier rubyid_bottom_box'>bottom_box</span><span class='period'>.</span><span class='id identifier rubyid_bottom'>bottom</span>
@@ -468,12 +468,12 @@
       <pre class="lines">
 
 
-212
 213
-214</pre>
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 213</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gutter'>gutter</span>
   <span class='ivar'>@bs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_gutter'>gutter</span>
@@ -498,12 +498,12 @@
       <pre class="lines">
 
 
-208
 209
-210</pre>
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='id identifier rubyid_top_box'>top_box</span><span class='period'>.</span><span class='id identifier rubyid_top'>top</span> <span class='op'>-</span> <span class='id identifier rubyid_bottom_box'>bottom_box</span><span class='period'>.</span><span class='id identifier rubyid_bottom'>bottom</span>
@@ -528,12 +528,12 @@
       <pre class="lines">
 
 
-216
 217
-218</pre>
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_left'>left</span>
   <span class='id identifier rubyid_left_box'>left_box</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span>
@@ -558,12 +558,12 @@
       <pre class="lines">
 
 
-196
 197
-198</pre>
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@bs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span> <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -588,12 +588,12 @@
       <pre class="lines">
 
 
-220
 221
-222</pre>
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 221</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_right'>right</span>
   <span class='id identifier rubyid_right_box'>right_box</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span>
@@ -618,12 +618,12 @@
       <pre class="lines">
 
 
-224
 225
-226</pre>
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_top'>top</span>
   <span class='id identifier rubyid_top_box'>top_box</span><span class='period'>.</span><span class='id identifier rubyid_top'>top</span>
@@ -648,12 +648,12 @@
       <pre class="lines">
 
 
-200
 201
-202</pre>
+202
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total_height'>total_height</span>
   <span class='ivar'>@bs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_total_height'>total_height</span>
@@ -678,12 +678,12 @@
       <pre class="lines">
 
 
-204
 205
-206</pre>
+206
+207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='id identifier rubyid_right_box'>right_box</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span> <span class='op'>-</span> <span class='id identifier rubyid_left_box'>left_box</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span>
@@ -698,7 +698,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:47 2014 by
+  Generated on Mon Jan 20 12:40:55 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

@@ -121,7 +121,7 @@ used for.</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -247,7 +247,7 @@ used for.</p>
 
   
     <h2>
-      Class Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -277,15 +277,6 @@ of the given <code>document</code>.</p>
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -1072,7 +1063,6 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-222
 223
 224
 225
@@ -1084,10 +1074,11 @@ the current vertical position.</p>
 231
 232
 233
-234</pre>
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span>
@@ -1140,12 +1131,12 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-236
 237
-238</pre>
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_document'>document</span>
   <span class='ivar'>@document</span>
@@ -1183,12 +1174,12 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-236
 237
-238</pre>
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parent'>parent</span>
   <span class='ivar'>@parent</span>
@@ -1226,12 +1217,12 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-238
 239
-240</pre>
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 239</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total_left_padding'>total_left_padding</span>
   <span class='ivar'>@total_left_padding</span>
@@ -1269,12 +1260,12 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-240
 241
-242</pre>
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 240</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total_right_padding'>total_right_padding</span>
   <span class='ivar'>@total_right_padding</span>
@@ -1319,13 +1310,13 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-513
 514
 515
-516</pre>
+516
+517</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 513</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 514</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_restore_deep_copy'>restore_deep_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='comma'>,</span> <span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@document</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
@@ -1368,12 +1359,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-410
 411
-412</pre>
+412
+413</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 410</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 411</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
   <span class='ivar'>@y</span> <span class='op'>-</span> <span class='id identifier rubyid_height'>height</span>
@@ -1409,12 +1400,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-428
 429
-430</pre>
+430
+431</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 428</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 429</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom_left'>absolute_bottom_left</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_left'>absolute_left</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span><span class='rbracket'>]</span>
@@ -1450,12 +1441,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-434
 435
-436</pre>
+436
+437</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 434</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 435</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom_right'>absolute_bottom_right</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_right'>absolute_right</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span><span class='rbracket'>]</span>
@@ -1491,12 +1482,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-392
 393
-394</pre>
+394
+395</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 392</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 393</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_left'>absolute_left</span>
   <span class='ivar'>@x</span>
@@ -1532,12 +1523,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-398
 399
-400</pre>
+400
+401</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 398</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 399</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_right'>absolute_right</span>
   <span class='ivar'>@x</span> <span class='op'>+</span> <span class='id identifier rubyid_width'>width</span>
@@ -1573,12 +1564,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-404
 405
-406</pre>
+406
+407</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 404</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 405</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span>
   <span class='ivar'>@y</span>
@@ -1614,12 +1605,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-416
 417
-418</pre>
+418
+419</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 416</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 417</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_top_left'>absolute_top_left</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_left'>absolute_left</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span><span class='rbracket'>]</span>
@@ -1655,12 +1646,12 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-422
 423
-424</pre>
+424
+425</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 422</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 423</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_absolute_top_right'>absolute_top_right</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_right'>absolute_right</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span><span class='rbracket'>]</span>
@@ -1696,14 +1687,14 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-285
 286
 287
 288
-289</pre>
+289
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 285</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_left_padding'>add_left_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_left_padding'>left_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_left_padding</span> <span class='op'>+=</span> <span class='id identifier rubyid_left_padding'>left_padding</span>
@@ -1741,13 +1732,13 @@ bounds of the document to the resulting BoundingBox, only returns it.</p>
       <pre class="lines">
 
 
-299
 300
 301
-302</pre>
+302
+303</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 299</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 300</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_right_padding'>add_right_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_right_padding'>right_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_right_padding</span> <span class='op'>+=</span> <span class='id identifier rubyid_right_padding'>right_padding</span>
@@ -1785,12 +1776,12 @@ bottom left corner of the bounding box</p>
       <pre class="lines">
 
 
-245
 246
-247</pre>
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_anchor'>anchor</span>
   <span class='lbracket'>[</span><span class='ivar'>@x</span><span class='comma'>,</span> <span class='ivar'>@y</span> <span class='op'>-</span> <span class='id identifier rubyid_height'>height</span><span class='rbracket'>]</span>
@@ -1831,12 +1822,12 @@ bottom left corner of the bounding box</p>
       <pre class="lines">
 
 
-336
 337
-338</pre>
+338
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 336</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 337</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bottom'>bottom</span>
   <span class='int'>0</span>
@@ -1878,12 +1869,12 @@ bottom left corner of the bounding box</p>
       <pre class="lines">
 
 
-386
 387
-388</pre>
+388
+389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 386</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 387</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bottom_left'>bottom_left</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span><span class='id identifier rubyid_bottom'>bottom</span><span class='rbracket'>]</span>
@@ -1925,12 +1916,12 @@ bottom left corner of the bounding box</p>
       <pre class="lines">
 
 
-374
 375
-376</pre>
+376
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 374</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 375</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bottom_right'>bottom_right</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span><span class='id identifier rubyid_bottom'>bottom</span><span class='rbracket'>]</span>
@@ -1967,7 +1958,6 @@ copying the reference to the Document).</p>
       <pre class="lines">
 
 
-499
 500
 501
 502
@@ -1975,10 +1965,11 @@ copying the reference to the Document).</p>
 504
 505
 506
-507</pre>
+507
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 499</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 500</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deep_copy'>deep_copy</span>
   <span class='id identifier rubyid_copy'>copy</span> <span class='op'>=</span> <span class='id identifier rubyid_dup'>dup</span>
@@ -2026,14 +2017,14 @@ box to the current drawing position.</p>
       <pre class="lines">
 
 
-448
 449
 450
 451
-452</pre>
+452
+453</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 448</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 449</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='kw'>return</span> <span class='ivar'>@height</span> <span class='kw'>if</span> <span class='ivar'>@height</span>
@@ -2084,17 +2075,17 @@ box to the current drawing position.</p>
       <pre class="lines">
 
 
-275
 276
 277
 278
 279
 280
 281
-282</pre>
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 275</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left_padding'>left_padding</span><span class='comma'>,</span> <span class='id identifier rubyid_right_padding'>right_padding</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add_left_padding'>add_left_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_left_padding'>left_padding</span><span class='rparen'>)</span>
@@ -2140,12 +2131,12 @@ box to the current drawing position.</p>
       <pre class="lines">
 
 
-255
 256
-257</pre>
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_left'>left</span>
   <span class='int'>0</span>
@@ -2181,12 +2172,12 @@ box to the current drawing position.</p>
       <pre class="lines">
 
 
-455
 456
-457</pre>
+457
+458</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 455</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 456</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_left_side'>left_side</span>
   <span class='id identifier rubyid_absolute_left'>absolute_left</span>
@@ -2223,16 +2214,16 @@ necessary.</p>
       <pre class="lines">
 
 
-467
 468
 469
 470
 471
 472
-473</pre>
+473
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 467</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 468</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
   <span class='kw'>if</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>==</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_page_count'>page_count</span>
@@ -2272,17 +2263,17 @@ necessary.</p>
       <pre class="lines">
 
 
-487
 488
 489
 490
 491
 492
 493
-494</pre>
+494
+495</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 487</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 488</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reference_bounds'>reference_bounds</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_stretchy?'>stretchy?</span>
@@ -2328,12 +2319,12 @@ necessary.</p>
       <pre class="lines">
 
 
-316
 317
-318</pre>
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_right'>right</span>
   <span class='ivar'>@width</span>
@@ -2369,12 +2360,12 @@ necessary.</p>
       <pre class="lines">
 
 
-460
 461
-462</pre>
+462
+463</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 460</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 461</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_right_side'>right_side</span>
   <span class='id identifier rubyid_absolute_right'>absolute_right</span>
@@ -2425,12 +2416,12 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-481
 482
-483</pre>
+483
+484</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 481</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 482</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stretchy?'>stretchy?</span>
   <span class='op'>!</span><span class='ivar'>@height</span>
@@ -2466,14 +2457,14 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-292
 293
 294
 295
-296</pre>
+296
+297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 293</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_subtract_left_padding'>subtract_left_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_left_padding'>left_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_left_padding</span> <span class='op'>-=</span> <span class='id identifier rubyid_left_padding'>left_padding</span>
@@ -2511,13 +2502,13 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-305
 306
 307
-308</pre>
+308
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 305</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 306</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_subtract_right_padding'>subtract_right_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_right_padding'>right_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_right_padding</span> <span class='op'>-=</span> <span class='id identifier rubyid_right_padding'>right_padding</span>
@@ -2559,12 +2550,12 @@ the current vertical position.</p>
       <pre class="lines">
 
 
-326
 327
-328</pre>
+328
+329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 327</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_top'>top</span>
   <span class='id identifier rubyid_height'>height</span>
@@ -2607,12 +2598,12 @@ right:</p>
       <pre class="lines">
 
 
-349
 350
-351</pre>
+351
+352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 349</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 350</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_top_left'>top_left</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
@@ -2655,12 +2646,12 @@ left:</p>
       <pre class="lines">
 
 
-362
 363
-364</pre>
+364
+365</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 362</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 363</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_top_right'>top_right</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
@@ -2696,12 +2687,12 @@ left:</p>
       <pre class="lines">
 
 
-440
 441
-442</pre>
+442
+443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 440</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 441</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='ivar'>@width</span>
@@ -2716,7 +2707,7 @@ left:</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:48 2014 by
+  Generated on Mon Jan 20 12:40:56 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

@@ -105,11 +105,9 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Formatted/Wrap.html" title="Prawn::Text::Formatted::Wrap (module)">Wrap</a></span>
-    
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Formatted/Arranger.html" title="Prawn::Text::Formatted::Arranger (class)">Arranger</a></span>, <span class='object_link'><a href="Formatted/Box.html" title="Prawn::Text::Formatted::Box (class)">Box</a></span>, <span class='object_link'><a href="Formatted/Fragment.html" title="Prawn::Text::Formatted::Fragment (class)">Fragment</a></span>, <span class='object_link'><a href="Formatted/LineWrap.html" title="Prawn::Text::Formatted::LineWrap (class)">LineWrap</a></span>, <span class='object_link'><a href="Formatted/Parser.html" title="Prawn::Text::Formatted::Parser (class)">Parser</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Formatted/Box.html" title="Prawn::Text::Formatted::Box (class)">Box</a></span>, <span class='object_link'><a href="Formatted/Parser.html" title="Prawn::Text::Formatted::Parser (class)">Parser</a></span>
     
   
 </p>
@@ -122,7 +120,7 @@
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -273,12 +271,12 @@ any text</p>
       <pre class="lines">
 
 
-90
 91
-92</pre>
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_formatted_text_box'>formatted_text_box</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='const'>Text</span><span class='op'>::</span><span class='const'>Formatted</span><span class='op'>::</span><span class='const'>Box</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:document</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span>
@@ -293,7 +291,7 @@ any text</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:44 2014 by
+  Generated on Mon Jan 20 12:40:53 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

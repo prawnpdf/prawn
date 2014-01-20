@@ -130,7 +130,7 @@ printed text</p>
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -197,19 +197,14 @@ printed text</p>
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Formatted/Box.html" title="Prawn::Text::Formatted::Box (class)">Formatted::Box</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Formatted/Box.html#available_width-instance_method" title="Prawn::Text::Formatted::Box#available_width (method)">#available_width</a></span>, <span class='object_link'><a href="Formatted/Box.html#draw_fragment-instance_method" title="Prawn::Text::Formatted::Box#draw_fragment (method)">#draw_fragment</a></span>, <span class='object_link'><a href="Formatted/Box.html#everything_printed%3F-instance_method" title="Prawn::Text::Formatted::Box#everything_printed? (method)">#everything_printed?</a></span>, <span class='object_link'><a href="Formatted/Box.html#extensions-class_method" title="Prawn::Text::Formatted::Box.extensions (method)">extensions</a></span>, <span class='object_link'><a href="Formatted/Box.html#height-instance_method" title="Prawn::Text::Formatted::Box#height (method)">#height</a></span>, <span class='object_link'><a href="Formatted/Box.html#inherited-class_method" title="Prawn::Text::Formatted::Box.inherited (method)">inherited</a></span>, <span class='object_link'><a href="Formatted/Box.html#line_gap-instance_method" title="Prawn::Text::Formatted::Box#line_gap (method)">#line_gap</a></span>, <span class='object_link'><a href="Formatted/Box.html#nothing_printed%3F-instance_method" title="Prawn::Text::Formatted::Box#nothing_printed? (method)">#nothing_printed?</a></span>, <span class='object_link'><a href="Formatted/Box.html#valid_options-instance_method" title="Prawn::Text::Formatted::Box#valid_options (method)">#valid_options</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Formatted/Box.html#available_width-instance_method" title="Prawn::Text::Formatted::Box#available_width (method)">#available_width</a></span>, <span class='object_link'><a href="Formatted/Box.html#draw_fragment-instance_method" title="Prawn::Text::Formatted::Box#draw_fragment (method)">#draw_fragment</a></span>, <span class='object_link'><a href="Formatted/Box.html#everything_printed%3F-instance_method" title="Prawn::Text::Formatted::Box#everything_printed? (method)">#everything_printed?</a></span>, <span class='object_link'><a href="Formatted/Box.html#extensions-class_method" title="Prawn::Text::Formatted::Box.extensions (method)">extensions</a></span>, <span class='object_link'><a href="Formatted/Box.html#height-instance_method" title="Prawn::Text::Formatted::Box#height (method)">#height</a></span>, <span class='object_link'><a href="Formatted/Box.html#line_gap-instance_method" title="Prawn::Text::Formatted::Box#line_gap (method)">#line_gap</a></span>, <span class='object_link'><a href="Formatted/Box.html#nothing_printed%3F-instance_method" title="Prawn::Text::Formatted::Box#nothing_printed? (method)">#nothing_printed?</a></span>, <span class='object_link'><a href="Formatted/Box.html#valid_options-instance_method" title="Prawn::Text::Formatted::Box#valid_options (method)">#valid_options</a></span></p>
 
   
   
   
   
   
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Formatted/Wrap.html" title="Prawn::Text::Formatted::Wrap (module)">Formatted::Wrap</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Formatted/Wrap.html#wrap-instance_method" title="Prawn::Text::Formatted::Wrap#wrap (method)">#wrap</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -238,12 +233,12 @@ printed text</p>
       <pre class="lines">
 
 
-132
-133
-134</pre>
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_string'>string</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -275,13 +270,13 @@ printed text</p>
       <pre class="lines">
 
 
-136
-137
 138
-139</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_leftover'>leftover</span> <span class='op'>=</span> <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span><span class='rparen'>)</span>
@@ -297,7 +292,7 @@ printed text</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:46 2014 by
+  Generated on Mon Jan 20 12:40:54 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

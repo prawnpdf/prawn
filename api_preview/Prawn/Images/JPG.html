@@ -129,7 +129,7 @@ image that we need to embed them in a PDF</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Extension API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -309,7 +309,7 @@ image that we need to embed them in a PDF</p>
 
   
     <h2>
-      Class Method Summary
+      Extension API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -336,15 +336,6 @@ image that we need to embed them in a PDF</p>
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -444,9 +435,6 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-30
-31
-32
 33
 34
 35
@@ -462,10 +450,13 @@ return a Reference to it.</p>
 45
 46
 47
-48</pre>
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='ivar'>@data</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span>
@@ -524,12 +515,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bits'>bits</span>
   <span class='ivar'>@bits</span>
@@ -567,12 +558,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_channels'>channels</span>
   <span class='ivar'>@channels</span>
@@ -610,12 +601,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='ivar'>@height</span>
@@ -653,12 +644,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-18
-19
-20</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scaled_height'>scaled_height</span>
   <span class='ivar'>@scaled_height</span>
@@ -696,12 +687,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-18
-19
-20</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scaled_width'>scaled_width</span>
   <span class='ivar'>@scaled_width</span>
@@ -739,12 +730,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='ivar'>@width</span>
@@ -798,12 +789,12 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_can_render?'>can_render?</span><span class='lparen'>(</span><span class='id identifier rubyid_image_blob'>image_blob</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_image_blob'>image_blob</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='lbracket'>[</span><span class='int'>255</span><span class='comma'>,</span> <span class='int'>216</span><span class='comma'>,</span> <span class='int'>255</span><span class='rbracket'>]</span>
@@ -846,9 +837,6 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-53
-54
-55
 56
 57
 58
@@ -877,10 +865,13 @@ return a Reference to it.</p>
 81
 82
 83
-84</pre>
+84
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/jpg.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_pdf_object'>build_pdf_object</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_color_space'>color_space</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_channels'>channels</span>
@@ -924,7 +915,7 @@ return a Reference to it.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:46 2014 by
+  Generated on Mon Jan 20 12:40:54 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

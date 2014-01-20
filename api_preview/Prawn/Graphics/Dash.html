@@ -97,7 +97,7 @@
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -174,28 +174,6 @@ dash pattern setting if <code>length</code> is nil.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Stops dashing, restoring solid stroked lines and curves.</p>
 </div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#write_stroke_dash-instance_method" title="#write_stroke_dash (instance method)">- (Object) <strong>write_stroke_dash</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -280,7 +258,6 @@ are in PDF points (1/72 inch).</p>
       <pre class="lines">
 
 
-54
 55
 56
 57
@@ -288,10 +265,11 @@ are in PDF points (1/72 inch).</p>
 59
 60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dash'>dash</span><span class='lparen'>(</span><span class='id identifier rubyid_length'>length</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='kw'>if</span> <span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -346,12 +324,12 @@ are in PDF points (1/72 inch).</p>
       <pre class="lines">
 
 
-75
 76
-77</pre>
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dashed?'>dashed?</span>
   <span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='op'>!=</span> <span class='id identifier rubyid_undashed_setting'>undashed_setting</span>
@@ -387,47 +365,17 @@ are in PDF points (1/72 inch).</p>
       <pre class="lines">
 
 
-68
 69
 70
-71</pre>
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_undash'>undash</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_dash_state'>current_dash_state</span> <span class='op'>=</span> <span class='id identifier rubyid_undashed_setting'>undashed_setting</span>
   <span class='id identifier rubyid_write_stroke_dash'>write_stroke_dash</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="write_stroke_dash-instance_method">
-  
-    - (<tt>Object</tt>) <strong>write_stroke_dash</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-79
-80
-81</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/dash.rb', line 79</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_write_stroke_dash'>write_stroke_dash</span>
-  <span class='id identifier rubyid_add_content'>add_content</span> <span class='id identifier rubyid_dash_setting'>dash_setting</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -439,7 +387,7 @@ are in PDF points (1/72 inch).</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:44 2014 by
+  Generated on Mon Jan 20 12:40:53 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

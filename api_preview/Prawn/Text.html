@@ -115,7 +115,7 @@
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -375,7 +375,6 @@ familly. [current style]</p>
       <pre class="lines">
 
 
-282
 283
 284
 285
@@ -385,10 +384,11 @@ familly. [current style]</p>
 289
 290
 291
-292</pre>
+292
+293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 283</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_inspect_options_for_draw_text'>inspect_options_for_draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
@@ -451,7 +451,6 @@ this array</p>
       <pre class="lines">
 
 
-194
 195
 196
 197
@@ -484,10 +483,11 @@ this array</p>
 224
 225
 226
-227</pre>
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 194</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_inspect_options_for_text'>inspect_options_for_text</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
@@ -567,12 +567,12 @@ any text</p>
       <pre class="lines">
 
 
-310
 311
-312</pre>
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 311</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height_of'>height_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_string'>string</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -617,7 +617,6 @@ any text</p>
       <pre class="lines">
 
 
-324
 325
 326
 327
@@ -631,10 +630,11 @@ any text</p>
 335
 336
 337
-338</pre>
+338
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 324</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 325</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:indent_paragraphs</span><span class='rbracket'>]</span>
@@ -847,8 +847,6 @@ any text</p>
       <pre class="lines">
 
 
-157
-158
 159
 160
 161
@@ -861,10 +859,12 @@ any text</p>
 168
 169
 170
-171</pre>
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 159</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_string'>string</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1026,8 +1026,6 @@ any text</p>
       <pre class="lines">
 
 
-109
-110
 111
 112
 113
@@ -1039,10 +1037,12 @@ any text</p>
 119
 120
 121
-122</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text_box'>text_box</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -1068,7 +1068,7 @@ any text</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:43 2014 by
+  Generated on Mon Jan 20 12:40:52 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

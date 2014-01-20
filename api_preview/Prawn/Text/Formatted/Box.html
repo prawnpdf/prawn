@@ -90,15 +90,11 @@
     
   
     
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="Wrap.html" title="Prawn::Text::Formatted::Wrap (module)">Wrap</a></span></dd>
-      
-    
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/prawn/text/formatted/box.rb</dd>
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/text/formatted/box.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -126,7 +122,7 @@ was consumed by the printed text</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -311,65 +307,7 @@ that would have been successfully printed).</p>
 
   
     <h2>
-      Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#extensions-class_method" title="extensions (class method)">+ (Object) <strong>extensions</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Example (see Prawn::Text::Core::Formatted::Wrap for what is required of the
-wrap method if you want to override the default wrapping algorithm):.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#inherited-class_method" title="inherited (class method)">+ (Object) <strong>inherited</strong>(base) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>:nodoc:.</p>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -569,6 +507,40 @@ successfully printed).</p>
 </li>
 
       
+    </ul>
+  
+    <h2>
+      Extension API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extensions-class_method" title="extensions (class method)">+ (Object) <strong>extensions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Example (see Prawn::Text::Core::Formatted::Wrap for what is required of the
+wrap method if you want to override the default wrapping algorithm):.</p>
+</div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -600,12 +572,7 @@ successfully printed).</p>
   
   
   
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Wrap.html" title="Prawn::Text::Formatted::Wrap (module)">Wrap</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Wrap.html#wrap-instance_method" title="Prawn::Text::Formatted::Wrap#wrap (method)">#wrap</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -634,6 +601,53 @@ successfully printed).</p>
       <pre class="lines">
 
 
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
 186
 187
 188
@@ -642,57 +656,10 @@ successfully printed).</p>
 191
 192
 193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241</pre>
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@inked</span>             <span class='op'>=</span> <span class='kw'>false</span>
@@ -788,12 +755,12 @@ successfully printed).</p>
       <pre class="lines">
 
 
-138
-139
-140</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ascender'>ascender</span>
   <span class='ivar'>@ascender</span>
@@ -831,12 +798,12 @@ successfully printed).</p>
       <pre class="lines">
 
 
-134
-135
-136</pre>
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_at'>at</span>
   <span class='ivar'>@at</span>
@@ -874,12 +841,12 @@ successfully printed).</p>
       <pre class="lines">
 
 
-140
-141
-142</pre>
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 129</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_descender'>descender</span>
   <span class='ivar'>@descender</span>
@@ -917,12 +884,12 @@ successfully printed).</p>
       <pre class="lines">
 
 
-142
-143
-144</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_leading'>leading</span>
   <span class='ivar'>@leading</span>
@@ -960,12 +927,12 @@ successfully printed).</p>
       <pre class="lines">
 
 
-136
-137
-138</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line_height'>line_height</span>
   <span class='ivar'>@line_height</span>
@@ -1004,12 +971,12 @@ used, the text that would have been successfully printed)</p>
       <pre class="lines">
 
 
-119
-120
-121</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span>
   <span class='ivar'>@text</span>
@@ -1075,56 +1042,15 @@ wrap method if you want to override the default wrapping algorithm):</p>
       <pre class="lines">
 
 
-176
-177
-178</pre>
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 324</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span>
   <span class='ivar'>@extensions</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="inherited-class_method">
-  
-    + (<tt>Object</tt>) <strong>inherited</strong>(base) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>:nodoc:</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-180
-181
-182</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 180</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
-</span>  <span class='id identifier rubyid_extensions'>extensions</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1163,12 +1089,12 @@ wrap method if you want to override the default wrapping algorithm):</p>
       <pre class="lines">
 
 
-287
-288
-289</pre>
+240
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 240</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available_width'>available_width</span>
   <span class='ivar'>@width</span>
@@ -1204,50 +1130,50 @@ wrap method if you want to override the default wrapping algorithm):</p>
       <pre class="lines">
 
 
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340</pre>
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_fragment'>draw_fragment</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='comma'>,</span> <span class='id identifier rubyid_accumulated_width'>accumulated_width</span><span class='op'>=</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_line_width'>line_width</span><span class='op'>=</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_word_spacing'>word_spacing</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='kw'>case</span><span class='lparen'>(</span><span class='ivar'>@align</span><span class='rparen'>)</span>
@@ -1335,12 +1261,12 @@ everything would have been successfully printed)</p>
       <pre class="lines">
 
 
-129
-130
-131</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_everything_printed?'>everything_printed?</span>
   <span class='ivar'>@everything_printed</span>
@@ -1376,13 +1302,13 @@ everything would have been successfully printed)</p>
       <pre class="lines">
 
 
-293
-294
-295
-296</pre>
+246
+247
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='kw'>return</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='ivar'>@baseline_y</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@descender</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1408,12 +1334,12 @@ everything would have been successfully printed)</p>
       <pre class="lines">
 
 
-144
-145
-146</pre>
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line_gap'>line_gap</span>
   <span class='id identifier rubyid_line_height'>line_height</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='id identifier rubyid_ascender'>ascender</span> <span class='op'>+</span> <span class='id identifier rubyid_descender'>descender</span><span class='rparen'>)</span>
@@ -1463,12 +1389,12 @@ would have been successfully printed)</p>
       <pre class="lines">
 
 
-123
-124
-125</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 112</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_nothing_printed?'>nothing_printed?</span>
   <span class='ivar'>@nothing_printed</span>
@@ -1511,40 +1437,40 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
       <pre class="lines">
 
 
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283</pre>
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 206</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_unprinted_text'>unprinted_text</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1597,22 +1523,22 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
       <pre class="lines">
 
 
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115</pre>
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 333</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid_options'>valid_options</span>
   <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='op'>::</span><span class='const'>Text</span><span class='op'>::</span><span class='const'>VALID_OPTIONS</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='symbol'>:at</span><span class='comma'>,</span> <span class='symbol'>:height</span><span class='comma'>,</span> <span class='symbol'>:width</span><span class='comma'>,</span>
@@ -1637,7 +1563,7 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:47 2014 by
+  Generated on Mon Jan 20 12:40:55 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

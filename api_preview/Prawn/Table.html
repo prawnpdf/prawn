@@ -196,7 +196,7 @@ rewritten as:</p>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Table/Cell.html" title="Prawn::Table::Cell (class)">Cell</a></span>, <span class='object_link'><a href="Table/Cells.html" title="Prawn::Table::Cells (class)">Cells</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Table/Cells.html" title="Prawn::Table::Cells (class)">Cells</a></span>
     
   
 </p>
@@ -204,7 +204,7 @@ rewritten as:</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -418,7 +418,7 @@ from the left edge) of the table within its parent bounds.</p>
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -525,32 +525,6 @@ the table or column size.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#columns-instance_method" title="#columns (instance method)">- (Object) <strong>columns</strong>(col_spec) </a>
-    
-
-    
-      (also: #column)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Selects the given columns (0-based) for styling.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#draw-instance_method" title="#draw (instance method)">- (Object) <strong>draw</strong> </a>
     
 
@@ -649,6 +623,65 @@ the table or column size.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#style-instance_method" title="#style (instance method)">- (Object) <strong>style</strong>(stylable, style_hash = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allows generic stylable content.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#columns-instance_method" title="#columns (instance method)">- (Object) <strong>columns</strong>(col_spec) </a>
+    
+
+    
+      (also: #column)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Selects the given columns (0-based) for styling.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#rows-instance_method" title="#rows (instance method)">- (Object) <strong>rows</strong>(row_spec) </a>
     
 
@@ -667,30 +700,6 @@ the table or column size.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Selects the given rows (0-based) for styling.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#style-instance_method" title="#style (instance method)">- (Object) <strong>style</strong>(stylable, style_hash = {}, &amp;block) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Allows generic stylable content.</p>
 </div></span>
   
 </li>
@@ -740,8 +749,6 @@ above for details on available options.</p>
       <pre class="lines">
 
 
-127
-128
 129
 130
 131
@@ -754,10 +761,12 @@ above for details on available options.</p>
 138
 139
 140
-141</pre>
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 129</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@pdf</span> <span class='op'>=</span> <span class='id identifier rubyid_document'>document</span>
@@ -813,12 +822,12 @@ table.</p>
       <pre class="lines">
 
 
-163
-164
-165</pre>
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cells'>cells</span>
   <span class='ivar'>@cells</span>
@@ -856,12 +865,12 @@ table.</p>
       <pre class="lines">
 
 
-149
-150
-151</pre>
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_length'>column_length</span>
   <span class='ivar'>@column_length</span>
@@ -902,12 +911,12 @@ index into the data array provided, with no modification.</p>
       <pre class="lines">
 
 
-215
-216
-217</pre>
+217
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_header='>header=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@header</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -946,12 +955,12 @@ from the left edge) of the table within its parent bounds.</p>
       <pre class="lines">
 
 
-158
-159
-160</pre>
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_position='>position=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@position</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -989,12 +998,12 @@ from the left edge) of the table within its parent bounds.</p>
       <pre class="lines">
 
 
-219
-220
-221</pre>
+221
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 221</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_row_colors='>row_colors=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@row_colors</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -1032,12 +1041,12 @@ from the left edge) of the table within its parent bounds.</p>
       <pre class="lines">
 
 
-145
-146
-147</pre>
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 147</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_row_length'>row_length</span>
   <span class='ivar'>@row_length</span>
@@ -1075,12 +1084,12 @@ from the left edge) of the table within its parent bounds.</p>
       <pre class="lines">
 
 
-176
-177
-178</pre>
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='ivar'>@width</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_natural_width'>natural_width</span><span class='comma'>,</span> <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
@@ -1126,12 +1135,12 @@ that the cells have already been positioned and sized.</p>
       <pre class="lines">
 
 
-170
-171
-172</pre>
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_before_rendering_page'>before_rendering_page</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@before_rendering_page</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -1170,12 +1179,12 @@ that the cells have already been positioned and sized.</p>
       <pre class="lines">
 
 
-225
-226
-227</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cell_style='>cell_style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style_hash'>style_hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_style_hash'>style_hash</span><span class='rparen'>)</span>
@@ -1218,8 +1227,6 @@ sizes, you should specify more column widths manually.</p>
       <pre class="lines">
 
 
-395
-396
 397
 398
 399
@@ -1252,10 +1259,12 @@ sizes, you should specify more column widths manually.</p>
 426
 427
 428
-429</pre>
+429
+430
+431</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 395</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 397</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_widths'>column_widths</span>
   <span class='ivar'>@column_widths</span> <span class='op'>||=</span> <span class='kw'>begin</span>
@@ -1335,8 +1344,6 @@ are widths)</p>
       <pre class="lines">
 
 
-191
-192
 193
 194
 195
@@ -1346,10 +1353,12 @@ are widths)</p>
 199
 200
 201
-202</pre>
+202
+203
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_widths='>column_widths=</span><span class='lparen'>(</span><span class='id identifier rubyid_widths'>widths</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_widths'>widths</span>
@@ -1440,8 +1449,6 @@ see the documentation on Cells for things you can do with cells.</p>
       <pre class="lines">
 
 
-250
-251
 252
 253
 254
@@ -1574,10 +1581,12 @@ see the documentation on Cells for things you can do with cells.</p>
 381
 382
 383
-384</pre>
+384
+385
+386</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw'>draw</span>
   <span class='id identifier rubyid_with_position'>with_position</span> <span class='kw'>do</span>
@@ -1745,12 +1754,12 @@ see the documentation on Cells for things you can do with cells.</p>
       <pre class="lines">
 
 
-206
-207
-208</pre>
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 208</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
@@ -1786,8 +1795,6 @@ see the documentation on Cells for things you can do with cells.</p>
       <pre class="lines">
 
 
-433
-434
 435
 436
 437
@@ -1802,10 +1809,12 @@ see the documentation on Cells for things you can do with cells.</p>
 446
 447
 448
-449</pre>
+449
+450
+451</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 433</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 435</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_row_heights'>row_heights</span>
   <span class='ivar'>@natural_row_heights</span> <span class='op'>||=</span>
@@ -1916,12 +1925,12 @@ prefer to the attribute-based syntax. This code using style:</p>
       <pre class="lines">
 
 
-244
-245
-246</pre>
+246
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 244</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_stylable'>stylable</span><span class='comma'>,</span> <span class='id identifier rubyid_style_hash'>style_hash</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_stylable'>stylable</span><span class='period'>.</span><span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_style_hash'>style_hash</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -1936,7 +1945,7 @@ prefer to the attribute-based syntax. This code using style:</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:45 2014 by
+  Generated on Mon Jan 20 12:40:54 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

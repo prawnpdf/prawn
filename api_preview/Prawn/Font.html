@@ -112,25 +112,11 @@
 <div class="tags">
   
 
-</div><div id="subclasses">
-  <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Font/AFM.html" title="Prawn::Font::AFM (class)">AFM</a></span>, <span class='object_link'><a href="Font/TTF.html" title="Prawn::Font::TTF (class)">TTF</a></span></p>
 </div>
-<h2>Defined Under Namespace</h2>
-<p class="children">
-  
-    
-  
-    
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Font/AFM.html" title="Prawn::Font::AFM (class)">AFM</a></span>, <span class='object_link'><a href="Font/DFont.html" title="Prawn::Font::DFont (class)">DFont</a></span>, <span class='object_link'><a href="Font/TTF.html" title="Prawn::Font::TTF (class)">TTF</a></span>
-    
-  
-</p>
 
 
 
-
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -227,7 +213,7 @@
 
   
     <h2>
-      Class Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -256,15 +242,6 @@
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -614,8 +591,6 @@ string in place.</p>
       <pre class="lines">
 
 
-278
-279
 280
 281
 282
@@ -624,10 +599,12 @@ string in place.</p>
 285
 286
 287
-288</pre>
+288
+289
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 280</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='ivar'>@document</span>   <span class='op'>=</span> <span class='id identifier rubyid_document'>document</span>
@@ -678,12 +655,12 @@ string in place.</p>
       <pre class="lines">
 
 
-260
-261
-262</pre>
+262
+263
+264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 262</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_family'>family</span>
   <span class='ivar'>@family</span>
@@ -721,12 +698,12 @@ string in place.</p>
       <pre class="lines">
 
 
-257
-258
-259</pre>
+259
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 259</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span>
@@ -764,12 +741,12 @@ string in place.</p>
       <pre class="lines">
 
 
-263
-264
-265</pre>
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 263</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 265</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_options'>options</span>
   <span class='ivar'>@options</span>
@@ -814,17 +791,17 @@ will be passed through to Font::AFM.new()</p>
       <pre class="lines">
 
 
-269
-270
 271
 272
 273
 274
 275
-276</pre>
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 269</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 271</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -873,13 +850,13 @@ only add the font the first time it is called.</p>
       <pre class="lines">
 
 
-340
-341
 342
-343</pre>
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 340</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_to_current_page'>add_to_current_page</span><span class='lparen'>(</span><span class='id identifier rubyid_subset'>subset</span><span class='rparen'>)</span>
   <span class='ivar'>@references</span><span class='lbracket'>[</span><span class='id identifier rubyid_subset'>subset</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_register'>register</span><span class='lparen'>(</span><span class='id identifier rubyid_subset'>subset</span><span class='rparen'>)</span>
@@ -916,12 +893,12 @@ only add the font the first time it is called.</p>
       <pre class="lines">
 
 
-292
-293
-294</pre>
+294
+295
+296</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 294</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ascender'>ascender</span>
   <span class='ivar'>@ascender</span> <span class='op'>/</span> <span class='float'>1000.0</span> <span class='op'>*</span> <span class='id identifier rubyid_size'>size</span>
@@ -957,12 +934,12 @@ only add the font the first time it is called.</p>
       <pre class="lines">
 
 
-298
-299
-300</pre>
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 300</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_descender'>descender</span>
   <span class='op'>-</span><span class='ivar'>@descender</span> <span class='op'>/</span> <span class='float'>1000.0</span> <span class='op'>*</span> <span class='id identifier rubyid_size'>size</span>
@@ -1011,13 +988,13 @@ only add the font the first time it is called.</p>
       <pre class="lines">
 
 
-364
-365
 366
-367</pre>
+367
+368
+369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 364</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 366</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_eql?'>eql?</span><span class='lparen'>(</span> <span class='id identifier rubyid_other'>other</span> <span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>&amp;&amp;</span>
@@ -1057,12 +1034,12 @@ Prawn::Table::Text#styled_with_of_single_character)</p>
       <pre class="lines">
 
 
-358
-359
-360</pre>
+360
+361
+362</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 358</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 360</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span> <span class='comment'>#:nodoc:
 </span>  <span class='lbracket'>[</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_family'>family</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span> <span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
@@ -1098,12 +1075,12 @@ Prawn::Table::Text#styled_with_of_single_character)</p>
       <pre class="lines">
 
 
-332
-333
-334</pre>
+334
+335
+336</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 332</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 334</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='id identifier rubyid_height_at'>height_at</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -1139,13 +1116,13 @@ Prawn::Table::Text#styled_with_of_single_character)</p>
       <pre class="lines">
 
 
-325
-326
 327
-328</pre>
+328
+329
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 325</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 327</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height_at'>height_at</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
   <span class='ivar'>@normalized_height</span> <span class='op'>||=</span> <span class='lparen'>(</span><span class='ivar'>@ascender</span> <span class='op'>-</span> <span class='ivar'>@descender</span> <span class='op'>+</span> <span class='ivar'>@line_gap</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='float'>1000.0</span>
@@ -1182,12 +1159,12 @@ Prawn::Table::Text#styled_with_of_single_character)</p>
       <pre class="lines">
 
 
-345
-346
-347</pre>
+347
+348
+349</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 345</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_identifier_for'>identifier_for</span><span class='lparen'>(</span><span class='id identifier rubyid_subset'>subset</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@identifier</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subset'>subset</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1223,12 +1200,12 @@ Prawn::Table::Text#styled_with_of_single_character)</p>
       <pre class="lines">
 
 
-349
-350
-351</pre>
+351
+352
+353</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 349</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 351</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span> <span class='comment'>#:nodoc:
 </span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='tstring_content'> &gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -1264,12 +1241,12 @@ Prawn::Table::Text#styled_with_of_single_character)</p>
       <pre class="lines">
 
 
-304
-305
-306</pre>
+306
+307
+308</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 306</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line_gap'>line_gap</span>
   <span class='ivar'>@line_gap</span> <span class='op'>/</span> <span class='float'>1000.0</span> <span class='op'>*</span> <span class='id identifier rubyid_size'>size</span>
@@ -1321,12 +1298,12 @@ normalize_encoding!.</p>
       <pre class="lines">
 
 
-312
-313
-314</pre>
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 312</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 314</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_normalize_encoding'>normalize_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subclasses of Prawn::Font must implement #normalize_encoding</span><span class='tstring_end'>&quot;</span></span>
@@ -1363,12 +1340,12 @@ string in place.</p>
       <pre class="lines">
 
 
-319
-320
-321</pre>
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 319</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_normalize_encoding!'>normalize_encoding!</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_normalize_encoding'>normalize_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1383,7 +1360,7 @@ string in place.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:45 2014 by
+  Generated on Mon Jan 20 12:40:54 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

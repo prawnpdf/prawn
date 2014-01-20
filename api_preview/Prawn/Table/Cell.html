@@ -123,7 +123,7 @@ lib/prawn/table/cell/*.rb for a template.</p>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Cell/Image.html" title="Prawn::Table::Cell::Image (class)">Image</a></span>, <span class='object_link'><a href="Cell/Subtable.html" title="Prawn::Table::Cell::Subtable (class)">Subtable</a></span>, <span class='object_link'><a href="Cell/Text.html" title="Prawn::Table::Cell::Text (class)">Text</a></span></p>
+  <p class="children"><span class='object_link'><a href="Cell/Subtable.html" title="Prawn::Table::Cell::Subtable (class)">Subtable</a></span>, <span class='object_link'><a href="Cell/Text.html" title="Prawn::Table::Cell::Text (class)">Text</a></span></p>
 </div>
 <h2>Defined Under Namespace</h2>
 <p class="children">
@@ -133,7 +133,7 @@ lib/prawn/table/cell/*.rb for a template.</p>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Cell/Image.html" title="Prawn::Table::Cell::Image (class)">Image</a></span>, <span class='object_link'><a href="Cell/Subtable.html" title="Prawn::Table::Cell::Subtable (class)">Subtable</a></span>, <span class='object_link'><a href="Cell/Text.html" title="Prawn::Table::Cell::Text (class)">Text</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Cell/Subtable.html" title="Prawn::Table::Cell::Subtable (class)">Subtable</a></span>, <span class='object_link'><a href="Cell/Text.html" title="Prawn::Table::Cell::Text (class)">Text</a></span>
     
   
 </p>
@@ -168,7 +168,7 @@ rendering.</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -456,7 +456,7 @@ content.</p>
 
   
     <h2>
-      Class Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -510,15 +510,6 @@ pt, making sure all backgrounds are behind all borders and content.</p>
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -1993,8 +1984,6 @@ set by providing the option <code>:foo =&gt; :bar</code> here.</p>
       <pre class="lines">
 
 
-207
-208
 209
 210
 211
@@ -2010,10 +1999,12 @@ set by providing the option <code>:foo =&gt; :bar</code> here.</p>
 221
 222
 223
-224</pre>
+224
+225
+226</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@pdf</span>   <span class='op'>=</span> <span class='id identifier rubyid_pdf'>pdf</span>
@@ -2073,12 +2064,12 @@ padding.</p>
       <pre class="lines">
 
 
-140
-141
-142</pre>
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_background_color'>background_color</span>
   <span class='ivar'>@background_color</span>
@@ -2116,12 +2107,12 @@ padding.</p>
       <pre class="lines">
 
 
-124
-125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_colors'>border_colors</span>
   <span class='ivar'>@border_colors</span>
@@ -2159,12 +2150,12 @@ padding.</p>
       <pre class="lines">
 
 
-128
-129
-130</pre>
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_lines'>border_lines</span>
   <span class='ivar'>@border_lines</span>
@@ -2203,12 +2194,12 @@ left].</p>
       <pre class="lines">
 
 
-120
-121
-122</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_widths'>border_widths</span>
   <span class='ivar'>@border_widths</span>
@@ -2247,12 +2238,12 @@ left].</p>
       <pre class="lines">
 
 
-116
-117
-118</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_borders'>borders</span>
   <span class='ivar'>@borders</span>
@@ -2290,12 +2281,12 @@ left].</p>
       <pre class="lines">
 
 
-144
-145
-146</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_colspan'>colspan</span>
   <span class='ivar'>@colspan</span>
@@ -2335,12 +2326,12 @@ objects.</p>
       <pre class="lines">
 
 
-134
-135
-136</pre>
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_content'>content</span>
   <span class='ivar'>@content</span>
@@ -2380,8 +2371,6 @@ group.</p>
       <pre class="lines">
 
 
-315
-316
 317
 318
 319
@@ -2391,10 +2380,12 @@ group.</p>
 323
 324
 325
-326</pre>
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 315</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_height_ignoring_span'>height_ignoring_span</span> <span class='kw'>if</span> <span class='ivar'>@colspan</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@rowspan</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -2442,12 +2433,12 @@ content. Padding defaults to 5pt.</p>
       <pre class="lines">
 
 
-55
-56
-57</pre>
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding'>padding</span>
   <span class='ivar'>@padding</span>
@@ -2485,12 +2476,12 @@ content. Padding defaults to 5pt.</p>
       <pre class="lines">
 
 
-148
-149
-150</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rowspan'>rowspan</span>
   <span class='ivar'>@rowspan</span>
@@ -2534,8 +2525,6 @@ pt, making sure all backgrounds are behind all borders and content.</p>
       <pre class="lines">
 
 
-410
-411
 412
 413
 414
@@ -2544,10 +2533,12 @@ pt, making sure all backgrounds are behind all borders and content.</p>
 417
 418
 419
-420</pre>
+420
+421
+422</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 410</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 412</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_draw_cells'>draw_cells</span><span class='lparen'>(</span><span class='id identifier rubyid_cells'>cells</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_cells'>cells</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cell'>cell</span><span class='comma'>,</span> <span class='id identifier rubyid_pt'>pt</span><span class='op'>|</span>
@@ -2593,8 +2584,6 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-161
-162
 163
 164
 165
@@ -2623,10 +2612,12 @@ documentation under “Data” for allowable content types.</p>
 188
 189
 190
-191</pre>
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_make'>make</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='comma'>,</span> <span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_at'>at</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:at</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_cursor'>cursor</span><span class='rbracket'>]</span>
@@ -2696,12 +2687,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-81
-82
-83</pre>
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_avg_spanned_min_width'>avg_spanned_min_width</span>
   <span class='id identifier rubyid_min_width'>min_width</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='op'>/</span> <span class='id identifier rubyid_colspan'>colspan</span>
@@ -2726,12 +2717,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-557
-558
-559</pre>
+559
+560
+561</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 557</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 559</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_bottom_color'>border_bottom_color</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
@@ -2756,12 +2747,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-561
-562
-563</pre>
+563
+564
+565</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 561</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 563</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_bottom_color='>border_bottom_color=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -2786,12 +2777,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-683
-684
-685</pre>
+685
+686
+687</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 683</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 685</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_bottom_line'>border_bottom_line</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:bottom</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -2816,12 +2807,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-687
-688
-689</pre>
+689
+690
+691</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 687</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 689</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_bottom_line='>border_bottom_line=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -2846,12 +2837,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-615
-616
-617</pre>
+617
+618
+619</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 615</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 617</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_bottom_width'>border_bottom_width</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:bottom</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -2876,12 +2867,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-619
-620
-621</pre>
+621
+622
+623</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 619</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 621</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_bottom_width='>border_bottom_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -2930,8 +2921,6 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-522
-523
 524
 525
 526
@@ -2946,10 +2935,12 @@ documentation under “Data” for allowable content types.</p>
 535
 536
 537
-538</pre>
+538
+539
+540</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 522</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 524</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_color='>border_color=</span><span class='lparen'>(</span><span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
   <span class='ivar'>@border_colors</span> <span class='op'>=</span> <span class='kw'>case</span>
@@ -2988,12 +2979,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-565
-566
-567</pre>
+567
+568
+569</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 565</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 567</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_left_color'>border_left_color</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
@@ -3018,12 +3009,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-569
-570
-571</pre>
+571
+572
+573</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 569</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 571</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_left_color='>border_left_color=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3048,12 +3039,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-691
-692
-693</pre>
+693
+694
+695</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 691</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 693</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_left_line'>border_left_line</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:left</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -3078,12 +3069,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-695
-696
-697</pre>
+697
+698
+699</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 695</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 697</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_left_line='>border_left_line=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3108,12 +3099,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-623
-624
-625</pre>
+625
+626
+627</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 623</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 625</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_left_width'>border_left_width</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:left</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -3138,12 +3129,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-627
-628
-629</pre>
+629
+630
+631</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 627</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 629</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_left_width='>border_left_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3194,8 +3185,6 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-648
-649
 650
 651
 652
@@ -3210,10 +3199,12 @@ documentation under “Data” for allowable content types.</p>
 661
 662
 663
-664</pre>
+664
+665
+666</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 648</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 650</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_line='>border_line=</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
   <span class='ivar'>@border_lines</span> <span class='op'>=</span> <span class='kw'>case</span>
@@ -3252,12 +3243,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-549
-550
-551</pre>
+551
+552
+553</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 549</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 551</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_right_color'>border_right_color</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -3282,12 +3273,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-553
-554
-555</pre>
+555
+556
+557</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 553</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 555</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_right_color='>border_right_color=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3312,12 +3303,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-675
-676
-677</pre>
+677
+678
+679</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 675</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 677</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_right_line'>border_right_line</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:right</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -3342,12 +3333,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-679
-680
-681</pre>
+681
+682
+683</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 679</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 681</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_right_line='>border_right_line=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3372,12 +3363,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-607
-608
-609</pre>
+609
+610
+611</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 607</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 609</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_right_width'>border_right_width</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:right</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -3402,12 +3393,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-611
-612
-613</pre>
+613
+614
+615</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 611</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 613</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_right_width='>border_right_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3432,12 +3423,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-541
-542
-543</pre>
+543
+544
+545</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 541</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 543</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_top_color'>border_top_color</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -3462,12 +3453,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-545
-546
-547</pre>
+547
+548
+549</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 545</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 547</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_top_color='>border_top_color=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_colors</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3492,12 +3483,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-667
-668
-669</pre>
+669
+670
+671</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 667</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 669</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_top_line'>border_top_line</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:top</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -3522,12 +3513,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-671
-672
-673</pre>
+673
+674
+675</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 671</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 673</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_top_line='>border_top_line=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_lines</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3552,12 +3543,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-599
-600
-601</pre>
+601
+602
+603</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 599</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 601</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_top_width'>border_top_width</span>
   <span class='ivar'>@borders</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:top</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
@@ -3582,12 +3573,12 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-603
-604
-605</pre>
+605
+606
+607</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 603</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 605</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_top_width='>border_top_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@border_widths</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -3636,8 +3627,6 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-580
-581
 582
 583
 584
@@ -3652,10 +3641,12 @@ documentation under “Data” for allowable content types.</p>
 593
 594
 595
-596</pre>
+596
+597
+598</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 580</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 582</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_border_width='>border_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span><span class='rparen'>)</span>
   <span class='ivar'>@border_widths</span> <span class='op'>=</span> <span class='kw'>case</span>
@@ -3705,16 +3696,16 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-330
-331
 332
 333
 334
 335
-336</pre>
+336
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 330</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 332</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_content_height'>content_height</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@height</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@height</span> <span class='comment'># manually set
@@ -3754,16 +3745,16 @@ documentation under “Data” for allowable content types.</p>
       <pre class="lines">
 
 
-280
-281
 282
 283
 284
 285
-286</pre>
+286
+287
+288</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 282</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_content_width'>content_width</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@width</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@width</span> <span class='comment'># manually set
@@ -3808,12 +3799,12 @@ correct order so as not to overlap.</p>
       <pre class="lines">
 
 
-402
-403
-404</pre>
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 402</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw'>draw</span><span class='lparen'>(</span><span class='id identifier rubyid_pt'>pt</span><span class='op'>=</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Table</span><span class='op'>::</span><span class='const'>Cell</span><span class='period'>.</span><span class='id identifier rubyid_draw_cells'>draw_cells</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_pt'>pt</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -3849,17 +3840,17 @@ correct order so as not to overlap.</p>
       <pre class="lines">
 
 
-701
-702
 703
 704
 705
 706
 707
-708</pre>
+708
+709
+710</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 701</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 703</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_background'>draw_background</span><span class='lparen'>(</span><span class='id identifier rubyid_pt'>pt</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@background_color</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@background_color</span>
@@ -3903,8 +3894,6 @@ content.</p>
       <pre class="lines">
 
 
-715
-716
 717
 718
 719
@@ -3948,10 +3937,12 @@ content.</p>
 757
 758
 759
-760</pre>
+760
+761
+762</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 715</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 717</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_borders'>draw_borders</span><span class='lparen'>(</span><span class='id identifier rubyid_pt'>pt</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_pt'>pt</span>
@@ -4030,18 +4021,18 @@ content.</p>
       <pre class="lines">
 
 
-424
-425
 426
 427
 428
 429
 430
 431
-432</pre>
+432
+433
+434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 424</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 426</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_bounded_content'>draw_bounded_content</span><span class='lparen'>(</span><span class='id identifier rubyid_pt'>pt</span><span class='rparen'>)</span>
   <span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_float'>float</span> <span class='kw'>do</span>
@@ -4097,12 +4088,12 @@ in subclasses.</p>
       <pre class="lines">
 
 
-765
-766
-767</pre>
+767
+768
+769</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 765</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 767</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_content'>draw_content</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subclasses must implement draw_content</span><span class='tstring_end'>&quot;</span></span>
@@ -4139,14 +4130,14 @@ row only.</p>
       <pre class="lines">
 
 
-305
-306
 307
 308
-309</pre>
+309
+310
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 305</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 307</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height_ignoring_span'>height_ignoring_span</span>
   <span class='comment'># We can&#39;t ||= here because the FP error accumulates on the round-trip
@@ -4184,8 +4175,6 @@ row only.</p>
       <pre class="lines">
 
 
-95
-96
 97
 98
 99
@@ -4196,10 +4185,12 @@ row only.</p>
 104
 105
 106
-107</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_width'>max_width</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_max_width_ignoring_span'>max_width_ignoring_span</span> <span class='kw'>if</span> <span class='ivar'>@colspan</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -4246,13 +4237,13 @@ column.</p>
       <pre class="lines">
 
 
-88
-89
 90
-91</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_width_ignoring_span'>max_width_ignoring_span</span>
   <span class='id identifier rubyid_set_width_constraints'>set_width_constraints</span>
@@ -4289,8 +4280,6 @@ column.</p>
       <pre class="lines">
 
 
-66
-67
 68
 69
 70
@@ -4300,10 +4289,12 @@ column.</p>
 74
 75
 76
-77</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_min_width'>min_width</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_min_width_ignoring_span'>min_width_ignoring_span</span> <span class='kw'>if</span> <span class='ivar'>@colspan</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -4348,13 +4339,13 @@ column.</p>
       <pre class="lines">
 
 
-59
-60
 61
-62</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_min_width_ignoring_span'>min_width_ignoring_span</span>
   <span class='id identifier rubyid_set_width_constraints'>set_width_constraints</span>
@@ -4405,13 +4396,13 @@ Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-347
-348
 349
-350</pre>
+350
+351
+352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 349</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_natural_content_height'>natural_content_height</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span>
@@ -4462,13 +4453,13 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-297
-298
 299
-300</pre>
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 297</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_natural_content_width'>natural_content_width</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span>
@@ -4494,12 +4485,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-499
-500
-501</pre>
+501
+502
+503</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 499</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 501</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_bottom'>padding_bottom</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
@@ -4524,12 +4515,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-503
-504
-505</pre>
+505
+506
+507</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 503</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 505</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_bottom='>padding_bottom=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -4554,12 +4545,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-507
-508
-509</pre>
+509
+510
+511</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 507</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 509</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_left'>padding_left</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
@@ -4584,12 +4575,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-511
-512
-513</pre>
+513
+514
+515</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 511</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 513</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_left='>padding_left=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -4614,12 +4605,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-491
-492
-493</pre>
+493
+494
+495</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 491</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 493</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_right'>padding_right</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -4644,12 +4635,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-495
-496
-497</pre>
+497
+498
+499</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 495</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 497</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_right='>padding_right=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -4674,12 +4665,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-483
-484
-485</pre>
+485
+486
+487</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 483</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 485</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_top'>padding_top</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -4704,12 +4695,12 @@ constraints. Must be implemented in subclasses.</p>
       <pre class="lines">
 
 
-487
-488
-489</pre>
+489
+490
+491</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 487</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 489</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_padding_top='>padding_top=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@padding</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -4746,13 +4737,13 @@ because padding and size can change.</p>
       <pre class="lines">
 
 
-634
-635
 636
-637</pre>
+637
+638
+639</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 634</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 636</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_width_constraints'>set_width_constraints</span>
   <span class='ivar'>@min_width</span> <span class='op'>||=</span> <span class='id identifier rubyid_padding_left'>padding_left</span> <span class='op'>+</span> <span class='id identifier rubyid_padding_right'>padding_right</span>
@@ -4789,12 +4780,12 @@ because padding and size can change.</p>
       <pre class="lines">
 
 
-340
-341
-342</pre>
+342
+343
+344</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 340</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_spanned_content_height'>spanned_content_height</span>
   <span class='id identifier rubyid_height'>height</span> <span class='op'>-</span> <span class='id identifier rubyid_padding_top'>padding_top</span> <span class='op'>-</span> <span class='id identifier rubyid_padding_bottom'>padding_bottom</span>
@@ -4830,12 +4821,12 @@ because padding and size can change.</p>
       <pre class="lines">
 
 
-290
-291
-292</pre>
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 290</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 292</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_spanned_content_width'>spanned_content_width</span>
   <span class='id identifier rubyid_width'>width</span> <span class='op'>-</span> <span class='id identifier rubyid_padding_left'>padding_left</span> <span class='op'>-</span> <span class='id identifier rubyid_padding_right'>padding_right</span>
@@ -4879,18 +4870,18 @@ because padding and size can change.</p>
       <pre class="lines">
 
 
-235
-236
 237
 238
 239
 240
 241
 242
-243</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
@@ -4934,8 +4925,6 @@ group.</p>
       <pre class="lines">
 
 
-258
-259
 260
 261
 262
@@ -4946,10 +4935,12 @@ group.</p>
 267
 268
 269
-270</pre>
+270
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 258</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_width_ignoring_span'>width_ignoring_span</span> <span class='kw'>if</span> <span class='ivar'>@colspan</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@rowspan</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -4995,12 +4986,12 @@ group.</p>
       <pre class="lines">
 
 
-274
-275
-276</pre>
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width='>width=</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='rparen'>)</span>
   <span class='ivar'>@width</span> <span class='op'>=</span> <span class='ivar'>@min_width</span> <span class='op'>=</span> <span class='ivar'>@max_width</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span>
@@ -5037,14 +5028,14 @@ colspans.</p>
       <pre class="lines">
 
 
-248
-249
 250
 251
-252</pre>
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 250</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width_ignoring_span'>width_ignoring_span</span>
   <span class='comment'># We can&#39;t ||= here because the FP error accumulates on the round-trip
@@ -5082,12 +5073,12 @@ colspans.</p>
       <pre class="lines">
 
 
-436
-437
-438</pre>
+438
+439
+440</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 438</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_x'>x</span>
   <span class='ivar'>@point</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -5123,12 +5114,12 @@ colspans.</p>
       <pre class="lines">
 
 
-442
-443
-444</pre>
+444
+445
+446</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 442</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 444</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_x='>x=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@point</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -5164,12 +5155,12 @@ colspans.</p>
       <pre class="lines">
 
 
-448
-449
-450</pre>
+450
+451
+452</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 448</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 450</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_y'>y</span>
   <span class='ivar'>@point</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -5205,12 +5196,12 @@ colspans.</p>
       <pre class="lines">
 
 
-454
-455
-456</pre>
+456
+457
+458</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 454</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cell.rb', line 456</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_y='>y=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@point</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -5225,7 +5216,7 @@ colspans.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:46 2014 by
+  Generated on Mon Jan 20 12:29:48 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

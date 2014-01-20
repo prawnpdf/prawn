@@ -115,7 +115,7 @@ column width and row height of the base box.</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -299,7 +299,7 @@ column width and row height of the base box.</p>
 
   
     <h2>
-      Instance Method Summary
+      Experimental API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -435,7 +435,6 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-38
 39
 40
 41
@@ -443,10 +442,11 @@ column width and row height of the base box.</p>
 43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'># :nodoc:
 </span>  <span class='id identifier rubyid_valid_options'>valid_options</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='symbol'>:columns</span><span class='comma'>,</span> <span class='symbol'>:rows</span><span class='comma'>,</span> <span class='symbol'>:gutter</span><span class='comma'>,</span> <span class='symbol'>:row_gutter</span><span class='comma'>,</span> <span class='symbol'>:column_gutter</span><span class='rbracket'>]</span>
@@ -495,12 +495,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_gutter'>column_gutter</span>
   <span class='ivar'>@column_gutter</span>
@@ -538,12 +538,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_columns'>columns</span>
   <span class='ivar'>@columns</span>
@@ -581,12 +581,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gutter'>gutter</span>
   <span class='ivar'>@gutter</span>
@@ -624,12 +624,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pdf'>pdf</span>
   <span class='ivar'>@pdf</span>
@@ -667,12 +667,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_row_gutter'>row_gutter</span>
   <span class='ivar'>@row_gutter</span>
@@ -710,12 +710,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rows'>rows</span>
   <span class='ivar'>@rows</span>
@@ -758,12 +758,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_width'>column_width</span>
   <span class='ivar'>@column_width</span> <span class='op'>||=</span> <span class='id identifier rubyid_subdivide'>subdivide</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_columns'>columns</span><span class='comma'>,</span> <span class='id identifier rubyid_column_gutter'>column_gutter</span><span class='rparen'>)</span>
@@ -799,12 +799,12 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_row_height'>row_height</span>
  <span class='ivar'>@row_height</span> <span class='op'>||=</span> <span class='id identifier rubyid_subdivide'>subdivide</span><span class='lparen'>(</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span><span class='comma'>,</span> <span class='id identifier rubyid_rows'>rows</span><span class='comma'>,</span> <span class='id identifier rubyid_row_gutter'>row_gutter</span><span class='rparen'>)</span>
@@ -840,16 +840,16 @@ column width and row height of the base box.</p>
       <pre class="lines">
 
 
-59
 60
 61
 62
 63
 64
-65</pre>
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show_all'>show_all</span><span class='lparen'>(</span><span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CCCCCC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
@@ -868,7 +868,7 @@ column width and row height of the base box.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:46 2014 by
+  Generated on Mon Jan 20 12:40:55 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>

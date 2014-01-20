@@ -117,7 +117,7 @@ image that we need to embed them in a PDF</p>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Extension API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
       <li class="public ">
@@ -500,7 +500,7 @@ image that we need to embed them in a PDF</p>
 
   
     <h2>
-      Class Method Summary
+      Extension API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -527,15 +527,6 @@ image that we need to embed them in a PDF</p>
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -730,8 +721,6 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-34
-35
 36
 37
 38
@@ -793,10 +782,12 @@ it&#39;s required.</p>
 94
 95
 96
-97</pre>
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>StringIO</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
@@ -900,12 +891,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-23
-24
-25</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_alpha_channel'>alpha_channel</span>
   <span class='ivar'>@alpha_channel</span>
@@ -943,12 +934,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bits'>bits</span>
   <span class='ivar'>@bits</span>
@@ -986,12 +977,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_color_type'>color_type</span>
   <span class='ivar'>@color_type</span>
@@ -1029,12 +1020,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compression_method'>compression_method</span>
   <span class='ivar'>@compression_method</span>
@@ -1072,12 +1063,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter_method'>filter_method</span>
   <span class='ivar'>@filter_method</span>
@@ -1115,12 +1106,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='ivar'>@height</span>
@@ -1158,12 +1149,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-20
-21
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_img_data'>img_data</span>
   <span class='ivar'>@img_data</span>
@@ -1201,12 +1192,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-23
-24
-25</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_interlace_method'>interlace_method</span>
   <span class='ivar'>@interlace_method</span>
@@ -1244,12 +1235,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-20
-21
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_palette'>palette</span>
   <span class='ivar'>@palette</span>
@@ -1287,12 +1278,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-24
-25
-26</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scaled_height'>scaled_height</span>
   <span class='ivar'>@scaled_height</span>
@@ -1330,12 +1321,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-24
-25
-26</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scaled_width'>scaled_width</span>
   <span class='ivar'>@scaled_width</span>
@@ -1373,12 +1364,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-20
-21
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transparency'>transparency</span>
   <span class='ivar'>@transparency</span>
@@ -1416,12 +1407,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='ivar'>@width</span>
@@ -1475,12 +1466,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-26
-27
-28</pre>
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_can_render?'>can_render?</span><span class='lparen'>(</span><span class='id identifier rubyid_image_blob'>image_blob</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_image_blob'>image_blob</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='lbracket'>[</span><span class='int'>137</span><span class='comma'>,</span> <span class='int'>80</span><span class='comma'>,</span> <span class='int'>78</span><span class='comma'>,</span> <span class='int'>71</span><span class='comma'>,</span> <span class='int'>13</span><span class='comma'>,</span> <span class='int'>10</span><span class='comma'>,</span> <span class='int'>26</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span>
@@ -1533,12 +1524,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-117
-118
-119</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_alpha_channel?'>alpha_channel?</span>
   <span class='ivar'>@color_type</span> <span class='op'>==</span> <span class='int'>4</span> <span class='op'>||</span> <span class='ivar'>@color_type</span> <span class='op'>==</span> <span class='int'>6</span>
@@ -1575,8 +1566,6 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-124
-125
 126
 127
 128
@@ -1694,10 +1683,12 @@ return a Reference to it.</p>
 240
 241
 242
-243</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_pdf_object'>build_pdf_object</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_compression_method'>compression_method</span> <span class='op'>!=</span> <span class='int'>0</span>
@@ -1850,17 +1841,17 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-101
-102
 103
 104
 105
 106
 107
-108</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_colors'>colors</span>
   <span class='kw'>case</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_color_type'>color_type</span>
@@ -1901,8 +1892,6 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-246
-247
 248
 249
 250
@@ -1911,10 +1900,12 @@ return a Reference to it.</p>
 253
 254
 255
-256</pre>
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 248</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_min_pdf_version'>min_pdf_version</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_bits'>bits</span> <span class='op'>&gt;</span> <span class='int'>8</span>
@@ -1959,12 +1950,12 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-113
-114
-115</pre>
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_split_alpha_channel!'>split_alpha_channel!</span>
   <span class='id identifier rubyid_split_image_data'>split_image_data</span> <span class='kw'>if</span> <span class='id identifier rubyid_alpha_channel?'>alpha_channel?</span>
@@ -1979,7 +1970,7 @@ it&#39;s required.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jan 17 13:28:46 2014 by
+  Generated on Mon Jan 20 12:40:54 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.0.0).
 </div>
