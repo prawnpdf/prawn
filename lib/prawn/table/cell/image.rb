@@ -9,8 +9,7 @@ module Prawn
   class Table
     class Cell
 
-      # A Cell that contains another table.
-      #
+      # @private
       class Image < Cell
 
         def initialize(pdf, point, options={})

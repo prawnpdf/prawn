@@ -10,10 +10,13 @@ require 'stringio'
 
 module Prawn
   module Images
+
     # A convenience class that wraps the logic for extracting the parts
     # of a JPG image that we need to embed them in a PDF
     #
     class JPG < Image
+      # @group Extension API
+      
       attr_reader :width, :height, :bits, :channels
       attr_accessor :scaled_width, :scaled_height
 
