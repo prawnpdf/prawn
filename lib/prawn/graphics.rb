@@ -33,6 +33,8 @@ module Prawn
     include Transformation
     include Patterns
 
+    # @group Experimental API
+
     #######################################################################
     # Low level drawing operations must map the point to absolute coords! #
     #######################################################################

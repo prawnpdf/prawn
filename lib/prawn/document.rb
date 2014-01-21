@@ -62,6 +62,8 @@ module Prawn
     include Prawn::Stamp
     include Prawn::SoftMask
 
+    # @group Extension API
+
     # NOTE: We probably need to rethink the options validation system, but this
     # constant temporarily allows for extensions to modify the list.
 
@@ -90,13 +92,17 @@ module Prawn
     #     party!
     #   end
     #
+    #
     def self.extensions
       @extensions ||= []
     end
 
-    def self.inherited(base) #:nodoc:
+    # @private
+    def self.inherited(base) 
       extensions.each { |e| base.extensions << e }
     end
+
+    # @group Experimental API
 
     # Creates and renders a PDF document.
     #
@@ -129,6 +135,8 @@ module Prawn
       pdf = new(options,&block)
       pdf.render_file(filename)
     end
+
+    # @group Experimental API
 
     # Creates a new PDF Document.  The following options are available (with
     # the default values marked in [])
@@ -221,20 +229,14 @@ module Prawn
     attr_accessor :page_number
     attr_accessor :text_formatter
 
+    # @private
     def state
       @internal_state
     end
 
+    # @private
     def page
       state.page
-    end
-
-    def initialize_first_page(options)
-      if options[:skip_page_creation]
-        start_new_page(options.merge(:orphan => true))
-      else
-        start_new_page(options)
-      end
     end
 
     # Creates and advances to a new page in the document.
@@ -412,6 +414,7 @@ module Prawn
 
     # Returns the innermost non-stretchy bounding box.
     #
+    # @private
     def reference_bounds
       @bounding_box.reference_bounds
     end
@@ -498,7 +501,8 @@ module Prawn
     end
 
 
-    def mask(*fields) # :nodoc:
+    # @private
+    def mask(*fields) 
      # Stores the current state of the named attributes, executes the block, and
      # then restores the original values after the block has executed.
      # -- I will remove the nodoc if/when this feature is a little less hacky
@@ -641,6 +645,16 @@ module Prawn
     #
     def compression_enabled?
       !!state.compress
+    end
+
+    # @group Extension API
+
+    def initialize_first_page(options)
+      if options[:skip_page_creation]
+        start_new_page(options.merge(:orphan => true))
+      else
+        start_new_page(options)
+      end
     end
 
     private

@@ -8,6 +8,7 @@
 
 module Prawn
   class Document
+    # @group Experimental API
 
     # :call-seq:
     #   bounding_box(point, options={}, &block)

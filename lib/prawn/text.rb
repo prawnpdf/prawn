@@ -26,6 +26,8 @@ module Prawn
     # Soft Hyphen (invisible, except when causing a line break)
     Prawn::Text::SHY = "­"
 
+    # @group Experimental API
+    
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of
     # the flow of a document (for captions, labels, charts, etc.), use Text::Box
@@ -170,7 +172,6 @@ module Prawn
 
       formatted_text(array, options)
     end
-
 
     # Draws formatted text to the page.
     # Formatted text is comprised of an array of hashes, where each hash defines
