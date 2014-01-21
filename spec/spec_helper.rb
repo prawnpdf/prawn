@@ -5,6 +5,13 @@ puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 require "bundler"
 Bundler.setup
 
+if ENV["COVERAGE"]
+  require "simplecov"
+  SimpleCov.start do
+    add_filter "/spec/"
+  end
+end
+
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require "prawn"
 

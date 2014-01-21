@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('rspec')
   spec.add_development_dependency('mocha')
   spec.add_development_dependency('rake')
+  spec.add_development_dependency('simplecov')
 
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
