@@ -5,7 +5,7 @@
 # Author Jonathan Greenberg
 
 require 'forwardable'
-require_relative "../pdf/core/outline"
+require "pdf/core/outline"
 
 module Prawn
 
