@@ -34,6 +34,8 @@ module Prawn
 
     # A Grid represents the entire grid system of a Page and calculates
     # the column width and row height of the base box.
+    #
+    # @private
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       def initialize(pdf, options = {}) # :nodoc:
@@ -87,6 +89,7 @@ module Prawn
     # A Grid object has methods that allow easy access to the coordinates of
     # its corners, which can be plugged into most existing prawnmethods.
     #
+    # @private
     class GridBox
       attr_reader :pdf
 
@@ -188,6 +191,8 @@ module Prawn
     end
 
     # A MultiBox is specified by 2 Boxes and spans the areas between.
+    #
+    # @private
     class MultiBox < GridBox #:nodoc:
       def initialize(pdf, b1, b2)
         @pdf = pdf

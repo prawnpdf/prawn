@@ -7,6 +7,8 @@
 
 require_relative 'measurements'
 
+# @group Stable API
+
 class Numeric
   include Prawn::Measurements
   # prawns' basic unit is PostScript-Point

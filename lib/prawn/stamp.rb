@@ -28,7 +28,7 @@ module Prawn
   #
   module Stamp
 
-    # @group Experimental API
+    # @group Stable API
 
     # Renders the stamp named <tt>name</tt> to the page
     # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?

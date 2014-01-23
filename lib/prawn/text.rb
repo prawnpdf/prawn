@@ -26,7 +26,7 @@ module Prawn
     # Soft Hyphen (invisible, except when causing a line break)
     Prawn::Text::SHY = "­"
 
-    # @group Experimental API
+    # @group Stable API
     
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of

@@ -11,7 +11,7 @@ module Prawn
     module JoinStyle
       JOIN_STYLES = { :miter => 0, :round => 1, :bevel => 2 }
 
-      # @group Experimental API
+      # @group Stable API
 
       # Sets the join style for stroked lines and curves
       #

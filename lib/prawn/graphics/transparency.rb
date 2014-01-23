@@ -30,7 +30,7 @@ module Prawn
     #
     module Transparency
 
-      # @group Experimental API
+      # @group Stable API
 
       # Sets the <tt>opacity</tt> and <tt>stroke_opacity</tt> for all
       # the content within the <tt>block</tt>

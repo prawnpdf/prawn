@@ -9,7 +9,7 @@
 module Prawn
   module Graphics
     module Dash
-      # @group Experimental API
+      # @group Stable API
 
       # Sets the dash pattern for stroked lines and curves or return the
       # current dash pattern setting if +length+ is nil.

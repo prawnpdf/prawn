@@ -10,7 +10,7 @@
 module Prawn
   module Text
     module Formatted
-      # @group Experimental API
+      # @group Stable API
       
       # Draws the requested formatted text into a box. When the text overflows
       # the rectangle shrink to fit or truncate the text. Text boxes are

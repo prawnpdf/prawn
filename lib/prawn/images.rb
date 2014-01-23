@@ -11,7 +11,7 @@ require 'pathname'
 module Prawn
 
   module Images
-    # @group Experimental API
+    # @group Stable API
 
     # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported. (Note that processing PNG

@@ -10,7 +10,7 @@
 module Prawn
 
   # The Prawn::SoftMask module is used to create arbitrary transparency in
-  # document. Using a soft mask allows creaing more visually rich documents.
+  # document. Using a soft mask allows creating more visually rich documents.
   #
   # You must group soft mask and graphics it's applied to under
   # save_graphics_state because soft mask is a part of graphic state in PDF.
@@ -26,7 +26,7 @@ module Prawn
   #   end
   #
   module SoftMask
-    # @group Experimental API
+    # @group Stable API
 
     def soft_mask(&block)
       min_version(1.4)
