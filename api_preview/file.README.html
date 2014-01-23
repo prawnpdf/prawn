@@ -64,9 +64,10 @@
     <div id="content"><div id='filecontents'>
 <h1 id="label-Prawn%3A+Fast%2C+Nimble+PDF+Generation+For+Ruby">Prawn: Fast, Nimble PDF Generation For Ruby</h1>
 
-<p><img src="https://secure.travis-ci.org/prawnpdf/prawn.png" />]
-<img
-src="https://badge.fury.io/rb/prawn.png" />]</p>
+<p><a href="http://badge.fury.io/rb/prawn"><img
+src="https://badge.fury.io/rb/prawn.png"></a> <a
+href="http://travis-ci.org/prawnpdf/prawn"><img
+src="https://secure.travis-ci.org/prawnpdf/prawn.png"></a></p>
 
 <p>Prawn is a pure Ruby PDF generation library that provides a lot of great
 functionality while trying to remain simple and reasonably performant. Here
@@ -120,9 +121,10 @@ and is not suitable for rendering rich HTML documents.</p>
 
 <p>Because Prawn is pure Ruby and virtually all of its dependencies are
 maintained by our core team, it should run pretty much anywhere, including
-Rubinius, JRuby, MacRuby, etc. We officially support MRI and 2.0.0
-and jruby 1.7.x in 1.9 mode, however we will accept patches to fix problems
-on other Ruby platforms if they aren&#39;t too invasive.</p>
+Rubinius, JRuby, MacRuby, etc. We officially support MRI 2.0.0,
+2.1.0 and jruby 1.7.x (&gt;= 1.7.9) in 1.9 mode, however we will accept
+patches to fix problems on other Ruby platforms if they aren&#39;t too
+invasive.</p>
 
 <h2 id="label-Installing+Prawn">Installing Prawn</h2>
 
@@ -149,12 +151,12 @@ href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/praw
 <p>If the following code runs and produces a working PDF file, you&#39;ve
 successfully installed Prawn.</p>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;prawn&quot;</span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>prawn</span><span class='tstring_end'>&quot;</span></span>
 
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;hello.pdf&quot;</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Hello World!&quot;</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World!</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>Of course, you&#39;ll probably want to do more interesting things than
 that…</p>
@@ -238,10 +240,8 @@ specific issue</p>
 </li></ol>
 
 <p>These filters make it possible for us to add failing test cases for bugs
-that
-are currently being researched or worked on, without breaking the
-typical
-full suite run.</p>
+that are currently being researched or worked on, without breaking the
+typical full suite run.</p>
 
 <h2 id="label-Authorship">Authorship</h2>
 
@@ -276,9 +276,9 @@ must agree to license your code under the same terms as the project itself.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:52 2014 by
+  Generated on Thu Jan 23 13:06:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

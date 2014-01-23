@@ -97,7 +97,7 @@
 
   
     <h2>
-      Experimental API
+      Stable API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -244,15 +244,15 @@ provided, but no block is given</p>
 
 <p>Example with a block: rotating a rectangle around its upper-left corner</p>
 
-<pre class="ruby"><span class="ruby-identifier">x</span> = <span class="ruby-value">300</span>
-<span class="ruby-identifier">y</span> = <span class="ruby-value">300</span>
-<span class="ruby-identifier">width</span> = <span class="ruby-value">150</span>
-<span class="ruby-identifier">height</span> = <span class="ruby-value">200</span>
-<span class="ruby-identifier">angle</span> = <span class="ruby-value">30</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">rotate</span>(<span class="ruby-identifier">angle</span>, :<span class="ruby-identifier">origin</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>]) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke_rectangle</span>([<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>], <span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span>)
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='int'>150</span>
+<span class='id identifier rubyid_height'>height</span> <span class='op'>=</span> <span class='int'>200</span>
+<span class='id identifier rubyid_angle'>angle</span> <span class='op'>=</span> <span class='int'>30</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_rotate'>rotate</span><span class='lparen'>(</span><span class='id identifier rubyid_angle'>angle</span><span class='comma'>,</span> <span class='symbol'>:origin</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -345,15 +345,15 @@ provided, but no block is given</p>
 
 <p>Example with a block: scale a rectangle from its upper-left corner</p>
 
-<pre class="ruby"><span class="ruby-identifier">x</span> = <span class="ruby-value">300</span>
-<span class="ruby-identifier">y</span> = <span class="ruby-value">300</span>
-<span class="ruby-identifier">width</span> = <span class="ruby-value">150</span>
-<span class="ruby-identifier">height</span> = <span class="ruby-value">200</span>
-<span class="ruby-identifier">factor</span> = <span class="ruby-value">1.5</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">scale</span>(<span class="ruby-identifier">angle</span>, :<span class="ruby-identifier">origin</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>]) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke_rectangle</span>([<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>], <span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span>)
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='int'>150</span>
+<span class='id identifier rubyid_height'>height</span> <span class='op'>=</span> <span class='int'>200</span>
+<span class='id identifier rubyid_factor'>factor</span> <span class='op'>=</span> <span class='float'>1.5</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_scale'>scale</span><span class='lparen'>(</span><span class='id identifier rubyid_angle'>angle</span><span class='comma'>,</span> <span class='symbol'>:origin</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -527,9 +527,9 @@ end</code></pre>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:53 2014 by
+  Generated on Thu Jan 23 13:06:30 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

@@ -103,12 +103,12 @@ creating content anew each time it is placed on the page:</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">create_stamp</span>(<span class="ruby-string">&quot;my_stamp&quot;</span>) {
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">fill_circle</span>([<span class="ruby-value">10</span>, <span class="ruby-value">15</span>], <span class="ruby-value">5</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">draw_text</span>(<span class="ruby-string">&quot;hello world&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">20</span>, <span class="ruby-value">10</span>])
-}
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stamp</span>(<span class="ruby-string">&quot;my_stamp&quot;</span>)
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>15</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>5</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -125,7 +125,7 @@ creating content anew each time it is placed on the page:</p>
 
   
     <h2>
-      Experimental API
+      Stable API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -235,11 +235,11 @@ if name.empty?</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">create_stamp</span>(<span class="ruby-string">&quot;my_stamp&quot;</span>) {
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">fill_circle</span>([<span class="ruby-value">10</span>, <span class="ruby-value">15</span>], <span class="ruby-value">5</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">draw_text</span>(<span class="ruby-string">&quot;hello world&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">20</span>, <span class="ruby-value">10</span>])
-}
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>15</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>5</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+</code></pre>
 
 
   </div>
@@ -291,12 +291,12 @@ created with this name</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">create_stamp</span>(<span class="ruby-string">&quot;my_stamp&quot;</span>) {
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">fill_circle</span>([<span class="ruby-value">10</span>, <span class="ruby-value">15</span>], <span class="ruby-value">5</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span>(<span class="ruby-string">&quot;hello world&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">20</span>, <span class="ruby-value">10</span>])
-}
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stamp</span>(<span class="ruby-string">&quot;my_stamp&quot;</span>)
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>15</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>5</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -386,9 +386,9 @@ initial coords at which the elements of the stamp was created</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:52 2014 by
+  Generated on Thu Jan 23 13:06:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

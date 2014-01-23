@@ -1008,27 +1008,27 @@ used, the text that would have been successfully printed)</p>
 <p>Example (see Prawn::Text::Core::Formatted::Wrap for what is required of the
 wrap method if you want to override the default wrapping algorithm):</p>
 
-<pre class="ruby"><span class="ruby-keyword">module</span> <span class="ruby-constant">MyWrap</span>
+<pre class="code ruby"><code class="ruby">module MyWrap
 
-  <span class="ruby-keyword">def</span> <span class="ruby-identifier">wrap</span>(<span class="ruby-identifier">array</span>)
-    <span class="ruby-identifier">initialize_wrap</span>([{ :<span class="ruby-identifier">text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;all your base are belong to us&#39;</span> }])
-    <span class="ruby-ivar">@line_wrap</span>.<span class="ruby-identifier">wrap_line</span>(:<span class="ruby-identifier">document</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@document</span>,
-                         :<span class="ruby-identifier">kerning</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@kerning</span>,
-                         :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10000</span>,
-                         :<span class="ruby-identifier">arranger</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@arranger</span>)
-    <span class="ruby-identifier">fragment</span> = <span class="ruby-ivar">@arranger</span>.<span class="ruby-identifier">retrieve_fragment</span>
-    <span class="ruby-identifier">format_and_draw_fragment</span>(<span class="ruby-identifier">fragment</span>, <span class="ruby-value">0</span>, <span class="ruby-ivar">@line_wrap</span>.<span class="ruby-identifier">width</span>, <span class="ruby-value">0</span>)
+  def wrap(array)
+    initialize_wrap([{ :text =&gt; &#39;all your base are belong to us&#39; }])
+    @line_wrap.wrap_line(:document =&gt; @document,
+                         :kerning =&gt; @kerning,
+                         :width =&gt; 10000,
+                         :arranger =&gt; @arranger)
+    fragment = @arranger.retrieve_fragment
+    format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
     []
-  <span class="ruby-keyword">end</span>
+  end
 
-<span class="ruby-keyword">end</span>
+end
 
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatted</span><span class="ruby-operator">::</span><span class="ruby-constant">Box</span>.<span class="ruby-identifier">extensions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">MyWrap</span>
+Prawn::Text::Formatted::Box.extensions &lt;&lt; MyWrap
 
-<span class="ruby-identifier">box</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatted</span><span class="ruby-operator">::</span><span class="ruby-constant">Box</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;hello world&#39;</span>)
-<span class="ruby-identifier">box</span>.<span class="ruby-identifier">render</span>(<span class="ruby-string">&#39;why can&#39;</span><span class="ruby-identifier">t</span> <span class="ruby-constant">I</span> <span class="ruby-identifier">print</span> <span class="ruby-identifier">anything</span> <span class="ruby-identifier">other</span> <span class="ruby-identifier">than</span><span class="ruby-string">&#39; +
-           &#39;</span><span class="ruby-string">&quot;all your base are belong to us&quot;</span><span class="ruby-operator">?</span><span class="ruby-string">&#39;)
-</span></pre>
+box = Prawn::Text::Formatted::Box.new(&#39;hello world&#39;)
+box.render(&#39;why can&#39;t I print anything other than&#39; +
+           &#39;&quot;all your base are belong to us&quot;?&#39;)
+</code></pre>
 
 
   </div>
@@ -1563,9 +1563,9 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:55 2014 by
+  Generated on Thu Jan 23 13:06:31 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

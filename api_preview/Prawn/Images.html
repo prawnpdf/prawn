@@ -84,7 +84,7 @@
   
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">lib/prawn/images.rb<span class="defines">,<br />
-  lib/prawn/images/png.rb,<br /> lib/prawn/images/jpg.rb,<br /> lib/prawn/images/image.rb</span>
+  lib/prawn/images/jpg.rb,<br /> lib/prawn/images/png.rb,<br /> lib/prawn/images/image.rb</span>
 </dd>
   
 </dl>
@@ -109,7 +109,7 @@
 
   
     <h2>
-      Experimental API
+      Stable API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -195,14 +195,14 @@ can be processor and memory intensive.)</p>
 [width,height]</p>
 </dd></dl>
 
-<pre class="ruby"><span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;image2.pdf&quot;</span>, :<span class="ruby-identifier">page_layout</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">landscape</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pigs</span> = <span class="ruby-node">&quot;#{Prawn::DATADIR}/images/pigs.jpg&quot;</span>
-  <span class="ruby-identifier">image</span> <span class="ruby-identifier">pigs</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">50</span>,<span class="ruby-value">450</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">450</span>
+<pre class="code ruby"><code class="ruby"><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>image2.pdf</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:page_layout</span> <span class='op'>=&gt;</span> <span class='symbol'>:landscape</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pigs'>pigs</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>DATADIR</span><span class='embexpr_end'>}</span><span class='tstring_content'>/images/pigs.jpg</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_image'>image</span> <span class='id identifier rubyid_pigs'>pigs</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>450</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>450</span>
 
-  <span class="ruby-identifier">dice</span> = <span class="ruby-node">&quot;#{Prawn::DATADIR}/images/dice.png&quot;</span>
-  <span class="ruby-identifier">image</span> <span class="ruby-identifier">dice</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">50</span>, <span class="ruby-value">450</span>], :<span class="ruby-identifier">scale</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0.75</span>
-<span class="ruby-keyword">end</span>
-</pre>
+  <span class='id identifier rubyid_dice'>dice</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>DATADIR</span><span class='embexpr_end'>}</span><span class='tstring_content'>/images/dice.png</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_image'>image</span> <span class='id identifier rubyid_dice'>dice</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span> <span class='int'>450</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:scale</span> <span class='op'>=&gt;</span> <span class='float'>0.75</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>If only one of :width / :height are provided, the image will be scaled
 proportionally.  When both are provided, the image will be stretched to fit
@@ -215,12 +215,12 @@ text position will not be changed.</p>
 as <code>file</code>, you can embed images from IO objects and things that
 act like them (including Tempfiles and open-uri objects).</p>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&quot;open-uri&quot;</span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>open-uri</span><span class='tstring_end'>&quot;</span></span>
 
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;remote_images.pdf&quot;</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">image</span> <span class="ruby-identifier">open</span>(<span class="ruby-string">&quot;http://prawn.majesticseacreature.com/media/prawn_logo.png&quot;</span>)
-<span class="ruby-keyword">end</span>
-</pre>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>remote_images.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_image'>image</span> <span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://prawn.majesticseacreature.com/media/prawn_logo.png</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>This method returns an image info object which can be used to check the
 dimensions of an image object if needed. (See also: Prawn::Images::PNG ,
@@ -270,9 +270,9 @@ Prawn::Images::JPG)</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:52 2014 by
+  Generated on Thu Jan 23 13:06:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

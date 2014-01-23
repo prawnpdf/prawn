@@ -88,7 +88,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/prawn/text.rb<span class="defines">,<br />
-  lib/prawn/text/box.rb,<br /> lib/prawn/text/formatted/box.rb,<br /> lib/prawn/text/formatted/wrap.rb,<br /> lib/prawn/text/formatted/parser.rb,<br /> lib/prawn/text/formatted/arranger.rb,<br /> lib/prawn/text/formatted/fragment.rb,<br /> lib/prawn/text/formatted/line_wrap.rb</span>
+  lib/prawn/text/box.rb,<br /> lib/prawn/text/formatted/box.rb,<br /> lib/prawn/text/formatted/wrap.rb,<br /> lib/prawn/text/formatted/parser.rb,<br /> lib/prawn/text/formatted/fragment.rb,<br /> lib/prawn/text/formatted/arranger.rb,<br /> lib/prawn/text/formatted/line_wrap.rb</span>
 </dd>
   
 </dl>
@@ -115,7 +115,7 @@
 
   
     <h2>
-      Experimental API
+      Stable API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -303,9 +303,9 @@ method to use.</p>
 <p>Draws text on the page, beginning at the point specified by the :at option
 the string is assumed to be pre-formatted to properly fit the page.</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;Hello World&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">100</span>,<span class="ruby-value">100</span>]
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;Goodbye World&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">50</span>,<span class="ruby-value">50</span>], :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">16</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Goodbye World</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>50</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>16</span>
+</code></pre>
 
 <p>If your font contains kerning pair data that Prawn can parse, the text will
 be kerned by default. You can disable kerning by including a false
@@ -375,7 +375,6 @@ familly. [current style]</p>
       <pre class="lines">
 
 
-283
 284
 285
 286
@@ -385,10 +384,11 @@ familly. [current style]</p>
 290
 291
 292
-293</pre>
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 283</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 284</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_inspect_options_for_draw_text'>inspect_options_for_draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
@@ -425,11 +425,11 @@ this array</p>
 
 <h2 id="label-Example">Example</h2>
 
-<pre class="ruby"><span class="ruby-identifier">text</span>([{ :<span class="ruby-identifier">text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;hello&quot;</span> },
-      { :<span class="ruby-identifier">text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;world&quot;</span>,
-        :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">24</span>,
-        :<span class="ruby-identifier">styles</span> =<span class="ruby-operator">&gt;</span> [:<span class="ruby-identifier">bold</span>, :<span class="ruby-identifier">italic</span>] }])
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>24</span><span class='comma'>,</span>
+        <span class='symbol'>:styles</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:bold</span><span class='comma'>,</span> <span class='symbol'>:italic</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
 
 <h2 id="label-Options">Options</h2>
 
@@ -451,7 +451,6 @@ this array</p>
       <pre class="lines">
 
 
-195
 196
 197
 198
@@ -484,10 +483,11 @@ this array</p>
 225
 226
 227
-228</pre>
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 195</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 196</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_inspect_options_for_text'>inspect_options_for_text</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
@@ -567,12 +567,12 @@ any text</p>
       <pre class="lines">
 
 
-311
 312
-313</pre>
+313
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 312</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height_of'>height_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_string'>string</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -599,11 +599,11 @@ any text</p>
 
 <h2 id="label-Example">Example</h2>
 
-<pre class="ruby"><span class="ruby-identifier">height_of_formatted</span>([{ :<span class="ruby-identifier">text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;hello&quot;</span> },
-                     { :<span class="ruby-identifier">text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;world&quot;</span>,
-                       :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">24</span>,
-                       :<span class="ruby-identifier">styles</span> =<span class="ruby-operator">&gt;</span> [:<span class="ruby-identifier">bold</span>, :<span class="ruby-identifier">italic</span>] }])
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+                     <span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                       <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>24</span><span class='comma'>,</span>
+                       <span class='symbol'>:styles</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:bold</span><span class='comma'>,</span> <span class='symbol'>:italic</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -617,7 +617,6 @@ any text</p>
       <pre class="lines">
 
 
-325
 326
 327
 328
@@ -631,10 +630,11 @@ any text</p>
 336
 337
 338
-339</pre>
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 325</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 326</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:indent_paragraphs</span><span class='rbracket'>]</span>
@@ -682,12 +682,12 @@ draw your string.</p>
 
 <h2 id="label-Examples">Examples</h2>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Will be wrapped when it hits the edge of your bounding box&quot;</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;This will be centered&quot;</span>, :<span class="ruby-identifier">align</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">center</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;This will be right aligned&quot;</span>, :<span class="ruby-identifier">align</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">right</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;This &lt;i&gt;includes &lt;b&gt;inline&lt;/b&gt;&lt;/i&gt; &lt;font size=&#39;24&#39;&gt;&quot;</span> <span class="ruby-operator">+</span>
-         <span class="ruby-string">&quot;formatting&lt;/font&gt;&quot;</span>, :<span class="ruby-identifier">inline_format</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Will be wrapped when it hits the edge of your bounding box</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This will be centered</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:align</span> <span class='op'>=&gt;</span> <span class='symbol'>:center</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This will be right aligned</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:align</span> <span class='op'>=&gt;</span> <span class='symbol'>:right</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This &lt;i&gt;includes &lt;b&gt;inline&lt;/b&gt;&lt;/i&gt; &lt;font size=&#39;24&#39;&gt;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>formatting&lt;/font&gt;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:inline_format</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
+</code></pre>
 
 <p>If your font contains kerning pair data that Prawn can parse, the text will
 be kerned by default. You can disable kerning by including a false
@@ -847,7 +847,6 @@ any text</p>
       <pre class="lines">
 
 
-159
 160
 161
 162
@@ -861,10 +860,11 @@ any text</p>
 170
 171
 172
-173</pre>
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_string'>string</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -944,7 +944,7 @@ familly. [current style]</p>
 </dd><dt><code>:width</code>
 <dd>
 <p><code>number</code>. The width of the box [@document.bounds.right - @<a
-href="http://0">at</a>]</p>
+href="0">at</a>]</p>
 </dd><dt><code>:height</code>
 <dd>
 <p><code>number</code>. The height of the box [default_height()]</p>
@@ -1026,6 +1026,7 @@ any text</p>
       <pre class="lines">
 
 
+110
 111
 112
 113
@@ -1038,11 +1039,10 @@ any text</p>
 120
 121
 122
-123
-124</pre>
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text_box'>text_box</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -1068,9 +1068,9 @@ any text</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:52 2014 by
+  Generated on Thu Jan 23 13:06:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

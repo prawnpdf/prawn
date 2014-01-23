@@ -99,7 +99,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/prawn/document.rb<span class="defines">,<br />
-  lib/prawn/font.rb,<br /> lib/prawn/table.rb,<br /> lib/prawn/outline.rb,<br /> lib/prawn/security.rb,<br /> lib/prawn/repeater.rb,<br /> lib/prawn/table/cell.rb,<br /> lib/prawn/layout/grid.rb,<br /> lib/prawn/document/span.rb,<br /> lib/prawn/document/snapshot.rb,<br /> lib/prawn/document/internals.rb,<br /> lib/prawn/document/column_box.rb,<br /> lib/prawn/document/bounding_box.rb,<br /> lib/prawn/document/graphics_state.rb</span>
+  lib/prawn/font.rb,<br /> lib/prawn/table.rb,<br /> lib/prawn/outline.rb,<br /> lib/prawn/repeater.rb,<br /> lib/prawn/security.rb,<br /> lib/prawn/table/cell.rb,<br /> lib/prawn/layout/grid.rb,<br /> lib/prawn/document/span.rb,<br /> lib/prawn/document/snapshot.rb,<br /> lib/prawn/document/internals.rb,<br /> lib/prawn/document/column_box.rb,<br /> lib/prawn/document/bounding_box.rb,<br /> lib/prawn/document/graphics_state.rb</span>
 </dd>
   
 </dl>
@@ -131,11 +131,11 @@ and then saves it to the current directory as “example.pdf”</p>
 <p>Or if you need to access a variable outside the scope of the block, the
 explicit block form:</p>
 
-<pre class="ruby"><span class="ruby-identifier">words</span> = <span class="ruby-string">&quot;Hello There&quot;</span>
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span> <span class="ruby-string">&quot;example.pdf&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pdf</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-identifier">words</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_words'>words</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello There</span><span class='tstring_end'>&quot;</span></span>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>example.pdf</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pdf'>pdf</span><span class='op'>|</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='id identifier rubyid_words'>words</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>Usually, the block forms are used when you are simply creating a PDF
 document that you want to immediately save or render out.</p>
@@ -156,7 +156,7 @@ document that you want to immediately save or render out.</p>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Document/BoundingBox.html" title="Prawn::Document::BoundingBox (class)">BoundingBox</a></span>, <span class='object_link'><a href="Document/Box.html" title="Prawn::Document::Box (class)">Box</a></span>, <span class='object_link'><a href="Document/ColumnBox.html" title="Prawn::Document::ColumnBox (class)">ColumnBox</a></span>, <span class='object_link'><a href="Document/Grid.html" title="Prawn::Document::Grid (class)">Grid</a></span>, <span class='object_link'><a href="Document/MultiBox.html" title="Prawn::Document::MultiBox (class)">MultiBox</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Document/BoundingBox.html" title="Prawn::Document::BoundingBox (class)">BoundingBox</a></span>, <span class='object_link'><a href="Document/ColumnBox.html" title="Prawn::Document::ColumnBox (class)">ColumnBox</a></span>
     
   
 </p>
@@ -209,35 +209,8 @@ constant temporarily allows for extensions to modify the list.</p>
   <p class="inherited"><span class='object_link'><a href="Graphics/CapStyle.html#CAP_STYLES-constant" title="Prawn::Graphics::CapStyle::CAP_STYLES (constant)">Graphics::CapStyle::CAP_STYLES</a></span></p>
 
 
-  <h2>Experimental API <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Stable Attributes <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#font_size-instance_method" title="#font_size (instance method)">- (Object) <strong>font_size</strong>(points = nil) </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>When called with no argument, returns the current font size.</p>
-</div></span>
-  
-</li>
-
     
       <li class="public ">
   <span class="summary_signature">
@@ -325,33 +298,6 @@ constant temporarily allows for extensions to modify the list.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#text_formatter-instance_method" title="#text_formatter (instance method)">- (Object) <strong>text_formatter</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute text_formatter.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#y-instance_method" title="#y (instance method)">- (Object) <strong>y</strong> </a>
     
 
@@ -378,12 +324,44 @@ constant temporarily allows for extensions to modify the list.</p>
     
   </ul>
 
+  <h2>Extension Attributes <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text_formatter-instance_method" title="#text_formatter (instance method)">- (Object) <strong>text_formatter</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute text_formatter.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
 
 
 
   
     <h2>
-      Experimental API
+      Stable API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -409,28 +387,6 @@ constant temporarily allows for extensions to modify the list.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Creates and renders a PDF document.</p>
 </div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#move_past_bottom-class_method" title="move_past_bottom (class method)">+ (Object) <strong>move_past_bottom</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -537,56 +493,6 @@ absolute coordinates, regardless of how things are nested or margin sizes.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cell-instance_method" title="#cell (instance method)">- (Object) <strong>cell</strong>(options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Instantiates and draws a cell on the document.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#column_box-instance_method" title="#column_box (instance method)">- (Object) <strong>column_box</strong>(*args, &amp;block) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A column box is a bounding box with the additional property that when text
-flows past the bottom, it will wrap first to another column on the same
-page, and only flow to the next page when all the columns are filled.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#compression_enabled%3F-instance_method" title="#compression_enabled? (instance method)">- (Boolean) <strong>compression_enabled?</strong> </a>
     
 
@@ -629,54 +535,6 @@ otherwise.</p>
     <span class="summary_desc"><div class='inline'>
 <p>The current y drawing position relative to the innermost bounding box, or
 to the page margins at the top level.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#define_grid-instance_method" title="#define_grid (instance method)">- (Object) <strong>define_grid</strong>(options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Defines the grid system for a particular document.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#find_font-instance_method" title="#find_font (instance method)">- (Object) <strong>find_font</strong>(name, options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Looks up the given font using the given criteria.</p>
 </div></span>
   
 </li>
@@ -757,7 +615,7 @@ to the page margins at the top level.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#font_registry-instance_method" title="#font_registry (instance method)">- (Object) <strong>font_registry</strong> </a>
+      <a href="#font_size-instance_method" title="#font_size (instance method)">- (Object) <strong>font_size</strong>(points = nil) </a>
     
 
     
@@ -772,7 +630,31 @@ to the page margins at the top level.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Hash of Font objects keyed by names.</p>
+<p>When called with no argument, returns the current font size.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#font_size%3D-instance_method" title="#font_size= (instance method)">- (Object) <strong>font_size=</strong>(size) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the font size.</p>
 </div></span>
   
 </li>
@@ -798,55 +680,6 @@ to the page margins at the top level.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Re-opens the page with the given (1-based) page number so that you can draw
 on it.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#grid-instance_method" title="#grid (instance method)">- (Object) <strong>grid</strong>(*args) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A method that can either be used to access a particular grid on the page or
-work with the grid system directly.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#group-instance_method" title="#group (instance method)">- (Object) <strong>group</strong>(second_attempt = false) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Attempts to group the given block vertically within the current context.</p>
 </div></span>
   
 </li>
@@ -897,54 +730,6 @@ work with the grid system directly.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Creates a new PDF Document.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#make_cell-instance_method" title="#make_cell (instance method)">- (Object) <strong>make_cell</strong>(content, options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Set up, but do not draw, a cell.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#make_table-instance_method" title="#make_table (instance method)">- (Object) <strong>make_table</strong>(data, options = {}, &amp;block) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Set up, but do not draw, a table.</p>
 </div></span>
   
 </li>
@@ -1051,30 +836,6 @@ the current bounding box.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#outline-instance_method" title="#outline (instance method)">- (Object) <strong>outline</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Lazily instantiates an Outline object for document.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#pad-instance_method" title="#pad (instance method)">- (Object) <strong>pad</strong>(y) </a>
     
 
@@ -1172,31 +933,6 @@ document by y again.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#page_match%3F-instance_method" title="#page_match? (instance method)">- (Boolean) <strong>page_match?</strong>(page_filter, page_number) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Provides a way to execute a block of code repeatedly based on a
-page_filter.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#render-instance_method" title="#render (instance method)">- (Object) <strong>render</strong>(output = StringIO.new) </a>
     
 
@@ -1237,6 +973,332 @@ page_filter.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Renders the PDF document to file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#span-instance_method" title="#span (instance method)">- (Object) <strong>span</strong>(width, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A span is a special purpose bounding box that allows a column of elements
+to be positioned relative to the margin_box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_new_page-instance_method" title="#start_new_page (instance method)">- (Object) <strong>start_new_page</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates and advances to a new page in the document.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#width_of-instance_method" title="#width_of (instance method)">- (Object) <strong>width_of</strong>(string, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the width of the given string using the given font.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Experimental API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cell-instance_method" title="#cell (instance method)">- (Object) <strong>cell</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Instantiates and draws a cell on the document.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#column_box-instance_method" title="#column_box (instance method)">- (Object) <strong>column_box</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A column box is a bounding box with the additional property that when text
+flows past the bottom, it will wrap first to another column on the same
+page, and only flow to the next page when all the columns are filled.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_grid-instance_method" title="#define_grid (instance method)">- (Object) <strong>define_grid</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Defines the grid system for a particular document.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#font_registry-instance_method" title="#font_registry (instance method)">- (Object) <strong>font_registry</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Hash of Font objects keyed by names.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#grid-instance_method" title="#grid (instance method)">- (Object) <strong>grid</strong>(*args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A method that can either be used to access a particular grid on the page or
+work with the grid system directly.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#group-instance_method" title="#group (instance method)">- (Object) <strong>group</strong>(second_attempt = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attempts to group the given block vertically within the current context.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#make_cell-instance_method" title="#make_cell (instance method)">- (Object) <strong>make_cell</strong>(content, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set up, but do not draw, a cell.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#make_table-instance_method" title="#make_table (instance method)">- (Object) <strong>make_table</strong>(data, options = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set up, but do not draw, a table.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#outline-instance_method" title="#outline (instance method)">- (Object) <strong>outline</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Lazily instantiates an Outline object for document.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#page_match%3F-instance_method" title="#page_match? (instance method)">- (Boolean) <strong>page_match?</strong>(page_filter, page_number) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Provides a way to execute a block of code repeatedly based on a
+page_filter.</p>
 </div></span>
   
 </li>
@@ -1318,55 +1380,6 @@ page_filter.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#span-instance_method" title="#span (instance method)">- (Object) <strong>span</strong>(width, options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A span is a special purpose bounding box that allows a column of elements
-to be positioned relative to the margin_box.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#start_new_page-instance_method" title="#start_new_page (instance method)">- (Object) <strong>start_new_page</strong>(options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Creates and advances to a new page in the document.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#table-instance_method" title="#table (instance method)">- (Object) <strong>table</strong>(data, options = {}, &amp;block) </a>
     
 
@@ -1383,30 +1396,6 @@ to be positioned relative to the margin_box.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Set up and draw a table on this document.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#width_of-instance_method" title="#width_of (instance method)">- (Object) <strong>width_of</strong>(string, options = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the width of the given string using the given font.</p>
 </div></span>
   
 </li>
@@ -1514,7 +1503,7 @@ Prawn::Document at the per-object level.</p>
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Graphics.html#circle-instance_method" title="Prawn::Graphics#circle (method)">#circle</a></span>, <span class='object_link'><a href="Graphics.html#circle_at-instance_method" title="Prawn::Graphics#circle_at (method)">#circle_at</a></span>, <span class='object_link'><a href="Graphics.html#close_and_stroke-instance_method" title="Prawn::Graphics#close_and_stroke (method)">#close_and_stroke</a></span>, <span class='object_link'><a href="Graphics.html#close_path-instance_method" title="Prawn::Graphics#close_path (method)">#close_path</a></span>, <span class='object_link'><a href="Graphics.html#curve-instance_method" title="Prawn::Graphics#curve (method)">#curve</a></span>, <span class='object_link'><a href="Graphics.html#curve_to-instance_method" title="Prawn::Graphics#curve_to (method)">#curve_to</a></span>, <span class='object_link'><a href="Graphics.html#ellipse-instance_method" title="Prawn::Graphics#ellipse (method)">#ellipse</a></span>, <span class='object_link'><a href="Graphics.html#ellipse_at-instance_method" title="Prawn::Graphics#ellipse_at (method)">#ellipse_at</a></span>, <span class='object_link'><a href="Graphics.html#fill-instance_method" title="Prawn::Graphics#fill (method)">#fill</a></span>, <span class='object_link'><a href="Graphics.html#fill_and_stroke-instance_method" title="Prawn::Graphics#fill_and_stroke (method)">#fill_and_stroke</a></span>, <span class='object_link'><a href="Graphics.html#horizontal_line-instance_method" title="Prawn::Graphics#horizontal_line (method)">#horizontal_line</a></span>, <span class='object_link'><a href="Graphics.html#horizontal_rule-instance_method" title="Prawn::Graphics#horizontal_rule (method)">#horizontal_rule</a></span>, <span class='object_link'><a href="Graphics.html#line-instance_method" title="Prawn::Graphics#line (method)">#line</a></span>, <span class='object_link'><a href="Graphics.html#line_to-instance_method" title="Prawn::Graphics#line_to (method)">#line_to</a></span>, <span class='object_link'><a href="Graphics.html#line_width-instance_method" title="Prawn::Graphics#line_width (method)">#line_width</a></span>, <span class='object_link'><a href="Graphics.html#line_width%3D-instance_method" title="Prawn::Graphics#line_width= (method)">#line_width=</a></span>, <span class='object_link'><a href="Graphics.html#move_to-instance_method" title="Prawn::Graphics#move_to (method)">#move_to</a></span>, <span class='object_link'><a href="Graphics.html#polygon-instance_method" title="Prawn::Graphics#polygon (method)">#polygon</a></span>, <span class='object_link'><a href="Graphics.html#rectangle-instance_method" title="Prawn::Graphics#rectangle (method)">#rectangle</a></span>, <span class='object_link'><a href="Graphics.html#rounded_polygon-instance_method" title="Prawn::Graphics#rounded_polygon (method)">#rounded_polygon</a></span>, <span class='object_link'><a href="Graphics.html#rounded_rectangle-instance_method" title="Prawn::Graphics#rounded_rectangle (method)">#rounded_rectangle</a></span>, <span class='object_link'><a href="Graphics.html#rounded_vertex-instance_method" title="Prawn::Graphics#rounded_vertex (method)">#rounded_vertex</a></span>, <span class='object_link'><a href="Graphics.html#stroke-instance_method" title="Prawn::Graphics#stroke (method)">#stroke</a></span>, <span class='object_link'><a href="Graphics.html#stroke_axis-instance_method" title="Prawn::Graphics#stroke_axis (method)">#stroke_axis</a></span>, <span class='object_link'><a href="Graphics.html#stroke_bounds-instance_method" title="Prawn::Graphics#stroke_bounds (method)">#stroke_bounds</a></span>, <span class='object_link'><a href="Graphics.html#vertical_line-instance_method" title="Prawn::Graphics#vertical_line (method)">#vertical_line</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Graphics.html#circle-instance_method" title="Prawn::Graphics#circle (method)">#circle</a></span>, <span class='object_link'><a href="Graphics.html#close_and_stroke-instance_method" title="Prawn::Graphics#close_and_stroke (method)">#close_and_stroke</a></span>, <span class='object_link'><a href="Graphics.html#close_path-instance_method" title="Prawn::Graphics#close_path (method)">#close_path</a></span>, <span class='object_link'><a href="Graphics.html#curve-instance_method" title="Prawn::Graphics#curve (method)">#curve</a></span>, <span class='object_link'><a href="Graphics.html#curve_to-instance_method" title="Prawn::Graphics#curve_to (method)">#curve_to</a></span>, <span class='object_link'><a href="Graphics.html#ellipse-instance_method" title="Prawn::Graphics#ellipse (method)">#ellipse</a></span>, <span class='object_link'><a href="Graphics.html#fill-instance_method" title="Prawn::Graphics#fill (method)">#fill</a></span>, <span class='object_link'><a href="Graphics.html#fill_and_stroke-instance_method" title="Prawn::Graphics#fill_and_stroke (method)">#fill_and_stroke</a></span>, <span class='object_link'><a href="Graphics.html#horizontal_line-instance_method" title="Prawn::Graphics#horizontal_line (method)">#horizontal_line</a></span>, <span class='object_link'><a href="Graphics.html#horizontal_rule-instance_method" title="Prawn::Graphics#horizontal_rule (method)">#horizontal_rule</a></span>, <span class='object_link'><a href="Graphics.html#line-instance_method" title="Prawn::Graphics#line (method)">#line</a></span>, <span class='object_link'><a href="Graphics.html#line_to-instance_method" title="Prawn::Graphics#line_to (method)">#line_to</a></span>, <span class='object_link'><a href="Graphics.html#line_width-instance_method" title="Prawn::Graphics#line_width (method)">#line_width</a></span>, <span class='object_link'><a href="Graphics.html#line_width%3D-instance_method" title="Prawn::Graphics#line_width= (method)">#line_width=</a></span>, <span class='object_link'><a href="Graphics.html#move_to-instance_method" title="Prawn::Graphics#move_to (method)">#move_to</a></span>, <span class='object_link'><a href="Graphics.html#polygon-instance_method" title="Prawn::Graphics#polygon (method)">#polygon</a></span>, <span class='object_link'><a href="Graphics.html#rectangle-instance_method" title="Prawn::Graphics#rectangle (method)">#rectangle</a></span>, <span class='object_link'><a href="Graphics.html#rounded_polygon-instance_method" title="Prawn::Graphics#rounded_polygon (method)">#rounded_polygon</a></span>, <span class='object_link'><a href="Graphics.html#rounded_rectangle-instance_method" title="Prawn::Graphics#rounded_rectangle (method)">#rounded_rectangle</a></span>, <span class='object_link'><a href="Graphics.html#rounded_vertex-instance_method" title="Prawn::Graphics#rounded_vertex (method)">#rounded_vertex</a></span>, <span class='object_link'><a href="Graphics.html#stroke-instance_method" title="Prawn::Graphics#stroke (method)">#stroke</a></span>, <span class='object_link'><a href="Graphics.html#stroke_axis-instance_method" title="Prawn::Graphics#stroke_axis (method)">#stroke_axis</a></span>, <span class='object_link'><a href="Graphics.html#stroke_bounds-instance_method" title="Prawn::Graphics#stroke_bounds (method)">#stroke_bounds</a></span>, <span class='object_link'><a href="Graphics.html#vertical_line-instance_method" title="Prawn::Graphics#vertical_line (method)">#vertical_line</a></span></p>
 
   
   
@@ -1724,31 +1713,31 @@ will be 50.</p>
 
 <p>The :margin can also be an array much like CSS shorthand:</p>
 
-<pre class="ruby"><span class="ruby-comment"># Top and bottom are 20, left and right are 100.</span>
-:<span class="ruby-identifier">margin</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">20</span>, <span class="ruby-value">100</span>]
-<span class="ruby-comment"># Top is 50, left and right are 100, bottom is 20.</span>
-:<span class="ruby-identifier">margin</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">50</span>, <span class="ruby-value">100</span>, <span class="ruby-value">20</span>]
-<span class="ruby-comment"># Top is 10, right is 20, bottom is 30, left is 40.</span>
-:<span class="ruby-identifier">margin</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">10</span>, <span class="ruby-value">20</span>, <span class="ruby-value">30</span>, <span class="ruby-value">40</span>]
-</pre>
+<pre class="code ruby"><code class="ruby"># Top and bottom are 20, left and right are 100.
+:margin =&gt; [20, 100]
+# Top is 50, left and right are 100, bottom is 20.
+:margin =&gt; [50, 100, 20]
+# Top is 10, right is 20, bottom is 30, left is 40.
+:margin =&gt; [10, 20, 30, 40]
+</code></pre>
 
 <p>Additionally, :page_size can be specified as a simple two value array
 giving the width and height of the document you need in PDF Points.</p>
 
 <p>Usage:</p>
 
-<pre class="ruby"><span class="ruby-comment"># New document, US Letter paper, portrait orientation</span>
-<span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>
+<pre class="code ruby"><code class="ruby"><span class='comment'># New document, US Letter paper, portrait orientation
+</span><span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 
-<span class="ruby-comment"># New document, A4 paper, landscaped</span>
-<span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(:<span class="ruby-identifier">page_size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;A4&quot;</span>, :<span class="ruby-identifier">page_layout</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">landscape</span>)
+<span class='comment'># New document, A4 paper, landscaped
+</span><span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:page_size</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A4</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:page_layout</span> <span class='op'>=&gt;</span> <span class='symbol'>:landscape</span><span class='rparen'>)</span>
 
-<span class="ruby-comment"># New document, Custom size</span>
-<span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(:<span class="ruby-identifier">page_size</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">200</span>, <span class="ruby-value">300</span>])
+<span class='comment'># New document, Custom size
+</span><span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:page_size</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='int'>300</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
-<span class="ruby-comment"># New document, with background</span>
-<span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(:<span class="ruby-identifier">background</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{Prawn::DATADIR}/images/pigs.jpg&quot;</span>)
-</pre>
+<span class='comment'># New document, with background
+</span><span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:background</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>DATADIR</span><span class='embexpr_end'>}</span><span class='tstring_content'>/images/pigs.jpg</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -1762,15 +1751,6 @@ giving the width and height of the document you need in PDF Points.</p>
       <pre class="lines">
 
 
-188
-189
-190
-191
-192
-193
-194
-195
-196
 197
 198
 199
@@ -1798,10 +1778,19 @@ giving the width and height of the document you need in PDF Points.</p>
 221
 222
 223
-224</pre>
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -1851,81 +1840,9 @@ giving the width and height of the document you need in PDF Points.</p>
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="font_size=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="font_size-instance_method">
-  
-    - (<tt>Object</tt>) <strong>font_size</strong>(points = nil) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>When called with no argument, returns the current font size. When called
-with a single argument but no block, sets the current font size.  When a
-block is used, the font size is applied transactionally and is rolled back
-when the block exits.  You may still change the font size within a
-transactional block for individual text segments, or nested calls to
-font_size.</p>
-
-<pre class="ruby"><span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;font_size.pdf&quot;</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">font_size</span> <span class="ruby-value">16</span>
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;At size 16&quot;</span>
-
-  <span class="ruby-identifier">font_size</span>(<span class="ruby-value">10</span>) <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;At size 10&quot;</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;At size 6&quot;</span>, :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">6</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;At size 10&quot;</span>
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;At size 16&quot;</span>
-<span class="ruby-keyword">end</span>
-</pre>
-
-<p>When called without an argument, this method returns the current font size.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-95
-96
-97
-98
-99
-100
-101</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 95</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='id identifier rubyid_points'>points</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='ivar'>@font_size</span> <span class='kw'>unless</span> <span class='id identifier rubyid_points'>points</span>
-  <span class='id identifier rubyid_size_before_yield'>size_before_yield</span> <span class='op'>=</span> <span class='ivar'>@font_size</span>
-  <span class='ivar'>@font_size</span> <span class='op'>=</span> <span class='id identifier rubyid_points'>points</span>
-  <span class='id identifier rubyid_block_given?'>block_given?</span> <span class='op'>?</span> <span class='kw'>yield</span> <span class='op'>:</span> <span class='kw'>return</span>
-  <span class='ivar'>@font_size</span> <span class='op'>=</span> <span class='id identifier rubyid_size_before_yield'>size_before_yield</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
       <span id="margin_box=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="margin_box-instance_method">
+      <div class="method_details first">
+  <h3 class="signature first" id="margin_box-instance_method">
   
     - (<tt>Object</tt>) <strong>margin_box</strong> 
   
@@ -1950,12 +1867,12 @@ font_size.</p>
       <pre class="lines">
 
 
-226
-227
-228</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_margin_box'>margin_box</span>
   <span class='ivar'>@margin_box</span>
@@ -1993,12 +1910,12 @@ font_size.</p>
       <pre class="lines">
 
 
-227
-228
-229</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_margins'>margins</span>
   <span class='ivar'>@margins</span>
@@ -2036,12 +1953,12 @@ font_size.</p>
       <pre class="lines">
 
 
-229
-230
-231</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_number'>page_number</span>
   <span class='ivar'>@page_number</span>
@@ -2079,12 +1996,12 @@ font_size.</p>
       <pre class="lines">
 
 
-230
-231
-232</pre>
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_text_formatter'>text_formatter</span>
   <span class='ivar'>@text_formatter</span>
@@ -2122,12 +2039,12 @@ font_size.</p>
       <pre class="lines">
 
 
-227
-228
-229</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_y'>y</span>
   <span class='ivar'>@y</span>
@@ -2162,20 +2079,20 @@ any subclasses.</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-keyword">module</span> <span class="ruby-constant">MyFancyModule</span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>module</span> <span class='const'>MyFancyModule</span>
 
-  <span class="ruby-keyword">def</span> <span class="ruby-identifier">party!</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;It&#39;s a big party!&quot;</span>
-  <span class="ruby-keyword">end</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_party!'>party!</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>It&#39;s a big party!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
-<span class="ruby-keyword">end</span>
+<span class='kw'>end</span>
 
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">extensions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">MyFancyModule</span>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span> <span class='op'>&lt;&lt;</span> <span class='const'>MyFancyModule</span>
 
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;foo.pdf&quot;</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">party!</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_party!'>party!</span>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -2189,12 +2106,12 @@ any subclasses.</p>
       <pre class="lines">
 
 
-96
 97
-98</pre>
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span>
   <span class='ivar'>@extensions</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2223,27 +2140,27 @@ instance of Prawn::Document, simplifying your syntax. However, please note
 that you will not be able to reference variables from the enclosing scope
 within this block.</p>
 
-<pre class="ruby"><span class="ruby-comment"># Using implicit block form and rendering to a file</span>
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span> <span class="ruby-string">&quot;example.pdf&quot;</span> <span class="ruby-keyword">do</span>
-  <span class="ruby-comment"># self here is set to the newly instantiated Prawn::Document</span>
-  <span class="ruby-comment"># and so any variables in the outside scope are unavailable</span>
-  <span class="ruby-identifier">font</span> <span class="ruby-string">&quot;Times-Roman&quot;</span>
-  <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;Hello World&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">200</span>,<span class="ruby-value">720</span>], :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">32</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='comment'># Using implicit block form and rendering to a file
+</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>example.pdf</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='comment'># self here is set to the newly instantiated Prawn::Document
+</span>  <span class='comment'># and so any variables in the outside scope are unavailable
+</span>  <span class='id identifier rubyid_font'>font</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Times-Roman</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>720</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>32</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>If you need to access your local and instance variables, use the explicit
 block form shown below.  In this case, Prawn yields an instance of
 PDF::Document and the block is an ordinary closure:</p>
 
-<pre class="ruby"><span class="ruby-comment"># Using explicit block form and rendering to a file</span>
-<span class="ruby-identifier">content</span> = <span class="ruby-string">&quot;Hello World&quot;</span>
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span> <span class="ruby-string">&quot;example.pdf&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pdf</span><span class="ruby-operator">|</span>
-  <span class="ruby-comment"># self here is left alone</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">font</span> <span class="ruby-string">&quot;Times-Roman&quot;</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">draw_text</span> <span class="ruby-identifier">content</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">200</span>,<span class="ruby-value">720</span>], :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">32</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='comment'># Using explicit block form and rendering to a file
+</span><span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World</span><span class='tstring_end'>&quot;</span></span>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>example.pdf</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pdf'>pdf</span><span class='op'>|</span>
+  <span class='comment'># self here is left alone
+</span>  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_font'>font</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Times-Roman</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span> <span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>720</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>32</span>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -2257,69 +2174,17 @@ PDF::Document and the block is an ordinary closure:</p>
       <pre class="lines">
 
 
-134
-135
-136
-137</pre>
+145
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_render_file'>render_file</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="move_past_bottom-class_method">
-  
-    + (<tt>Object</tt>) <strong>move_past_bottom</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'>RollbackTransaction</span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-528
-529
-530</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 528</span>
-
-<span class='kw'>def</span> <span class='ivar'>@bounding_box</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RollbackTransaction</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2368,8 +2233,7 @@ width measurement is towards the right and height measurement is downwards.</p>
 <p>Bounding box 100pt x 100pt in the absolute bottom left of the containing
 box:</p>
 
-<p><a href="http://0,100">pdf.bounding_box(</a>, :width =&gt; 100, :height
-=&gt; 100)</p>
+<p><a href="0,100">pdf.bounding_box(</a>, :width =&gt; 100, :height =&gt; 100)</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stroke_bounds'>stroke_bounds</span></code></pre>
 
@@ -2396,12 +2260,12 @@ at the top-left corner of the bounding box.</p>
 
 <p>Usage:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">100</span>,<span class="ruby-value">500</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">100</span>, :<span class="ruby-identifier">height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">300</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;This text will flow in a very narrow box starting&quot;</span> <span class="ruby-operator">+</span>
-   <span class="ruby-string">&quot;from [100,500]. The pointer will then be moved to [100,200]&quot;</span> <span class="ruby-operator">+</span>
-   <span class="ruby-string">&quot;and return to the margin_box&quot;</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>500</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>100</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='int'>300</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This text will flow in a very narrow box starting</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>from [100,500]. The pointer will then be moved to [100,200]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>and return to the margin_box</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>Note, this is a low level tool and is designed primarily for building other
 abstractions.  If you just need to flow text on the page, you will want to
@@ -2437,13 +2301,13 @@ that the image is 200 points wide by 250 points tall.</p>
 
 <p>Using the [200,200] example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">200</span>,<span class="ruby-value">450</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">200</span>, :<span class="ruby-identifier">height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">250</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">polygon</span> [<span class="ruby-value">0</span>,<span class="ruby-value">250</span>], [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>], [<span class="ruby-value">150</span>,<span class="ruby-value">100</span>]
-    <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">polygon</span> [<span class="ruby-value">100</span>,<span class="ruby-value">0</span>], [<span class="ruby-value">150</span>,<span class="ruby-value">100</span>], [<span class="ruby-value">200</span>,<span class="ruby-value">0</span>]
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>450</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='int'>250</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke'>stroke</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_polygon'>polygon</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>250</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>150</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_polygon'>polygon</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>150</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>Notice that the drawing is still relative to the origin. If we want to move
 this drawing around the document, we simply need to recalculate the
@@ -2459,15 +2323,15 @@ each other</p>
 
 <p>Usage:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">200</span>,<span class="ruby-value">450</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">200</span>, :<span class="ruby-identifier">height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">250</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke_bounds</span>   <span class="ruby-comment"># Show the containing bounding box</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">50</span>,<span class="ruby-value">200</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span>, :<span class="ruby-identifier">height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span>) <span class="ruby-keyword">do</span>
-    <span class="ruby-comment"># a 50x50 bounding box that starts 50 pixels left and 50 pixels down</span>
-    <span class="ruby-comment"># the parent bounding box.</span>
-    <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke_bounds</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>450</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='int'>250</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_bounds'>stroke_bounds</span>   <span class='comment'># Show the containing bounding box
+</span>  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>200</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>50</span><span class='comma'>,</span> <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='int'>50</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='comment'># a 50x50 bounding box that starts 50 pixels left and 50 pixels down
+</span>    <span class='comment'># the parent bounding box.
+</span>    <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_bounds'>stroke_bounds</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <h2 id="label-Stretchyness">Stretchyness</h2>
 
@@ -2475,30 +2339,30 @@ each other</p>
 and its height will be calculated automatically as you stretch the box
 downwards.</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">100</span>,<span class="ruby-value">400</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">400</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span>(<span class="ruby-node">&quot;The height of this box is #{pdf.bounds.height}&quot;</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span>(<span class="ruby-string">&#39;this is some text&#39;</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span>(<span class="ruby-string">&#39;this is some more text&#39;</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span>(<span class="ruby-string">&#39;and finally a bit more&#39;</span>)
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span>(<span class="ruby-node">&quot;Now the height of this box is #{pdf.bounds.height}&quot;</span>)
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>400</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='int'>400</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The height of this box is </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>this is some text</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>this is some more text</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>and finally a bit more</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Now the height of this box is </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <h2 id="label-Absolute+Positioning">Absolute Positioning</h2>
 
 <p>If you wish to position the bounding boxes at absolute coordinates rather
 than relative to the margins or other bounding boxes, you can use canvas()</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">50</span>,<span class="ruby-value">500</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">200</span>, :<span class="ruby-identifier">height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">300</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke_bounds</span>
-  <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">canvas</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-constant">Positioned</span> <span class="ruby-identifier">outside</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">containing</span> <span class="ruby-identifier">box</span> <span class="ruby-identifier">at</span> <span class="ruby-identifier">the</span> <span class="ruby-string">&#39;real&#39;</span> (<span class="ruby-value">300</span>,<span class="ruby-value">450</span>)
-    <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">bounding_box</span>([<span class="ruby-value">300</span>,<span class="ruby-value">450</span>], :<span class="ruby-identifier">width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">200</span>, :<span class="ruby-identifier">height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">200</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">stroke_bounds</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby">pdf.bounding_box([50,500], :width =&gt; 200, :height =&gt; 300) do
+  pdf.stroke_bounds
+  pdf.canvas do
+    Positioned outside the containing box at the &#39;real&#39; (300,450)
+    pdf.bounding_box([300,450], :width =&gt; 200, :height =&gt; 200) do
+      pdf.stroke_bounds
+    end
+  end
+end
+</code></pre>
 
 <p>Of course, if you use canvas, you will be responsible for ensuring that you
 remain within the printable area of your document.</p>
@@ -2587,12 +2451,12 @@ left corner of the bounding box.</p>
       <pre class="lines">
 
 
-411
-412
-413</pre>
+406
+407
+408</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 411</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 406</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounds'>bounds</span>
   <span class='ivar'>@bounding_box</span>
@@ -2631,12 +2495,12 @@ and exiting bounding box code blocks is good enough.</p>
       <pre class="lines">
 
 
-427
-428
-429</pre>
+422
+423
+424</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 427</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 422</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounds='>bounds=</span><span class='lparen'>(</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='rparen'>)</span>
   <span class='ivar'>@bounding_box</span> <span class='op'>=</span> <span class='id identifier rubyid_bounding_box'>bounding_box</span>
@@ -2718,8 +2582,8 @@ absolute coordinates, regardless of how things are nested or margin sizes.</p>
     
 <p>Instantiates and draws a cell on the document.</p>
 
-<pre class="ruby"><span class="ruby-identifier">cell</span>(:<span class="ruby-identifier">content</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Hello world!&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">12</span>, <span class="ruby-value">34</span>])
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_cell'>cell</span><span class='lparen'>(</span><span class='symbol'>:content</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello world!</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>12</span><span class='comma'>,</span> <span class='int'>34</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
 
 <p>See Prawn::Table::Cell.make for full options.</p>
 
@@ -2853,12 +2717,12 @@ otherwise</p>
       <pre class="lines">
 
 
-646
-647
-648</pre>
+573
+574
+575</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 646</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 573</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compression_enabled?'>compression_enabled?</span>
   <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_compress'>compress</span>
@@ -2895,12 +2759,12 @@ to the page margins at the top level.</p>
       <pre class="lines">
 
 
-326
-327
-328</pre>
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cursor'>cursor</span>
   <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
@@ -2954,76 +2818,6 @@ rows and columns and the width to use for the gutter as the keys :rows,
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="find_font-instance_method">
-  
-    - (<tt>Object</tt>) <strong>find_font</strong>(name, options = {}) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Looks up the given font using the given criteria. Once a font has been
-found by that matches the criteria, it will be cached to subsequent lookups
-for that font will return the same object. – Challenges involved: the name
-alone is not sufficient to uniquely identify a font (think dfont suitcases
-that can hold multiple different fonts in a single file). Thus, the :name
-key is included in the cache key.</p>
-
-<p>It is further complicated, however, since fonts in some formats (like the
-dfont suitcases) can be identified either by numeric index, OR by their
-name within the suitcase, and both should hash to the same font object (to
-avoid the font being embedded multiple times). This is not yet implemented,
-which means if someone selects a font both by name, and by index, the font
-will be embedded twice. Since we do font subsetting, this double embedding
-won&#39;t be catastrophic, just annoying. ++</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 140</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_find_font'>find_font</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_font_families'>font_families</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_family'>family</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_font_families'>font_families</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:style</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='symbol'>:normal</span><span class='rbracket'>]</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:file</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:font</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>0</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_font_registry'>font_registry</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>Font</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:family</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_family'>family</span><span class='rparen'>)</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="float-instance_method">
   
     - (<tt>Object</tt>) <strong>float</strong> 
@@ -3060,16 +2854,16 @@ when done.</p>
       <pre class="lines">
 
 
+344
+345
+346
+347
+348
 349
-350
-351
-352
-353
-354
-355</pre>
+350</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 349</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 344</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_float'>float</span>
   <span class='id identifier rubyid_original_page'>original_page</span> <span class='op'>=</span> <span class='id identifier rubyid_page_number'>page_number</span>
@@ -3099,21 +2893,21 @@ when done.</p>
 sets the current font. When a block is used, the font is applied
 transactionally and is rolled back when the block exits.</p>
 
-<pre class="ruby"><span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;font.pdf&quot;</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Default font is Helvetica&quot;</span>
+<pre class="code ruby"><code class="ruby"><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>font.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Default font is Helvetica</span><span class='tstring_end'>&quot;</span></span>
 
-  <span class="ruby-identifier">font</span> <span class="ruby-string">&quot;Times-Roman&quot;</span>
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Now using Times-Roman&quot;</span>
+  <span class='id identifier rubyid_font'>font</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Times-Roman</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Now using Times-Roman</span><span class='tstring_end'>&quot;</span></span>
 
-  <span class="ruby-identifier">font</span>(<span class="ruby-string">&quot;Chalkboard.ttf&quot;</span>) <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Using TTF font from file Chalkboard.ttf&quot;</span>
-    <span class="ruby-identifier">font</span> <span class="ruby-string">&quot;Courier&quot;</span>, :<span class="ruby-identifier">style</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">bold</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;You see this in bold Courier&quot;</span>
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Chalkboard.ttf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Using TTF font from file Chalkboard.ttf</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_font'>font</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Courier</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='symbol'>:bold</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You see this in bold Courier</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Times-Roman, again&quot;</span>
-<span class="ruby-keyword">end</span>
-</pre>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Times-Roman, again</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>The :name parameter must be a string. It can be one of the 14 built-in
 fonts supported by PDF, or the location of a TTF file. The
@@ -3205,20 +2999,20 @@ font files. See font_families for more information.</p>
 
 <p>To add support for another font family, append to this hash, e.g:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">font_families</span>.<span class="ruby-identifier">update</span>(
- <span class="ruby-string">&quot;MyTrueTypeFamily&quot;</span> =<span class="ruby-operator">&gt;</span> { :<span class="ruby-identifier">bold</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;foo-bold.ttf&quot;</span>,
-                         :<span class="ruby-identifier">italic</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;foo-italic.ttf&quot;</span>,
-                         :<span class="ruby-identifier">bold_italic</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;foo-bold-italic.ttf&quot;</span>,
-                         :<span class="ruby-identifier">normal</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;foo.ttf&quot;</span> })
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_font_families'>font_families</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span>
+ <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MyTrueTypeFamily</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:bold</span>        <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo-bold.ttf</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                         <span class='symbol'>:italic</span>      <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo-italic.ttf</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                         <span class='symbol'>:bold_italic</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo-bold-italic.ttf</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                         <span class='symbol'>:normal</span>      <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo.ttf</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+</code></pre>
 
 <p>This will then allow you to use the fonts like so:</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">font</span>(<span class="ruby-string">&quot;MyTrueTypeFamily&quot;</span>, :<span class="ruby-identifier">style</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">bold</span>)
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Some bold text&quot;</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">font</span>(<span class="ruby-string">&quot;MyTrueTypeFamily&quot;</span>)
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Some normal text&quot;</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MyTrueTypeFamily</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:style</span> <span class='op'>=&gt;</span> <span class='symbol'>:bold</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Some bold text</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MyTrueTypeFamily</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Some normal text</span><span class='tstring_end'>&quot;</span></span>
+</code></pre>
 
 <p>This assumes that you have appropriate TTF fonts for each style you wish to
 support.</p>
@@ -3240,27 +3034,27 @@ files you&#39;d like.</p>
       <pre class="lines">
 
 
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
 183
 184
 185
 186
 187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200</pre>
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_font_families'>font_families</span>
   <span class='ivar'>@font_families</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span>
@@ -3311,15 +3105,127 @@ files you&#39;d like.</p>
       <pre class="lines">
 
 
-154
-155
-156</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_font_registry'>font_registry</span> <span class='comment'>#:nodoc:
 </span>  <span class='ivar'>@font_registry</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="font_size-instance_method">
+  
+    - (<tt>Object</tt>) <strong>font_size</strong>(points = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>When called with no argument, returns the current font size.</p>
+
+<p>When called with a single argument but no block, sets the current font
+size.  When a block is used, the font size is applied transactionally and
+is rolled back when the block exits.  You may still change the font size
+within a transactional block for individual text segments, or nested calls
+to font_size.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>font_size.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_font_size'>font_size</span> <span class='int'>16</span>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At size 16</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At size 10</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At size 6</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>6</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At size 10</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At size 16</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>When called without an argument, this method returns the current font size.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='id identifier rubyid_points'>points</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@font_size</span> <span class='kw'>unless</span> <span class='id identifier rubyid_points'>points</span>
+  <span class='id identifier rubyid_size_before_yield'>size_before_yield</span> <span class='op'>=</span> <span class='ivar'>@font_size</span>
+  <span class='ivar'>@font_size</span> <span class='op'>=</span> <span class='id identifier rubyid_points'>points</span>
+  <span class='id identifier rubyid_block_given?'>block_given?</span> <span class='op'>?</span> <span class='kw'>yield</span> <span class='op'>:</span> <span class='kw'>return</span>
+  <span class='ivar'>@font_size</span> <span class='op'>=</span> <span class='id identifier rubyid_size_before_yield'>size_before_yield</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="font_size=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>font_size=</strong>(size) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the font size</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_font_size='>font_size=</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3355,15 +3261,15 @@ on it.</p>
       <pre class="lines">
 
 
-311
-312
-313
-314
-315
-316</pre>
+306
+307
+308
+309
+310
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 306</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_go_to_page'>go_to_page</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span>
   <span class='ivar'>@page_number</span> <span class='op'>=</span> <span class='id identifier rubyid_k'>k</span>
@@ -3477,35 +3383,37 @@ current page or column.</p>
       <pre class="lines">
 
 
-524
-525
-526
-527
-528
-529
-530
-531
-532
-533
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543</pre>
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 524</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 588</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_group'>group</span><span class='lparen'>(</span><span class='id identifier rubyid_second_attempt'>second_attempt</span><span class='op'>=</span><span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_old_bounding_box'>old_bounding_box</span> <span class='op'>=</span> <span class='ivar'>@bounding_box</span>
   <span class='ivar'>@bounding_box</span> <span class='op'>=</span> <span class='const'>SimpleDelegator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@bounding_box</span><span class='rparen'>)</span>
 
-  <span class='kw'>def</span> <span class='ivar'>@bounding_box</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
+  <span class='comment'># @private
+</span>  <span class='kw'>def</span> <span class='ivar'>@bounding_box</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RollbackTransaction</span>
   <span class='kw'>end</span>
 
@@ -3562,12 +3470,12 @@ current page or column.</p>
       <pre class="lines">
 
 
-499
-500
-501</pre>
+494
+495
+496</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 499</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 494</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -3592,16 +3500,16 @@ current page or column.</p>
       <pre class="lines">
 
 
+649
+650
+651
 652
 653
 654
-655
-656
-657
-658</pre>
+655</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 652</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 649</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize_first_page'>initialize_first_page</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:skip_page_creation</span><span class='rbracket'>]</span>
@@ -3731,12 +3639,12 @@ to ink it.</p>
       <pre class="lines">
 
 
-332
-333
-334</pre>
+327
+328
+329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 332</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 327</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_cursor_to'>move_cursor_to</span><span class='lparen'>(</span><span class='id identifier rubyid_new_y'>new_y</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_new_y'>new_y</span> <span class='op'>+</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
@@ -3773,12 +3681,12 @@ the current bounding box.</p>
       <pre class="lines">
 
 
-441
-442
-443</pre>
+436
+437
+438</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 436</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-=</span> <span class='id identifier rubyid_n'>n</span>
@@ -3815,12 +3723,12 @@ the current bounding box.</p>
       <pre class="lines">
 
 
-434
-435
-436</pre>
+429
+430
+431</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 434</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 429</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_up'>move_up</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>+=</span> <span class='id identifier rubyid_n'>n</span>
@@ -3880,17 +3788,17 @@ formatting and placement.</code></pre>
 <p>Example: Print page numbers on every page except for the first.  Start
 counting from</p>
 
-<pre class="ruby">       <span class="ruby-identifier">five</span>.
+<pre class="code ruby"><code class="ruby">       <span class='id identifier rubyid_five'>five</span><span class='period'>.</span>
 
-<span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;page_with_numbering.pdf&quot;</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">number_pages</span> <span class="ruby-string">&quot;&lt;page&gt; in a total of &lt;total&gt;&quot;</span>,
-                                       {:<span class="ruby-identifier">start_count_at</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>,
-                                        :<span class="ruby-identifier">page_filter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">lambda</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">pg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pg</span> <span class="ruby-operator">!=</span> <span class="ruby-value">1</span> },
-                                        :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">right</span> <span class="ruby-operator">-</span> <span class="ruby-value">50</span>, <span class="ruby-value">0</span>],
-                                        :<span class="ruby-identifier">align</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">right</span>,
-                                        :<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">14</span>}
-<span class="ruby-keyword">end</span>
-</pre>
+<span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>page_with_numbering.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_number_pages'>number_pages</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;page&gt; in a total of &lt;total&gt;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                                       <span class='lbrace'>{</span><span class='symbol'>:start_count_at</span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='comma'>,</span>
+                                        <span class='symbol'>:page_filter</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_lambda'>lambda</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pg'>pg</span><span class='op'>|</span> <span class='id identifier rubyid_pg'>pg</span> <span class='op'>!=</span> <span class='int'>1</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+                                        <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span> <span class='op'>-</span> <span class='int'>50</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                                        <span class='symbol'>:align</span> <span class='op'>=&gt;</span> <span class='symbol'>:right</span><span class='comma'>,</span>
+                                        <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>14</span><span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -3904,45 +3812,45 @@ counting from</p>
       <pre class="lines">
 
 
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605
-606
-607
-608
-609
-610
-611
-612
-613
-614
-615</pre>
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 580</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 533</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_number_pages'>number_pages</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -4060,14 +3968,14 @@ document by y again.</p>
       <pre class="lines">
 
 
-480
-481
-482
-483
-484</pre>
+475
+476
+477
+478
+479</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 480</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 475</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad'>pad</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
@@ -4111,13 +4019,13 @@ document by y again.</p>
       <pre class="lines">
 
 
-466
-467
-468
-469</pre>
+461
+462
+463
+464</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 466</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 461</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad_bottom'>pad_bottom</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='kw'>yield</span>
@@ -4160,13 +4068,13 @@ document by y again.</p>
       <pre class="lines">
 
 
-453
-454
-455
-456</pre>
+448
+449
+450
+451</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 453</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 448</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad_top'>pad_top</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
@@ -4191,11 +4099,11 @@ document by y again.</p>
     
 <p>Returns the number of pages in the document</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">page_count</span> <span class="ruby-comment">#=&gt; 1</span>
-<span class="ruby-value">3</span>.<span class="ruby-identifier">times</span> { <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">start_new_page</span> }
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">page_count</span> <span class="ruby-comment">#=&gt; 4</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_page_count'>page_count</span> <span class='comment'>#=&gt; 1
+</span><span class='int'>3</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_page_count'>page_count</span> <span class='comment'>#=&gt; 4
+</span></code></pre>
 
 
   </div>
@@ -4209,12 +4117,12 @@ document by y again.</p>
       <pre class="lines">
 
 
-302
-303
-304</pre>
+297
+298
+299</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 302</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 297</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_count'>page_count</span>
   <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page_count'>page_count</span>
@@ -4273,23 +4181,23 @@ some_lambda  yields page number and repeats for true return values</code></pre>
       <pre class="lines">
 
 
+620
+621
+622
+623
+624
+625
+626
 627
 628
 629
 630
 631
 632
-633
-634
-635
-636
-637
-638
-639
-640</pre>
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 627</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 620</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_match?'>page_match?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_filter'>page_filter</span><span class='comma'>,</span> <span class='id identifier rubyid_page_number'>page_number</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_page_filter'>page_filter</span>
@@ -4337,6 +4245,11 @@ to file.</p>
       <pre class="lines">
 
 
+355
+356
+357
+358
+359
 360
 361
 362
@@ -4346,15 +4259,10 @@ to file.</p>
 366
 367
 368
-369
-370
-371
-372
-373
-374</pre>
+369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 355</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='const'>StringIO</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_finalize_all_page_contents'>finalize_all_page_contents</span>
@@ -4404,12 +4312,12 @@ to file.</p>
       <pre class="lines">
 
 
-380
-381
-382</pre>
+375
+376
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 380</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 375</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_file'>render_file</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>wb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -4449,43 +4357,43 @@ the code in the context of the filtered pages without using a Stamp.</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-string">&quot;repeat.pdf&quot;</span>, :<span class="ruby-identifier">skip_page_creation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span>
+<pre class="code ruby"><code class="ruby"><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repeat.pdf</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:skip_page_creation</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span>
 
-  <span class="ruby-identifier">repeat</span> :<span class="ruby-identifier">all</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;ALLLLLL&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top_left</span>
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span> <span class='symbol'>:all</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ALLLLLL</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_left'>top_left</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">repeat</span> :<span class="ruby-identifier">odd</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;ODD&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span> <span class='symbol'>:odd</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ODD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">repeat</span> :<span class="ruby-identifier">even</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;EVEN&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span> <span class='symbol'>:even</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EVEN</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">repeat</span> [<span class="ruby-value">1</span>,<span class="ruby-value">2</span>] <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;[1,2]&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">100</span>,<span class="ruby-value">0</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span> <span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[1,2]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">repeat</span> <span class="ruby-value">2</span><span class="ruby-operator">..</span><span class="ruby-value">4</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;2..4&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">200</span>,<span class="ruby-value">0</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span> <span class='int'>2</span><span class='op'>..</span><span class='int'>4</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2..4</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">repeat</span>(<span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">pg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pg</span> <span class="ruby-operator">%</span> <span class="ruby-value">3</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> }) <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;Every third&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">250</span>, <span class="ruby-value">20</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span><span class='lparen'>(</span><span class='id identifier rubyid_lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pg'>pg</span><span class='op'>|</span> <span class='id identifier rubyid_pg'>pg</span> <span class='op'>%</span> <span class='int'>3</span> <span class='op'>==</span> <span class='int'>0</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Every third</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>250</span><span class='comma'>,</span> <span class='int'>20</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-value">10</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">start_new_page</span>
-    <span class="ruby-identifier">draw_text</span> <span class="ruby-string">&quot;A wonderful page&quot;</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">400</span>,<span class="ruby-value">400</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='int'>10</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_start_new_page'>start_new_page</span>
+    <span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A wonderful page</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span><span class='int'>400</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-  <span class="ruby-identifier">repeat</span>(:<span class="ruby-identifier">all</span>, :<span class="ruby-identifier">dynamic</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">text</span> <span class="ruby-identifier">page_number</span>, :<span class="ruby-identifier">at</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">500</span>, <span class="ruby-value">0</span>]
-  <span class="ruby-keyword">end</span>
+  <span class='id identifier rubyid_repeat'>repeat</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='comma'>,</span> <span class='symbol'>:dynamic</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='id identifier rubyid_page_number'>page_number</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>500</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-<span class="ruby-keyword">end</span>
-</pre>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -4541,18 +4449,18 @@ original font is restored.</p>
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
-120
-121
-122</pre>
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 203</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_font'>save_font</span>
   <span class='ivar'>@font</span> <span class='op'>||=</span> <span class='id identifier rubyid_find_font'>find_font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Helvetica</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -4594,13 +4502,13 @@ original font is restored.</p>
       <pre class="lines">
 
 
-106
-107
-108
-109</pre>
+195
+196
+197
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_font'>set_font</span><span class='lparen'>(</span><span class='id identifier rubyid_font'>font</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span> <span class='comment'># :nodoc:
 </span>  <span class='ivar'>@font</span> <span class='op'>=</span> <span class='id identifier rubyid_font'>font</span>
@@ -4641,10 +4549,10 @@ to be positioned relative to the margin_box.</p>
 <p>This method is typically used for flowing a column of text from one page to
 the next.</p>
 
-<pre class="ruby"><span class="ruby-identifier">span</span>(<span class="ruby-value">350</span>, :<span class="ruby-identifier">position</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">center</span>) <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;Here&#39;s some centered text in a 350 point column. &quot;</span> <span class="ruby-operator">*</span> <span class="ruby-value">100</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_span'>span</span><span class='lparen'>(</span><span class='int'>350</span><span class='comma'>,</span> <span class='symbol'>:position</span> <span class='op'>=&gt;</span> <span class='symbol'>:center</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Here&#39;s some centered text in a 350 point column. </span><span class='tstring_end'>&quot;</span></span> <span class='op'>*</span> <span class='int'>100</span>
+<span class='kw'>end</span>
+</code></pre>
 
 
   </div>
@@ -4738,11 +4646,11 @@ the next.</p>
 <p>Page size, margins, and layout can also be set when generating a new page.
 These values will become the new defaults for page creation</p>
 
-<pre class="ruby"><span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">start_new_page</span> <span class="ruby-comment">#=&gt; Starts new page keeping current values</span>
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">start_new_page</span>(:<span class="ruby-identifier">size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;LEGAL&quot;</span>, :<span class="ruby-identifier">layout</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">landscape</span>)
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">start_new_page</span>(:<span class="ruby-identifier">left_margin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span>, :<span class="ruby-identifier">right_margin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span>)
-<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">start_new_page</span>(:<span class="ruby-identifier">margin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">100</span>)
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span> <span class='comment'>#=&gt; Starts new page keeping current values
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span><span class='lparen'>(</span><span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>LEGAL</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='symbol'>:landscape</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span><span class='lparen'>(</span><span class='symbol'>:left_margin</span> <span class='op'>=&gt;</span> <span class='int'>50</span><span class='comma'>,</span> <span class='symbol'>:right_margin</span> <span class='op'>=&gt;</span> <span class='int'>50</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span><span class='lparen'>(</span><span class='symbol'>:margin</span> <span class='op'>=&gt;</span> <span class='int'>100</span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -4756,6 +4664,11 @@ These values will become the new defaults for page creation</p>
       <pre class="lines">
 
 
+247
+248
+249
+250
+251
 252
 253
 254
@@ -4792,15 +4705,10 @@ These values will become the new defaults for page creation</p>
 285
 286
 287
-288
-289
-290
-291
-292
-293</pre>
+288</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_new_page'>start_new_page</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_last_page'>last_page</span> <span class='op'>=</span> <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span>
@@ -4940,24 +4848,24 @@ override it and redefine the width calculation behavior. ++</p>
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235</pre>
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/font.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width_of'>width_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:inline_format</span><span class='rbracket'>]</span>
@@ -4984,9 +4892,9 @@ override it and redefine the width calculation behavior. ++</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:54 2014 by
+  Generated on Thu Jan 23 13:06:30 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>

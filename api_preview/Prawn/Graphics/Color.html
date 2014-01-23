@@ -100,7 +100,7 @@
 
   
     <h2>
-      Experimental API
+      Stable API
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -230,9 +230,9 @@ stroke_color.</p>
     
 <p>Converts hex string into RGB value array:</p>
 
-<pre class="ruby"><span class="ruby-operator">&gt;&gt;</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">hex2rgb</span>(<span class="ruby-string">&quot;ff7808&quot;</span>)
-=<span class="ruby-operator">&gt;</span> [<span class="ruby-value">255</span>, <span class="ruby-value">120</span>, <span class="ruby-value">8</span>]
-</pre>
+<pre class="code ruby"><code class="ruby">&gt;&gt; Prawn::Graphics::Color.hex2rgb(&quot;ff7808&quot;)
+=&gt; [255, 120, 8]
+</code></pre>
 
 
   </div>
@@ -278,9 +278,9 @@ stroke_color.</p>
 <p>Converts RGB value array to hex string suitable for use with fill_color and
 stroke_color</p>
 
-<pre class="ruby"><span class="ruby-operator">&gt;&gt;</span> <span class="ruby-constant">Prawn</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">rgb2hex</span>([<span class="ruby-value">255</span>,<span class="ruby-value">120</span>,<span class="ruby-value">8</span>])
-=<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;ff7808&quot;</span>
-</pre>
+<pre class="code ruby"><code class="ruby">&gt;&gt; Prawn::Graphics::Color.rgb2hex([255,120,8])
+=&gt; &quot;ff7808&quot;
+</code></pre>
 
 
   </div>
@@ -442,9 +442,9 @@ range from 0 - 100.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 20 12:40:53 2014 by
+  Generated on Thu Jan 23 13:06:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.0.0).
+  0.8.7.3 (ruby-2.1.0).
 </div>
 
   </body>
