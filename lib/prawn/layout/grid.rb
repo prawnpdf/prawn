@@ -87,7 +87,7 @@ module Prawn
     # A Grid object has methods that allow easy access to the coordinates of
     # its corners, which can be plugged into most existing prawnmethods.
     #
-    class Box #:nodoc:
+    class GridBox
       attr_reader :pdf
 
       def initialize(pdf, i, j)
@@ -188,7 +188,7 @@ module Prawn
     end
 
     # A MultiBox is specified by 2 Boxes and spans the areas between.
-    class MultiBox < Box #:nodoc:
+    class MultiBox < GridBox #:nodoc:
       def initialize(pdf, b1, b2)
         @pdf = pdf
         @bs = [b1, b2]
@@ -250,7 +250,7 @@ module Prawn
 
     private
     def single_box(i, j)
-      Box.new(self, i, j)
+      GridBox.new(self, i, j)
     end
 
     def multi_box(b1, b2)
