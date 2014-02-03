@@ -1,7 +1,7 @@
 # Prawn: Fast, Nimble PDF Generation For Ruby
 
-[![Build Status](https://secure.travis-ci.org/prawnpdf/prawn.png)](http://travis-ci.org/prawnpdf/prawn)
 [![Gem Version](https://badge.fury.io/rb/prawn.png)](http://badge.fury.io/rb/prawn)
+[![Build Status](https://secure.travis-ci.org/prawnpdf/prawn.png)](http://travis-ci.org/prawnpdf/prawn)
 
 Prawn is a pure Ruby PDF generation library that provides a lot of great functionality while trying to remain simple and reasonably performant. Here are some of the important features we provide:
 
@@ -26,7 +26,11 @@ One thing Prawn is not, and will never be, is an HTML to PDF generator. For thos
 
 ## Supported Ruby Versions and Implementations
 
-Because Prawn is pure Ruby and virtually all of its dependencies are maintained by our core team, it should run pretty much anywhere, including Rubinius, JRuby, MacRuby, etc. We officially support MRI {1.9.3 and 2.0.0} and jruby 1.7.x in 1.9 mode, however we will accept patches to fix problems on other Ruby platforms if they aren't too invasive.
+Because Prawn is pure Ruby and virtually all of its dependencies are maintained
+by our core team, it should run pretty much anywhere, including Rubinius, JRuby,
+MacRuby, etc. We officially support MRI {1.9.3, 2.0.0, 2.1.0} and jruby 1.7.x
+(>= 1.7.9) in 1.9 mode, however we will accept patches to fix problems on other 
+Ruby platforms if they aren't too invasive.
 
 ## Installing Prawn
 

@@ -166,6 +166,15 @@ describe "Prawn::Table" do
       # Before we fixed #407, this line incorrectly raise a CannotFit error
       pdf.table(table_data, :column_widths => column_widths)
     end
+
+    it "should not allow oversized subtables when parent column width is constrained" do
+      pdf = Prawn::Document.new
+      child_1 = pdf.make_table([['foo'*100]])
+      child_2 = pdf.make_table([['foo']])
+      lambda do
+        pdf.table([[child_1], [child_2]], column_widths: [pdf.bounds.width/2] * 2)
+      end.should raise_error(Prawn::Errors::CannotFit)
+    end
   end
 
   describe "#initialize" do

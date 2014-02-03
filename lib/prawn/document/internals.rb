@@ -14,8 +14,8 @@ module Prawn
     # low level PDF functionality as defined by Adobe's specification, chances
     # are you won't need anything you find here.
     #
-    module Internals
-
+    # @private
+    module Internals 
       # Creates a new Prawn::Reference and adds it to the Document's object
       # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.
       #

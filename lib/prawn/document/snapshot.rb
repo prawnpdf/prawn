@@ -10,8 +10,9 @@ require 'delegate'
 
 module Prawn
   class Document
+    # @private
+    
     module Snapshot
-
       RollbackTransaction = Class.new(StandardError)
 
       # Call this within a +transaction+ block to roll back the transaction and

@@ -4,6 +4,8 @@
 
 module Prawn
   class Table
+
+    # @private
     class Cell
 
       # This module extends Cell objects when they are used in a table (as

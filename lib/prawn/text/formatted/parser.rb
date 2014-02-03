@@ -13,6 +13,8 @@ module Prawn
     module Formatted
 
       class Parser
+        # @group Extension API
+
         PARSER_REGEX = begin
           regex_string = "\n|" +
                          "<b>|</b>|" +

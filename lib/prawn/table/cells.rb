@@ -38,6 +38,8 @@ module Prawn
     #
     class Cells < Array
 
+      # @group Experimental API
+
       # Limits selection to the given row or rows. +row_spec+ can be anything
       # that responds to the === operator selecting a set of 0-based row
       # numbers; most commonly a number or a range.

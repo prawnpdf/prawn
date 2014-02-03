@@ -9,7 +9,7 @@
 require 'digest/md5'
 require 'rc4'
 
-require_relative '../pdf/core/byte_string'
+require 'pdf/core/byte_string'
 
 module Prawn
   class Document
@@ -18,6 +18,8 @@ module Prawn
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
       include PDF::Core
+
+      # @group Experimental API
 
       # Encrypts the document, to protect confidential data or control
       # modifications to the document. The encryption algorithm used is
@@ -201,14 +203,15 @@ module Prawn
   end
 end
 
-module PDF #:nodoc:
+# @private
+module PDF
   module Core
     module_function
 
     # Like PdfObject, but returns an encrypted result if required.
     # For direct objects, requires the object identifier and generation number
     # from the indirect object referencing obj.
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
+    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false) 
       case obj
       when Array
         "[" << obj.map { |e|
@@ -248,6 +251,7 @@ module PDF #:nodoc:
     end
 
 
+    # @private
     class Stream
       def encrypted_object(key, id, gen)
         if filtered_stream
@@ -258,6 +262,7 @@ module PDF #:nodoc:
       end
     end
 
+    # @private
     class Reference
 
       # Returns the object definition for the object this references, keyed from

@@ -1,6 +1,7 @@
 module Prawn
   class Table
-    class ColumnWidthCalculator
+    # @private
+    class ColumnWidthCalculator 
       def initialize(cells)
         @cells = cells
 

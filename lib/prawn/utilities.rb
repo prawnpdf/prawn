@@ -16,7 +16,8 @@ module Prawn
   # But at the same time, we don't want to throw away thread safety
   # We have two interchangeable thread-safe cache implementations:
 
-  class SynchronizedCache
+  # @private
+  class SynchronizedCache 
     # As an optimization, this could access the hash directly on VMs with a global interpreter lock (like MRI)
     def initialize
       @cache = {}
@@ -29,8 +30,9 @@ module Prawn
       @mutex.synchronize { @cache[key] = value }
     end
   end
-
-  class ThreadLocalCache
+  
+  # @private
+  class ThreadLocalCache     
     def initialize
       @cache_id = "cache_#{self.object_id}".to_sym
     end

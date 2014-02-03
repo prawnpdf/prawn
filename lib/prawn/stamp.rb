@@ -28,6 +28,8 @@ module Prawn
   #
   module Stamp
 
+    # @group Stable API
+
     # Renders the stamp named <tt>name</tt> to the page
     # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?
     # raises <tt>Prawn::Errors::UndefinedObjectName</tt> if no stamp
