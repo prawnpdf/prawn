@@ -56,7 +56,7 @@ Of course, you'll probably want to do more interesting things than that...
 
 ## Manual
 
-Mendicant University student Felipe Doria provided us with a beautiful system for generating a user manual from our examples. This can be generated from the prawn source or you can download a pre-generated snapshot of it at http://prawn.majesticseacreature.com/manual.pdf
+Felipe Doria provided us with a beautiful system for generating a user manual from our examples. This can be generated from the prawn source or you can download a pre-generated snapshot of it at http://prawnpdf.org/manual.pdf
 
 Note that while we will try to keep the downloadable manual up to date, that it's provided as a convenience only and you should generate the manual yourself if you want to be sure the code in it actually runs and works as expected. To build the manual, here's what you need to do:
 
