@@ -353,6 +353,9 @@ module Prawn
     # Pass an open file descriptor to render to file.
     #
     def render(output = StringIO.new)
+      if output.instance_of?(StringIO)
+        output.set_encoding(::Encoding::ASCII_8BIT)
+      end
       finalize_all_page_contents
 
       render_header(output)
