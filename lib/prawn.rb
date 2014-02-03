@@ -20,6 +20,8 @@ module Prawn
   #
   BASEDIR = File.expand_path(File.join(dir, '..'))
   DATADIR = File.expand_path(File.join(dir, '..', 'data'))
+  
+  FLOAT_PRECISION = 1.0e-9
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
   # are used.  Off by default.
