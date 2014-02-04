@@ -14,7 +14,6 @@ require_relative "document/internals"
 require_relative "document/span"
 require_relative "document/snapshot"
 require_relative "document/graphics_state"
-require_relative "document/component"
 
 module Prawn
 
@@ -63,7 +62,6 @@ module Prawn
     include Prawn::Images
     include Prawn::Stamp
     include Prawn::SoftMask
-    include Prawn::Document::Component
 
     # @group Extension API
 
@@ -98,6 +96,10 @@ module Prawn
     #
     def self.extensions
       @extensions ||= []
+    end
+
+    def draw drawer, *args
+      drawer.call self, *args
     end
 
     # @private
