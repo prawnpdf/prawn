@@ -98,7 +98,7 @@ module Prawn
       @extensions ||= []
     end
 
-    def draw drawer, *args
+    def draw(drawer, *args)
       drawer.call self, *args
     end
 
