@@ -18,7 +18,7 @@ module Prawn
     #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
     #
     def grid(*args)
-      @boxes ||= {}
+      @boxes = {}
       @boxes[args] ||= if args.empty?
         @grid
       else
