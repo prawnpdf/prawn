@@ -32,10 +32,10 @@ issue still is relevant, we will open it back up.
 
 * We will close all incoming issues related to the currently
 unmaintained templates feature, marking them with a 'templates'
-tag. There are some volunteers who may be able to help you with
-these issues, and we will still review template-related pull
-requests, but the feature itself is not currently supported
-by the core team.
+tag. These will remained archived in our tracker until
+someone else starts maintaining prawn-templates, but we
+cannot provide any help for this unsupported feature at
+this point in time.
 
 These are all temporary measures, and will be revised once we
 hit 1.0. The underlying goal is to keep the issue tracker full 
