@@ -7,8 +7,8 @@ or stack trace can also be helpful!
 list](https://groups.google.com/forum/#!forum/prawn-ruby) instead of the Github tracker,
 or see if anyone is around in #prawn on Freenode to discuss your issue. If we
 find that you discovered a bug, or that your feature request is one that
-we want to collect research on in Github, we'll either ask you to file a 
-ticket or file one on your behalf. 
+we want to continue to research and discuss on Github, we'll either ask you 
+to file a ticket or file one on your behalf. 
 
 3. Pull requests for bug fixes or enhancements are welcome. Feel free to open
 them in the early stages of your work so that we can give feedback
