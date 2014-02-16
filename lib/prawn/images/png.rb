@@ -17,6 +17,8 @@ module Prawn
     # of a PNG image that we need to embed them in a PDF
     #
     class PNG < Image
+      # @group Extension API
+
       attr_reader :palette, :img_data, :transparency
       attr_reader :width, :height, :bits
       attr_reader :color_type, :compression_method, :filter_method

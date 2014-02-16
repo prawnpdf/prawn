@@ -7,6 +7,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
+
 require_relative "document/bounding_box"
 require_relative "document/column_box"
 require_relative "document/internals"
@@ -62,6 +63,8 @@ module Prawn
     include Prawn::Stamp
     include Prawn::SoftMask
 
+    # @group Extension API
+
     # NOTE: We probably need to rethink the options validation system, but this
     # constant temporarily allows for extensions to modify the list.
 
@@ -90,13 +93,27 @@ module Prawn
     #     party!
     #   end
     #
+    #
     def self.extensions
       @extensions ||= []
     end
 
-    def self.inherited(base) #:nodoc:
+    # @private
+    def self.inherited(base) 
       extensions.each { |e| base.extensions << e }
     end
+
+    # @group Stable Attributes
+
+    attr_accessor :margin_box
+    attr_reader   :margins, :y
+    attr_accessor :page_number
+
+    # @group Extension Attributes
+
+    attr_accessor :text_formatter
+
+    # @group Stable API
 
     # Creates and renders a PDF document.
     #
@@ -215,27 +232,7 @@ module Prawn
       end
     end
 
-    attr_accessor :margin_box
-    attr_reader   :margins, :y
-    attr_writer   :font_size
-    attr_accessor :page_number
-    attr_accessor :text_formatter
-
-    def state
-      @internal_state
-    end
-
-    def page
-      state.page
-    end
-
-    def initialize_first_page(options)
-      if options[:skip_page_creation]
-        start_new_page(options.merge(:orphan => true))
-      else
-        start_new_page(options)
-      end
-    end
+    # @group Stable API
 
     # Creates and advances to a new page in the document.
     #
@@ -415,6 +412,7 @@ module Prawn
 
     # Returns the innermost non-stretchy bounding box.
     #
+    # @private
     def reference_bounds
       @bounding_box.reference_bounds
     end
@@ -500,47 +498,6 @@ module Prawn
       bounds.indent(left, right, &block)
     end
 
-
-    def mask(*fields) # :nodoc:
-     # Stores the current state of the named attributes, executes the block, and
-     # then restores the original values after the block has executed.
-     # -- I will remove the nodoc if/when this feature is a little less hacky
-      stored = {}
-      fields.each { |f| stored[f] = send(f) }
-      yield
-      fields.each { |f| send("#{f}=", stored[f]) }
-    end
-
-    # Attempts to group the given block vertically within the current context.
-    # First attempts to render it in the current position on the current page.
-    # If that attempt overflows, it is tried anew after starting a new context
-    # (page or column). Returns a logically true value if the content fits in
-    # one page/column, false if a new page or column was needed.
-    #
-    # Raises CannotGroup if the provided content is too large to fit alone in
-    # the current page or column.
-    #
-    def group(second_attempt=false)
-      old_bounding_box = @bounding_box
-      @bounding_box = SimpleDelegator.new(@bounding_box)
-
-      def @bounding_box.move_past_bottom
-        raise RollbackTransaction
-      end
-
-      success = transaction { yield }
-
-      @bounding_box = old_bounding_box
-
-      unless success
-        raise Prawn::Errors::CannotGroup if second_attempt
-        old_bounding_box.move_past_bottom
-        group(second_attempt=true) { yield }
-      end
-
-      success
-    end
-
     # Places a text box on specified pages for page numbering.  This should be called
     # towards the end of document creation, after all your content is already in
     # place.  In your template string, <page> refers to the current page, and
@@ -613,6 +570,46 @@ module Prawn
       end
     end
 
+    # Returns true if content streams will be compressed before rendering,
+    # false otherwise
+    #
+    def compression_enabled?
+      !!state.compress
+    end
+
+    # @group Experimental API
+
+    # Attempts to group the given block vertically within the current context.
+    # First attempts to render it in the current position on the current page.
+    # If that attempt overflows, it is tried anew after starting a new context
+    # (page or column). Returns a logically true value if the content fits in
+    # one page/column, false if a new page or column was needed.
+    #
+    # Raises CannotGroup if the provided content is too large to fit alone in
+    # the current page or column.
+    #
+    def group(second_attempt=false)
+      old_bounding_box = @bounding_box
+      @bounding_box = SimpleDelegator.new(@bounding_box)
+
+      # @private
+      def @bounding_box.move_past_bottom
+        raise RollbackTransaction
+      end
+
+      success = transaction { yield }
+
+      @bounding_box = old_bounding_box
+
+      unless success
+        raise Prawn::Errors::CannotGroup if second_attempt
+        old_bounding_box.move_past_bottom
+        group(second_attempt=true) { yield }
+      end
+
+      success
+    end
+
     # Provides a way to execute a block of code repeatedly based on a
     # page_filter.
     #
@@ -638,15 +635,42 @@ module Prawn
       end
     end
 
+    # @private
+   
+    def mask(*fields) 
+     # Stores the current state of the named attributes, executes the block, and
+     # then restores the original values after the block has executed.
+     # -- I will remove the nodoc if/when this feature is a little less hacky
+      stored = {}
+      fields.each { |f| stored[f] = send(f) }
+      yield
+      fields.each { |f| send("#{f}=", stored[f]) }
+    end
 
-    # Returns true if content streams will be compressed before rendering,
-    # false otherwise
-    #
-    def compression_enabled?
-      !!state.compress
+    # @group Extension API
+
+    def initialize_first_page(options)
+      if options[:skip_page_creation]
+        start_new_page(options.merge(:orphan => true))
+      else
+        start_new_page(options)
+      end
+    end
+
+    ## Internals. Don't depend on them!
+
+    # @private
+    def state
+      @internal_state
+    end
+
+    # @private
+    def page
+      state.page
     end
 
     private
+
 
     # setting override_settings to true ensures that a new graphic state does not end up using
     # previous settings.

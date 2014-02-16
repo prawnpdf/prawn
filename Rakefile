@@ -40,3 +40,15 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
+
+desc "Run a console with Prawn loaded"
+task :console do
+  require 'irb'
+  require 'irb/completion'
+  require_relative 'lib/prawn'
+  Prawn.debug = true
+
+  ARGV.clear
+  IRB.start
+end
+

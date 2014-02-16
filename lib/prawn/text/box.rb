@@ -11,6 +11,7 @@ require_relative "formatted/box"
 
 module Prawn
   module Text
+    # @group Stable API
 
     # Draws the requested text into a box. When the text overflows
     # the rectangle, you shrink to fit, or truncate the text. Text
@@ -120,6 +121,8 @@ module Prawn
 
       box.render
     end
+
+    # @group Experimental API
 
     # Generally, one would use the Prawn::Text#text_box convenience
     # method. However, using Text::Box.new in conjunction with

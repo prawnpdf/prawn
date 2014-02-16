@@ -10,7 +10,8 @@
 module Prawn
   module Text
     module Formatted
-
+      # @group Stable API
+      
       # Draws the requested formatted text into a box. When the text overflows
       # the rectangle shrink to fit or truncate the text. Text boxes are
       # independent of the document y position.
@@ -100,19 +101,7 @@ module Prawn
       class Box
         include Prawn::Text::Formatted::Wrap
 
-        def valid_options
-          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign,
-                                              :rotate, :rotate_around,
-                                              :overflow, :min_font_size,
-                                              :leading, :character_spacing,
-                                              :mode, :single_line,
-                                              :skip_encoding,
-                                              :document,
-                                              :direction,
-                                              :fallback_fonts,
-                                              :draw_text_callback]
-        end
+        # @group Experimental API
 
         # The text that was successfully printed (or, if <tt>dry_run</tt> was
         # used, the text that would have been successfully printed)
@@ -143,42 +132,6 @@ module Prawn
 
         def line_gap
           line_height - (ascender + descender)
-        end
-
-        #
-        # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
-        # of the wrap method if you want to override the default wrapping
-        # algorithm):
-        #
-        #
-        #   module MyWrap
-        #
-        #     def wrap(array)
-        #       initialize_wrap([{ :text => 'all your base are belong to us' }])
-        #       @line_wrap.wrap_line(:document => @document,
-        #                            :kerning => @kerning,
-        #                            :width => 10000,
-        #                            :arranger => @arranger)
-        #       fragment = @arranger.retrieve_fragment
-        #       format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
-        #       []
-        #     end
-        #
-        #   end
-        #
-        #   Prawn::Text::Formatted::Box.extensions << MyWrap
-        #
-        #   box = Prawn::Text::Formatted::Box.new('hello world')
-        #   box.render('why can't I print anything other than' +
-        #              '"all your base are belong to us"?')
-        #
-        #
-        def self.extensions
-          @extensions ||= []
-        end
-
-        def self.inherited(base) #:nodoc:
-          extensions.each { |e| base.extensions << e }
         end
 
         # See Prawn::Text#text_box for valid options
@@ -337,6 +290,58 @@ module Prawn
 
             draw_fragment_overlays(fragment)
           end
+        end
+
+        # @group Extension API
+        
+        # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
+        # of the wrap method if you want to override the default wrapping
+        # algorithm):
+        #
+        #
+        #   module MyWrap
+        #
+        #     def wrap(array)
+        #       initialize_wrap([{ :text => 'all your base are belong to us' }])
+        #       @line_wrap.wrap_line(:document => @document,
+        #                            :kerning => @kerning,
+        #                            :width => 10000,
+        #                            :arranger => @arranger)
+        #       fragment = @arranger.retrieve_fragment
+        #       format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
+        #       []
+        #     end
+        #
+        #   end
+        #
+        #   Prawn::Text::Formatted::Box.extensions << MyWrap
+        #
+        #   box = Prawn::Text::Formatted::Box.new('hello world')
+        #   box.render('why can't I print anything other than' +
+        #              '"all your base are belong to us"?')
+        #
+        #
+        def self.extensions
+          @extensions ||= []
+        end
+
+        # @private
+        def self.inherited(base)
+          extensions.each { |e| base.extensions << e }
+        end
+
+        def valid_options
+          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
+                                              :align, :valign,
+                                              :rotate, :rotate_around,
+                                              :overflow, :min_font_size,
+                                              :leading, :character_spacing,
+                                              :mode, :single_line,
+                                              :skip_encoding,
+                                              :document,
+                                              :direction,
+                                              :fallback_fonts,
+                                              :draw_text_callback]
         end
 
         private

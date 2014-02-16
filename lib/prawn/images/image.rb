@@ -10,6 +10,7 @@ require 'digest/sha1'
 module Prawn
   module Images
     class Image
+      # @group Extension API
 
       def calc_image_dimensions(options)
         w = options[:width] || width

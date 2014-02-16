@@ -10,6 +10,7 @@
 module Prawn
   module Graphics
     module Patterns
+      # @group Stable API
 
       # Sets the fill gradient from color1 to color2.
       # old arguments: point, width, height, color1, color2, options = {}

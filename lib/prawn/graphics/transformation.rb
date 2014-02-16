@@ -10,6 +10,7 @@
 module Prawn
   module Graphics
     module Transformation
+      # @group Stable API
 
       # Rotate the user space.  If a block is not provided, then you must save
       # and restore the graphics state yourself.

@@ -8,6 +8,7 @@
 
 module Prawn
   class Document
+    # @group Stable API
 
     # :call-seq:
     #   bounding_box(point, options={}, &block)
@@ -219,7 +220,7 @@ module Prawn
     #
     class BoundingBox
 
-      def initialize(document, parent, point, options={}) #:nodoc:
+      def initialize(document, parent, point, options={}) # @private
         unless options[:width]
           raise ArgumentError, "BoundingBox needs the :width option to be set"
         end
@@ -233,15 +234,22 @@ module Prawn
         @stretched_height = nil
       end
 
+      # @private
+
       attr_reader :document, :parent
+
+      # @private
       # The current indentation of the left side of the bounding box.
       attr_reader :total_left_padding
+
+      # @private
       # The current indentation of the right side of the bounding box.
       attr_reader :total_right_padding
 
       # The translated origin (x,y-height) which describes the location
       # of the bottom left corner of the bounding box
       #
+      # @private
       def anchor
         [@x, @y - height]
       end
@@ -272,6 +280,7 @@ module Prawn
       #    text "indented on both sides"
       #  end
       #
+      # @private
       def indent(left_padding, right_padding = 0, &block)
         add_left_padding(left_padding)
         add_right_padding(right_padding)
@@ -282,6 +291,7 @@ module Prawn
       end
 
       # Increase the left padding of the bounding box.
+      # @private
       def add_left_padding(left_padding)
         @total_left_padding += left_padding
         @x += left_padding
@@ -289,6 +299,7 @@ module Prawn
       end
 
       # Decrease the left padding of the bounding box.
+      # @private
       def subtract_left_padding(left_padding)
         @total_left_padding -= left_padding
         @x -= left_padding
@@ -296,12 +307,14 @@ module Prawn
       end
 
       # Increase the right padding of the bounding box.
+      # @private
       def add_right_padding(right_padding)
         @total_right_padding += right_padding
         @width -= right_padding
       end
 
       # Decrease the right padding of the bounding box.
+      # @private
       def subtract_right_padding(right_padding)
         @total_right_padding -= right_padding
         @width += right_padding
@@ -452,14 +465,18 @@ module Prawn
       end
 
       # an alias for absolute_left
+      # @private
       def left_side
         absolute_left
       end
 
       # an alias for absolute_right
+      # @private
       def right_side
         absolute_right
       end
+
+      # @group Extension API
 
       # Moves to the top of the next page of the document, starting a new page
       # if necessary.
@@ -471,9 +488,6 @@ module Prawn
           @document.go_to_page(@document.page_number + 1)
         end
       end
-
-
-      alias_method :update_height, :height
 
       # Returns +false+ when the box has a defined height, +true+ when the height
       # is being calculated on the fly based on the current vertical position.
@@ -493,9 +507,12 @@ module Prawn
         end
       end
 
+      alias_method :update_height, :height
+
       # Returns a deep copy of these bounds (including all parent bounds but
       # not copying the reference to the Document).
       #
+      # @private
       def deep_copy
         copy = dup
         # Deep-copy the parent bounds
@@ -510,6 +527,7 @@ module Prawn
       # context of the given +document+. Does *not* set the bounds of the
       # document to the resulting BoundingBox, only returns it.
       #
+      # @private
       def self.restore_deep_copy(bounds, document)
         bounds.instance_variable_set("@document", document)
         bounds

@@ -8,6 +8,8 @@
 
 module Prawn
   class Document
+    # @group Stable API
+
     # A span is a special purpose bounding box that allows a column of
     # elements to be positioned relative to the margin_box.
     #

@@ -13,6 +13,17 @@ describe "A document's grid" do
     @pdf.grid.gutter.should == 0.1
   end
 
+  it "should allow re-definition of a grid" do
+    @pdf.define_grid(:columns => 5, :rows => 8, :gutter => 0.1)
+    @pdf.grid.columns.should == 5
+    @pdf.grid.rows.should == 8
+    @pdf.grid.gutter.should == 0.1
+    @pdf.define_grid(:columns => 3, :rows => 6, :gutter => 0.1)
+    @pdf.grid.columns.should == 3
+    @pdf.grid.rows.should == 6
+    @pdf.grid.gutter.should == 0.1
+  end
+
   describe "when a grid is defined" do
     before do
       @num_columns = 5
