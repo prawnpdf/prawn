@@ -8,6 +8,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+# @private
 class Arcfour
   def initialize(key)
     # Convert string key to Array of integers
