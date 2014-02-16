@@ -6,7 +6,13 @@ module Prawn
     # rows and columns and the width to use for the gutter as the
     # keys :rows, :columns, :gutter, :row_gutter, :column_gutter
     #
+    # Note that a completely new grid object is built each time define_grid()
+    # is called. This means that all subsequent calls to grid() will use
+    # the newly defined Grid object -- grids are not nestable like 
+    # bounding boxes are.
+
     def define_grid(options = {})
+      @boxes = nil
       @grid = Grid.new(self, options)
     end
 
