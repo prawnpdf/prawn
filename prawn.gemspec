@@ -21,7 +21,6 @@ Gem::Specification.new do |spec|
   spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
 
   spec.add_dependency('ttfunk', '~> 1.1.0')
-  spec.add_dependency('ruby-rc4')
   spec.add_dependency('pdf-core', "~> 0.1.3")
 
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
