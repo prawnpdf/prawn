@@ -212,6 +212,8 @@ module PDF
     # Like PdfObject, but returns an encrypted result if required.
     # For direct objects, requires the object identifier and generation number
     # from the indirect object referencing obj.
+    #
+    # @private
     def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false) 
       case obj
       when Array
