@@ -215,7 +215,6 @@ and generation number of the reference. See Algorithm 3.1.</p>
       <pre class="lines">
 
 
-114
 115
 116
 117
@@ -224,10 +223,11 @@ and generation number of the reference. See Algorithm 3.1.</p>
 120
 121
 122
-123</pre>
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_encrypt_string'>encrypt_string</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_gen'>gen</span><span class='rparen'>)</span>
   <span class='comment'># Convert ID and Gen number into little-endian truncated byte strings
@@ -237,7 +237,7 @@ and generation number of the reference. See Algorithm 3.1.</p>
 
   <span class='comment'># Compute the RC4 key from the extended key and perform the encryption
 </span>  <span class='id identifier rubyid_rc4_key'>rc4_key</span> <span class='op'>=</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>MD5</span><span class='period'>.</span><span class='id identifier rubyid_digest'>digest</span><span class='lparen'>(</span><span class='id identifier rubyid_extended_key'>extended_key</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span>
-  <span class='const'>RC4</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_rc4_key'>rc4_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_encrypt'>encrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
+  <span class='const'>Arcfour</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_rc4_key'>rc4_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_encrypt'>encrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -348,7 +348,6 @@ format.</p>
       <pre class="lines">
 
 
-92
 93
 94
 95
@@ -365,10 +364,11 @@ format.</p>
 106
 107
 108
-109</pre>
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encrypt_document'>encrypt_document</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='const'>Prawn</span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span> <span class='lbracket'>[</span><span class='symbol'>:user_password</span><span class='comma'>,</span> <span class='symbol'>:owner_password</span><span class='comma'>,</span> <span class='symbol'>:permissions</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -398,7 +398,7 @@ format.</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Jan 23 13:06:29 2014 by
+  Generated on Sun Feb 16 10:58:19 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

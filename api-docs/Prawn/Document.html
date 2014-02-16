@@ -2451,12 +2451,12 @@ left corner of the bounding box.</p>
       <pre class="lines">
 
 
-406
-407
-408</pre>
+409
+410
+411</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 406</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 409</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounds'>bounds</span>
   <span class='ivar'>@bounding_box</span>
@@ -2495,12 +2495,12 @@ and exiting bounding box code blocks is good enough.</p>
       <pre class="lines">
 
 
-422
-423
-424</pre>
+425
+426
+427</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 422</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 425</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bounds='>bounds=</span><span class='lparen'>(</span><span class='id identifier rubyid_bounding_box'>bounding_box</span><span class='rparen'>)</span>
   <span class='ivar'>@bounding_box</span> <span class='op'>=</span> <span class='id identifier rubyid_bounding_box'>bounding_box</span>
@@ -2717,12 +2717,12 @@ otherwise</p>
       <pre class="lines">
 
 
-573
-574
-575</pre>
+576
+577
+578</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 573</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 576</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compression_enabled?'>compression_enabled?</span>
   <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_compress'>compress</span>
@@ -2790,6 +2790,10 @@ to the page margins at the top level.</p>
 rows and columns and the width to use for the gutter as the keys :rows,
 :columns, :gutter, :row_gutter, :column_gutter</p>
 
+<p>Note that a completely new grid object is built each time define_grid() is
+called. This means that all subsequent calls to grid() will use the newly
+defined Grid object – grids are not nestable like  bounding boxes are.</p>
+
 
   </div>
 </div>
@@ -2802,14 +2806,16 @@ rows and columns and the width to use for the gutter as the keys :rows,
       <pre class="lines">
 
 
-9
-10
-11</pre>
+14
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_grid'>define_grid</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@boxes</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@grid</span> <span class='op'>=</span> <span class='const'>Grid</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3313,12 +3319,6 @@ work with the grid system directly.</p>
       <pre class="lines">
 
 
-20
-21
-22
-23
-24
-25
 26
 27
 28
@@ -3326,10 +3326,16 @@ work with the grid system directly.</p>
 30
 31
 32
-33</pre>
+33
+34
+35
+36
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/layout/grid.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_grid'>grid</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='ivar'>@boxes</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -3383,9 +3389,6 @@ current page or column.</p>
       <pre class="lines">
 
 
-588
-589
-590
 591
 592
 593
@@ -3403,10 +3406,13 @@ current page or column.</p>
 605
 606
 607
-608</pre>
+608
+609
+610
+611</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 588</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 591</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_group'>group</span><span class='lparen'>(</span><span class='id identifier rubyid_second_attempt'>second_attempt</span><span class='op'>=</span><span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_old_bounding_box'>old_bounding_box</span> <span class='op'>=</span> <span class='ivar'>@bounding_box</span>
@@ -3470,12 +3476,12 @@ current page or column.</p>
       <pre class="lines">
 
 
-494
-495
-496</pre>
+497
+498
+499</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 494</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 497</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_right'>right</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -3500,16 +3506,16 @@ current page or column.</p>
       <pre class="lines">
 
 
-649
-650
-651
 652
 653
 654
-655</pre>
+655
+656
+657
+658</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 649</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 652</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize_first_page'>initialize_first_page</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:skip_page_creation</span><span class='rbracket'>]</span>
@@ -3681,12 +3687,12 @@ the current bounding box.</p>
       <pre class="lines">
 
 
-436
-437
-438</pre>
+439
+440
+441</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 439</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-=</span> <span class='id identifier rubyid_n'>n</span>
@@ -3723,12 +3729,12 @@ the current bounding box.</p>
       <pre class="lines">
 
 
-429
-430
-431</pre>
+432
+433
+434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 429</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 432</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_up'>move_up</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>+=</span> <span class='id identifier rubyid_n'>n</span>
@@ -3812,9 +3818,6 @@ counting from</p>
       <pre class="lines">
 
 
-533
-534
-535
 536
 537
 538
@@ -3847,10 +3850,13 @@ counting from</p>
 565
 566
 567
-568</pre>
+568
+569
+570
+571</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 533</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 536</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_number_pages'>number_pages</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -3968,14 +3974,14 @@ document by y again.</p>
       <pre class="lines">
 
 
-475
-476
-477
 478
-479</pre>
+479
+480
+481
+482</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 475</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 478</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad'>pad</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
@@ -4019,13 +4025,13 @@ document by y again.</p>
       <pre class="lines">
 
 
-461
-462
-463
-464</pre>
+464
+465
+466
+467</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 461</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 464</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad_bottom'>pad_bottom</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='kw'>yield</span>
@@ -4068,13 +4074,13 @@ document by y again.</p>
       <pre class="lines">
 
 
-448
-449
-450
-451</pre>
+451
+452
+453
+454</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 448</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 451</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pad_top'>pad_top</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_down'>move_down</span><span class='lparen'>(</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
@@ -4181,9 +4187,6 @@ some_lambda  yields page number and repeats for true return values</code></pre>
       <pre class="lines">
 
 
-620
-621
-622
 623
 624
 625
@@ -4194,10 +4197,13 @@ some_lambda  yields page number and repeats for true return values</code></pre>
 630
 631
 632
-633</pre>
+633
+634
+635
+636</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 620</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 623</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_page_match?'>page_match?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_filter'>page_filter</span><span class='comma'>,</span> <span class='id identifier rubyid_page_number'>page_number</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_page_filter'>page_filter</span>
@@ -4259,12 +4265,18 @@ to file.</p>
 366
 367
 368
-369</pre>
+369
+370
+371
+372</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 355</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='const'>StringIO</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_output'>output</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span><span class='lparen'>(</span><span class='const'>StringIO</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_output'>output</span><span class='period'>.</span><span class='id identifier rubyid_set_encoding'>set_encoding</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Encoding</span><span class='op'>::</span><span class='const'>ASCII_8BIT</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
   <span class='id identifier rubyid_finalize_all_page_contents'>finalize_all_page_contents</span>
 
   <span class='id identifier rubyid_render_header'>render_header</span><span class='lparen'>(</span><span class='id identifier rubyid_output'>output</span><span class='rparen'>)</span>
@@ -4312,12 +4324,12 @@ to file.</p>
       <pre class="lines">
 
 
-375
-376
-377</pre>
+378
+379
+380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document.rb', line 378</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_file'>render_file</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>wb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -4892,7 +4904,7 @@ override it and redefine the width calculation behavior. ++</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Jan 23 13:06:30 2014 by
+  Generated on Sun Feb 16 10:58:20 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

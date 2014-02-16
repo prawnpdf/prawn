@@ -491,16 +491,16 @@ be chained, and cell properties can be set one-for-all on the proxy.</p>
       <pre class="lines">
 
 
+189
 190
 191
 192
 193
 194
-195
-196</pre>
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>=\z</span><span class='regexp_end'>/</span></span>
@@ -551,6 +551,7 @@ Cell, not a Cells collection.</p>
       <pre class="lines">
 
 
+102
 103
 104
 105
@@ -559,11 +560,10 @@ Cell, not a Cells collection.</p>
 108
 109
 110
-111
-112</pre>
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_empty?'>empty?</span>
@@ -606,6 +606,7 @@ Cell, not a Cells collection.</p>
       <pre class="lines">
 
 
+115
 116
 117
 118
@@ -620,11 +621,10 @@ Cell, not a Cells collection.</p>
 127
 128
 129
-130
-131</pre>
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='op'>[]=</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='comma'>,</span> <span class='id identifier rubyid_cell'>cell</span><span class='rparen'>)</span> <span class='comment'># :nodoc:
 </span>  <span class='id identifier rubyid_cell'>cell</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'>Cell</span><span class='op'>::</span><span class='const'>InTable</span><span class='rparen'>)</span>
@@ -673,13 +673,13 @@ Cell, not a Cells collection.</p>
       <pre class="lines">
 
 
+83
 84
 85
-86
-87</pre>
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column_count'>column_count</span>
   <span class='id identifier rubyid_index_cells'>index_cells</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@indexed</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@indexed</span>
@@ -725,16 +725,16 @@ column numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+72
 73
 74
 75
 76
 77
-78
-79</pre>
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_columns'>columns</span><span class='lparen'>(</span><span class='id identifier rubyid_col_spec'>col_spec</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_index_cells'>index_cells</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@indexed</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@indexed</span>
@@ -778,12 +778,12 @@ column numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+93
 94
-95
-96</pre>
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='const'>Cells</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -819,12 +819,12 @@ column numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+181
 182
-183
-184</pre>
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
   <span class='id identifier rubyid_aggregate_cell_values'>aggregate_cell_values</span><span class='lparen'>(</span><span class='symbol'>:row</span><span class='comma'>,</span> <span class='symbol'>:height_ignoring_span</span><span class='comma'>,</span> <span class='symbol'>:max</span><span class='rparen'>)</span>
@@ -860,12 +860,12 @@ column numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+175
 176
-177
-178</pre>
+177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 175</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_width'>max_width</span>
   <span class='id identifier rubyid_aggregate_cell_values'>aggregate_cell_values</span><span class='lparen'>(</span><span class='symbol'>:column</span><span class='comma'>,</span> <span class='symbol'>:max_width_ignoring_span</span><span class='comma'>,</span> <span class='symbol'>:max</span><span class='rparen'>)</span>
@@ -901,12 +901,12 @@ column numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+169
 170
-171
-172</pre>
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_min_width'>min_width</span>
   <span class='id identifier rubyid_aggregate_cell_values'>aggregate_cell_values</span><span class='lparen'>(</span><span class='symbol'>:column</span><span class='comma'>,</span> <span class='symbol'>:avg_spanned_min_width</span><span class='comma'>,</span> <span class='symbol'>:max</span><span class='rparen'>)</span>
@@ -942,13 +942,13 @@ column numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+60
 61
 62
-63
-64</pre>
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_row_count'>row_count</span>
   <span class='id identifier rubyid_index_cells'>index_cells</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@indexed</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@indexed</span>
@@ -994,16 +994,16 @@ numbers; most commonly a number or a range.</p>
       <pre class="lines">
 
 
+49
 50
 51
 52
 53
 54
-55
-56</pre>
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rows'>rows</span><span class='lparen'>(</span><span class='id identifier rubyid_row_spec'>row_spec</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_index_cells'>index_cells</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@indexed</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@indexed</span>
@@ -1057,15 +1057,15 @@ allows you to set more complicated properties:</p>
       <pre class="lines">
 
 
+146
 147
 148
 149
 150
-151
-152</pre>
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_style'>style</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cell'>cell</span><span class='op'>|</span>
@@ -1104,6 +1104,7 @@ allows you to set more complicated properties:</p>
       <pre class="lines">
 
 
+155
 156
 157
 158
@@ -1113,11 +1114,10 @@ allows you to set more complicated properties:</p>
 162
 163
 164
-165
-166</pre>
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/table/cells.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='id identifier rubyid_widths'>widths</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1140,7 +1140,7 @@ allows you to set more complicated properties:</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Jan 23 13:06:31 2014 by
+  Generated on Sun Feb 16 10:58:21 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>
