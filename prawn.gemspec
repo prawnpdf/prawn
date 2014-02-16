@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
   spec.rubyforge_project = "prawn"
   spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
 
-  spec.add_dependency('pdf-reader', '~>1.2')
   spec.add_dependency('ttfunk', '~> 1.1.0')
   spec.add_dependency('ruby-rc4')
   spec.add_dependency('pdf-core', "~> 0.1.1")
@@ -32,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('mocha')
   spec.add_development_dependency('rake')
   spec.add_development_dependency('simplecov')
+  spec.add_development_dependency('pdf-reader', '~>1.2')
 
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
