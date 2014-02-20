@@ -12,7 +12,6 @@ require_relative "document/bounding_box"
 require_relative "document/column_box"
 require_relative "document/internals"
 require_relative "document/span"
-require_relative "document/snapshot"
 require_relative "document/graphics_state"
 
 module Prawn
@@ -54,7 +53,6 @@ module Prawn
     include Prawn::Document::Internals
     include PDF::Core::Annotations
     include PDF::Core::Destinations
-    include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
     include Prawn::Document::Security
     include Prawn::Text
@@ -71,7 +69,7 @@ module Prawn
     VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
                      :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
                      :compress, :skip_encoding, :background, :info,
-                     :optimize_objects, :text_formatter, :print_scaling]
+                     :text_formatter, :print_scaling]
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
@@ -159,7 +157,6 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
-    # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
@@ -588,26 +585,22 @@ module Prawn
     # Raises CannotGroup if the provided content is too large to fit alone in
     # the current page or column.
     #
-    def group(second_attempt=false)
-      old_bounding_box = @bounding_box
-      @bounding_box = SimpleDelegator.new(@bounding_box)
+    # @private
+    def group(*a, &b)
+      raise NotImplementedError, 
+        "Document#group has been disabled because its implementation "+
+        "lead to corrupted documents whenever a page boundary was "+
+        "crossed. We will try to work on reimplementing it in a "+
+        "future release"
+    end
 
-      # @private
-      def @bounding_box.move_past_bottom
-        raise RollbackTransaction
-      end
-
-      success = transaction { yield }
-
-      @bounding_box = old_bounding_box
-
-      unless success
-        raise Prawn::Errors::CannotGroup if second_attempt
-        old_bounding_box.move_past_bottom
-        group(second_attempt=true) { yield }
-      end
-
-      success
+    # @private
+    def transaction
+      raise NotImplementedError, 
+        "Document#transaction has been disabled because its implementation "+
+        "lead to corrupted documents whenever a page boundary was "+
+        "crossed. We will try to work on reimplementing it in a "+
+        "future release"
     end
 
     # Provides a way to execute a block of code repeatedly based on a

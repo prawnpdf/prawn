@@ -366,7 +366,6 @@ describe "TTF fonts" do
   end
 
   describe "when normalizing encoding" do
-
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
       normalized = @activa.normalize_encoding(original)
@@ -380,35 +379,6 @@ describe "TTF fonts" do
     end
 
   end
-
-  describe "when used with snapshots or transactions" do
-
-    it "should allow TTF fonts to be used alongside document transactions" do
-      lambda {
-        Prawn::Document.new do
-          font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-          text "Hi there"
-          transaction { text "Nice, thank you" }
-        end
-      }.should_not raise_error
-    end
-
-    it "should allow TTF fonts to be used inside transactions" do
-      pdf = Prawn::Document.new do
-        transaction do
-          font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-          text "Hi there"
-        end
-      end
-
-      text = PDF::Inspector::Text.analyze(pdf.render)
-      name = text.font_settings.map { |e| e[:name] }.first.to_s
-      name = name.sub(/\w+\+/, "subset+")
-      name.should == "subset+DejaVuSans"
-    end
-
-  end
-
 end
 
 describe "DFont fonts" do
