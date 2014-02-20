@@ -12,7 +12,6 @@ require_relative "document/bounding_box"
 require_relative "document/column_box"
 require_relative "document/internals"
 require_relative "document/span"
-require_relative "document/snapshot"
 require_relative "document/graphics_state"
 
 module Prawn
@@ -54,7 +53,6 @@ module Prawn
     include Prawn::Document::Internals
     include PDF::Core::Annotations
     include PDF::Core::Destinations
-    include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
     include Prawn::Document::Security
     include Prawn::Text
@@ -588,26 +586,22 @@ module Prawn
     # Raises CannotGroup if the provided content is too large to fit alone in
     # the current page or column.
     #
-    def group(second_attempt=false)
-      old_bounding_box = @bounding_box
-      @bounding_box = SimpleDelegator.new(@bounding_box)
+    # @private
+    def group(*a, &b)
+      raise NotImplementedError, 
+        "Document#group has been disabled because its implementation "+
+        "lead to corrupted documents whenever a page boundary was "+
+        "crossed. We will try to work on reimplementing it in a "+
+        "future release"
+    end
 
-      # @private
-      def @bounding_box.move_past_bottom
-        raise RollbackTransaction
-      end
-
-      success = transaction { yield }
-
-      @bounding_box = old_bounding_box
-
-      unless success
-        raise Prawn::Errors::CannotGroup if second_attempt
-        old_bounding_box.move_past_bottom
-        group(second_attempt=true) { yield }
-      end
-
-      success
+    # @private
+    def transaction
+      raise NotImplementedError, 
+        "Document#transaction has been disabled because its implementation "+
+        "lead to corrupted documents whenever a page boundary was "+
+        "crossed. We will try to work on reimplementing it in a "+
+        "future release"
     end
 
     # Provides a way to execute a block of code repeatedly based on a
