@@ -73,8 +73,6 @@ module Prawn
       }.hash
 
       if soft_mask_registry[registry_key]
-        [g_state, mask, group, group_attrs].each { |ref| ref.live = false }
-
         add_content "/#{soft_mask_registry[registry_key]} gs"
       else
         masks = page.resources[:ExtGState] ||= {}
