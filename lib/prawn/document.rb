@@ -69,7 +69,7 @@ module Prawn
     VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
                      :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
                      :compress, :skip_encoding, :background, :info,
-                     :optimize_objects, :text_formatter, :print_scaling]
+                     :text_formatter, :print_scaling]
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
@@ -157,7 +157,6 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
-    # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]

@@ -484,35 +484,6 @@ describe "The render() feature" do
   end
 end
 
-describe "The :optimize_objects option" do
-  before(:all) do
-    @wasteful_doc = lambda do |pdf|
-      pdf.transaction do
-        pdf.start_new_page
-        pdf.text "Hidden text"
-        pdf.rollback
-      end
-
-      pdf.text "Hello world"
-    end
-  end
-
-  xit "should result in fewer objects when enabled" do
-    wasteful_pdf = Prawn::Document.new(&@wasteful_doc)
-    frugal_pdf   = Prawn::Document.new(:optimize_objects => true,
-                                       &@wasteful_doc)
-    frugal_pdf.render.size.should be < wasteful_pdf.render.size
-  end
-
-  xit "should default to :false" do
-    default_pdf  = Prawn::Document.new(&@wasteful_doc)
-    wasteful_pdf = Prawn::Document.new(:optimize_objects => false,
-                                       &@wasteful_doc)
-    default_pdf.render.size.should == wasteful_pdf.render.size
-  end
-
-end
-
 describe "PDF file versions" do
   it "should default to 1.3" do
     @pdf = Prawn::Document.new
