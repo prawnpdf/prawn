@@ -74,6 +74,40 @@ describe "Prawn::Document#transaction" do
       text.strings.select { |e| e[/Page \d+ of 5/] }.count.should == 5
   end
 
+  it "should restore the total page count if a transaction is rolled back",
+    :unresolved, :issue => 268 do
+
+    pdf = Prawn::Document.new do
+      transaction do
+        5.times { start_new_page }
+        rollback
+      end
+    end
+
+    pdf.page_count.should == 1
+  end
+
+  it "should not include rolled back page objects in PDF document",
+    :unresolved, :issue => 268 do
+    pdf = Prawn::Document.new do
+      transaction do
+        5.times { start_new_page }
+        text "way out there and will never be shown"
+        rollback
+      end
+      text "This is the real text, only one page"
+    end
+
+
+    # FIXME: Belongs in PDF::Inspector. Also look for
+    # similar tests that may need to be rewritten this way.
+    page_count = PDF::Reader.new(StringIO.new(pdf.render))
+                   .objects
+                   .select { |k,v| Hash === v && v[:Type] == :Page }.count
+
+    page_count.should == 1
+  end
+
   it "should return true/false value indicating success of the transaction" do
     Prawn::Document.new do
       success = transaction { }
@@ -97,20 +131,6 @@ describe "Prawn::Document#transaction" do
     end
     text = PDF::Inspector::Text.analyze(pdf.render)
     text.strings.should == ["This is shown", "and this is"]
-  end
-
-  it "should allow rollback of multiple pages" do
-    pdf = Prawn::Document.new do
-      transaction do
-        5.times { start_new_page }
-        text "way out there and will never be shown"
-        rollback
-      end
-      text "This is the real text, only one page"
-    end
-
-    pages = PDF::Inspector::Page.analyze(pdf.render).pages
-    pages.size.should == 1
   end
 
   it "should not propagate a RollbackTransaction outside its bounds" do
