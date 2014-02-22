@@ -703,10 +703,7 @@ module Prawn
 
       # we must update bounding box if not flowing from the previous page
       #
-      # FIXME: This may have a bug where the old margin is restored
-      # when the bounding box exits.
-      @bounding_box = @margin_box if old_margin_box == @bounding_box
-    end
+      @bounding_box = @margin_box unless @bounding_box && @bounding_box.parent    end
 
     def apply_margin_options(options)
       if options[:margin]
