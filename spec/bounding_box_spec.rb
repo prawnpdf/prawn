@@ -109,9 +109,7 @@ describe "drawing bounding boxes" do
     x.should == [100, 500]
   end
 
-  it "should restore Document#bounds to the correct margin box on exit",
-    :unresolved, :issue => 645 do
-
+  it "should restore Document#bounds to the correct margin box on exit" do
     pdf = Prawn::Document.new(:margin => 200)
 
     # add a multi-page bounding box
