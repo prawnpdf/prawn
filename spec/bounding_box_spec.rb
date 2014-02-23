@@ -109,15 +109,20 @@ describe "drawing bounding boxes" do
     x.should == [100, 500]
   end
 
-  it "should restore the margin box when bounding box exits" do
-    margin_box = @pdf.bounds
+  it "should restore Document#bounds to the correct margin box on exit" do
+    pdf = Prawn::Document.new(:margin => 200)
 
-    @pdf.bounding_box [100,500], :width => 100 do
-      #nothing
+    # add a multi-page bounding box
+    pdf.bounding_box([100, pdf.bounds.top], :width => 400) do
+      pdf.text "The rain in spain falls mainly in the plains.\n" * 30
     end
 
-    @pdf.bounds.should == margin_box
+    pdf.start_new_page(:margin => 0)
 
+    x_min, y_min, x_max, y_max = pdf.page.dimensions
+
+    pdf.bounds.absolute_top_left.should == [x_min, y_max]
+    pdf.bounds.absolute_bottom_right.should == [x_max, y_min]
   end
 
   it "should restore the parent bounding box when calls are nested" do
