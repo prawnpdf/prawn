@@ -28,7 +28,7 @@ One thing Prawn is not, and will never be, is an HTML to PDF generator. For thos
 
 Because Prawn is pure Ruby and virtually all of its dependencies are maintained
 by our core team, it should run pretty much anywhere, including Rubinius, JRuby,
-MacRuby, etc. We officially support MRI {1.9.3, 2.0.0, 2.1.0} and jruby 1.7.x
+MacRuby, etc. We officially support MRI {1.9.3, 2.0.0, 2.1.x} and jruby 1.7.x
 (>= 1.7.9) in 1.9 mode, however we will accept patches to fix problems on other 
 Ruby platforms if they aren't too invasive.
 
