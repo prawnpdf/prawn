@@ -301,12 +301,12 @@ describe "#glyph_present" do
   end
 
   it "should return true when present in a TTF font" do
-    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     font.glyph_present?("H").should be_true
   end
 
   it "should return false when absent in a TTF font" do
-    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     font.glyph_present?("再").should be_false
 
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
