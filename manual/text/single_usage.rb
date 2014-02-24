@@ -28,8 +28,8 @@ Prawn::Example.generate(filename) do
   move_down 20
   
   # Using an DFONT font file
-  font("#{Prawn::DATADIR}/fonts/Action Man.dfont") do
-    text "Written with the Action Man DFONT font"
+  font("#{Prawn::DATADIR}/fonts/Panic+Sans.dfont") do
+    text "Written with the Panic Sans DFONT font"
   end
   move_down 20
 

@@ -128,21 +128,21 @@ describe "font style support" do
   end
 
   it "should allow font familes to be defined in a single dfont" do
-    file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
-    @pdf.font_families["Action Man"] = {
-      :normal      => { :file => file, :font => "ActionMan" },
-      :italic      => { :file => file, :font => "ActionMan-Italic" },
-      :bold        => { :file => file, :font => "ActionMan-Bold" },
-      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+    file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
+    @pdf.font_families["Panic Sans"] = {
+      :normal      => { :file => file, :font => "PanicSans" },
+      :italic      => { :file => file, :font => "PanicSans-Italic" },
+      :bold        => { :file => file, :font => "PanicSans-Bold" },
+      :bold_italic => { :file => file, :font => "PanicSans-BoldItalic" }
     }
 
-    @pdf.font "Action Man", :style => :italic
-    @pdf.text "In ActionMan-Italic"
+    @pdf.font "Panic Sans", :style => :italic
+    @pdf.text "In PanicSans-Italic"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
     name = text.font_settings.map { |e| e[:name] }.first.to_s
     name = name.sub(/\w+\+/, "subset+")
-    name.should == "subset+ActionMan-Italic"
+    name.should == "subset+PanicSans-Italic"
   end
 
   it "should accept Pathname objects for font files" do
@@ -383,12 +383,12 @@ end
 describe "DFont fonts" do
   before do
     create_pdf
-    @file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
+    @file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   end
 
   it "should list all named fonts" do
     list = Prawn::Font::DFont.named_fonts(@file)
-    list.sort.should == %w(ActionMan ActionMan-Italic ActionMan-Bold ActionMan-BoldItalic).sort
+    list.sort.should == %w(PanicSans PanicSans-Italic PanicSans-Bold PanicSans-BoldItalic).sort
   end
 
   it "should count the number of fonts in the file" do
@@ -397,25 +397,25 @@ describe "DFont fonts" do
 
   it "should default selected font to the first one if not specified" do
     font = @pdf.find_font(@file)
-    font.basename.should == "ActionMan"
+    font.basename.should == "PanicSans"
   end
 
   it "should allow font to be selected by index" do
     font = @pdf.find_font(@file, :font => 2)
-    font.basename.should == "ActionMan-Italic"
+    font.basename.should == "PanicSans-Italic"
   end
 
   it "should allow font to be selected by name" do
-    font = @pdf.find_font(@file, :font => "ActionMan-BoldItalic")
-    font.basename.should == "ActionMan-BoldItalic"
+    font = @pdf.find_font(@file, :font => "PanicSans-BoldItalic")
+    font.basename.should == "PanicSans-BoldItalic"
   end
 
   it "should cache font object based on selected font" do
-    f1 = @pdf.find_font(@file, :font => "ActionMan")
-    f2 = @pdf.find_font(@file, :font => "ActionMan-Bold")
+    f1 = @pdf.find_font(@file, :font => "PanicSans")
+    f2 = @pdf.find_font(@file, :font => "PanicSans-Bold")
     f2.object_id.should_not == f1.object_id
-    @pdf.find_font(@file, :font => "ActionMan").object_id.should == f1.object_id
-    @pdf.find_font(@file, :font => "ActionMan-Bold").object_id.should == f2.object_id
+    @pdf.find_font(@file, :font => "PanicSans").object_id.should == f1.object_id
+    @pdf.find_font(@file, :font => "PanicSans-Bold").object_id.should == f2.object_id
   end
 end
 
