@@ -318,63 +318,62 @@ describe "TTF fonts" do
 
   before do
     create_pdf
-    @activa = @pdf.find_font "#{Prawn::DATADIR}/fonts/Activa.ttf"
+    @font = @pdf.find_font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
   end
 
   it "should calculate string width taking into account accented characters" do
-    @activa.compute_width_of("é", :size => 12).should == @activa.compute_width_of("e", :size => 12)
+    @font.compute_width_of("é", :size => 12).should == @font.compute_width_of("e", :size => 12)
   end
 
   it "should calculate string width taking into account kerning pairs" do
-    @activa.compute_width_of("To", :size => 12).should == 15.228
-    @activa.compute_width_of("To", :size => 12, :kerning => true).should == 12.996
+    @font.compute_width_of("To", :size => 12).should be_within(0.01).of(14.65)
+    @font.compute_width_of("To", :size => 12, :kerning => true).should be_within(0.01).of(12.61)
   end
 
   it "should encode text without kerning by default" do
-    @activa.encode_text("To").should == [[0, "To"]]
+    @font.encode_text("To").should == [[0, "To"]]
 
     tele = "T\216l\216"
-    result = @activa.encode_text("Télé")
+    result = @font.encode_text("Télé")
     result.length.should == 1
     result[0][0].should == 0
     result[0][1].bytes.to_a.should == tele.bytes.to_a
 
-    @activa.encode_text("Technology").should == [[0, "Technology"]]
-    @activa.encode_text("Technology...").should == [[0, "Technology..."]]
-    @activa.encode_text("Teχnology...").should == [[0, "Te"], [1, "!"], [0, "nology..."]]
+    @font.encode_text("Technology").should == [[0, "Technology"]]
+    @font.encode_text("Technology...").should == [[0, "Technology..."]]
+    @font.encode_text("Teχnology...").should == [[0, "Te"], [1, "!"], [0, "nology..."]]
   end
 
   it "should encode text with kerning if requested" do
-    @activa.encode_text("To", :kerning => true).should == [[0, ["T", 186.0, "o"]]]
-    @activa.encode_text("To", :kerning => true).should == [[0, ["T", 186.0, "o"]]]
-    @activa.encode_text("Technology", :kerning => true).should == [[0, ["T", 186.0, "echnology"]]]
-    @activa.encode_text("Technology...", :kerning => true).should == [[0, ["T", 186.0, "echnology", 88.0, "..."]]]
-    @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
+    @font.encode_text("To", :kerning => true).should == [[0, ["T", 169.921875, "o"]]]
+    @font.encode_text("Technology", :kerning => true).should == [[0, ["T", 169.921875, "echnology"]]]
+    @font.encode_text("Technology...", :kerning => true).should == [[0, ["T", 169.921875, "echnology", 142.578125, "..."]]]
+    @font.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 169.921875, "e"]], [1, "!"], [0, ["nology", 142.578125, "..."]]]
   end
 
   it "should use the ascender, descender, and cap height from the TTF verbatim" do
     # These metrics are relative to the font's own bbox. They should not be
     # scaled with font size.
     ref = @pdf.ref!({})
-    @activa.send :embed, ref, 0
+    @font.send :embed, ref, 0
 
     # Pull out the embedded font descriptor
     descriptor = ref.data[:FontDescriptor].data
-    descriptor[:Ascent].should == 804
-    descriptor[:Descent].should == -195
-    descriptor[:CapHeight].should == 804
+    descriptor[:Ascent].should == 759
+    descriptor[:Descent].should == -240
+    descriptor[:CapHeight].should == 759
   end
 
   describe "when normalizing encoding" do
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
-      normalized = @activa.normalize_encoding(original)
+      normalized = @font.normalize_encoding(original)
       original.equal?(normalized).should be_false
     end
 
     it "should modify the original string when normalize_encoding!() is used" do
       original = "Foo"
-      normalized = @activa.normalize_encoding!(original)
+      normalized = @font.normalize_encoding!(original)
       original.equal?(normalized).should be_true
     end
 
