@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.rubyforge_project = "prawn"
   spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
 
-  spec.add_dependency('ttfunk', '~> 1.1.0')
+  spec.add_dependency('ttfunk', '~> 1.1.1')
   spec.add_dependency('pdf-core', "~> 0.2.0")
 
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
