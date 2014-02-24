@@ -14,12 +14,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   # Registering a single TTF font
-  font_families.update("Chalkboard" => {
-    :normal => "#{Prawn::DATADIR}/fonts/Chalkboard.ttf"
+  font_families.update("DejaVu Sans" => {
+    :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
   })
   
-  font("Chalkboard") do
-    text "Using the Chalkboard font providing only its name to the font method"
+  font("DejaVu Sans") do
+    text "Using the DejaVu Sans font providing only its name to the font method"
   end
   move_down 20
   

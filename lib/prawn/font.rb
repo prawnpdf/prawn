@@ -26,8 +26,8 @@ module Prawn
     #     font "Times-Roman"
     #     text "Now using Times-Roman"
     #
-    #     font("Chalkboard.ttf") do
-    #       text "Using TTF font from file Chalkboard.ttf"
+    #     font("DejaVuSans.ttf") do
+    #       text "Using TTF font from file DejaVuSans.ttf"
     #       font "Courier", :style => :bold
     #       text "You see this in bold Courier"
     #     end

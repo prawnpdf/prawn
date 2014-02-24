@@ -146,18 +146,18 @@ describe "font style support" do
   end
 
   it "should accept Pathname objects for font files" do
-    file = Pathname.new( "#{Prawn::DATADIR}/fonts/Chalkboard.ttf" )
-    @pdf.font_families["Chalkboard"] = {
+    file = Pathname.new( "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" )
+    @pdf.font_families["DejaVu Sans"] = {
       :normal => file
     }
 
-    @pdf.font "Chalkboard"
-    @pdf.text "In Chalkboard"
+    @pdf.font "DejaVu Sans"
+    @pdf.text "In DejaVu Sans"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
     name = text.font_settings.map { |e| e[:name] }.first.to_s
     name = name.sub(/\w+\+/, "subset+")
-    name.should == "subset+Chalkboard"
+    name.should == "subset+DejaVuSans"
   end
 end
 
