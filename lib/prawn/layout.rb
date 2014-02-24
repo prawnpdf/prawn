@@ -1,5 +1,5 @@
 require_relative "table"
-require_relative "layout/grid"
+require_relative "grid"
 
 module Prawn
   module Errors
