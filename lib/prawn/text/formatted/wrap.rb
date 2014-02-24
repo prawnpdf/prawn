@@ -1,3 +1,9 @@
+# wrap.rb: Handles text wrapping for for formatted text
+#
+# Contributed by Daniel Nelson
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require_relative "line_wrap"
 require_relative "arranger"
 

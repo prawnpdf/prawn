@@ -1,6 +1,10 @@
 # encoding: utf-8
 
 # Accessors for using a Cell inside a Table.
+#
+# Contributed by Brad Ediger.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
   class Table

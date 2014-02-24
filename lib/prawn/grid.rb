@@ -1,3 +1,9 @@
+# grid.rb: Provides a basic grid layout system for Prawn
+#
+# Contributed by Andrew O'Brien in March 2009
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Document
     # @group Experimental API
