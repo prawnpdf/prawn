@@ -2,10 +2,10 @@ require "forwardable"
 
 module Prawn
   class Document
-    # @group Experimental API
-
-    # Lazily instantiates an Outline object for document. This is used as point of entry
-    # to methods to build the outline tree.
+    # @group Stable API
+    
+    # Lazily instantiates a Prawn::Outline object for document. This is used as point of entry
+    # to methods to build the outline tree for a document's table of contents.
     def outline
       @outline ||= Outline.new(self)
     end
@@ -26,10 +26,8 @@ module Prawn
     extend Forwardable
     def_delegator :@document, :page_number
 
-    attr_accessor :parent
-    attr_accessor :prev
-    attr_accessor :document
-    attr_accessor :items
+    # @private
+    attr_accessor :parent, :prev, :document, :items
 
     def initialize(document)
       @document = document
@@ -38,7 +36,13 @@ module Prawn
       @items = {}
     end
 
-    # @group Experimental API
+    # @group Stable API
+
+    # Returns the current page number of the document
+
+    def page_number
+      @document.page_number
+    end
 
     # Defines/Updates an outline for the document.
     # The outline is an optional nested index that appears on the side of a PDF
