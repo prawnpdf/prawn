@@ -18,7 +18,6 @@ module Prawn
     # Implements PDF encryption (password protection and permissions) as
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
-      include PDF::Core
 
       # @group Experimental API
 
@@ -130,8 +129,8 @@ module Prawn
         { :Filter => :Standard, # default PDF security handler
           :V      => 1,         # "Algorithm 3.1", PDF reference 1.3
           :R      => 2,         # Revision 2 of the algorithm
-          :O      => ByteString.new(owner_password_hash),
-          :U      => ByteString.new(user_password_hash),
+          :O      => PDF::Core::ByteString.new(owner_password_hash),
+          :U      => PDF::Core::ByteString.new(user_password_hash),
           :P      => permissions_value }
       end
 
