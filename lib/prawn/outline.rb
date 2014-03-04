@@ -21,9 +21,6 @@ module Prawn
   # objects in PdfObject through a hash.
   #
   class Outline
-    extend Forwardable
-    def_delegator :@document, :page_number
-
     # @private
     attr_accessor :parent, :prev, :document, :items
 
@@ -37,7 +34,6 @@ module Prawn
     # @group Stable API
 
     # Returns the current page number of the document
-
     def page_number
       @document.page_number
     end
