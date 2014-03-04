@@ -1,5 +1,3 @@
-require "forwardable"
-
 module Prawn
   class Document
     # @group Stable API
