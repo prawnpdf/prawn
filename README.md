@@ -78,7 +78,7 @@ Please make your posts to the list as specific as possible, including code sampl
 
 ## Contributing
 
-If you've found a bug, want to submit a patch, or have a feature request, please enter a ticket into our github tracker:
+If you've found a bug or want to submit a patch, please enter a ticket into our github tracker:
 
 <http://github.com/prawnpdf/prawn/issues>
 
