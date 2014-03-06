@@ -9,13 +9,13 @@
 module Prawn
   class Table
 
-    # @private
     class Cell
 
       # This module extends Cell objects when they are used in a table (as
       # opposed to standalone). Its properties apply to cells-in-tables but not
       # cells themselves.
       #
+      # @private
       module InTable
 
         # Row number (0-based).
