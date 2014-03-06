@@ -18,7 +18,7 @@ module Prawn
     # images with alpha channels can be processor and memory intensive.)
     #
     # Arguments:
-    # <tt>file</tt>:: path to file or an object that responds to #read
+    # <tt>file</tt>:: path to file or an object that responds to #read and #rewind
     #
     # Options:
     # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of the image.
