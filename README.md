@@ -99,13 +99,28 @@ full suite run.
 
 ## Authorship
 
-Prawn was originally developed by Gregory Brown, under the auspices of the Ruby Mendicant Project, a grassroots initiative in which the Ruby community collectively provided funding so that Gregory could take several months off of work to focus on this project.
+Prawn was originally developed by Gregory Brown, under the auspices of the Ruby
+Mendicant Project, a grassroots initiative in which the Ruby community
+collectively provided funding so that Gregory could take several months off of
+work to focus on this project.
 
-Over the last several years, we've received code contributions from over 50 people, which is amazing considering the low-level nature of this project. In 2010, Gregory officially handed the project off to the Prawn core team. Currently active maintainers include Brad Ediger, Daniel Nelson, James Healy, and Jonathan Greenberg.
+Over the last several years, we've received code contributions from dozens of
+people, which is amazing considering the low-level nature of this project. You can find the full list of folks 
+who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
 
-While he was only with us for a short time before moving on to other things, we'd also like to thank Prawn core team emeritus Jamis Buck for his contributions. He was responsible for introducing font subsetting as well as the first implementation of our inline formatting support.
+At various points in Prawn's history, the following contributors also served on
+Prawn's maintenance team: Brad Ediger, James Healy, Jonathan Greenberg, 
+Daniel Nelson, and Jamis Buck.
 
-You can find the full list of folks who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
+After a long hiatus, Gregory resumed slow-by-steady maintenance work on Prawn
+starting in November 2013. This was made possible thanks to some modest
+funding from Madriska, Inc. (Brad Ediger's company) to see the project
+through to its 1.0 release.
+
+The fate of Prawn after 1.0 is uncertain, it's not a very easy project 
+to maintain, and those who have been working on it over the years
+don't have much free time available for it. That said, we hope it
+keeps moving along!
 
 ## License
 
