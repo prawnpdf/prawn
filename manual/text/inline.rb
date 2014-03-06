@@ -36,6 +36,6 @@ Prawn::Example.generate(filename) do
   
   text "This an external link to the " +
        "<u><link href='https://github.com/prawnpdf/prawn/wiki'>Prawn wiki" +
-       "</link></u>"
+       "</link></u>",
        :inline_format => true
 end
