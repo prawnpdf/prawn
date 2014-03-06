@@ -13,7 +13,6 @@ Prawn::Example.generate("manual.pdf",
                         :page_size => "FOLIO") do
 
   load_page "cover"
-  load_page "foreword"
   load_page "how_to_read_this_manual"
 
   # Core chapters
