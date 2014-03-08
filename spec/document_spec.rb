@@ -392,14 +392,14 @@ describe "The mask() feature" do
 end
 
 describe "The group() feature" do
-  xit "should return a true value if the content fits on one page" do
+  it "should return a true value if the content fits on one page" do
     pdf = Prawn::Document.new do
       val = group { text "Hello"; text "World" }
       (!!val).should == true
     end
   end
 
-  xit "should group a simple block on a single page" do
+  it "should group a simple block on a single page" do
     pdf = Prawn::Document.new do
       self.y = 50
       val = group do
@@ -416,17 +416,25 @@ describe "The group() feature" do
     pages[1][:strings].should == ["Hello", "World"]
   end
 
-  xit "should raise_error CannotGroup if the content is too tall" do
-    lambda {
-      Prawn::Document.new do
+  it "should allow nesting of groups" do
+    pdf = Prawn::Document.new do
+      5.times { text "1" }
+      group do
+        10.times { text "1.1" }
+      end
+      group do
+        15.times { text "1.2" }
         group do
-          100.times { text "Too long" }
+          30.times { text "1.2.1" }
         end
-      end.render
-    }.should raise_error(Prawn::Errors::CannotGroup)
+      end
+    end
+
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+    pages.size.should == 2
   end
 
-   xit "should group within individual column boxes" do
+  it "should group within individual column boxes" do
     pdf = Prawn::Document.new do
       # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
       # of the height of one page / column, so each column should get its own
@@ -443,7 +451,6 @@ describe "The group() feature" do
     pages.size.should == 2
     pages[1][:strings].first.should == '0'
   end
-
 end
 
 describe "The render() feature" do
