@@ -225,9 +225,11 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello#{Prawn::Text::SHY}"
   end
 
-  it "should process UTF-8 chars" do
+  it "should process UTF-8 chars", :unresolved, :issue => 693 do
     array = [{ :text => "Ｔｅｓｔ" }]
     @arranger.format_array = array
+
+    # Should not raise an encoding error
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => 300,
                                   :document => @pdf)
