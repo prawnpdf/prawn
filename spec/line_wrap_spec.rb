@@ -224,6 +224,15 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "hello#{Prawn::Text::SHY}"
   end
+
+  it "should process UTF-8 chars" do
+    array = [{ :text => "Ｔｅｓｔ" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => 300,
+                                  :document => @pdf)
+    string.should == "Ｔｅｓｔ"
+  end
 end
 
 describe "Core::Text::Formatted::LineWrap#space_count" do
