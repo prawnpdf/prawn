@@ -23,7 +23,7 @@ Prawn::Example.generate(filename) do
                         :size => 60}
                      ], :at => [170, cursor - 160])
 
-  if Dir.exists(File.expand_path("../../.git", File.dirname(__FILE__)))
+  if Dir.exist?("#{Prawn::BASEDIR}/.git")
     #long git commit hash
     #commit = `git show --pretty=%H`
     #short git commit hash
