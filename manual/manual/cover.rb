@@ -23,13 +23,19 @@ Prawn::Example.generate(filename) do
                         :size => 60}
                      ], :at => [170, cursor - 160])
 
-  #long git commit hash
-  #commit = `git show --pretty=%H`
-  #short git commit hash
-  commit = `git show --pretty=%h`
+  if Dir.exist?("#{Prawn::BASEDIR}/.git")
+    #long git commit hash
+    #commit = `git show --pretty=%H`
+    #short git commit hash
+    commit = `git show --pretty=%h`
+    git_commit = "git commit: #{commit}"
+  else
+    git_commit = ""
+  end
+
   formatted_text_box([  {:text => "Last Update: #{Time.now.strftime("%Y-%m-%d")}\n"+
                                   "Prawn Version: #{Prawn::VERSION}\n"+
-                                  "git commit: #{commit}",
+                                  git_commit,
                          :size => 12}
                     ],   :at => [390, cursor - 620])
   
