@@ -97,7 +97,44 @@ These filters make it possible for us to add failing test cases for bugs that
 are currently being researched or worked on, without breaking the typical
 full suite run.
 
-## Authorship
+## Maintenance team
+
+Prawn has always been heavily dependent on community contributions, with dozens
+of people contributing code over the year. In that sense, the lines have
+blurred to the point where we no longer have a strong distinction between core
+developers and contributors.
+
+That said, there are a few folks who have been responsible for cutting releases,
+merging important pull requests, and making important decisions about the
+overall direction of the project. 
+
+### Current maintainers
+
+These are the folks to contact if you have a maintenance-related issue with
+Prawn:
+
+* Gregory Brown (sandal)
+* Evan Sharp (PacketMonkey)
+* Alexander Mankuta (cheba)
+
+### Inactive maintainers
+
+These folks have helped out in a maintenance role in the past, but are no longer
+actively involved in the project:
+
+* Brad Ediger (bradediger)
+* James Healy (yob)
+* Daniel Nelson (Bluejade)
+* Jonathan Greenberg (jonsgreen)
+* Jamis Buck (jamis)
+
+## License
+
+Prawn is released under a slightly modified form of the License of Ruby, allowing you to choose between Matz's terms, the GPLv2, or GPLv3. For details, please see the LICENSE, GPLv2, and GPLv3 files.
+
+If you wish to contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
+
+## History
 
 Prawn was originally developed by Gregory Brown, under the auspices of the Ruby
 Mendicant Project, a grassroots initiative in which the Ruby community
@@ -108,22 +145,10 @@ Over the last several years, we've received code contributions from dozens of
 people, which is amazing considering the low-level nature of this project. You can find the full list of folks 
 who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
 
-At various points in Prawn's history, the following contributors also served on
-Prawn's maintenance team: Brad Ediger, James Healy, Jonathan Greenberg, 
-Daniel Nelson, and Jamis Buck.
-
 After a long hiatus, Gregory resumed slow-by-steady maintenance work on Prawn
 starting in November 2013. This was made possible thanks to some modest
 funding from Madriska, Inc. (Brad Ediger's company) to see the project
 through to its 1.0 release.
 
 The fate of Prawn after 1.0 is uncertain, it's not a very easy project 
-to maintain, and those who have been working on it over the years
-don't have much free time available for it. That said, we hope it
-keeps moving along!
-
-## License
-
-Prawn is released under a slightly modified form of the License of Ruby, allowing you to choose between Matz's terms, the GPLv2, or GPLv3. For details, please see the LICENSE, GPLv2, and GPLv3 files.
-
-If you wish to contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
+to maintain. That said, we hope it keeps moving along!
