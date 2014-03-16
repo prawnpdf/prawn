@@ -38,16 +38,6 @@ Prawn is distributed via RubyGems, and can be installed the usual way that you i
 
 You can also install from git if you'd like, the _master_ branch contains the latest developments, and _stable_ represents the latest bug fixes to the currently released version of Prawn. If you go this route, using Bundler is encouraged.
 
-## Release Policies
-
-Before upgrading Prawn on one of your projects, you should read our [API
-compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
-guidelines. Generally speaking, you can expect tiny version updates to always be
-safe upgrades, but minor and major updates can introduce incompatibilities.
-
-Be sure to read the release notes each time we cut a new release and lock your gems accordingly. 
-You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
-
 ## Hello World!
 
 If the following code runs and produces a working PDF file, you've successfully installed Prawn.
@@ -71,6 +61,16 @@ Note that while we will try to keep the downloadable manual up to date, that it'
 3. install bundler if necessay
 4. run `bundle install`
 5. run `bundle exec rake manual`, which will generate _manual.pdf_ in the project root
+
+## Release Policies
+
+Before upgrading Prawn on one of your projects, you should read our [API
+compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
+guidelines. Generally speaking, you can expect tiny version updates to always be
+safe upgrades, but minor and major updates can introduce incompatibilities.
+
+Be sure to read the release notes each time we cut a new release and lock your gems accordingly. 
+You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 ## Support 
 
