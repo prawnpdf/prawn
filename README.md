@@ -40,7 +40,13 @@ You can also install from git if you'd like, the _master_ branch contains the la
 
 ## Release Policies
 
-We may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly. You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
+Before upgrading Prawn on one of your projects, you should read our [API
+compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
+guidelines. Generally speaking, you can expect tiny version updates to always be
+safe upgrades, but minor and major updates can introduce incompatibilities.
+
+Be sure to read the release notes each time we cut a new release and lock your gems accordingly. 
+You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 ## Hello World!
 
