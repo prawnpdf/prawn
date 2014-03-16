@@ -138,7 +138,7 @@ actively involved in the project:
 
 Prawn is released under a slightly modified form of the License of Ruby, allowing you to choose between Matz's terms, the GPLv2, or GPLv3. For details, please see the LICENSE, GPLv2, and GPLv3 files.
 
-If you wish to contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
+If you contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
 
 ## History
 
