@@ -1,3 +1,9 @@
+# ImageHandler provides a way to register image processors with Prawn
+#
+# Contributed by Evan Sharp in November 2013.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   # @group Extension API
   

@@ -392,14 +392,14 @@ describe "The mask() feature" do
 end
 
 describe "The group() feature" do
-  it "should return a true value if the content fits on one page" do
+  xit "should return a true value if the content fits on one page" do
     pdf = Prawn::Document.new do
       val = group { text "Hello"; text "World" }
       (!!val).should == true
     end
   end
 
-  it "should group a simple block on a single page" do
+  xit "should group a simple block on a single page" do
     pdf = Prawn::Document.new do
       self.y = 50
       val = group do
@@ -416,7 +416,7 @@ describe "The group() feature" do
     pages[1][:strings].should == ["Hello", "World"]
   end
 
-  it "should raise_error CannotGroup if the content is too tall" do
+  xit "should raise_error CannotGroup if the content is too tall" do
     lambda {
       Prawn::Document.new do
         group do
@@ -426,7 +426,7 @@ describe "The group() feature" do
     }.should raise_error(Prawn::Errors::CannotGroup)
   end
 
-   it "should group within individual column boxes" do
+   xit "should group within individual column boxes" do
     pdf = Prawn::Document.new do
       # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
       # of the height of one page / column, so each column should get its own
@@ -482,35 +482,6 @@ describe "The render() feature" do
     contents2 = pdf.render
     contents2.should == contents
   end
-end
-
-describe "The :optimize_objects option" do
-  before(:all) do
-    @wasteful_doc = lambda do |pdf|
-      pdf.transaction do
-        pdf.start_new_page
-        pdf.text "Hidden text"
-        pdf.rollback
-      end
-
-      pdf.text "Hello world"
-    end
-  end
-
-  it "should result in fewer objects when enabled" do
-    wasteful_pdf = Prawn::Document.new(&@wasteful_doc)
-    frugal_pdf   = Prawn::Document.new(:optimize_objects => true,
-                                       &@wasteful_doc)
-    frugal_pdf.render.size.should be < wasteful_pdf.render.size
-  end
-
-  it "should default to :false" do
-    default_pdf  = Prawn::Document.new(&@wasteful_doc)
-    wasteful_pdf = Prawn::Document.new(:optimize_objects => false,
-                                       &@wasteful_doc)
-    default_pdf.render.size.should == wasteful_pdf.render.size
-  end
-
 end
 
 describe "PDF file versions" do

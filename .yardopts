@@ -2,7 +2,6 @@
 --main README.md
 --title 'Prawn Documentation'
 --no-private
-lib/prawn/**/*.rb
 -
 CONTRIBUTING.md
 COPYING

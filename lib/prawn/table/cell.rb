@@ -153,7 +153,6 @@ module Prawn
       # this span group. They know their own width / height, but do not draw
       # anything.
       #
-      # @private
       attr_reader :dummy_cells 
 
       # Instantiates a Cell based on the given options. The particular class of

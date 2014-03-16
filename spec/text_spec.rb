@@ -257,7 +257,7 @@ describe "#text" do
   end
 
   it "should_not raise_error an exception when providing Pathname instance as font" do
-    @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
+    @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
   end
 
   it "should correctly render a utf-8 string when using a built-in font" do

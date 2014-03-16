@@ -19,8 +19,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   # Using a TTF font file
-  font("#{Prawn::DATADIR}/fonts/Chalkboard.ttf") do
-    text "Written with the Chalkboard TTF font."
+  font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do
+    text "Written with the DejaVu Sans TTF font."
   end
   move_down 20
   
@@ -28,8 +28,8 @@ Prawn::Example.generate(filename) do
   move_down 20
   
   # Using an DFONT font file
-  font("#{Prawn::DATADIR}/fonts/Action Man.dfont") do
-    text "Written with the Action Man DFONT font"
+  font("#{Prawn::DATADIR}/fonts/Panic+Sans.dfont") do
+    text "Written with the Panic Sans DFONT font"
   end
   move_down 20
 

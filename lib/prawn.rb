@@ -7,7 +7,7 @@ require 'ttfunk'
 require "pdf/core"
 
 module Prawn
-  VERSION = "0.15.1"
+  VERSION = "1.0.0"
 
   extend self
 

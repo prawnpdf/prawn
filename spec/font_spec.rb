@@ -128,36 +128,36 @@ describe "font style support" do
   end
 
   it "should allow font familes to be defined in a single dfont" do
-    file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
-    @pdf.font_families["Action Man"] = {
-      :normal      => { :file => file, :font => "ActionMan" },
-      :italic      => { :file => file, :font => "ActionMan-Italic" },
-      :bold        => { :file => file, :font => "ActionMan-Bold" },
-      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+    file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
+    @pdf.font_families["Panic Sans"] = {
+      :normal      => { :file => file, :font => "PanicSans" },
+      :italic      => { :file => file, :font => "PanicSans-Italic" },
+      :bold        => { :file => file, :font => "PanicSans-Bold" },
+      :bold_italic => { :file => file, :font => "PanicSans-BoldItalic" }
     }
 
-    @pdf.font "Action Man", :style => :italic
-    @pdf.text "In ActionMan-Italic"
+    @pdf.font "Panic Sans", :style => :italic
+    @pdf.text "In PanicSans-Italic"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
     name = text.font_settings.map { |e| e[:name] }.first.to_s
     name = name.sub(/\w+\+/, "subset+")
-    name.should == "subset+ActionMan-Italic"
+    name.should == "subset+PanicSans-Italic"
   end
 
   it "should accept Pathname objects for font files" do
-    file = Pathname.new( "#{Prawn::DATADIR}/fonts/Chalkboard.ttf" )
-    @pdf.font_families["Chalkboard"] = {
+    file = Pathname.new( "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" )
+    @pdf.font_families["DejaVu Sans"] = {
       :normal => file
     }
 
-    @pdf.font "Chalkboard"
-    @pdf.text "In Chalkboard"
+    @pdf.font "DejaVu Sans"
+    @pdf.text "In DejaVu Sans"
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
     name = text.font_settings.map { |e| e[:name] }.first.to_s
     name = name.sub(/\w+\+/, "subset+")
-    name.should == "subset+Chalkboard"
+    name.should == "subset+DejaVuSans"
   end
 end
 
@@ -301,12 +301,12 @@ describe "#glyph_present" do
   end
 
   it "should return true when present in a TTF font" do
-    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     font.glyph_present?("H").should be_true
   end
 
   it "should return false when absent in a TTF font" do
-    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/Activa.ttf")
+    font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     font.glyph_present?("再").should be_false
 
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
@@ -318,108 +318,77 @@ describe "TTF fonts" do
 
   before do
     create_pdf
-    @activa = @pdf.find_font "#{Prawn::DATADIR}/fonts/Activa.ttf"
+    @font = @pdf.find_font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
   end
 
   it "should calculate string width taking into account accented characters" do
-    @activa.compute_width_of("é", :size => 12).should == @activa.compute_width_of("e", :size => 12)
+    @font.compute_width_of("é", :size => 12).should == @font.compute_width_of("e", :size => 12)
   end
 
   it "should calculate string width taking into account kerning pairs" do
-    @activa.compute_width_of("To", :size => 12).should == 15.228
-    @activa.compute_width_of("To", :size => 12, :kerning => true).should == 12.996
+    @font.compute_width_of("To", :size => 12).should be_within(0.01).of(14.65)
+    @font.compute_width_of("To", :size => 12, :kerning => true).should be_within(0.01).of(12.61)
   end
 
   it "should encode text without kerning by default" do
-    @activa.encode_text("To").should == [[0, "To"]]
+    @font.encode_text("To").should == [[0, "To"]]
 
     tele = "T\216l\216"
-    result = @activa.encode_text("Télé")
+    result = @font.encode_text("Télé")
     result.length.should == 1
     result[0][0].should == 0
     result[0][1].bytes.to_a.should == tele.bytes.to_a
 
-    @activa.encode_text("Technology").should == [[0, "Technology"]]
-    @activa.encode_text("Technology...").should == [[0, "Technology..."]]
-    @activa.encode_text("Teχnology...").should == [[0, "Te"], [1, "!"], [0, "nology..."]]
+    @font.encode_text("Technology").should == [[0, "Technology"]]
+    @font.encode_text("Technology...").should == [[0, "Technology..."]]
+    @font.encode_text("Teχnology...").should == [[0, "Te"], [1, "!"], [0, "nology..."]]
   end
 
   it "should encode text with kerning if requested" do
-    @activa.encode_text("To", :kerning => true).should == [[0, ["T", 186.0, "o"]]]
-    @activa.encode_text("To", :kerning => true).should == [[0, ["T", 186.0, "o"]]]
-    @activa.encode_text("Technology", :kerning => true).should == [[0, ["T", 186.0, "echnology"]]]
-    @activa.encode_text("Technology...", :kerning => true).should == [[0, ["T", 186.0, "echnology", 88.0, "..."]]]
-    @activa.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 186.0, "e"]], [1, "!"], [0, ["nology", 88.0, "..."]]]
+    @font.encode_text("To", :kerning => true).should == [[0, ["T", 169.921875, "o"]]]
+    @font.encode_text("Technology", :kerning => true).should == [[0, ["T", 169.921875, "echnology"]]]
+    @font.encode_text("Technology...", :kerning => true).should == [[0, ["T", 169.921875, "echnology", 142.578125, "..."]]]
+    @font.encode_text("Teχnology...", :kerning => true).should == [[0, ["T", 169.921875, "e"]], [1, "!"], [0, ["nology", 142.578125, "..."]]]
   end
 
   it "should use the ascender, descender, and cap height from the TTF verbatim" do
     # These metrics are relative to the font's own bbox. They should not be
     # scaled with font size.
     ref = @pdf.ref!({})
-    @activa.send :embed, ref, 0
+    @font.send :embed, ref, 0
 
     # Pull out the embedded font descriptor
     descriptor = ref.data[:FontDescriptor].data
-    descriptor[:Ascent].should == 804
-    descriptor[:Descent].should == -195
-    descriptor[:CapHeight].should == 804
+    descriptor[:Ascent].should == 759
+    descriptor[:Descent].should == -240
+    descriptor[:CapHeight].should == 759
   end
 
   describe "when normalizing encoding" do
-
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
-      normalized = @activa.normalize_encoding(original)
+      normalized = @font.normalize_encoding(original)
       original.equal?(normalized).should be_false
     end
 
     it "should modify the original string when normalize_encoding!() is used" do
       original = "Foo"
-      normalized = @activa.normalize_encoding!(original)
+      normalized = @font.normalize_encoding!(original)
       original.equal?(normalized).should be_true
     end
 
   end
-
-  describe "when used with snapshots or transactions" do
-
-    it "should allow TTF fonts to be used alongside document transactions" do
-      lambda {
-        Prawn::Document.new do
-          font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-          text "Hi there"
-          transaction { text "Nice, thank you" }
-        end
-      }.should_not raise_error
-    end
-
-    it "should allow TTF fonts to be used inside transactions" do
-      pdf = Prawn::Document.new do
-        transaction do
-          font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-          text "Hi there"
-        end
-      end
-
-      text = PDF::Inspector::Text.analyze(pdf.render)
-      name = text.font_settings.map { |e| e[:name] }.first.to_s
-      name = name.sub(/\w+\+/, "subset+")
-      name.should == "subset+DejaVuSans"
-    end
-
-  end
-
 end
 
 describe "DFont fonts" do
   before do
     create_pdf
-    @file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
+    @file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   end
 
   it "should list all named fonts" do
     list = Prawn::Font::DFont.named_fonts(@file)
-    list.sort.should == %w(ActionMan ActionMan-Italic ActionMan-Bold ActionMan-BoldItalic).sort
+    list.sort.should == %w(PanicSans PanicSans-Italic PanicSans-Bold PanicSans-BoldItalic).sort
   end
 
   it "should count the number of fonts in the file" do
@@ -428,25 +397,25 @@ describe "DFont fonts" do
 
   it "should default selected font to the first one if not specified" do
     font = @pdf.find_font(@file)
-    font.basename.should == "ActionMan"
+    font.basename.should == "PanicSans"
   end
 
   it "should allow font to be selected by index" do
     font = @pdf.find_font(@file, :font => 2)
-    font.basename.should == "ActionMan-Italic"
+    font.basename.should == "PanicSans-Italic"
   end
 
   it "should allow font to be selected by name" do
-    font = @pdf.find_font(@file, :font => "ActionMan-BoldItalic")
-    font.basename.should == "ActionMan-BoldItalic"
+    font = @pdf.find_font(@file, :font => "PanicSans-BoldItalic")
+    font.basename.should == "PanicSans-BoldItalic"
   end
 
   it "should cache font object based on selected font" do
-    f1 = @pdf.find_font(@file, :font => "ActionMan")
-    f2 = @pdf.find_font(@file, :font => "ActionMan-Bold")
+    f1 = @pdf.find_font(@file, :font => "PanicSans")
+    f2 = @pdf.find_font(@file, :font => "PanicSans-Bold")
     f2.object_id.should_not == f1.object_id
-    @pdf.find_font(@file, :font => "ActionMan").object_id.should == f1.object_id
-    @pdf.find_font(@file, :font => "ActionMan-Bold").object_id.should == f2.object_id
+    @pdf.find_font(@file, :font => "PanicSans").object_id.should == f1.object_id
+    @pdf.find_font(@file, :font => "PanicSans-Bold").object_id.should == f2.object_id
   end
 end
 

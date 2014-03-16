@@ -11,6 +11,7 @@ module Prawn
 
       # A Cell that contains another table.
       #
+      # @private
       class Subtable < Cell
 
         attr_reader :subtable
