@@ -105,7 +105,7 @@ blurred to the point where we no longer have a strong distinction between core
 developers and contributors.
 
 That said, there are a few folks who have been responsible for cutting releases,
-merging important pull requests, and making important decisions about the
+merging important pull requests, and making major decisions about the
 overall direction of the project. 
 
 ### Current maintainers
