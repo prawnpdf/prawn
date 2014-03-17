@@ -260,12 +260,12 @@
       <pre class="lines">
 
 
-9
-10
-11</pre>
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
   <span class='ivar'>@handlers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -319,17 +319,17 @@
       <pre class="lines">
 
 
-27
-28
-29
-30
-31
-32
 33
-34</pre>
+34
+35
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_image_blob'>image_blob</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_handler'>handler</span> <span class='op'>=</span> <span class='ivar'>@handlers</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_can_render?'>can_render?</span> <span class='id identifier rubyid_image_blob'>image_blob</span> <span class='rbrace'>}</span>
@@ -359,13 +359,13 @@
       <pre class="lines">
 
 
-13
-14
-15
-16</pre>
+19
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_register'>register</span><span class='lparen'>(</span><span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
   <span class='ivar'>@handlers</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
@@ -391,13 +391,13 @@
       <pre class="lines">
 
 
-18
-19
-20
-21</pre>
+24
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_register!'>register!</span><span class='lparen'>(</span><span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
   <span class='ivar'>@handlers</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
@@ -423,12 +423,12 @@
       <pre class="lines">
 
 
-23
-24
-25</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unregister'>unregister</span><span class='lparen'>(</span><span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
   <span class='ivar'>@handlers</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span> <span class='op'>==</span> <span class='id identifier rubyid_handler'>handler</span> <span class='rbrace'>}</span>
@@ -443,9 +443,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:35 2014 by
+  Generated on Sun Mar 16 20:46:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>

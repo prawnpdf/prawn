@@ -119,12 +119,11 @@ and is not suitable for rendering rich HTML documents.</p>
 
 <h2 id="label-Supported+Ruby+Versions+and+Implementations">Supported Ruby Versions and Implementations</h2>
 
-<p>Because Prawn is pure Ruby and virtually all of its dependencies are
-maintained by our core team, it should run pretty much anywhere, including
-Rubinius, JRuby, MacRuby, etc. We officially support MRI 2.0.0,
-2.1.0 and jruby 1.7.x (&gt;= 1.7.9) in 1.9 mode, however we will accept
-patches to fix problems on other Ruby platforms if they aren&#39;t too
-invasive.</p>
+<p>Because Prawn is pure Ruby and all of its runtime dependencies are
+maintained by us, it should work pretty much anywhere. We officially
+support MRI 2.0.0, 2.1.x and jruby 1.7.x (&gt;= 1.7.9) in 1.9
+mode, however we will accept patches to fix problems on other Ruby
+platforms if they aren&#39;t too invasive.</p>
 
 <h2 id="label-Installing+Prawn">Installing Prawn</h2>
 
@@ -136,15 +135,6 @@ command line.</p>
 contains the latest developments, and <em>stable</em> represents the latest
 bug fixes to the currently released version of Prawn. If you go this route,
 using Bundler is encouraged.</p>
-
-<h2 id="label-Release+Policies">Release Policies</h2>
-
-<p>We may introduce backwards incompatible changes each time our minor version
-number is bumped, but that any tiny version number bump should be bug fixes
-and internal changes only. Be sure to read the release notes each time we
-cut a new release and lock your gems accordingly. You can find the project
-CHANGELOG at: <a
-href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/prawn/wiki/CHANGELOG</a></p>
 
 <h2 id="label-Hello+World%21">Hello World!</h2>
 
@@ -186,6 +176,18 @@ version)</p>
 <em>manual.pdf</em> in the project root</p>
 </li></ol>
 
+<h2 id="label-Release+Policies">Release Policies</h2>
+
+<p>Before upgrading Prawn on one of your projects, you should read our <a
+href="https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes">API
+compatibility</a> guidelines. Generally speaking, you can expect tiny
+version updates to always be safe upgrades, but minor and major updates can
+introduce incompatibilities.</p>
+
+<p>Be sure to read the release notes each time we cut a new release and lock
+your gems accordingly. You can find the project CHANGELOG at: <a
+href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/prawn/wiki/CHANGELOG</a></p>
+
 <h2 id="label-Support">Support</h2>
 
 <p>The easiest way to get help with Prawn is to post a message to our mailing
@@ -207,8 +209,8 @@ see what the issue might be.</p>
 
 <h2 id="label-Contributing">Contributing</h2>
 
-<p>If you&#39;ve found a bug, want to submit a patch, or have a feature
-request, please enter a ticket into our github tracker:</p>
+<p>If you&#39;ve found a bug or want to submit a patch, please enter a ticket
+into our github tracker:</p>
 
 <p><a
 href="http://github.com/prawnpdf/prawn/issues">github.com/prawnpdf/prawn/issues</a></p>
@@ -242,27 +244,44 @@ specific issue</p>
 that are currently being researched or worked on, without breaking the
 typical full suite run.</p>
 
-<h2 id="label-Authorship">Authorship</h2>
+<h2 id="label-Maintenance+team">Maintenance team</h2>
 
-<p>Prawn was originally developed by Gregory Brown, under the auspices of the
-Ruby Mendicant Project, a grassroots initiative in which the Ruby community
-collectively provided funding so that Gregory could take several months off
-of work to focus on this project.</p>
+<p>Prawn has always been heavily dependent on community contributions, with
+dozens of people contributing code over the year. In that sense, the lines
+have blurred to the point where we no longer have a strong distinction
+between core developers and contributors.</p>
 
-<p>Over the last several years, we&#39;ve received code contributions from
-over 50 people, which is amazing considering the low-level nature of this
-project. In 2010, Gregory officially handed the project off to the Prawn
-core team. Currently active maintainers include Brad Ediger, Daniel Nelson,
-James Healy, and Jonathan Greenberg.</p>
+<p>That said, there are a few folks who have been responsible for cutting
+releases, merging important pull requests, and making major decisions about
+the overall direction of the project.</p>
 
-<p>While he was only with us for a short time before moving on to other
-things, we&#39;d also like to thank Prawn core team emeritus Jamis Buck for
-his contributions. He was responsible for introducing font subsetting as
-well as the first implementation of our inline formatting support.</p>
+<h3 id="label-Current+maintainers">Current maintainers</h3>
 
-<p>You can find the full list of folks who have at least one patch accepted to
-Prawn on github at <a
-href="https://github.com/prawnpdf/prawn/contributors">github.com/prawnpdf/prawn/contributors</a></p>
+<p>These are the folks to contact if you have a maintenance-related issue with
+Prawn:</p>
+<ul><li>
+<p>Gregory Brown (sandal)</p>
+</li><li>
+<p>Evan Sharp (PacketMonkey)</p>
+</li><li>
+<p>Alexander Mankuta (cheba)</p>
+</li></ul>
+
+<h3 id="label-Inactive+maintainers">Inactive maintainers</h3>
+
+<p>These folks have helped out in a maintenance role in the past, but are no
+longer actively involved in the project:</p>
+<ul><li>
+<p>Brad Ediger (bradediger)</p>
+</li><li>
+<p>James Healy (yob)</p>
+</li><li>
+<p>Daniel Nelson (Bluejade)</p>
+</li><li>
+<p>Jonathan Greenberg (jonsgreen)</p>
+</li><li>
+<p>Jamis Buck (jamis)</p>
+</li></ul>
 
 <h2 id="label-License">License</h2>
 
@@ -270,14 +289,35 @@ href="https://github.com/prawnpdf/prawn/contributors">github.com/prawnpdf/prawn/
 allowing you to choose between Matz&#39;s terms, the GPLv2, or GPLv3. For
 details, please see the LICENSE, GPLv2, and GPLv3 files.</p>
 
-<p>If you wish to contribute to Prawn, you will retain your own copyright but
-must agree to license your code under the same terms as the project itself.</p>
+<p>If you contribute to Prawn, you will retain your own copyright but must
+agree to license your code under the same terms as the project itself.</p>
+
+<h2 id="label-History">History</h2>
+
+<p>Prawn was originally developed by Gregory Brown, under the auspices of the
+Ruby Mendicant Project, a grassroots initiative in which the Ruby community
+collectively provided funding so that Gregory could take several months off
+of work to focus on this project.</p>
+
+<p>Over the last several years, we&#39;ve received code contributions from
+dozens of people, which is amazing considering the low-level nature of this
+project. You can find the full list of folks who have at least one patch
+accepted to Prawn on github at <a
+href="https://github.com/prawnpdf/prawn/contributors">github.com/prawnpdf/prawn/contributors</a></p>
+
+<p>After a long hiatus, Gregory resumed slow-by-steady maintenance work on
+Prawn starting in November 2013. This was made possible thanks to some
+modest funding from Madriska, Inc. (Brad Ediger&#39;s company) to see the
+project through to its 1.0 release.</p>
+
+<p>The fate of Prawn after 1.0 is uncertain, it&#39;s not a very easy project
+to maintain. That said, we hope it keeps moving along!</p>
 </div></div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:33 2014 by
+  Generated on Sun Mar 16 20:46:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>

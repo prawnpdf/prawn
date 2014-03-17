@@ -482,16 +482,16 @@ the rightmost column.</p>
       <pre class="lines">
 
 
-55
-56
 57
 58
 59
 60
-61</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='kw'>super</span>
@@ -539,13 +539,13 @@ between all columns on the page.</p>
       <pre class="lines">
 
 
-123
-124
 125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_left_padding'>add_left_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_left_padding'>left_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_left_padding</span> <span class='op'>+=</span> <span class='id identifier rubyid_left_padding'>left_padding</span>
@@ -571,12 +571,12 @@ between all columns on the page.</p>
       <pre class="lines">
 
 
-133
-134
-135</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_right_padding'>add_right_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_right_padding'>right_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_right_padding</span> <span class='op'>+=</span> <span class='id identifier rubyid_right_padding'>right_padding</span>
@@ -613,12 +613,12 @@ padding</p>
       <pre class="lines">
 
 
-65
-66
-67</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bare_column_width'>bare_column_width</span>
   <span class='lparen'>(</span><span class='ivar'>@width</span> <span class='op'>-</span> <span class='ivar'>@spacer</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='ivar'>@columns</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='ivar'>@columns</span>
@@ -654,12 +654,12 @@ padding</p>
       <pre class="lines">
 
 
-90
-91
-92</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_left'>left</span>
   <span class='id identifier rubyid_width_of_column'>width_of_column</span> <span class='op'>*</span> <span class='ivar'>@current_column</span>
@@ -695,12 +695,12 @@ padding</p>
       <pre class="lines">
 
 
-84
-85
-86</pre>
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_left_side'>left_side</span>
   <span class='id identifier rubyid_absolute_left'>absolute_left</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_width_of_column'>width_of_column</span> <span class='op'>*</span> <span class='ivar'>@current_column</span><span class='rparen'>)</span>
@@ -737,8 +737,6 @@ the rightmost column.</p>
       <pre class="lines">
 
 
-109
-110
 111
 112
 113
@@ -746,10 +744,12 @@ the rightmost column.</p>
 115
 116
 117
-118</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
   <span class='ivar'>@current_column</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@current_column</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>%</span> <span class='ivar'>@columns</span>
@@ -792,12 +792,12 @@ the rightmost column.</p>
       <pre class="lines">
 
 
-103
-104
-105</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_right'>right</span>
   <span class='id identifier rubyid_left'>left</span> <span class='op'>+</span> <span class='id identifier rubyid_width'>width</span>
@@ -833,13 +833,13 @@ the rightmost column.</p>
       <pre class="lines">
 
 
-96
-97
 98
-99</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_right_side'>right_side</span>
   <span class='id identifier rubyid_columns_from_right'>columns_from_right</span> <span class='op'>=</span> <span class='ivar'>@columns</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='int'>1</span> <span class='op'>+</span> <span class='ivar'>@current_column</span><span class='rparen'>)</span>
@@ -865,13 +865,13 @@ the rightmost column.</p>
       <pre class="lines">
 
 
-128
-129
 130
-131</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_subtract_left_padding'>subtract_left_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_left_padding'>left_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_left_padding</span> <span class='op'>-=</span> <span class='id identifier rubyid_left_padding'>left_padding</span>
@@ -897,12 +897,12 @@ the rightmost column.</p>
       <pre class="lines">
 
 
-137
-138
-139</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_subtract_right_padding'>subtract_right_padding</span><span class='lparen'>(</span><span class='id identifier rubyid_right_padding'>right_padding</span><span class='rparen'>)</span>
   <span class='ivar'>@total_right_padding</span> <span class='op'>-=</span> <span class='id identifier rubyid_right_padding'>right_padding</span>
@@ -939,12 +939,12 @@ can be.</p>
       <pre class="lines">
 
 
-72
-73
-74</pre>
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
   <span class='id identifier rubyid_bare_column_width'>bare_column_width</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='ivar'>@total_left_padding</span> <span class='op'>+</span> <span class='ivar'>@total_right_padding</span><span class='rparen'>)</span>
@@ -980,12 +980,12 @@ can be.</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/column_box.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_width_of_column'>width_of_column</span>
   <span class='id identifier rubyid_bare_column_width'>bare_column_width</span> <span class='op'>+</span> <span class='ivar'>@spacer</span>
@@ -1000,9 +1000,9 @@ can be.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:36 2014 by
+  Generated on Sun Mar 16 20:46:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>

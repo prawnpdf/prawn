@@ -230,9 +230,7 @@ save_graphics_state because soft mask is a part of graphic state in PDF.</p>
 83
 84
 85
-86
-87
-88</pre>
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/soft_mask.rb', line 31</span>
@@ -282,8 +280,6 @@ save_graphics_state because soft mask is a part of graphic state in PDF.</p>
   <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_soft_mask_registry'>soft_mask_registry</span><span class='lbracket'>[</span><span class='id identifier rubyid_registry_key'>registry_key</span><span class='rbracket'>]</span>
-    <span class='lbracket'>[</span><span class='id identifier rubyid_g_state'>g_state</span><span class='comma'>,</span> <span class='id identifier rubyid_mask'>mask</span><span class='comma'>,</span> <span class='id identifier rubyid_group'>group</span><span class='comma'>,</span> <span class='id identifier rubyid_group_attrs'>group_attrs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ref'>ref</span><span class='op'>|</span> <span class='id identifier rubyid_ref'>ref</span><span class='period'>.</span><span class='id identifier rubyid_live'>live</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='rbrace'>}</span>
-
     <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_soft_mask_registry'>soft_mask_registry</span><span class='lbracket'>[</span><span class='id identifier rubyid_registry_key'>registry_key</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> gs</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_masks'>masks</span> <span class='op'>=</span> <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_resources'>resources</span><span class='lbracket'>[</span><span class='symbol'>:ExtGState</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -305,9 +301,9 @@ save_graphics_state because soft mask is a part of graphic state in PDF.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:34 2014 by
+  Generated on Sun Mar 16 20:46:27 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>

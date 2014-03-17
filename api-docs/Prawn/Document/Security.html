@@ -172,12 +172,6 @@ modifications to the document.</p>
   
 
 
-  
-  
-  
-  
-  
-  
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
@@ -210,6 +204,7 @@ and generation number of the reference. See Algorithm 3.1.</p>
       <pre class="lines">
 
 
+114
 115
 116
 117
@@ -218,11 +213,10 @@ and generation number of the reference. See Algorithm 3.1.</p>
 120
 121
 122
-123
-124</pre>
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_encrypt_string'>encrypt_string</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_gen'>gen</span><span class='rparen'>)</span>
   <span class='comment'># Convert ID and Gen number into little-endian truncated byte strings
@@ -343,6 +337,7 @@ format.</p>
       <pre class="lines">
 
 
+92
 93
 94
 95
@@ -359,11 +354,10 @@ format.</p>
 106
 107
 108
-109
-110</pre>
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/security.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encrypt_document'>encrypt_document</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='const'>Prawn</span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span> <span class='lbracket'>[</span><span class='symbol'>:user_password</span><span class='comma'>,</span> <span class='symbol'>:owner_password</span><span class='comma'>,</span> <span class='symbol'>:permissions</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -393,9 +387,9 @@ format.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:34 2014 by
+  Generated on Sun Mar 16 20:46:27 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>

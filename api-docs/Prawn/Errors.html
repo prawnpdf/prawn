@@ -79,8 +79,8 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/prawn/errors.rb<span class="defines">,<br />
-  lib/prawn/layout.rb</span>
+    <dd class="r1 last">lib/prawn/layout.rb<span class="defines">,<br />
+  lib/prawn/errors.rb</span>
 </dd>
   
 </dl>
@@ -90,6 +90,38 @@
   <h2>Constant Summary</h2>
   
     <dl class="constants">
+      
+        <dt id="InvalidTableData-constant" class="">InvalidTableData =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This error is raised when table data is malformed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>StandardError</span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="EmptyTable-constant" class="">EmptyTable =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This error is raised when an empty or nil table is rendered</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>StandardError</span><span class='rparen'>)</span></pre></dd>
       
         <dt id="InvalidTableSpan-constant" class="">InvalidTableSpan =
           <div class="docstring">
@@ -361,38 +393,6 @@ arguments</p>
         </dt>
         <dd><pre class="code"><span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>StandardError</span><span class='rparen'>)</span></pre></dd>
       
-        <dt id="InvalidTableData-constant" class="">InvalidTableData =
-          <div class="docstring">
-  <div class="discussion">
-    
-<p>This error is raised when table data is malformed</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>StandardError</span><span class='rparen'>)</span></pre></dd>
-      
-        <dt id="EmptyTable-constant" class="">EmptyTable =
-          <div class="docstring">
-  <div class="discussion">
-    
-<p>This error is raised when an empty or nil table is rendered</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>StandardError</span><span class='rparen'>)</span></pre></dd>
-      
     </dl>
   
 
@@ -407,9 +407,9 @@ arguments</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:34 2014 by
+  Generated on Sun Mar 16 20:46:27 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>

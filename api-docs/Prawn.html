@@ -73,14 +73,22 @@
   
   
     
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1"><span class='object_link'><a href="" title="Prawn (module)">Prawn</a></span></dd>
+      
+    
   
     
   
   
+    <dt class="r2">Included in:</dt>
+    <dd class="r2"><span class='object_link'><a href="" title="Prawn (module)">Prawn</a></span></dd>
+    
+  
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/prawn/stamp.rb<span class="defines">,<br />
-  lib/prawn/text.rb,<br /> lib/prawn/font.rb,<br /> lib/prawn/table.rb,<br /> lib/prawn/errors.rb,<br /> lib/prawn/images.rb,<br /> lib/prawn/layout.rb,<br /> lib/prawn/outline.rb,<br /> lib/prawn/text/box.rb,<br /> lib/prawn/font/afm.rb,<br /> lib/prawn/encoding.rb,<br /> lib/prawn/graphics.rb,<br /> lib/prawn/document.rb,<br /> lib/prawn/repeater.rb,<br /> lib/prawn/security.rb,<br /> lib/prawn/font/ttf.rb,<br /> lib/prawn/soft_mask.rb,<br /> lib/prawn/utilities.rb,<br /> lib/prawn/images/png.rb,<br /> lib/prawn/images/jpg.rb,<br /> lib/prawn/table/cell.rb,<br /> lib/prawn/font/dfont.rb,<br /> lib/prawn/table/cells.rb,<br /> lib/prawn/layout/grid.rb,<br /> lib/prawn/images/image.rb,<br /> lib/prawn/measurements.rb,<br /> lib/prawn/graphics/dash.rb,<br /> lib/prawn/image_handler.rb,<br /> lib/prawn/document/span.rb,<br /> lib/prawn/graphics/color.rb,<br /> lib/prawn/table/cell/text.rb,<br /> lib/prawn/table/cell/image.rb,<br /> lib/prawn/graphics/patterns.rb,<br /> lib/prawn/font_metric_cache.rb,<br /> lib/prawn/document/snapshot.rb,<br /> lib/prawn/graphics/cap_style.rb,<br /> lib/prawn/text/formatted/box.rb,<br /> lib/prawn/document/internals.rb,<br /> lib/prawn/table/cell/subtable.rb,<br /> lib/prawn/document/column_box.rb,<br /> lib/prawn/graphics/join_style.rb,<br /> lib/prawn/text/formatted/wrap.rb,<br /> lib/prawn/table/cell/in_table.rb,<br /> lib/prawn/table/cell/span_dummy.rb,<br /> lib/prawn/graphics/transparency.rb,<br /> lib/prawn/text/formatted/parser.rb,<br /> lib/prawn/document/bounding_box.rb,<br /> lib/prawn/text/formatted/arranger.rb,<br /> lib/prawn/text/formatted/fragment.rb,<br /> lib/prawn/graphics/transformation.rb,<br /> lib/prawn/document/graphics_state.rb,<br /> lib/prawn/text/formatted/line_wrap.rb,<br /> lib/prawn/table/column_width_calculator.rb</span>
+    <dd class="r1 last">lib/prawn/grid.rb<span class="defines">,<br />
+  lib/prawn.rb,<br /> lib/prawn/text.rb,<br /> lib/prawn/font.rb,<br /> lib/prawn/stamp.rb,<br /> lib/prawn/table.rb,<br /> lib/prawn/layout.rb,<br /> lib/prawn/errors.rb,<br /> lib/prawn/images.rb,<br /> lib/prawn/outline.rb,<br /> lib/prawn/graphics.rb,<br /> lib/prawn/font/afm.rb,<br /> lib/prawn/encoding.rb,<br /> lib/prawn/font/ttf.rb,<br /> lib/prawn/document.rb,<br /> lib/prawn/repeater.rb,<br /> lib/prawn/text/box.rb,<br /> lib/prawn/security.rb,<br /> lib/prawn/utilities.rb,<br /> lib/prawn/soft_mask.rb,<br /> lib/prawn/table/cell.rb,<br /> lib/prawn/font/dfont.rb,<br /> lib/prawn/images/png.rb,<br /> lib/prawn/images/jpg.rb,<br /> lib/prawn/table/cells.rb,<br /> lib/prawn/images/image.rb,<br /> lib/prawn/measurements.rb,<br /> lib/prawn/graphics/dash.rb,<br /> lib/prawn/document/span.rb,<br /> lib/prawn/image_handler.rb,<br /> lib/prawn/graphics/color.rb,<br /> lib/prawn/table/cell/text.rb,<br /> lib/prawn/table/cell/image.rb,<br /> lib/prawn/font_metric_cache.rb,<br /> lib/prawn/graphics/patterns.rb,<br /> lib/prawn/graphics/cap_style.rb,<br /> lib/prawn/document/internals.rb,<br /> lib/prawn/text/formatted/box.rb,<br /> lib/prawn/graphics/join_style.rb,<br /> lib/prawn/table/cell/subtable.rb,<br /> lib/prawn/text/formatted/wrap.rb,<br /> lib/prawn/document/column_box.rb,<br /> lib/prawn/table/cell/in_table.rb,<br /> lib/prawn/graphics/transparency.rb,<br /> lib/prawn/table/cell/span_dummy.rb,<br /> lib/prawn/text/formatted/parser.rb,<br /> lib/prawn/document/bounding_box.rb,<br /> lib/prawn/text/formatted/arranger.rb,<br /> lib/prawn/text/formatted/fragment.rb,<br /> lib/prawn/document/graphics_state.rb,<br /> lib/prawn/graphics/transformation.rb,<br /> lib/prawn/text/formatted/line_wrap.rb,<br /> lib/prawn/table/column_width_calculator.rb</span>
 </dd>
   
 </dl>
@@ -112,13 +120,84 @@ details.</p>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Prawn/Document.html" title="Prawn::Document (class)">Document</a></span>, <span class='object_link'><a href="Prawn/Font.html" title="Prawn::Font (class)">Font</a></span>, <span class='object_link'><a href="Prawn/ImageHandler.html" title="Prawn::ImageHandler (class)">ImageHandler</a></span>, <span class='object_link'><a href="Prawn/Repeater.html" title="Prawn::Repeater (class)">Repeater</a></span>, <span class='object_link'><a href="Prawn/Table.html" title="Prawn::Table (class)">Table</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Prawn/Document.html" title="Prawn::Document (class)">Document</a></span>, <span class='object_link'><a href="Prawn/Font.html" title="Prawn::Font (class)">Font</a></span>, <span class='object_link'><a href="Prawn/ImageHandler.html" title="Prawn::ImageHandler (class)">ImageHandler</a></span>, <span class='object_link'><a href="Prawn/Outline.html" title="Prawn::Outline (class)">Outline</a></span>, <span class='object_link'><a href="Prawn/Repeater.html" title="Prawn::Repeater (class)">Repeater</a></span>, <span class='object_link'><a href="Prawn/Table.html" title="Prawn::Table (class)">Table</a></span>
     
   
 </p>
 
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1.0.0</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="BASEDIR-constant" class="">BASEDIR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base source directory for Prawn as installed on the system</p>
 
 
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>..</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="DATADIR-constant" class="">DATADIR =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>..</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>data</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="FLOAT_PRECISION-constant" class="">FLOAT_PRECISION =
+          
+        </dt>
+        <dd><pre class="code"><span class='float'>1.0e-9</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#debug-instance_method" title="#debug (instance method)">- (Object) <strong>debug</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whe set to true, Prawn will verify hash options to ensure only valid keys
+are used.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
 
 
 
@@ -157,6 +236,63 @@ details.</p>
   
 
 
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="debug=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="debug-instance_method">
+  
+    - (<tt>Object</tt>) <strong>debug</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whe set to true, Prawn will verify hash options to ensure only valid keys
+are used.  Off by default.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">&gt;&gt; Prawn::Document.new(:tomato =&gt; &quot;Juicy&quot;)
+Prawn::Errors::UnknownOption:
+Detected unknown option(s): [:tomato]
+Accepted options are: [:page_size, :page_layout, :left_margin, ...]
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_debug'>debug</span>
+  <span class='ivar'>@debug</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
@@ -177,12 +313,12 @@ details.</p>
       <pre class="lines">
 
 
-4
-5
-6</pre>
+10
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/image_handler.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_image_handler'>image_handler</span>
   <span class='ivar'>@image_handler</span> <span class='op'>||=</span> <span class='const'>ImageHandler</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -197,9 +333,9 @@ details.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 16 11:09:33 2014 by
+  Generated on Sun Mar 16 20:46:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.3 (ruby-2.1.0).
+  0.8.7.3 (ruby-2.1.1).
 </div>
 
   </body>
