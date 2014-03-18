@@ -1,7 +1,7 @@
 # Prawn: Fast, Nimble PDF Generation For Ruby
 
-[![Build Status](https://secure.travis-ci.org/prawnpdf/prawn.png)](http://travis-ci.org/prawnpdf/prawn)
 [![Gem Version](https://badge.fury.io/rb/prawn.png)](http://badge.fury.io/rb/prawn)
+[![Build Status](https://secure.travis-ci.org/prawnpdf/prawn.png)](http://travis-ci.org/prawnpdf/prawn)
 
 Prawn is a pure Ruby PDF generation library that provides a lot of great functionality while trying to remain simple and reasonably performant. Here are some of the important features we provide:
 
@@ -26,17 +26,17 @@ One thing Prawn is not, and will never be, is an HTML to PDF generator. For thos
 
 ## Supported Ruby Versions and Implementations
 
-Because Prawn is pure Ruby and virtually all of its dependencies are maintained by our core team, it should run pretty much anywhere, including Rubinius, JRuby, MacRuby, etc. We officially support MRI {1.9.3 and 2.0.0} and jruby 1.7.x in 1.9 mode, however we will accept patches to fix problems on other Ruby platforms if they aren't too invasive.
+Because Prawn is pure Ruby and all of its runtime dependencies are maintained
+by us, it should work pretty much anywhere. We officially support 
+MRI {1.9.3, 2.0.0, 2.1.x} and jruby 1.7.x (>= 1.7.9) in 1.9 mode, however 
+we will accept patches to fix problems on other 
+Ruby platforms if they aren't too invasive.
 
 ## Installing Prawn
 
 Prawn is distributed via RubyGems, and can be installed the usual way that you install gems: by simply typing `gem install prawn` on the command line. 
 
 You can also install from git if you'd like, the _master_ branch contains the latest developments, and _stable_ represents the latest bug fixes to the currently released version of Prawn. If you go this route, using Bundler is encouraged.
-
-## Release Policies
-
-We may introduce backwards incompatible changes each time our minor version number is bumped, but that any tiny version number bump should be bug fixes and internal changes only. Be sure to read the release notes each time we cut a new release and lock your gems accordingly. You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 ## Hello World!
 
@@ -52,7 +52,7 @@ Of course, you'll probably want to do more interesting things than that...
 
 ## Manual
 
-Mendicant University student Felipe Doria provided us with a beautiful system for generating a user manual from our examples. This can be generated from the prawn source or you can download a pre-generated snapshot of it at http://prawn.majesticseacreature.com/manual.pdf
+Felipe Doria provided us with a beautiful system for generating a user manual from our examples. This can be generated from the prawn source or you can download a pre-generated snapshot of it at http://prawnpdf.org/manual.pdf
 
 Note that while we will try to keep the downloadable manual up to date, that it's provided as a convenience only and you should generate the manual yourself if you want to be sure the code in it actually runs and works as expected. To build the manual, here's what you need to do:
 
@@ -61,6 +61,16 @@ Note that while we will try to keep the downloadable manual up to date, that it'
 3. install bundler if necessay
 4. run `bundle install`
 5. run `bundle exec rake manual`, which will generate _manual.pdf_ in the project root
+
+## Release Policies
+
+Before upgrading Prawn on one of your projects, you should read our [API
+compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
+guidelines. Generally speaking, you can expect tiny version updates to always be
+safe upgrades, but minor and major updates can introduce incompatibilities.
+
+Be sure to read the release notes each time we cut a new release and lock your gems accordingly. 
+You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
 
 ## Support 
 
@@ -74,7 +84,7 @@ Please make your posts to the list as specific as possible, including code sampl
 
 ## Contributing
 
-If you've found a bug, want to submit a patch, or have a feature request, please enter a ticket into our github tracker:
+If you've found a bug or want to submit a patch, please enter a ticket into our github tracker:
 
 <http://github.com/prawnpdf/prawn/issues>
 
@@ -93,18 +103,58 @@ These filters make it possible for us to add failing test cases for bugs that
 are currently being researched or worked on, without breaking the typical
 full suite run.
 
-## Authorship
+## Maintenance team
 
-Prawn was originally developed by Gregory Brown, under the auspices of the Ruby Mendicant Project, a grassroots initiative in which the Ruby community collectively provided funding so that Gregory could take several months off of work to focus on this project.
+Prawn has always been heavily dependent on community contributions, with dozens
+of people contributing code over the year. In that sense, the lines have
+blurred to the point where we no longer have a strong distinction between core
+developers and contributors.
 
-Over the last several years, we've received code contributions from over 50 people, which is amazing considering the low-level nature of this project. In 2010, Gregory officially handed the project off to the Prawn core team. Currently active maintainers include Brad Ediger, Daniel Nelson, James Healy, and Jonathan Greenberg.
+That said, there are a few folks who have been responsible for cutting releases,
+merging important pull requests, and making major decisions about the
+overall direction of the project. 
 
-While he was only with us for a short time before moving on to other things, we'd also like to thank Prawn core team emeritus Jamis Buck for his contributions. He was responsible for introducing font subsetting as well as the first implementation of our inline formatting support.
+### Current maintainers
 
-You can find the full list of folks who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
+These are the folks to contact if you have a maintenance-related issue with
+Prawn:
+
+* Gregory Brown (sandal)
+* Evan Sharp (PacketMonkey)
+* Alexander Mankuta (cheba)
+
+### Inactive maintainers
+
+These folks have helped out in a maintenance role in the past, but are no longer
+actively involved in the project:
+
+* Brad Ediger (bradediger)
+* James Healy (yob)
+* Daniel Nelson (Bluejade)
+* Jonathan Greenberg (jonsgreen)
+* Jamis Buck (jamis)
 
 ## License
 
 Prawn is released under a slightly modified form of the License of Ruby, allowing you to choose between Matz's terms, the GPLv2, or GPLv3. For details, please see the LICENSE, GPLv2, and GPLv3 files.
 
-If you wish to contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
+If you contribute to Prawn, you will retain your own copyright but must agree to license your code under the same terms as the project itself.
+
+## History
+
+Prawn was originally developed by Gregory Brown, under the auspices of the Ruby
+Mendicant Project, a grassroots initiative in which the Ruby community
+collectively provided funding so that Gregory could take several months off of
+work to focus on this project.
+
+Over the last several years, we've received code contributions from dozens of
+people, which is amazing considering the low-level nature of this project. You can find the full list of folks 
+who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
+
+After a long hiatus, Gregory resumed slow-by-steady maintenance work on Prawn
+starting in November 2013. This was made possible thanks to some modest
+funding from Madriska, Inc. (Brad Ediger's company) to see the project
+through to its 1.0 release.
+
+The fate of Prawn after 1.0 is uncertain, it's not a very easy project 
+to maintain. That said, we hope it keeps moving along!

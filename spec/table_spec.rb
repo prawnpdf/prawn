@@ -46,7 +46,6 @@ describe "Prawn::Table" do
   end
 
   describe "You can explicitly set the column widths and use a colspan > 1" do
-
     it "should render a correct table in a bounding box with given colspans", :unresolved, :issue => 438 do
       pdf = Prawn::Document.new
       data = [  [ {:content => "1", :colspan => 8} ],
@@ -77,6 +76,22 @@ describe "Prawn::Table" do
       ]
       column_widths = [10,10,40,100,60,40,10]
       table = Prawn::Table.new data, pdf, :width => 300, :column_widths => column_widths
+    end
+
+    it "should tolerate floating point rounding errors < 0.000000001" do
+      data=[["a", "b ", "c ", "d", "e", "f", "g", "h", "i", "j", "k", "l"],
+            [{:content=>"Foobar", :colspan=>12}]
+          ]
+      #we need values with lots of decimals so that arithmetic errors will occur
+      #the values are not arbitrary but where found converting mm to pdf pt
+      column_widths=[137, 40, 40, 54.69291338582678, 54.69291338582678, 
+                     54.69291338582678, 54.69291338582678, 54.69291338582678, 
+                     54.69291338582678, 54.69291338582678, 54.69291338582678, 
+                     54.69291338582678]
+
+      pdf = Prawn::Document.new({:page_size => 'A4', :page_layout => :landscape})
+      table = Prawn::Table.new data, pdf, :column_widths => column_widths
+      table.column_widths.should == column_widths
     end
 
     it "should work with two different given colspans", :issue => 628 do 
@@ -185,6 +200,15 @@ describe "Prawn::Table" do
 
       # Before we fixed #407, this line incorrectly raise a CannotFit error
       pdf.table(table_data, :column_widths => column_widths)
+    end
+
+    it "should not allow oversized subtables when parent column width is constrained" do
+      pdf = Prawn::Document.new
+      child_1 = pdf.make_table([['foo'*100]])
+      child_2 = pdf.make_table([['foo']])
+      lambda do
+        pdf.table([[child_1], [child_2]], column_widths: [pdf.bounds.width/2] * 2)
+      end.should raise_error(Prawn::Errors::CannotFit)
     end
   end
 

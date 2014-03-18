@@ -14,6 +14,8 @@ require_relative "font_metric_cache"
 module Prawn
 
   class Document
+    # @group Stable API
+
     # Without arguments, this returns the currently selected font. Otherwise,
     # it sets the current font. When a block is used, the font is applied
     # transactionally and is rolled back when the block exits.
@@ -24,8 +26,8 @@ module Prawn
     #     font "Times-Roman"
     #     text "Now using Times-Roman"
     #
-    #     font("Chalkboard.ttf") do
-    #       text "Using TTF font from file Chalkboard.ttf"
+    #     font("DejaVuSans.ttf") do
+    #       text "Using TTF font from file DejaVuSans.ttf"
     #       font "Courier", :style => :bold
     #       text "You see this in bold Courier"
     #     end
@@ -67,7 +69,10 @@ module Prawn
       @font
     end
 
+    # @method font_size(points=nil)
+    #
     # When called with no argument, returns the current font size.
+    #
     # When called with a single argument but no block, sets the current font
     # size.  When a block is used, the font size is applied transactionally and
     # is rolled back when the block exits.  You may still change the font size
@@ -98,59 +103,44 @@ module Prawn
       @font_size = size_before_yield
     end
 
-    # Sets the font directly, given an actual Font object
-    # and size.
-    #
-    def set_font(font, size=nil) # :nodoc:
-      @font = font
-      @font_size = size if size
+    # Sets the font size
+    def font_size=(size)
+      font_size(size)
     end
 
-    # Saves the current font, and then yields. When the block
-    # finishes, the original font is restored.
+    # Returns the width of the given string using the given font. If :size is not
+    # specified as one of the options, the string is measured using the current
+    # font size. You can also pass :kerning as an option to indicate whether
+    # kerning should be used when measuring the width (defaults to +false+).
     #
-    def save_font
-      @font ||= find_font("Helvetica")
-      original_font = @font
-      original_size = @font_size
-
-      yield
-    ensure
-      set_font(original_font, original_size) if original_font
-    end
-
-    # Looks up the given font using the given criteria. Once a font has been
-    # found by that matches the criteria, it will be cached to subsequent lookups
-    # for that font will return the same object.
+    # Note that the string _must_ be encoded properly for the font being used.
+    # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
+    # UTF-8. You can use the Font#normalize_encoding method to make sure strings
+    # are in an encoding appropriate for the current font.
     #--
-    # Challenges involved: the name alone is not sufficient to uniquely identify
-    # a font (think dfont suitcases that can hold multiple different fonts in a
-    # single file). Thus, the :name key is included in the cache key.
+    # For the record, this method used to be a method of Font (and still delegates
+    # to width computations on Font). However, having the primary interface for
+    # calculating string widths exist on Font made it tricky to write extensions
+    # for Prawn in which widths are computed differently (e.g., taking formatting
+    # tags into account, or the like).
     #
-    # It is further complicated, however, since fonts in some formats (like the
-    # dfont suitcases) can be identified either by numeric index, OR by their
-    # name within the suitcase, and both should hash to the same font object
-    # (to avoid the font being embedded multiple times). This is not yet implemented,
-    # which means if someone selects a font both by name, and by index, the
-    # font will be embedded twice. Since we do font subsetting, this double
-    # embedding won't be catastrophic, just annoying.
-    # ++
-    def find_font(name, options={}) #:nodoc:
-      if font_families.key?(name)
-        family, name = name, font_families[name][options[:style] || :normal]
-        if name.is_a?(::Hash)
-          options = options.merge(name)
-          name = options[:file]
-        end
-      end
-      key = "#{name}:#{options[:font] || 0}"
-      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
-    end
+    # By putting width_of here, on Document itself, extensions may easily override
+    # it and redefine the width calculation behavior.
+    #++
+    def width_of(string, options={})
+      if p = options[:inline_format]
+        p = [] unless p.is_a?(Array)
 
-    # Hash of Font objects keyed by names
-    #
-    def font_registry #:nodoc:
-      @font_registry ||= {}
+        # Build up an Arranger with the entire string on one line, finalize it,
+        # and find its width.
+        arranger = Prawn::Text::Formatted::Arranger.new(self, options)
+        arranger.consumed = self.text_formatter.format(string, *p)
+        arranger.finalize_line
+
+        arranger.line_width
+      else
+        width_of_string(string, options)
+      end
     end
 
     # Hash that maps font family names to their styled individual font names.
@@ -197,39 +187,63 @@ module Prawn
         })
     end
 
-    # Returns the width of the given string using the given font. If :size is not
-    # specified as one of the options, the string is measured using the current
-    # font size. You can also pass :kerning as an option to indicate whether
-    # kerning should be used when measuring the width (defaults to +false+).
+    # @group Experimental API
+
+    # Sets the font directly, given an actual Font object
+    # and size.
     #
-    # Note that the string _must_ be encoded properly for the font being used.
-    # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
-    # UTF-8. You can use the Font#normalize_encoding method to make sure strings
-    # are in an encoding appropriate for the current font.
+    def set_font(font, size=nil) # :nodoc:
+      @font = font
+      @font_size = size if size
+    end
+
+    # Saves the current font, and then yields. When the block
+    # finishes, the original font is restored.
+    #
+    def save_font
+      @font ||= find_font("Helvetica")
+      original_font = @font
+      original_size = @font_size
+
+      yield
+    ensure
+      set_font(original_font, original_size) if original_font
+    end
+
+    # Looks up the given font using the given criteria. Once a font has been
+    # found by that matches the criteria, it will be cached to subsequent lookups
+    # for that font will return the same object.
     #--
-    # For the record, this method used to be a method of Font (and still delegates
-    # to width computations on Font). However, having the primary interface for
-    # calculating string widths exist on Font made it tricky to write extensions
-    # for Prawn in which widths are computed differently (e.g., taking formatting
-    # tags into account, or the like).
+    # Challenges involved: the name alone is not sufficient to uniquely identify
+    # a font (think dfont suitcases that can hold multiple different fonts in a
+    # single file). Thus, the :name key is included in the cache key.
     #
-    # By putting width_of here, on Document itself, extensions may easily override
-    # it and redefine the width calculation behavior.
-    #++
-    def width_of(string, options={})
-      if p = options[:inline_format]
-        p = [] unless p.is_a?(Array)
-
-        # Build up an Arranger with the entire string on one line, finalize it,
-        # and find its width.
-        arranger = Prawn::Text::Formatted::Arranger.new(self, options)
-        arranger.consumed = self.text_formatter.format(string, *p)
-        arranger.finalize_line
-
-        arranger.line_width
-      else
-        width_of_string(string, options)
+    # It is further complicated, however, since fonts in some formats (like the
+    # dfont suitcases) can be identified either by numeric index, OR by their
+    # name within the suitcase, and both should hash to the same font object
+    # (to avoid the font being embedded multiple times). This is not yet implemented,
+    # which means if someone selects a font both by name, and by index, the
+    # font will be embedded twice. Since we do font subsetting, this double
+    # embedding won't be catastrophic, just annoying.
+    # ++
+    #
+    # @private
+    def find_font(name, options={}) #:nodoc:
+      if font_families.key?(name)
+        family, name = name, font_families[name][options[:style] || :normal]
+        if name.is_a?(::Hash)
+          options = options.merge(name)
+          name = options[:file]
+        end
       end
+      key = "#{name}:#{options[:font] || 0}"
+      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
+    end
+
+    # Hash of Font objects keyed by names
+    #
+    def font_registry #:nodoc:
+      @font_registry ||= {}
     end
 
     private

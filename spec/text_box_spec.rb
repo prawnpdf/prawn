@@ -649,25 +649,25 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       :height => bounding_height,
       :document => @pdf
     }
-    file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
-    @pdf.font_families["Action Man"] = {
-      :normal      => { :file => file, :font => "ActionMan" },
-      :italic      => { :file => file, :font => "ActionMan-Italic" },
-      :bold        => { :file => file, :font => "ActionMan-Bold" },
-      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+    file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
+    @pdf.font_families["Panic Sans"] = {
+      :normal      => { :file => file, :font => "PanicSans" },
+      :italic      => { :file => file, :font => "PanicSans-Italic" },
+      :bold        => { :file => file, :font => "PanicSans-Bold" },
+      :bold_italic => { :file => file, :font => "PanicSans-BoldItalic" }
     }
     @text_box = Prawn::Text::Box.new(@text, options)
   end
   describe "when using a TTF font" do
     it "unprinted text should be in UTF-8 encoding" do
-      @pdf.font("Action Man")
+      @pdf.font("Panic Sans")
       remaining_text = @text_box.render
       remaining_text.should == @text
     end
 
     it "subsequent calls to Text::Box need not include the" +
        " :skip_encoding => true option" do
-      @pdf.font("Action Man")
+      @pdf.font("Panic Sans")
       remaining_text = @text_box.render
 
       # expect that calling text_box will not raise an encoding error

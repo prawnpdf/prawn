@@ -14,7 +14,6 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "positioned_text"
       s.example "text_box_overflow"
       s.example "text_box_excess"
-      s.example "group"
       s.example "column_box"
     end
     
@@ -59,7 +58,6 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       list( "Text that flows from page to page automatically starting new pages when necessary",
             "How to use text boxes and place them on specific positions",
             "What to do when a text box is too small to fit its content",
-            "How to proceed when you want to prevent paragraphs from splitting between pages",
             "Flowing text in columns",
             "How to change the text style configuring font, size, alignment and many other settings",
             "How to style specific portions of a text with inline styling and formatted text",

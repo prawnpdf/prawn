@@ -7,8 +7,8 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require_relative 'table/column_width_calculator'
-require_relative 'table/cells'
 require_relative 'table/cell'
+require_relative 'table/cells'
 require_relative 'table/cell/in_table'
 require_relative 'table/cell/text'
 require_relative 'table/cell/subtable'
@@ -18,6 +18,8 @@ require_relative 'table/cell/span_dummy'
 module Prawn
 
   class Document
+
+    # @group Experimental API
 
     # Set up and draw a table on this document. A block can be given, which will
     # be run after cell setup but before layout and drawing.

@@ -1,11 +1,24 @@
+# grid.rb: Provides a basic grid layout system for Prawn
+#
+# Contributed by Andrew O'Brien in March 2009
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
   class Document
+    # @group Experimental API
 
     # Defines the grid system for a particular document.  Takes the number of
     # rows and columns and the width to use for the gutter as the
     # keys :rows, :columns, :gutter, :row_gutter, :column_gutter
     #
+    # Note that a completely new grid object is built each time define_grid()
+    # is called. This means that all subsequent calls to grid() will use
+    # the newly defined Grid object -- grids are not nestable like 
+    # bounding boxes are.
+
     def define_grid(options = {})
+      @boxes = nil
       @grid = Grid.new(self, options)
     end
 
@@ -33,6 +46,8 @@ module Prawn
 
     # A Grid represents the entire grid system of a Page and calculates
     # the column width and row height of the base box.
+    #
+    # @private
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       def initialize(pdf, options = {}) # :nodoc:
@@ -86,7 +101,8 @@ module Prawn
     # A Grid object has methods that allow easy access to the coordinates of
     # its corners, which can be plugged into most existing prawnmethods.
     #
-    class Box #:nodoc:
+    # @private
+    class GridBox
       attr_reader :pdf
 
       def initialize(pdf, i, j)
@@ -187,7 +203,9 @@ module Prawn
     end
 
     # A MultiBox is specified by 2 Boxes and spans the areas between.
-    class MultiBox < Box #:nodoc:
+    #
+    # @private
+    class MultiBox < GridBox #:nodoc:
       def initialize(pdf, b1, b2)
         @pdf = pdf
         @bs = [b1, b2]
@@ -249,7 +267,7 @@ module Prawn
 
     private
     def single_box(i, j)
-      Box.new(self, i, j)
+      GridBox.new(self, i, j)
     end
 
     def multi_box(b1, b2)

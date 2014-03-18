@@ -8,7 +8,6 @@
 
 module Prawn
   class Table
-
     # Selects the given rows (0-based) for styling. Returns a Cells object --
     # see the documentation on Cells for things you can do with cells.
     #
@@ -37,6 +36,8 @@ module Prawn
     #   table.rows(1..3).columns(2..4).background_color = 'ff0000'
     #
     class Cells < Array
+
+      # @group Experimental API
 
       # Limits selection to the given row or rows. +row_spec+ can be anything
       # that responds to the === operator selecting a set of 0-based row
@@ -254,7 +255,11 @@ module Prawn
 
             #calculate future return value
             new_sum = cell.send(meth) * cell.colspan
-            spanned_width_needs_fixing = (new_sum > old_sum)
+
+            #due to float rounding errors we need to ignore a small difference in the new 
+            #and the old sum the same had to be done in
+            #the column_width_calculator#natural_width
+            spanned_width_needs_fixing = ((new_sum - old_sum) > Prawn::FLOAT_PRECISION)
 
             if spanned_width_needs_fixing
               #not entirely sure why we need this line, but with it the tests pass

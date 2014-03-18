@@ -11,12 +11,14 @@ require 'pathname'
 module Prawn
 
   module Images
+    # @group Stable API
+
     # Add the image at filename to the current page. Currently only
     # JPG and PNG files are supported. (Note that processing PNG
     # images with alpha channels can be processor and memory intensive.)
     #
     # Arguments:
-    # <tt>file</tt>:: path to file or an object that responds to #read
+    # <tt>file</tt>:: path to file or an object that responds to #read and #rewind
     #
     # Options:
     # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of the image.
@@ -68,9 +70,11 @@ module Prawn
       info
     end
 
+
     # Builds an info object (Prawn::Images::*) and a PDF reference representing
     # the given image. Return a pair: [pdf_obj, info].
     #
+    # @private
     def build_image_object(file)
       io = verify_and_open_image(file)
       image_content = io.read
@@ -100,6 +104,7 @@ module Prawn
     # build_image_object), embed the image according to the <tt>options</tt>
     # given.
     #
+    # @private
     def embed_image(pdf_obj, info, options)
       # find where the image will be placed and how big it will be
       w,h = info.calc_image_dimensions(options)

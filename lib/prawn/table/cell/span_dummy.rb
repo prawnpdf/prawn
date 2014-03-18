@@ -12,6 +12,7 @@ module Prawn
       # A Cell object used to represent all but the topmost cell in a span
       # group.
       #
+      # @private
       class SpanDummy < Cell
         def initialize(pdf, master_cell)
           super(pdf, [0, pdf.cursor])

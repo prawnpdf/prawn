@@ -470,12 +470,12 @@ describe "Prawn::Table::Cell" do
     end
 
     it "supports variant styles of the current font" do
-      font_path = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
-      @pdf.font_families.merge!("Action Man" => {
-        :normal    => { :file => font_path, :font => "ActionMan" },
-        :bold      => { :file => font_path, :font => "ActionMan-Bold" },
+      font_path = "#{Prawn::BASEDIR}/data/fonts/Panic+Sans.dfont"
+      @pdf.font_families.merge!("Panic Sans" => {
+        :normal    => { :file => font_path, :font => "PanicSans" },
+        :bold      => { :file => font_path, :font => "PanicSans-Bold" },
       })
-      @pdf.font "Action Man"
+      @pdf.font "Panic Sans"
 
       c = cell(:content => "text", :font_style => :bold)
 
@@ -483,7 +483,7 @@ describe "Prawn::Table::Cell" do
       Prawn::Text::Box.expects(:new).checking do |text, options|
         text.should == "text"
         options[:style].should == :bold
-        @pdf.font.family.should == 'Action Man'
+        @pdf.font.family.should == 'Panic Sans'
       end.at_least_once.returns(box)
 
       c.draw
@@ -491,19 +491,19 @@ describe "Prawn::Table::Cell" do
 
 
     it "uses the style of the current font if none given" do
-      font_path = "#{Prawn::BASEDIR}/data/fonts/Action Man.dfont"
-      @pdf.font_families.merge!("Action Man" => {
-        :normal    => { :file => font_path, :font => "ActionMan" },
-        :bold      => { :file => font_path, :font => "ActionMan-Bold" },
+      font_path = "#{Prawn::BASEDIR}/data/fonts/Panic+Sans.dfont"
+      @pdf.font_families.merge!("Panic Sans" => {
+        :normal    => { :file => font_path, :font => "PanicSans" },
+        :bold      => { :file => font_path, :font => "PanicSans-Bold" },
       })
-      @pdf.font "Action Man", :style => :bold
+      @pdf.font "Panic Sans", :style => :bold
 
       c = cell(:content => "text")
 
       box = Prawn::Text::Box.new("text", :document => @pdf)
       Prawn::Text::Box.expects(:new).checking do |text, options|
         text.should == "text"
-        @pdf.font.family.should == 'Action Man'
+        @pdf.font.family.should == 'Panic Sans'
         @pdf.font.options[:style].should == :bold
       end.at_least_once.returns(box)
 

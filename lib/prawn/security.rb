@@ -7,9 +7,10 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'digest/md5'
-require 'rc4'
 
-require_relative '../pdf/core/byte_string'
+require 'pdf/core/byte_string'
+
+require 'prawn/security/arcfour'
 
 module Prawn
   class Document
@@ -17,7 +18,8 @@ module Prawn
     # Implements PDF encryption (password protection and permissions) as
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
-      include PDF::Core
+
+      # @group Experimental API
 
       # Encrypts the document, to protect confidential data or control
       # modifications to the document. The encryption algorithm used is
@@ -117,7 +119,7 @@ module Prawn
 
         # Compute the RC4 key from the extended key and perform the encryption
         rc4_key = Digest::MD5.digest(extended_key)[0, 10]
-        RC4.new(rc4_key).encrypt(str)
+        Arcfour.new(rc4_key).encrypt(str)
       end
 
       private
@@ -127,8 +129,8 @@ module Prawn
         { :Filter => :Standard, # default PDF security handler
           :V      => 1,         # "Algorithm 3.1", PDF reference 1.3
           :R      => 2,         # Revision 2 of the algorithm
-          :O      => ByteString.new(owner_password_hash),
-          :U      => ByteString.new(user_password_hash),
+          :O      => PDF::Core::ByteString.new(owner_password_hash),
+          :U      => PDF::Core::ByteString.new(user_password_hash),
           :P      => permissions_value }
       end
 
@@ -187,13 +189,13 @@ module Prawn
       def owner_password_hash
         @owner_password_hash ||= begin
           key = Digest::MD5.digest(pad_password(@owner_password))[0, 5]
-          RC4.new(key).encrypt(pad_password(@user_password))
+          Arcfour.new(key).encrypt(pad_password(@user_password))
         end
       end
 
       # The U (user) value in the encryption dictionary. Algorithm 3.4.
       def user_password_hash
-        RC4.new(user_encryption_key).encrypt(PasswordPadding)
+        Arcfour.new(user_encryption_key).encrypt(PasswordPadding)
       end
 
     end
@@ -201,14 +203,17 @@ module Prawn
   end
 end
 
-module PDF #:nodoc:
+# @private
+module PDF
   module Core
     module_function
 
     # Like PdfObject, but returns an encrypted result if required.
     # For direct objects, requires the object identifier and generation number
     # from the indirect object referencing obj.
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
+    #
+    # @private
+    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false) 
       case obj
       when Array
         "[" << obj.map { |e|
@@ -248,6 +253,7 @@ module PDF #:nodoc:
     end
 
 
+    # @private
     class Stream
       def encrypted_object(key, id, gen)
         if filtered_stream
@@ -258,6 +264,7 @@ module PDF #:nodoc:
       end
     end
 
+    # @private
     class Reference
 
       # Returns the object definition for the object this references, keyed from

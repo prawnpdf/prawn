@@ -4,6 +4,8 @@
 # Copyright December 2008, Florian Witteler.  All Rights Reserved.
 #
 module Prawn
+  # @group Stable API
+
   module Measurements
 
     # ============================================================================

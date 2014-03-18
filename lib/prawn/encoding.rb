@@ -5,7 +5,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 module Prawn
-  module Encoding
+  module Encoding # @private
     # Map between unicode and WinAnsiEnoding
     #
     class WinAnsi #:nodoc:

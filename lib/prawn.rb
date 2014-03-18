@@ -1,26 +1,13 @@
 # Welcome to Prawn, the best PDF Generation library ever.
 # This documentation covers user level functionality.
 #
-# Those looking to contribute code or write extensions should look
-# into the lib/prawn/core/* source tree.
-#
-%w[ttfunk/lib].each do |dep|
-  $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../../vendor/#{dep}")
-end
-
-begin
-  require 'ttfunk'
-rescue LoadError
-  puts "Failed to load ttfunk. If you are running Prawn from git:"
-  puts "  git submodule init"
-  puts "  git submodule update"
-  exit
-end
-
 require "set"
 
+require 'ttfunk'
+require "pdf/core"
+
 module Prawn
-  VERSION = "0.15.0"
+  VERSION = "1.1.0"
 
   extend self
 
@@ -33,6 +20,8 @@ module Prawn
   #
   BASEDIR = File.expand_path(File.join(dir, '..'))
   DATADIR = File.expand_path(File.join(dir, '..', 'data'))
+  
+  FLOAT_PRECISION = 1.0e-9
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
   # are used.  Off by default.
@@ -43,9 +32,9 @@ module Prawn
   #   Detected unknown option(s): [:tomato]
   #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
   #
-  attr_accessor :debug
+  attr_accessor :debug # @private
 
-  def verify_options(accepted, actual) #:nodoc:
+  def verify_options(accepted, actual) # @private
     return unless debug || $DEBUG
     unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
       raise Prawn::Errors::UnknownOption,
@@ -55,7 +44,7 @@ module Prawn
     yield if block_given?
   end
 
-  module Configurable #:nodoc:
+  module Configurable # @private
     def configuration(*args)
       @config ||= Marshal.load(Marshal.dump(default_configuration))
       if Hash === args[0]
@@ -75,7 +64,6 @@ end
 
 require_relative "prawn/errors"
 
-require_relative "pdf/core"
 
 require_relative "prawn/utilities"
 require_relative "prawn/text"

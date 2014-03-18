@@ -10,6 +10,8 @@ require 'date'
 module Prawn
   class Document
 
+    # @group Experimental API
+
     # Instantiates and draws a cell on the document.
     #
     #   cell(:content => "Hello world!", :at => [12, 34])
@@ -151,7 +153,7 @@ module Prawn
       # this span group. They know their own width / height, but do not draw
       # anything.
       #
-      attr_reader :dummy_cells # :nodoc:
+      attr_reader :dummy_cells 
 
       # Instantiates a Cell based on the given options. The particular class of
       # cell returned depends on the :content argument. See the Prawn::Table

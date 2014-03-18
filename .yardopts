@@ -1,7 +1,7 @@
 --charset UTF-8
 --main README.md
 --title 'Prawn Documentation'
-lib/**/*.rb
+--no-private
 -
 CONTRIBUTING.md
 COPYING

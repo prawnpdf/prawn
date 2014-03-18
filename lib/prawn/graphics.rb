@@ -33,6 +33,8 @@ module Prawn
     include Transformation
     include Patterns
 
+    # @group Stable API
+
     #######################################################################
     # Low level drawing operations must map the point to absolute coords! #
     #######################################################################
@@ -182,13 +184,6 @@ module Prawn
     #
     KAPPA = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0)
 
-    # <b>DEPRECATED:</b> Please use <tt>circle</tt> instead.
-    def circle_at(point, options)
-      warn "[DEPRECATION] 'circle_at' is deprecated in favor of 'circle'. " +
-           "'circle_at' will be removed in release 1.1"
-      circle(point, options[:radius])
-    end
-
     # Draws a circle of radius <tt>radius</tt> with the centre-point at <tt>point</tt>
     # as a complete subpath. The drawing point will be moved to the
     # centre-point upon completion of the drawing the circle.
@@ -197,13 +192,6 @@ module Prawn
     #
     def circle(center, radius)
       ellipse(center, radius, radius)
-    end
-
-    # <b>DEPRECATED:</b> Please use <tt>ellipse</tt> instead.
-    def ellipse_at(point, r1, r2=r1)
-      warn "[DEPRECATION] 'ellipse_at' is deprecated in favor of 'ellipse'. " +
-           "'ellipse_at' will be removed in release 1.1"
-      ellipse(point, r1, r2)
     end
 
     # Draws an ellipse of +x+ radius <tt>r1</tt> and +y+ radius <tt>r2</tt>

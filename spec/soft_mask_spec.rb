@@ -74,44 +74,4 @@ describe "Document with soft masks" do
     extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
     extgstates.length.should == 1
   end
-
-  it "should not have objects that are not used for extended graphic state" do
-    @pdf = Prawn::Document.new(:margin => 0, :optimize_objects => true)
-
-    make_soft_mask do
-      @pdf.fill_color '808080'
-      @pdf.fill_rectangle [100, 100], 200, 200
-    end
-
-    make_soft_mask do
-      @pdf.fill_color '808080'
-      @pdf.fill_rectangle [100, 100], 200, 200
-    end
-
-    reader = PDF::Reader.new(StringIO.open(@pdf.render))
-
-    groups = reader.objects.select { |obj|
-      o = obj[1]
-      o.is_a?(Hash) && o[:Type] == :Group
-    }
-    groups.length.should == 1
-
-    forms = reader.objects.select { |obj|
-      o = obj[1]
-      o.is_a?(PDF::Reader::Stream) && o.hash[:Type] == :XObject && o.hash[:Subtype] == :Form
-    }
-    forms.length.should == 1
-
-    masks = reader.objects.select { |obj|
-      o = obj[1]
-      o.is_a?(Hash) && o[:Type] == :Mask
-    }
-    masks.length.should == 1
-
-    ext_g_states = reader.objects.select { |obj|
-      o = obj[1]
-      o.is_a?(Hash) && o[:Type] == :ExtGState
-    }
-    ext_g_states.length.should == 1
-  end
 end

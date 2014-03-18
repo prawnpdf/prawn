@@ -3,11 +3,15 @@
 # column_box.rb: Extends BoundingBox to allow for columns of text
 #
 # Author Paul Ostazeski.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
 require_relative "bounding_box"
 
 module Prawn
   class Document
+
+    # @group Experimental API
 
     # A column box is a bounding box with the additional property that when
     # text flows past the bottom, it will wrap first to another column on the

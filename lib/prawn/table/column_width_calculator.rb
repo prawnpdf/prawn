@@ -1,6 +1,7 @@
 module Prawn
   class Table
-    class ColumnWidthCalculator
+    # @private
+    class ColumnWidthCalculator 
       def initialize(cells)
         @cells = cells
 
@@ -37,7 +38,12 @@ module Prawn
                                .collect{|key, value| value}.inject(0, :+)
 
             #update the Hash only if the new with is at least equal to the old one
-            if cell.width.to_f > current_width_of_spanned_cells
+            #due to arithmetic errors we need to ignore a small difference in the new and the old sum
+            #the same had to be done in the column_widht_calculator#natural_width
+            update_hash = ((cell.width.to_f - current_width_of_spanned_cells) > 
+                           Prawn::FLOAT_PRECISION)
+            
+            if update_hash
               # Split the width of colspanned cells evenly by columns
               width_per_column = cell.width.to_f / cell.colspan
               # Update the Hash

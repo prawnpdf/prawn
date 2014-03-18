@@ -9,8 +9,7 @@
 # The following tags accept specific attributes: <code>font</code> accepts
 # <code>size</code>, <code>name</code>, and <code>character_spacing</code>;
 # <code>color</code> accepts <code>rgb</code> and <code>cmyk</code>;
-# <code>link</code> accepts <code>href</code> for external links and
-# <code>anchor</code> for internal links.
+# <code>link</code> accepts <code>href</code> for external links.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -37,7 +36,6 @@ Prawn::Example.generate(filename) do
   
   text "This an external link to the " +
        "<u><link href='https://github.com/prawnpdf/prawn/wiki'>Prawn wiki" +
-       "</link></u> and this is a link to the " +
-       "<u><link anchor='Text Reference'>Text Reference</link></u> anchor",
+       "</link></u>",
        :inline_format => true
 end
