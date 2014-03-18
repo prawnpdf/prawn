@@ -46,7 +46,8 @@ describe "Prawn::Table" do
   end
 
   describe "You can explicitly set the column widths and use a colspan > 1" do
-    it "should render a correct table in a bounding box with given colspans", :issue => 438, :unresolved do
+
+    it "should render a correct table in a bounding box with given colspans", :unresolved, :issue => 438 do
       pdf = Prawn::Document.new
       data = [  [ {:content => "1", :colspan => 8} ],
                 [1,2,3,4,5,6,7,8],
@@ -64,7 +65,7 @@ describe "Prawn::Table" do
       end
     end
 
-    it "should not throw a CannotFit Error", :issue => 438, :unresolved do
+    it "should not throw a CannotFit Error", :unresolved, :issue => 438 do
       pdf = Prawn::Document.new
       data = [  [ {:content => "1", :colspan => 8} ],
                 [1,2,3,4,5,6,7,8],
