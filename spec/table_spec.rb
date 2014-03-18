@@ -46,6 +46,38 @@ describe "Prawn::Table" do
   end
 
   describe "You can explicitly set the column widths and use a colspan > 1" do
+    it "should render a correct table in a bounding box with given colspans", :issue => 438 do
+      pdf = Prawn::Document.new
+      data = [  [ {:content => "1", :colspan => 8} ],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8]
+      ]
+      pdf.bounding_box [pdf.bounds.left, pdf.cursor], :width => pdf.bounds.width, :height => 250 do
+        pdf.stroke_bounds
+        pdf.table(data, :width => pdf.bounds.width, :column_widths => {0 => 10, 1 => 10, 2 => 40, 3 => 100, 5 => 60, 6 => 40, 7 => 10}) do 
+          cells.style height: 20
+        end
+      end
+    end
+
+    it "should not throw a CannotFit Error", :issue => 438 do
+      pdf = Prawn::Document.new
+      data = [  [ {:content => "1", :colspan => 8} ],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8],
+                [1,2,3,4,5,6,7,8]
+      ]
+      column_widths = [10,10,40,100,60,40,10]
+      table = Prawn::Table.new data, pdf, :width => 300, :column_widths => column_widths
+    end
+
     it "should work with two different given colspans", :issue => 628 do 
       data = [
               [" ", " ", " "], 
