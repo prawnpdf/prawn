@@ -148,7 +148,7 @@ module Prawn
     # Creates a new PDF Document.  The following options are available (with
     # the default values marked in [])
     #
-    # <tt>:page_size</tt>:: One of the Document::PageGeometry sizes [LETTER]
+    # <tt>:page_size</tt>:: One of the PDF::Core::PageGeometry sizes [LETTER]
     # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
     # <tt>:margin</tt>:: Sets the margin on all sides in points [0.5 inch]
     # <tt>:left_margin</tt>:: Sets the left margin in points [0.5 inch]
