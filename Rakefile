@@ -5,8 +5,9 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'yard'
 require 'rubygems/package_task'
+require 'rubocop/rake_task'
 
-task :default => [:spec]
+task :default => [:rubocop, :spec]
 
 desc "Run all rspec files"
 RSpec::Core::RakeTask.new("spec") do |c|
@@ -52,3 +53,4 @@ task :console do
   IRB.start
 end
 
+Rubocop::RakeTask.new
