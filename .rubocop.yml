@@ -29,8 +29,6 @@ AlignHash:
   Enabled: false
 LineLength:
   Enabled: false
-TrailingWhitespace:
-  Enabled: false
 SpaceBeforeBlockBraces:
   Enabled: false
 AlignParameters:
