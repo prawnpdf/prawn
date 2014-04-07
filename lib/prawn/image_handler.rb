@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # ImageHandler provides a way to register image processors with Prawn
 #
 # Contributed by Evan Sharp in November 2013.
