@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module EncodingHelpers
   def win1252_string(str)
     str.force_encoding(Encoding::Windows_1252)

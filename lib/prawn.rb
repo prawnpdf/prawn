@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Welcome to Prawn, the best PDF Generation library ever.
 # This documentation covers user level functionality.
 #

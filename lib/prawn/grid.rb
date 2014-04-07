@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # grid.rb: Provides a basic grid layout system for Prawn
 #
 # Contributed by Andrew O'Brien in March 2009
