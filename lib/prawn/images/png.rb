@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: ASCII-8BIT
 
 # png.rb : Extracts the data from a PNG that is needed for embedding
 #

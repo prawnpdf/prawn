@@ -1,3 +1,12 @@
+Encoding:
+  # To be safe we are leaving these files encoded ASCII-8BIT as
+  # discussed at https://github.com/prawnpdf/prawn/pull/705
+  Exclude:
+    - lib/prawn/images/jpg.rb
+    - lib/prawn/images/png.rb
+    - lib/prawn/images.rb
+    - spec/png_spec.rb
+
 Void:
   Enabled: false
 StringLiterals:

@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: ASCII-8BIT
 # images.rb : Implements PDF image embedding
 #
 # Copyright April 2008, James Healy, Gregory Brown.  All Rights Reserved.

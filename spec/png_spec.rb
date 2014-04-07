@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: ASCII-8BIT
 
 # Spec'ing the PNG class. Not complete yet - still needs to check the
 # contents of palette and transparency to ensure they're correct.

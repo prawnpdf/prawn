@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: ASCII-8BIT
 
 # jpg.rb : Extracts the data from a JPG that is needed for embedding
 #
