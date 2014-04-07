@@ -23,10 +23,10 @@ Prawn::Example.generate(filename) do
     text "Written with the DejaVu Sans TTF font."
   end
   move_down 20
-  
+
   text "Written with the default font."
   move_down 20
-  
+
   # Using an DFONT font file
   font("#{Prawn::DATADIR}/fonts/Panic+Sans.dfont") do
     text "Written with the Panic Sans DFONT font"

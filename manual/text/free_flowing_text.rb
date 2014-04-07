@@ -20,26 +20,26 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   move_cursor_to 50
   text "This text will flow to the next page. " * 20
-  
+
   y_position = cursor - 50
   bounding_box([0, y_position], :width => 200, :height => 150) do
     transparent(0.5) { stroke_bounds }
     text "This text will flow along this bounding box we created for it. " * 5
   end
-  
+
   bounding_box([300, y_position], :width => 200, :height => 150) do
     transparent(0.5) { stroke_bounds }  # This will stroke on one page
-    
+
     text "Now look what happens when the free flowing text reaches the end " +
          "of a bounding box that is narrower than the margin box." +
          " . " * 200 +
          "It continues on the next page as if the previous bounding box " +
          "was cloned. If we want it to have the same border as the one on " +
          "the previous page we will need to stroke the boundaries again."
-    
+
     transparent(0.5) { stroke_bounds }  # And this will stroke on the next
   end
-  
+
   move_cursor_to 200
   span(350, :position => :center) do
     text "Span is a different kind of bounding box as it lets the text " +

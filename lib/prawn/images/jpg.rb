@@ -16,7 +16,7 @@ module Prawn
     #
     class JPG < Image
       # @group Extension API
-      
+
       attr_reader :width, :height, :bits, :channels
       attr_accessor :scaled_width, :scaled_height
 

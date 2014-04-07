@@ -2,7 +2,7 @@
 #
 # Pass an image path to the <code>:background</code> option and it will be used
 # as the background for all pages.
-# This option can only be used on document creation. 
+# This option can only be used on document creation.
 #
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
@@ -17,7 +17,7 @@ Prawn::Document.generate("background.pdf",
 
   move_down font.height * 2
 
-  text "Here is my text explaning this report. " * 20, 
+  text "Here is my text explaning this report. " * 20,
        :size => 12, :align => :left, :leading => 2
 
   move_down font.height

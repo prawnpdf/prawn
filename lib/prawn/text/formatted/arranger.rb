@@ -12,7 +12,7 @@ module Prawn
     module Formatted #:nodoc:
 
       # @private
-      
+
       class Arranger #:nodoc:
         attr_reader :max_line_height
         attr_reader :max_descender

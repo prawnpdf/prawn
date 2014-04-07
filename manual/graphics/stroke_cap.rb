@@ -18,12 +18,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   stroke_axis
-  
+
   self.line_width = 25
 
   [:butt, :round, :projecting_square].each_with_index do |cap, i|
     self.cap_style = cap
-    
+
     y = 250 - i*100
     stroke_horizontal_line 100, 300, :at => y
     stroke_circle [400, y], 15

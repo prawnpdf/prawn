@@ -13,12 +13,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   stroke_axis
-  
+
   self.line_width = 25
-  
+
   [:miter, :round, :bevel].each_with_index do |style, i|
     self.join_style = style
-    
+
     y = 200 - i*100
     stroke do
       move_to(100, y)

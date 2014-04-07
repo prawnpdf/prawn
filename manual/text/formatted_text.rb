@@ -17,7 +17,7 @@
 # <code>:character_spacing</code> (additional space between the characters),
 # <code>:font</code> (the name of a registered font), <code>:color</code> (the
 # same input accepted by <code>fill_color</code> and <code>stroke_color</code>),
-# <code>:link</code> (an URL to create a link), and <code>:local</code> 
+# <code>:link</code> (an URL to create a link), and <code>:local</code>
 # (a link to a local file).
 
 require File.expand_path(File.join(File.dirname(__FILE__),
@@ -39,7 +39,7 @@ Prawn::Example.generate(filename) do
                      :color => "0000FF",
                      :local => "./local_file.txt" }
                  ]
-  
+
   formatted_text_box [ { :text => "Just your regular" },
                        { :text => " text_box ", :font => "Courier" },
                        { :text => "with some additional formatting options " +

@@ -410,7 +410,7 @@ describe "#text" do
   end
 
   describe "#shrink_to_fit with special utf-8 text" do
-    it "Should not throw an exception", 
+    it "Should not throw an exception",
         :unresolved, :issue => 603 do
       pages = 0
       doc = Prawn::Document.new(page_size: 'A4', margin: [2, 2, 2, 2]) do |pdf|

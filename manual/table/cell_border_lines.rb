@@ -16,9 +16,9 @@ Prawn::Example.generate(filename) do
             ["dotted bottom border", "", ""],
             ["dashed left border", "", ""]
           ]
-  
+
   text "Cell :border_lines => [:dotted, :solid, :dotted, :dashed]"
-  
-  table(data, :cell_style => 
+
+  table(data, :cell_style =>
     { :border_lines => [:dotted, :solid, :dotted, :dashed] })
 end

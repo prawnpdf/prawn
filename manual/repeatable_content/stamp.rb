@@ -26,7 +26,7 @@ Prawn::Example.generate(filename) do
       stroke_color "FF3333"
       stroke_ellipse [0, 0], 29, 15
       stroke_color "000000"
-    
+
       fill_color "993333"
       font("Times-Roman") do
         draw_text "Approved", :at => [-23, -3]
@@ -34,8 +34,8 @@ Prawn::Example.generate(filename) do
       fill_color "000000"
     end
   end
-  
+
   stamp "approved"
-  
+
   stamp_at "approved", [200, 200]
 end

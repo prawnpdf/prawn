@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # Prawn can be used with right-to-left text. The direction can be set
 # document-wide, on particular text, or on a text-box. Setting the direction to
 # <code>:rtl</code> automatically changes the default alignment to

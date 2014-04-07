@@ -20,7 +20,7 @@ Prawn::Example.generate(filename) do
                    ["this is the second row"] ])
   t.draw
   move_down 20
-  
+
   table([ ["short", "short", "loooooooooooooooooooong"],
           ["short", "loooooooooooooooooooong", "short"],
           ["loooooooooooooooooooong", "short", "short"] ])

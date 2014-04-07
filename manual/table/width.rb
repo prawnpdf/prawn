@@ -13,7 +13,7 @@ Prawn::Example.generate(filename) do
   text "Normal width:"
   table [%w[A B C]]
   move_down 20
-  
+
   text "Fixed width:"
   table([%w[A B C]], :width => 300)
   move_down 20
@@ -21,7 +21,7 @@ Prawn::Example.generate(filename) do
   text "Normal width:"
   table([["A", "Blah " * 20, "C"]])
   move_down 20
-  
+
   text "Fixed width:"
   table([["A", "Blah " * 20, "C"]], :width => 300)
 end

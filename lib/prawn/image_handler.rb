@@ -8,7 +8,7 @@
 
 module Prawn
   # @group Extension API
-  
+
   def self.image_handler
     @image_handler ||= ImageHandler.new
   end

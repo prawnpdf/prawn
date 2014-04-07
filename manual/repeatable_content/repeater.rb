@@ -32,7 +32,7 @@ Prawn::Example.generate(filename) do
     draw_text "Only even pages", :at => [0,0]
   end
 
-  repeat([1,3,7]) do 
+  repeat([1,3,7]) do
     draw_text "Only on pages 1, 3 and 7", :at => [100,0]
   end
 
@@ -43,12 +43,12 @@ Prawn::Example.generate(filename) do
   repeat(lambda { |pg| pg % 3 == 0 }) do
     draw_text "Every third page", :at => [250, 20]
   end
-  
+
   repeat(:all, :dynamic => true) do
     draw_text page_number, :at => [500, 0]
   end
 
-  10.times do 
+  10.times do
     start_new_page
     draw_text "A wonderful page", :at => [400,400]
   end
