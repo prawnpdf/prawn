@@ -53,9 +53,9 @@ describe "Prawn::Table" do
           ]
       #we need values with lots of decimals so that arithmetic errors will occur
       #the values are not arbitrary but where found converting mm to pdf pt
-      column_widths=[137, 40, 40, 54.69291338582678, 54.69291338582678, 
-                     54.69291338582678, 54.69291338582678, 54.69291338582678, 
-                     54.69291338582678, 54.69291338582678, 54.69291338582678, 
+      column_widths=[137, 40, 40, 54.69291338582678, 54.69291338582678,
+                     54.69291338582678, 54.69291338582678, 54.69291338582678,
+                     54.69291338582678, 54.69291338582678, 54.69291338582678,
                      54.69291338582678]
 
       pdf = Prawn::Document.new({:page_size => 'A4', :page_layout => :landscape})
@@ -63,10 +63,10 @@ describe "Prawn::Table" do
       table.column_widths.should == column_widths
     end
 
-    it "should work with two different given colspans", :issue => 628 do 
+    it "should work with two different given colspans", :issue => 628 do
       data = [
-              [" ", " ", " "], 
-              [{:content=>" ", :colspan=>3}], 
+              [" ", " ", " "],
+              [{:content=>" ", :colspan=>3}],
               [" ", {:content=>" ", :colspan=>2}]
             ]
       column_widths = [60, 240, 60]
@@ -114,17 +114,17 @@ describe "Prawn::Table" do
        :unresolved, :issue => 612 do
 
       pdf = Prawn::Document.new
-      
+
       first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
       second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
       third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>50,:align=>:center}
       fourth = {:content=>"Bar",:width=>20,:align=>:center}
-      
+
       table_content = [[
       first,
       [[second],[third,fourth]]
       ]]
-      
+
       table = Prawn::Table.new table_content, pdf
       table.column_widths.should == [50.0, 70.0]
     end
@@ -162,7 +162,7 @@ describe "Prawn::Table" do
       table.column_widths.should == [50.0, 200.0]
     end
 
-    it "illustrates a variant of problem in issue #407 - comment 28556698" do 
+    it "illustrates a variant of problem in issue #407 - comment 28556698" do
       pdf = Prawn::Document.new
       table_data = [["a", "b", "c"], [{:content=>"d", :colspan=>3}]]
       column_widths = [50, 60, 400]

@@ -18,13 +18,13 @@ Prawn::Example.generate(filename) do
   data = [ ["Look at how the cells will look when styled", "", ""],
            ["They probably won't look the same", "", ""]
          ]
-  
+
   {:width => 160, :height => 50, :padding => 12}.each do |property, value|
     text "Cell's #{property}: #{value}"
     table(data, :cell_style => {property => value})
     move_down 20
   end
-  
+
   text "Padding can also be set with an array: [0, 0, 0, 30]"
   table(data, :cell_style => {:padding => [0, 0, 0, 30]})
 end

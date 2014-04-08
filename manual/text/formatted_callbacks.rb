@@ -40,7 +40,7 @@ Prawn::Example.generate(filename) do
     def render_in_front(fragment)
       @document.stroke_polygon(fragment.top_left, fragment.top_right,
                                fragment.bottom_right, fragment.bottom_left)
-      
+
       @document.fill_circle(fragment.top_left,     @radius)
       @document.fill_circle(fragment.top_right,    @radius)
       @document.fill_circle(fragment.bottom_right, @radius)
@@ -50,7 +50,7 @@ Prawn::Example.generate(filename) do
 
   highlight = HighlightCallback.new(:color => 'ffff00', :document => self)
   border    = ConnectedBorderCallback.new(:radius => 2.5, :document => self)
-  
+
   formatted_text [ { :text => "hello", :callback => highlight },
                    { :text => "     " },
                    { :text => "world", :callback => border },

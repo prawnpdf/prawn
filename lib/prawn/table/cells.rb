@@ -256,7 +256,7 @@ module Prawn
             #calculate future return value
             new_sum = cell.send(meth) * cell.colspan
 
-            #due to float rounding errors we need to ignore a small difference in the new 
+            #due to float rounding errors we need to ignore a small difference in the new
             #and the old sum the same had to be done in
             #the column_width_calculator#natural_width
             spanned_width_needs_fixing = ((new_sum - old_sum) > Prawn::FLOAT_PRECISION)

@@ -213,7 +213,7 @@ module PDF
     # from the indirect object referencing obj.
     #
     # @private
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false) 
+    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
       case obj
       when Array
         "[" << obj.map { |e|

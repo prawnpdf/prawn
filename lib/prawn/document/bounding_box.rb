@@ -199,7 +199,7 @@ module Prawn
       # If the user actions did not modify the y position
       # restore the original y position before the bounding
       # box was created.
-      
+
       if y == @bounding_box.absolute_top
         self.y = original_ypos
       end

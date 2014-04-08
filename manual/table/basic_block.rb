@@ -37,17 +37,17 @@ Prawn::Example.generate(filename) do
   data = [ ["Header",           "A " * 5, "B"],
            ["Data row",         "C",      "D " * 5],
            ["Another data row", "E",      "F"]]
-  
+
   table(data) do
     cells.padding = 12
     cells.borders = []
-    
+
     row(0).borders      = [:bottom]
     row(0).border_width = 2
     row(0).font_style   = :bold
-    
+
     columns(0..1).borders = [:right]
-    
+
     row(0).columns(0..1).borders = [:bottom, :right]
   end
 end

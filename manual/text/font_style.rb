@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # Most font families come with some styles other than normal. Most common are
 # <code>bold</code>, <code>italic</code> and <code>bold_italic</code>.
 #
@@ -14,7 +14,7 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   ["Courier", "Helvetica", "Times-Roman"].each do |example_font|
     move_down 20
-    
+
     [:bold, :bold_italic, :italic, :normal].each do |style|
       font example_font, :style => style
       text "I'm writing in #{example_font} (#{style})"

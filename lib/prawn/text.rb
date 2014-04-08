@@ -27,7 +27,7 @@ module Prawn
     Prawn::Text::SHY = "­"
 
     # @group Stable API
-    
+
     # If you want text to flow onto a new page or between columns, this is the
     # method to use. If, instead, if you want to place bounded text outside of
     # the flow of a document (for captions, labels, charts, etc.), use Text::Box

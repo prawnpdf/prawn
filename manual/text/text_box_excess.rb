@@ -25,7 +25,7 @@ Prawn::Example.generate(filename) do
                          :overflow => :truncate,
                          :at       => [100, y_position],
                          :size     => 18
-  
+
   text_box excess_text,
            :width    => 300,
            :at       => [100, y_position - 100]

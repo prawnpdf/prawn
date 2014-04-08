@@ -11,7 +11,7 @@ module Prawn
   module Text
     module Formatted
       # @group Stable API
-      
+
       # Draws the requested formatted text into a box. When the text overflows
       # the rectangle shrink to fit or truncate the text. Text boxes are
       # independent of the document y position.
@@ -293,7 +293,7 @@ module Prawn
         end
 
         # @group Extension API
-        
+
         # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
         # of the wrap method if you want to override the default wrapping
         # algorithm):

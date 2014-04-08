@@ -13,12 +13,12 @@ Prawn::Example.generate(filename) do
   font_families["Kai"] = {
     :normal => { :file => file, :font => "Kai" }
   }
-  
+
   file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   font_families["Panic Sans"] = {
     :normal => { :file => file, :font => "PanicSans" },
   }
-  
+
   font("Panic Sans") do
     text("When fallback fonts are included, each glyph will be rendered " +
          "using the first font that includes the glyph, starting with the " +

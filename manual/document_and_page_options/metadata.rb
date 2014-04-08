@@ -13,11 +13,11 @@ Prawn::Document.generate("metadata.pdf",
     :Author       => "John Doe",
     :Subject      => "My Subject",
     :Keywords     => "test metadata ruby pdf dry",
-    :Creator      => "ACME Soft App", 
+    :Creator      => "ACME Soft App",
     :Producer     => "Prawn",
     :CreationDate => Time.now
   }) do
-  
+
   text "This is a test of setting metadata properties via the info option."
   text "While the keys are arbitrary, the above example sets common attributes."
 end

@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # The origin example already mentions that a new document already comes with
 # a margin box whose bottom left corner is used as the origin for calculating
 # coordinates.

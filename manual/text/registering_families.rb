@@ -17,12 +17,12 @@ Prawn::Example.generate(filename) do
   font_families.update("DejaVu Sans" => {
     :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
   })
-  
+
   font("DejaVu Sans") do
     text "Using the DejaVu Sans font providing only its name to the font method"
   end
   move_down 20
-  
+
   # Registering a DFONT package
   font_path = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   font_families.update("Panic Sans" => {
@@ -31,15 +31,15 @@ Prawn::Example.generate(filename) do
     :bold        => { :file => font_path, :font => "PanicSans-Bold" },
     :bold_italic => { :file => font_path, :font => "PanicSans-BoldItalic" }
   })
-  
+
   font "Panic Sans"
   text "Also using Panic Sans by providing only its name"
   move_down 20
-  
+
   text "Taking <b>advantage</b> of the <i>inline formatting</i>",
        :inline_format => true
   move_down 20
-  
+
   [:bold, :bold_italic, :italic, :normal].each do |style|
     text "Using the #{style} style option.",
          :style => style

@@ -13,7 +13,7 @@ module Prawn
   # of various strings for layout purposes.
   #
   # @private
-  class FontMetricCache 
+  class FontMetricCache
 
     CacheEntry = Struct.new( :font, :options, :string )
 

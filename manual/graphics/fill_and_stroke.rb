@@ -24,18 +24,18 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Example.generate(filename) do
   stroke_axis
-  
+
   # No block
   line [0, 200], [100, 150]
   stroke
-  
+
   rectangle [0, 100], 100, 100
   fill
-  
+
   # With block
   stroke { line [200, 200], [300, 150] }
   fill   { rectangle [200, 100], 100, 100 }
-  
+
   # Method hook
   stroke_line [400, 200], [500, 150]
   fill_rectangle [400, 100], 100, 100
