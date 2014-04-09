@@ -45,6 +45,29 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "Text may be longer than the available space in a row on a single page" do
+    it "should not glitch the layout if there is too much text to fit onto a single row on a single page", :unresolved, :issue => 562 do
+      pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
+
+      table_data = Array.new
+      text = "This will be a very long text. "
+      4.times do text += text end
+      table_data.push([{:content => text, :rowspan => 2}, 'b', 'c'])
+      table_data.push(['b','c'])
+
+      column_widths = [50, 60, 400]
+
+      table = Prawn::Table.new table_data, pdf,:column_widths => column_widths
+
+      #render the table onto the pdf
+      table.draw
+
+      #expected behavior would be for the long text to be cut off or an exception to be raised
+      #thus we only expect a single page
+      pdf.page_count.should == 1
+    end
+  end
+
   describe "You can explicitly set the column widths and use a colspan > 1" do
 
     it "should tolerate floating point rounding errors < 0.000000001" do
