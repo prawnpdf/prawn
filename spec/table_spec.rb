@@ -50,8 +50,7 @@ describe "Prawn::Table" do
       pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
 
       table_data = Array.new
-      text = "This will be a very long text. "
-      4.times do text += text end
+      text = 'This will be a very long text. ' * 5
       table_data.push([{:content => text, :rowspan => 2}, 'b', 'c'])
       table_data.push(['b','c'])
 
@@ -732,6 +731,23 @@ describe "Prawn::Table" do
       # Ensure we only drew the header once, on the second page
       output.pages[0][:strings].should be_empty
       output.pages[1][:strings].should == ["Header", "Body"]
+    end
+
+    it 'should only draw first-page header if the first multi-row fits',
+        :unresolved, :issue => 707 do
+      pdf = Prawn::Document.new
+
+      pdf.y = 100 # not enough room for the header and multirow cell
+      pdf.table [
+          [{content: 'Header', colspan: 2}],
+          [{content: 'Multirow cell', rowspan: 3}, 'Line 1'],
+      ] + (2..3).map { |i| ["Line #{i}"] }, :header => true
+
+      output = PDF::Inspector::Page.analyze(pdf.render)
+      # Ensure we only drew the header once, on the second page
+      output.pages[0][:strings].should == []
+      output.pages[1][:strings].should == ['Header', 'Multirow cell', 'Line 1',
+          'Line 2', 'Line 3']
     end
 
     it "should draw background before borders, but only within pages" do
