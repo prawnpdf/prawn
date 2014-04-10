@@ -740,7 +740,7 @@ describe "Prawn::Table" do
       pdf.y = 100 # not enough room for the header and multirow cell
       pdf.table [
           [{content: 'Header', colspan: 2}],
-          [{content: 'Multirow cell', rowspan: 10}, 'Line 1'],
+          [{content: 'Multirow cell', rowspan: 3}, 'Line 1'],
       ] + (2..3).map { |i| ["Line #{i}"] }, :header => true
 
       output = PDF::Inspector::Page.analyze(pdf.render)
