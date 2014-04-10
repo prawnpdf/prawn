@@ -733,7 +733,8 @@ describe "Prawn::Table" do
       output.pages[1][:strings].should == ["Header", "Body"]
     end
 
-    it 'should only draw first-page header if the first multi-row fits' do
+    it 'should only draw first-page header if the first multi-row fits',
+        :unresolved, :issue => 707 do
       pdf = Prawn::Document.new
 
       pdf.y = 100 # not enough room for the header and multirow cell
