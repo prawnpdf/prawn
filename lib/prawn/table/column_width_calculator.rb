@@ -47,6 +47,9 @@ module Prawn
         return values if number_of_nil_values == 0
         #b) no values are filled
         return values if number_of_nil_values == cell.colspan
+        #c) I am not sure why this line is needed FIXXME
+        #some test cases manage to this line even though there is no dummy cell in the row
+        #I'm not sure if this is a sign for a further underlying bug.
         return values unless has_a_span_dummy?(cell.row)
         #fill up the values array
 
