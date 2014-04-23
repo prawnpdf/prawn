@@ -507,4 +507,15 @@ describe "BoundingBox#move_past_bottom" do
     pages[0][:strings].should == ["Foo"]
     pages[1][:strings].should == ["Bar"]
   end
+
+  it "should remember the bounding box when going to an existing page" do
+    @pdf.start_new_page
+    @pdf.go_to_page 1
+
+    @pdf.bounding_box([0, @pdf.cursor], :width => 100) do
+      original_bounds = @pdf.bounds
+      @pdf.bounds.move_past_bottom
+      @pdf.bounds.should == original_bounds
+    end
+  end
 end
