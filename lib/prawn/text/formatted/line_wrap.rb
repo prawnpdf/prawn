@@ -212,7 +212,7 @@ module Prawn
 
         def remember_this_fragment_for_backward_looking_ops
           @previous_fragment = @fragment_output.dup
-          pf = @previous_fragment
+          pf = @previous_fragment.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
           @previous_fragment_ended_with_breakable = pf =~ /[#{break_chars}]$/
           last_word = pf.slice(/[^#{break_chars}]*$/)
           last_word_length = last_word.nil? ? 0 : last_word.length
