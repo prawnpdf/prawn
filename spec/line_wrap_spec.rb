@@ -235,6 +235,18 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "Ｔｅｓｔ"
   end
+
+  it "should process UTF-8 chars in shrink_to_fit", :unresolved, :issue => 603 do
+
+    # set UTF-8 font
+    @pdf.font_families.update("dejavu" => { :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" })
+    @pdf.fallback_fonts = ["dejavu"]
+
+    @pdf.bounding_box([1, 1], :width => 90, :height => 50) do
+      broken_text = " Sample Text\nSAMPLE SAMPLE SAMPLEoddělení ZMĚN\nSAMPLE"
+      @pdf.text broken_text, :overflow => :shrink_to_fit
+    end
+  end
 end
 
 describe "Core::Text::Formatted::LineWrap#space_count" do
