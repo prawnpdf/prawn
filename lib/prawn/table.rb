@@ -320,7 +320,9 @@ module Prawn
               c = Cells.new(cells_this_page.map { |ci, _| ci })
               @before_rendering_page.call(c)
             end
-            Cell.draw_cells(cells_this_page)
+            if @header_row.nil? || cells_this_page.size > @header_row.size
+              Cell.draw_cells(cells_this_page)
+            end
             cells_this_page = []
 
             # start a new page or column
