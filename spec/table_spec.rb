@@ -45,8 +45,8 @@ describe "Prawn::Table" do
     end
   end
 
-  describe "headers should allow for rowspan" do 
-    it "should remember rowspans accross multiple pages", :unresolved, :issue => 721 do 
+  describe "headers should allow for rowspan" do
+    it "should remember rowspans accross multiple pages", :unresolved, :issue => 721 do
       pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
       rows = [ [{:content=>"The\nNumber", :rowspan=>2}, {:content=>"Prefixed", :colspan=>2} ],
            ["A's", "B's"] ]
