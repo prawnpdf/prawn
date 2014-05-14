@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# run rspec -t issue:XYZ  to run tests for a specific github issue
+# or  rspec -t unresolved to run tests for all unresolved issues
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 require 'set'
 
@@ -46,7 +49,7 @@ describe "Prawn::Table" do
   end
 
   describe "headers should allow for rowspan" do
-    it "should remember rowspans accross multiple pages", :unresolved, :issue => 721 do
+    it "should remember rowspans accross multiple pages", :issue => 721 do
       pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
       rows = [ [{:content=>"The\nNumber", :rowspan=>2}, {:content=>"Prefixed", :colspan=>2} ],
            ["A's", "B's"] ]
