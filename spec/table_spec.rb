@@ -45,6 +45,26 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "headers should allow for rowspan" do 
+    it "should remember rowspans accross multiple pages", :unresolved, :issue => 721 do 
+      pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
+      rows = [ [{:content=>"The\nNumber", :rowspan=>2}, {:content=>"Prefixed", :colspan=>2} ],
+           ["A's", "B's"] ]
+
+      (1..50).each do |n|
+        rows.push( ["#{n}", "A#{n}", "B#{n}"] )
+      end
+
+      pdf.table( rows, :header=>2 ) do
+         row(0..1).style :background_color=>"FFFFCC"
+      end
+
+      #ensure that the header on page 1 is identical to the header on page 0
+      output = PDF::Inspector::Page.analyze(pdf.render)
+      output.pages[0][:strings][0..4].should == output.pages[1][:strings][0..4]
+    end
+  end
+
   describe "Text may be longer than the available space in a row on a single page" do
     it "should not glitch the layout if there is too much text to fit onto a single row on a single page", :unresolved, :issue => 562 do
       pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
