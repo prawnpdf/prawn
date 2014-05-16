@@ -15,6 +15,12 @@ Prawn::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
     p.example "other_cursor_helpers"
     p.example "adding_pages"
     p.example "measurement"
+    p.section "Colors" do |s|
+      s.example "using_colors"
+      s.example "css_colors"
+      s.example "named_colors", :show_code=>false
+      s.example "hue_color_systems", :show_code=>false
+    end
 
     p.intro do
       prose("This chapter covers the minimum amount of functionality you'll need to start using Prawn.

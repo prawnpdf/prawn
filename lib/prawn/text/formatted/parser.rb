@@ -81,7 +81,9 @@ module Prawn
             end
 
             if hash[:color]
-              if hash[:color].kind_of?(Array)
+              if hash[:color].respond_to? :to_css
+                prefix = prefix + "<color css='#{hash[:color].to_css}'>"
+              elsif hash[:color].kind_of?(Array)
                 prefix = prefix + "<color c='#{hash[:color][0]}'" +
                                         " m='#{hash[:color][1]}'" +
                                         " y='#{hash[:color][2]}'" +
@@ -178,6 +180,9 @@ module Prawn
                 matches = /local="([^"]*)"/.match(token) || /local='([^']*)'/.match(token)
                 local = matches[1] unless matches.nil?
               elsif token =~ /^<color[^>]*>$/
+                matches = /css="([^"]*)"/.match(token) || /css='([^']*)'/.match(token)
+                colors << matches[1] if matches
+
                 matches = /rgb="#?([^"]*)"/.match(token) || /rgb='#?([^']*)'/.match(token)
                 colors << matches[1] if matches
 

@@ -16,14 +16,14 @@ module Prawn
     # <tt>:eval_source</tt>:: Evals the example source code (default: true)
     # <tt>:full_source</tt>:: Extract the full source code when true. Extract
     # only the code between the generate block when false (default: false)
-    #
+    # <tt>:show_code</tt>:: Show the source code (default: true)
     def initialize(parent, filename, options={})
       @parent   = parent.is_a?(String) ? ExamplePackage.new(parent) : parent
 
       @filename = filename
       @data     = read_file(@parent.folder_name, filename)
 
-      @options  = {:eval_source => true, :full_source => false}.merge(options)
+      @options  = {:eval_source => true, :full_source => false, :show_code => true}.merge(options)
     end
 
     # Return the example source code excluding the initial comments and
@@ -49,6 +49,11 @@ module Prawn
     #
     def source
       @options[:full_source] ? full_source : generate_block_source
+    end
+
+    # Returns true if the source code to the example should be displayed
+    def show_code?
+      @options[:show_code]
     end
 
     # Return true if the example source should be evaluated inline within
