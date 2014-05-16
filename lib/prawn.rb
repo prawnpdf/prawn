@@ -69,6 +69,7 @@ require_relative "prawn/errors"
 
 require_relative "prawn/utilities"
 require_relative "prawn/text"
+require_relative "prawn/color_values"
 require_relative "prawn/graphics"
 require_relative "prawn/images"
 require_relative "prawn/images/image"

@@ -27,7 +27,7 @@ module Prawn
       #
       def fill_color(*color)
         return current_fill_color if color.empty?
-        self.current_fill_color = process_color(*color)
+        self.current_fill_color = make_color(*color)
         set_fill_color
       end
 
@@ -49,7 +49,7 @@ module Prawn
       #
       def stroke_color(*color)
         return current_stroke_color if color.empty?
-        color = process_color(*color)
+        color = make_color(*color)
         self.current_stroke_color = color
         set_stroke_color(color)
       end
@@ -78,67 +78,41 @@ module Prawn
         [r,g,b].map { |e| e.to_i(16) }
       end
 
-      private
-
-      def process_color(*color)
-        case(color.size)
-        when 1
-          color[0]
-        when 4
+      # Convert argument(s) into a PDFColor
+      def make_color(*color)
+        ###puts "make_color(#{ color.inspect })"
+        if color.is_a? Prawn::PDFColor
           color
         else
-          raise ArgumentError, 'wrong number of arguments supplied'
-        end
-      end
-
-      def color_type(color)
-        case color
-        when String
-          :RGB
-        when Array
-          case color.length
-          when 3
-            :RGB
+          case(color.size)
+          when 1
+            if color[0].is_a? Prawn::PDFColor
+              color[0]
+            else
+              Prawn::CSSColor.new color[0]
+            end
           when 4
-            :CMYK
+            Prawn::CSSColor.new color
           else
-            raise ArgumentError, "Unknown type of color: #{color.inspect}"
+            raise ArgumentError, 'wrong number of arguments supplied'
           end
         end
       end
 
-      def normalize_color(color)
-        case color_type(color)
-        when :RGB
-          r,g,b = hex2rgb(color)
-          [r / 255.0, g / 255.0, b / 255.0]
-        when :CMYK
-          c,m,y,k = *color
-          [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
-        end
-      end
+      private
 
-      def color_to_s(color)
-        normalize_color(color).map { |c| '%.3f' % c }.join(' ')
-      end
-
-      def color_space(color)
-        case color_type(color)
-        when :RGB
-          :DeviceRGB
-        when :CMYK
-          :DeviceCMYK
-        end
-      end
-
-      COLOR_SPACES = [:DeviceRGB, :DeviceCMYK, :Pattern]
+      # All PDF 1.3 color spaces.  Should somebody subclass PDFColor to
+      # support any of these.
+      PDF_COLOR_SPACES = [:DeviceGray, :DeviceRGB, :DeviceCMYK,
+                          :CalGray, :CalRGB, :Lab, :ICCBased,
+                          :Indexed, :Pattern, :Separation, :DeviceN]
 
       def set_color_space(type, color_space)
         # don't set the same color space again
         return if current_color_space(type) == color_space && !state.page.in_stamp_stream?
         set_current_color_space(color_space, type)
 
-        unless COLOR_SPACES.include?(color_space)
+        unless PDF_COLOR_SPACES.include?(color_space)
           raise ArgumentError, "unknown color space: '#{color_space}'"
         end
 
@@ -151,7 +125,7 @@ module Prawn
           raise ArgumentError, "unknown type '#{type}'"
         end
 
-        add_content "/#{color_space} #{operator}"
+        add_content "#{ PDF::Core::PdfObject(color_space.to_sym) } #{operator}"
       end
 
       def set_color(type, color, options = {})
@@ -164,14 +138,12 @@ module Prawn
           raise ArgumentError, "unknown type '#{type}'"
         end
 
-        if options[:pattern]
-          set_color_space type, :Pattern
-          add_content "/#{color} #{operator}"
-        else
-          set_color_space type, color_space(color)
-          color = color_to_s(color)
-          write_color(color, operator)
+        if ! color.opaque?
+          raise ArgumentError, "Can not use transparent or translucent colors: #{color.inspect}"
         end
+
+        set_color_space type, color.color_space
+        write_color(color, operator)
       end
 
       def set_fill_color(color = nil)
@@ -223,7 +195,7 @@ module Prawn
       end
 
       def write_color(color, operator)
-        add_content "#{color} #{operator}"
+        add_content "#{color.to_pdf} #{operator}"
       end
 
     end

@@ -144,10 +144,15 @@ module Prawn
 
       prose(example.introduction_text)
 
-      code(example.source)
+      if example.show_code?
+        code(example.source)
+        show_dash = true
+      else
+        show_dash = false
+      end
 
       if example.eval?
-        eval_code(example.source)
+        eval_code(example.source, show_dash)
       else
         source_link(example)
       end
@@ -230,16 +235,19 @@ module Prawn
 
     # Renders a dashed line and evaluates the code inline
     #
-    def eval_code(source)
+    def eval_code(source, show_dash=true)
       move_down(RHYTHM)
 
-      dash(3)
-      stroke_color(BROWN)
-      stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN)
-      stroke_color(BLACK)
-      undash
+      if show_dash
+        dash(3)
+        stroke_color(BROWN)
+        stroke_horizontal_line(-BOX_MARGIN, bounds.width + BOX_MARGIN)
+        stroke_color(BLACK)
+        undash
 
-      move_down(RHYTHM*3)
+        move_down(RHYTHM*3)
+      end
+
       begin
         eval(source)
       rescue => e
