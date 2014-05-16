@@ -39,7 +39,13 @@ module Prawn
 
     # Clamps a float to be within a given range, default 0.0 to 1.0
     def clamp( f, f_min=0.0, f_max=1.0 )
-      f < f_min ? f_min : (f > f_max ? f_max : f)
+      if f < f_min
+        f_min
+      elsif f > f_max
+        f_max
+      else
+        f
+      end
     end
 
     # Converts a float to a PDF number. Only keeps 3 significant
@@ -98,7 +104,7 @@ module Prawn
   end
 
   # Simple class for PDF /DeviceRGB colors.
-  class RGB_Color < PDFColor
+  class RGBColor < PDFColor
     attr_reader :red, :green, :blue
     def initialize( r=0.0, g=0.0, b=0.0 )
       @red = clamp(r)
@@ -126,7 +132,7 @@ module Prawn
   end
 
   # Simple class for PDF /DeviceCMYK colors.
-  class CMYK_Color < PDFColor
+  class CMYKColor < PDFColor
     attr_reader :cyan, :magenta, :yellow, :black
     def initialize( c=0.0, m=0.0, y=0.0, k=0.0 )
       @cyan = clamp(c)
@@ -812,7 +818,7 @@ module Prawn
     #
     def set(name)
       if name.is_a? Array
-        # Traditional Prawn way to represent a CMYK color is an array 
+        # Traditional Prawn way to represent a CMYK color is an array
         # of four numbers, each 0 to 100.
         if name.length != 4
           raise ArgumentError, 'CMYK array must have four components'
@@ -950,7 +956,7 @@ module Prawn
     end
 
     # Insure W + B <= 100%
-    def normalize_hwb()
+    def normalize_hwb
       w, b = @comp[:wht], @comp[:blk]
       if w < 0
         w = 0.0
@@ -969,7 +975,7 @@ module Prawn
     end
 
     # Determine RGB equivalent color for HSL and HWB colors
-    def recompute_rgb()
+    def recompute_rgb
       case @ct
       when :HSL
         r,g,b = hsl_to_rgb( @comp[:hue], @comp[:sat], @comp[:lite] )
@@ -1043,7 +1049,7 @@ module Prawn
         h1pct = 0.5
         if h1.nil? and names.length == 2
           # First name could be a splash hue
-          splash_fun = names[0].match /^([[:alpha:]]+)\((.*)\)$/
+          splash_fun = names[0].match( /^([[:alpha:]]+)\((.*)\)$/ )
           if splash_fun
             h1 = splash_fun[1]
             h1pct = clamp( parse_num_or_pct( splash_fun[2] ) )

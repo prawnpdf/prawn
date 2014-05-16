@@ -138,7 +138,7 @@ module Prawn
           raise ArgumentError, "unknown type '#{type}'"
         end
 
-        if ! color.opaque?
+        unless color.opaque?
           raise ArgumentError, "Can not use transparent or translucent colors: #{color.inspect}"
         end
 

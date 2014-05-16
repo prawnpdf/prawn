@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # There are generally two colors (or pens) that are active at any
-# given time: the <i>stroke-color</i> which is used for drawning
+# given time: the <i>stroke-color</i> which is used for drawing
 # lines, and the <i>fill-color</i> which is used to paint in areas as
 # well as drawing text.
 #
