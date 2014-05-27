@@ -42,11 +42,13 @@ You can also install from git if you'd like, the _master_ branch contains the la
 
 If the following code runs and produces a working PDF file, you've successfully installed Prawn.
 
-    require "prawn"
+```ruby
+require "prawn"
 
-    Prawn::Document.generate("hello.pdf") do
-      text "Hello World!"
-    end
+Prawn::Document.generate("hello.pdf") do
+  text "Hello World!"
+end
+```
 
 Of course, you'll probably want to do more interesting things than that...
 
