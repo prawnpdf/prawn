@@ -2,10 +2,10 @@
 #
 # Examples for Prawn basic concepts.
 #
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
 
-Prawn::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
+require_relative "../example_helper"
+
+Prawn::ManualBuilder::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
 
   package "basic_concepts" do |p|
 

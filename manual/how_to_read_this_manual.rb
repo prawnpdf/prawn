@@ -1,12 +1,11 @@
 # encoding: utf-8
 #
 # Prawn manual how to read this manual page.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative "example_helper"
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   header("How to read this manual")
 
   prose <<-END_TEXT
@@ -21,7 +20,7 @@ Prawn::Example.generate(filename) do
   Advanced users are encouraged to go beyond this manual and read the source code directly if any doubt is not directly covered on this manual.
   END_TEXT
 
-  move_down(BOX_MARGIN)
+  move_down(Prawn::ManualBuilder::Example::BOX_MARGIN)
   header("Reading the examples")
 
   prose <<-END_TEXT
