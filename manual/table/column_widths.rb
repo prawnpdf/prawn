@@ -12,7 +12,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   data = [ ["this is not quite as long as the others",
             "here we have a line that is long but with smaller words",
             "this is so very looooooooooooooooooooooooooooooong"] ]

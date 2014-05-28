@@ -13,7 +13,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   table([["foo", "bar", "baz"]] * 40) do |t|
     t.cells.border_width = 1
     t.before_rendering_page do |page|
