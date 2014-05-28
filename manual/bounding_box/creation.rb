@@ -14,7 +14,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   bounding_box([200, cursor - 100], :width => 200, :height => 100) do
     text "Just your regular bounding box"
 

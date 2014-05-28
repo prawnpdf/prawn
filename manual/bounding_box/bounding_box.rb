@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
+Prawn::ManualBuilder::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
 
   package "bounding_box" do |p|
 

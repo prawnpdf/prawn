@@ -21,7 +21,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   draw_text "This draw_text line is absolute positioned. However don't " +
             "expect it to flow even if it hits the document border",
             :at => [200, 300]

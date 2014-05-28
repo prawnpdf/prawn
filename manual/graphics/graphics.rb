@@ -5,7 +5,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("graphics.pdf", :page_size => "FOLIO") do
+Prawn::ManualBuilder::Example.generate("graphics.pdf", :page_size => "FOLIO") do
 
   package "graphics" do |p|
 

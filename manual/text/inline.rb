@@ -15,7 +15,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   %w[b i u strikethrough sub sup].each do |tag|
     text "Just your regular text <#{tag}>except this portion</#{tag}> " +
          "is using the #{tag} tag",

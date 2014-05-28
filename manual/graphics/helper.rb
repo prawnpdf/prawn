@@ -15,7 +15,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
   stroke_axis(:at => [70, 70], :height => 200, :step_length => 50,
               :negative_axes_length => 5, :color => '0000FF')

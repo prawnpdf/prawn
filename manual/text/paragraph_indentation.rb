@@ -14,7 +14,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   # Using non-breaking spaces
   text " " * 10 + "This paragraph won't be indented. " * 10 +
        "\n#{Prawn::Text::NBSP * 10}" + "This one will with NBSP. " * 10

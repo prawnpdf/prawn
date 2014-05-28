@@ -20,7 +20,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   pentagram = [[181, 95], [0, 36], [111, 190], [111, 0], [0, 154]]
 
   stroke_color 'ff0000'

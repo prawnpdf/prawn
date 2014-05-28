@@ -20,7 +20,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   create_stamp("approved") do
     rotate(30, :origin => [-5, -5]) do
       stroke_color "FF3333"

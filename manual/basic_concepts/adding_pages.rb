@@ -17,7 +17,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   text "We are still on the initial page for this example. Now I'll ask " +
        "Prawn to gently start a new page. Please follow me to the next page."
 
