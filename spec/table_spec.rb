@@ -174,6 +174,34 @@ describe "Prawn::Table" do
       table.column_widths.should == [50.0, 70.0]
     end
 
+    it "illustrates issue #710", :issue => 710 do
+      partial_width = 40
+      pdf = Prawn::Document.new({page_size: "LETTER", page_layout: :portrait})
+      col_widths = [
+        50,
+        partial_width, partial_width, partial_width, partial_width
+      ]
+
+      day_header = [{
+          content: "Monday, August 5th, A.S. XLIX",
+          colspan: 5,
+      }]
+
+      times = [{
+        content: "Loc",
+        colspan: 1,
+      }, {
+        content: "8:00",
+        colspan: 4,
+      }]
+
+      data = [ day_header ] + [ times ]
+
+      #raised a Prawn::Errors::CannotFit:
+      #Table's width was set larger than its contents' maximum width (max width 210, requested 218.0)
+      table = Prawn::Table.new data, pdf, :column_widths => col_widths
+    end
+
     it "illustrate issue #533" do
       data = [['', '', '', '', '',''],
               ['',{:content => '', :colspan => 5}]]
