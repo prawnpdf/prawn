@@ -139,7 +139,6 @@ module Prawn
 
         @cells.each do |cell|
           index = cell.send(row_or_column)
-          #puts "index=#{index}"
           if cell.colspan > 1
             #special treatment if some but not all spanned indices in the values array have been calculated
             #only applies to rows
@@ -174,7 +173,7 @@ module Prawn
             end
           end
         end
-        puts values.values.inject(0, &:+)
+
         return values.values.inject(0, &:+)
       end
     end
