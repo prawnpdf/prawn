@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# run rspec -t issue:XYZ  to run tests for a specific github issue
+# or  rspec -t unresolved to run tests for all unresolved issues
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 require 'set'
 
@@ -42,6 +45,26 @@ describe "Prawn::Table" do
       pdf = Prawn::Document.new
       table = Prawn::Table.new data, pdf
       table.column_widths.length.should == 6
+    end
+  end
+
+  describe "headers should allow for rowspan" do
+    it "should remember rowspans accross multiple pages", :issue => 721 do
+      pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
+      rows = [ [{:content=>"The\nNumber", :rowspan=>2}, {:content=>"Prefixed", :colspan=>2} ],
+           ["A's", "B's"] ]
+
+      (1..50).each do |n|
+        rows.push( ["#{n}", "A#{n}", "B#{n}"] )
+      end
+
+      pdf.table( rows, :header=>2 ) do
+         row(0..1).style :background_color=>"FFFFCC"
+      end
+
+      #ensure that the header on page 1 is identical to the header on page 0
+      output = PDF::Inspector::Page.analyze(pdf.render)
+      output.pages[0][:strings][0..4].should == output.pages[1][:strings][0..4]
     end
   end
 
