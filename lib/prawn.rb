@@ -83,7 +83,7 @@ require_relative "prawn/encoding"
 require_relative "prawn/measurements"
 require_relative "prawn/repeater"
 require_relative "prawn/outline"
-require_relative "prawn/layout"
+require_relative "prawn/grid"
 
 require_relative "prawn/image_handler"
 
