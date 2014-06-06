@@ -163,7 +163,7 @@ describe "font style support" do
   it "should accept IO objects for font files" do
     io = File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
     @pdf.font_families["DejaVu Sans"] = {
-      normal: Prawn::Font.load(@pdf, io, format: 'ttf')
+      normal: Prawn::Font.load(@pdf, io)
     }
 
     @pdf.font "DejaVu Sans"

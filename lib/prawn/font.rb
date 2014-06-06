@@ -288,15 +288,15 @@ module Prawn
     # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
     # will be passed through to Font::AFM.new()
     def self.load(document, src, options={})
-      case format(src, options)
+      case font_format(src, options)
       when 'ttf'   then TTF.new(document, src, options)
       when 'dfont' then DFont.new(document, src, options)
       else AFM.new(document, src, options)
       end
     end
 
-    def self.format(src, options)
-      return options[:format] if options.key? :format
+    def self.font_format(src, options)
+      return options.fetch(:format, 'ttf') if src.respond_to? :read
 
       case src.to_s
       when /\.ttf$/i   then return 'ttf'
