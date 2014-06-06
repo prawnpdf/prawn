@@ -280,12 +280,23 @@ module Prawn
     # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
     # will be passed through to Font::AFM.new()
     #
-    def self.load(document,name,options={})
+    def self.load(document, name, options={})
+      # Name is really either a string containing a file path or an IO object
+      case format(document, name, options)
+      when 'ttf'   then TTF.new(document, name, options)
+      when 'dfont' then DFont.new(document, name, options)
+      else AFM.new(document, name, options)
+      end
+    end
+
+    def self.format(document, name, options)
+      family = document.font_families.fetch(options[:family]) { {} }
+      return family.fetch :format if family.key? :format
+
       case name.to_s
-      when /\.ttf$/i   then TTF.new(document, name, options)
-      when /\.dfont$/i then DFont.new(document, name, options)
-      when /\.afm$/i   then AFM.new(document, name, options)
-      else                  AFM.new(document, name, options)
+      when /\.ttf$/i   then return 'ttf'
+      when /\.dfont$/i then return 'dfont'
+      else return 'afm'
       end
     end
 
