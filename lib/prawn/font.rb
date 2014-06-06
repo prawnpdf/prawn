@@ -237,7 +237,15 @@ module Prawn
         end
       end
       key = "#{name}:#{options[:font] || 0}"
-      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
+
+      if name.is_a? Prawn::Font
+        font_registry[key] = name
+      else
+        font_registry[key] ||= Font.load( self,
+                                          name,
+                                          options.merge(family: family)
+                               )
+      end
     end
 
     # Hash of Font objects keyed by names
@@ -280,16 +288,15 @@ module Prawn
     # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
     # will be passed through to Font::AFM.new()
     def self.load(document, src, options={})
-      case format(document, src, options)
+      case format(src, options)
       when 'ttf'   then TTF.new(document, src, options)
       when 'dfont' then DFont.new(document, src, options)
       else AFM.new(document, src, options)
       end
     end
 
-    def self.format(document, src, options)
-      family = document.font_families.fetch(options[:family]) { {} }
-      return family.fetch :format if family.key? :format
+    def self.format(src, options)
+      return options[:format] if options.key? :format
 
       case src.to_s
       when /\.ttf$/i   then return 'ttf'
