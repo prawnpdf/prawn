@@ -211,11 +211,7 @@ module Prawn
               @document.text_rendering_mode(@mode) do
                 process_options
 
-                if @skip_encoding
-                  text = original_text
-                else
-                  text = normalize_encoding
-                end
+                text = normalized_text(flags)
 
                 @document.font_size(@font_size) do
                   shrink_to_fit(text) if @overflow == :shrink_to_fit
@@ -345,6 +341,18 @@ module Prawn
         end
 
         private
+
+        def normalized_text(flags)
+          if @skip_encoding
+            text = original_text
+          else
+            text = normalize_encoding
+          end
+
+          text.each { |t| t.delete(:color) } if flags[:dry_run]
+
+          text
+        end
 
         def original_text
           @original_array.collect { |hash| hash.dup }
