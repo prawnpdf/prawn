@@ -217,6 +217,8 @@ module Prawn
                   text = normalize_encoding
                 end
 
+                text.map { |t| t.delete(:color) } if flags[:dry_run]
+
                 @document.font_size(@font_size) do
                   shrink_to_fit(text) if @overflow == :shrink_to_fit
                   process_vertical_alignment(text)
