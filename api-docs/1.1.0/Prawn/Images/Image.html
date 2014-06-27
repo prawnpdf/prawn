@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Images::Image
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!Prawn/Images/Image.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (I)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Images.html" title="Prawn::Images (module)">Images</a></span></span>
+     &raquo; 
+    <span class="title">Image</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Images::Image
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Prawn::Images::Image</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/images/image.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="JPG.html" title="Prawn::Images::JPG (class)">JPG</a></span>, <span class='object_link'><a href="PNG.html" title="Prawn::Images::PNG (class)">PNG</a></span></p>
+</div>
+
+
+
+
+
+
+
+  
+    <h2>
+      Extension API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#calc_image_dimensions-instance_method" title="#calc_image_dimensions (instance method)">- (Object) <strong>calc_image_dimensions</strong>(options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="calc_image_dimensions-instance_method">
+  
+    - (<tt>Object</tt>) <strong>calc_image_dimensions</strong>(options) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/image.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_calc_image_dimensions'>calc_image_dimensions</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_width'>width</span>
+  <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_height'>height</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_wp'>wp</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span> <span class='op'>/</span> <span class='id identifier rubyid_width'>width</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+    <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>*</span> <span class='id identifier rubyid_wp'>wp</span>
+    <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_height'>height</span> <span class='op'>*</span> <span class='id identifier rubyid_wp'>wp</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_hp'>hp</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span> <span class='op'>/</span> <span class='id identifier rubyid_height'>height</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+    <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>*</span> <span class='id identifier rubyid_hp'>hp</span>
+    <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_height'>height</span> <span class='op'>*</span> <span class='id identifier rubyid_hp'>hp</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:scale</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>*</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:scale</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_height'>height</span> <span class='op'>*</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:scale</span><span class='rbracket'>]</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:fit</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_bw'>bw</span><span class='comma'>,</span> <span class='id identifier rubyid_bh'>bh</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:fit</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_bp'>bp</span> <span class='op'>=</span> <span class='id identifier rubyid_bw'>bw</span> <span class='op'>/</span> <span class='id identifier rubyid_bh'>bh</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+    <span class='id identifier rubyid_ip'>ip</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>/</span> <span class='id identifier rubyid_height'>height</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_ip'>ip</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_bp'>bp</span>
+      <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_bw'>bw</span>
+      <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_bw'>bw</span> <span class='op'>/</span> <span class='id identifier rubyid_ip'>ip</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_bh'>bh</span>
+      <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='id identifier rubyid_bh'>bh</span> <span class='op'>*</span> <span class='id identifier rubyid_ip'>ip</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_scaled_width'>scaled_width</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_scaled_height'>scaled_height</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span>
+
+  <span class='lbracket'>[</span><span class='id identifier rubyid_w'>w</span><span class='comma'>,</span><span class='id identifier rubyid_h'>h</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jun 27 09:52:33 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.1).
+</div>
+
+  </body>
+</html>
