@@ -79,7 +79,7 @@ module Prawn
           result
         end
 
-        # returns true iff all text was printed without running into the end of
+        # returns true if all text was printed without running into the end of
         # the line
         #
         def add_fragment_to_line(fragment)
