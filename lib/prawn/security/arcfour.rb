@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Implementation of the "ARCFOUR" algorithm ("alleged RC4 (tm)"). Implemented
 # as described at:
 # http://www.mozilla.org/projects/security/pki/nss/draft-kaukonen-cipher-arcfour-03.txt
@@ -17,7 +19,7 @@ class Arcfour
     # 1. Allocate an 256 element array of 8 bit bytes to be used as an S-box
     # 2. Initialize the S-box.  Fill each entry first with it's index
     @sbox = (0..255).to_a
-    
+
     # 3. Fill another array of the same size (256) with the key, repeating
     #    bytes as necessary.
     s2 = []
@@ -39,7 +41,7 @@ class Arcfour
   def encrypt(string)
     string.unpack('c*').map{|byte| byte ^ key_byte}.pack('c*')
   end
-  
+
   private
 
   # Produces the next byte of key material in the stream (3.2 Stream Generation)

@@ -12,15 +12,15 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
-  
+
   fill_circle [250, 200], 2
-  
+
   12.times do |i|
-    
+
     rotate(i * 30, :origin => [250, 200]) do
-      
+
       stroke_rectangle [350, 225], 100, 50
       draw_text "Rotated #{i * 30}°", :size => 10, :at => [360, 205]
     end

@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # Prawn can be used with right-to-left text. The direction can be set
 # document-wide, on particular text, or on a text-box. Setting the direction to
 # <code>:rtl</code> automatically changes the default alignment to
@@ -13,7 +13,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   # set the direction document-wide
   self.text_direction = :rtl
 

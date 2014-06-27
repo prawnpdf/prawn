@@ -26,11 +26,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
-  
+
   stroke_circle [0, 0], 10
-  
+
   bounding_box([100, 300], :width => 300, :height => 200) do
     stroke_bounds
     stroke_circle [0, 0], 10

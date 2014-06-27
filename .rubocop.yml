@@ -1,0 +1,189 @@
+Encoding:
+  # To be safe we are leaving these files encoded ASCII-8BIT as
+  # discussed at https://github.com/prawnpdf/prawn/pull/705
+  Exclude:
+    - lib/prawn/images/jpg.rb
+    - lib/prawn/images/png.rb
+    - lib/prawn/images.rb
+    - spec/png_spec.rb
+
+Void:
+  Enabled: false
+StringLiterals:
+  Enabled: false
+SpaceAroundOperators:
+  Enabled: false
+HashSyntax:
+  Enabled: false
+UselessAssignment:
+  Enabled: false
+EmptyLines:
+  Enabled: false
+LineEndConcatenation:
+  Enabled: false
+SpaceAfterComma:
+  Enabled: false
+Lambda:
+  Enabled: false
+AlignHash:
+  Enabled: false
+LineLength:
+  Enabled: false
+SpaceBeforeBlockBraces:
+  Enabled: false
+AlignParameters:
+  Enabled: false
+SpaceInsideBrackets:
+  Enabled: false
+WordArray:
+  Enabled: false
+SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+MethodCallParentheses:
+  Enabled: false
+FormatString:
+  Enabled: false
+Blocks:
+  Enabled: false
+SpaceInsideBlockBraces:
+  Enabled: false
+CollectionMethods:
+  Enabled: false
+SpaceInsideHashLiteralBraces:
+  Enabled: false
+DotPosition:
+  Enabled: false
+SingleLineBlockParams:
+  Enabled: false
+PercentLiteralDelimiters:
+  Enabled: false
+SpaceInsideParens:
+  Enabled: false
+IfUnlessModifier:
+  Enabled: false
+NilComparison:
+  Enabled: false
+Semicolon:
+  Enabled: false
+LeadingCommentSpace:
+  Enabled: false
+Documentation:
+  Enabled: false
+AlignArray:
+  Enabled: false
+BlockAlignment:
+  Enabled: false
+IndentArray:
+  Enabled: false
+BracesAroundHashParameters:
+  Enabled: false
+TrailingComma:
+  Enabled: false
+IndentHash:
+  Enabled: false
+RegexpLiteral:
+  Enabled: false
+MethodLength:
+  Enabled: false
+IndentationWidth:
+  Enabled: false
+VariableInterpolation:
+  Enabled: false
+EvenOdd:
+  Enabled: false
+AmbiguousOperator:
+  Enabled: false
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+IndentationConsistency:
+  Enabled: false
+TrailingBlankLines:
+  Enabled: false
+AndOr:
+  Enabled: false
+AssignmentInCondition:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
+NumericLiterals:
+  Enabled: false
+AsciiComments:
+  Enabled: false
+EmptyLinesAroundBody:
+  Enabled: false
+SignalException:
+  Enabled: false
+DoubleNegation:
+  Enabled: false
+SelfAssignment:
+  Enabled: false
+Eval:
+  Enabled: false
+ClassLength:
+  Enabled: false
+ShadowingOuterLocalVariable:
+  Enabled: false
+TrivialAccessors:
+  Enabled: false
+AccessModifierIndentation:
+  Enabled: false
+CaseEquality:
+  Enabled: false
+EmptyLineBetweenDefs:
+  Enabled: false
+RedundantSelf:
+  Enabled: false
+BlockNesting:
+  Enabled: false
+NegatedWhile:
+  Enabled: false
+MultilineIfThen:
+  Enabled: false
+ModuleFunction:
+  Enabled: false
+CyclomaticComplexity:
+  Enabled: false
+CaseIndentation:
+  Enabled: false
+UnreachableCode:
+  Enabled: false
+MultilineTernaryOperator:
+  Enabled: false
+AccessorMethodName:
+  Enabled: false
+SpaceAfterControlKeyword:
+  Enabled: false
+UselessAccessModifier:
+  Enabled: false
+PredicateName:
+  Enabled: false
+ConstantName:
+  Enabled: false
+UnlessElse:
+  Enabled: false
+MethodName:
+  Enabled: false
+Alias:
+  Enabled: false
+RedundantReturn:
+  Enabled: false
+EmptyLinesAroundAccessModifier:
+  Enabled: false
+DeprecatedHashMethods:
+  Enabled: false
+WhileUntilModifier:
+  Enabled: false
+StringConversionInInterpolation:
+  Enabled: false
+EndAlignment:
+  Enabled: false
+RedundantBegin:
+  Enabled: false
+PerlBackrefs:
+  Enabled: false
+CharacterLiteral:
+  Enabled: false
+ClassVars:
+  Enabled: false
+ParameterLists:
+  Enabled: false

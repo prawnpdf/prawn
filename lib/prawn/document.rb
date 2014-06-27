@@ -97,7 +97,7 @@ module Prawn
     end
 
     # @private
-    def self.inherited(base) 
+    def self.inherited(base)
       extensions.each { |e| base.extensions << e }
     end
 
@@ -587,7 +587,7 @@ module Prawn
     #
     # @private
     def group(*a, &b)
-      raise NotImplementedError, 
+      raise NotImplementedError,
         "Document#group has been disabled because its implementation "+
         "lead to corrupted documents whenever a page boundary was "+
         "crossed. We will try to work on reimplementing it in a "+
@@ -596,7 +596,7 @@ module Prawn
 
     # @private
     def transaction
-      raise NotImplementedError, 
+      raise NotImplementedError,
         "Document#transaction has been disabled because its implementation "+
         "lead to corrupted documents whenever a page boundary was "+
         "crossed. We will try to work on reimplementing it in a "+
@@ -629,8 +629,8 @@ module Prawn
     end
 
     # @private
-   
-    def mask(*fields) 
+
+    def mask(*fields)
      # Stores the current state of the named attributes, executes the block, and
      # then restores the original values after the block has executed.
      # -- I will remove the nodoc if/when this feature is a little less hacky
@@ -696,7 +696,7 @@ module Prawn
 
       # we must update bounding box if not flowing from the previous page
       #
-      @bounding_box = @margin_box unless @bounding_box && @bounding_box.parent    
+      @bounding_box = @margin_box unless @bounding_box && @bounding_box.parent
     end
 
     def apply_margin_options(options)

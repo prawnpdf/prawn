@@ -5,15 +5,15 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
-  
+Prawn::ManualBuilder::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
+
   package "bounding_box" do |p|
-    
+
     p.section "Basics" do |s|
       s.example "creation"
       s.example "bounds"
     end
-    
+
     p.section "Advanced" do |s|
       s.example "stretchy"
       s.example "nesting"
@@ -21,7 +21,7 @@ Prawn::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
       s.example "canvas"
       s.example "russian_boxes"
     end
-    
+
     p.intro do
       prose("Bounding boxes are the basic containers for structuring the content flow. Even being low level building blocks sometimes their simplicity is very welcome.
 
@@ -34,6 +34,6 @@ Prawn::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
             "Indent blocks"
           )
     end
-    
+
   end
 end

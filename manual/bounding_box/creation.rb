@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # If you've read the basic concepts examples you probably know that the origin
 # of a page is on the bottom left corner and that the content flows from top to
 # bottom.
@@ -14,10 +14,10 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   bounding_box([200, cursor - 100], :width => 200, :height => 100) do
     text "Just your regular bounding box"
-    
+
     transparent(0.5) { stroke_bounds }
   end
 end

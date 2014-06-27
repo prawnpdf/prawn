@@ -15,7 +15,7 @@ module Prawn
     # are you won't need anything you find here.
     #
     # @private
-    module Internals 
+    module Internals
       # Creates a new Prawn::Reference and adds it to the Document's object
       # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.
       #

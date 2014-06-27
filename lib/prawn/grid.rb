@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # grid.rb: Provides a basic grid layout system for Prawn
 #
 # Contributed by Andrew O'Brien in March 2009
@@ -14,7 +16,7 @@ module Prawn
     #
     # Note that a completely new grid object is built each time define_grid()
     # is called. This means that all subsequent calls to grid() will use
-    # the newly defined Grid object -- grids are not nestable like 
+    # the newly defined Grid object -- grids are not nestable like
     # bounding boxes are.
 
     def define_grid(options = {})

@@ -58,7 +58,7 @@ describe "A column box" do
         @pdf.bounds.move_past_bottom
         @pdf.bounds.move_past_bottom
 
-        @pdf.bounds.absolute_top.should == page_top 
+        @pdf.bounds.absolute_top.should == page_top
         @pdf.bounds.absolute_top.should_not == init_column_top
       end
   end

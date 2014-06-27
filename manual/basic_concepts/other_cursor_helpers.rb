@@ -13,21 +13,21 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   stroke_horizontal_rule
   pad(20) { text "Text padded both before and after." }
-  
+
   stroke_horizontal_rule
   pad_top(20) { text "Text padded on the top." }
-  
+
   stroke_horizontal_rule
   pad_bottom(20) { text "Text padded on the bottom." }
-  
+
   stroke_horizontal_rule
   move_down 30
-  
+
   text "Text written before the float block."
-  
+
   float do
     move_down 30
     bounding_box([0, cursor], :width => 200) do

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Welcome to Prawn, the best PDF Generation library ever.
 # This documentation covers user level functionality.
 #
@@ -7,7 +9,7 @@ require 'ttfunk'
 require "pdf/core"
 
 module Prawn
-  VERSION = "1.0.1"
+  VERSION = "1.1.0"
 
   extend self
 
@@ -20,7 +22,7 @@ module Prawn
   #
   BASEDIR = File.expand_path(File.join(dir, '..'))
   DATADIR = File.expand_path(File.join(dir, '..', 'data'))
-  
+
   FLOAT_PRECISION = 1.0e-9
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
@@ -81,7 +83,7 @@ require_relative "prawn/encoding"
 require_relative "prawn/measurements"
 require_relative "prawn/repeater"
 require_relative "prawn/outline"
-require_relative "prawn/layout"
+require_relative "prawn/grid"
 
 require_relative "prawn/image_handler"
 

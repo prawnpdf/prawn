@@ -20,12 +20,12 @@ module Prawn
     #
     # column_box accepts the same parameters as bounding_box, as well as the
     # number of :columns and a :spacer (in points) between columns. If resetting
-    # the top margin is desired on a new page (e.g. to allow for initial page 
+    # the top margin is desired on a new page (e.g. to allow for initial page
     # wide column titles) the option :reflow_margins => true can be set.
     #
-    # Defaults are :columns = 3, :spacer = font_size, and 
+    # Defaults are :columns = 3, :spacer = font_size, and
     # :reflow_margins => false
-    # 
+    #
     # Under PDF::Writer, "spacer" was known as "gutter"
     #
     def column_box(*args, &block)

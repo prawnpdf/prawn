@@ -5,10 +5,10 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
-  
+Prawn::ManualBuilder::Example.generate("text.pdf", :page_size => "FOLIO") do
+
   package "text" do |p|
-    
+
     p.section "Basics" do |s|
       s.example "free_flowing_text"
       s.example "positioned_text"
@@ -16,7 +16,7 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "text_box_excess"
       s.example "column_box"
     end
-    
+
     p.section "Styling" do |s|
       s.example "font"
       s.example "font_size"
@@ -28,7 +28,7 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "paragraph_indentation"
       s.example "rotation"
     end
-    
+
     p.section "Advanced Styling" do |s|
       s.example "inline"
       s.example "formatted_text"
@@ -36,12 +36,12 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "rendering_and_color"
       s.example "text_box_extensions"
     end
-    
+
     p.section "External Fonts" do |s|
       s.example "single_usage"
       s.example "registering_families"
     end
-    
+
     p.section "M17n" do |s|
       s.example "utf8"
       s.example "line_wrapping"
@@ -49,7 +49,7 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "fallback_fonts"
       s.example "win_ansi_charset"
     end
-    
+
     p.intro do
       prose("This is probably the feature people will use the most. There is no shortage of options when it comes to text. You'll be hard pressed to find a use case that is not covered by one of the text methods and configurable options.
 
@@ -68,6 +68,6 @@ Prawn::Example.generate("text.pdf", :page_size => "FOLIO") do
             "What happens when rendering text in different languages"
           )
     end
-    
+
   end
 end

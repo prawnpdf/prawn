@@ -228,56 +228,7 @@ module Prawn
       # each cell, grouped by +row_or_column+.
       #
       def aggregate_cell_values(row_or_column, meth, aggregate)
-        values = {}
-
-        #calculate values for all cells that do not span accross multiple cells
-        #this ensures that we don't have a problem if the first line includes
-        #a cell that spans across multiple cells
-        each do |cell|
-          #don't take spanned cells
-          if cell.colspan == 1 and cell.class != Prawn::Table::Cell::SpanDummy
-            index = cell.send(row_or_column)
-            values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
-          end
-        end
-
-        #if there are only colspanned or rowspanned cells in a table
-        spanned_width_needs_fixing = true
-
-        each do |cell|
-          index = cell.send(row_or_column)
-          if cell.colspan > 1
-            #calculate current (old) return value before we do anything
-            old_sum = 0
-            cell.colspan.times { |i|
-              old_sum += values[index+i] unless values[index+i].nil?
-            }
-
-            #calculate future return value
-            new_sum = cell.send(meth) * cell.colspan
-
-            #due to float rounding errors we need to ignore a small difference in the new 
-            #and the old sum the same had to be done in
-            #the column_width_calculator#natural_width
-            spanned_width_needs_fixing = ((new_sum - old_sum) > Prawn::FLOAT_PRECISION)
-
-            if spanned_width_needs_fixing
-              #not entirely sure why we need this line, but with it the tests pass
-              values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
-              #overwrite the old values with the new ones, but only if all entries existed
-              entries_exist = true
-              cell.colspan.times { |i| entries_exist = false if values[index+i].nil? }
-              cell.colspan.times { |i|
-                values[index+i] = cell.send(meth) if entries_exist
-              }
-            end
-          else
-            if spanned_width_needs_fixing && cell.class == Prawn::Table::Cell::SpanDummy
-              values[index] = [values[index], cell.send(meth)].compact.send(aggregate)
-            end
-          end
-        end
-        values.values.inject(0, &:+)
+        ColumnWidthCalculator.new(self).aggregate_cell_values(row_or_column, meth, aggregate)
       end
 
       # Transforms +spec+, a column / row specification, into an object that

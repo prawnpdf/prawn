@@ -159,6 +159,21 @@ describe "font style support" do
     name = name.sub(/\w+\+/, "subset+")
     name.should == "subset+DejaVuSans"
   end
+
+  it "should accept IO objects for font files" do
+    io = File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+    @pdf.font_families["DejaVu Sans"] = {
+      normal: Prawn::Font.load(@pdf, io)
+    }
+
+    @pdf.font "DejaVu Sans"
+    @pdf.text "In DejaVu Sans"
+
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    name = text.font_settings.map { |e| e[:name] }.first.to_s
+    name = name.sub(/\w+\+/, "subset+")
+    name.should == "subset+DejaVuSans"
+  end
 end
 
 describe "Transactional font handling" do

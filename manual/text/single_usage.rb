@@ -17,16 +17,16 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   # Using a TTF font file
   font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do
     text "Written with the DejaVu Sans TTF font."
   end
   move_down 20
-  
+
   text "Written with the default font."
   move_down 20
-  
+
   # Using an DFONT font file
   font("#{Prawn::DATADIR}/fonts/Panic+Sans.dfont") do
     text "Written with the Panic Sans DFONT font"

@@ -20,7 +20,7 @@ Prawn::Document.generate("page_margins.pdf",
   start_new_page(:left_margin => 300)
   text "300 pts margin on the left."
   stroke_bounds
-  
+
   start_new_page(:top_margin => 300)
   text "300 pts margin both on the top and on the left. Notice that whenever " +
        "you set an option for a new page it will remain the default for the " +
@@ -31,7 +31,7 @@ Prawn::Document.generate("page_margins.pdf",
   text "50 pts margins. Using the margin option will reset previous specific " +
        "calls to left, right, top and bottom margins."
   stroke_bounds
-  
+
   start_new_page(:margin => [50, 100, 150, 200])
   text "There is also the shorthand CSS like syntax used here."
   stroke_bounds

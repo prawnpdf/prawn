@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require_relative "../../lib/prawn"
 
 images = [
@@ -15,9 +17,9 @@ Prawn::Document.generate("png_types.pdf", :page_size => "A5") do
     fill_color "FF0000"
 
     fill_rectangle bounds.top_left, bounds.width, bounds.height
-    text header 
-    
+    text header
+
     image file, :at => [50,450]
-  end 
+  end
 end
 

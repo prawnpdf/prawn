@@ -1,7 +1,9 @@
+# encoding: utf-8
+
 module Prawn
   class Document
     # @group Stable API
-    
+
     # Lazily instantiates a Prawn::Outline object for document. This is used as point of entry
     # to methods to build the outline tree for a document's table of contents.
     def outline

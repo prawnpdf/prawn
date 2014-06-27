@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # wrap.rb: Handles text wrapping for for formatted text
 #
 # Contributed by Daniel Nelson

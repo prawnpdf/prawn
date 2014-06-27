@@ -1,19 +1,16 @@
 # encoding: utf-8
 #
 # Generates the Prawn by example manual.
-#
+
+require_relative "example_helper"
 
 Encoding.default_external = Encoding::UTF_8
 
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+Prawn::ManualBuilder::Example.generate("manual.pdf",
+  :skip_page_creation => true, :page_size => "FOLIO") do
 
-Prawn::Example.generate("manual.pdf",
-                        :skip_page_creation => true,
-                        :page_size => "FOLIO") do
-
-  load_page "cover"
-  load_page "how_to_read_this_manual"
+  load_page "", "cover"
+  load_page "", "how_to_read_this_manual"
 
   # Core chapters
   load_package "basic_concepts"

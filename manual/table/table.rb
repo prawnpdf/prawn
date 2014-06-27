@@ -5,17 +5,17 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("table.pdf", :page_size => "FOLIO") do
-  
+Prawn::ManualBuilder::Example.generate("table.pdf", :page_size => "FOLIO") do
+
   package "table" do |p|
-    
+
     p.section "Basics" do |s|
       s.example "creation"
       s.example "content_and_subtables"
       s.example "flow_and_header"
       s.example "position"
     end
-    
+
     p.section "Styling" do |s|
       s.example "column_widths"
       s.example "width"
@@ -28,13 +28,13 @@ Prawn::Example.generate("table.pdf", :page_size => "FOLIO") do
       s.example "span"
       s.example "before_rendering_page"
     end
-    
+
     p.section "Initializer Block" do |s|
       s.example "basic_block"
       s.example "filtering"
       s.example "style"
     end
-    
+
     p.intro do
       prose("Prawn comes with table support out of the box. Tables can be styled in whatever way you see fit. The whole table, rows, columns and cells can be styled independently from each other.
 
@@ -47,6 +47,6 @@ Prawn::Example.generate("table.pdf", :page_size => "FOLIO") do
             "How to use initializer blocks to style only specific portions of the table"
           )
     end
-    
+
   end
 end

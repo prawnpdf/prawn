@@ -11,12 +11,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
-  
+
   stroke_circle [100, 300], 100
-    
+
   fill_ellipse [200, 100], 100, 50
-    
+
   fill_ellipse [400, 100], 50
 end

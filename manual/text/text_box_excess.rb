@@ -13,7 +13,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   string = "This is the beginning of the text. It will be cut somewhere and " +
            "the rest of the text will procede to be rendered this time by " +
            "calling another method." + " . " * 50
@@ -25,7 +25,7 @@ Prawn::Example.generate(filename) do
                          :overflow => :truncate,
                          :at       => [100, y_position],
                          :size     => 18
-  
+
   text_box excess_text,
            :width    => 300,
            :at       => [100, y_position - 100]

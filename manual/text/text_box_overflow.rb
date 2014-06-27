@@ -16,22 +16,22 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   string = "This is the sample text used for the text boxes. See how it " +
            "behave with the various overflow options used."
 
   text string
-  
+
   y_position = cursor - 20
   [:truncate, :expand, :shrink_to_fit].each_with_index do |mode, i|
     text_box string, :at => [i * 150, y_position],
              :width => 100, :height => 50,
              :overflow => mode
   end
-  
+
   string = "If the box is too small for the text, :shrink_to_fit " +
            "can render the text in a really small font size."
-  
+
   move_down 120
   text string
   y_position = cursor - 20

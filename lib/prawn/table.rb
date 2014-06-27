@@ -43,6 +43,16 @@ module Prawn
 
   end
 
+  module Errors
+    # This error is raised when table data is malformed
+    #
+    InvalidTableData = Class.new(StandardError)
+
+    # This error is raised when an empty or nil table is rendered
+    #
+    EmptyTable = Class.new(StandardError)
+  end
+
   # Next-generation table drawing for Prawn.
   #
   # = Data
@@ -320,7 +330,9 @@ module Prawn
               c = Cells.new(cells_this_page.map { |ci, _| ci })
               @before_rendering_page.call(c)
             end
-            Cell.draw_cells(cells_this_page)
+            if @header_row.nil? || cells_this_page.size > @header_row.size
+              Cell.draw_cells(cells_this_page)
+            end
             cells_this_page = []
 
             # start a new page or column
@@ -527,7 +539,7 @@ module Prawn
       rows_to_operate_on = @header_row.rows(row_of_header) if row_of_header
       rows_to_operate_on.each do |cell|
         cell.row = row
-        cell.dummy_cells.each {|c| c.row = row }
+        cell.dummy_cells.each {|c| c.row = row + c.row }
         page_of_cells << [cell, [cell.x + x_offset, y]]
       end
       rows_to_operate_on.height

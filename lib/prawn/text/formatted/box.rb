@@ -11,7 +11,7 @@ module Prawn
   module Text
     module Formatted
       # @group Stable API
-      
+
       # Draws the requested formatted text into a box. When the text overflows
       # the rectangle shrink to fit or truncate the text. Text boxes are
       # independent of the document y position.
@@ -107,13 +107,13 @@ module Prawn
         # used, the text that would have been successfully printed)
         attr_reader :text
 
-        # True iff nothing printed (or, if <tt>dry_run</tt> was
+        # True if nothing printed (or, if <tt>dry_run</tt> was
         # used, nothing would have been successfully printed)
         def nothing_printed?
           @nothing_printed
         end
 
-        # True iff everything printed (or, if <tt>dry_run</tt> was
+        # True if everything printed (or, if <tt>dry_run</tt> was
         # used, everything would have been successfully printed)
         def everything_printed?
           @everything_printed
@@ -293,7 +293,7 @@ module Prawn
         end
 
         # @group Extension API
-        
+
         # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
         # of the wrap method if you want to override the default wrapping
         # algorithm):
@@ -493,7 +493,7 @@ module Prawn
         end
 
         def process_options
-          # must be performed within a save_font bock because
+          # must be performed within a save_font block because
           # document.process_text_options sets the font
           @document.process_text_options(@options)
           @font_size = @options[:size]

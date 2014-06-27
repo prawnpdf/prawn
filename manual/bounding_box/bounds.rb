@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # The <code>bounds</code> method returns the current bounding box. This is
 # useful because the <code>Prawn::BoundinBox</code> exposes some nice boundary
 # helpers.
@@ -21,25 +21,25 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   def print_coordinates
     text "top: #{bounds.top}"
     text "bottom: #{bounds.bottom}"
     text "left: #{bounds.left}"
     text "right: #{bounds.right}"
-    
+
     move_down 10
-    
+
     text "absolute top: #{sprintf "%.2f", bounds.absolute_top}"
     text "absolute bottom: #{sprintf "%.2f", bounds.absolute_bottom}"
     text "absolute left: #{sprintf "%.2f", bounds.absolute_left}"
     text "absolute right: #{sprintf "%.2f", bounds.absolute_right}"
   end
-  
+
   text "Margin box bounds:"
   move_down 5
   print_coordinates
-  
+
   bounding_box([250, cursor + 140], :width => 200, :height => 150) do
     text "This bounding box bounds:"
     move_down 5

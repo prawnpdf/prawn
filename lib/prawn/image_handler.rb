@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # ImageHandler provides a way to register image processors with Prawn
 #
 # Contributed by Evan Sharp in November 2013.
@@ -6,7 +8,7 @@
 
 module Prawn
   # @group Extension API
-  
+
   def self.image_handler
     @image_handler ||= ImageHandler.new
   end

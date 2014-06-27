@@ -42,11 +42,13 @@ You can also install from git if you'd like, the _master_ branch contains the la
 
 If the following code runs and produces a working PDF file, you've successfully installed Prawn.
 
-    require "prawn"
+```ruby
+require "prawn"
 
-    Prawn::Document.generate("hello.pdf") do
-      text "Hello World!"
-    end
+Prawn::Document.generate("hello.pdf") do
+  text "Hello World!"
+end
+```
 
 Of course, you'll probably want to do more interesting things than that...
 
@@ -144,7 +146,7 @@ If you contribute to Prawn, you will retain your own copyright but must agree to
 
 Prawn was originally developed by Gregory Brown, under the auspices of the Ruby
 Mendicant Project, a grassroots initiative in which the Ruby community
-collectively provided funding so that Gregory could take several months off of
+collectively provided funding so that Gregory could take several months off from
 work to focus on this project.
 
 Over the last several years, we've received code contributions from dozens of

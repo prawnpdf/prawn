@@ -16,7 +16,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   text "This text should be left aligned"
   text "This text should be centered",      :align => :center
   text "This text should be right aligned", :align => :right

@@ -1,6 +1,12 @@
 # encoding: utf-8
 
+# run rspec -t issue:XYZ  to run tests for a specific github issue
+# or  rspec -t unresolved to run tests for all unresolved issues
+
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+
+require_relative "../lib/prawn/table"
 require 'set'
 
 describe "Prawn::Table" do
@@ -45,6 +51,48 @@ describe "Prawn::Table" do
     end
   end
 
+  describe "headers should allow for rowspan" do
+    it "should remember rowspans accross multiple pages", :issue => 721 do
+      pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
+      rows = [ [{:content=>"The\nNumber", :rowspan=>2}, {:content=>"Prefixed", :colspan=>2} ],
+           ["A's", "B's"] ]
+
+      (1..50).each do |n|
+        rows.push( ["#{n}", "A#{n}", "B#{n}"] )
+      end
+
+      pdf.table( rows, :header=>2 ) do
+         row(0..1).style :background_color=>"FFFFCC"
+      end
+
+      #ensure that the header on page 1 is identical to the header on page 0
+      output = PDF::Inspector::Page.analyze(pdf.render)
+      output.pages[0][:strings][0..4].should == output.pages[1][:strings][0..4]
+    end
+  end
+
+  describe "Text may be longer than the available space in a row on a single page" do
+    it "should not glitch the layout if there is too much text to fit onto a single row on a single page", :unresolved, :issue => 562 do
+      pdf = Prawn::Document.new({:page_size => "A4", :page_layout => :portrait})
+
+      table_data = Array.new
+      text = 'This will be a very long text. ' * 5
+      table_data.push([{:content => text, :rowspan => 2}, 'b', 'c'])
+      table_data.push(['b','c'])
+
+      column_widths = [50, 60, 400]
+
+      table = Prawn::Table.new table_data, pdf,:column_widths => column_widths
+
+      #render the table onto the pdf
+      table.draw
+
+      #expected behavior would be for the long text to be cut off or an exception to be raised
+      #thus we only expect a single page
+      pdf.page_count.should == 1
+    end
+  end
+
   describe "You can explicitly set the column widths and use a colspan > 1" do
 
     it "should tolerate floating point rounding errors < 0.000000001" do
@@ -53,9 +101,9 @@ describe "Prawn::Table" do
           ]
       #we need values with lots of decimals so that arithmetic errors will occur
       #the values are not arbitrary but where found converting mm to pdf pt
-      column_widths=[137, 40, 40, 54.69291338582678, 54.69291338582678, 
-                     54.69291338582678, 54.69291338582678, 54.69291338582678, 
-                     54.69291338582678, 54.69291338582678, 54.69291338582678, 
+      column_widths=[137, 40, 40, 54.69291338582678, 54.69291338582678,
+                     54.69291338582678, 54.69291338582678, 54.69291338582678,
+                     54.69291338582678, 54.69291338582678, 54.69291338582678,
                      54.69291338582678]
 
       pdf = Prawn::Document.new({:page_size => 'A4', :page_layout => :landscape})
@@ -63,10 +111,10 @@ describe "Prawn::Table" do
       table.column_widths.should == column_widths
     end
 
-    it "should work with two different given colspans", :issue => 628 do 
+    it "should work with two different given colspans", :issue => 628 do
       data = [
-              [" ", " ", " "], 
-              [{:content=>" ", :colspan=>3}], 
+              [" ", " ", " "],
+              [{:content=>" ", :colspan=>3}],
               [" ", {:content=>" ", :colspan=>2}]
             ]
       column_widths = [60, 240, 60]
@@ -114,19 +162,47 @@ describe "Prawn::Table" do
        :unresolved, :issue => 612 do
 
       pdf = Prawn::Document.new
-      
+
       first = {:content=>"Foooo fo foooooo",:width=>50,:align=>:center}
       second = {:content=>"Foooo",:colspan=>2,:width=>70,:align=>:center}
       third = {:content=>"fooooooooooo, fooooooooooooo, fooo, foooooo fooooo",:width=>50,:align=>:center}
       fourth = {:content=>"Bar",:width=>20,:align=>:center}
-      
+
       table_content = [[
       first,
       [[second],[third,fourth]]
       ]]
-      
+
       table = Prawn::Table.new table_content, pdf
       table.column_widths.should == [50.0, 70.0]
+    end
+
+    it "illustrates issue #710", :issue => 710 do
+      partial_width = 40
+      pdf = Prawn::Document.new({page_size: "LETTER", page_layout: :portrait})
+      col_widths = [
+        50,
+        partial_width, partial_width, partial_width, partial_width
+      ]
+
+      day_header = [{
+          content: "Monday, August 5th, A.S. XLIX",
+          colspan: 5,
+      }]
+
+      times = [{
+        content: "Loc",
+        colspan: 1,
+      }, {
+        content: "8:00",
+        colspan: 4,
+      }]
+
+      data = [ day_header ] + [ times ]
+
+      #raised a Prawn::Errors::CannotFit:
+      #Table's width was set larger than its contents' maximum width (max width 210, requested 218.0)
+      table = Prawn::Table.new data, pdf, :column_widths => col_widths
     end
 
     it "illustrate issue #533" do
@@ -162,7 +238,7 @@ describe "Prawn::Table" do
       table.column_widths.should == [50.0, 200.0]
     end
 
-    it "illustrates a variant of problem in issue #407 - comment 28556698" do 
+    it "illustrates a variant of problem in issue #407 - comment 28556698" do
       pdf = Prawn::Document.new
       table_data = [["a", "b", "c"], [{:content=>"d", :colspan=>3}]]
       column_widths = [50, 60, 400]
@@ -709,6 +785,23 @@ describe "Prawn::Table" do
       # Ensure we only drew the header once, on the second page
       output.pages[0][:strings].should be_empty
       output.pages[1][:strings].should == ["Header", "Body"]
+    end
+
+    it 'should only draw first-page header if the first multi-row fits',
+        :issue => 707 do
+      pdf = Prawn::Document.new
+
+      pdf.y = 100 # not enough room for the header and multirow cell
+      pdf.table [
+          [{content: 'Header', colspan: 2}],
+          [{content: 'Multirow cell', rowspan: 3}, 'Line 1'],
+      ] + (2..3).map { |i| ["Line #{i}"] }, :header => true
+
+      output = PDF::Inspector::Page.analyze(pdf.render)
+      # Ensure we only drew the header once, on the second page
+      output.pages[0][:strings].should == []
+      output.pages[1][:strings].should == ['Header', 'Multirow cell', 'Line 1',
+          'Line 2', 'Line 3']
     end
 
     it "should draw background before borders, but only within pages" do
