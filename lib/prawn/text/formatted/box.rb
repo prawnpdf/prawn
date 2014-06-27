@@ -390,33 +390,37 @@ module Prawn
 
           original_font = @document.font.family
           fragment_font = hash[:font] || original_font
-          @document.font(fragment_font)
 
           fallback_fonts = @fallback_fonts.dup
           # always default back to the current font if the glyph is missing from
           # all fonts
           fallback_fonts << fragment_font
 
-          hash[:text].each_char do |char|
-            @document.font(fragment_font)
-            font_glyph_pairs << [find_font_for_this_glyph(char,
-                                                          @document.font.family,
-                                                          fallback_fonts.dup),
-                                 char]
+          @document.save_font do
+            hash[:text].each_char do |char|
+              font_glyph_pairs << [find_font_for_this_glyph(char,
+                                                            fragment_font,
+                                                            fallback_fonts.dup),
+                                   char]
+            end
           end
 
-          @document.font(original_font)
+          # Don't add a :font to fragments if it wasn't there originally
+          if hash[:font].nil?
+            font_glyph_pairs.each do |pair|
+              pair[0] = nil if pair[0] == original_font
+            end
+          end
 
           form_fragments_from_like_font_glyph_pairs(font_glyph_pairs, hash)
         end
 
         def find_font_for_this_glyph(char, current_font, fallback_fonts)
+          @document.font(current_font)
           if fallback_fonts.length == 0 || @document.font.glyph_present?(char)
             current_font
           else
-            current_font = fallback_fonts.shift
-            @document.font(current_font)
-            find_font_for_this_glyph(char, @document.font.family, fallback_fonts)
+            find_font_for_this_glyph(char, fallback_fonts.shift, fallback_fonts)
           end
         end
 
@@ -426,11 +430,11 @@ module Prawn
           current_font = nil
 
           font_glyph_pairs.each do |font, char|
-            if font != current_font
+            if font != current_font || fragments.count == 0
               current_font = font
               fragment = hash.dup
               fragment[:text] = char
-              fragment[:font] = font
+              fragment[:font] = font unless font.nil?
               fragments << fragment
             else
               fragment[:text] += char
