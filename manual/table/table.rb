@@ -36,9 +36,9 @@ Prawn::ManualBuilder::Example.generate("table.pdf", :page_size => "FOLIO") do
     end
 
     p.intro do
-      prose("Prawn comes with table support out of the box. Tables can be styled in whatever way you see fit. The whole table, rows, columns and cells can be styled independently from each other.
-
-      The examples show:")
+      prose("Tables can be styled in whatever way you see fit. "+
+            "The whole table, rows, columns and cells can be "+
+            "styled independently from each other.\n\nThe examples show:")
 
       list( "How to create tables",
             "What content can be placed on tables",
@@ -46,6 +46,9 @@ Prawn::ManualBuilder::Example.generate("table.pdf", :page_size => "FOLIO") do
             "How to style the whole table",
             "How to use initializer blocks to style only specific portions of the table"
           )
+
+       prose("To enable table support, <code>require 'prawn/table'</code> in your code. " +
+             "This functionality will be moved to a separate gem in the future.")
     end
 
   end
