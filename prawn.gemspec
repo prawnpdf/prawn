@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('mocha')
   spec.add_development_dependency('rake')
   spec.add_development_dependency('simplecov')
-  spec.add_development_dependency('prawn-manual_builder', ">= 0.1.1")
+  spec.add_development_dependency('prawn-manual_builder', ">= 0.1.2")
   spec.add_development_dependency('pdf-reader', '~>1.2')
   spec.add_development_dependency('rubocop', '0.20.1')
 
