@@ -1287,6 +1287,90 @@ describe "Prawn::Table" do
 
   end
 
+  describe "The columns of a table with cell_style's no_breaks_words option set" do
+
+    before(:each) do
+      @pdf = Prawn::Document.new
+      @data = [ ['foobar bar', 'foo foobar', 'foo bar foobar'] ]
+      @pad = 10
+      @fs = 10
+      @min_col0_width = @pdf.width_of(@data[0][0].split.max, size: @fs) + 2 * @pad
+      @min_col1_width = @pdf.width_of(@data[0][1].split.max, size: @fs) + 2 * @pad
+      @min_col2_width = @pdf.width_of(@data[0][2].split.max, size: @fs) + 2 * @pad
+    end
+
+    it "should have the width greater than the length of the largest word"  do
+      table = @pdf.table(@data, cell_style: { no_breaks_words: true, size: @fs, padding: @pad })
+
+      table.width.should >= @min_col0_width + @min_col1_width + @min_col2_width
+      table.column(0).width.should >= @min_col0_width
+      table.column(1).width.should >= @min_col1_width
+      table.column(2).width.should >= @min_col2_width
+    end
+
+    it "should have the width equal to the length of the largest word if the table width's set equal to " +
+         "the sum of the min columns size"  do
+      table_width = @min_col0_width + @min_col1_width + @min_col2_width
+
+      table = @pdf.table(@data, width: table_width,
+                         cell_style: { no_breaks_words: true, size: @fs, padding: @pad })
+
+      table.width.should == @min_col0_width + @min_col1_width + @min_col2_width
+      table.column(0).width.should == @min_col0_width
+      table.column(1).width.should == @min_col1_width
+      table.column(2).width.should == @min_col2_width
+    end
+
+    it "should have the width greater than the length of the largest word if table_width's set to " +
+         "have enough space"  do
+      table_width = 500
+
+      table = @pdf.table(@data, width: table_width, cell_style: { no_breaks_words: true, size: @fs, padding: @pad })
+
+      table.width.should >= @min_col0_width + @min_col1_width + @min_col2_width
+      table.column(0).width.should >= @min_col0_width
+      table.column(1).width.should >= @min_col1_width
+      table.column(2).width.should >= @min_col2_width
+    end
+
+    it "shouldn't fit its content if the table_width's not set to have enough space" do
+      table_width = @min_col0_width + @min_col1_width + @min_col2_width -1
+
+      lambda do
+        @pdf.table(@data, width: table_width,
+                   cell_style: { no_breaks_words: true, size: @fs, padding: @pad })
+      end.should raise_error(Prawn::Errors::CannotFit)
+    end
+
+    it "should have the width greater than the length of the largest word if one column width's set to " +
+         "the table width minus the sum of the others min columns size"  do
+      table_width = 500
+      col2_width = table_width - @min_col0_width - @min_col1_width
+
+      table = @pdf.table(@data, width: table_width, cell_style: { no_breaks_words: true, size: @fs, padding: @pad }) do
+        style column(2), width: col2_width
+      end
+
+      table.width.should >= @min_col1_width + @min_col1_width + col2_width
+      table.column(0).width.should >= @min_col0_width
+      table.column(1).width.should >= @min_col1_width
+      table.column(2).width.should >= col2_width
+    end
+
+    it "shouldn't fit its content if one column width's set greater than the table width minus the sum of the " +
+         "others min columns size" do
+      table_width = 500
+      col2_width = table_width - @min_col0_width - @min_col1_width + 1
+
+      lambda do
+        @pdf.table(@data, width: table_width, cell_style: { no_breaks_words: true, size: @fs, padding: @pad }) do
+          style column(2), width: col2_width
+        end
+      end.should raise_error(Prawn::Errors::CannotFit)
+    end
+
+  end
+
 end
 
 describe "colspan / rowspan" do

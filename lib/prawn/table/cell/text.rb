@@ -16,8 +16,8 @@ module Prawn
       class Text < Cell
 
         TextOptions = [:inline_format, :kerning, :size, :align, :valign,
-          :rotate, :rotate_around, :leading, :single_line, :skip_encoding,
-          :overflow, :min_font_size]
+                       :rotate, :rotate_around, :leading, :single_line, :skip_encoding,
+                       :overflow, :min_font_size, :no_breaks_words]
 
         TextOptions.each do |option|
           define_method("#{option}=") { |v| @text_options[option] = v }
@@ -76,11 +76,20 @@ module Prawn
         end
 
         def set_width_constraints
-          # Sets a reasonable minimum width. If the cell has any content, make
-          # sure we have enough width to be at least one character wide. This is
-          # a bit of a hack, but it should work well enough.
+          # Sets a reasonable minimum width.
+          # If there is 'no_breaks_words' option then the minimum width is the size of the longer word in the cell's content,
+          # otherwise make sure we have enough width to be at least one character wide.
+          # This is a bit of a hack, but it should work well enough.
           unless defined?(@min_width) && @min_width
-            min_content_width = [natural_content_width, styled_width_of_single_character].min
+            if @text_options[:no_breaks_words].is_a?(TrueClass) and ! @content.empty?
+              string_widths = @content.split(/[\s-]+/).collect { |string| styled_width_of(string) }
+              min_string_width = string_widths.max
+            else
+              min_string_width = styled_width_of_single_character
+            end
+
+            min_content_width = [natural_content_width, min_string_width].min
+
             @min_width = padding_left + padding_right + min_content_width
             super
           end

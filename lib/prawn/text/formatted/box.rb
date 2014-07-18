@@ -341,7 +341,8 @@ module Prawn
                                               :document,
                                               :direction,
                                               :fallback_fonts,
-                                              :draw_text_callback]
+                                              :draw_text_callback,
+                                              :no_breaks_words]
         end
 
         private
