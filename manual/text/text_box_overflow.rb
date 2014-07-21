@@ -12,6 +12,10 @@
 # <code>:min_font_size</code> option set. The font size will not be reduced to
 # less than the value provided even if it means truncating some text.
 #
+# If the <code>:disable_wrap_by_char</code> is set to <code>true</code>
+# then any text wrapping done while using the <code>:shrink_to_fit</code>
+# mode will not break up the middle of words.
+#
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
