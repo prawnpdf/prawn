@@ -1,9 +1,19 @@
+# encoding: utf-8
+
+# wrap.rb: Handles text wrapping for for formatted text
+#
+# Contributed by Daniel Nelson
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 require_relative "line_wrap"
 require_relative "arranger"
 
 module Prawn
   module Text
     module Formatted #:nodoc:
+      # @private
+
       module Wrap #:nodoc:
 
         def initialize(array, options)
@@ -89,10 +99,7 @@ module Prawn
             accumulated_width += fragment_this_line.width
           end
 
-          if "".respond_to?(:force_encoding)
-            printed_fragments.map! { |s| s.force_encoding("utf-8") }
-          end
-          @printed_lines << printed_fragments.join
+          @printed_lines << printed_fragments.map { |s| s.force_encoding(::Encoding::UTF_8) }.join
         end
 
         def word_spacing_for_this_line

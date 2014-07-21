@@ -15,9 +15,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   require "prawn/measurement_extensions"
-  
+
   [:mm, :cm, :dm, :m, :in, :yd, :ft].each do |measurement|
     text "1 #{measurement} in PDF Points: #{1.send(measurement)} pt"
     move_down 5.mm

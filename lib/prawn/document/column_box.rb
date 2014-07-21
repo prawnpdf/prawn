@@ -3,10 +3,15 @@
 # column_box.rb: Extends BoundingBox to allow for columns of text
 #
 # Author Paul Ostazeski.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
 
-require "prawn/document/bounding_box"
+require_relative "bounding_box"
+
 module Prawn
   class Document
+
+    # @group Experimental API
 
     # A column box is a bounding box with the additional property that when
     # text flows past the bottom, it will wrap first to another column on the
@@ -14,9 +19,12 @@ module Prawn
     # filled.
     #
     # column_box accepts the same parameters as bounding_box, as well as the
-    # number of :columns and a :spacer (in points) between columns.
+    # number of :columns and a :spacer (in points) between columns. If resetting
+    # the top margin is desired on a new page (e.g. to allow for initial page
+    # wide column titles) the option :reflow_margins => true can be set.
     #
-    # Defaults are :columns = 3 and :spacer = font_size
+    # Defaults are :columns = 3, :spacer = font_size, and
+    # :reflow_margins => false
     #
     # Under PDF::Writer, "spacer" was known as "gutter"
     #
@@ -51,6 +59,7 @@ module Prawn
         @columns = options[:columns] || 3
         @spacer  = options[:spacer]  || @document.font_size
         @current_column = 0
+        @reflow_margins = options[:reflow_margins]
       end
 
       # The column width, not the width of the whole box,
@@ -103,6 +112,9 @@ module Prawn
         @current_column = (@current_column + 1) % @columns
         @document.y = @y
         if 0 == @current_column
+          if @reflow_margins
+            @y = @parent.absolute_top
+          end
           @document.start_new_page
         end
       end

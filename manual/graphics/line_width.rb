@@ -12,24 +12,24 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
-  
+
   y = 250
-  
+
   3.times do |i|
     case i
     when 0 then line_width = 10        # This call will have no effect
     when 1 then self.line_width = 10
     when 2 then self.line_width = 25
     end
-    
+
     stroke do
       horizontal_line 50, 150, :at => y
       rectangle [275, y + 25], 50, 50
       circle [500, y], 25
     end
-    
+
     y -= 100
   end
 end

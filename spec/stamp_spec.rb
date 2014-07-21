@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "create_stamp before any page is added" do

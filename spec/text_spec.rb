@@ -257,7 +257,7 @@ describe "#text" do
   end
 
   it "should_not raise_error an exception when providing Pathname instance as font" do
-    @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/comicsans.ttf")
+    @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
   end
 
   it "should correctly render a utf-8 string when using a built-in font" do
@@ -313,34 +313,20 @@ describe "#text" do
     pages[1][:strings].should == [str]
   end
 
-  if "spec".respond_to?(:encode!)
-    # Handle non utf-8 string encodings in a sane way on M17N aware VMs
-    it "should raise_error an exception when a utf-8 incompatible string is rendered" do
-      str = "Blah \xDD"
-      str.force_encoding("ASCII-8BIT")
-      lambda { @pdf.text str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should_not raise_error an exception when a shift-jis string is rendered" do
-      datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
-      sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
-      @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
+  it "should raise_error an exception when a utf-8 incompatible string is rendered" do
+    str = "Blah \xDD"
+    str.force_encoding(Encoding::ASCII_8BIT)
+    lambda { @pdf.text str }.should raise_error(
+      Prawn::Errors::IncompatibleStringEncoding)
+  end
 
-      # Expect that the call to text will not raise an encoding error
-      @pdf.text(sjis_str)
-    end
-  else
-    # Handle non utf-8 string encodings in a sane way on non-M17N aware VMs
-    it "should raise_error an exception when a corrupt utf-8 string is rendered" do
-      str = "Blah \xDD"
-      lambda { @pdf.text str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
-    it "should raise_error an exception when a shift-jis string is rendered" do
-      sjis_str = File.read("#{Prawn::DATADIR}/shift_jis_text.txt")
-      lambda { @pdf.text sjis_str }.should raise_error(
-        Prawn::Errors::IncompatibleStringEncoding)
-    end
+  it "should_not raise_error an exception when a shift-jis string is rendered" do
+    datafile = "#{Prawn::DATADIR}/shift_jis_text.txt"
+    sjis_str = File.open(datafile, "r:shift_jis") { |f| f.gets }
+    @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
+
+    # Expect that the call to text will not raise an encoding error
+    @pdf.text(sjis_str)
   end
 
   it "should call move_past_bottom when printing more text than can fit" +
@@ -422,4 +408,49 @@ describe "#text" do
       @pdf.text "VAT", :kerning => false
     end
   end
+
+  describe "#shrink_to_fit with special utf-8 text" do
+    it "Should not throw an exception",
+        :unresolved, :issue => 603 do
+      pages = 0
+      doc = Prawn::Document.new(page_size: 'A4', margin: [2, 2, 2, 2]) do |pdf|
+        add_unicode_fonts(pdf)
+        pdf.bounding_box([1, 1], :width => 90, :height => 50) do
+          broken_text = " Sample Text\nSAMPLE SAMPLE SAMPLEoddělení ZMĚN\nSAMPLE"
+          pdf.text broken_text, :overflow => :shrink_to_fit
+        end
+      end
+    end
+  end
+
+
+  def add_unicode_fonts(pdf)
+    dejavu = "#{::Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+    pdf.font_families.update("dejavu" => {
+      :normal      => dejavu,
+      :italic      => dejavu,
+      :bold        => dejavu,
+      :bold_italic => dejavu
+    })
+    pdf.fallback_fonts = ["dejavu"]
+  end
+
+  describe "fallback_fonts" do
+    it "should preserve font style" do
+      create_pdf
+
+      @pdf.fallback_fonts ["Helvetica"]
+      @pdf.font "Times-Roman", :style => :italic do
+        @pdf.text "hello"
+      end
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      fonts_used = text.font_settings.map { |e| e[:name] }
+
+      fonts_used.length.should == 1
+      fonts_used[0].should == :"Times-Italic"
+      text.strings[0].should == "hello"
+    end
+  end
+
 end

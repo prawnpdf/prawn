@@ -9,6 +9,7 @@
 module Prawn
   module Graphics
     module CapStyle
+      # @group Stable API
 
       CAP_STYLES = { :butt => 0, :round => 1, :projecting_square => 2 }
 

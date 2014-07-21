@@ -12,7 +12,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   width  = 100
   height = 60
   angle  = 30
@@ -22,15 +22,15 @@ Prawn::Example.generate(filename) do
   stroke_rectangle [0, y], width, height
   text_box("This text was not rotated",
            :at => [0, y], :width => width, :height => height)
-  
+
   stroke_rectangle [0, y - 100], width, height
   text_box("This text was rotated around the center",
            :at => [0, y - 100], :width => width, :height => height,
            :rotate => angle, :rotate_around => :center)
-  
+
   [:lower_left, :upper_left,
    :lower_right, :upper_right].each_with_index do |corner, index|
-    
+
     y = y - 100 if index == 2
     stroke_rectangle [x + (index % 2) * 200, y], width, height
     text_box("This text was rotated around the #{corner} corner.",

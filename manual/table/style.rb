@@ -11,11 +11,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   table([[""] * 8] * 8) do
     cells.style(:width => 24, :height => 24)
-    
-    cells.style do |c| 
+
+    cells.style do |c|
       c.background_color = ((c.row + c.column) % 2).zero? ? '000000' : 'ffffff'
     end
   end

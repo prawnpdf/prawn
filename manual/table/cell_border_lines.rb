@@ -9,16 +9,16 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   data =  [ ["Look at how the cell border lines can be mixed", "", ""],
             ["dotted top border", "", ""],
             ["solid right border", "", ""],
             ["dotted bottom border", "", ""],
             ["dashed left border", "", ""]
           ]
-  
+
   text "Cell :border_lines => [:dotted, :solid, :dotted, :dashed]"
-  
-  table(data, :cell_style => 
+
+  table(data, :cell_style =>
     { :border_lines => [:dotted, :solid, :dotted, :dashed] })
 end

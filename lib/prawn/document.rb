@@ -7,12 +7,12 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 require "stringio"
-require "prawn/document/bounding_box"
-require "prawn/document/column_box"
-require "prawn/document/internals"
-require "prawn/document/span"
-require "prawn/document/snapshot"
-require "prawn/document/graphics_state"
+
+require_relative "document/bounding_box"
+require_relative "document/column_box"
+require_relative "document/internals"
+require_relative "document/span"
+require_relative "document/graphics_state"
 
 module Prawn
 
@@ -53,7 +53,6 @@ module Prawn
     include Prawn::Document::Internals
     include PDF::Core::Annotations
     include PDF::Core::Destinations
-    include Prawn::Document::Snapshot
     include Prawn::Document::GraphicsState
     include Prawn::Document::Security
     include Prawn::Text
@@ -61,6 +60,16 @@ module Prawn
     include Prawn::Images
     include Prawn::Stamp
     include Prawn::SoftMask
+
+    # @group Extension API
+
+    # NOTE: We probably need to rethink the options validation system, but this
+    # constant temporarily allows for extensions to modify the list.
+
+    VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
+                     :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
+                     :compress, :skip_encoding, :background, :info,
+                     :text_formatter, :print_scaling]
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
@@ -82,13 +91,27 @@ module Prawn
     #     party!
     #   end
     #
+    #
     def self.extensions
       @extensions ||= []
     end
 
-    def self.inherited(base) #:nodoc:
+    # @private
+    def self.inherited(base)
       extensions.each { |e| base.extensions << e }
     end
+
+    # @group Stable Attributes
+
+    attr_accessor :margin_box
+    attr_reader   :margins, :y
+    attr_accessor :page_number
+
+    # @group Extension Attributes
+
+    attr_accessor :text_formatter
+
+    # @group Stable API
 
     # Creates and renders a PDF document.
     #
@@ -125,7 +148,7 @@ module Prawn
     # Creates a new PDF Document.  The following options are available (with
     # the default values marked in [])
     #
-    # <tt>:page_size</tt>:: One of the Document::PageGeometry sizes [LETTER]
+    # <tt>:page_size</tt>:: One of the PDF::Core::PageGeometry sizes [LETTER]
     # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
     # <tt>:margin</tt>:: Sets the margin on all sides in points [0.5 inch]
     # <tt>:left_margin</tt>:: Sets the left margin in points [0.5 inch]
@@ -134,11 +157,9 @@ module Prawn
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
     # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
     # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
-    # <tt>:optimize_objects</tt>:: Reduce number of PDF objects in output, at expense of render time [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
-    # <tt>:template</tt>:: The path to an existing PDF file to use as a template [nil]
     # <tt>:text_formatter</tt>: The text formatter to use for <tt>:inline_format</tt>ted text [Prawn::Text::Formatted::Parser]
     #
     # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
@@ -173,10 +194,7 @@ module Prawn
     def initialize(options={},&block)
       options = options.dup
 
-      Prawn.verify_options [:page_size, :page_layout, :margin, :left_margin,
-        :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-        :compress, :skip_encoding, :background, :info,
-        :optimize_objects, :template, :text_formatter], options
+      Prawn.verify_options VALID_OPTIONS, options
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
@@ -185,6 +203,8 @@ module Prawn
       @internal_state = PDF::Core::DocumentState.new(options)
       @internal_state.populate_pages_from_store(self)
       min_version(state.store.min_version) if state.store.min_version
+
+      min_version(1.6) if options[:print_scaling] == :none
 
       @background = options[:background]
       @background_scale = options[:background_scale] || 1
@@ -200,16 +220,7 @@ module Prawn
       options[:size] = options.delete(:page_size)
       options[:layout] = options.delete(:page_layout)
 
-      if options[:template]
-        fresh_content_streams(options)
-        go_to_page(1)
-      else
-        if options[:skip_page_creation] || options[:template]
-          start_new_page(options.merge(:orphan => true))
-        else
-          start_new_page(options)
-        end
-      end
+      initialize_first_page(options)
 
       @bounding_box = @margin_box
 
@@ -218,19 +229,7 @@ module Prawn
       end
     end
 
-    attr_accessor :margin_box
-    attr_reader   :margins, :y
-    attr_writer   :font_size
-    attr_accessor :page_number
-    attr_accessor :text_formatter
-
-    def state
-      @internal_state
-    end
-
-    def page
-      state.page
-    end
+    # @group Stable API
 
     # Creates and advances to a new page in the document.
     #
@@ -242,14 +241,6 @@ module Prawn
     #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
     #   pdf.start_new_page(:margin => 100)
     #
-    # A template for a page can be specified by pointing to the path of and existing pdf.
-    # One can also specify which page of the template which defaults otherwise to 1.
-    #
-    #  pdf.start_new_page(:template => multipage_template.pdf, :template_page => 2)
-    #
-    # Note: templates get indexed by either the object_id of the filename or stream
-    # entered so that if you reuse the same template multiple times be sure to use the
-    # same instance for more efficient use of resources and smaller rendered pdfs.
     def start_new_page(options = {})
       if last_page = state.page
         last_page_size    = last_page.size
@@ -266,7 +257,6 @@ module Prawn
         new_graphic_state.color_space = {} if new_graphic_state
         page_options.merge!(:graphic_state => new_graphic_state)
       end
-      merge_template_options(page_options, options) if options[:template]
 
       state.page = PDF::Core::Page.new(self, page_options)
 
@@ -279,9 +269,7 @@ module Prawn
         @bounding_box = @margin_box
       end
 
-      state.page.new_content_stream if options[:template]
-      use_graphic_settings(options[:template])
-      forget_text_rendering_mode! if options[:template]
+      use_graphic_settings
 
       unless options[:orphan]
         state.insert_page(state.page, @page_number)
@@ -362,6 +350,9 @@ module Prawn
     # Pass an open file descriptor to render to file.
     #
     def render(output = StringIO.new)
+      if output.instance_of?(StringIO)
+        output.set_encoding(::Encoding::ASCII_8BIT)
+      end
       finalize_all_page_contents
 
       render_header(output)
@@ -370,7 +361,7 @@ module Prawn
       render_trailer(output)
       if output.instance_of?(StringIO)
         str = output.string
-        str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+        str.force_encoding(::Encoding::ASCII_8BIT)
         return str
       else
         return nil
@@ -382,8 +373,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      Kernel.const_defined?("Encoding") ? mode = "wb:ASCII-8BIT" : mode = "wb"
-      File.open(filename,mode) { |f| render(f) }
+      File.open(filename, "wb") { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,
@@ -419,6 +409,7 @@ module Prawn
 
     # Returns the innermost non-stretchy bounding box.
     #
+    # @private
     def reference_bounds
       @bounding_box.reference_bounds
     end
@@ -504,47 +495,6 @@ module Prawn
       bounds.indent(left, right, &block)
     end
 
-
-    def mask(*fields) # :nodoc:
-     # Stores the current state of the named attributes, executes the block, and
-     # then restores the original values after the block has executed.
-     # -- I will remove the nodoc if/when this feature is a little less hacky
-      stored = {}
-      fields.each { |f| stored[f] = send(f) }
-      yield
-      fields.each { |f| send("#{f}=", stored[f]) }
-    end
-
-    # Attempts to group the given block vertically within the current context.
-    # First attempts to render it in the current position on the current page.
-    # If that attempt overflows, it is tried anew after starting a new context
-    # (page or column). Returns a logically true value if the content fits in
-    # one page/column, false if a new page or column was needed.
-    #
-    # Raises CannotGroup if the provided content is too large to fit alone in
-    # the current page or column.
-    #
-    def group(second_attempt=false)
-      old_bounding_box = @bounding_box
-      @bounding_box = SimpleDelegator.new(@bounding_box)
-
-      def @bounding_box.move_past_bottom
-        raise RollbackTransaction
-      end
-
-      success = transaction { yield }
-
-      @bounding_box = old_bounding_box
-
-      unless success
-        raise Prawn::Errors::CannotGroup if second_attempt
-        old_bounding_box.move_past_bottom
-        group(second_attempt=true) { yield }
-      end
-
-      success
-    end
-
     # Places a text box on specified pages for page numbering.  This should be called
     # towards the end of document creation, after all your content is already in
     # place.  In your template string, <page> refers to the current page, and
@@ -617,6 +567,42 @@ module Prawn
       end
     end
 
+    # Returns true if content streams will be compressed before rendering,
+    # false otherwise
+    #
+    def compression_enabled?
+      !!state.compress
+    end
+
+    # @group Experimental API
+
+    # Attempts to group the given block vertically within the current context.
+    # First attempts to render it in the current position on the current page.
+    # If that attempt overflows, it is tried anew after starting a new context
+    # (page or column). Returns a logically true value if the content fits in
+    # one page/column, false if a new page or column was needed.
+    #
+    # Raises CannotGroup if the provided content is too large to fit alone in
+    # the current page or column.
+    #
+    # @private
+    def group(*a, &b)
+      raise NotImplementedError,
+        "Document#group has been disabled because its implementation "+
+        "lead to corrupted documents whenever a page boundary was "+
+        "crossed. We will try to work on reimplementing it in a "+
+        "future release"
+    end
+
+    # @private
+    def transaction
+      raise NotImplementedError,
+        "Document#transaction has been disabled because its implementation "+
+        "lead to corrupted documents whenever a page boundary was "+
+        "crossed. We will try to work on reimplementing it in a "+
+        "future release"
+    end
+
     # Provides a way to execute a block of code repeatedly based on a
     # page_filter.
     #
@@ -642,23 +628,45 @@ module Prawn
       end
     end
 
+    # @private
 
-    # Returns true if content streams will be compressed before rendering,
-    # false otherwise
-    #
-    def compression_enabled?
-      !!state.compress
+    def mask(*fields)
+     # Stores the current state of the named attributes, executes the block, and
+     # then restores the original values after the block has executed.
+     # -- I will remove the nodoc if/when this feature is a little less hacky
+      stored = {}
+      fields.each { |f| stored[f] = send(f) }
+      yield
+      fields.each { |f| send("#{f}=", stored[f]) }
+    end
+
+    # @group Extension API
+
+    def initialize_first_page(options)
+      if options[:skip_page_creation]
+        start_new_page(options.merge(:orphan => true))
+      else
+        start_new_page(options)
+      end
+    end
+
+    ## Internals. Don't depend on them!
+
+    # @private
+    def state
+      @internal_state
+    end
+
+    # @private
+    def page
+      state.page
     end
 
     private
 
-    def merge_template_options(page_options, options)
-      object_id = state.store.import_page(options[:template], options[:template_page] || 1)
-      page_options.merge!(:object_id => object_id, :page_template => true)
-    end
 
     # setting override_settings to true ensures that a new graphic state does not end up using
-    # previous settings especially from imported template streams
+    # previous settings.
     def use_graphic_settings(override_settings = false)
       set_fill_color if current_fill_color != "000000" || override_settings
       set_stroke_color if current_stroke_color != "000000" || override_settings
@@ -688,9 +696,7 @@ module Prawn
 
       # we must update bounding box if not flowing from the previous page
       #
-      # FIXME: This may have a bug where the old margin is restored
-      # when the bounding box exits.
-      @bounding_box = @margin_box if old_margin_box == @bounding_box
+      @bounding_box = @margin_box unless @bounding_box && @bounding_box.parent
     end
 
     def apply_margin_options(options)

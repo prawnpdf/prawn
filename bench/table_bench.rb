@@ -1,15 +1,8 @@
-if RUBY_VERSION =~ /1\.8/
-  require "rubygems"
-  class Array
-    def sample
-      self[rand(self.length)]
-    end
-  end
-end
+# encoding: utf-8
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib')) 
-require "prawn"        
-require "benchmark"    
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require "prawn"
+require "benchmark"
 
 # Helpers for benchmark
 

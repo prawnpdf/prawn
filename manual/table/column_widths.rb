@@ -12,19 +12,19 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   data = [ ["this is not quite as long as the others",
             "here we have a line that is long but with smaller words",
             "this is so very looooooooooooooooooooooooooooooong"] ]
-  
+
   text "Prawn trying to guess the column widths"
   table(data)
   move_down 20
-  
+
   text "Manually setting all the column widths"
   table(data, :column_widths => [100, 200, 240])
   move_down 20
-  
+
   text "Setting only the last column width"
   table(data, :column_widths => {2 => 240})
 end

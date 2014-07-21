@@ -14,7 +14,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   module TriangleBox
     def available_width
       height + 25
@@ -24,14 +24,14 @@ Prawn::Example.generate(filename) do
   y_position = cursor - 10
   width      = 100
   height     = 100
-  
+
   Prawn::Text::Box.extensions << TriangleBox
   stroke_rectangle([0, y_position], width, height)
   text_box("A" * 100,
            :at => [0, y_position],
            :width => width,
            :height => height)
-  
+
   Prawn::Text::Formatted::Box.extensions << TriangleBox
   stroke_rectangle([200, y_position], width, height)
   formatted_text_box([:text => "A" * 100, :color => "009900"],

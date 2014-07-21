@@ -11,6 +11,8 @@ module Prawn
   module Text
     module Formatted #:nodoc:
 
+      # @private
+
       class Arranger #:nodoc:
         attr_reader :max_line_height
         attr_reader :max_descender
@@ -52,11 +54,7 @@ module Prawn
             raise "Lines must be finalized before calling #line"
           end
           @fragments.collect do |fragment|
-            if ruby_18 { true }
-              fragment.text
-            else
-              fragment.text.dup.force_encoding("utf-8")
-            end
+            fragment.text.dup.force_encoding(::Encoding::UTF_8)
           end.join
         end
 

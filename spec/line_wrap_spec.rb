@@ -113,7 +113,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :width => @one_word_width,
                                   :document => @pdf)
     expected = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}")
-    expected.force_encoding("utf-8") if "".respond_to?(:force_encoding)
+    expected.force_encoding(Encoding::UTF_8)
     string.should == expected
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
@@ -202,7 +202,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :width => @one_word_width,
                                   :document => @pdf)
     expected = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}")
-    expected.force_encoding("utf-8") if "".respond_to?(:force_encoding)
+    expected.force_encoding(Encoding::UTF_8)
     string.should == expected
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
@@ -223,6 +223,17 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :width => @one_word_width,
                                   :document => @pdf)
     string.should == "hello#{Prawn::Text::SHY}"
+  end
+
+  it "should process UTF-8 chars", :unresolved, :issue => 693 do
+    array = [{ :text => "Ｔｅｓｔ" }]
+    @arranger.format_array = array
+
+    # Should not raise an encoding error
+    string = @line_wrap.wrap_line(:arranger => @arranger,
+                                  :width => 300,
+                                  :document => @pdf)
+    string.should == "Ｔｅｓｔ"
   end
 end
 

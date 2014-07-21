@@ -12,6 +12,7 @@ module Prawn
   module Text
     module Formatted #:nodoc:
 
+      # @private
       class LineWrap #:nodoc:
 
         # The width of the last wrapped line
@@ -78,7 +79,7 @@ module Prawn
           result
         end
 
-        # returns true iff all text was printed without running into the end of
+        # returns true if all text was printed without running into the end of
         # the line
         #
         def add_fragment_to_line(fragment)
@@ -119,7 +120,7 @@ module Prawn
             "[#{whitespace}]+|" +
             "#{hyphen}+[^#{break_chars}]*|" +
             "#{soft_hyphen}"
-          new_regexp(pattern)
+          Regexp.new(pattern)
         end
 
         # The pattern used to determine whether any word breaks exist on a
@@ -127,7 +128,7 @@ module Prawn
         # word breaking is needed
         #
         def word_division_scan_pattern
-          new_regexp("\\s|[#{zero_width_space}#{soft_hyphen}#{hyphen}]")
+          Regexp.new("\\s|[#{zero_width_space}#{soft_hyphen}#{hyphen}]")
         end
 
         def break_chars
@@ -243,18 +244,9 @@ module Prawn
         end
 
         def wrap_by_char(segment)
-          # this conditional is only necessary for Ruby 1.8 compatibility
-          # String#unicode_characters is a helper which iterates over UTF-8 characters
-          #   under Ruby 1.9, it is implemented simply by aliasing #each_char
           font = @document.font
-          if font.unicode?
-            segment.unicode_characters do |char|
-              break unless append_char(char,font)
-            end
-          else
-            segment.each_char do |char|
-              break unless append_char(char,font)
-            end
+          segment.each_char do |char|
+            break unless append_char(char,font)
           end
         end
 
@@ -270,18 +262,6 @@ module Prawn
             false
           end
         end
-
-        def new_regexp(pattern)
-          regexp = ruby_19 {
-            Regexp.new(pattern)
-          }
-          regexp = regexp || ruby_18 {
-            lang = @document.font.unicode? ? 'U' : 'N'
-            Regexp.new(pattern, 0, lang)
-          }
-          regexp
-        end
-
       end
     end
   end

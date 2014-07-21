@@ -12,6 +12,8 @@ require 'ttfunk/subset_collection'
 
 module Prawn
   class Font
+
+    # @private
     class TTF < Font
       attr_reader :ttf, :subsets
 
@@ -160,7 +162,15 @@ module Prawn
       end
 
       def normalize_encoding(text)
-        text.normalize_to_utf8
+        begin
+          text.encode(::Encoding::UTF_8)
+        rescue => e
+          puts e
+          raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
+            "#{text.encoding} can not be transparently converted to UTF-8. " +
+            "Please ensure the encoding of the string you are attempting " +
+            "to use is set correctly"
+        end
       end
 
       def glyph_present?(char)
@@ -171,7 +181,7 @@ module Prawn
       # Returns the number of characters in +str+ (a UTF-8-encoded string).
       #
       def character_count(str)
-        str.unicode_length
+        str.length
       end
 
       private

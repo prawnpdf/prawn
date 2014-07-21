@@ -10,9 +10,11 @@ module Prawn
   module Text
     module Formatted
 
+
       # Prawn::Text::Formatted::Fragment is a state store for a formatted text
       # fragment. It does not render anything.
       #
+      # @private
       class Fragment
 
         attr_reader :format_state, :text
@@ -212,11 +214,7 @@ module Prawn
           end
           case direction
           when :rtl
-            if ruby_18 { true }
-              string.scan(/./mu).reverse.join
-            else
-              string.reverse
-            end
+            string.reverse
           else
             string
           end
@@ -232,11 +230,9 @@ module Prawn
 
         def process_soft_hyphens(string)
           if string.length > 0 && normalized_soft_hyphen
-            ruby_19 {
-              if string.encoding != normalized_soft_hyphen.encoding
-                string.force_encoding(normalized_soft_hyphen.encoding)
-              end
-            }
+            if string.encoding != normalized_soft_hyphen.encoding
+              string.force_encoding(normalized_soft_hyphen.encoding)
+            end
             string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
           else
             string
@@ -244,7 +240,7 @@ module Prawn
         end
 
         def strip_zero_width_spaces(string)
-          if !"".respond_to?(:encoding) || string.encoding.to_s == "UTF-8"
+          if string.encoding == ::Encoding::UTF_8
             string.gsub(Prawn::Text::ZWSP, "")
           else
             string

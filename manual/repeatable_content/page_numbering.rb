@@ -25,9 +25,9 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   text "This is the first page!"
-  
+
   10.times do
     start_new_page
     text "Here comes yet another page."
@@ -48,7 +48,7 @@ Prawn::Example.generate(filename) do
   options[:start_count_at] = 8
   options[:color]          = "333333"
   number_pages string, options
-  
+
   start_new_page
   text "See. This page isn't numbered and doesn't count towards the total."
 end

@@ -17,6 +17,8 @@ module Prawn
     # of a PNG image that we need to embed them in a PDF
     #
     class PNG < Image
+      # @group Extension API
+
       attr_reader :palette, :img_data, :transparency
       attr_reader :width, :height, :bits
       attr_reader :color_type, :compression_method, :filter_method
@@ -107,32 +109,15 @@ module Prawn
         end
       end
 
-      # number of bits used per pixel
-      #
-      def pixel_bitlength
-        if alpha_channel?
-          self.bits * (self.colors + 1)
-        else
-          self.bits * self.colors
-        end
-      end
-
       # split the alpha channel data from the raw image data in images
       # where it's required.
       #
       def split_alpha_channel!
-        unfilter_image_data if alpha_channel?
+        split_image_data if alpha_channel?
       end
 
       def alpha_channel?
         @color_type == 4 || @color_type == 6
-      end
-
-      # Adobe Reader can't handle 16-bit png channels -- chop off the second
-      # byte (least significant)
-      #
-      def alpha_channel_bits
-        8
       end
 
       # Build a PDF object representing this image in +document+, and return
@@ -180,18 +165,14 @@ module Prawn
         # append the actual image data to the object as a stream
         obj << img_data
 
-        if alpha_channel
-          obj.stream.compress!
-        else
-          obj.stream.filters << {
-            :FlateDecode => {
-              :Predictor => 15,
-              :Colors    => colors,
-              :BitsPerComponent => bits,
-              :Columns   => width
-            }
+        obj.stream.filters << {
+          :FlateDecode => {
+            :Predictor => 15,
+            :Colors    => colors,
+            :BitsPerComponent => bits,
+            :Columns   => width
           }
-        end
+        }
 
         # sort out the colours of the image
         if palette.empty?
@@ -243,12 +224,20 @@ module Prawn
             :Subtype          => :Image,
             :Height           => height,
             :Width            => width,
-            :BitsPerComponent => alpha_channel_bits,
+            :BitsPerComponent => bits,
             :ColorSpace       => :DeviceGray,
             :Decode           => [0, 1]
           )
           smask_obj.stream << alpha_channel
-          smask_obj.stream.compress!
+
+          smask_obj.stream.filters << {
+            :FlateDecode => {
+              :Predictor => 15,
+              :Colors    => 1,
+              :BitsPerComponent => bits,
+              :Columns   => width
+            }
+          }
           obj.data[:SMask] = smask_obj
         end
 
@@ -270,99 +259,40 @@ module Prawn
 
       private
 
-      def unfilter_image_data
-        data = @img_data.dup
+      def split_image_data
+        alpha_bytes = bits / 8
+        color_bytes = colors * bits / 8
 
-        @img_data = ""
-        @alpha_channel = ""
+        scanline_length  = (color_bytes + alpha_bytes) * self.width + 1
+        scanlines = @img_data.bytesize / scanline_length
+        pixels = self.width * self.height
 
-        pixel_bytes     = pixel_bitlength / 8
-        scanline_length = pixel_bytes * self.width + 1
-        row = 0
-        pixels = []
-        row_data = [] # reused for each row of the image
-        paeth, pa, pb, pc = nil
+        data = StringIO.new(@img_data)
+        data.binmode
 
-        data.bytes.each do |byte|
-          # accumulate a whole scanline of bytes, and then process it all at once
-          # we could do this with Enumerable#each_slice, but it allocates memory,
-          #   and we are trying to avoid that
-          row_data << byte
-          next if row_data.length < scanline_length
+        color_data = [0x00].pack('C') * (pixels * color_bytes + scanlines)
+        color = StringIO.new(color_data)
+        color.binmode
 
-          filter = row_data.shift
-          case filter
-          when 0 # None
-          when 1 # Sub
-            row_data.each_with_index do |row_byte, index|
-              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
-              row_data[index] = (row_byte + left) % 256
-            end
-          when 2 # Up
-            row_data.each_with_index do |row_byte, index|
-              col = (index / pixel_bytes).floor
-              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
-              row_data[index] = (upper + row_byte) % 256
-            end
-          when 3  # Average
-            row_data.each_with_index do |row_byte, index|
-              col = (index / pixel_bytes).floor
-              upper = row == 0 ? 0 : pixels[row-1][col][index % pixel_bytes]
-              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
+        @alpha_channel = [0x00].pack('C') * (pixels * alpha_bytes + scanlines)
+        alpha = StringIO.new(@alpha_channel)
+        alpha.binmode
 
-              row_data[index] = (row_byte + ((left + upper)/2).floor) % 256
-            end
-          when 4 # Paeth
-            left = upper = upper_left = nil
-            row_data.each_with_index do |row_byte, index|
-              col = (index / pixel_bytes).floor
+        scanlines.times do |line|
+          data.seek(line * scanline_length)
 
-              left = index < pixel_bytes ? 0 : row_data[index - pixel_bytes]
-              if row.zero?
-                upper = upper_left = 0
-              else
-                upper = pixels[row-1][col][index % pixel_bytes]
-                upper_left = col.zero? ? 0 :
-                  pixels[row-1][col-1][index % pixel_bytes]
-              end
+          filter = data.getbyte
 
-              p = left + upper - upper_left
-              pa = (p - left).abs
-              pb = (p - upper).abs
-              pc = (p - upper_left).abs
+          color.putc filter
+          alpha.putc filter
 
-              paeth = if pa <= pb && pa <= pc
-                left
-              elsif pb <= pc
-                upper
-              else
-                upper_left
-              end
-
-              row_data[index] = (row_byte + paeth) % 256
-            end
-          else
-            raise ArgumentError, "Invalid filter algorithm #{filter}"
-          end
-
-          s = []
-          row_data.each_slice pixel_bytes do |slice|
-            s << slice
-          end
-          pixels << s
-          row += 1
-          row_data.clear
-        end
-
-        # convert the pixel data to separate strings for colours and alpha
-        color_byte_size = self.colors * self.bits / 8
-        alpha_byte_size = alpha_channel_bits / 8
-        pixels.each do |this_row|
-          this_row.each do |pixel|
-            @img_data << pixel[0, color_byte_size].pack("C*")
-            @alpha_channel << pixel[color_byte_size, alpha_byte_size].pack("C*")
+          self.width.times do
+            color.write data.read(color_bytes)
+            alpha.write data.read(alpha_bytes)
           end
         end
+
+        @img_data = color_data
       end
     end
   end

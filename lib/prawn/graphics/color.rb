@@ -9,6 +9,7 @@
 module Prawn
   module Graphics
     module Color
+      # @group Stable API
 
       # Sets or returns the fill color.
       #

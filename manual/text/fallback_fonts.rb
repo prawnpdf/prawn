@@ -8,18 +8,18 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
   font_families["Kai"] = {
     :normal => { :file => file, :font => "Kai" }
   }
-  
-  file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
-  font_families["Action Man"] = {
-    :normal => { :file => file, :font => "ActionMan" },
+
+  file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
+  font_families["Panic Sans"] = {
+    :normal => { :file => file, :font => "PanicSans" },
   }
-  
-  font("Action Man") do
+
+  font("Panic Sans") do
     text("When fallback fonts are included, each glyph will be rendered " +
          "using the first font that includes the glyph, starting with the " +
          "current font and then moving through the fallback fonts from left " +

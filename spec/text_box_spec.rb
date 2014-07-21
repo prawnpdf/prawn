@@ -649,25 +649,25 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       :height => bounding_height,
       :document => @pdf
     }
-    file = "#{Prawn::DATADIR}/fonts/Action Man.dfont"
-    @pdf.font_families["Action Man"] = {
-      :normal      => { :file => file, :font => "ActionMan" },
-      :italic      => { :file => file, :font => "ActionMan-Italic" },
-      :bold        => { :file => file, :font => "ActionMan-Bold" },
-      :bold_italic => { :file => file, :font => "ActionMan-BoldItalic" }
+    file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
+    @pdf.font_families["Panic Sans"] = {
+      :normal      => { :file => file, :font => "PanicSans" },
+      :italic      => { :file => file, :font => "PanicSans-Italic" },
+      :bold        => { :file => file, :font => "PanicSans-Bold" },
+      :bold_italic => { :file => file, :font => "PanicSans-BoldItalic" }
     }
     @text_box = Prawn::Text::Box.new(@text, options)
   end
   describe "when using a TTF font" do
     it "unprinted text should be in UTF-8 encoding" do
-      @pdf.font("Action Man")
+      @pdf.font("Panic Sans")
       remaining_text = @text_box.render
       remaining_text.should == @text
     end
 
     it "subsequent calls to Text::Box need not include the" +
        " :skip_encoding => true option" do
-      @pdf.font("Action Man")
+      @pdf.font("Panic Sans")
       remaining_text = @text_box.render
 
       # expect that calling text_box will not raise an encoding error
@@ -992,7 +992,7 @@ describe "Text::Box wrapping" do
 
     expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
-    expected = expected.force_encoding("utf-8") if expected.respond_to?(:force_encoding)
+    expected = expected.force_encoding(Encoding::UTF_8)
     text_box.text.should == expected
   end
 
@@ -1009,7 +1009,7 @@ describe "Text::Box wrapping" do
     text_box.render
     results_without_accent = text_box.text
 
-    results_with_accent.first_line.length.should == results_without_accent.first_line.length
+    first_line(results_with_accent).length.should == first_line(results_without_accent).length
   end
 
   it "should allow you to disable wrapping by char" do
@@ -1055,4 +1055,8 @@ end
 
 def reduce_precision(float)
   ("%.5f" % float).to_f
+end
+
+def first_line(str)
+  str.each_line { |line| return line }
 end

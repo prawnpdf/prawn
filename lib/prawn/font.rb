@@ -6,14 +6,16 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require "prawn/font/afm"
-require "prawn/font/ttf"
-require "prawn/font/dfont"
-require "prawn/font_metric_cache"
+require_relative "font/afm"
+require_relative "font/ttf"
+require_relative "font/dfont"
+require_relative "font_metric_cache"
 
 module Prawn
 
   class Document
+    # @group Stable API
+
     # Without arguments, this returns the currently selected font. Otherwise,
     # it sets the current font. When a block is used, the font is applied
     # transactionally and is rolled back when the block exits.
@@ -24,8 +26,8 @@ module Prawn
     #     font "Times-Roman"
     #     text "Now using Times-Roman"
     #
-    #     font("Chalkboard.ttf") do
-    #       text "Using TTF font from file Chalkboard.ttf"
+    #     font("DejaVuSans.ttf") do
+    #       text "Using TTF font from file DejaVuSans.ttf"
     #       font "Courier", :style => :bold
     #       text "You see this in bold Courier"
     #     end
@@ -67,7 +69,10 @@ module Prawn
       @font
     end
 
+    # @method font_size(points=nil)
+    #
     # When called with no argument, returns the current font size.
+    #
     # When called with a single argument but no block, sets the current font
     # size.  When a block is used, the font size is applied transactionally and
     # is rolled back when the block exits.  You may still change the font size
@@ -97,6 +102,92 @@ module Prawn
       block_given? ? yield : return
       @font_size = size_before_yield
     end
+
+    # Sets the font size
+    def font_size=(size)
+      font_size(size)
+    end
+
+    # Returns the width of the given string using the given font. If :size is not
+    # specified as one of the options, the string is measured using the current
+    # font size. You can also pass :kerning as an option to indicate whether
+    # kerning should be used when measuring the width (defaults to +false+).
+    #
+    # Note that the string _must_ be encoded properly for the font being used.
+    # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
+    # UTF-8. You can use the Font#normalize_encoding method to make sure strings
+    # are in an encoding appropriate for the current font.
+    #--
+    # For the record, this method used to be a method of Font (and still delegates
+    # to width computations on Font). However, having the primary interface for
+    # calculating string widths exist on Font made it tricky to write extensions
+    # for Prawn in which widths are computed differently (e.g., taking formatting
+    # tags into account, or the like).
+    #
+    # By putting width_of here, on Document itself, extensions may easily override
+    # it and redefine the width calculation behavior.
+    #++
+    def width_of(string, options={})
+      if p = options[:inline_format]
+        p = [] unless p.is_a?(Array)
+
+        # Build up an Arranger with the entire string on one line, finalize it,
+        # and find its width.
+        arranger = Prawn::Text::Formatted::Arranger.new(self, options)
+        arranger.consumed = self.text_formatter.format(string, *p)
+        arranger.finalize_line
+
+        arranger.line_width
+      else
+        width_of_string(string, options)
+      end
+    end
+
+    # Hash that maps font family names to their styled individual font names.
+    #
+    # To add support for another font family, append to this hash, e.g:
+    #
+    #   pdf.font_families.update(
+    #    "MyTrueTypeFamily" => { :bold        => "foo-bold.ttf",
+    #                            :italic      => "foo-italic.ttf",
+    #                            :bold_italic => "foo-bold-italic.ttf",
+    #                            :normal      => "foo.ttf" })
+    #
+    # This will then allow you to use the fonts like so:
+    #
+    #   pdf.font("MyTrueTypeFamily", :style => :bold)
+    #   pdf.text "Some bold text"
+    #   pdf.font("MyTrueTypeFamily")
+    #   pdf.text "Some normal text"
+    #
+    # This assumes that you have appropriate TTF fonts for each style you
+    # wish to support.
+    #
+    # By default the styles :bold, :italic, :bold_italic, and :normal are
+    # defined for fonts "Courier", "Times-Roman" and "Helvetica". When
+    # defining your own font families, you can map any or all of these
+    # styles to whatever font files you'd like.
+    #
+    def font_families
+      @font_families ||= {}.merge!(
+        { "Courier"     => { :bold        => "Courier-Bold",
+                             :italic      => "Courier-Oblique",
+                             :bold_italic => "Courier-BoldOblique",
+                             :normal      => "Courier" },
+
+          "Times-Roman" => { :bold         => "Times-Bold",
+                             :italic       => "Times-Italic",
+                             :bold_italic  => "Times-BoldItalic",
+                             :normal       => "Times-Roman" },
+
+          "Helvetica"   => { :bold         => "Helvetica-Bold",
+                             :italic       => "Helvetica-Oblique",
+                             :bold_italic  => "Helvetica-BoldOblique",
+                             :normal       => "Helvetica" }
+        })
+    end
+
+    # @group Experimental API
 
     # Sets the font directly, given an actual Font object
     # and size.
@@ -135,6 +226,8 @@ module Prawn
     # font will be embedded twice. Since we do font subsetting, this double
     # embedding won't be catastrophic, just annoying.
     # ++
+    #
+    # @private
     def find_font(name, options={}) #:nodoc:
       if font_families.key?(name)
         family, name = name, font_families[name][options[:style] || :normal]
@@ -144,93 +237,21 @@ module Prawn
         end
       end
       key = "#{name}:#{options[:font] || 0}"
-      font_registry[key] ||= Font.load(self, name, options.merge(:family => family))
+
+      if name.is_a? Prawn::Font
+        font_registry[key] = name
+      else
+        font_registry[key] ||= Font.load( self,
+                                          name,
+                                          options.merge(family: family)
+                               )
+      end
     end
 
     # Hash of Font objects keyed by names
     #
     def font_registry #:nodoc:
       @font_registry ||= {}
-    end
-
-    # Hash that maps font family names to their styled individual font names.
-    #
-    # To add support for another font family, append to this hash, e.g:
-    #
-    #   pdf.font_families.update(
-    #    "MyTrueTypeFamily" => { :bold        => "foo-bold.ttf",
-    #                            :italic      => "foo-italic.ttf",
-    #                            :bold_italic => "foo-bold-italic.ttf",
-    #                            :normal      => "foo.ttf" })
-    #
-    # This will then allow you to use the fonts like so:
-    #
-    #   pdf.font("MyTrueTypeFamily", :style => :bold)
-    #   pdf.text "Some bold text"
-    #   pdf.font("MyTrueTypeFamily")
-    #   pdf.text "Some normal text"
-    #
-    # This assumes that you have appropriate TTF fonts for each style you
-    # wish to support.
-    #
-    # By default the styles :bold, :italic, :bold_italic, and :normal are
-    # defined for fonts "Courier", "Times-Roman" and "Helvetica".
-    #
-    # You probably want to provide those four styles, but are free to define
-    # custom ones, like :thin, and use them in font calls.
-    #
-    def font_families
-      @font_families ||= {}.merge!(
-        { "Courier"     => { :bold        => "Courier-Bold",
-                             :italic      => "Courier-Oblique",
-                             :bold_italic => "Courier-BoldOblique",
-                             :normal      => "Courier" },
-
-          "Times-Roman" => { :bold         => "Times-Bold",
-                             :italic       => "Times-Italic",
-                             :bold_italic  => "Times-BoldItalic",
-                             :normal       => "Times-Roman" },
-
-          "Helvetica"   => { :bold         => "Helvetica-Bold",
-                             :italic       => "Helvetica-Oblique",
-                             :bold_italic  => "Helvetica-BoldOblique",
-                             :normal       => "Helvetica" }
-        })
-    end
-
-    # Returns the width of the given string using the given font. If :size is not
-    # specified as one of the options, the string is measured using the current
-    # font size. You can also pass :kerning as an option to indicate whether
-    # kerning should be used when measuring the width (defaults to +false+).
-    #
-    # Note that the string _must_ be encoded properly for the font being used.
-    # For AFM fonts, this is WinAnsi. For TTF, make sure the font is encoded as
-    # UTF-8. You can use the Font#normalize_encoding method to make sure strings
-    # are in an encoding appropriate for the current font.
-    #--
-    # For the record, this method used to be a method of Font (and still delegates
-    # to width computations on Font). However, having the primary interface for
-    # calculating string widths exist on Font made it tricky to write extensions
-    # for Prawn in which widths are computed differently (e.g., taking formatting
-    # tags into account, or the like).
-    #
-    # By putting width_of here, on Document itself, extensions may easily override
-    # it and redefine the width calculation behavior.
-    #++
-    def width_of(string, options={})
-      if p = options[:inline_format]
-        p = [] unless p.is_a?(Array)
-
-        # Build up an Arranger with the entire string on one line, finalize it,
-        # and find its width.
-        arranger = Prawn::Text::Formatted::Arranger.new(self, options)
-        arranger.consumed = self.text_formatter.format(string, *p)
-        arranger.finalize_line
-
-        arranger.line_width
-      else
-        width_of_string(string, options)
-      end
     end
 
     private
@@ -266,13 +287,21 @@ module Prawn
     # Shortcut interface for constructing a font object.  Filenames of the form
     # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
     # will be passed through to Font::AFM.new()
-    #
-    def self.load(document,name,options={})
-      case name.to_s
-      when /\.ttf$/i   then TTF.new(document, name, options)
-      when /\.dfont$/i then DFont.new(document, name, options)
-      when /\.afm$/i   then AFM.new(document, name, options)
-      else                  AFM.new(document, name, options)
+    def self.load(document, src, options={})
+      case font_format(src, options)
+      when 'ttf'   then TTF.new(document, src, options)
+      when 'dfont' then DFont.new(document, src, options)
+      else AFM.new(document, src, options)
+      end
+    end
+
+    def self.font_format(src, options)
+      return options.fetch(:format, 'ttf') if src.respond_to? :read
+
+      case src.to_s
+      when /\.ttf$/i   then return 'ttf'
+      when /\.dfont$/i then return 'dfont'
+      else return 'afm'
       end
     end
 

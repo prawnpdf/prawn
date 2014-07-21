@@ -5,15 +5,15 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-Prawn::Example.generate("graphics.pdf", :page_size => "FOLIO") do
-  
+Prawn::ManualBuilder::Example.generate("graphics.pdf", :page_size => "FOLIO") do
+
   package "graphics" do |p|
-    
+
     p.section "Basics" do |s|
       s.example "helper"
       s.example "fill_and_stroke"
     end
-    
+
     p.section "Shapes" do |s|
       s.example "lines_and_curves"
       s.example "common_lines"
@@ -21,7 +21,7 @@ Prawn::Example.generate("graphics.pdf", :page_size => "FOLIO") do
       s.example "polygon"
       s.example "circle_and_ellipse"
     end
-    
+
     p.section "Fill and Stroke settings" do |s|
       s.example "line_width"
       s.example "stroke_cap"
@@ -33,13 +33,13 @@ Prawn::Example.generate("graphics.pdf", :page_size => "FOLIO") do
       s.example "soft_masks"
       s.example "fill_rules"
     end
-    
+
     p.section "Transformations" do |s|
       s.example "rotate"
       s.example "translate"
       s.example "scale"
     end
-    
+
     p.intro do
       prose("Here we show all the drawing methods provided by Prawn. Use them to draw the most beautiful imaginable things.
 
@@ -53,6 +53,6 @@ Prawn::Example.generate("graphics.pdf", :page_size => "FOLIO") do
             "How to apply transformations to your drawing space"
           )
     end
-    
+
   end
 end

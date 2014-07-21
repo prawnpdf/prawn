@@ -10,6 +10,7 @@
 module Prawn
   module Text
     module Formatted
+      # @group Stable API
 
       # Draws the requested formatted text into a box. When the text overflows
       # the rectangle shrink to fit or truncate the text. Text boxes are
@@ -100,32 +101,19 @@ module Prawn
       class Box
         include Prawn::Text::Formatted::Wrap
 
-        def valid_options
-          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign,
-                                              :rotate, :rotate_around,
-                                              :overflow, :min_font_size,
-                                              :disable_wrap_by_char,
-                                              :leading, :character_spacing,
-                                              :mode, :single_line,
-                                              :skip_encoding,
-                                              :document,
-                                              :direction,
-                                              :fallback_fonts,
-                                              :draw_text_callback]
-        end
+        # @group Experimental API
 
         # The text that was successfully printed (or, if <tt>dry_run</tt> was
         # used, the text that would have been successfully printed)
         attr_reader :text
 
-        # True iff nothing printed (or, if <tt>dry_run</tt> was
+        # True if nothing printed (or, if <tt>dry_run</tt> was
         # used, nothing would have been successfully printed)
         def nothing_printed?
           @nothing_printed
         end
 
-        # True iff everything printed (or, if <tt>dry_run</tt> was
+        # True if everything printed (or, if <tt>dry_run</tt> was
         # used, everything would have been successfully printed)
         def everything_printed?
           @everything_printed
@@ -144,42 +132,6 @@ module Prawn
 
         def line_gap
           line_height - (ascender + descender)
-        end
-
-        #
-        # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
-        # of the wrap method if you want to override the default wrapping
-        # algorithm):
-        #
-        #
-        #   module MyWrap
-        #
-        #     def wrap(array)
-        #       initialize_wrap([{ :text => 'all your base are belong to us' }])
-        #       @line_wrap.wrap_line(:document => @document,
-        #                            :kerning => @kerning,
-        #                            :width => 10000,
-        #                            :arranger => @arranger)
-        #       fragment = @arranger.retrieve_fragment
-        #       format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
-        #       []
-        #     end
-        #
-        #   end
-        #
-        #   Prawn::Text::Formatted::Box.extensions << MyWrap
-        #
-        #   box = Prawn::Text::Formatted::Box.new('hello world')
-        #   box.render('why can't I print anything other than' +
-        #              '"all your base are belong to us"?')
-        #
-        #
-        def self.extensions
-          @extensions ||= []
-        end
-
-        def self.inherited(base) #:nodoc:
-          extensions.each { |e| base.extensions << e }
         end
 
         # See Prawn::Text#text_box for valid options
@@ -260,11 +212,7 @@ module Prawn
               @document.text_rendering_mode(@mode) do
                 process_options
 
-                if @skip_encoding
-                  text = original_text
-                else
-                  text = normalize_encoding
-                end
+                text = normalized_text(flags)
 
                 @document.font_size(@font_size) do
                   shrink_to_fit(text) if @overflow == :shrink_to_fit
@@ -341,7 +289,72 @@ module Prawn
           end
         end
 
+        # @group Extension API
+
+        # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
+        # of the wrap method if you want to override the default wrapping
+        # algorithm):
+        #
+        #
+        #   module MyWrap
+        #
+        #     def wrap(array)
+        #       initialize_wrap([{ :text => 'all your base are belong to us' }])
+        #       @line_wrap.wrap_line(:document => @document,
+        #                            :kerning => @kerning,
+        #                            :width => 10000,
+        #                            :arranger => @arranger)
+        #       fragment = @arranger.retrieve_fragment
+        #       format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
+        #       []
+        #     end
+        #
+        #   end
+        #
+        #   Prawn::Text::Formatted::Box.extensions << MyWrap
+        #
+        #   box = Prawn::Text::Formatted::Box.new('hello world')
+        #   box.render('why can't I print anything other than' +
+        #              '"all your base are belong to us"?')
+        #
+        #
+        def self.extensions
+          @extensions ||= []
+        end
+
+        # @private
+        def self.inherited(base)
+          extensions.each { |e| base.extensions << e }
+        end
+
+        def valid_options
+          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
+                                              :align, :valign,
+                                              :rotate, :rotate_around,
+                                              :overflow, :min_font_size,
+                                              :disable_wrap_by_char,
+                                              :leading, :character_spacing,
+                                              :mode, :single_line,
+                                              :skip_encoding,
+                                              :document,
+                                              :direction,
+                                              :fallback_fonts,
+                                              :draw_text_callback]
+        end
+
         private
+
+        def normalized_text(flags)
+          if @skip_encoding
+            text = original_text
+          else
+            text = normalize_encoding
+          end
+
+          text.each { |t| t.delete(:color) } if flags[:dry_run]
+
+          text
+        end
 
         def original_text
           @original_array.collect { |hash| hash.dup }
@@ -387,33 +400,37 @@ module Prawn
 
           original_font = @document.font.family
           fragment_font = hash[:font] || original_font
-          @document.font(fragment_font)
 
           fallback_fonts = @fallback_fonts.dup
           # always default back to the current font if the glyph is missing from
           # all fonts
           fallback_fonts << fragment_font
 
-          hash[:text].unicode_characters do |char|
-            @document.font(fragment_font)
-            font_glyph_pairs << [find_font_for_this_glyph(char,
-                                                          @document.font.family,
-                                                          fallback_fonts.dup),
-                                 char]
+          @document.save_font do
+            hash[:text].each_char do |char|
+              font_glyph_pairs << [find_font_for_this_glyph(char,
+                                                            fragment_font,
+                                                            fallback_fonts.dup),
+                                   char]
+            end
           end
 
-          @document.font(original_font)
+          # Don't add a :font to fragments if it wasn't there originally
+          if hash[:font].nil?
+            font_glyph_pairs.each do |pair|
+              pair[0] = nil if pair[0] == original_font
+            end
+          end
 
           form_fragments_from_like_font_glyph_pairs(font_glyph_pairs, hash)
         end
 
         def find_font_for_this_glyph(char, current_font, fallback_fonts)
+          @document.font(current_font)
           if fallback_fonts.length == 0 || @document.font.glyph_present?(char)
             current_font
           else
-            current_font = fallback_fonts.shift
-            @document.font(current_font)
-            find_font_for_this_glyph(char, @document.font.family, fallback_fonts)
+            find_font_for_this_glyph(char, fallback_fonts.shift, fallback_fonts)
           end
         end
 
@@ -423,11 +440,11 @@ module Prawn
           current_font = nil
 
           font_glyph_pairs.each do |font, char|
-            if font != current_font
+            if font != current_font || fragments.count == 0
               current_font = font
               fragment = hash.dup
               fragment[:text] = char
-              fragment[:font] = font
+              fragment[:font] = font unless font.nil?
               fragments << fragment
             else
               fragment[:text] += char
@@ -501,7 +518,7 @@ module Prawn
         end
 
         def process_options
-          # must be performed within a save_font bock because
+          # must be performed within a save_font block because
           # document.process_text_options sets the font
           @document.process_text_options(@options)
           @font_size = @options[:size]

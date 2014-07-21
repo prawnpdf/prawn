@@ -12,6 +12,7 @@ module Prawn
       # A Cell that contains text. Has some limited options to set font family,
       # size, and style.
       #
+      # @private
       class Text < Cell
 
         TextOptions = [:inline_format, :kerning, :size, :align, :valign,

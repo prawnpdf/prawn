@@ -1,4 +1,14 @@
+# encoding: utf-8
+
+# ImageHandler provides a way to register image processors with Prawn
+#
+# Contributed by Evan Sharp in November 2013.
+#
+# This is free software. Please see the LICENSE and COPYING files for details.
+
 module Prawn
+  # @group Extension API
+
   def self.image_handler
     @image_handler ||= ImageHandler.new
   end
@@ -16,6 +26,10 @@ module Prawn
     def register!(handler)
       @handlers.delete(handler)
       @handlers.unshift handler
+    end
+
+    def unregister(handler)
+      @handlers.reject!{ |h| h == handler }
     end
 
     def find(image_blob)

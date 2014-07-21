@@ -20,19 +20,17 @@ describe "Text::Formatted::Box wrapping" do
 
   it "should not raise an Encoding::CompatibilityError when keeping a TTF and an " +
     "AFM font together" do
-    ruby_19 do
-      file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
-      @pdf.font_families["Kai"] = {
-        :normal => { :file => file, :font => "Kai" }
-      }
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+    @pdf.font_families["Kai"] = {
+      :normal => { :file => file, :font => "Kai" }
+    }
 
-      texts = [{ :text => "Hello " },
-               { :text => "再见", :font => "Kai"},
-               { :text => "World" }]
-      text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
+    texts = [{ :text => "Hello " },
+              { :text => "再见", :font => "Kai"},
+              { :text => "World" }]
+    text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
 
-      text_box.render
-    end
+    text_box.render
   end
 
   it "should wrap between two fragments when the preceding fragment ends with white space" do
@@ -86,23 +84,14 @@ describe "Text::Formatted::Box wrapping" do
 
   describe "Unicode" do
     before do
-      if RUBY_VERSION < '1.9'
-        @reset_value = $KCODE
-        $KCODE='u'
-      else
-        @reset_value = [Encoding.default_external, Encoding.default_internal]
-        Encoding.default_external = Encoding::UTF_8
-        Encoding.default_internal = Encoding::UTF_8
-      end
+      @reset_value = [Encoding.default_external, Encoding.default_internal]
+      Encoding.default_external = Encoding::UTF_8
+      Encoding.default_internal = Encoding::UTF_8
     end
 
     after do
-      if RUBY_VERSION < '1.9'
-        $KCODE=@reset_value
-      else
-        Encoding.default_external = @reset_value[0]
-        Encoding.default_internal = @reset_value[1]
-      end
+      Encoding.default_external = @reset_value[0]
+      Encoding.default_internal = @reset_value[1]
     end
 
     it "should properly handle empty slices using Unicode encoding" do
@@ -563,6 +552,28 @@ describe "Text::Formatted::Box#render" do
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
     colors.fill_color_count.should == 2
     colors.stroke_color_count.should == 2
+  end
+end
+
+describe "Text::Formatted::Box#render(:dry_run => true)" do
+  it "should not change the graphics state of the document" do
+    create_pdf
+
+    state_before = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    fill_color_count = state_before.fill_color_count
+    stroke_color_count = state_before.stroke_color_count
+    stroke_color_space_count = state_before.stroke_color_space_count
+
+    array = [{ :text => 'Foo',
+               :color => [0, 0, 0, 100] }]
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render(:dry_run => true)
+
+    state_after = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    state_after.fill_color_count.should == fill_color_count
+    state_after.stroke_color_count.should == stroke_color_count
+    state_after.stroke_color_space_count.should == stroke_color_space_count
   end
 end
 

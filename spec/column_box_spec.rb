@@ -30,4 +30,36 @@ describe "A column box" do
         @pdf.bounds.right.should == 500
       end
   end
+
+  it "does not reset the top margin on a new page by default" do
+    create_pdf
+    page_top = @pdf.cursor
+    @pdf.move_down 50
+    init_column_top = @pdf.cursor
+    @pdf.column_box [0, @pdf.cursor], :width => 500,
+      :height => 200, :columns => 2 do
+
+        @pdf.bounds.move_past_bottom
+        @pdf.bounds.move_past_bottom
+
+        @pdf.bounds.absolute_top.should == init_column_top
+        @pdf.bounds.absolute_top.should_not == page_top
+      end
+  end
+
+  it "does reset the top margin when reflow_margins is set" do
+    create_pdf
+    page_top = @pdf.cursor
+    @pdf.move_down 50
+    init_column_top = @pdf.cursor
+    @pdf.column_box [0, @pdf.cursor], :width => 500, :reflow_margins => true,
+      :height => 200, :columns => 2 do
+
+        @pdf.bounds.move_past_bottom
+        @pdf.bounds.move_past_bottom
+
+        @pdf.bounds.absolute_top.should == page_top
+        @pdf.bounds.absolute_top.should_not == init_column_top
+      end
+  end
 end

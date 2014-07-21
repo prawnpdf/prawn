@@ -8,25 +8,31 @@ Gem::Specification.new do |spec|
                 Dir.glob("data/fonts/{MustRead.html,*.afm}") +
                 ["data/shift_jis_text.txt"] +
                 ["Rakefile", "prawn.gemspec", "Gemfile",
-                 "COPYING", "LICENSE", "GPLv2", "GPLv3"]
+                 "COPYING", "LICENSE", "GPLv2", "GPLv3",
+                 ".yardopts"]
   spec.require_path = "lib"
-  spec.required_ruby_version = '>= 1.8.7'
+  spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
 
   spec.test_files = Dir[ "spec/*_spec.rb" ]
-  spec.extra_rdoc_files = %w{README.md LICENSE COPYING GPLv2 GPLv3}
-  spec.rdoc_options << '--title' << 'Prawn Documentation' <<
-                       '--main'  << 'README.md' << '-q'
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
-  spec.add_dependency('pdf-reader', '~>1.2')
-  spec.add_dependency('ttfunk', '~>1.0.3')
-  spec.add_dependency('ruby-rc4')
-  spec.add_dependency('afm')
+  spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
+
+  spec.add_dependency('ttfunk', '~> 1.2.0')
+  spec.add_dependency('pdf-core', "~> 0.2.5")
+
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
-  spec.add_development_dependency('coderay', '~> 1.0.7')
-  spec.add_development_dependency('rdoc')
+  spec.add_development_dependency('yard')
+  spec.add_development_dependency('rspec', '2.14.1')
+  spec.add_development_dependency('mocha')
+  spec.add_development_dependency('rake')
+  spec.add_development_dependency('simplecov')
+  spec.add_development_dependency('prawn-manual_builder', ">= 0.1.3")
+  spec.add_development_dependency('pdf-reader', '~>1.2')
+  spec.add_development_dependency('rubocop', '0.20.1')
+
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
   Prawn is a fast, tiny, and nimble PDF generator for Ruby

@@ -6,17 +6,20 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'prawn/table/cells'
-require 'prawn/table/cell'
-require 'prawn/table/cell/in_table'
-require 'prawn/table/cell/text'
-require 'prawn/table/cell/subtable'
-require 'prawn/table/cell/image'
-require 'prawn/table/cell/span_dummy'
+require_relative 'table/column_width_calculator'
+require_relative 'table/cell'
+require_relative 'table/cells'
+require_relative 'table/cell/in_table'
+require_relative 'table/cell/text'
+require_relative 'table/cell/subtable'
+require_relative 'table/cell/image'
+require_relative 'table/cell/span_dummy'
 
 module Prawn
 
   class Document
+
+    # @group Experimental API
 
     # Set up and draw a table on this document. A block can be given, which will
     # be run after cell setup but before layout and drawing.
@@ -38,6 +41,16 @@ module Prawn
       Table.new(data, self, options, &block)
     end
 
+  end
+
+  module Errors
+    # This error is raised when table data is malformed
+    #
+    InvalidTableData = Class.new(StandardError)
+
+    # This error is raised when an empty or nil table is rendered
+    #
+    EmptyTable = Class.new(StandardError)
   end
 
   # Next-generation table drawing for Prawn.
@@ -317,7 +330,9 @@ module Prawn
               c = Cells.new(cells_this_page.map { |ci, _| ci })
               @before_rendering_page.call(c)
             end
-            Cell.draw_cells(cells_this_page)
+            if @header_row.nil? || cells_this_page.size > @header_row.size
+              Cell.draw_cells(cells_this_page)
+            end
             cells_this_page = []
 
             # start a new page or column
@@ -524,7 +539,7 @@ module Prawn
       rows_to_operate_on = @header_row.rows(row_of_header) if row_of_header
       rows_to_operate_on.each do |cell|
         cell.row = row
-        cell.dummy_cells.each {|c| c.row = row }
+        cell.dummy_cells.each {|c| c.row = row + c.row }
         page_of_cells << [cell, [cell.x + x_offset, y]]
       end
       rows_to_operate_on.height
@@ -549,21 +564,7 @@ module Prawn
     # Returns an array of each column's natural (unconstrained) width.
     #
     def natural_column_widths
-      @natural_column_widths ||=
-        begin
-          widths_by_column = Hash.new(0)
-          cells.each do |cell|
-            next if cell.is_a?(Cell::SpanDummy)
-
-            # Split the width of colspanned cells evenly by columns
-            width_per_column = cell.width.to_f / cell.colspan
-            cell.colspan.times do |i|
-              widths_by_column[cell.column + i] =
-                [widths_by_column[cell.column + i], width_per_column].max
-            end
-          end
-          widths_by_column.sort_by { |col, _| col }.map { |_, w| w }
-        end
+      @natural_column_widths ||= ColumnWidthCalculator.new(cells).natural_widths
     end
 
     # Returns the "natural" (unconstrained) width of the table. This may be

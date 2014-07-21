@@ -6,10 +6,11 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require 'prawn/font/ttf'
+require_relative 'ttf'
 
 module Prawn
   class Font
+    # @private
     class DFont < TTF
 
       # Returns a list of the names of all named fonts in the given dfont file.

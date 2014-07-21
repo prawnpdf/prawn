@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Allow speccing things when an expectation matcher runs. Similar to #with, but
 # always succeeds.
 #

@@ -33,21 +33,21 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   data = [ ["Header",           "A " * 5, "B"],
            ["Data row",         "C",      "D " * 5],
            ["Another data row", "E",      "F"]]
-  
+
   table(data) do
     cells.padding = 12
     cells.borders = []
-    
+
     row(0).borders      = [:bottom]
     row(0).border_width = 2
     row(0).font_style   = :bold
-    
+
     columns(0..1).borders = [:right]
-    
+
     row(0).columns(0..1).borders = [:bottom, :right]
   end
 end

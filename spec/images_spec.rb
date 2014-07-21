@@ -83,16 +83,12 @@ describe "the image() function" do
     @pdf.state.version.should >= 1.5
   end
 
-  # to support Adobe Reader, which apparently doesn't handle 16-bit alpha
-  # channels. Verified experimentally [BE] but not confirmed in documentation
-  # or anything. OS X Preview handles those files just fine.
-  #
-  it "should embed 8-bit alpha channels for 16-bit PNGs" do
+  it "should embed 16-bit alpha channels for 16-bit PNGs" do
     @pdf.image "#{Prawn::DATADIR}/images/16bit.png"
 
     output = @pdf.render
     output.should =~ /\/BitsPerComponent 16/
-    output.should =~ /\/BitsPerComponent 8/
+    output.should_not =~ /\/BitsPerComponent 8/
   end
 
   it "should flow an image to a new page if it will not fit on a page" do

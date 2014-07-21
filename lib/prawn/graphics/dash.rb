@@ -9,6 +9,7 @@
 module Prawn
   module Graphics
     module Dash
+      # @group Stable API
 
       # Sets the dash pattern for stroked lines and curves or return the
       # current dash pattern setting if +length+ is nil.
@@ -76,11 +77,11 @@ module Prawn
         current_dash_state != undashed_setting
       end
 
+      private
+
       def write_stroke_dash
         add_content dash_setting
       end
-
-      private
 
       def undashed_setting
         { :dash => nil, :space => nil, :phase => 0 }

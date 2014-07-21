@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # The origin example already mentions that a new document already comes with
 # a margin box whose bottom left corner is used as the origin for calculating
 # coordinates.
@@ -14,7 +14,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   canvas do
     fill_circle [bounds.left, bounds.top],     30
     fill_circle [bounds.right, bounds.top],    30

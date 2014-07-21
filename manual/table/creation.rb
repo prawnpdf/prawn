@@ -15,12 +15,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::Example.generate(filename) do
+Prawn::ManualBuilder::Example.generate(filename) do
   t = make_table([ ["this is the first row"],
                    ["this is the second row"] ])
   t.draw
   move_down 20
-  
+
   table([ ["short", "short", "loooooooooooooooooooong"],
           ["short", "loooooooooooooooooooong", "short"],
           ["loooooooooooooooooooong", "short", "short"] ])

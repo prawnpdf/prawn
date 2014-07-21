@@ -10,19 +10,14 @@
 module Prawn
   module Graphics
     module Patterns
+      # @group Stable API
 
       # Sets the fill gradient from color1 to color2.
       # old arguments: point, width, height, color1, color2, options = {}
       # new arguments: from, to, color1, color1
       #            or  from, r1, to, r2, color1, color2
       def fill_gradient(*args)
-        if args[1].is_a?(Array) || args[2].is_a?(Array)
-          set_gradient(:fill, *args)
-        else
-          warn "[DEPRECATION] 'fill_gradient(point, width, height,...)' is deprecated in favor of 'fill_gradient(from, to,...)'. " +
-               "Old arguments will be removed in release 1.1"
-          set_gradient :fill, args[0], [args[0].first, args[0].last - args[2]], args[3], args[4]
-        end
+        set_gradient(:fill, *args)
       end
 
       # Sets the stroke gradient from color1 to color2.
@@ -30,13 +25,7 @@ module Prawn
       # new arguments: from, to, color1, color2
       #            or  from, r1, to, r2, color1, color2
       def stroke_gradient(*args)
-        if args[1].is_a?(Array) || args[2].is_a?(Array)
-          set_gradient(:stroke, *args)
-        else
-          warn "[DEPRECATION] 'stroke_gradient(point, width, height,...)' is deprecated in favor of 'stroke_gradient(from, to,...)'. " +
-               "Old arguments will be removed in release 1.1"
-          set_gradient :stroke, args[0], [args[0].first, args[0].last - args[2]], args[3], args[4]
-        end
+        set_gradient(:stroke, *args)
       end
 
       private
