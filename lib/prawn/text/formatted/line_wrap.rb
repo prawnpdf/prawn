@@ -29,6 +29,10 @@ module Prawn
           @newline_encountered || is_next_string_newline? || @arranger.finished?
         end
 
+        def tokenize(fragment)
+          fragment.scan(scan_pattern)
+        end
+
         # Work in conjunction with the PDF::Formatted::Arranger
         # defined in the :arranger option to determine what formatted text
         # will fit within the width defined by the :width option
@@ -89,7 +93,7 @@ module Prawn
             @newline_encountered = true
             false
           else
-            fragment.scan(scan_pattern).each do |segment|
+            tokenize(fragment).each do |segment|
               if segment == zero_width_space
                 segment_width = 0
               else
