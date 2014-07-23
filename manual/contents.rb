@@ -21,7 +21,6 @@ Prawn::ManualBuilder::Example.generate("manual.pdf",
   # Remaining chapters
   load_package "layout"
   load_package "images"
-  load_package "table"
   load_package "document_and_page_options"
   load_package "outline"
   load_package "repeatable_content"
