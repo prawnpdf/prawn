@@ -160,6 +160,8 @@ module Prawn
           @kerning = options[:kerning]
           @width = options[:width]
 
+          @disable_wrap_by_char = options[:disable_wrap_by_char]
+
           @accumulated_width = 0
           @line_empty = true
           @line_contains_more_than_one_word = false
@@ -237,7 +239,7 @@ module Prawn
 
         def end_of_the_line_reached(segment)
           update_line_status_based_on_last_output
-          wrap_by_char(segment) unless @line_contains_more_than_one_word
+          wrap_by_char(segment) unless @disable_wrap_by_char || @line_contains_more_than_one_word
           @line_full = true
         end
 

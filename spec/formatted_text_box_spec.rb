@@ -555,6 +555,28 @@ describe "Text::Formatted::Box#render" do
   end
 end
 
+describe "Text::Formatted::Box#render(:dry_run => true)" do
+  it "should not change the graphics state of the document" do
+    create_pdf
+
+    state_before = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    fill_color_count = state_before.fill_color_count
+    stroke_color_count = state_before.stroke_color_count
+    stroke_color_space_count = state_before.stroke_color_space_count
+
+    array = [{ :text => 'Foo',
+               :color => [0, 0, 0, 100] }]
+    options = { :document => @pdf }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render(:dry_run => true)
+
+    state_after = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    state_after.fill_color_count.should == fill_color_count
+    state_after.stroke_color_count.should == stroke_color_count
+    state_after.stroke_color_space_count.should == stroke_color_space_count
+  end
+end
+
 describe "Text::Formatted::Box#render with fragment level :character_spacing option" do
   it "should draw the character spacing to the document" do
     create_pdf
