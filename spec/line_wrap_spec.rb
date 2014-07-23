@@ -291,6 +291,10 @@ describe "Core::Text::Formatted::LineWrap" do
                                :document => @pdf)
     line.should be_empty
   end
+  it "should tokenize a string using the scan_pattern" do
+    tokens = @line_wrap.tokenize("one two three")
+    tokens.length.should == 6
+  end
 end
 
 describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
