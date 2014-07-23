@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require_relative "example_helper"
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
