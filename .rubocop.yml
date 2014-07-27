@@ -113,6 +113,8 @@ EmptyLinesAroundBody:
   Enabled: false
 SignalException:
   Enabled: false
+HandleExceptions:
+  Enabled: false
 DoubleNegation:
   Enabled: false
 SelfAssignment:

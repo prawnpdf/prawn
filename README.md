@@ -10,7 +10,6 @@ Prawn is a pure Ruby PDF generation library that provides a lot of great functio
 * Support for both PDF builtin fonts as well as embedded TrueType fonts
 * A variety of low level tools for basic layout needs, including a simple grid system
 * PNG and JPG image embedding, with flexible scaling options
-* Reporting tools for rendering complex data tables, with pagination support
 * Security features including encryption and password protection
 * Tools for rendering repeatable content (i.e headers, footers, and page numbers)
 * Comprehensive internationalization features, including full support for UTF-8 based fonts, right-to-left text rendering, fallback font support, and extension points for customizable text wrapping.

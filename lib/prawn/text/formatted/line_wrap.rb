@@ -29,6 +29,10 @@ module Prawn
           @newline_encountered || is_next_string_newline? || @arranger.finished?
         end
 
+        def tokenize(fragment)
+          fragment.scan(scan_pattern)
+        end
+
         # Work in conjunction with the PDF::Formatted::Arranger
         # defined in the :arranger option to determine what formatted text
         # will fit within the width defined by the :width option
@@ -89,7 +93,7 @@ module Prawn
             @newline_encountered = true
             false
           else
-            fragment.scan(scan_pattern).each do |segment|
+            tokenize(fragment).each do |segment|
               if segment == zero_width_space
                 segment_width = 0
               else
@@ -159,6 +163,8 @@ module Prawn
           @document = options[:document]
           @kerning = options[:kerning]
           @width = options[:width]
+
+          @disable_wrap_by_char = options[:disable_wrap_by_char]
 
           @accumulated_width = 0
           @line_empty = true
@@ -237,7 +243,7 @@ module Prawn
 
         def end_of_the_line_reached(segment)
           update_line_status_based_on_last_output
-          wrap_by_char(segment) unless @line_contains_more_than_one_word
+          wrap_by_char(segment) unless @disable_wrap_by_char || @line_contains_more_than_one_word
           @line_full = true
         end
 
