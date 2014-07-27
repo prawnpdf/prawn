@@ -1,0 +1,2143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Prawn::Graphics
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Prawn/Graphics.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (G)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Prawn.html" title="Prawn (module)">Prawn</a></span></span>
+     &raquo; 
+    <span class="title">Graphics</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Prawn::Graphics
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+      <dt class="r1">Includes:</dt>
+      <dd class="r1"><span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span>, <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span>, <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span>, <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span>, <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span>, <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span>, <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span></dd>
+      
+    
+  
+  
+    <dt class="r2">Included in:</dt>
+    <dd class="r2"><span class='object_link'><a href="Document.html" title="Prawn::Document (class)">Document</a></span></dd>
+    
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/prawn/graphics.rb<span class="defines">,<br />
+  lib/prawn/graphics/dash.rb,<br /> lib/prawn/graphics/color.rb,<br /> lib/prawn/graphics/patterns.rb,<br /> lib/prawn/graphics/cap_style.rb,<br /> lib/prawn/graphics/join_style.rb,<br /> lib/prawn/graphics/transparency.rb,<br /> lib/prawn/graphics/transformation.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Implements the drawing facilities for Prawn::Document. Use this to draw the
+most beautiful imaginable things.</p>
+
+<p>This file lifts and modifies several of PDF::Writer&#39;s graphics
+functions ruby-pdf.rubyforge.org</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span>, <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span>, <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span>, <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span>, <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span>, <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span>, <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span>
+    
+  
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="KAPPA-constant" class="">KAPPA =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This constant is used to approximate a symmetrical arc using a cubic Bezier
+curve.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='float'>4.0</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sqrt'>sqrt</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='float'>1.0</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='float'>3.0</span><span class='rparen'>)</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/JoinStyle.html#JOIN_STYLES-constant" title="Prawn::Graphics::JoinStyle::JOIN_STYLES (constant)">JoinStyle::JOIN_STYLES</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/CapStyle.html#CAP_STYLES-constant" title="Prawn::Graphics::CapStyle::CAP_STYLES (constant)">CapStyle::CAP_STYLES</a></span></p>
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#circle-instance_method" title="#circle (instance method)">- (Object) <strong>circle</strong>(center, radius) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a circle of radius radius with the centre-point at point as a
+complete subpath.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_and_stroke-instance_method" title="#close_and_stroke (instance method)">- (Object) <strong>close_and_stroke</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Closes and strokes the current path.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_path-instance_method" title="#close_path (instance method)">- (Object) <strong>close_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Closes the current path.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#curve-instance_method" title="#curve (instance method)">- (Object) <strong>curve</strong>(origin, dest, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a Bezier curve between two points, bounded by two additional points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#curve_to-instance_method" title="#curve_to (instance method)">- (Object) <strong>curve_to</strong>(dest, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a Bezier curve from the current drawing position to the specified
+point, bounded by two additional points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ellipse-instance_method" title="#ellipse (instance method)">- (Object) <strong>ellipse</strong>(point, r1, r2 = r1) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws an ellipse of <code>x</code> radius r1 and <code>y</code> radius r2
+with the centre-point at point as a complete subpath.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fill-instance_method" title="#fill (instance method)">- (Object) <strong>fill</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Closes and fills the current path.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fill_and_stroke-instance_method" title="#fill_and_stroke (instance method)">- (Object) <strong>fill_and_stroke</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Closes, fills, and strokes the current path.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#horizontal_line-instance_method" title="#horizontal_line (instance method)">- (Object) <strong>horizontal_line</strong>(x1, x2, options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a horizontal line from x1 to x2 at the current y position, or the
+position specified by the :at option.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#horizontal_rule-instance_method" title="#horizontal_rule (instance method)">- (Object) <strong>horizontal_rule</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a horizontal line from the left border to the right border of the
+bounding box at the current y position.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line-instance_method" title="#line (instance method)">- (Object) <strong>line</strong>(*points) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a line from one point to another.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line_to-instance_method" title="#line_to (instance method)">- (Object) <strong>line_to</strong>(*point) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a line from the current drawing position to the specified point.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line_width-instance_method" title="#line_width (instance method)">- (Object) <strong>line_width</strong>(width = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When called without an argument, returns the current line thickness.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line_width%3D-instance_method" title="#line_width= (instance method)">- (Object) <strong>line_width=</strong>(width) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets line thickness to the width specified.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#move_to-instance_method" title="#move_to (instance method)">- (Object) <strong>move_to</strong>(*point) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Moves the drawing position to a given point.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#polygon-instance_method" title="#polygon (instance method)">- (Object) <strong>polygon</strong>(*points) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a polygon from the specified points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rectangle-instance_method" title="#rectangle (instance method)">- (Object) <strong>rectangle</strong>(point, width, height) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a rectangle given point, width and height.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rounded_polygon-instance_method" title="#rounded_polygon (instance method)">- (Object) <strong>rounded_polygon</strong>(radius, *points) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a rounded polygon from specified points using the radius to define
+bezier curves.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rounded_rectangle-instance_method" title="#rounded_rectangle (instance method)">- (Object) <strong>rounded_rectangle</strong>(point, width, height, radius) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a rounded rectangle given point, width and height and radius for the
+rounded corner.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rounded_vertex-instance_method" title="#rounded_vertex (instance method)">- (Object) <strong>rounded_vertex</strong>(radius, *points) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a rounded vertex for a line segment used for building a rounded
+polygon requires a radius to define bezier curve and three points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stroke-instance_method" title="#stroke (instance method)">- (Object) <strong>stroke</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Strokes the current path.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stroke_axis-instance_method" title="#stroke_axis (instance method)">- (Object) <strong>stroke_axis</strong>(options = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws and strokes X and Y axes rulers beginning at the current bounding box
+origin (or at a custom location).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stroke_bounds-instance_method" title="#stroke_bounds (instance method)">- (Object) <strong>stroke_bounds</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws and strokes a rectangle represented by the current bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vertical_line-instance_method" title="#vertical_line (instance method)">- (Object) <strong>vertical_line</strong>(y1, y2, params) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws a vertical line at the x cooordinate given by :at from y1 to y2.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/Patterns.html#fill_gradient-instance_method" title="Prawn::Graphics::Patterns#fill_gradient (method)">#fill_gradient</a></span>, <span class='object_link'><a href="Graphics/Patterns.html#stroke_gradient-instance_method" title="Prawn::Graphics::Patterns#stroke_gradient (method)">#stroke_gradient</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/Transformation.html#rotate-instance_method" title="Prawn::Graphics::Transformation#rotate (method)">#rotate</a></span>, <span class='object_link'><a href="Graphics/Transformation.html#scale-instance_method" title="Prawn::Graphics::Transformation#scale (method)">#scale</a></span>, <span class='object_link'><a href="Graphics/Transformation.html#transformation_matrix-instance_method" title="Prawn::Graphics::Transformation#transformation_matrix (method)">#transformation_matrix</a></span>, <span class='object_link'><a href="Graphics/Transformation.html#translate-instance_method" title="Prawn::Graphics::Transformation#translate (method)">#translate</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/Transparency.html#transparent-instance_method" title="Prawn::Graphics::Transparency#transparent (method)">#transparent</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/JoinStyle.html#join_style-instance_method" title="Prawn::Graphics::JoinStyle#join_style (method)">#join_style</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/CapStyle.html#cap_style-instance_method" title="Prawn::Graphics::CapStyle#cap_style (method)">#cap_style</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/Dash.html#dash-instance_method" title="Prawn::Graphics::Dash#dash (method)">#dash</a></span>, <span class='object_link'><a href="Graphics/Dash.html#dashed%3F-instance_method" title="Prawn::Graphics::Dash#dashed? (method)">#dashed?</a></span>, <span class='object_link'><a href="Graphics/Dash.html#undash-instance_method" title="Prawn::Graphics::Dash#undash (method)">#undash</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/Color.html#fill_color-instance_method" title="Prawn::Graphics::Color#fill_color (method)">#fill_color</a></span>, <span class='object_link'><a href="Graphics/Color.html#hex2rgb-class_method" title="Prawn::Graphics::Color.hex2rgb (method)">hex2rgb</a></span>, <span class='object_link'><a href="Graphics/Color.html#rgb2hex-class_method" title="Prawn::Graphics::Color.rgb2hex (method)">rgb2hex</a></span>, <span class='object_link'><a href="Graphics/Color.html#stroke_color-instance_method" title="Prawn::Graphics::Color#stroke_color (method)">#stroke_color</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="circle-instance_method">
+  
+    - (<tt>Object</tt>) <strong>circle</strong>(center, radius) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a circle of radius <code>radius</code> with the centre-point at
+<code>point</code> as a complete subpath. The drawing point will be moved
+to the centre-point upon completion of the drawing the circle.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_circle'>circle</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>25</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_circle'>circle</span><span class='lparen'>(</span><span class='id identifier rubyid_center'>center</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ellipse'>ellipse</span><span class='lparen'>(</span><span class='id identifier rubyid_center'>center</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="close_and_stroke-instance_method">
+  
+    - (<tt>Object</tt>) <strong>close_and_stroke</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Closes and strokes the current path. If a block is provided, yields to the
+block before closing the path. See Graphics::Color for color details.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+285
+286
+287
+288</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 285</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_close_and_stroke'>close_and_stroke</span>
+  <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>s</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="close_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>close_path</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Closes the current path.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+386
+387
+388</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 386</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_close_path'>close_path</span>
+  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>h</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="curve-instance_method">
+  
+    - (<tt>Object</tt>) <strong>curve</strong>(origin, dest, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a Bezier curve between two points, bounded by two additional points</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_curve'>curve</span> <span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>90</span><span class='comma'>,</span><span class='int'>90</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>75</span><span class='comma'>,</span><span class='int'>75</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 177</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_curve'>curve</span><span class='lparen'>(</span><span class='id identifier rubyid_origin'>origin</span><span class='comma'>,</span><span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_origin'>origin</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_curve_to'>curve_to</span><span class='lparen'>(</span><span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="curve_to-instance_method">
+  
+    - (<tt>Object</tt>) <strong>curve_to</strong>(dest, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a Bezier curve from the current drawing position to the specified
+point, bounded by two additional points.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_curve_to'>curve_to</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>90</span><span class='comma'>,</span><span class='int'>90</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='int'>75</span><span class='comma'>,</span><span class='int'>75</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_curve_to'>curve_to</span><span class='lparen'>(</span><span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+   <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:bounds</span><span class='rbracket'>]</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidGraphicsPath</span><span class='comma'>,</span>
+     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bounding points for bezier curve must be specified </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span>
+     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>as :bounds =&gt; [[x1,y1],[x2,y2]]</span><span class='tstring_end'>&quot;</span></span>
+
+   <span class='id identifier rubyid_curve_points'>curve_points</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:bounds</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_dest'>dest</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+   <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%.3f %.3f %.3f %.3f %.3f %.3f c</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span>
+                 <span class='id identifier rubyid_curve_points'>curve_points</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span> <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ellipse-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ellipse</strong>(point, r1, r2 = r1) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws an ellipse of <code>x</code> radius <code>r1</code> and
+<code>y</code> radius <code>r2</code> with the centre-point at
+<code>point</code> as a complete subpath. The drawing point will be moved
+to the centre-point upon completion of the drawing the ellipse.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># draws an ellipse with x-radius 25 and y-radius 50
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_ellipse'>ellipse</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>25</span><span class='comma'>,</span> <span class='int'>50</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 205</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ellipse'>ellipse</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_r2'>r2</span> <span class='op'>=</span> <span class='id identifier rubyid_r1'>r1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_point'>point</span>
+  <span class='id identifier rubyid_l1'>l1</span> <span class='op'>=</span> <span class='id identifier rubyid_r1'>r1</span> <span class='op'>*</span> <span class='const'>KAPPA</span>
+  <span class='id identifier rubyid_l2'>l2</span> <span class='op'>=</span> <span class='id identifier rubyid_r2'>r2</span> <span class='op'>*</span> <span class='const'>KAPPA</span>
+
+  <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
+
+  <span class='comment'># Upper right hand corner
+</span>  <span class='id identifier rubyid_curve_to'>curve_to</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span>  <span class='id identifier rubyid_y'>y</span> <span class='op'>+</span> <span class='id identifier rubyid_r2'>r2</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>+</span> <span class='id identifier rubyid_l2'>l2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_l1'>l1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>+</span> <span class='id identifier rubyid_r2'>r2</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Upper left hand corner
+</span>  <span class='id identifier rubyid_curve_to'>curve_to</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_l1'>l1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>+</span> <span class='id identifier rubyid_r2'>r2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>+</span> <span class='id identifier rubyid_l2'>l2</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Lower left hand corner
+</span>  <span class='id identifier rubyid_curve_to'>curve_to</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_r2'>r2</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_l2'>l2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_l1'>l1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_r2'>r2</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Lower right hand corner
+</span>  <span class='id identifier rubyid_curve_to'>curve_to</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_l1'>l1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_r2'>r2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_l2'>l2</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fill-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fill</strong>(options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Closes and fills the current path. See Graphics::Color for color details.</p>
+
+<p>If the option :fill_rule =&gt; :even_odd is specified, Prawn will use the
+even-odd rule to fill the path. Otherwise, the nonzero winding number rule
+will be used. See the PDF reference, “Graphics -&gt; Path Construction and
+Painting -&gt; Clipping Path Operators” for details on the difference.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+365
+366
+367
+368</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 365</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:fill_rule</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:even_odd</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f*</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fill_and_stroke-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fill_and_stroke</strong>(options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Closes, fills, and strokes the current path. If a block is provided, yields
+to the block before closing the path. See Graphics::Color for color
+details.</p>
+
+<p>If the option :fill_rule =&gt; :even_odd is specified, Prawn will use the
+even-odd rule to fill the path. Otherwise, the nonzero winding number rule
+will be used. See the PDF reference, “Graphics -&gt; Path Construction and
+Painting -&gt; Clipping Path Operators” for details on the difference.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+379
+380
+381
+382</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 379</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fill_and_stroke'>fill_and_stroke</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:fill_rule</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:even_odd</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>b*</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>b</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="horizontal_line-instance_method">
+  
+    - (<tt>Object</tt>) <strong>horizontal_line</strong>(x1, x2, options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a horizontal line from <code>x1</code> to <code>x2</code> at the
+current <code>y</code> position, or the position specified by the :at
+option.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># draw a line from [25, 75] to [100, 75]
+</span><span class='id identifier rubyid_horizontal_line'>horizontal_line</span> <span class='int'>25</span><span class='comma'>,</span> <span class='int'>100</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='int'>75</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_horizontal_line'>horizontal_line</span><span class='lparen'>(</span><span class='id identifier rubyid_x1'>x1</span><span class='comma'>,</span><span class='id identifier rubyid_x2'>x2</span><span class='comma'>,</span><span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_y1'>y1</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_y1'>y1</span> <span class='op'>=</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_x1'>x1</span><span class='comma'>,</span><span class='id identifier rubyid_y1'>y1</span><span class='comma'>,</span><span class='id identifier rubyid_x2'>x2</span><span class='comma'>,</span><span class='id identifier rubyid_y1'>y1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="horizontal_rule-instance_method">
+  
+    - (<tt>Object</tt>) <strong>horizontal_rule</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a horizontal line from the left border to the right border of the
+bounding box at the current <code>y</code> position.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_horizontal_rule'>horizontal_rule</span>
+  <span class='id identifier rubyid_horizontal_line'>horizontal_line</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="line-instance_method">
+  
+    - (<tt>Object</tt>) <strong>line</strong>(*points) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a line from one point to another. Points may be specified as tuples
+or flattened argument list:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line'>line</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>250</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>250</span><span class='rparen'>)</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_x0'>x0</span><span class='comma'>,</span><span class='id identifier rubyid_y0'>y0</span><span class='comma'>,</span><span class='id identifier rubyid_x1'>x1</span><span class='comma'>,</span><span class='id identifier rubyid_y1'>y1</span> <span class='op'>=</span> <span class='id identifier rubyid_points'>points</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_x0'>x0</span><span class='comma'>,</span> <span class='id identifier rubyid_y0'>y0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_line_to'>line_to</span><span class='lparen'>(</span><span class='id identifier rubyid_x1'>x1</span><span class='comma'>,</span> <span class='id identifier rubyid_y1'>y1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="line_to-instance_method">
+  
+    - (<tt>Object</tt>) <strong>line_to</strong>(*point) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a line from the current drawing position to the specified point. The
+destination may be described as a tuple or a flattened list:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line_to'>line_to</span> <span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>50</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line_to'>line_to</span><span class='lparen'>(</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>50</span><span class='rparen'>)</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_to'>line_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%.3f %.3f l</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbracket'>[</span> <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="line_width-instance_method">
+  
+    - (<tt>Object</tt>) <strong>line_width</strong>(width = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>When called without an argument, returns the current line thickness. When
+called with an argument, sets the line thickness to the specified value (in
+PDF points)</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line_width'>line_width</span> <span class='comment'>#=&gt; 1
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line_width'>line_width</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_line_width'>line_width</span> <span class='comment'>#=&gt; 5
+</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 120</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_width'>line_width</span><span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_width'>width</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_line_width'>line_width</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_current_line_width'>current_line_width</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="line_width=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>line_width=</strong>(width) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets line thickness to the <code>width</code> specified.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_width='>line_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_line_width'>current_line_width</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span>
+  <span class='id identifier rubyid_write_line_width'>write_line_width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="move_to-instance_method">
+  
+    - (<tt>Object</tt>) <strong>move_to</strong>(*point) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Moves the drawing position to a given point.  The point can be specified as
+a tuple or a flattened argument list</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>50</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>50</span><span class='rparen'>)</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%.3f %.3f m</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbracket'>[</span> <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="polygon-instance_method">
+  
+    - (<tt>Object</tt>) <strong>polygon</strong>(*points) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a polygon from the specified points.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># draws a snazzy triangle
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_polygon'>polygon</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>200</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span><span class='int'>200</span><span class='rbracket'>]</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238
+239
+240
+241
+242
+243</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 236</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_polygon'>polygon</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_move_to'>move_to</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_point'>point</span><span class='op'>|</span>
+    <span class='id identifier rubyid_line_to'>line_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='comment'># close the path
+</span>  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>h</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rectangle-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rectangle</strong>(point, width, height) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a rectangle given <code>point</code>, <code>width</code> and
+<code>height</code>.  The rectangle is bounded by its upper-left corner.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_rectangle'>rectangle</span> <span class='lbracket'>[</span><span class='int'>300</span><span class='comma'>,</span><span class='int'>300</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>100</span><span class='comma'>,</span> <span class='int'>200</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rectangle'>rectangle</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span><span class='id identifier rubyid_width'>width</span><span class='comma'>,</span><span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%.3f %.3f %.3f %.3f re</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbracket'>[</span> <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_height'>height</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span> <span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rounded_polygon-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rounded_polygon</strong>(radius, *points) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a rounded polygon from specified points using the radius to define
+bezier curves</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># draws a rounded filled in polygon
+</span> <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_and_stroke_rounded_polygon'>fill_and_stroke_rounded_polygon</span><span class='lparen'>(</span><span class='int'>10</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span> <span class='int'>250</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='int'>300</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>300</span><span class='comma'>,</span> <span class='int'>250</span><span class='rbracket'>]</span><span class='comma'>,</span>
+               <span class='lbracket'>[</span><span class='int'>300</span><span class='comma'>,</span> <span class='int'>150</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span> <span class='int'>150</span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rounded_polygon'>rounded_polygon</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_move_to'>move_to</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sides'>sides</span> <span class='op'>=</span> <span class='id identifier rubyid_points'>points</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+  <span class='id identifier rubyid_points'>points</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_sides'>sides</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+    <span class='id identifier rubyid_rounded_vertex'>rounded_vertex</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='comment'># close the path
+</span>  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>h</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rounded_rectangle-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rounded_rectangle</strong>(point, width, height, radius) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a rounded rectangle given <code>point</code>, <code>width</code> and
+<code>height</code> and <code>radius</code> for the rounded corner. The
+rectangle is bounded by its upper-left corner.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_rounded_rectangle'>rounded_rectangle</span> <span class='lbracket'>[</span><span class='int'>300</span><span class='comma'>,</span><span class='int'>300</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>100</span><span class='comma'>,</span> <span class='int'>200</span><span class='comma'>,</span> <span class='int'>10</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rounded_rectangle'>rounded_rectangle</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span><span class='id identifier rubyid_width'>width</span><span class='comma'>,</span><span class='id identifier rubyid_height'>height</span><span class='comma'>,</span><span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_point'>point</span>
+  <span class='id identifier rubyid_rounded_polygon'>rounded_polygon</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span> <span class='op'>+</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_height'>height</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_height'>height</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rounded_vertex-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rounded_vertex</strong>(radius, *points) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a rounded vertex for a line segment used for building a rounded
+polygon requires a radius to define bezier curve and three points. The
+first two points define the line segment and the third point helps define
+the curve for the vertex.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rounded_vertex'>rounded_vertex</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_radial_point_1'>radial_point_1</span> <span class='op'>=</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bezier_point_1'>bezier_point_1</span> <span class='op'>=</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span> <span class='op'>-</span> <span class='id identifier rubyid_radius'>radius</span><span class='op'>*</span><span class='const'>KAPPA</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='rparen'>)</span>
+  <span class='id identifier rubyid_radial_point_2'>radial_point_2</span> <span class='op'>=</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bezier_point_2'>bezier_point_2</span> <span class='op'>=</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span> <span class='op'>-</span> <span class='id identifier rubyid_radius'>radius</span><span class='op'>*</span><span class='const'>KAPPA</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_line_to'>line_to</span><span class='lparen'>(</span><span class='id identifier rubyid_radial_point_1'>radial_point_1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_curve_to'>curve_to</span><span class='lparen'>(</span><span class='id identifier rubyid_radial_point_2'>radial_point_2</span><span class='comma'>,</span> <span class='symbol'>:bounds</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_bezier_point_1'>bezier_point_1</span><span class='comma'>,</span> <span class='id identifier rubyid_bezier_point_2'>bezier_point_2</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stroke-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stroke</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Strokes the current path. If a block is provided, yields to the block
+before closing the path. See Graphics::Color for color details.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 277</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stroke'>stroke</span>
+  <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>S</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stroke_axis-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stroke_axis</strong>(options = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws and strokes X and Y axes rulers beginning at the current bounding box
+origin (or at a custom location).</p>
+
+<h2 id="label-Options">Options</h2>
+<dl class="rdoc-list note-list"><dt><code>:at</code>
+<dd>
+<p>Origin of the X and Y axes (default: [0, 0] = origin of the bounding box)</p>
+</dd><dt><code>:width</code>
+<dd>
+<p>Length of the X axis (default: width of the bounding box)</p>
+</dd><dt><code>:height</code>
+<dd>
+<p>Length of the Y axis (default: height of the bounding box)</p>
+</dd><dt><code>:step_length</code>
+<dd>
+<p>Length of the step between markers (default: 100)</p>
+</dd><dt><code>:negative_axes_length</code>
+<dd>
+<p>Length of the negative parts of the axes (default: 20)</p>
+</dd></dl>
+
+<p><code>:color</code>:</p>
+
+<pre class="code ruby"><code class="ruby">The color of the axes and the text.</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 320</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stroke_axis'>stroke_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:height</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:width</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:step_length</span> <span class='op'>=&gt;</span> <span class='int'>100</span><span class='comma'>,</span>
+    <span class='symbol'>:negative_axes_length</span> <span class='op'>=&gt;</span> <span class='int'>20</span><span class='comma'>,</span>
+    <span class='symbol'>:color</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>000000</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+  <span class='const'>Prawn</span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='comma'>,</span> <span class='symbol'>:width</span><span class='comma'>,</span> <span class='symbol'>:height</span><span class='comma'>,</span> <span class='symbol'>:step_length</span><span class='comma'>,</span>
+                        <span class='symbol'>:negative_axes_length</span><span class='comma'>,</span> <span class='symbol'>:color</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_fill_color'>fill_color</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:color</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_stroke_color'>stroke_color</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:color</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_dash'>dash</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:space</span> <span class='op'>=&gt;</span> <span class='int'>4</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_stroke_horizontal_line'>stroke_horizontal_line</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:negative_axes_length</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                           <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_stroke_vertical_line'>stroke_vertical_line</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:negative_axes_length</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                         <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_undash'>undash</span>
+
+    <span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>1</span><span class='rparen'>)</span>
+
+    <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:step_length</span><span class='rbracket'>]</span><span class='op'>..</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_step'>step</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:step_length</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_point'>point</span><span class='op'>|</span>
+      <span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>1</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_point'>point</span> <span class='op'>-</span> <span class='int'>5</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>7</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:step_length</span><span class='rbracket'>]</span><span class='op'>..</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_step'>step</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:step_length</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_point'>point</span><span class='op'>|</span>
+      <span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_point'>point</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>1</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='int'>17</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_point'>point</span> <span class='op'>-</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>7</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stroke_bounds-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stroke_bounds</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws and strokes a rectangle represented by the current bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 292</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stroke_bounds'>stroke_bounds</span>
+  <span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_left'>top_left</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="vertical_line-instance_method">
+  
+    - (<tt>Object</tt>) <strong>vertical_line</strong>(y1, y2, params) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws a vertical line at the x cooordinate given by :at from y1 to y2.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># draw a line from [25, 100] to [25, 300]
+</span><span class='id identifier rubyid_vertical_line'>vertical_line</span> <span class='int'>100</span><span class='comma'>,</span> <span class='int'>300</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='int'>25</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+168
+169
+170</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 168</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_vertical_line'>vertical_line</span><span class='lparen'>(</span><span class='id identifier rubyid_y1'>y1</span><span class='comma'>,</span><span class='id identifier rubyid_y2'>y2</span><span class='comma'>,</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='id identifier rubyid_y1'>y1</span><span class='comma'>,</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='id identifier rubyid_y2'>y2</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sun Jul 27 06:52:08 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.1).
+</div>
+
+  </body>
+</html>

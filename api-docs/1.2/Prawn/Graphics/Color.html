@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Prawn::Graphics::Color
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!Prawn/Graphics/Color.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span></span>
+     &raquo; 
+    <span class="title">Color</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Prawn::Graphics::Color
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Prawn::Graphics</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/graphics/color.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hex2rgb-class_method" title="hex2rgb (class method)">+ (Object) <strong>hex2rgb</strong>(hex) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts hex string into RGB value array:.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rgb2hex-class_method" title="rgb2hex (class method)">+ (Object) <strong>rgb2hex</strong>(rgb) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts RGB value array to hex string suitable for use with fill_color and
+stroke_color.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fill_color-instance_method" title="#fill_color (instance method)">- (Object) <strong>fill_color</strong>(*color) </a>
+    
+
+    
+      (also: #fill_color=)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets or returns the fill color.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stroke_color-instance_method" title="#stroke_color (instance method)">- (Object) <strong>stroke_color</strong>(*color) </a>
+    
+
+    
+      (also: #stroke_color=)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets or returns the line stroking color.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="hex2rgb-class_method">
+  
+    + (<tt>Object</tt>) <strong>hex2rgb</strong>(hex) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts hex string into RGB value array:</p>
+
+<pre class="code ruby"><code class="ruby">&gt;&gt; Prawn::Graphics::Color.hex2rgb(&quot;ff7808&quot;)
+=&gt; [255, 120, 8]
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/color.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hex2rgb'>hex2rgb</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span><span class='id identifier rubyid_g'>g</span><span class='comma'>,</span><span class='id identifier rubyid_b'>b</span> <span class='op'>=</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='int'>3</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>4</span><span class='op'>..</span><span class='int'>5</span><span class='rbracket'>]</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_r'>r</span><span class='comma'>,</span><span class='id identifier rubyid_g'>g</span><span class='comma'>,</span><span class='id identifier rubyid_b'>b</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rgb2hex-class_method">
+  
+    + (<tt>Object</tt>) <strong>rgb2hex</strong>(rgb) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts RGB value array to hex string suitable for use with fill_color and
+stroke_color</p>
+
+<pre class="code ruby"><code class="ruby">&gt;&gt; Prawn::Graphics::Color.rgb2hex([255,120,8])
+=&gt; &quot;ff7808&quot;
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/color.rb', line 67</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rgb2hex'>rgb2hex</span><span class='lparen'>(</span><span class='id identifier rubyid_rgb'>rgb</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_rgb'>rgb</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%02x</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='id identifier rubyid_e'>e</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="fill_color-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fill_color</strong>(*color) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='fill_color=-instance_method'>fill_color=</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets or returns the fill color.</p>
+
+<p>When called with no argument, it returns the current fill color.</p>
+
+<p>If a single argument is provided, it should be a 6 digit HTML color code.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_color'>fill_color</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f0ffc1</span><span class='tstring_end'>&quot;</span></span></code></pre>
+
+<p>If 4 arguments are provided, the color is assumed to be a CMYK value Values
+range from 0 - 100.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_color'>fill_color</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>99</span><span class='comma'>,</span> <span class='int'>95</span><span class='comma'>,</span> <span class='int'>0</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/color.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fill_color'>fill_color</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_current_fill_color'>current_fill_color</span> <span class='kw'>if</span> <span class='id identifier rubyid_color'>color</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_fill_color'>current_fill_color</span> <span class='op'>=</span> <span class='id identifier rubyid_process_color'>process_color</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_fill_color'>set_fill_color</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stroke_color-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stroke_color</strong>(*color) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='stroke_color=-instance_method'>stroke_color=</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets or returns the line stroking color.</p>
+
+<p>When called with no argument, it returns the current stroking color.</p>
+
+<p>If a single argument is provided, it should be a 6 digit HTML color code.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_color'>stroke_color</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f0ffc1</span><span class='tstring_end'>&quot;</span></span></code></pre>
+
+<p>If 4 arguments are provided, the color is assumed to be a CMYK value Values
+range from 0 - 100.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_color'>stroke_color</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>99</span><span class='comma'>,</span> <span class='int'>95</span><span class='comma'>,</span> <span class='int'>0</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/color.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stroke_color'>stroke_color</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_current_stroke_color'>current_stroke_color</span> <span class='kw'>if</span> <span class='id identifier rubyid_color'>color</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='id identifier rubyid_process_color'>process_color</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_stroke_color'>current_stroke_color</span> <span class='op'>=</span> <span class='id identifier rubyid_color'>color</span>
+  <span class='id identifier rubyid_set_stroke_color'>set_stroke_color</span><span class='lparen'>(</span><span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sun Jul 27 06:52:08 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.1).
+</div>
+
+  </body>
+</html>
