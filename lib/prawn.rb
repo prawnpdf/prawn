@@ -9,8 +9,6 @@ require 'ttfunk'
 require "pdf/core"
 
 module Prawn
-  VERSION = "1.2.0"
-
   extend self
 
   file = __FILE__
@@ -22,6 +20,8 @@ module Prawn
   #
   BASEDIR = File.expand_path(File.join(dir, '..'))
   DATADIR = File.expand_path(File.join(dir, '..', 'data'))
+
+  VERSION = File.read("#{BASEDIR}/VERSION").strip
 
   FLOAT_PRECISION = 1.0e-9
 
