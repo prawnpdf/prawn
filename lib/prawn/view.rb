@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module Prawn
   module View
     def document
