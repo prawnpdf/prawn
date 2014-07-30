@@ -8,8 +8,6 @@ module Prawn
 
     def method_missing(m, *a, &b)
       document.send(m, *a, &b)
-    rescue NoMethodError
-      super
     end
 
     def update(&b)
