@@ -7,6 +7,8 @@ module Prawn
     end
 
     def method_missing(m, *a, &b)
+      return super unless document.respond_to?(m)
+
       document.send(m, *a, &b)
     end
 
