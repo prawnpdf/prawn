@@ -10,7 +10,7 @@ require 'digest/md5'
 
 require 'pdf/core/byte_string'
 
-require 'prawn/security/arcfour'
+require_relative 'security/arcfour'
 
 module Prawn
   class Document
