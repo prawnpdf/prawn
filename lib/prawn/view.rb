@@ -26,7 +26,7 @@ module Prawn
   #       end
   #    end
   #
-  #    greeter = Greeter.new
+  #    greeter = Greeter.new("Gregory")
   #
   #    greeter.say_hello
   #    greeter.say_goodbye
