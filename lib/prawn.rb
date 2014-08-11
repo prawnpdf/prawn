@@ -84,10 +84,8 @@ require_relative "prawn/measurements"
 require_relative "prawn/repeater"
 require_relative "prawn/outline"
 require_relative "prawn/grid"
-
+require_relative "prawn/view"
 require_relative "prawn/image_handler"
-
-
 
 Prawn.image_handler.register(Prawn::Images::PNG)
 Prawn.image_handler.register(Prawn::Images::JPG)
