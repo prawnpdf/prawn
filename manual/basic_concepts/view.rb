@@ -4,8 +4,8 @@
 # use the <code>Prawn::View</code> mixin. This approach is safer than creating
 # subclasses of <code>Prawn::Document</code> while being just as convenient.
 #
-# By using this mixin, your state will be kept completely separate 
-# from <code>Prawn::Document</code>'s state, and you will avoid accidental method 
+# By using this mixin, your state will be kept completely separate
+# from <code>Prawn::Document</code>'s state, and you will avoid accidental method
 # collisions within <code>Prawn::Document</code>.
 #
 # To build custom classes that make use of other custom classes,
