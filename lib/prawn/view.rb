@@ -48,12 +48,11 @@ module Prawn
   # This mixin is mostly meant for extending Prawn's functionality
   # with your own additions, but you can also use it to replace or
   # wrap existing Prawn methods. Calling +super+ will still work
-  # as expected, and alternatively you can explictly call 
+  # as expected, and alternatively you can explictly call
   # +document.some_method+ to delegate to Prawn where needed.
-  
   module View
     # @group Experimental API
-    
+
     # Lazily instantiates a +Prawn::Document+ object.
     #
     # You can also redefine this method in your own classes to use
