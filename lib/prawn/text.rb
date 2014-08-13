@@ -200,7 +200,7 @@ module Prawn
       if @indent_paragraphs
         self.text_formatter.array_paragraphs(array).each do |paragraph|
           height = height_of_indented_paragraph(paragraph, options)
-          ypos = ypos_for_vertical_alignment(bounds, height, options[:valign])
+          ypos = ypos_for_indented_vertical_alignment(height, options[:valign])
 
           bounding_box([0, ypos], :width => bounds.width, :height => height) do
             options.delete(:valign)
@@ -426,28 +426,36 @@ module Prawn
     end
 
     def height_of_indented_paragraph(array, options)
+      height, remaining_text = height_of_indented_line(array, options)
+      height + height_of_formatted(remaining_text, options)
+    end
+
+    def height_of_indented_line(array, options)
       box = nil
       remaining_text = nil
 
       indent(@indent_paragraphs) do
-        opts = options.dup.merge(:single_line => true, :skip_encoding => false)
-        merge_text_box_positioning_options(opts)
-
+        opts = options.dup.merge(:single_line => true,
+                                 :skip_encoding => false,
+                                 :height => 100000000)
         box = Text::Formatted::Box.new(array, opts)
         remaining_text = box.render(:dry_run => true)
       end
 
-      box.height + height_of_formatted(remaining_text, options)
+      height = box.height
+      height += box.line_gap + box.leading if @final_gap
+
+      [height, remaining_text]
     end
 
-    def ypos_for_vertical_alignment(bounds, height, valign)
+    def ypos_for_indented_vertical_alignment(height, valign)
       if height > cursor
         @bounding_box.move_past_bottom
       end
 
       case valign || :top
       when :top     then cursor
-      when :center  then (cursor - (cursor - height) * 0.5)
+      when :center  then cursor - (cursor - height) * 0.5
       when :bottom  then height
       end
     end
