@@ -222,7 +222,6 @@ module Prawn
         draw_remaining_formatted_text_on_new_pages(remaining_text, options)
       end
     end
-    
     # Draws a link into a page.
     # With this helper you can add a link to a page without having to use the tag format
     #
@@ -242,11 +241,14 @@ module Prawn
     # Same as for #text
     #
     def link(title, url, options={})
-      return false if title.nil? or url.nil?
-      link_string = %(<link href="#{url}">#{title}</link>)
-      options = options.dup
-      options[:inline_format] = true
-      self.text(link_string, options)
+      if title && url
+        link_string = %(<link href="#{url}">#{title}</link>)
+        options = options.dup
+        options[:inline_format] = true
+        self.text(link_string, options)
+      else
+        false
+      end
     end
 
     # Draws text on the page, beginning at the point specified by the :at option

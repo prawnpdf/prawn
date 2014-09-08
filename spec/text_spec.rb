@@ -346,7 +346,6 @@ describe "#text" do
       @pdf.link 'Example', link
       @pdf.render.should =~ /^(\/URI \(#{link}\).*?)/
     end
-    
     it 'should allow fonts' do
       link = 'http://example.com'
       @pdf.fallback_fonts ["Helvetica"]
@@ -359,12 +358,16 @@ describe "#text" do
       fonts_used[0].should == :"Times-Italic"
       text.strings[0].should == "Example"
     end
-    
     it 'should accept #text options' do
       link = 'http://example.com'
       @pdf.link 'Example', link, :size => 16
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.font_settings[0][:size].should == 16
+    end
+    it 'should return false without text or url' do
+      link = 'http://example.com'
+      @pdf.link(nil, link).should == false
+      @pdf.link('Example', nil).should == false
     end
   end
 
