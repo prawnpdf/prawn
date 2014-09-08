@@ -346,24 +346,29 @@ describe "#text" do
       @pdf.link 'Example', link
       @pdf.render.should =~ /^(\/URI \(#{link}\).*?)/
     end
+
     it 'should allow fonts' do
       link = 'http://example.com'
       @pdf.fallback_fonts ["Helvetica"]
+
       @pdf.font "Times-Roman", :style => :italic do
         @pdf.link 'Example', link
       end
+
       text = PDF::Inspector::Text.analyze(@pdf.render)
       fonts_used = text.font_settings.map { |e| e[:name] }
       fonts_used.length.should == 1
       fonts_used[0].should == :"Times-Italic"
       text.strings[0].should == "Example"
     end
+
     it 'should accept #text options' do
       link = 'http://example.com'
       @pdf.link 'Example', link, :size => 16
       text = PDF::Inspector::Text.analyze(@pdf.render)
       text.font_settings[0][:size].should == 16
     end
+
     it 'should return false without text or url' do
       link = 'http://example.com'
       @pdf.link(nil, link).should == false
