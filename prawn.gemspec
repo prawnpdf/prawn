@@ -1,6 +1,10 @@
+basedir = File.expand_path(File.dirname(__FILE__))
+
+require "#{basedir}/lib/prawn/version"
+
 Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).strip
+  spec.version = Prawn::VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
   spec.files =  Dir.glob("{examples,lib,spec,manual}/**/**/*") +

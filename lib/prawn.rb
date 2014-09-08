@@ -21,8 +21,6 @@ module Prawn
   BASEDIR = File.expand_path(File.join(dir, '..'))
   DATADIR = File.expand_path(File.join(dir, '..', 'data'))
 
-  VERSION = File.read("#{BASEDIR}/VERSION").strip
-
   FLOAT_PRECISION = 1.0e-9
 
   # Whe set to true, Prawn will verify hash options to ensure only valid keys
@@ -64,8 +62,9 @@ module Prawn
   end
 end
 
-require_relative "prawn/errors"
+require_relative "prawn/version"
 
+require_relative "prawn/errors"
 
 require_relative "prawn/utilities"
 require_relative "prawn/text"
