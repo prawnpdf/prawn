@@ -1,4 +1,6 @@
-require_relative "lib/prawn/version"
+basedir = File.expand_path(File.dirname(__FILE__))
+
+require "#{basedir}/lib/prawn/version"
 
 Gem::Specification.new do |spec|
   spec.name = "prawn"
