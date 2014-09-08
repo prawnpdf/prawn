@@ -149,7 +149,7 @@ module Prawn
     #
     # Raises <tt>ArgumentError</tt> if <tt>:at</tt> option included
     #
-    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
     # any text
     #
     def text(string, options={})
@@ -244,9 +244,8 @@ module Prawn
     def link(title, url, options={})
       return false unless title && url
       link_string = %(<link href="#{url}">#{title}</link>)
-      options = options.dup
-      options[:inline_format] = true
-      self.text(link_string, options)
+      array = self.text_formatter.format(link_string, true)
+      formatted_text(array, options)
     end
 
     # Draws text on the page, beginning at the point specified by the :at option
