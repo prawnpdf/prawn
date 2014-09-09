@@ -243,9 +243,7 @@ module Prawn
     #
     def link(title, url, options={})
       return false unless title && url
-      link_string = %(<link href="#{url}">#{title}</link>)
-      array = self.text_formatter.format(link_string, true)
-      formatted_text(array, options)
+      formatted_text([{ :text => title, :link => url }], options)
     end
 
     # Draws text on the page, beginning at the point specified by the :at option
