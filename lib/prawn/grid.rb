@@ -28,7 +28,7 @@ module Prawn
     # or work with the grid system directly.
     #
     #   @pdf.grid                 # Get the Grid directly
-    #   @pdf.grid([0,1])          # Get the box at [0,1]
+    #   @pdf.grid([0,1])          # Get the GridBox at [0,1]
     #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
     #
     def grid(*args)
@@ -49,7 +49,7 @@ module Prawn
     # A Grid represents the entire grid system of a Page and calculates
     # the column width and row height of the base box.
     #
-    # @private
+    # @group Experimental API
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       def initialize(pdf, options = {}) # :nodoc:
@@ -103,7 +103,7 @@ module Prawn
     # A Grid object has methods that allow easy access to the coordinates of
     # its corners, which can be plugged into most existing prawnmethods.
     #
-    # @private
+    # @group Experimental API
     class GridBox
       attr_reader :pdf
 
@@ -206,8 +206,8 @@ module Prawn
 
     # A MultiBox is specified by 2 Boxes and spans the areas between.
     #
-    # @private
-    class MultiBox < GridBox #:nodoc:
+    # @group Experimental API
+    class MultiBox < GridBox 
       def initialize(pdf, b1, b2)
         @pdf = pdf
         @bs = [b1, b2]
