@@ -207,7 +207,7 @@ module Prawn
     # A MultiBox is specified by 2 Boxes and spans the areas between.
     #
     # @group Experimental API
-    class MultiBox < GridBox 
+    class MultiBox < GridBox
       def initialize(pdf, b1, b2)
         @pdf = pdf
         @bs = [b1, b2]
