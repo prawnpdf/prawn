@@ -288,6 +288,14 @@ module Prawn
       end
     end
 
+    # Low level text placement method. All font and size alterations
+    # should already be set
+    #
+    def draw_text!(text, options)
+      x,y = map_to_absolute(options[:at])
+      add_text_content(text,x,y,options)
+    end
+
     # Gets height of text in PDF points.
     # Same options as #text, except as noted.
     # Not compatible with :indent_paragraphs option
