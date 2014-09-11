@@ -112,8 +112,7 @@ describe "When creating multi-page documents" do
 end
 
 describe "When beginning each new page" do
-
-  describe "Background template feature" do
+  describe "Background image feature" do
     before(:each) do
       @filename = "#{Prawn::DATADIR}/images/pigs.jpg"
       @pdf = Prawn::Document.new(:background => @filename)
@@ -128,11 +127,7 @@ describe "When beginning each new page" do
       @pdf.instance_variable_defined?(:@background).should == true
       @pdf.instance_variable_get(:@background).should == @filename
     end
-
-
   end
-
-
 end
 
 describe "Prawn::Document#float" do
@@ -530,7 +525,7 @@ describe "Documents that use go_to_page" do
 end
 
 describe "content stream characteristics" do
- it "should have 1 single content stream for a single page PDF with no templates" do
+ it "should have 1 single content stream for a single page PDF" do
     @pdf = Prawn::Document.new
     @pdf.text "James"
     output = StringIO.new(@pdf.render)
@@ -541,7 +536,7 @@ describe "content stream characteristics" do
     streams.size.should == 1
   end
 
- it "should have 1 single content stream for a single page PDF with no templates, even if go_to_page is used" do
+ it "should have 1 single content stream for a single page PDF, even if go_to_page is used" do
     @pdf = Prawn::Document.new
     @pdf.text "James"
     @pdf.go_to_page(1)
