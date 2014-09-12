@@ -16,10 +16,9 @@ end
 
 desc "Show library's code statistics"
 task :stats do
-  require 'code_statistics'
-  CodeStatistics::TEST_TYPES << "Specs"
-  CodeStatistics.new( ["Prawn", "lib"],
-                      ["Specs", "spec"] ).to_s
+  require 'code_statistics/code_statistics'
+  puts CodeStatistics::CodeStatistics.new( [["Prawn", "lib"],
+                      ["Specs", "spec"]] ).to_s
 end
 
 YARD::Rake::YardocTask.new do |t|
