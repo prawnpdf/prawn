@@ -383,22 +383,22 @@ describe "When using graphics states" do
   before(:each) { create_pdf }
 
   it "should add the right content on save_graphics_state" do
-    @pdf.expects(:add_content).with('q')
+    @pdf.renderer.expects(:add_content).with('q')
 
     @pdf.save_graphics_state
   end
 
   it "should add the right content on restore_graphics_state" do
-    @pdf.expects(:add_content).with('Q')
+    @pdf.renderer.expects(:add_content).with('Q')
 
     @pdf.restore_graphics_state
   end
 
   it "should save and restore when save_graphics_state is used with a block" do
     state = sequence "state"
-    @pdf.expects(:add_content).with('q').in_sequence(state)
+    @pdf.renderer.expects(:add_content).with('q').in_sequence(state)
     @pdf.expects(:foo).in_sequence(state)
-    @pdf.expects(:add_content).with('Q').in_sequence(state)
+    @pdf.renderer.expects(:add_content).with('Q').in_sequence(state)
 
     @pdf.save_graphics_state do
       @pdf.foo

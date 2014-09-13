@@ -12,7 +12,6 @@ require_relative "document/bounding_box"
 require_relative "document/column_box"
 require_relative "document/internals"
 require_relative "document/span"
-require_relative "document/graphics_state"
 
 module Prawn
 
@@ -53,7 +52,6 @@ module Prawn
     include Prawn::Document::Internals
     include PDF::Core::Annotations
     include PDF::Core::Destinations
-    include Prawn::Document::GraphicsState
     include Prawn::Document::Security
     include Prawn::Text
     include Prawn::Graphics
@@ -565,13 +563,6 @@ module Prawn
         end
         pseudopage += 1 if start_count
       end
-    end
-
-    # Returns true if content streams will be compressed before rendering,
-    # false otherwise
-    #
-    def compression_enabled?
-      !!state.compress
     end
 
     # @group Experimental API
