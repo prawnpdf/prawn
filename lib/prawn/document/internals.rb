@@ -22,18 +22,6 @@ module Prawn
 
       delegate PDF::Core::Renderer.instance_methods(false) => :renderer
 
-      # FIXME: This is a patch over PDF::Core that should not need to exist.
-      def finalize_all_page_contents
-        (1..page_count).each do |i|
-          go_to_page i
-          repeaters.each { |r| r.run(i) }
-          while graphic_stack.present?
-            restore_graphics_state
-          end
-          state.page.finalize
-        end
-      end
-
       def renderer
         @renderer ||= PDF::Core::Renderer.new(state)
       end

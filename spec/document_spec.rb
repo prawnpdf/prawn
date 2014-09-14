@@ -455,13 +455,13 @@ describe "The render() feature" do
     seq = sequence("callback_order")
 
     # Verify the order: finalize -> fire callbacks -> render body
-    pdf.expects(:finalize_all_page_contents).in_sequence(seq)
+    pdf.renderer.expects(:finalize_all_page_contents).in_sequence(seq)
     trigger = mock()
     trigger.expects(:fire).in_sequence(seq)
 
     # Store away the render_body method to be called below
-    render_body = pdf.method(:render_body)
-    pdf.expects(:render_body).in_sequence(seq)
+    render_body = pdf.renderer.method(:render_body)
+    pdf.renderer.expects(:render_body).in_sequence(seq)
 
     pdf.before_render{ trigger.fire }
 

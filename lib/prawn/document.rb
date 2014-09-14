@@ -347,23 +347,13 @@ module Prawn
     # Renders the PDF document to string.
     # Pass an open file descriptor to render to file.
     #
-    def render(output = StringIO.new)
-      if output.instance_of?(StringIO)
-        output.set_encoding(::Encoding::ASCII_8BIT)
+    def render(*a, &b)
+      (1..page_count).each do |i|
+        go_to_page i
+        repeaters.each { |r| r.run(i) }
       end
-      finalize_all_page_contents
 
-      render_header(output)
-      render_body(output)
-      render_xref(output)
-      render_trailer(output)
-      if output.instance_of?(StringIO)
-        str = output.string
-        str.force_encoding(::Encoding::ASCII_8BIT)
-        return str
-      else
-        return nil
-      end
+      renderer.render(*a, &b)
     end
 
     # Renders the PDF document to file.
