@@ -89,7 +89,7 @@ module Prawn
         info = Prawn.image_handler.find(image_content).new(image_content)
 
         # Bump PDF version if the image requires it
-        min_version(info.min_pdf_version) if info.respond_to?(:min_pdf_version)
+        renderer.min_version(info.min_pdf_version) if info.respond_to?(:min_pdf_version)
 
         # Add the image to the PDF and register it in case we see it again.
         image_obj = info.build_pdf_object(self)

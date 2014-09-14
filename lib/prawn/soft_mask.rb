@@ -29,7 +29,7 @@ module Prawn
     # @group Stable API
 
     def soft_mask(&block)
-      min_version(1.4)
+      renderer.min_version(1.4)
 
       group_attrs = ref!({
         :Type => :Group,

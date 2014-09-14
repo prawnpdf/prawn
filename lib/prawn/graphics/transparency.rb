@@ -54,7 +54,7 @@ module Prawn
       #   end
       #
       def transparent(opacity, stroke_opacity=opacity, &block)
-        min_version(1.4)
+        renderer.min_version(1.4)
 
         opacity        = [[opacity, 0.0].max, 1.0].min
         stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min

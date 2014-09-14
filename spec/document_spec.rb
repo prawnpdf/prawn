@@ -488,7 +488,7 @@ describe "PDF file versions" do
 
   it "should allow the default to be changed" do
     @pdf = Prawn::Document.new
-    @pdf.__send__(:min_version, 1.4)
+    @pdf.renderer.min_version(1.4)
     str = @pdf.render
     str[0,8].should == "%PDF-1.4"
   end

@@ -200,9 +200,9 @@ module Prawn
       self.class.extensions.reverse_each { |e| extend e }
       @internal_state = PDF::Core::DocumentState.new(options)
       @internal_state.populate_pages_from_store(self)
-      min_version(state.store.min_version) if state.store.min_version
+      renderer.min_version(state.store.min_version) if state.store.min_version
 
-      min_version(1.6) if options[:print_scaling] == :none
+      renderer.min_version(1.6) if options[:print_scaling] == :none
 
       @background = options[:background]
       @background_scale = options[:background_scale] || 1
