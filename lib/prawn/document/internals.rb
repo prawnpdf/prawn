@@ -20,7 +20,13 @@ module Prawn
     module Internals
       extend Forwardable
 
-      delegate PDF::Core::Renderer.instance_methods(false) => :renderer
+      delegate [ :ref, :ref!, :deref, :add_content, :names, :names?,
+                 :before_render, :on_page_create, :start_new_page, :page_count,
+                 :go_to_page, :finalize_all_page_contents, :min_version, :render,
+                 :render_file, :render_header, :render_body, :render_xref,
+                 :render_trailer, :open_graphics_state, :close_graphics_state,
+                 :save_graphics_state, :compression_enabled?, :restore_graphics_state,
+                 :graphic_stack, :graphic_state ] => :renderer
 
       def renderer
         @renderer ||= PDF::Core::Renderer.new(state)
