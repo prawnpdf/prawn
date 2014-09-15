@@ -210,22 +210,22 @@ describe "When filling" do
   before(:each) { create_pdf }
 
   it "should default to the f operator (nonzero winding number rule)" do
-    @pdf.expects(:add_content).with("f")
+    @pdf.renderer.expects(:add_content).with("f")
     @pdf.fill
   end
 
   it "should use f* for :fill_rule => :even_odd" do
-    @pdf.expects(:add_content).with("f*")
+    @pdf.renderer.expects(:add_content).with("f*")
     @pdf.fill(:fill_rule => :even_odd)
   end
 
   it "should use b by default for fill_and_stroke (nonzero winding number)" do
-    @pdf.expects(:add_content).with("b")
+    @pdf.renderer.expects(:add_content).with("b")
     @pdf.fill_and_stroke
   end
 
   it "should use b* for fill_and_stroke(:fill_rule => :even_odd)" do
-    @pdf.expects(:add_content).with("b*")
+    @pdf.renderer.expects(:add_content).with("b*")
     @pdf.fill_and_stroke(:fill_rule => :even_odd)
   end
 end
@@ -505,14 +505,14 @@ describe "When using transformation matrix" do
   # part is 5 (PDF Reference, Third Edition, p. 706)
 
   it "should send the right content on transformation_matrix" do
-    @pdf.expects(:add_content).with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
+    @pdf.renderer.expects(:add_content).with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
     @pdf.transformation_matrix 1, 0, 0.123456789, -1.0, 5.5, 20
   end
 
   it "should use fixed digits with very small number" do
     values = Array.new(6, 0.000000000001)
     string = Array.new(6, "0.00000").join " "
-    @pdf.expects(:add_content).with("#{string} cm")
+    @pdf.renderer.expects(:add_content).with("#{string} cm")
     @pdf.transformation_matrix *values
   end
 
@@ -528,7 +528,7 @@ describe "When using transformation matrix" do
     process = sequence "process"
 
     @pdf.expects(:save_graphics_state).with().in_sequence(process)
-    @pdf.expects(:add_content).with("#{string} cm").in_sequence(process)
+    @pdf.renderer.expects(:add_content).with("#{string} cm").in_sequence(process)
     @pdf.expects(:do_something).with().in_sequence(process)
     @pdf.expects(:restore_graphics_state).with().in_sequence(process)
     @pdf.transformation_matrix(*values) do

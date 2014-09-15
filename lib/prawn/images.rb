@@ -123,7 +123,7 @@ module Prawn
 
       # add the image to the current page
       instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      add_content instruct % [ w, h, x, y - h, label ]
+      renderer.add_content instruct % [ w, h, x, y - h, label ]
     end
 
     private

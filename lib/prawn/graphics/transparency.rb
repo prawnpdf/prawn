@@ -60,7 +60,7 @@ module Prawn
         stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min
 
         save_graphics_state
-        add_content "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
+        renderer.add_content "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
         yield
         restore_graphics_state
       end

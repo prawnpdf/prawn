@@ -183,7 +183,7 @@ describe "on_page_create callback" do
   it "should be invoked with document" do
     called_with = nil
 
-    @pdf.on_page_create { |*args| called_with = args }
+    @pdf.renderer.on_page_create { |*args| called_with = args }
 
     @pdf.start_new_page
 
@@ -194,7 +194,7 @@ describe "on_page_create callback" do
     trigger = mock()
     trigger.expects(:fire).times(5)
 
-    @pdf.on_page_create { trigger.fire }
+    @pdf.renderer.on_page_create { trigger.fire }
 
     5.times { @pdf.start_new_page }
   end
@@ -206,11 +206,11 @@ describe "on_page_create callback" do
       trigger2 = mock()
       trigger2.expects(:fire).times(1)
 
-      @pdf.on_page_create { trigger1.fire }
+      @pdf.renderer.on_page_create { trigger1.fire }
 
       @pdf.start_new_page
 
-      @pdf.on_page_create { trigger2.fire }
+      @pdf.renderer.on_page_create { trigger2.fire }
 
       @pdf.start_new_page
   end
@@ -219,11 +219,11 @@ describe "on_page_create callback" do
       trigger = mock()
       trigger.expects(:fire).times(1)
 
-      @pdf.on_page_create { trigger.fire }
+      @pdf.renderer.on_page_create { trigger.fire }
 
       @pdf.start_new_page
 
-      @pdf.on_page_create
+      @pdf.renderer.on_page_create
 
       @pdf.start_new_page
   end
@@ -463,7 +463,7 @@ describe "The render() feature" do
     render_body = pdf.renderer.method(:render_body)
     pdf.renderer.expects(:render_body).in_sequence(seq)
 
-    pdf.before_render{ trigger.fire }
+    pdf.renderer.before_render{ trigger.fire }
 
     # Render the body to set up object offsets
     render_body.call(StringIO.new)

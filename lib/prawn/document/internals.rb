@@ -20,11 +20,13 @@ module Prawn
     module Internals
       extend Forwardable
 
-      delegate [ :ref, :ref!, :deref, :add_content,
-                 :before_render, :on_page_create, :start_new_page, :page_count,
-                 :go_to_page, :open_graphics_state, :close_graphics_state,
-                 :save_graphics_state, :restore_graphics_state,
-                 :graphic_stack, :graphic_state ] => :renderer
+      # These methods are not officially part of Prawn's public API,
+      # but they are used in documentation and possibly in extensions.
+      # Perhaps they will become part of the extension API?
+      # Anyway, for now it's not clear what we should do w. them.
+      delegate [ :graphic_state,
+                 :save_graphics_state,
+                 :restore_graphics_state ] => :renderer
 
       # FIXME: This is a circular reference, because in theory Prawn should
       # be passing instances of renderer to PDF::Core::Page, but it's
@@ -34,10 +36,18 @@ module Prawn
       # PDF::Core::Page objects at all!
       delegate [:compression_enabled?] => :renderer
 
+      # FIXME: More circular references in PDF::Core::Page.
+      delegate [ :ref, :ref!, :deref ] => :renderer
+
       # FIXME: Another circular reference, because we mix in a module from
       # PDF::Core to provide destinations, which in theory should not
       # rely on a Prawn::Document object but is currently wired up that way.
       delegate [:names] => :renderer
+
+      # FIXME: Circular reference because we mix PDF::Core::Text into
+      # Prawn::Document. PDF::Core::Text should either be split up or
+      # moved in its entirety back up into Prawn.
+      delegate [:add_content] => :renderer
 
       def renderer
         @renderer ||= PDF::Core::Renderer.new(state)

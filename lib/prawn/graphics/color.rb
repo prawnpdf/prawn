@@ -151,7 +151,7 @@ module Prawn
           raise ArgumentError, "unknown type '#{type}'"
         end
 
-        add_content "/#{color_space} #{operator}"
+        renderer.add_content "/#{color_space} #{operator}"
       end
 
       def set_color(type, color, options = {})
@@ -166,7 +166,7 @@ module Prawn
 
         if options[:pattern]
           set_color_space type, :Pattern
-          add_content "/#{color} #{operator}"
+          renderer.add_content "/#{color} #{operator}"
         else
           set_color_space type, color_space(color)
           color = color_to_s(color)
@@ -223,7 +223,7 @@ module Prawn
       end
 
       def write_color(color, operator)
-        add_content "#{color} #{operator}"
+        renderer.add_content "#{color} #{operator}"
       end
 
     end
