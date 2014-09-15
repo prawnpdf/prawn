@@ -245,7 +245,7 @@ module Prawn
 
         # Embed the font metrics in the document after everything has been
         # drawn, just before the document is emitted.
-        @document.before_render { |doc| embed(ref, subset) }
+        @document.renderer.before_render { |doc| embed(ref, subset) }
 
         ref
       end

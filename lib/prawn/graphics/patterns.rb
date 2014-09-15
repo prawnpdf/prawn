@@ -56,7 +56,7 @@ module Prawn
         end
 
         set_color_space type, :Pattern
-        add_content "/SP#{registry_key} #{operator}"
+        renderer.add_content "/SP#{registry_key} #{operator}"
       end
 
       def gradient_registry_key(gradient)

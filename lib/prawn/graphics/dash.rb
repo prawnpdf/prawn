@@ -80,7 +80,7 @@ module Prawn
       private
 
       def write_stroke_dash
-        add_content dash_setting
+        renderer.add_content dash_setting
       end
 
       def undashed_setting
