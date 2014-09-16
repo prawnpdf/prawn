@@ -40,7 +40,7 @@ module Prawn
       end
 
       def write_stroke_cap_style
-        add_content "#{CAP_STYLES[current_cap_style]} J"
+        renderer.add_content "#{CAP_STYLES[current_cap_style]} J"
       end
     end
   end

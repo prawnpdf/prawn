@@ -189,3 +189,5 @@ ClassVars:
   Enabled: false
 ParameterLists:
   Enabled: false
+BlockComments:
+  Enabled: false

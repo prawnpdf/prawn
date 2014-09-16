@@ -183,7 +183,7 @@ describe "on_page_create callback" do
   it "should be invoked with document" do
     called_with = nil
 
-    @pdf.on_page_create { |*args| called_with = args }
+    @pdf.renderer.on_page_create { |*args| called_with = args }
 
     @pdf.start_new_page
 
@@ -194,7 +194,7 @@ describe "on_page_create callback" do
     trigger = mock()
     trigger.expects(:fire).times(5)
 
-    @pdf.on_page_create { trigger.fire }
+    @pdf.renderer.on_page_create { trigger.fire }
 
     5.times { @pdf.start_new_page }
   end
@@ -206,11 +206,11 @@ describe "on_page_create callback" do
       trigger2 = mock()
       trigger2.expects(:fire).times(1)
 
-      @pdf.on_page_create { trigger1.fire }
+      @pdf.renderer.on_page_create { trigger1.fire }
 
       @pdf.start_new_page
 
-      @pdf.on_page_create { trigger2.fire }
+      @pdf.renderer.on_page_create { trigger2.fire }
 
       @pdf.start_new_page
   end
@@ -219,11 +219,11 @@ describe "on_page_create callback" do
       trigger = mock()
       trigger.expects(:fire).times(1)
 
-      @pdf.on_page_create { trigger.fire }
+      @pdf.renderer.on_page_create { trigger.fire }
 
       @pdf.start_new_page
 
-      @pdf.on_page_create
+      @pdf.renderer.on_page_create
 
       @pdf.start_new_page
   end
@@ -455,15 +455,15 @@ describe "The render() feature" do
     seq = sequence("callback_order")
 
     # Verify the order: finalize -> fire callbacks -> render body
-    pdf.expects(:finalize_all_page_contents).in_sequence(seq)
+    pdf.renderer.expects(:finalize_all_page_contents).in_sequence(seq)
     trigger = mock()
     trigger.expects(:fire).in_sequence(seq)
 
     # Store away the render_body method to be called below
-    render_body = pdf.method(:render_body)
-    pdf.expects(:render_body).in_sequence(seq)
+    render_body = pdf.renderer.method(:render_body)
+    pdf.renderer.expects(:render_body).in_sequence(seq)
 
-    pdf.before_render{ trigger.fire }
+    pdf.renderer.before_render{ trigger.fire }
 
     # Render the body to set up object offsets
     render_body.call(StringIO.new)
@@ -488,7 +488,7 @@ describe "PDF file versions" do
 
   it "should allow the default to be changed" do
     @pdf = Prawn::Document.new
-    @pdf.__send__(:min_version, 1.4)
+    @pdf.renderer.min_version(1.4)
     str = @pdf.render
     str[0,8].should == "%PDF-1.4"
   end
