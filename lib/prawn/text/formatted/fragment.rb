@@ -211,6 +211,8 @@ module Prawn
           string = strip_zero_width_spaces(text)
           if exclude_trailing_white_space?
             string = process_soft_hyphens(string.rstrip)
+          else
+            string = process_soft_hyphens_complete(string)
           end
           case direction
           when :rtl
@@ -234,6 +236,17 @@ module Prawn
               string.force_encoding(normalized_soft_hyphen.encoding)
             end
             string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
+          else
+            string
+          end
+        end
+
+        def process_soft_hyphens_complete(string)
+          if string.length > 0 && normalized_soft_hyphen
+            if string.encoding != normalized_soft_hyphen.encoding
+              string.force_encoding(normalized_soft_hyphen.encoding)
+            end
+            string.gsub(normalized_soft_hyphen, "")
           else
             string
           end

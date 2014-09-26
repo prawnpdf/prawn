@@ -128,26 +128,31 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello#{Prawn::Text::SHY}"
   end
 
-  it "should not display soft hyphens except at the end of a line" do
-    string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}world")
-    array = [{ :text => string }]
+  it "should not display soft hyphens except at the end of a line " +
+     "for more than one element in format_array", :issue => 347 do
+    string1 = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}world ")
+    string2 = @pdf.font.normalize_encoding("hi#{Prawn::Text::SHY}earth")
+    array = [{ :text => string1 }, { :text => string2 }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => 300,
                                   :document => @pdf)
-    string.should == "helloworld"
+    string.should == "helloworld hiearth"
 
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Text::Formatted::LineWrap.new
 
-    string = "hello#{Prawn::Text::SHY}world"
-    array = [{ :text => string }]
+    string1 = "hello#{Prawn::Text::SHY}world "
+    string2 = @pdf.font.normalize_encoding("hi#{Prawn::Text::SHY}earth")
+    array = [{ :text => string1 }, { :text => string2 }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
                                   :width => 300,
                                   :document => @pdf)
-    string.should == "helloworld"
+    string.should == "helloworld hiearth"
   end
+
+  it 'should not display soft hyphens except at the end of a line'
 
   it "should not break before a hard hyphen that follows a word" do
     enough_width_for_hello_world = 60
