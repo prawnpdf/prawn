@@ -15,6 +15,7 @@ Prawn::ManualBuilder::Example.generate("basic_concepts.pdf", :page_size => "FOLI
     p.example "other_cursor_helpers"
     p.example "adding_pages"
     p.example "measurement"
+    p.example "view", :eval_source => false, :full_source => true
 
     p.intro do
       prose("This chapter covers the minimum amount of functionality you'll need to start using Prawn.
@@ -27,7 +28,8 @@ Prawn::ManualBuilder::Example.generate("basic_concepts.pdf", :page_size => "FOLI
             "Where the origin for the document coordinates is. What are Bounding Boxes and how they interact with the origin",
             "How the cursor behaves",
             "How to start new pages",
-            "What the base unit for measurement and coordinates is and how to use other convenient measures"
+            "What the base unit for measurement and coordinates is and how to use other convenient measures",
+            "How to build custom view objects that use Prawn's DSL"
           )
     end
   end

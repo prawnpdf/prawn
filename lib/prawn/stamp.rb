@@ -44,7 +44,7 @@ module Prawn
     #
     def stamp(name)
       dictionary_name, dictionary = stamp_dictionary(name)
-      add_content "/#{dictionary_name} Do"
+      renderer.add_content "/#{dictionary_name} Do"
       state.page.xobjects.merge!(dictionary_name => dictionary)
     end
 

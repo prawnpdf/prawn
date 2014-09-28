@@ -6,6 +6,8 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require "forwardable"
+
 module Prawn
   class Document
 
@@ -16,159 +18,40 @@ module Prawn
     #
     # @private
     module Internals
-      # Creates a new Prawn::Reference and adds it to the Document's object
-      # list.  The +data+ argument is anything that Prawn::PdfObject() can convert.
+      extend Forwardable
+
+      # These methods are not officially part of Prawn's public API,
+      # but they are used in documentation and possibly in extensions.
+      # Perhaps they will become part of the extension API?
+      # Anyway, for now it's not clear what we should do w. them.
+      delegate [ :graphic_state,
+                 :save_graphics_state,
+                 :restore_graphics_state ] => :renderer
+
+      # FIXME: This is a circular reference, because in theory Prawn should
+      # be passing instances of renderer to PDF::Core::Page, but it's
+      # passing Prawn::Document objects instead.
       #
-      # Returns the identifier which points to the reference in the ObjectStore
-      #
-      def ref(data)
-        ref!(data).identifier
+      # A proper design would probably not require Prawn to directly instantiate
+      # PDF::Core::Page objects at all!
+      delegate [:compression_enabled?] => :renderer
+
+      # FIXME: More circular references in PDF::Core::Page.
+      delegate [ :ref, :ref!, :deref ] => :renderer
+
+      # FIXME: Another circular reference, because we mix in a module from
+      # PDF::Core to provide destinations, which in theory should not
+      # rely on a Prawn::Document object but is currently wired up that way.
+      delegate [:names] => :renderer
+
+      # FIXME: Circular reference because we mix PDF::Core::Text into
+      # Prawn::Document. PDF::Core::Text should either be split up or
+      # moved in its entirety back up into Prawn.
+      delegate [:add_content] => :renderer
+
+      def renderer
+        @renderer ||= PDF::Core::Renderer.new(state)
       end
-
-      # Like ref, but returns the actual reference instead of its identifier.
-      #
-      # While you can use this to build up nested references within the object
-      # tree, it is recommended to persist only identifiers, and them provide
-      # helper methods to look up the actual references in the ObjectStore
-      # if needed.  If you take this approach, Prawn::Document::Snapshot
-      # will probably work with your extension
-      #
-      def ref!(data)
-        state.store.ref(data)
-      end
-
-      # At any stage in the object tree an object can be replaced with an
-      # indirect reference. To get access to the object safely, regardless
-      # of if it's hidden behind a Prawn::Reference, wrap it in deref().
-      #
-      def deref(obj)
-        obj.is_a?(PDF::Core::Reference) ? obj.data : obj
-      end
-
-      # Appends a raw string to the current page content.
-      #
-      #  # Raw line drawing example:
-      #  x1,y1,x2,y2 = 100,500,300,550
-      #  pdf.add_content("%.3f %.3f m" % [ x1, y1 ])  # move
-      #  pdf.add_content("%.3f %.3f l" % [ x2, y2 ])  # draw path
-      #  pdf.add_content("S") # stroke
-      #
-      def add_content(str)
-        save_graphics_state if graphic_state.nil?
-        state.page.content << str << "\n"
-      end
-
-      # The Name dictionary (PDF spec 3.6.3) for this document. It is
-      # lazily initialized, so that documents that do not need a name
-      # dictionary do not incur the additional overhead.
-      #
-      def names
-        state.store.root.data[:Names] ||= ref!(:Type => :Names)
-      end
-
-      # Returns true if the Names dictionary is in use for this document.
-      #
-      def names?
-        state.store.root.data[:Names]
-      end
-
-      # Defines a block to be called just before the document is rendered.
-      #
-      def before_render(&block)
-        state.before_render_callbacks << block
-      end
-
-      # Defines a block to be called just before a new page is started.
-      #
-      def on_page_create(&block)
-         if block_given?
-            state.on_page_create_callback = block
-         else
-            state.on_page_create_callback = nil
-         end
-      end
-
-      private
-
-      # adds a new, empty content stream to each page. Used in templating so
-      # that imported content streams can be left pristine
-      #
-      def fresh_content_streams(options={})
-        (1..page_count).each do |i|
-          go_to_page i
-          state.page.new_content_stream
-          apply_margin_options(options)
-          generate_margin_box
-          use_graphic_settings(options[:template])
-          forget_text_rendering_mode!
-        end
-      end
-
-      def finalize_all_page_contents
-        (1..page_count).each do |i|
-          go_to_page i
-          repeaters.each { |r| r.run(i) }
-          while graphic_stack.present?
-            restore_graphics_state
-          end
-          state.page.finalize
-        end
-      end
-
-      # raise the PDF version of the file we're going to generate.
-      # A private method, designed for internal use when the user adds a feature
-      # to their document that requires a particular version.
-      #
-      def min_version(min)
-        state.version = min if min > state.version
-      end
-
-      # Write out the PDF Header, as per spec 3.4.1
-      #
-      def render_header(output)
-        state.before_render_actions(self)
-
-        # pdf version
-        output << "%PDF-#{state.version}\n"
-
-        # 4 binary chars, as recommended by the spec
-        output << "%\xFF\xFF\xFF\xFF\n"
-      end
-
-      # Write out the PDF Body, as per spec 3.4.2
-      #
-      def render_body(output)
-        state.render_body(output)
-      end
-
-      # Write out the PDF Cross Reference Table, as per spec 3.4.3
-      #
-      def render_xref(output)
-        @xref_offset = output.size
-        output << "xref\n"
-        output << "0 #{state.store.size + 1}\n"
-        output << "0000000000 65535 f \n"
-        state.store.each do |ref|
-          output.printf("%010d", ref.offset)
-          output << " 00000 n \n"
-        end
-      end
-
-      # Write out the PDF Trailer, as per spec 3.4.4
-      #
-      def render_trailer(output)
-        trailer_hash = {:Size => state.store.size + 1,
-                        :Root => state.store.root,
-                        :Info => state.store.info}
-        trailer_hash.merge!(state.trailer) if state.trailer
-
-        output << "trailer\n"
-        output << PDF::Core::PdfObject(trailer_hash) << "\n"
-        output << "startxref\n"
-        output << @xref_offset << "\n"
-        output << "%%EOF" << "\n"
-      end
-
     end
   end
 end

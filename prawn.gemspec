@@ -1,6 +1,10 @@
+basedir = File.expand_path(File.dirname(__FILE__))
+
+require "#{basedir}/lib/prawn/version"
+
 Gem::Specification.new do |spec|
   spec.name = "prawn"
-  spec.version = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).strip
+  spec.version = Prawn::VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = "A fast and nimble PDF generator for Ruby"
   spec.files =  Dir.glob("{examples,lib,spec,manual}/**/**/*") +
@@ -20,8 +24,8 @@ Gem::Specification.new do |spec|
   spec.rubyforge_project = "prawn"
   spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
 
-  spec.add_dependency('ttfunk', '~> 1.2.2')
-  spec.add_dependency('pdf-core', "~> 0.2.5")
+  spec.add_dependency('ttfunk', '~> 1.4.0')
+  spec.add_dependency('pdf-core', "~> 0.4.0")
 
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
   spec.add_development_dependency('yard')
@@ -32,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('prawn-manual_builder', ">= 0.2.0")
   spec.add_development_dependency('pdf-reader', '~>1.2')
   spec.add_development_dependency('rubocop', '0.20.1')
+  spec.add_development_dependency('code_statistics', '0.2.13')
 
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = <<END_DESC
