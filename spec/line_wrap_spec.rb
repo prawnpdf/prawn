@@ -152,8 +152,6 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "helloworld hiearth"
   end
 
-  it 'should not display soft hyphens except at the end of a line'
-
   it "should not break before a hard hyphen that follows a word" do
     enough_width_for_hello_world = 60
 

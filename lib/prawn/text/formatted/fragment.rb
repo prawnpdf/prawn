@@ -209,11 +209,19 @@ module Prawn
 
         def process_text(text)
           string = strip_zero_width_spaces(text)
+
           if exclude_trailing_white_space?
-            string = process_soft_hyphens(string.rstrip)
+            string = string.rstrip
+
+            if soft_hyphens_need_processing?(string)
+              string = process_soft_hyphens(string[0..-2]) + string[-1..-1]
+            end
           else
-            string = process_soft_hyphens_complete(string)
+            if soft_hyphens_need_processing?(string)
+              string = process_soft_hyphens(string)
+            end
           end
+
           case direction
           when :rtl
             string.reverse
@@ -226,30 +234,20 @@ module Prawn
           @format_state[:exclude_trailing_white_space]
         end
 
+        def soft_hyphens_need_processing?(string)
+          string.length > 0 && normalized_soft_hyphen
+        end
+
         def normalized_soft_hyphen
           @format_state[:normalized_soft_hyphen]
         end
 
         def process_soft_hyphens(string)
-          if string.length > 0 && normalized_soft_hyphen
-            if string.encoding != normalized_soft_hyphen.encoding
-              string.force_encoding(normalized_soft_hyphen.encoding)
-            end
-            string[0..-2].gsub(normalized_soft_hyphen, "") + string[-1..-1]
-          else
-            string
+          if string.encoding != normalized_soft_hyphen.encoding
+            string.force_encoding(normalized_soft_hyphen.encoding)
           end
-        end
 
-        def process_soft_hyphens_complete(string)
-          if string.length > 0 && normalized_soft_hyphen
-            if string.encoding != normalized_soft_hyphen.encoding
-              string.force_encoding(normalized_soft_hyphen.encoding)
-            end
-            string.gsub(normalized_soft_hyphen, "")
-          else
-            string
-          end
+          string.gsub(normalized_soft_hyphen, "")
         end
 
         def strip_zero_width_spaces(string)
