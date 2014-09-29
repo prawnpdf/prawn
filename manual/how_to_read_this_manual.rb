@@ -32,7 +32,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   Most of the example snippets illustrate features that alter the page in place. The effect of these snippets is shown right below a dashed line. If it doesn't make sense to evaluate the snippet inline, a box with the link for the example file is shown instead.
 
-  Note that the <code>stroke_axis</code> method, used occasionally in the manual, is not part of standard Prawn and is used for demonstrative purposes. It is defined in this file:
+  Note that the <code>stroke_axis</code> method used throughout the manual is part of standard Prawn. It is defined in this file:
 
   https://github.com/prawnpdf/prawn/blob/master/manual/example_helper.rb
   END_TEXT
