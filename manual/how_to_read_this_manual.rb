@@ -34,7 +34,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   Note that the <code>stroke_axis</code> method used throughout the manual is part of standard Prawn. It is defined in this file:
 
-  https://github.com/prawnpdf/prawn/blob/master/manual/example_helper.rb
+  https://github.com/prawnpdf/prawn/blob/master/lib/prawn/graphics.rb
   END_TEXT
 
 end
