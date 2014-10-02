@@ -199,22 +199,29 @@ module Prawn
 
       if @indent_paragraphs
         self.text_formatter.array_paragraphs(array).each do |paragraph|
-          options[:skip_encoding] = false
-          remaining_text = draw_indented_formatted_line(paragraph, options)
-          options[:skip_encoding] = true
+          height = height_of_indented_paragraph(paragraph, options)
+          ypos = ypos_for_indented_vertical_alignment(height, options[:valign])
 
-          if @no_text_printed
-            # unless this paragraph was an empty line
-            unless @all_text_printed
-              @bounding_box.move_past_bottom
-              options[:skip_encoding] = false
-              remaining_text = draw_indented_formatted_line(paragraph, options)
-              options[:skip_encoding] = true
+          bounding_box([0, ypos], :width => bounds.width, :height => height) do
+            options.delete(:valign)
+
+            options[:skip_encoding] = false
+            remaining_text = draw_indented_formatted_line(paragraph, options)
+            options[:skip_encoding] = true
+
+            if @no_text_printed
+              # unless this paragraph was an empty line
+              unless @all_text_printed
+                @bounding_box.move_past_bottom
+                options[:skip_encoding] = false
+                remaining_text = draw_indented_formatted_line(paragraph, options)
+                options[:skip_encoding] = true
+              end
             end
-          end
 
-          remaining_text = fill_formatted_text_box(remaining_text, options)
-          draw_remaining_formatted_text_on_new_pages(remaining_text, options)
+            remaining_text = fill_formatted_text_box(remaining_text, options)
+            draw_remaining_formatted_text_on_new_pages(remaining_text, options)
+          end
         end
       else
         remaining_text = fill_formatted_text_box(array, options)
@@ -424,6 +431,41 @@ module Prawn
       @bounding_box.move_past_bottom if (y - dy) < bottom
 
       self.y -= dy
+    end
+
+    def height_of_indented_paragraph(array, options)
+      height, remaining_text = height_of_indented_line(array, options)
+      height + height_of_formatted(remaining_text, options)
+    end
+
+    def height_of_indented_line(array, options)
+      box = nil
+      remaining_text = nil
+
+      indent(@indent_paragraphs) do
+        opts = options.dup.merge(:single_line => true,
+                                 :skip_encoding => false,
+                                 :height => 100000000)
+        box = Text::Formatted::Box.new(array, opts)
+        remaining_text = box.render(:dry_run => true)
+      end
+
+      height = box.height
+      height += box.line_gap + box.leading if @final_gap
+
+      [height, remaining_text]
+    end
+
+    def ypos_for_indented_vertical_alignment(height, valign)
+      if height > cursor
+        @bounding_box.move_past_bottom
+      end
+
+      case valign || :top
+      when :top     then cursor
+      when :center  then cursor - (cursor - height) * 0.5
+      when :bottom  then height
+      end
     end
   end
 end

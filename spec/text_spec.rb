@@ -453,4 +453,82 @@ describe "#text" do
     end
   end
 
+  describe "#height_of_indented_line" do
+    before(:each) { create_pdf }
+
+    describe "when text + indent is one line" do
+      it 'should return the height and remaining_text' do
+        original_y = @pdf.y
+        text = "hello"
+        options = @pdf.send(:inspect_options_for_text,
+          { :indent_paragraphs => 60 })
+        @pdf.send(:draw_indented_formatted_line, [{ :text => text }], options)
+        new_y = @pdf.y
+
+        result = @pdf.send(:height_of_indented_line,
+                            [{ :text => text }],
+                            options)
+        result[0].should be_within(0.0001).of(@pdf.height_of(text))
+        result[1].should eq []
+      end
+    end
+
+    describe "when text + indent is multiple lines" do
+      it 'should return the height and remaining_text' do
+        original_y = @pdf.y
+        hello = "hello "
+        text = hello * 50
+        remaining_text = hello * 31
+
+        options = @pdf.send(:inspect_options_for_text,
+                            { :indent_paragraphs => 60 })
+        @pdf.send(:draw_indented_formatted_line, [{ :text => text }], options)
+        new_y = @pdf.y
+
+        result = @pdf.send(:height_of_indented_line,
+                           [{ :text => text }],
+                           options)
+        result[0].should be_within(0.0001).of(original_y - new_y)
+        result[1].should == [{ :text => remaining_text }]
+      end
+    end
+
+    it "should omit the gap below the last descender if :final_gap => false " +
+      "is given" do
+      text = "hello"
+      original_y = @pdf.y
+      options = @pdf.send(:inspect_options_for_text, { :indent_paragraphs => 60,
+                                                       :final_gap => false })
+      @pdf.send(:draw_indented_formatted_line, [{ :text => text }], options)
+      new_y = @pdf.y
+      result = @pdf.send(:height_of_indented_line, [{ :text => text }], options)
+      result[0].should be_within(0.0001).of(original_y - new_y)
+    end
+
+  end
+
+  describe "#ypos_for_indented_vertical_alignment" do
+    before(:each) do
+      create_pdf
+      @pdf.move_cursor_to(100)
+    end
+
+    describe "when valign is :top" do
+      it "should return the top y position" do
+        @pdf.send(:ypos_for_indented_vertical_alignment, 50, :top).should == 100
+      end
+    end
+
+    describe "when valign is :center" do
+      it "should return the center of the avaliable space" do
+        @pdf.send(:ypos_for_indented_vertical_alignment, 50, :center).should == 75
+      end
+    end
+
+    describe "when valign is :bottom" do
+      it 'should return the bottom y position' do
+        @pdf.send(:ypos_for_indented_vertical_alignment, 50, :bottom).should == 50
+      end
+    end
+  end
 end
