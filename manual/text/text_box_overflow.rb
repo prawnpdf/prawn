@@ -9,7 +9,7 @@
 # (the text font size will be shrunk to fit).
 #
 # If <code>:shrink_to_fit</code> mode is used with the
-# <code>:min_font_size</code> option set. The font size will not be reduced to
+# <code>:min_font_size</code> option set, the font size will not be reduced to
 # less than the value provided even if it means truncating some text.
 #
 # If the <code>:disable_wrap_by_char</code> is set to <code>true</code>
