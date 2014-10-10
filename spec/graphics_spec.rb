@@ -429,6 +429,11 @@ describe "When using graphics states" do
     @pdf.graphic_state.dash[:dash].should == 5
   end
 
+  it "should round dash values to four decimal places" do
+    @pdf.dash 5.12345
+    @pdf.graphic_state.dash_setting.should == "[5.1235 5.1235] 0.0 d"
+  end
+
   it "the current graphic state should keep track of previous unchanged settings" do
     @pdf.stroke_color '000000'
     @pdf.save_graphics_state
