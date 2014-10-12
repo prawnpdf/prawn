@@ -427,6 +427,14 @@ describe "When using graphics states" do
     @pdf.graphic_state.dash[:dash].should == 5
   end
 
+  it "should raise an error when dash is called w. a zero length or space" do
+    expect { @pdf.dash(0) }.to raise_error(ArgumentError)
+    expect { @pdf.dash([0]) }.to raise_error(ArgumentError)
+    expect { @pdf.dash([0,0]) }.to raise_error(ArgumentError)
+    expect { @pdf.dash([0,0,0,1]) }.to raise_error(ArgumentError)
+  end
+
+
   it "the current graphic state should keep track of previous unchanged settings" do
     @pdf.stroke_color '000000'
     @pdf.save_graphics_state
