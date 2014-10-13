@@ -130,6 +130,9 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
 
   it "should not display soft hyphens except at the end of a line " +
      "for more than one element in format_array", :issue => 347 do
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
+
     string1 = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}world ")
     string2 = @pdf.font.normalize_encoding("hi#{Prawn::Text::SHY}earth")
     array = [{ :text => string1 }, { :text => string2 }]
@@ -138,9 +141,6 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :width => 300,
                                   :document => @pdf)
     string.should == "helloworld hiearth"
-
-    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    @line_wrap = Prawn::Text::Formatted::LineWrap.new
 
     string1 = "hello#{Prawn::Text::SHY}world "
     string2 = @pdf.font.normalize_encoding("hi#{Prawn::Text::SHY}earth")
