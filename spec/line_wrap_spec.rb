@@ -141,15 +141,6 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :width => 300,
                                   :document => @pdf)
     string.should == "helloworld hiearth"
-
-    string1 = "hello#{Prawn::Text::SHY}world "
-    string2 = @pdf.font.normalize_encoding("hi#{Prawn::Text::SHY}earth")
-    array = [{ :text => string1 }, { :text => string2 }]
-    @arranger.format_array = array
-    string = @line_wrap.wrap_line(:arranger => @arranger,
-                                  :width => 300,
-                                  :document => @pdf)
-    string.should == "helloworld hiearth"
   end
 
   it "should not break before a hard hyphen that follows a word" do
