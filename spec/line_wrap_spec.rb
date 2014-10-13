@@ -128,6 +128,32 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello#{Prawn::Text::SHY}"
   end
 
+  it "should ignore width of a soft-hyphen during adding fragments to line", :issue =>775 do
+    string1 = @pdf.font.normalize_encoding("hy#{Prawn::Text::SHY}phe#{Prawn::Text::SHY}nat#{Prawn::Text::SHY}ion")
+    string2 = @pdf.font.normalize_encoding("hyphenation")
+
+    array1 = [{ :text => string1 }]
+    array2 = [{ :text => string2 }]
+
+    @arranger.format_array = array1
+
+    @line_wrap.wrap_line(:arranger => @arranger,
+                         :width => 300,
+                         :document => @pdf)
+    width1 = @line_wrap.width
+
+    @line_wrap = Prawn::Text::Formatted::LineWrap.new
+
+    @arranger.format_array = array2
+
+    @line_wrap.wrap_line(:arranger => @arranger,
+                         :width => 300,
+                         :document => @pdf)
+    width2 = @line_wrap.width
+
+    width1.should == width2
+  end
+
   it "should not display soft hyphens except at the end of a line " +
      "for more than one element in format_array", :issue => 347 do
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
