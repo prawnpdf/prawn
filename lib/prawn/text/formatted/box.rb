@@ -161,7 +161,7 @@ module Prawn
           @align             = options[:align] ||
                                (@direction == :rtl ? :right : :left)
           @vertical_align    = options[:valign] || :top
-          @final_gap         = options[:final_gap].nil? || false
+          @final_gap         = options[:final_gap].nil? || options[:final_gap]
           @leading           = options[:leading] || @document.default_leading
           @character_spacing = options[:character_spacing] ||
                                @document.character_spacing
@@ -485,14 +485,15 @@ module Prawn
           @vertical_alignment_processed = true
 
           return if @vertical_align == :top
+
           wrap(text)
 
           case @vertical_align
           when :center
-            @at[1] = @at[1] - (@height - height + @descender) * 0.5
+            @at[1] -= (@height - height + @descender) * 0.5
           when :bottom
-            @at[1] = @at[1] - (@height - height) + @descender
-            @at[1] -= line_gap unless @final_gap
+            @at[1] -= (@height - height)
+            @at[1] += line_gap if @final_gap
           end
 
           @height = height
