@@ -72,7 +72,11 @@ module Prawn
     # <tt>:valign</tt>::
     #     <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical
     #     alignment within the bounding box [:top]
-    #
+    # <tt>:final_gap</tt>::
+    #     <tt>boolean</tt>. If true, then the space between
+    #     each line is included below the last line;
+    #     otherwise, document.y is placed just below the
+    #     descender of the last line printed [true]
     # <tt>:rotate</tt>::
     #     <tt>number</tt>. The angle to rotate the text
     # <tt>:rotate_around</tt>::
@@ -106,7 +110,7 @@ module Prawn
     #
     # == Exceptions
     #
-    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
     # any text
     #
     def text_box(string, options={})

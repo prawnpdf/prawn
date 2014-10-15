@@ -616,6 +616,59 @@ describe "Text::Formatted::Box#render with :align => :justify" do
   end
 end
 
+describe "Text::Formatted::Box#render with :valign => :center" do
+  it "should have a bottom gap equal to baseline and bottom of box" do
+    create_pdf
+    array = [{ :text => 'Vertical Align' }]
+    options = {
+     :document => @pdf,
+     :valign => :center,
+     :at => [0,450],
+     :width => 100,
+     :height => 100,
+     :size => 16
+    }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text_box.at[1].should eq(405.744)
+  end
+end
+
+describe "Text::Formatted::Box#render with :valign => :bottom" do
+  it "should render a :final_gap on the bottom by default" do
+    create_pdf
+    array = [{ :text => 'Vertical Align' }]
+    options = {
+     :document => @pdf,
+     :valign => :bottom,
+     :at => [0,450],
+     :width => 100,
+     :height => 100,
+     :size => 16
+    }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text_box.at[1].should eq(368.112)
+  end
+
+  it "should not render a :final_gap if set to false" do
+    create_pdf
+    array = [{ :text => 'Vertical Align' }]
+    options = {
+     :document => @pdf,
+     :valign => :bottom,
+     :final_gap => false,
+     :at => [0,450],
+     :width => 100,
+     :height => 100,
+     :size => 16
+    }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    text_box.at[1].should eq(364.416)
+  end
+end
+
 class TestFragmentCallback
   def initialize(string, number, options)
     @document = options[:document]

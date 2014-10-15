@@ -85,7 +85,7 @@ module Prawn
       #
       # Raises "Bad font family" if no font family is defined for the current font
       #
-      # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+      # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
       # any text
       #
       def formatted_text_box(array, options={})
@@ -161,6 +161,7 @@ module Prawn
           @align             = options[:align] ||
                                (@direction == :rtl ? :right : :left)
           @vertical_align    = options[:valign] || :top
+          @final_gap         = options[:final_gap].nil? || false
           @leading           = options[:leading] || @document.default_leading
           @character_spacing = options[:character_spacing] ||
                                @document.character_spacing
@@ -329,7 +330,7 @@ module Prawn
 
         def valid_options
           PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign,
+                                              :align, :valign, :final_gap,
                                               :rotate, :rotate_around,
                                               :overflow, :min_font_size,
                                               :disable_wrap_by_char,
@@ -488,10 +489,12 @@ module Prawn
 
           case @vertical_align
           when :center
-            @at[1] = @at[1] - (@height - height) * 0.5
+            @at[1] = @at[1] - (@height - height + @descender) * 0.5
           when :bottom
             @at[1] = @at[1] - (@height - height) + @descender
+            @at[1] -= line_gap unless @final_gap
           end
+
           @height = height
         end
 
