@@ -161,7 +161,6 @@ module Prawn
           @align             = options[:align] ||
                                (@direction == :rtl ? :right : :left)
           @vertical_align    = options[:valign] || :top
-          @final_gap         = options[:final_gap].nil? || options[:final_gap]
           @leading           = options[:leading] || @document.default_leading
           @character_spacing = options[:character_spacing] ||
                                @document.character_spacing
@@ -330,7 +329,7 @@ module Prawn
 
         def valid_options
           PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign, :final_gap,
+                                              :align, :valign,
                                               :rotate, :rotate_around,
                                               :overflow, :min_font_size,
                                               :disable_wrap_by_char,
@@ -493,7 +492,6 @@ module Prawn
             @at[1] -= (@height - height + @descender) * 0.5
           when :bottom
             @at[1] -= (@height - height)
-            @at[1] += line_gap if @final_gap
           end
 
           @height = height

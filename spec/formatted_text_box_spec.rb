@@ -640,7 +640,7 @@ describe "Text::Formatted::Box#render with :valign => :center" do
 end
 
 describe "Text::Formatted::Box#render with :valign => :bottom" do
-  it "should render a :final_gap on the bottom by default" do
+  it "should not render a gap between the text and bottom of box" do
     create_pdf
     box_height = 100
     y = 450
@@ -648,28 +648,6 @@ describe "Text::Formatted::Box#render with :valign => :bottom" do
     options = {
      :document => @pdf,
      :valign => :bottom,
-     :at => [0,y],
-     :width => 100,
-     :height => box_height,
-     :size => 16
-    }
-    text_box = Prawn::Text::Formatted::Box.new(array, options)
-    text_box.render
-    top_padding = y - (box_height - text_box.height)
-    top_padding += text_box.line_gap
-
-    text_box.at[1].should be_within(0.01).of(top_padding)
-  end
-
-  it "should not render a :final_gap if set to false" do
-    create_pdf
-    box_height = 100
-    y = 450
-    array = [{ :text => 'Vertical Align' }]
-    options = {
-     :document => @pdf,
-     :valign => :bottom,
-     :final_gap => false,
      :at => [0,y],
      :width => 100,
      :height => box_height,
