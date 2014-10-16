@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # document.rb : Implements PDF document generation for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.
@@ -497,6 +495,8 @@ module Prawn
     # <tt>options</tt>:: A hash for page numbering and text box options.
     #     <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.
     #                             Refer to the method 'page_match?'
+    #     <tt>:increment</tt>:: When the page number is increment, how much to increment by.
+    #                             Defaults to 1
     #     <tt>:start_count_at</tt>:: The starting count to increment pages from.
     #     <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
     #                             Useful to override the total number of pages when using
@@ -521,6 +521,7 @@ module Prawn
     def number_pages(string, options={})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
+      increment = (opts.delete(:increment) || 1).to_i
       page_filter = if opts.has_key?(:page_filter)
         opts.delete(:page_filter)
       else
@@ -551,7 +552,7 @@ module Prawn
           text_box str, opts
           start_count = true  # increment page count as soon as first match found
         end
-        pseudopage += 1 if start_count
+        pseudopage += increment if start_count
       end
     end
 

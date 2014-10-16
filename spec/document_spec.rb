@@ -612,6 +612,16 @@ describe "The number_pages method" do
     end
   end
 
+  context "increment option" do
+    it "increments the pages" do
+      2.times { @pdf.start_new_page }
+      options = {:page_filter => :all, increment: 3}
+      @pdf.expects(:text_box).with("1", { :height => 50 })
+      @pdf.expects(:text_box).with("4", { :height => 50 })
+      @pdf.number_pages "<page>", options
+    end
+  end
+
   context "total_pages option" do
     it "allows the total pages count to be overridden" do
       2.times { @pdf.start_new_page }
