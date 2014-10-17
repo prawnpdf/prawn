@@ -94,8 +94,6 @@ module Prawn
             false
           else
             tokenize(fragment).each do |segment|
-              sh_width = @document.width_of("#{soft_hyphen}", :kerning => @kerning)
-
               if segment == zero_width_space
                 segment_width = 0
               else
@@ -105,6 +103,7 @@ module Prawn
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
                 if segment[-1] == soft_hyphen
+                  sh_width = @document.width_of("#{soft_hyphen}", :kerning => @kerning)
                   @accumulated_width -= sh_width
                 end
                 @fragment_output += segment
