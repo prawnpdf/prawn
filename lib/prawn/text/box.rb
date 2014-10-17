@@ -72,7 +72,6 @@ module Prawn
     # <tt>:valign</tt>::
     #     <tt>:top</tt>, <tt>:center</tt>, or <tt>:bottom</tt>. Vertical
     #     alignment within the bounding box [:top]
-    #
     # <tt>:rotate</tt>::
     #     <tt>number</tt>. The angle to rotate the text
     # <tt>:rotate_around</tt>::
@@ -106,7 +105,7 @@ module Prawn
     #
     # == Exceptions
     #
-    # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+    # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
     # any text
     #
     def text_box(string, options={})
