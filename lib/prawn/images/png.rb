@@ -68,13 +68,9 @@ module Prawn
             @transparency = {}
             case @color_type
             when 3
-              # Indexed colour, RGB. Each byte in this chunk is an alpha for
-              # the palette index in the PLTE ("palette") chunk up until the
-              # last non-opaque entry. Set up an array, stretching over all
-              # palette entries which will be 0 (opaque) or 1 (transparent).
-              @transparency[:indexed]  = data.read(chunk_size).unpack("C*")
-              short = 255 - @transparency[:indexed].size
-              @transparency[:indexed] += ([255] * short) if short > 0
+              raise Errors::UnsupportedImageType,
+                "Pallete-based transparency in PNG is not currently supported.\n" +
+                "See https://github.com/prawnpdf/prawn/issues/783"
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
@@ -208,11 +204,6 @@ module Prawn
           #   components.
           rgb = transparency[:rgb]
           obj.data[:Mask] = rgb.collect { |x| [x,x] }.flatten
-        elsif transparency[:indexed]
-          # TODO: broken. I was attempting to us Color Key Masking, but I think
-          #       we need to construct an SMask i think. Maybe do it inside
-          #       the PNG class, and store it in alpha_channel
-          #obj.data[:Mask] = transparency[:indexed]
         end
 
         # For PNG color types 4 and 6, the transparency data is stored as a alpha

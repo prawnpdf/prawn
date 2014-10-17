@@ -364,3 +364,4 @@ describe "Core::Text::Formatted::LineWrap#paragraph_finished?" do
     @line_wrap.paragraph_finished?.should == true
   end
 end
+

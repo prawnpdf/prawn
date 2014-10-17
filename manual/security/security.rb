@@ -18,7 +18,7 @@ Prawn::ManualBuilder::Example.generate("security.pdf", :page_size => "FOLIO") do
       The examples include:")
 
       list( "How to encrypt the document without the need for a password",
-            "How to configure the regular user permitions",
+            "How to configure the regular user permissions",
             "How to require a password for the regular user",
             "How to set a owner password that bypass the document permissions"
           )
