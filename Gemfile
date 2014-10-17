@@ -1,7 +1,5 @@
 source "https://rubygems.org"
 
-gem "pdf-core", :github => "prawnpdf/pdf-core",
-                :branch => "decimal-rounding"
 gemspec
 
 if ENV["CI"] 
