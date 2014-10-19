@@ -101,6 +101,10 @@ module Prawn
           "Arguments to text methods must be UTF-8 encoded"
       end
 
+      def to_utf8(text)
+        text.bytes.pack("U*")
+      end
+
       # Returns the number of characters in +str+ (a WinAnsi-encoded string).
       #
       def character_count(str)
