@@ -218,7 +218,6 @@ module Prawn
         end
       else
         remaining_text = fill_formatted_text_box(array, options)
-        options[:skip_encoding] = true
         draw_remaining_formatted_text_on_new_pages(remaining_text, options)
       end
     end

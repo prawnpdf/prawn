@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require_relative '../../prawn/encoding'
+require_relative "../encoding"
 
 module Prawn
   class Font
@@ -44,7 +44,6 @@ module Prawn
 
         super
 
-        @@winansi   ||= Prawn::Encoding::WinAnsi.new # parse data/encodings/win_ansi.txt once only
         @@font_data ||= SynchronizedCache.new        # parse each ATM font file once only
 
         file_name = @name.dup
@@ -94,15 +93,16 @@ module Prawn
       # is replaced with a string in WinAnsi encoding.
       #
       def normalize_encoding(text)
-        enc = @@winansi
-        text.unpack("U*").collect { |i| enc[i] }.pack("C*")
-      rescue ArgumentError
+        text.encode("windows-1252", :undef => :replace,
+                                    :invalid => nil,
+                                    :replace => "_")
+      rescue ::Encoding::InvalidByteSequenceError
         raise Prawn::Errors::IncompatibleStringEncoding,
           "Arguments to text methods must be UTF-8 encoded"
       end
 
       def to_utf8(text)
-        text.bytes.pack("U*")
+        text.encode("UTF-8")
       end
 
       # Returns the number of characters in +str+ (a WinAnsi-encoded string).

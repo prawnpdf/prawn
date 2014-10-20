@@ -50,7 +50,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
         when :center then offset = (total_width - width)/2
         end
 
-        text_box(field, :at => [dx + offset, y], :skip_encoding => true)
+        text_box(field.force_encoding("windows-1252").encode("UTF-8"), 
+          :at => [dx + offset, y])
       end
 
       dx += total_width

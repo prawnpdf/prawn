@@ -229,8 +229,8 @@ module Prawn
             end
           end
 
-          unprinted_text.map do |e| 
-            e.merge(:text => @document.font.to_utf8(e[:text])) 
+          unprinted_text.map do |e|
+            e.merge(:text => @document.font.to_utf8(e[:text]))
           end
         end
 
