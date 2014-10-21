@@ -296,7 +296,7 @@ module Prawn
              "internationalized text.\nIf you need full UTF-8 support, "+
              "consider using a TTF font instead.\n\nTo disable this "+
              "warning, add the following line to your code:\n"+
-             "Prawn::Font::AFM.hide_m17n_warning= false\n"
+             "Prawn::Font::AFM.hide_m17n_warning = true\n"
 
         font.class.hide_m17n_warning = true
       end
