@@ -14,6 +14,12 @@ module Prawn
     # @private
 
     class AFM < Font
+      class << self
+        attr_accessor :hide_m17n_warning
+      end
+
+      self.hide_m17n_warning = false
+
       BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats
                       Courier-Bold Courier-Oblique Courier-BoldOblique
                       Times-Bold Times-Italic Times-BoldItalic

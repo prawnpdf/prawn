@@ -12,10 +12,10 @@ if ENV["COVERAGE"]
   end
 end
 
-$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-require "prawn"
+require_relative "../lib/prawn"
 
 Prawn.debug = true
+Prawn::Font::AFM.hide_m17n_warning = true
 
 #require "test/spec"
 require "rspec"

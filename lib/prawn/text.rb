@@ -291,6 +291,16 @@ module Prawn
     # should already be set
     #
     def draw_text!(text, options)
+      unless font.unicode? || font.class.hide_m17n_warning || text.ascii_only?
+        warn "PDF's built-in fonts have very limited support for "+
+             "internationalized text.\nIf you need full UTF-8 support, "+
+             "consider using a TTF font instead.\n\nTo disable this "+
+             "warning, add the following line to your code:\n"+
+             "Prawn::Font::AFM.hide_m17n_warning= false\n"
+
+        font.class.hide_m17n_warning = true
+      end
+
       x,y = map_to_absolute(options[:at])
       add_text_content(text,x,y,options)
     end
