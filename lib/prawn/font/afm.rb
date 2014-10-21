@@ -99,12 +99,13 @@ module Prawn
       # is replaced with a string in WinAnsi encoding.
       #
       def normalize_encoding(text)
-        text.encode("windows-1252", :undef => :replace,
-                                    :invalid => nil,
-                                    :replace => "_")
-      rescue ::Encoding::InvalidByteSequenceError
+        text.encode("windows-1252")
+      rescue ::Encoding::InvalidByteSequenceError,
+             ::Encoding::UndefinedConversionError
+
         raise Prawn::Errors::IncompatibleStringEncoding,
-          "Arguments to text methods must be UTF-8 encoded"
+          "Your document includes text that's not compatible with the Windows-1252 character set.\n"+
+          "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
       end
 
       def to_utf8(text)
@@ -134,11 +135,9 @@ module Prawn
       end
 
       def glyph_present?(char)
-        if char == "_"
-          true
-        else
-          normalize_encoding(char) != "_"
-        end
+        !!normalize_encoding(char)
+      rescue Prawn::Errors::IncompatibleStringEncoding
+        false
       end
 
       private
