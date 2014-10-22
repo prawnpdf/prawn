@@ -199,17 +199,13 @@ module Prawn
 
       if @indent_paragraphs
         self.text_formatter.array_paragraphs(array).each do |paragraph|
-          options[:skip_encoding] = false
           remaining_text = draw_indented_formatted_line(paragraph, options)
-          options[:skip_encoding] = true
 
           if @no_text_printed
             # unless this paragraph was an empty line
             unless @all_text_printed
               @bounding_box.move_past_bottom
-              options[:skip_encoding] = false
               remaining_text = draw_indented_formatted_line(paragraph, options)
-              options[:skip_encoding] = true
             end
           end
 

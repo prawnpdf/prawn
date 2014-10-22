@@ -664,15 +664,6 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       remaining_text.should == @text
     end
-
-    it "subsequent calls to Text::Box need not include the" +
-       " :skip_encoding => true option" do
-      @pdf.font("Panic Sans")
-      remaining_text = @text_box.render
-
-      # expect that calling text_box will not raise an encoding error
-      @pdf.text_box(remaining_text, :document => @pdf)
-    end
   end
 
   describe "when using an AFM font" do

@@ -24,11 +24,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
                      ], :at => [170, cursor - 160])
 
   if Dir.exist?("#{Prawn::BASEDIR}/.git")
-    #long git commit hash
-    #commit = `git show --pretty=%H`
-    #short git commit hash
     commit = `git show --pretty=%h`
-    git_commit = "git commit: #{commit}"
+    git_commit = "git commit: #{commit.lines.first}"
   else
     git_commit = ""
   end

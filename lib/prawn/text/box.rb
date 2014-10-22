@@ -84,8 +84,6 @@ module Prawn
     #     document.default_leading]
     # <tt>:single_line</tt>::
     #     <tt>boolean</tt>. If true, then only the first line will be drawn [false]
-    # <tt>:skip_encoding</tt>::
-    #     <tt>boolean</tt> [false]
     # <tt>:overflow</tt>::
     #     <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>, or <tt>:expand</tt>
     #     This controls the behavior when the amount of text
@@ -98,11 +96,6 @@ module Prawn
     # == Returns
     #
     # Returns any text that did not print under the current settings.
-    #
-    # NOTE: if an AFM font is used, then the returned text is encoded in
-    # WinAnsi. Subsequent calls to text_box that pass this returned text back
-    # into text box must include a :skip_encoding => true option. This is
-    # unnecessary when using TTF fonts because those operate on UTF-8 encoding.
     #
     # == Exceptions
     #

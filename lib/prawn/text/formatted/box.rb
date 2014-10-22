@@ -168,7 +168,6 @@ module Prawn
           @rotate            = options[:rotate] || 0
           @rotate_around     = options[:rotate_around] || :upper_left
           @single_line       = options[:single_line]
-          @skip_encoding     = options[:skip_encoding] || @document.skip_encoding
           @draw_text_callback = options[:draw_text_callback]
 
           # if the text rendering mode is :unknown, force it back to :fill
@@ -337,7 +336,6 @@ module Prawn
                                               :disable_wrap_by_char,
                                               :leading, :character_spacing,
                                               :mode, :single_line,
-                                              :skip_encoding,
                                               :document,
                                               :direction,
                                               :fallback_fonts,
@@ -347,11 +345,7 @@ module Prawn
         private
 
         def normalized_text(flags)
-          if @skip_encoding
-            text = original_text
-          else
-            text = normalize_encoding
-          end
+          text = normalize_encoding
 
           text.each { |t| t.delete(:color) } if flags[:dry_run]
 
