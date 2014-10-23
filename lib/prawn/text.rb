@@ -354,7 +354,10 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      indent(@indent_paragraphs) do
+      gap = options.fetch(:direction, :ltr) == :ltr ?
+              [@indent_paragraphs, 0] : [0, @indent_paragraphs]
+
+      indent(*gap) do
         fill_formatted_text_box(string, options.dup.merge(:single_line => true))
       end
     end
