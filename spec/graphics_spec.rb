@@ -243,11 +243,29 @@ describe "When setting colors" do
     colors.stroke_color.should == [1.0, 0.8, 0.8]
   end
 
+  it "should accept stroke colors from objects that support color_str" do
+    color = mock('color')
+    color.expects(:color_str).returns("ffcccc")
+    @pdf.stroke_color color #"ffcccc"
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    # 100% red, 80% green, 80% blue
+    colors.stroke_color.should == [1.0, 0.8, 0.8]
+  end
+
   it "should set fill colors" do
     @pdf.fill_color "ccff00"
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
     # 80% red, 100% green, 0% blue
     colors.fill_color.should == [0.8,1.0,0]
+  end
+
+  it "should accept fill colors from objects that support color_str" do
+    color = mock('color')
+    color.expects(:color_str).returns("ccffcc")
+    @pdf.fill_color color #"ffcccc"
+    colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
+    # 100% red, 80% green, 80% blue
+    colors.fill_color.should == [0.8, 1.0, 0.8]
   end
 
   it "should reset the colors on each new page if they have been defined" do

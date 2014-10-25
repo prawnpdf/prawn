@@ -74,6 +74,7 @@ module Prawn
       #  => [255, 120, 8]
       #
       def hex2rgb(hex)
+        hex = hex.respond_to?(:to_str) ? hex.to_str : hex.color_str
         r,g,b = hex[0..1], hex[2..3], hex[4..5]
         [r,g,b].map { |e| e.to_i(16) }
       end
@@ -93,9 +94,11 @@ module Prawn
 
       def color_type(color)
         case color
-        when String
+        when -> (color) { color.respond_to?(:to_str) }
           :RGB
-        when Array
+        when -> (color) { color.respond_to?(:color_str) }
+          :RGB
+        when -> (color) { color.respond_to?(:to_ary) }
           case color.length
           when 3
             :RGB
