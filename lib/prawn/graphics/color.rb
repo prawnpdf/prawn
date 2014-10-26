@@ -94,11 +94,11 @@ module Prawn
 
       def color_type(color)
         case color
-        when -> (color) { color.respond_to?(:to_str) }
+        when ->(color) { color.respond_to?(:to_str) }
           :RGB
-        when -> (color) { color.respond_to?(:color_str) }
+        when ->(color) { color.respond_to?(:color_str) }
           :RGB
-        when -> (color) { color.respond_to?(:to_ary) }
+        when ->(color) { color.respond_to?(:to_ary) }
           case color.length
           when 3
             :RGB
