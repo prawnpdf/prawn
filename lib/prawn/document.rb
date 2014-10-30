@@ -243,7 +243,7 @@ module Prawn
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout
-        last_page_margins = last_page.margins
+        last_page_margins = last_page.margins.dup
       end
 
       page_options = {:size => options[:size] || last_page_size,
