@@ -173,6 +173,10 @@ module Prawn
         end
       end
 
+      def to_utf8(text)
+        text.encode("UTF-8")
+      end
+
       def glyph_present?(char)
         code = char.codepoints.first
         cmap[code] > 0

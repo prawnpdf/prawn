@@ -13,12 +13,12 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text "€", :size => 32
   move_down 20
 
-  text "Seems ok. Now let's try something more complex:"
-  text "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει."
+  text "This works, because €  is one of the few "+
+       "non-ASCII glyphs supported in PDF built-in fonts."
+
   move_down 20
 
-  text "Looks like the current font (#{font.inspect}) doesn't support those."
-  text "Let's try them with another font."
+  text "For full internationalized text support, we need to use TTF fonts:"
   move_down 20
 
   font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do

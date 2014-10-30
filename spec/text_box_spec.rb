@@ -664,31 +664,12 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
       remaining_text = @text_box.render
       remaining_text.should == @text
     end
-
-    it "subsequent calls to Text::Box need not include the" +
-       " :skip_encoding => true option" do
-      @pdf.font("Panic Sans")
-      remaining_text = @text_box.render
-
-      # expect that calling text_box will not raise an encoding error
-      @pdf.text_box(remaining_text, :document => @pdf)
-    end
   end
 
   describe "when using an AFM font" do
-    it "unprinted text should be in WinAnsi encoding" do
+    it "unprinted text should be in UTF-8 encoding" do
       remaining_text = @text_box.render
-      remaining_text.should == @pdf.font.normalize_encoding(@text)
-    end
-    it "subsequent calls to Text::Box must include the" +
-       " :skip_encoding => true option" do
-      remaining_text = @text_box.render
-      lambda {
-        @pdf.text_box(remaining_text, :document => @pdf)
-      }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
-
-      @pdf.text_box(remaining_text, :skip_encoding => true,
-                                    :document => @pdf)
+      remaining_text.should == @text
     end
   end
 end

@@ -66,7 +66,7 @@ module Prawn
 
     VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
                      :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-                     :compress, :skip_encoding, :background, :info,
+                     :compress, :background, :info,
                      :text_formatter, :print_scaling]
 
     # Any module added to this array will be included into instances of

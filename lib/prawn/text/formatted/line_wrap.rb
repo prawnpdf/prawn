@@ -128,6 +128,7 @@ module Prawn
             "[#{whitespace}]+|" +
             "#{hyphen}+[^#{break_chars}]*|" +
             "#{soft_hyphen}"
+
           Regexp.new(pattern)
         end
 
