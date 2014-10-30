@@ -116,7 +116,7 @@ module Prawn
     #                   the current font familly. [current style]
     # <tt>:indent_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
     #                               first line of each paragraph. Omit this
-    #                               option if you do not want indenting
+    #                               option if you do not want indenting.
     # <tt>:direction</tt>::
     #     <tt>:ltr</tt>, <tt>:rtl</tt>, Direction of the text (left-to-right
     #     or right-to-left) [value of document.text_direction]
