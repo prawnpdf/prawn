@@ -9,6 +9,10 @@
 # that two fragments going against the main direction cannot be placed next to
 # each other without appearing in the wrong order.
 #
+# Writing bidirectional text that combines both left-to-right and right-to-left
+# languages is easy using the <code>bidi</code> Ruby Gem. See its README file on
+# how to process strings through its <code>render_visual</code> function before
+# passing them to Prawn.
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
