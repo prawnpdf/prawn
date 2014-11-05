@@ -10,9 +10,9 @@
 # each other without appearing in the wrong order.
 #
 # Writing bidirectional text that combines both left-to-right and right-to-left
-# languages is easy using the <code>bidi</code> Ruby Gem. See its README file on
-# how to process strings through its <code>render_visual</code> function before
-# passing them to Prawn.
+# languages is easy using the <code>bidi</code> Ruby Gem and its
+# <code>render_visual</code> function. See https://github.com/elad/ruby-bidi for
+# instructions and an example using Prawn.
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
