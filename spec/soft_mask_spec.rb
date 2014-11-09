@@ -4,17 +4,24 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module SoftMaskHelper
   def make_soft_mask
+    puts "make_soft_mask save_graphics_state"
     @pdf.save_graphics_state do
+      puts "make_soft_mask soft_mask"
       @pdf.soft_mask do
         if block_given?
+          puts "make_soft_mask yielding"
           yield
         else
+          puts "make_soft_mask calling fill_color 808080"
           @pdf.fill_color '808080'
+          puts "make_soft_mask calling fill_rectangle"
           @pdf.fill_rectangle [100, 100], 200, 200
         end
       end
 
+      puts "make_soft_mask calling fill_color(2)"
       @pdf.fill_color '000000'
+      puts "make_soft_mask calling fill_rectangle(2)"
       @pdf.fill_rectangle [0, 0], 200, 200
     end
   end
@@ -25,7 +32,9 @@ describe "Document with soft masks" do
   include SoftMaskHelper
 
   it "should have PDF version at least 1.4" do
+    puts "calling create_pdf"
     create_pdf
+    puts "calling make_soft_mask"
     make_soft_mask
     str = @pdf.render
     str[0,8].should == "%PDF-1.4"

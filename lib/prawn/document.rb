@@ -649,8 +649,8 @@ module Prawn
     # setting override_settings to true ensures that a new graphic state does not end up using
     # previous settings.
     def use_graphic_settings(override_settings = false)
-      set_fill_color if current_fill_color != "000000" || override_settings
-      set_stroke_color if current_stroke_color != "000000" || override_settings
+      set_fill_color if current_fill_color.to_rgb != [0, 0, 0] || override_settings
+      set_stroke_color if current_stroke_color.to_rgb != [0, 0, 0] || override_settings
       write_line_width if line_width != 1 || override_settings
       write_stroke_cap_style if cap_style != :butt || override_settings
       write_stroke_join_style if join_style != :miter || override_settings
