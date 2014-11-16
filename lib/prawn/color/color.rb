@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Prawn
   module Color
     class Color
