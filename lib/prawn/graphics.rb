@@ -332,7 +332,7 @@ module Prawn
         :width => bounds.width.to_i - (options[:at] || [0,0])[0],
         :step_length => 100,
         :negative_axes_length => 20,
-        :color => ::Prawn::RGB::Color("000000"),
+        :color => ::Prawn::Color::ColorFactory.build("000000")
       }.merge(options)
 
       Prawn.verify_options([:at, :width, :height, :step_length,

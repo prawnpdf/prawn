@@ -70,7 +70,8 @@ describe "A document's grid" do
     end
 
     it "should draw outlines without changing global default colors to grid color" do
-      @pdf.grid.show_all('cccccc')
+      @pdf.grid.show_all(::Prawn::Color::ColorFactory.build(*'cccccc'))
+      #@pdf.grid.show_all('cccccc')
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
       colors.fill_color.should_not   == [0.8,0.8,0.8]

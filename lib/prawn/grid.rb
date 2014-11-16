@@ -73,7 +73,7 @@ module Prawn
       end
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
-      def show_all(color = "CCCCCC")
+      def show_all(color = ::Prawn::Color::ColorFactory.build(*'cccccc'))
         self.rows.times do |i|
           self.columns.times do |j|
             pdf.grid(i,j).show(color)
@@ -186,7 +186,7 @@ module Prawn
       end
 
       # Diagnostic method
-      def show(grid_color = "CCCCCC")
+      def show(grid_color = ::Prawn::Color::ColorFactory.build(*'CCCCCC'))
         self.bounding_box do
           original_stroke_color = pdf.stroke_color
 
