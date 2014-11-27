@@ -64,7 +64,7 @@ module Prawn
     # Delegates all unhandled calls to object returned by +document+ method.
     # (which is an instance of Prawn::Document by default)
     def method_missing(m, *a, &b)
-      return super unless document.respond_to?(m)
+      return super unless document.respond_to?(m, true)
 
       document.send(m, *a, &b)
     end
