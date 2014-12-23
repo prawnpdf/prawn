@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # The <code>bounds</code> method returns the current bounding box. This is
-# useful because the <code>Prawn::BoundinBox</code> exposes some nice boundary
+# useful because the <code>Prawn::BoundingBox</code> exposes some nice boundary
 # helpers.
 #
 # <code>top</code>, <code>bottom</code>, <code>left</code> and
