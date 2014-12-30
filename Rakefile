@@ -52,4 +52,4 @@ task :console do
   IRB.start
 end
 
-Rubocop::RakeTask.new
+RuboCop::RakeTask.new
