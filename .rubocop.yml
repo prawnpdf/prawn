@@ -109,8 +109,6 @@ NumericLiterals:
   Enabled: false
 AsciiComments:
   Enabled: false
-EmptyLinesAroundBody:
-  Enabled: false
 SignalException:
   Enabled: false
 HandleExceptions:
@@ -190,4 +188,42 @@ ClassVars:
 ParameterLists:
   Enabled: false
 BlockComments:
+  Enabled: false
+MultilineOperationIndentation:
+  Enabled: false
+SpaceBeforeComment:
+  Enabled: false
+AbcSize:
+  Enabled: false
+EmptyLinesAroundClassBody:
+  Enabled: false
+PerceivedComplexity:
+  Enabled: false
+EmptyLinesAroundBlockBody:
+  Enabled: false
+UnusedBlockArgument:
+  Enabled: false
+UnusedMethodArgument:
+  Enabled: false
+Next:
+  Enabled: false
+SymbolProc:
+  Enabled: false
+ClassCheck:
+  Enabled: false
+SpaceBeforeComma:
+  Enabled: false
+StringLiteralsInInterpolation:
+  Enabled: false
+EmptyLinesAroundModuleBody:
+  Enabled: false
+GuardClause:
+  Enabled: false
+ElseAlignment:
+  Enabled: false
+CommentIndentation:
+  Enabled: false
+EachWithObject:
+  Enabled: false
+BlockEndNewline:
   Enabled: false
