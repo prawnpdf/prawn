@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
                  "COPYING", "LICENSE", "GPLv2", "GPLv3",
                  ".yardopts"]
   spec.require_path = "lib"
-  spec.required_ruby_version = '>= 1.9.3'
+  spec.required_ruby_version = '>= 2.0.0'
   spec.required_rubygems_version = ">= 1.3.6"
 
   spec.test_files = Dir[ "spec/*_spec.rb" ]
