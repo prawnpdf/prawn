@@ -384,7 +384,7 @@ describe "#text" do
                             @pdf.width_of(lines[3].reverse, :kerning => true)))
     end
 
-    it "should indent from right side when using :ltr direction" do
+    it "should indent from left side when using :ltr direction" do
       para1 = "The rain in spain falls mainly on the plains " * 3
       para2 = "The rain in spain falls mainly on the plains " * 3
 
