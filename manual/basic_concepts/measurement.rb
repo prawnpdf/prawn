@@ -3,7 +3,7 @@
 # The base unit in Prawn is the PDF Point. One PDF Point is equal to 1/72 of
 # an inch.
 #
-# There is no need to waste time converting this measures. Prawn provides
+# There is no need to waste time converting this measure. Prawn provides
 # helpers for converting from other measurements
 # to PDF Points.
 #
