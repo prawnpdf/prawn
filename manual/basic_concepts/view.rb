@@ -6,11 +6,17 @@
 # <code>Prawn::Document</code>'s state, and you will avoid accidental method
 # collisions within <code>Prawn::Document</code>.
 #
-# To build custom classes that make use of other custom classes,
-# you can define a method named <code>document()</code> that returns
-# any object that acts similar to a <code>Prawn::Document</code>
-# object. <code>Prawn::View</code> will then direct all delegated
-# calls to that object instead.
+# You would typically define in your custom class a <code>document</code> instance
+# method with a <code>Prawn::Document</code> initialized to your heart's content.
+# This method will be called repeatedly by <code>Prawn::View</code>, so do not
+# forget to assign the object to an instance variable via the <code>||=</code> operator.
+#
+# If you do not define the <code>document</code> method, a <code>Prawn::Document</code>
+# will be lazily instantiated for you, using default initialization settings,
+# such as page size, layout, margins, etc.
+#
+# Either way, your custom objects will have access to all <code>Prawn::Document</code>
+# methods.
 
 require_relative '../example_helper'
 
