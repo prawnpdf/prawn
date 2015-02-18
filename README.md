@@ -120,7 +120,7 @@ overall direction of the project.
 These are the folks to contact if you have a maintenance-related issue with
 Prawn:
 
-* Gregory Brown (sandal)
+* Gregory Brown (practicingruby)
 * Evan Sharp (PacketMonkey)
 * Alexander Mankuta (cheba)
 
