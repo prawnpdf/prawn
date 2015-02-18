@@ -67,8 +67,8 @@ Note that while we will try to keep the downloadable manual up to date, that it'
 
 Before upgrading Prawn on one of your projects, you should read our [API
 compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
-guidelines. Generally speaking, you can expect tiny version updates to always be
-safe upgrades, but minor and major updates can introduce incompatibilities.
+guidelines. Generally speaking, you can expect tiny and minor version updates to always be
+safe upgrades, but major updates can introduce incompatibilities.
 
 Be sure to read the release notes in CHANGELOG.md each time we cut a 
 new release, and lock your gems accordingly. 
