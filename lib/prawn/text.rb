@@ -359,7 +359,7 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      gap = options.fetch(:direction, :ltr) == :ltr ?
+      gap = options.fetch(:direction, text_direction) == :ltr ?
               [@indent_paragraphs, 0] : [0, @indent_paragraphs]
 
       indent(*gap) do
