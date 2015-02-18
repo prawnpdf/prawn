@@ -70,8 +70,8 @@ compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
 guidelines. Generally speaking, you can expect tiny version updates to always be
 safe upgrades, but minor and major updates can introduce incompatibilities.
 
-Be sure to read the release notes each time we cut a new release and lock your gems accordingly. 
-You can find the project CHANGELOG at: https://github.com/prawnpdf/prawn/wiki/CHANGELOG
+Be sure to read the release notes in CHANGELOG.md each time we cut a 
+new release, and lock your gems accordingly. 
 
 ## Support 
 
