@@ -2,13 +2,42 @@
 
 *Note: This release is still under development, and so the notes below are subject to change!*
 
-* TODO: Describe updates to supported Ruby version 
-(+ MRI 2.2.0, - Ruby 1.9.3, - JRuby 1.7 in 1.9 mode, + JRuby 1.7 (>= 1.7.18) in 2.0 mode)
+### Changes to supported Ruby versions
 
-* TODO: Note update to versioning policy, and link to (updated) 
-API Compatibility wiki pages
+Now that Ruby 1.9.3 is no longer supported by the Ruby core team, Prawn will no
+longer attempt to maintain 1.9.x compatibility.
 
-* TODO: Audit all prawnpdf/* repo commit logs for missing CHANGELOG entries.
+We will continue to support Ruby 2.0.0 and 2.1.x, and have added support for Ruby
+2.2.x as well.
+
+If you're using JRuby, we recommend using JRuby 1.7.x (>= 1.7.18) in 2.0 mode 
+for now. Please file bug reports if you run into any problems!
+
+### Changes to PrawnPDF's versioning policies
+
+Starting with this release, we will set version numbers based on the following policy:
+
+* Whenever a documented feature is modified in a backwards-incompatible way, 
+we'll bump our major version number.
+
+* Whenever we add new functionality without breaking backwards compatibility, 
+we'll bump our minor version number.
+
+* Whenever we cut maintenance releases (which cover only bug fixes,
+documentation, and internal improvements), we'll bump our tiny version number.
+
+This policy is similar in spirit to [Semantic Versioning](http://semver.org/), 
+and we may end up formally adopting SemVer in the future.
+
+The main caveat is that if a feature is not documented (either in our API
+documentation or in Prawn's manual), you cannot assume anything about its
+intended behavior. Prawn has a lot of cruft left in it due to piecewise
+development over nearly a decade, so the APIs have not been designed as
+much as they have been organically grown.
+
+To make sure that the amount of undefined behavior in Prawn shrinks over time,
+we'll make sure to review and revise documentation whenever new functionality 
+is added, and also whenever we change existing features.
 
 ### All decimals in PDF output are now rounded to a fixed precision of 4 decimal places 
 
