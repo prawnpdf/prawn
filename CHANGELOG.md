@@ -1,3 +1,72 @@
+## PrawnPDF version 2.0.0, not yet released.
+
+*Note: This release is still under development, and so the notes below are subject to change!*
+
+* TODO: Describe updates to supported Ruby version 
+(+ MRI 2.2.0, - Ruby 1.9.3, - JRuby 1.7 in 1.9 mode, + JRuby 1.7 (>= 1.7.18) in 2.0 mode)
+
+* TODO: Note update to versioning policy, and link to (updated) 
+API Compatibility wiki pages
+
+* TODO: Audit all prawnpdf/* repo commit logs for missing CHANGELOG entries.
+
+### All decimals in PDF output are now rounded to a fixed precision of 4 decimal places 
+
+This should improve compatibility across viewers that do not support 
+arbitrarily long decimal numbers, without effecting practical use 
+at all. (A PDF point is 1/72 inch, so 0.0001 PDF point is a very, very small number).
+
+https://github.com/prawnpdf/prawn/pull/782
+
+This patch was added in response to certain PDFs on certain versions of Adobe Reader raising errors when viewed.
+
+### Fix text width calculation to prevent unnecessary soft hyphen
+
+(Elaborate here)
+
+https://github.com/prawnpdf/prawn/pull/786
+
+### Fix broken valign for center and bottom
+
+(Elaborate here)
+
+Note that because this has been broken for so long, folks may have assumed the 
+original behavior was intentional. Check your code to see if you've been 
+working around this issue, because if so it may cause breakage.
+
+https://github.com/prawnpdf/prawn/pull/788
+
+### Calling `dash(0)` now raises an error instead of generating a corrupt PDF
+
+https://github.com/prawnpdf/prawn/commit/e65c24411c451918718a8e8cb35631c98ccc5517
+
+### Vastly improved handling of encodings for PDF built in (AFM) fonts
+
+* Text for all Prawn methods is now UTF-8-in, UTF-8-out, so the user
+does not need to handle Windows-1252 strings.
+
+* Internally, we're now using Ruby's M17n system to handle the encoding
+into Windows-1252, so text.encoding will come back as Windows-1252
+when `AFM#normalize_encoding` is called, rather than `ASCII-8Bit`
+
+* When using AFM fonts + ASCII only text, no warning will be seen.
+
+* When using AFM fonts + non-ASCII characters that are supported in
+ Windows-1252, users will see a warning about the limited
+internationalization support, along with a recommendation to use a TTF
+ font instead.
+
+* The warning includes instructions on how to disable it (just set
+`Prawn::Font::AFM.hide_m17_warning = true`)
+
+* When using AFM fonts + non-ASCII characters that are NOT supported in
+* WIndows-1252, an exception will be raised rather than replacing w.
+ `_`.
+
+* None of the above will apply to anyone using TTF fonts with sane UTF-8
+support, everything should "just work" for those folks.
+
+(Gregory Brown, [#793](https://github.com/prawnpdf/prawn/pull/793))
 
 ## PrawnPDF 1.3.0 -- September 28, 2014
 
