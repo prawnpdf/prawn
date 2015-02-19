@@ -1,6 +1,6 @@
 ## PrawnPDF version 2.0.0, not yet released.
 
-*Note: This release is still under development, and so the notes below are subject to change!*
+*Note: This release is still under development.The notes below are subject to change!*
 
 ### Changes to supported Ruby versions
 
@@ -45,15 +45,23 @@ This should improve compatibility across viewers that do not support
 arbitrarily long decimal numbers, without effecting practical use 
 at all. (A PDF point is 1/72 inch, so 0.0001 PDF point is a very, very small number).
 
-https://github.com/prawnpdf/prawn/pull/782
-
 This patch was added in response to certain PDFs on certain versions of Adobe Reader raising errors when viewed.
+
+(Gregory Brown, [#782](https://github.com/prawnpdf/prawn/pull/782))
 
 ### Fix text width calculation to prevent unnecessary soft hyphen
 
-(Elaborate here)
+Previously, the `width_of` method would include the width of all soft hyphens 
+in a string, regardless of whether they would be rendered or not. This caused
+lines of text to appear longer than they actually were, causing unnecessary
+wrapping and hyphenation at times.
 
-https://github.com/prawnpdf/prawn/pull/786
+We've changed this calculation to only include the width of a soft hyphen when
+it will actually be rendered (i.e. when a line needs to be wrapped), which
+should prevent unnecessary hyphenation and text wrapping in strings containing
+soft hyphens.
+
+(Mario Albert, [#775](https://github.com/prawnpdf/prawn/issues/775), [#786](https://github.com/prawnpdf/prawn/pull/786))
 
 ### Fix broken valign for center and bottom
 
