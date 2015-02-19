@@ -45,11 +45,12 @@ This should improve compatibility across viewers that do not support
 arbitrarily long decimal numbers, without effecting practical use 
 at all. (A PDF point is 1/72 inch, so 0.0001 PDF point is a very, very small number).
 
-This patch was added in response to certain PDFs on certain versions of Adobe Reader raising errors when viewed.
+This patch was added in response to certain PDFs on certain versions of Adobe 
+Reader raising errors when viewed.
 
 (Gregory Brown, [#782](https://github.com/prawnpdf/prawn/pull/782))
 
-### Fix text width calculation to prevent unnecessary soft hyphen
+### Fixed text width calculation to prevent unnecessary soft hyphen
 
 Previously, the `width_of` method would include the width of all soft hyphens 
 in a string, regardless of whether they would be rendered or not. This caused
@@ -63,30 +64,67 @@ soft hyphens.
 
 (Mario Albert, [#775](https://github.com/prawnpdf/prawn/issues/775), [#786](https://github.com/prawnpdf/prawn/pull/786))
 
-### Fix broken valign for center and bottom
+### Fixed broken vertical alignment for center and bottom
 
-(Elaborate here)
+In earlier versions of Prawn, center alignment and bottom alignment in text
+boxes worked in a way that is inconsistent with common typographical 
+conventions: 
 
-Note that because this has been broken for so long, folks may have assumed the 
-original behavior was intentional. Check your code to see if you've been 
-working around this issue, because if so it may cause breakage.
+* Vertically centered text was padded so that the distance between the 
+top of the box and the ascender of the first line of text was made equal to the 
+distance between the descender of the bottom line to the descender of the last line of text.
 
-https://github.com/prawnpdf/prawn/pull/788
+* Bottom aligned text included the line gap specified by a font, leaving a bit of
+extra in the box space below the descender of the last line of text.
 
-### Calling `dash(0)` now raises an error instead of generating a corrupt PDF
+Other commonly used software typically uses the baseline rather than the descender
+when centering text, and does not include the line gap when bottom aligning text.
+We've changed Prawn's behavior to be consistent with those conventions, which
+should result in less surprising output.
 
-https://github.com/prawnpdf/prawn/commit/e65c24411c451918718a8e8cb35631c98ccc5517
+That said, this problem has existed in Prawn for a very, very long time. Check your code to
+see if you've been working around this issue, because if so it may cause breakage.
+
+For a very detailed discussion (with pictures), see issue [#169](https://github.com/prawnpdf/prawn/issues/169).
+
+(Jesse Doyle, [#788](https://github.com/prawnpdf/prawn/pull/788))
+
+### Calling dash(0) now raises an error instead of generating a corrupt PDF
+
+In earlier versions of Prawn, accidentally calling `dash(0)` instead of 
+`undash` in an attempt to clear dash settings would generate a corrupted
+document instead of raising an error, making debugging difficult.
+
+Because `dash(0)` is not a valid API call, we now raise an error that says
+"Zero length dashes are invalid. Call #undash to disable dashes.", making
+the source of the problem much clearer.
 
 ### Vastly improved handling of encodings for PDF built in (AFM) fonts
 
-* Text for all Prawn methods is now UTF-8-in, UTF-8-out, so the user
-does not need to handle Windows-1252 strings.
+Prawn has always had comprehensive UTF-8 support for TTF font files, but many 
+users still rely on the "built in" AFM fonts that are provided by PDF viewers.
+These fonts only support the very limited set of internationalized characters 
+specified by the Windows-1252 character encoding, and that has been a long
+standing source of confusion and awkward behaviors.
 
-* Internally, we're now using Ruby's M17n system to handle the encoding
-into Windows-1252, so text.encoding will come back as Windows-1252
-when `AFM#normalize_encoding` is called, rather than `ASCII-8Bit`
+Earlier versions of Prawn attempted to transcode UTF-8 to Windows-1252 
+automatically, but some of our low level features either assumed that
+text was already encoded properly, or returned text in a different
+encoding than what was provided because of the internal transcoding
+operations. We also handled Windows-1252 encoding manually, so strings
+would come back tagged as ASCII-8BIT instead of Windows-1252, making
+things even more confusing.
 
-* When using AFM fonts + ASCII only text, no warning will be seen.
+In this release, we've made some major behavior changes to the way AFM
+fonts work so that users need to think less about Prawn's internals:
+
+* Text handling for all public Prawn methods is now UTF-8-in, UTF-8-out, 
+making Windows-1252 transcoding purely an implementation detail of Prawn
+that isn't visible from the outside.
+
+* When using AFM fonts + non-ASCII characters that are NOT supported in 
+Windows-1252, an exception will be raised rather than replacing w.
+ `_`. 
 
 * When using AFM fonts + non-ASCII characters that are supported in
  Windows-1252, users will see a warning about the limited
@@ -96,12 +134,18 @@ internationalization support, along with a recommendation to use a TTF
 * The warning includes instructions on how to disable it (just set
 `Prawn::Font::AFM.hide_m17_warning = true`)
 
-* When using AFM fonts + non-ASCII characters that are NOT supported in
-* WIndows-1252, an exception will be raised rather than replacing w.
- `_`.
+* When using AFM fonts + ASCII only text, no warning will be seen.
 
-* None of the above will apply to anyone using TTF fonts with sane UTF-8
-support, everything should "just work" for those folks.
+* Internally, we're now using Ruby's M17n system to handle the encoding
+into Windows-1252, so text.encoding will come back as Windows-1252
+when `AFM#normalize_encoding` is called, rather than `ASCII-8Bit`
+
+None of the above issues apply when using TTF fonts with Prawn, because
+those have always been UTF-8 in, UTF-8 out, and no transcoding was
+done internally. It is still our recommendation for those using internationalized 
+text to use TTF fonts because they do not have the same limitations
+as AFM fonts, but those who need to use AFM for whatever reason
+should benefit greatly from these changes.
 
 (Gregory Brown, [#793](https://github.com/prawnpdf/prawn/pull/793))
 
