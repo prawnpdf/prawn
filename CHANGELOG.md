@@ -64,6 +64,19 @@ soft hyphens.
 
 (Mario Albert, [#775](https://github.com/prawnpdf/prawn/issues/775), [#786](https://github.com/prawnpdf/prawn/pull/786))
 
+### Fixed styled text width calculations when using TTF files
+
+Previously, `width_of` calculations on styled text were relying on the
+document font's name attribute in order to look up the appropriate
+font style. This doesn't work for TTF fonts, since the name is a full
+path to a single style of font, and the Prawn must know about the font
+family in order to find another style.
+
+The `width_of` method has been updated to use the font family instead, 
+which allows calculations to work properly with TTFs.
+
+(Ernie Miller, [#827](https://github.com/prawnpdf/prawn/pull/827))
+
 ### Fixed broken vertical alignment for center and bottom
 
 In earlier versions of Prawn, center alignment and bottom alignment in text
