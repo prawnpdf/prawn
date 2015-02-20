@@ -96,6 +96,12 @@ describe "#width_of" do
       @bold_hello = @pdf.width_of("hello")
     }
 
+    @pdf.font("DejaVu Sans") {
+      @plain_hello = @pdf.width_of("hello")
+    }
+
+    @plain_hello.should_not == @bold_hello
+
     @styled_bold_hello.should == @bold_hello
   end
 
