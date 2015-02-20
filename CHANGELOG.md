@@ -73,7 +73,7 @@ path to a single style of font, and the Prawn must know about the font
 family in order to find another style.
 
 The `width_of` method has been updated to use the font family instead, 
-which allows calculations to work properly with TTFs.
+allowing calculations to work properly with TTFs.
 
 (Ernie Miller, [#827](https://github.com/prawnpdf/prawn/pull/827))
 
