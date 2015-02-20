@@ -149,6 +149,20 @@ should benefit greatly from these changes.
 
 (Gregory Brown, [#793](https://github.com/prawnpdf/prawn/pull/793))
 
+### Temporarily restored the Document#on_page_create method
+
+This method was moved into PDF::Core in the Prawn 1.3.0 release, removing
+it from the `Prawn::Document` API. Although it is a low-level method not
+meant for general use, it is necessary for certain tasks that we do not
+have proper support for elsewhere.
+
+This method should still be considered part of Prawn's internals and is subject
+to change at any time, but we have restored it temporarily until we have
+a suitable replacement for it. See the discussion on [#797](https://github.com/prawnpdf/prawn/issues/797)
+for more details.
+
+(Jesse Doyle, [#797](https://github.com/prawnpdf/prawn/issues/797), [#825](https://github.com/prawnpdf/prawn/pull/825))
+
 ## PrawnPDF 1.3.0 -- September 28, 2014
 
 ### Added the Prawn::View mixin for using Prawn's DSL in your own classes.
