@@ -180,6 +180,10 @@ describe "on_page_create callback" do
     create_pdf
   end
 
+  it "should be delegated from Document to renderer" do
+    expect(@pdf.respond_to?(:on_page_create)).to be_true
+  end
+
   it "should be invoked with document" do
     called_with = nil
 

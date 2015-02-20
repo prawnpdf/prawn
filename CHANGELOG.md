@@ -64,6 +64,19 @@ soft hyphens.
 
 (Mario Albert, [#775](https://github.com/prawnpdf/prawn/issues/775), [#786](https://github.com/prawnpdf/prawn/pull/786))
 
+### Fixed styled text width calculations when using TTF files
+
+Previously, `width_of` calculations on styled text were relying on the
+document font's name attribute in order to look up the appropriate
+font style. This doesn't work for TTF fonts, since the name is a full
+path to a single style of font, and the Prawn must know about the font
+family in order to find another style.
+
+The `width_of` method has been updated to use the font family instead, 
+allowing calculations to work properly with TTFs.
+
+(Ernie Miller, [#827](https://github.com/prawnpdf/prawn/pull/827))
+
 ### Fixed broken vertical alignment for center and bottom
 
 In earlier versions of Prawn, center alignment and bottom alignment in text
@@ -148,6 +161,20 @@ as AFM fonts, but those who need to use AFM for whatever reason
 should benefit greatly from these changes.
 
 (Gregory Brown, [#793](https://github.com/prawnpdf/prawn/pull/793))
+
+### Temporarily restored the Document#on_page_create method
+
+This method was moved into PDF::Core in the Prawn 1.3.0 release, removing
+it from the `Prawn::Document` API. Although it is a low-level method not
+meant for general use, it is necessary for certain tasks that we do not
+have proper support for elsewhere.
+
+This method should still be considered part of Prawn's internals and is subject
+to change at any time, but we have restored it temporarily until we have
+a suitable replacement for it. See the discussion on [#797](https://github.com/prawnpdf/prawn/issues/797)
+for more details.
+
+(Jesse Doyle, [#797](https://github.com/prawnpdf/prawn/issues/797), [#825](https://github.com/prawnpdf/prawn/pull/825))
 
 ## PrawnPDF 1.3.0 -- September 28, 2014
 
