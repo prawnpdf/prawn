@@ -2,7 +2,7 @@
 
 ...
 
-## PrawnPDF version 2.0.0
+## PrawnPDF 2.0.0 -- 2015-02-26
 
 ### Changes to supported Ruby versions
 
@@ -178,7 +178,7 @@ for more details.
 
 (Jesse Doyle, [#797](https://github.com/prawnpdf/prawn/issues/797), [#825](https://github.com/prawnpdf/prawn/pull/825))
 
-## PrawnPDF 1.3.0 -- September 28, 2014
+## PrawnPDF 1.3.0 -- 2014-09-28
 
 ### Added the Prawn::View mixin for using Prawn's DSL in your own classes.
 
@@ -255,7 +255,7 @@ or its dependencies.
 
 ([TTFunk #21](https://github.com/prawnpdf/ttfunk/pull/21) -- Jesse Doyle)
 
-## PrawnPDF 1.2.1 -- July 27, 2014
+## PrawnPDF 1.2.1 -- 2014-07-27
 
 This release includes all changes from 1.2.0, which was yanked due to a packaging error.
 
@@ -328,7 +328,7 @@ When we extracted Prawn::ManualBuilder, we accidentally broke its support for
 Ruby 1.9.3. That issue has been resolved, and a new version of the 
 `prawn-manual_builder` gem has been released.
 
-## PrawnPDF 1.1.0 -- June 27, 2014
+## PrawnPDF 1.1.0 -- 2014-06-27
 
 In addition to the notes below, please see the 
 [Prawn 1.1 blog post](http://elmcitycraftworks.org/post/90062338793/prawn-1-1-0-released").
@@ -402,7 +402,7 @@ This is a fix for yet another edge case in cell width calculations. See tickets 
 
 ([#710](https://github.com/prawnpdf/prawn/issues/710), [#712](https://github.com/prawnpdf/prawn/pull/712) Hartwig Brandl)
 
-## PrawnPDF 1.0.0 -- March 16, 2014
+## PrawnPDF 1.0.0 -- 2014-03-16
 
 In addition to the notes below, please see the [Prawn 1.0 blog post.][1-0-blog-post]
 
