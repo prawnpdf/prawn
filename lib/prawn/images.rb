@@ -121,9 +121,8 @@ module Prawn
       label = "I#{next_image_id}"
       state.page.xobjects.merge!(label => pdf_obj)
 
-      # add the image to the current page
-      instruct = "\nq\n%.3f 0 0 %.3f %.3f %.3f cm\n/%s Do\nQ"
-      renderer.add_content instruct % [ w, h, x, y - h, label ]
+      cm_params = PDF::Core.real_params([ w, 0, 0, h, x, y - h])
+      renderer.add_content("\nq\n#{cm_params} cm\n/#{label} Do\nQ")
     end
 
     private

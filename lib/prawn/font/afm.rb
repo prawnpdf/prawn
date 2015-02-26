@@ -6,7 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require_relative '../../prawn/encoding'
+require_relative "../encoding"
 
 module Prawn
   class Font
@@ -14,6 +14,12 @@ module Prawn
     # @private
 
     class AFM < Font
+      class << self
+        attr_accessor :hide_m17n_warning
+      end
+
+      self.hide_m17n_warning = false
+
       BUILT_INS = %w[ Courier Helvetica Times-Roman Symbol ZapfDingbats
                       Courier-Bold Courier-Oblique Courier-BoldOblique
                       Times-Bold Times-Italic Times-BoldItalic
@@ -44,7 +50,6 @@ module Prawn
 
         super
 
-        @@winansi   ||= Prawn::Encoding::WinAnsi.new # parse data/encodings/win_ansi.txt once only
         @@font_data ||= SynchronizedCache.new        # parse each ATM font file once only
 
         file_name = @name.dup
@@ -94,11 +99,17 @@ module Prawn
       # is replaced with a string in WinAnsi encoding.
       #
       def normalize_encoding(text)
-        enc = @@winansi
-        text.unpack("U*").collect { |i| enc[i] }.pack("C*")
-      rescue ArgumentError
+        text.encode("windows-1252")
+      rescue ::Encoding::InvalidByteSequenceError,
+             ::Encoding::UndefinedConversionError
+
         raise Prawn::Errors::IncompatibleStringEncoding,
-          "Arguments to text methods must be UTF-8 encoded"
+          "Your document includes text that's not compatible with the Windows-1252 character set.\n"+
+          "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
+      end
+
+      def to_utf8(text)
+        text.encode("UTF-8")
       end
 
       # Returns the number of characters in +str+ (a WinAnsi-encoded string).
@@ -124,11 +135,9 @@ module Prawn
       end
 
       def glyph_present?(char)
-        if char == "_"
-          true
-        else
-          normalize_encoding(char) != "_"
-        end
+        !!normalize_encoding(char)
+      rescue Prawn::Errors::IncompatibleStringEncoding
+        false
       end
 
       private

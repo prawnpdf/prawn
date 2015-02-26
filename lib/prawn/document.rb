@@ -66,7 +66,7 @@ module Prawn
 
     VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
                      :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-                     :compress, :skip_encoding, :background, :info,
+                     :compress, :background, :info,
                      :text_formatter, :print_scaling]
 
     # Any module added to this array will be included into instances of
@@ -243,7 +243,7 @@ module Prawn
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout
-        last_page_margins = last_page.margins
+        last_page_margins = last_page.margins.dup
       end
 
       page_options = {:size => options[:size] || last_page_size,

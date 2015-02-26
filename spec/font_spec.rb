@@ -80,6 +80,31 @@ describe "#width_of" do
     styled_bold_hello.should == @bold_hello
   end
 
+  it "should calculate styled widths correctly using TTFs" do
+    create_pdf
+
+    @pdf.font_families.update(
+      'DejaVu Sans' => {
+        :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
+        :bold => "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf",
+      }
+    )
+    @pdf.font("DejaVu Sans") {
+      @styled_bold_hello = @pdf.width_of("hello", :style => :bold)
+    }
+    @pdf.font("DejaVu Sans", :style => :bold) {
+      @bold_hello = @pdf.width_of("hello")
+    }
+
+    @pdf.font("DejaVu Sans") {
+      @plain_hello = @pdf.width_of("hello")
+    }
+
+    @plain_hello.should_not == @bold_hello
+
+    @styled_bold_hello.should == @bold_hello
+  end
+
   it "should not treat minus as if it were a hyphen", :issue => 578 do
     create_pdf
 

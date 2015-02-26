@@ -85,7 +85,7 @@ module Prawn
       #
       # Raises "Bad font family" if no font family is defined for the current font
       #
-      # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
+      # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
       # any text
       #
       def formatted_text_box(array, options={})
@@ -168,7 +168,6 @@ module Prawn
           @rotate            = options[:rotate] || 0
           @rotate_around     = options[:rotate_around] || :upper_left
           @single_line       = options[:single_line]
-          @skip_encoding     = options[:skip_encoding] || @document.skip_encoding
           @draw_text_callback = options[:draw_text_callback]
 
           # if the text rendering mode is :unknown, force it back to :fill
@@ -229,7 +228,9 @@ module Prawn
             end
           end
 
-          unprinted_text
+          unprinted_text.map do |e|
+            e.merge(:text => @document.font.to_utf8(e[:text]))
+          end
         end
 
         # The width available at this point in the box
@@ -335,7 +336,6 @@ module Prawn
                                               :disable_wrap_by_char,
                                               :leading, :character_spacing,
                                               :mode, :single_line,
-                                              :skip_encoding,
                                               :document,
                                               :direction,
                                               :fallback_fonts,
@@ -345,11 +345,7 @@ module Prawn
         private
 
         def normalized_text(flags)
-          if @skip_encoding
-            text = original_text
-          else
-            text = normalize_encoding
-          end
+          text = normalize_encoding
 
           text.each { |t| t.delete(:color) } if flags[:dry_run]
 
@@ -484,14 +480,16 @@ module Prawn
           @vertical_alignment_processed = true
 
           return if @vertical_align == :top
+
           wrap(text)
 
           case @vertical_align
           when :center
-            @at[1] = @at[1] - (@height - height) * 0.5
+            @at[1] -= (@height - height + @descender) * 0.5
           when :bottom
-            @at[1] = @at[1] - (@height - height) + @descender
+            @at[1] -= (@height - height)
           end
+
           @height = height
         end
 

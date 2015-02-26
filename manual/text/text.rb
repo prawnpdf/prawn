@@ -42,7 +42,7 @@ Prawn::ManualBuilder::Example.generate("text.pdf", :page_size => "FOLIO") do
       s.example "registering_families"
     end
 
-    p.section "M17n" do |s|
+    p.section "Multilingualization" do |s|
       s.example "utf8"
       s.example "line_wrapping"
       s.example "right_to_left_text"

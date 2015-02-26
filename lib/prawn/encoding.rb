@@ -82,39 +82,6 @@ module Prawn
         oslash        ugrave         uacute         ucircumflex
         udieresis     yacute         thorn          ydieresis
       ]
-
-      def initialize
-        @mapping_file = "#{Prawn::DATADIR}/encodings/win_ansi.txt"
-        load_mapping if self.class.mapping.empty?
-      end
-
-      # Converts a Unicode codepoint into a valid WinAnsi single byte character.
-      #
-      # If there is no WinAnsi equivlant for a character, a _ will be substituted.
-      #
-      def [](codepoint)
-        # unicode codepoints < 255 map directly to the single byte value in WinAnsi
-        return codepoint if codepoint <= 255
-
-        # There are a handful of codepoints > 255 that have equivilants in WinAnsi.
-        # Replace anything else with an underscore
-        self.class.mapping[codepoint] || 95
-      end
-
-      def self.mapping
-        @mapping ||= {}
-      end
-
-      private
-
-      def load_mapping
-        File.open(@mapping_file, "r:BINARY") do |f|
-          f.each do |l|
-            _, single_byte, unicode = *l.match(/([0-9A-Za-z]+);([0-9A-F]{4})/)
-            self.class.mapping["0x#{unicode}".hex] = "0x#{single_byte}".hex if single_byte
-          end
-        end
-      end
     end
   end
 end

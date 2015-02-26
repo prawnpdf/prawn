@@ -12,6 +12,7 @@ Prawn::ManualBuilder::Example.generate("repeatable_content.pdf", :page_size => "
     p.example "repeater",       :eval_source => false
     p.example "stamp"
     p.example "page_numbering", :eval_source => false
+    p.example "alternate_page_numbering", :eval_source => false
 
     p.intro do
       prose("Prawn offers two ways to handle repeatable content blocks. Repeater is useful for content that gets repeated at well defined intervals while Stamp is more appropriate if you need better control of when to repeat it.

@@ -26,7 +26,8 @@ module Prawn
       # Anyway, for now it's not clear what we should do w. them.
       delegate [ :graphic_state,
                  :save_graphics_state,
-                 :restore_graphics_state ] => :renderer
+                 :restore_graphics_state,
+                 :on_page_create ] => :renderer
 
       # FIXME: This is a circular reference, because in theory Prawn should
       # be passing instances of renderer to PDF::Core::Page, but it's

@@ -46,8 +46,8 @@ module Prawn
     #   pdf.move_to(100,50)
     #
     def move_to(*point)
-      x,y = map_to_absolute(point)
-      renderer.add_content("%.3f %.3f m" % [ x, y ])
+      xy = PDF::Core.real_params(map_to_absolute(point))
+      renderer.add_content("#{xy} m")
     end
 
     # Draws a line from the current drawing position to the specified point.
@@ -57,8 +57,8 @@ module Prawn
     #   pdf.line_to(50,50)
     #
     def line_to(*point)
-      x,y = map_to_absolute(point)
-      renderer.add_content("%.3f %.3f l" % [ x, y ])
+      xy = PDF::Core.real_params(map_to_absolute(point))
+      renderer.add_content("#{xy} l")
     end
 
     # Draws a Bezier curve from the current drawing position to the
@@ -71,9 +71,10 @@ module Prawn
          "Bounding points for bezier curve must be specified "+
          "as :bounds => [[x1,y1],[x2,y2]]"
 
-       curve_points = (options[:bounds] << dest).map { |e| map_to_absolute(e) }
-       renderer.add_content("%.3f %.3f %.3f %.3f %.3f %.3f c" %
-                     curve_points.flatten )
+       curve_points = PDF::Core.real_params(
+        (options[:bounds] << dest).flat_map { |e| map_to_absolute(e) })
+
+       renderer.add_content("#{curve_points} c")
     end
 
     # Draws a rectangle given <tt>point</tt>, <tt>width</tt> and
@@ -83,7 +84,9 @@ module Prawn
     #
     def rectangle(point,width,height)
       x,y = map_to_absolute(point)
-      renderer.add_content("%.3f %.3f %.3f %.3f re" % [ x, y - height, width, height ])
+      box = PDF::Core.real_params([x, y - height, width, height])
+
+      renderer.add_content("#{box} re")
     end
 
     # Draws a rounded rectangle given <tt>point</tt>, <tt>width</tt> and

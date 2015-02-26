@@ -26,8 +26,7 @@ module Prawn
     def width_of( string, options )
       f = if options[:style]
             # override style with :style => :bold
-            @document.find_font(@document.font ? @document.font.name : 'Helvetica',
-                      :style => options[:style])
+            @document.find_font(@document.font.family, :style => options[:style])
           else
             @document.font
           end

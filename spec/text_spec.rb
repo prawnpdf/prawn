@@ -315,7 +315,6 @@ describe "#text" do
 
   it "should raise_error an exception when a utf-8 incompatible string is rendered" do
     str = "Blah \xDD"
-    str.force_encoding(Encoding::ASCII_8BIT)
     lambda { @pdf.text str }.should raise_error(
       Prawn::Errors::IncompatibleStringEncoding)
   end
@@ -351,6 +350,108 @@ describe "#text" do
       text.strings[3].should == ("hello " * 19).strip
       text.strings[4].should == ("hello " * 21).strip
     end
+
+
+    it "should indent from right side when using :rtl direction" do
+      para1 = "The rain in spain falls mainly on the plains " * 3
+      para2 = "The rain in spain falls mainly on the plains " * 3
+
+      @pdf.text(para1 + "\n" + para2, :indent_paragraphs => 60, :direction => :rtl)
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+
+      lines = text.strings
+      x_positions = text.positions.map { |e| e[0] }
+
+      # NOTE: The code below reflects Prawn's current kerning behavior for RTL
+      # text, which isn't necessarily correct. If we change that behavior,
+      # this test will need to be updated.
+
+      x_positions[0].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
+                            @pdf.width_of(lines[0].reverse, :kerning => true)))
+
+      x_positions[1].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right -
+                            @pdf.width_of(lines[1].reverse, :kerning => true)))
+
+      x_positions[2].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
+                            @pdf.width_of(lines[2].reverse, :kerning => true)))
+
+      x_positions[3].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right -
+                            @pdf.width_of(lines[3].reverse, :kerning => true)))
+    end
+
+    it "should indent from right side when document has :rtl direction" do
+      para1 = "The rain in spain falls mainly on the plains " * 3
+      para2 = "The rain in spain falls mainly on the plains " * 3
+
+      @pdf.text_direction = :rtl
+      @pdf.text(para1 + "\n" + para2, :indent_paragraphs => 60)
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+
+      lines = text.strings
+      x_positions = text.positions.map { |e| e[0] }
+
+      # NOTE: The code below reflects Prawn's current kerning behavior for RTL
+      # text, which isn't necessarily correct. If we change that behavior,
+      # this test will need to be updated.
+
+      x_positions[0].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
+                            @pdf.width_of(lines[0].reverse, :kerning => true)))
+
+      x_positions[1].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right -
+                            @pdf.width_of(lines[1].reverse, :kerning => true)))
+
+      x_positions[2].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
+                            @pdf.width_of(lines[2].reverse, :kerning => true)))
+
+      x_positions[3].should(
+        be_within(0.001).of(@pdf.bounds.absolute_right -
+                            @pdf.width_of(lines[3].reverse, :kerning => true)))
+    end
+
+    it "should indent from left side when using :ltr direction" do
+      para1 = "The rain in spain falls mainly on the plains " * 3
+      para2 = "The rain in spain falls mainly on the plains " * 3
+
+      @pdf.text(para1 + "\n" + para2, :indent_paragraphs => 60, :direction => :ltr)
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+
+      x_positions = text.positions.map { |e| e[0] }
+
+      x_positions[0].should == 60
+      x_positions[1].should == 0
+
+      x_positions[2].should == 60
+      x_positions[3].should == 0
+    end
+
+    it "should indent from left side when document has :ltr direction" do
+      para1 = "The rain in spain falls mainly on the plains " * 3
+      para2 = "The rain in spain falls mainly on the plains " * 3
+
+      @pdf.text_direction = :ltr
+      @pdf.text(para1 + "\n" + para2, :indent_paragraphs => 60)
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+
+      x_positions = text.positions.map { |e| e[0] }
+
+      x_positions[0].should == 60
+      x_positions[1].should == 0
+
+      x_positions[2].should == 60
+      x_positions[3].should == 0
+    end
+
     describe "when wrap to new page, and first line of new page" +
              " is not the start of a new paragraph, that line should" +
              " not be indented" do

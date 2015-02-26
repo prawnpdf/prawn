@@ -1,3 +1,178 @@
+## PrawnPDF version 2.0.0 -- February 26, 2015
+
+### Changes to supported Ruby versions
+
+Now that Ruby 1.9.3 is no longer supported by the Ruby core team, Prawn will no
+longer attempt to maintain 1.9.x compatibility.
+
+We will continue to support Ruby 2.0.0 and 2.1.x, and have added support for Ruby
+2.2.x as well.
+
+If you're using JRuby, we recommend using JRuby 1.7.x (>= 1.7.18) in 2.0 mode 
+for now. Please file bug reports if you run into any problems!
+
+### Changes to PrawnPDF's versioning policies
+
+Starting with this release, we will set version numbers based on the following policy:
+
+* Whenever a documented feature is modified in a backwards-incompatible way, 
+we'll bump our major version number.
+
+* Whenever we add new functionality without breaking backwards compatibility, 
+we'll bump our minor version number.
+
+* Whenever we cut maintenance releases (which cover only bug fixes,
+documentation, and internal improvements), we'll bump our tiny version number.
+
+This policy is similar in spirit to [Semantic Versioning](http://semver.org/), 
+and we may end up formally adopting SemVer in the future.
+
+The main caveat is that if a feature is not documented (either in our API
+documentation or in Prawn's manual), you cannot assume anything about its
+intended behavior. Prawn has a lot of cruft left in it due to piecewise
+development over nearly a decade, so the APIs have not been designed as
+much as they have been organically grown.
+
+To make sure that the amount of undefined behavior in Prawn shrinks over time,
+we'll make sure to review and revise documentation whenever new functionality 
+is added, and also whenever we change existing features.
+
+### All decimals in PDF output are now rounded to a fixed precision of 4 decimal places 
+
+This should improve compatibility across viewers that do not support 
+arbitrarily long decimal numbers, without effecting practical use 
+at all. (A PDF point is 1/72 inch, so 0.0001 PDF point is a very, very small number).
+
+This patch was added in response to certain PDFs on certain versions of Adobe 
+Reader raising errors when viewed.
+
+(Gregory Brown, [#782](https://github.com/prawnpdf/prawn/pull/782))
+
+### Fixed text width calculation to prevent unnecessary soft hyphen
+
+Previously, the `width_of` method would include the width of all soft hyphens 
+in a string, regardless of whether they would be rendered or not. This caused
+lines of text to appear longer than they actually were, causing unnecessary
+wrapping and hyphenation at times.
+
+We've changed this calculation to only include the width of a soft hyphen when
+it will actually be rendered (i.e. when a line needs to be wrapped), which
+should prevent unnecessary hyphenation and text wrapping in strings containing
+soft hyphens.
+
+(Mario Albert, [#775](https://github.com/prawnpdf/prawn/issues/775), [#786](https://github.com/prawnpdf/prawn/pull/786))
+
+### Fixed styled text width calculations when using TTF files
+
+Previously, `width_of` calculations on styled text were relying on the
+document font's name attribute in order to look up the appropriate
+font style. This doesn't work for TTF fonts, since the name is a full
+path to a single style of font, and the Prawn must know about the font
+family in order to find another style.
+
+The `width_of` method has been updated to use the font family instead, 
+allowing calculations to work properly with TTFs.
+
+(Ernie Miller, [#827](https://github.com/prawnpdf/prawn/pull/827))
+
+### Fixed broken vertical alignment for center and bottom
+
+In earlier versions of Prawn, center alignment and bottom alignment in text
+boxes worked in a way that is inconsistent with common typographical 
+conventions: 
+
+* Vertically centered text was padded so that the distance between the 
+top of the box and the ascender of the first line of text was made equal to the 
+distance between the descender of the bottom line to the descender of the last line of text.
+
+* Bottom aligned text included the line gap specified by a font, leaving a bit of
+extra in the box space below the descender of the last line of text.
+
+Other commonly used software typically uses the baseline rather than the descender
+when centering text, and does not include the line gap when bottom aligning text.
+We've changed Prawn's behavior to be consistent with those conventions, which
+should result in less surprising output.
+
+That said, this problem has existed in Prawn for a very, very long time. Check your code to
+see if you've been working around this issue, because if so it may cause breakage.
+
+For a very detailed discussion (with pictures), see issue [#169](https://github.com/prawnpdf/prawn/issues/169).
+
+(Jesse Doyle, [#788](https://github.com/prawnpdf/prawn/pull/788))
+
+### Calling dash(0) now raises an error instead of generating a corrupt PDF
+
+In earlier versions of Prawn, accidentally calling `dash(0)` instead of 
+`undash` in an attempt to clear dash settings would generate a corrupted
+document instead of raising an error, making debugging difficult.
+
+Because `dash(0)` is not a valid API call, we now raise an error that says
+"Zero length dashes are invalid. Call #undash to disable dashes.", making
+the source of the problem much clearer.
+
+### Vastly improved handling of encodings for PDF built in (AFM) fonts
+
+Prawn has always had comprehensive UTF-8 support for TTF font files, but many 
+users still rely on the "built in" AFM fonts that are provided by PDF viewers.
+These fonts only support the very limited set of internationalized characters 
+specified by the Windows-1252 character encoding, and that has been a long
+standing source of confusion and awkward behaviors.
+
+Earlier versions of Prawn attempted to transcode UTF-8 to Windows-1252 
+automatically, but some of our low level features either assumed that
+text was already encoded properly, or returned text in a different
+encoding than what was provided because of the internal transcoding
+operations. We also handled Windows-1252 encoding manually, so strings
+would come back tagged as ASCII-8BIT instead of Windows-1252, making
+things even more confusing.
+
+In this release, we've made some major behavior changes to the way AFM
+fonts work so that users need to think less about Prawn's internals:
+
+* Text handling for all public Prawn methods is now UTF-8-in, UTF-8-out, 
+making Windows-1252 transcoding purely an implementation detail of Prawn
+that isn't visible from the outside.
+
+* When using AFM fonts + non-ASCII characters that are NOT supported in 
+Windows-1252, an exception will be raised rather than replacing w.
+ `_`. 
+
+* When using AFM fonts + non-ASCII characters that are supported in
+ Windows-1252, users will see a warning about the limited
+internationalization support, along with a recommendation to use a TTF
+ font instead.
+
+* The warning includes instructions on how to disable it (just set
+`Prawn::Font::AFM.hide_m17_warning = true`)
+
+* When using AFM fonts + ASCII only text, no warning will be seen.
+
+* Internally, we're now using Ruby's M17n system to handle the encoding
+into Windows-1252, so text.encoding will come back as Windows-1252
+when `AFM#normalize_encoding` is called, rather than `ASCII-8Bit`
+
+None of the above issues apply when using TTF fonts with Prawn, because
+those have always been UTF-8 in, UTF-8 out, and no transcoding was
+done internally. It is still our recommendation for those using internationalized 
+text to use TTF fonts because they do not have the same limitations
+as AFM fonts, but those who need to use AFM for whatever reason
+should benefit greatly from these changes.
+
+(Gregory Brown, [#793](https://github.com/prawnpdf/prawn/pull/793))
+
+### Temporarily restored the Document#on_page_create method
+
+This method was moved into PDF::Core in the Prawn 1.3.0 release, removing
+it from the `Prawn::Document` API. Although it is a low-level method not
+meant for general use, it is necessary for certain tasks that we do not
+have proper support for elsewhere.
+
+This method should still be considered part of Prawn's internals and is subject
+to change at any time, but we have restored it temporarily until we have
+a suitable replacement for it. See the discussion on [#797](https://github.com/prawnpdf/prawn/issues/797)
+for more details.
+
+(Jesse Doyle, [#797](https://github.com/prawnpdf/prawn/issues/797), [#825](https://github.com/prawnpdf/prawn/pull/825))
 
 ## PrawnPDF 1.3.0 -- September 28, 2014
 
@@ -291,4 +466,3 @@ Prawn::Outline and marked it as part of our stable API.
 
 For changes before our 1.0 release, see the following wiki page:
 https://github.com/prawnpdf/prawn/wiki/CHANGELOG
-

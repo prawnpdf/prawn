@@ -116,7 +116,7 @@ module Prawn
     #                   the current font familly. [current style]
     # <tt>:indent_paragraphs</tt>:: <tt>number</tt>. The amount to indent the
     #                               first line of each paragraph. Omit this
-    #                               option if you do not want indenting
+    #                               option if you do not want indenting.
     # <tt>:direction</tt>::
     #     <tt>:ltr</tt>, <tt>:rtl</tt>, Direction of the text (left-to-right
     #     or right-to-left) [value of document.text_direction]
@@ -199,17 +199,13 @@ module Prawn
 
       if @indent_paragraphs
         self.text_formatter.array_paragraphs(array).each do |paragraph|
-          options[:skip_encoding] = false
           remaining_text = draw_indented_formatted_line(paragraph, options)
-          options[:skip_encoding] = true
 
           if @no_text_printed
             # unless this paragraph was an empty line
             unless @all_text_printed
               @bounding_box.move_past_bottom
-              options[:skip_encoding] = false
               remaining_text = draw_indented_formatted_line(paragraph, options)
-              options[:skip_encoding] = true
             end
           end
 
@@ -218,7 +214,6 @@ module Prawn
         end
       else
         remaining_text = fill_formatted_text_box(array, options)
-        options[:skip_encoding] = true
         draw_remaining_formatted_text_on_new_pages(remaining_text, options)
       end
     end
@@ -292,6 +287,16 @@ module Prawn
     # should already be set
     #
     def draw_text!(text, options)
+      unless font.unicode? || font.class.hide_m17n_warning || text.ascii_only?
+        warn "PDF's built-in fonts have very limited support for "+
+             "internationalized text.\nIf you need full UTF-8 support, "+
+             "consider using a TTF font instead.\n\nTo disable this "+
+             "warning, add the following line to your code:\n"+
+             "Prawn::Font::AFM.hide_m17n_warning = true\n"
+
+        font.class.hide_m17n_warning = true
+      end
+
       x,y = map_to_absolute(options[:at])
       add_text_content(text,x,y,options)
     end
@@ -354,7 +359,10 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      indent(@indent_paragraphs) do
+      gap = options.fetch(:direction, text_direction) == :ltr ?
+              [@indent_paragraphs, 0] : [0, @indent_paragraphs]
+
+      indent(*gap) do
         fill_formatted_text_box(string, options.dup.merge(:single_line => true))
       end
     end

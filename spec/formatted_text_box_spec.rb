@@ -18,9 +18,9 @@ describe "Text::Formatted::Box wrapping" do
     text_box.text.should == "Hello\nWorld2"
   end
 
-  it "should not raise an Encoding::CompatibilityError when keeping a TTF and an " +
-    "AFM font together" do
+  it "should not raise an Encoding::CompatibilityError when keeping a TTF and an AFM font together" do
     file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }
@@ -80,28 +80,6 @@ describe "Text::Formatted::Box wrapping" do
       text_box.render
     }.should_not raise_error
     text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
-  end
-
-  describe "Unicode" do
-    before do
-      @reset_value = [Encoding.default_external, Encoding.default_internal]
-      Encoding.default_external = Encoding::UTF_8
-      Encoding.default_internal = Encoding::UTF_8
-    end
-
-    after do
-      Encoding.default_external = @reset_value[0]
-      Encoding.default_internal = @reset_value[1]
-    end
-
-    it "should properly handle empty slices using Unicode encoding" do
-      texts = [{ :text => "Noua Delineatio Geographica generalis | Apostolicarum peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli", :font => 'Courier', :size => 10 }]
-      text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Noua Delineatio Geographica gen"))
-      lambda {
-        text_box.render
-      }.should_not raise_error
-      text_box.text.should == "Noua Delineatio Geographica\ngeneralis | Apostolicarum\nperegrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\nApostoli"
-    end
   end
 end
 
@@ -170,6 +148,12 @@ describe "Text::Formatted::Box with :fallback_fonts option and fragment " +
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }
+
+    file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+    @pdf.font_families["DejaVu Sans"] = {
+      :normal => { :file => file }
+    }
+
     formatted_text = [{ :text => "hello你好" },
                       { :text => "再见goodbye", :font => "Times-Roman" }]
     @pdf.formatted_text_box(formatted_text, :fallback_fonts => ["Kai"])
@@ -197,6 +181,13 @@ describe "Text::Formatted::Box" do
     @pdf.font_families["Kai"] = {
       :normal => { :file => file, :font => "Kai" }
     }
+
+    file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+    @pdf.font_families["DejaVu Sans"] = {
+      :normal => { :file => file }
+    }
+
+
     @formatted_text = [{ :text => "hello你好" }]
     @pdf.fallback_fonts(["Kai"])
     @pdf.fallback_fonts = ["Kai"]
@@ -215,26 +206,35 @@ describe "Text::Formatted::Box" do
     fonts_used[1].to_s.should =~ /GBZenKai-Medium/
   end
   it "should be able to override document-wide fallback_fonts" do
-    @pdf.formatted_text_box(@formatted_text, :fallback_fonts => ["Courier"])
+    @pdf.fallback_fonts = ["DejaVu Sans"]
+    @pdf.formatted_text_box(@formatted_text, :fallback_fonts => ["Kai"])
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
 
     fonts_used = text.font_settings.map { |e| e[:name] }
-    fonts_used.length.should == 1
+    fonts_used.length.should == 2
     fonts_used[0].should == :"Helvetica"
+    fonts_used[1].should =~ /Kai/
   end
   it "should omit the fallback fonts overhead when passing an empty array " +
     "as the :fallback_fonts" do
+    @pdf.font("Kai")
+
     box = Prawn::Text::Formatted::Box.new(@formatted_text,
                                           :document => @pdf,
                                           :fallback_fonts => [])
+
     box.expects(:process_fallback_fonts).never
     box.render
   end
+
   it "should be able to clear document-wide fallback_fonts" do
     @pdf.fallback_fonts([])
     box = Prawn::Text::Formatted::Box.new(@formatted_text,
                                           :document => @pdf)
+
+    @pdf.font("Kai")
+
     box.expects(:process_fallback_fonts).never
     box.render
   end
@@ -242,16 +242,15 @@ end
 
 describe "Text::Formatted::Box with :fallback_fonts option " +
   "with glyphs not in the primary or the fallback fonts" do
-  it "should use the primary font" do
+
+  it "should raise an exception" do
+   file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     create_pdf
     formatted_text = [{ :text => "hello world. 世界你好。" }]
-    @pdf.formatted_text_box(formatted_text, :fallback_fonts => ["Helvetica"])
 
-    text = PDF::Inspector::Text.analyze(@pdf.render)
-
-    fonts_used = text.font_settings.map { |e| e[:name] }
-    fonts_used.length.should == 1
-    fonts_used[0].should == :"Helvetica"
+    lambda {
+      @pdf.formatted_text_box(formatted_text, :fallback_fonts => ["Courier"])
+    }.should raise_error(Prawn::Errors::IncompatibleStringEncoding)
   end
 end
 
@@ -613,6 +612,51 @@ describe "Text::Formatted::Box#render with :align => :justify" do
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.word_spacing.should be_empty
+  end
+end
+
+describe "Text::Formatted::Box#render with :valign => :center" do
+  it "should have a bottom gap equal to baseline and bottom of box" do
+    create_pdf
+    box_height = 100
+    y = 450
+    array = [{ :text => 'Vertical Align' }]
+    options = {
+     :document => @pdf,
+     :valign => :center,
+     :at => [0,y],
+     :width => 100,
+     :height => box_height,
+     :size => 16
+    }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    line_padding = (box_height - text_box.height + text_box.descender) * 0.5
+    baseline = y - line_padding
+
+    text_box.at[1].should be_within(0.01).of(baseline)
+  end
+end
+
+describe "Text::Formatted::Box#render with :valign => :bottom" do
+  it "should not render a gap between the text and bottom of box" do
+    create_pdf
+    box_height = 100
+    y = 450
+    array = [{ :text => 'Vertical Align' }]
+    options = {
+     :document => @pdf,
+     :valign => :bottom,
+     :at => [0,y],
+     :width => 100,
+     :height => box_height,
+     :size => 16
+    }
+    text_box = Prawn::Text::Formatted::Box.new(array, options)
+    text_box.render
+    top_padding = y - (box_height - text_box.height)
+
+    text_box.at[1].should be_within(0.01).of(top_padding)
   end
 end
 
