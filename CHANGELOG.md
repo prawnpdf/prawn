@@ -1,6 +1,6 @@
 ## PrawnPDF master branch
 
-*The notes below describe unreleased changes, and are subject to change!*
+...
 
 ## PrawnPDF version 2.0.0
 
