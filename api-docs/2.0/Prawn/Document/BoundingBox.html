@@ -1,0 +1,1624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Prawn::Document::BoundingBox
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!Prawn/Document/BoundingBox.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (B)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Document.html" title="Prawn::Document (class)">Document</a></span></span>
+     &raquo; 
+    <span class="title">BoundingBox</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Prawn::Document::BoundingBox
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Prawn::Document::BoundingBox</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/document/bounding_box.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Low level layout helper that simplifies coordinate math.</p>
+
+<p>See Prawn::Document#bounding_box for a description of what this class is
+used for.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="ColumnBox.html" title="Prawn::Document::ColumnBox (class)">ColumnBox</a></span></p>
+</div>
+
+
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bottom-instance_method" title="#absolute_bottom (instance method)">- (Object) <strong>absolute_bottom</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute bottom y-coordinate of the bottom box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bottom_left-instance_method" title="#absolute_bottom_left (instance method)">- (Object) <strong>absolute_bottom_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute bottom-left point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_bottom_right-instance_method" title="#absolute_bottom_right (instance method)">- (Object) <strong>absolute_bottom_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute bottom-left point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_left-instance_method" title="#absolute_left (instance method)">- (Object) <strong>absolute_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute left x-coordinate of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_right-instance_method" title="#absolute_right (instance method)">- (Object) <strong>absolute_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute right x-coordinate of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_top-instance_method" title="#absolute_top (instance method)">- (Object) <strong>absolute_top</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute top y-coordinate of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_top_left-instance_method" title="#absolute_top_left (instance method)">- (Object) <strong>absolute_top_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute top-left point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_top_right-instance_method" title="#absolute_top_right (instance method)">- (Object) <strong>absolute_top_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Absolute top-right point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bottom-instance_method" title="#bottom (instance method)">- (Object) <strong>bottom</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative bottom y-coordinate of the bounding box (Always 0).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bottom_left-instance_method" title="#bottom_left (instance method)">- (Object) <strong>bottom_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative bottom-left point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bottom_right-instance_method" title="#bottom_right (instance method)">- (Object) <strong>bottom_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative bottom-right point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#height-instance_method" title="#height (instance method)">- (Object) <strong>height</strong> </a>
+    
+
+    
+      (also: #update_height)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Height of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#left-instance_method" title="#left (instance method)">- (Object) <strong>left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative left x-coordinate of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#right-instance_method" title="#right (instance method)">- (Object) <strong>right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative right x-coordinate of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#top-instance_method" title="#top (instance method)">- (Object) <strong>top</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative top y-coordinate of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#top_left-instance_method" title="#top_left (instance method)">- (Object) <strong>top_left</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative top-left point of the bounding_box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#top_right-instance_method" title="#top_right (instance method)">- (Object) <strong>top_right</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Relative top-right point of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#width-instance_method" title="#width (instance method)">- (Object) <strong>width</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Width of the bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Extension API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#move_past_bottom-instance_method" title="#move_past_bottom (instance method)">- (Object) <strong>move_past_bottom</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Moves to the top of the next page of the document, starting a new page if
+necessary.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reference_bounds-instance_method" title="#reference_bounds (instance method)">- (Object) <strong>reference_bounds</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the innermost non-stretchy bounding box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stretchy%3F-instance_method" title="#stretchy? (instance method)">- (Boolean) <strong>stretchy?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns <code>false</code> when the box has a defined height,
+<code>true</code> when the height is being calculated on the fly based on
+the current vertical position.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="absolute_bottom-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bottom</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute bottom y-coordinate of the bottom box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+423
+424
+425</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 423</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+  <span class='ivar'>@y</span> <span class='op'>-</span> <span class='id identifier rubyid_height'>height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_bottom_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bottom_left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute bottom-left point of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+441
+442
+443</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 441</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom_left'>absolute_bottom_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_left'>absolute_left</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_bottom_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_bottom_right</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute bottom-left point of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+447
+448
+449</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 447</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_bottom_right'>absolute_bottom_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_right'>absolute_right</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute left x-coordinate of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+405
+406
+407</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 405</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_left'>absolute_left</span>
+  <span class='ivar'>@x</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_right</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute right x-coordinate of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+411
+412
+413</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 411</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_right'>absolute_right</span>
+  <span class='ivar'>@x</span> <span class='op'>+</span> <span class='id identifier rubyid_width'>width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_top-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_top</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute top y-coordinate of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+417
+418
+419</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 417</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span>
+  <span class='ivar'>@y</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_top_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_top_left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute top-left point of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+429
+430
+431</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 429</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_top_left'>absolute_top_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_left'>absolute_left</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="absolute_top_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>absolute_top_right</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Absolute top-right point of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+435
+436
+437</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 435</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_top_right'>absolute_top_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_absolute_right'>absolute_right</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_top'>absolute_top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bottom-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bottom</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative bottom y-coordinate of the bounding box (Always 0)</p>
+
+<p>Example, position some text 3 pts from the bottom of the containing box:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_bottom'>bottom</span> <span class='op'>+</span> <span class='int'>3</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+349
+350
+351</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 349</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bottom'>bottom</span>
+  <span class='int'>0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bottom_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bottom_left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative bottom-left point of the bounding box</p>
+
+<p>Example, draw a line along the left hand side of the page:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stroke'>stroke</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_bottom_left'>bottom_left</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_left'>top_left</span><span class='rparen'>)</span>
+<span class='kw'>end</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+399
+400
+401</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 399</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bottom_left'>bottom_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span><span class='id identifier rubyid_bottom'>bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bottom_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bottom_right</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative bottom-right point of the bounding box</p>
+
+<p>Example, draw a line along the right hand side of the page:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stroke'>stroke</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_bottom_right'>bottom_right</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_right'>top_right</span><span class='rparen'>)</span>
+<span class='kw'>end</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 387</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bottom_right'>bottom_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span><span class='id identifier rubyid_bottom'>bottom</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="height-instance_method">
+  
+    - (<tt>Object</tt>) <strong>height</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='update_height-instance_method'>update_height</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Height of the bounding box.  If the box is &#39;stretchy&#39; (unspecified
+height attribute), height is calculated as the distance from the top of the
+box to the current drawing position.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+461
+462
+463
+464
+465</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 461</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
+  <span class='kw'>return</span> <span class='ivar'>@height</span> <span class='kw'>if</span> <span class='ivar'>@height</span>
+  <span class='ivar'>@stretched_height</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_absolute_top'>absolute_top</span> <span class='op'>-</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span><span class='comma'>,</span>
+                       <span class='ivar'>@stretched_height</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative left x-coordinate of the bounding box. (Always 0)</p>
+
+<p>Example, position some text 3 pts from the left of the containing box:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span> <span class='op'>+</span> <span class='int'>3</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+263
+264
+265</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 263</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_left'>left</span>
+  <span class='int'>0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="move_past_bottom-instance_method">
+  
+    - (<tt>Object</tt>) <strong>move_past_bottom</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Moves to the top of the next page of the document, starting a new page if
+necessary.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+484
+485
+486
+487
+488
+489
+490</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 484</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
+  <span class='kw'>if</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>==</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_page_count'>page_count</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_go_to_page'>go_to_page</span><span class='lparen'>(</span><span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reference_bounds-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reference_bounds</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the innermost non-stretchy bounding box.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+501
+502
+503
+504
+505
+506
+507
+508</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 501</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reference_bounds'>reference_bounds</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_stretchy?'>stretchy?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t find reference bounds: my parent is unset</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@parent</span>
+    <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_reference_bounds'>reference_bounds</span>
+  <span class='kw'>else</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>right</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative right x-coordinate of the bounding box. (Equal to the box width)</p>
+
+<p>Example, position some text 3 pts from the right of the containing box:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span> <span class='op'>-</span> <span class='int'>3</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+329
+330
+331</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 329</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_right'>right</span>
+  <span class='ivar'>@width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stretchy?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>stretchy?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns <code>false</code> when the box has a defined height,
+<code>true</code> when the height is being calculated on the fly based on
+the current vertical position.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+495
+496
+497</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 495</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stretchy?'>stretchy?</span>
+  <span class='op'>!</span><span class='ivar'>@height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="top-instance_method">
+  
+    - (<tt>Object</tt>) <strong>top</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative top y-coordinate of the bounding box. (Equal to the box height)</p>
+
+<p>Example, position some text 3 pts from the top of the containing box:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top'>top</span> <span class='op'>-</span> <span class='int'>3</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+339
+340
+341</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 339</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_top'>top</span>
+  <span class='id identifier rubyid_height'>height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="top_left-instance_method">
+  
+    - (<tt>Object</tt>) <strong>top_left</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative top-left point of the bounding_box</p>
+
+<p>Example, draw a line from the top left of the box diagonally to the bottom
+right:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stroke'>stroke</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_left'>top_left</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_bottom_right'>bottom_right</span><span class='rparen'>)</span>
+<span class='kw'>end</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 362</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_top_left'>top_left</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="top_right-instance_method">
+  
+    - (<tt>Object</tt>) <strong>top_right</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Relative top-right point of the bounding box</p>
+
+<p>Example, draw a line from the top_right of the box diagonally to the bottom
+left:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stroke'>stroke</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_right'>top_right</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_bottom_left'>bottom_left</span><span class='rparen'>)</span>
+<span class='kw'>end</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 375</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_top_right'>top_right</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_right'>right</span><span class='comma'>,</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="width-instance_method">
+  
+    - (<tt>Object</tt>) <strong>width</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Width of the bounding box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+453
+454
+455</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/document/bounding_box.rb', line 453</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_width'>width</span>
+  <span class='ivar'>@width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 26 11:11:32 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.4).
+</div>
+
+  </body>
+</html>

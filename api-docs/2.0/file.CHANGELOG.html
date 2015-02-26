@@ -1,0 +1,595 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: CHANGELOG
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.CHANGELOG.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CHANGELOG</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'>
+<h2 id="label-PrawnPDF+2.0.0+--+2015-02-26">PrawnPDF 2.0.0 – 2015-02-26</h2>
+
+<h3 id="label-Changes+to+supported+Ruby+versions">Changes to supported Ruby versions</h3>
+
+<p>Now that Ruby 1.9.3 is no longer supported by the Ruby core team, Prawn
+will no longer attempt to maintain 1.9.x compatibility.</p>
+
+<p>We will continue to support Ruby 2.0.0 and 2.1.x, and have added support
+for Ruby 2.2.x as well.</p>
+
+<p>If you&#39;re using JRuby, we recommend using JRuby 1.7.x (&gt;= 1.7.18) in
+2.0 mode for now. Please file bug reports if you run into any problems!</p>
+
+<h3 id="label-Changes+to+PrawnPDF%27s+versioning+policies">Changes to PrawnPDF&#39;s versioning policies</h3>
+
+<p>Starting with this release, we will set version numbers based on the
+following policy:</p>
+<ul><li>
+<p>Whenever a documented feature is modified in a backwards-incompatible way,
+we&#39;ll bump our major version number.</p>
+</li><li>
+<p>Whenever we add new functionality without breaking backwards compatibility,
+we&#39;ll bump our minor version number.</p>
+</li><li>
+<p>Whenever we cut maintenance releases (which cover only bug fixes,
+documentation, and internal improvements), we&#39;ll bump our tiny version
+number.</p>
+</li></ul>
+
+<p>This policy is similar in spirit to <a href="http://semver.org/">Semantic
+Versioning</a>, and we may end up formally adopting SemVer in the future.</p>
+
+<p>The main caveat is that if a feature is not documented (either in our API
+documentation or in Prawn&#39;s manual), you cannot assume anything about
+its intended behavior. Prawn has a lot of cruft left in it due to piecewise
+development over nearly a decade, so the APIs have not been designed as
+much as they have been organically grown.</p>
+
+<p>To make sure that the amount of undefined behavior in Prawn shrinks over
+time, we&#39;ll make sure to review and revise documentation whenever new
+functionality is added, and also whenever we change existing features.</p>
+
+<h3 id="label-All+decimals+in+PDF+output+are+now+rounded+to+a+fixed+precision+of+4+decimal+places">All decimals in PDF output are now rounded to a fixed precision of 4 decimal places</h3>
+
+<p>This should improve compatibility across viewers that do not support
+arbitrarily long decimal numbers, without effecting practical use at all.
+(A PDF point is 1/72 inch, so 0.0001 PDF point is a very, very small
+number).</p>
+
+<p>This patch was added in response to certain PDFs on certain versions of
+Adobe Reader raising errors when viewed.</p>
+
+<p>(Gregory Brown, <a
+href="https://github.com/prawnpdf/prawn/pull/782">#782</a>)</p>
+
+<h3 id="label-Fixed+text+width+calculation+to+prevent+unnecessary+soft+hyphen">Fixed text width calculation to prevent unnecessary soft hyphen</h3>
+
+<p>Previously, the <code>width_of</code> method would include the width of all
+soft hyphens in a string, regardless of whether they would be rendered or
+not. This caused lines of text to appear longer than they actually were,
+causing unnecessary wrapping and hyphenation at times.</p>
+
+<p>We&#39;ve changed this calculation to only include the width of a soft
+hyphen when it will actually be rendered (i.e. when a line needs to be
+wrapped), which should prevent unnecessary hyphenation and text wrapping in
+strings containing soft hyphens.</p>
+
+<p>(Mario Albert, <a
+href="https://github.com/prawnpdf/prawn/issues/775">#775</a>, <a
+href="https://github.com/prawnpdf/prawn/pull/786">#786</a>)</p>
+
+<h3 id="label-Fixed+styled+text+width+calculations+when+using+TTF+files">Fixed styled text width calculations when using TTF files</h3>
+
+<p>Previously, <code>width_of</code> calculations on styled text were relying
+on the document font&#39;s name attribute in order to look up the
+appropriate font style. This doesn&#39;t work for TTF fonts, since the name
+is a full path to a single style of font, and the Prawn must know about the
+font family in order to find another style.</p>
+
+<p>The <code>width_of</code> method has been updated to use the font family
+instead, allowing calculations to work properly with TTFs.</p>
+
+<p>(Ernie Miller, <a
+href="https://github.com/prawnpdf/prawn/pull/827">#827</a>)</p>
+
+<h3 id="label-Fixed+broken+vertical+alignment+for+center+and+bottom">Fixed broken vertical alignment for center and bottom</h3>
+
+<p>In earlier versions of Prawn, center alignment and bottom alignment in text
+boxes worked in a way that is inconsistent with common typographical
+conventions:</p>
+<ul><li>
+<p>Vertically centered text was padded so that the distance between the top of
+the box and the ascender of the first line of text was made equal to the
+distance between the descender of the bottom line to the descender of the
+last line of text.</p>
+</li><li>
+<p>Bottom aligned text included the line gap specified by a font, leaving a
+bit of extra in the box space below the descender of the last line of text.</p>
+</li></ul>
+
+<p>Other commonly used software typically uses the baseline rather than the
+descender when centering text, and does not include the line gap when
+bottom aligning text. We&#39;ve changed Prawn&#39;s behavior to be
+consistent with those conventions, which should result in less surprising
+output.</p>
+
+<p>That said, this problem has existed in Prawn for a very, very long time.
+Check your code to see if you&#39;ve been working around this issue,
+because if so it may cause breakage.</p>
+
+<p>For a very detailed discussion (with pictures), see issue <a
+href="https://github.com/prawnpdf/prawn/issues/169">#169</a>.</p>
+
+<p>(Jesse Doyle, <a
+href="https://github.com/prawnpdf/prawn/pull/788">#788</a>)</p>
+
+<h3 id="label-Calling+dash%280%29+now+raises+an+error+instead+of+generating+a+corrupt+PDF">Calling dash(0) now raises an error instead of generating a corrupt PDF</h3>
+
+<p>In earlier versions of Prawn, accidentally calling <code>dash(0)</code>
+instead of <code>undash</code> in an attempt to clear dash settings would
+generate a corrupted document instead of raising an error, making debugging
+difficult.</p>
+
+<p>Because <code>dash(0)</code> is not a valid API call, we now raise an error
+that says “Zero length dashes are invalid. Call #undash to disable
+dashes.”, making the source of the problem much clearer.</p>
+
+<h3 id="label-Vastly+improved+handling+of+encodings+for+PDF+built+in+%28AFM%29+fonts">Vastly improved handling of encodings for PDF built in (AFM) fonts</h3>
+
+<p>Prawn has always had comprehensive UTF-8 support for TTF font files, but
+many users still rely on the “built in” AFM fonts that are provided by PDF
+viewers. These fonts only support the very limited set of internationalized
+characters specified by the Windows-1252 character encoding, and that has
+been a long standing source of confusion and awkward behaviors.</p>
+
+<p>Earlier versions of Prawn attempted to transcode UTF-8 to Windows-1252
+automatically, but some of our low level features either assumed that text
+was already encoded properly, or returned text in a different encoding than
+what was provided because of the internal transcoding operations. We also
+handled Windows-1252 encoding manually, so strings would come back tagged
+as ASCII-8BIT instead of Windows-1252, making things even more confusing.</p>
+
+<p>In this release, we&#39;ve made some major behavior changes to the way AFM
+fonts work so that users need to think less about Prawn&#39;s internals:</p>
+<ul><li>
+<p>Text handling for all public Prawn methods is now UTF-8-in, UTF-8-out,
+making Windows-1252 transcoding purely an implementation detail of Prawn
+that isn&#39;t visible from the outside.</p>
+</li><li>
+<p>When using AFM fonts + non-ASCII characters that are NOT supported in
+Windows-1252, an exception will be raised rather than replacing w. 
+<code>_</code>.</p>
+</li><li>
+<p>When using AFM fonts + non-ASCII characters that are supported in 
+Windows-1252, users will see a warning about the limited
+internationalization support, along with a recommendation to use a TTF 
+font instead.</p>
+</li><li>
+<p>The warning includes instructions on how to disable it (just set
+<code>Prawn::Font::AFM.hide_m17_warning = true</code>)</p>
+</li><li>
+<p>When using AFM fonts + ASCII only text, no warning will be seen.</p>
+</li><li>
+<p>Internally, we&#39;re now using Ruby&#39;s M17n system to handle the
+encoding into Windows-1252, so text.encoding will come back as Windows-1252
+when <code>AFM#normalize_encoding</code> is called, rather than
+<code>ASCII-8Bit</code></p>
+</li></ul>
+
+<p>None of the above issues apply when using TTF fonts with Prawn, because
+those have always been UTF-8 in, UTF-8 out, and no transcoding was done
+internally. It is still our recommendation for those using
+internationalized text to use TTF fonts because they do not have the same
+limitations as AFM fonts, but those who need to use AFM for whatever reason
+should benefit greatly from these changes.</p>
+
+<p>(Gregory Brown, <a
+href="https://github.com/prawnpdf/prawn/pull/793">#793</a>)</p>
+
+<h3 id="label-Temporarily+restored+the+Document%23on_page_create+method">Temporarily restored the Document#on_page_create method</h3>
+
+<p>This method was moved into PDF::Core in the Prawn 1.3.0 release, removing
+it from the <code>Prawn::Document</code> API. Although it is a low-level
+method not meant for general use, it is necessary for certain tasks that we
+do not have proper support for elsewhere.</p>
+
+<p>This method should still be considered part of Prawn&#39;s internals and is
+subject to change at any time, but we have restored it temporarily until we
+have a suitable replacement for it. See the discussion on <a
+href="https://github.com/prawnpdf/prawn/issues/797">#797</a> for more
+details.</p>
+
+<p>(Jesse Doyle, <a
+href="https://github.com/prawnpdf/prawn/issues/797">#797</a>, <a
+href="https://github.com/prawnpdf/prawn/pull/825">#825</a>)</p>
+
+<h2 id="label-PrawnPDF+1.3.0+--+2014-09-28">PrawnPDF 1.3.0 – 2014-09-28</h2>
+
+<h3 id="label-Added+the+Prawn%3A%3AView+mixin+for+using+Prawn%27s+DSL+in+your+own+classes.">Added the Prawn::View mixin for using Prawn&#39;s DSL in your own classes.</h3>
+
+<p>In complex Prawn-based documents, it is a common pattern to create
+subclasses of <code>Prawn::Document</code> to isolate different components
+from one another, or to provide some customized rendering methods. However,
+the sprawling nature of the <code>Prawn::Document</code> object makes this
+an unsafe practice: it implements hundreds of methods and contains dozens
+of instance variables, all of which can conflict with any subclass
+functionality.</p>
+
+<p><code>Prawn::View</code> provides a safer alternative by using object
+composition instead of inheritance. This will keep your state and methods
+separate from Prawn&#39;s internals, while still allowing you to directly
+call any methods provided by the <code>Prawn::Document</code> object.</p>
+
+<p>Here&#39;s an example of <code>Prawn::View</code> in use:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Greeter</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>View</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_say_hello'>say_hello</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_say_goodbye'>say_goodbye</span>
+    <span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Courier</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Goodbye, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+ <span class='kw'>end</span>
+
+<span class='id identifier rubyid_greeter'>greeter</span> <span class='op'>=</span> <span class='const'>Greeter</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Gregory</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_greeter'>greeter</span><span class='period'>.</span><span class='id identifier rubyid_say_hello'>say_hello</span>
+<span class='id identifier rubyid_greeter'>greeter</span><span class='period'>.</span><span class='id identifier rubyid_say_goodbye'>say_goodbye</span>
+
+<span class='id identifier rubyid_greeter'>greeter</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>greetings.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>Wherever possible, please convert your <code>Prawn::Document</code>
+subclasses to use <code>Prawn::View</code> instead. It is much less
+invasive, and is nearly a drop-in replacement for the existing common
+practice.</p>
+
+<h3 id="label-Soft+hyphenation+no+longer+renders+unnecessary+hyphens+in+the+last+word+of+paragraphs.">Soft hyphenation no longer renders unnecessary hyphens in the last word of paragraphs.</h3>
+
+<p>A defect in our text rendering system was to blame for this bad behavior.
+For more details, see <a
+href="https://github.com/prawnpdf/prawn/issues/347">#347</a>.</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/773">#773</a>, <a
+href="https://github.com/prawnpdf/prawn/pull/774">#774</a> – Mario Albert)</p>
+
+<h3 id="label-Fonts+with+unsupported+character+mappings+will+now+only+fail+if+you+use+unsupported+glyphs.">Fonts with unsupported character mappings will now only fail if you use unsupported glyphs.</h3>
+
+<p>A bug in TTFunk prevented certain fonts from being used because they
+contained unsupported character map information. In most cases, this
+information would only be needed to render a handful of obscure glyphs, and
+so most users would never run into issues by using them.</p>
+
+<p>This issue has been resolved, and should help improve compatibility for
+CJK-based fonts in particular.</p>
+
+<p>(<a href="https://github.com/prawnpdf/ttfunk/pull/20">TTFunk #20</a> – Dan
+Allen)</p>
+
+<h3 id="label-Prawn+no+longer+triggers+Ruby+warnings+when+loaded">Prawn no longer triggers Ruby warnings when loaded</h3>
+
+<p>Some minor issues in our TTFunk dependency was causing many warnings to be
+generated upon loading Prawn. As of this release, you should now be able to
+run Ruby with warnings on and see no warnings generated from Prawn or its
+dependencies.</p>
+
+<p>(<a href="https://github.com/prawnpdf/ttfunk/pull/21">TTFunk #21</a> –
+Jesse Doyle)</p>
+
+<h2 id="label-PrawnPDF+1.2.1+--+2014-07-27">PrawnPDF 1.2.1 – 2014-07-27</h2>
+
+<p>This release includes all changes from 1.2.0, which was yanked due to a
+packaging error.</p>
+
+<h3 id="label-Prawn%3A%3ATable+has+been+moved+into+an+optional+gem+extension.">Prawn::Table has been moved into an optional gem extension.</h3>
+
+<p>In addition to adding <code>require &quot;prawn/table&quot;</code> to your
+code, you will need to install the <code>prawn-table</code> gem to make use
+of table and cell rendering functionality in Prawn 1.2+.</p>
+
+<p>The <code>prawn-table</code> gem will be maintained by Hartwig Brandl, and
+is semi-officially supported by the Prawn maintenance team. That means that
+we&#39;ll continue to watch its CI builds against each Prawn release, and
+help to resolve any compatibility issues as soon as possible.</p>
+
+<p>Please see the <a
+href="https://github.com/prawnpdf/prawn-table">prawn-table repository</a>
+for more information.</p>
+
+<h3 id="label-Text+box+now+has+an+option+to+disable+wrapping+by+character.">Text box now has an option to disable wrapping by character.</h3>
+
+<p>This feature is useful for preventing mid-word breaks when used in
+combination with the <code>:shink_to_fit</code> overflow option. See the
+following example practical use case:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># An example shared by Simon Mansfield
+</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x.pdf</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>100</span><span class='comma'>,</span> <span class='int'>50</span>
+
+  <span class='id identifier rubyid_font'>font</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Helvetica</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>size:</span> <span class='int'>50</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_formatted_text_box'>formatted_text_box</span><span class='lparen'>(</span>
+      <span class='lbracket'>[</span><span class='lbrace'>{</span><span class='label'>text:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>VEGETARIAN</span><span class='tstring_end'>&#39;</span></span><span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>at:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>width:</span> <span class='int'>100</span><span class='comma'>,</span>
+      <span class='label'>height:</span> <span class='int'>50</span><span class='comma'>,</span>
+      <span class='label'>overflow:</span> <span class='symbol'>:shrink_to_fit</span><span class='comma'>,</span>
+      <span class='label'>disable_wrap_by_char:</span> <span class='kw'>true</span>  <span class='comment'># &lt;---- newly added in 1.2
+</span>    <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Without setting <code>:disable_wrap_by_char</code>, the code above will
+break the word “VEGETARIAN” into two lines rather than shrinking it all the
+way down to fit on a single unbroken line.</p>
+
+<p>To maintain backwards compatibility, <code>:disable_wrap_by_char</code> is
+implemented as an optional behavior that is off by default.</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/752">#752</a>, James
+Coleman)</p>
+
+<h3 id="label-Fallback+fonts+no+longer+break+global+font+styling.">Fallback fonts no longer break global font styling.</h3>
+
+<p>In earlier versions of Prawn, using the fallback font system caused styling
+information (i.e. bold, italic) for all fonts to be lost, and the only
+workaround to this problem was to specify style explicitly for each
+individual text fragment.</p>
+
+<p>Now that this issue has been resolved, it is safe to use the
+<code>font</code> method to set styles globally, even if fallback fonts are
+in use.</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/743">#743</a>, Pete
+Sharum)</p>
+
+<h3 id="label-Formatted+text+box+dry+runs+no+longer+modify+graphics+state">Formatted text box dry runs no longer modify graphics state</h3>
+
+<p>Dry runs are supposed to be a side-effect-free way of simulating text
+rendering, but a bug in earlier versions of Prawn caused the graphics state
+to be modified if colors were set on text fragments. This patch resolves
+that issue.</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/736">#736</a>, Christian
+Hieke)</p>
+
+<h3 id="label-Fixed+manual+build+failure+on+Ruby+1.9.3">Fixed manual build failure on Ruby 1.9.3</h3>
+
+<p>When we extracted Prawn::ManualBuilder, we accidentally broke its support
+for Ruby 1.9.3. That issue has been resolved, and a new version of the
+<code>prawn-manual_builder</code> gem has been released.</p>
+
+<h2 id="label-PrawnPDF+1.1.0+--+2014-06-27">PrawnPDF 1.1.0 – 2014-06-27</h2>
+
+<p>In addition to the notes below, please see the <a
+href="http://elmcitycraftworks.org/post/90062338793/prawn-1-1-0-released"">Prawn
+1.1 blog post</a>.</p>
+
+<h3 id="label-Table+support+now+disabled+by+default%2C+moving+to+its+own+gem+soon.">Table support now disabled by default, moving to its own gem soon.</h3>
+
+<p>We&#39;re planning to extract table generation into its own semi-officially
+supported gem in a future release. Until then, you can use the following
+line to enable table support in your projects:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>prawn/table</span><span class='tstring_end'>&quot;</span></span>
+</code></pre>
+
+<p>As of right now tables are still supported as an experimental public
+feature – we only disabled it by default to make sure people are aware that
+it will be extracted into its own gem soon.</p>
+
+<h3 id="label-I%2FO+objects+are+now+supported+in+the+font+system.">I/O objects are now supported in the font system.</h3>
+
+<p>You can now pass a fully formed Prawn::Font object in addition to a file
+path when adding a font family to your document.
+<code>Prawn::Font.load</code> now also accepts IO object as an alternative
+to explicitly specifying a path on the filesystem. For example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_io'>io</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Prawn</span><span class='op'>::</span><span class='const'>DATADIR</span><span class='embexpr_end'>}</span><span class='tstring_content'>/fonts/DejaVuSans.ttf</span><span class='tstring_end'>&quot;</span></span>
+<span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_font_families'>font_families</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DejaVu Sans</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+  <span class='label'>normal:</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Font</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='ivar'>@pdf</span><span class='comma'>,</span> <span class='id identifier rubyid_io'>io</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+
+<span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_font'>font</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DejaVu Sans</span><span class='tstring_end'>&quot;</span></span>
+<span class='ivar'>@pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>In DejaVu Sans</span><span class='tstring_end'>&quot;</span></span>
+</code></pre>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/730">#730</a>, Evan Sharp)</p>
+
+<h3 id="label-We+now+use+the+Prawn%3A%3AManualBuilder+gem+to+generate+our+documentation.">We now use the Prawn::ManualBuilder gem to generate our documentation.</h3>
+
+<p>In previous releases, the system that generated Prawn&#39;s manual was
+bundled directly with Prawn and not usable by third party extensions.
+We&#39;ve now extracted that system into <a
+href="https://github.com/prawnpdf/prawn-manual_builder">its own project</a>
+so that it can be used by anyone who wants to ship PDF-based documentation
+for their Prawn code.</p>
+
+<p><code>Prawn::ManualBuilder</code> is still a bit rough around the edges
+because it wasn&#39;t originally meant for general purpose use, but
+extracting out the code is an important first step in making it more useful
+for everyone. Bug fixes and improvements are welcome!</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/728">#728</a>, Gregory
+Brown)</p>
+
+<h3 id="label-Table+headers+are+now+rendered+only+if+there+is+also+room+for+non-header+rows.">Table headers are now rendered only if there is also room for non-header rows.</h3>
+
+<p>Orphaned header rows look bad and could be considered a rendering bug, and
+so this change fixes that problem by making sure there is enough room for
+at least one row of non-header data before attempting to render headers.</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/pull/717">#717</a>, Uwe
+Kubosch)</p>
+
+<h3 id="label-Row-spans+in+multi-row+headers+are+no+longer+lost+after+pagebreak">Row-spans in multi-row headers are no longer lost after pagebreak</h3>
+
+<p>In previous versions of Prawn, multi-row headers with rowspan would render
+incorrectly in multi-page tables. This bug has now been fixed.</p>
+
+<p>([#721](<a
+href="https://github.com/prawnpdf/prawn/issues/721">github.com/prawnpdf/prawn/issues/721</a>,
+“#723”:<a
+href="https://github.com/prawnpdf/prawn/pull/723">github.com/prawnpdf/prawn/pull/723</a>),
+Deron Meranda + Hartwig Brandl)</p>
+
+<h3 id="label-Fixed+a+table+bug+when+using+an+array+of+column+widths">Fixed a table bug when using an array of column widths</h3>
+
+<p>This is a fix for yet another edge case in cell width calculations. See
+tickets for details.</p>
+
+<p>(<a href="https://github.com/prawnpdf/prawn/issues/710">#710</a>, <a
+href="https://github.com/prawnpdf/prawn/pull/712">#712</a> Hartwig Brandl)</p>
+
+<h2 id="label-PrawnPDF+1.0.0+--+2014-03-16">PrawnPDF 1.0.0 – 2014-03-16</h2>
+
+<p>In addition to the notes below, please see the <a
+href="http://elmcitycraftworks.org/post/79929183748/prawn-1-0-is-finally-here">Prawn
+1.0 blog post.</a></p>
+
+<h3 id="label-Margins+are+now+properly+restored+after+a+multi-page+bounding+box+is+rendered.">Margins are now properly restored after a multi-page bounding box is rendered.</h3>
+
+<p>In a Prawn document, it&#39;s possible to reset the page margins on each
+newly created page: i.e. <code>@doc.start_new_page(:margin =&gt;
+64)</code>. But due to a very old bug, this feature did not work correctly
+any time that a bounding box spanned more than one page.</p>
+
+<p>Because many of Prawn&#39;s features rely on bounding boxes internally,
+this problem typically would reveal itself indirectly. This example from
+Malte Schmitz helped us finally track down the problem:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span> <span class='op'>=</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:margin</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_table'>table</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Foo</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>*</span> <span class='int'>20</span><span class='comma'>,</span> <span class='label'>position:</span> <span class='symbol'>:center</span> <span class='comment'># spans multiple pages
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_start_new_page'>start_new_page</span><span class='lparen'>(</span><span class='symbol'>:margin</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='comment'># should have updated margins but didn&#39;t
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Foo </span><span class='tstring_end'>&quot;</span></span> <span class='op'>*</span> <span class='int'>100</span>
+</code></pre>
+
+<p>The root cause of this problem has been found and fixed, and there should
+no longer be unexpected issues when using the <code>:margin</code>
+parameter to <code>start_new_page</code>.</p>
+
+<h3 id="label-Transaction+support+has+been+removed+from+Prawn%2C+and+the+Document%23group+feature+has+been+temporarily+disabled.">Transaction support has been removed from Prawn, and the Document#group feature has been temporarily disabled.</h3>
+
+<p>We&#39;ve discovered some very serious flaws in Prawn&#39;s transaction
+support which can easily cause documents to become corrupted. The only
+thing transactions were used internally for in Prawn was to support the
+<code>Document#group</code> feature, but the underlying defects were severe
+enough to make <code>Document#group</code> unsafe for use whenever a page
+boundary is crossed.</p>
+
+<p>We&#39;d like to bring back both transactions and grouping functionality,
+but it&#39;s going to involve some major work to do so cleanly. Until that
+happens, we&#39;ve decided its better not to provide the feature at all
+than it is to have folks try to use something that will likely result in
+hard to hunt down bugs.</p>
+
+<p>An experiment to restore grouping functionality without relying on
+transactions has already been released by Daniel Dengler in the <a
+href="https://github.com/ddengler/prawn-grouping">prawn-grouping</a>
+extension, so you may want to give that a try if you need grouping
+functionality.</p>
+
+<h3 id="label-Fixed+broken+git+clone+of+Prawn+repository+for+Windows">Fixed broken git clone of Prawn repository for Windows</h3>
+
+<p>A useless file named <code>..</code> was accidentally checked into the
+repository, which was causing failures with cloning Prawn on Windows. That
+file has been removed, resolving the problem.</p>
+
+<p>( <a href="https://github.com/prawnpdf/prawn/pull/692">#692</a>, Johnny
+Shields)</p>
+
+<h3 id="label-Deprecated+gradient+method+signatures+have+been+removed.">Deprecated gradient method signatures have been removed.</h3>
+
+<p>The <code>fill_gradient(point, width, height,...)</code> and
+<code>stroke_gradient(point, width, height,...)</code> calls are no longer
+supported. Use <code>fill_gradient(from, to, ...)</code> and
+<code>stroke_gradient(from, to, ...)</code> instead.</p>
+
+<p>( <a href="https://github.com/prawnpdf/prawn/pull/674">#674</a>, Alexander
+Mankuta )</p>
+
+<h3 id="label-PDF%3A%3ACore%3A%3AOutline+has+been+moved+back+to+Prawn%3A%3AOutline">PDF::Core::Outline has been moved back to Prawn::Outline</h3>
+
+<p>When we first broke out the PDF::Core namespace from Prawn&#39;s internals,
+our outline support ended going along with it. That was accidental, and so
+we&#39;ve now restored Prawn::Outline and marked it as part of our stable
+API.</p>
+
+<h2 id="label-Pre-1.0+Release+Notes">Pre-1.0 Release Notes</h2>
+
+<p>For changes before our 1.0 release, see the following wiki page: <a
+href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/prawn/wiki/CHANGELOG</a></p>
+</div></div>
+
+    <div id="footer">
+  Generated on Thu Feb 26 11:11:29 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.4).
+</div>
+
+  </body>
+</html>

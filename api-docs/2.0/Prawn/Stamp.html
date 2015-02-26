@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Prawn::Stamp
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Prawn/Stamp.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Prawn.html" title="Prawn (module)">Prawn</a></span></span>
+     &raquo; 
+    <span class="title">Stamp</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Prawn::Stamp
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="Document.html" title="Prawn::Document (class)">Document</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/prawn/stamp.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Prawn::Stamp module is used to create content that will be included
+multiple times in a document. Using a stamp has three advantages over
+creating content anew each time it is placed on the page:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_i'>i</span><span class='period'>.</span>   <span class='id identifier rubyid_faster'>faster</span> <span class='id identifier rubyid_document'>document</span> <span class='id identifier rubyid_creation'>creation</span>
+<span class='id identifier rubyid_ii'>ii</span><span class='period'>.</span>  <span class='id identifier rubyid_smaller'>smaller</span> <span class='id identifier rubyid_final'>final</span> <span class='id identifier rubyid_document'>document</span>
+<span class='id identifier rubyid_iii'>iii</span><span class='period'>.</span> <span class='id identifier rubyid_faster'>faster</span> <span class='id identifier rubyid_display'>display</span> <span class='id identifier rubyid_on'>on</span> <span class='id identifier rubyid_subsequent'>subsequent</span> <span class='id identifier rubyid_displays'>displays</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_the'>the</span> <span class='id identifier rubyid_repeated'>repeated</span>
+<span class='id identifier rubyid_element'>element</span> <span class='id identifier rubyid_because'>because</span> <span class='id identifier rubyid_the'>the</span> <span class='id identifier rubyid_viewer'>viewer</span> <span class='id identifier rubyid_application'>application</span> <span class='id identifier rubyid_can'>can</span> <span class='id identifier rubyid_cache'>cache</span> <span class='id identifier rubyid_the'>the</span> <span class='id identifier rubyid_rendered'>rendered</span>
+<span class='id identifier rubyid_results'>results</span></code></pre>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>15</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>5</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_stamp-instance_method" title="#create_stamp (instance method)">- (Object) <strong>create_stamp</strong>(name, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a re-usable stamp named name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stamp-instance_method" title="#stamp (instance method)">- (Object) <strong>stamp</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Renders the stamp named name to the page raises Prawn::Errors::InvalidName
+if name.empty? raises Prawn::Errors::UndefinedObjectName if no stamp has
+been created with this name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stamp_at-instance_method" title="#stamp_at (instance method)">- (Object) <strong>stamp_at</strong>(name, point) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Renders the stamp named name at a position offset from the initial coords
+at which the elements of the stamp was created.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create_stamp-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_stamp</strong>(name, &amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a re-usable stamp named <code>name</code></p>
+
+<p>raises <code>Prawn::Errors::NameTaken</code> if a stamp already exists in
+this document with this name raises <code>Prawn::Errors::InvalidName</code>
+if name.empty?</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>15</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>5</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 80</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dictionary'>dictionary</span> <span class='op'>=</span> <span class='id identifier rubyid_create_stamp_dictionary'>create_stamp_dictionary</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_stamp_stream'>stamp_stream</span><span class='lparen'>(</span><span class='id identifier rubyid_dictionary'>dictionary</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stamp-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stamp</strong>(name) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Renders the stamp named <code>name</code> to the page raises
+<code>Prawn::Errors::InvalidName</code> if name.empty? raises
+<code>Prawn::Errors::UndefinedObjectName</code> if no stamp has been
+created with this name</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>15</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>5</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_stamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dictionary_name'>dictionary_name</span><span class='comma'>,</span> <span class='id identifier rubyid_dictionary'>dictionary</span> <span class='op'>=</span> <span class='id identifier rubyid_stamp_dictionary'>stamp_dictionary</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_renderer'>renderer</span><span class='period'>.</span><span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dictionary_name'>dictionary_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> Do</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_xobjects'>xobjects</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_dictionary_name'>dictionary_name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_dictionary'>dictionary</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stamp_at-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stamp_at</strong>(name, point) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Renders the stamp named <code>name</code> at a position offset from the
+initial coords at which the elements of the stamp was created</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_create_stamp'>create_stamp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circle</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_fill_circle'>fill_circle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='int'>25</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+<span class='comment'># draws a circle at 100, 100
+</span><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stamp_at'>stamp_at</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circle</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span> <span class='int'>100</span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+
+<p>See stamp() for exceptions that might be raised</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/stamp.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stamp_at'>stamp_at</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_point'>point</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_stamp'>stamp</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 26 11:11:29 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.4).
+</div>
+
+  </body>
+</html>
