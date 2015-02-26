@@ -1,6 +1,8 @@
-## PrawnPDF version 2.0.0, not yet released.
+## Unreleased changes
 
-*Note: This release is still under development.The notes below are subject to change!*
+*The notes below describe unreleased changes, and are subject to change!*
+
+## PrawnPDF version 2.0.0
 
 ### Changes to supported Ruby versions
 
