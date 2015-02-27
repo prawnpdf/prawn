@@ -275,7 +275,7 @@ for more information.
 ### Text box now has an option to disable wrapping by character.
 
 This feature is useful for preventing mid-word breaks when used in combination with the 
-`:shink_to_fit` overflow option. See the following example practical use case:
+`:shrink_to_fit` overflow option. See the following example practical use case:
 
 ```ruby
 # An example shared by Simon Mansfield
