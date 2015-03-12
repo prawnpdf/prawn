@@ -11,6 +11,8 @@ Speaking more generally, we need to improve the condition of the tests for
 PDF::Core's tests. Currently there are lots of little gaps that can lead
 to this sort of problem.
 
+[Roberto S. Gerus, [pdf-core#15](https://github.com/prawnpdf/pdf-core/pull/15)]
+
 ## PrawnPDF 2.0.0 -- 2015-02-26
 
 ### Changes to supported Ruby versions
