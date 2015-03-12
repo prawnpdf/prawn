@@ -36,8 +36,37 @@ describe "#draw_text" do
   it "should allow setting a default font size" do
     @pdf.font_size = 16
     @pdf.draw_text("Blah", :at => [0, 0])
+
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.font_settings[0][:size].should == 16
+  end
+
+  rotated_text_inspector = Class.new(PDF::Inspector) do
+    attr_reader :tm_operator_used
+
+    def initialize
+      @tm_operator_used = false
+    end
+
+    def set_text_matrix_and_text_line_matrix(*a)
+      @tm_operator_used = true
+    end
+  end
+
+  it "should allow rotation" do
+    @pdf.draw_text("Test", :at => [100, 100], :rotate => 90)
+
+    text = rotated_text_inspector.analyze(@pdf.render)
+
+    text.tm_operator_used.should(be_true)
+  end
+
+  it "should not use rotation matrix by default" do
+    @pdf.draw_text("Test", :at => [100, 100])
+
+    text = rotated_text_inspector.analyze(@pdf.render)
+
+    text.tm_operator_used.should(be_false)
   end
 
   it "should allow overriding default font for a single instance" do
