@@ -1,6 +1,15 @@
 ## PrawnPDF master branch
 
-...
+### Fix regression in draw_text() with rotation
+
+Due to missing tests, a typo snuck into the `draw_text()` method in PDF::Core,
+preventing it from working properly when called with the `:rotate` option.
+
+This issue has been resolved, and a test has been added to Prawn's test suite.
+Speaking more generally, we need to improve the condition of the tests for
+`PDF::Core`, and make a clear separation between Prawn's test suite and
+PDF::Core's tests. Currently there are lots of little gaps that can lead
+to this sort of problem.
 
 ## PrawnPDF 2.0.0 -- 2015-02-26
 
