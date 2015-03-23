@@ -1,5 +1,9 @@
 ## PrawnPDF master branch
 
+No new changes yet!
+
+## PrawnPDF 2.0.1 -- 2015-03-23
+
 ### Fix regression in draw_text() with rotation
 
 Due to missing tests, a typo snuck into the `draw_text()` method in PDF::Core,
