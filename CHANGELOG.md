@@ -1,3 +1,18 @@
+## PrawnPDF 2.0.1 -- 2015-03-23
+
+### Fix regression in draw_text() with rotation
+
+Due to missing tests, a typo snuck into the `draw_text()` method in PDF::Core,
+preventing it from working properly when called with the `:rotate` option.
+
+This issue has been resolved, and a test has been added to Prawn's test suite.
+Speaking more generally, we need to improve the condition of the tests for
+`PDF::Core`, and make a clear separation between Prawn's test suite and
+PDF::Core's tests. Currently there are lots of little gaps that can lead
+to this sort of problem.
+
+[Robert S. Gerus, [pdf-core#15](https://github.com/prawnpdf/pdf-core/pull/15)]
+
 ## PrawnPDF 2.0.0 -- 2015-02-26
 
 ### Changes to supported Ruby versions
@@ -271,7 +286,7 @@ for more information.
 ### Text box now has an option to disable wrapping by character.
 
 This feature is useful for preventing mid-word breaks when used in combination with the 
-`:shink_to_fit` overflow option. See the following example practical use case:
+`:shrink_to_fit` overflow option. See the following example practical use case:
 
 ```ruby
 # An example shared by Simon Mansfield
