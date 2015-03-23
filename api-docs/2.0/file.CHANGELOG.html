@@ -62,6 +62,23 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'>
+<h2 id="label-PrawnPDF+2.0.1+--+2015-03-23">PrawnPDF 2.0.1 – 2015-03-23</h2>
+
+<h3 id="label-Fix+regression+in+draw_text%28%29+with+rotation">Fix regression in draw_text() with rotation</h3>
+
+<p>Due to missing tests, a typo snuck into the <code>draw_text()</code> method
+in PDF::Core, preventing it from working properly when called with the
+<code>:rotate</code> option.</p>
+
+<p>This issue has been resolved, and a test has been added to Prawn&#39;s test
+suite. Speaking more generally, we need to improve the condition of the
+tests for <code>PDF::Core</code>, and make a clear separation between
+Prawn&#39;s test suite and PDF::Core&#39;s tests. Currently there are lots
+of little gaps that can lead to this sort of problem.</p>
+
+<p>[Robert S. Gerus, <a
+href="https://github.com/prawnpdf/pdf-core/pull/15">pdf-core#15</a>]</p>
+
 <h2 id="label-PrawnPDF+2.0.0+--+2015-02-26">PrawnPDF 2.0.0 – 2015-02-26</h2>
 
 <h3 id="label-Changes+to+supported+Ruby+versions">Changes to supported Ruby versions</h3>
@@ -363,7 +380,7 @@ for more information.</p>
 <h3 id="label-Text+box+now+has+an+option+to+disable+wrapping+by+character.">Text box now has an option to disable wrapping by character.</h3>
 
 <p>This feature is useful for preventing mid-word breaks when used in
-combination with the <code>:shink_to_fit</code> overflow option. See the
+combination with the <code>:shrink_to_fit</code> overflow option. See the
 following example practical use case:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='comment'># An example shared by Simon Mansfield
@@ -586,7 +603,7 @@ href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/praw
 </div></div>
 
     <div id="footer">
-  Generated on Thu Feb 26 11:11:29 2015 by
+  Generated on Mon Mar 23 19:07:50 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.4).
 </div>
