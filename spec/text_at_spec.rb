@@ -106,9 +106,9 @@ describe "#draw_text" do
 
   it "should allow registering of built-in font_settings on the fly" do
     @pdf.font "Times-Roman"
-    @pdf.draw_text("Blah", :at => [100,100], :at => [0, 0])
+    @pdf.draw_text("Blah", :at => [100,100])
     @pdf.font "Courier"
-    @pdf.draw_text("Blaz", :at => [150,150], :at => [0, 0])
+    @pdf.draw_text("Blaz", :at => [150,150])
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.font_settings[0][:name].should == :"Times-Roman"
     text.font_settings[1][:name].should == :Courier
