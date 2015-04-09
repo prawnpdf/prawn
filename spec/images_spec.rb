@@ -149,5 +149,21 @@ describe "the image() function" do
     end
   end
 
+  describe ":width option without :height option" do
+    it "scales the width and height" do
+      info = @pdf.image @filename, :width => 225
+      info.scaled_height.should == 168.75
+      info.scaled_width.should  == 225.0
+    end
+  end
+
+  describe ":height option without :width option" do
+    it "scales the width and height" do
+      info = @pdf.image @filename, :height => 225
+      info.scaled_height.should == 225.0
+      info.scaled_width.should  == 300.0
+    end
+  end
+
 end
 
