@@ -120,7 +120,6 @@ overall direction of the project.
 These are the folks to contact if you have a maintenance-related issue with
 Prawn:
 
-* Gregory Brown (practicingruby)
 * Evan Sharp (PacketMonkey)
 * Alexander Mankuta (cheba)
 
@@ -129,6 +128,7 @@ Prawn:
 These folks have helped out in a maintenance role in the past, but are no longer
 actively involved in the project:
 
+* Gregory Brown (practicingruby)
 * Brad Ediger (bradediger)
 * James Healy (yob)
 * Daniel Nelson (Bluejade)
@@ -152,10 +152,7 @@ Over the last several years, we've received code contributions from dozens of
 people, which is amazing considering the low-level nature of this project. You can find the full list of folks 
 who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
 
-After a long hiatus, Gregory resumed slow-by-steady maintenance work on Prawn
-starting in November 2013. This was made possible thanks to some modest
-funding from Madriska, Inc. (Brad Ediger's company) to see the project
-through to its 1.0 release.
+After a long period of inactivity, Prawn reached its 1.0 milestone in 2014 thanks to some modest
+funding provided to Gregory by Madriska, Inc. (Brad Ediger's company).
 
-The fate of Prawn after 1.0 is uncertain, it's not a very easy project 
-to maintain. That said, we hope it keeps moving along!
+The long-term fate of Prawn is uncertain, it's not a very easy project to maintain. That said, we hope it keeps moving along!
