@@ -7,6 +7,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
+creation_date = ENV['BUILD_EPOCH'] ? Time.at(ENV['BUILD_EPOCH'].to_i) : Time.now
 Prawn::Document.generate("metadata.pdf",
   :info => {
     :Title        => "My title",
@@ -15,7 +16,7 @@ Prawn::Document.generate("metadata.pdf",
     :Keywords     => "test metadata ruby pdf dry",
     :Creator      => "ACME Soft App",
     :Producer     => "Prawn",
-    :CreationDate => Time.now
+    :CreationDate => creation_date.utc
   }) do
 
   text "This is a test of setting metadata properties via the info option."
