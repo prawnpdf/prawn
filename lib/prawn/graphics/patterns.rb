@@ -60,7 +60,7 @@ module Prawn
       end
 
       def gradient_registry_key(gradient)
-        if gradient[1].is_a?(Array) # axial
+        key = if gradient[1].is_a?(Array) # axial
           [
             map_to_absolute(gradient[0]),
             map_to_absolute(gradient[1]),
@@ -74,7 +74,16 @@ module Prawn
             gradient[3],
             gradient[4], gradient[5]
           ]
-        end.hash
+        end
+        unless @gradient_key_registry
+          @gradient_key_registry ||= {}
+          @gradient_key_index = 1
+        end
+        unless @gradient_key_registry.include?(key)
+          @gradient_key_registry[key] = @gradient_key_index
+          @gradient_key_index += 1
+        end
+        @gradient_key_registry[key]
       end
 
       def gradient_registry
