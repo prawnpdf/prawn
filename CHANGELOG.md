@@ -1,6 +1,15 @@
 ## PrawnPDF master branch
 
-No new changes yet!
+### Links in repeaters/stamps are now clickable
+
+Previously, url links were not clickable when rendered within a stamp. The
+proper annotation references are now added to the page object that the
+stamp is called, thereby generating a clickable link in the pdf.
+
+Because repeaters are built upon stamps, this fix should also solve
+issues with links inside of repeaters.
+
+(Jesse Doyle, [#801](https://github.com/prawnpdf/prawn/issues/801), [#498](https://github.com/prawnpdf/prawn/issues/498))
 
 ## PrawnPDF 2.0.1 -- 2015-03-23
 
@@ -27,23 +36,23 @@ longer attempt to maintain 1.9.x compatibility.
 We will continue to support Ruby 2.0.0 and 2.1.x, and have added support for Ruby
 2.2.x as well.
 
-If you're using JRuby, we recommend using JRuby 1.7.x (>= 1.7.18) in 2.0 mode 
+If you're using JRuby, we recommend using JRuby 1.7.x (>= 1.7.18) in 2.0 mode
 for now. Please file bug reports if you run into any problems!
 
 ### Changes to PrawnPDF's versioning policies
 
 Starting with this release, we will set version numbers based on the following policy:
 
-* Whenever a documented feature is modified in a backwards-incompatible way, 
+* Whenever a documented feature is modified in a backwards-incompatible way,
 we'll bump our major version number.
 
-* Whenever we add new functionality without breaking backwards compatibility, 
+* Whenever we add new functionality without breaking backwards compatibility,
 we'll bump our minor version number.
 
 * Whenever we cut maintenance releases (which cover only bug fixes,
 documentation, and internal improvements), we'll bump our tiny version number.
 
-This policy is similar in spirit to [Semantic Versioning](http://semver.org/), 
+This policy is similar in spirit to [Semantic Versioning](http://semver.org/),
 and we may end up formally adopting SemVer in the future.
 
 The main caveat is that if a feature is not documented (either in our API
@@ -53,23 +62,23 @@ development over nearly a decade, so the APIs have not been designed as
 much as they have been organically grown.
 
 To make sure that the amount of undefined behavior in Prawn shrinks over time,
-we'll make sure to review and revise documentation whenever new functionality 
+we'll make sure to review and revise documentation whenever new functionality
 is added, and also whenever we change existing features.
 
-### All decimals in PDF output are now rounded to a fixed precision of 4 decimal places 
+### All decimals in PDF output are now rounded to a fixed precision of 4 decimal places
 
-This should improve compatibility across viewers that do not support 
-arbitrarily long decimal numbers, without effecting practical use 
+This should improve compatibility across viewers that do not support
+arbitrarily long decimal numbers, without effecting practical use
 at all. (A PDF point is 1/72 inch, so 0.0001 PDF point is a very, very small number).
 
-This patch was added in response to certain PDFs on certain versions of Adobe 
+This patch was added in response to certain PDFs on certain versions of Adobe
 Reader raising errors when viewed.
 
 (Gregory Brown, [#782](https://github.com/prawnpdf/prawn/pull/782))
 
 ### Fixed text width calculation to prevent unnecessary soft hyphen
 
-Previously, the `width_of` method would include the width of all soft hyphens 
+Previously, the `width_of` method would include the width of all soft hyphens
 in a string, regardless of whether they would be rendered or not. This caused
 lines of text to appear longer than they actually were, causing unnecessary
 wrapping and hyphenation at times.
@@ -89,7 +98,7 @@ font style. This doesn't work for TTF fonts, since the name is a full
 path to a single style of font, and the Prawn must know about the font
 family in order to find another style.
 
-The `width_of` method has been updated to use the font family instead, 
+The `width_of` method has been updated to use the font family instead,
 allowing calculations to work properly with TTFs.
 
 (Ernie Miller, [#827](https://github.com/prawnpdf/prawn/pull/827))
@@ -97,11 +106,11 @@ allowing calculations to work properly with TTFs.
 ### Fixed broken vertical alignment for center and bottom
 
 In earlier versions of Prawn, center alignment and bottom alignment in text
-boxes worked in a way that is inconsistent with common typographical 
-conventions: 
+boxes worked in a way that is inconsistent with common typographical
+conventions:
 
-* Vertically centered text was padded so that the distance between the 
-top of the box and the ascender of the first line of text was made equal to the 
+* Vertically centered text was padded so that the distance between the
+top of the box and the ascender of the first line of text was made equal to the
 distance between the descender of the bottom line to the descender of the last line of text.
 
 * Bottom aligned text included the line gap specified by a font, leaving a bit of
@@ -121,7 +130,7 @@ For a very detailed discussion (with pictures), see issue [#169](https://github.
 
 ### Calling dash(0) now raises an error instead of generating a corrupt PDF
 
-In earlier versions of Prawn, accidentally calling `dash(0)` instead of 
+In earlier versions of Prawn, accidentally calling `dash(0)` instead of
 `undash` in an attempt to clear dash settings would generate a corrupted
 document instead of raising an error, making debugging difficult.
 
@@ -131,13 +140,13 @@ the source of the problem much clearer.
 
 ### Vastly improved handling of encodings for PDF built in (AFM) fonts
 
-Prawn has always had comprehensive UTF-8 support for TTF font files, but many 
+Prawn has always had comprehensive UTF-8 support for TTF font files, but many
 users still rely on the "built in" AFM fonts that are provided by PDF viewers.
-These fonts only support the very limited set of internationalized characters 
+These fonts only support the very limited set of internationalized characters
 specified by the Windows-1252 character encoding, and that has been a long
 standing source of confusion and awkward behaviors.
 
-Earlier versions of Prawn attempted to transcode UTF-8 to Windows-1252 
+Earlier versions of Prawn attempted to transcode UTF-8 to Windows-1252
 automatically, but some of our low level features either assumed that
 text was already encoded properly, or returned text in a different
 encoding than what was provided because of the internal transcoding
@@ -148,13 +157,13 @@ things even more confusing.
 In this release, we've made some major behavior changes to the way AFM
 fonts work so that users need to think less about Prawn's internals:
 
-* Text handling for all public Prawn methods is now UTF-8-in, UTF-8-out, 
+* Text handling for all public Prawn methods is now UTF-8-in, UTF-8-out,
 making Windows-1252 transcoding purely an implementation detail of Prawn
 that isn't visible from the outside.
 
-* When using AFM fonts + non-ASCII characters that are NOT supported in 
+* When using AFM fonts + non-ASCII characters that are NOT supported in
 Windows-1252, an exception will be raised rather than replacing w.
- `_`. 
+ `_`.
 
 * When using AFM fonts + non-ASCII characters that are supported in
  Windows-1252, users will see a warning about the limited
@@ -172,7 +181,7 @@ when `AFM#normalize_encoding` is called, rather than `ASCII-8Bit`
 
 None of the above issues apply when using TTF fonts with Prawn, because
 those have always been UTF-8 in, UTF-8 out, and no transcoding was
-done internally. It is still our recommendation for those using internationalized 
+done internally. It is still our recommendation for those using internationalized
 text to use TTF fonts because they do not have the same limitations
 as AFM fonts, but those who need to use AFM for whatever reason
 should benefit greatly from these changes.
@@ -197,14 +206,14 @@ for more details.
 
 ### Added the Prawn::View mixin for using Prawn's DSL in your own classes.
 
-In complex Prawn-based documents, it is a common pattern to create subclasses 
-of `Prawn::Document` to isolate different components from one another, 
-or to provide some customized rendering methods. However, the sprawling 
-nature of the `Prawn::Document` object makes this an unsafe practice: 
+In complex Prawn-based documents, it is a common pattern to create subclasses
+of `Prawn::Document` to isolate different components from one another,
+or to provide some customized rendering methods. However, the sprawling
+nature of the `Prawn::Document` object makes this an unsafe practice:
 it implements hundreds of methods and contains dozens of instance variables,
 all of which can conflict with any subclass functionality.
 
-`Prawn::View` provides a safer alternative by using object 
+`Prawn::View` provides a safer alternative by using object
 composition instead of inheritance. This will keep your state and
 methods separate from Prawn's internals, while still allowing you to
 directly call any methods provided by the `Prawn::Document` object.
@@ -238,22 +247,22 @@ greeter.say_goodbye
 greeter.save_as("greetings.pdf")
 ```
 
-Wherever possible, please convert your `Prawn::Document` subclasses to use 
-`Prawn::View` instead. It is much less invasive, and is nearly a drop-in 
+Wherever possible, please convert your `Prawn::Document` subclasses to use
+`Prawn::View` instead. It is much less invasive, and is nearly a drop-in
 replacement for the existing common practice.
 
 ### Soft hyphenation no longer renders unnecessary hyphens in the last word of paragraphs.
 
-A defect in our text rendering system was to blame for this bad behavior. 
+A defect in our text rendering system was to blame for this bad behavior.
 For more details, see [#347](https://github.com/prawnpdf/prawn/issues/347).
 
 ([#773](https://github.com/prawnpdf/prawn/pull/773), [#774](https://github.com/prawnpdf/prawn/pull/774) -- Mario Albert)
 
 ### Fonts with unsupported character mappings will now only fail if you use unsupported glyphs.
 
-A bug in TTFunk prevented certain fonts from being used because they contained 
+A bug in TTFunk prevented certain fonts from being used because they contained
 unsupported character map information. In most cases, this information would
-only be needed to render a handful of obscure glyphs, and so most users 
+only be needed to render a handful of obscure glyphs, and so most users
 would never run into issues by using them.
 
 This issue has been resolved, and should help improve compatibility
@@ -263,9 +272,9 @@ for CJK-based fonts in particular.
 
 ### Prawn no longer triggers Ruby warnings when loaded
 
-Some minor issues in our TTFunk dependency was causing many warnings to be 
-generated upon loading Prawn. As of this release, you should now be able to 
-run Ruby with warnings on and see no warnings generated from Prawn 
+Some minor issues in our TTFunk dependency was causing many warnings to be
+generated upon loading Prawn. As of this release, you should now be able to
+run Ruby with warnings on and see no warnings generated from Prawn
 or its dependencies.
 
 ([TTFunk #21](https://github.com/prawnpdf/ttfunk/pull/21) -- Jesse Doyle)
@@ -276,20 +285,20 @@ This release includes all changes from 1.2.0, which was yanked due to a packagin
 
 ### Prawn::Table has been moved into an optional gem extension.
 
-In addition to adding `require "prawn/table"` to your code, you will need to install 
+In addition to adding `require "prawn/table"` to your code, you will need to install
 the `prawn-table` gem to make use of table and cell rendering functionality in Prawn 1.2+.
 
-The `prawn-table` gem will be maintained by Hartwig Brandl, and is semi-officially 
-supported by the Prawn maintenance team. That means that we'll continue to watch its 
-CI builds against each Prawn release, and help to resolve any compatibility 
+The `prawn-table` gem will be maintained by Hartwig Brandl, and is semi-officially
+supported by the Prawn maintenance team. That means that we'll continue to watch its
+CI builds against each Prawn release, and help to resolve any compatibility
 issues as soon as possible.
 
-Please see the [prawn-table repository](https://github.com/prawnpdf/prawn-table) 
+Please see the [prawn-table repository](https://github.com/prawnpdf/prawn-table)
 for more information.
 
 ### Text box now has an option to disable wrapping by character.
 
-This feature is useful for preventing mid-word breaks when used in combination with the 
+This feature is useful for preventing mid-word breaks when used in combination with the
 `:shrink_to_fit` overflow option. See the following example practical use case:
 
 ```ruby
@@ -310,48 +319,48 @@ Prawn::Document.generate("x.pdf") do
 end
 ```
 
-Without setting `:disable_wrap_by_char`, the code above will break the word "VEGETARIAN" 
-into two lines rather than shrinking it all the way down to fit on a single unbroken line.       
+Without setting `:disable_wrap_by_char`, the code above will break the word "VEGETARIAN"
+into two lines rather than shrinking it all the way down to fit on a single unbroken line.
 
-To maintain backwards compatibility, `:disable_wrap_by_char` is implemented as 
+To maintain backwards compatibility, `:disable_wrap_by_char` is implemented as
 an optional behavior that is off by default.
 
 ([#752](https://github.com/prawnpdf/prawn/pull/752), James Coleman)
 
 ### Fallback fonts no longer break global font styling.
 
-In earlier versions of Prawn, using the fallback font system caused styling information 
-(i.e. bold, italic) for all fonts to be lost, and the only workaround to this 
+In earlier versions of Prawn, using the fallback font system caused styling information
+(i.e. bold, italic) for all fonts to be lost, and the only workaround to this
 problem was to specify style explicitly for each individual text fragment.
 
-Now that this issue has been resolved, it is safe to use the `font` method to set 
+Now that this issue has been resolved, it is safe to use the `font` method to set
 styles globally, even if fallback fonts are in use.
 
 ([#743](https://github.com/prawnpdf/prawn/pull/743), Pete Sharum)
 
 ### Formatted text box dry runs no longer modify graphics state
 
-Dry runs are supposed to be a side-effect-free way of simulating text rendering, 
-but a bug in earlier versions of Prawn caused the graphics state to be modified 
+Dry runs are supposed to be a side-effect-free way of simulating text rendering,
+but a bug in earlier versions of Prawn caused the graphics state to be modified
 if colors were set on text fragments. This patch resolves that issue.
 
 ([#736](https://github.com/prawnpdf/prawn/pull/736), Christian Hieke)
 
 ### Fixed manual build failure on Ruby 1.9.3
 
-When we extracted Prawn::ManualBuilder, we accidentally broke its support for 
-Ruby 1.9.3. That issue has been resolved, and a new version of the 
+When we extracted Prawn::ManualBuilder, we accidentally broke its support for
+Ruby 1.9.3. That issue has been resolved, and a new version of the
 `prawn-manual_builder` gem has been released.
 
 ## PrawnPDF 1.1.0 -- 2014-06-27
 
-In addition to the notes below, please see the 
+In addition to the notes below, please see the
 [Prawn 1.1 blog post](http://elmcitycraftworks.org/post/90062338793/prawn-1-1-0-released").
 
 ### Table support now disabled by default, moving to its own gem soon.
 
-We're planning to extract table generation into its own semi-officially 
-supported gem in a future release. Until then, you can use the following line 
+We're planning to extract table generation into its own semi-officially
+supported gem in a future release. Until then, you can use the following line
 to enable table support in your projects:
 
 ```ruby
@@ -359,14 +368,14 @@ require "prawn/table"
 ```
 
 As of right now tables are still supported as an experimental public feature --
-we only disabled it by default to make sure people are aware that it will be 
+we only disabled it by default to make sure people are aware that it will be
 extracted into its own gem soon.
 
 ### I/O objects are now supported in the font system.
 
 You can now pass a fully formed Prawn::Font object in addition to a
 file path when adding a font family to your document. `Prawn::Font.load`
-now also accepts IO object as an alternative to explicitly specifying 
+now also accepts IO object as an alternative to explicitly specifying
 a path on the filesystem. For example:
 
 ```ruby
@@ -383,14 +392,14 @@ io = File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
 
 ### We now use the Prawn::ManualBuilder gem to generate our documentation.
 
-In previous releases, the system that generated Prawn's manual 
-was bundled directly with Prawn and not usable by third party extensions. 
-We've now extracted that system into 
-[its own project](https://github.com/prawnpdf/prawn-manual_builder) so that it can be 
+In previous releases, the system that generated Prawn's manual
+was bundled directly with Prawn and not usable by third party extensions.
+We've now extracted that system into
+[its own project](https://github.com/prawnpdf/prawn-manual_builder) so that it can be
 used by anyone who wants to ship PDF-based documentation for their Prawn code.
 
 `Prawn::ManualBuilder` is still a bit rough around the edges because it
-wasn't originally meant for general purpose use, but extracting out the 
+wasn't originally meant for general purpose use, but extracting out the
 code is an important first step in making it more useful for everyone. Bug fixes
 and improvements are welcome!
 
@@ -398,15 +407,15 @@ and improvements are welcome!
 
 ### Table headers are now rendered only if there is also room for non-header rows.
 
-Orphaned header rows look bad and could be considered a rendering bug, 
-and so this change fixes that problem by making sure there is enough room 
+Orphaned header rows look bad and could be considered a rendering bug,
+and so this change fixes that problem by making sure there is enough room
 for at least one row of non-header data before attempting to render headers.
 
 ([#717](https://github.com/prawnpdf/prawn/pull/717), Uwe Kubosch)
 
 ### Row-spans in multi-row headers are no longer lost after pagebreak
 
-In previous versions of Prawn, multi-row headers with rowspan would render 
+In previous versions of Prawn, multi-row headers with rowspan would render
 incorrectly in multi-page tables. This bug has now been fixed.
 
 ([#721](https://github.com/prawnpdf/prawn/issues/721, "#723":https://github.com/prawnpdf/prawn/pull/723), Deron Meranda + Hartwig Brandl)
@@ -425,13 +434,13 @@ In addition to the notes below, please see the [Prawn 1.0 blog post.][1-0-blog-p
 
 ### Margins are now properly restored after a multi-page bounding box is rendered.
 
-In a Prawn document, it's possible to reset the page margins on each 
-newly created page: i.e. `@doc.start_new_page(:margin => 64)`. But due to a 
-very old bug, this feature did not work correctly any time that a 
+In a Prawn document, it's possible to reset the page margins on each
+newly created page: i.e. `@doc.start_new_page(:margin => 64)`. But due to a
+very old bug, this feature did not work correctly any time that a
 bounding box spanned more than one page.
 
-Because many of Prawn's features rely on bounding boxes internally, this problem 
-typically would reveal itself indirectly. This example from Malte Schmitz helped 
+Because many of Prawn's features rely on bounding boxes internally, this problem
+typically would reveal itself indirectly. This example from Malte Schmitz helped
 us finally track down the problem:
 
 ```ruby
@@ -446,7 +455,7 @@ unexpected issues when using the `:margin` parameter to `start_new_page`.
 
 ### Transaction support has been removed from Prawn, and the Document#group feature has been temporarily disabled.
 
-We've discovered some very serious flaws in Prawn's transaction support which can 
+We've discovered some very serious flaws in Prawn's transaction support which can
 easily cause documents to become corrupted. The only thing transactions were used internally
 for in Prawn was to support the `Document#group` feature, but the underlying defects were
 severe enough to make `Document#group` unsafe for use whenever a page boundary is crossed.
@@ -462,11 +471,11 @@ extension, so you may want to give that a try if you need grouping functionality
 
 ### Fixed broken git clone of Prawn repository for Windows
 
-A useless file named `..` was accidentally checked into the repository, 
-which was causing failures with cloning Prawn on Windows. That file has been removed, 
+A useless file named `..` was accidentally checked into the repository,
+which was causing failures with cloning Prawn on Windows. That file has been removed,
 resolving the problem.
 
-( [#692](https://github.com/prawnpdf/prawn/pull/692), Johnny Shields) 
+( [#692](https://github.com/prawnpdf/prawn/pull/692), Johnny Shields)
 
 ### Deprecated gradient method signatures have been removed.
 
@@ -477,8 +486,8 @@ calls are no longer supported. Use `fill_gradient(from, to, ...)`  and `stroke_g
 
 ### PDF::Core::Outline has been moved back to Prawn::Outline
 
-When we first broke out the PDF::Core namespace from Prawn's internals, our outline 
-support ended going along with it. That was accidental, and so we've now restored 
+When we first broke out the PDF::Core namespace from Prawn's internals, our outline
+support ended going along with it. That was accidental, and so we've now restored
 Prawn::Outline and marked it as part of our stable API.
 
 ## Pre-1.0 Release Notes
