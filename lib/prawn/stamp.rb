@@ -6,7 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-
 module Prawn
 
   # The Prawn::Stamp module is used to create content that will be
@@ -45,6 +44,7 @@ module Prawn
     def stamp(name)
       dictionary_name, dictionary = stamp_dictionary(name)
       renderer.add_content "/#{dictionary_name} Do"
+      update_annotation_references dictionary.data[:Annots]
       state.page.xobjects.merge!(dictionary_name => dictionary)
     end
 
@@ -122,6 +122,17 @@ module Prawn
       stamp_dictionary_registry[name] = { :stamp_dictionary_name => dictionary_name,
                                           :stamp_dictionary      => dictionary }
       dictionary
+    end
+
+    # Referencing annotations from a stamp XObject doesn't result
+    # in a working link. Instead, the references must be appended
+    # to the /Annot dictionary of the object that contains the
+    # call to the stamp object.
+    def update_annotation_references(annots)
+      if annots && annots.any?
+        state.page.dictionary.data[:Annots] ||= []
+        state.page.dictionary.data[:Annots] |= annots
+      end
     end
 
     def freeze_stamp_graphics

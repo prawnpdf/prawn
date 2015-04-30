@@ -87,6 +87,25 @@ describe "Document with a stamp" do
     @pdf.render.should =~ /(\/Stamp1 Do.*?){3}/m
   end
 
+  it "stamp should render clickable links" do
+    create_pdf
+    @pdf.create_stamp 'bar' do
+      @pdf.text '<b>Prawn</b> <link href="http://github.com">GitHub</link>', inline_format: true
+    end
+    @pdf.stamp 'bar'
+
+    output = @pdf.render
+    objects = output.split("endobj")
+
+    objects.each do |obj|
+      if obj =~ /\/Type \/Page$/
+        # The page object must contain the annotation reference
+        # to render a clickable link
+        obj.should =~ /^\/Annots \[\d \d .\]$/
+      end
+    end
+  end
+
   it "resources added during stamp creation should be added to the "+
      "stamp XObject, not the page" do
     create_pdf
