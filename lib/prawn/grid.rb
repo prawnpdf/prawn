@@ -214,7 +214,7 @@ module Prawn
       end
 
       def name
-        @bs.map {|b| b.name}.join(":")
+        @bs.map(&:name).join(":")
       end
 
       def total_height

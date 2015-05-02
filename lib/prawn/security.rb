@@ -147,7 +147,7 @@ module Prawn
         perms.each do |key, value|
           unless PermissionsBits[key]
             raise ArgumentError, "Unknown permission :#{key}. Valid options: " +
-              PermissionsBits.keys.map { |k| k.inspect }.join(", ")
+              PermissionsBits.keys.map(&:inspect).join(", ")
           end
 
           # 0-based bit number, from LSB

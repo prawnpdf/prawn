@@ -205,8 +205,6 @@ UnusedMethodArgument:
   Enabled: false
 Next:
   Enabled: false
-SymbolProc:
-  Enabled: false
 ClassCheck:
   Enabled: false
 SpaceBeforeComma:
