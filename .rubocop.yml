@@ -161,8 +161,6 @@ Alias:
   Enabled: false
 RedundantReturn:
   Enabled: false
-EmptyLinesAroundAccessModifier:
-  Enabled: false
 DeprecatedHashMethods:
   Enabled: false
 WhileUntilModifier:
