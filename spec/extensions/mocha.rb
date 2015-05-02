@@ -31,7 +31,6 @@ class Mocha::Expectation
   end
 end
 
-
 # Equivalent to expects(method_name).at_least(0). More useful when combined
 # with parameter matchers to ignore certain calls for the sake of parameter
 # matching.

@@ -23,7 +23,6 @@ module Prawn
           @disable_wrap_by_char = options[:disable_wrap_by_char]
         end
 
-
         # See the developer documentation for PDF::Core::Text#wrap
         #
         # Formatted#wrap should set the following variables:

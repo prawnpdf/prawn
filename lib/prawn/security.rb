@@ -252,7 +252,6 @@ module PDF
       end
     end
 
-
     # @private
     class Stream
       def encrypted_object(key, id, gen)

@@ -2,7 +2,6 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-
 describe "When creating annotations" do
 
   before(:each) { create_pdf }

@@ -821,7 +821,6 @@ describe "Text::Box with a solid block of Chinese characters" do
   end
 end
 
-
 describe "drawing bounding boxes" do
   before(:each) { create_pdf }
 
@@ -834,7 +833,6 @@ describe "drawing bounding boxes" do
 
   end
 end
-
 
 describe "Text::Box#render with :character_spacing option" do
   it "should draw the character spacing to the document" do

@@ -89,7 +89,6 @@ describe "when generating a document from a subclass" do
 
 end
 
-
 describe "When creating multi-page documents" do
 
   before(:each) { create_pdf }
@@ -357,7 +356,6 @@ describe "When setting page size" do
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
     pages.first[:size].should == [1920, 1080]
   end
-
 
   it "should retain page size by default when starting a new page" do
     @pdf = Prawn::Document.new(:page_size => "LEGAL")

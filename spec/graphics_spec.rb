@@ -122,7 +122,6 @@ describe "When drawing a curve" do
     curve.coords.should == [100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0]
   end
 
-
 end
 
 describe "When drawing a rounded rectangle" do
@@ -154,7 +153,6 @@ describe "When drawing a rounded rectangle" do
   it "should start and end with the same point" do
     @original_point.should == @all_coords.last
   end
-
 
 end
 
@@ -460,8 +458,6 @@ describe "When using graphics states" do
     @pdf.graphic_state.line_width.should == 1
   end
 
-
-
   it "should not add extra graphic space closings when rendering multiple times" do
     @pdf.render
     state = PDF::Inspector::Graphics::State.analyze(@pdf.render)
@@ -484,7 +480,6 @@ describe "When using graphics states" do
     state.save_graphics_state_count.should == 2
     state.restore_graphics_state_count.should == 2
   end
-
 
   it "should raise_error error if closing an empty graphic stack" do
     lambda {

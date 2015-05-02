@@ -187,7 +187,6 @@ describe "Text::Formatted::Box" do
       :normal => { :file => file }
     }
 
-
     @formatted_text = [{ :text => "hello你好" }]
     @pdf.fallback_fonts(["Kai"])
     @pdf.fallback_fonts = ["Kai"]
@@ -306,7 +305,6 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\n\nworld"
-
 
     array = [{ :text => "hello" + " " * 500},
              { :text => " " * 500 },

@@ -34,7 +34,6 @@ module Prawn
       return yd*36
     end
 
-
     # ============================================================================
     # PostscriptPoint-converisons
 

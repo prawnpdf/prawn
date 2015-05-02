@@ -100,7 +100,6 @@ describe "Document encryption" do
       @pdf.user_encryption_key.unpack("H*").first.upcase.should == "B100AB6429"
     end
 
-
   end
 
   describe "EncryptedPdfObject" do

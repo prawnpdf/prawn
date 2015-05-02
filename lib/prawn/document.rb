@@ -466,7 +466,6 @@ module Prawn
       move_down(y)
     end
 
-
     # Indents the specified number of PDF points for the duration of the block
     #
     #  pdf.text "some text"
@@ -644,7 +643,6 @@ module Prawn
     end
 
     private
-
 
     # setting override_settings to true ensures that a new graphic state does not end up using
     # previous settings.

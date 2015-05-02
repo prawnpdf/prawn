@@ -10,7 +10,6 @@ module Prawn
   module Text
     module Formatted
 
-
       # Prawn::Text::Formatted::Fragment is a state store for a formatted text
       # fragment. It does not render anything.
       #

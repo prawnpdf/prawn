@@ -264,7 +264,6 @@ module Prawn
         0
       end
 
-
       # Temporarily adjust the @x coordinate to allow for left_padding
       #
       # Example:

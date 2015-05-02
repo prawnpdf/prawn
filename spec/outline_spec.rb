@@ -173,7 +173,6 @@ describe "Outline" do
         referenced_object(@subsection[:Prev]).should == @page_2
       end
 
-
       it "the subsection should become the next relation for its parent's old last item" do
          referenced_object(@page_2[:Next]).should == @subsection
        end
@@ -299,7 +298,6 @@ describe "Outline" do
 
       end
 
-
       context "when adding another section afterwards" do
         it "should have reset the root position so that a new section is added at the end of root sections" do
           @pdf.start_new_page
@@ -316,7 +314,6 @@ describe "Outline" do
       end
 
    end
-
 
     describe "inserting at the end of another section" do
 

@@ -17,8 +17,6 @@ HashSyntax:
   Enabled: false
 UselessAssignment:
   Enabled: false
-EmptyLines:
-  Enabled: false
 LineEndConcatenation:
   Enabled: false
 SpaceAfterComma:
