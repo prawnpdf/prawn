@@ -125,8 +125,6 @@ AccessModifierIndentation:
   Enabled: false
 CaseEquality:
   Enabled: false
-EmptyLineBetweenDefs:
-  Enabled: false
 RedundantSelf:
   Enabled: false
 BlockNesting:
