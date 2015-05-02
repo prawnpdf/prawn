@@ -7,7 +7,6 @@ module Prawn
   # @group Stable API
 
   module Measurements
-
     # ============================================================================
     #metric conversions
     def cm2mm(cm)

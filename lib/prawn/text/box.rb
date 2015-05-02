@@ -134,6 +134,5 @@ module Prawn
         leftover.collect { |hash| hash[:text] }.join
       end
     end
-
   end
 end

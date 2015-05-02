@@ -17,7 +17,6 @@ module Prawn
     # Implements PDF encryption (password protection and permissions) as
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
-
       # @group Experimental API
 
       # Encrypts the document, to protect confidential data or control
@@ -196,7 +195,6 @@ module Prawn
       def user_password_hash
         Arcfour.new(user_encryption_key).encrypt(PasswordPadding)
       end
-
     end
   end
 end

@@ -9,7 +9,6 @@ require 'digest/sha1'
 require 'pathname'
 
 module Prawn
-
   module Images
     # @group Stable API
 

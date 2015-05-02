@@ -8,7 +8,6 @@
 #
 
 module Prawn
-
   # Cache used internally by Prawn::Document instances to calculate the width
   # of various strings for layout purposes.
   #
@@ -40,5 +39,4 @@ module Prawn
         (@document.character_spacing * @document.font.character_count(string))
     end
   end
-
 end

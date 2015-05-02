@@ -607,7 +607,6 @@ module Prawn
           end
         end
       end
-
     end
   end
 end

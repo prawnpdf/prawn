@@ -15,7 +15,6 @@ module Prawn
       # @private
 
       module Wrap #:nodoc:
-
         def initialize(array, options)
           @line_wrap = Prawn::Text::Formatted::LineWrap.new
           @arranger = Prawn::Text::Formatted::Arranger.new(@document,
@@ -152,7 +151,6 @@ module Prawn
                           line_width, word_spacing)
           end
         end
-
       end
     end
   end

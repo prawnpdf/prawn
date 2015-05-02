@@ -9,7 +9,6 @@
 require 'thread'
 
 module Prawn
-
   # Throughout the Prawn codebase, repeated calculations which can benefit from caching are made
   # In some cases, caching and reusing results can not only save CPU cycles but also greatly
   #   reduce memory requirements

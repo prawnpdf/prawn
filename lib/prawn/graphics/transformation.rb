@@ -151,7 +151,6 @@ module Prawn
           restore_graphics_state
         end
       end
-
     end
   end
 end

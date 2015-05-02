@@ -7,7 +7,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 module Prawn
-
   # The Prawn::Stamp module is used to create content that will be
   # included multiple times in a document. Using a stamp has three
   # advantages over creating content anew each time it is placed on
@@ -26,7 +25,6 @@ module Prawn
   #   pdf.stamp("my_stamp")
   #
   module Stamp
-
     # @group Stable API
 
     # Renders the stamp named <tt>name</tt> to the page
@@ -142,6 +140,5 @@ module Prawn
       write_stroke_join_style
       write_stroke_dash
     end
-
   end
 end

@@ -225,7 +225,6 @@ module Prawn
       def write_color(color, operator)
         renderer.add_content "#{color} #{operator}"
       end
-
     end
   end
 end

@@ -12,7 +12,6 @@ require_relative "font/dfont"
 require_relative "font_metric_cache"
 
 module Prawn
-
   class Document
     # @group Stable API
 
@@ -407,5 +406,4 @@ module Prawn
       @document.font_size
     end
   end
-
 end

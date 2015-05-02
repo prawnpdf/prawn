@@ -10,7 +10,6 @@
 module Prawn
   module Text
     module Formatted #:nodoc:
-
       # @private
 
       class Arranger #:nodoc:
@@ -283,7 +282,6 @@ module Prawn
           @max_ascender = [defined?(@max_ascender) && @max_ascender, fragment.ascender].compact.max
         end
       end
-
     end
   end
 end

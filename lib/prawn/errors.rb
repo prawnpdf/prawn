@@ -75,6 +75,5 @@ module Prawn
     # Raised when unrecognized content is provided for a table cell.
     #
     UnrecognizedTableContent = Class.new(StandardError)
-
   end
 end

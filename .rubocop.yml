@@ -203,8 +203,6 @@ SpaceBeforeComma:
   Enabled: false
 StringLiteralsInInterpolation:
   Enabled: false
-EmptyLinesAroundModuleBody:
-  Enabled: false
 GuardClause:
   Enabled: false
 ElseAlignment:

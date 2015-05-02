@@ -14,7 +14,6 @@ require_relative "document/internals"
 require_relative "document/span"
 
 module Prawn
-
   # The Prawn::Document class is how you start creating a PDF document.
   #
   # There are three basic ways you can instantiate PDF Documents in Prawn, they

@@ -15,7 +15,6 @@ require_relative "graphics/transformation"
 require_relative "graphics/patterns"
 
 module Prawn
-
   # Implements the drawing facilities for Prawn::Document.
   # Use this to draw the most beautiful imaginable things.
   #
@@ -23,7 +22,6 @@ module Prawn
   # ruby-pdf.rubyforge.org
   #
   module Graphics
-
     include Color
     include Dash
     include CapStyle
@@ -638,6 +636,5 @@ module Prawn
       yr = y0 + p*(y1 - y0)
       [xr, yr]
     end
-
   end
 end
