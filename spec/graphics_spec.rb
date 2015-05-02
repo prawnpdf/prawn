@@ -541,10 +541,10 @@ describe "When using transformation matrix" do
     string = Array.new(6, "0.00000").join " "
     process = sequence "process"
 
-    @pdf.expects(:save_graphics_state).with().in_sequence(process)
+    @pdf.expects(:save_graphics_state).with.in_sequence(process)
     @pdf.renderer.expects(:add_content).with("#{string} cm").in_sequence(process)
-    @pdf.expects(:do_something).with().in_sequence(process)
-    @pdf.expects(:restore_graphics_state).with().in_sequence(process)
+    @pdf.expects(:do_something).with.in_sequence(process)
+    @pdf.expects(:restore_graphics_state).with.in_sequence(process)
     @pdf.transformation_matrix(*values) do
       @pdf.do_something
     end

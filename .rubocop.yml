@@ -39,8 +39,6 @@ WordArray:
   Enabled: false
 SpaceAroundEqualsInParameterDefault:
   Enabled: false
-MethodCallParentheses:
-  Enabled: false
 FormatString:
   Enabled: false
 Blocks:

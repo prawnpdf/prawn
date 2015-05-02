@@ -188,7 +188,7 @@ describe "Text::Box with :draw_text_callback" do
   before(:each) { create_pdf }
 
   it "hits the callback whenever text is drawn" do
-    draw_block = stub()
+    draw_block = stub
     draw_block.expects(:kick).with("this text is long enough to")
     draw_block.expects(:kick).with("span two lines")
 
@@ -198,7 +198,7 @@ describe "Text::Box with :draw_text_callback" do
   end
 
   it "hits the callback once per fragment for :inline_format" do
-    draw_block = stub()
+    draw_block = stub
     draw_block.expects(:kick).with("this text has ")
     draw_block.expects(:kick).with("fancy")
     draw_block.expects(:kick).with(" formatting")
