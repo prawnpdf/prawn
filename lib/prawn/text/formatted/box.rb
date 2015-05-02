@@ -353,7 +353,7 @@ module Prawn
         end
 
         def original_text
-          @original_array.collect { |hash| hash.dup }
+          @original_array.collect(&:dup)
         end
 
         def original_text=(formatted_text)

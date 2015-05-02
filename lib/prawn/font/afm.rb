@@ -209,7 +209,7 @@ module Prawn
           h
         end
 
-        data.each_value { |hash| hash.freeze }
+        data.each_value(&:freeze)
         data.freeze
       end
 
