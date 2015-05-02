@@ -612,9 +612,9 @@ module Prawn
     # @private
 
     def mask(*fields)
-     # Stores the current state of the named attributes, executes the block, and
-     # then restores the original values after the block has executed.
-     # -- I will remove the nodoc if/when this feature is a little less hacky
+      # Stores the current state of the named attributes, executes the block, and
+      # then restores the original values after the block has executed.
+      # -- I will remove the nodoc if/when this feature is a little less hacky
       stored = {}
       fields.each { |f| stored[f] = send(f) }
       yield
