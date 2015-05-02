@@ -221,8 +221,6 @@ GuardClause:
   Enabled: false
 ElseAlignment:
   Enabled: false
-CommentIndentation:
-  Enabled: false
 EachWithObject:
   Enabled: false
 BlockEndNewline:
