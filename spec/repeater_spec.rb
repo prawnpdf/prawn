@@ -3,7 +3,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Repeaters" do
-
   it "creates a stamp and increments Prawn::Repeater.count on initialize" do
     orig_count = Prawn::Repeater.count
 
@@ -126,7 +125,6 @@ describe "Repeaters" do
   end
 
   context "graphic state" do
-
     it "should not alter the graphic state stack color space" do
       create_pdf
       starting_color_space = @pdf.state.page.graphic_state.color_space.dup
@@ -137,7 +135,6 @@ describe "Repeaters" do
     end
 
     context "dynamic repeaters" do
-
       it "should preserve the graphic state at creation time" do
         create_pdf
         @pdf.repeat :all, :dynamic => true do
@@ -152,9 +149,6 @@ describe "Repeaters" do
         text.strings.include?("cap_style: round").should == false
         text.strings.include?("cap_style: butt").should == true
       end
-
     end
-
   end
-
 end

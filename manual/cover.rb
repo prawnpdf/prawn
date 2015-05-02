@@ -35,5 +35,4 @@ Prawn::ManualBuilder::Example.generate(filename) do
                                   git_commit,
                          :size => 12}
                     ],   :at => [390, cursor - 620])
-
 end

@@ -189,8 +189,6 @@ AbcSize:
   Enabled: false
 PerceivedComplexity:
   Enabled: false
-EmptyLinesAroundBlockBody:
-  Enabled: false
 UnusedBlockArgument:
   Enabled: false
 UnusedMethodArgument:

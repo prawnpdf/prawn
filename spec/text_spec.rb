@@ -551,5 +551,4 @@ describe "#text" do
       text.strings[0].should == "hello"
     end
   end
-
 end

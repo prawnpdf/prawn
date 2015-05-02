@@ -17,7 +17,6 @@ Prawn::Document.generate("metadata.pdf",
     :Producer     => "Prawn",
     :CreationDate => Time.now
   }) do
-
   text "This is a test of setting metadata properties via the info option."
   text "While the keys are arbitrary, the above example sets common attributes."
 end

@@ -6,9 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::ManualBuilder::Example.generate("bounding_box.pdf", :page_size => "FOLIO") do
-
   package "bounding_box" do |p|
-
     p.section "Basics" do |s|
       s.example "creation"
       s.example "bounds"
@@ -34,6 +32,5 @@ Prawn::ManualBuilder::Example.generate("bounding_box.pdf", :page_size => "FOLIO"
             "Indent blocks"
           )
     end
-
   end
 end

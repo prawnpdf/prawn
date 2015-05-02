@@ -36,5 +36,4 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   https://github.com/prawnpdf/prawn/blob/master/lib/prawn/graphics.rb
   END_TEXT
-
 end

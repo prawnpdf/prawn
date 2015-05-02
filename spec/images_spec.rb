@@ -5,7 +5,6 @@ require 'set'
 require 'pathname'
 
 describe "the image() function" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/pigs.jpg"
     create_pdf
@@ -164,6 +163,5 @@ describe "the image() function" do
       info.scaled_width.should  == 300.0
     end
   end
-
 end
 

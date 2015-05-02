@@ -3,7 +3,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "When creating annotations" do
-
   before(:each) { create_pdf }
 
   it "should append annotation to current page" do
@@ -21,11 +20,9 @@ describe "When creating annotations" do
     opts = @pdf.annotate(:Type => :Bogus, :Rect => [0,0,10,10], :Subtype => :Text, :Contents => "Hello world!")
     opts[:Type].should == :Annot
   end
-
 end
 
 describe "When creating text annotations" do
-
   before(:each) do
     @rect = [0,0,10,10]
     @content = "Hello, world!"
@@ -45,11 +42,9 @@ describe "When creating text annotations" do
     opts[:Subtype].should == :Text
     opts[:Open].should == true
   end
-
 end
 
 describe "When creating link annotations" do
-
   before(:each) do
     @rect = [0,0,10,10]
     @dest = "home"
@@ -69,5 +64,4 @@ describe "When creating link annotations" do
     opts[:Subtype].should == :Link
     opts[:Dest].should == @dest
   end
-
 end

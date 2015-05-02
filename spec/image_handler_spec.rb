@@ -50,5 +50,4 @@ describe "ImageHandler" do
     expect { image_handler.find("arbitrary blob") }.
        to(raise_error(Prawn::Errors::UnsupportedImageType))
   end
-
 end

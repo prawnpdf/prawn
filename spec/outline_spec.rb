@@ -67,24 +67,19 @@ describe "Outline" do
     end
 
     describe "#increase_count" do
-
       it "should add the count of all descendant items" do
         @outline_root[:Count].should == 3
         @section_1[:Count].abs.should == 2
         @page_1[:Count].should == 0
         @page_2[:Count].should == 0
       end
-
     end
 
     describe "closed option" do
-
       it "should set the item's integer count to negative" do
         @section_1[:Count].should == -2
       end
-
     end
-
   end
 
   describe "adding a custom destination" do
@@ -106,7 +101,6 @@ describe "Outline" do
     it "should reference the custom destination" do
       referenced_object(@custom_dest[:Dest].first).should == referenced_object(@pages.last)
     end
-
   end
 
   describe "addding a section later with outline#section" do
@@ -141,12 +135,10 @@ describe "Outline" do
     it "should increase the count of root outline dictionary" do
       @outline_root[:Count].should == 5
     end
-
   end
 
   describe "#outline.add_subsection_to" do
     context "positioned last" do
-
       before(:each) do
         @pdf.start_new_page
         @pdf.text "Page 3. An added subsection "
@@ -188,11 +180,9 @@ describe "Outline" do
       it "should increase the count of root outline dictionary" do
         @outline_root[:Count].should == 5
       end
-
     end
 
     context "positioned first" do
-
       before(:each) do
         @pdf.start_new_page
         @pdf.text "Page 3. An added subsection "
@@ -234,7 +224,6 @@ describe "Outline" do
       it "should increase the count of root outline dictionary" do
         @outline_root[:Count].should == 5
       end
-
     end
 
     it "should require an existing title" do
@@ -277,7 +266,6 @@ describe "Outline" do
       end
 
       describe "#adjust_relations" do
-
         it "should reset the sibling relations of adjoining items to inserted item" do
           render_and_find_objects
           referenced_object(@page_1[:Next]).should == @inserted_page
@@ -295,7 +283,6 @@ describe "Outline" do
           referenced_object(@section_1[:First]).should == @page_1
           referenced_object(@section_1[:Last]).should == @page_2
         end
-
       end
 
       context "when adding another section afterwards" do
@@ -312,11 +299,9 @@ describe "Outline" do
           referenced_object(@section_1[:Next]).should == @section_2
         end
       end
-
    end
 
     describe "inserting at the end of another section" do
-
       before(:each) do
         @pdf.go_to_page 2
          @pdf.start_new_page
@@ -330,7 +315,6 @@ describe "Outline" do
       end
 
       describe "#adjust_relations" do
-
         it "should reset the sibling relations of adjoining item to inserted item" do
            referenced_object(@page_2[:Next]).should == @inserted_page
         end
@@ -343,7 +327,6 @@ describe "Outline" do
         it "should adjust the last relation of parent item" do
           referenced_object(@section_1[:Last]).should == @inserted_page
         end
-
       end
     end
 
@@ -360,7 +343,6 @@ describe "Outline" do
         render_and_find_objects
       end.should raise_error(Prawn::Errors::UnknownOutlineTitle)
     end
-
   end
 
   describe "#page" do
