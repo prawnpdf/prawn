@@ -15,6 +15,11 @@ require_relative "graphics/transparency"
 require_relative "graphics/transformation"
 require_relative "graphics/patterns"
 
+require_relative "color/color_factory"
+require_relative "color/color"
+require_relative "color/rgb_color"
+require_relative "color/cymk_color"
+
 module Prawn
 
   # Implements the drawing facilities for Prawn::Document.
@@ -327,7 +332,7 @@ module Prawn
         :width => bounds.width.to_i - (options[:at] || [0,0])[0],
         :step_length => 100,
         :negative_axes_length => 20,
-        :color => "000000",
+        :color => ::Prawn::Color::ColorFactory.build("000000")
       }.merge(options)
 
       Prawn.verify_options([:at, :width, :height, :step_length,

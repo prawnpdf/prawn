@@ -27,7 +27,7 @@ module Prawn
       #
       def fill_color(*color)
         return current_fill_color if color.empty?
-        self.current_fill_color = process_color(*color)
+        self.current_fill_color = ::Prawn::Color::ColorFactory.build(*color)
         set_fill_color
       end
 
@@ -49,9 +49,8 @@ module Prawn
       #
       def stroke_color(*color)
         return current_stroke_color if color.empty?
-        color = process_color(*color)
-        self.current_stroke_color = color
-        set_stroke_color(color)
+        self.current_stroke_color = ::Prawn::Color::ColorFactory.build(*color)
+        set_stroke_color
       end
 
       alias_method :stroke_color=, :stroke_color
@@ -74,62 +73,65 @@ module Prawn
       #  => [255, 120, 8]
       #
       def hex2rgb(hex)
+        hex = hex.respond_to?(:to_str) ? hex.to_str : hex.color_str
         r,g,b = hex[0..1], hex[2..3], hex[4..5]
         [r,g,b].map { |e| e.to_i(16) }
       end
 
       private
 
-      def process_color(*color)
-        case(color.size)
-        when 1
-          color[0]
-        when 4
-          color
-        else
-          raise ArgumentError, 'wrong number of arguments supplied'
-        end
-      end
+      #def process_color(*color)
+        #case(color.size)
+        #when 1
+          #color[0]
+        #when 4
+          #color
+        #else
+          #raise ArgumentError, 'wrong number of arguments supplied'
+        #end
+      #end
 
-      def color_type(color)
-        case color
-        when String
-          :RGB
-        when Array
-          case color.length
-          when 3
-            :RGB
-          when 4
-            :CMYK
-          else
-            raise ArgumentError, "Unknown type of color: #{color.inspect}"
-          end
-        end
-      end
+      #def color_type(color)
+        #case color
+        #when ->(color) { color.respond_to?(:to_str) }
+          #:RGB
+        #when ->(color) { color.respond_to?(:color_str) }
+          #:RGB
+        #when ->(color) { color.respond_to?(:to_ary) }
+          #case color.length
+          #when 3
+            #:RGB
+          #when 4
+            #:CMYK
+          #else
+            #raise ArgumentError, "Unknown type of color: #{color.inspect}"
+          #end
+        #end
+      #end
 
-      def normalize_color(color)
-        case color_type(color)
-        when :RGB
-          r,g,b = hex2rgb(color)
-          [r / 255.0, g / 255.0, b / 255.0]
-        when :CMYK
-          c,m,y,k = *color
-          [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
-        end
-      end
+      #def normalize_color(color)
+        #case color_type(color)
+        #when :RGB
+          #r,g,b = hex2rgb(color)
+          #[r / 255.0, g / 255.0, b / 255.0]
+        #when :CMYK
+          #c,m,y,k = *color
+          #[c / 100.0, m / 100.0, y / 100.0, k / 100.0]
+        #end
+      #end
 
-      def color_to_s(color)
-        normalize_color(color).map { |c| '%.3f' % c }.join(' ')
-      end
+      #def color_to_s(color)
+        #normalize_color(color).map { |c| '%.3f' % c }.join(' ')
+      #end
 
-      def color_space(color)
-        case color_type(color)
-        when :RGB
-          :DeviceRGB
-        when :CMYK
-          :DeviceCMYK
-        end
-      end
+      #def color_space(color)
+        #case color_type(color)
+        #when :RGB
+          #:DeviceRGB
+        #when :CMYK
+          #:DeviceCMYK
+        #end
+      #end
 
       COLOR_SPACES = [:DeviceRGB, :DeviceCMYK, :Pattern]
 
@@ -166,11 +168,10 @@ module Prawn
 
         if options[:pattern]
           set_color_space type, :Pattern
-          renderer.add_content "/#{color} #{operator}"
+          renderer.add_content "/#{color.base_representation} #{operator}"
         else
-          set_color_space type, color_space(color)
-          color = color_to_s(color)
-          write_color(color, operator)
+          set_color_space type, color.color_space
+          write_color(color.color_to_s, operator)
         end
       end
 
@@ -199,19 +200,19 @@ module Prawn
       end
 
       def current_fill_color
-        graphic_state.fill_color
+        ::Prawn::Color::ColorFactory.build(*graphic_state.fill_color)
       end
 
       def current_fill_color=(color)
-        graphic_state.fill_color = color
+        graphic_state.fill_color = color.base_representation
       end
 
       def current_stroke_color
-        graphic_state.stroke_color
+        ::Prawn::Color::ColorFactory.build(*graphic_state.stroke_color)
       end
 
       def current_stroke_color=(color)
-        graphic_state.stroke_color = color
+        graphic_state.stroke_color = color.base_representation
       end
 
       def write_fill_color
@@ -225,8 +226,6 @@ module Prawn
       def write_color(color, operator)
         renderer.add_content "#{color} #{operator}"
       end
-
     end
   end
 end
-

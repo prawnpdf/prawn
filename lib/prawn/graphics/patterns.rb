@@ -86,27 +86,24 @@ module Prawn
           raise ArgumentError, "Unknown type of gradient: #{args.inspect}"
         end
 
-        color1 = normalize_color(args[-2]).dup.freeze
-        color2 = normalize_color(args[-1]).dup.freeze
+        color1 = ::Prawn::Color::ColorFactory.build(args[-2])
+        color2 = ::Prawn::Color::ColorFactory.build(args[-1])
 
-        if color_type(color1) != color_type(color2)
+        if color1.class != color2.class
           raise ArgumentError, "Both colors must be of the same color space: #{color1.inspect} and #{color2.inspect}"
         end
-
-        process_color color1
-        process_color color2
 
         shader = ref!({
           :FunctionType => 2,
           :Domain => [0.0, 1.0],
-          :C0 => color1,
-          :C1 => color2,
+          :C0 => color1.normalize_color,
+          :C1 => color2.normalize_color,
           :N => 1.0,
         })
 
         shading = ref!({
           :ShadingType => args.length == 4 ? 2 : 3, # axial : radial shading
-          :ColorSpace => color_space(color1),
+          :ColorSpace => color1.color_space,
           :Coords => args.length == 4 ?
                         [0, 0, args[1].first - args[0].first, args[1].last - args[0].last] :
                         [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]],
