@@ -6,9 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::ManualBuilder::Example.generate("security.pdf", :page_size => "FOLIO") do
-
   package "security" do |p|
-
     p.example "encryption",  :eval_source => false, :full_source => true
     p.example "permissions", :eval_source => false, :full_source => true
 
@@ -23,6 +21,5 @@ Prawn::ManualBuilder::Example.generate("security.pdf", :page_size => "FOLIO") do
             "How to set a owner password that bypass the document permissions"
           )
     end
-
   end
 end

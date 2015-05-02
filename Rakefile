@@ -26,7 +26,6 @@ YARD::Rake::YardocTask.new do |t|
 end
 task :docs => :yard
 
-
 desc "Generate the 'Prawn by Example' manual"
 task :manual do
   puts "Building manual..."

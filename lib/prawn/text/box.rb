@@ -125,7 +125,6 @@ module Prawn
     # consumed by the printed text
     #
     class Box < Prawn::Text::Formatted::Box
-
       def initialize(string, options={})
         super([{ :text => string }], options)
       end
@@ -134,8 +133,6 @@ module Prawn
         leftover = super(flags)
         leftover.collect { |hash| hash[:text] }.join
       end
-
     end
-
   end
 end

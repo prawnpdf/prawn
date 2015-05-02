@@ -10,7 +10,6 @@ require_relative "bounding_box"
 
 module Prawn
   class Document
-
     # @group Experimental API
 
     # A column box is a bounding box with the additional property that when
@@ -53,7 +52,6 @@ module Prawn
     # work.
     #
     class ColumnBox < BoundingBox
-
       def initialize(document, parent, point, options={}) #:nodoc:
         super
         @columns = options[:columns] || 3

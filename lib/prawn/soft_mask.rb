@@ -8,7 +8,6 @@
 #
 
 module Prawn
-
   # The Prawn::SoftMask module is used to create arbitrary transparency in
   # document. Using a soft mask allows creating more visually rich documents.
   #

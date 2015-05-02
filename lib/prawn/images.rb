@@ -9,7 +9,6 @@ require 'digest/sha1'
 require 'pathname'
 
 module Prawn
-
   module Images
     # @group Stable API
 
@@ -69,7 +68,6 @@ module Prawn
 
       info
     end
-
 
     # Builds an info object (Prawn::Images::*) and a PDF reference representing
     # the given image. Return a pair: [pdf_obj, info].

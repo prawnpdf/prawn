@@ -27,5 +27,4 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
     transparent(0.5) { stroke_bounds }
   end
-
 end

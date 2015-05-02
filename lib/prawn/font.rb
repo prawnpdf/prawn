@@ -12,7 +12,6 @@ require_relative "font/dfont"
 require_relative "font_metric_cache"
 
 module Prawn
-
   class Document
     # @group Stable API
 
@@ -274,7 +273,6 @@ module Prawn
   # Provides font information and helper functions.
   #
   class Font
-
     # The current font name
     attr_reader :name
 
@@ -407,7 +405,5 @@ module Prawn
     def size
       @document.font_size
     end
-
   end
-
 end

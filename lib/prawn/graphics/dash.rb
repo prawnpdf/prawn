@@ -103,7 +103,6 @@ module Prawn
       def dash_setting
         graphic_state.dash_setting
       end
-
     end
   end
 end

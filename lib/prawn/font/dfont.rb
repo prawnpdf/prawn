@@ -12,7 +12,6 @@ module Prawn
   class Font
     # @private
     class DFont < TTF
-
       # Returns a list of the names of all named fonts in the given dfont file.
       # Note that fonts are not required to be named in a dfont file, so the
       # list may be empty even if the file does contain fonts. Also, note that

@@ -6,7 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-
 require_relative "graphics/color"
 require_relative "graphics/dash"
 require_relative "graphics/cap_style"
@@ -16,7 +15,6 @@ require_relative "graphics/transformation"
 require_relative "graphics/patterns"
 
 module Prawn
-
   # Implements the drawing facilities for Prawn::Document.
   # Use this to draw the most beautiful imaginable things.
   #
@@ -24,7 +22,6 @@ module Prawn
   # ruby-pdf.rubyforge.org
   #
   module Graphics
-
     include Color
     include Dash
     include CapStyle
@@ -99,7 +96,6 @@ module Prawn
       x, y = point
       rounded_polygon(radius, point, [x + width, y], [x + width, y - height], [x, y - height])
     end
-
 
     ###########################################################
     #  Higher level functions: May use relative coords        #
@@ -260,7 +256,6 @@ module Prawn
       # close the path
       renderer.add_content "h"
     end
-
 
     # Creates a rounded vertex for a line segment used for building a rounded polygon
     # requires a radius to define bezier curve and three points. The first two points define
@@ -641,6 +636,5 @@ module Prawn
       yr = y0 + p*(y1 - y0)
       [xr, yr]
     end
-
   end
 end

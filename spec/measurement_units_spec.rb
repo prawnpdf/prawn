@@ -4,7 +4,6 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 require "prawn/measurement_extensions"
 
 describe "Measurement units" do
-
   it "should convert units to PostScriptPoints" do
     1.mm.should be_within(0.000000001).of(2.834645669)
     1.mm.should == (72 / 25.4)
@@ -20,6 +19,4 @@ describe "Measurement units" do
     1.yd.should == 72 * 12 * 3
     1.pt.should == 1
   end
-
 end
-

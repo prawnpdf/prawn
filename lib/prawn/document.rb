@@ -14,7 +14,6 @@ require_relative "document/internals"
 require_relative "document/span"
 
 module Prawn
-
   # The Prawn::Document class is how you start creating a PDF document.
   #
   # There are three basic ways you can instantiate PDF Documents in Prawn, they
@@ -466,7 +465,6 @@ module Prawn
       move_down(y)
     end
 
-
     # Indents the specified number of PDF points for the duration of the block
     #
     #  pdf.text "some text"
@@ -644,7 +642,6 @@ module Prawn
     end
 
     private
-
 
     # setting override_settings to true ensures that a new graphic state does not end up using
     # previous settings.

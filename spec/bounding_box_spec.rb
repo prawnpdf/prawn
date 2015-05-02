@@ -3,7 +3,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "A bounding box" do
-
   before(:each) do
     @x      = 100
     @y      = 125
@@ -93,11 +92,9 @@ describe "A bounding box" do
       pdf.bounding_box([0, 0], :width => 200)
     end.should raise_error(ArgumentError)
   end
-
 end
 
 describe "drawing bounding boxes" do
-
   before(:each) { create_pdf }
 
   it "should not stomp on the arguments to bounding_box" do
@@ -127,7 +124,6 @@ describe "drawing bounding boxes" do
 
   it "should restore the parent bounding box when calls are nested" do
     @pdf.bounding_box [100,500], :width => 300, :height => 300 do
-
       @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
       @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
 
@@ -140,7 +136,6 @@ describe "drawing bounding boxes" do
 
       @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
       @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
-
     end
   end
 
@@ -197,7 +192,6 @@ describe "drawing bounding boxes" do
       @pdf.margin_box.absolute_top - @pdf.height_of("hello")
     )
   end
-
 end
 
 describe "Indentation" do
@@ -394,7 +388,6 @@ describe "A canvas" do
 
     doc.y.should == original_ypos
   end
-
 end
 
 describe "Deep-copying" do
@@ -473,7 +466,6 @@ describe "Prawn::Document#reference_bounds" do
       end
     end
   end
-
 end
 
 describe "BoundingBox#move_past_bottom" do

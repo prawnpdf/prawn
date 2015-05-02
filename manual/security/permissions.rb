@@ -18,14 +18,12 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-
 # User cannot print the document.
 Prawn::ManualBuilder::Example.generate("cannot_print.pdf") do
   text "If you used the user password you won't be able to print the doc."
   encrypt_document(:user_password => 'foo', :owner_password => 'bar',
                    :permissions => { :print_document => false })
 end
-
 
 # All permissions revoked and owner password set to random
 Prawn::ManualBuilder::Example.generate("no_permissions.pdf") do

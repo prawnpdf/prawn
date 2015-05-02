@@ -11,7 +11,6 @@
 module Prawn
   module Text
     module Formatted
-
       class Parser
         # @group Extension API
 
@@ -217,7 +216,6 @@ module Prawn
           end
           array
         end
-
       end
     end
   end

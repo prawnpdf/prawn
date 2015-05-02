@@ -15,4 +15,3 @@ after = GC.stat
 total = after[:total_allocated_object] - before[:total_allocated_object]
 
 puts "allocated objects: #{total}"
-

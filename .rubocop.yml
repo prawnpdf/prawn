@@ -17,8 +17,6 @@ HashSyntax:
   Enabled: false
 UselessAssignment:
   Enabled: false
-EmptyLines:
-  Enabled: false
 LineEndConcatenation:
   Enabled: false
 SpaceAfterComma:
@@ -95,8 +93,6 @@ SingleSpaceBeforeFirstArg:
   Enabled: false
 IndentationConsistency:
   Enabled: false
-TrailingBlankLines:
-  Enabled: false
 AndOr:
   Enabled: false
 AssignmentInCondition:
@@ -126,8 +122,6 @@ TrivialAccessors:
 AccessModifierIndentation:
   Enabled: false
 CaseEquality:
-  Enabled: false
-EmptyLineBetweenDefs:
   Enabled: false
 RedundantSelf:
   Enabled: false
@@ -165,8 +159,6 @@ Alias:
   Enabled: false
 RedundantReturn:
   Enabled: false
-EmptyLinesAroundAccessModifier:
-  Enabled: false
 DeprecatedHashMethods:
   Enabled: false
 WhileUntilModifier:
@@ -193,11 +185,7 @@ SpaceBeforeComment:
   Enabled: false
 AbcSize:
   Enabled: false
-EmptyLinesAroundClassBody:
-  Enabled: false
 PerceivedComplexity:
-  Enabled: false
-EmptyLinesAroundBlockBody:
   Enabled: false
 UnusedBlockArgument:
   Enabled: false
@@ -210,8 +198,6 @@ ClassCheck:
 SpaceBeforeComma:
   Enabled: false
 StringLiteralsInInterpolation:
-  Enabled: false
-EmptyLinesAroundModuleBody:
   Enabled: false
 GuardClause:
   Enabled: false

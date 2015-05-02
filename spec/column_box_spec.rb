@@ -38,7 +38,6 @@ describe "A column box" do
     init_column_top = @pdf.cursor
     @pdf.column_box [0, @pdf.cursor], :width => 500,
       :height => 200, :columns => 2 do
-
         @pdf.bounds.move_past_bottom
         @pdf.bounds.move_past_bottom
 
@@ -54,7 +53,6 @@ describe "A column box" do
     init_column_top = @pdf.cursor
     @pdf.column_box [0, @pdf.cursor], :width => 500, :reflow_margins => true,
       :height => 200, :columns => 2 do
-
         @pdf.bounds.move_past_bottom
         @pdf.bounds.move_past_bottom
 

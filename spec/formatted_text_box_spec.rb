@@ -187,7 +187,6 @@ describe "Text::Formatted::Box" do
       :normal => { :file => file }
     }
 
-
     @formatted_text = [{ :text => "hello你好" }]
     @pdf.fallback_fonts(["Kai"])
     @pdf.fallback_fonts = ["Kai"]
@@ -242,7 +241,6 @@ end
 
 describe "Text::Formatted::Box with :fallback_fonts option " +
   "with glyphs not in the primary or the fallback fonts" do
-
   it "should raise an exception" do
    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     create_pdf
@@ -306,7 +304,6 @@ describe "Text::Formatted::Box#render" do
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\n\nworld"
-
 
     array = [{ :text => "hello" + " " * 500},
              { :text => " " * 500 },

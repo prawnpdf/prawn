@@ -30,7 +30,6 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   [:lower_left, :upper_left,
    :lower_right, :upper_right].each_with_index do |corner, index|
-
     y = y - 100 if index == 2
     stroke_rectangle [x + (index % 2) * 200, y], width, height
     text_box("This text was rotated around the #{corner} corner.",

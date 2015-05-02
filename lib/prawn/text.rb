@@ -15,7 +15,6 @@ require_relative "text/box"
 
 module Prawn
   module Text
-
     include PDF::Core::Text
     include Prawn::Text::Formatted
 

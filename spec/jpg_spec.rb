@@ -7,7 +7,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "When reading a JPEG file" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/pigs.jpg"
     @img_data = File.open(@filename, "rb") { |f| f.read }
@@ -22,4 +21,3 @@ describe "When reading a JPEG file" do
     jpg.channels.should == 3
   end
 end
-

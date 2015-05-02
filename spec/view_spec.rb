@@ -40,4 +40,3 @@ describe "Prawn::View" do
     view_object.save_as("foo.pdf")
   end
 end
-

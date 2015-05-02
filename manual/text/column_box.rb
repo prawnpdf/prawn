@@ -29,4 +29,3 @@ Prawn::ManualBuilder::Example.generate(filename) do
     END
   end
 end
-

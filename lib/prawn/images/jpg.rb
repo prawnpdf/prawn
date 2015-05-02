@@ -10,7 +10,6 @@ require 'stringio'
 
 module Prawn
   module Images
-
     # A convenience class that wraps the logic for extracting the parts
     # of a JPG image that we need to embed them in a PDF
     #
@@ -85,7 +84,6 @@ module Prawn
         obj.stream.filters << :DCTDecode
         obj
       end
-
     end
   end
 end

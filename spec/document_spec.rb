@@ -86,12 +86,9 @@ describe "when generating a document from a subclass" do
     custom_document.new.respond_to?(:test_extensions1).should be_true
     custom_document.new.respond_to?(:test_extensions2).should be_true
   end
-
 end
 
-
 describe "When creating multi-page documents" do
-
   before(:each) { create_pdf }
 
   it "should initialize with a single page" do
@@ -108,7 +105,6 @@ describe "When creating multi-page documents" do
     page_counter.pages.size.should == 4
     @pdf.page_count.should == 4
   end
-
 end
 
 describe "When beginning each new page" do
@@ -172,7 +168,6 @@ describe "The page_number method" do
     pdf.go_to_page 3
     pdf.page_number.should == 3
   end
-
 end
 
 describe "on_page_create callback" do
@@ -231,13 +226,10 @@ describe "on_page_create callback" do
 
       @pdf.start_new_page
   end
-
 end
 
 describe "Document compression" do
-
   it "should not compress the page content stream if compression is disabled" do
-
     pdf = Prawn::Document.new(:compress => false)
     pdf.page.content.stream.stubs(:compress!).returns(true)
     pdf.page.content.stream.expects(:compress!).never
@@ -247,7 +239,6 @@ describe "Document compression" do
   end
 
   it "should compress the page content stream if compression is enabled" do
-
     pdf = Prawn::Document.new(:compress => true)
     pdf.page.content.stream.stubs(:compress!).returns(true)
     pdf.page.content.stream.expects(:compress!).once
@@ -266,7 +257,6 @@ describe "Document compression" do
 
     doc_compressed.render.length.should be < doc_uncompressed.render.length
   end
-
 end
 
 describe "Document metadata" do
@@ -333,7 +323,6 @@ describe "When reopening pages" do
       bounds.width.should == page1_bounds.width
       bounds.height.should == page1_bounds.height
     end
-
   end
 end
 
@@ -358,7 +347,6 @@ describe "When setting page size" do
     pages.first[:size].should == [1920, 1080]
   end
 
-
   it "should retain page size by default when starting a new page" do
     @pdf = Prawn::Document.new(:page_size => "LEGAL")
     @pdf.start_new_page
@@ -367,7 +355,6 @@ describe "When setting page size" do
       page[:size].should == PDF::Core::PageGeometry::SIZES["LEGAL"]
     end
   end
-
 end
 
 describe "When setting page layout" do
@@ -461,7 +448,6 @@ describe "The group() feature" do
     pages.size.should == 2
     pages[1][:strings].first.should == '0'
   end
-
 end
 
 describe "The render() feature" do

@@ -10,7 +10,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "When reading a greyscale PNG file (color type 0)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/web-links.png"
     @data_filename = "#{Prawn::DATADIR}/images/web-links.dat"
@@ -37,7 +36,6 @@ describe "When reading a greyscale PNG file (color type 0)" do
 end
 
 describe "When reading a greyscale PNG file with transparency (color type 0)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/ruport_type0.png"
     @img_data = File.binread(@filename)
@@ -54,7 +52,6 @@ describe "When reading a greyscale PNG file with transparency (color type 0)" do
 end
 
 describe "When reading an RGB PNG file (color type 2)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/ruport.png"
     @data_filename = "#{Prawn::DATADIR}/images/ruport_data.dat"
@@ -81,7 +78,6 @@ describe "When reading an RGB PNG file (color type 2)" do
 end
 
 describe "When reading an RGB PNG file with transparency (color type 2)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/arrow2.png"
     @img_data = File.binread(@filename)
@@ -100,7 +96,6 @@ end
 
 describe "When reading an indexed color PNG file "+
          "wiih transparency (color type 3)" do
-
   it "raises a not supported error" do
     bin = File.binread("#{Prawn::DATADIR}/images/pal_bk.png")
     expect { Prawn::Images::PNG.new(bin)}.to(
@@ -109,7 +104,6 @@ describe "When reading an indexed color PNG file "+
 end
 
 describe "When reading an indexed color PNG file (color type 3)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/indexed_color.png"
     @data_filename = "#{Prawn::DATADIR}/images/indexed_color.dat"
@@ -136,7 +130,6 @@ describe "When reading an indexed color PNG file (color type 3)" do
 end
 
 describe "When reading a greyscale+alpha PNG file (color type 4)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/page_white_text.png"
     @color_data_filename = "#{Prawn::DATADIR}/images/page_white_text.color"
@@ -172,7 +165,6 @@ describe "When reading a greyscale+alpha PNG file (color type 4)" do
 end
 
 describe "When reading an RGB+alpha PNG file (color type 6)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/dice.png"
     @color_data_filename = "#{Prawn::DATADIR}/images/dice.color"
@@ -208,7 +200,6 @@ describe "When reading an RGB+alpha PNG file (color type 6)" do
 end
 
 describe "When reading a 16bit RGB+alpha PNG file (color type 6)" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/16bit.png"
     @color_data_filename = "#{Prawn::DATADIR}/images/16bit.color"

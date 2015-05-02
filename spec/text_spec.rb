@@ -351,7 +351,6 @@ describe "#text" do
       text.strings[4].should == ("hello " * 21).strip
     end
 
-
     it "should indent from right side when using :rtl direction" do
       para1 = "The rain in spain falls mainly on the plains " * 3
       para2 = "The rain in spain falls mainly on the plains " * 3
@@ -524,7 +523,6 @@ describe "#text" do
     end
   end
 
-
   def add_unicode_fonts(pdf)
     dejavu = "#{::Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
     pdf.font_families.update("dejavu" => {
@@ -553,5 +551,4 @@ describe "#text" do
       text.strings[0].should == "hello"
     end
   end
-
 end

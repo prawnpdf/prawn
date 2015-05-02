@@ -9,7 +9,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-
   class Document
     # A list of all repeaters in the document.
     # See Document#repeat for details
@@ -117,8 +116,5 @@ module Prawn
         end
       end
     end
-
   end
 end
-
-

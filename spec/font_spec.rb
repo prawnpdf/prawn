@@ -4,16 +4,13 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 require 'pathname'
 
 describe "Font behavior" do
-
   it "should default to Helvetica if no font is specified" do
     @pdf = Prawn::Document.new
     @pdf.font.name.should == "Helvetica"
   end
-
 end
 
 describe "Font objects" do
-
   it "should be equal" do
     font1 = Prawn::Document.new.font
     font2 = Prawn::Document.new.font
@@ -35,7 +32,6 @@ describe "Font objects" do
     hash[ font1 ].should == "Overwritten"
     hash[ font2 ].should == "Overwritten"
   end
-
 end
 
 describe "#width_of" do
@@ -231,7 +227,6 @@ describe "Transactional font handling" do
 
     @pdf.font_size.should == 12
   end
-
 end
 
 describe "Document#page_fonts" do
@@ -263,11 +258,9 @@ describe "Document#page_fonts" do
   def page_should_not_include_font(font)
     page_includes_font?(font).should be_false
   end
-
 end
 
 describe "AFM fonts" do
-
   before do
     create_pdf
     @times = @pdf.find_font "Times-Roman"
@@ -304,7 +297,6 @@ describe "AFM fonts" do
   end
 
   describe "when normalizing encoding" do
-
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
       normalized = @times.normalize_encoding(original)
@@ -316,7 +308,6 @@ describe "AFM fonts" do
       normalized = @times.normalize_encoding!(original)
       original.equal?(normalized).should be_true
     end
-
   end
 
   it "should omit /Encoding for symbolic fonts" do
@@ -324,7 +315,6 @@ describe "AFM fonts" do
     font_dict = zapf.send(:register, nil)
     font_dict.data[:Encoding].should == nil
   end
-
 end
 
 describe "#glyph_present" do
@@ -355,7 +345,6 @@ describe "#glyph_present" do
 end
 
 describe "TTF fonts" do
-
   before do
     create_pdf
     @font = @pdf.find_font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
@@ -416,7 +405,6 @@ describe "TTF fonts" do
       normalized = @font.normalize_encoding!(original)
       original.equal?(normalized).should be_true
     end
-
   end
 end
 

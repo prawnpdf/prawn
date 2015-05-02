@@ -3,7 +3,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "When drawing a line" do
-
   before(:each) { create_pdf }
 
   it "should draw a line from (100,600) to (100,500)" do
@@ -71,11 +70,9 @@ describe "When drawing a line" do
         should raise_error(ArgumentError)
     end
   end
-
 end
 
 describe "When drawing a polygon" do
-
   before(:each) { create_pdf }
 
   it "should draw each line passed to polygon()" do
@@ -84,11 +81,9 @@ describe "When drawing a polygon" do
     line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
     line_drawing.points.should == [[100,500],[100,400],[200,400],[100,500]]
   end
-
 end
 
 describe "When drawing a rectangle" do
-
   before(:each) { create_pdf }
 
   it "should use a point, width, and height for coords" do
@@ -100,13 +95,10 @@ describe "When drawing a rectangle" do
     rectangles[0][:point].should  == [200,100]
     rectangles[0][:width].should  == 50
     rectangles[0][:height].should == 100
-
   end
-
 end
 
 describe "When drawing a curve" do
-
   before(:each) { create_pdf }
 
   it "should draw a bezier curve from 50,50 to 100,100" do
@@ -121,8 +113,6 @@ describe "When drawing a curve" do
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     curve.coords.should == [100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0]
   end
-
-
 end
 
 describe "When drawing a rounded rectangle" do
@@ -154,8 +144,6 @@ describe "When drawing a rounded rectangle" do
   it "should start and end with the same point" do
     @original_point.should == @all_coords.last
   end
-
-
 end
 
 describe "When drawing an ellipse" do
@@ -191,7 +179,6 @@ describe "When drawing an ellipse" do
   it "should move the pointer to the center of the ellipse after drawing" do
     @curve.coords[-2..-1].should == [100,100]
   end
-
 end
 
 describe "When drawing a circle" do
@@ -233,7 +220,6 @@ describe "When filling" do
 end
 
 describe "When setting colors" do
-
   before(:each) { create_pdf }
 
   it "should set stroke colors" do
@@ -460,8 +446,6 @@ describe "When using graphics states" do
     @pdf.graphic_state.line_width.should == 1
   end
 
-
-
   it "should not add extra graphic space closings when rendering multiple times" do
     @pdf.render
     state = PDF::Inspector::Graphics::State.analyze(@pdf.render)
@@ -484,7 +468,6 @@ describe "When using graphics states" do
     state.save_graphics_state_count.should == 2
     state.restore_graphics_state_count.should == 2
   end
-
 
   it "should raise_error error if closing an empty graphic stack" do
     lambda {
@@ -549,7 +532,6 @@ describe "When using transformation matrix" do
       @pdf.do_something
     end
   end
-
 end
 
 describe "When using transformations shortcuts" do

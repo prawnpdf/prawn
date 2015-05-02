@@ -16,13 +16,11 @@
 require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
-
 # Bare encryption. No password needed.
 Prawn::ManualBuilder::Example.generate("bare_encryption.pdf") do
   text "See, no password was asked but the document is still encrypted."
   encrypt_document
 end
-
 
 # Simple password. All permissions granted.
 Prawn::ManualBuilder::Example.generate("simple_password.pdf") do

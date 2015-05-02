@@ -296,7 +296,6 @@ describe "Core::Text::Formatted::Arranger#line_width with character_spacing > 0"
 
     base_line_width = arranger.line_width
 
-
     array = [{ :text => "hello " },
              { :text => "world", :styles => [:bold],
                :character_spacing => 7}]

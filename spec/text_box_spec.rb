@@ -96,7 +96,6 @@ describe "Text::Box" do
 end
 
 describe "Text::Box" do
-
   it "should be able to set leading document-wide" do
     create_pdf
     @pdf.default_leading(7)
@@ -116,7 +115,6 @@ describe "Text::Box" do
   end
   it "should default to document-wide leading if no" +
     "leading option is provided" do
-
   end
 end
 
@@ -524,7 +522,6 @@ describe "Text::Box default height" do
       end
     end
   end
-
 end
 
 describe "Text::Box default at" do
@@ -821,7 +818,6 @@ describe "Text::Box with a solid block of Chinese characters" do
   end
 end
 
-
 describe "drawing bounding boxes" do
   before(:each) { create_pdf }
 
@@ -831,10 +827,8 @@ describe "drawing bounding boxes" do
     @pdf.text_box "Oh hai text box. " * 11, :height => @pdf.font.height * 10
 
     @pdf.bounds.should == margin_box
-
   end
 end
-
 
 describe "Text::Box#render with :character_spacing option" do
   it "should draw the character spacing to the document" do

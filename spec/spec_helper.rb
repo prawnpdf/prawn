@@ -51,4 +51,3 @@ end
 module Prawn::Graphics
   public :map_to_absolute
 end
-

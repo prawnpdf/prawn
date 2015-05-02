@@ -14,11 +14,9 @@ require_relative 'security/arcfour'
 
 module Prawn
   class Document
-
     # Implements PDF encryption (password protection and permissions) as
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
-
       # @group Experimental API
 
       # Encrypts the document, to protect confidential data or control
@@ -197,9 +195,7 @@ module Prawn
       def user_password_hash
         Arcfour.new(user_encryption_key).encrypt(PasswordPadding)
       end
-
     end
-
   end
 end
 
@@ -252,7 +248,6 @@ module PDF
       end
     end
 
-
     # @private
     class Stream
       def encrypted_object(key, id, gen)
@@ -266,7 +261,6 @@ module PDF
 
     # @private
     class Reference
-
       # Returns the object definition for the object this references, keyed from
       # +key+.
       def encrypted_object(key)
@@ -282,7 +276,6 @@ module PDF
 
         output << "endobj\n"
       end
-
     end
   end
 end

@@ -6,9 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::ManualBuilder::Example.generate("repeatable_content.pdf", :page_size => "FOLIO") do
-
   package "repeatable_content" do |p|
-
     p.example "repeater",       :eval_source => false
     p.example "stamp"
     p.example "page_numbering", :eval_source => false
@@ -27,6 +25,5 @@ Prawn::ManualBuilder::Example.generate("repeatable_content.pdf", :page_size => "
             "How to number the document pages with one simple call"
           )
     end
-
   end
 end

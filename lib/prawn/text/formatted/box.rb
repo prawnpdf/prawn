@@ -606,9 +606,7 @@ module Prawn
             @document.stroke_line(fragment.strikethrough_points)
           end
         end
-
       end
-
     end
   end
 end

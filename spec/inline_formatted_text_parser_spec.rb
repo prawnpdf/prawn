@@ -350,7 +350,6 @@ describe "Text::Formatted::Parser#format" do
   end
 end
 
-
 describe "Text::Formatted::Parser#to_string" do
   it "should handle sup" do
     string = "<sup>superscript</sup>"

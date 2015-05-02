@@ -9,7 +9,6 @@
 require 'thread'
 
 module Prawn
-
   # Throughout the Prawn codebase, repeated calculations which can benefit from caching are made
   # In some cases, caching and reusing results can not only save CPU cycles but also greatly
   #   reduce memory requirements
@@ -23,9 +22,11 @@ module Prawn
       @cache = {}
       @mutex = Mutex.new
     end
+
     def [](key)
       @mutex.synchronize { @cache[key] }
     end
+
     def []=(key,value)
       @mutex.synchronize { @cache[key] = value }
     end
@@ -36,9 +37,11 @@ module Prawn
     def initialize
       @cache_id = "cache_#{self.object_id}".to_sym
     end
+
     def [](key)
       (Thread.current[@cache_id] ||= {})[key]
     end
+
     def []=(key,value)
       (Thread.current[@cache_id] ||= {})[key] = value
     end

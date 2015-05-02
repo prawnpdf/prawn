@@ -9,7 +9,6 @@
 
 module Prawn
   module Graphics
-
     # The Prawn::Transparency module is used to place transparent
     # content on the page. It has the capacity for separate
     # transparency values for stroked content and all other content.
@@ -29,7 +28,6 @@ module Prawn
     #   end
     #
     module Transparency
-
       # @group Stable API
 
       # Sets the <tt>opacity</tt> and <tt>stroke_opacity</tt> for all
@@ -95,7 +93,6 @@ module Prawn
         page.ext_gstates.merge!(dictionary_name => dictionary)
         dictionary_name
       end
-
     end
   end
 end

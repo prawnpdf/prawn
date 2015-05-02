@@ -199,6 +199,7 @@ module Prawn
       end
 
       private
+
       def grid
         pdf.grid
       end
@@ -250,6 +251,7 @@ module Prawn
       end
 
       private
+
       def left_box
         @left_box ||= @bs.min {|a,b| a.left <=> b.left}
       end
@@ -268,6 +270,7 @@ module Prawn
     end
 
     private
+
     def single_box(i, j)
       GridBox.new(self, i, j)
     end

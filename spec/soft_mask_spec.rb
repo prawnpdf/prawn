@@ -21,7 +21,6 @@ module SoftMaskHelper
 end
 
 describe "Document with soft masks" do
-
   include SoftMaskHelper
 
   it "should have PDF version at least 1.4" do

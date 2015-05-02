@@ -179,7 +179,6 @@ describe "Dashes" do
   end
 
   describe "#dashed?" do
-
     it "an initial document should not be dashed" do
       @pdf.dashed?.should == false
     end
@@ -205,7 +204,5 @@ describe "Dashes" do
       @pdf.restore_graphics_state
       @pdf.dashed?.should == true
     end
-
   end
-
 end

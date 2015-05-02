@@ -7,7 +7,6 @@ module Prawn
   # @group Stable API
 
   module Measurements
-
     # ============================================================================
     #metric conversions
     def cm2mm(cm)
@@ -33,7 +32,6 @@ module Prawn
     def yd2in(yd)
       return yd*36
     end
-
 
     # ============================================================================
     # PostscriptPoint-converisons

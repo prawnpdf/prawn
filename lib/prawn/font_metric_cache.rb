@@ -8,13 +8,11 @@
 #
 
 module Prawn
-
   # Cache used internally by Prawn::Document instances to calculate the width
   # of various strings for layout purposes.
   #
   # @private
   class FontMetricCache
-
     CacheEntry = Struct.new( :font, :options, :string )
 
     def initialize( document )
@@ -40,7 +38,5 @@ module Prawn
       length +
         (@document.character_spacing * @document.font.character_count(string))
     end
-
   end
-
 end

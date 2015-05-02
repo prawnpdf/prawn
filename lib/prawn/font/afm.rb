@@ -10,7 +10,6 @@ require_relative "../encoding"
 
 module Prawn
   class Font
-
     # @private
 
     class AFM < Font

@@ -4,9 +4,7 @@ require "tempfile"
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Document encryption" do
-
   describe "Password padding" do
-
     include Prawn::Document::Security
 
     it "should truncate long passwords" do
@@ -29,11 +27,9 @@ describe "Document encryption" do
       padded.length.should == 32
       padded.should == Prawn::Document::Security::PasswordPadding
     end
-
   end
 
   describe "Setting permissions" do
-
     def doc_with_permissions(permissions)
       pdf = Prawn::Document.new
 
@@ -71,7 +67,6 @@ describe "Document encryption" do
         doc_with_permissions(:modify_document => false)
       }.should raise_error(ArgumentError)
     end
-
   end
 
   describe "Encryption keys" do
@@ -99,12 +94,9 @@ describe "Document encryption" do
     it "should calculate the correct user_encryption_key" do
       @pdf.user_encryption_key.unpack("H*").first.upcase.should == "B100AB6429"
     end
-
-
   end
 
   describe "EncryptedPdfObject" do
-
     it "should delegate to PdfObject for simple types" do
       PDF::Core::EncryptedPdfObject(true, nil, nil, nil).should == "true"
       PDF::Core::EncryptedPdfObject(42, nil, nil, nil).should == "42"
@@ -129,7 +121,6 @@ describe "Document encryption" do
       PDF::Core::EncryptedPdfObject(["foo", "bar"], "12345", 123, 0).should ==
         "[<4ad6e3> <4ed8fe>]"
     end
-
   end
 
   describe "Reference#encrypted_object" do
@@ -154,5 +145,4 @@ describe "Document encryption" do
       stream.encrypted_object(nil, 1, 0).should == result
     end
   end
-
 end
