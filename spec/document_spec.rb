@@ -195,7 +195,7 @@ describe "on_page_create callback" do
   end
 
   it "should be invoked for each new page" do
-    trigger = mock()
+    trigger = mock
     trigger.expects(:fire).times(5)
 
     @pdf.renderer.on_page_create { trigger.fire }
@@ -204,10 +204,10 @@ describe "on_page_create callback" do
   end
 
   it "should be replaceable" do
-      trigger1 = mock()
+      trigger1 = mock
       trigger1.expects(:fire).times(1)
 
-      trigger2 = mock()
+      trigger2 = mock
       trigger2.expects(:fire).times(1)
 
       @pdf.renderer.on_page_create { trigger1.fire }
@@ -220,7 +220,7 @@ describe "on_page_create callback" do
   end
 
   it "should be clearable by calling on_page_create without a block" do
-      trigger = mock()
+      trigger = mock
       trigger.expects(:fire).times(1)
 
       @pdf.renderer.on_page_create { trigger.fire }
@@ -479,7 +479,7 @@ describe "The render() feature" do
 
     # Verify the order: finalize -> fire callbacks -> render body
     pdf.renderer.expects(:finalize_all_page_contents).in_sequence(seq)
-    trigger = mock()
+    trigger = mock
     trigger.expects(:fire).in_sequence(seq)
 
     # Store away the render_body method to be called below

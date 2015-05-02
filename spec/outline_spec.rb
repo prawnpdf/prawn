@@ -3,7 +3,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Outline" do
   before(:each) do
-    @pdf = Prawn::Document.new() do
+    @pdf = Prawn::Document.new do
       text "Page 1. This is the first Chapter. "
       start_new_page
       text "Page 2. More in the first Chapter. "
@@ -369,7 +369,7 @@ describe "Outline" do
   describe "#page" do
     it "should require a title option to be set" do
       lambda do
-        @pdf = Prawn::Document.new() do
+        @pdf = Prawn::Document.new do
           text "Page 1. This is the first Chapter. "
           outline.define do
             page :destination => 1, :title => nil
@@ -382,7 +382,7 @@ end
 
 describe "foreign character encoding" do
   before(:each) do
-    pdf = Prawn::Document.new() do
+    pdf = Prawn::Document.new do
       outline.define do
         section 'La pomme croquée', :destination => 1, :closed => true
       end
