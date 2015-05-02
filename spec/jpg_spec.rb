@@ -21,4 +21,3 @@ describe "When reading a JPEG file" do
     jpg.channels.should == 3
   end
 end
-

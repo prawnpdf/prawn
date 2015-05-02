@@ -20,4 +20,3 @@ describe "Measurement units" do
     1.pt.should == 1
   end
 end
-

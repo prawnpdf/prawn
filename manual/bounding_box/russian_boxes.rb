@@ -37,4 +37,3 @@ Prawn::ManualBuilder::Example.generate(filename) do
     recurse_bounding_box
   end
 end
-

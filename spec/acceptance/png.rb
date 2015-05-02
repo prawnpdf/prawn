@@ -22,4 +22,3 @@ Prawn::Document.generate("png_types.pdf", :page_size => "A5") do
     image file, :at => [50,450]
   end
 end
-

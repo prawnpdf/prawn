@@ -93,8 +93,6 @@ SingleSpaceBeforeFirstArg:
   Enabled: false
 IndentationConsistency:
   Enabled: false
-TrailingBlankLines:
-  Enabled: false
 AndOr:
   Enabled: false
 AssignmentInCondition:

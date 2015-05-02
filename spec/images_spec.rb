@@ -164,4 +164,3 @@ describe "the image() function" do
     end
   end
 end
-

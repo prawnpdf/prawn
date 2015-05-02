@@ -118,5 +118,3 @@ module Prawn
     end
   end
 end
-
-
