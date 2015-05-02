@@ -85,7 +85,6 @@ module Prawn
         obj.stream.filters << :DCTDecode
         obj
       end
-
     end
   end
 end

@@ -14,7 +14,6 @@ module Prawn
   #
   # @private
   class FontMetricCache
-
     CacheEntry = Struct.new( :font, :options, :string )
 
     def initialize( document )
@@ -40,7 +39,6 @@ module Prawn
       length +
         (@document.character_spacing * @document.font.character_count(string))
     end
-
   end
 
 end

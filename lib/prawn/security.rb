@@ -14,7 +14,6 @@ require_relative 'security/arcfour'
 
 module Prawn
   class Document
-
     # Implements PDF encryption (password protection and permissions) as
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
@@ -199,7 +198,6 @@ module Prawn
       end
 
     end
-
   end
 end
 
@@ -265,7 +263,6 @@ module PDF
 
     # @private
     class Reference
-
       # Returns the object definition for the object this references, keyed from
       # +key+.
       def encrypted_object(key)
@@ -281,7 +278,6 @@ module PDF
 
         output << "endobj\n"
       end
-
     end
   end
 end

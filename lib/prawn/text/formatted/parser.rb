@@ -217,7 +217,6 @@ module Prawn
           end
           array
         end
-
       end
     end
   end

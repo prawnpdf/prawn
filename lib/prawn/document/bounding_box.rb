@@ -219,7 +219,6 @@ module Prawn
     # is used for.
     #
     class BoundingBox
-
       def initialize(document, parent, point, options={}) # @private
         unless options[:width]
           raise ArgumentError, "BoundingBox needs the :width option to be set"
@@ -531,8 +530,6 @@ module Prawn
         bounds.instance_variable_set("@document", document)
         bounds
       end
-
     end
-
   end
 end

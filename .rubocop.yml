@@ -187,8 +187,6 @@ SpaceBeforeComment:
   Enabled: false
 AbcSize:
   Enabled: false
-EmptyLinesAroundClassBody:
-  Enabled: false
 PerceivedComplexity:
   Enabled: false
 EmptyLinesAroundBlockBody:
