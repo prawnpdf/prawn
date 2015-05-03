@@ -182,8 +182,6 @@ ClassVars:
   Enabled: false
 ParameterLists:
   Enabled: false
-BlockComments:
-  Enabled: false
 MultilineOperationIndentation:
   Enabled: false
 AbcSize:
