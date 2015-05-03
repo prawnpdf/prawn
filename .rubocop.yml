@@ -7,6 +7,15 @@ Encoding:
     - lib/prawn/images.rb
     - spec/png_spec.rb
 
+# These cops need to remain disabled for valid reasons on this code base
+
+# We need to reference non-ascii characters when testing and explaining
+# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
+AsciiComments:
+  Enabled: false
+
+# This cops are candidates for enabling and doing the related cleanup and/or
+# refactoring
 Void:
   Enabled: false
 StringLiterals:
@@ -98,8 +107,6 @@ AssignmentInCondition:
 ClassAndModuleChildren:
   Enabled: false
 NumericLiterals:
-  Enabled: false
-AsciiComments:
   Enabled: false
 SignalException:
   Enabled: false
