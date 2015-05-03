@@ -70,8 +70,6 @@ IndentArray:
   Enabled: false
 TrailingComma:
   Enabled: false
-IndentHash:
-  Enabled: false
 RegexpLiteral:
   Enabled: false
 MethodLength:

@@ -524,12 +524,14 @@ describe "#text" do
 
   def add_unicode_fonts(pdf)
     dejavu = "#{::Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
-    pdf.font_families.update("dejavu" => {
-      :normal      => dejavu,
-      :italic      => dejavu,
-      :bold        => dejavu,
-      :bold_italic => dejavu
-    })
+    pdf.font_families.update(
+      "dejavu" => {
+        :normal      => dejavu,
+        :italic      => dejavu,
+        :bold        => dejavu,
+        :bold_italic => dejavu
+      }
+    )
     pdf.fallback_fonts = ["dejavu"]
   end
 

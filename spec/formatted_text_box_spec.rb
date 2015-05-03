@@ -630,12 +630,12 @@ describe "Text::Formatted::Box#render with :valign => :center" do
     y = 450
     array = [{ :text => 'Vertical Align' }]
     options = {
-     :document => @pdf,
-     :valign => :center,
-     :at => [0,y],
-     :width => 100,
-     :height => box_height,
-     :size => 16
+      :document => @pdf,
+      :valign => :center,
+      :at => [0,y],
+      :width => 100,
+      :height => box_height,
+      :size => 16
     }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
@@ -653,12 +653,12 @@ describe "Text::Formatted::Box#render with :valign => :bottom" do
     y = 450
     array = [{ :text => 'Vertical Align' }]
     options = {
-     :document => @pdf,
-     :valign => :bottom,
-     :at => [0,y],
-     :width => 100,
-     :height => box_height,
-     :size => 16
+      :document => @pdf,
+      :valign => :bottom,
+      :at => [0,y],
+      :width => 100,
+      :height => box_height,
+      :size => 16
     }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
