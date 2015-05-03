@@ -61,8 +61,6 @@ NilComparison:
   Enabled: false
 Semicolon:
   Enabled: false
-LeadingCommentSpace:
-  Enabled: false
 Documentation:
   Enabled: false
 AlignArray:

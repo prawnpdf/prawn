@@ -7,7 +7,7 @@ module Prawn
   # @group Stable API
 
   module Measurements
-    #metric conversions
+    # metric conversions
     def cm2mm(cm)
       return cm*10
     end
