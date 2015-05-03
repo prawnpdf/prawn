@@ -200,7 +200,5 @@ StringLiteralsInInterpolation:
   Enabled: false
 GuardClause:
   Enabled: false
-ElseAlignment:
-  Enabled: false
 BlockEndNewline:
   Enabled: false
