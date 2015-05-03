@@ -268,7 +268,8 @@ describe "Patterns" do
   describe 'linear gradients' do
     it "should create a /Pattern resource" do
       @pdf.fill_gradient [0, @pdf.bounds.height],
-        [@pdf.bounds.width, @pdf.bounds.height], 'FF0000', '0000FF'
+                         [@pdf.bounds.width, @pdf.bounds.height],
+                         'FF0000', '0000FF'
 
       grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
       pattern = grad.patterns.values.first
@@ -286,7 +287,8 @@ describe "Patterns" do
 
     it "fill_gradient should set fill color to the pattern" do
       @pdf.fill_gradient [0, @pdf.bounds.height],
-        [@pdf.bounds.width, @pdf.bounds.height], 'FF0000', '0000FF'
+                         [@pdf.bounds.width, @pdf.bounds.height],
+                         'FF0000', '0000FF'
 
       str = @pdf.render
       str.should =~ %r{/Pattern\s+cs\s*/SP-?\d+\s+scn}
@@ -294,7 +296,8 @@ describe "Patterns" do
 
     it "stroke_gradient should set stroke color to the pattern" do
       @pdf.stroke_gradient [0, @pdf.bounds.height],
-        [@pdf.bounds.width, @pdf.bounds.height], 'FF0000', '0000FF'
+                           [@pdf.bounds.width, @pdf.bounds.height],
+                           'FF0000', '0000FF'
 
       str = @pdf.render
       str.should =~ %r{/Pattern\s+CS\s*/SP-?\d+\s+SCN}
@@ -304,7 +307,8 @@ describe "Patterns" do
   describe 'radial gradients' do
     it "should create a /Pattern resource" do
       @pdf.fill_gradient [0, @pdf.bounds.height], 10,
-        [@pdf.bounds.width, @pdf.bounds.height], 20, 'FF0000', '0000FF'
+                         [@pdf.bounds.width, @pdf.bounds.height], 20,
+                         'FF0000', '0000FF'
 
       grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
       pattern = grad.patterns.values.first
@@ -322,7 +326,8 @@ describe "Patterns" do
 
     it "fill_gradient should set fill color to the pattern" do
       @pdf.fill_gradient [0, @pdf.bounds.height], 10,
-        [@pdf.bounds.width, @pdf.bounds.height], 20, 'FF0000', '0000FF'
+                         [@pdf.bounds.width, @pdf.bounds.height], 20,
+                         'FF0000', '0000FF'
 
       str = @pdf.render
       str.should =~ %r{/Pattern\s+cs\s*/SP-?\d+\s+scn}
@@ -330,7 +335,8 @@ describe "Patterns" do
 
     it "stroke_gradient should set stroke color to the pattern" do
       @pdf.stroke_gradient [0, @pdf.bounds.height], 10,
-        [@pdf.bounds.width, @pdf.bounds.height], 20, 'FF0000', '0000FF'
+                           [@pdf.bounds.width, @pdf.bounds.height], 20,
+                           'FF0000', '0000FF'
 
       str = @pdf.render
       str.should =~ %r{/Pattern\s+CS\s*/SP-?\d+\s+SCN}

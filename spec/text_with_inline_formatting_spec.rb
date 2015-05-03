@@ -29,7 +29,7 @@ describe "#text with inline styling" do
 
   it "should embed links as literal strings" do
     @pdf.text "<link href='http://wiki.github.com/sandal/prawn/'>wiki</link>",
-      :inline_format => true
+              :inline_format => true
     @pdf.render.should =~ %r{/URI\s+\(http://wiki\.github\.com}
   end
 end

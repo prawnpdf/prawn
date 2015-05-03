@@ -7,7 +7,8 @@ require_relative "example_helper"
 Encoding.default_external = Encoding::UTF_8
 
 Prawn::ManualBuilder::Example.generate("manual.pdf",
-  :skip_page_creation => true, :page_size => "FOLIO") do
+                                       :skip_page_creation => true,
+                                       :page_size => "FOLIO") do
   load_page "", "cover"
   load_page "", "how_to_read_this_manual"
 

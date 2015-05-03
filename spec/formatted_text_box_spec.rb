@@ -361,7 +361,7 @@ describe "Text::Formatted::Box#render" do
                                       kind_of(Prawn::Text::Formatted::Fragment))
 
     callback_object2 = TestFragmentCallback.new("something else", 14,
-                                               :document => @pdf)
+                                                :document => @pdf)
     callback_object2.expects(:render_behind).with(
                                       kind_of(Prawn::Text::Formatted::Fragment))
     callback_object2.expects(:render_in_front).with(

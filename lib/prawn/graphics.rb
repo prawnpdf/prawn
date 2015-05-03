@@ -65,8 +65,8 @@ module Prawn
     #
     def curve_to(dest,options={})
        options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
-         "Bounding points for bezier curve must be specified " +
-         "as :bounds => [[x1,y1],[x2,y2]]"
+                                 "Bounding points for bezier curve must be specified " +
+                                 "as :bounds => [[x1,y1],[x2,y2]]"
 
        curve_points = PDF::Core.real_params(
         (options[:bounds] << dest).flat_map { |e| map_to_absolute(e) })
@@ -210,19 +210,19 @@ module Prawn
 
       # Upper right hand corner
       curve_to [x,  y + r2],
-        :bounds => [[x + r1, y + l2], [x + l1, y + r2]]
+               :bounds => [[x + r1, y + l2], [x + l1, y + r2]]
 
       # Upper left hand corner
       curve_to [x - r1, y],
-        :bounds => [[x - l1, y + r2], [x - r1, y + l2]]
+               :bounds => [[x - l1, y + r2], [x - r1, y + l2]]
 
       # Lower left hand corner
       curve_to [x, y - r2],
-        :bounds => [[x - r1, y - l2], [x - l1, y - r2]]
+               :bounds => [[x - r1, y - l2], [x - l1, y - r2]]
 
       # Lower right hand corner
       curve_to [x + r1, y],
-        :bounds => [[x + l1, y - r2], [x + r1, y - l2]]
+               :bounds => [[x + l1, y - r2], [x + r1, y - l2]]
 
       move_to(x, y)
     end

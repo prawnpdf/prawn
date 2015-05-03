@@ -33,8 +33,7 @@ task :docs => :yard
 desc "Generate the 'Prawn by Example' manual"
 task :manual do
   puts "Building manual..."
-  require File.expand_path(File.join(File.dirname(__FILE__),
-    %w[manual contents]))
+  require File.expand_path(File.join(File.dirname(__FILE__), %w[manual contents]))
   puts "The Prawn manual is available at manual.pdf. Happy Prawning!"
 end
 

@@ -57,7 +57,7 @@ module Prawn
 
         if length == 0 || length.kind_of?(Array) && length.any? { |e| e == 0 }
           raise ArgumentError,
-            "Zero length dashes are invalid. Call #undash to disable dashes."
+                "Zero length dashes are invalid. Call #undash to disable dashes."
         end
 
         self.current_dash_state = { :dash  => length,

@@ -36,8 +36,6 @@ LineLength:
   Enabled: false
 SpaceBeforeBlockBraces:
   Enabled: false
-AlignParameters:
-  Enabled: false
 SpaceInsideBrackets:
   Enabled: false
 WordArray:

@@ -191,8 +191,8 @@ describe "Text::Box with :draw_text_callback" do
     draw_block.expects(:kick).with("span two lines")
 
     @pdf.text_box "this text is long enough to span two lines",
-      :width => 150,
-      :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
+                  :width => 150,
+                  :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
   end
 
   it "hits the callback once per fragment for :inline_format" do
@@ -202,8 +202,8 @@ describe "Text::Box with :draw_text_callback" do
     draw_block.expects(:kick).with(" formatting")
 
     @pdf.text_box "this text has <b>fancy</b> formatting",
-      :inline_format => true, :width => 500,
-      :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
+                  :inline_format => true, :width => 500,
+                  :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
   end
 
   it "does not call #draw_text!" do
@@ -896,9 +896,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 220,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 220,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -909,9 +909,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 200,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 200,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -922,9 +922,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 220,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 220,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -935,9 +935,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 220,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 220,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -948,9 +948,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 180,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 180,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end

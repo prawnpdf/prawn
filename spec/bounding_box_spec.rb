@@ -8,8 +8,11 @@ describe "A bounding box" do
     @y      = 125
     @width  = 50
     @height = 75
-    @box = Prawn::Document::BoundingBox.new(nil, nil, [@x,@y],
-      :width  => @width, :height => @height )
+    @box = Prawn::Document::BoundingBox.new(nil,
+                                            nil,
+                                            [@x,@y],
+                                            :width  => @width,
+                                            :height => @height )
   end
 
   it "should have an anchor at (x, y - height)" do
