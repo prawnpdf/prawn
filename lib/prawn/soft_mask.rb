@@ -30,30 +30,30 @@ module Prawn
     def soft_mask(&block)
       renderer.min_version(1.4)
 
-      group_attrs = ref!({
+      group_attrs = ref!(
         :Type => :Group,
         :S => :Transparency,
         :CS => :DeviceRGB,
         :I => false,
         :K => false
-      })
+      )
 
-      group = ref!({
+      group = ref!(
         :Type => :XObject,
         :Subtype => :Form,
         :BBox => state.page.dimensions,
         :Group => group_attrs,
-      })
+      )
 
       state.page.stamp_stream(group, &block)
 
-      mask = ref!({
+      mask = ref!(
         :Type => :Mask,
         :S => :Luminosity,
         :G => group
-      })
+      )
 
-      g_state = ref!({
+      g_state = ref!(
         :Type => :ExtGState,
         :SMask => mask,
 
@@ -63,7 +63,7 @@ module Prawn
         :op => false,
         :OPM => 1,
         :SA => true,
-      })
+      )
 
       registry_key = {
         :bbox => state.page.dimensions,

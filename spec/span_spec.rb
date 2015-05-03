@@ -14,7 +14,7 @@ describe "drawing span" do
 
   it "should only accept :position as option in debug mode" do
     Prawn.debug = true
-    lambda { @pdf.span(350, {:x => 3}) {} }.should raise_error(Prawn::Errors::UnknownOption)
+    lambda { @pdf.span(350, :x => 3) {} }.should raise_error(Prawn::Errors::UnknownOption)
   end
 
   it "should have raise an error if :position is invalid" do

@@ -68,8 +68,6 @@ Documentation:
   Enabled: false
 IndentArray:
   Enabled: false
-BracesAroundHashParameters:
-  Enabled: false
 TrailingComma:
   Enabled: false
 IndentHash:

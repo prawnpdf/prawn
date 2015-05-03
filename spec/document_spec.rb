@@ -566,20 +566,20 @@ describe "The number_pages method" do
 
   it "replaces the '<page>' string with the proper page number" do
     @pdf.start_new_page
-    @pdf.expects(:text_box).with("1, test", { :height => 50 })
-    @pdf.number_pages "<page>, test", {:page_filter => :all}
+    @pdf.expects(:text_box).with("1, test", :height => 50)
+    @pdf.number_pages "<page>, test", :page_filter => :all
   end
 
   it "replaces the '<total>' string with the total page count" do
     @pdf.start_new_page
-    @pdf.expects(:text_box).with("test, 1", { :height => 50 })
-    @pdf.number_pages "test, <total>", {:page_filter => :all}
+    @pdf.expects(:text_box).with("test, 1", :height => 50)
+    @pdf.number_pages "test, <total>", :page_filter => :all
   end
 
   it "must print each page if given the :all page_filter" do
     10.times { @pdf.start_new_page }
     @pdf.expects(:text_box).times(10)
-    @pdf.number_pages "test", {:page_filter => :all}
+    @pdf.number_pages "test", :page_filter => :all
   end
 
   it "must print each page if no :page_filter is specified" do
@@ -591,7 +591,7 @@ describe "The number_pages method" do
   it "must not print the page number if given a nil filter" do
     10.times { @pdf.start_new_page }
     @pdf.expects(:text_box).never
-    @pdf.number_pages "test", {:page_filter => nil}
+    @pdf.number_pages "test", :page_filter => nil
   end
 
   context "start_count_at option" do
@@ -600,8 +600,8 @@ describe "The number_pages method" do
         it "increments the pages" do
           2.times { @pdf.start_new_page }
           options = {:page_filter => :all, :start_count_at => startat}
-          @pdf.expects(:text_box).with("#{startat} 2", { :height => 50 })
-          @pdf.expects(:text_box).with("#{startat + 1} 2", { :height => 50 })
+          @pdf.expects(:text_box).with("#{startat} 2", :height => 50)
+          @pdf.expects(:text_box).with("#{startat + 1} 2", :height => 50)
           @pdf.number_pages "<page> <total>", options
         end
       end
@@ -612,9 +612,9 @@ describe "The number_pages method" do
         it "defaults to start at page 1" do
           3.times { @pdf.start_new_page }
           options = {:page_filter => :all, :start_count_at => val}
-          @pdf.expects(:text_box).with("1 3", { :height => 50 })
-          @pdf.expects(:text_box).with("2 3", { :height => 50 })
-          @pdf.expects(:text_box).with("3 3", { :height => 50 })
+          @pdf.expects(:text_box).with("1 3", :height => 50)
+          @pdf.expects(:text_box).with("2 3", :height => 50)
+          @pdf.expects(:text_box).with("3 3", :height => 50)
           @pdf.number_pages "<page> <total>", options
         end
       end
@@ -624,8 +624,8 @@ describe "The number_pages method" do
   context "total_pages option" do
     it "allows the total pages count to be overridden" do
       2.times { @pdf.start_new_page }
-      @pdf.expects(:text_box).with("1 10", { :height => 50 })
-      @pdf.expects(:text_box).with("2 10", { :height => 50 })
+      @pdf.expects(:text_box).with("1 10", :height => 50)
+      @pdf.expects(:text_box).with("2 10", :height => 50)
       @pdf.number_pages "<page> <total>", :page_filter => :all, :total_pages => 10
     end
   end
@@ -634,9 +634,9 @@ describe "The number_pages method" do
     context "such as :odd" do
       it "increments the pages" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:text_box).with("1 3", { :height => 50 })
-        @pdf.expects(:text_box).with("3 3", { :height => 50 })
-        @pdf.expects(:text_box).with("2 3", { :height => 50 }).never
+        @pdf.expects(:text_box).with("1 3", :height => 50)
+        @pdf.expects(:text_box).with("3 3", :height => 50)
+        @pdf.expects(:text_box).with("2 3", :height => 50).never
         @pdf.number_pages "<page> <total>", :page_filter => :odd
       end
     end
@@ -653,10 +653,10 @@ describe "The number_pages method" do
     context "such as :odd and 7" do
       it "increments the pages" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:text_box).with("1 3", { :height => 50 }).never
-        @pdf.expects(:text_box).with("5 3", { :height => 50 }) # page 1
-        @pdf.expects(:text_box).with("6 3", { :height => 50 }).never # page 2
-        @pdf.expects(:text_box).with("7 3", { :height => 50 }) # page 3
+        @pdf.expects(:text_box).with("1 3", :height => 50).never
+        @pdf.expects(:text_box).with("5 3", :height => 50) # page 1
+        @pdf.expects(:text_box).with("6 3", :height => 50).never # page 2
+        @pdf.expects(:text_box).with("7 3", :height => 50) # page 3
         @pdf.number_pages "<page> <total>", :page_filter => :odd, :start_count_at => 5
       end
     end
@@ -664,12 +664,12 @@ describe "The number_pages method" do
       it "increments the pages" do
         6.times { @pdf.start_new_page }
         options = {:page_filter => lambda {|p| p != 2 && p != 5}, :start_count_at => 4}
-        @pdf.expects(:text_box).with("4 6", { :height => 50 }) # page 1
-        @pdf.expects(:text_box).with("5 6", { :height => 50 }).never # page 2
-        @pdf.expects(:text_box).with("6 6", { :height => 50 }) # page 3
-        @pdf.expects(:text_box).with("7 6", { :height => 50 }) # page 4
-        @pdf.expects(:text_box).with("8 6", { :height => 50 }).never # page 5
-        @pdf.expects(:text_box).with("9 6", { :height => 50 }) # page 6
+        @pdf.expects(:text_box).with("4 6", :height => 50) # page 1
+        @pdf.expects(:text_box).with("5 6", :height => 50).never # page 2
+        @pdf.expects(:text_box).with("6 6", :height => 50) # page 3
+        @pdf.expects(:text_box).with("7 6", :height => 50) # page 4
+        @pdf.expects(:text_box).with("8 6", :height => 50).never # page 5
+        @pdf.expects(:text_box).with("9 6", :height => 50) # page 6
         @pdf.number_pages "<page> <total>", options
       end
     end
@@ -681,17 +681,17 @@ describe "The number_pages method" do
     end
 
     it "with 10 height" do
-      @pdf.expects(:text_box).with("1 1", { :height => 10 })
+      @pdf.expects(:text_box).with("1 1", :height => 10)
       @pdf.number_pages "<page> <total>", :height => 10
     end
 
     it "with nil height" do
-      @pdf.expects(:text_box).with("1 1", { :height => nil })
+      @pdf.expects(:text_box).with("1 1", :height => nil)
       @pdf.number_pages "<page> <total>", :height => nil
     end
 
     it "with no height" do
-      @pdf.expects(:text_box).with("1 1", { :height => 50 })
+      @pdf.expects(:text_box).with("1 1", :height => 50)
       @pdf.number_pages "<page> <total>"
     end
   end

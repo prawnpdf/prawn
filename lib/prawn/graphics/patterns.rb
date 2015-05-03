@@ -96,15 +96,15 @@ module Prawn
         process_color color1
         process_color color2
 
-        shader = ref!({
+        shader = ref!(
           :FunctionType => 2,
           :Domain => [0.0, 1.0],
           :C0 => color1,
           :C1 => color2,
           :N => 1.0,
-        })
+        )
 
-        shading = ref!({
+        shading = ref!(
           :ShadingType => args.length == 4 ? 2 : 3, # axial : radial shading
           :ColorSpace => color_space(color1),
           :Coords => args.length == 4 ?
@@ -112,14 +112,14 @@ module Prawn
                         [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]],
           :Function => shader,
           :Extend => [true, true],
-        })
+        )
 
-        ref!({
+        ref!(
           :PatternType => 2, # shading pattern
           :Shading => shading,
           :Matrix => [1, 0,
                       0, 1] + map_to_absolute(args[0]),
-        })
+        )
       end
     end
   end
