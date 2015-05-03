@@ -173,8 +173,8 @@ module Prawn
       init_bounding_box(block, :hold_position => true) do |_|
         # Canvas bbox acts like margin_box in that its parent bounds are unset.
         @bounding_box = BoundingBox.new(self, nil, [0,page.dimensions[3]],
-          :width => page.dimensions[2],
-          :height => page.dimensions[3]
+                                        :width => page.dimensions[2],
+                                        :height => page.dimensions[3]
         )
       end
     end
@@ -184,7 +184,7 @@ module Prawn
     def init_bounding_box(user_block, options={}, &init_block)
       unless user_block
         raise ArgumentError,
-          "bounding boxes require a block to be drawn within the box"
+              "bounding boxes require a block to be drawn within the box"
       end
 
       parent_box = @bounding_box

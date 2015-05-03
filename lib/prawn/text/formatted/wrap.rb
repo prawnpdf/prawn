@@ -18,7 +18,7 @@ module Prawn
         def initialize(array, options)
           @line_wrap = Prawn::Text::Formatted::LineWrap.new
           @arranger = Prawn::Text::Formatted::Arranger.new(@document,
-            :kerning => options[:kerning])
+                                                           :kerning => options[:kerning])
           @disable_wrap_by_char = options[:disable_wrap_by_char]
         end
 

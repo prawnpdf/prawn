@@ -114,14 +114,18 @@ module Prawn
       end
 
       def italic_angle
-        @italic_angle ||= if @ttf.postscript.exists?
+        return @italic_angle if @italic_angle
+
+        if @ttf.postscript.exists?
           raw = @ttf.postscript.italic_angle
           hi, low = raw >> 16, raw & 0xFF
           hi = -((hi ^ 0xFFFF) + 1) if hi & 0x8000 != 0
-          "#{hi}.#{low}".to_f
+          @italic_angle = "#{hi}.#{low}".to_f
         else
-          0
+          @italic_angle = 0
         end
+
+        @italic_angle
       end
 
       def cap_height
@@ -272,16 +276,16 @@ module Prawn
         fontfile.stream.compress!
 
         descriptor = @document.ref!(:Type        => :FontDescriptor,
-                                   :FontName    => basename.to_sym,
-                                   :FontFile2   => fontfile,
-                                   :FontBBox    => bbox,
-                                   :Flags       => pdf_flags,
-                                   :StemV       => stemV,
-                                   :ItalicAngle => italic_angle,
-                                   :Ascent      => @ascender,
-                                   :Descent     => @descender,
-                                   :CapHeight   => cap_height,
-                                   :XHeight     => x_height)
+                                    :FontName    => basename.to_sym,
+                                    :FontFile2   => fontfile,
+                                    :FontBBox    => bbox,
+                                    :Flags       => pdf_flags,
+                                    :StemV       => stemV,
+                                    :ItalicAngle => italic_angle,
+                                    :Ascent      => @ascender,
+                                    :Descent     => @descender,
+                                    :CapHeight   => cap_height,
+                                    :XHeight     => x_height)
 
         hmtx = font.horizontal_metrics
         widths = font.cmap.tables.first.code_map.map { |gid|

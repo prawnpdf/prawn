@@ -14,8 +14,8 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
              { :text => "goodbye  ", :style => [:bold] }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
-                                 :width => 300,
-                                 :document => @pdf)
+                                  :width => 300,
+                                  :document => @pdf)
     string.should == "hello world, goodbye"
   end
   it "should strip trailing spaces when a white-space-only fragment was" +
@@ -26,8 +26,8 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
              { :text => " bbbbbbbbbbbbbbbbbbbbbbbbbbbb" }]
     @arranger.format_array = array
     string = @line_wrap.wrap_line(:arranger => @arranger,
-                                 :width => 300,
-                                 :document => @pdf)
+                                  :width => 300,
+                                  :document => @pdf)
     string.should == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   end
   it "should raise_error CannotFit if a too-small width is given" do
@@ -266,8 +266,8 @@ describe "Core::Text::Formatted::LineWrap#space_count" do
              { :text => "goodbye", :style => [:bold] }]
     @arranger.format_array = array
     @line_wrap.wrap_line(:arranger => @arranger,
-                        :width => 300,
-                        :document => @pdf)
+                         :width => 300,
+                         :document => @pdf)
     @line_wrap.space_count.should == 2
   end
   it "should exclude preceding and trailing spaces from the count" do
@@ -275,8 +275,8 @@ describe "Core::Text::Formatted::LineWrap#space_count" do
              { :text => "goodbye  ", :style => [:bold] }]
     @arranger.format_array = array
     @line_wrap.wrap_line(:arranger => @arranger,
-                        :width => 300,
-                        :document => @pdf)
+                         :width => 300,
+                         :document => @pdf)
     @line_wrap.space_count.should == 2
   end
 end
@@ -300,13 +300,13 @@ describe "Core::Text::Formatted::LineWrap" do
      "was nothing to wrap" do
     8.times do
       line = @line_wrap.wrap_line(:arranger => @arranger,
-                                 :width => 200,
-                                 :document => @pdf)
+                                  :width => 200,
+                                  :document => @pdf)
       line.should_not be_empty
     end
     line = @line_wrap.wrap_line(:arranger => @arranger,
-                               :width => 200,
-                               :document => @pdf)
+                                :width => 200,
+                                :document => @pdf)
     line.should be_empty
   end
   it "should tokenize a string using the scan_pattern" do

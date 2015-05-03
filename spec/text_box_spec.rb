@@ -191,8 +191,8 @@ describe "Text::Box with :draw_text_callback" do
     draw_block.expects(:kick).with("span two lines")
 
     @pdf.text_box "this text is long enough to span two lines",
-      :width => 150,
-      :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
+                  :width => 150,
+                  :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
   end
 
   it "hits the callback once per fragment for :inline_format" do
@@ -202,14 +202,14 @@ describe "Text::Box with :draw_text_callback" do
     draw_block.expects(:kick).with(" formatting")
 
     @pdf.text_box "this text has <b>fancy</b> formatting",
-      :inline_format => true, :width => 500,
-      :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
+                  :inline_format => true, :width => 500,
+                  :draw_text_callback => lambda { |text, _| draw_block.kick(text) }
   end
 
   it "does not call #draw_text!" do
     @pdf.expects(:draw_text!).never
     @pdf.text_box "some text", :width => 500,
-      :draw_text_callback => lambda { |_, _| }
+                               :draw_text_callback => lambda { |_, _| }
   end
 end
 
@@ -505,7 +505,8 @@ describe "Text::Box default height" do
       target_height = @pdf.y - @pdf.bounds.bottom
       @text = "Oh hai\n" * 60
       text_box = Prawn::Text::Box.new(@text, :document => @pdf,
-        :height => 100, :overflow => :expand)
+                                             :height => 100,
+                                             :overflow => :expand)
       text_box.render
       text_box.height.should be_within(@pdf.font.height).of(target_height)
     end
@@ -513,7 +514,7 @@ describe "Text::Box default height" do
 
   it "should use the innermost non-stretchy bbox, not the margin box" do
     @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width,
-                      :height => 200) do
+                                        :height => 200) do
       @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
         @text = "Oh hai\n" * 60
         text_box = Prawn::Text::Box.new(@text, :document => @pdf)
@@ -896,9 +897,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 220,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 220,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -909,9 +910,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 200,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 200,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -922,9 +923,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 220,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 220,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -935,9 +936,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 220,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 220,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -948,9 +949,9 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,
-                                          :width    => 180,
-                                          :overflow => :expand,
-                                          :document => @pdf)
+                                    :width    => 180,
+                                    :overflow => :expand,
+                                    :document => @pdf)
     text_box.render
     text_box.text.should == expect
   end
@@ -960,8 +961,8 @@ describe "Text::Box wrapping" do
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text, :width => 180,
-                                           :overflow => :expand,
-                                           :document => @pdf)
+                                          :overflow => :expand,
+                                          :document => @pdf)
 
     text_box.render
 
@@ -974,13 +975,13 @@ describe "Text::Box wrapping" do
   it "should wrap non-unicode strings using single-byte word-wrapping" do
     text = "continúa esforzandote " * 5
     text_box = Prawn::Text::Box.new(text, :width => 180,
-                                     :document => @pdf)
+                                          :document => @pdf)
     text_box.render
     results_with_accent = text_box.text
 
     text = "continua esforzandote " * 5
     text_box = Prawn::Text::Box.new(text, :width => 180,
-                                     :document => @pdf)
+                                          :document => @pdf)
     text_box.render
     results_without_accent = text_box.text
 

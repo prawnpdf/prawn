@@ -7,8 +7,8 @@ describe "Text::Formatted::Fragment#space_count" do
     create_pdf
     format_state = { }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.space_count.should == 2
   end
   it "should exclude trailing spaces from the count when " +
@@ -16,8 +16,8 @@ describe "Text::Formatted::Fragment#space_count" do
     create_pdf
     format_state = { :exclude_trailing_white_space => true }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.space_count.should == 1
   end
 end
@@ -27,8 +27,8 @@ describe "Text::Formatted::Fragment#include_trailing_white_space!" do
     create_pdf
     format_state = { :exclude_trailing_white_space => true }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.space_count.should == 1
     fragment.include_trailing_white_space!
     fragment.space_count.should == 2
@@ -40,8 +40,8 @@ describe "Text::Formatted::Fragment#text" do
     create_pdf
     format_state = { }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.text.should == "hello world "
   end
   it "should return the fragment text without trailing spaces when " +
@@ -49,8 +49,8 @@ describe "Text::Formatted::Fragment#text" do
     create_pdf
     format_state = { :exclude_trailing_white_space => true }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.text.should == "hello world"
   end
 end
@@ -268,8 +268,8 @@ describe "Text::Formatted::Fragment with :direction => :rtl" do
     create_pdf
     format_state = { :direction => :rtl }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.text.should == "dlrow olleh"
   end
 end
@@ -280,8 +280,8 @@ describe "Text::Formatted::Fragment default_direction=" do
     create_pdf
     format_state = { }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world",
-                                                     format_state,
-                                                     @pdf)
+                                                    format_state,
+                                                    @pdf)
     fragment.default_direction = :rtl
     fragment.direction.should == :rtl
   end
@@ -290,7 +290,7 @@ describe "Text::Formatted::Fragment default_direction=" do
     create_pdf
     format_state = { :direction => :rtl }
     fragment = Prawn::Text::Formatted::Fragment.new("hello world",
-                                                     format_state,
+                                                    format_state,
                                                     @pdf)
     fragment.default_direction = :ltr
     fragment.direction.should == :rtl

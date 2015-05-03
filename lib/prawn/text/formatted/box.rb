@@ -187,8 +187,8 @@ module Prawn
             options[:kerning] = @document.default_kerning?
           end
           @options = { :kerning => options[:kerning],
-            :size    => options[:size],
-            :style   => options[:style] }
+                       :size    => options[:size],
+                       :style   => options[:style] }
 
           super(formatted_text, options)
         end
@@ -279,10 +279,10 @@ module Prawn
             @document.word_spacing(word_spacing) {
               if @draw_text_callback
                 @draw_text_callback.call(fragment.text, :at => [x, y],
-                                         :kerning => @kerning)
+                                                        :kerning => @kerning)
               else
                 @document.draw_text!(fragment.text, :at => [x, y],
-                                     :kerning => @kerning)
+                                                    :kerning => @kerning)
               end
             }
 
@@ -329,17 +329,20 @@ module Prawn
         end
 
         def valid_options
-          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign,
-                                              :rotate, :rotate_around,
-                                              :overflow, :min_font_size,
-                                              :disable_wrap_by_char,
-                                              :leading, :character_spacing,
-                                              :mode, :single_line,
-                                              :document,
-                                              :direction,
-                                              :fallback_fonts,
-                                              :draw_text_callback]
+          PDF::Core::Text::VALID_OPTIONS + [
+            :at,
+            :height, :width,
+            :align, :valign,
+            :rotate, :rotate_around,
+            :overflow, :min_font_size,
+            :disable_wrap_by_char,
+            :leading, :character_spacing,
+            :mode, :single_line,
+            :document,
+            :direction,
+            :fallback_fonts,
+            :draw_text_callback
+          ]
         end
 
         private

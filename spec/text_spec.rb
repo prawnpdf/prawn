@@ -36,7 +36,7 @@ describe "#height_of" do
   it "should raise_error NotImplementedError if :indent_paragraphs option is provided" do
     lambda {
       @pdf.height_of("hai", :width => 300,
-                     :indent_paragraphs => 60)
+                            :indent_paragraphs => 60)
     }.should raise_error(NotImplementedError)
   end
 
@@ -510,8 +510,7 @@ describe "#text" do
   end
 
   describe "#shrink_to_fit with special utf-8 text" do
-    it "Should not throw an exception",
-        :unresolved, :issue => 603 do
+    it "Should not throw an exception", :unresolved, :issue => 603 do
       pages = 0
       doc = Prawn::Document.new(page_size: 'A4', margin: [2, 2, 2, 2]) do |pdf|
         add_unicode_fonts(pdf)

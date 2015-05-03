@@ -25,9 +25,11 @@ describe "Text::Formatted::Box wrapping" do
       :normal => { :file => file, :font => "Kai" }
     }
 
-    texts = [{ :text => "Hello " },
-              { :text => "再见", :font => "Kai"},
-              { :text => "World" }]
+    texts = [
+      { :text => "Hello " },
+      { :text => "再见", :font => "Kai"},
+      { :text => "World" }
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
 
     text_box.render
@@ -359,7 +361,7 @@ describe "Text::Formatted::Box#render" do
                                       kind_of(Prawn::Text::Formatted::Fragment))
 
     callback_object2 = TestFragmentCallback.new("something else", 14,
-                                               :document => @pdf)
+                                                :document => @pdf)
     callback_object2.expects(:render_behind).with(
                                       kind_of(Prawn::Text::Formatted::Fragment))
     callback_object2.expects(:render_in_front).with(
@@ -481,7 +483,11 @@ describe "Text::Formatted::Box#render" do
   it "should be able to add URL links" do
     create_pdf
     @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
-           :A => { :Type => :Action, :S => :URI, :URI => "http://example.com" })
+                                                        :A => {
+                                                          :Type => :Action,
+                                                          :S => :URI,
+                                                          :URI => "http://example.com"
+                                                        })
     array = [{ :text => "click " },
              { :text => "here", :link => "http://example.com" },
              { :text => " to visit" }]
@@ -491,7 +497,7 @@ describe "Text::Formatted::Box#render" do
   it "should be able to add destination links" do
     create_pdf
     @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
-                                        :Dest => "ToC")
+                                                        :Dest => "ToC")
     array = [{ :text => "Go to the " },
              { :text => "Table of Contents", :anchor => "ToC" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
@@ -500,7 +506,12 @@ describe "Text::Formatted::Box#render" do
   it "should be able to add local actions" do
     create_pdf
     @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
-           :A => { :Type => :Action, :S => :Launch, :F => "../example.pdf", :NewWindow => true })
+                                                        :A => {
+                                                          :Type => :Action,
+                                                          :S => :Launch,
+                                                          :F => "../example.pdf",
+                                                          :NewWindow => true
+                                                        })
     array = [{ :text => "click " },
              { :text => "here", :local => "../example.pdf" },
              { :text => " to open a local file" }]

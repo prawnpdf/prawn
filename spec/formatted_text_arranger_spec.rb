@@ -13,9 +13,9 @@ describe "Core::Text::Formatted::Arranger#format_array" do
     arranger.format_array = array
     arranger.unconsumed[0].should == { :text => "hello " }
     arranger.unconsumed[1].should == { :text => "world how ",
-                                              :styles => [:bold] }
+                                       :styles => [:bold] }
     arranger.unconsumed[2].should == { :text => "are",
-                                              :styles => [:bold, :italic] }
+                                       :styles => [:bold, :italic] }
     arranger.unconsumed[3].should == { :text => " you?" }
   end
   it "should split newlines into their own elements" do
@@ -68,9 +68,9 @@ describe "Core::Text::Formatted::Arranger#next_string" do
     end
     @arranger.consumed[0].should == { :text => "hello " }
     @arranger.consumed[1].should == { :text => "world how ",
-                                              :styles => [:bold] }
+                                      :styles => [:bold] }
     @arranger.consumed[2].should == { :text => "are",
-                                              :styles => [:bold, :italic] }
+                                      :styles => [:bold, :italic] }
     @arranger.consumed[3].should == { :text => " you?" }
   end
   it "should populate current_format_state array" do

@@ -336,9 +336,10 @@ module Prawn
           "with height_of"
       end
       process_final_gap_option(options)
-      box = Text::Formatted::Box.new(array,
-                          options.merge(:height   => 100000000,
-                                        :document => self))
+      box = Text::Formatted::Box.new(
+        array,
+        options.merge( :height => 100000000, :document => self)
+      )
       box.render(:dry_run => true)
 
       height = box.height

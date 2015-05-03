@@ -33,17 +33,21 @@ module Prawn
     #
     def grid(*args)
       @boxes ||= {}
-      @boxes[args] ||= if args.empty?
-        @grid
+      return @boxes[args] if @boxes[args]
+
+      if args.empty?
+        @boxes[args] = @grid
       else
         g1, g2 = args
-        if(g1.class == Array && g2.class == Array &&
-          g1.length == 2 && g2.length == 2)
-          multi_box(single_box(*g1), single_box(*g2))
+
+        if g1.class == Array && g2.class == Array && g1.length == 2 && g2.length == 2
+          @boxes[args] = multi_box(single_box(*g1), single_box(*g2))
         else
-          single_box(g1, g2)
+          @boxes[args] = single_box(g1, g2)
         end
       end
+
+      @boxes[args]
     end
 
     # A Grid represents the entire grid system of a Page and calculates

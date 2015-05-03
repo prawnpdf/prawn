@@ -30,13 +30,9 @@ SpaceAfterComma:
   Enabled: false
 Lambda:
   Enabled: false
-AlignHash:
-  Enabled: false
 LineLength:
   Enabled: false
 SpaceBeforeBlockBraces:
-  Enabled: false
-AlignParameters:
   Enabled: false
 SpaceInsideBrackets:
   Enabled: false
@@ -69,10 +65,6 @@ NilComparison:
 Semicolon:
   Enabled: false
 Documentation:
-  Enabled: false
-AlignArray:
-  Enabled: false
-BlockAlignment:
   Enabled: false
 IndentArray:
   Enabled: false
@@ -168,8 +160,6 @@ WhileUntilModifier:
   Enabled: false
 StringConversionInInterpolation:
   Enabled: false
-EndAlignment:
-  Enabled: false
 RedundantBegin:
   Enabled: false
 PerlBackrefs:
@@ -199,8 +189,6 @@ SpaceBeforeComma:
 StringLiteralsInInterpolation:
   Enabled: false
 GuardClause:
-  Enabled: false
-ElseAlignment:
   Enabled: false
 BlockEndNewline:
   Enabled: false

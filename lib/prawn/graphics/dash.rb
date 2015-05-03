@@ -57,12 +57,12 @@ module Prawn
 
         if length == 0 || length.kind_of?(Array) && length.any? { |e| e == 0 }
           raise ArgumentError,
-            "Zero length dashes are invalid. Call #undash to disable dashes."
+                "Zero length dashes are invalid. Call #undash to disable dashes."
         end
 
         self.current_dash_state = { :dash  => length,
-                  :space => length.kind_of?(Array) ? nil : options[:space] || length,
-                  :phase => options[:phase] || 0 }
+                                    :space => length.kind_of?(Array) ? nil : options[:space] || length,
+                                    :phase => options[:phase] || 0 }
 
         write_stroke_dash
       end

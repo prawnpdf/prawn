@@ -51,7 +51,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
         end
 
         text_box(field.force_encoding("windows-1252").encode("UTF-8"),
-          :at => [dx + offset, y])
+                 :at => [dx + offset, y])
       end
 
       dx += total_width

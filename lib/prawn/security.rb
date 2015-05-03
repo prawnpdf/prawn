@@ -89,7 +89,7 @@ module Prawn
       #
       def encrypt_document(options={})
         Prawn.verify_options [:user_password, :owner_password, :permissions],
-          options
+                             options
         @user_password = options.delete(:user_password) || ""
 
         @owner_password = options.delete(:owner_password) || @user_password
@@ -232,7 +232,7 @@ module PDF
         obj.each do |k,v|
           unless String === k || Symbol === k
             raise PDF::Core::Errors::FailedObjectConversion,
-              "A PDF Dictionary must be keyed by names"
+                  "A PDF Dictionary must be keyed by names"
           end
           output << PdfObject(k.to_sym, in_content_stream) << " " <<
                     EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"

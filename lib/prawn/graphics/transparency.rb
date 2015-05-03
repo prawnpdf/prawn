@@ -80,10 +80,11 @@ module Prawn
           dictionary =  opacity_dictionary_registry[key][:obj]
           dictionary_name =  opacity_dictionary_registry[key][:name]
         else
-          dictionary = ref!(:Type => :ExtGState,
-                                    :CA   => stroke_opacity,
-                                    :ca   => opacity
-                                    )
+          dictionary = ref!(
+            :Type => :ExtGState,
+            :CA   => stroke_opacity,
+            :ca   => opacity
+          )
 
           dictionary_name = "Tr#{next_opacity_dictionary_id}"
           opacity_dictionary_registry[key] = { :name => dictionary_name,

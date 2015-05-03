@@ -36,7 +36,8 @@ module Prawn
             ".", "/usr/lib/afm",
             "/usr/local/lib/afm",
             "/usr/openwin/lib/fonts/afm",
-             Prawn::DATADIR + '/fonts']
+            Prawn::DATADIR + '/fonts'
+          ]
         end
       end
 
@@ -103,8 +104,8 @@ module Prawn
              ::Encoding::UndefinedConversionError
 
         raise Prawn::Errors::IncompatibleStringEncoding,
-          "Your document includes text that's not compatible with the Windows-1252 character set.\n" +
-          "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
+              "Your document includes text that's not compatible with the Windows-1252 character set.\n" +
+              "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
       end
 
       def to_utf8(text)
@@ -160,8 +161,7 @@ module Prawn
         self.class.metrics_path.find { |f| File.exist? "#{f}/#{file}" } + "/#{file}"
       rescue NoMethodError
         raise Prawn::Errors::UnknownFont,
-          "Couldn't find the font: #{file} in any of:\n" +
-           self.class.metrics_path.join("\n")
+              "Couldn't find the font: #{file} in any of:\n" + self.class.metrics_path.join("\n")
       end
 
       def parse_afm(file_name)

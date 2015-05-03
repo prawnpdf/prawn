@@ -521,11 +521,13 @@ module Prawn
     def number_pages(string, options={})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
-      page_filter = if opts.has_key?(:page_filter)
-        opts.delete(:page_filter)
+
+      if opts.has_key?(:page_filter)
+        page_filter = opts.delete(:page_filter)
       else
-        :all
+        page_filter = :all
       end
+
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
@@ -569,19 +571,19 @@ module Prawn
     # @private
     def group(*a, &b)
       raise NotImplementedError,
-        "Document#group has been disabled because its implementation " +
-        "lead to corrupted documents whenever a page boundary was " +
-        "crossed. We will try to work on reimplementing it in a " +
-        "future release"
+            "Document#group has been disabled because its implementation " +
+            "lead to corrupted documents whenever a page boundary was " +
+            "crossed. We will try to work on reimplementing it in a " +
+            "future release"
     end
 
     # @private
     def transaction
       raise NotImplementedError,
-        "Document#transaction has been disabled because its implementation " +
-        "lead to corrupted documents whenever a page boundary was " +
-        "crossed. We will try to work on reimplementing it in a " +
-        "future release"
+            "Document#transaction has been disabled because its implementation " +
+            "lead to corrupted documents whenever a page boundary was " +
+            "crossed. We will try to work on reimplementing it in a " +
+            "future release"
     end
 
     # Provides a way to execute a block of code repeatedly based on a

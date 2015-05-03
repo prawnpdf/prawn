@@ -166,8 +166,8 @@ describe "Outline" do
       end
 
       it "the subsection should become the next relation for its parent's old last item" do
-         referenced_object(@page_2[:Next]).should == @subsection
-       end
+        referenced_object(@page_2[:Next]).should == @subsection
+      end
 
       it "should set the first relation for the new subsection" do
         referenced_object(@subsection[:First]).should == @added_page_3
@@ -210,8 +210,8 @@ describe "Outline" do
       end
 
       it "the subsection should become the prev relation for its parent's old first item" do
-         referenced_object(@page_1[:Prev]).should == @subsection
-       end
+        referenced_object(@page_1[:Prev]).should == @subsection
+      end
 
       it "should set the first relation for the new subsection" do
         referenced_object(@subsection[:First]).should == @added_page_3
@@ -299,7 +299,7 @@ describe "Outline" do
           referenced_object(@section_1[:Next]).should == @section_2
         end
       end
-   end
+    end
 
     describe "inserting at the end of another section" do
       before(:each) do

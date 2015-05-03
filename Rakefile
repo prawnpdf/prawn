@@ -17,8 +17,12 @@ end
 desc "Show library's code statistics"
 task :stats do
   require 'code_statistics/code_statistics'
-  puts CodeStatistics::CodeStatistics.new( [["Prawn", "lib"],
-                      ["Specs", "spec"]] ).to_s
+  puts CodeStatistics::CodeStatistics.new(
+    [
+      ["Prawn", "lib"],
+      ["Specs", "spec"]
+    ]
+  ).to_s
 end
 
 YARD::Rake::YardocTask.new do |t|
@@ -29,8 +33,7 @@ task :docs => :yard
 desc "Generate the 'Prawn by Example' manual"
 task :manual do
   puts "Building manual..."
-  require File.expand_path(File.join(File.dirname(__FILE__),
-    %w[manual contents]))
+  require File.expand_path(File.join(File.dirname(__FILE__), %w[manual contents]))
   puts "The Prawn manual is available at manual.pdf. Happy Prawning!"
 end
 

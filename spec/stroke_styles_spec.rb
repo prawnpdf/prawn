@@ -102,9 +102,9 @@ end
 describe "Dashes" do
   before(:each) { create_pdf }
 
-   it "should be able to use assignment operator" do
-     @pdf.dash = 2
-     @pdf.should be_dashed
+  it "should be able to use assignment operator" do
+    @pdf.dash = 2
+    @pdf.should be_dashed
   end
 
   describe "setting a dash" do

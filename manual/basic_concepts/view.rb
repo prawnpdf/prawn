@@ -32,7 +32,7 @@ class Greeter
       text "Goodbye, #{@name}!"
     end
   end
- end
+end
 
 greeter = Greeter.new("Gregory")
 

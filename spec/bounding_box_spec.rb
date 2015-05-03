@@ -8,8 +8,11 @@ describe "A bounding box" do
     @y      = 125
     @width  = 50
     @height = 75
-    @box = Prawn::Document::BoundingBox.new(nil, nil, [@x,@y],
-      :width  => @width, :height => @height )
+    @box = Prawn::Document::BoundingBox.new(nil,
+                                            nil,
+                                            [@x,@y],
+                                            :width  => @width,
+                                            :height => @height )
   end
 
   it "should have an anchor at (x, y - height)" do
@@ -158,8 +161,7 @@ describe "drawing bounding boxes" do
 
   it "should advance the y-position by bbox.height by default" do
     orig_y = @pdf.y
-    @pdf.bounding_box [0, @pdf.cursor], :width => @pdf.bounds.width,
-        :height => 30 do
+    @pdf.bounding_box [0, @pdf.cursor], :width => @pdf.bounds.width, :height => 30 do
       @pdf.text "hello"
     end
     @pdf.y.should be_within(0.001).of(orig_y - 30)
@@ -167,8 +169,7 @@ describe "drawing bounding boxes" do
 
   it "should not advance y-position if passed :hold_position => true" do
     orig_y = @pdf.y
-    @pdf.bounding_box [0, @pdf.cursor], :width => @pdf.bounds.width,
-        :hold_position => true do
+    @pdf.bounding_box [0, @pdf.cursor], :width => @pdf.bounds.width, :hold_position => true do
       @pdf.text "hello"
     end
     # y only advances by height of one line ("hello")
@@ -264,8 +265,7 @@ describe "Indentation" do
 
   describe "in a ColumnBox" do
     it "should subtract the given indentation from the available width" do
-      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width,
-                      :height => 200, :columns => 2, :spacer => 20) do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :height => 200, :columns => 2, :spacer => 20) do
         width = @pdf.bounds.width
         @pdf.indent(20) do
           @pdf.bounds.width.should be_within(0.01).of(width - 20)
@@ -274,8 +274,7 @@ describe "Indentation" do
     end
 
     it "should subtract right padding from the available width" do
-      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width,
-                      :height => 200, :columns => 2, :spacer => 20) do
+      @pdf.column_box([0, @pdf.cursor], :width => @pdf.bounds.width, :height => 200, :columns => 2, :spacer => 20) do
         width = @pdf.bounds.width
         @pdf.indent(20, 30) do
           @pdf.bounds.width.should be_within(0.01).of(width - 50)
