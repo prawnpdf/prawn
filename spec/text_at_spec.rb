@@ -6,7 +6,7 @@ describe "#draw_text" do
   before(:each) { create_pdf }
 
   it "should raise_error ArgumentError if :at option omitted" do
-    lambda { @pdf.draw_text("hai", { }) }.should raise_error(ArgumentError)
+    lambda { @pdf.draw_text("hai", {}) }.should raise_error(ArgumentError)
   end
 
   it "should raise_error ArgumentError if :align option included" do

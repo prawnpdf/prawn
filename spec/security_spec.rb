@@ -117,7 +117,7 @@ describe "Document encryption" do
     end
 
     it "should properly handle compound types" do
-      PDF::Core::EncryptedPdfObject({:Bar => "foo"}, "12345", 123, 0).should ==
+      PDF::Core::EncryptedPdfObject({ :Bar => "foo" }, "12345", 123, 0).should ==
         "<< /Bar <4ad6e3>\n>>"
       PDF::Core::EncryptedPdfObject(["foo", "bar"], "12345", 123, 0).should ==
         "[<4ad6e3> <4ed8fe>]"

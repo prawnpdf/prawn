@@ -48,8 +48,6 @@ SpaceInsideBlockBraces:
   Enabled: false
 CollectionMethods:
   Enabled: false
-SpaceInsideHashLiteralBraces:
-  Enabled: false
 DotPosition:
   Enabled: false
 SingleLineBlockParams:

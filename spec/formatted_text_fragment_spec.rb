@@ -5,7 +5,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "Text::Formatted::Fragment#space_count" do
   it "should return the number of spaces in the fragment" do
     create_pdf
-    format_state = { }
+    format_state = {}
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
                                                     format_state,
                                                     @pdf)
@@ -38,7 +38,7 @@ end
 describe "Text::Formatted::Fragment#text" do
   it "should return the fragment text" do
     create_pdf
-    format_state = { }
+    format_state = {}
     fragment = Prawn::Text::Formatted::Fragment.new("hello world ",
                                                     format_state,
                                                     @pdf)
@@ -278,7 +278,7 @@ describe "Text::Formatted::Fragment default_direction=" do
   it "should set the direction if there is no fragment level direction " +
      "specification" do
     create_pdf
-    format_state = { }
+    format_state = {}
     fragment = Prawn::Text::Formatted::Fragment.new("hello world",
                                                     format_state,
                                                     @pdf)

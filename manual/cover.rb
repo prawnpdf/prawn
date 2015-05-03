@@ -13,14 +13,14 @@ Prawn::ManualBuilder::Example.generate(filename) do
         :scale => 0.9,
         :at => [10, cursor]
 
-  formatted_text_box([ {:text => "Prawn\n",
-                        :styles => [:bold],
-                        :size => 100}
+  formatted_text_box([ { :text => "Prawn\n",
+                         :styles => [:bold],
+                         :size => 100 }
                      ], :at => [170, cursor - 50])
 
-  formatted_text_box([ {:text => "by example",
-                        :font => 'Courier',
-                        :size => 60}
+  formatted_text_box([ { :text => "by example",
+                         :font => 'Courier',
+                         :size => 60 }
                      ], :at => [170, cursor - 160])
 
   if Dir.exist?("#{Prawn::BASEDIR}/.git")
@@ -30,9 +30,9 @@ Prawn::ManualBuilder::Example.generate(filename) do
     git_commit = ""
   end
 
-  formatted_text_box([  {:text => "Last Update: #{Time.now.strftime("%Y-%m-%d")}\n" +
-                                  "Prawn Version: #{Prawn::VERSION}\n" +
-                                  git_commit,
-                         :size => 12}
-                    ],   :at => [390, cursor - 620])
+  formatted_text_box([  { :text => "Last Update: #{Time.now.strftime("%Y-%m-%d")}\n" +
+                                   "Prawn Version: #{Prawn::VERSION}\n" +
+                                   git_commit,
+                          :size => 12 }
+                    ], :at => [390, cursor - 620])
 end

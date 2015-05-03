@@ -85,13 +85,13 @@ describe "Core::Text::Formatted::Arranger#next_string" do
     while string = arranger.next_string
       case counter
       when 0
-        arranger.current_format_state.should == { }
+        arranger.current_format_state.should == {}
       when 1
         arranger.current_format_state.should == { :styles => [:bold] }
       when 2
         arranger.current_format_state.should == { :styles => [:bold, :italic] }
       when 3
-        arranger.current_format_state.should == { }
+        arranger.current_format_state.should == {}
       end
       counter += 1
     end
@@ -298,7 +298,7 @@ describe "Core::Text::Formatted::Arranger#line_width with character_spacing > 0"
 
     array = [{ :text => "hello " },
              { :text => "world", :styles => [:bold],
-               :character_spacing => 7}]
+               :character_spacing => 7 }]
     arranger.format_array = array
     while string = arranger.next_string
     end
