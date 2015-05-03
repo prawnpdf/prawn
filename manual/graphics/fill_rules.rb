@@ -28,10 +28,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   text_box "Nonzero Winding Number", :at => [50, 215], :width => 170,
            :align => :center
-  polygon(*pentagram.map { |x, y| [x+50, y] })
+  polygon(*pentagram.map { |x, y| [x + 50, y] })
   fill_and_stroke
 
   text_box "Even-Odd", :at => [330, 215], :width => 170, :align => :center
-  polygon(*pentagram.map { |x, y| [x+330, y] })
+  polygon(*pentagram.map { |x, y| [x + 330, y] })
   fill_and_stroke(:fill_rule => :even_odd)
 end

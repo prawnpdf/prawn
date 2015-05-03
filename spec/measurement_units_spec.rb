@@ -9,7 +9,7 @@ describe "Measurement units" do
     1.mm.should == (72 / 25.4)
     2.mm.should == (2 * 72 / 25.4)
     3.mm.should == 3 * 72 / 25.4
-    -3.mm.should == -3 * 72/25.4
+    -3.mm.should == -3 * 72 / 25.4
     1.cm.should == 10 * 72 / 25.4
     1.dm.should == 100 * 72 / 25.4
     1.m.should == 1000 * 72 / 25.4

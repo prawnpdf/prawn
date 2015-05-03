@@ -181,7 +181,7 @@ module Prawn
           # build the color space array for the image
           obj.data[:ColorSpace] = [:Indexed,
                                    :DeviceRGB,
-                                   (palette.size / 3) -1,
+                                   (palette.size / 3) - 1,
                                    palette_obj]
         end
 

@@ -285,7 +285,7 @@ describe "When reopening pages" do
 
   it "should insert pages after the current page when calling start_new_page" do
     pdf = Prawn::Document.new
-    3.times { |i| pdf.text "Old page #{i+1}"; pdf.start_new_page }
+    3.times { |i| pdf.text "Old page #{i + 1}"; pdf.start_new_page }
     pdf.go_to_page 1
     pdf.start_new_page
     pdf.text "New page 2"
@@ -601,7 +601,7 @@ describe "The number_pages method" do
           2.times { @pdf.start_new_page }
           options = {:page_filter => :all, :start_count_at => startat}
           @pdf.expects(:text_box).with("#{startat} 2", { :height => 50 })
-          @pdf.expects(:text_box).with("#{startat+1} 2", { :height => 50 })
+          @pdf.expects(:text_box).with("#{startat + 1} 2", { :height => 50 })
           @pdf.number_pages "<page> <total>", options
         end
       end

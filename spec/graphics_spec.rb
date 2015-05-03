@@ -277,10 +277,10 @@ describe "Patterns" do
       pattern[:Shading][:ShadingType].should == 2
       pattern[:Shading][:Coords].should == [0, 0, @pdf.bounds.width, 0]
       pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all?{ |x1, x2|
-        (x1-x2).abs < 0.01
+        (x1 - x2).abs < 0.01
       }.should be_true
       pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all?{ |x1, x2|
-        (x1-x2).abs < 0.01
+        (x1 - x2).abs < 0.01
       }.should be_true
     end
 
@@ -313,10 +313,10 @@ describe "Patterns" do
       pattern[:Shading][:ShadingType].should == 3
       pattern[:Shading][:Coords].should == [0, 0, 10, @pdf.bounds.width, 0, 20]
       pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all?{ |x1, x2|
-        (x1-x2).abs < 0.01
+        (x1 - x2).abs < 0.01
       }.should be_true
       pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all?{ |x1, x2|
-        (x1-x2).abs < 0.01
+        (x1 - x2).abs < 0.01
       }.should be_true
     end
 
@@ -393,7 +393,7 @@ describe "When using graphics states" do
     @pdf.stroke_color 0, 0, 0, 0
     @pdf.restore_graphics_state
     @pdf.stroke_color 0, 0, 100, 0
-    @pdf.graphic_state.color_space.should == {:stroke=>:DeviceCMYK}
+    @pdf.graphic_state.color_space.should == {:stroke => :DeviceCMYK}
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
     colors.color_space.should == :DeviceCMYK
     colors.stroke_color_space_count[:DeviceCMYK].should == 2
@@ -435,8 +435,8 @@ describe "When using graphics states" do
     @pdf.graphic_state.join_style.should == :miter
     @pdf.graphic_state.fill_color.should == [0, 0, 100, 0]
     @pdf.graphic_state.cap_style.should == :round
-    @pdf.graphic_state.color_space.should == {:fill=>:DeviceCMYK, :stroke=>:DeviceRGB}
-    @pdf.graphic_state.dash.should == {:space=>5, :phase=>0, :dash=>5}
+    @pdf.graphic_state.color_space.should == {:fill => :DeviceCMYK, :stroke => :DeviceRGB}
+    @pdf.graphic_state.dash.should == {:space => 5, :phase => 0, :dash => 5}
     @pdf.graphic_state.line_width.should == 1
   end
 

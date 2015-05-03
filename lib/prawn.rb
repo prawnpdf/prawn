@@ -36,7 +36,7 @@ module Prawn
 
   def verify_options(accepted, actual) # @private
     return unless debug || $DEBUG
-    unless (act=Set[*actual.keys]).subset?(acc=Set[*accepted])
+    unless (act = Set[*actual.keys]).subset?(acc = Set[*accepted])
       raise Prawn::Errors::UnknownOption,
         "\nDetected unknown option(s): #{(act - acc).to_a.inspect}\n" <<
         "Accepted options are: #{accepted.inspect}"

@@ -20,8 +20,6 @@ Void:
   Enabled: false
 StringLiterals:
   Enabled: false
-SpaceAroundOperators:
-  Enabled: false
 HashSyntax:
   Enabled: false
 UselessAssignment:

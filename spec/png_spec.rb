@@ -94,7 +94,7 @@ describe "When reading an RGB PNG file with transparency (color type 2)" do
   end
 end
 
-describe "When reading an indexed color PNG file "+
+describe "When reading an indexed color PNG file " +
          "wiih transparency (color type 3)" do
   it "raises a not supported error" do
     bin = File.binread("#{Prawn::DATADIR}/images/pal_bk.png")

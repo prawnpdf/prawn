@@ -301,7 +301,7 @@ module Prawn
     #
     def go_to_page(k)
       @page_number = k
-      state.page = state.pages[k-1]
+      state.page = state.pages[k - 1]
       generate_margin_box
       @y = @bounding_box.absolute_top
     end
@@ -569,18 +569,18 @@ module Prawn
     # @private
     def group(*a, &b)
       raise NotImplementedError,
-        "Document#group has been disabled because its implementation "+
-        "lead to corrupted documents whenever a page boundary was "+
-        "crossed. We will try to work on reimplementing it in a "+
+        "Document#group has been disabled because its implementation " +
+        "lead to corrupted documents whenever a page boundary was " +
+        "crossed. We will try to work on reimplementing it in a " +
         "future release"
     end
 
     # @private
     def transaction
       raise NotImplementedError,
-        "Document#transaction has been disabled because its implementation "+
-        "lead to corrupted documents whenever a page boundary was "+
-        "crossed. We will try to work on reimplementing it in a "+
+        "Document#transaction has been disabled because its implementation " +
+        "lead to corrupted documents whenever a page boundary was " +
+        "crossed. We will try to work on reimplementing it in a " +
         "future release"
     end
 

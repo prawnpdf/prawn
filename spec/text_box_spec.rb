@@ -905,7 +905,7 @@ describe "Text::Box wrapping" do
 
   it "should respect multiple newlines when wrapping text" do
     text = "Please wrap only before THIS\n\nword. Don't wrap this"
-    expect= "Please wrap only before\nTHIS\n\nword. Don't wrap this"
+    expect = "Please wrap only before\nTHIS\n\nword. Don't wrap this"
 
     @pdf.font "Courier"
     text_box = Prawn::Text::Box.new(text,

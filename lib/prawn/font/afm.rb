@@ -36,7 +36,7 @@ module Prawn
             ".", "/usr/lib/afm",
             "/usr/local/lib/afm",
             "/usr/openwin/lib/fonts/afm",
-             Prawn::DATADIR+'/fonts']
+             Prawn::DATADIR + '/fonts']
         end
       end
 
@@ -103,7 +103,7 @@ module Prawn
              ::Encoding::UndefinedConversionError
 
         raise Prawn::Errors::IncompatibleStringEncoding,
-          "Your document includes text that's not compatible with the Windows-1252 character set.\n"+
+          "Your document includes text that's not compatible with the Windows-1252 character set.\n" +
           "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
       end
 
