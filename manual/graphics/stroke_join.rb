@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   [:miter, :round, :bevel].each_with_index do |style, i|
     self.join_style = style
 
-    y = 200 - i*100
+    y = 200 - i * 100
     stroke do
       move_to(100, y)
       line_to(200, y + 100)

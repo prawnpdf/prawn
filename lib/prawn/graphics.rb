@@ -65,7 +65,7 @@ module Prawn
     #
     def curve_to(dest,options={})
        options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
-         "Bounding points for bezier curve must be specified "+
+         "Bounding points for bezier curve must be specified " +
          "as :bounds => [[x1,y1],[x2,y2]]"
 
        curve_points = PDF::Core.real_params(
@@ -262,9 +262,9 @@ module Prawn
     # the line segment and the third point helps define the curve for the vertex.
     def rounded_vertex(radius, *points)
       radial_point_1 = point_on_line(radius, points[0], points[1])
-      bezier_point_1 = point_on_line((radius - radius*KAPPA), points[0], points[1] )
+      bezier_point_1 = point_on_line((radius - radius * KAPPA), points[0], points[1] )
       radial_point_2 = point_on_line(radius, points[2], points[1])
-      bezier_point_2 = point_on_line((radius - radius*KAPPA), points[2], points[1])
+      bezier_point_2 = point_on_line((radius - radius * KAPPA), points[2], points[1])
       line_to(radial_point_1)
       curve_to(radial_point_2, :bounds => [bezier_point_1, bezier_point_2])
     end
@@ -632,8 +632,8 @@ module Prawn
       x0,y0,x1,y1 = points.flatten
       length = Math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
       p = (length - distance_from_end) / length
-      xr = x0 + p*(x1 - x0)
-      yr = y0 + p*(y1 - y0)
+      xr = x0 + p * (x1 - x0)
+      yr = y0 + p * (y1 - y0)
       [xr, yr]
     end
   end

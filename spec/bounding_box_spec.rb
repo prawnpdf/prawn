@@ -13,7 +13,7 @@ describe "A bounding box" do
   end
 
   it "should have an anchor at (x, y - height)" do
-    @box.anchor.should == [@x,@y-@height]
+    @box.anchor.should == [@x,@y - @height]
   end
 
   it "should have a left boundary of 0" do
@@ -288,7 +288,7 @@ describe "Indentation" do
         3.times do |column|
           x = @pdf.bounds.left_side
           @pdf.indent(20) do
-            @pdf.bounds.left_side.should == x+20
+            @pdf.bounds.left_side.should == x + 20
           end
           @pdf.bounds.move_past_bottom
         end
@@ -312,7 +312,7 @@ describe "Indentation" do
         3.times do |column|
           x = @pdf.bounds.right_side
           @pdf.indent(20, 10) do
-            @pdf.bounds.right_side.should == x-10
+            @pdf.bounds.right_side.should == x - 10
           end
           @pdf.bounds.move_past_bottom
         end

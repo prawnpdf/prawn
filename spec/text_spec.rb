@@ -127,7 +127,7 @@ describe "#text" do
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should be_within(0.0001).of(position - 3*@pdf.font.height)
+    @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
   it "should advance down the document based on font_height" +
@@ -153,10 +153,10 @@ describe "#text" do
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should be_within(0.0001).of(position - 3*@pdf.font.height)
+    @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
-  it "should advance only to the bottom of the final descender "+
+  it "should advance only to the bottom of the final descender " +
     "if final_gap is false" do
     position = @pdf.y
     @pdf.text "Foo", :final_gap => false
@@ -165,7 +165,7 @@ describe "#text" do
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz", :final_gap => false
-    @pdf.y.should be_within(0.0001).of(position - 2*@pdf.font.height - @pdf.font.ascender - @pdf.font.descender)
+    @pdf.y.should be_within(0.0001).of(position - 2 * @pdf.font.height - @pdf.font.ascender - @pdf.font.descender)
   end
 
   it "should be able to print text starting at the last line of a page" do

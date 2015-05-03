@@ -128,7 +128,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello#{Prawn::Text::SHY}"
   end
 
-  it "should ignore width of a soft-hyphen during adding fragments to line", :issue =>775 do
+  it "should ignore width of a soft-hyphen during adding fragments to line", :issue => 775 do
     hyphen_string = "Hy#{Prawn::Text::SHY}phe#{Prawn::Text::SHY}nat#{Prawn::Text::SHY}ions "
     string1 = @pdf.font.normalize_encoding(hyphen_string * 5)
     string2 = @pdf.font.normalize_encoding("Hyphenations " * 3 + hyphen_string)

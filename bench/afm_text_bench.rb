@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require "prawn"
 require "benchmark"
 
-N=2000
+N = 2000
 
 Benchmark.bmbm do |x|
   x.report("AFM text") do

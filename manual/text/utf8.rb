@@ -13,7 +13,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text "€", :size => 32
   move_down 20
 
-  text "This works, because €  is one of the few "+
+  text "This works, because €  is one of the few " +
        "non-ASCII glyphs supported in PDF built-in fonts."
 
   move_down 20
