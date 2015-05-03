@@ -468,20 +468,26 @@ describe "Text::Formatted::Parser#to_string" do
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
   it "should convert <, >, and & to &lt; &gt;, and &amp;, respectively" do
-    array = [{ :text => "hello ",
-               :styles => [],
-               :color => nil,
-               :link => nil,
-               :font => nil,
-               :size => nil,
-               :character_spacing => nil },
-            { :text => "<, >, and &",
-               :styles => [:bold],
-               :color => nil,
-               :link => nil,
-               :font => nil,
-               :size => nil,
-               :character_spacing => nil }]
+    array = [
+      {
+        :text => "hello ",
+        :styles => [],
+        :color => nil,
+        :link => nil,
+        :font => nil,
+        :size => nil,
+        :character_spacing => nil
+      },
+      {
+        :text => "<, >, and &",
+        :styles => [:bold],
+        :color => nil,
+        :link => nil,
+        :font => nil,
+        :size => nil,
+        :character_spacing => nil
+      }
+    ]
     string = "hello <b>&lt;, &gt;, and &amp;</b>"
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end

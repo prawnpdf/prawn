@@ -329,17 +329,20 @@ module Prawn
         end
 
         def valid_options
-          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign,
-                                              :rotate, :rotate_around,
-                                              :overflow, :min_font_size,
-                                              :disable_wrap_by_char,
-                                              :leading, :character_spacing,
-                                              :mode, :single_line,
-                                              :document,
-                                              :direction,
-                                              :fallback_fonts,
-                                              :draw_text_callback]
+          PDF::Core::Text::VALID_OPTIONS + [
+            :at,
+            :height, :width,
+            :align, :valign,
+            :rotate, :rotate_around,
+            :overflow, :min_font_size,
+            :disable_wrap_by_char,
+            :leading, :character_spacing,
+            :mode, :single_line,
+            :document,
+            :direction,
+            :fallback_fonts,
+            :draw_text_callback
+          ]
         end
 
         private

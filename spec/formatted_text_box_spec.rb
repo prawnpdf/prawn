@@ -25,9 +25,11 @@ describe "Text::Formatted::Box wrapping" do
       :normal => { :file => file, :font => "Kai" }
     }
 
-    texts = [{ :text => "Hello " },
-              { :text => "再见", :font => "Kai"},
-              { :text => "World" }]
+    texts = [
+      { :text => "Hello " },
+      { :text => "再见", :font => "Kai"},
+      { :text => "World" }
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
 
     text_box.render

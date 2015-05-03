@@ -70,8 +70,6 @@ Semicolon:
   Enabled: false
 Documentation:
   Enabled: false
-AlignArray:
-  Enabled: false
 IndentArray:
   Enabled: false
 BracesAroundHashParameters:
