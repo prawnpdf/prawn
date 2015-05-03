@@ -483,7 +483,11 @@ describe "Text::Formatted::Box#render" do
   it "should be able to add URL links" do
     create_pdf
     @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
-           :A => { :Type => :Action, :S => :URI, :URI => "http://example.com" })
+                                                        :A => {
+                                                          :Type => :Action,
+                                                          :S => :URI,
+                                                          :URI => "http://example.com"
+                                                        })
     array = [{ :text => "click " },
              { :text => "here", :link => "http://example.com" },
              { :text => " to visit" }]
@@ -493,7 +497,7 @@ describe "Text::Formatted::Box#render" do
   it "should be able to add destination links" do
     create_pdf
     @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
-                                        :Dest => "ToC")
+                                                        :Dest => "ToC")
     array = [{ :text => "Go to the " },
              { :text => "Table of Contents", :anchor => "ToC" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
@@ -502,7 +506,12 @@ describe "Text::Formatted::Box#render" do
   it "should be able to add local actions" do
     create_pdf
     @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
-           :A => { :Type => :Action, :S => :Launch, :F => "../example.pdf", :NewWindow => true })
+                                                        :A => {
+                                                          :Type => :Action,
+                                                          :S => :Launch,
+                                                          :F => "../example.pdf",
+                                                          :NewWindow => true
+                                                        })
     array = [{ :text => "click " },
              { :text => "here", :local => "../example.pdf" },
              { :text => " to open a local file" }]

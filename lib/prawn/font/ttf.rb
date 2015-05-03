@@ -276,16 +276,16 @@ module Prawn
         fontfile.stream.compress!
 
         descriptor = @document.ref!(:Type        => :FontDescriptor,
-                                   :FontName    => basename.to_sym,
-                                   :FontFile2   => fontfile,
-                                   :FontBBox    => bbox,
-                                   :Flags       => pdf_flags,
-                                   :StemV       => stemV,
-                                   :ItalicAngle => italic_angle,
-                                   :Ascent      => @ascender,
-                                   :Descent     => @descender,
-                                   :CapHeight   => cap_height,
-                                   :XHeight     => x_height)
+                                    :FontName    => basename.to_sym,
+                                    :FontFile2   => fontfile,
+                                    :FontBBox    => bbox,
+                                    :Flags       => pdf_flags,
+                                    :StemV       => stemV,
+                                    :ItalicAngle => italic_angle,
+                                    :Ascent      => @ascender,
+                                    :Descent     => @descender,
+                                    :CapHeight   => cap_height,
+                                    :XHeight     => x_height)
 
         hmtx = font.horizontal_metrics
         widths = font.cmap.tables.first.code_map.map { |gid|

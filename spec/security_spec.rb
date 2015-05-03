@@ -79,8 +79,9 @@ describe "Document encryption" do
       class << @pdf
         public :owner_password_hash, :user_password_hash, :user_encryption_key
       end
-      @pdf.encrypt_document :user_password => 'foo', :owner_password => 'bar',
-        :permissions => { :print_document => false }
+      @pdf.encrypt_document :user_password => 'foo',
+                            :owner_password => 'bar',
+                            :permissions => { :print_document => false }
     end
 
     it "should calculate the correct owner hash" do

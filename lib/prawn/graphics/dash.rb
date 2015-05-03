@@ -61,8 +61,8 @@ module Prawn
         end
 
         self.current_dash_state = { :dash  => length,
-                  :space => length.kind_of?(Array) ? nil : options[:space] || length,
-                  :phase => options[:phase] || 0 }
+                                    :space => length.kind_of?(Array) ? nil : options[:space] || length,
+                                    :phase => options[:phase] || 0 }
 
         write_stroke_dash
       end

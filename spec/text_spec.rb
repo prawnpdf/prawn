@@ -36,7 +36,7 @@ describe "#height_of" do
   it "should raise_error NotImplementedError if :indent_paragraphs option is provided" do
     lambda {
       @pdf.height_of("hai", :width => 300,
-                     :indent_paragraphs => 60)
+                            :indent_paragraphs => 60)
     }.should raise_error(NotImplementedError)
   end
 

@@ -30,8 +30,6 @@ SpaceAfterComma:
   Enabled: false
 Lambda:
   Enabled: false
-AlignHash:
-  Enabled: false
 LineLength:
   Enabled: false
 SpaceBeforeBlockBraces:
