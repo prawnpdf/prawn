@@ -203,9 +203,8 @@ module Prawn
         end
 
         character_hash = Hash[Encoding::WinAnsi::CHARACTERS.zip((0..Encoding::WinAnsi::CHARACTERS.size).to_a)]
-        data[:kern_pair_table] = data[:kern_pairs].inject({}) do |h,p|
+        data[:kern_pair_table] = data[:kern_pairs].each_with_object({}) do |p, h|
           h[p[0].map { |n| character_hash[n] }] = p[1]
-          h
         end
 
         data.each_value(&:freeze)
