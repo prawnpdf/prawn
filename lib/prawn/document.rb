@@ -522,7 +522,7 @@ module Prawn
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
 
-      if opts.has_key?(:page_filter)
+      if opts.key?(:page_filter)
         page_filter = opts.delete(:page_filter)
       else
         page_filter = :all
@@ -531,7 +531,7 @@ module Prawn
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
-      opts[:height] = 50 unless opts.has_key?(:height)
+      opts[:height] = 50 unless opts.key?(:height)
 
       start_count = false
       pseudopage = 0

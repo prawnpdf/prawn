@@ -150,8 +150,6 @@ Alias:
   Enabled: false
 RedundantReturn:
   Enabled: false
-DeprecatedHashMethods:
-  Enabled: false
 WhileUntilModifier:
   Enabled: false
 StringConversionInInterpolation:
