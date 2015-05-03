@@ -72,8 +72,6 @@ Documentation:
   Enabled: false
 AlignArray:
   Enabled: false
-BlockAlignment:
-  Enabled: false
 IndentArray:
   Enabled: false
 BracesAroundHashParameters:

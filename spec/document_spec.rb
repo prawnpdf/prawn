@@ -431,7 +431,7 @@ describe "The group() feature" do
     }.should raise_error(Prawn::Errors::CannotGroup)
   end
 
-   xit "should group within individual column boxes" do
+  xit "should group within individual column boxes" do
     pdf = Prawn::Document.new do
       # Set up columns with grouped blocks of 0..49. 0 to 49 is slightly short
       # of the height of one page / column, so each column should get its own
@@ -504,7 +504,7 @@ describe "PDF file versions" do
 end
 
 describe "Documents that use go_to_page" do
- it "should have 2 pages after calling start_new_page and go_to_page" do
+  it "should have 2 pages after calling start_new_page and go_to_page" do
     @pdf = Prawn::Document.new
     @pdf.text "James"
     @pdf.start_new_page
@@ -534,7 +534,7 @@ describe "Documents that use go_to_page" do
 end
 
 describe "content stream characteristics" do
- it "should have 1 single content stream for a single page PDF" do
+  it "should have 1 single content stream for a single page PDF" do
     @pdf = Prawn::Document.new
     @pdf.text "James"
     output = StringIO.new(@pdf.render)
@@ -545,7 +545,7 @@ describe "content stream characteristics" do
     streams.size.should == 1
   end
 
- it "should have 1 single content stream for a single page PDF, even if go_to_page is used" do
+  it "should have 1 single content stream for a single page PDF, even if go_to_page is used" do
     @pdf = Prawn::Document.new
     @pdf.text "James"
     @pdf.go_to_page(1)
