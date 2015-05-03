@@ -166,8 +166,6 @@ WhileUntilModifier:
   Enabled: false
 StringConversionInInterpolation:
   Enabled: false
-EndAlignment:
-  Enabled: false
 RedundantBegin:
   Enabled: false
 PerlBackrefs:
