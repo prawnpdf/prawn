@@ -16,6 +16,17 @@ AsciiComments:
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
+Style/EmptyLiteral:
+  Enabled: false
+Style/ClosingParenthesisIndentation:
+  Enabled: false
+Style/FirstParameterIndentation:
+  Enabled: false
+Style/SymbolLiteral:
+  Enabled: false
+Style/BlockDelimiters:
+  Enabled: false
+  EnforcedStyle: semantic
 Void:
   Enabled: false
 StringLiterals:
@@ -41,8 +52,6 @@ WordArray:
 SpaceAroundEqualsInParameterDefault:
   Enabled: false
 FormatString:
-  Enabled: false
-Blocks:
   Enabled: false
 SpaceInsideBlockBraces:
   Enabled: false
