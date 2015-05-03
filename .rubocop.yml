@@ -202,7 +202,5 @@ GuardClause:
   Enabled: false
 ElseAlignment:
   Enabled: false
-EachWithObject:
-  Enabled: false
 BlockEndNewline:
   Enabled: false
