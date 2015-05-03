@@ -238,15 +238,9 @@ describe "When setting colors" do
 
   it "should reset the colors on each new page if they have been defined" do
     @pdf.fill_color "ccff00"
-    #colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
 
-    # colors.fill_color_count.should == 2
-    # colors.stroke_color_count.should == 1
     @pdf.start_new_page
     @pdf.stroke_color "ff00cc"
-
-    #colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-    # colors.fill_color_count.should == 3
 
     @pdf.start_new_page
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)

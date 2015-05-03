@@ -7,7 +7,6 @@ module Prawn
   # @group Stable API
 
   module Measurements
-    # ============================================================================
     #metric conversions
     def cm2mm(cm)
       return cm*10
@@ -21,10 +20,8 @@ module Prawn
       return m*1000
     end
 
-    # ============================================================================
     # imperial conversions
     # from http://en.wikipedia.org/wiki/Imperial_units
-
     def ft2in(ft)
       return ft * 12
     end
@@ -33,9 +30,7 @@ module Prawn
       return yd*36
     end
 
-    # ============================================================================
     # PostscriptPoint-converisons
-
     def pt2pt(pt)
       return pt
     end

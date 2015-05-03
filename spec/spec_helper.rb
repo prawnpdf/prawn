@@ -17,7 +17,6 @@ require_relative "../lib/prawn"
 Prawn.debug = true
 Prawn::Font::AFM.hide_m17n_warning = true
 
-#require "test/spec"
 require "rspec"
 require "mocha/api"
 require "pdf/reader"
