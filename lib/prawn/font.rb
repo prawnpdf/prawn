@@ -169,21 +169,21 @@ module Prawn
     #
     def font_families
       @font_families ||= {}.merge!(
-        { "Courier"     => { :bold        => "Courier-Bold",
-                             :italic      => "Courier-Oblique",
-                             :bold_italic => "Courier-BoldOblique",
-                             :normal      => "Courier" },
+        "Courier"     => { :bold        => "Courier-Bold",
+                           :italic      => "Courier-Oblique",
+                           :bold_italic => "Courier-BoldOblique",
+                           :normal      => "Courier" },
 
-          "Times-Roman" => { :bold         => "Times-Bold",
-                             :italic       => "Times-Italic",
-                             :bold_italic  => "Times-BoldItalic",
-                             :normal       => "Times-Roman" },
+        "Times-Roman" => { :bold         => "Times-Bold",
+                           :italic       => "Times-Italic",
+                           :bold_italic  => "Times-BoldItalic",
+                           :normal       => "Times-Roman" },
 
-          "Helvetica"   => { :bold         => "Helvetica-Bold",
-                             :italic       => "Helvetica-Oblique",
-                             :bold_italic  => "Helvetica-BoldOblique",
-                             :normal       => "Helvetica" }
-        })
+        "Helvetica"   => { :bold         => "Helvetica-Bold",
+                           :italic       => "Helvetica-Oblique",
+                           :bold_italic  => "Helvetica-BoldOblique",
+                           :normal       => "Helvetica" }
+      )
     end
 
     # @group Experimental API
