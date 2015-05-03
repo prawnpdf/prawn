@@ -92,8 +92,8 @@ describe "When drawing a rectangle" do
     rectangles = PDF::Inspector::Graphics::Rectangle.
       analyze(@pdf.render).rectangles
     # PDF uses bottom left corner
-    rectangles[0][:point].should  == [200,100]
-    rectangles[0][:width].should  == 50
+    rectangles[0][:point].should == [200,100]
+    rectangles[0][:width].should == 50
     rectangles[0][:height].should == 100
   end
 end
@@ -247,7 +247,7 @@ describe "When setting colors" do
     colors.fill_color_count.should == 3
     colors.stroke_color_count.should == 2
 
-    colors.fill_color.should   == [0.8,1.0,0.0]
+    colors.fill_color.should == [0.8,1.0,0.0]
     colors.stroke_color.should == [1.0,0.0,0.8]
   end
 

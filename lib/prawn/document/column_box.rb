@@ -55,7 +55,7 @@ module Prawn
       def initialize(document, parent, point, options={}) #:nodoc:
         super
         @columns = options[:columns] || 3
-        @spacer  = options[:spacer]  || @document.font_size
+        @spacer  = options[:spacer] || @document.font_size
         @current_column = 0
         @reflow_margins = options[:reflow_margins]
       end

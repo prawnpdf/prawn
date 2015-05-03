@@ -315,7 +315,7 @@ describe "When reopening pages" do
 
       start_new_page(:margin => [200, 200])
 
-      [bounds.width, bounds.height].should == [page1_bounds.width  - 200,
+      [bounds.width, bounds.height].should == [page1_bounds.width - 200,
                                                page1_bounds.height - 200]
 
       go_to_page(1)

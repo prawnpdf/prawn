@@ -127,7 +127,7 @@ describe "drawing bounding boxes" do
 
   it "should restore the parent bounding box when calls are nested" do
     @pdf.bounding_box [100,500], :width => 300, :height => 300 do
-      @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
+      @pdf.bounds.absolute_top.should == 500 + @pdf.margin_box.absolute_bottom
       @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
 
       parent_box = @pdf.bounds
@@ -137,7 +137,7 @@ describe "drawing bounding boxes" do
         @pdf.bounds.absolute_left.should == 50 + parent_box.absolute_left
       end
 
-      @pdf.bounds.absolute_top.should  == 500 + @pdf.margin_box.absolute_bottom
+      @pdf.bounds.absolute_top.should == 500 + @pdf.margin_box.absolute_bottom
       @pdf.bounds.absolute_left.should == 100 + @pdf.margin_box.absolute_left
     end
   end
@@ -407,7 +407,7 @@ describe "Deep-copying" do
         copy = pdf.bounds.deep_copy
 
         # the parent bounds should have the same parameters
-        copy.parent.width.should  == outside.width
+        copy.parent.width.should == outside.width
         copy.parent.height.should == outside.height
 
         # but should not be the same object

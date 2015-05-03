@@ -22,16 +22,16 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text "This text should be right aligned", :align => :right
 
   bounding_box([0, 220], :width => 250, :height => 220) do
-    text "This text is flowing from the left. "   * 4
+    text "This text is flowing from the left. " * 4
 
     move_down 15
     text "This text is flowing from the center. " * 3, :align => :center
 
     move_down 15
-    text "This text is flowing from the right. "  * 4, :align => :right
+    text "This text is flowing from the right. " * 4, :align => :right
 
     move_down 15
-    text "This text is justified. "  * 6, :align => :justify
+    text "This text is justified. " * 6, :align => :justify
     transparent(0.5) { stroke_bounds }
   end
 

@@ -246,7 +246,7 @@ module Prawn
       end
 
       page_options = {
-        :size    => options[:size]   || last_page_size,
+        :size    => options[:size] || last_page_size,
         :layout  => options[:layout] || last_page_layout,
         :margins => last_page_margins
       }
