@@ -267,7 +267,7 @@ describe "AFM fonts" do
   end
 
   it "should calculate string width taking into account accented characters" do
-    input = win1252_string("\xE9")# é in win-1252
+    input = win1252_string("\xE9") # é in win-1252
     @times.compute_width_of(input, :size => 12).should == @times.compute_width_of("e", :size => 12)
   end
 

@@ -186,8 +186,6 @@ BlockComments:
   Enabled: false
 MultilineOperationIndentation:
   Enabled: false
-SpaceBeforeComment:
-  Enabled: false
 AbcSize:
   Enabled: false
 PerceivedComplexity:

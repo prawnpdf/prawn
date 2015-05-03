@@ -64,7 +64,7 @@ module Prawn
     end
 
     def pt2mm(pt)
-      return pt * 1 / mm2pt(1)# (25.4 / 72)
+      return pt * 1 / mm2pt(1) # (25.4 / 72)
     end
   end
 end
