@@ -48,8 +48,6 @@ SpaceInsideBlockBraces:
   Enabled: false
 CollectionMethods:
   Enabled: false
-SpaceInsideHashLiteralBraces:
-  Enabled: false
 DotPosition:
   Enabled: false
 SingleLineBlockParams:
@@ -69,8 +67,6 @@ Documentation:
 IndentArray:
   Enabled: false
 TrailingComma:
-  Enabled: false
-IndentHash:
   Enabled: false
 RegexpLiteral:
   Enabled: false
@@ -151,8 +147,6 @@ MethodName:
 Alias:
   Enabled: false
 RedundantReturn:
-  Enabled: false
-DeprecatedHashMethods:
   Enabled: false
 WhileUntilModifier:
   Enabled: false

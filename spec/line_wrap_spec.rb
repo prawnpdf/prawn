@@ -133,8 +133,8 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string1 = @pdf.font.normalize_encoding(hyphen_string * 5)
     string2 = @pdf.font.normalize_encoding("Hyphenations " * 3 + hyphen_string)
 
-    array1 = [{text: string1}]
-    array2 = [{text: string2}]
+    array1 = [{ text: string1 }]
+    array2 = [{ text: string2 }]
 
     @arranger.format_array = array1
 

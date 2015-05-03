@@ -92,7 +92,7 @@ module Prawn
       end
 
       def set_gutter(options)
-        if options.has_key?(:gutter)
+        if options.key?(:gutter)
           @gutter = options[:gutter].to_f
           @row_gutter, @column_gutter = @gutter, @gutter
         else

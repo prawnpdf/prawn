@@ -143,9 +143,11 @@ module Prawn
       private
 
       def register(subset)
-        font_dict = {:Type     => :Font,
-                     :Subtype  => :Type1,
-                     :BaseFont => name.to_sym}
+        font_dict = {
+          :Type     => :Font,
+          :Subtype  => :Type1,
+          :BaseFont => name.to_sym
+        }
 
         # Symbolic AFM fonts (Symbol, ZapfDingbats) have their own encodings
         font_dict.merge!(:Encoding => :WinAnsiEncoding) unless symbolic?
@@ -165,7 +167,7 @@ module Prawn
       end
 
       def parse_afm(file_name)
-        data    = {:glyph_widths => {}, :bounding_boxes => {}, :kern_pairs => {}, :attributes => {}}
+        data    = { :glyph_widths => {}, :bounding_boxes => {}, :kern_pairs => {}, :attributes => {} }
         section = []
 
         File.foreach(file_name) do |line|

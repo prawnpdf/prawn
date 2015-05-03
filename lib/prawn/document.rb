@@ -245,9 +245,11 @@ module Prawn
         last_page_margins = last_page.margins.dup
       end
 
-      page_options = {:size => options[:size] || last_page_size,
-                      :layout  => options[:layout] || last_page_layout,
-                      :margins => last_page_margins}
+      page_options = {
+        :size    => options[:size]   || last_page_size,
+        :layout  => options[:layout] || last_page_layout,
+        :margins => last_page_margins
+      }
       if last_page
         new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
 
@@ -522,7 +524,7 @@ module Prawn
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
 
-      if opts.has_key?(:page_filter)
+      if opts.key?(:page_filter)
         page_filter = opts.delete(:page_filter)
       else
         page_filter = :all
@@ -531,7 +533,7 @@ module Prawn
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
-      opts[:height] = 50 unless opts.has_key?(:height)
+      opts[:height] = 50 unless opts.key?(:height)
 
       start_count = false
       pseudopage = 0

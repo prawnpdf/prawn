@@ -549,10 +549,10 @@ describe "Text::Formatted::Parser#array_paragraphs" do
              { :text => "how" },
              { :text => "are" },
              { :text => "you" }]
-    target = [[{ :text => "\n"}],
+    target = [[{ :text => "\n" }],
               [{ :text => "hello" }],
               [{ :text => "world" }],
-              [{ :text => "\n"}],
+              [{ :text => "\n" }],
               [{ :text => "how" },
                { :text => "are" },
                { :text => "you" }]]

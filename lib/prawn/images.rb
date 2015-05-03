@@ -91,7 +91,7 @@ module Prawn
 
         # Add the image to the PDF and register it in case we see it again.
         image_obj = info.build_pdf_object(self)
-        image_registry[image_sha1] = {:obj => image_obj, :info => info}
+        image_registry[image_sha1] = { :obj => image_obj, :info => info }
       end
 
       [image_obj, info]

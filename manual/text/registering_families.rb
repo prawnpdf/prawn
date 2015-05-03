@@ -14,9 +14,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   # Registering a single TTF font
-  font_families.update("DejaVu Sans" => {
-    :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-  })
+  font_families.update(
+    "DejaVu Sans" => {
+      :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+    }
+  )
 
   font("DejaVu Sans") do
     text "Using the DejaVu Sans font providing only its name to the font method"
@@ -25,12 +27,14 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   # Registering a DFONT package
   font_path = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
-  font_families.update("Panic Sans" => {
-    :normal      => { :file => font_path, :font => "PanicSans" },
-    :italic      => { :file => font_path, :font => "PanicSans-Italic" },
-    :bold        => { :file => font_path, :font => "PanicSans-Bold" },
-    :bold_italic => { :file => font_path, :font => "PanicSans-BoldItalic" }
-  })
+  font_families.update(
+    "Panic Sans" => {
+      :normal      => { :file => font_path, :font => "PanicSans" },
+      :italic      => { :file => font_path, :font => "PanicSans-Italic" },
+      :bold        => { :file => font_path, :font => "PanicSans-Bold" },
+      :bold_italic => { :file => font_path, :font => "PanicSans-BoldItalic" }
+    }
+  )
 
   font "Panic Sans"
   text "Also using Panic Sans by providing only its name"

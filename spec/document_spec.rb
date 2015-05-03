@@ -5,9 +5,9 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Prawn::Document.new" do
   it "should not modify its argument" do
-    options = {:page_layout => :landscape}
+    options = { :page_layout => :landscape }
     Prawn::Document.new(options)
-    options.should == {:page_layout => :landscape}
+    options.should == { :page_layout => :landscape }
   end
 end
 
@@ -261,7 +261,7 @@ end
 
 describe "Document metadata" do
   it "should output strings as UTF-16 with a byte order mark" do
-    pdf = Prawn::Document.new(:info => {:Author => "Lóránt"})
+    pdf = Prawn::Document.new(:info => { :Author => "Lóránt" })
     pdf.state.store.info.object.should =~
       # UTF-16:     BOM L   ó   r   á   n   t
       %r{/Author\s*<feff004c00f3007200e1006e0074>}i
@@ -599,7 +599,7 @@ describe "The number_pages method" do
       context "equal to #{startat}" do
         it "increments the pages" do
           2.times { @pdf.start_new_page }
-          options = {:page_filter => :all, :start_count_at => startat}
+          options = { :page_filter => :all, :start_count_at => startat }
           @pdf.expects(:text_box).with("#{startat} 2", :height => 50)
           @pdf.expects(:text_box).with("#{startat + 1} 2", :height => 50)
           @pdf.number_pages "<page> <total>", options
@@ -611,7 +611,7 @@ describe "The number_pages method" do
       context "equal to #{val}" do
         it "defaults to start at page 1" do
           3.times { @pdf.start_new_page }
-          options = {:page_filter => :all, :start_count_at => val}
+          options = { :page_filter => :all, :start_count_at => val }
           @pdf.expects(:text_box).with("1 3", :height => 50)
           @pdf.expects(:text_box).with("2 3", :height => 50)
           @pdf.expects(:text_box).with("3 3", :height => 50)
@@ -663,7 +663,7 @@ describe "The number_pages method" do
     context "some crazy proc and 2" do
       it "increments the pages" do
         6.times { @pdf.start_new_page }
-        options = {:page_filter => lambda {|p| p != 2 && p != 5}, :start_count_at => 4}
+        options = { :page_filter => lambda {|p| p != 2 && p != 5}, :start_count_at => 4 }
         @pdf.expects(:text_box).with("4 6", :height => 50) # page 1
         @pdf.expects(:text_box).with("5 6", :height => 50).never # page 2
         @pdf.expects(:text_box).with("6 6", :height => 50) # page 3

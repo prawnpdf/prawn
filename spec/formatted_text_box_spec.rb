@@ -9,10 +9,10 @@ describe "Text::Formatted::Box wrapping" do
 
   it "should not wrap between two fragments" do
     texts = [
-      {:text => "Hello "},
-      {:text => "World"},
-      {:text => "2", :styles => [:superscript]},
-      ]
+      { :text => "Hello " },
+      { :text => "World" },
+      { :text => "2", :styles => [:superscript] },
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
     text_box.text.should == "Hello\nWorld2"
@@ -27,7 +27,7 @@ describe "Text::Formatted::Box wrapping" do
 
     texts = [
       { :text => "Hello " },
-      { :text => "再见", :font => "Kai"},
+      { :text => "再见", :font => "Kai" },
       { :text => "World" }
     ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
@@ -37,19 +37,19 @@ describe "Text::Formatted::Box wrapping" do
 
   it "should wrap between two fragments when the preceding fragment ends with white space" do
     texts = [
-      {:text => "Hello "},
-      {:text => "World "},
-      {:text => "2", :styles => [:superscript]},
-      ]
+      { :text => "Hello " },
+      { :text => "World " },
+      { :text => "2", :styles => [:superscript] },
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
     text_box.text.should == "Hello World\n2"
 
     texts = [
-      {:text => "Hello "},
-      {:text => "World\n"},
-      {:text => "2", :styles => [:superscript]},
-      ]
+      { :text => "Hello " },
+      { :text => "World\n" },
+      { :text => "2", :styles => [:superscript] },
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
     text_box.text.should == "Hello World\n2"
@@ -57,19 +57,19 @@ describe "Text::Formatted::Box wrapping" do
 
   it "should wrap between two fragments when the final fragment begins with white space" do
     texts = [
-      {:text => "Hello "},
-      {:text => "World"},
-      {:text => " 2", :styles => [:superscript]},
-      ]
+      { :text => "Hello " },
+      { :text => "World" },
+      { :text => " 2", :styles => [:superscript] },
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
     text_box.text.should == "Hello World\n2"
 
     texts = [
-      {:text => "Hello "},
-      {:text => "World"},
-      {:text => "\n2", :styles => [:superscript]},
-      ]
+      { :text => "Hello " },
+      { :text => "World" },
+      { :text => "\n2", :styles => [:superscript] },
+    ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
     text_box.text.should == "Hello World\n2"
@@ -285,7 +285,7 @@ end
 describe "Text::Formatted::Box#render" do
   it "should handle newlines" do
     create_pdf
-    array = [{ :text => "hello\nworld"}]
+    array = [{ :text => "hello\nworld" }]
     options = { :document => @pdf }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
@@ -293,7 +293,7 @@ describe "Text::Formatted::Box#render" do
   end
   it "should omit spaces from the beginning of the line" do
     create_pdf
-    array = [{ :text => " hello\n world"}]
+    array = [{ :text => " hello\n world" }]
     options = { :document => @pdf }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
@@ -301,16 +301,16 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be okay printing a line of whitespace" do
     create_pdf
-    array = [{ :text => "hello\n    \nworld"}]
+    array = [{ :text => "hello\n    \nworld" }]
     options = { :document => @pdf }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
     text_box.text.should == "hello\n\nworld"
 
-    array = [{ :text => "hello" + " " * 500},
+    array = [{ :text => "hello" + " " * 500 },
              { :text => " " * 500 },
-             { :text => " " * 500 + "\n"},
-             { :text => "world"}]
+             { :text => " " * 500 + "\n" },
+             { :text => "world" }]
     options = { :document => @pdf }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
@@ -630,12 +630,12 @@ describe "Text::Formatted::Box#render with :valign => :center" do
     y = 450
     array = [{ :text => 'Vertical Align' }]
     options = {
-     :document => @pdf,
-     :valign => :center,
-     :at => [0,y],
-     :width => 100,
-     :height => box_height,
-     :size => 16
+      :document => @pdf,
+      :valign => :center,
+      :at => [0,y],
+      :width => 100,
+      :height => box_height,
+      :size => 16
     }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
@@ -653,12 +653,12 @@ describe "Text::Formatted::Box#render with :valign => :bottom" do
     y = 450
     array = [{ :text => 'Vertical Align' }]
     options = {
-     :document => @pdf,
-     :valign => :bottom,
-     :at => [0,y],
-     :width => 100,
-     :height => box_height,
-     :size => 16
+      :document => @pdf,
+      :valign => :bottom,
+      :at => [0,y],
+      :width => 100,
+      :height => box_height,
+      :size => 16
     }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render
