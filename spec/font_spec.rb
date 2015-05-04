@@ -22,7 +22,7 @@ describe "Font objects" do
     font1 = Prawn::Document.new.font
     font2 = Prawn::Document.new.font
 
-    hash = Hash.new
+    hash = {}
 
     hash[ font1 ] = "Original"
     hash[ font2 ] = "Overwritten"
