@@ -16,8 +16,6 @@ AsciiComments:
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
-Style/EmptyLiteral:
-  Enabled: false
 Style/ClosingParenthesisIndentation:
   Enabled: false
 Style/FirstParameterIndentation:
