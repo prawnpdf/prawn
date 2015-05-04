@@ -117,8 +117,6 @@ module Prawn
           paragraphs
         end
 
-        private
-
         def self.array_from_tokens(tokens)
           array = []
           styles = []

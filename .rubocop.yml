@@ -142,8 +142,6 @@ AccessorMethodName:
   Enabled: false
 SpaceAfterControlKeyword:
   Enabled: false
-UselessAccessModifier:
-  Enabled: false
 PredicateName:
   Enabled: false
 ConstantName:
