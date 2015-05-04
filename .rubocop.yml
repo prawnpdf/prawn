@@ -23,10 +23,6 @@ Style/ClosingParenthesisIndentation:
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
-Style/EmptyLiteral:
-  Enabled: false
-Style/FirstParameterIndentation:
-  Enabled: false
 Style/SymbolLiteral:
   Enabled: false
 Style/BlockDelimiters:
@@ -142,19 +138,13 @@ CaseIndentation:
   Enabled: false
 UnreachableCode:
   Enabled: false
-MultilineTernaryOperator:
-  Enabled: false
 AccessorMethodName:
   Enabled: false
 SpaceAfterControlKeyword:
   Enabled: false
-UselessAccessModifier:
-  Enabled: false
 PredicateName:
   Enabled: false
 ConstantName:
-  Enabled: false
-UnlessElse:
   Enabled: false
 MethodName:
   Enabled: false
@@ -169,8 +159,6 @@ StringConversionInInterpolation:
 RedundantBegin:
   Enabled: false
 PerlBackrefs:
-  Enabled: false
-CharacterLiteral:
   Enabled: false
 ClassVars:
   Enabled: false

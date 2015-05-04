@@ -101,10 +101,10 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
 
     fonts_used = text.font_settings.map { |e| e[:name] }
     fonts_used.length.should == 4
-    fonts_used[0].should == :"Helvetica"
+    fonts_used[0].should == :Helvetica
     fonts_used[1].to_s.should =~ /GBZenKai-Medium/
     fonts_used[2].to_s.should =~ /GBZenKai-Medium/
-    fonts_used[3].should == :"Helvetica"
+    fonts_used[3].should == :Helvetica
 
     text.strings[0].should == "hello"
     text.strings[1].should == "你好"
@@ -133,7 +133,7 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
     fonts_used[0].to_s.should =~ /GBZenKai-Medium/
     fonts_used[1].to_s.should =~ /GBZenKai-Medium/
     fonts_used[2].to_s.should =~ /GBZenKai-Medium/
-    fonts_used[3].should == :"Helvetica"
+    fonts_used[3].should == :Helvetica
 
     text.strings[0].should == "hello"
     text.strings[1].should == "你好"
@@ -164,7 +164,7 @@ describe "Text::Formatted::Box with :fallback_fonts option and fragment " +
 
     fonts_used = text.font_settings.map { |e| e[:name] }
     fonts_used.length.should == 4
-    fonts_used[0].should == :"Helvetica"
+    fonts_used[0].should == :Helvetica
     fonts_used[1].to_s.should =~ /GBZenKai-Medium/
     fonts_used[2].to_s.should =~ /GBZenKai-Medium/
     fonts_used[3].should == :"Times-Roman"
@@ -203,7 +203,7 @@ describe "Text::Formatted::Box" do
 
     fonts_used = text.font_settings.map { |e| e[:name] }
     fonts_used.length.should == 2
-    fonts_used[0].should == :"Helvetica"
+    fonts_used[0].should == :Helvetica
     fonts_used[1].to_s.should =~ /GBZenKai-Medium/
   end
   it "should be able to override document-wide fallback_fonts" do
@@ -214,7 +214,7 @@ describe "Text::Formatted::Box" do
 
     fonts_used = text.font_settings.map { |e| e[:name] }
     fonts_used.length.should == 2
-    fonts_used[0].should == :"Helvetica"
+    fonts_used[0].should == :Helvetica
     fonts_used[1].should =~ /Kai/
   end
   it "should omit the fallback fonts overhead when passing an empty array " +
@@ -338,12 +338,13 @@ end
 describe "Text::Formatted::Box#render" do
   it "should be able to perform fragment callbacks" do
     create_pdf
-    callback_object = TestFragmentCallback.new("something", 7,
-                                               :document => @pdf)
+    callback_object = TestFragmentCallback.new("something", 7, :document => @pdf)
     callback_object.expects(:render_behind).with(
-                                      kind_of(Prawn::Text::Formatted::Fragment))
+      kind_of(Prawn::Text::Formatted::Fragment)
+    )
     callback_object.expects(:render_in_front).with(
-                                      kind_of(Prawn::Text::Formatted::Fragment))
+      kind_of(Prawn::Text::Formatted::Fragment)
+    )
     array = [{ :text => "hello world " },
              { :text => "callback now",
                :callback => callback_object }]
@@ -353,19 +354,21 @@ describe "Text::Formatted::Box#render" do
   it "should be able to perform fragment callbacks on multiple objects" do
     create_pdf
 
-    callback_object = TestFragmentCallback.new("something", 7,
-                                               :document => @pdf)
+    callback_object = TestFragmentCallback.new("something", 7, :document => @pdf)
     callback_object.expects(:render_behind).with(
-                                      kind_of(Prawn::Text::Formatted::Fragment))
+      kind_of(Prawn::Text::Formatted::Fragment)
+    )
     callback_object.expects(:render_in_front).with(
-                                      kind_of(Prawn::Text::Formatted::Fragment))
+      kind_of(Prawn::Text::Formatted::Fragment)
+    )
 
-    callback_object2 = TestFragmentCallback.new("something else", 14,
-                                                :document => @pdf)
+    callback_object2 = TestFragmentCallback.new("something else", 14, :document => @pdf)
     callback_object2.expects(:render_behind).with(
-                                      kind_of(Prawn::Text::Formatted::Fragment))
+      kind_of(Prawn::Text::Formatted::Fragment)
+    )
     callback_object2.expects(:render_in_front).with(
-                                      kind_of(Prawn::Text::Formatted::Fragment))
+      kind_of(Prawn::Text::Formatted::Fragment)
+    )
 
     array = [{ :text => "hello world " },
              { :text => "callback now",
