@@ -104,12 +104,16 @@ module Prawn
           :N => 1.0,
         )
 
+        if args.length == 4
+          coords = [0, 0, args[1].first - args[0].first, args[1].last - args[0].last]
+        else
+          coords = [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]]
+        end
+
         shading = ref!(
           :ShadingType => args.length == 4 ? 2 : 3, # axial : radial shading
           :ColorSpace => color_space(color1),
-          :Coords => args.length == 4 ?
-                        [0, 0, args[1].first - args[0].first, args[1].last - args[0].last] :
-                        [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]],
+          :Coords => coords,
           :Function => shader,
           :Extend => [true, true],
         )
