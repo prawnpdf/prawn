@@ -20,6 +20,13 @@ Style/ClosingParenthesisIndentation:
   Exclude:
     - manual/**/*
 
+# This file shows examples on how to instantiate a document in multiple ways,
+# it does not actually do the instantiation and isn't actually shadowing any
+# variables.
+ShadowingOuterLocalVariable:
+  Exclude:
+    - manual/basic_concepts/creation.rb
+
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
@@ -117,8 +124,6 @@ SelfAssignment:
 Eval:
   Enabled: false
 ClassLength:
-  Enabled: false
-ShadowingOuterLocalVariable:
   Enabled: false
 TrivialAccessors:
   Enabled: false
