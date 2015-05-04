@@ -285,7 +285,11 @@ describe "When reopening pages" do
 
   it "should insert pages after the current page when calling start_new_page" do
     pdf = Prawn::Document.new
-    3.times { |i| pdf.text "Old page #{i + 1}"; pdf.start_new_page }
+    3.times do |i|
+      pdf.text "Old page #{i + 1}"
+      pdf.start_new_page
+    end
+
     pdf.go_to_page 1
     pdf.start_new_page
     pdf.text "New page 2"
@@ -399,7 +403,10 @@ end
 describe "The group() feature" do
   xit "should return a true value if the content fits on one page" do
     pdf = Prawn::Document.new do
-      val = group { text "Hello"; text "World" }
+      val = group {
+        text "Hello"
+        text "World"
+      }
       (!!val).should == true
     end
   end

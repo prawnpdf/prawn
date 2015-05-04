@@ -233,15 +233,24 @@ describe "Document#page_fonts" do
   before(:each) { create_pdf }
 
   it "should register fonts properly by page" do
-    @pdf.font "Courier"; @pdf.text("hello")
-    @pdf.font "Helvetica"; @pdf.text("hello")
-    @pdf.font "Times-Roman"; @pdf.text("hello")
+    @pdf.font "Courier"
+    @pdf.text("hello")
+
+    @pdf.font "Helvetica"
+    @pdf.text("hello")
+
+    @pdf.font "Times-Roman"
+    @pdf.text("hello")
+
     ["Courier","Helvetica","Times-Roman"].each { |f|
       page_should_include_font(f)
     }
 
     @pdf.start_new_page
-    @pdf.font "Helvetica"; @pdf.text("hello")
+
+    @pdf.font "Helvetica"
+    @pdf.text("hello")
+
     page_should_include_font("Helvetica")
     page_should_not_include_font("Courier")
     page_should_not_include_font("Times-Roman")

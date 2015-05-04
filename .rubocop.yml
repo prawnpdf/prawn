@@ -27,6 +27,12 @@ ShadowingOuterLocalVariable:
   Exclude:
     - manual/basic_concepts/creation.rb
 
+# We currently ignore usage of semicolons on this page of the manual so we
+# don't have to worry about changing the content of the manual for now.
+Semicolon:
+  Exclude:
+    - manual/bounding_box/nesting.rb
+
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
@@ -76,8 +82,6 @@ SpaceInsideParens:
 IfUnlessModifier:
   Enabled: false
 NilComparison:
-  Enabled: false
-Semicolon:
   Enabled: false
 Documentation:
   Enabled: false
