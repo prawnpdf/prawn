@@ -247,7 +247,7 @@ describe "#text" do
     @pdf.text "Blaz"
     text = PDF::Inspector::Text.analyze(@pdf.render)
 
-    text.font_settings.size.should  == 2
+    text.font_settings.size.should == 2
     text.font_settings[0][:name].should == :Helvetica
     text.font_settings[1][:name].should == :Helvetica
   end

@@ -55,17 +55,17 @@ describe "A document's grid" do
       exp_tl_x = (grid_width + @gutter.to_f) * 4.0
       exp_tl_y = @pdf.bounds.height.to_f - (grid_height + @gutter.to_f)
 
-      @pdf.grid(1,4).top_left.should      == [exp_tl_x, exp_tl_y]
-      @pdf.grid(1,4).top_right.should     == [exp_tl_x + grid_width, exp_tl_y]
-      @pdf.grid(1,4).bottom_left.should   == [exp_tl_x, exp_tl_y - grid_height]
-      @pdf.grid(1,4).bottom_right.should  == [exp_tl_x + grid_width, exp_tl_y - grid_height]
+      @pdf.grid(1,4).top_left.should == [exp_tl_x, exp_tl_y]
+      @pdf.grid(1,4).top_right.should == [exp_tl_x + grid_width, exp_tl_y]
+      @pdf.grid(1,4).bottom_left.should == [exp_tl_x, exp_tl_y - grid_height]
+      @pdf.grid(1,4).bottom_right.should == [exp_tl_x + grid_width, exp_tl_y - grid_height]
     end
 
     it "should give the edges of a multiple grid boxes" do
       # Hand verified.  Cheating a bit.  Don't tell.
-      @pdf.grid([1,3], [2,5]).top_left.should     == [330.0, 628.75]
-      @pdf.grid([1,3], [2,5]).top_right.should    == [650.0, 628.75]
-      @pdf.grid([1,3], [2,5]).bottom_left.should  == [330.0, 456.25]
+      @pdf.grid([1,3], [2,5]).top_left.should == [330.0, 628.75]
+      @pdf.grid([1,3], [2,5]).top_right.should == [650.0, 628.75]
+      @pdf.grid([1,3], [2,5]).bottom_left.should == [330.0, 456.25]
       @pdf.grid([1,3], [2,5]).bottom_right.should == [650.0, 456.25]
     end
 
@@ -73,7 +73,7 @@ describe "A document's grid" do
       @pdf.grid.show_all('cccccc')
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-      colors.fill_color.should_not   == [0.8,0.8,0.8]
+      colors.fill_color.should_not == [0.8,0.8,0.8]
       colors.stroke_color.should_not == [0.8,0.8,0.8]
 
       # Hardcoded default color as I haven't been able to come up with a stable converter
@@ -88,7 +88,7 @@ describe "A document's grid" do
       @pdf.grid.show_all
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-      colors.fill_color.should   == [0.8,1.0,0.0]
+      colors.fill_color.should == [0.8,1.0,0.0]
       colors.stroke_color.should == [1.0,0.8,0.0]
     end
   end
