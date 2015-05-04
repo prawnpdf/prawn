@@ -240,10 +240,7 @@ module Prawn
       if name.is_a? Prawn::Font
         font_registry[key] = name
       else
-        font_registry[key] ||= Font.load( self,
-                                          name,
-                                          options.merge(family: family)
-                               )
+        font_registry[key] ||= Font.load(self, name, options.merge(family: family))
       end
     end
 
