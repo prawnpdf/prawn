@@ -172,9 +172,10 @@ module Prawn
     def canvas(&block)
       init_bounding_box(block, :hold_position => true) do |_|
         # Canvas bbox acts like margin_box in that its parent bounds are unset.
-        @bounding_box = BoundingBox.new(self, nil, [0,page.dimensions[3]],
-                                        :width => page.dimensions[2],
-                                        :height => page.dimensions[3]
+        @bounding_box = BoundingBox.new(
+          self, nil, [0, page.dimensions[3]],
+          :width => page.dimensions[2],
+          :height => page.dimensions[3]
         )
       end
     end

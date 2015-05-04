@@ -14,9 +14,16 @@ Encoding:
 AsciiComments:
   Enabled: false
 
+# Due to some layout constraints in our examples we want to allow this rule to
+# be ignored in the manual.
+Style/ClosingParenthesisIndentation:
+  Exclude:
+    - manual/**/*
+
+
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
-Style/ClosingParenthesisIndentation:
+Style/EmptyLiteral:
   Enabled: false
 Style/FirstParameterIndentation:
   Enabled: false
