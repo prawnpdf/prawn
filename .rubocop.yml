@@ -162,8 +162,6 @@ RedundantBegin:
   Enabled: false
 PerlBackrefs:
   Enabled: false
-CharacterLiteral:
-  Enabled: false
 ClassVars:
   Enabled: false
 ParameterLists:

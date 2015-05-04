@@ -54,7 +54,7 @@ module Prawn
 
         file_name = @name.dup
         file_name << ".afm" unless file_name =~ /\.afm$/
-        file_name = file_name[0] == ?/ ? file_name : find_font(file_name)
+        file_name = file_name[0] == '/' ? file_name : find_font(file_name)
 
         font_data = @@font_data[file_name] ||= parse_afm(file_name)
         @glyph_widths    = font_data[:glyph_widths]
