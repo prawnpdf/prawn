@@ -23,10 +23,6 @@ Style/ClosingParenthesisIndentation:
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
-Style/EmptyLiteral:
-  Enabled: false
-Style/FirstParameterIndentation:
-  Enabled: false
 Style/SymbolLiteral:
   Enabled: false
 Style/BlockDelimiters:
