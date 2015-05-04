@@ -148,8 +148,6 @@ PredicateName:
   Enabled: false
 ConstantName:
   Enabled: false
-UnlessElse:
-  Enabled: false
 MethodName:
   Enabled: false
 Alias:

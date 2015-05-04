@@ -267,11 +267,11 @@ module PDF
         @on_encode.call(self) if @on_encode
 
         output = "#{@identifier} #{gen} obj\n"
-        unless @stream.empty?
+        if @stream.empty?
+          output << PDF::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
+        else
           output << PDF::Core::EncryptedPdfObject(data.merge(@stream.data), key, @identifier, gen) << "\n" <<
             @stream.encrypted_object(key, @identifier, gen)
-        else
-          output << PDF::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
         end
 
         output << "endobj\n"
