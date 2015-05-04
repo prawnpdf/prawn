@@ -23,8 +23,6 @@ Style/ClosingParenthesisIndentation:
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
-Style/SymbolLiteral:
-  Enabled: false
 Style/BlockDelimiters:
   Enabled: false
   EnforcedStyle: semantic
