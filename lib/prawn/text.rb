@@ -287,10 +287,10 @@ module Prawn
     #
     def draw_text!(text, options)
       unless font.unicode? || font.class.hide_m17n_warning || text.ascii_only?
-        warn "PDF's built-in fonts have very limited support for " +
-             "internationalized text.\nIf you need full UTF-8 support, " +
-             "consider using a TTF font instead.\n\nTo disable this " +
-             "warning, add the following line to your code:\n" +
+        warn "PDF's built-in fonts have very limited support for " \
+             "internationalized text.\nIf you need full UTF-8 support, " \
+             "consider using a TTF font instead.\n\nTo disable this " \
+             "warning, add the following line to your code:\n" \
              "Prawn::Font::AFM.hide_m17n_warning = true\n"
 
         font.class.hide_m17n_warning = true
@@ -332,7 +332,7 @@ module Prawn
     #
     def height_of_formatted(array, options={})
       if options[:indent_paragraphs]
-        raise NotImplementedError, ":indent_paragraphs option not available" +
+        raise NotImplementedError, ":indent_paragraphs option not available" \
           "with height_of"
       end
       process_final_gap_option(options)
@@ -409,7 +409,7 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        raise ArgumentError, ":at is no longer a valid option with text." +
+        raise ArgumentError, ":at is no longer a valid option with text." \
                              "use draw_text or text_box instead"
       end
       process_final_gap_option(options)

@@ -11,7 +11,7 @@ describe "#character_spacing" do
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.character_spacing.first.should == 10.5556
   end
-  it "should not draw the character spacing to the document" +
+  it "should not draw the character spacing to the document" \
     " when the new character spacing matches the old" do
     create_pdf
     @pdf.character_spacing(0) do
@@ -65,7 +65,7 @@ describe "#word_spacing" do
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.word_spacing.first.should == 10.5556
   end
-  it "should draw the word spacing to the document" +
+  it "should draw the word spacing to the document" \
     " when the new word spacing matches the old" do
     create_pdf
     @pdf.word_spacing(0) do

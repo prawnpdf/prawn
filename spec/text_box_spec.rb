@@ -44,7 +44,7 @@ describe "Text::Box#everything_printed?" do
 end
 
 describe "Text::Box#line_gap" do
-  it "should == the line gap of the font when using a single " +
+  it "should == the line gap of the font when using a single " \
     "font and font size" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
@@ -113,7 +113,7 @@ describe "Text::Box" do
                                     :leading => 20)
     text_box.leading.should == 20
   end
-  it "should default to document-wide leading if no" +
+  it "should default to document-wide leading if no" \
     "leading option is provided" do
   end
 end
@@ -140,7 +140,7 @@ describe "Text::Box#render with :align => :justify" do
 end
 
 describe "Text::Box" do
-  it "should only require enough space for the descender and the ascender " +
+  it "should only require enough space for the descender and the ascender " \
      "when determining whether a line can fit" do
     create_pdf
     text = "Oh hai text rect"
@@ -158,7 +158,7 @@ describe "Text::Box" do
 end
 
 describe "Text::Box#height without leading" do
-  it "should == the sum of the height of each line, " +
+  it "should == the sum of the height of each line, " \
     "not including the space below the last line" do
     create_pdf
     text = "Oh hai text rect.\nOh hai text rect."
@@ -170,7 +170,7 @@ describe "Text::Box#height without leading" do
 end
 
 describe "Text::Box#height with leading" do
-  it "should == the sum of the height of each line plus leading, " +
+  it "should == the sum of the height of each line plus leading, " \
     "but not including the space below the last line" do
     create_pdf
     text = "Oh hai text rect.\nOh hai text rect."
@@ -499,7 +499,7 @@ describe "Text::Box default height" do
     end
   end
 
-  it "should use the parent-box bottom if in a stretchy bbox and " +
+  it "should use the parent-box bottom if in a stretchy bbox and " \
     "overflow is :expand, even with an explicit height"do
     @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
       target_height = @pdf.y - @pdf.bounds.bottom
@@ -548,8 +548,8 @@ describe "Text::Box with text than can fit in the box" do
     }
   end
 
-  it "printed text should match requested text, except that preceding and " +
-    "trailing white space will be stripped from each line, and newlines may " +
+  it "printed text should match requested text, except that preceding and " \
+    "trailing white space will be stripped from each line, and newlines may " \
     "be inserted" do
     text_box = Prawn::Text::Box.new("  " + @text, @options)
     text_box.render
@@ -724,8 +724,8 @@ describe "Text::Box with more text than can fit in the box" do
 
   context "truncated with text and size taken from the manual" do
     it "should return the right text" do
-      @text = "This is the beginning of the text. It will be cut somewhere and " +
-        "the rest of the text will procede to be rendered this time by " +
+      @text = "This is the beginning of the text. It will be cut somewhere and " \
+        "the rest of the text will procede to be rendered this time by " \
         "calling another method." + " . " * 50
       @options[:width] = 300
       @options[:height] = 50
@@ -782,7 +782,7 @@ describe "Text::Box with more text than can fit in the box" do
   end
 end
 
-describe "Text::Box with enough space to fit the text but using the " +
+describe "Text::Box with enough space to fit the text but using the " \
   "shrink_to_fit overflow" do
   it "should not shrink the text when there is no need to" do
     create_pdf
@@ -877,7 +877,7 @@ describe "Text::Box wrapping" do
   # for other characters, so wrapping "hello hello" resulted in
   # "hello\n\nhello", rather than "hello\nhello"
   #
-  it "white space at beginning of line should not be taken into account when" +
+  it "white space at beginning of line should not be taken into account when" \
     " computing line width" do
     text = "hello hello"
     expect = "hello\nhello"

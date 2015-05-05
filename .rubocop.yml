@@ -14,9 +14,12 @@ Encoding:
 AsciiComments:
   Enabled: false
 
-# Due to some layout constraints in our examples we want to allow this rule to
+# Due to some layout constraints in our examples we want to allow these rule to
 # be ignored in the manual.
 Style/ClosingParenthesisIndentation:
+  Exclude:
+    - manual/**/*
+LineEndConcatenation:
   Exclude:
     - manual/**/*
 
@@ -48,8 +51,6 @@ StringLiterals:
 HashSyntax:
   Enabled: false
 UselessAssignment:
-  Enabled: false
-LineEndConcatenation:
   Enabled: false
 SpaceAfterComma:
   Enabled: false

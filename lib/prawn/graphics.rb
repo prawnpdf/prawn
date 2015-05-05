@@ -65,7 +65,7 @@ module Prawn
     #
     def curve_to(dest,options={})
       options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
-                                "Bounding points for bezier curve must be specified " +
+                                "Bounding points for bezier curve must be specified " \
                                 "as :bounds => [[x1,y1],[x2,y2]]"
 
       curve_points = PDF::Core.real_params(

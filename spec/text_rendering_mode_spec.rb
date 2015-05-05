@@ -11,7 +11,7 @@ describe "#text_rendering_mode" do
     contents = PDF::Inspector::Text.analyze(@pdf.render)
     contents.text_rendering_mode.first.should == 1
   end
-  it "should not draw the text rendering mode to the document" +
+  it "should not draw the text rendering mode to the document" \
     " when the new mode matches the old" do
     create_pdf
     @pdf.text_rendering_mode(:fill) do

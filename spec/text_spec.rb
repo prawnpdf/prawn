@@ -11,7 +11,7 @@ end
 describe "#height_of" do
   before(:each) { create_pdf }
 
-  it "should return the height that would be required to print a" +
+  it "should return the height that would be required to print a" \
     "particular string of text" do
     original_y = @pdf.y
     @pdf.text("Foo")
@@ -19,7 +19,7 @@ describe "#height_of" do
     @pdf.height_of("Foo").should be_within(0.0001).of(original_y - new_y)
   end
 
-  it "should omit the gap below the last descender if :final_gap => false " +
+  it "should omit the gap below the last descender if :final_gap => false " \
     "is given" do
     original_y = @pdf.y
     @pdf.text("Foo", :final_gap => false)
@@ -80,7 +80,7 @@ describe "#text" do
     text.strings.reject(&:empty?).should == ["text", "text"]
   end
 
-  it "should correctly render strings ending with empty paragraphs and " +
+  it "should correctly render strings ending with empty paragraphs and " \
      ":inline_format and :indent_paragraphs" do
     @pdf.text "text\n\n", :inline_format => true, :indent_paragraphs => 5
     text = PDF::Inspector::Text.analyze(@pdf.render)
@@ -130,8 +130,7 @@ describe "#text" do
     @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
-  it "should advance down the document based on font_height" +
-    " with size option" do
+  it "should advance down the document based on font_height with size option" do
     position = @pdf.y
     @pdf.text "Foo", :size => 15
 
@@ -143,8 +142,7 @@ describe "#text" do
     @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
-  it "should advance down the document based on font_height" +
-    " with leading option" do
+  it "should advance down the document based on font_height with leading option" do
     position = @pdf.y
     leading = 2
     @pdf.text "Foo", :leading => leading
@@ -156,8 +154,7 @@ describe "#text" do
     @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
-  it "should advance only to the bottom of the final descender " +
-    "if final_gap is false" do
+  it "should advance only to the bottom of the final descender if final_gap is false" do
     position = @pdf.y
     @pdf.text "Foo", :final_gap => false
 
@@ -218,8 +215,7 @@ describe "#text" do
     text.font_settings[1][:size].should == 12
   end
 
-  it "should allow manual setting the font size " +
-    "when in a font size block" do
+  it "should allow manual setting the font size when in a font size block" do
     @pdf.font_size(16) do
       @pdf.text 'Foo'
       @pdf.text 'Blah', :size => 11
@@ -279,8 +275,7 @@ describe "#text" do
     text.strings.first.should == str
   end
 
-  it "subsets mixed low-ASCII and non-ASCII characters when they can be " +
-     "subsetted together" do
+  it "subsets mixed low-ASCII and non-ASCII characters when they can be subsetted together" do
     str = "It’s super effective!"
     @pdf.font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
     @pdf.text str
@@ -289,8 +284,7 @@ describe "#text" do
     text.strings.first.should == str
   end
 
-  it "should correctly render a string with higher bit characters across" +
-     " a page break when using a built-in font" do
+  it "should correctly render a string with higher bit characters across a page break when using a built-in font" do
     str = "©"
     @pdf.move_cursor_to(@pdf.font.height)
     @pdf.text(str + "\n" + str)
@@ -301,7 +295,7 @@ describe "#text" do
     pages[1][:strings].should == [str]
   end
 
-  it "should correctly render a string with higher bit characters across" +
+  it "should correctly render a string with higher bit characters across" \
     " a page break when using a built-in font and :indent_paragraphs option" do
     str = "©"
     @pdf.move_cursor_to(@pdf.font.height)
@@ -328,7 +322,7 @@ describe "#text" do
     @pdf.text(sjis_str)
   end
 
-  it "should call move_past_bottom when printing more text than can fit" +
+  it "should call move_past_bottom when printing more text than can fit" \
      " between the current document.y and bounds.bottom" do
     @pdf.y = @pdf.font.height
     @pdf.text "Hello"
@@ -451,8 +445,8 @@ describe "#text" do
       x_positions[3].should == 0
     end
 
-    describe "when wrap to new page, and first line of new page" +
-             " is not the start of a new paragraph, that line should" +
+    describe "when wrap to new page, and first line of new page" \
+             " is not the start of a new paragraph, that line should" \
              " not be indented" do
       it "should indent the paragraphs" do
         hello = "hello " * 50
@@ -466,8 +460,8 @@ describe "#text" do
         text.strings[4].should == ("hello " * 21).strip
       end
     end
-    describe "when wrap to new page, and first line of new page" +
-             " is the start of a new paragraph, that line should" +
+    describe "when wrap to new page, and first line of new page" \
+             " is the start of a new paragraph, that line should" \
              " be indented" do
       it "should indent the paragraphs" do
         hello = "hello " * 50

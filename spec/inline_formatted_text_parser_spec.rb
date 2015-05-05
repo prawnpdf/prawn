@@ -491,8 +491,7 @@ describe "Text::Formatted::Parser#to_string" do
     string = "hello <b>&lt;, &gt;, and &amp;</b>"
     Prawn::Text::Formatted::Parser.to_string(array).should == string
   end
-  it "should construct an HTML-esque string from a formatted" +
-    " text array" do
+  it "should construct an HTML-esque string from a formatted text array" do
     array = [
              { :text => "hello ",
                :styles => [],

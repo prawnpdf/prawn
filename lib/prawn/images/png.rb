@@ -69,7 +69,7 @@ module Prawn
             case @color_type
             when 3
               raise Errors::UnsupportedImageType,
-                    "Pallete-based transparency in PNG is not currently supported.\n" +
+                    "Pallete-based transparency in PNG is not currently supported.\n" \
                     "See https://github.com/prawnpdf/prawn/issues/783"
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.

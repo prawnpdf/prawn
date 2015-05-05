@@ -18,8 +18,8 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
                                   :document => @pdf)
     string.should == "hello world, goodbye"
   end
-  it "should strip trailing spaces when a white-space-only fragment was" +
-     " successfully pushed onto the end of a line but no other non-white" +
+  it "should strip trailing spaces when a white-space-only fragment was" \
+     " successfully pushed onto the end of a line but no other non-white" \
      " space fragment fits after it" do
     array = [{ :text => "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " },
              { :text => "  ", :style => [:bold] },
@@ -88,7 +88,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello-"
   end
 
-  it "should not break after a hyphen that follows white space and" +
+  it "should not break after a hyphen that follows white space and" \
      "precedes a word" do
     array = [{ :text => "hello -" }]
     @arranger.format_array = array
@@ -152,7 +152,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     res1.should == res2
   end
 
-  it "should not display soft hyphens except at the end of a line " +
+  it "should not display soft hyphens except at the end of a line " \
      "for more than one element in format_array", :issue => 347 do
     @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @line_wrap = Prawn::Text::Formatted::LineWrap.new
@@ -203,7 +203,7 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     string.should == "hello"
   end
 
-  it "should not break after a hard hyphen that follows a soft hyphen and" +
+  it "should not break after a hard hyphen that follows a soft hyphen and" \
     "precedes a word" do
     string = @pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}-")
     array = [{ :text => string }]
@@ -296,7 +296,7 @@ describe "Core::Text::Formatted::LineWrap" do
     @arranger.format_array = array
     @line_wrap = Prawn::Text::Formatted::LineWrap.new
   end
-  it "should only return an empty string if nothing fit or there" +
+  it "should only return an empty string if nothing fit or there" \
      "was nothing to wrap" do
     8.times do
       line = @line_wrap.wrap_line(:arranger => @arranger,
