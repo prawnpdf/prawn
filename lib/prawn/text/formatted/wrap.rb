@@ -101,9 +101,7 @@ module Prawn
         end
 
         def word_spacing_for_this_line
-          if @align == :justify &&
-              @line_wrap.space_count > 0 &&
-              !@line_wrap.paragraph_finished?
+          if @align == :justify && @line_wrap.space_count > 0 && !@line_wrap.paragraph_finished?
             (available_width - @line_wrap.width) / @line_wrap.space_count
           else
             0

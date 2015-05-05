@@ -27,6 +27,10 @@ Style/ClosingParenthesisIndentation:
 LineEndConcatenation:
   Exclude:
     - manual/**/*
+MultilineOperationIndentation:
+  Exclude:
+    - manual/**/*
+    - prawn.gemspec
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -164,8 +168,6 @@ PerlBackrefs:
 ClassVars:
   Enabled: false
 ParameterLists:
-  Enabled: false
-MultilineOperationIndentation:
   Enabled: false
 AbcSize:
   Enabled: false

@@ -89,8 +89,7 @@ describe "When drawing a rectangle" do
   it "should use a point, width, and height for coords" do
     @pdf.rectangle [200,200], 50, 100
 
-    rectangles = PDF::Inspector::Graphics::Rectangle.
-      analyze(@pdf.render).rectangles
+    rectangles = PDF::Inspector::Graphics::Rectangle.analyze(@pdf.render).rectangles
     # PDF uses bottom left corner
     rectangles[0][:point].should == [200,100]
     rectangles[0][:width].should == 50
