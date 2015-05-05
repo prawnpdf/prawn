@@ -237,6 +237,14 @@ describe Prawn::Graphics do
       expect(colors.fill_color).to eq([0.8, 1.0, 0])
     end
 
+    it 'raises an error for a color with a leading #' do
+      expect { pdf.fill_color '#ccff00' }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an error for a color string that is not a hex' do
+      expect { pdf.fill_color 'zcff00' }.to raise_error(ArgumentError)
+    end
+
     it 'resets the colors on each new page if they have been defined' do
       pdf.fill_color 'ccff00'
 

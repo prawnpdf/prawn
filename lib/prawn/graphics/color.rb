@@ -94,7 +94,11 @@ module Prawn
       def color_type(color)
         case color
         when String
-          :RGB
+          if color =~ /\A[0-F]{6}\z/i
+            :RGB
+          else
+            raise ArgumentError, "Unknown type of color: #{color.inspect}"
+          end
         when Array
           case color.length
           when 3
