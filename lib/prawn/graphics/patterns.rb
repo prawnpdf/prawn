@@ -101,7 +101,7 @@ module Prawn
           :Domain => [0.0, 1.0],
           :C0 => color1,
           :C1 => color2,
-          :N => 1.0,
+          :N => 1.0
         )
 
         if args.length == 4
@@ -115,14 +115,14 @@ module Prawn
           :ColorSpace => color_space(color1),
           :Coords => coords,
           :Function => shader,
-          :Extend => [true, true],
+          :Extend => [true, true]
         )
 
         ref!(
           :PatternType => 2, # shading pattern
           :Shading => shading,
           :Matrix => [1, 0,
-                      0, 1] + map_to_absolute(args[0]),
+                      0, 1] + map_to_absolute(args[0])
         )
       end
     end

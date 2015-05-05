@@ -87,8 +87,6 @@ SpaceInsideParens:
   Enabled: false
 Documentation:
   Enabled: false
-TrailingComma:
-  Enabled: false
 RegexpLiteral:
   Enabled: false
 MethodLength:
