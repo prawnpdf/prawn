@@ -121,8 +121,6 @@ ClassLength:
   Enabled: false
 TrivialAccessors:
   Enabled: false
-AccessModifierIndentation:
-  Enabled: false
 CaseEquality:
   Enabled: false
 RedundantSelf:
