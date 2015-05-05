@@ -139,8 +139,6 @@ ModuleFunction:
   Enabled: false
 CyclomaticComplexity:
   Enabled: false
-CaseIndentation:
-  Enabled: false
 UnreachableCode:
   Enabled: false
 AccessorMethodName:

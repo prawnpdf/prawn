@@ -47,13 +47,13 @@ module Prawn
         end
 
         operator = case type
-        when :fill
-          'scn'
-        when :stroke
-          'SCN'
-        else
-          raise ArgumentError, "unknown type '#{type}'"
-        end
+                   when :fill
+                     'scn'
+                   when :stroke
+                     'SCN'
+                   else
+                     raise ArgumentError, "unknown type '#{type}'"
+                   end
 
         set_color_space type, :Pattern
         renderer.add_content "/SP#{registry_key} #{operator}"

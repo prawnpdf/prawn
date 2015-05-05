@@ -32,17 +32,17 @@ module Prawn
 
       # FIXME: Any way to move this upstream?
       left_boundary = case(options[:position] || :left)
-      when :left
-        margin_box.absolute_left
-      when :center
-        margin_box.absolute_left + margin_box.width / 2.0 - width / 2.0
-      when :right
-        margin_box.absolute_right - width
-      when Numeric
-        margin_box.absolute_left + options[:position]
-      else
-        raise ArgumentError, "Invalid option for :position"
-      end
+                      when :left
+                        margin_box.absolute_left
+                      when :center
+                        margin_box.absolute_left + margin_box.width / 2.0 - width / 2.0
+                      when :right
+                        margin_box.absolute_right - width
+                      when Numeric
+                        margin_box.absolute_left + options[:position]
+                      else
+                        raise ArgumentError, "Invalid option for :position"
+                      end
 
       # we need to bust out of whatever nested bounding boxes we're in.
       canvas do

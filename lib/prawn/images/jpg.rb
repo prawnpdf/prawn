@@ -54,15 +54,15 @@ module Prawn
       #
       def build_pdf_object(document)
         color_space = case channels
-        when 1
-          :DeviceGray
-        when 3
-          :DeviceRGB
-        when 4
-          :DeviceCMYK
-        else
-          raise ArgumentError, 'JPG uses an unsupported number of channels'
-        end
+                      when 1
+                        :DeviceGray
+                      when 3
+                        :DeviceRGB
+                      when 4
+                        :DeviceCMYK
+                      else
+                        raise ArgumentError, 'JPG uses an unsupported number of channels'
+                      end
 
         obj = document.ref!(
           :Type             => :XObject,
