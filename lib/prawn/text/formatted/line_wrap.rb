@@ -120,11 +120,11 @@ module Prawn
         # The pattern used to determine chunks of text to place on a given line
         #
         def scan_pattern
-          pattern = "[^#{break_chars}]+#{soft_hyphen}|" +
-            "[^#{break_chars}]+#{hyphen}+|" +
-            "[^#{break_chars}]+|" +
-            "[#{whitespace}]+|" +
-            "#{hyphen}+[^#{break_chars}]*|" +
+          pattern = "[^#{break_chars}]+#{soft_hyphen}|" \
+            "[^#{break_chars}]+#{hyphen}+|" \
+            "[^#{break_chars}]+|" \
+            "[#{whitespace}]+|" \
+            "#{hyphen}+[^#{break_chars}]*|" \
             "#{soft_hyphen}"
 
           Regexp.new(pattern)

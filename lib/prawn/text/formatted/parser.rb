@@ -15,19 +15,19 @@ module Prawn
         # @group Extension API
 
         PARSER_REGEX = begin
-          regex_string = "\n|" +
-                         "<b>|</b>|" +
-                         "<i>|</i>|" +
-                         "<u>|</u>|" +
-                         "<strikethrough>|</strikethrough>|" +
-                         "<sub>|</sub>|" +
-                         "<sup>|</sup>|" +
-                         "<link[^>]*>|</link>|" +
-                         "<color[^>]*>|</color>|" +
-                         "<font[^>]*>|</font>|" +
-                         "<strong>|</strong>|" +
-                         "<em>|</em>|" +
-                         "<a[^>]*>|</a>|" +
+          regex_string = "\n|" \
+                         "<b>|</b>|" \
+                         "<i>|</i>|" \
+                         "<u>|</u>|" \
+                         "<strikethrough>|</strikethrough>|" \
+                         "<sub>|</sub>|" \
+                         "<sup>|</sup>|" \
+                         "<link[^>]*>|</link>|" \
+                         "<color[^>]*>|</color>|" \
+                         "<font[^>]*>|</font>|" \
+                         "<strong>|</strong>|" \
+                         "<em>|</em>|" \
+                         "<a[^>]*>|</a>|" \
                          "[^<\n]+"
           Regexp.new(regex_string, Regexp::MULTILINE)
         end
@@ -81,9 +81,9 @@ module Prawn
 
             if hash[:color]
               if hash[:color].kind_of?(Array)
-                prefix = prefix + "<color c='#{hash[:color][0]}'" +
-                                        " m='#{hash[:color][1]}'" +
-                                        " y='#{hash[:color][2]}'" +
+                prefix = prefix + "<color c='#{hash[:color][0]}'" \
+                                        " m='#{hash[:color][1]}'" \
+                                        " y='#{hash[:color][2]}'" \
                                         " k='#{hash[:color][3]}'>"
               else
                 prefix = prefix + "<color rgb='#{hash[:color]}'>"

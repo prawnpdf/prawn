@@ -91,8 +91,7 @@ describe "#draw_text" do
     text.font_settings[1][:size].should == 12
   end
 
-  it "should allow manual setting the font size " +
-    "when in a font size block" do
+  it "should allow manual setting the font size when in a font size block" do
     @pdf.font_size(16) do
       @pdf.draw_text('Foo', :at => [0, 0])
       @pdf.draw_text('Blah', :size => 11, :at => [0, 0])

@@ -17,7 +17,7 @@ end
 describe "#text with inline styling" do
   before(:each) { create_pdf }
 
-  it "should automatically move to a new page if the tallest fragment" +
+  it "should automatically move to a new page if the tallest fragment" \
      " on the next line won't fit in the available space" do
     create_pdf
     @pdf.move_cursor_to(@pdf.font.height)

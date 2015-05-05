@@ -36,7 +36,7 @@ describe "#stamp_at" do
 end
 
 describe "Document with a stamp" do
-  it "should raise_error NameTaken error when attempt to create stamp " +
+  it "should raise_error NameTaken error when attempt to create stamp " \
      "with same name as an existing stamp" do
     create_pdf
     @pdf.create_stamp("MyStamp")
@@ -45,7 +45,7 @@ describe "Document with a stamp" do
     }.should raise_error(Prawn::Errors::NameTaken)
   end
 
-  it "should raise_error InvalidName error when attempt to create " +
+  it "should raise_error InvalidName error when attempt to create " \
      "stamp with a blank name" do
     create_pdf
     lambda {
@@ -65,7 +65,7 @@ describe "Document with a stamp" do
     xobjects.length.should == 2
   end
 
-  it "calling stamp with a name that does not match an existing stamp " +
+  it "calling stamp with a name that does not match an existing stamp " \
      "should raise_error UndefinedObjectName" do
     create_pdf
     @pdf.create_stamp("MyStamp")
@@ -106,7 +106,7 @@ describe "Document with a stamp" do
     end
   end
 
-  it "resources added during stamp creation should be added to the " +
+  it "resources added during stamp creation should be added to the " \
      "stamp XObject, not the page" do
     create_pdf
     @pdf.create_stamp("MyStamp") do

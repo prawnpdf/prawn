@@ -13,7 +13,7 @@ describe "When drawing a line" do
     line_drawing.points.should == [[100,600],[100,500]]
   end
 
-  it "should draw two lines at (100,600) to (100,500) " +
+  it "should draw two lines at (100,600) to (100,500) " \
      "and (75,100) to (50,125)" do
     @pdf.line(100,600,100,500)
     @pdf.line(75,100,50,125)

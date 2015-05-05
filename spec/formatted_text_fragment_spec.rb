@@ -11,7 +11,7 @@ describe "Text::Formatted::Fragment#space_count" do
                                                     @pdf)
     fragment.space_count.should == 2
   end
-  it "should exclude trailing spaces from the count when " +
+  it "should exclude trailing spaces from the count when " \
     ":exclude_trailing_white_space => true" do
     create_pdf
     format_state = { :exclude_trailing_white_space => true }
@@ -44,7 +44,7 @@ describe "Text::Formatted::Fragment#text" do
                                                     @pdf)
     fragment.text.should == "hello world "
   end
-  it "should return the fragment text without trailing spaces when " +
+  it "should return the fragment text without trailing spaces when " \
     ":exclude_trailing_white_space => true" do
     create_pdf
     format_state = { :exclude_trailing_white_space => true }
@@ -179,7 +179,7 @@ describe "Text::Formatted::Fragment" do
   end
 
   describe "#absolute_bounding_box" do
-    it "should return the bounding box surrounding the fragment" +
+    it "should return the bounding box surrounding the fragment" \
        " in absolute coordinates" do
       target_box = [50, 193, 150, 217]
         target_box[0] += @pdf.bounds.absolute_left
@@ -275,7 +275,7 @@ describe "Text::Formatted::Fragment with :direction => :rtl" do
 end
 
 describe "Text::Formatted::Fragment default_direction=" do
-  it "should set the direction if there is no fragment level direction " +
+  it "should set the direction if there is no fragment level direction " \
      "specification" do
     create_pdf
     format_state = {}
@@ -285,7 +285,7 @@ describe "Text::Formatted::Fragment default_direction=" do
     fragment.default_direction = :rtl
     fragment.direction.should == :rtl
   end
-  it "should not set the direction if there is a fragment level direction " +
+  it "should not set the direction if there is a fragment level direction " \
      "specification" do
     create_pdf
     format_state = { :direction => :rtl }

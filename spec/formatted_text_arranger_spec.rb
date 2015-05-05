@@ -56,7 +56,7 @@ describe "Core::Text::Formatted::Arranger#next_string" do
              { :text => " you?" }]
     @arranger.format_array = array
   end
-  it "should raise_error an error if called after a line was finalized and" +
+  it "should raise_error an error if called after a line was finalized and" \
      " before a new line was initialized" do
     @arranger.finalize_line
     lambda do
@@ -113,7 +113,7 @@ describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
       arranger.retrieve_fragment
     end.should raise_error(RuntimeError)
   end
-  it "should return the consumed fragments in order of consumption" +
+  it "should return the consumed fragments in order of consumption" \
      " and update" do
     create_pdf
     arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
@@ -167,7 +167,7 @@ describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
 end
 
 describe "Core::Text::Formatted::Arranger#update_last_string" do
-  it "should update the last retrieved string with what actually fit on" +
+  it "should update the last retrieved string with what actually fit on" \
      "the line and the list of unconsumed with what did not" do
     create_pdf
     arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
@@ -237,7 +237,7 @@ describe "Core::Text::Formatted::Arranger#space_count" do
   end
 end
 describe "Core::Text::Formatted::Arranger#finalize_line" do
-  it "should make it so that all trailing white space fragments " +
+  it "should make it so that all trailing white space fragments " \
      "exclude trailing white space" do
     create_pdf
     arranger = Prawn::Text::Formatted::Arranger.new(@pdf)

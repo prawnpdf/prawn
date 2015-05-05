@@ -85,7 +85,7 @@ describe "Text::Formatted::Box wrapping" do
   end
 end
 
-describe "Text::Formatted::Box with :fallback_fonts option that includes" +
+describe "Text::Formatted::Box with :fallback_fonts option that includes" \
   "a Chinese font and set of Chinese glyphs not in the current font" do
   it "should change the font to the Chinese font for the Chinese glyphs" do
     create_pdf
@@ -113,7 +113,7 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
   end
 end
 
-describe "Text::Formatted::Box with :fallback_fonts option that includes" +
+describe "Text::Formatted::Box with :fallback_fonts option that includes" \
   "an AFM font and Win-Ansi glyph not in the current Chinese font" do
   it "should change the font to the AFM font for the Win-Ansi glyph" do
     create_pdf
@@ -142,7 +142,7 @@ describe "Text::Formatted::Box with :fallback_fonts option that includes" +
   end
 end
 
-describe "Text::Formatted::Box with :fallback_fonts option and fragment " +
+describe "Text::Formatted::Box with :fallback_fonts option and fragment " \
   "level font" do
   it "should use the fragment level font except for glyphs not in that font" do
     create_pdf
@@ -217,7 +217,7 @@ describe "Text::Formatted::Box" do
     fonts_used[0].should == :Helvetica
     fonts_used[1].should =~ /Kai/
   end
-  it "should omit the fallback fonts overhead when passing an empty array " +
+  it "should omit the fallback fonts overhead when passing an empty array " \
     "as the :fallback_fonts" do
     @pdf.font("Kai")
 
@@ -241,7 +241,7 @@ describe "Text::Formatted::Box" do
   end
 end
 
-describe "Text::Formatted::Box with :fallback_fonts option " +
+describe "Text::Formatted::Box with :fallback_fonts option " \
   "with glyphs not in the primary or the fallback fonts" do
   it "should raise an exception" do
    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
@@ -263,7 +263,7 @@ describe "Text::Formatted::Box#extensions" do
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.strings[0].should == "all your base are belong to us"
   end
-  it "overriding Text::Formatted::Box line wrapping should not affect " +
+  it "overriding Text::Formatted::Box line wrapping should not affect " \
      "Text::Box wrapping" do
     create_pdf
     Prawn::Text::Formatted::Box.extensions << TestFormattedWrapOverride

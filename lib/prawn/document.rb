@@ -573,18 +573,18 @@ module Prawn
     # @private
     def group(*a, &b)
       raise NotImplementedError,
-            "Document#group has been disabled because its implementation " +
-            "lead to corrupted documents whenever a page boundary was " +
-            "crossed. We will try to work on reimplementing it in a " +
+            "Document#group has been disabled because its implementation " \
+            "lead to corrupted documents whenever a page boundary was " \
+            "crossed. We will try to work on reimplementing it in a " \
             "future release"
     end
 
     # @private
     def transaction
       raise NotImplementedError,
-            "Document#transaction has been disabled because its implementation " +
-            "lead to corrupted documents whenever a page boundary was " +
-            "crossed. We will try to work on reimplementing it in a " +
+            "Document#transaction has been disabled because its implementation " \
+            "lead to corrupted documents whenever a page boundary was " \
+            "crossed. We will try to work on reimplementing it in a " \
             "future release"
     end
 
