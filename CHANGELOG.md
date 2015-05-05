@@ -1,6 +1,14 @@
 
 ## PrawnPDF master branch
 
+### Validate colors passed in as strings must be valid hexadecimal
+
+Colors that were passed with a # would previously be misrepresented. Now
+any colors passed in as a string must be valid hexadecimal or they will
+raise an error.
+
+(Tom Prats, [#807](https://github.com/prawnpdf/prawn/issues/807), [#869](https://github.com/prawnpdf/prawn/issues/869))
+
 ### Added support for PNG images with indexed transparency
 
 Prawn now properly hadles transparency in PNG images with indexed color.

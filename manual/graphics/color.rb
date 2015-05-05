@@ -10,7 +10,7 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
 
-  # Fill with Yellow using RGB
+  # Fill with Yellow using RGB (Unlike css, there is no leading #)
   fill_color "FFFFCC"
   fill_polygon [50, 150], [150, 200], [250, 150],
                [250, 50], [150, 0], [50, 50]
