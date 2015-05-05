@@ -414,7 +414,8 @@ describe "Core::Text::Formatted::Arranger#repack_unretrieved" do
     arranger.retrieve_fragment
     arranger.repack_unretrieved
     arranger.unconsumed.should == [
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you now?" }]
+      { :text => "are", :styles => [:bold, :italic] },
+      { :text => " you now?" }
+    ]
   end
 end

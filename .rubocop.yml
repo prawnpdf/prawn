@@ -14,6 +14,11 @@ Encoding:
 AsciiComments:
   Enabled: false
 
+# We don't always prefer modified if statements even if they do fit on
+# a line.
+IfUnlessModifier:
+  Enabled: false
+
 # Due to some layout constraints in our examples we want to allow these rule to
 # be ignored in the manual.
 Style/ClosingParenthesisIndentation:
@@ -80,11 +85,7 @@ PercentLiteralDelimiters:
   Enabled: false
 SpaceInsideParens:
   Enabled: false
-IfUnlessModifier:
-  Enabled: false
 Documentation:
-  Enabled: false
-IndentArray:
   Enabled: false
 TrailingComma:
   Enabled: false
