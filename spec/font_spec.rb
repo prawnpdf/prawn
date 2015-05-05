@@ -82,7 +82,7 @@ describe "#width_of" do
     @pdf.font_families.update(
       'DejaVu Sans' => {
         :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
-        :bold => "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf",
+        :bold => "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
       }
     )
     @pdf.font("DejaVu Sans") {

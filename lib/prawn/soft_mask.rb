@@ -42,7 +42,7 @@ module Prawn
         :Type => :XObject,
         :Subtype => :Form,
         :BBox => state.page.dimensions,
-        :Group => group_attrs,
+        :Group => group_attrs
       )
 
       state.page.stamp_stream(group, &block)
@@ -62,13 +62,13 @@ module Prawn
         :OP => false,
         :op => false,
         :OPM => 1,
-        :SA => true,
+        :SA => true
       )
 
       registry_key = {
         :bbox => state.page.dimensions,
         :mask => [group.stream.filters.normalized, group.stream.filtered_stream],
-        :page => state.page_count,
+        :page => state.page_count
       }.hash
 
       if soft_mask_registry[registry_key]

@@ -11,7 +11,7 @@ describe "Text::Formatted::Box wrapping" do
     texts = [
       { :text => "Hello " },
       { :text => "World" },
-      { :text => "2", :styles => [:superscript] },
+      { :text => "2", :styles => [:superscript] }
     ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
@@ -39,7 +39,7 @@ describe "Text::Formatted::Box wrapping" do
     texts = [
       { :text => "Hello " },
       { :text => "World " },
-      { :text => "2", :styles => [:superscript] },
+      { :text => "2", :styles => [:superscript] }
     ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
@@ -48,7 +48,7 @@ describe "Text::Formatted::Box wrapping" do
     texts = [
       { :text => "Hello " },
       { :text => "World\n" },
-      { :text => "2", :styles => [:superscript] },
+      { :text => "2", :styles => [:superscript] }
     ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
@@ -59,7 +59,7 @@ describe "Text::Formatted::Box wrapping" do
     texts = [
       { :text => "Hello " },
       { :text => "World" },
-      { :text => " 2", :styles => [:superscript] },
+      { :text => " 2", :styles => [:superscript] }
     ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
@@ -68,7 +68,7 @@ describe "Text::Formatted::Box wrapping" do
     texts = [
       { :text => "Hello " },
       { :text => "World" },
-      { :text => "\n2", :styles => [:superscript] },
+      { :text => "\n2", :styles => [:superscript] }
     ]
     text_box = Prawn::Text::Formatted::Box.new(texts, :document => @pdf, :width => @pdf.width_of("Hello World"))
     text_box.render
