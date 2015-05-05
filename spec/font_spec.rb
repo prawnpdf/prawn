@@ -322,7 +322,7 @@ describe "AFM fonts" do
   it "should omit /Encoding for symbolic fonts" do
     zapf = @pdf.find_font "ZapfDingbats"
     font_dict = zapf.send(:register, nil)
-    font_dict.data[:Encoding].should == nil
+    font_dict.data[:Encoding].should be_nil
   end
 end
 
