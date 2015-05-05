@@ -199,32 +199,32 @@ describe "on_page_create callback" do
   end
 
   it "should be replaceable" do
-      trigger1 = mock
-      trigger1.expects(:fire).times(1)
+    trigger1 = mock
+    trigger1.expects(:fire).times(1)
 
-      trigger2 = mock
-      trigger2.expects(:fire).times(1)
+    trigger2 = mock
+    trigger2.expects(:fire).times(1)
 
-      @pdf.renderer.on_page_create { trigger1.fire }
+    @pdf.renderer.on_page_create { trigger1.fire }
 
-      @pdf.start_new_page
+    @pdf.start_new_page
 
-      @pdf.renderer.on_page_create { trigger2.fire }
+    @pdf.renderer.on_page_create { trigger2.fire }
 
-      @pdf.start_new_page
+    @pdf.start_new_page
   end
 
   it "should be clearable by calling on_page_create without a block" do
-      trigger = mock
-      trigger.expects(:fire).times(1)
+    trigger = mock
+    trigger.expects(:fire).times(1)
 
-      @pdf.renderer.on_page_create { trigger.fire }
+    @pdf.renderer.on_page_create { trigger.fire }
 
-      @pdf.start_new_page
+    @pdf.start_new_page
 
-      @pdf.renderer.on_page_create
+    @pdf.renderer.on_page_create
 
-      @pdf.start_new_page
+    @pdf.start_new_page
   end
 end
 
@@ -251,8 +251,8 @@ describe "Document compression" do
     doc_uncompressed = Prawn::Document.new
     doc_compressed   = Prawn::Document.new(:compress => true)
     [doc_compressed, doc_uncompressed].each do |pdf|
-       pdf.font "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
-       pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
+      pdf.font "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+      pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
     end
 
     doc_compressed.render.length.should be < doc_uncompressed.render.length

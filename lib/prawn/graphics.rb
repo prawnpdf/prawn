@@ -624,7 +624,7 @@ module Prawn
     end
 
     def degree_to_rad(angle)
-       angle * Math::PI / 180
+      angle * Math::PI / 180
     end
 
     # Returns the coordinates for a point on a line that is a given distance away from the second

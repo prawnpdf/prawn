@@ -244,7 +244,7 @@ end
 describe "Text::Formatted::Box with :fallback_fonts option " \
   "with glyphs not in the primary or the fallback fonts" do
   it "should raise an exception" do
-   file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+    file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
     create_pdf
     formatted_text = [{ :text => "hello world. 世界你好。" }]
 

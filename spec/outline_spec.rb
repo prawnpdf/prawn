@@ -316,7 +316,7 @@ describe "Outline" do
 
       describe "#adjust_relations" do
         it "should reset the sibling relations of adjoining item to inserted item" do
-           referenced_object(@page_2[:Next]).should == @inserted_page
+          referenced_object(@page_2[:Next]).should == @inserted_page
         end
 
         it "should set the sibling relation of added item to adjoining items" do

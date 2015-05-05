@@ -48,7 +48,7 @@ module Prawn
     end
 
     def mm2pt(mm)
-        return mm * (72 / 25.4)
+      return mm * (72 / 25.4)
     end
 
     def cm2pt(cm)

@@ -25,15 +25,15 @@ describe "When drawing a line" do
   end
 
   it "should properly set line width via line_width=" do
-     @pdf.line_width = 10
-     line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-     line.widths.first.should == 10
+    @pdf.line_width = 10
+    line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line.widths.first.should == 10
   end
 
   it "should properly set line width via line_width(width)" do
-     @pdf.line_width(10)
-     line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-     line.widths.first.should == 10
+    @pdf.line_width(10)
+    line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line.widths.first.should == 10
   end
 
   it "should carry the current line width settings over to new pages" do

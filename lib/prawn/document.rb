@@ -696,9 +696,9 @@ module Prawn
       end
 
       [:left,:right,:top,:bottom].each do |side|
-         if margin = options[:"#{side}_margin"]
-           state.page.margins[side] = margin
-         end
+        if margin = options[:"#{side}_margin"]
+          state.page.margins[side] = margin
+        end
       end
     end
 
