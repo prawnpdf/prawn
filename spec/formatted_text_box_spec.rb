@@ -320,10 +320,10 @@ describe "Text::Formatted::Box#render" do
     create_pdf
     number_of_hellos = 18
     array = [
-             { :text => "hello " * number_of_hellos },
-             { :text => "world", :direction => :ltr },
-             { :text => ", how are you?" }
-            ]
+      { :text => "hello " * number_of_hellos },
+      { :text => "world", :direction => :ltr },
+      { :text => ", how are you?" }
+    ]
     options = { :document => @pdf, :direction => :rtl }
     text_box = Prawn::Text::Formatted::Box.new(array, options)
     text_box.render

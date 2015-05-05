@@ -34,5 +34,5 @@ Prawn::ManualBuilder::Example.generate(filename) do
                                    "Prawn Version: #{Prawn::VERSION}\n" +
                                    git_commit,
                           :size => 12 }
-                    ], :at => [390, cursor - 620])
+                     ], :at => [390, cursor - 620])
 end
