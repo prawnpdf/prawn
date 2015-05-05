@@ -25,15 +25,15 @@ describe "When drawing a line" do
   end
 
   it "should properly set line width via line_width=" do
-     @pdf.line_width = 10
-     line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-     line.widths.first.should == 10
+    @pdf.line_width = 10
+    line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line.widths.first.should == 10
   end
 
   it "should properly set line width via line_width(width)" do
-     @pdf.line_width(10)
-     line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-     line.widths.first.should == 10
+    @pdf.line_width(10)
+    line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
+    line.widths.first.should == 10
   end
 
   it "should carry the current line width settings over to new pages" do
@@ -89,8 +89,7 @@ describe "When drawing a rectangle" do
   it "should use a point, width, and height for coords" do
     @pdf.rectangle [200,200], 50, 100
 
-    rectangles = PDF::Inspector::Graphics::Rectangle.
-      analyze(@pdf.render).rectangles
+    rectangles = PDF::Inspector::Graphics::Rectangle.analyze(@pdf.render).rectangles
     # PDF uses bottom left corner
     rectangles[0][:point].should == [200,100]
     rectangles[0][:width].should == 50

@@ -143,26 +143,26 @@ module Prawn
         end
 
         operator = case type
-        when :fill
-          'cs'
-        when :stroke
-          'CS'
-        else
-          raise ArgumentError, "unknown type '#{type}'"
-        end
+                   when :fill
+                     'cs'
+                   when :stroke
+                     'CS'
+                   else
+                     raise ArgumentError, "unknown type '#{type}'"
+                   end
 
         renderer.add_content "/#{color_space} #{operator}"
       end
 
       def set_color(type, color, options = {})
         operator = case type
-        when :fill
-          'scn'
-        when :stroke
-          'SCN'
-        else
-          raise ArgumentError, "unknown type '#{type}'"
-        end
+                   when :fill
+                     'scn'
+                   when :stroke
+                     'SCN'
+                   else
+                     raise ArgumentError, "unknown type '#{type}'"
+                   end
 
         if options[:pattern]
           set_color_space type, :Pattern

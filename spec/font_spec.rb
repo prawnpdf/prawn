@@ -144,8 +144,10 @@ describe "font style support" do
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
     text.font_settings.map { |e| e[:name] }.should ==
-     [:"Courier-Bold", :"Courier-BoldOblique", :"Courier-Oblique",
-      :Courier, :Helvetica]
+      [
+        :"Courier-Bold", :"Courier-BoldOblique", :"Courier-Oblique",
+        :Courier, :Helvetica
+      ]
   end
 
   it "should allow font familes to be defined in a single dfont" do

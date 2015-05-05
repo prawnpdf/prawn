@@ -148,28 +148,28 @@ module Prawn
       options[:position] ||= :left
 
       y = case options[:vposition]
-      when :top
-        bounds.absolute_top
-      when :center
-        bounds.absolute_top - (bounds.height - h) / 2.0
-      when :bottom
-        bounds.absolute_bottom + h
-      when Numeric
-        bounds.absolute_top - options[:vposition]
-      else
-        determine_y_with_page_flow(h)
-      end
+          when :top
+            bounds.absolute_top
+          when :center
+            bounds.absolute_top - (bounds.height - h) / 2.0
+          when :bottom
+            bounds.absolute_bottom + h
+          when Numeric
+            bounds.absolute_top - options[:vposition]
+          else
+            determine_y_with_page_flow(h)
+          end
 
       x = case options[:position]
-      when :left
-        bounds.left_side
-      when :center
-        bounds.left_side + (bounds.width - w) / 2.0
-      when :right
-        bounds.right_side - w
-      when Numeric
-        options[:position] + bounds.left_side
-      end
+          when :left
+            bounds.left_side
+          when :center
+            bounds.left_side + (bounds.width - w) / 2.0
+          when :right
+            bounds.right_side - w
+          when Numeric
+            options[:position] + bounds.left_side
+          end
 
       return [x,y]
     end

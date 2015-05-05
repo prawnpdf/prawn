@@ -200,13 +200,15 @@ describe "Core::Text::Formatted::Arranger#update_last_string" do
 
   context "when the entire string was used" do
     it "should not push empty string onto unconsumed" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you now?" }]
-    arranger.format_array = array
+      create_pdf
+      arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
+      array = [
+        { :text => "hello " },
+        { :text => "world how ", :styles => [:bold] },
+        { :text => "are", :styles => [:bold, :italic] },
+        { :text => " you now?" }
+      ]
+      arranger.format_array = array
       while string = arranger.next_string
       end
       arranger.update_last_string(" you now?", "", nil)

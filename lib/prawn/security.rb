@@ -213,7 +213,7 @@ module PDF
       case obj
       when Array
         "[" << obj.map { |e|
-            EncryptedPdfObject(e, key, id, gen, in_content_stream)
+          EncryptedPdfObject(e, key, id, gen, in_content_stream)
         }.join(' ') << "]"
       when LiteralString
         obj = ByteString.new(Prawn::Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
@@ -234,8 +234,7 @@ module PDF
             raise PDF::Core::Errors::FailedObjectConversion,
                   "A PDF Dictionary must be keyed by names"
           end
-          output << PdfObject(k.to_sym, in_content_stream) << " " <<
-                    EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
+          output << PdfObject(k.to_sym, in_content_stream) << " " << EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
         end
         output << ">>"
       when NameTree::Value

@@ -182,10 +182,11 @@ describe "Text::Formatted::Fragment" do
     it "should return the bounding box surrounding the fragment" \
        " in absolute coordinates" do
       target_box = [50, 193, 150, 217]
-        target_box[0] += @pdf.bounds.absolute_left
-        target_box[1] += @pdf.bounds.absolute_bottom
-        target_box[2] += @pdf.bounds.absolute_left
-        target_box[3] += @pdf.bounds.absolute_bottom
+      target_box[0] += @pdf.bounds.absolute_left
+      target_box[1] += @pdf.bounds.absolute_bottom
+      target_box[2] += @pdf.bounds.absolute_left
+      target_box[3] += @pdf.bounds.absolute_bottom
+
       @fragment.absolute_bounding_box.should == target_box
     end
   end

@@ -73,7 +73,7 @@ module Prawn
 
       # Calculates the base height of boxes.
       def row_height
-       @row_height ||= subdivide(pdf.bounds.height, rows, row_gutter)
+        @row_height ||= subdivide(pdf.bounds.height, rows, row_gutter)
       end
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.

@@ -202,17 +202,13 @@ module Prawn
 
         def update_output_based_on_last_fragment(fragment, normalized_soft_hyphen=nil)
           remaining_text = fragment.slice(@fragment_output.length..fragment.length)
-          raise Prawn::Errors::CannotFit if line_finished? && line_empty? &&
-            @fragment_output.empty? && !fragment.strip.empty?
+          raise Prawn::Errors::CannotFit if line_finished? && line_empty? && @fragment_output.empty? && !fragment.strip.empty?
           @arranger.update_last_string(@fragment_output, remaining_text, normalized_soft_hyphen)
         end
 
         def determine_whether_to_pull_preceding_fragment_to_join_this_one(current_fragment)
-          if @fragment_output.empty? &&
-              !current_fragment.empty? &&
-              @line_contains_more_than_one_word
-            unless previous_fragment_ended_with_breakable? ||
-                fragment_begins_with_breakable?(current_fragment)
+          if @fragment_output.empty? && !current_fragment.empty? && @line_contains_more_than_one_word
+            unless previous_fragment_ended_with_breakable? || fragment_begins_with_breakable?(current_fragment)
               @fragment_output = @previous_fragment_output_without_last_word
               update_output_based_on_last_fragment(@previous_fragment)
             end

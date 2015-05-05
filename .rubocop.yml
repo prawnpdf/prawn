@@ -27,6 +27,10 @@ Style/ClosingParenthesisIndentation:
 LineEndConcatenation:
   Exclude:
     - manual/**/*
+MultilineOperationIndentation:
+  Exclude:
+    - manual/**/*
+    - prawn.gemspec
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -91,8 +95,6 @@ RegexpLiteral:
   Enabled: false
 MethodLength:
   Enabled: false
-IndentationWidth:
-  Enabled: false
 VariableInterpolation:
   Enabled: false
 EvenOdd:
@@ -100,8 +102,6 @@ EvenOdd:
 AmbiguousOperator:
   Enabled: false
 SingleSpaceBeforeFirstArg:
-  Enabled: false
-IndentationConsistency:
   Enabled: false
 AndOr:
   Enabled: false
@@ -125,8 +125,6 @@ ClassLength:
   Enabled: false
 TrivialAccessors:
   Enabled: false
-AccessModifierIndentation:
-  Enabled: false
 CaseEquality:
   Enabled: false
 RedundantSelf:
@@ -140,8 +138,6 @@ MultilineIfThen:
 ModuleFunction:
   Enabled: false
 CyclomaticComplexity:
-  Enabled: false
-CaseIndentation:
   Enabled: false
 UnreachableCode:
   Enabled: false
@@ -170,8 +166,6 @@ PerlBackrefs:
 ClassVars:
   Enabled: false
 ParameterLists:
-  Enabled: false
-MultilineOperationIndentation:
   Enabled: false
 AbcSize:
   Enabled: false
