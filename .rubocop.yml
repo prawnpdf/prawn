@@ -25,6 +25,10 @@ HandleExceptions:
   Exclude:
     - lib/prawn/text/formatted/box.rb
 
+# %w() style arrays don't always look better.
+WordArray:
+  Enabled: false
+
 # Due to some layout constraints in our examples we want to allow these rule to
 # be ignored in the manual.
 Style/ClosingParenthesisIndentation:
@@ -76,8 +80,6 @@ LineLength:
 SpaceBeforeBlockBraces:
   Enabled: false
 SpaceInsideBrackets:
-  Enabled: false
-WordArray:
   Enabled: false
 SpaceAroundEqualsInParameterDefault:
   Enabled: false
