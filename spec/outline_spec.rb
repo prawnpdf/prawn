@@ -304,14 +304,14 @@ describe "Outline" do
     describe "inserting at the end of another section" do
       before(:each) do
         @pdf.go_to_page 2
-         @pdf.start_new_page
-         @pdf.text "Inserted Page"
-         @pdf.outline.update do
-           insert_section_after 'Page 2' do
-             page :destination => page_number, :title => "Inserted Page"
-           end
-         end
-         render_and_find_objects
+        @pdf.start_new_page
+        @pdf.text "Inserted Page"
+        @pdf.outline.update do
+          insert_section_after 'Page 2' do
+            page :destination => page_number, :title => "Inserted Page"
+          end
+        end
+        render_and_find_objects
       end
 
       describe "#adjust_relations" do

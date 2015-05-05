@@ -99,8 +99,6 @@ AmbiguousOperator:
   Enabled: false
 SingleSpaceBeforeFirstArg:
   Enabled: false
-IndentationConsistency:
-  Enabled: false
 AndOr:
   Enabled: false
 AssignmentInCondition:
