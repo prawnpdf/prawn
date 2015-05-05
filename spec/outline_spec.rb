@@ -371,7 +371,7 @@ describe "foreign character encoding" do
 
   it "should handle other encodings for the title" do
     object = find_by_title('La pomme croquée')
-    object.should_not == nil
+    object.should_not be_nil
   end
 end
 

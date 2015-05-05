@@ -82,8 +82,6 @@ SpaceInsideParens:
   Enabled: false
 IfUnlessModifier:
   Enabled: false
-NilComparison:
-  Enabled: false
 Documentation:
   Enabled: false
 IndentArray:
