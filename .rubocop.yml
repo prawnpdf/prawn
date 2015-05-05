@@ -19,6 +19,12 @@ AsciiComments:
 IfUnlessModifier:
   Enabled: false
 
+# In this case we supress Prawn::Errors::CannotFit while trying to scale
+# text down to fit.
+HandleExceptions:
+  Exclude:
+    - lib/prawn/text/formatted/box.rb
+
 # Due to some layout constraints in our examples we want to allow these rule to
 # be ignored in the manual.
 Style/ClosingParenthesisIndentation:
@@ -112,8 +118,6 @@ ClassAndModuleChildren:
 NumericLiterals:
   Enabled: false
 SignalException:
-  Enabled: false
-HandleExceptions:
   Enabled: false
 DoubleNegation:
   Enabled: false
