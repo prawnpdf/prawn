@@ -150,13 +150,8 @@ module Prawn
           "-"
         end
 
-        def soft_hyphen
-          @soft_hyphen
-        end
-
-        def zero_width_space
-          @zero_width_space
-        end
+        attr_reader :soft_hyphen
+        attr_reader :zero_width_space
 
         def line_empty?
           @line_empty && @accumulated_width == 0

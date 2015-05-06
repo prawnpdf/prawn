@@ -448,10 +448,7 @@ module Prawn
       end
 
       # Width of the bounding box
-      #
-      def width
-        @width
-      end
+      attr_reader :width
 
       # Height of the bounding box.  If the box is 'stretchy' (unspecified
       # height attribute), height is calculated as the distance from the top of
