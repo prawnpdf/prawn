@@ -719,7 +719,7 @@ describe "The page_match? method" do
   end
 
   it "must provide an :odd filter" do
-    odd, even = (1..@pdf.page_count).partition { |e| e % 2 == 1 }
+    odd, even = (1..@pdf.page_count).partition(&:odd?)
     odd.all? { |i| @pdf.page_match?(:odd, i) }.should be_true
     even.any? { |i| @pdf.page_match?(:odd, i) }.should be_false
   end

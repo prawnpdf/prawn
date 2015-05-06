@@ -603,9 +603,9 @@ module Prawn
       when :all
         true
       when :odd
-        page_number % 2 == 1
+        page_number.odd?
       when :even
-        page_number % 2 == 0
+        page_number.even?
       when Range, Array
         page_filter.include?(page_number)
       when Proc

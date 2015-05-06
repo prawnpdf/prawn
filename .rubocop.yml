@@ -106,8 +106,6 @@ MethodLength:
   Enabled: false
 VariableInterpolation:
   Enabled: false
-EvenOdd:
-  Enabled: false
 AmbiguousOperator:
   Enabled: false
 SingleSpaceBeforeFirstArg:
