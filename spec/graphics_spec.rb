@@ -101,7 +101,7 @@ describe "When drawing a curve" do
   before(:each) { create_pdf }
 
   it "should draw a bezier curve from 50,50 to 100,100" do
-    @pdf.move_to  [50,50]
+    @pdf.move_to [50,50]
     @pdf.curve_to [100,100],:bounds => [[20,90], [90,70]]
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     curve.coords.should == [50.0, 50.0, 20.0, 90.0, 90.0, 70.0, 100.0, 100.0]

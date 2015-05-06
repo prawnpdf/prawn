@@ -346,7 +346,7 @@ describe "When setting page size" do
   end
 
   it "should allow custom page size" do
-    @pdf = Prawn::Document.new(:page_size => [1920, 1080] )
+    @pdf = Prawn::Document.new(:page_size => [1920, 1080])
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
     pages.first[:size].should == [1920, 1080]
   end
@@ -719,7 +719,7 @@ describe "The page_match? method" do
   end
 
   it "must provide an :odd filter" do
-    odd, even = (1..@pdf.page_count).partition { |e| e % 2 == 1 }
+    odd, even = (1..@pdf.page_count).partition(&:odd?)
     odd.all? { |i| @pdf.page_match?(:odd, i) }.should be_true
     even.any? { |i| @pdf.page_match?(:odd, i) }.should be_false
   end

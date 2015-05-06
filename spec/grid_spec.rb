@@ -48,9 +48,9 @@ describe "A document's grid" do
 
     it "should give the edges of a grid box" do
       grid_width = (@pdf.bounds.width.to_f -
-        (@gutter * (@num_columns - 1).to_f )) / @num_columns.to_f
+        (@gutter * (@num_columns - 1).to_f)) / @num_columns.to_f
       grid_height = (@pdf.bounds.height.to_f -
-        (@gutter * (@num_rows - 1).to_f )) / @num_rows.to_f
+        (@gutter * (@num_rows - 1).to_f)) / @num_rows.to_f
 
       exp_tl_x = (grid_width + @gutter.to_f) * 4.0
       exp_tl_y = @pdf.bounds.height.to_f - (grid_height + @gutter.to_f)

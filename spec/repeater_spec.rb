@@ -25,7 +25,7 @@ describe "Repeaters" do
     doc = sample_document
     r = repeater(doc, :odd) { :do_nothing }
 
-    odd, even = (1..doc.page_count).partition { |e| e % 2 == 1 }
+    odd, even = (1..doc.page_count).partition(&:odd?)
 
     odd.all? { |i| r.match?(i) }.should be_true
     even.any? { |i| r.match?(i) }.should be_false

@@ -101,7 +101,7 @@ module Prawn
     # @group Stable Attributes
 
     attr_accessor :margin_box
-    attr_reader   :margins, :y
+    attr_reader :margins, :y
     attr_accessor :page_number
 
     # @group Extension Attributes
@@ -603,9 +603,9 @@ module Prawn
       when :all
         true
       when :odd
-        page_number % 2 == 1
+        page_number.odd?
       when :even
-        page_number % 2 == 0
+        page_number.even?
       when Range, Array
         page_filter.include?(page_number)
       when Proc
@@ -703,7 +703,7 @@ module Prawn
     end
 
     def font_metric_cache #:nodoc:
-      @font_metric_cache ||= FontMetricCache.new( self )
+      @font_metric_cache ||= FontMetricCache.new(self)
     end
   end
 end

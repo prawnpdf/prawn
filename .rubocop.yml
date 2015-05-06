@@ -19,6 +19,16 @@ AsciiComments:
 IfUnlessModifier:
   Enabled: false
 
+# In this case we supress Prawn::Errors::CannotFit while trying to scale
+# text down to fit.
+HandleExceptions:
+  Exclude:
+    - lib/prawn/text/formatted/box.rb
+
+# %w() style arrays don't always look better.
+WordArray:
+  Enabled: false
+
 # Due to some layout constraints in our examples we want to allow these rule to
 # be ignored in the manual.
 Style/ClosingParenthesisIndentation:
@@ -31,6 +41,12 @@ MultilineOperationIndentation:
   Exclude:
     - manual/**/*
     - prawn.gemspec
+Style/SpaceInsideParens:
+  Exclude:
+    - manual/**/*
+SingleSpaceBeforeFirstArg:
+  Exclude:
+    - manual/**/*
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -71,8 +87,6 @@ SpaceBeforeBlockBraces:
   Enabled: false
 SpaceInsideBrackets:
   Enabled: false
-WordArray:
-  Enabled: false
 SpaceAroundEqualsInParameterDefault:
   Enabled: false
 FormatString:
@@ -87,8 +101,6 @@ SingleLineBlockParams:
   Enabled: false
 PercentLiteralDelimiters:
   Enabled: false
-SpaceInsideParens:
-  Enabled: false
 Documentation:
   Enabled: false
 RegexpLiteral:
@@ -97,11 +109,7 @@ MethodLength:
   Enabled: false
 VariableInterpolation:
   Enabled: false
-EvenOdd:
-  Enabled: false
 AmbiguousOperator:
-  Enabled: false
-SingleSpaceBeforeFirstArg:
   Enabled: false
 AndOr:
   Enabled: false
@@ -113,8 +121,6 @@ NumericLiterals:
   Enabled: false
 SignalException:
   Enabled: false
-HandleExceptions:
-  Enabled: false
 DoubleNegation:
   Enabled: false
 SelfAssignment:
@@ -122,8 +128,6 @@ SelfAssignment:
 Eval:
   Enabled: false
 ClassLength:
-  Enabled: false
-TrivialAccessors:
   Enabled: false
 CaseEquality:
   Enabled: false

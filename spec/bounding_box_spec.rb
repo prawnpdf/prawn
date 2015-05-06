@@ -12,7 +12,7 @@ describe "A bounding box" do
                                             nil,
                                             [@x,@y],
                                             :width  => @width,
-                                            :height => @height )
+                                            :height => @height)
   end
 
   it "should have an anchor at (x, y - height)" do
