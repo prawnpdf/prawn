@@ -44,6 +44,9 @@ MultilineOperationIndentation:
 Style/SpaceInsideParens:
   Exclude:
     - manual/**/*
+SingleSpaceBeforeFirstArg:
+  Exclude:
+    - manual/**/*
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -107,8 +110,6 @@ MethodLength:
 VariableInterpolation:
   Enabled: false
 AmbiguousOperator:
-  Enabled: false
-SingleSpaceBeforeFirstArg:
   Enabled: false
 AndOr:
   Enabled: false

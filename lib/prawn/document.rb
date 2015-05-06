@@ -101,7 +101,7 @@ module Prawn
     # @group Stable Attributes
 
     attr_accessor :margin_box
-    attr_reader   :margins, :y
+    attr_reader :margins, :y
     attr_accessor :page_number
 
     # @group Extension Attributes
