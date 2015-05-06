@@ -346,7 +346,7 @@ describe "When setting page size" do
   end
 
   it "should allow custom page size" do
-    @pdf = Prawn::Document.new(:page_size => [1920, 1080] )
+    @pdf = Prawn::Document.new(:page_size => [1920, 1080])
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
     pages.first[:size].should == [1920, 1080]
   end

@@ -338,7 +338,7 @@ module Prawn
       process_final_gap_option(options)
       box = Text::Formatted::Box.new(
         array,
-        options.merge( :height => 100000000, :document => self)
+        options.merge(:height => 100000000, :document => self)
       )
       box.render(:dry_run => true)
 

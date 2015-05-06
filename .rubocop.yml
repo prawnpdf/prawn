@@ -41,6 +41,9 @@ MultilineOperationIndentation:
   Exclude:
     - manual/**/*
     - prawn.gemspec
+Style/SpaceInsideParens:
+  Exclude:
+    - manual/**/*
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -94,8 +97,6 @@ DotPosition:
 SingleLineBlockParams:
   Enabled: false
 PercentLiteralDelimiters:
-  Enabled: false
-SpaceInsideParens:
   Enabled: false
 Documentation:
   Enabled: false

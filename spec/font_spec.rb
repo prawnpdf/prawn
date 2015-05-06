@@ -15,7 +15,7 @@ describe "Font objects" do
     font1 = Prawn::Document.new.font
     font2 = Prawn::Document.new.font
 
-    font1.should eql( font2 )
+    font1.should eql(font2)
   end
 
   it "should always be the same key" do
@@ -169,7 +169,7 @@ describe "font style support" do
   end
 
   it "should accept Pathname objects for font files" do
-    file = Pathname.new( "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" )
+    file = Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
     @pdf.font_families["DejaVu Sans"] = {
       :normal => file
     }

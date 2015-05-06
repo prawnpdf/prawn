@@ -263,7 +263,7 @@ module Prawn
     end
 
     def width_of_string(string, options={})
-      font_metric_cache.width_of( string, options )
+      font_metric_cache.width_of(string, options)
     end
   end
 
@@ -386,7 +386,7 @@ module Prawn
 
     # Compliments the #hash implementation above
     #
-    def eql?( other ) #:nodoc:
+    def eql?(other) #:nodoc:
       self.class == other.class && self.name == other.name &&
         self.family == other.family && size == other.send(:size)
     end

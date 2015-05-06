@@ -263,7 +263,7 @@ module Prawn
     # the line segment and the third point helps define the curve for the vertex.
     def rounded_vertex(radius, *points)
       radial_point_1 = point_on_line(radius, points[0], points[1])
-      bezier_point_1 = point_on_line((radius - radius * KAPPA), points[0], points[1] )
+      bezier_point_1 = point_on_line((radius - radius * KAPPA), points[0], points[1])
       radial_point_2 = point_on_line(radius, points[2], points[1])
       bezier_point_2 = point_on_line((radius - radius * KAPPA), points[2], points[1])
       line_to(radial_point_1)

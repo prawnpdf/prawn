@@ -13,15 +13,15 @@ module Prawn
   #
   # @private
   class FontMetricCache
-    CacheEntry = Struct.new( :font, :options, :string )
+    CacheEntry = Struct.new(:font, :options, :string)
 
-    def initialize( document )
+    def initialize(document)
       @document = document
 
       @cache = {}
     end
 
-    def width_of( string, options )
+    def width_of(string, options)
       f = if options[:style]
             # override style with :style => :bold
             @document.find_font(@document.font.family, :style => options[:style])
@@ -29,7 +29,7 @@ module Prawn
             @document.font
           end
 
-      key = CacheEntry.new( f, options, string )
+      key = CacheEntry.new(f, options, string)
 
       unless length = @cache[ key ]
         length = @cache[ key ] = f.compute_width_of(string, options)
