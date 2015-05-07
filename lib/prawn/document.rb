@@ -197,8 +197,8 @@ module Prawn
       # raise NotImplementedError if options[:skip_page_creation]
 
       self.class.extensions.reverse_each { |e| extend e }
-      @internal_state = PDF::Core::DocumentState.new(options)
-      @internal_state.populate_pages_from_store(self)
+      self.state = PDF::Core::DocumentState.new(options)
+      self.state.populate_pages_from_store(self)
       renderer.min_version(state.store.min_version) if state.store.min_version
 
       renderer.min_version(1.6) if options[:print_scaling] == :none
@@ -638,9 +638,7 @@ module Prawn
     ## Internals. Don't depend on them!
 
     # @private
-    def state
-      @internal_state
-    end
+    attr_accessor :state
 
     # @private
     def page
