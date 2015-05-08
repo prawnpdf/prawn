@@ -6,7 +6,7 @@
 Prawn is a pure Ruby PDF generation library that provides a lot of great functionality while trying to remain simple and reasonably performant. Here are some of the important features we provide:
 
 * Vector drawing support, including lines, polygons, curves, ellipses, etc.
-* Extensive text rendering support, including flowing text and limited inline formatting options. 
+* Extensive text rendering support, including flowing text and limited inline formatting options.
 * Support for both PDF builtin fonts as well as embedded TrueType fonts
 * A variety of low level tools for basic layout needs, including a simple grid system
 * PNG and JPG image embedding, with flexible scaling options
@@ -26,9 +26,9 @@ One thing Prawn is not, and will never be, is an HTML to PDF generator. For thos
 ## Supported Ruby Versions and Implementations
 
 Because Prawn is pure Ruby and all of its runtime dependencies are maintained
-by us, it should work pretty much anywhere. We officially support 
-MRI {2.0.0, 2.1.x, 2.2.x} and jruby 1.7.x (>= 1.7.18) in 2.0 mode, however 
-we will accept patches to fix problems on other 
+by us, it should work pretty much anywhere. We officially support
+MRI {2.0.0, 2.1.x, 2.2.x} and jruby 1.7.x (>= 1.7.18) in 2.0 mode, however
+we will accept patches to fix problems on other
 Ruby platforms if they aren't too invasive.
 
 ## Installing Prawn
@@ -70,10 +70,14 @@ compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
 guidelines. Generally speaking, you can expect tiny and minor version updates to always be
 safe upgrades, but major updates can introduce incompatibilities.
 
-Be sure to read the release notes in CHANGELOG.md each time we cut a 
-new release, and lock your gems accordingly. 
+Be sure to read the release notes in [CHANGELOG.md](https://github.com/prawnpdf/prawn/blob/master/CHANGELOG.md)
+each time we cut a new release, and lock your gems accordingly.
 
-## Support 
+The prawn team will release a new version of prawn every 6 weeks containing any
+new features and bug fixes that have been completed during the previous release
+cycle. We may release additional versions off cycle to fix major breakages.
+
+## Support
 
 The easiest way to get help with Prawn is to post a message to our mailing list:
 
@@ -113,7 +117,7 @@ developers and contributors.
 
 That said, there are a few folks who have been responsible for cutting releases,
 merging important pull requests, and making major decisions about the
-overall direction of the project. 
+overall direction of the project.
 
 ### Current maintainers
 
@@ -149,10 +153,8 @@ collectively provided funding so that Gregory could take several months off from
 work to focus on this project.
 
 Over the last several years, we've received code contributions from dozens of
-people, which is amazing considering the low-level nature of this project. You can find the full list of folks 
+people, which is amazing considering the low-level nature of this project. You can find the full list of folks
 who have at least one patch accepted to Prawn on github at https://github.com/prawnpdf/prawn/contributors
 
 After a long period of inactivity, Prawn reached its 1.0 milestone in 2014 thanks to some modest
 funding provided to Gregory by Madriska, Inc. (Brad Ediger's company).
-
-The long-term fate of Prawn is uncertain, it's not a very easy project to maintain. That said, we hope it keeps moving along!
