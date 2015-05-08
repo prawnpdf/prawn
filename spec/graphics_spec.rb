@@ -509,7 +509,7 @@ describe "When using transformation matrix" do
     values = Array.new(6, 0.000000000001)
     string = Array.new(6, "0.00000").join " "
     @pdf.renderer.expects(:add_content).with("#{string} cm")
-    @pdf.transformation_matrix *values
+    @pdf.transformation_matrix(*values)
   end
 
   it "should be received by the inspector" do

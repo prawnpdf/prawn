@@ -107,8 +107,6 @@ MethodLength:
   Enabled: false
 VariableInterpolation:
   Enabled: false
-AmbiguousOperator:
-  Enabled: false
 AndOr:
   Enabled: false
 AssignmentInCondition:
