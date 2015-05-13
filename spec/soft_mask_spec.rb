@@ -27,7 +27,7 @@ describe "Document with soft masks" do
     create_pdf
     make_soft_mask
     str = @pdf.render
-    str[0,8].should == "%PDF-1.4"
+    expect(str[0,8]).to eq("%PDF-1.4")
   end
 
   it "should create a new extended graphics state for each unique soft mask" do
@@ -44,7 +44,7 @@ describe "Document with soft masks" do
     end
 
     extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
-    extgstates.length.should == 2
+    expect(extgstates.length).to eq(2)
   end
 
   it "a new extended graphics state should contain soft mask with drawing instructions" do
@@ -56,7 +56,7 @@ describe "Document with soft masks" do
     end
 
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates.first
-    extgstate[:soft_mask][:G].data.should == "q\n/DeviceRGB cs\n0.000 0.000 0.000 scn\n/DeviceRGB CS\n0.000 0.000 0.000 SCN\n1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n100.0 -100.0 200.0 200.0 re\nf\nQ\n"
+    expect(extgstate[:soft_mask][:G].data).to eq("q\n/DeviceRGB cs\n0.000 0.000 0.000 scn\n/DeviceRGB CS\n0.000 0.000 0.000 SCN\n1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n100.0 -100.0 200.0 200.0 re\nf\nQ\n")
   end
 
   it "should not create duplicate extended graphics states" do
@@ -73,6 +73,6 @@ describe "Document with soft masks" do
     end
 
     extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
-    extgstates.length.should == 1
+    expect(extgstates.length).to eq(1)
   end
 end

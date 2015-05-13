@@ -10,7 +10,7 @@ describe "Text::Box#nothing_printed?" do
                                     :height => 2,
                                     :document => @pdf)
     text_box.render
-    text_box.nothing_printed?.should be_true
+    expect(text_box.nothing_printed?).to be_true
   end
   it "should be_false when something printed" do
     create_pdf
@@ -19,7 +19,7 @@ describe "Text::Box#nothing_printed?" do
                                     :height => 14,
                                     :document => @pdf)
     text_box.render
-    text_box.nothing_printed?.should be_false
+    expect(text_box.nothing_printed?).to be_false
   end
 end
 
@@ -31,7 +31,7 @@ describe "Text::Box#everything_printed?" do
                                     :height => 14,
                                     :document => @pdf)
     text_box.render
-    text_box.everything_printed?.should be_false
+    expect(text_box.everything_printed?).to be_false
   end
   it "should be_true when everything printed" do
     create_pdf
@@ -39,7 +39,7 @@ describe "Text::Box#everything_printed?" do
     text_box = Prawn::Text::Box.new(string,
                                     :document => @pdf)
     text_box.render
-    text_box.everything_printed?.should be_true
+    expect(text_box.everything_printed?).to be_true
   end
 end
 
@@ -51,7 +51,7 @@ describe "Text::Box#line_gap" do
     text_box = Prawn::Text::Box.new(string,
                                     :document => @pdf)
     text_box.render
-    text_box.line_gap.should be_within(0.0001).of(@pdf.font.line_gap)
+    expect(text_box.line_gap).to be_within(0.0001).of(@pdf.font.line_gap)
   end
 end
 
@@ -65,8 +65,8 @@ describe "Text::Box" do
                                     :document => @pdf)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == "?uoy era woh ,dlrow olleH"
-    text.strings[1].should == ".uoy knaht ,enif m'I"
+    expect(text.strings[0]).to eq("?uoy era woh ,dlrow olleH")
+    expect(text.strings[1]).to eq(".uoy knaht ,enif m'I")
   end
 
   it "should be able to reverse multi-byte text" do
@@ -78,7 +78,7 @@ describe "Text::Box" do
       @pdf.text "写个小"
     end
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == "小个写"
+    expect(text.strings[0]).to eq("小个写")
   end
 
   it "option should be able to override document-wide text direction" do
@@ -90,8 +90,8 @@ describe "Text::Box" do
                                     :direction => :ltr)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings[0].should == "Hello world, how are you?"
-    text.strings[1].should == "I'm fine, thank you."
+    expect(text.strings[0]).to eq("Hello world, how are you?")
+    expect(text.strings[1]).to eq("I'm fine, thank you.")
   end
 end
 
@@ -102,7 +102,7 @@ describe "Text::Box" do
     @pdf.default_leading = 7
     text_box = Prawn::Text::Box.new("hello world",
                                     :document => @pdf)
-    text_box.leading.should == 7
+    expect(text_box.leading).to eq(7)
   end
 
   it "option should be able to override document-wide leading" do
@@ -111,7 +111,7 @@ describe "Text::Box" do
     text_box = Prawn::Text::Box.new("hello world",
                                     :document => @pdf,
                                     :leading => 20)
-    text_box.leading.should == 20
+    expect(text_box.leading).to eq(20)
   end
   it "should default to document-wide leading if no" \
     "leading option is provided" do
@@ -126,7 +126,7 @@ describe "Text::Box#render with :align => :justify" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing[0].should be > 0
+    expect(contents.word_spacing[0]).to be > 0
   end
   it "should not justify the last line of a paragraph" do
     create_pdf
@@ -135,7 +135,7 @@ describe "Text::Box#render with :align => :justify" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.should be_empty
+    expect(contents.word_spacing).to be_empty
   end
 end
 
@@ -147,13 +147,13 @@ describe "Text::Box" do
     options = { :document => @pdf, :height => @pdf.font.ascender + @pdf.font.descender }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.text.should == "Oh hai text rect"
+    expect(text_box.text).to eq("Oh hai text rect")
 
     text = "Oh hai text rect\nOh hai text rect"
     options = { :document => @pdf, :height => @pdf.font.height + @pdf.font.ascender + @pdf.font.descender }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.text.should == "Oh hai text rect\nOh hai text rect"
+    expect(text_box.text).to eq("Oh hai text rect\nOh hai text rect")
   end
 end
 
@@ -165,7 +165,7 @@ describe "Text::Box#height without leading" do
     options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.height.should be_within(0.001).of(@pdf.font.height * 2 - @pdf.font.line_gap)
+    expect(text_box.height).to be_within(0.001).of(@pdf.font.height * 2 - @pdf.font.line_gap)
   end
 end
 
@@ -178,7 +178,7 @@ describe "Text::Box#height with leading" do
     options = { :document => @pdf, :leading => leading }
     text_box = Prawn::Text::Box.new(text, options)
     text_box.render
-    text_box.height.should be_within(0.001).of((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading)
+    expect(text_box.height).to be_within(0.001).of((@pdf.font.height + leading) * 2 - @pdf.font.line_gap - leading)
   end
 end
 
@@ -217,7 +217,7 @@ describe "Text::Box#valid_options" do
   it "should return an array" do
     create_pdf
     text_box = Prawn::Text::Box.new("", :document => @pdf)
-    text_box.valid_options.should be_a_kind_of(Array)
+    expect(text_box.valid_options).to be_a_kind_of(Array)
   end
 end
 
@@ -231,7 +231,7 @@ describe "Text::Box#render" do
     }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.should == ""
+    expect(text_box.text).to eq("")
   end
   it "should draw content to the page" do
     create_pdf
@@ -240,7 +240,7 @@ describe "Text::Box#render" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.should_not be_empty
+    expect(text.strings).not_to be_empty
   end
   it "should not draw a transformation matrix" do
     create_pdf
@@ -249,7 +249,7 @@ describe "Text::Box#render" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     matrices = PDF::Inspector::Graphics::Matrix.analyze(@pdf.render)
-    matrices.matrices.length.should == 0
+    expect(matrices.matrices.length).to eq(0)
   end
 end
 
@@ -262,7 +262,7 @@ describe "Text::Box#render(:single_line => true)" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.length.should == 1
+    expect(text.strings.length).to eq(1)
   end
 end
 
@@ -274,7 +274,7 @@ describe "Text::Box#render(:dry_run => true)" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(:dry_run => true)
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.should be_empty
+    expect(text.strings).to be_empty
   end
 
   it "subsequent calls to render should_not raise_error an ArgumentError exception" do
@@ -301,7 +301,7 @@ describe "Text::Box#render(:valign => :bottom)" do
     original_at = text_box.at.dup
 
     text_box.render(:dry_run => true)
-    text_box.at.should == original_at
+    expect(text_box.at).to eq(original_at)
   end
 end
 
@@ -318,7 +318,7 @@ describe "Text::Box#render(:valign => :center)" do
     original_at = text_box.at.dup
 
     text_box.render(:dry_run => true)
-    text_box.at.should == original_at
+    expect(text_box.at).to eq(original_at)
   end
 end
 
@@ -350,16 +350,16 @@ describe "Text::Box#render with :rotate option of 30)" do
       y = @y - @height / 2
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
-      matrices.matrices[0].should == [1, 0, 0, 1,
-                                      reduce_precision(x - x_prime),
-                                      reduce_precision(y - y_prime)]
-      matrices.matrices[1].should == [reduce_precision(@cos),
-                                      reduce_precision(@sin),
-                                      reduce_precision(-@sin),
-                                      reduce_precision(@cos), 0, 0]
+      expect(matrices.matrices[0]).to eq([1, 0, 0, 1,
+                                          reduce_precision(x - x_prime),
+                                          reduce_precision(y - y_prime)])
+      expect(matrices.matrices[1]).to eq([reduce_precision(@cos),
+                                          reduce_precision(@sin),
+                                          reduce_precision(-@sin),
+                                          reduce_precision(@cos), 0, 0])
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should_not be_empty
+      expect(text.strings).not_to be_empty
     end
   end
   context ":rotate_around option of :upper_left" do
@@ -373,16 +373,16 @@ describe "Text::Box#render with :rotate option of 30)" do
       y = @y
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
-      matrices.matrices[0].should == [1, 0, 0, 1,
-                                      reduce_precision(x - x_prime),
-                                      reduce_precision(y - y_prime)]
-      matrices.matrices[1].should == [reduce_precision(@cos),
-                                      reduce_precision(@sin),
-                                      reduce_precision(-@sin),
-                                      reduce_precision(@cos), 0, 0]
+      expect(matrices.matrices[0]).to eq([1, 0, 0, 1,
+                                          reduce_precision(x - x_prime),
+                                          reduce_precision(y - y_prime)])
+      expect(matrices.matrices[1]).to eq([reduce_precision(@cos),
+                                          reduce_precision(@sin),
+                                          reduce_precision(-@sin),
+                                          reduce_precision(@cos), 0, 0])
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should_not be_empty
+      expect(text.strings).not_to be_empty
     end
   end
   context "default :rotate_around" do
@@ -395,16 +395,16 @@ describe "Text::Box#render with :rotate option of 30)" do
       y = @y
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
-      matrices.matrices[0].should == [1, 0, 0, 1,
-                                      reduce_precision(x - x_prime),
-                                      reduce_precision(y - y_prime)]
-      matrices.matrices[1].should == [reduce_precision(@cos),
-                                      reduce_precision(@sin),
-                                      reduce_precision(-@sin),
-                                      reduce_precision(@cos), 0, 0]
+      expect(matrices.matrices[0]).to eq([1, 0, 0, 1,
+                                          reduce_precision(x - x_prime),
+                                          reduce_precision(y - y_prime)])
+      expect(matrices.matrices[1]).to eq([reduce_precision(@cos),
+                                          reduce_precision(@sin),
+                                          reduce_precision(-@sin),
+                                          reduce_precision(@cos), 0, 0])
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should_not be_empty
+      expect(text.strings).not_to be_empty
     end
   end
   context ":rotate_around option of :upper_right" do
@@ -418,16 +418,16 @@ describe "Text::Box#render with :rotate option of 30)" do
       y = @y
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
-      matrices.matrices[0].should == [1, 0, 0, 1,
-                                      reduce_precision(x - x_prime),
-                                      reduce_precision(y - y_prime)]
-      matrices.matrices[1].should == [reduce_precision(@cos),
-                                      reduce_precision(@sin),
-                                      reduce_precision(-@sin),
-                                      reduce_precision(@cos), 0, 0]
+      expect(matrices.matrices[0]).to eq([1, 0, 0, 1,
+                                          reduce_precision(x - x_prime),
+                                          reduce_precision(y - y_prime)])
+      expect(matrices.matrices[1]).to eq([reduce_precision(@cos),
+                                          reduce_precision(@sin),
+                                          reduce_precision(-@sin),
+                                          reduce_precision(@cos), 0, 0])
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should_not be_empty
+      expect(text.strings).not_to be_empty
     end
   end
   context ":rotate_around option of :lower_right" do
@@ -441,16 +441,16 @@ describe "Text::Box#render with :rotate option of 30)" do
       y = @y - @height
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
-      matrices.matrices[0].should == [1, 0, 0, 1,
-                                      reduce_precision(x - x_prime),
-                                      reduce_precision(y - y_prime)]
-      matrices.matrices[1].should == [reduce_precision(@cos),
-                                      reduce_precision(@sin),
-                                      reduce_precision(-@sin),
-                                      reduce_precision(@cos), 0, 0]
+      expect(matrices.matrices[0]).to eq([1, 0, 0, 1,
+                                          reduce_precision(x - x_prime),
+                                          reduce_precision(y - y_prime)])
+      expect(matrices.matrices[1]).to eq([reduce_precision(@cos),
+                                          reduce_precision(@sin),
+                                          reduce_precision(-@sin),
+                                          reduce_precision(@cos), 0, 0])
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should_not be_empty
+      expect(text.strings).not_to be_empty
     end
   end
   context ":rotate_around option of :lower_left" do
@@ -464,16 +464,16 @@ describe "Text::Box#render with :rotate option of 30)" do
       y = @y - @height
       x_prime = x * @cos - y * @sin
       y_prime = x * @sin + y * @cos
-      matrices.matrices[0].should == [1, 0, 0, 1,
-                                      reduce_precision(x - x_prime),
-                                      reduce_precision(y - y_prime)]
-      matrices.matrices[1].should == [reduce_precision(@cos),
-                                      reduce_precision(@sin),
-                                      reduce_precision(-@sin),
-                                      reduce_precision(@cos), 0, 0]
+      expect(matrices.matrices[0]).to eq([1, 0, 0, 1,
+                                          reduce_precision(x - x_prime),
+                                          reduce_precision(y - y_prime)])
+      expect(matrices.matrices[1]).to eq([reduce_precision(@cos),
+                                          reduce_precision(@sin),
+                                          reduce_precision(-@sin),
+                                          reduce_precision(@cos), 0, 0])
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings.should_not be_empty
+      expect(text.strings).not_to be_empty
     end
   end
 end
@@ -486,7 +486,7 @@ describe "Text::Box default height" do
     @text = "Oh hai\n" * 60
     text_box = Prawn::Text::Box.new(@text, :document => @pdf)
     text_box.render
-    text_box.height.should be_within(@pdf.font.height).of(target_height)
+    expect(text_box.height).to be_within(@pdf.font.height).of(target_height)
   end
 
   it "should use the margin-box bottom if only in a stretchy bbox" do
@@ -495,7 +495,7 @@ describe "Text::Box default height" do
       @text = "Oh hai\n" * 60
       text_box = Prawn::Text::Box.new(@text, :document => @pdf)
       text_box.render
-      text_box.height.should be_within(@pdf.font.height).of(target_height)
+      expect(text_box.height).to be_within(@pdf.font.height).of(target_height)
     end
   end
 
@@ -508,7 +508,7 @@ describe "Text::Box default height" do
                                              :height => 100,
                                              :overflow => :expand)
       text_box.render
-      text_box.height.should be_within(@pdf.font.height).of(target_height)
+      expect(text_box.height).to be_within(@pdf.font.height).of(target_height)
     end
   end
 
@@ -519,7 +519,7 @@ describe "Text::Box default height" do
         @text = "Oh hai\n" * 60
         text_box = Prawn::Text::Box.new(@text, :document => @pdf)
         text_box.render
-        text_box.height.should be_within(@pdf.font.height).of(200)
+        expect(text_box.height).to be_within(@pdf.font.height).of(200)
       end
     end
   end
@@ -533,7 +533,7 @@ describe "Text::Box default at" do
     @options = { :document => @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.at.should == target_at
+    expect(text_box.at).to eq(target_at)
   end
 end
 
@@ -553,19 +553,19 @@ describe "Text::Box with text than can fit in the box" do
     "be inserted" do
     text_box = Prawn::Text::Box.new("  " + @text, @options)
     text_box.render
-    text_box.text.gsub("\n", " ").should == @text.strip
+    expect(text_box.text.gsub("\n", " ")).to eq(@text.strip)
   end
 
   it "render should return an empty string because no text remains unprinted" do
     text_box = Prawn::Text::Box.new(@text, @options)
-    text_box.render.should == ""
+    expect(text_box.render).to eq("")
   end
 
   it "should be truncated when the leading is set high enough to prevent all the lines from being printed" do
     @options[:leading] = 40
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.gsub("\n", " ").should_not == @text.strip
+    expect(text_box.text.gsub("\n", " ")).not_to eq(@text.strip)
   end
 end
 
@@ -586,13 +586,13 @@ describe "Text::Box with text that fits exactly in the box" do
     expected_height = @options.delete(:height)
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.height.should be_within(0.0001).of(expected_height)
+    expect(text_box.height).to be_within(0.0001).of(expected_height)
   end
 
   it "should print everything" do
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.should == @text
+    expect(text_box.text).to eq(@text)
   end
 
   describe "with leading" do
@@ -604,14 +604,14 @@ describe "Text::Box with text that fits exactly in the box" do
       @options[:height] += @options[:leading] * @interlines
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render
-      text_box.text.should == @text
+      expect(text_box.text).to eq(@text)
     end
 
     it "should overflow when insufficient height is added" do
       @options[:height] += @options[:leading] * @interlines - 1
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render
-      text_box.text.should_not == @text
+      expect(text_box.text).not_to eq(@text)
     end
   end
 
@@ -624,14 +624,14 @@ describe "Text::Box with text that fits exactly in the box" do
       @options[:height] += @options[:leading] * @interlines
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render
-      text_box.text.should == @text
+      expect(text_box.text).to eq(@text)
     end
 
     it "should overflow when too much height is removed" do
       @options[:height] += @options[:leading] * @interlines - 1
       text_box = Prawn::Text::Box.new(@text, @options)
       text_box.render
-      text_box.text.should_not == @text
+      expect(text_box.text).not_to eq(@text)
     end
   end
 end
@@ -660,14 +660,14 @@ describe "Text::Box printing UTF-8 string with higher bit characters" do
     it "unprinted text should be in UTF-8 encoding" do
       @pdf.font("Panic Sans")
       remaining_text = @text_box.render
-      remaining_text.should == @text
+      expect(remaining_text).to eq(@text)
     end
   end
 
   describe "when using an AFM font" do
     it "unprinted text should be in UTF-8 encoding" do
       remaining_text = @text_box.render
-      remaining_text.should == @text
+      expect(remaining_text).to eq(@text)
     end
   end
 end
@@ -691,18 +691,18 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "should be truncated" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should_not == @text.strip
+      expect(@text_box.text.gsub("\n", " ")).not_to eq(@text.strip)
     end
     it "render should not return an empty string because some text remains unprinted" do
-      @text_box.render.should_not be_empty
+      expect(@text_box.render).not_to be_empty
     end
     it "#height should be no taller than the specified height" do
       @text_box.render
-      @text_box.height.should be <= @bounding_height
+      expect(@text_box.height).to be <= @bounding_height
     end
     it "#height should be within one font height of the specified height" do
       @text_box.render
-      @bounding_height.should be_within(@pdf.font.height).of(@text_box.height)
+      expect(@bounding_height).to be_within(@pdf.font.height).of(@text_box.height)
     end
     context "with :rotate option" do
       it "unrendered text should be the same as when not rotated" do
@@ -717,7 +717,7 @@ describe "Text::Box with more text than can fit in the box" do
         @options[:rotate] = rotate
         @options[:at] = [x, y]
         rotated_text_box = Prawn::Text::Box.new(@text, @options)
-        rotated_text_box.render.should == remaining_text
+        expect(rotated_text_box.render).to eq(remaining_text)
       end
     end
   end
@@ -732,7 +732,7 @@ describe "Text::Box with more text than can fit in the box" do
       @options[:size] = 18
       @text_box = Prawn::Text::Box.new(@text, @options)
       remaining_text = @text_box.render
-      remaining_text.should == "text will procede to be rendered this time by calling another method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . "
+      expect(remaining_text).to eq("text will procede to be rendered this time by calling another method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . ")
     end
   end
 
@@ -743,14 +743,14 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "height should expand to encompass all the text (but not exceed the height of the page)" do
       @text_box.render
-      @text_box.height.should > @bounding_height
+      expect(@text_box.height).to be > @bounding_height
     end
     it "should display the entire string (as long as there was space remaining on the page to print all the text)" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should == @text.strip
+      expect(@text_box.text.gsub("\n", " ")).to eq(@text.strip)
     end
     it "render should return an empty string because no text remains unprinted(as long as there was space remaining on the page to print all the text)" do
-      @text_box.render.should == ""
+      expect(@text_box.render).to eq("")
     end
   end
 
@@ -762,10 +762,10 @@ describe "Text::Box with more text than can fit in the box" do
     end
     it "should display the entire text" do
       @text_box.render
-      @text_box.text.gsub("\n", " ").should == @text.strip
+      expect(@text_box.text.gsub("\n", " ")).to eq(@text.strip)
     end
     it "render should return an empty string because no text remains unprinted" do
-      @text_box.render.should == ""
+      expect(@text_box.render).to eq("")
     end
   end
 
@@ -777,7 +777,7 @@ describe "Text::Box with more text than can fit in the box" do
       @text_box.render
 
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.font_settings[0][:size].should == 10.1
+      expect(text.font_settings[0][:size]).to eq(10.1)
     end
   end
 end
@@ -798,7 +798,7 @@ describe "Text::Box with enough space to fit the text but using the " \
     @text_box.render
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:size].should == 12
+    expect(text.font_settings[0][:size]).to eq(12)
   end
 end
 
@@ -815,7 +815,7 @@ describe "Text::Box with a solid block of Chinese characters" do
     @options[:overflow] = :truncate
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render
-    text_box.text.gsub("\n", "").should == @text
+    expect(text_box.text.gsub("\n", "")).to eq(@text)
   end
 end
 
@@ -827,7 +827,7 @@ describe "drawing bounding boxes" do
 
     @pdf.text_box "Oh hai text box. " * 11, :height => @pdf.font.height * 10
 
-    @pdf.bounds.should == margin_box
+    expect(@pdf.bounds).to eq(margin_box)
   end
 end
 
@@ -839,7 +839,7 @@ describe "Text::Box#render with :character_spacing option" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.character_spacing[0].should == 10
+    expect(contents.character_spacing[0]).to eq(10)
   end
   it "should take character spacing into account when wrapping" do
     create_pdf
@@ -850,7 +850,7 @@ describe "Text::Box#render with :character_spacing option" do
                                     :character_spacing => 10,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == "hello\nworld"
+    expect(text_box.text).to eq("hello\nworld")
   end
 end
 
@@ -869,7 +869,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   # white space was being stripped after the entire line was generated, meaning
@@ -888,7 +888,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   it "should respect end of line when wrapping text" do
@@ -901,7 +901,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   it "should respect multiple newlines when wrapping text" do
@@ -914,7 +914,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   it "should respect multiple newlines when wrapping text when those newlines coincide with a line break" do
@@ -927,7 +927,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   it "should respect initial newlines" do
@@ -940,7 +940,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   it "should wrap lines comprised of a single word of the bounds when wrapping text" do
@@ -953,7 +953,7 @@ describe "Text::Box wrapping" do
                                     :overflow => :expand,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 
   it "should wrap lines comprised of a single word of the bounds when wrapping text" do
@@ -969,7 +969,7 @@ describe "Text::Box wrapping" do
     expected = "©" * 25 + "\n" + "©" * 5
     @pdf.font.normalize_encoding!(expected)
     expected = expected.force_encoding(Encoding::UTF_8)
-    text_box.text.should == expected
+    expect(text_box.text).to eq(expected)
   end
 
   it "should wrap non-unicode strings using single-byte word-wrapping" do
@@ -985,7 +985,7 @@ describe "Text::Box wrapping" do
     text_box.render
     results_without_accent = text_box.text
 
-    first_line(results_with_accent).length.should == first_line(results_without_accent).length
+    expect(first_line(results_with_accent).length).to eq(first_line(results_without_accent).length)
   end
 
   it "should allow you to disable wrapping by char" do
@@ -1013,7 +1013,7 @@ describe "Text::Box wrapping" do
                                     :disable_wrap_by_char => true,
                                     :document => @pdf)
     text_box.render
-    text_box.text.should == expect
+    expect(text_box.text).to eq(expect)
   end
 end
 
@@ -1025,7 +1025,7 @@ describe "Text::Box#render with :mode option" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.text_rendering_mode.should == [2,0]
+    expect(contents.text_rendering_mode).to eq([2,0])
   end
 end
 

@@ -17,24 +17,24 @@ describe "the image() function" do
     output = @pdf.render
     images = PDF::Inspector::XObject.analyze(output)
     # there should be 2 images in the page resources
-    images.page_xobjects.first.size.should == 2
+    expect(images.page_xobjects.first.size).to eq(2)
     # but only 1 image xobject
-    output.scan(/\/Type \/XObject/).size.should == 1
+    expect(output.scan(/\/Type \/XObject/).size).to eq(1)
   end
 
   it "should return the image info object" do
     info =  @pdf.image(@filename)
 
-    info.should be_a_kind_of(Prawn::Images::JPG)
+    expect(info).to be_a_kind_of(Prawn::Images::JPG)
 
-    info.height.should == 453
+    expect(info.height).to eq(453)
   end
 
   it "should accept IO objects" do
     file = File.open(@filename, "rb")
     info = @pdf.image(file)
 
-    info.height.should == 453
+    expect(info.height).to eq(453)
   end
 
   it "rewinds IO objects to be able to embed them multiply" do
@@ -42,12 +42,12 @@ describe "the image() function" do
 
     @pdf.image(file)
     info = @pdf.image(file)
-    info.height.should == 453
+    expect(info.height).to eq(453)
   end
 
   it "should accept Pathname objects" do
     info = @pdf.image(Pathname.new(@filename))
-    info.height.should == 453
+    expect(info.height).to eq(453)
   end
 
   context "setting the length of the bytestream" do
@@ -69,25 +69,25 @@ describe "the image() function" do
 
   it "should raise_error an UnsupportedImageType if passed a BMP" do
     filename = "#{Prawn::DATADIR}/images/tru256.bmp"
-    lambda { @pdf.image filename, :at => [100,100] }.should raise_error(Prawn::Errors::UnsupportedImageType)
+    expect { @pdf.image filename, :at => [100,100] }.to raise_error(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should raise_error an UnsupportedImageType if passed an interlaced PNG" do
     filename = "#{Prawn::DATADIR}/images/dice_interlaced.png"
-    lambda { @pdf.image filename, :at => [100,100] }.should raise_error(Prawn::Errors::UnsupportedImageType)
+    expect { @pdf.image filename, :at => [100,100] }.to raise_error(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should bump PDF version to 1.5 or greater on embedding 16-bit PNGs" do
     @pdf.image "#{Prawn::DATADIR}/images/16bit.png"
-    @pdf.state.version.should >= 1.5
+    expect(@pdf.state.version).to be >= 1.5
   end
 
   it "should embed 16-bit alpha channels for 16-bit PNGs" do
     @pdf.image "#{Prawn::DATADIR}/images/16bit.png"
 
     output = @pdf.render
-    output.should =~ /\/BitsPerComponent 16/
-    output.should_not =~ /\/BitsPerComponent 8/
+    expect(output).to match(/\/BitsPerComponent 16/)
+    expect(output).not_to match(/\/BitsPerComponent 8/)
   end
 
   it "should flow an image to a new page if it will not fit on a page" do
@@ -96,9 +96,9 @@ describe "the image() function" do
     output = StringIO.new(@pdf.render, 'r+')
     hash = PDF::Reader::ObjectHash.new(output)
     pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
-    pages.size.should == 2
-    hash[pages[0]][:Resources][:XObject].keys.should == [:I1]
-    hash[pages[1]][:Resources][:XObject].keys.should == [:I2]
+    expect(pages.size).to eq(2)
+    expect(hash[pages[0]][:Resources][:XObject].keys).to eq([:I1])
+    expect(hash[pages[1]][:Resources][:XObject].keys).to eq([:I2])
   end
 
   it "should not flow an image to a new page if it will fit on one page" do
@@ -107,9 +107,10 @@ describe "the image() function" do
     output = StringIO.new(@pdf.render, 'r+')
     hash = PDF::Reader::ObjectHash.new(output)
     pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
-    pages.size.should == 1
-    Set.new(hash[pages[0]][:Resources][:XObject].keys).should ==
+    expect(pages.size).to eq(1)
+    expect(Set.new(hash[pages[0]][:Resources][:XObject].keys)).to eq(
       Set.new([:I1, :I2])
+    )
   end
 
   it "should not start a new page just for a stretchy bounding box" do
@@ -122,21 +123,21 @@ describe "the image() function" do
   describe ":fit option" do
     it "should fit inside the defined constraints" do
       info = @pdf.image @filename, :fit => [100,400]
-      info.scaled_width.should <= 100
-      info.scaled_height.should <= 400
+      expect(info.scaled_width).to be <= 100
+      expect(info.scaled_height).to be <= 400
 
       info = @pdf.image @filename, :fit => [400,100]
-      info.scaled_width.should <= 400
-      info.scaled_height.should <= 100
+      expect(info.scaled_width).to be <= 400
+      expect(info.scaled_height).to be <= 100
 
       info = @pdf.image @filename, :fit => [604,453]
-      info.scaled_width.should == 604
-      info.scaled_height.should == 453
+      expect(info.scaled_width).to eq(604)
+      expect(info.scaled_height).to eq(453)
     end
     it "should move text position" do
       @y = @pdf.y
       info = @pdf.image @filename, :fit => [100,400]
-      @pdf.y.should < @y
+      expect(@pdf.y).to be < @y
     end
   end
 
@@ -144,23 +145,23 @@ describe "the image() function" do
     it "should not move text position" do
       @y = @pdf.y
       info = @pdf.image @filename, :at => [100,400]
-      @pdf.y.should == @y
+      expect(@pdf.y).to eq(@y)
     end
   end
 
   describe ":width option without :height option" do
     it "scales the width and height" do
       info = @pdf.image @filename, :width => 225
-      info.scaled_height.should == 168.75
-      info.scaled_width.should == 225.0
+      expect(info.scaled_height).to eq(168.75)
+      expect(info.scaled_width).to eq(225.0)
     end
   end
 
   describe ":height option without :width option" do
     it "scales the width and height" do
       info = @pdf.image @filename, :height => 225
-      info.scaled_height.should == 225.0
-      info.scaled_width.should == 300.0
+      expect(info.scaled_height).to eq(225.0)
+      expect(info.scaled_width).to eq(300.0)
     end
   end
 end
