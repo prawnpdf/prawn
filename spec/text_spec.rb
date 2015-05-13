@@ -4,7 +4,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Prawn::Text::NBSP" do
   it "should be defined" do
-    Prawn::Text::NBSP.should == " "
+    expect(Prawn::Text::NBSP).to eq(" ")
   end
 end
 
@@ -16,7 +16,7 @@ describe "#height_of" do
     original_y = @pdf.y
     @pdf.text("Foo")
     new_y = @pdf.y
-    @pdf.height_of("Foo").should be_within(0.0001).of(original_y - new_y)
+    expect(@pdf.height_of("Foo")).to be_within(0.0001).of(original_y - new_y)
   end
 
   it "should omit the gap below the last descender if :final_gap => false " \
@@ -24,20 +24,20 @@ describe "#height_of" do
     original_y = @pdf.y
     @pdf.text("Foo", :final_gap => false)
     new_y = @pdf.y
-    @pdf.height_of("Foo", :final_gap => false).should be_within(0.0001).of(original_y - new_y)
+    expect(@pdf.height_of("Foo", :final_gap => false)).to be_within(0.0001).of(original_y - new_y)
   end
 
   it "should raise_error CannotFit if a too-small width is given" do
-    lambda do
+    expect do
       @pdf.height_of("text", :width => 1)
-    end.should raise_error(Prawn::Errors::CannotFit)
+    end.to raise_error(Prawn::Errors::CannotFit)
   end
 
   it "should raise_error NotImplementedError if :indent_paragraphs option is provided" do
-    lambda {
+    expect {
       @pdf.height_of("hai", :width => 300,
                             :indent_paragraphs => 60)
-    }.should raise_error(NotImplementedError)
+    }.to raise_error(NotImplementedError)
   end
 
   it "should_not raise_error Prawn::Errors::UnknownOption if :final_gap option is provided" do
@@ -59,45 +59,45 @@ describe "#text" do
     @pdf.text " "
     text = PDF::Inspector::Text.analyze(@pdf.render)
     # If anything is rendered to the page, it should be whitespace.
-    text.strings.each { |str| str.should =~ /\A\s*\z/ }
+    text.strings.each { |str| expect(str).to match(/\A\s*\z/) }
   end
 
   it "should ignore call when string is nil" do
-    @pdf.text(nil).should be_false
+    expect(@pdf.text(nil)).to be_false
   end
 
   it "should correctly render empty paragraphs" do
     @pdf.text "text\n\ntext"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    @pdf.page_count.should == 1
-    text.strings.reject(&:empty?).should == ["text", "text"]
+    expect(@pdf.page_count).to eq(1)
+    expect(text.strings.reject(&:empty?)).to eq(["text", "text"])
   end
 
   it "should correctly render empty paragraphs with :indent_paragraphs" do
     @pdf.text "text\n\ntext", :indent_paragraphs => 5
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    @pdf.page_count.should == 1
-    text.strings.reject(&:empty?).should == ["text", "text"]
+    expect(@pdf.page_count).to eq(1)
+    expect(text.strings.reject(&:empty?)).to eq(["text", "text"])
   end
 
   it "should correctly render strings ending with empty paragraphs and " \
      ":inline_format and :indent_paragraphs" do
     @pdf.text "text\n\n", :inline_format => true, :indent_paragraphs => 5
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    @pdf.page_count.should == 1
-    text.strings.should == ["text"]
+    expect(@pdf.page_count).to eq(1)
+    expect(text.strings).to eq(["text"])
   end
 
   it "should default to use kerning information" do
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should be_true
+    expect(text.kerned[0]).to be_true
   end
 
   it "should be able to disable kerning with an option" do
     @pdf.text "hello world", :kerning => false
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should be_false
+    expect(text.kerned[0]).to be_false
   end
 
   it "should be able to disable kerning document-wide" do
@@ -105,29 +105,29 @@ describe "#text" do
     @pdf.default_kerning = false
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should be_false
+    expect(text.kerned[0]).to be_false
   end
 
   it "option should be able to override document-wide kerning disabling" do
     @pdf.default_kerning = false
     @pdf.text "hello world", :kerning => true
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.kerned[0].should be_true
+    expect(text.kerned[0]).to be_true
   end
 
   it "should raise_error ArgumentError if :at option included" do
-    lambda { @pdf.text("hai", :at => [0, 0]) }.should raise_error(ArgumentError)
+    expect { @pdf.text("hai", :at => [0, 0]) }.to raise_error(ArgumentError)
   end
 
   it "should advance down the document based on font_height" do
     position = @pdf.y
     @pdf.text "Foo"
 
-    @pdf.y.should be_within(0.0001).of(position - @pdf.font.height)
+    expect(@pdf.y).to be_within(0.0001).of(position - @pdf.font.height)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
+    expect(@pdf.y).to be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
   it "should advance down the document based on font_height with size option" do
@@ -135,11 +135,11 @@ describe "#text" do
     @pdf.text "Foo", :size => 15
 
     @pdf.font_size = 15
-    @pdf.y.should be_within(0.0001).of(position - @pdf.font.height)
+    expect(@pdf.y).to be_within(0.0001).of(position - @pdf.font.height)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
+    expect(@pdf.y).to be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
   it "should advance down the document based on font_height with leading option" do
@@ -147,50 +147,50 @@ describe "#text" do
     leading = 2
     @pdf.text "Foo", :leading => leading
 
-    @pdf.y.should be_within(0.0001).of(position - @pdf.font.height - leading)
+    expect(@pdf.y).to be_within(0.0001).of(position - @pdf.font.height - leading)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz"
-    @pdf.y.should be_within(0.0001).of(position - 3 * @pdf.font.height)
+    expect(@pdf.y).to be_within(0.0001).of(position - 3 * @pdf.font.height)
   end
 
   it "should advance only to the bottom of the final descender if final_gap is false" do
     position = @pdf.y
     @pdf.text "Foo", :final_gap => false
 
-    @pdf.y.should be_within(0.0001).of(position - @pdf.font.ascender - @pdf.font.descender)
+    expect(@pdf.y).to be_within(0.0001).of(position - @pdf.font.ascender - @pdf.font.descender)
 
     position = @pdf.y
     @pdf.text "Foo\nBar\nBaz", :final_gap => false
-    @pdf.y.should be_within(0.0001).of(position - 2 * @pdf.font.height - @pdf.font.ascender - @pdf.font.descender)
+    expect(@pdf.y).to be_within(0.0001).of(position - 2 * @pdf.font.height - @pdf.font.ascender - @pdf.font.descender)
   end
 
   it "should be able to print text starting at the last line of a page" do
     @pdf.move_cursor_to(@pdf.font.height)
     @pdf.text("hello world")
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-    pages.size.should == 1
+    expect(pages.size).to eq(1)
   end
 
   it "should default to 12 point helvetica" do
     @pdf.text "Blah"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:name].should == :Helvetica
-    text.font_settings[0][:size].should == 12
-    text.strings.first.should == "Blah"
+    expect(text.font_settings[0][:name]).to eq(:Helvetica)
+    expect(text.font_settings[0][:size]).to eq(12)
+    expect(text.strings.first).to eq("Blah")
   end
 
   it "should allow setting font size" do
     @pdf.text "Blah", :size => 16
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:size].should == 16
+    expect(text.font_settings[0][:size]).to eq(16)
   end
 
   it "should allow setting a default font size" do
     @pdf.font_size = 16
     @pdf.text "Blah"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:size].should == 16
+    expect(text.font_settings[0][:size]).to eq(16)
   end
 
   it "should allow overriding default font for a single instance" do
@@ -199,8 +199,8 @@ describe "#text" do
     @pdf.text "Blah", :size => 11
     @pdf.text "Blaz"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:size].should == 11
-    text.font_settings[1][:size].should == 16
+    expect(text.font_settings[0][:size]).to eq(11)
+    expect(text.font_settings[1][:size]).to eq(16)
   end
 
   it "should allow setting a font size transaction with a block" do
@@ -211,8 +211,8 @@ describe "#text" do
     @pdf.text 'blah'
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:size].should == 16
-    text.font_settings[1][:size].should == 12
+    expect(text.font_settings[0][:size]).to eq(16)
+    expect(text.font_settings[1][:size]).to eq(12)
   end
 
   it "should allow manual setting the font size when in a font size block" do
@@ -222,9 +222,9 @@ describe "#text" do
       @pdf.text 'Blaz'
     end
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:size].should == 16
-    text.font_settings[1][:size].should == 11
-    text.font_settings[2][:size].should == 16
+    expect(text.font_settings[0][:size]).to eq(16)
+    expect(text.font_settings[1][:size]).to eq(11)
+    expect(text.font_settings[2][:size]).to eq(16)
   end
 
   it "should allow registering of built-in font_settings on the fly" do
@@ -233,8 +233,8 @@ describe "#text" do
     @pdf.font "Courier"
     @pdf.text "Blaz"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.font_settings[0][:name].should == :"Times-Roman"
-    text.font_settings[1][:name].should == :Courier
+    expect(text.font_settings[0][:name]).to eq(:"Times-Roman")
+    expect(text.font_settings[1][:name]).to eq(:Courier)
   end
 
   it "should utilise the same default font across multiple pages" do
@@ -243,13 +243,13 @@ describe "#text" do
     @pdf.text "Blaz"
     text = PDF::Inspector::Text.analyze(@pdf.render)
 
-    text.font_settings.size.should == 2
-    text.font_settings[0][:name].should == :Helvetica
-    text.font_settings[1][:name].should == :Helvetica
+    expect(text.font_settings.size).to eq(2)
+    expect(text.font_settings[0][:name]).to eq(:Helvetica)
+    expect(text.font_settings[1][:name]).to eq(:Helvetica)
   end
 
   it "should raise_error an exception when an unknown font is used" do
-    lambda { @pdf.font "Pao bu" }.should raise_error(Prawn::Errors::UnknownFont)
+    expect { @pdf.font "Pao bu" }.to raise_error(Prawn::Errors::UnknownFont)
   end
 
   it "should_not raise_error an exception when providing Pathname instance as font" do
@@ -262,7 +262,7 @@ describe "#text" do
 
     # grab the text from the rendered PDF and ensure it matches
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.first.should == str
+    expect(text.strings.first).to eq(str)
   end
 
   it "should correctly render a utf-8 string when using a TTF font" do
@@ -272,7 +272,7 @@ describe "#text" do
 
     # grab the text from the rendered PDF and ensure it matches
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.first.should == str
+    expect(text.strings.first).to eq(str)
   end
 
   it "subsets mixed low-ASCII and non-ASCII characters when they can be subsetted together" do
@@ -281,7 +281,7 @@ describe "#text" do
     @pdf.text str
 
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    text.strings.first.should == str
+    expect(text.strings.first).to eq(str)
   end
 
   it "should correctly render a string with higher bit characters across a page break when using a built-in font" do
@@ -290,9 +290,9 @@ describe "#text" do
     @pdf.text(str + "\n" + str)
 
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-    pages.size.should == 2
-    pages[0][:strings].should == [str]
-    pages[1][:strings].should == [str]
+    expect(pages.size).to eq(2)
+    expect(pages[0][:strings]).to eq([str])
+    expect(pages[1][:strings]).to eq([str])
   end
 
   it "should correctly render a string with higher bit characters across" \
@@ -302,14 +302,14 @@ describe "#text" do
     @pdf.text(str + "\n" + str, :indent_paragraphs => 20)
 
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-    pages.size.should == 2
-    pages[0][:strings].should == [str]
-    pages[1][:strings].should == [str]
+    expect(pages.size).to eq(2)
+    expect(pages[0][:strings]).to eq([str])
+    expect(pages[1][:strings]).to eq([str])
   end
 
   it "should raise_error an exception when a utf-8 incompatible string is rendered" do
     str = "Blah \xDD"
-    lambda { @pdf.text str }.should raise_error(
+    expect { @pdf.text str }.to raise_error(
       Prawn::Errors::IncompatibleStringEncoding)
   end
 
@@ -328,9 +328,9 @@ describe "#text" do
     @pdf.text "Hello"
     @pdf.text "World"
     pages = PDF::Inspector::Page.analyze(@pdf.render).pages
-    pages.size.should == 2
-    pages[0][:strings].should == ["Hello"]
-    pages[1][:strings].should == ["World"]
+    expect(pages.size).to eq(2)
+    expect(pages[0][:strings]).to eq(["Hello"])
+    expect(pages[1][:strings]).to eq(["World"])
   end
 
   describe "with :indent_paragraphs option" do
@@ -339,10 +339,10 @@ describe "#text" do
       hello2 = "hello " * 50
       @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
       text = PDF::Inspector::Text.analyze(@pdf.render)
-      text.strings[0].should == ("hello " * 19).strip
-      text.strings[1].should == ("hello " * 21).strip
-      text.strings[3].should == ("hello " * 19).strip
-      text.strings[4].should == ("hello " * 21).strip
+      expect(text.strings[0]).to eq(("hello " * 19).strip)
+      expect(text.strings[1]).to eq(("hello " * 21).strip)
+      expect(text.strings[3]).to eq(("hello " * 19).strip)
+      expect(text.strings[4]).to eq(("hello " * 21).strip)
     end
 
     it "should indent from right side when using :rtl direction" do
@@ -360,19 +360,19 @@ describe "#text" do
       # text, which isn't necessarily correct. If we change that behavior,
       # this test will need to be updated.
 
-      x_positions[0].should(
+      expect(x_positions[0]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
                             @pdf.width_of(lines[0].reverse, :kerning => true)))
 
-      x_positions[1].should(
+      expect(x_positions[1]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right -
                             @pdf.width_of(lines[1].reverse, :kerning => true)))
 
-      x_positions[2].should(
+      expect(x_positions[2]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
                             @pdf.width_of(lines[2].reverse, :kerning => true)))
 
-      x_positions[3].should(
+      expect(x_positions[3]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right -
                             @pdf.width_of(lines[3].reverse, :kerning => true)))
     end
@@ -393,19 +393,19 @@ describe "#text" do
       # text, which isn't necessarily correct. If we change that behavior,
       # this test will need to be updated.
 
-      x_positions[0].should(
+      expect(x_positions[0]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
                             @pdf.width_of(lines[0].reverse, :kerning => true)))
 
-      x_positions[1].should(
+      expect(x_positions[1]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right -
                             @pdf.width_of(lines[1].reverse, :kerning => true)))
 
-      x_positions[2].should(
+      expect(x_positions[2]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right - 60 -
                             @pdf.width_of(lines[2].reverse, :kerning => true)))
 
-      x_positions[3].should(
+      expect(x_positions[3]).to(
         be_within(0.001).of(@pdf.bounds.absolute_right -
                             @pdf.width_of(lines[3].reverse, :kerning => true)))
     end
@@ -420,11 +420,11 @@ describe "#text" do
 
       x_positions = text.positions.map { |e| e[0] }
 
-      x_positions[0].should == 60
-      x_positions[1].should == 0
+      expect(x_positions[0]).to eq(60)
+      expect(x_positions[1]).to eq(0)
 
-      x_positions[2].should == 60
-      x_positions[3].should == 0
+      expect(x_positions[2]).to eq(60)
+      expect(x_positions[3]).to eq(0)
     end
 
     it "should indent from left side when document has :ltr direction" do
@@ -438,11 +438,11 @@ describe "#text" do
 
       x_positions = text.positions.map { |e| e[0] }
 
-      x_positions[0].should == 60
-      x_positions[1].should == 0
+      expect(x_positions[0]).to eq(60)
+      expect(x_positions[1]).to eq(0)
 
-      x_positions[2].should == 60
-      x_positions[3].should == 0
+      expect(x_positions[2]).to eq(60)
+      expect(x_positions[3]).to eq(0)
     end
 
     describe "when wrap to new page, and first line of new page" \
@@ -454,10 +454,10 @@ describe "#text" do
         @pdf.move_cursor_to(@pdf.font.height)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings[0].should == ("hello " * 19).strip
-        text.strings[1].should == ("hello " * 21).strip
-        text.strings[3].should == ("hello " * 19).strip
-        text.strings[4].should == ("hello " * 21).strip
+        expect(text.strings[0]).to eq(("hello " * 19).strip)
+        expect(text.strings[1]).to eq(("hello " * 21).strip)
+        expect(text.strings[3]).to eq(("hello " * 19).strip)
+        expect(text.strings[4]).to eq(("hello " * 21).strip)
       end
     end
     describe "when wrap to new page, and first line of new page" \
@@ -469,10 +469,10 @@ describe "#text" do
         @pdf.move_cursor_to(@pdf.font.height * 3)
         @pdf.text(hello + "\n" + hello2, :indent_paragraphs => 60)
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings[0].should == ("hello " * 19).strip
-        text.strings[1].should == ("hello " * 21).strip
-        text.strings[3].should == ("hello " * 19).strip
-        text.strings[4].should == ("hello " * 21).strip
+        expect(text.strings[0]).to eq(("hello " * 19).strip)
+        expect(text.strings[1]).to eq(("hello " * 21).strip)
+        expect(text.strings[3]).to eq(("hello " * 19).strip)
+        expect(text.strings[4]).to eq(("hello " * 21).strip)
       end
     end
   end
@@ -541,9 +541,9 @@ describe "#text" do
       text = PDF::Inspector::Text.analyze(@pdf.render)
       fonts_used = text.font_settings.map { |e| e[:name] }
 
-      fonts_used.length.should == 1
-      fonts_used[0].should == :"Times-Italic"
-      text.strings[0].should == "hello"
+      expect(fonts_used.length).to eq(1)
+      expect(fonts_used[0]).to eq(:"Times-Italic")
+      expect(text.strings[0]).to eq("hello")
     end
   end
 end

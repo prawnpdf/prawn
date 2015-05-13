@@ -11,14 +11,14 @@ describe "Repeaters" do
 
     r = repeater(doc, :all) { :do_nothing }
 
-    Prawn::Repeater.count.should == orig_count + 1
+    expect(Prawn::Repeater.count).to eq(orig_count + 1)
   end
 
   it "must provide an :all filter" do
     doc = sample_document
     r = repeater(doc, :all) { :do_nothing }
 
-    (1..doc.page_count).all? { |i| r.match?(i) }.should be_true
+    expect((1..doc.page_count).all? { |i| r.match?(i) }).to be_true
   end
 
   it "must provide an :odd filter" do
@@ -27,29 +27,29 @@ describe "Repeaters" do
 
     odd, even = (1..doc.page_count).partition(&:odd?)
 
-    odd.all? { |i| r.match?(i) }.should be_true
-    even.any? { |i| r.match?(i) }.should be_false
+    expect(odd.all? { |i| r.match?(i) }).to be_true
+    expect(even.any? { |i| r.match?(i) }).to be_false
   end
 
   it "must be able to filter by an array of page numbers" do
     doc = sample_document
     r = repeater(doc, [1,2,7]) { :do_nothing }
 
-    (1..10).select { |i| r.match?(i) }.should == [1,2,7]
+    expect((1..10).select { |i| r.match?(i) }).to eq([1,2,7])
   end
 
   it "must be able to filter by a range of page numbers" do
     doc = sample_document
     r = repeater(doc, 2..4) { :do_nothing }
 
-    (1..10).select { |i| r.match?(i) }.should == [2,3,4]
+    expect((1..10).select { |i| r.match?(i) }).to eq([2,3,4])
   end
 
   it "must be able to filter by an arbitrary proc" do
     doc = sample_document
     r = repeater(doc, lambda { |x| x == 1 or x % 3 == 0 })
 
-    (1..10).select { |i| r.match?(i) }.should == [1,3,6,9]
+    expect((1..10).select { |i| r.match?(i) }).to eq([1,3,6,9])
   end
 
   it "must try to run a stamp if the page number matches" do
@@ -96,7 +96,7 @@ describe "Repeaters" do
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
-    text.strings.should == (1..10).to_a.map{|p| "Page #{p}"}
+    expect(text.strings).to eq((1..10).to_a.map{|p| "Page #{p}"})
   end
 
   it "must treat any block as a closure (Document.new instance_eval form)" do
@@ -111,7 +111,7 @@ describe "Repeaters" do
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
-    text.strings.should == (1..10).to_a.map{|p| "Page #{p}"}
+    expect(text.strings).to eq((1..10).to_a.map{|p| "Page #{p}"})
   end
 
   def sample_document
@@ -131,7 +131,7 @@ describe "Repeaters" do
       @pdf.repeat :all do
         @pdf.text "Testing", :size => 24, :style => :bold
       end
-      @pdf.state.page.graphic_state.color_space.should == starting_color_space
+      expect(@pdf.state.page.graphic_state.color_space).to eq(starting_color_space)
     end
 
     context "dynamic repeaters" do
@@ -144,10 +144,10 @@ describe "Repeaters" do
         @pdf.fill_color "666666"
         @pdf.cap_style :round
         text = PDF::Inspector::Text.analyze(@pdf.render)
-        text.strings.include?("fill_color: 666666").should == false
-        text.strings.include?("fill_color: 000000").should == true
-        text.strings.include?("cap_style: round").should == false
-        text.strings.include?("cap_style: butt").should == true
+        expect(text.strings.include?("fill_color: 666666")).to eq(false)
+        expect(text.strings.include?("fill_color: 000000")).to eq(true)
+        expect(text.strings.include?("cap_style: round")).to eq(false)
+        expect(text.strings.include?("cap_style: butt")).to eq(true)
       end
     end
   end

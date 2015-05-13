@@ -17,7 +17,7 @@ describe "Document with transparency" do
     create_pdf
     make_transparent(0.5)
     str = @pdf.render
-    str[0,8].should == "%PDF-1.4"
+    expect(str[0,8]).to eq("%PDF-1.4")
   end
 
   it "a new extended graphics state should be created for " \
@@ -27,7 +27,7 @@ describe "Document with transparency" do
       make_transparent(0.5, 0.75)
     end
     extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
-    extgstates.length.should == 2
+    expect(extgstates.length).to eq(2)
   end
 
   it "a new extended graphics state should not be created for " \
@@ -37,7 +37,7 @@ describe "Document with transparency" do
       make_transparent(0.5, 0.75)
     end
     extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
-    extgstates.length.should == 1
+    expect(extgstates.length).to eq(1)
   end
 
   it "setting the transparency with only one parameter sets the transparency" \
@@ -45,8 +45,8 @@ describe "Document with transparency" do
     create_pdf
     make_transparent(0.5)
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates[0]
-    extgstate[:opacity].should == 0.5
-    extgstate[:stroke_opacity].should == 0.5
+    expect(extgstate[:opacity]).to eq(0.5)
+    expect(extgstate[:stroke_opacity]).to eq(0.5)
   end
 
   it "setting the transparency with a numerical parameter and " \
@@ -55,22 +55,22 @@ describe "Document with transparency" do
     create_pdf
     make_transparent(0.5, 0.2)
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates[0]
-    extgstate[:opacity].should == 0.5
-    extgstate[:stroke_opacity].should == 0.2
+    expect(extgstate[:opacity]).to eq(0.5)
+    expect(extgstate[:stroke_opacity]).to eq(0.2)
   end
 
   it "should enforce the valid range of 0.0 to 1.0" do
     create_pdf
     make_transparent(-0.5, -0.2)
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates[0]
-    extgstate[:opacity].should == 0.0
-    extgstate[:stroke_opacity].should == 0.0
+    expect(extgstate[:opacity]).to eq(0.0)
+    expect(extgstate[:stroke_opacity]).to eq(0.0)
 
     create_pdf
     make_transparent(2.0, 3.0)
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates[0]
-    extgstate[:opacity].should == 1.0
-    extgstate[:stroke_opacity].should == 1.0
+    expect(extgstate[:opacity]).to eq(1.0)
+    expect(extgstate[:stroke_opacity]).to eq(1.0)
   end
 
   describe "with more than one page" do
@@ -83,9 +83,9 @@ describe "Document with transparency" do
       make_transparent(0.5, 0.2)
       extgstates = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates
       extgstate = extgstates[0]
-      extgstates.length.should == 2
-      extgstate[:opacity].should == 0.5
-      extgstate[:stroke_opacity].should == 0.2
+      expect(extgstates.length).to eq(2)
+      expect(extgstate[:opacity]).to eq(0.5)
+      expect(extgstate[:stroke_opacity]).to eq(0.2)
     end
   end
 end

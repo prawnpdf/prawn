@@ -31,7 +31,7 @@ describe "#stamp_at" do
     # invoke_xobject message and count the number of times it was
     # called, but it was only called once, so I reverted checking the
     # output with a regular expression
-    @pdf.render.should =~ /\/Stamp1 Do.*?/m
+    expect(@pdf.render).to match(/\/Stamp1 Do.*?/m)
   end
 end
 
@@ -40,17 +40,17 @@ describe "Document with a stamp" do
      "with same name as an existing stamp" do
     create_pdf
     @pdf.create_stamp("MyStamp")
-    lambda {
+    expect {
       @pdf.create_stamp("MyStamp")
-    }.should raise_error(Prawn::Errors::NameTaken)
+    }.to raise_error(Prawn::Errors::NameTaken)
   end
 
   it "should raise_error InvalidName error when attempt to create " \
      "stamp with a blank name" do
     create_pdf
-    lambda {
+    expect {
       @pdf.create_stamp("")
-    }.should raise_error(Prawn::Errors::InvalidName)
+    }.to raise_error(Prawn::Errors::InvalidName)
   end
 
   it "a new XObject should be defined for each stamp created" do
@@ -62,16 +62,16 @@ describe "Document with a stamp" do
 
     inspector = PDF::Inspector::XObject.analyze(@pdf.render)
     xobjects = inspector.page_xobjects.last
-    xobjects.length.should == 2
+    expect(xobjects.length).to eq(2)
   end
 
   it "calling stamp with a name that does not match an existing stamp " \
      "should raise_error UndefinedObjectName" do
     create_pdf
     @pdf.create_stamp("MyStamp")
-    lambda {
+    expect {
       @pdf.stamp("OtherStamp")
-    }.should raise_error(Prawn::Errors::UndefinedObjectName)
+    }.to raise_error(Prawn::Errors::UndefinedObjectName)
   end
 
   it "stamp should be drawn into the document each time stamp is called" do
@@ -84,7 +84,7 @@ describe "Document with a stamp" do
     # invoke_xobject message and count the number of times it was
     # called, but it was only called once, so I reverted checking the
     # output with a regular expression
-    @pdf.render.should =~ /(\/Stamp1 Do.*?){3}/m
+    expect(@pdf.render).to match(/(\/Stamp1 Do.*?){3}/m)
   end
 
   it "stamp should render clickable links" do
@@ -101,7 +101,7 @@ describe "Document with a stamp" do
       if obj =~ /\/Type \/Page$/
         # The page object must contain the annotation reference
         # to render a clickable link
-        obj.should =~ /^\/Annots \[\d \d .\]$/
+        expect(obj).to match(/^\/Annots \[\d \d .\]$/)
       end
     end
   end
@@ -121,9 +121,9 @@ describe "Document with a stamp" do
     objects = output.split("endobj")
     objects.each do |object|
       if object =~ /\/Type \/Page$/
-        object.should_not =~ /\/ExtGState/
+        expect(object).not_to match(/\/ExtGState/)
       elsif object =~ /\/Type \/XObject$/
-        object.should =~ /\/ExtGState/
+        expect(object).to match(/\/ExtGState/)
       end
     end
   end
@@ -135,12 +135,12 @@ describe "Document with a stamp" do
     end
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
-    stamps.xobject_streams[:Stamp1].data.chomp.should =~ /q(.|\s)*Q\Z/
+    expect(stamps.xobject_streams[:Stamp1].data.chomp).to match(/q(.|\s)*Q\Z/)
   end
 
   it "should not add to the page graphic state stack " do
     create_pdf
-    @pdf.state.page.stack.stack.size.should == 1
+    expect(@pdf.state.page.stack.stack.size).to eq(1)
 
     @pdf.create_stamp("MyStamp") do
       @pdf.save_graphics_state
@@ -149,7 +149,7 @@ describe "Document with a stamp" do
       @pdf.text "This should have a 'q' before it and a 'Q' after it"
       @pdf.restore_graphics_state
     end
-    @pdf.state.page.stack.stack.size.should == 1
+    expect(@pdf.state.page.stack.stack.size).to eq(1)
   end
 
   it "should be able to change fill and stroke colors within the stamp stream" do
@@ -161,8 +161,8 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamp_stream = stamps.xobject_streams[:Stamp1].data
-    stamp_stream.should include("/DeviceCMYK cs\n1.000 1.000 0.200 0.000 scn")
-    stamp_stream.should include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
+    expect(stamp_stream).to include("/DeviceCMYK cs\n1.000 1.000 0.200 0.000 scn")
+    expect(stamp_stream).to include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
   end
 
   it "should save the color space even when same as current page color space" do
@@ -174,6 +174,6 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamp_stream = stamps.xobject_streams[:Stamp1].data
-    stamp_stream.should include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
+    expect(stamp_stream).to include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
   end
 end

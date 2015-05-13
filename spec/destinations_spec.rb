@@ -6,8 +6,8 @@ describe "When creating destinations" do
   before(:each) { create_pdf }
 
   it "should add entry to Dests name tree" do
-    @pdf.dests.data.empty?.should == true
+    expect(@pdf.dests.data.empty?).to eq(true)
     @pdf.add_dest "candy", "chocolate"
-    @pdf.dests.data.size.should == 1
+    expect(@pdf.dests.data.size).to eq(1)
   end
 end
