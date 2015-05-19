@@ -66,5 +66,13 @@ module Prawn
     def pt2mm(pt)
       return pt * 1 / mm2pt(1) # (25.4 / 72)
     end
+
+    def px2pt(px)
+      return px * 0.75
+    end
+
+    def pt2px(pt)
+      return pt / 1.333333
+    end
   end
 end

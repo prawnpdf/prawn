@@ -47,4 +47,8 @@ class Numeric
   def pt
     return pt2pt(self)
   end
+
+  def px
+    return px2pt(self)
+  end
 end
