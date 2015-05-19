@@ -67,11 +67,11 @@ module Prawn
       return pt * 1 / mm2pt(1) # (25.4 / 72)
     end
 
-    def px2pt(px)
+    def csspx2pt(px)
       return px * 0.75
     end
 
-    def pt2px(pt)
+    def pt2csspx(pt)
       return pt / 1.333333
     end
   end

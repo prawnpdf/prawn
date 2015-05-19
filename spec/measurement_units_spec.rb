@@ -18,6 +18,6 @@ describe "Measurement units" do
     1.ft.should == 72 * 12
     1.yd.should == 72 * 12 * 3
     1.pt.should == 1
-    1.px.should == 0.75
+    1.css_px.should == 0.75
   end
 end
