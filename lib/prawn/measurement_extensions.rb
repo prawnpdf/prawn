@@ -47,4 +47,8 @@ class Numeric
   def pt
     return pt2pt(self)
   end
+
+  def css_px
+    return csspx2pt(self)
+  end
 end
