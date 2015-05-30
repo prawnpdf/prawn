@@ -87,7 +87,7 @@ module Prawn
       #   not a limitation of Prawn, but is rather a built-in limitation of the
       #   PDF format.
       #
-      def encrypt_document(options={})
+      def encrypt_document(options = {})
         Prawn.verify_options [:user_password, :owner_password, :permissions],
                              options
         @user_password = options.delete(:user_password) || ""
@@ -140,7 +140,7 @@ module Prawn
 
       FullPermissions = 0b1111_1111_1111_1111_1111_1111_1111_1111
 
-      def permissions=(perms={})
+      def permissions=(perms = {})
         @permissions ||= FullPermissions
         perms.each do |key, value|
           unless PermissionsBits[key]
@@ -209,7 +209,7 @@ module PDF
     # from the indirect object referencing obj.
     #
     # @private
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
+    def EncryptedPdfObject(obj, key, id, gen, in_content_stream = false)
       case obj
       when Array
         "[" << obj.map { |e|

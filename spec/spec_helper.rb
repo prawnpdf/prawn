@@ -32,7 +32,7 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
 end
 
-def create_pdf(klass=Prawn::Document)
+def create_pdf(klass = Prawn::Document)
   @pdf = klass.new(:margin => 0)
 end
 

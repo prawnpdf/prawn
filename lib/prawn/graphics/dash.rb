@@ -52,7 +52,7 @@ module Prawn
       # Integers or Floats may be used for length and the option values.
       # Dash units are in PDF points (1/72 inch).
       #
-      def dash(length=nil, options={})
+      def dash(length = nil, options = {})
         return current_dash_state if length.nil?
 
         if length == 0 || length.kind_of?(Array) && length.any? { |e| e == 0 }

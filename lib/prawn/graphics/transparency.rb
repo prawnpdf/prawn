@@ -51,7 +51,7 @@ module Prawn
       #     pdf.fill_and_stroke_circle([x, y], 25)
       #   end
       #
-      def transparent(opacity, stroke_opacity=opacity, &block)
+      def transparent(opacity, stroke_opacity = opacity, &block)
         renderer.min_version(1.4)
 
         opacity        = [[opacity, 0.0].max, 1.0].min

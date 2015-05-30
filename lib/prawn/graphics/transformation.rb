@@ -40,7 +40,7 @@ module Prawn
       #     pdf.stroke_rectangle([x, y], width, height)
       #   end
       #
-      def rotate(angle, options={}, &block)
+      def rotate(angle, options = {}, &block)
         Prawn.verify_options(:origin, options)
         rad = degree_to_rad(angle)
         cos = Math.cos(rad)
@@ -112,7 +112,7 @@ module Prawn
       #     pdf.stroke_rectangle([x, y], width, height)
       #   end
       #
-      def scale(factor, options={}, &block)
+      def scale(factor, options = {}, &block)
         Prawn.verify_options(:origin, options)
         if options[:origin].nil?
           transformation_matrix(factor, 0, 0, factor, 0, 0, &block)

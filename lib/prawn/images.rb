@@ -59,7 +59,7 @@ module Prawn
     # dimensions of an image object if needed.
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     #
-    def image(file, options={})
+    def image(file, options = {})
       Prawn.verify_options [:at, :position, :vposition, :height,
                             :width, :scale, :fit], options
 

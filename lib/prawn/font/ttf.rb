@@ -20,7 +20,7 @@ module Prawn
         true
       end
 
-      def initialize(document, name, options={})
+      def initialize(document, name, options = {})
         super
 
         @ttf              = read_ttf_file
@@ -37,7 +37,7 @@ module Prawn
       end
 
       # NOTE: +string+ must be UTF8-encoded.
-      def compute_width_of(string, options={}) #:nodoc:
+      def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).inject(0) do |s,r|
@@ -73,7 +73,7 @@ module Prawn
       #
       # The +text+ parameter must be UTF8-encoded.
       #
-      def encode_text(text,options={})
+      def encode_text(text,options = {})
         text = text.chomp
 
         if options[:kerning]

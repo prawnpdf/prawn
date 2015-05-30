@@ -17,7 +17,7 @@ def data_for_table(columns,rows,string_size)
   rows.times.collect { columns.times.collect { String.random(string_size) }}
 end
 
-def benchmark_table_generation(columns,rows,string_size,options={})
+def benchmark_table_generation(columns,rows,string_size,options = {})
   data = data_for_table(columns,rows,string_size)
   Benchmark.bm do |x|
     x.report("#{columns}x#{rows} table (#{columns * rows} cells, with #{string_size} char string contents#{", options = #{options.inspect}" unless options.empty?})") do

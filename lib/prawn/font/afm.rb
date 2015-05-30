@@ -43,7 +43,7 @@ module Prawn
 
       attr_reader :attributes #:nodoc:
 
-      def initialize(document, name, options={}) #:nodoc:
+      def initialize(document, name, options = {}) #:nodoc:
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end
@@ -76,7 +76,7 @@ module Prawn
       end
 
       # NOTE: String *must* be encoded as WinAnsi
-      def compute_width_of(string, options={}) #:nodoc:
+      def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
@@ -130,7 +130,7 @@ module Prawn
       #
       # The +text+ parameter must be in WinAnsi encoding (cp1252).
       #
-      def encode_text(text, options={})
+      def encode_text(text, options = {})
         [[0, options[:kerning] ? kern(text) : text]]
       end
 

@@ -74,7 +74,7 @@ module Prawn
     #
     #   end
     #
-    def repeat(page_filter, options={}, &block)
+    def repeat(page_filter, options = {}, &block)
       repeaters << Prawn::Repeater.new(self, page_filter, !!options[:dynamic], &block)
     end
   end

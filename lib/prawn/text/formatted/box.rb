@@ -88,7 +88,7 @@ module Prawn
       # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
       # any text
       #
-      def formatted_text_box(array, options={})
+      def formatted_text_box(array, options = {})
         Text::Formatted::Box.new(array, options.merge(:document => self)).render
       end
 
@@ -136,7 +136,7 @@ module Prawn
 
         # See Prawn::Text#text_box for valid options
         #
-        def initialize(formatted_text, options={})
+        def initialize(formatted_text, options = {})
           @inked             = false
           Prawn.verify_options(valid_options, options)
           options            = options.dup
@@ -203,7 +203,7 @@ module Prawn
         #
         # Returns any text that did not print under the current settings
         #
-        def render(flags={})
+        def render(flags = {})
           unprinted_text = []
 
           @document.save_font do
@@ -248,7 +248,7 @@ module Prawn
 
         # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
         #
-        def draw_fragment(fragment, accumulated_width=0, line_width=0, word_spacing=0) #:nodoc:
+        def draw_fragment(fragment, accumulated_width = 0, line_width = 0, word_spacing = 0) #:nodoc:
           case(@align)
           when :left
             x = @at[0]

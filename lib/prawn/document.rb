@@ -137,7 +137,7 @@ module Prawn
     #     pdf.draw_text content, :at => [200,720], :size => 32
     #   end
     #
-    def self.generate(filename,options={},&block)
+    def self.generate(filename,options = {},&block)
       pdf = new(options,&block)
       pdf.render_file(filename)
     end
@@ -188,7 +188,7 @@ module Prawn
     #   # New document, with background
     #   pdf = Prawn::Document.new(:background => "#{Prawn::DATADIR}/images/pigs.jpg")
     #
-    def initialize(options={},&block)
+    def initialize(options = {},&block)
       options = options.dup
 
       Prawn.verify_options VALID_OPTIONS, options
@@ -520,7 +520,7 @@ module Prawn
     #                                           :size => 14}
     #   end
     #
-    def number_pages(string, options={})
+    def number_pages(string, options = {})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
 
