@@ -63,7 +63,7 @@ module Prawn
     #
     #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]
     #
-    def curve_to(dest,options={})
+    def curve_to(dest,options = {})
       options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
                                 "Bounding points for bezier curve must be specified " \
                                 "as :bounds => [[x1,y1],[x2,y2]]"
@@ -117,7 +117,7 @@ module Prawn
     #   pdf.line_width(5)
     #   pdf.line_width #=> 5
     #
-    def line_width(width=nil)
+    def line_width(width = nil)
       if width
         self.line_width = width
       else
@@ -143,7 +143,7 @@ module Prawn
     #  # draw a line from [25, 75] to [100, 75]
     #  horizontal_line 25, 100, :at => 75
     #
-    def horizontal_line(x1,x2,options={})
+    def horizontal_line(x1,x2,options = {})
       if options[:at]
         y1 = options[:at]
       else
@@ -174,7 +174,7 @@ module Prawn
     #
     #    pdf.curve [50,100], [100,100], :bounds => [[90,90],[75,75]]
     #
-    def curve(origin,dest, options={})
+    def curve(origin,dest, options = {})
       move_to(*origin)
       curve_to(dest,options)
     end
@@ -361,7 +361,7 @@ module Prawn
     # will be used. See the PDF reference, "Graphics -> Path Construction and
     # Painting -> Clipping Path Operators" for details on the difference.
     #
-    def fill(options={})
+    def fill(options = {})
       yield if block_given?
       renderer.add_content(options[:fill_rule] == :even_odd ? "f*" : "f")
     end
@@ -375,7 +375,7 @@ module Prawn
     # will be used. See the PDF reference, "Graphics -> Path Construction and
     # Painting -> Clipping Path Operators" for details on the difference.
     #
-    def fill_and_stroke(options={})
+    def fill_and_stroke(options = {})
       yield if block_given?
       renderer.add_content(options[:fill_rule] == :even_odd ? "b*" : "b")
     end

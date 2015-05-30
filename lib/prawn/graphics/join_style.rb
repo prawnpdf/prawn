@@ -20,7 +20,7 @@ module Prawn
       # NOTE: if this method is never called, :miter will be used for join style
       # throughout the document
       #
-      def join_style(style=nil)
+      def join_style(style = nil)
         return current_join_style || :miter if style.nil?
 
         self.current_join_style = style

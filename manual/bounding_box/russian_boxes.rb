@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     output
   end
 
-  def recurse_bounding_box(max_depth=4, depth=1)
+  def recurse_bounding_box(max_depth = 4, depth = 1)
     width = (bounds.width - 15) / 2
     height = (bounds.height - 15) / 2
     left_top_corners = combine([5, bounds.right - width - 5],

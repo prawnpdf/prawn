@@ -85,8 +85,6 @@ SpaceBeforeBlockBraces:
   Enabled: false
 SpaceInsideBrackets:
   Enabled: false
-SpaceAroundEqualsInParameterDefault:
-  Enabled: false
 FormatString:
   Enabled: false
 SpaceInsideBlockBraces:

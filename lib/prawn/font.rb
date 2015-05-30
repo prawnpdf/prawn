@@ -47,7 +47,7 @@ module Prawn
     # the :style option you need to map those font styles to their respective font files.
     # See font_families for more information.
     #
-    def font(name=nil, options={})
+    def font(name = nil, options = {})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
@@ -94,7 +94,7 @@ module Prawn
     # When called without an argument, this method returns the current font
     # size.
     #
-    def font_size(points=nil)
+    def font_size(points = nil)
       return @font_size unless points
       size_before_yield = @font_size
       @font_size = points
@@ -126,7 +126,7 @@ module Prawn
     # By putting width_of here, on Document itself, extensions may easily override
     # it and redefine the width calculation behavior.
     #++
-    def width_of(string, options={})
+    def width_of(string, options = {})
       if p = options[:inline_format]
         p = [] unless p.is_a?(Array)
 
@@ -191,7 +191,7 @@ module Prawn
     # Sets the font directly, given an actual Font object
     # and size.
     #
-    def set_font(font, size=nil) # :nodoc:
+    def set_font(font, size = nil) # :nodoc:
       @font = font
       @font_size = size if size
     end
@@ -227,7 +227,7 @@ module Prawn
     # ++
     #
     # @private
-    def find_font(name, options={}) #:nodoc:
+    def find_font(name, options = {}) #:nodoc:
       if font_families.key?(name)
         family, name = name, font_families[name][options[:style] || :normal]
         if name.is_a?(::Hash)
@@ -252,7 +252,7 @@ module Prawn
 
     private
 
-    def width_of_inline_formatted_string(string, options={})
+    def width_of_inline_formatted_string(string, options = {})
       # Build up an Arranger with the entire string on one line, finalize it,
       # and find its width.
       arranger = Prawn::Text::Formatted::Arranger.new(self, options)
@@ -262,7 +262,7 @@ module Prawn
       arranger.line_width
     end
 
-    def width_of_string(string, options={})
+    def width_of_string(string, options = {})
       font_metric_cache.width_of(string, options)
     end
   end
@@ -282,7 +282,7 @@ module Prawn
     # Shortcut interface for constructing a font object.  Filenames of the form
     # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
     # will be passed through to Font::AFM.new()
-    def self.load(document, src, options={})
+    def self.load(document, src, options = {})
       case font_format(src, options)
       when 'ttf'   then TTF.new(document, src, options)
       when 'dfont' then DFont.new(document, src, options)
@@ -300,7 +300,7 @@ module Prawn
       end
     end
 
-    def initialize(document,name,options={}) #:nodoc:
+    def initialize(document,name,options = {}) #:nodoc:
       @document   = document
       @name       = name
       @options    = options
