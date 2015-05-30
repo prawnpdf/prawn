@@ -14,11 +14,11 @@ describe "drawing span" do
 
   it "should only accept :position as option in debug mode" do
     Prawn.debug = true
-    lambda { @pdf.span(350, :x => 3) {} }.should raise_error(Prawn::Errors::UnknownOption)
+    expect { @pdf.span(350, :x => 3) {} }.to raise_error(Prawn::Errors::UnknownOption)
   end
 
   it "should have raise an error if :position is invalid" do
-    lambda { @pdf.span(350, :position => :x) {} }.should raise_error(ArgumentError)
+    expect { @pdf.span(350, :position => :x) {} }.to raise_error(ArgumentError)
   end
 
   it "should restore the margin box when bounding box exits" do
@@ -28,7 +28,7 @@ describe "drawing span" do
       @pdf.text "Here's some centered text in a 350 point column. " * 100
     end
 
-    @pdf.bounds.should == margin_box
+    expect(@pdf.bounds).to eq(margin_box)
   end
 
   it "should do create a margin box" do
@@ -37,7 +37,7 @@ describe "drawing span" do
       @pdf.text "Here's some centered text in a 350 point column. " * 100
     end
 
-    margin_box.top.should == 792.0
-    margin_box.bottom.should == 0
+    expect(margin_box.top).to eq(792.0)
+    expect(margin_box.bottom).to eq(0)
   end
 end

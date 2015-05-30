@@ -5,18 +5,18 @@ require "prawn/measurement_extensions"
 
 describe "Measurement units" do
   it "should convert units to PostScriptPoints" do
-    1.mm.should be_within(0.000000001).of(2.834645669)
-    1.mm.should == (72 / 25.4)
-    2.mm.should == (2 * 72 / 25.4)
-    3.mm.should == 3 * 72 / 25.4
-    -3.mm.should == -3 * 72 / 25.4
-    1.cm.should == 10 * 72 / 25.4
-    1.dm.should == 100 * 72 / 25.4
-    1.m.should == 1000 * 72 / 25.4
+    expect(1.mm).to be_within(0.000000001).of(2.834645669)
+    expect(1.mm).to eq(72 / 25.4)
+    expect(2.mm).to eq(2 * 72 / 25.4)
+    expect(3.mm).to eq(3 * 72 / 25.4)
+    expect(-3.mm).to eq(-3 * 72 / 25.4)
+    expect(1.cm).to eq(10 * 72 / 25.4)
+    expect(1.dm).to eq(100 * 72 / 25.4)
+    expect(1.m).to eq(1000 * 72 / 25.4)
 
-    1.in.should == 72
-    1.ft.should == 72 * 12
-    1.yd.should == 72 * 12 * 3
-    1.pt.should == 1
+    expect(1.in).to eq(72)
+    expect(1.ft).to eq(72 * 12)
+    expect(1.yd).to eq(72 * 12 * 3)
+    expect(1.pt).to eq(1)
   end
 end
