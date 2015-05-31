@@ -52,7 +52,7 @@ module Prawn
                    when :stroke
                      'SCN'
                    else
-                     raise ArgumentError, "unknown type '#{type}'"
+                     fail ArgumentError, "unknown type '#{type}'"
                    end
 
         set_color_space type, :Pattern
@@ -83,14 +83,14 @@ module Prawn
 
       def gradient(*args)
         if args.length != 4 && args.length != 6
-          raise ArgumentError, "Unknown type of gradient: #{args.inspect}"
+          fail ArgumentError, "Unknown type of gradient: #{args.inspect}"
         end
 
         color1 = normalize_color(args[-2]).dup.freeze
         color2 = normalize_color(args[-1]).dup.freeze
 
         if color_type(color1) != color_type(color2)
-          raise ArgumentError, "Both colors must be of the same color space: #{color1.inspect} and #{color2.inspect}"
+          fail ArgumentError, "Both colors must be of the same color space: #{color1.inspect} and #{color2.inspect}"
         end
 
         process_color color1

@@ -92,9 +92,9 @@ module Prawn
     end
 
     def stamp_dictionary(name)
-      raise Prawn::Errors::InvalidName if name.empty?
+      fail Prawn::Errors::InvalidName if name.empty?
       if stamp_dictionary_registry[name].nil?
-        raise Prawn::Errors::UndefinedObjectName
+        fail Prawn::Errors::UndefinedObjectName
       end
 
       dict = stamp_dictionary_registry[name]
@@ -105,8 +105,8 @@ module Prawn
     end
 
     def create_stamp_dictionary(name)
-      raise Prawn::Errors::InvalidName if name.empty?
-      raise Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
+      fail Prawn::Errors::InvalidName if name.empty?
+      fail Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
       # BBox origin is the lower left margin of the page, so we need
       # it to be the full dimension of the page, or else things that
       # should appear near the top or right margin are invisible

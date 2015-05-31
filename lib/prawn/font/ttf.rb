@@ -194,7 +194,7 @@ module Prawn
       private
 
       def cmap
-        @cmap ||= @ttf.cmap.unicode.first or raise("no unicode cmap for font")
+        @cmap ||= @ttf.cmap.unicode.first or fail("no unicode cmap for font")
       end
 
       # +string+ must be UTF8-encoded.
@@ -269,7 +269,7 @@ module Prawn
         # if their font name is more than 33 bytes long. Strange. But true.
         basename = font.name.postscript_name[0, 33].gsub("\0", "")
 
-        raise "Can't detect a postscript name for #{file}" if basename.nil?
+        fail "Can't detect a postscript name for #{file}" if basename.nil?
 
         fontfile = @document.ref!(:Length1 => font_content.size)
         fontfile.stream << font_content

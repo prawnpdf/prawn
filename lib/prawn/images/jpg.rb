@@ -38,7 +38,7 @@ module Prawn
         d.seek(2)    # Skip the first two bytes of JPEG identifier.
         loop do
           marker, code, length = d.read(4).unpack('CCn')
-          raise "JPEG marker not found!" if marker != c_marker
+          fail "JPEG marker not found!" if marker != c_marker
 
           if JPEG_SOF_BLOCKS.include?(code)
             @bits, @height, @width, @channels = d.read(6).unpack("CnnC")
@@ -61,7 +61,7 @@ module Prawn
                       when 4
                         :DeviceCMYK
                       else
-                        raise ArgumentError, 'JPG uses an unsupported number of channels'
+                        fail ArgumentError, 'JPG uses an unsupported number of channels'
                       end
 
         obj = document.ref!(

@@ -109,8 +109,6 @@ ClassAndModuleChildren:
   Enabled: false
 NumericLiterals:
   Enabled: false
-SignalException:
-  Enabled: false
 DoubleNegation:
   Enabled: false
 SelfAssignment:

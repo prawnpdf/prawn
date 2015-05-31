@@ -197,7 +197,7 @@ module Prawn
 
         def update_output_based_on_last_fragment(fragment, normalized_soft_hyphen = nil)
           remaining_text = fragment.slice(@fragment_output.length..fragment.length)
-          raise Prawn::Errors::CannotFit if line_finished? && line_empty? && @fragment_output.empty? && !fragment.strip.empty?
+          fail Prawn::Errors::CannotFit if line_finished? && line_empty? && @fragment_output.empty? && !fragment.strip.empty?
           @arranger.update_last_string(@fragment_output, remaining_text, normalized_soft_hyphen)
         end
 

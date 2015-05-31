@@ -184,8 +184,8 @@ module Prawn
 
     def init_bounding_box(user_block, options = {}, &init_block)
       unless user_block
-        raise ArgumentError,
-              "bounding boxes require a block to be drawn within the box"
+        fail ArgumentError,
+             "bounding boxes require a block to be drawn within the box"
       end
 
       parent_box = @bounding_box
@@ -222,7 +222,7 @@ module Prawn
     class BoundingBox
       def initialize(document, parent, point, options = {}) # @private
         unless options[:width]
-          raise ArgumentError, "BoundingBox needs the :width option to be set"
+          fail ArgumentError, "BoundingBox needs the :width option to be set"
         end
 
         @document = document
@@ -496,7 +496,7 @@ module Prawn
       #
       def reference_bounds
         if stretchy?
-          raise "Can't find reference bounds: my parent is unset" unless @parent
+          fail "Can't find reference bounds: my parent is unset" unless @parent
           @parent.reference_bounds
         else
           self

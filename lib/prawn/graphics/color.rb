@@ -87,7 +87,7 @@ module Prawn
         when 4
           color
         else
-          raise ArgumentError, 'wrong number of arguments supplied'
+          fail ArgumentError, 'wrong number of arguments supplied'
         end
       end
 
@@ -102,7 +102,7 @@ module Prawn
           when 4
             :CMYK
           else
-            raise ArgumentError, "Unknown type of color: #{color.inspect}"
+            fail ArgumentError, "Unknown type of color: #{color.inspect}"
           end
         end
       end
@@ -139,7 +139,7 @@ module Prawn
         set_current_color_space(color_space, type)
 
         unless COLOR_SPACES.include?(color_space)
-          raise ArgumentError, "unknown color space: '#{color_space}'"
+          fail ArgumentError, "unknown color space: '#{color_space}'"
         end
 
         operator = case type
@@ -148,7 +148,7 @@ module Prawn
                    when :stroke
                      'CS'
                    else
-                     raise ArgumentError, "unknown type '#{type}'"
+                     fail ArgumentError, "unknown type '#{type}'"
                    end
 
         renderer.add_content "/#{color_space} #{operator}"
@@ -161,7 +161,7 @@ module Prawn
                    when :stroke
                      'SCN'
                    else
-                     raise ArgumentError, "unknown type '#{type}'"
+                     fail ArgumentError, "unknown type '#{type}'"
                    end
 
         if options[:pattern]
