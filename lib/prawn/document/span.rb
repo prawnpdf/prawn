@@ -26,7 +26,7 @@ module Prawn
     #    text "Here's some centered text in a 350 point column. " * 100
     #  end
     #
-    def span(width, options={})
+    def span(width, options = {})
       Prawn.verify_options [:position], options
       original_position = self.y
 

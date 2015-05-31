@@ -3,7 +3,7 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 module TransparencyHelper
-  def make_transparent(opacity, stroke_opacity=opacity)
+  def make_transparent(opacity, stroke_opacity = opacity)
     @pdf.transparent(opacity, stroke_opacity) do
       yield if block_given?
     end

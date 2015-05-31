@@ -151,7 +151,7 @@ module Prawn
     # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
     # any text
     #
-    def text(string, options={})
+    def text(string, options = {})
       return false if string.nil?
       # we modify the options. don't change the user's hash
       options = options.dup
@@ -187,7 +187,7 @@ module Prawn
     #
     # Same as for #text
     #
-    def formatted_text(array, options={})
+    def formatted_text(array, options = {})
       options = inspect_options_for_text(options.dup)
 
       if color = options.delete(:color)
@@ -316,7 +316,7 @@ module Prawn
     # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
     # any text
     #
-    def height_of(string, options={})
+    def height_of(string, options = {})
       height_of_formatted([{ :text => string }], options)
     end
 
@@ -330,7 +330,7 @@ module Prawn
     #                          :size => 24,
     #                          :styles => [:bold, :italic] }])
     #
-    def height_of_formatted(array, options={})
+    def height_of_formatted(array, options = {})
       if options[:indent_paragraphs]
         raise NotImplementedError, ":indent_paragraphs option not available" \
           "with height_of"

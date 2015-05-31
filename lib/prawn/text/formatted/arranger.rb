@@ -23,7 +23,7 @@ module Prawn
         attr_reader :fragments
         attr_reader :current_format_state
 
-        def initialize(document, options={})
+        def initialize(document, options = {})
           @document = document
           @fragments = []
           @unconsumed = []
@@ -134,7 +134,7 @@ module Prawn
           end
         end
 
-        def apply_font_settings(fragment=nil, &block)
+        def apply_font_settings(fragment = nil, &block)
           if fragment.nil?
             font = current_format_state[:font]
             size = current_format_state[:size]
@@ -162,7 +162,7 @@ module Prawn
           end
         end
 
-        def update_last_string(printed, unprinted, normalized_soft_hyphen=nil)
+        def update_last_string(printed, unprinted, normalized_soft_hyphen = nil)
           return if printed.nil?
           if printed.empty?
             @consumed.pop

@@ -182,7 +182,7 @@ module Prawn
 
     private
 
-    def init_bounding_box(user_block, options={}, &init_block)
+    def init_bounding_box(user_block, options = {}, &init_block)
       unless user_block
         raise ArgumentError,
               "bounding boxes require a block to be drawn within the box"
@@ -220,7 +220,7 @@ module Prawn
     # is used for.
     #
     class BoundingBox
-      def initialize(document, parent, point, options={}) # @private
+      def initialize(document, parent, point, options = {}) # @private
         unless options[:width]
           raise ArgumentError, "BoundingBox needs the :width option to be set"
         end

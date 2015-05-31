@@ -36,7 +36,7 @@ module Prawn
 
     private
 
-    def init_column_box(user_block, options={}, &init_block)
+    def init_column_box(user_block, options = {}, &init_block)
       parent_box = @bounding_box
 
       init_block.call(parent_box)
@@ -52,7 +52,7 @@ module Prawn
     # work.
     #
     class ColumnBox < BoundingBox
-      def initialize(document, parent, point, options={}) #:nodoc:
+      def initialize(document, parent, point, options = {}) #:nodoc:
         super
         @columns = options[:columns] || 3
         @spacer  = options[:spacer] || @document.font_size
