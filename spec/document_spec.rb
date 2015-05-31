@@ -461,7 +461,7 @@ end
 describe "The render() feature" do
   it "should return a 8 bit encoded string on a m17n aware VM" do
     @pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
-    @pdf.line [100,100], [200,200]
+    @pdf.line [100, 100], [200, 200]
     str = @pdf.render
     expect(str.encoding.to_s).to eq("ASCII-8BIT")
   end
@@ -500,14 +500,14 @@ describe "PDF file versions" do
   it "should default to 1.3" do
     @pdf = Prawn::Document.new
     str = @pdf.render
-    expect(str[0,8]).to eq("%PDF-1.3")
+    expect(str[0, 8]).to eq("%PDF-1.3")
   end
 
   it "should allow the default to be changed" do
     @pdf = Prawn::Document.new
     @pdf.renderer.min_version(1.4)
     str = @pdf.render
-    expect(str[0,8]).to eq("%PDF-1.4")
+    expect(str[0, 8]).to eq("%PDF-1.4")
   end
 end
 
@@ -726,17 +726,17 @@ describe "The page_match? method" do
   end
 
   it "must be able to filter by an array of page numbers" do
-    fltr = [1,2,7]
-    expect((1..10).select { |i| @pdf.page_match?(fltr, i) }).to eq([1,2,7])
+    fltr = [1, 2, 7]
+    expect((1..10).select { |i| @pdf.page_match?(fltr, i) }).to eq([1, 2, 7])
   end
 
   it "must be able to filter by a range of page numbers" do
     fltr = 2..4
-    expect((1..10).select { |i| @pdf.page_match?(fltr, i) }).to eq([2,3,4])
+    expect((1..10).select { |i| @pdf.page_match?(fltr, i) }).to eq([2, 3, 4])
   end
 
   it "must be able to filter by an arbitrary proc" do
     fltr = lambda { |x| x == 1 or x % 3 == 0 }
-    expect((1..10).select { |i| @pdf.page_match?(fltr, i) }).to eq([1,3,6,9])
+    expect((1..10).select { |i| @pdf.page_match?(fltr, i) }).to eq([1, 3, 6, 9])
   end
 end

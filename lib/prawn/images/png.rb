@@ -203,7 +203,7 @@ module Prawn
           # - An array with N elements, where N is two times the number of color
           #   components.
           rgb = transparency[:rgb]
-          obj.data[:Mask] = rgb.collect { |x| [x,x] }.flatten
+          obj.data[:Mask] = rgb.collect { |x| [x, x] }.flatten
         end
 
         # For PNG color types 4 and 6, the transparency data is stored as a alpha

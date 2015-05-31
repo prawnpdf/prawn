@@ -14,13 +14,13 @@ describe "#draw_text" do
   end
 
   it "should allow drawing empty strings to the page" do
-    @pdf.draw_text(" ", :at => [100,100])
+    @pdf.draw_text(" ", :at => [100, 100])
     text = PDF::Inspector::Text.analyze(@pdf.render)
     expect(text.strings.first).to eq(" ")
   end
 
   it "should default to 12 point helvetica" do
-    @pdf.draw_text("Blah", :at => [100,100])
+    @pdf.draw_text("Blah", :at => [100, 100])
     text = PDF::Inspector::Text.analyze(@pdf.render)
     expect(text.font_settings[0][:name]).to eq(:Helvetica)
     expect(text.font_settings[0][:size]).to eq(12)
@@ -28,7 +28,7 @@ describe "#draw_text" do
   end
 
   it "should allow setting font size" do
-    @pdf.draw_text("Blah", :at => [100,100], :size => 16)
+    @pdf.draw_text("Blah", :at => [100, 100], :size => 16)
     text = PDF::Inspector::Text.analyze(@pdf.render)
     expect(text.font_settings[0][:size]).to eq(16)
   end
@@ -105,9 +105,9 @@ describe "#draw_text" do
 
   it "should allow registering of built-in font_settings on the fly" do
     @pdf.font "Times-Roman"
-    @pdf.draw_text("Blah", :at => [100,100])
+    @pdf.draw_text("Blah", :at => [100, 100])
     @pdf.font "Courier"
-    @pdf.draw_text("Blaz", :at => [150,150])
+    @pdf.draw_text("Blaz", :at => [150, 150])
     text = PDF::Inspector::Text.analyze(@pdf.render)
     expect(text.font_settings[0][:name]).to eq(:"Times-Roman")
     expect(text.font_settings[1][:name]).to eq(:Courier)

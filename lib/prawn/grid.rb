@@ -80,7 +80,7 @@ module Prawn
       def show_all(color = "CCCCCC")
         self.rows.times do |i|
           self.columns.times do |j|
-            pdf.grid(i,j).show(color)
+            pdf.grid(i, j).show(color)
           end
         end
       end
@@ -257,19 +257,19 @@ module Prawn
       private
 
       def left_box
-        @left_box ||= @bs.min {|a,b| a.left <=> b.left}
+        @left_box ||= @bs.min {|a, b| a.left <=> b.left}
       end
 
       def right_box
-        @right_box ||= @bs.max {|a,b| a.right <=> b.right}
+        @right_box ||= @bs.max {|a, b| a.right <=> b.right}
       end
 
       def top_box
-        @top_box ||= @bs.max {|a,b| a.top <=> b.top}
+        @top_box ||= @bs.max {|a, b| a.top <=> b.top}
       end
 
       def bottom_box
-        @bottom_box ||= @bs.min {|a,b| a.bottom <=> b.bottom}
+        @bottom_box ||= @bs.min {|a, b| a.bottom <=> b.bottom}
       end
     end
 

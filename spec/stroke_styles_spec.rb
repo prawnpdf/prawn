@@ -145,17 +145,17 @@ describe "Dashes" do
 
   describe "setting a dash by using an array" do
     it "dash and spaces should be set from the array" do
-      @pdf.dash([1,2,3,4])
+      @pdf.dash([1, 2, 3, 4])
       dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
       expect(dashes.stroke_dash).to eq([[1, 2, 3, 4], 0])
     end
     it "space options has to be ignored" do
-      @pdf.dash([1,2,3,4], :space => 3)
+      @pdf.dash([1, 2, 3, 4], :space => 3)
       dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
       expect(dashes.stroke_dash).to eq([[1, 2, 3, 4], 0])
     end
     it "phase options should be correctly used" do
-      @pdf.dash([1,2,3,4], :phase => 3)
+      @pdf.dash([1, 2, 3, 4], :phase => 3)
       dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
       expect(dashes.stroke_dash).to eq([[1, 2, 3, 4], 3])
     end

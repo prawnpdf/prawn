@@ -485,7 +485,7 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be able to add URL links" do
     create_pdf
-    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
                                                         :A => {
                                                           :Type => :Action,
                                                           :S => :URI,
@@ -499,7 +499,7 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be able to add destination links" do
     create_pdf
-    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
                                                         :Dest => "ToC")
     array = [{ :text => "Go to the " },
              { :text => "Table of Contents", :anchor => "ToC" }]
@@ -508,7 +508,7 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be able to add local actions" do
     create_pdf
-    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0,0,0],
+    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
                                                         :A => {
                                                           :Type => :Action,
                                                           :S => :Launch,
@@ -635,7 +635,7 @@ describe "Text::Formatted::Box#render with :valign => :center" do
     options = {
       :document => @pdf,
       :valign => :center,
-      :at => [0,y],
+      :at => [0, y],
       :width => 100,
       :height => box_height,
       :size => 16
@@ -658,7 +658,7 @@ describe "Text::Formatted::Box#render with :valign => :bottom" do
     options = {
       :document => @pdf,
       :valign => :bottom,
-      :at => [0,y],
+      :at => [0, y],
       :width => 100,
       :height => box_height,
       :size => 16

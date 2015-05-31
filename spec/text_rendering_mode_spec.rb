@@ -26,7 +26,7 @@ describe "#text_rendering_mode" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(contents.text_rendering_mode).to eq([1,0])
+    expect(contents.text_rendering_mode).to eq([1, 0])
   end
   it "should function as an accessor when no parameter given" do
     create_pdf

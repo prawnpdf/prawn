@@ -11,8 +11,8 @@ describe "the image() function" do
   end
 
   it "should only embed an image once, even if it's added multiple times" do
-    @pdf.image @filename, :at => [100,100]
-    @pdf.image @filename, :at => [300,300]
+    @pdf.image @filename, :at => [100, 100]
+    @pdf.image @filename, :at => [300, 300]
 
     output = @pdf.render
     images = PDF::Inspector::XObject.analyze(output)
@@ -69,12 +69,12 @@ describe "the image() function" do
 
   it "should raise_error an UnsupportedImageType if passed a BMP" do
     filename = "#{Prawn::DATADIR}/images/tru256.bmp"
-    expect { @pdf.image filename, :at => [100,100] }.to raise_error(Prawn::Errors::UnsupportedImageType)
+    expect { @pdf.image filename, :at => [100, 100] }.to raise_error(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should raise_error an UnsupportedImageType if passed an interlaced PNG" do
     filename = "#{Prawn::DATADIR}/images/dice_interlaced.png"
-    expect { @pdf.image filename, :at => [100,100] }.to raise_error(Prawn::Errors::UnsupportedImageType)
+    expect { @pdf.image filename, :at => [100, 100] }.to raise_error(Prawn::Errors::UnsupportedImageType)
   end
 
   it "should bump PDF version to 1.5 or greater on embedding 16-bit PNGs" do
@@ -122,21 +122,21 @@ describe "the image() function" do
 
   describe ":fit option" do
     it "should fit inside the defined constraints" do
-      info = @pdf.image @filename, :fit => [100,400]
+      info = @pdf.image @filename, :fit => [100, 400]
       expect(info.scaled_width).to be <= 100
       expect(info.scaled_height).to be <= 400
 
-      info = @pdf.image @filename, :fit => [400,100]
+      info = @pdf.image @filename, :fit => [400, 100]
       expect(info.scaled_width).to be <= 400
       expect(info.scaled_height).to be <= 100
 
-      info = @pdf.image @filename, :fit => [604,453]
+      info = @pdf.image @filename, :fit => [604, 453]
       expect(info.scaled_width).to eq(604)
       expect(info.scaled_height).to eq(453)
     end
     it "should move text position" do
       @y = @pdf.y
-      info = @pdf.image @filename, :fit => [100,400]
+      info = @pdf.image @filename, :fit => [100, 400]
       expect(@pdf.y).to be < @y
     end
   end
@@ -144,7 +144,7 @@ describe "the image() function" do
   describe ":at option" do
     it "should not move text position" do
       @y = @pdf.y
-      info = @pdf.image @filename, :at => [100,400]
+      info = @pdf.image @filename, :at => [100, 400]
       expect(@pdf.y).to eq(@y)
     end
   end

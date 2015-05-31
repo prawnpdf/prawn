@@ -137,8 +137,8 @@ module Prawn
     #     pdf.draw_text content, :at => [200,720], :size => 32
     #   end
     #
-    def self.generate(filename,options = {},&block)
-      pdf = new(options,&block)
+    def self.generate(filename, options = {}, &block)
+      pdf = new(options, &block)
       pdf.render_file(filename)
     end
 
@@ -188,7 +188,7 @@ module Prawn
     #   # New document, with background
     #   pdf = Prawn::Document.new(:background => "#{Prawn::DATADIR}/images/pigs.jpg")
     #
-    def initialize(options = {},&block)
+    def initialize(options = {}, &block)
       options = options.dup
 
       Prawn.verify_options VALID_OPTIONS, options
@@ -551,7 +551,7 @@ module Prawn
           # have to use fill_color here otherwise text reverts back to default fill color
           fill_color txtcolor unless txtcolor.nil?
           total_pages = total_pages.nil? ? page_count : total_pages
-          str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
+          str = string.gsub("<page>", "#{pseudopage}").gsub("<total>", "#{total_pages}")
           text_box str, opts
           start_count = true  # increment page count as soon as first match found
         end
@@ -685,15 +685,15 @@ module Prawn
       if options[:margin]
         # Treat :margin as CSS shorthand with 1-4 values.
         margin = Array(options[:margin])
-        positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
-                      2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
+        positions = { 4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
+                      2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0] }[margin.length]
 
-        [:top, :right, :bottom, :left].zip(positions).each do |p,i|
+        [:top, :right, :bottom, :left].zip(positions).each do |p, i|
           options[:"#{p}_margin"] ||= margin[i]
         end
       end
 
-      [:left,:right,:top,:bottom].each do |side|
+      [:left, :right, :top, :bottom].each do |side|
         if margin = options[:"#{side}_margin"]
           state.page.margins[side] = margin
         end

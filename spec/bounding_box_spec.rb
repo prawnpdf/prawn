@@ -10,13 +10,13 @@ describe "A bounding box" do
     @height = 75
     @box = Prawn::Document::BoundingBox.new(nil,
                                             nil,
-                                            [@x,@y],
+                                            [@x, @y],
                                             :width  => @width,
                                             :height => @height)
   end
 
   it "should have an anchor at (x, y - height)" do
-    expect(@box.anchor).to eq([@x,@y - @height])
+    expect(@box.anchor).to eq([@x, @y - @height])
   end
 
   it "should have a left boundary of 0" do
@@ -36,19 +36,19 @@ describe "A bounding box" do
   end
 
   it "should have a top-left of [0,height]" do
-    expect(@box.top_left).to eq([0,@height])
+    expect(@box.top_left).to eq([0, @height])
   end
 
   it "should have a top-right of [width,height]" do
-    expect(@box.top_right).to eq([@width,@height])
+    expect(@box.top_right).to eq([@width, @height])
   end
 
   it "should have a bottom-left of [0,0]" do
-    expect(@box.bottom_left).to eq([0,0])
+    expect(@box.bottom_left).to eq([0, 0])
   end
 
   it "should have a bottom-right of [width,0]" do
-    expect(@box.bottom_right).to eq([@width,0])
+    expect(@box.bottom_right).to eq([@width, 0])
   end
 
   it "should have an absolute left boundary of x" do
@@ -85,7 +85,7 @@ describe "A bounding box" do
 
   it "should require width to be set" do
     expect do
-      Prawn::Document::BoundingBox.new(nil, nil, [100,100])
+      Prawn::Document::BoundingBox.new(nil, nil, [100, 100])
     end.to raise_error(ArgumentError)
   end
 
@@ -126,13 +126,13 @@ describe "drawing bounding boxes" do
   end
 
   it "should restore the parent bounding box when calls are nested" do
-    @pdf.bounding_box [100,500], :width => 300, :height => 300 do
+    @pdf.bounding_box [100, 500], :width => 300, :height => 300 do
       expect(@pdf.bounds.absolute_top).to eq(500 + @pdf.margin_box.absolute_bottom)
       expect(@pdf.bounds.absolute_left).to eq(100 + @pdf.margin_box.absolute_left)
 
       parent_box = @pdf.bounds
 
-      @pdf.bounding_box [50,200], :width => 100, :height => 100 do
+      @pdf.bounding_box [50, 200], :width => 100, :height => 100 do
         expect(@pdf.bounds.absolute_top).to eq(200 + parent_box.absolute_bottom)
         expect(@pdf.bounds.absolute_left).to eq(50 + parent_box.absolute_left)
       end
@@ -199,7 +199,7 @@ describe "Indentation" do
   before(:each) { create_pdf }
 
   it "should temporarily shift the x coordinate and width" do
-    @pdf.bounding_box([100,100], :width => 200) do
+    @pdf.bounding_box([100, 100], :width => 200) do
       @pdf.indent(20) do
         expect(@pdf.bounds.absolute_left).to eq(120)
         expect(@pdf.bounds.width).to eq(180)
@@ -208,7 +208,7 @@ describe "Indentation" do
   end
 
   it "should restore the x coordinate and width after block exits" do
-    @pdf.bounding_box([100,100], :width => 200) do
+    @pdf.bounding_box([100, 100], :width => 200) do
       @pdf.indent(20) do
         # no-op
       end
@@ -218,7 +218,7 @@ describe "Indentation" do
   end
 
   it "should restore the x coordinate and width on error" do
-    @pdf.bounding_box([100,100], :width => 200) do
+    @pdf.bounding_box([100, 100], :width => 200) do
       begin
         @pdf.indent(20) { raise }
       rescue
@@ -253,7 +253,7 @@ describe "Indentation" do
   end
 
   it "optionally allows adjustment of the right bound as well" do
-    @pdf.bounding_box([100,100], :width => 200) do
+    @pdf.bounding_box([100, 100], :width => 200) do
       @pdf.indent(20, 30) do
         expect(@pdf.bounds.absolute_left).to eq(120)
         expect(@pdf.bounds.width).to eq(150)
@@ -372,7 +372,7 @@ describe "A canvas" do
 
   it "should use whatever the last set y position is" do
     @pdf.canvas do
-      @pdf.bounding_box([100,500],:width => 200) { @pdf.move_down 50 }
+      @pdf.bounding_box([100, 500], :width => 200) { @pdf.move_down 50 }
     end
     expect(@pdf.y).to eq(450)
   end

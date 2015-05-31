@@ -15,11 +15,11 @@ Prawn::ManualBuilder::Example.generate(filename) do
   # able to run alone we are repeating it on every example
   define_grid(:columns => 5, :rows => 8, :gutter => 10)
 
-  grid([5,0], [7,1]).bounding_box do
+  grid([5, 0], [7, 1]).bounding_box do
     text "Adding some content to this multi_box.\n" + " _ " * 200
   end
 
-  grid(6,3).bounding_box do
+  grid(6, 3).bounding_box do
     text "Just a little snippet here.\n" + " _ " * 10
   end
 end
