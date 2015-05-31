@@ -144,7 +144,7 @@ module Prawn
         @permissions ||= FullPermissions
         perms.each do |key, value|
           unless PermissionsBits[key]
-            raise ArgumentError, "Unknown permission :#{key}. Valid options: " +
+            fail ArgumentError, "Unknown permission :#{key}. Valid options: " +
               PermissionsBits.keys.map(&:inspect).join(", ")
           end
 
@@ -231,8 +231,8 @@ module PDF
         output = "<< "
         obj.each do |k, v|
           unless String === k || Symbol === k
-            raise PDF::Core::Errors::FailedObjectConversion,
-                  "A PDF Dictionary must be keyed by names"
+            fail PDF::Core::Errors::FailedObjectConversion,
+                 "A PDF Dictionary must be keyed by names"
           end
           output << PdfObject(k.to_sym, in_content_stream) << " " << EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
         end

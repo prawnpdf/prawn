@@ -45,7 +45,7 @@ module Prawn
 
       def initialize(document, name, options = {}) #:nodoc:
         unless BUILT_INS.include?(name)
-          raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
+          fail Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end
 
         super

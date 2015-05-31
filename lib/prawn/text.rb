@@ -332,7 +332,7 @@ module Prawn
     #
     def height_of_formatted(array, options = {})
       if options[:indent_paragraphs]
-        raise NotImplementedError, ":indent_paragraphs option not available" \
+        fail NotImplementedError, ":indent_paragraphs option not available" \
           "with height_of"
       end
       process_final_gap_option(options)
@@ -395,9 +395,9 @@ module Prawn
 
     def inspect_options_for_draw_text(options)
       if options[:at].nil?
-        raise ArgumentError, "The :at option is required for draw_text"
+        fail ArgumentError, "The :at option is required for draw_text"
       elsif options[:align]
-        raise ArgumentError, "The :align option does not work with draw_text"
+        fail ArgumentError, "The :align option does not work with draw_text"
       end
       if options[:kerning].nil? then
         options[:kerning] = default_kerning?
@@ -409,7 +409,7 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        raise ArgumentError, ":at is no longer a valid option with text." \
+        fail ArgumentError, ":at is no longer a valid option with text." \
                              "use draw_text or text_box instead"
       end
       process_final_gap_option(options)

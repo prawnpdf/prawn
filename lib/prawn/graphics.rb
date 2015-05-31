@@ -64,9 +64,9 @@ module Prawn
     #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]
     #
     def curve_to(dest, options = {})
-      options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
-                                "Bounding points for bezier curve must be specified " \
-                                "as :bounds => [[x1,y1],[x2,y2]]"
+      options[:bounds] or fail Prawn::Errors::InvalidGraphicsPath,
+                               "Bounding points for bezier curve must be specified " \
+                               "as :bounds => [[x1,y1],[x2,y2]]"
 
       curve_points = PDF::Core.real_params(
         (options[:bounds] << dest).flat_map { |e| map_to_absolute(e) }

@@ -51,7 +51,7 @@ module Prawn
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
-        raise Prawn::Errors::NotOnPage
+        fail Prawn::Errors::NotOnPage
       end
 
       new_font = find_font(name.to_s, options)
@@ -335,7 +335,7 @@ module Prawn
     # and the new string will be returned. For an in-place (destructive)
     # version, see normalize_encoding!.
     def normalize_encoding(string)
-      raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
+      fail NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
     end
 
     # Destructive version of normalize_encoding; normalizes the encoding of a
