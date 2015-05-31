@@ -359,7 +359,7 @@ module Prawn
       #  end
       #
       def top_left
-        [left,top]
+        [left, top]
       end
 
       # Relative top-right point of the bounding box
@@ -372,7 +372,7 @@ module Prawn
       #  end
       #
       def top_right
-        [right,top]
+        [right, top]
       end
 
       # Relative bottom-right point of the bounding box
@@ -384,7 +384,7 @@ module Prawn
       #  end
       #
       def bottom_right
-        [right,bottom]
+        [right, bottom]
       end
 
       # Relative bottom-left point of the bounding box
@@ -396,7 +396,7 @@ module Prawn
       #  end
       #
       def bottom_left
-        [left,bottom]
+        [left, bottom]
       end
 
       # Absolute left x-coordinate of the bounding box

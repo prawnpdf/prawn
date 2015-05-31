@@ -27,7 +27,7 @@ describe "Document with soft masks" do
     create_pdf
     make_soft_mask
     str = @pdf.render
-    expect(str[0,8]).to eq("%PDF-1.4")
+    expect(str[0, 8]).to eq("%PDF-1.4")
   end
 
   it "should create a new extended graphics state for each unique soft mask" do

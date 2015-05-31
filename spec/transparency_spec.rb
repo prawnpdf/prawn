@@ -17,7 +17,7 @@ describe "Document with transparency" do
     create_pdf
     make_transparent(0.5)
     str = @pdf.render
-    expect(str[0,8]).to eq("%PDF-1.4")
+    expect(str[0, 8]).to eq("%PDF-1.4")
   end
 
   it "a new extended graphics state should be created for " \

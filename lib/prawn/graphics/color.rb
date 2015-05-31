@@ -74,8 +74,8 @@ module Prawn
       #  => [255, 120, 8]
       #
       def hex2rgb(hex)
-        r,g,b = hex[0..1], hex[2..3], hex[4..5]
-        [r,g,b].map { |e| e.to_i(16) }
+        r, g, b = hex[0..1], hex[2..3], hex[4..5]
+        [r, g, b].map { |e| e.to_i(16) }
       end
 
       private
@@ -110,10 +110,10 @@ module Prawn
       def normalize_color(color)
         case color_type(color)
         when :RGB
-          r,g,b = hex2rgb(color)
+          r, g, b = hex2rgb(color)
           [r / 255.0, g / 255.0, b / 255.0]
         when :CMYK
-          c,m,y,k = *color
+          c, m, y, k = *color
           [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
         end
       end

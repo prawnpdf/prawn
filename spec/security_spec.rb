@@ -128,7 +128,7 @@ describe "Document encryption" do
 
   describe "Reference#encrypted_object" do
     it "should encrypt references properly" do
-      ref = PDF::Core::Reference(1,["foo"])
+      ref = PDF::Core::Reference(1, ["foo"])
       expect(ref.encrypted_object(nil)).to eq("1 0 obj\n[<4fca3f>]\nendobj\n")
     end
 

@@ -55,30 +55,30 @@ describe "A document's grid" do
       exp_tl_x = (grid_width + @gutter.to_f) * 4.0
       exp_tl_y = @pdf.bounds.height.to_f - (grid_height + @gutter.to_f)
 
-      expect(@pdf.grid(1,4).top_left).to eq([exp_tl_x, exp_tl_y])
-      expect(@pdf.grid(1,4).top_right).to eq([exp_tl_x + grid_width, exp_tl_y])
-      expect(@pdf.grid(1,4).bottom_left).to eq([exp_tl_x, exp_tl_y - grid_height])
-      expect(@pdf.grid(1,4).bottom_right).to eq([exp_tl_x + grid_width, exp_tl_y - grid_height])
+      expect(@pdf.grid(1, 4).top_left).to eq([exp_tl_x, exp_tl_y])
+      expect(@pdf.grid(1, 4).top_right).to eq([exp_tl_x + grid_width, exp_tl_y])
+      expect(@pdf.grid(1, 4).bottom_left).to eq([exp_tl_x, exp_tl_y - grid_height])
+      expect(@pdf.grid(1, 4).bottom_right).to eq([exp_tl_x + grid_width, exp_tl_y - grid_height])
     end
 
     it "should give the edges of a multiple grid boxes" do
       # Hand verified.  Cheating a bit.  Don't tell.
-      expect(@pdf.grid([1,3], [2,5]).top_left).to eq([330.0, 628.75])
-      expect(@pdf.grid([1,3], [2,5]).top_right).to eq([650.0, 628.75])
-      expect(@pdf.grid([1,3], [2,5]).bottom_left).to eq([330.0, 456.25])
-      expect(@pdf.grid([1,3], [2,5]).bottom_right).to eq([650.0, 456.25])
+      expect(@pdf.grid([1, 3], [2, 5]).top_left).to eq([330.0, 628.75])
+      expect(@pdf.grid([1, 3], [2, 5]).top_right).to eq([650.0, 628.75])
+      expect(@pdf.grid([1, 3], [2, 5]).bottom_left).to eq([330.0, 456.25])
+      expect(@pdf.grid([1, 3], [2, 5]).bottom_right).to eq([650.0, 456.25])
     end
 
     it "should draw outlines without changing global default colors to grid color" do
       @pdf.grid.show_all('cccccc')
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-      expect(colors.fill_color).not_to eq([0.8,0.8,0.8])
-      expect(colors.stroke_color).not_to eq([0.8,0.8,0.8])
+      expect(colors.fill_color).not_to eq([0.8, 0.8, 0.8])
+      expect(colors.stroke_color).not_to eq([0.8, 0.8, 0.8])
 
       # Hardcoded default color as I haven't been able to come up with a stable converter
       # between fill_color without lots code.
-      expect(colors.stroke_color).to eq([0.0,0.0,0.0])
+      expect(colors.stroke_color).to eq([0.0, 0.0, 0.0])
     end
 
     it "should draw outlines without curent color settings" do
@@ -88,8 +88,8 @@ describe "A document's grid" do
       @pdf.grid.show_all
 
       colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
-      expect(colors.fill_color).to eq([0.8,1.0,0.0])
-      expect(colors.stroke_color).to eq([1.0,0.8,0.0])
+      expect(colors.fill_color).to eq([0.8, 1.0, 0.0])
+      expect(colors.stroke_color).to eq([1.0, 0.8, 0.0])
     end
   end
 end

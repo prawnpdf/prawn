@@ -19,6 +19,6 @@ Prawn::Document.generate("png_types.pdf", :page_size => "A5") do
     fill_rectangle bounds.top_left, bounds.width, bounds.height
     text header
 
-    image file, :at => [50,450]
+    image file, :at => [50, 450]
   end
 end

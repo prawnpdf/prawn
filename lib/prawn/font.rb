@@ -300,7 +300,7 @@ module Prawn
       end
     end
 
-    def initialize(document,name,options = {}) #:nodoc:
+    def initialize(document, name, options = {}) #:nodoc:
       @document   = document
       @name       = name
       @options    = options

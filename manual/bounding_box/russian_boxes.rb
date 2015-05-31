@@ -13,7 +13,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     output = []
     a1.each do |i1|
       a2.each do |i2|
-        output += [[i1,i2]]
+        output += [[i1, i2]]
       end
     end
     output

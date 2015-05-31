@@ -17,11 +17,11 @@ Prawn::ManualBuilder::Example.generate(filename) do
   # able to run alone we are repeating it on every example
   define_grid(:columns => 5, :rows => 8, :gutter => 10)
 
-  grid(4,0).show
-  grid(5,1).show
+  grid(4, 0).show
+  grid(5, 1).show
 
-  grid([6,2], [7,3]).show
+  grid([6, 2], [7, 3]).show
 
-  grid([4,4], [7,4]).show
-  grid([7,0], [7,1]).show
+  grid([4, 4], [7, 4]).show
+  grid([7, 0], [7, 1]).show
 end

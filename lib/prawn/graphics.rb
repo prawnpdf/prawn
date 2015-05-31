@@ -63,7 +63,7 @@ module Prawn
     #
     #   pdf.curve_to [100,100], :bounds => [[90,90],[75,75]]
     #
-    def curve_to(dest,options = {})
+    def curve_to(dest, options = {})
       options[:bounds] or raise Prawn::Errors::InvalidGraphicsPath,
                                 "Bounding points for bezier curve must be specified " \
                                 "as :bounds => [[x1,y1],[x2,y2]]"
@@ -80,8 +80,8 @@ module Prawn
     #
     #    pdf.rectangle [300,300], 100, 200
     #
-    def rectangle(point,width,height)
-      x,y = map_to_absolute(point)
+    def rectangle(point, width, height)
+      x, y = map_to_absolute(point)
       box = PDF::Core.real_params([x, y - height, width, height])
 
       renderer.add_content("#{box} re")
@@ -93,7 +93,7 @@ module Prawn
     #
     #    pdf.rounded_rectangle [300,300], 100, 200, 10
     #
-    def rounded_rectangle(point,width,height,radius)
+    def rounded_rectangle(point, width, height, radius)
       x, y = point
       rounded_polygon(radius, point, [x + width, y], [x + width, y - height], [x, y - height])
     end
@@ -132,7 +132,7 @@ module Prawn
     #   pdf.line(100,100,200,250)
     #
     def line(*points)
-      x0,y0,x1,y1 = points.flatten
+      x0, y0, x1, y1 = points.flatten
       move_to(x0, y0)
       line_to(x1, y1)
     end
@@ -143,14 +143,14 @@ module Prawn
     #  # draw a line from [25, 75] to [100, 75]
     #  horizontal_line 25, 100, :at => 75
     #
-    def horizontal_line(x1,x2,options = {})
+    def horizontal_line(x1, x2, options = {})
       if options[:at]
         y1 = options[:at]
       else
         y1 = y - bounds.absolute_bottom
       end
 
-      line(x1,y1,x2,y1)
+      line(x1, y1, x2, y1)
     end
 
     # Draws a horizontal line from the left border to the right border of the
@@ -165,8 +165,8 @@ module Prawn
     #   # draw a line from [25, 100] to [25, 300]
     #   vertical_line 100, 300, :at => 25
     #
-    def vertical_line(y1,y2,params)
-      line(params[:at],y1,params[:at],y2)
+    def vertical_line(y1, y2, params)
+      line(params[:at], y1, params[:at], y2)
     end
 
     # Draws a Bezier curve between two points, bounded by two additional
@@ -174,9 +174,9 @@ module Prawn
     #
     #    pdf.curve [50,100], [100,100], :bounds => [[90,90],[75,75]]
     #
-    def curve(origin,dest, options = {})
+    def curve(origin, dest, options = {})
       move_to(*origin)
-      curve_to(dest,options)
+      curve_to(dest, options)
     end
 
     # This constant is used to approximate a symmetrical arc using a cubic
@@ -318,9 +318,9 @@ module Prawn
     #
     def stroke_axis(options = {})
       options = {
-        :at => [0,0],
-        :height => bounds.height.to_i - (options[:at] || [0,0])[1],
-        :width => bounds.width.to_i - (options[:at] || [0,0])[0],
+        :at => [0, 0],
+        :height => bounds.height.to_i - (options[:at] || [0, 0])[1],
+        :width => bounds.width.to_i - (options[:at] || [0, 0])[0],
         :step_length => 100,
         :negative_axes_length => 20,
         :color => "000000"
@@ -596,7 +596,7 @@ module Prawn
     shapes = %w{line_to curve_to rectangle rounded_rectangle line horizontal_line horizontal_rule vertical_line
                 curve circle_at circle ellipse_at ellipse polygon rounded_polygon rounded_vertex}
 
-    ops.product(shapes).each do |operation,shape|
+    ops.product(shapes).each do |operation, shape|
       class_eval "def #{operation}_#{shape}(*args); #{shape}(*args); #{operation}; end"
     end
 
@@ -615,7 +615,7 @@ module Prawn
     end
 
     def map_to_absolute(*point)
-      x,y = point.flatten
+      x, y = point.flatten
       [@bounding_box.absolute_left + x, @bounding_box.absolute_bottom + y]
     end
 
@@ -630,7 +630,7 @@ module Prawn
     # Returns the coordinates for a point on a line that is a given distance away from the second
     # point defining the line segement
     def point_on_line(distance_from_end, *points)
-      x0,y0,x1,y1 = points.flatten
+      x0, y0, x1, y1 = points.flatten
       length = Math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
       p = (length - distance_from_end) / length
       xr = x0 + p * (x1 - x0)

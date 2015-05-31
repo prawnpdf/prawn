@@ -12,7 +12,7 @@ Prawn::ManualBuilder::Example.generate("document_and_page_options.pdf",
     p.example "page_margins", :eval_source => false, :full_source => true
     p.example "background",   :eval_source => false, :full_source => true
     p.example "metadata",     :eval_source => false, :full_source => true
-    p.example "print_scaling",:eval_source => false, :full_source => true
+    p.example "print_scaling", :eval_source => false, :full_source => true
 
     p.intro do
       prose("So far we've already seen how to create new documents and start new pages. This chapter expands on the previous examples by showing other options avialable. Some of the options are only available when creating new documents.

@@ -105,12 +105,12 @@ module Prawn
     # @private
     def embed_image(pdf_obj, info, options)
       # find where the image will be placed and how big it will be
-      w,h = info.calc_image_dimensions(options)
+      w, h = info.calc_image_dimensions(options)
 
       if options[:at]
-        x,y = map_to_absolute(options[:at])
+        x, y = map_to_absolute(options[:at])
       else
-        x,y = image_position(w,h,options)
+        x, y = image_position(w, h, options)
         move_text_position h
       end
 
@@ -144,7 +144,7 @@ module Prawn
       io
     end
 
-    def image_position(w,h,options)
+    def image_position(w, h, options)
       options[:position] ||= :left
 
       y = case options[:vposition]
@@ -171,7 +171,7 @@ module Prawn
             options[:position] + bounds.left_side
           end
 
-      return [x,y]
+      return [x, y]
     end
 
     def determine_y_with_page_flow(h)
