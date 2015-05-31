@@ -40,7 +40,7 @@ module Prawn
       def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
-          kern(string).inject(0) do |s,r|
+          kern(string).inject(0) do |s, r|
             if r.is_a?(Numeric)
               s - r
             else
@@ -48,7 +48,7 @@ module Prawn
             end
           end * scale
         else
-          string.codepoints.inject(0) do |s,r|
+          string.codepoints.inject(0) do |s, r|
             s + character_width_by_code(r)
           end * scale
         end
@@ -73,7 +73,7 @@ module Prawn
       #
       # The +text+ parameter must be UTF8-encoded.
       #
-      def encode_text(text,options = {})
+      def encode_text(text, options = {})
         text = text.chomp
 
         if options[:kerning]
@@ -146,7 +146,7 @@ module Prawn
       end
 
       def serif?
-        @serif ||= [1,2,3,4,5,7].include?(family_class)
+        @serif ||= [1, 2, 3, 4, 5, 7].include?(family_class)
       end
 
       def script?
@@ -247,7 +247,7 @@ module Prawn
       end
 
       def register(subset)
-        temp_name = @ttf.name.postscript_name.gsub("\0","").to_sym
+        temp_name = @ttf.name.postscript_name.gsub("\0", "").to_sym
         ref = @document.ref!(:Type => :Font, :BaseFont => temp_name)
 
         # Embed the font metrics in the document after everything has been
@@ -267,7 +267,7 @@ module Prawn
 
         # empirically, it looks like Adobe Reader will not display fonts
         # if their font name is more than 33 bytes long. Strange. But true.
-        basename = font.name.postscript_name[0, 33].gsub("\0","")
+        basename = font.name.postscript_name[0, 33].gsub("\0", "")
 
         raise "Can't detect a postscript name for #{file}" if basename.nil?
 

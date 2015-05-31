@@ -1025,7 +1025,7 @@ describe "Text::Box#render with :mode option" do
     text_box = Prawn::Text::Box.new(string, options)
     text_box.render
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(contents.text_rendering_mode).to eq([2,0])
+    expect(contents.text_rendering_mode).to eq([2, 0])
   end
 end
 

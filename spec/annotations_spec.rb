@@ -7,7 +7,7 @@ describe "When creating annotations" do
 
   it "should append annotation to current page" do
     @pdf.start_new_page
-    @pdf.annotate(:Rect => [0,0,10,10], :Subtype => :Text, :Contents => "Hello world!")
+    @pdf.annotate(:Rect => [0, 0, 10, 10], :Subtype => :Text, :Contents => "Hello world!")
     PDF::Reader.open(StringIO.new(@pdf.render)) do |pdf|
       expect(pdf.page(1).attributes[:Annots]).to be_nil
       expect(pdf.page(2).attributes[:Annots].size).to eq(1)
@@ -15,16 +15,16 @@ describe "When creating annotations" do
   end
 
   it "should force :Type to be :Annot" do
-    opts = @pdf.annotate(:Rect => [0,0,10,10], :Subtype => :Text, :Contents => "Hello world!")
+    opts = @pdf.annotate(:Rect => [0, 0, 10, 10], :Subtype => :Text, :Contents => "Hello world!")
     expect(opts[:Type]).to eq(:Annot)
-    opts = @pdf.annotate(:Type => :Bogus, :Rect => [0,0,10,10], :Subtype => :Text, :Contents => "Hello world!")
+    opts = @pdf.annotate(:Type => :Bogus, :Rect => [0, 0, 10, 10], :Subtype => :Text, :Contents => "Hello world!")
     expect(opts[:Type]).to eq(:Annot)
   end
 end
 
 describe "When creating text annotations" do
   before(:each) do
-    @rect = [0,0,10,10]
+    @rect = [0, 0, 10, 10]
     @content = "Hello, world!"
     create_pdf
   end
@@ -46,7 +46,7 @@ end
 
 describe "When creating link annotations" do
   before(:each) do
-    @rect = [0,0,10,10]
+    @rect = [0, 0, 10, 10]
     @dest = "home"
     create_pdf
   end

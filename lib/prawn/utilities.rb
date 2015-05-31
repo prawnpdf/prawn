@@ -27,7 +27,7 @@ module Prawn
       @mutex.synchronize { @cache[key] }
     end
 
-    def []=(key,value)
+    def []=(key, value)
       @mutex.synchronize { @cache[key] = value }
     end
   end
@@ -42,7 +42,7 @@ module Prawn
       (Thread.current[@cache_id] ||= {})[key]
     end
 
-    def []=(key,value)
+    def []=(key, value)
       (Thread.current[@cache_id] ||= {})[key] = value
     end
   end

@@ -246,7 +246,7 @@ describe "Document#page_fonts" do
     @pdf.font "Times-Roman"
     @pdf.text("hello")
 
-    ["Courier","Helvetica","Times-Roman"].each { |f|
+    ["Courier", "Helvetica", "Times-Roman"].each { |f|
       page_should_include_font(f)
     }
 

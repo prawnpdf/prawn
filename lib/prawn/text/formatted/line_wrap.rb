@@ -244,11 +244,11 @@ module Prawn
         def wrap_by_char(segment)
           font = @document.font
           segment.each_char do |char|
-            break unless append_char(char,font)
+            break unless append_char(char, font)
           end
         end
 
-        def append_char(char,font)
+        def append_char(char, font)
           # kerning doesn't make sense in the context of a single character
           char_width = font.compute_width_of(char)
 

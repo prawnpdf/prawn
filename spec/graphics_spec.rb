@@ -6,17 +6,17 @@ describe "When drawing a line" do
   before(:each) { create_pdf }
 
   it "should draw a line from (100,600) to (100,500)" do
-    @pdf.line([100,600],[100,500])
+    @pdf.line([100, 600], [100, 500])
 
     line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
 
-    expect(line_drawing.points).to eq([[100,600],[100,500]])
+    expect(line_drawing.points).to eq([[100, 600], [100, 500]])
   end
 
   it "should draw two lines at (100,600) to (100,500) " \
      "and (75,100) to (50,125)" do
-    @pdf.line(100,600,100,500)
-    @pdf.line(75,100,50,125)
+    @pdf.line(100, 600, 100, 500)
+    @pdf.line(75, 100, 50, 125)
 
     line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
 
@@ -47,27 +47,27 @@ describe "When drawing a line" do
 
   describe "(Horizontally)" do
     it "should draw from [x1,pdf.y],[x2,pdf.y]" do
-      @pdf.horizontal_line(100,150)
+      @pdf.horizontal_line(100, 150)
       @line = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
       expect(@line.points).to eq([[100.0 + @pdf.bounds.absolute_left, @pdf.y],
                                   [150.0 + @pdf.bounds.absolute_left, @pdf.y]])
     end
 
     it "should draw a line from (200, 250) to (300, 250)" do
-      @pdf.horizontal_line(200,300,:at => 250)
+      @pdf.horizontal_line(200, 300, :at => 250)
       line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-      expect(line_drawing.points).to eq([[200,250],[300,250]])
+      expect(line_drawing.points).to eq([[200, 250], [300, 250]])
     end
   end
 
   describe "(Vertically)" do
     it "should draw a line from (350, 300) to (350, 400)" do
-      @pdf.vertical_line(300,400,:at => 350)
+      @pdf.vertical_line(300, 400, :at => 350)
       line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-      expect(line_drawing.points).to eq([[350,300],[350,400]])
+      expect(line_drawing.points).to eq([[350, 300], [350, 400]])
     end
     it "should require a y coordinate" do
-      expect { @pdf.vertical_line(400,500) }.
+      expect { @pdf.vertical_line(400, 500) }.
         to raise_error(ArgumentError)
     end
   end
@@ -77,10 +77,10 @@ describe "When drawing a polygon" do
   before(:each) { create_pdf }
 
   it "should draw each line passed to polygon()" do
-    @pdf.polygon([100,500],[100,400],[200,400])
+    @pdf.polygon([100, 500], [100, 400], [200, 400])
 
     line_drawing = PDF::Inspector::Graphics::Line.analyze(@pdf.render)
-    expect(line_drawing.points).to eq([[100,500],[100,400],[200,400],[100,500]])
+    expect(line_drawing.points).to eq([[100, 500], [100, 400], [200, 400], [100, 500]])
   end
 end
 
@@ -88,11 +88,11 @@ describe "When drawing a rectangle" do
   before(:each) { create_pdf }
 
   it "should use a point, width, and height for coords" do
-    @pdf.rectangle [200,200], 50, 100
+    @pdf.rectangle [200, 200], 50, 100
 
     rectangles = PDF::Inspector::Graphics::Rectangle.analyze(@pdf.render).rectangles
     # PDF uses bottom left corner
-    expect(rectangles[0][:point]).to eq([200,100])
+    expect(rectangles[0][:point]).to eq([200, 100])
     expect(rectangles[0][:width]).to eq(50)
     expect(rectangles[0][:height]).to eq(100)
   end
@@ -102,14 +102,14 @@ describe "When drawing a curve" do
   before(:each) { create_pdf }
 
   it "should draw a bezier curve from 50,50 to 100,100" do
-    @pdf.move_to [50,50]
-    @pdf.curve_to [100,100],:bounds => [[20,90], [90,70]]
+    @pdf.move_to [50, 50]
+    @pdf.curve_to [100, 100], :bounds => [[20, 90], [90, 70]]
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     expect(curve.coords).to eq([50.0, 50.0, 20.0, 90.0, 90.0, 70.0, 100.0, 100.0])
   end
 
   it "should draw a bezier curve from 100,100 to 50,50" do
-    @pdf.curve [100,100], [50,50], :bounds => [[20,90], [90,75]]
+    @pdf.curve [100, 100], [50, 50], :bounds => [[20, 90], [90, 75]]
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     expect(curve.coords).to eq([100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0])
   end
@@ -133,7 +133,7 @@ describe "When drawing a rounded rectangle" do
   end
 
   it "should draw a rectangle by connecting lines with rounded bezier curves" do
-    expect(@all_coords).to eq([[60.0, 550.0],[90.0, 550.0], [95.5228, 550.0],
+    expect(@all_coords).to eq([[60.0, 550.0], [90.0, 550.0], [95.5228, 550.0],
                                [100.0, 545.5228], [100.0, 540.0], [100.0, 460.0],
                                [100.0, 454.4772], [95.5228, 450.0], [90.0, 450.0],
                                [60.0, 450.0], [54.4772, 450.0], [50.0, 454.4772],
@@ -149,7 +149,7 @@ end
 describe "When drawing an ellipse" do
   before(:each) do
     create_pdf
-    @pdf.ellipse [100,100], 25, 50
+    @pdf.ellipse [100, 100], 25, 50
     @curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
   end
 
@@ -178,15 +178,15 @@ describe "When drawing an ellipse" do
   end
 
   it "should move the pointer to the center of the ellipse after drawing" do
-    expect(@curve.coords[-2..-1]).to eq([100,100])
+    expect(@curve.coords[-2..-1]).to eq([100, 100])
   end
 end
 
 describe "When drawing a circle" do
   before(:each) do
     create_pdf
-    @pdf.circle [100,100], 25
-    @pdf.ellipse [100,100], 25, 25
+    @pdf.circle [100, 100], 25
+    @pdf.ellipse [100, 100], 25, 25
     @curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
   end
 
@@ -234,7 +234,7 @@ describe "When setting colors" do
     @pdf.fill_color "ccff00"
     colors = PDF::Inspector::Graphics::Color.analyze(@pdf.render)
     # 80% red, 100% green, 0% blue
-    expect(colors.fill_color).to eq([0.8,1.0,0])
+    expect(colors.fill_color).to eq([0.8, 1.0, 0])
   end
 
   it "should reset the colors on each new page if they have been defined" do
@@ -248,8 +248,8 @@ describe "When setting colors" do
     expect(colors.fill_color_count).to eq(3)
     expect(colors.stroke_color_count).to eq(2)
 
-    expect(colors.fill_color).to eq([0.8,1.0,0.0])
-    expect(colors.stroke_color).to eq([1.0,0.0,0.8])
+    expect(colors.fill_color).to eq([0.8, 1.0, 0.0])
+    expect(colors.stroke_color).to eq([1.0, 0.0, 0.8])
   end
 
   it "should set the color space when setting colors on new pages to please fussy readers" do
@@ -349,17 +349,17 @@ describe "When using painting shortcuts" do
   before(:each) { create_pdf }
 
   it "should convert stroke_some_method(args) into some_method(args); stroke" do
-    @pdf.expects(:line_to).with([100,100])
+    @pdf.expects(:line_to).with([100, 100])
     @pdf.expects(:stroke)
 
-    @pdf.stroke_line_to [100,100]
+    @pdf.stroke_line_to [100, 100]
   end
 
   it "should convert fill_some_method(args) into some_method(args); fill" do
-    @pdf.expects(:line_to).with([100,100])
+    @pdf.expects(:line_to).with([100, 100])
     @pdf.expects(:fill)
 
-    @pdf.fill_line_to [100,100]
+    @pdf.fill_line_to [100, 100]
   end
 
   it "should not break method_missing" do
@@ -424,8 +424,8 @@ describe "When using graphics states" do
   it "should raise an error when dash is called w. a zero length or space" do
     expect { @pdf.dash(0) }.to raise_error(ArgumentError)
     expect { @pdf.dash([0]) }.to raise_error(ArgumentError)
-    expect { @pdf.dash([0,0]) }.to raise_error(ArgumentError)
-    expect { @pdf.dash([0,0,0,1]) }.to raise_error(ArgumentError)
+    expect { @pdf.dash([0, 0]) }.to raise_error(ArgumentError)
+    expect { @pdf.dash([0, 0, 0, 1]) }.to raise_error(ArgumentError)
   end
 
   it "the current graphic state should keep track of previous unchanged settings" do

@@ -25,19 +25,19 @@ Prawn::ManualBuilder::Example.generate(filename) do
   end
 
   repeat(:odd) do
-    draw_text "Only odd pages", :at => [0,0]
+    draw_text "Only odd pages", :at => [0, 0]
   end
 
   repeat(:even) do
-    draw_text "Only even pages", :at => [0,0]
+    draw_text "Only even pages", :at => [0, 0]
   end
 
-  repeat([1,3,7]) do
-    draw_text "Only on pages 1, 3 and 7", :at => [100,0]
+  repeat([1, 3, 7]) do
+    draw_text "Only on pages 1, 3 and 7", :at => [100, 0]
   end
 
   repeat(2..4) do
-    draw_text "From the 2nd to the 4th page", :at => [300,0]
+    draw_text "From the 2nd to the 4th page", :at => [300, 0]
   end
 
   repeat(lambda { |pg| pg % 3 == 0 }) do
@@ -50,6 +50,6 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   10.times do
     start_new_page
-    draw_text "A wonderful page", :at => [400,400]
+    draw_text "A wonderful page", :at => [400, 400]
   end
 end

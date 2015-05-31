@@ -111,8 +111,8 @@ module Prawn
       # See Algorithm 3.1.
       def self.encrypt_string(str, key, id, gen)
         # Convert ID and Gen number into little-endian truncated byte strings
-        id = [id].pack('V')[0,3]
-        gen = [gen].pack('V')[0,2]
+        id = [id].pack('V')[0, 3]
+        gen = [gen].pack('V')[0, 2]
         extended_key = "#{key}#{id}#{gen}"
 
         # Compute the RC4 key from the extended key and perform the encryption
@@ -229,7 +229,7 @@ module PDF
           in_content_stream)
       when ::Hash
         output = "<< "
-        obj.each do |k,v|
+        obj.each do |k, v|
           unless String === k || Symbol === k
             raise PDF::Core::Errors::FailedObjectConversion,
                   "A PDF Dictionary must be keyed by names"
