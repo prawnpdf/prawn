@@ -121,14 +121,14 @@ describe "When drawing a rounded rectangle" do
     @pdf.rounded_rectangle([50, 550], 50, 100, 10)
     curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
     curve_points = []
-    curve.coords.each_slice(2) {|p| curve_points << p}
+    curve.coords.each_slice(2) { |p| curve_points << p }
     @original_point = curve_points.shift
     curves = []
-    curve_points.each_slice(3) {|c| curves << c}
+    curve_points.each_slice(3) { |c| curves << c }
     line_points = PDF::Inspector::Graphics::Line.analyze(@pdf.render).points
     line_points.shift
     @all_coords = []
-    line_points.zip(curves).flatten.each_slice(2) {|p| @all_coords << p }
+    line_points.zip(curves).flatten.each_slice(2) { |p| @all_coords << p }
     @all_coords.unshift @original_point
   end
 

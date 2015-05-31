@@ -46,7 +46,7 @@ describe "Outline" do
 
     describe "#create_outline_item" do
       it "should create outline items for each section and page" do
-        [@section_1, @page_1, @page_2].each {|item| expect(item).not_to be_nil}
+        [@section_1, @page_1, @page_2].each { |item| expect(item).not_to be_nil }
       end
     end
 
@@ -57,7 +57,7 @@ describe "Outline" do
       end
 
       it "should link child items to parent item" do
-        [@page_1, @page_2].each {|page| expect(referenced_object(page[:Parent])).to eq(@section_1) }
+        [@page_1, @page_2].each { |page| expect(referenced_object(page[:Parent])).to eq(@section_1) }
       end
 
       it "should set the first and last child items for parent item" do
@@ -116,7 +116,7 @@ describe "Outline" do
     end
 
     it "should add new outline items to document" do
-      [@section_2, @page_3].each { |item| expect(item).not_to be_nil}
+      [@section_2, @page_3].each { |item| expect(item).not_to be_nil }
     end
 
     it "should reset the last items for root outline dictionary" do
@@ -153,7 +153,7 @@ describe "Outline" do
       end
 
       it "should add new outline items to document" do
-        [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil}
+        [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil }
       end
 
       it "should reset the last item for parent item dictionary" do
@@ -197,7 +197,7 @@ describe "Outline" do
       end
 
       it "should add new outline items to document" do
-        [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil}
+        [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil }
       end
 
       it "should reset the first item for parent item dictionary" do
@@ -378,8 +378,8 @@ end
 def render_and_find_objects
   output = StringIO.new(@pdf.render, 'r+')
   @hash = PDF::Reader::ObjectHash.new(output)
-  @outline_root = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Outlines}
-  @pages = @hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
+  @outline_root = @hash.values.find { |obj| obj.is_a?(Hash) && obj[:Type] == :Outlines }
+  @pages = @hash.values.find { |obj| obj.is_a?(Hash) && obj[:Type] == :Pages }[:Kids]
   @section_1 = find_by_title('Chapter 1')
   @page_1 = find_by_title('Page 1')
   @page_2 = find_by_title('Page 2')

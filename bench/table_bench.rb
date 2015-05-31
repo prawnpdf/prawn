@@ -14,7 +14,7 @@ class String
 end
 
 def data_for_table(columns, rows, string_size)
-  rows.times.collect { columns.times.collect { String.random(string_size) }}
+  rows.times.collect { columns.times.collect { String.random(string_size) } }
 end
 
 def benchmark_table_generation(columns, rows, string_size, options = {})

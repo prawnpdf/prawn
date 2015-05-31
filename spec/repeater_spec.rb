@@ -70,21 +70,21 @@ describe "Repeaters" do
     doc = sample_document
 
     doc.expects(:stamp).never
-    (1..10).each { |p| repeater(doc, :all, true){:do_nothing}.run(p) }
+    (1..10).each { |p| repeater(doc, :all, true){ :do_nothing }.run(p) }
   end
 
   it "must try to run a block if the page number matches" do
     doc = sample_document
 
     doc.expects(:draw_text).twice
-    (1..10).each { |p| repeater(doc, [1, 2], true){doc.draw_text "foo"}.run(p) }
+    (1..10).each { |p| repeater(doc, [1, 2], true){ doc.draw_text "foo" }.run(p) }
   end
 
   it "must not try to run a block unless the page number matches" do
     doc = sample_document
 
     doc.expects(:draw_text).never
-    repeater(doc, :odd, true){doc.draw_text "foo"}.run(2)
+    repeater(doc, :odd, true){ doc.draw_text "foo" }.run(2)
   end
 
   it "must treat any block as a closure" do
@@ -96,7 +96,7 @@ describe "Repeaters" do
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
-    expect(text.strings).to eq((1..10).to_a.map{|p| "Page #{p}"})
+    expect(text.strings).to eq((1..10).to_a.map{ |p| "Page #{p}" })
   end
 
   it "must treat any block as a closure (Document.new instance_eval form)" do
@@ -111,7 +111,7 @@ describe "Repeaters" do
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
-    expect(text.strings).to eq((1..10).to_a.map{|p| "Page #{p}"})
+    expect(text.strings).to eq((1..10).to_a.map{ |p| "Page #{p}" })
   end
 
   def sample_document
