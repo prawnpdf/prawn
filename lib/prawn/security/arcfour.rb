@@ -39,7 +39,7 @@ class Arcfour
   end
 
   def encrypt(string)
-    string.unpack('c*').map{|byte| byte ^ key_byte}.pack('c*')
+    string.unpack('c*').map{ |byte| byte ^ key_byte }.pack('c*')
   end
 
   private

@@ -110,7 +110,7 @@ describe "Document with a stamp" do
      "stamp XObject, not the page" do
     create_pdf
     @pdf.create_stamp("MyStamp") do
-      @pdf.transparent(0.5) { @pdf.circle([100, 100], 10)}
+      @pdf.transparent(0.5) { @pdf.circle([100, 100], 10) }
     end
     @pdf.stamp("MyStamp")
 

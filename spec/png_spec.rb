@@ -97,7 +97,7 @@ end
 describe "When reading an indexed color PNG file with transparency (color type 3)" do
   it "raises a not supported error" do
     bin = File.binread("#{Prawn::DATADIR}/images/pal_bk.png")
-    expect { Prawn::Images::PNG.new(bin)}.to(
+    expect { Prawn::Images::PNG.new(bin) }.to(
       raise_error(Prawn::Errors::UnsupportedImageType))
   end
 end

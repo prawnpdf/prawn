@@ -95,7 +95,7 @@ describe "the image() function" do
     @pdf.image @filename, :fit => [600, 600]
     output = StringIO.new(@pdf.render, 'r+')
     hash = PDF::Reader::ObjectHash.new(output)
-    pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
+    pages = hash.values.find { |obj| obj.is_a?(Hash) && obj[:Type] == :Pages }[:Kids]
     expect(pages.size).to eq(2)
     expect(hash[pages[0]][:Resources][:XObject].keys).to eq([:I1])
     expect(hash[pages[1]][:Resources][:XObject].keys).to eq([:I2])
@@ -106,7 +106,7 @@ describe "the image() function" do
     @pdf.image @filename, :fit => [400, 400]
     output = StringIO.new(@pdf.render, 'r+')
     hash = PDF::Reader::ObjectHash.new(output)
-    pages = hash.values.find {|obj| obj.is_a?(Hash) && obj[:Type] == :Pages}[:Kids]
+    pages = hash.values.find { |obj| obj.is_a?(Hash) && obj[:Type] == :Pages }[:Kids]
     expect(pages.size).to eq(1)
     expect(Set.new(hash[pages[0]][:Resources][:XObject].keys)).to eq(
       Set.new([:I1, :I2])

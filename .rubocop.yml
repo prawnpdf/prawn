@@ -85,8 +85,6 @@ SpaceInsideBrackets:
   Enabled: false
 FormatString:
   Enabled: false
-SpaceInsideBlockBraces:
-  Enabled: false
 CollectionMethods:
   Enabled: false
 DotPosition:

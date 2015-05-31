@@ -671,7 +671,7 @@ describe "The number_pages method" do
     context "some crazy proc and 2" do
       it "increments the pages" do
         6.times { @pdf.start_new_page }
-        options = { :page_filter => lambda {|p| p != 2 && p != 5}, :start_count_at => 4 }
+        options = { :page_filter => lambda { |p| p != 2 && p != 5 }, :start_count_at => 4 }
         @pdf.expects(:text_box).with("4 6", :height => 50) # page 1
         @pdf.expects(:text_box).with("5 6", :height => 50).never # page 2
         @pdf.expects(:text_box).with("6 6", :height => 50) # page 3
@@ -708,7 +708,7 @@ end
 describe "The page_match? method" do
   before do
     @pdf = Prawn::Document.new(:skip_page_creation => true)
-    10.times {@pdf.start_new_page}
+    10.times { @pdf.start_new_page }
   end
 
   it "returns nil given no filter" do
