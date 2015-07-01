@@ -28,10 +28,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   y_position = cursor - 20
   [:truncate, :expand, :shrink_to_fit].each_with_index do |mode, i|
-    text_box string, :at => [i * 150, y_position],
-                     :width => 100,
-                     :height => 50,
-                     :overflow => mode
+    text_box string, at: [i * 150, y_position],
+                     width: 100,
+                     height: 50,
+                     overflow: mode
   end
 
   string = "If the box is too small for the text, :shrink_to_fit " +
@@ -41,10 +41,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text string
   y_position = cursor - 20
   [nil, 8, 10, 12].each_with_index do |value, index|
-    text_box string, :at => [index * 150, y_position],
-                     :width => 50,
-                     :height => 50,
-                     :overflow => :shrink_to_fit,
-                     :min_font_size => value
+    text_box string, at: [index * 150, y_position],
+                     width: 50,
+                     height: 50,
+                     overflow: :shrink_to_fit,
+                     min_font_size: value
   end
 end

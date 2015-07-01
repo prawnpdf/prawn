@@ -26,7 +26,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     move_down 20
 
     # inline rendering mode: stroke
-    text "This text is stroked with blue", :mode => :stroke
+    text "This text is stroked with blue", mode: :stroke
     move_down 20
 
     # block rendering mode: fill and stroke

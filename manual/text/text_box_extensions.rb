@@ -28,16 +28,16 @@ Prawn::ManualBuilder::Example.generate(filename) do
   Prawn::Text::Box.extensions << TriangleBox
   stroke_rectangle([0, y_position], width, height)
   text_box("A" * 100,
-           :at => [0, y_position],
-           :width => width,
-           :height => height)
+           at: [0, y_position],
+           width: width,
+           height: height)
 
   Prawn::Text::Formatted::Box.extensions << TriangleBox
   stroke_rectangle([200, y_position], width, height)
-  formatted_text_box([:text => "A" * 100, :color => "009900"],
-                     :at => [200, y_position],
-                     :width => width,
-                     :height => height)
+  formatted_text_box([text: "A" * 100, color: "009900"],
+                     at: [200, y_position],
+                     width: width,
+                     height: height)
 
   # Here we clear the extensions array
   Prawn::Text::Box.extensions.clear

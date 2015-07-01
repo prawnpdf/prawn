@@ -14,10 +14,10 @@ info = {
   :Keywords     => "test metadata ruby pdf dry",
   :Creator      => "ACME Soft App",
   :Producer     => "Prawn",
-  :CreationDate => Time.now
+  CreationDate: Time.now
 }
 
-Prawn::Document.generate("metadata.pdf", :info => info) do
+Prawn::Document.generate("metadata.pdf", info: info) do
   text "This is a test of setting metadata properties via the info option."
   text "While the keys are arbitrary, the above example sets common attributes."
 end

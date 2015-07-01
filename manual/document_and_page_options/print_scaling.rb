@@ -13,8 +13,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Document.generate("print_scaling.pdf",
-                         :page_layout => :landscape,
-                         :print_scaling => :none
+                         page_layout: :landscape,
+                         print_scaling: :none
 ) do
   text "When you print this document, the scale to fit in print preview should be disabled by default."
 end

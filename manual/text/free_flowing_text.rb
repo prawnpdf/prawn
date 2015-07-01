@@ -22,12 +22,12 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text "This text will flow to the next page. " * 20
 
   y_position = cursor - 50
-  bounding_box([0, y_position], :width => 200, :height => 150) do
+  bounding_box([0, y_position], width: 200, height: 150) do
     transparent(0.5) { stroke_bounds }
     text "This text will flow along this bounding box we created for it. " * 5
   end
 
-  bounding_box([300, y_position], :width => 200, :height => 150) do
+  bounding_box([300, y_position], width: 200, height: 150) do
     transparent(0.5) { stroke_bounds }  # This will stroke on one page
 
     text "Now look what happens when the free flowing text reaches the end " +
@@ -41,7 +41,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   end
 
   move_cursor_to 200
-  span(350, :position => :center) do
+  span(350, position: :center) do
     text "Span is a different kind of bounding box as it lets the text " +
          "flow gracefully onto the next page. It doesn't matter if the text " +
          "started on the middle of the previous page, when it flows to the " +

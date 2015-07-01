@@ -20,10 +20,10 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
 
-  dash([1, 2, 3, 2, 1, 5], :phase => 6)
-  stroke_horizontal_line 50, 500, :at => 230
+  dash([1, 2, 3, 2, 1, 5], phase: 6)
+  stroke_horizontal_line 50, 500, at: 230
   dash([1, 2, 3, 4, 5, 6, 7, 8])
-  stroke_horizontal_line 50, 500, :at => 220
+  stroke_horizontal_line 50, 500, at: 220
 
   base_y = 210
 
@@ -42,7 +42,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     end
     base_y -= 5
 
-    dash(length, :space => space, :phase => phase)
-    stroke_horizontal_line 50, 500, :at => base_y - (2 * i)
+    dash(length, space: space, phase: phase)
+    stroke_horizontal_line 50, 500, at: base_y - (2 * i)
   end
 end

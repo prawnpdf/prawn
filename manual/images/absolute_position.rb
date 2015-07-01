@@ -17,7 +17,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   y_position = cursor
   text "The image won't go below this line of text."
 
-  image "#{Prawn::DATADIR}/images/fractal.jpg", :at => [200, y_position]
+  image "#{Prawn::DATADIR}/images/fractal.jpg", at: [200, y_position]
 
   text "And this line of text will go just below the previous one."
 end

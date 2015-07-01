@@ -49,13 +49,13 @@ Prawn::ManualBuilder::Example.generate(filename) do
     end
   end
 
-  highlight = HighlightCallback.new(:color => 'ffff00', :document => self)
-  border    = ConnectedBorderCallback.new(:radius => 2.5, :document => self)
+  highlight = HighlightCallback.new(color: 'ffff00', document: self)
+  border    = ConnectedBorderCallback.new(radius: 2.5, document: self)
 
-  formatted_text [ { :text => "hello", :callback => highlight },
-                   { :text => "     " },
-                   { :text => "world", :callback => border },
-                   { :text => "     " },
-                   { :text => "hello world", :callback => [highlight, border] }
-                 ], :size => 20
+  formatted_text [ { text: "hello", callback: highlight },
+                   { text: "     " },
+                   { text: "world", callback: border },
+                   { text: "     " },
+                   { text: "hello world", callback: [highlight, border] }
+                 ], size: 20
 end

@@ -25,7 +25,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     left_top_corners = combine([5, bounds.right - width - 5],
                                [bounds.top - 5, height + 5])
     left_top_corners.each do |lt|
-      bounding_box(lt, :width => width, :height => height) do
+      bounding_box(lt, width: width, height: height) do
         stroke_bounds
         recurse_bounding_box(max_depth, depth + 1) if depth < max_depth
       end
@@ -33,7 +33,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   end
 
   # Set up a bbox from the dashed line to the bottom of the page
-  bounding_box([0, cursor], :width => bounds.width, :height => cursor) do
+  bounding_box([0, cursor], width: bounds.width, height: cursor) do
     recurse_bounding_box
   end
 end

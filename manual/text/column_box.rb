@@ -10,11 +10,11 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  text "The Prince",          :align => :center, :size => 18
-  text "Niccolò Machiavelli", :align => :center, :size => 14
+  text "The Prince",          align: :center, size: 18
+  text "Niccolò Machiavelli", align: :center, size: 14
   move_down 12
 
-  column_box([0, cursor], :columns => 2, :width => bounds.width) do
+  column_box([0, cursor], columns: 2, width: bounds.width) do
     text((<<-END.gsub(/\s+/, ' ') + "\n\n") * 3)
       All the States and Governments by which men are or ever have been ruled,
       have been and are either Republics or Princedoms. Princedoms are either

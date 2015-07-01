@@ -5,15 +5,15 @@
 
 require_relative "../example_helper"
 
-Prawn::ManualBuilder::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
+Prawn::ManualBuilder::Example.generate("basic_concepts.pdf", page_size: "FOLIO") do
   package "basic_concepts" do |p|
-    p.example "creation", :eval_source => false, :full_source => true
+    p.example "creation", eval_source: false, full_source: true
     p.example "origin"
     p.example "cursor"
     p.example "other_cursor_helpers"
     p.example "adding_pages"
     p.example "measurement"
-    p.example "view", :eval_source => false, :full_source => true
+    p.example "view", eval_source: false, full_source: true
 
     p.intro do
       prose("This chapter covers the minimum amount of functionality you'll need to start using Prawn.

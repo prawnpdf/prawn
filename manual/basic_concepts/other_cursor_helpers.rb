@@ -30,7 +30,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   float do
     move_down 30
-    bounding_box([0, cursor], :width => 200) do
+    bounding_box([0, cursor], width: 200) do
       text "Text written inside the float block."
       stroke_bounds
     end

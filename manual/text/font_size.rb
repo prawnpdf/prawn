@@ -29,17 +29,17 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text "Back to 16 again."
 
   move_down 10
-  text "Single line on 20 using the :size option.", :size => 20
+  text "Single line on 20 using the :size option.", size: 20
 
   move_down 10
   text "Back to 16 once more."
 
   move_down 10
-  font("Courier", :size => 10) do
+  font("Courier", size: 10) do
     text "Yeah, using Courier 10 courtesy of the font method."
   end
 
   move_down 10
-  font("Helvetica", :size => 12)
+  font("Helvetica", size: 12)
   text "Back to normal"
 end
