@@ -28,9 +28,9 @@ Prawn::ManualBuilder::Example.generate(filename) do
   formatted_text [ { text: "Some bold. ",      styles: [:bold] },
                    { text: "Some italic. ",    styles: [:italic] },
                    { text: "Bold italic. ",    styles: [:bold, :italic] },
-                   { text: "Bigger Text. ",    :size  => 20 },
+                   { text: "Bigger Text. ",    size:   20 },
                    { text: "More spacing. ",   character_spacing: 3 },
-                   { text: "Different Font. ", font: "Courier" },
+                   { text: "Different Font. ", font:  "Courier" },
                    { text: "Some coloring. ",  color: "FF00FF" },
                    { text: "Link to the wiki. ",
                      color: "0000FF",
@@ -43,8 +43,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
   formatted_text_box [ { text: "Just your regular" },
                        { text: " text_box ", font: "Courier" },
                        { text: "with some additional formatting options " +
-                                  "added to the mix.",
-                         color: [50, 100, 0, 0],
+                               "added to the mix.",
+                         color:  [50, 100, 0, 0],
                          styles: [:italic] }
                      ], at: [100, 100], width: 200, height: 100
 end

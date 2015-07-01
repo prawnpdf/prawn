@@ -25,18 +25,21 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   stroke_rectangle [0, y - 100], width, height
   text_box("This text was rotated around the center",
-           at: [0, y - 100], width: width, height: height,
-           rotate: angle, rotate_around: :center)
+           at:            [0, y - 100],
+           width:         width,
+           height:        height,
+           rotate:        angle,
+           rotate_around: :center)
 
   [:lower_left, :upper_left,
    :lower_right, :upper_right].each_with_index do |corner, index|
     y = y - 100 if index == 2
     stroke_rectangle [x + (index % 2) * 200, y], width, height
     text_box("This text was rotated around the #{corner} corner.",
-             :at     => [x + (index % 2) * 200, y],
-             :width  => width,
-             height: height,
-             rotate: angle,
+             at:            [x + (index % 2) * 200, y],
+             width:         width,
+             height:        height,
+             rotate:        angle,
              rotate_around: corner)
   end
 end
