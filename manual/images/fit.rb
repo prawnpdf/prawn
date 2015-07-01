@@ -14,8 +14,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
   size = 300
 
   text "Using the fit option"
-  bounding_box([0, cursor], :width => size, :height => size) do
-    image "#{Prawn::DATADIR}/images/pigs.jpg", :fit => [size, size]
+  bounding_box([0, cursor], width: size, height: size) do
+    image "#{Prawn::DATADIR}/images/pigs.jpg", fit: [size, size]
     stroke_bounds
   end
 end

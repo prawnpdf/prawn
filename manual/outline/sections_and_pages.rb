@@ -36,32 +36,32 @@ Prawn::ManualBuilder::Example.generate(filename) do
   end
 
   outline.define do
-    section("Section 1", :destination => 1) do
-      page :title => "Page 2", :destination => 2
-      page :title => "Page 3", :destination => 3
+    section("Section 1", destination: 1) do
+      page title: "Page 2", destination: 2
+      page title: "Page 3", destination: 3
     end
 
-    section("Section 2", :destination => 4) do
-      page :title => "Page 5", :destination => 5
+    section("Section 2", destination: 4) do
+      page title: "Page 5", destination: 5
 
-      section("Subsection 2.1", :destination => 6, :closed => true) do
-        page :title => "Page 7", :destination => 7
+      section("Subsection 2.1", destination: 6, closed: true) do
+        page title: "Page 7", destination: 7
       end
     end
   end
 
   # Outside of the define block
-  outline.section("Section 3", :destination => 8) do
-    outline.page :title => "Page 9", :destination => 9
+  outline.section("Section 3", destination: 8) do
+    outline.page title: "Page 9", destination: 9
   end
 
-  outline.page :title => "Page 10", :destination => 10
+  outline.page title: "Page 10", destination: 10
 
   # Section and Pages without links. While a section without a link may be
   # useful to group some pages, a page without a link is useless
   outline.update do  # update is an alias to define
     section("Section without link") do
-      page :title => "Page without link"
+      page title: "Page without link"
     end
   end
 end

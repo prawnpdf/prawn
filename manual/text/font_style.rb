@@ -16,7 +16,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     move_down 20
 
     [:bold, :bold_italic, :italic, :normal].each do |style|
-      font example_font, :style => style
+      font example_font, style: style
       text "I'm writing in #{example_font} (#{style})"
     end
   end

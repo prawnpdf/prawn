@@ -11,12 +11,12 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
   font_families["Kai"] = {
-    :normal => { :file => file, :font => "Kai" }
+    normal: { file: file, font: "Kai" }
   }
 
   file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   font_families["Panic Sans"] = {
-    :normal => { :file => file, :font => "PanicSans" }
+    normal: { file: file, font: "PanicSans" }
   }
 
   font("Panic Sans") do
@@ -26,12 +26,12 @@ Prawn::ManualBuilder::Example.generate(filename) do
          "to right." +
          "\n\n" +
          "hello ƒ 你好\n再见 ƒ goodbye",
-         :fallback_fonts => ["Times-Roman", "Kai"])
+         fallback_fonts: ["Times-Roman", "Kai"])
   end
   move_down 20
 
-  formatted_text([ { :text => "Fallback fonts can even override" },
-                   { :text => "fragment fonts (你好)", :font => "Times-Roman" }
+  formatted_text([ { text: "Fallback fonts can even override" },
+                   { text: "fragment fonts (你好)", font: "Times-Roman" }
                  ],
-                 :fallback_fonts => ["Times-Roman", "Kai"])
+                 fallback_fonts: ["Times-Roman", "Kai"])
 end

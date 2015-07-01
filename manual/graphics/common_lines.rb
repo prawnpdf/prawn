@@ -23,8 +23,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
     move_down 50
     horizontal_rule
 
-    vertical_line   100, 300, :at => 50
+    vertical_line   100, 300, at: 50
 
-    horizontal_line 200, 500, :at => 150
+    horizontal_line 200, 500, at: 150
   end
 end

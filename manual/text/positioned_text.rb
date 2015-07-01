@@ -24,15 +24,15 @@ filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   draw_text "This draw_text line is absolute positioned. However don't " +
             "expect it to flow even if it hits the document border",
-            :at => [200, 300]
+            at: [200, 300]
 
   text_box "This is a text box, you can control where it will flow by " +
            "specifying the :height and :width options",
-           :at => [100, 250],
-           :height => 100,
-           :width => 100
+           at: [100, 250],
+           height: 100,
+           width: 100
 
   text_box "Another text box with no :width option passed, so it will " +
            "flow to a new line whenever it reaches the right margin. ",
-           :at => [200, 100]
+           at: [200, 100]
 end

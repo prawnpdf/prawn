@@ -40,7 +40,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   move_down 5
   print_coordinates
 
-  bounding_box([250, cursor + 140], :width => 200, :height => 150) do
+  bounding_box([250, cursor + 140], width: 200, height: 150) do
     text "This bounding box bounds:"
     move_down 5
     print_coordinates

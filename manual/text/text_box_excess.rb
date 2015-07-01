@@ -22,7 +22,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   excess_text = text_box string,
                          :width    => 300,
                          :height   => 50,
-                         :overflow => :truncate,
+                         overflow: :truncate,
                          :at       => [100, y_position],
                          :size     => 18
 
