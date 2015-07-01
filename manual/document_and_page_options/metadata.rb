@@ -8,12 +8,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 info = {
-  :Title        => "My title",
-  :Author       => "John Doe",
-  :Subject      => "My Subject",
-  :Keywords     => "test metadata ruby pdf dry",
-  :Creator      => "ACME Soft App",
-  :Producer     => "Prawn",
+  Title:        "My title",
+  Author:       "John Doe",
+  Subject:      "My Subject",
+  Keywords:     "test metadata ruby pdf dry",
+  Creator:      "ACME Soft App",
+  Producer:     "Prawn",
   CreationDate: Time.now
 }
 

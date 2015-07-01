@@ -29,9 +29,9 @@ Prawn::ManualBuilder::Example.generate(filename) do
   font_path = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   font_families.update(
     "Panic Sans" => {
-      :normal      => { file: font_path, font: "PanicSans" },
-      :italic      => { file: font_path, font: "PanicSans-Italic" },
-      :bold        => { file: font_path, font: "PanicSans-Bold" },
+      normal:      { file: font_path, font: "PanicSans" },
+      italic:      { file: font_path, font: "PanicSans-Italic" },
+      bold:        { file: font_path, font: "PanicSans-Bold" },
       bold_italic: { file: font_path, font: "PanicSans-BoldItalic" }
     }
   )

@@ -29,8 +29,8 @@ end
 Prawn::ManualBuilder::Example.generate("no_permissions.pdf") do
   text "You may only view this and won't be able to use the owner password."
   encrypt_document(user_password: 'foo', owner_password: :random,
-                   permissions: { :print_document     => false,
-                                     :modify_contents    => false,
-                                     :copy_contents      => false,
-                                     modify_annotations: false })
+                   permissions: { print_document:     false,
+                                  modify_contents:    false,
+                                  copy_contents:      false,
+                                  modify_annotations: false })
 end

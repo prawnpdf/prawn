@@ -16,7 +16,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::Document.generate("page_size.pdf",
-                         :page_size   => "EXECUTIVE",
+                         page_size:   "EXECUTIVE",
                          page_layout: :landscape
 ) do
   text "EXECUTIVE landscape page."
