@@ -1,6 +1,12 @@
 
 ## PrawnPDF master branch
 
+### Hash syntax update for manual
+
+The hash syntax in the manual changed from the old format (:symbol => value) 
+to the new syntax (symbol: value) being implementented with ruby 1.9.2 .
+(Christof Spies, [#890](https://github.com/prawnpdf/prawn/pull/890))
+
 ## PrawnPDF 2.0.2 -- 2015-07-15
 
 ### Links in repeaters/stamps are now clickable
