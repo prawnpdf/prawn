@@ -20,11 +20,11 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   y_position  = cursor - 20
   excess_text = text_box string,
-                width:    300,
-                height:   50,
-                overflow: :truncate,
-                at:       [100, y_position],
-                size:     18
+                         width:    300,
+                         height:   50,
+                         overflow: :truncate,
+                         at:       [100, y_position],
+                         size:     18
 
   text_box excess_text,
            width: 300,
