@@ -72,7 +72,8 @@ Void:
 StringLiterals:
   Enabled: false
 HashSyntax:
-  Enabled: false
+  Include:
+    - manual/**/*
 UselessAssignment:
   Enabled: false
 Lambda:
