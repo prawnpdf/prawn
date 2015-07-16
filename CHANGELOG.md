@@ -1,6 +1,3 @@
-
-## PrawnPDF master branch
-
 ## PrawnPDF 2.0.2 -- 2015-07-15
 
 ### Links in repeaters/stamps are now clickable
