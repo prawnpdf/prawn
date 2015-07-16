@@ -17,7 +17,6 @@ require_relative "../lib/prawn"
 Prawn.debug = true
 Prawn::Font::AFM.hide_m17n_warning = true
 
-#require "test/spec"
 require "rspec"
 require "mocha/api"
 require "pdf/reader"
@@ -25,7 +24,7 @@ require "pdf/inspector"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/extensions/ and its subdirectories.
-Dir[File.dirname(__FILE__) + "/extensions/**/*.rb"].each {|f| require f }
+Dir[File.dirname(__FILE__) + "/extensions/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   config.mock_framework = :mocha
@@ -33,7 +32,7 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
 end
 
-def create_pdf(klass=Prawn::Document)
+def create_pdf(klass = Prawn::Document)
   @pdf = klass.new(:margin => 0)
 end
 
@@ -51,4 +50,3 @@ end
 module Prawn::Graphics
   public :map_to_absolute
 end
-

@@ -9,7 +9,6 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-
   class Document
     # A list of all repeaters in the document.
     # See Document#repeat for details
@@ -75,7 +74,7 @@ module Prawn
     #
     #   end
     #
-    def repeat(page_filter, options={}, &block)
+    def repeat(page_filter, options = {}, &block)
       repeaters << Prawn::Repeater.new(self, page_filter, !!options[:dynamic], &block)
     end
   end
@@ -117,8 +116,5 @@ module Prawn
         end
       end
     end
-
   end
 end
-
-

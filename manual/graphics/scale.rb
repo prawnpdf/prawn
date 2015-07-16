@@ -25,7 +25,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
   scale(2, :origin => [x, y]) do
     stroke_rectangle [x, y], width, height
     text_box "rectangle scaled from upper-left corner",
-              :at => [x, y - height - 5], :width => width
+             :at => [x, y - height - 5],
+             :width => width
   end
 
   x = 350
@@ -36,6 +37,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   scale(2, :origin => [x + width / 2, y - height / 2]) do
     stroke_rectangle [x, y], width, height
     text_box "rectangle scaled from center",
-              :at => [x, y - height - 5], :width => width
+             :at => [x, y - height - 5],
+             :width => width
   end
 end

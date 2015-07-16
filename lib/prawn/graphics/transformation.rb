@@ -40,7 +40,7 @@ module Prawn
       #     pdf.stroke_rectangle([x, y], width, height)
       #   end
       #
-      def rotate(angle, options={}, &block)
+      def rotate(angle, options = {}, &block)
         Prawn.verify_options(:origin, options)
         rad = degree_to_rad(angle)
         cos = Math.cos(rad)
@@ -48,7 +48,7 @@ module Prawn
         if options[:origin].nil?
           transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
         else
-          raise Prawn::Errors::BlockRequired unless block_given?
+          fail Prawn::Errors::BlockRequired unless block_given?
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
           x_prime = x * cos - y * sin
@@ -112,12 +112,12 @@ module Prawn
       #     pdf.stroke_rectangle([x, y], width, height)
       #   end
       #
-      def scale(factor, options={}, &block)
+      def scale(factor, options = {}, &block)
         Prawn.verify_options(:origin, options)
         if options[:origin].nil?
           transformation_matrix(factor, 0, 0, factor, 0, 0, &block)
         else
-          raise Prawn::Errors::BlockRequired unless block_given?
+          fail Prawn::Errors::BlockRequired unless block_given?
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
           x_prime = factor * x
@@ -151,7 +151,6 @@ module Prawn
           restore_graphics_state
         end
       end
-
     end
   end
 end

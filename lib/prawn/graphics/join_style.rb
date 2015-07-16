@@ -20,7 +20,7 @@ module Prawn
       # NOTE: if this method is never called, :miter will be used for join style
       # throughout the document
       #
-      def join_style(style=nil)
+      def join_style(style = nil)
         return current_join_style || :miter if style.nil?
 
         self.current_join_style = style
@@ -39,7 +39,6 @@ module Prawn
       def current_join_style=(style)
         graphic_state.join_style = style
       end
-
 
       def write_stroke_join_style
         renderer.add_content "#{JOIN_STYLES[current_join_style]} j"

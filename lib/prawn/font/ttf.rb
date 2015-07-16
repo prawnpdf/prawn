@@ -12,7 +12,6 @@ require 'ttfunk/subset_collection'
 
 module Prawn
   class Font
-
     # @private
     class TTF < Font
       attr_reader :ttf, :subsets
@@ -21,7 +20,7 @@ module Prawn
         true
       end
 
-      def initialize(document, name, options={})
+      def initialize(document, name, options = {})
         super
 
         @ttf              = read_ttf_file
@@ -38,10 +37,10 @@ module Prawn
       end
 
       # NOTE: +string+ must be UTF8-encoded.
-      def compute_width_of(string, options={}) #:nodoc:
+      def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
-          kern(string).inject(0) do |s,r|
+          kern(string).inject(0) do |s, r|
             if r.is_a?(Numeric)
               s - r
             else
@@ -49,7 +48,7 @@ module Prawn
             end
           end * scale
         else
-          string.codepoints.inject(0) do |s,r|
+          string.codepoints.inject(0) do |s, r|
             s + character_width_by_code(r)
           end * scale
         end
@@ -74,7 +73,7 @@ module Prawn
       #
       # The +text+ parameter must be UTF8-encoded.
       #
-      def encode_text(text,options={})
+      def encode_text(text, options = {})
         text = text.chomp
 
         if options[:kerning]
@@ -115,14 +114,18 @@ module Prawn
       end
 
       def italic_angle
-        @italic_angle ||= if @ttf.postscript.exists?
+        return @italic_angle if @italic_angle
+
+        if @ttf.postscript.exists?
           raw = @ttf.postscript.italic_angle
           hi, low = raw >> 16, raw & 0xFF
           hi = -((hi ^ 0xFFFF) + 1) if hi & 0x8000 != 0
-          "#{hi}.#{low}".to_f
+          @italic_angle = "#{hi}.#{low}".to_f
         else
-          0
+          @italic_angle = 0
         end
+
+        @italic_angle
       end
 
       def cap_height
@@ -143,7 +146,7 @@ module Prawn
       end
 
       def serif?
-        @serif ||= [1,2,3,4,5,7].include?(family_class)
+        @serif ||= [1, 2, 3, 4, 5, 7].include?(family_class)
       end
 
       def script?
@@ -166,9 +169,9 @@ module Prawn
           text.encode(::Encoding::UTF_8)
         rescue => e
           puts e
-          raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " +
-            "#{text.encoding} can not be transparently converted to UTF-8. " +
-            "Please ensure the encoding of the string you are attempting " +
+          raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " \
+            "#{text.encoding} can not be transparently converted to UTF-8. " \
+            "Please ensure the encoding of the string you are attempting " \
             "to use is set correctly"
         end
       end
@@ -191,7 +194,7 @@ module Prawn
       private
 
       def cmap
-        @cmap ||= @ttf.cmap.unicode.first or raise("no unicode cmap for font")
+        @cmap ||= @ttf.cmap.unicode.first or fail("no unicode cmap for font")
       end
 
       # +string+ must be UTF8-encoded.
@@ -244,7 +247,7 @@ module Prawn
       end
 
       def register(subset)
-        temp_name = @ttf.name.postscript_name.gsub("\0","").to_sym
+        temp_name = @ttf.name.postscript_name.gsub("\0", "").to_sym
         ref = @document.ref!(:Type => :Font, :BaseFont => temp_name)
 
         # Embed the font metrics in the document after everything has been
@@ -264,25 +267,25 @@ module Prawn
 
         # empirically, it looks like Adobe Reader will not display fonts
         # if their font name is more than 33 bytes long. Strange. But true.
-        basename = font.name.postscript_name[0, 33].gsub("\0","")
+        basename = font.name.postscript_name[0, 33].gsub("\0", "")
 
-        raise "Can't detect a postscript name for #{file}" if basename.nil?
+        fail "Can't detect a postscript name for #{file}" if basename.nil?
 
         fontfile = @document.ref!(:Length1 => font_content.size)
         fontfile.stream << font_content
         fontfile.stream.compress!
 
         descriptor = @document.ref!(:Type        => :FontDescriptor,
-                                   :FontName    => basename.to_sym,
-                                   :FontFile2   => fontfile,
-                                   :FontBBox    => bbox,
-                                   :Flags       => pdf_flags,
-                                   :StemV       => stemV,
-                                   :ItalicAngle => italic_angle,
-                                   :Ascent      => @ascender,
-                                   :Descent     => @descender,
-                                   :CapHeight   => cap_height,
-                                   :XHeight     => x_height)
+                                    :FontName    => basename.to_sym,
+                                    :FontFile2   => fontfile,
+                                    :FontBBox    => bbox,
+                                    :Flags       => pdf_flags,
+                                    :StemV       => stemV,
+                                    :ItalicAngle => italic_angle,
+                                    :Ascent      => @ascender,
+                                    :Descent     => @descender,
+                                    :CapHeight   => cap_height,
+                                    :XHeight     => x_height)
 
         hmtx = font.horizontal_metrics
         widths = font.cmap.tables.first.code_map.map { |gid|

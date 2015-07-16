@@ -44,7 +44,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   number_pages string, options
 
   # Gray page numbers from 8 on up
-  options[:page_filter]    = lambda{ |pg| pg > 7}
+  options[:page_filter]    = lambda{ |pg| pg > 7 }
   options[:start_count_at] = 8
   options[:color]          = "333333"
   number_pages string, options

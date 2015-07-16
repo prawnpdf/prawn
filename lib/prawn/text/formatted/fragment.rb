@@ -9,14 +9,11 @@
 module Prawn
   module Text
     module Formatted
-
-
       # Prawn::Text::Formatted::Fragment is a state store for a formatted text
       # fragment. It does not render anything.
       #
       # @private
       class Fragment
-
         attr_reader :format_state, :text
         attr_writer :width
         attr_accessor :line_height, :descender, :ascender
@@ -257,7 +254,6 @@ module Prawn
             string
           end
         end
-
       end
     end
   end

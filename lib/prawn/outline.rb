@@ -101,8 +101,8 @@ module Prawn
     #
     def add_subsection_to(title, position = :last, &block)
       @parent = items[title]
-      raise Prawn::Errors::UnknownOutlineTitle,
-        "\n No outline item with title: '#{title}' exists in the outline tree" unless @parent
+      fail Prawn::Errors::UnknownOutlineTitle,
+           "\n No outline item with title: '#{title}' exists in the outline tree" unless @parent
       @prev = position == :first ? nil : @parent.data.last
       nxt = position == :first ? @parent.data.first : nil
       insert_section(nxt, &block)
@@ -131,8 +131,8 @@ module Prawn
     #
     def insert_section_after(title, &block)
       @prev = items[title]
-      raise Prawn::Errors::UnknownOutlineTitle,
-        "\n No outline item with title: '#{title}' exists in the outline tree" unless @prev
+      fail Prawn::Errors::UnknownOutlineTitle,
+           "\n No outline item with title: '#{title}' exists in the outline tree" unless @prev
       @parent = @prev.data.parent
       nxt = @prev.data.next
       insert_section(nxt, &block)
@@ -195,8 +195,8 @@ module Prawn
       if options[:title]
         title = options[:title]
       else
-        raise Prawn::Errors::RequiredOption,
-          "\nTitle is a required option for page"
+        fail Prawn::Errors::RequiredOption,
+             "\nTitle is a required option for page"
       end
       add_outline_item(title, options)
     end

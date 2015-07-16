@@ -15,7 +15,6 @@ require_relative "text/box"
 
 module Prawn
   module Text
-
     include PDF::Core::Text
     include Prawn::Text::Formatted
 
@@ -152,7 +151,7 @@ module Prawn
     # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
     # any text
     #
-    def text(string, options={})
+    def text(string, options = {})
       return false if string.nil?
       # we modify the options. don't change the user's hash
       options = options.dup
@@ -188,7 +187,7 @@ module Prawn
     #
     # Same as for #text
     #
-    def formatted_text(array, options={})
+    def formatted_text(array, options = {})
       options = inspect_options_for_text(options.dup)
 
       if color = options.delete(:color)
@@ -288,17 +287,17 @@ module Prawn
     #
     def draw_text!(text, options)
       unless font.unicode? || font.class.hide_m17n_warning || text.ascii_only?
-        warn "PDF's built-in fonts have very limited support for "+
-             "internationalized text.\nIf you need full UTF-8 support, "+
-             "consider using a TTF font instead.\n\nTo disable this "+
-             "warning, add the following line to your code:\n"+
+        warn "PDF's built-in fonts have very limited support for " \
+             "internationalized text.\nIf you need full UTF-8 support, " \
+             "consider using a TTF font instead.\n\nTo disable this " \
+             "warning, add the following line to your code:\n" \
              "Prawn::Font::AFM.hide_m17n_warning = true\n"
 
         font.class.hide_m17n_warning = true
       end
 
-      x,y = map_to_absolute(options[:at])
-      add_text_content(text,x,y,options)
+      x, y = map_to_absolute(options[:at])
+      add_text_content(text, x, y, options)
     end
 
     # Gets height of text in PDF points.
@@ -317,7 +316,7 @@ module Prawn
     # Raises <tt>Prawn::Errrors::CannotFit</tt> if not wide enough to print
     # any text
     #
-    def height_of(string, options={})
+    def height_of(string, options = {})
       height_of_formatted([{ :text => string }], options)
     end
 
@@ -331,15 +330,16 @@ module Prawn
     #                          :size => 24,
     #                          :styles => [:bold, :italic] }])
     #
-    def height_of_formatted(array, options={})
+    def height_of_formatted(array, options = {})
       if options[:indent_paragraphs]
-        raise NotImplementedError, ":indent_paragraphs option not available" +
+        fail NotImplementedError, ":indent_paragraphs option not available" \
           "with height_of"
       end
       process_final_gap_option(options)
-      box = Text::Formatted::Box.new(array,
-                          options.merge(:height   => 100000000,
-                                        :document => self))
+      box = Text::Formatted::Box.new(
+        array,
+        options.merge(:height => 100000000, :document => self)
+      )
       box.render(:dry_run => true)
 
       height = box.height
@@ -359,8 +359,11 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      gap = options.fetch(:direction, text_direction) == :ltr ?
-              [@indent_paragraphs, 0] : [0, @indent_paragraphs]
+      if options.fetch(:direction, text_direction) == :ltr
+        gap = [@indent_paragraphs, 0]
+      else
+        gap = [0, @indent_paragraphs]
+      end
 
       indent(*gap) do
         fill_formatted_text_box(string, options.dup.merge(:single_line => true))
@@ -392,9 +395,9 @@ module Prawn
 
     def inspect_options_for_draw_text(options)
       if options[:at].nil?
-        raise ArgumentError, "The :at option is required for draw_text"
+        fail ArgumentError, "The :at option is required for draw_text"
       elsif options[:align]
-        raise ArgumentError, "The :align option does not work with draw_text"
+        fail ArgumentError, "The :align option does not work with draw_text"
       end
       if options[:kerning].nil? then
         options[:kerning] = default_kerning?
@@ -406,7 +409,7 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        raise ArgumentError, ":at is no longer a valid option with text." +
+        fail ArgumentError, ":at is no longer a valid option with text." \
                              "use draw_text or text_box instead"
       end
       process_final_gap_option(options)

@@ -14,7 +14,6 @@ require_relative "document/internals"
 require_relative "document/span"
 
 module Prawn
-
   # The Prawn::Document class is how you start creating a PDF document.
   #
   # There are three basic ways you can instantiate PDF Documents in Prawn, they
@@ -102,7 +101,7 @@ module Prawn
     # @group Stable Attributes
 
     attr_accessor :margin_box
-    attr_reader   :margins, :y
+    attr_reader :margins, :y
     attr_accessor :page_number
 
     # @group Extension Attributes
@@ -138,8 +137,8 @@ module Prawn
     #     pdf.draw_text content, :at => [200,720], :size => 32
     #   end
     #
-    def self.generate(filename,options={},&block)
-      pdf = new(options,&block)
+    def self.generate(filename, options = {}, &block)
+      pdf = new(options, &block)
       pdf.render_file(filename)
     end
 
@@ -189,7 +188,7 @@ module Prawn
     #   # New document, with background
     #   pdf = Prawn::Document.new(:background => "#{Prawn::DATADIR}/images/pigs.jpg")
     #
-    def initialize(options={},&block)
+    def initialize(options = {}, &block)
       options = options.dup
 
       Prawn.verify_options VALID_OPTIONS, options
@@ -198,8 +197,8 @@ module Prawn
       # raise NotImplementedError if options[:skip_page_creation]
 
       self.class.extensions.reverse_each { |e| extend e }
-      @internal_state = PDF::Core::DocumentState.new(options)
-      @internal_state.populate_pages_from_store(self)
+      self.state = PDF::Core::DocumentState.new(options)
+      self.state.populate_pages_from_store(self)
       renderer.min_version(state.store.min_version) if state.store.min_version
 
       renderer.min_version(1.6) if options[:print_scaling] == :none
@@ -246,13 +245,17 @@ module Prawn
         last_page_margins = last_page.margins.dup
       end
 
-      page_options = {:size => options[:size] || last_page_size,
-                      :layout  => options[:layout] || last_page_layout,
-                      :margins => last_page_margins}
+      page_options = {
+        :size    => options[:size] || last_page_size,
+        :layout  => options[:layout] || last_page_layout,
+        :margins => last_page_margins
+      }
       if last_page
         new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
-        #erase the color space so that it gets reset on new page for fussy pdf-readers
+
+        # erase the color space so that it gets reset on new page for fussy pdf-readers
         new_graphic_state.color_space = {} if new_graphic_state
+
         page_options.merge!(:graphic_state => new_graphic_state)
       end
 
@@ -300,7 +303,7 @@ module Prawn
     #
     def go_to_page(k)
       @page_number = k
-      state.page = state.pages[k-1]
+      state.page = state.pages[k - 1]
       generate_margin_box
       @y = @bounding_box.absolute_top
     end
@@ -466,7 +469,6 @@ module Prawn
       move_down(y)
     end
 
-
     # Indents the specified number of PDF points for the duration of the block
     #
     #  pdf.text "some text"
@@ -518,18 +520,20 @@ module Prawn
     #                                           :size => 14}
     #   end
     #
-    def number_pages(string, options={})
+    def number_pages(string, options = {})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
-      page_filter = if opts.has_key?(:page_filter)
-        opts.delete(:page_filter)
+
+      if opts.key?(:page_filter)
+        page_filter = opts.delete(:page_filter)
       else
-        :all
+        page_filter = :all
       end
+
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
       # An explicit height so that we can draw page numbers in the margins
-      opts[:height] = 50 unless opts.has_key?(:height)
+      opts[:height] = 50 unless opts.key?(:height)
 
       start_count = false
       pseudopage = 0
@@ -547,7 +551,7 @@ module Prawn
           # have to use fill_color here otherwise text reverts back to default fill color
           fill_color txtcolor unless txtcolor.nil?
           total_pages = total_pages.nil? ? page_count : total_pages
-          str = string.gsub("<page>","#{pseudopage}").gsub("<total>","#{total_pages}")
+          str = string.gsub("<page>", "#{pseudopage}").gsub("<total>", "#{total_pages}")
           text_box str, opts
           start_count = true  # increment page count as soon as first match found
         end
@@ -568,20 +572,20 @@ module Prawn
     #
     # @private
     def group(*a, &b)
-      raise NotImplementedError,
-        "Document#group has been disabled because its implementation "+
-        "lead to corrupted documents whenever a page boundary was "+
-        "crossed. We will try to work on reimplementing it in a "+
-        "future release"
+      fail NotImplementedError,
+           "Document#group has been disabled because its implementation " \
+           "lead to corrupted documents whenever a page boundary was " \
+           "crossed. We will try to work on reimplementing it in a " \
+           "future release"
     end
 
     # @private
     def transaction
-      raise NotImplementedError,
-        "Document#transaction has been disabled because its implementation "+
-        "lead to corrupted documents whenever a page boundary was "+
-        "crossed. We will try to work on reimplementing it in a "+
-        "future release"
+      fail NotImplementedError,
+           "Document#transaction has been disabled because its implementation " \
+           "lead to corrupted documents whenever a page boundary was " \
+           "crossed. We will try to work on reimplementing it in a " \
+           "future release"
     end
 
     # Provides a way to execute a block of code repeatedly based on a
@@ -599,9 +603,9 @@ module Prawn
       when :all
         true
       when :odd
-        page_number % 2 == 1
+        page_number.odd?
       when :even
-        page_number % 2 == 0
+        page_number.even?
       when Range, Array
         page_filter.include?(page_number)
       when Proc
@@ -612,9 +616,9 @@ module Prawn
     # @private
 
     def mask(*fields)
-     # Stores the current state of the named attributes, executes the block, and
-     # then restores the original values after the block has executed.
-     # -- I will remove the nodoc if/when this feature is a little less hacky
+      # Stores the current state of the named attributes, executes the block, and
+      # then restores the original values after the block has executed.
+      # -- I will remove the nodoc if/when this feature is a little less hacky
       stored = {}
       fields.each { |f| stored[f] = send(f) }
       yield
@@ -634,9 +638,7 @@ module Prawn
     ## Internals. Don't depend on them!
 
     # @private
-    def state
-      @internal_state
-    end
+    attr_accessor :state
 
     # @private
     def page
@@ -644,7 +646,6 @@ module Prawn
     end
 
     private
-
 
     # setting override_settings to true ensures that a new graphic state does not end up using
     # previous settings.
@@ -684,23 +685,23 @@ module Prawn
       if options[:margin]
         # Treat :margin as CSS shorthand with 1-4 values.
         margin = Array(options[:margin])
-        positions = { 4 => [0,1,2,3], 3 => [0,1,2,1],
-                      2 => [0,1,0,1], 1 => [0,0,0,0] }[margin.length]
+        positions = { 4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
+                      2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0] }[margin.length]
 
-        [:top, :right, :bottom, :left].zip(positions).each do |p,i|
+        [:top, :right, :bottom, :left].zip(positions).each do |p, i|
           options[:"#{p}_margin"] ||= margin[i]
         end
       end
 
-      [:left,:right,:top,:bottom].each do |side|
-         if margin = options[:"#{side}_margin"]
-           state.page.margins[side] = margin
-         end
+      [:left, :right, :top, :bottom].each do |side|
+        if margin = options[:"#{side}_margin"]
+          state.page.margins[side] = margin
+        end
       end
     end
 
     def font_metric_cache #:nodoc:
-      @font_metric_cache ||= FontMetricCache.new( self )
+      @font_metric_cache ||= FontMetricCache.new(self)
     end
   end
 end

@@ -68,9 +68,9 @@ module Prawn
             @transparency = {}
             case @color_type
             when 3
-              raise Errors::UnsupportedImageType,
-                "Pallete-based transparency in PNG is not currently supported.\n" +
-                "See https://github.com/prawnpdf/prawn/issues/783"
+              fail Errors::UnsupportedImageType,
+                   "Pallete-based transparency in PNG is not currently supported.\n" \
+                   "See https://github.com/prawnpdf/prawn/issues/783"
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
@@ -121,18 +121,18 @@ module Prawn
       #
       def build_pdf_object(document)
         if compression_method != 0
-          raise Errors::UnsupportedImageType,
-            'PNG uses an unsupported compression method'
+          fail Errors::UnsupportedImageType,
+               'PNG uses an unsupported compression method'
         end
 
         if filter_method != 0
-          raise Errors::UnsupportedImageType,
-            'PNG uses an unsupported filter method'
+          fail Errors::UnsupportedImageType,
+               'PNG uses an unsupported filter method'
         end
 
         if interlace_method != 0
-          raise Errors::UnsupportedImageType,
-            'PNG uses unsupported interlace method'
+          fail Errors::UnsupportedImageType,
+               'PNG uses unsupported interlace method'
         end
 
         # some PNG types store the colour and alpha channel data together,
@@ -145,8 +145,8 @@ module Prawn
         when 3
           color = :DeviceRGB
         else
-          raise Errors::UnsupportedImageType,
-            "PNG uses an unsupported number of colors (#{png.colors})"
+          fail Errors::UnsupportedImageType,
+               "PNG uses an unsupported number of colors (#{png.colors})"
         end
 
         # build the image dict
@@ -181,7 +181,7 @@ module Prawn
           # build the color space array for the image
           obj.data[:ColorSpace] = [:Indexed,
                                    :DeviceRGB,
-                                   (palette.size / 3) -1,
+                                   (palette.size / 3) - 1,
                                    palette_obj]
         end
 
@@ -203,7 +203,7 @@ module Prawn
           # - An array with N elements, where N is two times the number of color
           #   components.
           rgb = transparency[:rgb]
-          obj.data[:Mask] = rgb.collect { |x| [x,x] }.flatten
+          obj.data[:Mask] = rgb.collect { |x| [x, x] }.flatten
         end
 
         # For PNG color types 4 and 6, the transparency data is stored as a alpha

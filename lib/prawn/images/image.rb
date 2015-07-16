@@ -42,7 +42,7 @@ module Prawn
         self.scaled_width = w
         self.scaled_height = h
 
-        [w,h]
+        [w, h]
       end
     end
   end

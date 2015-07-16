@@ -28,7 +28,6 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   text "FROM RIGHT TO LEFT:"
   text "This paragraph will be indented. " * 10 +
-        "\n" + "This one will too. " * 10,
-        :indent_paragraphs => 60, :direction => :rtl
-
+       "\n" + "This one will too. " * 10,
+       :indent_paragraphs => 60, :direction => :rtl
 end

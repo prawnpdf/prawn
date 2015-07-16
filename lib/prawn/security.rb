@@ -14,11 +14,9 @@ require_relative 'security/arcfour'
 
 module Prawn
   class Document
-
     # Implements PDF encryption (password protection and permissions) as
     # specified in the PDF Reference, version 1.3, section 3.5 "Encryption".
     module Security
-
       # @group Experimental API
 
       # Encrypts the document, to protect confidential data or control
@@ -89,9 +87,9 @@ module Prawn
       #   not a limitation of Prawn, but is rather a built-in limitation of the
       #   PDF format.
       #
-      def encrypt_document(options={})
+      def encrypt_document(options = {})
         Prawn.verify_options [:user_password, :owner_password, :permissions],
-          options
+                             options
         @user_password = options.delete(:user_password) || ""
 
         @owner_password = options.delete(:owner_password) || @user_password
@@ -113,8 +111,8 @@ module Prawn
       # See Algorithm 3.1.
       def self.encrypt_string(str, key, id, gen)
         # Convert ID and Gen number into little-endian truncated byte strings
-        id = [id].pack('V')[0,3]
-        gen = [gen].pack('V')[0,2]
+        id = [id].pack('V')[0, 3]
+        gen = [gen].pack('V')[0, 2]
         extended_key = "#{key}#{id}#{gen}"
 
         # Compute the RC4 key from the extended key and perform the encryption
@@ -142,12 +140,12 @@ module Prawn
 
       FullPermissions = 0b1111_1111_1111_1111_1111_1111_1111_1111
 
-      def permissions=(perms={})
+      def permissions=(perms = {})
         @permissions ||= FullPermissions
         perms.each do |key, value|
           unless PermissionsBits[key]
-            raise ArgumentError, "Unknown permission :#{key}. Valid options: " +
-              PermissionsBits.keys.map { |k| k.inspect }.join(", ")
+            fail ArgumentError, "Unknown permission :#{key}. Valid options: " +
+              PermissionsBits.keys.map(&:inspect).join(", ")
           end
 
           # 0-based bit number, from LSB
@@ -167,7 +165,7 @@ module Prawn
 
       PasswordPadding =
         "28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A".
-        scan(/../).map{|x| x.to_i(16)}.pack("c*")
+        scan(/../).map{ |x| x.to_i(16) }.pack("c*")
 
       # Pads or truncates a password to 32 bytes as per Alg 3.2.
       def pad_password(password)
@@ -197,9 +195,7 @@ module Prawn
       def user_password_hash
         Arcfour.new(user_encryption_key).encrypt(PasswordPadding)
       end
-
     end
-
   end
 end
 
@@ -213,11 +209,11 @@ module PDF
     # from the indirect object referencing obj.
     #
     # @private
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream=false)
+    def EncryptedPdfObject(obj, key, id, gen, in_content_stream = false)
       case obj
       when Array
         "[" << obj.map { |e|
-            EncryptedPdfObject(e, key, id, gen, in_content_stream)
+          EncryptedPdfObject(e, key, id, gen, in_content_stream)
         }.join(' ') << "]"
       when LiteralString
         obj = ByteString.new(Prawn::Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
@@ -233,13 +229,12 @@ module PDF
           in_content_stream)
       when ::Hash
         output = "<< "
-        obj.each do |k,v|
+        obj.each do |k, v|
           unless String === k || Symbol === k
-            raise PDF::Core::Errors::FailedObjectConversion,
-              "A PDF Dictionary must be keyed by names"
+            fail PDF::Core::Errors::FailedObjectConversion,
+                 "A PDF Dictionary must be keyed by names"
           end
-          output << PdfObject(k.to_sym, in_content_stream) << " " <<
-                    EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
+          output << PdfObject(k.to_sym, in_content_stream) << " " << EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
         end
         output << ">>"
       when NameTree::Value
@@ -251,7 +246,6 @@ module PDF
         PdfObject(obj, in_content_stream)
       end
     end
-
 
     # @private
     class Stream
@@ -266,23 +260,21 @@ module PDF
 
     # @private
     class Reference
-
       # Returns the object definition for the object this references, keyed from
       # +key+.
       def encrypted_object(key)
         @on_encode.call(self) if @on_encode
 
         output = "#{@identifier} #{gen} obj\n"
-        unless @stream.empty?
+        if @stream.empty?
+          output << PDF::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
+        else
           output << PDF::Core::EncryptedPdfObject(data.merge(@stream.data), key, @identifier, gen) << "\n" <<
             @stream.encrypted_object(key, @identifier, gen)
-        else
-          output << PDF::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
         end
 
         output << "endobj\n"
       end
-
     end
   end
 end

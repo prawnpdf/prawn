@@ -6,9 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-
 module Prawn
-
   # The Prawn::Stamp module is used to create content that will be
   # included multiple times in a document. Using a stamp has three
   # advantages over creating content anew each time it is placed on
@@ -27,7 +25,6 @@ module Prawn
   #   pdf.stamp("my_stamp")
   #
   module Stamp
-
     # @group Stable API
 
     # Renders the stamp named <tt>name</tt> to the page
@@ -45,6 +42,7 @@ module Prawn
     def stamp(name)
       dictionary_name, dictionary = stamp_dictionary(name)
       renderer.add_content "/#{dictionary_name} Do"
+      update_annotation_references dictionary.data[:Annots]
       state.page.xobjects.merge!(dictionary_name => dictionary)
     end
 
@@ -94,9 +92,9 @@ module Prawn
     end
 
     def stamp_dictionary(name)
-      raise Prawn::Errors::InvalidName if name.empty?
+      fail Prawn::Errors::InvalidName if name.empty?
       if stamp_dictionary_registry[name].nil?
-        raise Prawn::Errors::UndefinedObjectName
+        fail Prawn::Errors::UndefinedObjectName
       end
 
       dict = stamp_dictionary_registry[name]
@@ -107,8 +105,8 @@ module Prawn
     end
 
     def create_stamp_dictionary(name)
-      raise Prawn::Errors::InvalidName if name.empty?
-      raise Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
+      fail Prawn::Errors::InvalidName if name.empty?
+      fail Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
       # BBox origin is the lower left margin of the page, so we need
       # it to be the full dimension of the page, or else things that
       # should appear near the top or right margin are invisible
@@ -124,6 +122,17 @@ module Prawn
       dictionary
     end
 
+    # Referencing annotations from a stamp XObject doesn't result
+    # in a working link. Instead, the references must be appended
+    # to the /Annot dictionary of the object that contains the
+    # call to the stamp object.
+    def update_annotation_references(annots)
+      if annots && annots.any?
+        state.page.dictionary.data[:Annots] ||= []
+        state.page.dictionary.data[:Annots] |= annots
+      end
+    end
+
     def freeze_stamp_graphics
       update_colors
       write_line_width
@@ -131,6 +140,5 @@ module Prawn
       write_stroke_join_style
       write_stroke_dash
     end
-
   end
 end

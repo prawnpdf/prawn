@@ -47,11 +47,11 @@ Prawn::ManualBuilder::Example.generate(filename) do
         case align
         when :left   then offset = 0
         when :right  then offset = total_width - width
-        when :center then offset = (total_width - width)/2
+        when :center then offset = (total_width - width) / 2
         end
 
         text_box(field.force_encoding("windows-1252").encode("UTF-8"),
-          :at => [dx + offset, y])
+                 :at => [dx + offset, y])
       end
 
       dx += total_width

@@ -12,7 +12,6 @@ require_relative "font/dfont"
 require_relative "font_metric_cache"
 
 module Prawn
-
   class Document
     # @group Stable API
 
@@ -48,11 +47,11 @@ module Prawn
     # the :style option you need to map those font styles to their respective font files.
     # See font_families for more information.
     #
-    def font(name=nil, options={})
+    def font(name = nil, options = {})
       return((defined?(@font) && @font) || font("Helvetica")) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
-        raise Prawn::Errors::NotOnPage
+        fail Prawn::Errors::NotOnPage
       end
 
       new_font = find_font(name.to_s, options)
@@ -95,7 +94,7 @@ module Prawn
     # When called without an argument, this method returns the current font
     # size.
     #
-    def font_size(points=nil)
+    def font_size(points = nil)
       return @font_size unless points
       size_before_yield = @font_size
       @font_size = points
@@ -127,7 +126,7 @@ module Prawn
     # By putting width_of here, on Document itself, extensions may easily override
     # it and redefine the width calculation behavior.
     #++
-    def width_of(string, options={})
+    def width_of(string, options = {})
       if p = options[:inline_format]
         p = [] unless p.is_a?(Array)
 
@@ -170,21 +169,21 @@ module Prawn
     #
     def font_families
       @font_families ||= {}.merge!(
-        { "Courier"     => { :bold        => "Courier-Bold",
-                             :italic      => "Courier-Oblique",
-                             :bold_italic => "Courier-BoldOblique",
-                             :normal      => "Courier" },
+        "Courier"     => { :bold        => "Courier-Bold",
+                           :italic      => "Courier-Oblique",
+                           :bold_italic => "Courier-BoldOblique",
+                           :normal      => "Courier" },
 
-          "Times-Roman" => { :bold         => "Times-Bold",
-                             :italic       => "Times-Italic",
-                             :bold_italic  => "Times-BoldItalic",
-                             :normal       => "Times-Roman" },
+        "Times-Roman" => { :bold         => "Times-Bold",
+                           :italic       => "Times-Italic",
+                           :bold_italic  => "Times-BoldItalic",
+                           :normal       => "Times-Roman" },
 
-          "Helvetica"   => { :bold         => "Helvetica-Bold",
-                             :italic       => "Helvetica-Oblique",
-                             :bold_italic  => "Helvetica-BoldOblique",
-                             :normal       => "Helvetica" }
-        })
+        "Helvetica"   => { :bold         => "Helvetica-Bold",
+                           :italic       => "Helvetica-Oblique",
+                           :bold_italic  => "Helvetica-BoldOblique",
+                           :normal       => "Helvetica" }
+      )
     end
 
     # @group Experimental API
@@ -192,7 +191,7 @@ module Prawn
     # Sets the font directly, given an actual Font object
     # and size.
     #
-    def set_font(font, size=nil) # :nodoc:
+    def set_font(font, size = nil) # :nodoc:
       @font = font
       @font_size = size if size
     end
@@ -228,7 +227,7 @@ module Prawn
     # ++
     #
     # @private
-    def find_font(name, options={}) #:nodoc:
+    def find_font(name, options = {}) #:nodoc:
       if font_families.key?(name)
         family, name = name, font_families[name][options[:style] || :normal]
         if name.is_a?(::Hash)
@@ -241,10 +240,7 @@ module Prawn
       if name.is_a? Prawn::Font
         font_registry[key] = name
       else
-        font_registry[key] ||= Font.load( self,
-                                          name,
-                                          options.merge(family: family)
-                               )
+        font_registry[key] ||= Font.load(self, name, options.merge(family: family))
       end
     end
 
@@ -256,7 +252,7 @@ module Prawn
 
     private
 
-    def width_of_inline_formatted_string(string, options={})
+    def width_of_inline_formatted_string(string, options = {})
       # Build up an Arranger with the entire string on one line, finalize it,
       # and find its width.
       arranger = Prawn::Text::Formatted::Arranger.new(self, options)
@@ -266,15 +262,14 @@ module Prawn
       arranger.line_width
     end
 
-    def width_of_string(string, options={})
-      font_metric_cache.width_of( string, options )
+    def width_of_string(string, options = {})
+      font_metric_cache.width_of(string, options)
     end
   end
 
   # Provides font information and helper functions.
   #
   class Font
-
     # The current font name
     attr_reader :name
 
@@ -287,7 +282,7 @@ module Prawn
     # Shortcut interface for constructing a font object.  Filenames of the form
     # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
     # will be passed through to Font::AFM.new()
-    def self.load(document, src, options={})
+    def self.load(document, src, options = {})
       case font_format(src, options)
       when 'ttf'   then TTF.new(document, src, options)
       when 'dfont' then DFont.new(document, src, options)
@@ -305,7 +300,7 @@ module Prawn
       end
     end
 
-    def initialize(document,name,options={}) #:nodoc:
+    def initialize(document, name, options = {}) #:nodoc:
       @document   = document
       @name       = name
       @options    = options
@@ -340,7 +335,7 @@ module Prawn
     # and the new string will be returned. For an in-place (destructive)
     # version, see normalize_encoding!.
     def normalize_encoding(string)
-      raise NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
+      fail NotImplementedError, "subclasses of Prawn::Font must implement #normalize_encoding"
     end
 
     # Destructive version of normalize_encoding; normalizes the encoding of a
@@ -391,7 +386,7 @@ module Prawn
 
     # Compliments the #hash implementation above
     #
-    def eql?( other ) #:nodoc:
+    def eql?(other) #:nodoc:
       self.class == other.class && self.name == other.name &&
         self.family == other.family && size == other.send(:size)
     end
@@ -407,7 +402,5 @@ module Prawn
     def size
       @document.font_size
     end
-
   end
-
 end

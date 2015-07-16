@@ -15,7 +15,7 @@ describe "ImageHandler" do
     image_handler.register(handler_b)
 
     handler = image_handler.find("arbitrary blob")
-    handler.should == handler_a
+    expect(handler).to eq(handler_a)
   end
 
   it "can prepend handlers" do
@@ -25,7 +25,7 @@ describe "ImageHandler" do
     image_handler.register!(handler_b)
 
     handler = image_handler.find("arbitrary blob")
-    handler.should == handler_b
+    expect(handler).to eq(handler_b)
   end
 
   it "can unregister a handler" do
@@ -37,7 +37,7 @@ describe "ImageHandler" do
     image_handler.unregister(handler_a)
 
     handler = image_handler.find('arbitrary blob')
-    handler.should == handler_b
+    expect(handler).to eq(handler_b)
   end
 
   it "raises an error when no matching handler is found" do
@@ -48,7 +48,6 @@ describe "ImageHandler" do
     image_handler.register(handler_b)
 
     expect { image_handler.find("arbitrary blob") }.
-       to(raise_error(Prawn::Errors::UnsupportedImageType))
+      to(raise_error(Prawn::Errors::UnsupportedImageType))
   end
-
 end

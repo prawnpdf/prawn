@@ -10,7 +10,6 @@ require_relative "../encoding"
 
 module Prawn
   class Font
-
     # @private
 
     class AFM < Font
@@ -37,15 +36,16 @@ module Prawn
             ".", "/usr/lib/afm",
             "/usr/local/lib/afm",
             "/usr/openwin/lib/fonts/afm",
-             Prawn::DATADIR+'/fonts']
+            Prawn::DATADIR + '/fonts'
+          ]
         end
       end
 
       attr_reader :attributes #:nodoc:
 
-      def initialize(document, name, options={}) #:nodoc:
+      def initialize(document, name, options = {}) #:nodoc:
         unless BUILT_INS.include?(name)
-          raise Prawn::Errors::UnknownFont, "#{name} is not a known font."
+          fail Prawn::Errors::UnknownFont, "#{name} is not a known font."
         end
 
         super
@@ -54,7 +54,7 @@ module Prawn
 
         file_name = @name.dup
         file_name << ".afm" unless file_name =~ /\.afm$/
-        file_name = file_name[0] == ?/ ? file_name : find_font(file_name)
+        file_name = file_name[0] == '/' ? file_name : find_font(file_name)
 
         font_data = @@font_data[file_name] ||= parse_afm(file_name)
         @glyph_widths    = font_data[:glyph_widths]
@@ -76,12 +76,12 @@ module Prawn
       end
 
       # NOTE: String *must* be encoded as WinAnsi
-      def compute_width_of(string, options={}) #:nodoc:
+      def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
           strings, numbers = kern(string).partition { |e| e.is_a?(String) }
-          total_kerning_offset = numbers.inject(0.0) { |s,r| s + r }
+          total_kerning_offset = numbers.inject(0.0) { |s, r| s + r }
           (unscaled_width_of(strings.join) - total_kerning_offset) * scale
         else
           unscaled_width_of(string) * scale
@@ -104,8 +104,8 @@ module Prawn
              ::Encoding::UndefinedConversionError
 
         raise Prawn::Errors::IncompatibleStringEncoding,
-          "Your document includes text that's not compatible with the Windows-1252 character set.\n"+
-          "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
+              "Your document includes text that's not compatible with the Windows-1252 character set.\n" \
+              "If you need full UTF-8 support, use TTF fonts instead of PDF's built-in fonts\n."
       end
 
       def to_utf8(text)
@@ -130,7 +130,7 @@ module Prawn
       #
       # The +text+ parameter must be in WinAnsi encoding (cp1252).
       #
-      def encode_text(text, options={})
+      def encode_text(text, options = {})
         [[0, options[:kerning] ? kern(text) : text]]
       end
 
@@ -143,9 +143,11 @@ module Prawn
       private
 
       def register(subset)
-        font_dict = {:Type     => :Font,
-                     :Subtype  => :Type1,
-                     :BaseFont => name.to_sym}
+        font_dict = {
+          :Type     => :Font,
+          :Subtype  => :Type1,
+          :BaseFont => name.to_sym
+        }
 
         # Symbolic AFM fonts (Symbol, ZapfDingbats) have their own encodings
         font_dict.merge!(:Encoding => :WinAnsiEncoding) unless symbolic?
@@ -161,12 +163,11 @@ module Prawn
         self.class.metrics_path.find { |f| File.exist? "#{f}/#{file}" } + "/#{file}"
       rescue NoMethodError
         raise Prawn::Errors::UnknownFont,
-          "Couldn't find the font: #{file} in any of:\n" +
-           self.class.metrics_path.join("\n")
+              "Couldn't find the font: #{file} in any of:\n" + self.class.metrics_path.join("\n")
       end
 
       def parse_afm(file_name)
-        data    = {:glyph_widths => {}, :bounding_boxes => {}, :kern_pairs => {}, :attributes => {}}
+        data    = { :glyph_widths => {}, :bounding_boxes => {}, :kern_pairs => {}, :attributes => {} }
         section = []
 
         File.foreach(file_name) do |line|
@@ -204,12 +205,11 @@ module Prawn
         end
 
         character_hash = Hash[Encoding::WinAnsi::CHARACTERS.zip((0..Encoding::WinAnsi::CHARACTERS.size).to_a)]
-        data[:kern_pair_table] = data[:kern_pairs].inject({}) do |h,p|
+        data[:kern_pair_table] = data[:kern_pairs].each_with_object({}) do |p, h|
           h[p[0].map { |n| character_hash[n] }] = p[1]
-          h
         end
 
-        data.each_value { |hash| hash.freeze }
+        data.each_value(&:freeze)
         data.freeze
       end
 
@@ -247,7 +247,7 @@ module Prawn
       private
 
       def unscaled_width_of(string)
-        string.bytes.inject(0) do |s,r|
+        string.bytes.inject(0) do |s, r|
           s + @glyph_table[r]
         end
       end

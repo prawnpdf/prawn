@@ -21,4 +21,3 @@ Prawn::ManualBuilder::Example.generate(filename) do
        :color => "0000FF",
        :inline_format => true
 end
-

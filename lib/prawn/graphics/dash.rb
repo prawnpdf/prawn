@@ -52,17 +52,17 @@ module Prawn
       # Integers or Floats may be used for length and the option values.
       # Dash units are in PDF points (1/72 inch).
       #
-      def dash(length=nil, options={})
+      def dash(length = nil, options = {})
         return current_dash_state if length.nil?
 
         if length == 0 || length.kind_of?(Array) && length.any? { |e| e == 0 }
-          raise ArgumentError,
-            "Zero length dashes are invalid. Call #undash to disable dashes."
+          fail ArgumentError,
+               "Zero length dashes are invalid. Call #undash to disable dashes."
         end
 
         self.current_dash_state = { :dash  => length,
-                  :space => length.kind_of?(Array) ? nil : options[:space] || length,
-                  :phase => options[:phase] || 0 }
+                                    :space => length.kind_of?(Array) ? nil : options[:space] || length,
+                                    :phase => options[:phase] || 0 }
 
         write_stroke_dash
       end
@@ -103,7 +103,6 @@ module Prawn
       def dash_setting
         graphic_state.dash_setting
       end
-
     end
   end
 end

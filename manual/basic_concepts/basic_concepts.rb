@@ -6,9 +6,7 @@
 require_relative "../example_helper"
 
 Prawn::ManualBuilder::Example.generate("basic_concepts.pdf", :page_size => "FOLIO") do
-
   package "basic_concepts" do |p|
-
     p.example "creation", :eval_source => false, :full_source => true
     p.example "origin"
     p.example "cursor"

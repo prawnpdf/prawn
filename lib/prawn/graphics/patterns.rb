@@ -47,13 +47,13 @@ module Prawn
         end
 
         operator = case type
-        when :fill
-          'scn'
-        when :stroke
-          'SCN'
-        else
-          raise ArgumentError, "unknown type '#{type}'"
-        end
+                   when :fill
+                     'scn'
+                   when :stroke
+                     'SCN'
+                   else
+                     fail ArgumentError, "unknown type '#{type}'"
+                   end
 
         set_color_space type, :Pattern
         renderer.add_content "/SP#{registry_key} #{operator}"
@@ -83,43 +83,47 @@ module Prawn
 
       def gradient(*args)
         if args.length != 4 && args.length != 6
-          raise ArgumentError, "Unknown type of gradient: #{args.inspect}"
+          fail ArgumentError, "Unknown type of gradient: #{args.inspect}"
         end
 
         color1 = normalize_color(args[-2]).dup.freeze
         color2 = normalize_color(args[-1]).dup.freeze
 
         if color_type(color1) != color_type(color2)
-          raise ArgumentError, "Both colors must be of the same color space: #{color1.inspect} and #{color2.inspect}"
+          fail ArgumentError, "Both colors must be of the same color space: #{color1.inspect} and #{color2.inspect}"
         end
 
         process_color color1
         process_color color2
 
-        shader = ref!({
+        shader = ref!(
           :FunctionType => 2,
           :Domain => [0.0, 1.0],
           :C0 => color1,
           :C1 => color2,
-          :N => 1.0,
-        })
+          :N => 1.0
+        )
 
-        shading = ref!({
+        if args.length == 4
+          coords = [0, 0, args[1].first - args[0].first, args[1].last - args[0].last]
+        else
+          coords = [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]]
+        end
+
+        shading = ref!(
           :ShadingType => args.length == 4 ? 2 : 3, # axial : radial shading
           :ColorSpace => color_space(color1),
-          :Coords => args.length == 4 ?
-                        [0, 0, args[1].first - args[0].first, args[1].last - args[0].last] :
-                        [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]],
+          :Coords => coords,
           :Function => shader,
-          :Extend => [true, true],
-        })
+          :Extend => [true, true]
+        )
 
-        ref!({
+        ref!(
           :PatternType => 2, # shading pattern
           :Shading => shading,
           :Matrix => [1, 0,
-                      0, 1] + map_to_absolute(args[0]),
-        })
+                      0, 1] + map_to_absolute(args[0])
+        )
       end
     end
   end

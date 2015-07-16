@@ -88,7 +88,7 @@ module Prawn
       # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
       # any text
       #
-      def formatted_text_box(array, options={})
+      def formatted_text_box(array, options = {})
         Text::Formatted::Box.new(array, options.merge(:document => self)).render
       end
 
@@ -136,7 +136,7 @@ module Prawn
 
         # See Prawn::Text#text_box for valid options
         #
-        def initialize(formatted_text, options={})
+        def initialize(formatted_text, options = {})
           @inked             = false
           Prawn.verify_options(valid_options, options)
           options            = options.dup
@@ -187,8 +187,8 @@ module Prawn
             options[:kerning] = @document.default_kerning?
           end
           @options = { :kerning => options[:kerning],
-            :size    => options[:size],
-            :style   => options[:style] }
+                       :size    => options[:size],
+                       :style   => options[:style] }
 
           super(formatted_text, options)
         end
@@ -203,7 +203,7 @@ module Prawn
         #
         # Returns any text that did not print under the current settings
         #
-        def render(flags={})
+        def render(flags = {})
           unprinted_text = []
 
           @document.save_font do
@@ -248,7 +248,7 @@ module Prawn
 
         # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
         #
-        def draw_fragment(fragment, accumulated_width=0, line_width=0, word_spacing=0) #:nodoc:
+        def draw_fragment(fragment, accumulated_width = 0, line_width = 0, word_spacing = 0) #:nodoc:
           case(@align)
           when :left
             x = @at[0]
@@ -279,10 +279,10 @@ module Prawn
             @document.word_spacing(word_spacing) {
               if @draw_text_callback
                 @draw_text_callback.call(fragment.text, :at => [x, y],
-                                         :kerning => @kerning)
+                                                        :kerning => @kerning)
               else
                 @document.draw_text!(fragment.text, :at => [x, y],
-                                     :kerning => @kerning)
+                                                    :kerning => @kerning)
               end
             }
 
@@ -329,17 +329,20 @@ module Prawn
         end
 
         def valid_options
-          PDF::Core::Text::VALID_OPTIONS + [:at, :height, :width,
-                                              :align, :valign,
-                                              :rotate, :rotate_around,
-                                              :overflow, :min_font_size,
-                                              :disable_wrap_by_char,
-                                              :leading, :character_spacing,
-                                              :mode, :single_line,
-                                              :document,
-                                              :direction,
-                                              :fallback_fonts,
-                                              :draw_text_callback]
+          PDF::Core::Text::VALID_OPTIONS + [
+            :at,
+            :height, :width,
+            :align, :valign,
+            :rotate, :rotate_around,
+            :overflow, :min_font_size,
+            :disable_wrap_by_char,
+            :leading, :character_spacing,
+            :mode, :single_line,
+            :document,
+            :direction,
+            :fallback_fonts,
+            :draw_text_callback
+          ]
         end
 
         private
@@ -353,7 +356,7 @@ module Prawn
         end
 
         def original_text
-          @original_array.collect { |hash| hash.dup }
+          @original_array.collect(&:dup)
         end
 
         def original_text=(formatted_text)
@@ -606,9 +609,7 @@ module Prawn
             @document.stroke_line(fragment.strikethrough_points)
           end
         end
-
       end
-
     end
   end
 end

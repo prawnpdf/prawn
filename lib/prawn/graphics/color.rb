@@ -74,8 +74,8 @@ module Prawn
       #  => [255, 120, 8]
       #
       def hex2rgb(hex)
-        r,g,b = hex[0..1], hex[2..3], hex[4..5]
-        [r,g,b].map { |e| e.to_i(16) }
+        r, g, b = hex[0..1], hex[2..3], hex[4..5]
+        [r, g, b].map { |e| e.to_i(16) }
       end
 
       private
@@ -87,7 +87,7 @@ module Prawn
         when 4
           color
         else
-          raise ArgumentError, 'wrong number of arguments supplied'
+          fail ArgumentError, 'wrong number of arguments supplied'
         end
       end
 
@@ -102,7 +102,7 @@ module Prawn
           when 4
             :CMYK
           else
-            raise ArgumentError, "Unknown type of color: #{color.inspect}"
+            fail ArgumentError, "Unknown type of color: #{color.inspect}"
           end
         end
       end
@@ -110,10 +110,10 @@ module Prawn
       def normalize_color(color)
         case color_type(color)
         when :RGB
-          r,g,b = hex2rgb(color)
+          r, g, b = hex2rgb(color)
           [r / 255.0, g / 255.0, b / 255.0]
         when :CMYK
-          c,m,y,k = *color
+          c, m, y, k = *color
           [c / 100.0, m / 100.0, y / 100.0, k / 100.0]
         end
       end
@@ -139,30 +139,30 @@ module Prawn
         set_current_color_space(color_space, type)
 
         unless COLOR_SPACES.include?(color_space)
-          raise ArgumentError, "unknown color space: '#{color_space}'"
+          fail ArgumentError, "unknown color space: '#{color_space}'"
         end
 
         operator = case type
-        when :fill
-          'cs'
-        when :stroke
-          'CS'
-        else
-          raise ArgumentError, "unknown type '#{type}'"
-        end
+                   when :fill
+                     'cs'
+                   when :stroke
+                     'CS'
+                   else
+                     fail ArgumentError, "unknown type '#{type}'"
+                   end
 
         renderer.add_content "/#{color_space} #{operator}"
       end
 
       def set_color(type, color, options = {})
         operator = case type
-        when :fill
-          'scn'
-        when :stroke
-          'SCN'
-        else
-          raise ArgumentError, "unknown type '#{type}'"
-        end
+                   when :fill
+                     'scn'
+                   when :stroke
+                     'SCN'
+                   else
+                     fail ArgumentError, "unknown type '#{type}'"
+                   end
 
         if options[:pattern]
           set_color_space type, :Pattern
@@ -225,8 +225,6 @@ module Prawn
       def write_color(color, operator)
         renderer.add_content "#{color} #{operator}"
       end
-
     end
   end
 end
-

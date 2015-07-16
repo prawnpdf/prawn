@@ -6,9 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::ManualBuilder::Example.generate("outline.pdf", :page_size => "FOLIO") do
-
   package "outline" do |p|
-
     p.section "Basics" do |s|
       s.example "sections_and_pages", :eval_source => false
     end
@@ -27,6 +25,5 @@ Prawn::ManualBuilder::Example.generate("outline.pdf", :page_size => "FOLIO") do
             "How to insert sections and/or pages to a previously defined outline structure"
           )
     end
-
   end
 end

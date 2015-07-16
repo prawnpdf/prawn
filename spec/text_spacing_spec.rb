@@ -9,16 +9,16 @@ describe "#character_spacing" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.character_spacing.first.should == 10.5556
+    expect(contents.character_spacing.first).to eq(10.5556)
   end
-  it "should not draw the character spacing to the document" +
+  it "should not draw the character spacing to the document" \
     " when the new character spacing matches the old" do
     create_pdf
     @pdf.character_spacing(0) do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.character_spacing.should be_empty
+    expect(contents.character_spacing).to be_empty
   end
   it "should restore character spacing to 0" do
     create_pdf
@@ -26,15 +26,15 @@ describe "#character_spacing" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.character_spacing.last.should == 0
+    expect(contents.character_spacing.last).to eq(0)
   end
   it "should function as an accessor when no parameter given" do
     create_pdf
     @pdf.character_spacing(10.555555) do
       @pdf.text("hello world")
-      @pdf.character_spacing.should == 10.555555
+      expect(@pdf.character_spacing).to eq(10.555555)
     end
-    @pdf.character_spacing.should == 0
+    expect(@pdf.character_spacing).to eq(0)
   end
 
   # ensure that we properly internationalize by using the number of characters
@@ -51,7 +51,7 @@ describe "#character_spacing" do
 
     @pdf.character_spacing(10) do
       # the new width should include seven 10-pt character spaces.
-      @pdf.width_of(str).should be_within(0.001).of(@raw_width + (10 * 7))
+      expect(@pdf.width_of(str)).to be_within(0.001).of(@raw_width + (10 * 7))
     end
   end
 end
@@ -63,16 +63,16 @@ describe "#word_spacing" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.first.should == 10.5556
+    expect(contents.word_spacing.first).to eq(10.5556)
   end
-  it "should draw the word spacing to the document" +
+  it "should draw the word spacing to the document" \
     " when the new word spacing matches the old" do
     create_pdf
     @pdf.word_spacing(0) do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.should be_empty
+    expect(contents.word_spacing).to be_empty
   end
   it "should restore word spacing to 0" do
     create_pdf
@@ -80,14 +80,14 @@ describe "#word_spacing" do
       @pdf.text("hello world")
     end
     contents = PDF::Inspector::Text.analyze(@pdf.render)
-    contents.word_spacing.last.should == 0
+    expect(contents.word_spacing.last).to eq(0)
   end
   it "should function as an accessor when no parameter given" do
     create_pdf
     @pdf.word_spacing(10.555555) do
       @pdf.text("hello world")
-      @pdf.word_spacing.should == 10.555555
+      expect(@pdf.word_spacing).to eq(10.555555)
     end
-    @pdf.word_spacing.should == 0
+    expect(@pdf.word_spacing).to eq(0)
   end
 end

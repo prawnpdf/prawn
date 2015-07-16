@@ -15,14 +15,12 @@ module Prawn
       # @private
 
       module Wrap #:nodoc:
-
         def initialize(array, options)
           @line_wrap = Prawn::Text::Formatted::LineWrap.new
           @arranger = Prawn::Text::Formatted::Arranger.new(@document,
-            :kerning => options[:kerning])
+                                                           :kerning => options[:kerning])
           @disable_wrap_by_char = options[:disable_wrap_by_char]
         end
-
 
         # See the developer documentation for PDF::Core::Text#wrap
         #
@@ -103,9 +101,7 @@ module Prawn
         end
 
         def word_spacing_for_this_line
-          if @align == :justify &&
-              @line_wrap.space_count > 0 &&
-              !@line_wrap.paragraph_finished?
+          if @align == :justify && @line_wrap.space_count > 0 && !@line_wrap.paragraph_finished?
             (available_width - @line_wrap.width) / @line_wrap.space_count
           else
             0
@@ -153,7 +149,6 @@ module Prawn
                           line_width, word_spacing)
           end
         end
-
       end
     end
   end

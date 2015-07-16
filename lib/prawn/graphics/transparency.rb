@@ -9,7 +9,6 @@
 
 module Prawn
   module Graphics
-
     # The Prawn::Transparency module is used to place transparent
     # content on the page. It has the capacity for separate
     # transparency values for stroked content and all other content.
@@ -29,7 +28,6 @@ module Prawn
     #   end
     #
     module Transparency
-
       # @group Stable API
 
       # Sets the <tt>opacity</tt> and <tt>stroke_opacity</tt> for all
@@ -53,7 +51,7 @@ module Prawn
       #     pdf.fill_and_stroke_circle([x, y], 25)
       #   end
       #
-      def transparent(opacity, stroke_opacity=opacity, &block)
+      def transparent(opacity, stroke_opacity = opacity, &block)
         renderer.min_version(1.4)
 
         opacity        = [[opacity, 0.0].max, 1.0].min
@@ -82,10 +80,11 @@ module Prawn
           dictionary =  opacity_dictionary_registry[key][:obj]
           dictionary_name =  opacity_dictionary_registry[key][:name]
         else
-          dictionary = ref!(:Type => :ExtGState,
-                                    :CA   => stroke_opacity,
-                                    :ca   => opacity
-                                    )
+          dictionary = ref!(
+            :Type => :ExtGState,
+            :CA   => stroke_opacity,
+            :ca   => opacity
+          )
 
           dictionary_name = "Tr#{next_opacity_dictionary_id}"
           opacity_dictionary_registry[key] = { :name => dictionary_name,
@@ -95,7 +94,6 @@ module Prawn
         page.ext_gstates.merge!(dictionary_name => dictionary)
         dictionary_name
       end
-
     end
   end
 end

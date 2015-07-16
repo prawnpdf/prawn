@@ -35,7 +35,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   # line and curve
   stroke do
-    line [300,200], [400,50]
+    line [300, 200], [400, 50]
     curve [500, 0], [400, 200], :bounds => [[600, 300], [300, 390]]
   end
 end

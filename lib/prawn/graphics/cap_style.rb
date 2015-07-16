@@ -19,7 +19,7 @@ module Prawn
       #
       # NOTE: If this method is never called, :butt will be used by default.
       #
-      def cap_style(style=nil)
+      def cap_style(style = nil)
         return current_cap_style || :butt if style.nil?
 
         self.current_cap_style = style

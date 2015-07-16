@@ -101,7 +101,7 @@ module Prawn
     # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
     # any text
     #
-    def text_box(string, options={})
+    def text_box(string, options = {})
       options = options.dup
       options[:document] = self
 
@@ -125,17 +125,14 @@ module Prawn
     # consumed by the printed text
     #
     class Box < Prawn::Text::Formatted::Box
-
-      def initialize(string, options={})
+      def initialize(string, options = {})
         super([{ :text => string }], options)
       end
 
-      def render(flags={})
+      def render(flags = {})
         leftover = super(flags)
         leftover.collect { |hash| hash[:text] }.join
       end
-
     end
-
   end
 end

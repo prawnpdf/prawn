@@ -13,21 +13,21 @@ Prawn::ManualBuilder::Example.generate(filename) do
     output = []
     a1.each do |i1|
       a2.each do |i2|
-        output += [[i1,i2]]
+        output += [[i1, i2]]
       end
     end
     output
   end
 
-  def recurse_bounding_box(max_depth=4, depth=1)
-    width = (bounds.width-15)/2
-    height = (bounds.height-15)/2
-    left_top_corners = combine([5, bounds.right-width-5],
-                               [bounds.top-5, height+5])
+  def recurse_bounding_box(max_depth = 4, depth = 1)
+    width = (bounds.width - 15) / 2
+    height = (bounds.height - 15) / 2
+    left_top_corners = combine([5, bounds.right - width - 5],
+                               [bounds.top - 5, height + 5])
     left_top_corners.each do |lt|
       bounding_box(lt, :width => width, :height => height) do
         stroke_bounds
-        recurse_bounding_box(max_depth, depth+1) if depth < max_depth
+        recurse_bounding_box(max_depth, depth + 1) if depth < max_depth
       end
     end
   end
@@ -37,4 +37,3 @@ Prawn::ManualBuilder::Example.generate(filename) do
     recurse_bounding_box
   end
 end
-

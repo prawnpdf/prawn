@@ -6,9 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::ManualBuilder::Example.generate("graphics.pdf", :page_size => "FOLIO") do
-
   package "graphics" do |p|
-
     p.section "Basics" do |s|
       s.example "helper"
       s.example "fill_and_stroke"
@@ -53,6 +51,5 @@ Prawn::ManualBuilder::Example.generate("graphics.pdf", :page_size => "FOLIO") do
             "How to apply transformations to your drawing space"
           )
     end
-
   end
 end

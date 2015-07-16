@@ -7,49 +7,85 @@ Encoding:
     - lib/prawn/images.rb
     - spec/png_spec.rb
 
+# These cops need to remain disabled for valid reasons on this code base
+
+# We need to reference non-ascii characters when testing and explaining
+# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
+AsciiComments:
+  Enabled: false
+
+# We don't always prefer modified if statements even if they do fit on
+# a line.
+IfUnlessModifier:
+  Enabled: false
+
+# In this case we supress Prawn::Errors::CannotFit while trying to scale
+# text down to fit.
+HandleExceptions:
+  Exclude:
+    - lib/prawn/text/formatted/box.rb
+
+# %w() style arrays don't always look better.
+WordArray:
+  Enabled: false
+
+# Due to some layout constraints in our examples we want to allow these rule to
+# be ignored in the manual.
+Style/ClosingParenthesisIndentation:
+  Exclude:
+    - manual/**/*
+LineEndConcatenation:
+  Exclude:
+    - manual/**/*
+MultilineOperationIndentation:
+  Exclude:
+    - manual/**/*
+    - prawn.gemspec
+Style/SpaceInsideParens:
+  Exclude:
+    - manual/**/*
+SingleSpaceBeforeFirstArg:
+  Exclude:
+    - manual/**/*
+
+# This file shows examples on how to instantiate a document in multiple ways,
+# it does not actually do the instantiation and isn't actually shadowing any
+# variables.
+ShadowingOuterLocalVariable:
+  Exclude:
+    - manual/basic_concepts/creation.rb
+
+# We currently ignore usage of semicolons on this page of the manual so we
+# don't have to worry about changing the content of the manual for now.
+Semicolon:
+  Exclude:
+    - manual/bounding_box/nesting.rb
+
+
+# This cops are candidates for enabling and doing the related cleanup and/or
+# refactoring
+Style/BlockDelimiters:
+  Enabled: false
+  EnforcedStyle: semantic
 Void:
   Enabled: false
 StringLiterals:
-  Enabled: false
-SpaceAroundOperators:
   Enabled: false
 HashSyntax:
   Enabled: false
 UselessAssignment:
   Enabled: false
-EmptyLines:
-  Enabled: false
-LineEndConcatenation:
-  Enabled: false
-SpaceAfterComma:
-  Enabled: false
 Lambda:
-  Enabled: false
-AlignHash:
   Enabled: false
 LineLength:
   Enabled: false
 SpaceBeforeBlockBraces:
   Enabled: false
-AlignParameters:
-  Enabled: false
 SpaceInsideBrackets:
-  Enabled: false
-WordArray:
-  Enabled: false
-SpaceAroundEqualsInParameterDefault:
-  Enabled: false
-MethodCallParentheses:
   Enabled: false
 FormatString:
   Enabled: false
-Blocks:
-  Enabled: false
-SpaceInsideBlockBraces:
-  Enabled: false
 CollectionMethods:
-  Enabled: false
-SpaceInsideHashLiteralBraces:
   Enabled: false
 DotPosition:
   Enabled: false
@@ -57,47 +93,13 @@ SingleLineBlockParams:
   Enabled: false
 PercentLiteralDelimiters:
   Enabled: false
-SpaceInsideParens:
-  Enabled: false
-IfUnlessModifier:
-  Enabled: false
-NilComparison:
-  Enabled: false
-Semicolon:
-  Enabled: false
-LeadingCommentSpace:
-  Enabled: false
 Documentation:
-  Enabled: false
-AlignArray:
-  Enabled: false
-BlockAlignment:
-  Enabled: false
-IndentArray:
-  Enabled: false
-BracesAroundHashParameters:
-  Enabled: false
-TrailingComma:
-  Enabled: false
-IndentHash:
   Enabled: false
 RegexpLiteral:
   Enabled: false
 MethodLength:
   Enabled: false
-IndentationWidth:
-  Enabled: false
 VariableInterpolation:
-  Enabled: false
-EvenOdd:
-  Enabled: false
-AmbiguousOperator:
-  Enabled: false
-SingleSpaceBeforeFirstArg:
-  Enabled: false
-IndentationConsistency:
-  Enabled: false
-TrailingBlankLines:
   Enabled: false
 AndOr:
   Enabled: false
@@ -107,29 +109,13 @@ ClassAndModuleChildren:
   Enabled: false
 NumericLiterals:
   Enabled: false
-AsciiComments:
-  Enabled: false
-SignalException:
-  Enabled: false
-HandleExceptions:
-  Enabled: false
 DoubleNegation:
   Enabled: false
 SelfAssignment:
   Enabled: false
-Eval:
-  Enabled: false
 ClassLength:
   Enabled: false
-ShadowingOuterLocalVariable:
-  Enabled: false
-TrivialAccessors:
-  Enabled: false
-AccessModifierIndentation:
-  Enabled: false
 CaseEquality:
-  Enabled: false
-EmptyLineBetweenDefs:
   Enabled: false
 RedundantSelf:
   Enabled: false
@@ -143,23 +129,15 @@ ModuleFunction:
   Enabled: false
 CyclomaticComplexity:
   Enabled: false
-CaseIndentation:
-  Enabled: false
 UnreachableCode:
-  Enabled: false
-MultilineTernaryOperator:
   Enabled: false
 AccessorMethodName:
   Enabled: false
 SpaceAfterControlKeyword:
   Enabled: false
-UselessAccessModifier:
-  Enabled: false
 PredicateName:
   Enabled: false
 ConstantName:
-  Enabled: false
-UnlessElse:
   Enabled: false
 MethodName:
   Enabled: false
@@ -167,39 +145,21 @@ Alias:
   Enabled: false
 RedundantReturn:
   Enabled: false
-EmptyLinesAroundAccessModifier:
-  Enabled: false
-DeprecatedHashMethods:
-  Enabled: false
 WhileUntilModifier:
   Enabled: false
 StringConversionInInterpolation:
-  Enabled: false
-EndAlignment:
   Enabled: false
 RedundantBegin:
   Enabled: false
 PerlBackrefs:
   Enabled: false
-CharacterLiteral:
-  Enabled: false
 ClassVars:
   Enabled: false
 ParameterLists:
   Enabled: false
-BlockComments:
-  Enabled: false
-MultilineOperationIndentation:
-  Enabled: false
-SpaceBeforeComment:
-  Enabled: false
 AbcSize:
   Enabled: false
-EmptyLinesAroundClassBody:
-  Enabled: false
 PerceivedComplexity:
-  Enabled: false
-EmptyLinesAroundBlockBody:
   Enabled: false
 UnusedBlockArgument:
   Enabled: false
@@ -207,23 +167,13 @@ UnusedMethodArgument:
   Enabled: false
 Next:
   Enabled: false
-SymbolProc:
-  Enabled: false
 ClassCheck:
   Enabled: false
 SpaceBeforeComma:
   Enabled: false
 StringLiteralsInInterpolation:
   Enabled: false
-EmptyLinesAroundModuleBody:
-  Enabled: false
 GuardClause:
-  Enabled: false
-ElseAlignment:
-  Enabled: false
-CommentIndentation:
-  Enabled: false
-EachWithObject:
   Enabled: false
 BlockEndNewline:
   Enabled: false

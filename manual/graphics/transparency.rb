@@ -24,7 +24,6 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   base_x = 100
   [[0.5, 1], 0.5, [1, 0.5]].each do |args|
-
     transparent(*args) do
       fill_circle [base_x, 100], 50
       stroke_rectangle [base_x - 20, 100], 40, 80

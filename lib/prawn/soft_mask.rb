@@ -8,7 +8,6 @@
 #
 
 module Prawn
-
   # The Prawn::SoftMask module is used to create arbitrary transparency in
   # document. Using a soft mask allows creating more visually rich documents.
   #
@@ -31,30 +30,30 @@ module Prawn
     def soft_mask(&block)
       renderer.min_version(1.4)
 
-      group_attrs = ref!({
+      group_attrs = ref!(
         :Type => :Group,
         :S => :Transparency,
         :CS => :DeviceRGB,
         :I => false,
         :K => false
-      })
+      )
 
-      group = ref!({
+      group = ref!(
         :Type => :XObject,
         :Subtype => :Form,
         :BBox => state.page.dimensions,
-        :Group => group_attrs,
-      })
+        :Group => group_attrs
+      )
 
       state.page.stamp_stream(group, &block)
 
-      mask = ref!({
+      mask = ref!(
         :Type => :Mask,
         :S => :Luminosity,
         :G => group
-      })
+      )
 
-      g_state = ref!({
+      g_state = ref!(
         :Type => :ExtGState,
         :SMask => mask,
 
@@ -63,13 +62,13 @@ module Prawn
         :OP => false,
         :op => false,
         :OPM => 1,
-        :SA => true,
-      })
+        :SA => true
+      )
 
       registry_key = {
         :bbox => state.page.dimensions,
         :mask => [group.stream.filters.normalized, group.stream.filtered_stream],
-        :page => state.page_count,
+        :page => state.page_count
       }.hash
 
       if soft_mask_registry[registry_key]

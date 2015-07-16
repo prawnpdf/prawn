@@ -33,17 +33,21 @@ module Prawn
     #
     def grid(*args)
       @boxes ||= {}
-      @boxes[args] ||= if args.empty?
-        @grid
+      return @boxes[args] if @boxes[args]
+
+      if args.empty?
+        @boxes[args] = @grid
       else
         g1, g2 = args
-        if(g1.class == Array && g2.class == Array &&
-          g1.length == 2 && g2.length == 2)
-          multi_box(single_box(*g1), single_box(*g2))
+
+        if g1.class == Array && g2.class == Array && g1.length == 2 && g2.length == 2
+          @boxes[args] = multi_box(single_box(*g1), single_box(*g2))
         else
-          single_box(g1, g2)
+          @boxes[args] = single_box(g1, g2)
         end
       end
+
+      @boxes[args]
     end
 
     # A Grid represents the entire grid system of a Page and calculates
@@ -69,14 +73,14 @@ module Prawn
 
       # Calculates the base height of boxes.
       def row_height
-       @row_height ||= subdivide(pdf.bounds.height, rows, row_gutter)
+        @row_height ||= subdivide(pdf.bounds.height, rows, row_gutter)
       end
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
       def show_all(color = "CCCCCC")
         self.rows.times do |i|
           self.columns.times do |j|
-            pdf.grid(i,j).show(color)
+            pdf.grid(i, j).show(color)
           end
         end
       end
@@ -88,7 +92,7 @@ module Prawn
       end
 
       def set_gutter(options)
-        if options.has_key?(:gutter)
+        if options.key?(:gutter)
           @gutter = options[:gutter].to_f
           @row_gutter, @column_gutter = @gutter, @gutter
         else
@@ -199,6 +203,7 @@ module Prawn
       end
 
       private
+
       def grid
         pdf.grid
       end
@@ -214,7 +219,7 @@ module Prawn
       end
 
       def name
-        @bs.map {|b| b.name}.join(":")
+        @bs.map(&:name).join(":")
       end
 
       def total_height
@@ -250,24 +255,26 @@ module Prawn
       end
 
       private
+
       def left_box
-        @left_box ||= @bs.min {|a,b| a.left <=> b.left}
+        @left_box ||= @bs.min { |a, b| a.left <=> b.left }
       end
 
       def right_box
-        @right_box ||= @bs.max {|a,b| a.right <=> b.right}
+        @right_box ||= @bs.max { |a, b| a.right <=> b.right }
       end
 
       def top_box
-        @top_box ||= @bs.max {|a,b| a.top <=> b.top}
+        @top_box ||= @bs.max { |a, b| a.top <=> b.top }
       end
 
       def bottom_box
-        @bottom_box ||= @bs.min {|a,b| a.bottom <=> b.bottom}
+        @bottom_box ||= @bs.min { |a, b| a.bottom <=> b.bottom }
       end
     end
 
     private
+
     def single_box(i, j)
       GridBox.new(self, i, j)
     end

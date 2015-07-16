@@ -172,7 +172,8 @@ module Prawn
     def canvas(&block)
       init_bounding_box(block, :hold_position => true) do |_|
         # Canvas bbox acts like margin_box in that its parent bounds are unset.
-        @bounding_box = BoundingBox.new(self, nil, [0,page.dimensions[3]],
+        @bounding_box = BoundingBox.new(
+          self, nil, [0, page.dimensions[3]],
           :width => page.dimensions[2],
           :height => page.dimensions[3]
         )
@@ -181,10 +182,10 @@ module Prawn
 
     private
 
-    def init_bounding_box(user_block, options={}, &init_block)
+    def init_bounding_box(user_block, options = {}, &init_block)
       unless user_block
-        raise ArgumentError,
-          "bounding boxes require a block to be drawn within the box"
+        fail ArgumentError,
+             "bounding boxes require a block to be drawn within the box"
       end
 
       parent_box = @bounding_box
@@ -219,10 +220,9 @@ module Prawn
     # is used for.
     #
     class BoundingBox
-
-      def initialize(document, parent, point, options={}) # @private
+      def initialize(document, parent, point, options = {}) # @private
         unless options[:width]
-          raise ArgumentError, "BoundingBox needs the :width option to be set"
+          fail ArgumentError, "BoundingBox needs the :width option to be set"
         end
 
         @document = document
@@ -263,7 +263,6 @@ module Prawn
       def left
         0
       end
-
 
       # Temporarily adjust the @x coordinate to allow for left_padding
       #
@@ -360,7 +359,7 @@ module Prawn
       #  end
       #
       def top_left
-        [left,top]
+        [left, top]
       end
 
       # Relative top-right point of the bounding box
@@ -373,7 +372,7 @@ module Prawn
       #  end
       #
       def top_right
-        [right,top]
+        [right, top]
       end
 
       # Relative bottom-right point of the bounding box
@@ -385,7 +384,7 @@ module Prawn
       #  end
       #
       def bottom_right
-        [right,bottom]
+        [right, bottom]
       end
 
       # Relative bottom-left point of the bounding box
@@ -397,7 +396,7 @@ module Prawn
       #  end
       #
       def bottom_left
-        [left,bottom]
+        [left, bottom]
       end
 
       # Absolute left x-coordinate of the bounding box
@@ -449,10 +448,7 @@ module Prawn
       end
 
       # Width of the bounding box
-      #
-      def width
-        @width
-      end
+      attr_reader :width
 
       # Height of the bounding box.  If the box is 'stretchy' (unspecified
       # height attribute), height is calculated as the distance from the top of
@@ -500,7 +496,7 @@ module Prawn
       #
       def reference_bounds
         if stretchy?
-          raise "Can't find reference bounds: my parent is unset" unless @parent
+          fail "Can't find reference bounds: my parent is unset" unless @parent
           @parent.reference_bounds
         else
           self
@@ -532,8 +528,6 @@ module Prawn
         bounds.instance_variable_set("@document", document)
         bounds
       end
-
     end
-
   end
 end

@@ -7,7 +7,6 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "When reading a JPEG file" do
-
   before(:each) do
     @filename = "#{Prawn::DATADIR}/images/pigs.jpg"
     @img_data = File.open(@filename, "rb") { |f| f.read }
@@ -16,10 +15,9 @@ describe "When reading a JPEG file" do
   it "should read the basic attributes correctly" do
     jpg = Prawn::Images::JPG.new(@img_data)
 
-    jpg.width.should == 604
-    jpg.height.should == 453
-    jpg.bits.should == 8
-    jpg.channels.should == 3
+    expect(jpg.width).to eq(604)
+    expect(jpg.height).to eq(453)
+    expect(jpg.bits).to eq(8)
+    expect(jpg.channels).to eq(3)
   end
 end
-

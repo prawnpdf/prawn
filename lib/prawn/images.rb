@@ -9,7 +9,6 @@ require 'digest/sha1'
 require 'pathname'
 
 module Prawn
-
   module Images
     # @group Stable API
 
@@ -60,7 +59,7 @@ module Prawn
     # dimensions of an image object if needed.
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     #
-    def image(file, options={})
+    def image(file, options = {})
       Prawn.verify_options [:at, :position, :vposition, :height,
                             :width, :scale, :fit], options
 
@@ -69,7 +68,6 @@ module Prawn
 
       info
     end
-
 
     # Builds an info object (Prawn::Images::*) and a PDF reference representing
     # the given image. Return a pair: [pdf_obj, info].
@@ -93,7 +91,7 @@ module Prawn
 
         # Add the image to the PDF and register it in case we see it again.
         image_obj = info.build_pdf_object(self)
-        image_registry[image_sha1] = {:obj => image_obj, :info => info}
+        image_registry[image_sha1] = { :obj => image_obj, :info => info }
       end
 
       [image_obj, info]
@@ -107,12 +105,12 @@ module Prawn
     # @private
     def embed_image(pdf_obj, info, options)
       # find where the image will be placed and how big it will be
-      w,h = info.calc_image_dimensions(options)
+      w, h = info.calc_image_dimensions(options)
 
       if options[:at]
-        x,y = map_to_absolute(options[:at])
+        x, y = map_to_absolute(options[:at])
       else
-        x,y = image_position(w,h,options)
+        x, y = image_position(w, h, options)
         move_text_position h
       end
 
@@ -141,39 +139,39 @@ module Prawn
       end
       # String or Pathname
       io_or_path = Pathname.new(io_or_path)
-      raise ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
+      fail ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
       io = io_or_path.open('rb')
       io
     end
 
-    def image_position(w,h,options)
+    def image_position(w, h, options)
       options[:position] ||= :left
 
       y = case options[:vposition]
-      when :top
-        bounds.absolute_top
-      when :center
-        bounds.absolute_top - (bounds.height - h) / 2.0
-      when :bottom
-        bounds.absolute_bottom + h
-      when Numeric
-        bounds.absolute_top - options[:vposition]
-      else
-        determine_y_with_page_flow(h)
-      end
+          when :top
+            bounds.absolute_top
+          when :center
+            bounds.absolute_top - (bounds.height - h) / 2.0
+          when :bottom
+            bounds.absolute_bottom + h
+          when Numeric
+            bounds.absolute_top - options[:vposition]
+          else
+            determine_y_with_page_flow(h)
+          end
 
       x = case options[:position]
-      when :left
-        bounds.left_side
-      when :center
-        bounds.left_side + (bounds.width - w) / 2.0
-      when :right
-        bounds.right_side - w
-      when Numeric
-        options[:position] + bounds.left_side
-      end
+          when :left
+            bounds.left_side
+          when :center
+            bounds.left_side + (bounds.width - w) / 2.0
+          when :right
+            bounds.right_side - w
+          when Numeric
+            options[:position] + bounds.left_side
+          end
 
-      return [x,y]
+      return [x, y]
     end
 
     def determine_y_with_page_flow(h)

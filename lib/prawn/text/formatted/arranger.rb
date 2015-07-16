@@ -10,7 +10,6 @@
 module Prawn
   module Text
     module Formatted #:nodoc:
-
       # @private
 
       class Arranger #:nodoc:
@@ -24,7 +23,7 @@ module Prawn
         attr_reader :fragments
         attr_reader :current_format_state
 
-        def initialize(document, options={})
+        def initialize(document, options = {})
           @document = document
           @fragments = []
           @unconsumed = []
@@ -33,7 +32,7 @@ module Prawn
 
         def space_count
           if @unfinalized_line
-            raise "Lines must be finalized before calling #space_count"
+            fail "Lines must be finalized before calling #space_count"
           end
           @fragments.inject(0) do |sum, fragment|
             sum + fragment.space_count
@@ -42,7 +41,7 @@ module Prawn
 
         def line_width
           if @unfinalized_line
-            raise "Lines must be finalized before calling #line_width"
+            fail "Lines must be finalized before calling #line_width"
           end
           @fragments.inject(0) do |sum, fragment|
             sum + fragment.width
@@ -51,7 +50,7 @@ module Prawn
 
         def line
           if @unfinalized_line
-            raise "Lines must be finalized before calling #line"
+            fail "Lines must be finalized before calling #line"
           end
           @fragments.collect do |fragment|
             fragment.text.dup.force_encoding(::Encoding::UTF_8)
@@ -101,7 +100,7 @@ module Prawn
 
         def next_string
           unless @unfinalized_line
-            raise "Lines must not be finalized when calling #next_string"
+            fail "Lines must not be finalized when calling #next_string"
           end
           hash = @unconsumed.shift
           if hash.nil?
@@ -135,7 +134,7 @@ module Prawn
           end
         end
 
-        def apply_font_settings(fragment=nil, &block)
+        def apply_font_settings(fragment = nil, &block)
           if fragment.nil?
             font = current_format_state[:font]
             size = current_format_state[:size]
@@ -153,7 +152,7 @@ module Prawn
 
           @document.character_spacing(character_spacing) do
             if font || font_style != :normal
-              raise "Bad font family" unless @document.font.family
+              fail "Bad font family" unless @document.font.family
               @document.font(font || @document.font.family, :style => font_style) do
                 apply_font_size(size, styles, &block)
               end
@@ -163,7 +162,7 @@ module Prawn
           end
         end
 
-        def update_last_string(printed, unprinted, normalized_soft_hyphen=nil)
+        def update_last_string(printed, unprinted, normalized_soft_hyphen = nil)
           return if printed.nil?
           if printed.empty?
             @consumed.pop
@@ -183,7 +182,7 @@ module Prawn
 
         def retrieve_fragment
           if @unfinalized_line
-            raise "Lines must be finalized before fragments can be retrieved"
+            fail "Lines must be finalized before fragments can be retrieved"
           end
           @fragments.shift
         end
@@ -282,9 +281,7 @@ module Prawn
           @max_descender = [defined?(@max_descender) && @max_descender, fragment.descender].compact.max
           @max_ascender = [defined?(@max_ascender) && @max_ascender, fragment.ascender].compact.max
         end
-
       end
-
     end
   end
 end

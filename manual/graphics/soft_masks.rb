@@ -42,5 +42,4 @@ Prawn::ManualBuilder::Example.generate(filename) do
     fill_color '61bb46'
     fill_rectangle [0, 160], 600, 20
   end
-
 end

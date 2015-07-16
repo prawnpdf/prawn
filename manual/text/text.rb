@@ -6,9 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    %w[.. example_helper]))
 
 Prawn::ManualBuilder::Example.generate("text.pdf", :page_size => "FOLIO") do
-
   package "text" do |p|
-
     p.section "Basics" do |s|
       s.example "free_flowing_text"
       s.example "positioned_text"
@@ -68,6 +66,5 @@ Prawn::ManualBuilder::Example.generate("text.pdf", :page_size => "FOLIO") do
             "What happens when rendering text in different languages"
           )
     end
-
   end
 end
