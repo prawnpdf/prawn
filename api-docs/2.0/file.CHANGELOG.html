@@ -62,9 +62,24 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'>
+<h2 id="label-PrawnPDF+2.0.2+--+2015-07-15">PrawnPDF 2.0.2 – 2015-07-15</h2>
+
+<h3 id="label-Links+in+repeaters-2Fstamps+are+now+clickable">Links in repeaters/stamps are now clickable</h3>
+
+<p>Previously, url links were not clickable when rendered within a stamp. The
+proper annotation references are now added to the page object that the
+stamp is called, thereby generating a clickable link in the pdf.</p>
+
+<p>Because repeaters are built upon stamps, this fix should also solve issues
+with links inside of repeaters.</p>
+
+<p>(Jesse Doyle, <a
+href="https://github.com/prawnpdf/prawn/issues/801">#801</a>, <a
+href="https://github.com/prawnpdf/prawn/issues/498">#498</a>)</p>
+
 <h2 id="label-PrawnPDF+2.0.1+--+2015-03-23">PrawnPDF 2.0.1 – 2015-03-23</h2>
 
-<h3 id="label-Fix+regression+in+draw_text%28%29+with+rotation">Fix regression in draw_text() with rotation</h3>
+<h3 id="label-Fix+regression+in+draw_text-28-29+with+rotation">Fix regression in draw_text() with rotation</h3>
 
 <p>Due to missing tests, a typo snuck into the <code>draw_text()</code> method
 in PDF::Core, preventing it from working properly when called with the
@@ -92,7 +107,7 @@ for Ruby 2.2.x as well.</p>
 <p>If you&#39;re using JRuby, we recommend using JRuby 1.7.x (&gt;= 1.7.18) in
 2.0 mode for now. Please file bug reports if you run into any problems!</p>
 
-<h3 id="label-Changes+to+PrawnPDF%27s+versioning+policies">Changes to PrawnPDF&#39;s versioning policies</h3>
+<h3 id="label-Changes+to+PrawnPDF-27s+versioning+policies">Changes to PrawnPDF&#39;s versioning policies</h3>
 
 <p>Starting with this release, we will set version numbers based on the
 following policy:</p>
@@ -195,7 +210,7 @@ href="https://github.com/prawnpdf/prawn/issues/169">#169</a>.</p>
 <p>(Jesse Doyle, <a
 href="https://github.com/prawnpdf/prawn/pull/788">#788</a>)</p>
 
-<h3 id="label-Calling+dash%280%29+now+raises+an+error+instead+of+generating+a+corrupt+PDF">Calling dash(0) now raises an error instead of generating a corrupt PDF</h3>
+<h3 id="label-Calling+dash-280-29+now+raises+an+error+instead+of+generating+a+corrupt+PDF">Calling dash(0) now raises an error instead of generating a corrupt PDF</h3>
 
 <p>In earlier versions of Prawn, accidentally calling <code>dash(0)</code>
 instead of <code>undash</code> in an attempt to clear dash settings would
@@ -206,7 +221,7 @@ difficult.</p>
 that says “Zero length dashes are invalid. Call #undash to disable
 dashes.”, making the source of the problem much clearer.</p>
 
-<h3 id="label-Vastly+improved+handling+of+encodings+for+PDF+built+in+%28AFM%29+fonts">Vastly improved handling of encodings for PDF built in (AFM) fonts</h3>
+<h3 id="label-Vastly+improved+handling+of+encodings+for+PDF+built+in+-28AFM-29+fonts">Vastly improved handling of encodings for PDF built in (AFM) fonts</h3>
 
 <p>Prawn has always had comprehensive UTF-8 support for TTF font files, but
 many users still rely on the “built in” AFM fonts that are provided by PDF
@@ -258,7 +273,7 @@ should benefit greatly from these changes.</p>
 <p>(Gregory Brown, <a
 href="https://github.com/prawnpdf/prawn/pull/793">#793</a>)</p>
 
-<h3 id="label-Temporarily+restored+the+Document%23on_page_create+method">Temporarily restored the Document#on_page_create method</h3>
+<h3 id="label-Temporarily+restored+the+Document-23on_page_create+method">Temporarily restored the Document#on_page_create method</h3>
 
 <p>This method was moved into PDF::Core in the Prawn 1.3.0 release, removing
 it from the <code>Prawn::Document</code> API. Although it is a low-level
@@ -277,7 +292,7 @@ href="https://github.com/prawnpdf/prawn/pull/825">#825</a>)</p>
 
 <h2 id="label-PrawnPDF+1.3.0+--+2014-09-28">PrawnPDF 1.3.0 – 2014-09-28</h2>
 
-<h3 id="label-Added+the+Prawn%3A%3AView+mixin+for+using+Prawn%27s+DSL+in+your+own+classes.">Added the Prawn::View mixin for using Prawn&#39;s DSL in your own classes.</h3>
+<h3 id="label-Added+the+Prawn-3A-3AView+mixin+for+using+Prawn-27s+DSL+in+your+own+classes.">Added the Prawn::View mixin for using Prawn&#39;s DSL in your own classes.</h3>
 
 <p>In complex Prawn-based documents, it is a common pattern to create
 subclasses of <code>Prawn::Document</code> to isolate different components
@@ -362,7 +377,7 @@ Jesse Doyle)</p>
 <p>This release includes all changes from 1.2.0, which was yanked due to a
 packaging error.</p>
 
-<h3 id="label-Prawn%3A%3ATable+has+been+moved+into+an+optional+gem+extension.">Prawn::Table has been moved into an optional gem extension.</h3>
+<h3 id="label-Prawn-3A-3ATable+has+been+moved+into+an+optional+gem+extension.">Prawn::Table has been moved into an optional gem extension.</h3>
 
 <p>In addition to adding <code>require &quot;prawn/table&quot;</code> to your
 code, you will need to install the <code>prawn-table</code> gem to make use
@@ -446,7 +461,7 @@ for Ruby 1.9.3. That issue has been resolved, and a new version of the
 href="http://elmcitycraftworks.org/post/90062338793/prawn-1-1-0-released"">Prawn
 1.1 blog post</a>.</p>
 
-<h3 id="label-Table+support+now+disabled+by+default%2C+moving+to+its+own+gem+soon.">Table support now disabled by default, moving to its own gem soon.</h3>
+<h3 id="label-Table+support+now+disabled+by+default-2C+moving+to+its+own+gem+soon.">Table support now disabled by default, moving to its own gem soon.</h3>
 
 <p>We&#39;re planning to extract table generation into its own semi-officially
 supported gem in a future release. Until then, you can use the following
@@ -459,7 +474,7 @@ line to enable table support in your projects:</p>
 feature – we only disabled it by default to make sure people are aware that
 it will be extracted into its own gem soon.</p>
 
-<h3 id="label-I%2FO+objects+are+now+supported+in+the+font+system.">I/O objects are now supported in the font system.</h3>
+<h3 id="label-I-2FO+objects+are+now+supported+in+the+font+system.">I/O objects are now supported in the font system.</h3>
 
 <p>You can now pass a fully formed Prawn::Font object in addition to a file
 path when adding a font family to your document.
@@ -477,7 +492,7 @@ to explicitly specifying a path on the filesystem. For example:</p>
 
 <p>(<a href="https://github.com/prawnpdf/prawn/pull/730">#730</a>, Evan Sharp)</p>
 
-<h3 id="label-We+now+use+the+Prawn%3A%3AManualBuilder+gem+to+generate+our+documentation.">We now use the Prawn::ManualBuilder gem to generate our documentation.</h3>
+<h3 id="label-We+now+use+the+Prawn-3A-3AManualBuilder+gem+to+generate+our+documentation.">We now use the Prawn::ManualBuilder gem to generate our documentation.</h3>
 
 <p>In previous releases, the system that generated Prawn&#39;s manual was
 bundled directly with Prawn and not usable by third party extensions.
@@ -549,7 +564,7 @@ Malte Schmitz helped us finally track down the problem:</p>
 no longer be unexpected issues when using the <code>:margin</code>
 parameter to <code>start_new_page</code>.</p>
 
-<h3 id="label-Transaction+support+has+been+removed+from+Prawn%2C+and+the+Document%23group+feature+has+been+temporarily+disabled.">Transaction support has been removed from Prawn, and the Document#group feature has been temporarily disabled.</h3>
+<h3 id="label-Transaction+support+has+been+removed+from+Prawn-2C+and+the+Document-23group+feature+has+been+temporarily+disabled.">Transaction support has been removed from Prawn, and the Document#group feature has been temporarily disabled.</h3>
 
 <p>We&#39;ve discovered some very serious flaws in Prawn&#39;s transaction
 support which can easily cause documents to become corrupted. The only
@@ -589,7 +604,7 @@ supported. Use <code>fill_gradient(from, to, ...)</code> and
 <p>( <a href="https://github.com/prawnpdf/prawn/pull/674">#674</a>, Alexander
 Mankuta )</p>
 
-<h3 id="label-PDF%3A%3ACore%3A%3AOutline+has+been+moved+back+to+Prawn%3A%3AOutline">PDF::Core::Outline has been moved back to Prawn::Outline</h3>
+<h3 id="label-PDF-3A-3ACore-3A-3AOutline+has+been+moved+back+to+Prawn-3A-3AOutline">PDF::Core::Outline has been moved back to Prawn::Outline</h3>
 
 <p>When we first broke out the PDF::Core namespace from Prawn&#39;s internals,
 our outline support ended going along with it. That was accidental, and so
@@ -603,9 +618,9 @@ href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/praw
 </div></div>
 
     <div id="footer">
-  Generated on Mon Mar 23 19:07:50 2015 by
+  Generated on Wed Jul 15 22:25:38 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.1.4).
+  0.8.7.6 (ruby-2.2.2).
 </div>
 
   </body>

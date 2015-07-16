@@ -661,7 +661,7 @@ wrap method if you want to override the default wrapping algorithm):.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 139</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@inked</span>             <span class='op'>=</span> <span class='kw'>false</span>
   <span class='const'>Prawn</span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span><span class='lparen'>(</span><span class='id identifier rubyid_valid_options'>valid_options</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span>            <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -712,8 +712,8 @@ wrap method if you want to override the default wrapping algorithm):.</p>
     <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_default_kerning?'>default_kerning?</span>
   <span class='kw'>end</span>
   <span class='ivar'>@options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='symbol'>:kerning</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='symbol'>:size</span>    <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='symbol'>:style</span>   <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:style</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+               <span class='symbol'>:size</span>    <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span><span class='comma'>,</span>
+               <span class='symbol'>:style</span>   <span class='op'>=&gt;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:style</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
 
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -1027,8 +1027,7 @@ Prawn::Text::Formatted::Box.extensions &lt;&lt; MyWrap
 
 box = Prawn::Text::Formatted::Box.new(&#39;hello world&#39;)
 box.render(&#39;why can&#39;t I print anything other than&#39; +
-           &#39;&quot;all your base are belong to us&quot;?&#39;)
-</code></pre>
+           &#39;&quot;all your base are belong to us&quot;?&#39;)</code></pre>
 
 
   </div>
@@ -1175,7 +1174,7 @@ box.render(&#39;why can&#39;t I print anything other than&#39; +
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 251</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_draw_fragment'>draw_fragment</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='comma'>,</span> <span class='id identifier rubyid_accumulated_width'>accumulated_width</span><span class='op'>=</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_line_width'>line_width</span><span class='op'>=</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_word_spacing'>word_spacing</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
+<span class='kw'>def</span> <span class='id identifier rubyid_draw_fragment'>draw_fragment</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='comma'>,</span> <span class='id identifier rubyid_accumulated_width'>accumulated_width</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_line_width'>line_width</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_word_spacing'>word_spacing</span> <span class='op'>=</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='comment'>#:nodoc:
 </span>  <span class='kw'>case</span><span class='lparen'>(</span><span class='ivar'>@align</span><span class='rparen'>)</span>
   <span class='kw'>when</span> <span class='symbol'>:left</span>
     <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -1206,10 +1205,10 @@ box.render(&#39;why can&#39;t I print anything other than&#39; +
     <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_word_spacing'>word_spacing</span><span class='lparen'>(</span><span class='id identifier rubyid_word_spacing'>word_spacing</span><span class='rparen'>)</span> <span class='lbrace'>{</span>
       <span class='kw'>if</span> <span class='ivar'>@draw_text_callback</span>
         <span class='ivar'>@draw_text_callback</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                 <span class='symbol'>:kerning</span> <span class='op'>=&gt;</span> <span class='ivar'>@kerning</span><span class='rparen'>)</span>
+                                                <span class='symbol'>:kerning</span> <span class='op'>=&gt;</span> <span class='ivar'>@kerning</span><span class='rparen'>)</span>
       <span class='kw'>else</span>
         <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_draw_text!'>draw_text!</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                             <span class='symbol'>:kerning</span> <span class='op'>=&gt;</span> <span class='ivar'>@kerning</span><span class='rparen'>)</span>
+                                            <span class='symbol'>:kerning</span> <span class='op'>=&gt;</span> <span class='ivar'>@kerning</span><span class='rparen'>)</span>
       <span class='kw'>end</span>
     <span class='rbrace'>}</span>
 
@@ -1470,7 +1469,7 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 206</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_unprinted_text'>unprinted_text</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
   <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_save_font'>save_font</span> <span class='kw'>do</span>
@@ -1531,23 +1530,29 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
 340
 341
 342
-343</pre>
+343
+344
+345
+346</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 331</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid_options'>valid_options</span>
-  <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='op'>::</span><span class='const'>Text</span><span class='op'>::</span><span class='const'>VALID_OPTIONS</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='symbol'>:at</span><span class='comma'>,</span> <span class='symbol'>:height</span><span class='comma'>,</span> <span class='symbol'>:width</span><span class='comma'>,</span>
-                                      <span class='symbol'>:align</span><span class='comma'>,</span> <span class='symbol'>:valign</span><span class='comma'>,</span>
-                                      <span class='symbol'>:rotate</span><span class='comma'>,</span> <span class='symbol'>:rotate_around</span><span class='comma'>,</span>
-                                      <span class='symbol'>:overflow</span><span class='comma'>,</span> <span class='symbol'>:min_font_size</span><span class='comma'>,</span>
-                                      <span class='symbol'>:disable_wrap_by_char</span><span class='comma'>,</span>
-                                      <span class='symbol'>:leading</span><span class='comma'>,</span> <span class='symbol'>:character_spacing</span><span class='comma'>,</span>
-                                      <span class='symbol'>:mode</span><span class='comma'>,</span> <span class='symbol'>:single_line</span><span class='comma'>,</span>
-                                      <span class='symbol'>:document</span><span class='comma'>,</span>
-                                      <span class='symbol'>:direction</span><span class='comma'>,</span>
-                                      <span class='symbol'>:fallback_fonts</span><span class='comma'>,</span>
-                                      <span class='symbol'>:draw_text_callback</span><span class='rbracket'>]</span>
+  <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='op'>::</span><span class='const'>Text</span><span class='op'>::</span><span class='const'>VALID_OPTIONS</span> <span class='op'>+</span> <span class='lbracket'>[</span>
+    <span class='symbol'>:at</span><span class='comma'>,</span>
+    <span class='symbol'>:height</span><span class='comma'>,</span> <span class='symbol'>:width</span><span class='comma'>,</span>
+    <span class='symbol'>:align</span><span class='comma'>,</span> <span class='symbol'>:valign</span><span class='comma'>,</span>
+    <span class='symbol'>:rotate</span><span class='comma'>,</span> <span class='symbol'>:rotate_around</span><span class='comma'>,</span>
+    <span class='symbol'>:overflow</span><span class='comma'>,</span> <span class='symbol'>:min_font_size</span><span class='comma'>,</span>
+    <span class='symbol'>:disable_wrap_by_char</span><span class='comma'>,</span>
+    <span class='symbol'>:leading</span><span class='comma'>,</span> <span class='symbol'>:character_spacing</span><span class='comma'>,</span>
+    <span class='symbol'>:mode</span><span class='comma'>,</span> <span class='symbol'>:single_line</span><span class='comma'>,</span>
+    <span class='symbol'>:document</span><span class='comma'>,</span>
+    <span class='symbol'>:direction</span><span class='comma'>,</span>
+    <span class='symbol'>:fallback_fonts</span><span class='comma'>,</span>
+    <span class='symbol'>:draw_text_callback</span>
+  <span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1559,9 +1564,9 @@ page. Useful for look-ahead computations of height, unprinted text, etc.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Mar 23 19:07:52 2015 by
+  Generated on Wed Jul 15 22:25:40 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.1.4).
+  0.8.7.6 (ruby-2.2.2).
 </div>
 
   </body>
