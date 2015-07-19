@@ -60,17 +60,20 @@ module Prawn
       end
 
       def gradient_registry_key(gradient)
+        x1, y1, x2, y2 = gradient_coordinates(gradient)
+        transformation = current_transformation_matrix_with_translation(x1, y1)
+
         if gradient[1].is_a?(Array) # axial
           [
-            map_to_absolute(gradient[0]),
-            map_to_absolute(gradient[1]),
+            transformation,
+            x2, y2,
             gradient[2], gradient[3]
           ]
         else # radial
           [
-            map_to_absolute(gradient[0]),
+            transformation,
+            x2, y2,
             gradient[1],
-            map_to_absolute(gradient[2]),
             gradient[3],
             gradient[4], gradient[5]
           ]
@@ -104,11 +107,15 @@ module Prawn
           :N => 1.0
         )
 
+        x1, y1, x2, y2 = gradient_coordinates(args)
+
         if args.length == 4
-          coords = [0, 0, args[1].first - args[0].first, args[1].last - args[0].last]
+          coords = [0, 0, x2 - x1, y2 - y1]
         else
-          coords = [0, 0, args[1], args[2].first - args[0].first, args[2].last - args[0].last, args[3]]
+          coords = [0, 0, args[1], x2 - x1, y2 - y1, args[3]]
         end
+
+        transformation = current_transformation_matrix_with_translation(x1, y1)
 
         shading = ref!(
           :ShadingType => args.length == 4 ? 2 : 3, # axial : radial shading
@@ -121,9 +128,15 @@ module Prawn
         ref!(
           :PatternType => 2, # shading pattern
           :Shading => shading,
-          :Matrix => [1, 0,
-                      0, 1] + map_to_absolute(args[0])
+          :Matrix => transformation
         )
+      end
+
+      def gradient_coordinates(args)
+        x1, y1 = map_to_absolute(args[0])
+        x2, y2 = map_to_absolute(args[args.length == 4 ? 1 : 2])
+
+        [x1, y1, x2, y2]
       end
     end
   end

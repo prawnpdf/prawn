@@ -145,6 +145,9 @@ module Prawn
       def transformation_matrix(a, b, c, d, e, f)
         values = [a, b, c, d, e, f].map { |x| "%.5f" % x }.join(" ")
         save_graphics_state if block_given?
+
+        add_to_transformation_stack(a, b, c, d, e, f)
+
         renderer.add_content "#{values} cm"
         if block_given?
           yield

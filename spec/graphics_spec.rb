@@ -303,6 +303,18 @@ describe "Patterns" do
       str = @pdf.render
       expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
     end
+
+    it "uses the transformation stack to translate user co-ordinates to document co-ordinates required by /Pattern" do
+      @pdf.scale 2 do
+        @pdf.translate 40, 40 do
+          @pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF'
+        end
+      end
+
+      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+      pattern = grad.patterns.values.first
+      expect(pattern[:Matrix]).to eq([2, 0, 0, 2, 80, 100])
+    end
   end
 
   describe 'radial gradients' do
@@ -341,6 +353,18 @@ describe "Patterns" do
 
       str = @pdf.render
       expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
+    end
+
+    it "uses the transformation stack to translate user co-ordinates to document co-ordinates required by /Pattern" do
+      @pdf.scale 2 do
+        @pdf.translate 40, 40 do
+          @pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF'
+        end
+      end
+
+      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+      pattern = grad.patterns.values.first
+      expect(pattern[:Matrix]).to eq([2, 0, 0, 2, 80, 100])
     end
   end
 end

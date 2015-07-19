@@ -24,9 +24,17 @@ module Prawn
       # Perhaps they will become part of the extension API?
       # Anyway, for now it's not clear what we should do w. them.
       delegate [ :graphic_state,
-                 :save_graphics_state,
-                 :restore_graphics_state,
                  :on_page_create ] => :renderer
+
+      def save_graphics_state(state = nil, &block)
+        save_transformation_stack
+        renderer.save_graphics_state(state, &block)
+      end
+
+      def restore_graphics_state
+        restore_transformation_stack
+        renderer.restore_graphics_state
+      end
 
       # FIXME: This is a circular reference, because in theory Prawn should
       # be passing instances of renderer to PDF::Core::Page, but it's
