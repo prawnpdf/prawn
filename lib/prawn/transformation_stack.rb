@@ -13,7 +13,7 @@ module Prawn
   module TransformationStack
     def add_to_transformation_stack(a, b, c, d, e, f)
       @transformation_stack ||= [[]]
-      @transformation_stack.last.push([a, b, c, d, e, f].map { |x| x.to_f })
+      @transformation_stack.last.push([a, b, c, d, e, f].map(&:to_f))
     end
 
     def save_transformation_stack
