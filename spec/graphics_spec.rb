@@ -280,10 +280,10 @@ describe "Patterns" do
       expect(pattern[:Shading][:Coords]).to eq([0, 0, @pdf.bounds.width, 0])
       expect(pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all?{ |x1, x2|
         (x1 - x2).abs < 0.01
-      }).to be_true
+      }).to be_truthy
       expect(pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all?{ |x1, x2|
         (x1 - x2).abs < 0.01
-      }).to be_true
+      }).to be_truthy
     end
 
     it "fill_gradient should set fill color to the pattern" do
@@ -319,10 +319,10 @@ describe "Patterns" do
       expect(pattern[:Shading][:Coords]).to eq([0, 0, 10, @pdf.bounds.width, 0, 20])
       expect(pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all?{ |x1, x2|
         (x1 - x2).abs < 0.01
-      }).to be_true
+      }).to be_truthy
       expect(pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all?{ |x1, x2|
         (x1 - x2).abs < 0.01
-      }).to be_true
+      }).to be_truthy
     end
 
     it "fill_gradient should set fill color to the pattern" do

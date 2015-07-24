@@ -63,7 +63,7 @@ describe "#text" do
   end
 
   it "should ignore call when string is nil" do
-    expect(@pdf.text(nil)).to be_false
+    expect(@pdf.text(nil)).to be_falsey
   end
 
   it "should correctly render empty paragraphs" do
@@ -91,13 +91,13 @@ describe "#text" do
   it "should default to use kerning information" do
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(text.kerned[0]).to be_true
+    expect(text.kerned[0]).to be_truthy
   end
 
   it "should be able to disable kerning with an option" do
     @pdf.text "hello world", :kerning => false
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(text.kerned[0]).to be_false
+    expect(text.kerned[0]).to be_falsey
   end
 
   it "should be able to disable kerning document-wide" do
@@ -105,14 +105,14 @@ describe "#text" do
     @pdf.default_kerning = false
     @pdf.text "hello world"
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(text.kerned[0]).to be_false
+    expect(text.kerned[0]).to be_falsey
   end
 
   it "option should be able to override document-wide kerning disabling" do
     @pdf.default_kerning = false
     @pdf.text "hello world", :kerning => true
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(text.kerned[0]).to be_true
+    expect(text.kerned[0]).to be_truthy
   end
 
   it "should raise_error ArgumentError if :at option included" do

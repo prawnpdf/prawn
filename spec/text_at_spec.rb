@@ -58,7 +58,7 @@ describe "#draw_text" do
 
     text = rotated_text_inspector.analyze(@pdf.render)
 
-    expect(text.tm_operator_used).to(be_true)
+    expect(text.tm_operator_used).to(be_truthy)
   end
 
   it "should not use rotation matrix by default" do
@@ -66,7 +66,7 @@ describe "#draw_text" do
 
     text = rotated_text_inspector.analyze(@pdf.render)
 
-    expect(text.tm_operator_used).to(be_false)
+    expect(text.tm_operator_used).to(be_falsey)
   end
 
   it "should allow overriding default font for a single instance" do
