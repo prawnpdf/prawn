@@ -3,43 +3,43 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
 describe "Text::Box#nothing_printed?" do
-  it "should be_true when nothing printed" do
+  it "should be_truthy when nothing printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :height => 2,
                                     :document => @pdf)
     text_box.render
-    expect(text_box.nothing_printed?).to be_true
+    expect(text_box.nothing_printed?).to be_truthy
   end
-  it "should be_false when something printed" do
+  it "should be_falsey when something printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :height => 14,
                                     :document => @pdf)
     text_box.render
-    expect(text_box.nothing_printed?).to be_false
+    expect(text_box.nothing_printed?).to be_falsey
   end
 end
 
 describe "Text::Box#everything_printed?" do
-  it "should be_false when not everything printed" do
+  it "should be_falsey when not everything printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :height => 14,
                                     :document => @pdf)
     text_box.render
-    expect(text_box.everything_printed?).to be_false
+    expect(text_box.everything_printed?).to be_falsey
   end
-  it "should be_true when everything printed" do
+  it "should be_truthy when everything printed" do
     create_pdf
     string = "Hello world, how are you?\nI'm fine, thank you."
     text_box = Prawn::Text::Box.new(string,
                                     :document => @pdf)
     text_box.render
-    expect(text_box.everything_printed?).to be_true
+    expect(text_box.everything_printed?).to be_truthy
   end
 end
 

@@ -77,14 +77,14 @@ describe "when generating a document from a subclass" do
     Prawn::Document.extensions.delete(mod1)
     Prawn::Document.extensions.delete(mod2)
 
-    expect(Prawn::Document.new.respond_to?(:test_extensions1)).to be_false
-    expect(Prawn::Document.new.respond_to?(:test_extensions2)).to be_false
+    expect(Prawn::Document.new.respond_to?(:test_extensions1)).to be_falsey
+    expect(Prawn::Document.new.respond_to?(:test_extensions2)).to be_falsey
 
     # verify these still exist on custom class
     expect(custom_document.extensions).to eq([mod1, mod2])
 
-    expect(custom_document.new.respond_to?(:test_extensions1)).to be_true
-    expect(custom_document.new.respond_to?(:test_extensions2)).to be_true
+    expect(custom_document.new.respond_to?(:test_extensions1)).to be_truthy
+    expect(custom_document.new.respond_to?(:test_extensions2)).to be_truthy
   end
 end
 
@@ -176,7 +176,7 @@ describe "on_page_create callback" do
   end
 
   it "should be delegated from Document to renderer" do
-    expect(@pdf.respond_to?(:on_page_create)).to be_true
+    expect(@pdf.respond_to?(:on_page_create)).to be_truthy
   end
 
   it "should be invoked with document" do
@@ -712,17 +712,17 @@ describe "The page_match? method" do
   end
 
   it "returns nil given no filter" do
-    expect(@pdf.page_match?(:nil, 1)).to be_false
+    expect(@pdf.page_match?(:nil, 1)).to be_falsey
   end
 
   it "must provide an :all filter" do
-    expect((1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }).to be_true
+    expect((1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }).to be_truthy
   end
 
   it "must provide an :odd filter" do
     odd, even = (1..@pdf.page_count).partition(&:odd?)
-    expect(odd.all? { |i| @pdf.page_match?(:odd, i) }).to be_true
-    expect(even.any? { |i| @pdf.page_match?(:odd, i) }).to be_false
+    expect(odd.all? { |i| @pdf.page_match?(:odd, i) }).to be_truthy
+    expect(even.any? { |i| @pdf.page_match?(:odd, i) }).to be_falsey
   end
 
   it "must be able to filter by an array of page numbers" do
