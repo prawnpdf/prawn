@@ -116,73 +116,82 @@ describe Prawn::Text::Formatted::Arranger do
       expect(subject.next_string).to be_nil
     end
   end
-end
 
-describe "Core::Text::Formatted::Arranger#retrieve_fragment" do
-  it "should raise_error an error if called before finalize_line was called" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    arranger.format_array = array
-    while string = arranger.next_string
+  describe '#retrieve_fragment' do
+    context 'with a formatted array whos text is an empty string' do
+      let(:array) {
+        [
+          { text: "hello\nworld\n\n\nhow are you?" },
+          { text: "\n" },
+          { text: "\n" },
+          { text: "\n" },
+          { text: "" },
+          { text: "fine, thanks." },
+          { text: "" },
+          { text: "\n" },
+          { text: "" }
+        ]
+      }
+
+      before do
+        subject.format_array = array
+
+        while string = subject.next_string
+        end
+
+        subject.finalize_line
+      end
+
+      it 'never returns a fragment whose text is an empty string' do
+        while fragment = subject.retrieve_fragment
+          expect(fragment.text).not_to be_empty
+        end
+      end
     end
-    expect do
-      arranger.retrieve_fragment
-    end.to raise_error(RuntimeError)
-  end
-  it "should return the consumed fragments in order of consumption" \
-     " and update" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    arranger.format_array = array
-    while string = arranger.next_string
+
+    context 'with formatted array' do
+      let(:array) {
+        [
+          { text: 'hello ' },
+          { text: 'world how ', styles: [:bold] },
+          { text: 'are', styles: [:bold, :italic] },
+          { text: ' you?' }
+        ]
+      }
+
+      before do
+        subject.format_array = array
+      end
+
+      context 'after all strings have been consumed' do
+        before do
+          while string = subject.next_string
+          end
+        end
+
+        it 'should raise RuntimeError an error if not finalized' do
+          expect { subject.retrieve_fragment }.to raise_error(RuntimeError)
+        end
+
+        context 'and finalized' do
+          before do
+            subject.finalize_line
+          end
+
+          it 'returns the consumed fragments in order of consumption' do
+            expect(subject.retrieve_fragment.text).to eq("hello ")
+            expect(subject.retrieve_fragment.text).to eq("world how ")
+            expect(subject.retrieve_fragment.text).to eq("are")
+            expect(subject.retrieve_fragment.text).to eq(" you?")
+          end
+
+          it 'does not alter the current font style' do
+            subject.retrieve_fragment
+            expect(subject.current_format_state[:styles]).to be_nil
+          end
+        end
+      end
     end
-    arranger.finalize_line
-    expect(arranger.retrieve_fragment.text).to eq("hello ")
-    expect(arranger.retrieve_fragment.text).to eq("world how ")
-    expect(arranger.retrieve_fragment.text).to eq("are")
-    expect(arranger.retrieve_fragment.text).to eq(" you?")
-  end
-  it "should never return a fragment whose text is an empty string" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello\nworld\n\n\nhow are you?" },
-             { :text => "\n" },
-             { :text => "\n" },
-             { :text => "\n" },
-             { :text => "" },
-             { :text => "fine, thanks." },
-             { :text => "" },
-             { :text => "\n" },
-             { :text => "" }]
-    arranger.format_array = array
-    while string = arranger.next_string
-    end
-    arranger.finalize_line
-    while fragment = arranger.retrieve_fragment
-      expect(fragment.text).not_to be_empty
-    end
-  end
-  it "should not alter the current font style" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    arranger.format_array = array
-    while string = arranger.next_string
-    end
-    arranger.finalize_line
-    arranger.retrieve_fragment
-    expect(arranger.current_format_state[:styles]).to be_nil
   end
 end
 
