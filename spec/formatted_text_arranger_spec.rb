@@ -36,25 +36,27 @@ describe Prawn::Text::Formatted::Arranger do
       expect(subject.unconsumed[3]).to eq(text: "world")
     end
   end
+
+  describe '#preview_next_string' do
+    context 'with a formatted array' do
+      let(:array) { [{text: 'hello' }] }
+
+      before do
+        subject.format_array = array
+      end
+
+      it 'does not populate the consumed array' do
+        subject.preview_next_string
+        expect(subject.consumed).to eq([])
+      end
+
+      it 'returns the text of the next unconsumed hash' do
+        expect(subject.preview_next_string).to eq("hello")
+      end
+    end
+  end
 end
 
-describe "Core::Text::Formatted::Arranger#preview_next_string" do
-  it "should not populate the consumed array" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello" }]
-    arranger.format_array = array
-    arranger.preview_next_string
-    expect(arranger.consumed).to eq([])
-  end
-  it "should not consumed array" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello" }]
-    arranger.format_array = array
-    expect(arranger.preview_next_string).to eq("hello")
-  end
-end
 describe "Core::Text::Formatted::Arranger#next_string" do
   before(:each) do
     create_pdf
