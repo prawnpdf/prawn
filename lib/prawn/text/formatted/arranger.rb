@@ -31,7 +31,7 @@ module Prawn
         end
 
         def space_count
-          unless @finalized
+          unless finalized
             fail "Lines must be finalized before calling #space_count"
           end
 
@@ -41,7 +41,7 @@ module Prawn
         end
 
         def line_width
-          unless @finalized
+          unless finalized
             fail "Lines must be finalized before calling #line_width"
           end
 
@@ -51,7 +51,7 @@ module Prawn
         end
 
         def line
-          unless @finalized
+          unless finalized
             fail "Lines must be finalized before calling #line"
           end
 
@@ -61,7 +61,8 @@ module Prawn
         end
 
         def finalize_line
-          @finalized = true
+          self.finalized = true
+
           omit_trailing_whitespace_from_line_width
           @fragments = []
           @consumed.each do |hash|
@@ -88,7 +89,7 @@ module Prawn
         end
 
         def initialize_line
-          @finalized = false
+          self.finalized = false
           @max_line_height = 0
           @max_descender = 0
           @max_ascender = 0
@@ -102,7 +103,7 @@ module Prawn
         end
 
         def next_string
-          if @finalized
+          if finalized
             fail "Lines must not be finalized when calling #next_string"
           end
 
@@ -186,7 +187,7 @@ module Prawn
         end
 
         def retrieve_fragment
-          unless @finalized
+          unless finalized
             fail "Lines must be finalized before fragments can be retrieved"
           end
 
@@ -217,6 +218,8 @@ module Prawn
         end
 
         private
+
+        attr_accessor :finalized
 
         def load_previous_format_state
           if @consumed.empty?
