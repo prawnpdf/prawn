@@ -105,14 +105,15 @@ module Prawn
           if @finalized
             fail "Lines must not be finalized when calling #next_string"
           end
-          hash = @unconsumed.shift
-          if hash.nil?
-            nil
-          else
-            @consumed << hash.dup
-            @current_format_state = hash.dup
+
+          next_unconsumed_hash = @unconsumed.shift
+
+          if next_unconsumed_hash
+            @consumed << next_unconsumed_hash.dup
+            @current_format_state = next_unconsumed_hash.dup
             @current_format_state.delete(:text)
-            hash[:text]
+
+            next_unconsumed_hash[:text]
           end
         end
 
