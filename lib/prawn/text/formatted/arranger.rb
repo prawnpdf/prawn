@@ -31,34 +31,37 @@ module Prawn
         end
 
         def space_count
-          if @unfinalized_line
+          unless @finalized
             fail "Lines must be finalized before calling #space_count"
           end
+
           @fragments.inject(0) do |sum, fragment|
             sum + fragment.space_count
           end
         end
 
         def line_width
-          if @unfinalized_line
+          unless @finalized
             fail "Lines must be finalized before calling #line_width"
           end
+
           @fragments.inject(0) do |sum, fragment|
             sum + fragment.width
           end
         end
 
         def line
-          if @unfinalized_line
+          unless @finalized
             fail "Lines must be finalized before calling #line"
           end
+
           @fragments.collect do |fragment|
             fragment.text.dup.force_encoding(::Encoding::UTF_8)
           end.join
         end
 
         def finalize_line
-          @unfinalized_line = false
+          @finalized = true
           omit_trailing_whitespace_from_line_width
           @fragments = []
           @consumed.each do |hash|
@@ -85,7 +88,7 @@ module Prawn
         end
 
         def initialize_line
-          @unfinalized_line = true
+          @finalized = false
           @max_line_height = 0
           @max_descender = 0
           @max_ascender = 0
@@ -99,7 +102,7 @@ module Prawn
         end
 
         def next_string
-          unless @unfinalized_line
+          if @finalized
             fail "Lines must not be finalized when calling #next_string"
           end
           hash = @unconsumed.shift
@@ -182,9 +185,10 @@ module Prawn
         end
 
         def retrieve_fragment
-          if @unfinalized_line
+          unless @finalized
             fail "Lines must be finalized before fragments can be retrieved"
           end
+
           @fragments.shift
         end
 
