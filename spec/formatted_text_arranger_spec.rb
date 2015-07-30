@@ -2,33 +2,42 @@
 
 require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 
-describe "Core::Text::Formatted::Arranger#format_array" do
-  it "should populate unconsumed array" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    arranger.format_array = array
-    expect(arranger.unconsumed[0]).to eq(:text => "hello ")
-    expect(arranger.unconsumed[1]).to eq(:text => "world how ",
-                                         :styles => [:bold])
-    expect(arranger.unconsumed[2]).to eq(:text => "are",
-                                         :styles => [:bold, :italic])
-    expect(arranger.unconsumed[3]).to eq(:text => " you?")
-  end
-  it "should split newlines into their own elements" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "\nhello\nworld" }]
-    arranger.format_array = array
-    expect(arranger.unconsumed[0]).to eq(:text => "\n")
-    expect(arranger.unconsumed[1]).to eq(:text => "hello")
-    expect(arranger.unconsumed[2]).to eq(:text => "\n")
-    expect(arranger.unconsumed[3]).to eq(:text => "world")
+describe Prawn::Text::Formatted::Arranger do
+  let(:document) { create_pdf }
+  subject { Prawn::Text::Formatted::Arranger.new document }
+
+  describe '#format_array' do
+    it 'populates the unconsumed array' do
+      array = [
+        { text: 'hello ' },
+        { text: 'world how ', styles: [:bold] },
+        { text: 'are', styles: [:bold, :italic] },
+        { text: ' you?' }
+      ]
+
+      subject.format_array = array
+
+      expect(subject.unconsumed[0]).to eq(text: 'hello ')
+      expect(subject.unconsumed[1]).to eq(text: 'world how ', styles: [:bold])
+      expect(subject.unconsumed[2]).to eq(text: 'are', styles: [:bold, :italic])
+      expect(subject.unconsumed[3]).to eq(text: ' you?')
+    end
+
+    it 'splits newlins into their own elements' do
+      array = [
+        { text: "\nhello\nworld" }
+      ]
+
+      subject.format_array = array
+
+      expect(subject.unconsumed[0]).to eq(text: "\n")
+      expect(subject.unconsumed[1]).to eq(text: "hello")
+      expect(subject.unconsumed[2]).to eq(text: "\n")
+      expect(subject.unconsumed[3]).to eq(text: "world")
+    end
   end
 end
+
 describe "Core::Text::Formatted::Arranger#preview_next_string" do
   it "should not populate the consumed array" do
     create_pdf
