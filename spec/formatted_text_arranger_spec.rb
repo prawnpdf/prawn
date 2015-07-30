@@ -104,6 +104,10 @@ describe Prawn::Text::Formatted::Arranger do
       expect(subject.current_format_state).to eq({})
     end
 
+    it 'returns the text of the newly consumed hash' do
+      expect(subject.next_string).to eq('hello ')
+    end
+
     it 'returns nil when there are no more unconsumed hashes' do
       4.times do
         subject.next_string
