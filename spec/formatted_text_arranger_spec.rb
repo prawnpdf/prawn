@@ -103,6 +103,14 @@ describe Prawn::Text::Formatted::Arranger do
       string = subject.next_string
       expect(subject.current_format_state).to eq({})
     end
+
+    it 'returns nil when there are no more unconsumed hashes' do
+      4.times do
+        subject.next_string
+      end
+
+      expect(subject.next_string).to be_nil
+    end
   end
 end
 
