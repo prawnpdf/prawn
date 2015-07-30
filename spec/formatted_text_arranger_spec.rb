@@ -39,7 +39,7 @@ describe Prawn::Text::Formatted::Arranger do
 
   describe '#preview_next_string' do
     context 'with a formatted array' do
-      let(:array) { [{text: 'hello' }] }
+      let(:array) { [{ text: 'hello' }] }
 
       before do
         subject.format_array = array
@@ -52,6 +52,11 @@ describe Prawn::Text::Formatted::Arranger do
 
       it 'returns the text of the next unconsumed hash' do
         expect(subject.preview_next_string).to eq("hello")
+      end
+
+      it 'returns nil if there is no more unconsumed text' do
+        subject.next_string
+        expect(subject.preview_next_string).to be_nil
       end
     end
   end
