@@ -60,56 +60,48 @@ describe Prawn::Text::Formatted::Arranger do
       end
     end
   end
-end
 
-describe "Core::Text::Formatted::Arranger#next_string" do
-  before(:each) do
-    create_pdf
-    @arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    @arranger.format_array = array
-  end
-  it "should raise_error an error if called after a line was finalized and" \
-     " before a new line was initialized" do
-    @arranger.finalize_line
-    expect do
-      @arranger.next_string
-    end.to raise_error(RuntimeError)
-  end
-  it "should populate consumed array" do
-    while string = @arranger.next_string
+  describe '#next_string' do
+    let(:array) {
+      [
+        { text: 'hello ' },
+        { text: 'world how ', styles: [:bold] },
+        { text: 'are', styles: [:bold, :italic] },
+        { text: ' you?' }
+      ]
+    }
+
+    before do
+      subject.format_array = array
     end
-    expect(@arranger.consumed[0]).to eq(:text => "hello ")
-    expect(@arranger.consumed[1]).to eq(:text => "world how ",
-                                        :styles => [:bold])
-    expect(@arranger.consumed[2]).to eq(:text => "are",
-                                        :styles => [:bold, :italic])
-    expect(@arranger.consumed[3]).to eq(:text => " you?")
-  end
-  it "should populate current_format_state array" do
-    create_pdf
-    arranger = Prawn::Text::Formatted::Arranger.new(@pdf)
-    array = [{ :text => "hello " },
-             { :text => "world how ", :styles => [:bold] },
-             { :text => "are", :styles => [:bold, :italic] },
-             { :text => " you?" }]
-    arranger.format_array = array
-    counter = 0
-    while string = arranger.next_string
-      case counter
-      when 0
-        expect(arranger.current_format_state).to eq({})
-      when 1
-        expect(arranger.current_format_state).to eq(:styles => [:bold])
-      when 2
-        expect(arranger.current_format_state).to eq(:styles => [:bold, :italic])
-      when 3
-        expect(arranger.current_format_state).to eq({})
+
+    it 'raises RuntimeError if called after a line was finalized' do
+      subject.finalize_line
+      expect { subject.next_string }.to raise_error(RuntimeError)
+    end
+
+    it 'populates the conumed array' do
+      while string = subject.next_string
       end
-      counter += 1
+
+      expect(subject.consumed[0]).to eq(text: 'hello ')
+      expect(subject.consumed[1]).to eq(text: 'world how ', styles: [:bold])
+      expect(subject.consumed[2]).to eq(text: 'are', styles: [:bold, :italic])
+      expect(subject.consumed[3]).to eq(text: ' you?')
+    end
+
+    it 'populates the current_format_state array' do
+      string = subject.next_string
+      expect(subject.current_format_state).to eq({})
+
+      string = subject.next_string
+      expect(subject.current_format_state).to eq(:styles => [:bold])
+
+      string = subject.next_string
+      expect(subject.current_format_state).to eq(:styles => [:bold, :italic])
+
+      string = subject.next_string
+      expect(subject.current_format_state).to eq({})
     end
   end
 end
