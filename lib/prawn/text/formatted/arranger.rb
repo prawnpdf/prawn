@@ -114,9 +114,10 @@ module Prawn
         end
 
         def preview_next_string
-          hash = @unconsumed.first
-          if hash.nil? then nil
-          else hash[:text]
+          next_unconsumed_hash = @unconsumed.first
+
+          if next_unconsumed_hash
+            next_unconsumed_hash[:text]
           end
         end
 
