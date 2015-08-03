@@ -14,9 +14,9 @@ Prawn::ManualBuilder::Example.generate(filename) do
   move_down 20
 
   text  "Scaled to 50%"
-  image "#{Prawn::DATADIR}/images/stef.jpg", :scale => 0.5
+  image "#{Prawn::DATADIR}/images/stef.jpg", scale: 0.5
   move_down 20
 
   text  "Scaled to 200%"
-  image "#{Prawn::DATADIR}/images/stef.jpg", :scale => 2
+  image "#{Prawn::DATADIR}/images/stef.jpg", scale: 2
 end

@@ -16,7 +16,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   # Registering a single TTF font
   font_families.update(
     "DejaVu Sans" => {
-      :normal => "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+      normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
     }
   )
 
@@ -29,10 +29,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
   font_path = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
   font_families.update(
     "Panic Sans" => {
-      :normal      => { :file => font_path, :font => "PanicSans" },
-      :italic      => { :file => font_path, :font => "PanicSans-Italic" },
-      :bold        => { :file => font_path, :font => "PanicSans-Bold" },
-      :bold_italic => { :file => font_path, :font => "PanicSans-BoldItalic" }
+      normal:      { file: font_path, font: "PanicSans" },
+      italic:      { file: font_path, font: "PanicSans-Italic" },
+      bold:        { file: font_path, font: "PanicSans-Bold" },
+      bold_italic: { file: font_path, font: "PanicSans-BoldItalic" }
     }
   )
 
@@ -41,12 +41,12 @@ Prawn::ManualBuilder::Example.generate(filename) do
   move_down 20
 
   text "Taking <b>advantage</b> of the <i>inline formatting</i>",
-       :inline_format => true
+       inline_format: true
   move_down 20
 
   [:bold, :bold_italic, :italic, :normal].each do |style|
     text "Using the #{style} style option.",
-         :style => style
+         style: style
     move_down 10
   end
 end

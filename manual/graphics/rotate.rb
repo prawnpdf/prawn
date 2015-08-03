@@ -18,9 +18,9 @@ Prawn::ManualBuilder::Example.generate(filename) do
   fill_circle [250, 200], 2
 
   12.times do |i|
-    rotate(i * 30, :origin => [250, 200]) do
+    rotate(i * 30, origin: [250, 200]) do
       stroke_rectangle [350, 225], 100, 50
-      draw_text "Rotated #{i * 30}°", :size => 10, :at => [360, 205]
+      draw_text "Rotated #{i * 30}°", size: 10, at: [360, 205]
     end
   end
 end

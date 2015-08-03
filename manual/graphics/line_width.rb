@@ -25,7 +25,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     end
 
     stroke do
-      horizontal_line 50, 150, :at => y
+      horizontal_line 50, 150, at: y
       rectangle [275, y + 25], 50, 50
       circle [500, y], 25
     end

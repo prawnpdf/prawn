@@ -10,14 +10,14 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   y_position = cursor
-  bounding_box([0, y_position], :width => 200, :height => 100) do
+  bounding_box([0, y_position], width: 200, height: 100) do
     text "This bounding box has a height of 100. If this text gets too large " +
          "it will flow to the next page."
 
     transparent(0.5) { stroke_bounds }
   end
 
-  bounding_box([300, y_position], :width => 200) do
+  bounding_box([300, y_position], width: 200) do
     text "This bounding box has variable height. No matter how much text is " +
          "written here, the height will expand to fit."
 

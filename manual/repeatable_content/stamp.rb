@@ -22,14 +22,14 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   create_stamp("approved") do
-    rotate(30, :origin => [-5, -5]) do
+    rotate(30, origin: [-5, -5]) do
       stroke_color "FF3333"
       stroke_ellipse [0, 0], 29, 15
       stroke_color "000000"
 
       fill_color "993333"
       font("Times-Roman") do
-        draw_text "Approved", :at => [-23, -3]
+        draw_text "Approved", at: [-23, -3]
       end
       fill_color "000000"
     end

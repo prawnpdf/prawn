@@ -17,8 +17,8 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
-  stroke_axis(:at => [70, 70], :height => 200, :step_length => 50,
-              :negative_axes_length => 5, :color => '0000FF')
-  stroke_axis(:at => [140, 140], :width => 200, :height => cursor.to_i - 140,
-              :step_length => 20, :negative_axes_length => 40, :color => 'FF00')
+  stroke_axis(at: [70, 70], height: 200, step_length: 50,
+              negative_axes_length: 5, color: '0000FF')
+  stroke_axis(at: [140, 140], width: 200, height: cursor.to_i - 140,
+              step_length: 20, negative_axes_length: 40, color: 'FF00')
 end

@@ -11,15 +11,15 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  bounding_box([50, cursor], :width => 400, :height => 450) do
+  bounding_box([50, cursor], width: 400, height: 450) do
     stroke_bounds
 
     [:left, :center, :right].each do |position|
       text  "Image aligned to the #{position}."
-      image "#{Prawn::DATADIR}/images/stef.jpg", :position => position
+      image "#{Prawn::DATADIR}/images/stef.jpg", position: position
     end
 
     text  "The next image has a 50 point offset from the left boundary"
-    image "#{Prawn::DATADIR}/images/stef.jpg", :position => 50
+    image "#{Prawn::DATADIR}/images/stef.jpg", position: 50
   end
 end

@@ -35,12 +35,12 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   string = "page <page> of <total>"
   # Green page numbers 1 to 7
-  options = { :at => [bounds.right - 150, 0],
-              :width => 150,
-              :align => :right,
-              :page_filter => (1..7),
-              :start_count_at => 1,
-              :color => "007700" }
+  options = { at: [bounds.right - 150, 0],
+              width: 150,
+              align: :right,
+              page_filter: (1..7),
+              start_count_at: 1,
+              color: "007700" }
   number_pages string, options
 
   # Gray page numbers from 8 on up

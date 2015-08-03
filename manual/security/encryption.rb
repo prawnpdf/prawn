@@ -25,5 +25,5 @@ end
 # Simple password. All permissions granted.
 Prawn::ManualBuilder::Example.generate("simple_password.pdf") do
   text "You was asked for a password."
-  encrypt_document(:user_password => 'foo', :owner_password => 'bar')
+  encrypt_document(user_password: 'foo', owner_password: 'bar')
 end

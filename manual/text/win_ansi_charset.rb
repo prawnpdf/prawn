@@ -17,10 +17,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
   fields = [[20, :right], [8, :left], [12, :center], [30, :right], [8, :left],
             [0, :left]]
 
-  font "Helvetica", :size => FONT_SIZE
+  font "Helvetica", size: FONT_SIZE
 
   move_down 30
-  text "(See next page for WinAnsi table)", :align => :center
+  text "(See next page for WinAnsi table)", align: :center
   start_new_page
 
   Prawn::Encoding::WinAnsi::CHARACTERS.each_with_index do |name, index|
@@ -35,14 +35,14 @@ Prawn::ManualBuilder::Example.generate(filename) do
     code = "%d." % index
     char = index.chr
 
-    width = 1000 * width_of(char, :size => FONT_SIZE) / FONT_SIZE
+    width = 1000 * width_of(char, size: FONT_SIZE) / FONT_SIZE
     size  = "%d" % width
 
     data = [code, nil, char, size, nil, name]
     dx   = x
     fields.zip(data).each do |(total_width, align), field|
       if field
-        width = width_of(field, :size => FONT_SIZE)
+        width = width_of(field, size: FONT_SIZE)
 
         case align
         when :left   then offset = 0
@@ -51,7 +51,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
         end
 
         text_box(field.force_encoding("windows-1252").encode("UTF-8"),
-                 :at => [dx + offset, y])
+                 at: [dx + offset, y])
       end
 
       dx += total_width

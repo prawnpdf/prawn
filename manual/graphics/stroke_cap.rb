@@ -25,7 +25,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     self.cap_style = cap
 
     y = 250 - i * 100
-    stroke_horizontal_line 100, 300, :at => y
+    stroke_horizontal_line 100, 300, at: y
     stroke_circle [400, y], 15
   end
 end

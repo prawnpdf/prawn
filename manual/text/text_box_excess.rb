@@ -18,15 +18,15 @@ Prawn::ManualBuilder::Example.generate(filename) do
            "the rest of the text will procede to be rendered this time by " +
            "calling another method." + " . " * 50
 
-  y_position = cursor - 20
+  y_position  = cursor - 20
   excess_text = text_box string,
-                         :width    => 300,
-                         :height   => 50,
-                         :overflow => :truncate,
-                         :at       => [100, y_position],
-                         :size     => 18
+                         width:    300,
+                         height:   50,
+                         overflow: :truncate,
+                         at:       [100, y_position],
+                         size:     18
 
   text_box excess_text,
-           :width    => 300,
-           :at       => [100, y_position - 100]
+           width: 300,
+           at:    [100, y_position - 100]
 end

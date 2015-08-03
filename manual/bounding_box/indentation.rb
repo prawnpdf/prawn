@@ -18,7 +18,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   end
   move_down 20
 
-  bounding_box([50, cursor], :width => 400, :height => cursor) do
+  bounding_box([50, cursor], width: 400, height: cursor) do
     transparent(0.5) { stroke_bounds }
 
     move_down 10
@@ -35,7 +35,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     indent(60) do
       text "Another indent block."
 
-      bounding_box([0, cursor], :width => 200) do
+      bounding_box([0, cursor], width: 200) do
         text "Note that this bounding box coordinates are relative to the " +
              "indent block"
 
