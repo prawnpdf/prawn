@@ -303,18 +303,6 @@ describe "Patterns" do
       str = @pdf.render
       expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
     end
-
-    it "uses the transformation stack to translate user co-ordinates to document co-ordinates required by /Pattern" do
-      @pdf.scale 2 do
-        @pdf.translate 40, 40 do
-          @pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF'
-        end
-      end
-
-      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
-      pattern = grad.patterns.values.first
-      expect(pattern[:Matrix]).to eq([2, 0, 0, 2, 80, 100])
-    end
   end
 
   describe 'radial gradients' do
@@ -354,17 +342,44 @@ describe "Patterns" do
       str = @pdf.render
       expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
     end
+  end
 
-    it "uses the transformation stack to translate user co-ordinates to document co-ordinates required by /Pattern" do
+  describe "gradient transformations" do
+    subject do
       @pdf.scale 2 do
         @pdf.translate 40, 40 do
-          @pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF'
+          @pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF', opts
+          @pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF', opts
         end
       end
 
       grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
-      pattern = grad.patterns.values.first
-      expect(pattern[:Matrix]).to eq([2, 0, 0, 2, 80, 100])
+      grad.patterns.values.map { |pattern| pattern[:Matrix] }.uniq
+    end
+
+    context "when :apply_transformations is true" do
+      let(:opts) { { apply_transformations: true } }
+
+      it "uses the transformation stack to translate user co-ordinates to document co-ordinates required by /Pattern" do
+        expect(subject).to eq([[2, 0, 0, 2, 80, 100]])
+      end
+    end
+
+    context "when :apply_transformations is false" do
+      let(:opts) { { apply_transformations: false } }
+
+      it "doesn't transform the gradient" do
+        expect(subject).to eq([[1, 0, 0, 1, 0, 10]])
+      end
+    end
+
+    context "when :apply_transformations is unset" do
+      let(:opts) { {} }
+
+      it "doesn't transform the gradient and displays a warning" do
+        @pdf.expects(:warn).twice
+        expect(subject).to eq([[1, 0, 0, 1, 0, 10]])
+      end
     end
   end
 end
