@@ -407,12 +407,9 @@ module Prawn
     end
 
     def key_is_unique?(test_key)
-      @document.state.page.fonts.keys.each do |key|
-        if key.to_s.start_with?(test_key.to_s)
-          return false
-        end
+      !@document.state.page.fonts.keys.any? do |key|
+        key.to_s.start_with?("#{test_key}.")
       end
-      true
     end
 
     def size
