@@ -1,6 +1,26 @@
 
 ## PrawnPDF master branch
 
+### Gradients applied inside transformations are now correctly positioned
+
+PDF gradients/patterns take coordinates in the coordinate space of the
+document, not the "user space", so if you performed a scale/rotate/translate
+and then painted a gradient inside, it wasn't correctly positioned.
+
+This change tracks transformations applied to the document, and multiplies
+the gradient matrix with this tracked transformation matrix so that the
+gradient appears in the correct place in the document.
+
+Because this changes how the x and y coordinates are interpreted, you must
+manually add `apply_transformations: true` to your `stroke_gradient` and
+`fill_gradient` calls to use the fixed behaviour in Prawn 2.  It is expected
+that this will be the default in Prawn 3.
+
+Please [refer to the wiki page on this change](https://github.com/prawnpdf/prawn/wiki/Gradient-Transformations)
+for more information.
+
+(Roger Nesbitt, [#891](https://github.com/prawnpdf/prawn/issues/891), [#894](https://github.com/prawnpdf/prawn/pull/894))
+
 ## PrawnPDF 2.0.2 -- 2015-07-15
 
 ### Links in repeaters/stamps are now clickable

@@ -57,6 +57,7 @@ module Prawn
     include Prawn::Images
     include Prawn::Stamp
     include Prawn::SoftMask
+    include Prawn::TransformationStack
 
     # @group Extension API
 
