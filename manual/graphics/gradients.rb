@@ -34,4 +34,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   fill_gradient [500, 300], 15, [500, 50], 0, 'ff0000', '0000ff'
   fill_rectangle [485, 300], 30, 250
+
+  rotate 45, origin: [100, 400] do
+    stops = [[0, 'ff0000'], [0.6, '999900'], [0.8, '00cc00'], [1, '4444ff']]
+    fill_gradient from: [50, 450], to: [150, 350], stops: stops
+    fill_rectangle [50, 450], 100, 100
+  end
 end
