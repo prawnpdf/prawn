@@ -23,7 +23,7 @@ module Prawn
       #      to: [x, y]
       #      r1: radius
       #      r2: radius
-      #      stops: [[position, color], ...]
+      #      stops: [color, color, ...] or { position => color, position => color, ... }
       #      apply_transformations: true
       #
       # Examples:
@@ -31,7 +31,7 @@ module Prawn
       #     fill_gradient from: [0, 0], to: [100, 0], stops: ['red', 'blue']
       #
       #     # draws a horizontal radial gradient that starts at red, is green 80% of the way through, and finishes blue
-      #     fill_gradient from: [0, 0], r1: 0, to: [100, 0], r2: 180, stops: [[0, 'red'], [0.8, 'green'], [1, 'blue']]
+      #     fill_gradient from: [0, 0], r1: 0, to: [100, 0], r2: 180, stops: { 0 => 'red', 0.8 => 'green', 1 => 'blue' }
       #
       # <tt>from</tt> and <tt>to</tt> specify the axis of where the gradient
       # should be painted.
@@ -41,11 +41,11 @@ module Prawn
       # and ending at a circle of radius <tt>r2</tt> centered at <tt>to</tt>.
       # If <tt>r1</tt> is not specified, a axial gradient will be drawn.
       #
-      # <tt>stops</tt> is an array of stops.  Each stop is either just a
+      # <tt>stops</tt> is an array or hash of stops.  Each stop is either just a
       # string indicating the color, in which case the stops will be evenly
-      # distributed across the gradient, or an array with two elements:
+      # distributed across the gradient, or a hash where the key is
       # a position between 0 and 1 indicating what distance through the
-      # gradient the color should change, and the color string.
+      # gradient the color should change, and the value is a color string.
       #
       # Option <tt>apply_transformations</tt>, if set true, will transform the
       # gradient's co-ordinate space so it matches the current co-ordinate
@@ -114,7 +114,7 @@ module Prawn
 
         stops = stops.map.with_index do |stop, index|
           case stop
-          when Array
+          when Array, Hash
             position, color = stop
           else
             position = index / (stops.length.to_f - 1)
