@@ -23,7 +23,7 @@ module Prawn
 
   FLOAT_PRECISION = 1.0e-9
 
-  # Whe set to true, Prawn will verify hash options to ensure only valid keys
+  # When set to true, Prawn will verify hash options to ensure only valid keys
   # are used.  Off by default.
   #
   # Example:
