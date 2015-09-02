@@ -419,6 +419,7 @@ module Prawn
     # the current bounding box.
     #
     def move_up(n)
+      return if n == 0
       self.y += n
     end
 
@@ -426,6 +427,7 @@ module Prawn
     # the current bounding box.
     #
     def move_down(n)
+      return if n == 0
       self.y -= n
     end
 
@@ -463,11 +465,14 @@ module Prawn
     #     pdf.text "This is 100 points below the previous line of text"
     #   end
     #   pdf.text "This is 100 points below the previous line of text"
-    #
-    def pad(y)
-      move_down(y)
+    #   pdf.pad(10,20) do
+    #      pdf.text "this is 10 points below the previous line"
+    #   end
+    #  pdf.text "this is 20 points below the previous line"
+    def pad(top, bottom = nil)
+      move_down(top)
       yield
-      move_down(y)
+      move_down(bottom || top)
     end
 
     # Indents the specified number of PDF points for the duration of the block
