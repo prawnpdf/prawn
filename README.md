@@ -148,9 +148,10 @@ If you contribute to Prawn, you will retain your own copyright but must agree to
 
 ## History
 
-Prawn was originally developed by Gregory Brown, under the auspices of the Ruby
-Mendicant Project, a grassroots initiative in which the Ruby community
-collectively provided funding so that Gregory could take several months off from
+Prawn was originally developed by [Gregory Brown](http://twitter.com/practicingruby), 
+under the auspices of the Ruby Mendicant Project, a grassroots initiative in which 
+the Ruby community collectively provided funding so that Gregory could take 
+several months off from
 work to focus on this project.
 
 Over the last several years, we've received code contributions from dozens of
