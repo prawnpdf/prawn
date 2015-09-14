@@ -396,7 +396,20 @@ module Prawn
     # generate a font identifier that hasn't been used on the current page yet
     #
     def generate_unique_id
-      :"F#{@document.font_registry.size + 1}"
+      key = nil
+      font_count = @document.font_registry.size + 1
+      loop do
+        key = :"F#{font_count}"
+        break if key_is_unique?(key)
+        font_count += 1
+      end
+      key
+    end
+
+    def key_is_unique?(test_key)
+      !@document.state.page.fonts.keys.any? do |key|
+        key.to_s.start_with?("#{test_key}.")
+      end
     end
 
     def size
