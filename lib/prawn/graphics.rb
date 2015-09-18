@@ -6,6 +6,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
+require_relative "graphics/blend_mode"
 require_relative "graphics/color"
 require_relative "graphics/dash"
 require_relative "graphics/cap_style"
@@ -22,6 +23,7 @@ module Prawn
   # ruby-pdf.rubyforge.org
   #
   module Graphics
+    include BlendMode
     include Color
     include Dash
     include CapStyle
