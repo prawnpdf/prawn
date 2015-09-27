@@ -671,6 +671,57 @@ describe "Text::Formatted::Box#render with :valign => :bottom" do
   end
 end
 
+describe "formatted_text_box with :dry_run option" do
+  before(:each) do
+    create_pdf
+    @formatted_text = [{ :text => "This is amazing. " * 10 }]
+  end
+
+  it "should return instance of Prawn::Text::Formatted::Box" do
+    box = @pdf.formatted_text_box(@formatted_text, :dry_run => true)
+    expect(box).to be_instance_of(Prawn::Text::Formatted::Box)
+  end
+
+  it "should draw content to the page when :dry_run => nil" do
+    @pdf.formatted_text_box(@formatted_text)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    expect(text.strings).not_to be_empty
+  end
+
+  it "should not draw any content to the page when :dry_run => true" do
+    @pdf.formatted_text_box(@formatted_text, :dry_run => true)
+    text = PDF::Inspector::Text.analyze(@pdf.render)
+    expect(text.strings).to be_empty
+  end
+
+  it "should allow accessing font_size when testing :shrink_to_fit" do
+    options = {
+      :at => [0, 300],
+      :disable_wrap_by_char => true,
+      :dry_run => true,
+      :overflow => :shrink_to_fit,
+      :size => 50,
+      :width => 70
+    }
+
+    box = @pdf.formatted_text_box([{ :text => "Some shorter text" }], options)
+    expect(box.font_size).to eq(22)
+  end
+
+  it "should allow accessing height" do
+    options = {
+      :at => [0, @pdf.bounds.height],
+      :dry_run => true,
+      :width => @pdf.bounds.width
+    }
+
+    box1 = @pdf.formatted_text_box([{ :text => "A lot of text. " * 100 }], options)
+    box2 = @pdf.formatted_text_box([{ :text => "A lot of text. " * 200 }], options)
+
+    expect(box2.height).to be > box1.height
+  end
+end
+
 class TestFragmentCallback
   def initialize(string, number, options)
     @document = options[:document]

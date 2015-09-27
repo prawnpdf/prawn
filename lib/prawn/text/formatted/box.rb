@@ -64,6 +64,10 @@ module Prawn
       #     #render_behind and #render_in_front, which are called immediately
       #     prior to and immediately after rendring the text fragment and which
       #     are passed the fragment as an argument
+      # <tt>:dry_run</tt>::
+      #     <tt>boolean</tt>. Prevents the text from being printed to the PDF
+      #     and is useful in conjunction with <tt>:shrink_to_fit</tt> to
+      #     determine the font size and height of the box
       #
       # == Example
       #
@@ -78,8 +82,7 @@ module Prawn
       #
       # == Returns
       #
-      # Returns a formatted text array representing any text that did not print
-      # under the current settings.
+      # Returns the Text::Formatted::Box object after render is called
       #
       # == Exceptions
       #
@@ -89,7 +92,9 @@ module Prawn
       # any text
       #
       def formatted_text_box(array, options = {})
-        Text::Formatted::Box.new(array, options.merge(:document => self)).render
+        box = Text::Formatted::Box.new(array, options.merge(:document => self))
+        box.render(:dry_run => options[:dry_run])
+        box
       end
 
       # Generally, one would use the Prawn::Text::Formatted#formatted_text_box
@@ -129,6 +134,8 @@ module Prawn
         attr_reader :descender
         # The leading used during printing
         attr_reader :leading
+        # The font size which may have changed if <tt>shrink_to_fit</tt> is true
+        attr_reader :font_size
 
         def line_gap
           line_height - (ascender + descender)
@@ -341,7 +348,8 @@ module Prawn
             :document,
             :direction,
             :fallback_fonts,
-            :draw_text_callback
+            :draw_text_callback,
+            :dry_run
           ]
         end
 
