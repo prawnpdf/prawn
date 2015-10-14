@@ -21,6 +21,8 @@ module Prawn
 
         # The number of spaces in the last wrapped line
         attr_reader :space_count
+        attr_reader :soft_hyphen
+        attr_reader :zero_width_space
 
         # Whether this line is the last line in the paragraph
         def paragraph_finished?
@@ -149,9 +151,6 @@ module Prawn
         def hyphen
           "-"
         end
-
-        attr_reader :soft_hyphen
-        attr_reader :zero_width_space
 
         def line_empty?
           @line_empty && @accumulated_width == 0
