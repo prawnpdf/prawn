@@ -1,6 +1,12 @@
 
 ## PrawnPDF master branch
 
+### Prawn no longer generates IRB warnings
+
+Fix a few issues with code style that were triggering warnings in IRB when run in verbose mode (`irb -w`).
+
+(Jesse Doyle, [#914](https://github.com/prawnpdf/prawn/pull/914))
+
 ### Gradients applied inside transformations are now correctly positioned
 
 PDF gradients/patterns take coordinates in the coordinate space of the

@@ -16,6 +16,7 @@ module Prawn
         attr_reader :max_line_height
         attr_reader :max_descender
         attr_reader :max_ascender
+        attr_reader :finalized
         attr_accessor :consumed
 
         # The following present only for testing purposes
@@ -61,7 +62,7 @@ module Prawn
         end
 
         def finalize_line
-          self.finalized = true
+          @finalized = true
 
           omit_trailing_whitespace_from_line_width
           @fragments = []
@@ -89,7 +90,7 @@ module Prawn
         end
 
         def initialize_line
-          self.finalized = false
+          @finalized = false
           @max_line_height = 0
           @max_descender = 0
           @max_ascender = 0
@@ -218,8 +219,6 @@ module Prawn
         end
 
         private
-
-        attr_accessor :finalized
 
         def load_previous_format_state
           if @consumed.empty?

@@ -76,7 +76,7 @@ module Prawn
       end
 
       def gradient_registry_key(gradient, opts)
-        x1, y1, x2, y2, transformation = gradient_coordinates(gradient, opts)
+        _x1, _y1, x2, y2, transformation = gradient_coordinates(gradient, opts)
 
         if gradient[1].is_a?(Array) # axial
           [
