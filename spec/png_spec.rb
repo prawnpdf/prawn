@@ -95,10 +95,32 @@ describe "When reading an RGB PNG file with transparency (color type 2)" do
 end
 
 describe "When reading an indexed color PNG file with transparency (color type 3)" do
-  it "raises a not supported error" do
-    bin = File.binread("#{Prawn::DATADIR}/images/pal_bk.png")
-    expect { Prawn::Images::PNG.new(bin) }.to(
-      raise_error(Prawn::Errors::UnsupportedImageType))
+  let(:filename) { "#{Prawn::DATADIR}/images/indexed_transparency.png" }
+  let(:color_filename) { "#{Prawn::DATADIR}/images/indexed_transparency_color.dat" }
+  let(:transparency_filename) { "#{Prawn::DATADIR}/images/indexed_transparency_alpha.dat" }
+  let(:img_data) { File.binread(filename) }
+  let(:png) { Prawn::Images::PNG.new(img_data) }
+
+  it "reads the attributes from the header chunk correctly" do
+    expect(png.width).to eq(200)
+    expect(png.height).to eq(200)
+    expect(png.bits).to eq(8)
+    expect(png.color_type).to eq(3)
+    expect(png.compression_method).to eq(0)
+    expect(png.filter_method).to eq(0)
+    expect(png.interlace_method).to eq(0)
+  end
+
+  it "reads the image data correctly" do
+    data = Zlib::Inflate.inflate(File.binread(color_filename))
+    expect(png.img_data).to eq(data)
+  end
+
+  it "reads the image transparency correctly" do
+    png.split_alpha_channel!
+
+    data = Zlib::Inflate.inflate(File.binread(transparency_filename))
+    expect(png.alpha_channel).to eq(data)
   end
 end
 
