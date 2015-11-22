@@ -1,6 +1,12 @@
 
 ## PrawnPDF master branch
 
+### Added support for PNG images with indexed transparency
+
+Prawn now properly hadles transparency in PNG images with indexed color.
+
+(Maciej Mucha, [#783](https://github.com/prawnpdf/prawn/issues/783); Alexander Mankuta, [#920](https://github.com/prawnpdf/prawn/pull/920))
+
 ### Prawn no longer generates IRB warnings
 
 Fix a few issues with code style that were triggering warnings in IRB when run in verbose mode (`irb -w`).
