@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('ttfunk', '~> 1.4.0')
   spec.add_dependency('pdf-core', "~> 0.6.0")
 
-  spec.add_development_dependency('pdf-inspector', '~> 1.2.0')
+  spec.add_development_dependency('pdf-inspector', '~> 1.2.1')
   spec.add_development_dependency('yard')
   spec.add_development_dependency('rspec', '2.14.1')
   spec.add_development_dependency('mocha')
