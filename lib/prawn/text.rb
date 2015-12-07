@@ -208,8 +208,10 @@ module Prawn
             end
           end
 
-          remaining_text = fill_formatted_text_box(remaining_text, options)
-          draw_remaining_formatted_text_on_new_pages(remaining_text, options)
+          unless @all_text_printed
+            remaining_text = fill_formatted_text_box(remaining_text, options)
+            draw_remaining_formatted_text_on_new_pages(remaining_text, options)
+          end
         end
       else
         remaining_text = fill_formatted_text_box(array, options)
