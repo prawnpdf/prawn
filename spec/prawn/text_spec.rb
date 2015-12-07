@@ -470,6 +470,17 @@ describe Prawn::Text do
         expect(x_positions[3]).to eq(0)
       end
 
+      describe 'when paragraph has only one line, it should not add ' \
+        'additional leading' do
+        let(:leading) { 100 }
+
+        it 'adds leading only once' do
+          original_y = pdf.y
+          pdf.text('hello', indent_paragraphs: 10, leading: leading)
+          expect(original_y - pdf.y).to be < leading * 2
+        end
+      end
+
       describe 'when wrap to new page, and first line of new page' \
               ' is not the start of a new paragraph, that line should' \
               ' not be indented' do
