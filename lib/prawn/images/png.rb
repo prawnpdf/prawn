@@ -68,9 +68,7 @@ module Prawn
             @transparency = {}
             case @color_type
             when 3
-              fail Errors::UnsupportedImageType,
-                   "Pallete-based transparency in PNG is not currently supported.\n" \
-                   "See https://github.com/prawnpdf/prawn/issues/783"
+              @transparency[:palette] = data.read(chunk_size).unpack('C*')
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
@@ -109,11 +107,17 @@ module Prawn
       # where it's required.
       #
       def split_alpha_channel!
-        split_image_data if alpha_channel?
+        if alpha_channel?
+          if color_type == 3
+            generate_alpha_channel
+          else
+            split_image_data
+          end
+        end
       end
 
       def alpha_channel?
-        @color_type == 4 || @color_type == 6
+        [3, 4, 6].include? color_type
       end
 
       # Build a PDF object representing this image in +document+, and return
@@ -284,6 +288,37 @@ module Prawn
         end
 
         @img_data = color_data
+      end
+
+      def generate_alpha_channel
+        alpha_palette = Hash.new(0xff)
+        0.upto(palette.bytesize / 3) do |n|
+          alpha_palette[n] = @transparency[:palette][n] || 0xff
+        end
+
+        scanline_length = width + 1
+        scanlines = @img_data.bytesize / scanline_length
+        pixels = width * height
+
+        data = StringIO.new(@img_data)
+        data.binmode
+
+        @alpha_channel = [0x00].pack('C') * (pixels + scanlines)
+        alpha = StringIO.new(@alpha_channel)
+        alpha.binmode
+
+        scanlines.times do |line|
+          data.seek(line * scanline_length)
+
+          filter = data.getbyte
+
+          alpha.putc filter
+
+          width.times do
+            color = data.read(1).unpack('C').first
+            alpha.putc alpha_palette[color]
+          end
+        end
       end
     end
   end
