@@ -7,9 +7,9 @@ rvm:
   - 2.1
   - 2.2
   - rbx-2
-  - jruby-1.7.22
-env:
-  JRUBY_OPTS=--2.0
 matrix:
+  include:
+    - rvm: jruby-1.7.22
+      env: JRUBY_ORTS=--2.0
   allow_failures:
     - rvm: rbx-2
