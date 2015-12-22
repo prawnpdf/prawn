@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Gregory Brown", "Brad Ediger", "Daniel Nelson", "Jonathan Greenberg", "James Healy"]
   spec.email = ["gregory.t.brown@gmail.com", "brad@bradediger.com", "dnelson@bluejade.com", "greenberg@entryway.net", "jimmy@deefa.com"]
   spec.rubyforge_project = "prawn"
-  spec.licenses = ['RUBY', 'GPL-2', 'GPL-3']
+  spec.licenses = %w(PRAWN GPL-2.0 GPL-3.0)
 
   spec.add_dependency('ttfunk', '~> 1.4.0')
   spec.add_dependency('pdf-core', "~> 0.6.0")
