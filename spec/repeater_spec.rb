@@ -18,7 +18,7 @@ describe "Repeaters" do
     doc = sample_document
     r = repeater(doc, :all) { :do_nothing }
 
-    expect((1..doc.page_count).all? { |i| r.match?(i) }).to be_true
+    expect((1..doc.page_count).all? { |i| r.match?(i) }).to eq true
   end
 
   it "must provide an :odd filter" do
@@ -27,8 +27,8 @@ describe "Repeaters" do
 
     odd, even = (1..doc.page_count).partition(&:odd?)
 
-    expect(odd.all? { |i| r.match?(i) }).to be_true
-    expect(even.any? { |i| r.match?(i) }).to be_false
+    expect(odd.all? { |i| r.match?(i) }).to eq true
+    expect(even.any? { |i| r.match?(i) }).to eq false
   end
 
   it "must be able to filter by an array of page numbers" do
