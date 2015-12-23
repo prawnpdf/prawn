@@ -265,11 +265,11 @@ describe "Document#page_fonts" do
   end
 
   def page_should_include_font(font)
-    expect(page_includes_font?(font)).to be_true
+    expect(page_includes_font?(font)).to eq true
   end
 
   def page_should_not_include_font(font)
-    expect(page_includes_font?(font)).to be_false
+    expect(page_includes_font?(font)).to eq false
   end
 end
 
@@ -313,13 +313,13 @@ describe "AFM fonts" do
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
       normalized = @times.normalize_encoding(original)
-      expect(original.equal?(normalized)).to be_false
+      expect(original.equal?(normalized)).to eq false
     end
 
     it "should modify the original string when normalize_encoding!() is used" do
       original = "Foo"
       normalized = @times.normalize_encoding!(original)
-      expect(original.equal?(normalized)).to be_true
+      expect(original.equal?(normalized)).to eq true
     end
   end
 
@@ -335,25 +335,25 @@ describe "#glyph_present" do
 
   it "should return true when present in an AFM font" do
     font = @pdf.find_font("Helvetica")
-    expect(font.glyph_present?("H")).to be_true
+    expect(font.glyph_present?("H")).to eq true
   end
 
   it "should return false when absent in an AFM font" do
     font = @pdf.find_font("Helvetica")
-    expect(font.glyph_present?("再")).to be_false
+    expect(font.glyph_present?("再")).to eq false
   end
 
   it "should return true when present in a TTF font" do
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    expect(font.glyph_present?("H")).to be_true
+    expect(font.glyph_present?("H")).to eq true
   end
 
   it "should return false when absent in a TTF font" do
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    expect(font.glyph_present?("再")).to be_false
+    expect(font.glyph_present?("再")).to eq false
 
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-    expect(font.glyph_present?("€")).to be_false
+    expect(font.glyph_present?("€")).to eq false
   end
 end
 
@@ -410,13 +410,13 @@ describe "TTF fonts" do
     it "should not modify the original string when normalize_encoding() is used" do
       original = "Foo"
       normalized = @font.normalize_encoding(original)
-      expect(original.equal?(normalized)).to be_false
+      expect(original.equal?(normalized)).to eq false
     end
 
     it "should modify the original string when normalize_encoding!() is used" do
       original = "Foo"
       normalized = @font.normalize_encoding!(original)
-      expect(original.equal?(normalized)).to be_true
+      expect(original.equal?(normalized)).to eq true
     end
   end
 end

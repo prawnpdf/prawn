@@ -77,14 +77,14 @@ describe "when generating a document from a subclass" do
     Prawn::Document.extensions.delete(mod1)
     Prawn::Document.extensions.delete(mod2)
 
-    expect(Prawn::Document.new.respond_to?(:test_extensions1)).to be_false
-    expect(Prawn::Document.new.respond_to?(:test_extensions2)).to be_false
+    expect(Prawn::Document.new.respond_to?(:test_extensions1)).to eq false
+    expect(Prawn::Document.new.respond_to?(:test_extensions2)).to eq false
 
     # verify these still exist on custom class
     expect(custom_document.extensions).to eq([mod1, mod2])
 
-    expect(custom_document.new.respond_to?(:test_extensions1)).to be_true
-    expect(custom_document.new.respond_to?(:test_extensions2)).to be_true
+    expect(custom_document.new.respond_to?(:test_extensions1)).to eq true
+    expect(custom_document.new.respond_to?(:test_extensions2)).to eq true
   end
 end
 
@@ -176,7 +176,7 @@ describe "on_page_create callback" do
   end
 
   it "should be delegated from Document to renderer" do
-    expect(@pdf.respond_to?(:on_page_create)).to be_true
+    expect(@pdf.respond_to?(:on_page_create)).to eq true
   end
 
   it "should be invoked with document" do
@@ -304,30 +304,31 @@ describe "When reopening pages" do
   end
 
   it "should restore the layout of the page" do
-    Prawn::Document.new do
+    doc = Prawn::Document.new do
       start_new_page :layout => :landscape
-      lsize = [bounds.width, bounds.height]
-
-      [bounds.width, bounds.height].should == lsize
-      go_to_page 1
-      [bounds.width, bounds.height].should == lsize.reverse
     end
+
+    lsize = [doc.bounds.width, doc.bounds.height]
+
+    expect([doc.bounds.width, doc.bounds.height]).to eq lsize
+    doc.go_to_page 1
+    expect([doc.bounds.width, doc.bounds.height]).to eq lsize.reverse
   end
 
   it "should restore the margin box of the page" do
-    Prawn::Document.new(:margin => [100, 100]) do
-      page1_bounds = bounds
+    doc = Prawn::Document.new(:margin => [100, 100])
+    page1_bounds = doc.bounds
 
-      start_new_page(:margin => [200, 200])
+    doc.start_new_page(:margin => [200, 200])
 
-      [bounds.width, bounds.height].should == [page1_bounds.width - 200,
-                                               page1_bounds.height - 200]
+    expect([doc.bounds.width, doc.bounds.height]).to eq(
+      [page1_bounds.width - 200, page1_bounds.height - 200]
+    )
 
-      go_to_page(1)
+    doc.go_to_page(1)
 
-      bounds.width.should == page1_bounds.width
-      bounds.height.should == page1_bounds.height
-    end
+    expect(doc.bounds.width).to eq page1_bounds.width
+    expect(doc.bounds.height).to eq page1_bounds.height
   end
 end
 
@@ -712,17 +713,17 @@ describe "The page_match? method" do
   end
 
   it "returns nil given no filter" do
-    expect(@pdf.page_match?(:nil, 1)).to be_false
+    expect(@pdf.page_match?(:nil, 1)).to be_falsey
   end
 
   it "must provide an :all filter" do
-    expect((1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }).to be_true
+    expect((1..@pdf.page_count).all? { |i| @pdf.page_match?(:all, i) }).to eq true
   end
 
   it "must provide an :odd filter" do
     odd, even = (1..@pdf.page_count).partition(&:odd?)
-    expect(odd.all? { |i| @pdf.page_match?(:odd, i) }).to be_true
-    expect(even.any? { |i| @pdf.page_match?(:odd, i) }).to be_false
+    expect(odd.all? { |i| @pdf.page_match?(:odd, i) }).to eq true
+    expect(even.any? { |i| @pdf.page_match?(:odd, i) }).to be_falsey
   end
 
   it "must be able to filter by an array of page numbers" do
