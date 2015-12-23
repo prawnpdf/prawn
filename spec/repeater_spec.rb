@@ -7,7 +7,7 @@ describe "Repeaters" do
     orig_count = Prawn::Repeater.count
 
     doc = sample_document
-    doc.expects(:create_stamp).with("prawn_repeater(#{orig_count})")
+    expect(doc).to receive(:create_stamp).with("prawn_repeater(#{orig_count})")
 
     r = repeater(doc, :all) { :do_nothing }
 
@@ -54,7 +54,7 @@ describe "Repeaters" do
 
   it "must try to run a stamp if the page number matches" do
     doc = sample_document
-    doc.expects(:stamp)
+    expect(doc).to receive(:stamp)
 
     repeater(doc, :odd).run(3)
   end
@@ -62,28 +62,28 @@ describe "Repeaters" do
   it "must not try to run a stamp unless the page number matches" do
     doc = sample_document
 
-    doc.expects(:stamp).never
+    expect(doc).to_not receive(:stamp)
     repeater(doc, :odd).run(2)
   end
 
   it "must not try to run a stamp if dynamic is selected" do
     doc = sample_document
 
-    doc.expects(:stamp).never
+    expect(doc).to_not receive(:stamp)
     (1..10).each { |p| repeater(doc, :all, true){ :do_nothing }.run(p) }
   end
 
   it "must try to run a block if the page number matches" do
     doc = sample_document
 
-    doc.expects(:draw_text).twice
+    expect(doc).to receive(:draw_text).twice
     (1..10).each { |p| repeater(doc, [1, 2], true){ doc.draw_text "foo" }.run(p) }
   end
 
   it "must not try to run a block unless the page number matches" do
     doc = sample_document
 
-    doc.expects(:draw_text).never
+    expect(doc).to_not receive(:draw_text)
     repeater(doc, :odd, true){ doc.draw_text "foo" }.run(2)
   end
 

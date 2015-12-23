@@ -5,11 +5,11 @@ require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
 describe "ImageHandler" do
   let(:image_handler) { Prawn::ImageHandler.new }
 
-  let(:handler_a) { mock("Handler A") }
-  let(:handler_b) { mock("Handler B") }
+  let(:handler_a) { double("Handler A") }
+  let(:handler_b) { double("Handler B") }
 
   it "finds the image handler for an image" do
-    handler_a.expects(:can_render? => true)
+    allow(handler_a).to receive(:can_render?).and_return(true)
 
     image_handler.register(handler_a)
     image_handler.register(handler_b)
@@ -19,7 +19,7 @@ describe "ImageHandler" do
   end
 
   it "can prepend handlers" do
-    handler_b.expects(:can_render? => true)
+    allow(handler_b).to receive(:can_render?).and_return(true)
 
     image_handler.register(handler_a)
     image_handler.register!(handler_b)
@@ -29,7 +29,7 @@ describe "ImageHandler" do
   end
 
   it "can unregister a handler" do
-    handler_b.expects(:can_render? => true)
+    allow(handler_b).to receive(:can_render?).and_return(true)
 
     image_handler.register(handler_a)
     image_handler.register(handler_b)
@@ -41,8 +41,8 @@ describe "ImageHandler" do
   end
 
   it "raises an error when no matching handler is found" do
-    handler_a.expects(:can_render? => false)
-    handler_b.expects(:can_render? => false)
+    allow(handler_a).to receive(:can_render?).and_return(false)
+    allow(handler_b).to receive(:can_render?).and_return(false)
 
     image_handler.register(handler_a)
     image_handler.register(handler_b)
