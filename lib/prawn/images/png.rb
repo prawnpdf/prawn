@@ -293,7 +293,7 @@ module Prawn
       def generate_alpha_channel
         alpha_palette = Hash.new(0xff)
         0.upto(palette.bytesize / 3) do |n|
-          alpha_palette[n] = @transparency[:palette][n] || 0xff
+          alpha_palette[n] = @transparency.present? ? @transparency[:palette][n] : 0xff
         end
 
         scanline_length = width + 1
