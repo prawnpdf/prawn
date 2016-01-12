@@ -21,8 +21,6 @@ describe "When making a pdf file with png images" do
       it "does not error" do
         expect do
           Prawn::Document.generate("#{header}.pdf", :page_size => "A5") do
-            start_new_page unless header.include?("0")
-
             fill_color "00FF00"
 
             fill_rectangle bounds.top_left, bounds.width, bounds.height
