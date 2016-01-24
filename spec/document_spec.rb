@@ -190,8 +190,8 @@ describe "on_page_create callback" do
   end
 
   it "should be invoked for each new page" do
-    trigger = mock
-    trigger.expects(:fire).times(5)
+    trigger = double("trigger")
+    expect(trigger).to receive(:fire).exactly(5).times
 
     @pdf.renderer.on_page_create { trigger.fire }
 
@@ -199,11 +199,11 @@ describe "on_page_create callback" do
   end
 
   it "should be replaceable" do
-    trigger1 = mock
-    trigger1.expects(:fire).times(1)
+    trigger1 = double("trigger 1")
+    expect(trigger1).to receive(:fire).once
 
-    trigger2 = mock
-    trigger2.expects(:fire).times(1)
+    trigger2 = double("trigger 2")
+    expect(trigger2).to receive(:fire).once
 
     @pdf.renderer.on_page_create { trigger1.fire }
 
@@ -215,8 +215,8 @@ describe "on_page_create callback" do
   end
 
   it "should be clearable by calling on_page_create without a block" do
-    trigger = mock
-    trigger.expects(:fire).times(1)
+    trigger = double("trigger")
+    expect(trigger).to receive(:fire).once
 
     @pdf.renderer.on_page_create { trigger.fire }
 
@@ -231,8 +231,8 @@ end
 describe "Document compression" do
   it "should not compress the page content stream if compression is disabled" do
     pdf = Prawn::Document.new(:compress => false)
-    pdf.page.content.stream.stubs(:compress!).returns(true)
-    pdf.page.content.stream.expects(:compress!).never
+    allow(pdf.page.content.stream).to receive(:compress!).and_return(true)
+    expect(pdf.page.content.stream).to_not receive(:compress!)
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -240,8 +240,8 @@ describe "Document compression" do
 
   it "should compress the page content stream if compression is enabled" do
     pdf = Prawn::Document.new(:compress => true)
-    pdf.page.content.stream.stubs(:compress!).returns(true)
-    pdf.page.content.stream.expects(:compress!).once
+    allow(pdf.page.content.stream).to receive(:compress!).and_return(true)
+    expect(pdf.page.content.stream).to receive(:compress!).once
 
     pdf.text "Hi There" * 20
     pdf.render
@@ -470,22 +470,17 @@ describe "The render() feature" do
   it "should trigger before_render callbacks just before rendering" do
     pdf = Prawn::Document.new
 
-    seq = sequence("callback_order")
-
     # Verify the order: finalize -> fire callbacks -> render body
-    pdf.renderer.expects(:finalize_all_page_contents).in_sequence(seq)
-    trigger = mock
-    trigger.expects(:fire).in_sequence(seq)
+    expect(pdf.renderer).to receive(:finalize_all_page_contents).and_call_original.ordered
 
-    # Store away the render_body method to be called below
-    render_body = pdf.renderer.method(:render_body)
-    pdf.renderer.expects(:render_body).in_sequence(seq)
+    trigger = double("trigger")
+    expect(trigger).to receive(:fire).ordered
 
     pdf.renderer.before_render{ trigger.fire }
 
-    # Render the body to set up object offsets
-    render_body.call(StringIO.new)
-    pdf.render
+    expect(pdf.renderer).to receive(:render_body).and_call_original.ordered
+
+    pdf.render(StringIO.new)
   end
 
   it "should be idempotent" do
@@ -575,31 +570,31 @@ describe "The number_pages method" do
 
   it "replaces the '<page>' string with the proper page number" do
     @pdf.start_new_page
-    @pdf.expects(:text_box).with("1, test", :height => 50)
+    expect(@pdf).to receive(:text_box).with("1, test", :height => 50)
     @pdf.number_pages "<page>, test", :page_filter => :all
   end
 
   it "replaces the '<total>' string with the total page count" do
     @pdf.start_new_page
-    @pdf.expects(:text_box).with("test, 1", :height => 50)
+    expect(@pdf).to receive(:text_box).with("test, 1", :height => 50)
     @pdf.number_pages "test, <total>", :page_filter => :all
   end
 
   it "must print each page if given the :all page_filter" do
     10.times { @pdf.start_new_page }
-    @pdf.expects(:text_box).times(10)
+    expect(@pdf).to receive(:text_box).exactly(10).times
     @pdf.number_pages "test", :page_filter => :all
   end
 
   it "must print each page if no :page_filter is specified" do
     10.times { @pdf.start_new_page }
-    @pdf.expects(:text_box).times(10)
+    expect(@pdf).to receive(:text_box).exactly(10).times
     @pdf.number_pages "test"
   end
 
   it "must not print the page number if given a nil filter" do
     10.times { @pdf.start_new_page }
-    @pdf.expects(:text_box).never
+    expect(@pdf).to_not receive(:text_box)
     @pdf.number_pages "test", :page_filter => nil
   end
 
@@ -609,8 +604,8 @@ describe "The number_pages method" do
         it "increments the pages" do
           2.times { @pdf.start_new_page }
           options = { :page_filter => :all, :start_count_at => startat }
-          @pdf.expects(:text_box).with("#{startat} 2", :height => 50)
-          @pdf.expects(:text_box).with("#{startat + 1} 2", :height => 50)
+          expect(@pdf).to receive(:text_box).with("#{startat} 2", :height => 50)
+          expect(@pdf).to receive(:text_box).with("#{startat + 1} 2", :height => 50)
           @pdf.number_pages "<page> <total>", options
         end
       end
@@ -621,9 +616,9 @@ describe "The number_pages method" do
         it "defaults to start at page 1" do
           3.times { @pdf.start_new_page }
           options = { :page_filter => :all, :start_count_at => val }
-          @pdf.expects(:text_box).with("1 3", :height => 50)
-          @pdf.expects(:text_box).with("2 3", :height => 50)
-          @pdf.expects(:text_box).with("3 3", :height => 50)
+          expect(@pdf).to receive(:text_box).with("1 3", :height => 50)
+          expect(@pdf).to receive(:text_box).with("2 3", :height => 50)
+          expect(@pdf).to receive(:text_box).with("3 3", :height => 50)
           @pdf.number_pages "<page> <total>", options
         end
       end
@@ -633,8 +628,8 @@ describe "The number_pages method" do
   context "total_pages option" do
     it "allows the total pages count to be overridden" do
       2.times { @pdf.start_new_page }
-      @pdf.expects(:text_box).with("1 10", :height => 50)
-      @pdf.expects(:text_box).with("2 10", :height => 50)
+      expect(@pdf).to receive(:text_box).with("1 10", :height => 50)
+      expect(@pdf).to receive(:text_box).with("2 10", :height => 50)
       @pdf.number_pages "<page> <total>", :page_filter => :all, :total_pages => 10
     end
   end
@@ -643,16 +638,16 @@ describe "The number_pages method" do
     context "such as :odd" do
       it "increments the pages" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:text_box).with("1 3", :height => 50)
-        @pdf.expects(:text_box).with("3 3", :height => 50)
-        @pdf.expects(:text_box).with("2 3", :height => 50).never
+        expect(@pdf).to receive(:text_box).with("1 3", :height => 50)
+        expect(@pdf).to receive(:text_box).with("3 3", :height => 50)
+        expect(@pdf).to_not receive(:text_box).with("2 3", :height => 50)
         @pdf.number_pages "<page> <total>", :page_filter => :odd
       end
     end
     context "missing" do
       it "does not print any page numbers" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:text_box).never
+        expect(@pdf).to_not receive(:text_box)
         @pdf.number_pages "<page> <total>", :page_filter => nil
       end
     end
@@ -662,10 +657,10 @@ describe "The number_pages method" do
     context "such as :odd and 7" do
       it "increments the pages" do
         3.times { @pdf.start_new_page }
-        @pdf.expects(:text_box).with("1 3", :height => 50).never
-        @pdf.expects(:text_box).with("5 3", :height => 50) # page 1
-        @pdf.expects(:text_box).with("6 3", :height => 50).never # page 2
-        @pdf.expects(:text_box).with("7 3", :height => 50) # page 3
+        expect(@pdf).to_not receive(:text_box).with("1 3", :height => 50)
+        expect(@pdf).to receive(:text_box).with("5 3", :height => 50) # page 1
+        expect(@pdf).to_not receive(:text_box).with("6 3", :height => 50) # page 2
+        expect(@pdf).to receive(:text_box).with("7 3", :height => 50) # page 3
         @pdf.number_pages "<page> <total>", :page_filter => :odd, :start_count_at => 5
       end
     end
@@ -673,12 +668,12 @@ describe "The number_pages method" do
       it "increments the pages" do
         6.times { @pdf.start_new_page }
         options = { :page_filter => lambda { |p| p != 2 && p != 5 }, :start_count_at => 4 }
-        @pdf.expects(:text_box).with("4 6", :height => 50) # page 1
-        @pdf.expects(:text_box).with("5 6", :height => 50).never # page 2
-        @pdf.expects(:text_box).with("6 6", :height => 50) # page 3
-        @pdf.expects(:text_box).with("7 6", :height => 50) # page 4
-        @pdf.expects(:text_box).with("8 6", :height => 50).never # page 5
-        @pdf.expects(:text_box).with("9 6", :height => 50) # page 6
+        expect(@pdf).to receive(:text_box).with("4 6", :height => 50) # page 1
+        expect(@pdf).to_not receive(:text_box).with("5 6", :height => 50) # page 2
+        expect(@pdf).to receive(:text_box).with("6 6", :height => 50) # page 3
+        expect(@pdf).to receive(:text_box).with("7 6", :height => 50) # page 4
+        expect(@pdf).to_not receive(:text_box).with("8 6", :height => 50) # page 5
+        expect(@pdf).to receive(:text_box).with("9 6", :height => 50) # page 6
         @pdf.number_pages "<page> <total>", options
       end
     end
@@ -690,17 +685,17 @@ describe "The number_pages method" do
     end
 
     it "with 10 height" do
-      @pdf.expects(:text_box).with("1 1", :height => 10)
+      expect(@pdf).to receive(:text_box).with("1 1", :height => 10)
       @pdf.number_pages "<page> <total>", :height => 10
     end
 
     it "with nil height" do
-      @pdf.expects(:text_box).with("1 1", :height => nil)
+      expect(@pdf).to receive(:text_box).with("1 1", :height => nil)
       @pdf.number_pages "<page> <total>", :height => nil
     end
 
     it "with no height" do
-      @pdf.expects(:text_box).with("1 1", :height => 50)
+      expect(@pdf).to receive(:text_box).with("1 1", height: 50)
       @pdf.number_pages "<page> <total>"
     end
   end

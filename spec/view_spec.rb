@@ -10,20 +10,20 @@ describe "Prawn::View" do
   end
 
   it "delegates unhandled methods to object returned by document method" do
-    doc = mock("Document")
-    view_object.stubs(:document => doc)
+    doc = double("Document")
+    allow(view_object).to receive(:document).and_return(doc)
 
-    doc.expects(:some_delegated_method)
+    expect(doc).to receive(:some_delegated_method)
 
     view_object.some_delegated_method
   end
 
   it "allows a block-like DSL via the update method" do
-    doc = mock("Document")
-    view_object.stubs(:document => doc)
+    doc = double("Document")
+    allow(view_object).to receive(:document).and_return(doc)
 
-    doc.expects(:foo)
-    doc.expects(:bar)
+    expect(doc).to receive(:foo)
+    expect(doc).to receive(:bar)
 
     view_object.update do
       foo
@@ -32,10 +32,10 @@ describe "Prawn::View" do
   end
 
   it "aliases save_as() to document.render_file()" do
-    doc = mock("Document")
-    doc.expects(:render_file)
+    doc = double("Document")
+    expect(doc).to receive(:render_file)
 
-    view_object.stubs(:document => doc)
+    allow(view_object).to receive(:document).and_return(doc)
 
     view_object.save_as("foo.pdf")
   end

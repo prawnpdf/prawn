@@ -114,7 +114,7 @@ describe "the image() function" do
   end
 
   it "should not start a new page just for a stretchy bounding box" do
-    @pdf.expects(:start_new_page).times(0)
+    expect(@pdf).to_not receive(:start_new_page)
     @pdf.bounding_box([0, @pdf.cursor], :width => @pdf.bounds.width) do
       @pdf.image @filename
     end

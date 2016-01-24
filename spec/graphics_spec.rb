@@ -200,22 +200,22 @@ describe "When filling" do
   before(:each) { create_pdf }
 
   it "should default to the f operator (nonzero winding number rule)" do
-    @pdf.renderer.expects(:add_content).with("f")
+    expect(@pdf.renderer).to receive(:add_content).with("f")
     @pdf.fill
   end
 
   it "should use f* for :fill_rule => :even_odd" do
-    @pdf.renderer.expects(:add_content).with("f*")
+    expect(@pdf.renderer).to receive(:add_content).with("f*")
     @pdf.fill(:fill_rule => :even_odd)
   end
 
   it "should use b by default for fill_and_stroke (nonzero winding number)" do
-    @pdf.renderer.expects(:add_content).with("b")
+    expect(@pdf.renderer).to receive(:add_content).with("b")
     @pdf.fill_and_stroke
   end
 
   it "should use b* for fill_and_stroke(:fill_rule => :even_odd)" do
-    @pdf.renderer.expects(:add_content).with("b*")
+    expect(@pdf.renderer).to receive(:add_content).with("b*")
     @pdf.fill_and_stroke(:fill_rule => :even_odd)
   end
 end
@@ -377,7 +377,7 @@ describe "Patterns" do
       let(:opts) { {} }
 
       it "doesn't transform the gradient and displays a warning" do
-        @pdf.expects(:warn).twice
+        expect(@pdf).to receive(:warn).twice
         expect(subject).to eq([[1, 0, 0, 1, 0, 10]])
       end
     end
@@ -388,15 +388,15 @@ describe "When using painting shortcuts" do
   before(:each) { create_pdf }
 
   it "should convert stroke_some_method(args) into some_method(args); stroke" do
-    @pdf.expects(:line_to).with([100, 100])
-    @pdf.expects(:stroke)
+    expect(@pdf).to receive(:line_to).with([100, 100])
+    expect(@pdf).to receive(:stroke)
 
     @pdf.stroke_line_to [100, 100]
   end
 
   it "should convert fill_some_method(args) into some_method(args); fill" do
-    @pdf.expects(:line_to).with([100, 100])
-    @pdf.expects(:fill)
+    expect(@pdf).to receive(:line_to).with([100, 100])
+    expect(@pdf).to receive(:fill)
 
     @pdf.fill_line_to [100, 100]
   end
@@ -411,22 +411,21 @@ describe "When using graphics states" do
   before(:each) { create_pdf }
 
   it "should add the right content on save_graphics_state" do
-    @pdf.renderer.expects(:add_content).with('q')
+    expect(@pdf.renderer).to receive(:add_content).with('q')
 
     @pdf.save_graphics_state
   end
 
   it "should add the right content on restore_graphics_state" do
-    @pdf.renderer.expects(:add_content).with('Q')
+    expect(@pdf.renderer).to receive(:add_content).with('Q')
 
     @pdf.restore_graphics_state
   end
 
   it "should save and restore when save_graphics_state is used with a block" do
-    state = sequence "state"
-    @pdf.renderer.expects(:add_content).with('q').in_sequence(state)
-    @pdf.expects(:foo).in_sequence(state)
-    @pdf.renderer.expects(:add_content).with('Q').in_sequence(state)
+    expect(@pdf.renderer).to receive(:add_content).with('q').ordered
+    allow(@pdf).to receive(:foo).ordered
+    expect(@pdf.renderer).to receive(:add_content).with('Q').ordered
 
     @pdf.save_graphics_state do
       @pdf.foo
@@ -542,14 +541,14 @@ describe "When using transformation matrix" do
   # part is 5 (PDF Reference, Third Edition, p. 706)
 
   it "should send the right content on transformation_matrix" do
-    @pdf.renderer.expects(:add_content).with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
+    expect(@pdf.renderer).to receive(:add_content).with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
     @pdf.transformation_matrix 1, 0, 0.123456789, -1.0, 5.5, 20
   end
 
   it "should use fixed digits with very small number" do
     values = Array.new(6, 0.000000000001)
     string = Array.new(6, "0.00000").join " "
-    @pdf.renderer.expects(:add_content).with("#{string} cm")
+    expect(@pdf.renderer).to receive(:add_content).with("#{string} cm")
     @pdf.transformation_matrix(*values)
   end
 
@@ -562,12 +561,13 @@ describe "When using transformation matrix" do
   it "should save the graphics state inside the given block" do
     values = Array.new(6, 0.000000000001)
     string = Array.new(6, "0.00000").join " "
-    process = sequence "process"
 
-    @pdf.expects(:save_graphics_state).with.in_sequence(process)
-    @pdf.renderer.expects(:add_content).with("#{string} cm").in_sequence(process)
-    @pdf.expects(:do_something).with.in_sequence(process)
-    @pdf.expects(:restore_graphics_state).with.in_sequence(process)
+    expect(@pdf).to receive(:save_graphics_state).with(no_args).ordered
+    allow(@pdf.renderer).to receive(:add_content).with(any_args).twice
+    expect(@pdf.renderer).to receive(:add_content).with("#{string} cm").ordered
+    allow(@pdf).to receive(:do_something).ordered
+    expect(@pdf).to receive(:restore_graphics_state).with(no_args).ordered
+
     @pdf.transformation_matrix(*values) do
       @pdf.do_something
     end
@@ -586,7 +586,7 @@ describe "When using transformations shortcuts" do
 
   describe "#rotate" do
     it "should rotate" do
-      @pdf.expects(:transformation_matrix).with(@cos, @sin, -@sin, @cos, 0, 0)
+      expect(@pdf).to receive(:transformation_matrix).with(@cos, @sin, -@sin, @cos, 0, 0)
       @pdf.rotate(@angle)
     end
   end
@@ -642,14 +642,14 @@ describe "When using transformations shortcuts" do
   describe "#translate" do
     it "should translate" do
       x, y = 12, 54.32
-      @pdf.expects(:transformation_matrix).with(1, 0, 0, 1, x, y)
+      expect(@pdf).to receive(:transformation_matrix).with(1, 0, 0, 1, x, y)
       @pdf.translate(x, y)
     end
   end
 
   describe "#scale" do
     it "should scale" do
-      @pdf.expects(:transformation_matrix).with(@factor, 0, 0, @factor, 0, 0)
+      expect(@pdf).to receive(:transformation_matrix).with(@factor, 0, 0, @factor, 0, 0)
       @pdf.scale(@factor)
     end
   end

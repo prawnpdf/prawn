@@ -225,7 +225,7 @@ describe "Text::Formatted::Box" do
                                           :document => @pdf,
                                           :fallback_fonts => [])
 
-    box.expects(:process_fallback_fonts).never
+    expect(box).to_not receive(:process_fallback_fonts)
     box.render
   end
 
@@ -236,7 +236,7 @@ describe "Text::Formatted::Box" do
 
     @pdf.font("Kai")
 
-    box.expects(:process_fallback_fonts).never
+    expect(box).to_not receive(:process_fallback_fonts)
     box.render
   end
 end
@@ -339,10 +339,10 @@ describe "Text::Formatted::Box#render" do
   it "should be able to perform fragment callbacks" do
     create_pdf
     callback_object = TestFragmentCallback.new("something", 7, :document => @pdf)
-    callback_object.expects(:render_behind).with(
+    expect(callback_object).to receive(:render_behind).with(
       kind_of(Prawn::Text::Formatted::Fragment)
     )
-    callback_object.expects(:render_in_front).with(
+    expect(callback_object).to receive(:render_in_front).with(
       kind_of(Prawn::Text::Formatted::Fragment)
     )
     array = [{ :text => "hello world " },
@@ -355,18 +355,18 @@ describe "Text::Formatted::Box#render" do
     create_pdf
 
     callback_object = TestFragmentCallback.new("something", 7, :document => @pdf)
-    callback_object.expects(:render_behind).with(
+    expect(callback_object).to receive(:render_behind).with(
       kind_of(Prawn::Text::Formatted::Fragment)
     )
-    callback_object.expects(:render_in_front).with(
+    expect(callback_object).to receive(:render_in_front).with(
       kind_of(Prawn::Text::Formatted::Fragment)
     )
 
     callback_object2 = TestFragmentCallback.new("something else", 14, :document => @pdf)
-    callback_object2.expects(:render_behind).with(
+    expect(callback_object2).to receive(:render_behind).with(
       kind_of(Prawn::Text::Formatted::Fragment)
     )
-    callback_object2.expects(:render_in_front).with(
+    expect(callback_object2).to receive(:render_in_front).with(
       kind_of(Prawn::Text::Formatted::Fragment)
     )
 
@@ -485,12 +485,12 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be able to add URL links" do
     create_pdf
-    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
-                                                        :A => {
-                                                          :Type => :Action,
-                                                          :S => :URI,
-                                                          :URI => "http://example.com"
-                                                        })
+    expect(@pdf).to receive(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
+                                                                   :A => {
+                                                                     :Type => :Action,
+                                                                     :S => :URI,
+                                                                     :URI => "http://example.com"
+                                                                   })
     array = [{ :text => "click " },
              { :text => "here", :link => "http://example.com" },
              { :text => " to visit" }]
@@ -499,8 +499,8 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be able to add destination links" do
     create_pdf
-    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
-                                                        :Dest => "ToC")
+    expect(@pdf).to receive(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
+                                                                   :Dest => "ToC")
     array = [{ :text => "Go to the " },
              { :text => "Table of Contents", :anchor => "ToC" }]
     text_box = Prawn::Text::Formatted::Box.new(array, :document => @pdf)
@@ -508,13 +508,13 @@ describe "Text::Formatted::Box#render" do
   end
   it "should be able to add local actions" do
     create_pdf
-    @pdf.expects(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
-                                                        :A => {
-                                                          :Type => :Action,
-                                                          :S => :Launch,
-                                                          :F => "../example.pdf",
-                                                          :NewWindow => true
-                                                        })
+    expect(@pdf).to receive(:link_annotation).with(kind_of(Array), :Border => [0, 0, 0],
+                                                                   :A => {
+                                                                     :Type => :Action,
+                                                                     :S => :Launch,
+                                                                     :F => "../example.pdf",
+                                                                     :NewWindow => true
+                                                                   })
     array = [{ :text => "click " },
              { :text => "here", :local => "../example.pdf" },
              { :text => " to open a local file" }]
