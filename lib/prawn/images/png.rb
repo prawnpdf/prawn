@@ -117,7 +117,10 @@ module Prawn
       end
 
       def alpha_channel?
-        [3, 4, 6].include? color_type
+        return true if color_type == 4 || color_type == 6
+        return @transparency.any? if color_type == 3
+
+        false
       end
 
       # Build a PDF object representing this image in +document+, and return
