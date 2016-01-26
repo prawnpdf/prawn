@@ -33,6 +33,12 @@ for more information.
 
 (Roger Nesbitt, [#891](https://github.com/prawnpdf/prawn/issues/891), [#894](https://github.com/prawnpdf/prawn/pull/894))
 
+### Prawn::Graphics::BlendMode#blend_mode added
+Blend modes can be used to change the way two layers are blended together. The
+BM key is added to the External Graphics State based on the v1.4 PDF spec. `blend_mode`
+accepts a single blend mode or array of blend modes. If an array is passed, the
+PDF viewer blends layers based on the first valid blend mode.
+
 ## PrawnPDF 2.0.2 -- 2015-07-15
 
 ### Links in repeaters/stamps are now clickable

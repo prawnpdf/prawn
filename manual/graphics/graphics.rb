@@ -29,6 +29,7 @@ Prawn::ManualBuilder::Example.generate("graphics.pdf", :page_size => "FOLIO") do
       s.example "gradients"
       s.example "transparency"
       s.example "soft_masks"
+      s.example "blend_mode"
       s.example "fill_rules"
     end
 
