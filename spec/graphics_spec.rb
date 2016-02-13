@@ -292,7 +292,7 @@ describe "Patterns" do
                          'FF0000', '0000FF'
 
       str = @pdf.render
-      expect(str).to match(%r{/Pattern\s+cs\s*/SP-?\d+\s+scn})
+      expect(str).to match(%r{/Pattern\s+cs\s*/SP\h{40}\s+scn})
     end
 
     it "stroke_gradient should set stroke color to the pattern" do
@@ -301,7 +301,7 @@ describe "Patterns" do
                            'FF0000', '0000FF'
 
       str = @pdf.render
-      expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
+      expect(str).to match(%r{/Pattern\s+CS\s*/SP\h{40}\s+SCN})
     end
 
     it "uses a stitching function to render a gradient with multiple stops" do
@@ -368,7 +368,7 @@ describe "Patterns" do
                          'FF0000', '0000FF'
 
       str = @pdf.render
-      expect(str).to match(%r{/Pattern\s+cs\s*/SP-?\d+\s+scn})
+      expect(str).to match(%r{/Pattern\s+cs\s*/SP\h{40}\s+scn})
     end
 
     it "stroke_gradient should set stroke color to the pattern" do
@@ -377,7 +377,7 @@ describe "Patterns" do
                            'FF0000', '0000FF'
 
       str = @pdf.render
-      expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
+      expect(str).to match(%r{/Pattern\s+CS\s*/SP\h{40}\s+SCN})
     end
   end
 
