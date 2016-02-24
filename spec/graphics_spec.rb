@@ -237,6 +237,14 @@ describe "When setting colors" do
     expect(colors.fill_color).to eq([0.8, 1.0, 0])
   end
 
+  it "should raise an error for a color with a leading #" do
+    expect { @pdf.fill_color "#ccff00" }.to raise_error(ArgumentError)
+  end
+
+  it "should raise an error for a color string that isn't a hex" do
+    expect { @pdf.fill_color "zcff00" }.to raise_error(ArgumentError)
+  end
+
   it "should reset the colors on each new page if they have been defined" do
     @pdf.fill_color "ccff00"
 
