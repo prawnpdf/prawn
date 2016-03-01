@@ -76,7 +76,7 @@
   
     
       <dt class="r1">Includes:</dt>
-      <dd class="r1"><span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span>, <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span>, <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span>, <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span>, <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span>, <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span>, <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span></dd>
+      <dd class="r1"><span class='object_link'><a href="Graphics/BlendMode.html" title="Prawn::Graphics::BlendMode (module)">BlendMode</a></span>, <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span>, <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span>, <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span>, <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span>, <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span>, <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span>, <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span></dd>
       
     
   
@@ -88,7 +88,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/prawn/graphics.rb<span class="defines">,<br />
-  lib/prawn/graphics/dash.rb,<br /> lib/prawn/graphics/color.rb,<br /> lib/prawn/graphics/patterns.rb,<br /> lib/prawn/graphics/cap_style.rb,<br /> lib/prawn/graphics/join_style.rb,<br /> lib/prawn/graphics/transparency.rb,<br /> lib/prawn/graphics/transformation.rb</span>
+  lib/prawn/graphics/dash.rb,<br /> lib/prawn/graphics/color.rb,<br /> lib/prawn/graphics/patterns.rb,<br /> lib/prawn/graphics/cap_style.rb,<br /> lib/prawn/graphics/join_style.rb,<br /> lib/prawn/graphics/blend_mode.rb,<br /> lib/prawn/graphics/transparency.rb,<br /> lib/prawn/graphics/transformation.rb</span>
 </dd>
   
 </dl>
@@ -113,7 +113,7 @@ functions ruby-pdf.rubyforge.org</p>
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span>, <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span>, <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span>, <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span>, <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span>, <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span>, <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Graphics/BlendMode.html" title="Prawn::Graphics::BlendMode (module)">BlendMode</a></span>, <span class='object_link'><a href="Graphics/CapStyle.html" title="Prawn::Graphics::CapStyle (module)">CapStyle</a></span>, <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span>, <span class='object_link'><a href="Graphics/Dash.html" title="Prawn::Graphics::Dash (module)">Dash</a></span>, <span class='object_link'><a href="Graphics/JoinStyle.html" title="Prawn::Graphics::JoinStyle (module)">JoinStyle</a></span>, <span class='object_link'><a href="Graphics/Patterns.html" title="Prawn::Graphics::Patterns (module)">Patterns</a></span>, <span class='object_link'><a href="Graphics/Transformation.html" title="Prawn::Graphics::Transformation (module)">Transformation</a></span>, <span class='object_link'><a href="Graphics/Transparency.html" title="Prawn::Graphics::Transparency (module)">Transparency</a></span>
     
   
     
@@ -836,6 +836,17 @@ origin (or at a custom location).</p>
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/Color.html" title="Prawn::Graphics::Color (module)">Color</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Graphics/Color.html#fill_color-instance_method" title="Prawn::Graphics::Color#fill_color (method)">#fill_color</a></span>, <span class='object_link'><a href="Graphics/Color.html#hex2rgb-class_method" title="Prawn::Graphics::Color.hex2rgb (method)">hex2rgb</a></span>, <span class='object_link'><a href="Graphics/Color.html#rgb2hex-class_method" title="Prawn::Graphics::Color.rgb2hex (method)">rgb2hex</a></span>, <span class='object_link'><a href="Graphics/Color.html#stroke_color-instance_method" title="Prawn::Graphics::Color#stroke_color (method)">#stroke_color</a></span></p>
 
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Graphics/BlendMode.html" title="Prawn::Graphics::BlendMode (module)">BlendMode</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Graphics/BlendMode.html#blend_mode-instance_method" title="Prawn::Graphics::BlendMode#blend_mode (method)">#blend_mode</a></span></p>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -872,12 +883,12 @@ to the centre-point upon completion of the drawing the circle.</p>
       <pre class="lines">
 
 
-193
-194
-195</pre>
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 193</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_circle'>circle</span><span class='lparen'>(</span><span class='id identifier rubyid_center'>center</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ellipse'>ellipse</span><span class='lparen'>(</span><span class='id identifier rubyid_center'>center</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
@@ -914,13 +925,13 @@ block before closing the path. See Graphics::Color for color details.</p>
       <pre class="lines">
 
 
-284
-285
 286
-287</pre>
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 284</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_close_and_stroke'>close_and_stroke</span>
   <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -957,12 +968,12 @@ block before closing the path. See Graphics::Color for color details.</p>
       <pre class="lines">
 
 
-385
-386
-387</pre>
+387
+388
+389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 385</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 387</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_close_path'>close_path</span>
   <span class='id identifier rubyid_renderer'>renderer</span><span class='period'>.</span><span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>h</span><span class='tstring_end'>&quot;</span></span>
@@ -1001,13 +1012,13 @@ block before closing the path. See Graphics::Color for color details.</p>
       <pre class="lines">
 
 
-177
-178
 179
-180</pre>
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_curve'>curve</span><span class='lparen'>(</span><span class='id identifier rubyid_origin'>origin</span><span class='comma'>,</span> <span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_origin'>origin</span><span class='rparen'>)</span>
@@ -1048,8 +1059,6 @@ point, bounded by two additional points.</p>
       <pre class="lines">
 
 
-66
-67
 68
 69
 70
@@ -1058,10 +1067,12 @@ point, bounded by two additional points.</p>
 73
 74
 75
-76</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_curve_to'>curve_to</span><span class='lparen'>(</span><span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:bounds</span><span class='rbracket'>]</span> <span class='kw'>or</span> <span class='id identifier rubyid_fail'>fail</span> <span class='const'>Prawn</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidGraphicsPath</span><span class='comma'>,</span>
@@ -1112,8 +1123,6 @@ to the centre-point upon completion of the drawing the ellipse.</p>
       <pre class="lines">
 
 
-205
-206
 207
 208
 209
@@ -1136,10 +1145,12 @@ to the centre-point upon completion of the drawing the ellipse.</p>
 226
 227
 228
-229</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ellipse'>ellipse</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_r1'>r1</span><span class='comma'>,</span> <span class='id identifier rubyid_r2'>r2</span> <span class='op'>=</span> <span class='id identifier rubyid_r1'>r1</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_point'>point</span>
@@ -1202,13 +1213,13 @@ Painting -&gt; Clipping Path Operators” for details on the difference.</p>
       <pre class="lines">
 
 
-364
-365
 366
-367</pre>
+367
+368
+369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 364</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 366</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fill'>fill</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1252,13 +1263,13 @@ Painting -&gt; Clipping Path Operators” for details on the difference.</p>
       <pre class="lines">
 
 
-378
-379
 380
-381</pre>
+381
+382
+383</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 378</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 380</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fill_and_stroke'>fill_and_stroke</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1301,18 +1312,18 @@ option.</p>
       <pre class="lines">
 
 
-146
-147
 148
 149
 150
 151
 152
 153
-154</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_horizontal_line'>horizontal_line</span><span class='lparen'>(</span><span class='id identifier rubyid_x1'>x1</span><span class='comma'>,</span> <span class='id identifier rubyid_x2'>x2</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span>
@@ -1355,12 +1366,12 @@ bounding box at the current <code>y</code> position.</p>
       <pre class="lines">
 
 
-159
-160
-161</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_horizontal_rule'>horizontal_rule</span>
   <span class='id identifier rubyid_horizontal_line'>horizontal_line</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span><span class='rparen'>)</span>
@@ -1401,14 +1412,14 @@ or flattened argument list:</p>
       <pre class="lines">
 
 
-134
-135
 136
 137
-138</pre>
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_x0'>x0</span><span class='comma'>,</span> <span class='id identifier rubyid_y0'>y0</span><span class='comma'>,</span> <span class='id identifier rubyid_x1'>x1</span><span class='comma'>,</span> <span class='id identifier rubyid_y1'>y1</span> <span class='op'>=</span> <span class='id identifier rubyid_points'>points</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
@@ -1451,13 +1462,13 @@ destination may be described as a tuple or a flattened list:</p>
       <pre class="lines">
 
 
-56
-57
 58
-59</pre>
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line_to'>line_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_xy'>xy</span> <span class='op'>=</span> <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='period'>.</span><span class='id identifier rubyid_real_params'>real_params</span><span class='lparen'>(</span><span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1501,16 +1512,16 @@ PDF points)</p>
       <pre class="lines">
 
 
-120
-121
 122
 123
 124
 125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line_width'>line_width</span><span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_width'>width</span>
@@ -1550,13 +1561,13 @@ PDF points)</p>
       <pre class="lines">
 
 
-107
-108
 109
-110</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_line_width='>line_width=</span><span class='lparen'>(</span><span class='id identifier rubyid_width'>width</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_line_width'>current_line_width</span> <span class='op'>=</span> <span class='id identifier rubyid_width'>width</span>
@@ -1598,13 +1609,13 @@ a tuple or a flattened argument list</p>
       <pre class="lines">
 
 
-45
-46
 47
-48</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_xy'>xy</span> <span class='op'>=</span> <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='period'>.</span><span class='id identifier rubyid_real_params'>real_params</span><span class='lparen'>(</span><span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1645,17 +1656,17 @@ a tuple or a flattened argument list</p>
       <pre class="lines">
 
 
-236
-237
 238
 239
 240
 241
 242
-243</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 238</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_polygon'>polygon</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_to'>move_to</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -1700,15 +1711,15 @@ a tuple or a flattened argument list</p>
       <pre class="lines">
 
 
-83
-84
 85
 86
 87
-88</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rectangle'>rectangle</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='rparen'>)</span>
@@ -1753,8 +1764,6 @@ bezier curves</p>
       <pre class="lines">
 
 
-250
-251
 252
 253
 254
@@ -1762,10 +1771,12 @@ bezier curves</p>
 256
 257
 258
-259</pre>
+259
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rounded_polygon'>rounded_polygon</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_move_to'>move_to</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -1813,13 +1824,13 @@ rectangle is bounded by its upper-left corner.</p>
       <pre class="lines">
 
 
-96
-97
 98
-99</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rounded_rectangle'>rounded_rectangle</span><span class='lparen'>(</span><span class='id identifier rubyid_point'>point</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_point'>point</span>
@@ -1859,17 +1870,17 @@ the curve for the vertex.</p>
       <pre class="lines">
 
 
-264
-265
 266
 267
 268
 269
 270
-271</pre>
+271
+272
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 266</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rounded_vertex'>rounded_vertex</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_points'>points</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_radial_point_1'>radial_point_1</span> <span class='op'>=</span> <span class='id identifier rubyid_point_on_line'>point_on_line</span><span class='lparen'>(</span><span class='id identifier rubyid_radius'>radius</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_points'>points</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -1911,13 +1922,13 @@ before closing the path. See Graphics::Color for color details.</p>
       <pre class="lines">
 
 
-276
-277
 278
-279</pre>
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 278</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stroke'>stroke</span>
   <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1977,8 +1988,6 @@ origin (or at a custom location).</p>
       <pre class="lines">
 
 
-319
-320
 321
 322
 323
@@ -2013,10 +2022,12 @@ origin (or at a custom location).</p>
 352
 353
 354
-355</pre>
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 319</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stroke_axis'>stroke_axis</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -2086,12 +2097,12 @@ origin (or at a custom location).</p>
       <pre class="lines">
 
 
-291
-292
-293</pre>
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 291</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 293</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stroke_bounds'>stroke_bounds</span>
   <span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top_left'>top_left</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
@@ -2131,12 +2142,12 @@ origin (or at a custom location).</p>
       <pre class="lines">
 
 
-168
-169
-170</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vertical_line'>vertical_line</span><span class='lparen'>(</span><span class='id identifier rubyid_y1'>y1</span><span class='comma'>,</span> <span class='id identifier rubyid_y2'>y2</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_line'>line</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_y1'>y1</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_y2'>y2</span><span class='rparen'>)</span>
@@ -2151,9 +2162,9 @@ origin (or at a custom location).</p>
 </div>
 
     <div id="footer">
-  Generated on Wed Jul 15 22:25:39 2015 by
+  Generated on Mon Feb 29 22:05:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.2.2).
+  0.8.7.6 (ruby-2.2.3).
 </div>
 
   </body>

@@ -62,6 +62,59 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'>
+<h2 id="label-PrawnPDF+master+branch">PrawnPDF master branch</h2>
+
+<h2 id="label-PrawnPDF+2.1.0+--+2016-02-29">PrawnPDF 2.1.0 – 2016-02-29</h2>
+
+<h3 id="label-Added+support+for+PNG+images+with+indexed+transparency">Added support for PNG images with indexed transparency</h3>
+
+<p>Prawn now properly hadles transparency in PNG images with indexed color.</p>
+
+<p>(Maciej Mucha, <a
+href="https://github.com/prawnpdf/prawn/issues/783">#783</a>; Alexander
+Mankuta, <a href="https://github.com/prawnpdf/prawn/pull/920">#920</a>)</p>
+
+<h3 id="label-Prawn+no+longer+generates+IRB+warnings">Prawn no longer generates IRB warnings</h3>
+
+<p>Fix a few issues with code style that were triggering warnings in IRB when
+run in verbose mode (<code>irb -w</code>).</p>
+
+<p>(Jesse Doyle, <a
+href="https://github.com/prawnpdf/prawn/pull/914">#914</a>)</p>
+
+<h3 id="label-Gradients+applied+inside+transformations+are+now+correctly+positioned">Gradients applied inside transformations are now correctly positioned</h3>
+
+<p>PDF gradients/patterns take coordinates in the coordinate space of the
+document, not the “user space”, so if you performed a
+scale/rotate/translate and then painted a gradient inside, it wasn&#39;t
+correctly positioned.</p>
+
+<p>This change tracks transformations applied to the document, and multiplies
+the gradient matrix with this tracked transformation matrix so that the
+gradient appears in the correct place in the document.</p>
+
+<p>Because this changes how the x and y coordinates are interpreted, you must
+manually add <code>apply_transformations: true</code> to your
+<code>stroke_gradient</code> and <code>fill_gradient</code> calls to use
+the fixed behaviour in Prawn 2. It is expected that this will be the
+default in Prawn 3.</p>
+
+<p>Please <a
+href="https://github.com/prawnpdf/prawn/wiki/Gradient-Transformations">refer
+to the wiki page on this change</a> for more information.</p>
+
+<p>(Roger Nesbitt, <a
+href="https://github.com/prawnpdf/prawn/issues/891">#891</a>, <a
+href="https://github.com/prawnpdf/prawn/pull/894">#894</a>)</p>
+
+<h3 id="label-Prawn-3A-3AGraphics-3A-3ABlendMode-23blend_mode+added">Prawn::Graphics::BlendMode#blend_mode added</h3>
+
+<p>Blend modes can be used to change the way two layers are blended together.
+The BM key is added to the External Graphics State based on the v1.4 PDF
+spec. <code>blend_mode</code> accepts a single blend mode or array of blend
+modes. If an array is passed, the PDF viewer blends layers based on the
+first valid blend mode.</p>
+
 <h2 id="label-PrawnPDF+2.0.2+--+2015-07-15">PrawnPDF 2.0.2 – 2015-07-15</h2>
 
 <h3 id="label-Links+in+repeaters-2Fstamps+are+now+clickable">Links in repeaters/stamps are now clickable</h3>
@@ -618,9 +671,9 @@ href="https://github.com/prawnpdf/prawn/wiki/CHANGELOG">github.com/prawnpdf/praw
 </div></div>
 
     <div id="footer">
-  Generated on Wed Jul 15 22:25:38 2015 by
+  Generated on Mon Feb 29 22:05:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.2.2).
+  0.8.7.6 (ruby-2.2.3).
 </div>
 
   </body>

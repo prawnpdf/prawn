@@ -778,9 +778,7 @@ it&#39;s required.</p>
 90
 91
 92
-93
-94
-95</pre>
+93</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 36</span>
@@ -820,9 +818,7 @@ it&#39;s required.</p>
 </span>      <span class='ivar'>@transparency</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
       <span class='kw'>case</span> <span class='ivar'>@color_type</span>
       <span class='kw'>when</span> <span class='int'>3</span>
-        <span class='id identifier rubyid_fail'>fail</span> <span class='const'>Errors</span><span class='op'>::</span><span class='const'>UnsupportedImageType</span><span class='comma'>,</span>
-             <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Pallete-based transparency in PNG is not currently supported.\n</span><span class='tstring_end'>&quot;</span></span> \
-             <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>See https://github.com/prawnpdf/prawn/issues/783</span><span class='tstring_end'>&quot;</span></span>
+        <span class='ivar'>@transparency</span><span class='lbracket'>[</span><span class='symbol'>:palette</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_chunk_size'>chunk_size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
       <span class='kw'>when</span> <span class='int'>0</span>
         <span class='comment'># Greyscale. Corresponding to entries in the PLTE chunk.
 </span>        <span class='comment'># Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
@@ -1516,15 +1512,21 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
-115
-116
-117</pre>
+119
+120
+121
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_alpha_channel?'>alpha_channel?</span>
-  <span class='ivar'>@color_type</span> <span class='op'>==</span> <span class='int'>4</span> <span class='op'>||</span> <span class='ivar'>@color_type</span> <span class='op'>==</span> <span class='int'>6</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_color_type'>color_type</span> <span class='op'>==</span> <span class='int'>4</span> <span class='op'>||</span> <span class='id identifier rubyid_color_type'>color_type</span> <span class='op'>==</span> <span class='int'>6</span>
+  <span class='kw'>return</span> <span class='ivar'>@transparency</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='kw'>if</span> <span class='id identifier rubyid_color_type'>color_type</span> <span class='op'>==</span> <span class='int'>3</span>
+
+  <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1558,13 +1560,6 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-122
-123
-124
-125
-126
-127
-128
 129
 130
 131
@@ -1672,10 +1667,17 @@ return a Reference to it.</p>
 233
 234
 235
-236</pre>
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 129</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_pdf_object'>build_pdf_object</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_compression_method'>compression_method</span> <span class='op'>!=</span> <span class='int'>0</span>
@@ -1823,17 +1825,17 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
+97
+98
 99
 100
 101
 102
 103
-104
-105
-106</pre>
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_colors'>colors</span>
   <span class='kw'>case</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_color_type'>color_type</span>
@@ -1874,20 +1876,20 @@ return a Reference to it.</p>
       <pre class="lines">
 
 
-239
-240
-241
-242
-243
-244
-245
 246
 247
 248
-249</pre>
+249
+250
+251
+252
+253
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_min_pdf_version'>min_pdf_version</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_bits'>bits</span> <span class='op'>&gt;</span> <span class='int'>8</span>
@@ -1932,15 +1934,27 @@ it&#39;s required.</p>
       <pre class="lines">
 
 
+109
+110
 111
 112
-113</pre>
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/prawn/images/png.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_split_alpha_channel!'>split_alpha_channel!</span>
-  <span class='id identifier rubyid_split_image_data'>split_image_data</span> <span class='kw'>if</span> <span class='id identifier rubyid_alpha_channel?'>alpha_channel?</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_alpha_channel?'>alpha_channel?</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_color_type'>color_type</span> <span class='op'>==</span> <span class='int'>3</span>
+      <span class='id identifier rubyid_generate_alpha_channel'>generate_alpha_channel</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_split_image_data'>split_image_data</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1952,9 +1966,9 @@ it&#39;s required.</p>
 </div>
 
     <div id="footer">
-  Generated on Wed Jul 15 22:25:40 2015 by
+  Generated on Mon Feb 29 22:05:58 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.2.2).
+  0.8.7.6 (ruby-2.2.3).
 </div>
 
   </body>
