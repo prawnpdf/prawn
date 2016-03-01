@@ -1,5 +1,6 @@
-
 ## PrawnPDF master branch
+
+## PrawnPDF 2.1.0 -- 2016-02-29
 
 ### Added support for PNG images with indexed transparency
 
