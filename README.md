@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/prawn.png)](http://badge.fury.io/rb/prawn)
 [![Build Status](https://api.travis-ci.org/prawnpdf/prawn.svg?branch=master)](http://travis-ci.org/prawnpdf/prawn)
 [![Code Climate](https://codeclimate.com/github/prawnpdf/prawn/badges/gpa.svg)](https://codeclimate.com/github/prawnpdf/prawn)
+![Maintained: yes](https://img.shields.io/badge/maintained-yes-brightgreen.png)
 
 Prawn is a pure Ruby PDF generation library that provides a lot of great
 functionality while trying to remain simple and reasonably performant. Here are
