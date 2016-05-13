@@ -303,6 +303,43 @@ describe "Patterns" do
       str = @pdf.render
       expect(str).to match(%r{/Pattern\s+CS\s*/SP-?\d+\s+SCN})
     end
+
+    it "uses a stitching function to render a gradient with multiple stops" do
+      @pdf.fill_gradient from: [0, @pdf.bounds.height],
+                         to: [@pdf.bounds.width, @pdf.bounds.height],
+                         stops: { 0 => 'FF0000', 0.8 => '00FF00', 1 => '0000FF' }
+
+      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+      pattern = grad.patterns.values.first
+
+      expect(pattern).not_to be_nil
+
+      stitching = pattern[:Shading][:Function]
+      expect(stitching[:FunctionType]).to eq(3)
+      expect(stitching[:Functions]).to be_an(Array)
+      expect(stitching[:Functions].map { |f| f[:C0] }).to eq([[1, 0, 0], [0, 1, 0]])
+      expect(stitching[:Functions].map { |f| f[:C1] }).to eq([[0, 1, 0], [0, 0, 1]])
+      expect(stitching[:Bounds]).to eq([0.8])
+      expect(stitching[:Encode]).to eq([0, 1, 0, 1])
+    end
+
+    it "uses a stitching function to render a gradient with equally spaced stops" do
+      @pdf.fill_gradient from: [0, @pdf.bounds.height],
+                         to: [@pdf.bounds.width, @pdf.bounds.height],
+                         stops: %w(FF0000 00FF00 0000FF)
+
+      grad = PDF::Inspector::Graphics::Pattern.analyze(@pdf.render)
+      pattern = grad.patterns.values.first
+
+      expect(pattern).not_to be_nil
+
+      stitching = pattern[:Shading][:Function]
+      expect(stitching[:FunctionType]).to eq(3)
+      expect(stitching[:Functions]).to be_an(Array)
+      expect(stitching[:Functions].map { |f| f[:C0] }).to eq([[1, 0, 0], [0, 1, 0]])
+      expect(stitching[:Functions].map { |f| f[:C1] }).to eq([[0, 1, 0], [0, 0, 1]])
+      expect(stitching[:Bounds]).to eq([0.5])
+    end
   end
 
   describe 'radial gradients' do

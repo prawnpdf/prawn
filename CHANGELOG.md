@@ -14,6 +14,22 @@ Fix a few issues with code style that were triggering warnings in IRB when run i
 
 (Jesse Doyle, [#914](https://github.com/prawnpdf/prawn/pull/914))
 
+### Gradients can have multiple stops to blend more than two colors
+
+Previously, only two colors could be specified in a gradient: the start
+and end colors.  This change allows any number of colors to be specified,
+along with the position between 0 and 1 as to where they should be displayed.
+
+This change also comes with a change to the format of the `fill_gradient`
+and `stroke_gradient` methods.  You can continue to use the old method
+parameters and only specify two colors, or use the new keyword arguments
+to specify arbitrary stops.
+
+As a bonus, if you use the new method style, `apply_transformations` is
+set true automatically (see below).
+
+(Roger Nesbitt)
+
 ### Gradients applied inside transformations are now correctly positioned
 
 PDF gradients/patterns take coordinates in the coordinate space of the
