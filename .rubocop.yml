@@ -41,10 +41,11 @@ MultilineOperationIndentation:
   Exclude:
     - manual/**/*
     - prawn.gemspec
+    - lib/prawn/security.rb
 Style/SpaceInsideParens:
   Exclude:
     - manual/**/*
-SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Exclude:
     - manual/**/*
 
@@ -133,7 +134,7 @@ UnreachableCode:
   Enabled: false
 AccessorMethodName:
   Enabled: false
-SpaceAfterControlKeyword:
+Style/SpaceAroundKeyword:
   Enabled: false
 PredicateName:
   Enabled: false
@@ -176,4 +177,54 @@ StringLiteralsInInterpolation:
 GuardClause:
   Enabled: false
 BlockEndNewline:
+  Enabled: false
+Style/MultilineMethodCallBraceLayout:
+  Enabled: false
+Performance/StringReplacement:
+  Enabled: false
+Style/SymbolProc:
+  Enabled: false
+Style/ExtraSpacing:
+  Enabled: false
+Style/SpaceAroundOperators:
+  Enabled: false
+Style/ParallelAssignment:
+  Enabled: false
+Style/IndentArray:
+  Enabled: false
+Style/SignalException:
+  Enabled: false
+Style/MultilineArrayBraceLayout:
+  Enabled: false
+Style/MutableConstant:
+  Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false
+Style/ZeroLengthPredicate:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Style/MultilineTernaryOperator:
+  Enabled: false
+Style/UnneededInterpolation:
+  Enabled: false
+Style/IfInsideElse:
+  Enabled: false
+Style/IdenticalConditionalBranches:
+  Enabled: false
+Performance/RedundantBlockCall:
+  Enabled: false
+Performance/RedundantMerge:
+  Enabled: false
+Style/RedundantParentheses:
+  Enabled: false
+Performance/RangeInclude:
+  Enabled: false
+Lint/UselessAccessModifier:
+  Enabled: false
+Lint/LiteralInCondition:
+  Enabled: false
+Performance/TimesMap:
+  Enabled: false
+Lint/LiteralInCondition:
   Enabled: false
