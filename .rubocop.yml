@@ -41,7 +41,6 @@ MultilineOperationIndentation:
   Exclude:
     - manual/**/*
     - prawn.gemspec
-    - lib/prawn/security.rb
 Style/SpaceInsideParens:
   Exclude:
     - manual/**/*
