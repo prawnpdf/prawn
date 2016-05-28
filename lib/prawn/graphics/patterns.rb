@@ -139,13 +139,14 @@ module Prawn
         x1, y1, x2, y2, transformation = gradient_coordinates(gradient)
 
         key = [
-          gradient.type,
+          gradient.type.to_s,
           transformation,
           x2, y2,
-          gradient.r1, gradient.r2,
-          gradient.stops
-        ]
-        Digest::SHA1.hexdigest(Marshal.dump(key))
+          gradient.r1 || -1, gradient.r2 || -1,
+          gradient.stops.length,
+          gradient.stops.map { |s| [s.position, s.color] }
+        ].flatten
+        Digest::SHA1.hexdigest(key.pack('HC*'))
       end
 
       def gradient_registry
