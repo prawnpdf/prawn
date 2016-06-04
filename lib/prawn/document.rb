@@ -683,6 +683,8 @@ module Prawn
     end
 
     def apply_margin_options(options)
+      options = options.dup
+      
       if options[:margin]
         # Treat :margin as CSS shorthand with 1-4 values.
         margin = Array(options[:margin])
