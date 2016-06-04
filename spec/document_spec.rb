@@ -151,6 +151,14 @@ describe "Prawn::Document#float" do
   end
 end
 
+describe "Prawn::Document#start_new_page" do
+  it "doesn't modify the options hash" do
+    expect {
+      Prawn::Document.new.start_new_page({ margin: 0 }.freeze)
+    }.not_to raise_error
+  end
+end
+
 describe "The page_number method" do
   it "should be 1 for a new document" do
     pdf = Prawn::Document.new

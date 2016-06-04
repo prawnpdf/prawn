@@ -683,21 +683,17 @@ module Prawn
     end
 
     def apply_margin_options(options)
-      if options[:margin]
-        # Treat :margin as CSS shorthand with 1-4 values.
-        margin = Array(options[:margin])
-        positions = { 4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
-                      2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0] }[margin.length]
+      sides = [:top, :right, :bottom, :left]
+      margin = Array(options[:margin])
 
-        [:top, :right, :bottom, :left].zip(positions).each do |p, i|
-          options[:"#{p}_margin"] ||= margin[i]
-        end
-      end
+      # Treat :margin as CSS shorthand with 1-4 values.
+      positions = { 4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
+                    2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0],
+                    0 => [] }[margin.length]
 
-      [:left, :right, :top, :bottom].each do |side|
-        if margin = options[:"#{side}_margin"]
-          state.page.margins[side] = margin
-        end
+      sides.zip(positions).each do |side, pos|
+        new_margin = options["#{side}_margin"] || (margin[pos] if pos)
+        state.page.margins[side] = new_margin if new_margin
       end
     end
 
