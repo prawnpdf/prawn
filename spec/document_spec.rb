@@ -154,7 +154,7 @@ end
 describe "Prawn::Document#start_new_page" do
   it "doesn't modify the options hash" do
     expect {
-      Prawn::Document.new.start_new_page({margin: 0}.freeze)
+      Prawn::Document.new.start_new_page({ margin: 0 }.freeze)
     }.not_to raise_error
   end
 end
