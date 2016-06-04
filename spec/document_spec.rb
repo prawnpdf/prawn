@@ -105,6 +105,12 @@ describe "When creating multi-page documents" do
     expect(page_counter.pages.size).to eq(4)
     expect(@pdf.page_count).to eq(4)
   end
+
+  it "should not mutate passed agruments" do
+    expect {
+      @pdf.start_new_page({ margin: 0 }.freeze)
+    }.not_to raise_error(/modify frozen/)
+  end
 end
 
 describe "When beginning each new page" do

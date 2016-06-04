@@ -690,7 +690,7 @@ module Prawn
                       2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0] }[margin.length]
 
         [:top, :right, :bottom, :left].zip(positions).each do |p, i|
-          options[:"#{p}_margin"] ||= margin[i]
+          state.page.margins[p] = margin[i]
         end
       end
 
