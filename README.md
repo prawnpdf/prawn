@@ -102,10 +102,6 @@ Be sure to read the release notes in
 [CHANGELOG.md](https://github.com/prawnpdf/prawn/blob/master/CHANGELOG.md) each
 time we cut a new release, and lock your gems accordingly.
 
-The prawn team will release a new version of prawn every 6 weeks containing any
-new features and bug fixes that have been completed during the previous release
-cycle. We may release additional versions off cycle to fix major breakages.
-
 ## Support
 
 The easiest way to get help with Prawn is to post a message to our mailing list:
