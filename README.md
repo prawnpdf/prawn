@@ -119,7 +119,7 @@ so that those who are responding to your question can more easily see what the
 issue might be.
 
 ## Code of Conduct
-Prawn adheres to the [Contributor Covenan](CODE_OF_CONDUCT.md).
+Prawn adheres to the [Contributor Covenant](CODE_OF_CONDUCT.md).
 Unacceptable behavior can be reported to conduct@prawnpdf.org which is monitored
 by the core team.
 
