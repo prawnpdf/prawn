@@ -1,3 +1,5 @@
+All contributors must agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md)
+
 1. Bug reports are welcome, but please make sure to include a minimal code sample that
 shows your problem. In most cases, we'll need you to give us an example that we
 can actually run, so include any necessary sample data. A screenshot 
