@@ -118,6 +118,12 @@ be shared publicly, and be sure to reduce your example code as much as possible
 so that those who are responding to your question can more easily see what the
 issue might be.
 
+## Code of Conduct
+Prawn adheres to the [Contributor Covenan](CODE_OF_CONDUCT.md).
+Unacceptable behavior can be reported to conduct@prawnpdf.org which is monitored
+by the core team.
+
+
 ## Contributing
 
 If you've found a bug or want to submit a patch, please enter a ticket into our
