@@ -1,5 +1,11 @@
 ## PrawnPDF master branch
 
+### Implemented `respond_to_missing?` method for Prawn::View
+
+Prawn::View objects now properly returns if it responds to a method or not.
+
+(Rodrigo Ra, [#971](https://github.com/prawnpdf/prawn/pull/971);
+
 ## PrawnPDF 2.1.0 -- 2016-02-29
 
 ### Added support for PNG images with indexed transparency

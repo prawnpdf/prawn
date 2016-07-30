@@ -69,6 +69,17 @@ module Prawn
       document.send(m, *a, &b)
     end
 
+    # Checks if +document+ respond_to +method_name+.
+    #
+    # This will correctly returns if Prawn::View object respond or not to a
+    # method:
+    #
+    #   view = Prawn::View.new
+    #   view.respond_to?(:cursor)  # => true
+    def respond_to_missing?(method_name, include_private = false)
+      document.respond_to?(method_name) || super
+    end
+
     # Syntactic sugar that uses +instance_eval+ under the hood to provide
     # a block-based DSL.
     #
