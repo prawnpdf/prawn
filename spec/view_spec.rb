@@ -18,6 +18,14 @@ describe "Prawn::View" do
     view_object.some_delegated_method
   end
 
+  it "correctly returns if view object responds_to? methods" do
+    expect(view_object).to respond_to(:cursor)
+  end
+
+  it "returns false for methods the view object does not respond to" do
+    expect(view_object).to_not respond_to(:nonexistant_method)
+  end
+
   it "allows a block-like DSL via the update method" do
     doc = double("Document")
     allow(view_object).to receive(:document).and_return(doc)
