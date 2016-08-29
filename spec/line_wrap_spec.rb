@@ -311,7 +311,7 @@ describe "Core::Text::Formatted::LineWrap" do
   end
   it "should tokenize a string using the scan_pattern" do
     tokens = @line_wrap.tokenize("one two three")
-    expect(tokens.length).to eq(6)
+    expect(tokens.length).to eq(5)
   end
 end
 
