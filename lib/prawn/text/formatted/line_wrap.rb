@@ -108,6 +108,7 @@ module Prawn
                 end
                 @fragment_output += segment
               else
+                @line_contains_more_than_one_word = false if @accumulated_width == 0 && @line_contains_more_than_one_word
                 end_of_the_line_reached(segment)
                 fragment_finished(fragment)
                 return false

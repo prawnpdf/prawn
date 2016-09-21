@@ -1,5 +1,20 @@
 ## PrawnPDF master branch
 
+## PrawnPDF 2.1.1 -- Unreleased
+
+### Don't raise CannotFit when first fragment in array is a zero-width space
+
+When determining what formatted text will fit within a box that has a fixed
+width, don't raise a CannotFit error prematurely if the line begins with a
+zero-width fragment and the next fragment exceeds the width.
+
+Before finishing a line, the line is marked as not having more than one word
+if the accumulated width of the line is zero. This is a clear indication that
+the fragments previously visited did not produce any content (e.g., a
+zero-width space).
+
+(Dan Allen, [#984](https://github.com/prawnpdf/prawn/issues/984))
+
 ## PrawnPDF 2.1.0 -- 2016-02-29
 
 ### Added support for PNG images with indexed transparency

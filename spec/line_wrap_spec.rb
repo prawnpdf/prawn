@@ -70,6 +70,14 @@ describe "Core::Text::Formatted::LineWrap#wrap_line" do
     expect(string).to eq("helloworld")
   end
 
+  it "should not raise_error CannotFit if first fragment is a zero-width space" do
+    @pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
+    array = [{ :text => Prawn::Text::ZWSP }, { :text => "stringofchars" }]
+    @arranger.format_array = array
+    string = @line_wrap.wrap_line(:arranger => @arranger, :width => 50, :document => @pdf)
+    expect(string).to eq("stringof")
+  end
+
   it "should break on tab" do
     array = [{ :text => "hello\tworld" }]
     @arranger.format_array = array
