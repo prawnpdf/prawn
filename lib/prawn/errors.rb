@@ -75,5 +75,8 @@ module Prawn
     # Raised when unrecognized content is provided for a table cell.
     #
     UnrecognizedTableContent = Class.new(StandardError)
+
+    # This error is raised when an incompatible join style is specified
+    InvalidJoinStyle = Class.new(StandardError)
   end
 end
