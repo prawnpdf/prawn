@@ -25,6 +25,11 @@ module Prawn
 
         self.current_join_style = style
 
+        unless JOIN_STYLES.key?(current_join_style)
+          raise Prawn::Errors::InvalidJoinStyle,
+                "#{style} is not a recognized join style. Valid styles are #{JOIN_STYLES.keys.join(", ")}"
+        end
+
         write_stroke_join_style
       end
 

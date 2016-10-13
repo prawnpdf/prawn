@@ -97,6 +97,12 @@ describe "Join styles" do
     expect(join_styles.join_style_count).to eq(2)
     expect(join_styles.join_style).to eq(1)
   end
+
+  context "with invalid arguments" do
+    it "should raise an exception" do
+      expect{ @pdf.join_style(:mitre) }.to raise_error(Prawn::Errors::InvalidJoinStyle)
+    end
+  end
 end
 
 describe "Dashes" do
