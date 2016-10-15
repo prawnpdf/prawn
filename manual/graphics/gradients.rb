@@ -9,35 +9,36 @@ require File.expand_path(File.join(File.dirname(__FILE__),
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  stroke_axis
   self.line_width = 10
 
-  fill_gradient [50, 300], [150, 200], 'ff0000', '0000ff'
-  fill_rectangle [50, 300], 100, 100
+  # Linear Gradients
+  fill_gradient [0, 250], [100, 150], 'ff0000', '0000ff'
+  fill_rectangle [0, 250], 100, 100
 
-  stroke_gradient [200, 200], [300, 300], '00ffff', 'ffff00'
-  stroke_rectangle [200, 300], 100, 100
+  stroke_gradient [150, 150], [250, 250], '00ffff', 'ffff00'
+  stroke_rectangle [150, 250], 100, 100
 
-  fill_gradient [350, 300], [450, 200], 'ff0000', '0000ff'
-  stroke_gradient [350, 200], [450, 300], '00ffff', 'ffff00'
-  fill_and_stroke_rectangle [350, 300], 100, 100
+  fill_gradient [300, 250], [400, 150], 'ff0000', '0000ff'
+  stroke_gradient [300, 150], [400, 250], '00ffff', 'ffff00'
+  fill_and_stroke_rectangle [300, 250], 100, 100
 
-  fill_gradient [100, 100], 0, [100, 100], 70.71, 'ff0000', '0000ff'
-  fill_rectangle [50, 150], 100, 100
-
-  stroke_gradient [250, 100], 45, [250, 100], 70.71, '00ffff', 'ffff00'
-  stroke_rectangle [200, 150], 100, 100
-
-  stroke_gradient [400, 100], 45, [400, 100], 70.71, '00ffff', 'ffff00'
-  fill_gradient [400, 100], 0, [400, 100], 70.71, 'ff0000', '0000ff'
-  fill_and_stroke_rectangle [350, 150], 100, 100
-
-  fill_gradient [500, 300], 15, [500, 50], 0, 'ff0000', '0000ff'
-  fill_rectangle [485, 300], 30, 250
-
-  rotate 45, origin: [100, 400] do
+  rotate 45, origin: [500, 200] do
     stops = { 0 => 'ff0000', 0.6 => '999900', 0.8 => '00cc00', 1 => '4444ff' }
-    fill_gradient from: [50, 450], to: [150, 350], stops: stops
-    fill_rectangle [50, 450], 100, 100
+    fill_gradient from: [460, 240], to: [540, 160], stops: stops
+    fill_rectangle [460, 240], 80, 80
   end
+
+  # Radial gradients
+  fill_gradient [50, 50], 0, [50, 50], 70.71, 'ff0000', '0000ff'
+  fill_rectangle [0, 100], 100, 100
+
+  stroke_gradient [200, 50], 45, [200, 50], 70.71, '00ffff', 'ffff00'
+  stroke_rectangle [150, 100], 100, 100
+
+  stroke_gradient [350, 50], 45, [350, 50], 70.71, '00ffff', 'ffff00'
+  fill_gradient [350, 50], 0, [350, 50], 70.71, 'ff0000', '0000ff'
+  fill_and_stroke_rectangle [300, 100], 100, 100
+
+  fill_gradient [500, 100], 50, [500, 0], 0, 'ff0000', '0000ff'
+  fill_rectangle [450, 100], 100, 100
 end
