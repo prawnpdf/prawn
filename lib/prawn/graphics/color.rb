@@ -119,7 +119,7 @@ module Prawn
       end
 
       def color_to_s(color)
-        normalize_color(color).map { |c| '%.3f' % c }.join(' ')
+        PDF::Core.real_params normalize_color(color)
       end
 
       def color_space(color)

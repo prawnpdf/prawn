@@ -56,7 +56,7 @@ describe "Document with soft masks" do
     end
 
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates.first
-    expect(extgstate[:soft_mask][:G].data).to eq("q\n/DeviceRGB cs\n0.000 0.000 0.000 scn\n/DeviceRGB CS\n0.000 0.000 0.000 SCN\n1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n100.0 -100.0 200.0 200.0 re\nf\nQ\n")
+    expect(extgstate[:soft_mask][:G].data).to eq("q\n/DeviceRGB cs\n0.0 0.0 0.0 scn\n/DeviceRGB CS\n0.0 0.0 0.0 SCN\n1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n100.0 -100.0 200.0 200.0 re\nf\nQ\n")
   end
 
   it "should not create duplicate extended graphics states" do

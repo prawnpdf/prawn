@@ -161,8 +161,8 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamp_stream = stamps.xobject_streams[:Stamp1].data
-    expect(stamp_stream).to include("/DeviceCMYK cs\n1.000 1.000 0.200 0.000 scn")
-    expect(stamp_stream).to include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
+    expect(stamp_stream).to include("/DeviceCMYK cs\n1.0 1.0 0.2 0.0 scn")
+    expect(stamp_stream).to include("/DeviceCMYK CS\n1.0 1.0 0.2 0.0 SCN")
   end
 
   it "should save the color space even when same as current page color space" do
@@ -174,6 +174,6 @@ describe "Document with a stamp" do
     @pdf.stamp("MyStamp")
     stamps = PDF::Inspector::XObject.analyze(@pdf.render)
     stamp_stream = stamps.xobject_streams[:Stamp1].data
-    expect(stamp_stream).to include("/DeviceCMYK CS\n1.000 1.000 0.200 0.000 SCN")
+    expect(stamp_stream).to include("/DeviceCMYK CS\n1.0 1.0 0.2 0.0 SCN")
   end
 end
