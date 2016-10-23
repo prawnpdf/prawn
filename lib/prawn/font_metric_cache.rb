@@ -29,14 +29,16 @@ module Prawn
             @document.font
           end
 
-      key = CacheEntry.new(f, options, string)
+      encoded_string = f.normalize_encoding(string)
 
-      unless length = @cache[ key ]
-        length = @cache[ key ] = f.compute_width_of(string, options)
-      end
+      key = CacheEntry.new(f, options, encoded_string)
+
+      @cache[key] ||= f.compute_width_of(encoded_string, options)
+
+      length = @cache[key]
 
       length +
-        (@document.character_spacing * @document.font.character_count(string))
+        (@document.character_spacing * @document.font.character_count(encoded_string))
     end
   end
 end

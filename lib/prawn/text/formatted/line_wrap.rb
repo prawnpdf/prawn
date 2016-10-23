@@ -21,8 +21,6 @@ module Prawn
 
         # The number of spaces in the last wrapped line
         attr_reader :space_count
-        attr_reader :soft_hyphen
-        attr_reader :zero_width_space
 
         # Whether this line is the last line in the paragraph
         def paragraph_finished?
@@ -30,7 +28,7 @@ module Prawn
         end
 
         def tokenize(fragment)
-          fragment.scan(scan_pattern)
+          fragment.scan(scan_pattern(fragment.encoding))
         end
 
         # Work in conjunction with the PDF::Formatted::Arranger
@@ -64,7 +62,9 @@ module Prawn
 
         def empty_line?(fragment)
           empty = line_empty? && fragment.empty? && is_next_string_newline?
-          @arranger.update_last_string("", "", soft_hyphen) if empty
+          if empty
+            @arranger.update_last_string("", "", soft_hyphen(fragment.encoding))
+          end
           empty
         end
 
@@ -75,9 +75,6 @@ module Prawn
         def apply_font_settings_and_add_fragment_to_line(fragment)
           result = nil
           @arranger.apply_font_settings do
-            # if font has changed from Unicode to non-Unicode, or vice versa, the characters used for soft hyphens
-            #   and zero-width spaces will be different
-            set_soft_hyphen_and_zero_width_space
             result = add_fragment_to_line(fragment)
           end
           result
@@ -94,7 +91,7 @@ module Prawn
             false
           else
             tokenize(fragment).each do |segment|
-              if segment == zero_width_space
+              if segment == zero_width_space(segment.encoding)
                 segment_width = 0
               else
                 segment_width = @document.width_of(segment, :kerning => @kerning)
@@ -102,8 +99,9 @@ module Prawn
 
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
-                if segment[-1] == soft_hyphen
-                  sh_width = @document.width_of("#{soft_hyphen}", :kerning => @kerning)
+                shy = soft_hyphen(segment.encoding)
+                if segment[-1] == shy
+                  sh_width = @document.width_of(shy, :kerning => @kerning)
                   @accumulated_width -= sh_width
                 end
                 @fragment_output += segment
@@ -122,13 +120,24 @@ module Prawn
 
         # The pattern used to determine chunks of text to place on a given line
         #
-        def scan_pattern
-          pattern = "[^#{break_chars}]+#{soft_hyphen}|" \
-            "[^#{break_chars}]+#{hyphen}+|" \
-            "[^#{break_chars}]+|" \
-            "[#{whitespace}]+|" \
-            "#{hyphen}+[^#{break_chars}]*|" \
-            "#{soft_hyphen}"
+        def scan_pattern(encoding = ::Encoding::UTF_8)
+          ebc = break_chars(encoding)
+          eshy = soft_hyphen(encoding)
+          ehy = hyphen(encoding)
+          ews = whitespace(encoding)
+
+          patterns = [
+            "[^#{ebc}]+#{eshy}",
+            "[^#{ebc}]+#{ehy}+",
+            "[^#{ebc}]+",
+            "[#{ews}]+",
+            "#{ehy}+[^#{ebc}]*",
+            "#{eshy}"
+          ]
+
+          pattern = patterns
+                    .map { |p| p.encode(encoding) }
+                    .join('|')
 
           Regexp.new(pattern)
         end
@@ -137,20 +146,52 @@ module Prawn
         # current line, which in turn determines whether character level
         # word breaking is needed
         #
-        def word_division_scan_pattern
-          Regexp.new("\\s|[#{zero_width_space}#{soft_hyphen}#{hyphen}]")
+        def word_division_scan_pattern(encoding = ::Encoding::UTF_8)
+          common_whitespaces = ["\t", "\n", "\v", "\r", "\s"].map do |c|
+            c.encode(encoding)
+          end
+
+          Regexp.union(
+            common_whitespaces +
+            [
+              zero_width_space(encoding),
+              soft_hyphen(encoding),
+              hyphen(encoding)
+            ].compact
+          )
         end
 
-        def break_chars
-          "#{whitespace}#{soft_hyphen}#{hyphen}"
+        def soft_hyphen(encoding = ::Encoding::UTF_8)
+          Prawn::Text::SHY.encode(encoding)
+        rescue ::Encoding::InvalidByteSequenceError,
+               ::Encoding::UndefinedConversionError
+          nil
         end
 
-        def whitespace
-          " \\t#{zero_width_space}"
+        def break_chars(encoding = ::Encoding::UTF_8)
+          [
+            whitespace(encoding),
+            soft_hyphen(encoding),
+            hyphen(encoding)
+          ].join('')
         end
 
-        def hyphen
+        def zero_width_space(encoding = ::Encoding::UTF_8)
+          Prawn::Text::ZWSP.encode(encoding)
+        rescue ::Encoding::InvalidByteSequenceError,
+               ::Encoding::UndefinedConversionError
+          nil
+        end
+
+        def whitespace(encoding = ::Encoding::UTF_8)
+          "\s\t#{zero_width_space(encoding)}".encode(encoding)
+        end
+
+        def hyphen(encoding = ::Encoding::UTF_8)
           "-"
+        rescue ::Encoding::InvalidByteSequenceError,
+               ::Encoding::UndefinedConversionError
+          nil
         end
 
         def line_empty?
@@ -175,20 +216,15 @@ module Prawn
           @line_full = false
         end
 
-        def set_soft_hyphen_and_zero_width_space
-          # this is done once per fragment, after the font settings for the fragment are applied --
-          #   it could actually be skipped if the font hasn't changed
-          font = @document.font
-          @soft_hyphen = font.normalize_encoding(Prawn::Text::SHY)
-          @zero_width_space = font.unicode? ? Prawn::Text::ZWSP : ""
-        end
-
         def fragment_finished(fragment)
           if fragment == "\n"
             @newline_encountered = true
             @line_empty = false
           else
-            update_output_based_on_last_fragment(fragment, soft_hyphen)
+            update_output_based_on_last_fragment(
+              fragment,
+              soft_hyphen(fragment.encoding)
+            )
             update_line_status_based_on_last_output
             determine_whether_to_pull_preceding_fragment_to_join_this_one(fragment)
           end
@@ -213,8 +249,8 @@ module Prawn
         def remember_this_fragment_for_backward_looking_ops
           @previous_fragment = @fragment_output.dup
           pf = @previous_fragment
-          @previous_fragment_ended_with_breakable = pf =~ /[#{break_chars}]$/
-          last_word = pf.slice(/[^#{break_chars}]*$/)
+          @previous_fragment_ended_with_breakable = pf =~ /[#{break_chars(pf.encoding)}]$/
+          last_word = pf.slice(/[^#{break_chars(pf.encoding)}]*$/)
           last_word_length = last_word.nil? ? 0 : last_word.length
           @previous_fragment_output_without_last_word = pf.slice(0, pf.length - last_word_length)
         end
@@ -224,7 +260,7 @@ module Prawn
         end
 
         def fragment_begins_with_breakable?(fragment)
-          fragment =~ /^[#{break_chars}]/
+          fragment =~ /^[#{break_chars(fragment.encoding)}]/
         end
 
         def line_finished?
@@ -232,7 +268,9 @@ module Prawn
         end
 
         def update_line_status_based_on_last_output
-          @line_contains_more_than_one_word = true if @fragment_output =~ word_division_scan_pattern
+          if @fragment_output =~ word_division_scan_pattern(@fragment_output.encoding)
+            @line_contains_more_than_one_word = true
+          end
         end
 
         def end_of_the_line_reached(segment)
@@ -242,15 +280,14 @@ module Prawn
         end
 
         def wrap_by_char(segment)
-          font = @document.font
           segment.each_char do |char|
-            break unless append_char(char, font)
+            break unless append_char(char)
           end
         end
 
-        def append_char(char, font)
+        def append_char(char)
           # kerning doesn't make sense in the context of a single character
-          char_width = font.compute_width_of(char)
+          char_width = @document.width_of(char)
 
           if @accumulated_width + char_width <= @width
             @accumulated_width += char_width
