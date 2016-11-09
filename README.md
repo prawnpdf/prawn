@@ -166,7 +166,6 @@ direction of the project.
 These are the folks to contact if you have a maintenance-related issue with
 Prawn:
 
-* Evan Sharp ([PacketMonkey](https://github.com/PacketMonkey))
 * Alexander Mankuta ([PointlessOne](https://github.com/PointlessOne))
 
 ### Inactive maintainers
@@ -180,6 +179,7 @@ actively involved in the project:
 * Daniel Nelson ([Bluejade](https://github.com/Bluejade))
 * Jonathan Greenberg ([jonsgreen](https://github.com/jonsgreen))
 * Jamis Buck ([jamis](https://github.com/jamis))
+* Evan Sharp ([PacketMonkey](https://github.com/PacketMonkey))
 
 ## License
 
