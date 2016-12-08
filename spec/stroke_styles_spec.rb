@@ -149,6 +149,11 @@ describe "Dashes" do
       dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
       expect(dashes.stroke_dash).to eq([[1, 2, 3, 4], 0])
     end
+    it "at least one number in the array must not be zero" do
+      @pdf.dash([1, 0])
+      dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)
+      expect(dashes.stroke_dash).to eq([[1, 0], 0])
+    end
     it "space options has to be ignored" do
       @pdf.dash([1, 2, 3, 4], :space => 3)
       dashes = PDF::Inspector::Graphics::Dash.analyze(@pdf.render)

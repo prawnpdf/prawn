@@ -28,8 +28,9 @@ module Prawn
       #       3 on, 2 off, 3 on, 2 off, ...
       #
       # * If the parameter +length+ is an array, it specifies the
-      #   lengths of alternating dashes and gaps. The :space option is
-      #   ignored in this case.
+      #   lengths of alternating dashes and gaps. The numbers must be
+      #   non-negative and not all zero. The :space option is ignored
+      #   in this case.
       #
       #   Examples:
       #
@@ -37,6 +38,8 @@ module Prawn
       #       2 on, 1 off, 2 on, 1 off, ...
       #     length = [3, 1, 2, 3]
       #       3 on, 1 off, 2 on, 3 off, 3 on, 1 off, ...
+      #     length = [3, 0, 1]
+      #       3 on, 0 off, 1 on, 3 off, 0 on, 1 off, ...
       #
       # Options may contain the keys :space and :phase
       #
@@ -55,9 +58,13 @@ module Prawn
       def dash(length = nil, options = {})
         return current_dash_state if length.nil?
 
-        if length == 0 || length.kind_of?(Array) && length.any? { |e| e == 0 }
+        if length == 0 || length.kind_of?(Array) && length.all? { |e| e == 0 }
           fail ArgumentError,
                "Zero length dashes are invalid. Call #undash to disable dashes."
+        elsif length.kind_of?(Integer) && length < 0 ||
+              length.kind_of?(Array) && length.any? { |e| e < 0 }
+          fail ArgumentError,
+               "Negative numbers are not allowed for dash lengths."
         end
 
         self.current_dash_state = { :dash  => length,
