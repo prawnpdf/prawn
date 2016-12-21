@@ -33,7 +33,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     end
 
     code = "%d." % index
-    char = index.chr
+    char = index.chr.force_encoding(::Encoding::Windows_1252)
 
     width = 1000 * width_of(char, :size => FONT_SIZE) / FONT_SIZE
     size  = "%d" % width
