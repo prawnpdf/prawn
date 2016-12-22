@@ -721,7 +721,7 @@ module Prawn
       }[margin.length]
 
       sides.zip(positions).each do |side, pos|
-        new_margin = options["#{side}_margin"] || (margin[pos] if pos)
+        new_margin = options[:"#{side}_margin"] || (margin[pos] if pos)
         state.page.margins[side] = new_margin if new_margin
       end
     end
