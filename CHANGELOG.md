@@ -1,6 +1,92 @@
 ## PrawnPDF master branch
 
-## PrawnPDF 2.1.1 -- Unreleased
+## PrawnPDF 2.2.0 -- Unreleased
+
+### Added support of TTC fonts
+
+You can use TTC fonts with Prawn now.
+
+(Jamis Buck, [#1002](https://github.com/prawnpdf/prawn/pull/1007))
+
+### Join style is validated now
+
+Previously it was possible to specify anything for join style which could result
+in and invalid document. It's impossible now.
+
+(Tim Woodbury, [#989](https://github.com/prawnpdf/prawn/pull/989))
+
+
+### Fixed handling of NBSP in Windows-1252 text
+
+NBSP was improperly treated as a regular space in Windows-1252 encoded text.
+
+
+(Alexander Mankuta, [#939](https://github.com/prawnpdf/prawn/issues/939))
+
+### Fixed wrong leading of one-line paragraphs
+
+Extra leading was erroneously added to one-line paragraphs.
+
+(Marcin Skirzynski, [#922](https://github.com/prawnpdf/prawn/pull/922))
+
+
+### Fixed dashing
+
+Dashing now allows 0 length segments. It now fully conforms to PDF spec.
+
+(Thomas Leitner, [#1001](https://github.com/prawnpdf/prawn/issues/1001))
+
+
+### Code of Conduct
+
+PrawnPDF now has [Code of Conduct].
+
+[Code of Conduct]: https://github.com/prawnpdf/prawn/blob/master/CODE_OF_CONDUCT.md
+
+
+### Improved generated document consistency
+
+There was a number of places in code that generated names for different
+resources semi-randomly. That made hard to verify if document has any unexpected
+changes. There was some effort to improve consistency.
+
+(Alexander Mankuta)
+
+
+### Improved gradients
+
+Gradients can have multiple stops to blend more than two colors
+
+Previously, only two colors could be specified in a gradient: the start and end
+colors.  This change allows any number of colors to be specified, along with the
+position between 0 and 1 as to where they should be displayed.
+
+This change also comes with a change to the format of the `fill_gradient` and
+`stroke_gradient` methods.  You can continue to use the old method parameters
+and only specify two colors, or use the new keyword arguments to specify
+arbitrary stops.
+
+As a bonus, if you use the new method style, `apply_transformations` is set true
+automatically.
+
+(Roger Nesbitt, [#902](https://github.com/prawnpdf/prawn/issues/984))
+
+
+### Supported Rubies has changed
+
+* Removed MRI 2.0, JRuby 1.7, and Rubinius support
+* Added MRI 2.4 and JRuby 9k
+
+
+### Catch unexpected manual changes
+
+For a long time changes to manual were hard to spot because it was a manual
+process. There was no way to know for sure if the manual has changed or not.
+
+Now manual changes are caught during build.
+
+(Alexander Mankuta, [#949](https://github.com/prawnpdf/prawn/pull/949))
+
 
 ### Validate colors passed in as strings must be valid hexadecimal
 
@@ -22,6 +108,7 @@ the fragments previously visited did not produce any content (e.g., a
 zero-width space).
 
 (Dan Allen, [#984](https://github.com/prawnpdf/prawn/issues/984))
+
 
 ## PrawnPDF 2.1.0 -- 2016-02-29
 
