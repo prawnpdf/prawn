@@ -461,7 +461,7 @@ describe "When using graphics states" do
 
   it "should save and restore when save_graphics_state is used with a block" do
     expect(@pdf.renderer).to receive(:add_content).with('q').ordered
-    allow(@pdf).to receive(:foo).ordered
+    allow(@pdf).to receive(:foo)
     expect(@pdf.renderer).to receive(:add_content).with('Q').ordered
 
     @pdf.save_graphics_state do
@@ -606,7 +606,7 @@ describe "When using transformation matrix" do
     expect(@pdf).to receive(:save_graphics_state).with(no_args).ordered
     allow(@pdf.renderer).to receive(:add_content).with(any_args).twice
     expect(@pdf.renderer).to receive(:add_content).with("#{string} cm").ordered
-    allow(@pdf).to receive(:do_something).ordered
+    allow(@pdf).to receive(:do_something)
     expect(@pdf).to receive(:restore_graphics_state).with(no_args).ordered
 
     @pdf.transformation_matrix(*values) do
