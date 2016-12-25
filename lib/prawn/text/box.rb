@@ -94,7 +94,7 @@ module Prawn
     #
     # == Returns
     #
-    # Returns any text that did not print under the current settings.
+    # Returns the Text::Box object or Text::Formatted::Box if <tt>:inline_format</tt> is true
     #
     # == Exceptions
     #
@@ -113,7 +113,8 @@ module Prawn
               Text::Box.new(string, options)
             end
 
-      box.render
+      box.render(:dry_run => options[:dry_run])
+      box
     end
 
     # @group Experimental API
