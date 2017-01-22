@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # dash.rb : Implements stroke dashing
 #
 # Contributed by Daniel Nelson. October, 2009
@@ -58,23 +56,25 @@ module Prawn
       def dash(length = nil, options = {})
         return current_dash_state if length.nil?
 
-        if length == 0 || length.kind_of?(Array) && length.all? { |e| e == 0 }
-          fail ArgumentError,
-               "Zero length dashes are invalid. Call #undash to disable dashes."
-        elsif length.kind_of?(Integer) && length < 0 ||
-              length.kind_of?(Array) && length.any? { |e| e < 0 }
-          fail ArgumentError,
-               "Negative numbers are not allowed for dash lengths."
+        if length == 0 || length.is_a?(Array) && length.all? { |e| e == 0 }
+          raise ArgumentError,
+            'Zero length dashes are invalid. Call #undash to disable dashes.'
+        elsif length.is_a?(Integer) && length < 0 ||
+            length.is_a?(Array) && length.any? { |e| e < 0 }
+          raise ArgumentError,
+            'Negative numbers are not allowed for dash lengths.'
         end
 
-        self.current_dash_state = { :dash  => length,
-                                    :space => length.kind_of?(Array) ? nil : options[:space] || length,
-                                    :phase => options[:phase] || 0 }
+        self.current_dash_state = {
+          dash: length,
+          space: length.is_a?(Array) ? nil : options[:space] || length,
+          phase: options[:phase] || 0
+        }
 
         write_stroke_dash
       end
 
-      alias_method :dash=, :dash
+      alias dash= dash
 
       # Stops dashing, restoring solid stroked lines and curves
       #
@@ -96,7 +96,7 @@ module Prawn
       end
 
       def undashed_setting
-        { :dash => nil, :space => nil, :phase => 0 }
+        { dash: nil, space: nil, phase: 0 }
       end
 
       def current_dash_state=(dash_options)

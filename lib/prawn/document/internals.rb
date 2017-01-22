@@ -1,12 +1,10 @@
-# encoding: utf-8
-#
 # internals.rb : Implements document internals for Prawn
 #
 # Copyright August 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "forwardable"
+require 'forwardable'
 
 module Prawn
   class Document
@@ -23,8 +21,10 @@ module Prawn
       # but they are used in documentation and possibly in extensions.
       # Perhaps they will become part of the extension API?
       # Anyway, for now it's not clear what we should do w. them.
-      delegate [ :graphic_state,
-                 :on_page_create ] => :renderer
+      delegate [
+        :graphic_state,
+        :on_page_create
+      ] => :renderer
 
       def save_graphics_state(state = nil, &block)
         save_transformation_stack
@@ -45,7 +45,7 @@ module Prawn
       delegate [:compression_enabled?] => :renderer
 
       # FIXME: More circular references in PDF::Core::Page.
-      delegate [ :ref, :ref!, :deref ] => :renderer
+      delegate [:ref, :ref!, :deref] => :renderer
 
       # FIXME: Another circular reference, because we mix in a module from
       # PDF::Core to provide destinations, which in theory should not

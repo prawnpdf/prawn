@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # This is the most important concept you need to learn about Prawn:
 #
 # PDF documents have the origin <code>[0,0]</code> at the bottom-left corner of
@@ -21,9 +19,8 @@
 #
 # The following snippet strokes a circle on the margin box origin. Then strokes
 # the boundaries of a bounding box and a circle on its origin.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
@@ -31,7 +28,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   stroke_circle [0, 0], 10
 
-  bounding_box([100, 300], :width => 300, :height => 200) do
+  bounding_box([100, 300], width: 300, height: 200) do
     stroke_bounds
     stroke_circle [0, 0], 10
   end

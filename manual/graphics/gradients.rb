@@ -1,11 +1,8 @@
-# encoding: utf-8
-#
 # Note that because of the way PDF renders radial gradients in order to get
 # solid fill your start circle must be fully inside your end circle.
 # Otherwise you will get triangle fill like illustrated in the example below.
 
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do

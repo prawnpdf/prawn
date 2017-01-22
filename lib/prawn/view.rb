@@ -1,5 +1,3 @@
-# encoding: UTF-8
-#
 # prawn/view.rb : Implements a mixin for Prawn's DSL
 #
 # This is free software. Please see the LICENSE and COPYING files for details.

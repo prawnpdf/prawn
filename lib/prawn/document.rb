@@ -1,26 +1,24 @@
-# encoding: utf-8
-
 # document.rb : Implements PDF document generation for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "stringio"
+require 'stringio'
 
-require_relative "document/bounding_box"
-require_relative "document/column_box"
-require_relative "document/internals"
-require_relative "document/span"
+require_relative 'document/bounding_box'
+require_relative 'document/column_box'
+require_relative 'document/internals'
+require_relative 'document/span'
 
 module Prawn
   # The Prawn::Document class is how you start creating a PDF document.
   #
   # There are three basic ways you can instantiate PDF Documents in Prawn, they
-  # are through assignment, implicit block or explicit block.  Below is an exmple
-  # of each type, each example does exactly the same thing, makes a PDF document
-  # with all the defaults and puts in the default font "Hello There" and then
-  # saves it to the current directory as "example.pdf"
+  # are through assignment, implicit block or explicit block.  Below is an
+  # exmple of each type, each example does exactly the same thing, makes a PDF
+  # document with all the defaults and puts in the default font "Hello There"
+  # and then saves it to the current directory as "example.pdf"
   #
   # For example, assignment can be like this:
   #
@@ -42,8 +40,8 @@ module Prawn
   #     pdf.text words
   #   end
   #
-  # Usually, the block forms are used when you are simply creating a PDF document
-  # that you want to immediately save or render out.
+  # Usually, the block forms are used when you are simply creating a PDF
+  # document that you want to immediately save or render out.
   #
   # See the new and generate methods for further details on the above.
   #
@@ -64,10 +62,12 @@ module Prawn
     # NOTE: We probably need to rethink the options validation system, but this
     # constant temporarily allows for extensions to modify the list.
 
-    VALID_OPTIONS = [:page_size, :page_layout, :margin, :left_margin,
-                     :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-                     :compress, :background, :info,
-                     :text_formatter, :print_scaling]
+    VALID_OPTIONS = [
+      :page_size, :page_layout, :margin, :left_margin,
+      :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
+      :compress, :background, :info,
+      :text_formatter, :print_scaling
+    ].freeze
 
     # Any module added to this array will be included into instances of
     # Prawn::Document at the per-object level.  These will also be inherited by
@@ -153,15 +153,22 @@ module Prawn
     # <tt>:right_margin</tt>:: Sets the right margin in points [0.5 inch]
     # <tt>:top_margin</tt>:: Sets the top margin in points [0.5 inch]
     # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
-    # <tt>:skip_page_creation</tt>:: Creates a document without starting the first page [false]
-    # <tt>:compress</tt>:: Compresses content streams before rendering them [false]
-    # <tt>:background</tt>:: An image path to be used as background on all pages [nil]
+    # <tt>:skip_page_creation</tt>:: Creates a document without starting the
+    #                                first page [false]
+    # <tt>:compress</tt>:: Compresses content streams before rendering them
+    #                      [false]
+    # <tt>:background</tt>:: An image path to be used as background on all pages
+    #                        [nil]
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
-    # <tt>:info</tt>:: Generic hash allowing for custom metadata properties [nil]
-    # <tt>:text_formatter</tt>: The text formatter to use for <tt>:inline_format</tt>ted text [Prawn::Text::Formatted::Parser]
+    # <tt>:info</tt>:: Generic hash allowing for custom metadata properties
+    #                  [nil]
+    # <tt>:text_formatter</tt>: The text formatter to use for
+    #                           <tt>:inline_format</tt>ted text
+    #                           [Prawn::Text::Formatted::Parser]
     #
-    # Setting e.g. the :margin to 100 points and the :left_margin to 50 will result in margins
-    # of 100 points on every side except for the left, where it will be 50.
+    # Setting e.g. the :margin to 100 points and the :left_margin to 50 will
+    # result in margins of 100 points on every side except for the left, where
+    # it will be 50.
     #
     # The :margin can also be an array much like CSS shorthand:
     #
@@ -172,8 +179,8 @@ module Prawn
     #   # Top is 10, right is 20, bottom is 30, left is 40.
     #   :margin => [10, 20, 30, 40]
     #
-    # Additionally, :page_size can be specified as a simple two value array giving
-    # the width and height of the document you need in PDF Points.
+    # Additionally, :page_size can be specified as a simple two value array
+    # giving the width and height of the document you need in PDF Points.
     #
     # Usage:
     #
@@ -181,13 +188,15 @@ module Prawn
     #   pdf = Prawn::Document.new
     #
     #   # New document, A4 paper, landscaped
-    #   pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
+    #   pdf = Prawn::Document.new(page_size: "A4", page_layout: :landscape)
     #
     #   # New document, Custom size
-    #   pdf = Prawn::Document.new(:page_size => [200, 300])
+    #   pdf = Prawn::Document.new(page_size: [200, 300])
     #
     #   # New document, with background
-    #   pdf = Prawn::Document.new(:background => "#{Prawn::DATADIR}/images/pigs.jpg")
+    #   pdf = Prawn::Document.new(
+    #     background: "#{Prawn::DATADIR}/images/pigs.jpg"
+    #   )
     #
     def initialize(options = {}, &block)
       options = options.dup
@@ -199,21 +208,22 @@ module Prawn
 
       self.class.extensions.reverse_each { |e| extend e }
       self.state = PDF::Core::DocumentState.new(options)
-      self.state.populate_pages_from_store(self)
+      state.populate_pages_from_store(self)
       renderer.min_version(state.store.min_version) if state.store.min_version
 
       renderer.min_version(1.6) if options[:print_scaling] == :none
 
       @background = options[:background]
       @background_scale = options[:background_scale] || 1
-      @font_size  = 12
+      @font_size = 12
 
-      @bounding_box  = nil
-      @margin_box    = nil
+      @bounding_box = nil
+      @margin_box = nil
 
       @page_number = 0
 
-      @text_formatter = options.delete(:text_formatter) || Text::Formatted::Parser
+      @text_formatter = options.delete(:text_formatter) ||
+        Text::Formatted::Parser
 
       options[:size] = options.delete(:page_size)
       options[:layout] = options.delete(:page_layout)
@@ -240,24 +250,28 @@ module Prawn
     #   pdf.start_new_page(:margin => 100)
     #
     def start_new_page(options = {})
-      if last_page = state.page
-        last_page_size    = last_page.size
-        last_page_layout  = last_page.layout
+      last_page = state.page
+      if last_page
+        last_page_size = last_page.size
+        last_page_layout = last_page.layout
         last_page_margins = last_page.margins.dup
       end
 
       page_options = {
-        :size    => options[:size] || last_page_size,
-        :layout  => options[:layout] || last_page_layout,
-        :margins => last_page_margins
+        size: options[:size] || last_page_size,
+        layout: options[:layout] || last_page_layout,
+        margins: last_page_margins
       }
       if last_page
-        new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
+        if last_page.graphic_state
+          new_graphic_state = last_page.graphic_state.dup
+        end
 
-        # erase the color space so that it gets reset on new page for fussy pdf-readers
+        # erase the color space so that it gets reset on new page for fussy
+        # pdf-readers
         new_graphic_state.color_space = {} if new_graphic_state
 
-        page_options.merge!(:graphic_state => new_graphic_state)
+        page_options[:graphic_state] = new_graphic_state
       end
 
       state.page = PDF::Core::Page.new(self, page_options)
@@ -277,7 +291,11 @@ module Prawn
         state.insert_page(state.page, @page_number)
         @page_number += 1
 
-        canvas { image(@background, :scale => @background_scale, :at => bounds.top_left) } if @background
+        if @background
+          canvas do
+            image(@background, scale: @background_scale, at: bounds.top_left)
+          end
+        end
         @y = @bounding_box.absolute_top
 
         float do
@@ -365,7 +383,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      File.open(filename, "wb") { |f| render(f) }
+      File.open(filename, 'wb') { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,
@@ -374,14 +392,15 @@ module Prawn
     # block, the box defined by that call will be returned instead of the
     # document margin box.
     #
-    # Another important point about bounding boxes is that all x and y measurements
-    # within a bounding box code block are relative to the bottom left corner of the
-    # bounding box.
+    # Another important point about bounding boxes is that all x and
+    # y measurements within a bounding box code block are relative to the bottom
+    # left corner of the bounding box.
     #
     # For example:
     #
     #  Prawn::Document.new do
-    #    # In the default "margin box" of a Prawn document of 0.5in along each edge
+    #    # In the default "margin box" of a Prawn document of 0.5in along each
+    #    # edge
     #
     #    # Draw a border around the page (the manual way)
     #    stroke do
@@ -408,8 +427,8 @@ module Prawn
 
     # Sets Document#bounds to the BoundingBox provided.  See above for a brief
     # description of what a bounding box is.  This function is useful if you
-    # really need to change the bounding box manually, but usually, just entering
-    # and exiting bounding box code blocks is good enough.
+    # really need to change the bounding box manually, but usually, just
+    # entering and exiting bounding box code blocks is good enough.
     #
     def bounds=(bounding_box)
       @bounding_box = bounding_box
@@ -422,8 +441,8 @@ module Prawn
       self.y += n
     end
 
-    # Moves down the document by n points relative to the current position inside
-    # the current bounding box.
+    # Moves down the document by n points relative to the current position
+    # inside the current bounding box.
     #
     def move_down(n)
       self.y -= n
@@ -486,50 +505,54 @@ module Prawn
       bounds.indent(left, right, &block)
     end
 
-    # Places a text box on specified pages for page numbering.  This should be called
-    # towards the end of document creation, after all your content is already in
-    # place.  In your template string, <page> refers to the current page, and
-    # <total> refers to the total amount of pages in the document.  Page numbering should
-    # occur at the end of your Prawn::Document.generate block because the method iterates
-    # through existing pages after they are created.
+    # Places a text box on specified pages for page numbering.  This should be
+    # called towards the end of document creation, after all your content is
+    # already in place.  In your template string, <page> refers to the current
+    # page, and <total> refers to the total amount of pages in the document.
+    # Page numbering should occur at the end of your Prawn::Document.generate
+    # block because the method iterates through existing pages after they are
+    # created.
     #
     # Parameters are:
     #
     # <tt>string</tt>:: Template string for page number wording.
     #                   Should include '<page>' and, optionally, '<total>'.
     # <tt>options</tt>:: A hash for page numbering and text box options.
-    #     <tt>:page_filter</tt>:: A filter to specify which pages to place page numbers on.
-    #                             Refer to the method 'page_match?'
+    #     <tt>:page_filter</tt>:: A filter to specify which pages to place page
+    #                             numbers on. Refer to the method 'page_match?'
     #     <tt>:start_count_at</tt>:: The starting count to increment pages from.
-    #     <tt>:total_pages</tt>:: If provided, will replace <total> with the value given.
-    #                             Useful to override the total number of pages when using
-    #                             the start_count_at option.
+    #     <tt>:total_pages</tt>:: If provided, will replace <total> with the
+    #                             value given. Useful to override the total
+    #                             number of pages when using the start_count_at
+    #                             option.
     #     <tt>:color</tt>:: Text fill color.
     #
-    #     Please refer to Prawn::Text::text_box for additional options concerning text
-    #     formatting and placement.
+    #     Please refer to Prawn::Text::text_box for additional options
+    #     concerning text formatting and placement.
     #
-    # Example: Print page numbers on every page except for the first.  Start counting from
-    #          five.
+    # Example:
+    #   Print page numbers on every page except for the first. Start counting
+    #   from five.
     #
-    #   Prawn::Document.generate("page_with_numbering.pdf") do
-    #     number_pages "<page> in a total of <total>",
-    #                                          {:start_count_at => 5,
-    #                                           :page_filter => lambda{ |pg| pg != 1 },
-    #                                           :at => [bounds.right - 50, 0],
-    #                                           :align => :right,
-    #                                           :size => 14}
-    #   end
+    #     Prawn::Document.generate("page_with_numbering.pdf") do
+    #       number_pages "<page> in a total of <total>", {
+    #         start_count_at: 5,
+    #         page_filter: lambda { |pg| pg != 1 },
+    #         at: [bounds.right - 50, 0],
+    #         align: :right,
+    #         size: 14
+    #       }
+    #     end
     #
     def number_pages(string, options = {})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
 
-      if opts.key?(:page_filter)
-        page_filter = opts.delete(:page_filter)
-      else
-        page_filter = :all
-      end
+      page_filter = if opts.key?(:page_filter)
+                      opts.delete(:page_filter)
+                    else
+                      :all
+                    end
 
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
@@ -549,12 +572,14 @@ module Prawn
         end
         if page_match?(page_filter, p)
           go_to_page(p)
-          # have to use fill_color here otherwise text reverts back to default fill color
+          # have to use fill_color here otherwise text reverts back to default
+          # fill color
           fill_color txtcolor unless txtcolor.nil?
           total_pages = total_pages.nil? ? page_count : total_pages
-          str = string.gsub("<page>", "#{pseudopage}").gsub("<total>", "#{total_pages}")
+          str = string.gsub('<page>', pseudopage.to_s)
+            .gsub('<total>', total_pages.to_s)
           text_box str, opts
-          start_count = true  # increment page count as soon as first match found
+          start_count = true # increment page count as soon as first match found
         end
         pseudopage += 1 if start_count
       end
@@ -572,21 +597,21 @@ module Prawn
     # the current page or column.
     #
     # @private
-    def group(*a, &b)
-      fail NotImplementedError,
-           "Document#group has been disabled because its implementation " \
-           "lead to corrupted documents whenever a page boundary was " \
-           "crossed. We will try to work on reimplementing it in a " \
-           "future release"
+    def group(*_a)
+      raise NotImplementedError,
+        'Document#group has been disabled because its implementation ' \
+        'lead to corrupted documents whenever a page boundary was ' \
+        'crossed. We will try to work on reimplementing it in a ' \
+        'future release'
     end
 
     # @private
     def transaction
-      fail NotImplementedError,
-           "Document#transaction has been disabled because its implementation " \
-           "lead to corrupted documents whenever a page boundary was " \
-           "crossed. We will try to work on reimplementing it in a " \
-           "future release"
+      raise NotImplementedError,
+        'Document#transaction has been disabled because its implementation ' \
+        'lead to corrupted documents whenever a page boundary was ' \
+        'crossed. We will try to work on reimplementing it in a ' \
+        'future release'
     end
 
     # Provides a way to execute a block of code repeatedly based on a
@@ -617,8 +642,8 @@ module Prawn
     # @private
 
     def mask(*fields)
-      # Stores the current state of the named attributes, executes the block, and
-      # then restores the original values after the block has executed.
+      # Stores the current state of the named attributes, executes the block,
+      # and then restores the original values after the block has executed.
       # -- I will remove the nodoc if/when this feature is a little less hacky
       stored = {}
       fields.each { |f| stored[f] = send(f) }
@@ -630,7 +655,7 @@ module Prawn
 
     def initialize_first_page(options)
       if options[:skip_page_creation]
-        start_new_page(options.merge(:orphan => true))
+        start_new_page(options.merge(orphan: true))
       else
         start_new_page(options)
       end
@@ -648,11 +673,11 @@ module Prawn
 
     private
 
-    # setting override_settings to true ensures that a new graphic state does not end up using
-    # previous settings.
+    # setting override_settings to true ensures that a new graphic state does
+    # not end up using previous settings.
     def use_graphic_settings(override_settings = false)
-      set_fill_color if current_fill_color != "000000" || override_settings
-      set_stroke_color if current_stroke_color != "000000" || override_settings
+      set_fill_color if current_fill_color != '000000' || override_settings
+      set_stroke_color if current_stroke_color != '000000' || override_settings
       write_line_width if line_width != 1 || override_settings
       write_stroke_cap_style if cap_style != :butt || override_settings
       write_stroke_join_style if join_style != :miter || override_settings
@@ -661,14 +686,16 @@ module Prawn
 
     def generate_margin_box
       old_margin_box = @margin_box
-      page           = state.page
+      page = state.page
 
       @margin_box = BoundingBox.new(
         self,
-        nil,  # margin box has no parent
-        [ page.margins[:left], page.dimensions[-1] - page.margins[:top] ] ,
-        :width => page.dimensions[-2] - (page.margins[:left] + page.margins[:right]),
-        :height => page.dimensions[-1] - (page.margins[:top] + page.margins[:bottom])
+        nil, # margin box has no parent
+        [page.margins[:left], page.dimensions[-1] - page.margins[:top]],
+        width: page.dimensions[-2] -
+          (page.margins[:left] + page.margins[:right]),
+        height: page.dimensions[-1] -
+          (page.margins[:top] + page.margins[:bottom])
       )
 
       # This check maintains indentation settings across page breaks
@@ -687,9 +714,11 @@ module Prawn
       margin = Array(options[:margin])
 
       # Treat :margin as CSS shorthand with 1-4 values.
-      positions = { 4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
-                    2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0],
-                    0 => [] }[margin.length]
+      positions = {
+        4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
+        2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0],
+        0 => []
+      }[margin.length]
 
       sides.zip(positions).each do |side, pos|
         new_margin = options["#{side}_margin"] || (margin[pos] if pos)

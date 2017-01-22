@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # text/rectangle.rb : Implements text boxes
 #
 # Copyright November 2009, Daniel Nelson. All Rights Reserved.
@@ -7,7 +5,7 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
 
-require_relative "formatted/box"
+require_relative 'formatted/box'
 
 module Prawn
   module Text
@@ -52,7 +50,8 @@ module Prawn
     #     <tt>[x, y]</tt>. The upper left corner of the box
     #     [@document.bounds.left, @document.bounds.top]
     # <tt>:width</tt>::
-    #     <tt>number</tt>. The width of the box [@document.bounds.right - @at[0]]
+    #     <tt>number</tt>. The width of the box
+    #     [@document.bounds.right - @at[0]]
     # <tt>:height</tt>::
     #     <tt>number</tt>. The height of the box [default_height()]
     # <tt>:direction</tt>::
@@ -82,7 +81,8 @@ module Prawn
     #     <tt>number</tt>. Additional space between lines [value of
     #     document.default_leading]
     # <tt>:single_line</tt>::
-    #     <tt>boolean</tt>. If true, then only the first line will be drawn [false]
+    #     <tt>boolean</tt>. If true, then only the first line will be drawn
+    #     [false]
     # <tt>:overflow</tt>::
     #     <tt>:truncate</tt>, <tt>:shrink_to_fit</tt>, or <tt>:expand</tt>
     #     This controls the behavior when the amount of text
@@ -105,9 +105,10 @@ module Prawn
       options = options.dup
       options[:document] = self
 
-      box = if p = options.delete(:inline_format)
+      box = if options[:inline_format]
+              p = options.delete(:inline_format)
               p = [] unless p.is_a?(Array)
-              array = self.text_formatter.format(string, *p)
+              array = text_formatter.format(string, *p)
               Text::Formatted::Box.new(array, options)
             else
               Text::Box.new(string, options)
@@ -126,7 +127,7 @@ module Prawn
     #
     class Box < Prawn::Text::Formatted::Box
       def initialize(string, options = {})
-        super([{ :text => string }], options)
+        super([{ text: string }], options)
       end
 
       def render(flags = {})

@@ -19,10 +19,13 @@ module Prawn
       attr_reader :width, :height, :bits, :channels
       attr_accessor :scaled_width, :scaled_height
 
-      JPEG_SOF_BLOCKS = [0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF]
+      JPEG_SOF_BLOCKS = [
+        0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE,
+        0xCF
+      ].freeze
 
       def self.can_render?(image_blob)
-        image_blob[0, 3].unpack("C*") == [255, 216, 255]
+        image_blob[0, 3].unpack('C*') == [255, 216, 255]
       end
 
       # Process a new JPG image
@@ -35,13 +38,13 @@ module Prawn
         d.binmode
 
         c_marker = 0xff # Section marker.
-        d.seek(2)    # Skip the first two bytes of JPEG identifier.
+        d.seek(2) # Skip the first two bytes of JPEG identifier.
         loop do
           marker, code, length = d.read(4).unpack('CCn')
-          fail "JPEG marker not found!" if marker != c_marker
+          raise 'JPEG marker not found!' if marker != c_marker
 
           if JPEG_SOF_BLOCKS.include?(code)
-            @bits, @height, @width, @channels = d.read(6).unpack("CnnC")
+            @bits, @height, @width, @channels = d.read(6).unpack('CnnC')
             break
           end
 
@@ -53,31 +56,32 @@ module Prawn
       # a Reference to it.
       #
       def build_pdf_object(document)
-        color_space = case channels
-                      when 1
-                        :DeviceGray
-                      when 3
-                        :DeviceRGB
-                      when 4
-                        :DeviceCMYK
-                      else
-                        fail ArgumentError, 'JPG uses an unsupported number of channels'
-                      end
+        color_space =
+          case channels
+          when 1
+            :DeviceGray
+          when 3
+            :DeviceRGB
+          when 4
+            :DeviceCMYK
+          else
+            raise ArgumentError, 'JPG uses an unsupported number of channels'
+          end
 
         obj = document.ref!(
-          :Type             => :XObject,
-          :Subtype          => :Image,
-          :ColorSpace       => color_space,
-          :BitsPerComponent => bits,
-          :Width            => width,
-          :Height           => height
+          Type: :XObject,
+          Subtype: :Image,
+          ColorSpace: color_space,
+          BitsPerComponent: bits,
+          Width: width,
+          Height: height
         )
 
         # add extra decode params for CMYK images. By swapping the
         # min and max values from the default, we invert the colours. See
         # section 4.8.4 of the spec.
         if color_space == :DeviceCMYK
-          obj.data[:Decode] = [ 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 ]
+          obj.data[:Decode] = [1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0]
         end
 
         obj.stream << @data

@@ -1,14 +1,13 @@
-# encoding: utf-8
-#
-# transformation_stack.rb : Stores the transformations that have been applied to the document
+# transformation_stack.rb : Stores the transformations that have been applied to
+# the document
 #
 # Copyright 2015, Roger Nesbitt. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
-#
 
 require 'matrix'
 
+# rubocop: disable Metrics/ParameterLists
 module Prawn
   module TransformationStack
     def add_to_transformation_stack(a, b, c, d, e, f)

@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Prawn's fill operators (<code>fill</code> and <code>fill_and_stroke</code>
 # both accept a <code>:fill_rule</code> option. These rules determine which
 # parts of the page are counted as "inside" vs. "outside" the path. There are
@@ -15,9 +13,8 @@
 #
 # The differences between the fill rules only come into play with complex
 # paths; they are identical for simple shapes.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
@@ -26,13 +23,13 @@ Prawn::ManualBuilder::Example.generate(filename) do
   stroke_color 'ff0000'
   line_width 2
 
-  text_box "Nonzero Winding Number", :at => [50, 215],
-                                     :width => 170,
-                                     :align => :center
+  text_box 'Nonzero Winding Number', at: [50, 215],
+                                     width: 170,
+                                     align: :center
   polygon(*pentagram.map { |x, y| [x + 50, y] })
   fill_and_stroke
 
-  text_box "Even-Odd", :at => [330, 215], :width => 170, :align => :center
+  text_box 'Even-Odd', at: [330, 215], width: 170, align: :center
   polygon(*pentagram.map { |x, y| [x + 330, y] })
-  fill_and_stroke(:fill_rule => :even_odd)
+  fill_and_stroke(fill_rule: :even_odd)
 end

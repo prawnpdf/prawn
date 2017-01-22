@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # encryption.rb : Implements encrypted PDF and access permissions.
 #
 # Copyright August 2008, Brad Ediger. All Rights Reserved.
@@ -89,13 +87,13 @@ module Prawn
       #
       def encrypt_document(options = {})
         Prawn.verify_options [:user_password, :owner_password, :permissions],
-                             options
-        @user_password = options.delete(:user_password) || ""
+          options
+        @user_password = options.delete(:user_password) || ''
 
         @owner_password = options.delete(:owner_password) || @user_password
         if @owner_password == :random
           # Generate a completely ridiculous password
-          @owner_password = (1..32).map{ rand(256) }.pack("c*")
+          @owner_password = (1..32).map { rand(256) }.pack('c*')
         end
 
         self.permissions = options.delete(:permissions) || {}
@@ -124,30 +122,34 @@ module Prawn
 
       # Provides the values for the trailer encryption dictionary.
       def encryption_dictionary
-        { :Filter => :Standard, # default PDF security handler
-          :V      => 1,         # "Algorithm 3.1", PDF reference 1.3
-          :R      => 2,         # Revision 2 of the algorithm
-          :O      => PDF::Core::ByteString.new(owner_password_hash),
-          :U      => PDF::Core::ByteString.new(user_password_hash),
-          :P      => permissions_value }
+        {
+          Filter: :Standard, # default PDF security handler
+          V: 1,         # "Algorithm 3.1", PDF reference 1.3
+          R: 2,         # Revision 2 of the algorithm
+          O: PDF::Core::ByteString.new(owner_password_hash),
+          U: PDF::Core::ByteString.new(user_password_hash),
+          P: permissions_value
+        }
       end
 
       # Flags in the permissions word, numbered as LSB = 1
-      PermissionsBits = { :print_document     => 3,
-                          :modify_contents    => 4,
-                          :copy_contents      => 5,
-                          :modify_annotations => 6 }
+      PermissionsBits = {
+        print_document: 3,
+        modify_contents: 4,
+        copy_contents: 5,
+        modify_annotations: 6
+      }.freeze
 
-      FullPermissions = 0b1111_1111_1111_1111_1111_1111_1111_1111
+      FULL_PERMISSIONS = 0b1111_1111_1111_1111_1111_1111_1111_1111
 
       def permissions=(perms = {})
-        @permissions ||= FullPermissions
+        @permissions ||= FULL_PERMISSIONS
         perms.each do |key, value|
           unless PermissionsBits[key]
-            fail(
+            raise(
               ArgumentError,
               "Unknown permission :#{key}. Valid options: " +
-                PermissionsBits.keys.map(&:inspect).join(", ")
+                PermissionsBits.keys.map(&:inspect).join(', ')
             )
           end
 
@@ -163,12 +165,12 @@ module Prawn
       end
 
       def permissions_value
-        @permissions || FullPermissions
+        @permissions || FULL_PERMISSIONS
       end
 
       PasswordPadding =
-        "28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A".
-        scan(/../).map{ |x| x.to_i(16) }.pack("c*")
+        '28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A'
+          .scan(/../).map { |x| x.to_i(16) }.pack('c*')
 
       # Pads or truncates a password to 32 bytes as per Alg 3.2.
       def pad_password(password)
@@ -181,7 +183,7 @@ module Prawn
           md5 = Digest::MD5.new
           md5 << pad_password(@user_password)
           md5 << owner_password_hash
-          md5 << [permissions_value].pack("V")
+          md5 << [permissions_value].pack('V')
           md5.digest[0, 5]
         end
       end
@@ -212,39 +214,46 @@ module PDF
     # from the indirect object referencing obj.
     #
     # @private
-    def EncryptedPdfObject(obj, key, id, gen, in_content_stream = false)
+    def encrypted_pdf_object(obj, key, id, gen, in_content_stream = false)
       case obj
       when Array
-        "[" << obj.map { |e|
-          EncryptedPdfObject(e, key, id, gen, in_content_stream)
-        }.join(' ') << "]"
+        '[' << obj.map do |e|
+          encrypted_pdf_object(e, key, id, gen, in_content_stream)
+        end.join(' ') << ']'
       when LiteralString
-        obj = ByteString.new(Prawn::Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        obj = ByteString.new(
+          Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+        ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
-        obj = obj.strftime("D:%Y%m%d%H%M%S%z").chop.chop + "'00'"
-        obj = ByteString.new(Prawn::Document::Security.encrypt_string(obj, key, id, gen)).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        obj = obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop + "'00'"
+        obj = ByteString.new(
+          Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+        ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
         PdfObject(
           ByteString.new(
-            Prawn::Document::Security.encrypt_string(obj, key, id, gen)),
-          in_content_stream)
+            Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+          ),
+          in_content_stream
+        )
       when ::Hash
-        output = "<< "
+        output = '<< '
         obj.each do |k, v|
-          unless String === k || Symbol === k
-            fail PDF::Core::Errors::FailedObjectConversion,
-                 "A PDF Dictionary must be keyed by names"
+          unless k.is_a?(String) || k.is_a?(Symbol)
+            raise PDF::Core::Errors::FailedObjectConversion,
+              'A PDF Dictionary must be keyed by names'
           end
-          output << PdfObject(k.to_sym, in_content_stream) << " " << EncryptedPdfObject(v, key, id, gen, in_content_stream) << "\n"
+          output << PdfObject(k.to_sym, in_content_stream) << ' ' <<
+            encrypted_pdf_object(v, key, id, gen, in_content_stream) << "\n"
         end
-        output << ">>"
+        output << '>>'
       when NameTree::Value
-        PdfObject(obj.name) + " " +
-          EncryptedPdfObject(obj.value, key, id, gen, in_content_stream)
+        PdfObject(obj.name) + ' ' +
+          encrypted_pdf_object(obj.value, key, id, gen, in_content_stream)
       when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
-        EncryptedPdfObject(obj.to_hash, key, id, gen, in_content_stream)
+        encrypted_pdf_object(obj.to_hash, key, id, gen, in_content_stream)
       else # delegate back to PdfObject
         PdfObject(obj, in_content_stream)
       end
@@ -254,7 +263,10 @@ module PDF
     class Stream
       def encrypted_object(key, id, gen)
         if filtered_stream
-          "stream\n#{Prawn::Document::Security.encrypt_string filtered_stream, key, id, gen}\nendstream\n"
+          "stream\n" +
+            Prawn::Document::Security.encrypt_string(
+              filtered_stream, key, id, gen
+            ) + "\nendstream\n"
         else
           ''
         end
@@ -270,9 +282,12 @@ module PDF
 
         output = "#{@identifier} #{gen} obj\n"
         if @stream.empty?
-          output << PDF::Core::EncryptedPdfObject(data, key, @identifier, gen) << "\n"
+          output <<
+            PDF::Core.encrypted_pdf_object(data, key, @identifier, gen) << "\n"
         else
-          output << PDF::Core::EncryptedPdfObject(data.merge(@stream.data), key, @identifier, gen) << "\n" <<
+          output << PDF::Core.encrypted_pdf_object(
+            data.merge(@stream.data), key, @identifier, gen
+          ) << "\n" <<
             @stream.encrypted_object(key, @identifier, gen)
         end
 

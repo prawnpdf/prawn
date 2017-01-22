@@ -17,16 +17,19 @@ module Prawn
     # images with alpha channels can be processor and memory intensive.)
     #
     # Arguments:
-    # <tt>file</tt>:: path to file or an object that responds to #read and #rewind
+    # <tt>file</tt>:: path to file or an object that responds to #read and
+    #   #rewind
     #
     # Options:
-    # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of the image.
+    # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of
+    #   the image.
     # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
     # <tt>:vposition</tt>::  One of (:top, :center, :bottom) or an y-offset
     # <tt>:height</tt>:: the height of the image [actual height of the image]
     # <tt>:width</tt>:: the width of the image [actual width of the image]
     # <tt>:scale</tt>:: scale the dimensions of the image proportionally
-    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit inside [width,height]
+    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit
+    #   inside [width,height]
     #
     #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do
     #     pigs = "#{Prawn::DATADIR}/images/pigs.jpg"
@@ -52,7 +55,7 @@ module Prawn
     #   require "open-uri"
     #
     #   Prawn::Document.generate("remote_images.pdf") do
-    #     image open("http://prawn.majesticseacreature.com/media/prawn_logo.png")
+    #     image open("http://prawnpdf.org/media/prawn_logo.png")
     #   end
     #
     # This method returns an image info object which can be used to check the
@@ -60,8 +63,10 @@ module Prawn
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     #
     def image(file, options = {})
-      Prawn.verify_options [:at, :position, :vposition, :height,
-                            :width, :scale, :fit], options
+      Prawn.verify_options [
+        :at, :position, :vposition, :height,
+        :width, :scale, :fit
+      ], options
 
       pdf_obj, info = build_image_object(file)
       embed_image(pdf_obj, info, options)
@@ -87,11 +92,13 @@ module Prawn
         info = Prawn.image_handler.find(image_content).new(image_content)
 
         # Bump PDF version if the image requires it
-        renderer.min_version(info.min_pdf_version) if info.respond_to?(:min_pdf_version)
+        if info.respond_to?(:min_pdf_version)
+          renderer.min_version(info.min_pdf_version)
+        end
 
         # Add the image to the PDF and register it in case we see it again.
         image_obj = info.build_pdf_object(self)
-        image_registry[image_sha1] = { :obj => image_obj, :info => info }
+        image_registry[image_sha1] = { obj: image_obj, info: info }
       end
 
       [image_obj, info]
@@ -117,9 +124,9 @@ module Prawn
       # add a reference to the image object to the current page
       # resource list and give it a label
       label = "I#{next_image_id}"
-      state.page.xobjects.merge!(label => pdf_obj)
+      state.page.xobjects[label] = pdf_obj
 
-      cm_params = PDF::Core.real_params([ w, 0, 0, h, x, y - h])
+      cm_params = PDF::Core.real_params([w, 0, 0, h, x, y - h])
       renderer.add_content("\nq\n#{cm_params} cm\n/#{label} Do\nQ")
     end
 
@@ -139,7 +146,7 @@ module Prawn
       end
       # String or Pathname
       io_or_path = Pathname.new(io_or_path)
-      fail ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
+      raise ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
       io = io_or_path.open('rb')
       io
     end
@@ -171,18 +178,18 @@ module Prawn
             options[:position] + bounds.left_side
           end
 
-      return [x, y]
+      [x, y]
     end
 
     def determine_y_with_page_flow(h)
       if overruns_page?(h)
         bounds.move_past_bottom
       end
-      self.y
+      y
     end
 
     def overruns_page?(h)
-      (self.y - h) < reference_bounds.absolute_bottom
+      (y - h) < reference_bounds.absolute_bottom
     end
 
     def image_registry

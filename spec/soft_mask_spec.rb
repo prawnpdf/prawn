@@ -1,6 +1,4 @@
-# encoding: utf-8
-
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 module SoftMaskHelper
   def make_soft_mask
@@ -20,17 +18,17 @@ module SoftMaskHelper
   end
 end
 
-describe "Document with soft masks" do
+describe 'Document with soft masks' do
   include SoftMaskHelper
 
-  it "should have PDF version at least 1.4" do
+  it 'should have PDF version at least 1.4' do
     create_pdf
     make_soft_mask
     str = @pdf.render
-    expect(str[0, 8]).to eq("%PDF-1.4")
+    expect(str[0, 8]).to eq('%PDF-1.4')
   end
 
-  it "should create a new extended graphics state for each unique soft mask" do
+  it 'should create a new extended graphics state for each unique soft mask' do
     create_pdf
 
     make_soft_mask do
@@ -47,7 +45,8 @@ describe "Document with soft masks" do
     expect(extgstates.length).to eq(2)
   end
 
-  it "a new extended graphics state should contain soft mask with drawing instructions" do
+  it 'a new extended graphics state contains soft mask with drawing '\
+    'instructions' do
     create_pdf
 
     make_soft_mask do
@@ -56,10 +55,14 @@ describe "Document with soft masks" do
     end
 
     extgstate = PDF::Inspector::ExtGState.analyze(@pdf.render).extgstates.first
-    expect(extgstate[:soft_mask][:G].data).to eq("q\n/DeviceRGB cs\n0.0 0.0 0.0 scn\n/DeviceRGB CS\n0.0 0.0 0.0 SCN\n1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n100.0 -100.0 200.0 200.0 re\nf\nQ\n")
+    expect(extgstate[:soft_mask][:G].data).to eq(
+      "q\n/DeviceRGB cs\n0.0 0.0 0.0 scn\n/DeviceRGB CS\n0.0 0.0 0.0 SCN\n"\
+      "1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n"\
+      "100.0 -100.0 200.0 200.0 re\nf\nQ\n"
+    )
   end
 
-  it "should not create duplicate extended graphics states" do
+  it 'should not create duplicate extended graphics states' do
     create_pdf
 
     make_soft_mask do

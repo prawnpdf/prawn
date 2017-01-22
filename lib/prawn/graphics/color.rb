@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # color.rb : Implements color handling
 #
 # Copyright June 2008, Gregory Brown.  All Rights Reserved.
@@ -31,7 +29,7 @@ module Prawn
         set_fill_color
       end
 
-      alias_method :fill_color=, :fill_color
+      alias fill_color= fill_color
 
       # Sets or returns the line stroking color.
       #
@@ -54,7 +52,7 @@ module Prawn
         set_stroke_color(color)
       end
 
-      alias_method :stroke_color=, :stroke_color
+      alias stroke_color= stroke_color
 
       module_function
 
@@ -65,7 +63,7 @@ module Prawn
       #   => "ff7808"
       #
       def rgb2hex(rgb)
-        rgb.map { |e| "%02x" % e }.join
+        rgb.map { |e| format '%02x', e }.join
       end
 
       # Converts hex string into RGB value array:
@@ -74,20 +72,22 @@ module Prawn
       #  => [255, 120, 8]
       #
       def hex2rgb(hex)
-        r, g, b = hex[0..1], hex[2..3], hex[4..5]
+        r = hex[0..1]
+        g = hex[2..3]
+        b = hex[4..5]
         [r, g, b].map { |e| e.to_i(16) }
       end
 
       private
 
       def process_color(*color)
-        case(color.size)
+        case color.size
         when 1
           color[0]
         when 4
           color
         else
-          fail ArgumentError, 'wrong number of arguments supplied'
+          raise ArgumentError, 'wrong number of arguments supplied'
         end
       end
 
@@ -102,7 +102,7 @@ module Prawn
           when 4
             :CMYK
           else
-            fail ArgumentError, "Unknown type of color: #{color.inspect}"
+            raise ArgumentError, "Unknown type of color: #{color.inspect}"
           end
         end
       end
@@ -131,15 +131,18 @@ module Prawn
         end
       end
 
-      COLOR_SPACES = [:DeviceRGB, :DeviceCMYK, :Pattern]
+      COLOR_SPACES = [:DeviceRGB, :DeviceCMYK, :Pattern].freeze
 
       def set_color_space(type, color_space)
         # don't set the same color space again
-        return if current_color_space(type) == color_space && !state.page.in_stamp_stream?
+        if current_color_space(type) == color_space &&
+            !state.page.in_stamp_stream?
+          return
+        end
         set_current_color_space(color_space, type)
 
         unless COLOR_SPACES.include?(color_space)
-          fail ArgumentError, "unknown color space: '#{color_space}'"
+          raise ArgumentError, "unknown color space: '#{color_space}'"
         end
 
         operator = case type
@@ -148,7 +151,7 @@ module Prawn
                    when :stroke
                      'CS'
                    else
-                     fail ArgumentError, "unknown type '#{type}'"
+                     raise ArgumentError, "unknown type '#{type}'"
                    end
 
         renderer.add_content "/#{color_space} #{operator}"
@@ -161,7 +164,7 @@ module Prawn
                    when :stroke
                      'SCN'
                    else
-                     fail ArgumentError, "unknown type '#{type}'"
+                     raise ArgumentError, "unknown type '#{type}'"
                    end
 
         if options[:pattern]
@@ -186,8 +189,6 @@ module Prawn
         set_fill_color
         set_stroke_color
       end
-
-      private
 
       def current_color_space(type)
         graphic_state.color_space[type]

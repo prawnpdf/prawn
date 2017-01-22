@@ -1,73 +1,76 @@
-# encoding: utf-8
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
-describe "Outline" do
+describe 'Outline' do
   before(:each) do
     @pdf = Prawn::Document.new do
-      text "Page 1. This is the first Chapter. "
+      text 'Page 1. This is the first Chapter. '
       start_new_page
-      text "Page 2. More in the first Chapter. "
+      text 'Page 2. More in the first Chapter. '
       start_new_page
       outline.define do
-        section 'Chapter 1', :destination => 1, :closed => true do
-          page :destination => 1, :title => 'Page 1'
-          page :destination => 2, :title => 'Page 2'
+        section 'Chapter 1', destination: 1, closed: true do
+          page destination: 1, title: 'Page 1'
+          page destination: 2, title: 'Page 2'
         end
       end
     end
   end
 
-  describe "outline encoding" do
-    it "should store all outline titles as UTF-16" do
+  describe 'outline encoding' do
+    it 'should store all outline titles as UTF-16' do
       render_and_find_objects
       @hash.values.each do |obj|
-        if obj.is_a?(Hash) && obj[:Title]
-          title = obj[:Title].dup
-          title.force_encoding(Encoding::UTF_16LE)
-          expect(title.valid_encoding?).to eq(true)
-        end
+        next unless obj.is_a?(Hash) && obj[:Title]
+        title = obj[:Title].dup
+        title.force_encoding(Encoding::UTF_16LE)
+        expect(title.valid_encoding?).to eq(true)
       end
     end
   end
 
-  describe "#generate_outline" do
+  describe '#generate_outline' do
     before(:each) do
       render_and_find_objects
     end
 
-    it "should create a root outline dictionary item" do
+    it 'should create a root outline dictionary item' do
       expect(@outline_root).not_to be_nil
     end
 
-    it "should set the first and last top items of the root outline dictionary item" do
+    it 'sets the first and last top items of the root outline dictionary '\
+      'item' do
       expect(referenced_object(@outline_root[:First])).to eq(@section_1)
       expect(referenced_object(@outline_root[:Last])).to eq(@section_1)
     end
 
-    describe "#create_outline_item" do
-      it "should create outline items for each section and page" do
-        [@section_1, @page_1, @page_2].each { |item| expect(item).not_to be_nil }
+    describe '#create_outline_item' do
+      it 'should create outline items for each section and page' do
+        [@section_1, @page_1, @page_2].each do |item|
+          expect(item).not_to be_nil
+        end
       end
     end
 
-    describe "#set_relations, #set_variables_for_block, and #reset_parent" do
-      it "should link sibling items" do
+    describe '#set_relations, #set_variables_for_block, and #reset_parent' do
+      it 'should link sibling items' do
         expect(referenced_object(@page_1[:Next])).to eq(@page_2)
         expect(referenced_object(@page_2[:Prev])).to eq(@page_1)
       end
 
-      it "should link child items to parent item" do
-        [@page_1, @page_2].each { |page| expect(referenced_object(page[:Parent])).to eq(@section_1) }
+      it 'should link child items to parent item' do
+        [@page_1, @page_2].each do |page|
+          expect(referenced_object(page[:Parent])).to eq(@section_1)
+        end
       end
 
-      it "should set the first and last child items for parent item" do
+      it 'should set the first and last child items for parent item' do
         expect(referenced_object(@section_1[:First])).to eq(@page_1)
         expect(referenced_object(@section_1[:Last])).to eq(@page_2)
       end
     end
 
-    describe "#increase_count" do
-      it "should add the count of all descendant items" do
+    describe '#increase_count' do
+      it 'should add the count of all descendant items' do
         expect(@outline_root[:Count]).to eq(3)
         expect(@section_1[:Count].abs).to eq(2)
         expect(@page_1[:Count]).to eq(0)
@@ -75,165 +78,170 @@ describe "Outline" do
       end
     end
 
-    describe "closed option" do
+    describe 'closed option' do
       it "should set the item's integer count to negative" do
         expect(@section_1[:Count]).to eq(-2)
       end
     end
   end
 
-  describe "adding a custom destination" do
+  describe 'adding a custom destination' do
     before(:each) do
       @pdf.start_new_page
-      @pdf.text "Page 3 with a destination"
+      @pdf.text 'Page 3 with a destination'
       @pdf.add_dest('customdest', @pdf.dest_xyz(200, 200))
       pdf = @pdf
       @pdf.outline.update do
-        page :destination => pdf.dest_xyz(200, 200), :title => 'Custom Destination'
+        page destination: pdf.dest_xyz(200, 200), title: 'Custom Destination'
       end
       render_and_find_objects
     end
 
-    it "should create an outline item" do
+    it 'should create an outline item' do
       expect(@custom_dest).not_to be_nil
     end
 
-    it "should reference the custom destination" do
-      expect(referenced_object(@custom_dest[:Dest].first)).to eq(referenced_object(@pages.last))
+    it 'should reference the custom destination' do
+      expect(referenced_object(@custom_dest[:Dest].first))
+        .to eq(referenced_object(@pages.last))
     end
   end
 
-  describe "addding a section later with outline#section" do
+  describe 'addding a section later with outline#section' do
     before(:each) do
       @pdf.start_new_page
-      @pdf.text "Page 3. An added section "
+      @pdf.text 'Page 3. An added section '
       @pdf.outline.update do
-        section 'Added Section', :destination => 3 do
-          page :destination => 3, :title => 'Page 3'
+        section 'Added Section', destination: 3 do
+          page destination: 3, title: 'Page 3'
         end
       end
       render_and_find_objects
     end
 
-    it "should add new outline items to document" do
+    it 'should add new outline items to document' do
       [@section_2, @page_3].each { |item| expect(item).not_to be_nil }
     end
 
-    it "should reset the last items for root outline dictionary" do
+    it 'should reset the last items for root outline dictionary' do
       expect(referenced_object(@outline_root[:First])).to eq(@section_1)
       expect(referenced_object(@outline_root[:Last])).to eq(@section_2)
     end
 
-    it "should reset the next relation for the previous last top level item" do
+    it 'should reset the next relation for the previous last top level item' do
       expect(referenced_object(@section_1[:Next])).to eq(@section_2)
     end
 
-    it "should set the previous relation of the addded to section" do
+    it 'should set the previous relation of the addded to section' do
       expect(referenced_object(@section_2[:Prev])).to eq(@section_1)
     end
 
-    it "should increase the count of root outline dictionary" do
+    it 'should increase the count of root outline dictionary' do
       expect(@outline_root[:Count]).to eq(5)
     end
   end
 
-  describe "#outline.add_subsection_to" do
-    context "positioned last" do
+  describe '#outline.add_subsection_to' do
+    context 'positioned last' do
       before(:each) do
         @pdf.start_new_page
-        @pdf.text "Page 3. An added subsection "
+        @pdf.text 'Page 3. An added subsection '
         @pdf.outline.update do
           add_subsection_to 'Chapter 1' do
-            section 'Added SubSection', :destination => 3 do
-              page :destination => 3, :title => 'Added Page 3'
+            section 'Added SubSection', destination: 3 do
+              page destination: 3, title: 'Added Page 3'
             end
           end
         end
         render_and_find_objects
       end
 
-      it "should add new outline items to document" do
+      it 'should add new outline items to document' do
         [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil }
       end
 
-      it "should reset the last item for parent item dictionary" do
+      it 'should reset the last item for parent item dictionary' do
         expect(referenced_object(@section_1[:First])).to eq(@page_1)
         expect(referenced_object(@section_1[:Last])).to eq(@subsection)
       end
 
-      it "should set the prev relation for the new subsection to its parent's old last item" do
+      it "sets the prev relation for the new subsection to its parent's old "\
+        'last item' do
         expect(referenced_object(@subsection[:Prev])).to eq(@page_2)
       end
 
-      it "the subsection should become the next relation for its parent's old last item" do
+      it "the subsection should become the next relation for its parent's old "\
+        'last item' do
         expect(referenced_object(@page_2[:Next])).to eq(@subsection)
       end
 
-      it "should set the first relation for the new subsection" do
+      it 'should set the first relation for the new subsection' do
         expect(referenced_object(@subsection[:First])).to eq(@added_page_3)
       end
 
-      it "should set the correct last relation of the added to section" do
+      it 'should set the correct last relation of the added to section' do
         expect(referenced_object(@subsection[:Last])).to eq(@added_page_3)
       end
 
-      it "should increase the count of root outline dictionary" do
+      it 'should increase the count of root outline dictionary' do
         expect(@outline_root[:Count]).to eq(5)
       end
     end
 
-    context "positioned first" do
+    context 'positioned first' do
       before(:each) do
         @pdf.start_new_page
-        @pdf.text "Page 3. An added subsection "
+        @pdf.text 'Page 3. An added subsection '
         @pdf.outline.update do
           add_subsection_to 'Chapter 1', :first do
-            section 'Added SubSection', :destination => 3 do
-              page :destination => 3, :title => 'Added Page 3'
+            section 'Added SubSection', destination: 3 do
+              page destination: 3, title: 'Added Page 3'
             end
           end
         end
         render_and_find_objects
       end
 
-      it "should add new outline items to document" do
+      it 'should add new outline items to document' do
         [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil }
       end
 
-      it "should reset the first item for parent item dictionary" do
+      it 'should reset the first item for parent item dictionary' do
         expect(referenced_object(@section_1[:First])).to eq(@subsection)
         expect(referenced_object(@section_1[:Last])).to eq(@page_2)
       end
 
-      it "should set the next relation for the new subsection to its parent's old first item" do
+      it "sets the next relation for the new subsection to its parent's old "\
+        'first item' do
         expect(referenced_object(@subsection[:Next])).to eq(@page_1)
       end
 
-      it "the subsection should become the prev relation for its parent's old first item" do
+      it "the subsection should become the prev relation for its parent's old "\
+        'first item' do
         expect(referenced_object(@page_1[:Prev])).to eq(@subsection)
       end
 
-      it "should set the first relation for the new subsection" do
+      it 'should set the first relation for the new subsection' do
         expect(referenced_object(@subsection[:First])).to eq(@added_page_3)
       end
 
-      it "should set the correct last relation of the added to section" do
+      it 'should set the correct last relation of the added to section' do
         expect(referenced_object(@subsection[:Last])).to eq(@added_page_3)
       end
 
-      it "should increase the count of root outline dictionary" do
+      it 'should increase the count of root outline dictionary' do
         expect(@outline_root[:Count]).to eq(5)
       end
     end
 
-    it "should require an existing title" do
+    it 'should require an existing title' do
       expect do
         @pdf.go_to_page 1
         @pdf.start_new_page
-        @pdf.text "Inserted Page"
+        @pdf.text 'Inserted Page'
         @pdf.outline.update do
           add_subsection_to 'Wrong page' do
-            page page_number, :title => "Inserted Page"
+            page page_number, title: 'Inserted Page'
           end
         end
         render_and_find_objects
@@ -241,57 +249,58 @@ describe "Outline" do
     end
   end
 
-  describe "#outline.insert_section_after" do
-    describe "inserting in the middle of another section" do
+  describe '#outline.insert_section_after' do
+    describe 'inserting in the middle of another section' do
       before(:each) do
         @pdf.go_to_page 1
         @pdf.start_new_page
-        @pdf.text "Inserted Page"
+        @pdf.text 'Inserted Page'
         @pdf.outline.update do
           insert_section_after 'Page 1' do
-            page :destination => page_number, :title => "Inserted Page"
+            page destination: page_number, title: 'Inserted Page'
           end
         end
       end
 
-      it "should insert new outline items to document" do
+      it 'should insert new outline items to document' do
         render_and_find_objects
         expect(@inserted_page).not_to be_nil
       end
 
-      it "should adjust the count of all ancestors" do
+      it 'should adjust the count of all ancestors' do
         render_and_find_objects
         expect(@outline_root[:Count]).to eq(4)
         expect(@section_1[:Count].abs).to eq(3)
       end
 
-      describe "#adjust_relations" do
-        it "should reset the sibling relations of adjoining items to inserted item" do
+      describe '#adjust_relations' do
+        it 'resets the sibling relations of adjoining items to inserted item' do
           render_and_find_objects
           expect(referenced_object(@page_1[:Next])).to eq(@inserted_page)
           expect(referenced_object(@page_2[:Prev])).to eq(@inserted_page)
         end
 
-        it "should set the sibling relation of added item to adjoining items" do
+        it 'should set the sibling relation of added item to adjoining items' do
           render_and_find_objects
           expect(referenced_object(@inserted_page[:Next])).to eq(@page_2)
           expect(referenced_object(@inserted_page[:Prev])).to eq(@page_1)
         end
 
-        it "should not affect the first and last relations of parent item" do
+        it 'should not affect the first and last relations of parent item' do
           render_and_find_objects
           expect(referenced_object(@section_1[:First])).to eq(@page_1)
           expect(referenced_object(@section_1[:Last])).to eq(@page_2)
         end
       end
 
-      context "when adding another section afterwards" do
-        it "should have reset the root position so that a new section is added at the end of root sections" do
+      context 'when adding another section afterwards' do
+        it 'has reset the root position so that a new section is added at '\
+          'the end of root sections' do
           @pdf.start_new_page
-          @pdf.text "Another Inserted Page"
+          @pdf.text 'Another Inserted Page'
           @pdf.outline.update do
             section 'Added Section' do
-              page :destination => page_number, :title => "Inserted Page"
+              page destination: page_number, title: 'Inserted Page'
             end
           end
           render_and_find_objects
@@ -301,43 +310,43 @@ describe "Outline" do
       end
     end
 
-    describe "inserting at the end of another section" do
+    describe 'inserting at the end of another section' do
       before(:each) do
         @pdf.go_to_page 2
         @pdf.start_new_page
-        @pdf.text "Inserted Page"
+        @pdf.text 'Inserted Page'
         @pdf.outline.update do
           insert_section_after 'Page 2' do
-            page :destination => page_number, :title => "Inserted Page"
+            page destination: page_number, title: 'Inserted Page'
           end
         end
         render_and_find_objects
       end
 
-      describe "#adjust_relations" do
-        it "should reset the sibling relations of adjoining item to inserted item" do
+      describe '#adjust_relations' do
+        it 'resets the sibling relations of adjoining item to inserted item' do
           expect(referenced_object(@page_2[:Next])).to eq(@inserted_page)
         end
 
-        it "should set the sibling relation of added item to adjoining items" do
+        it 'should set the sibling relation of added item to adjoining items' do
           expect(referenced_object(@inserted_page[:Next])).to be_nil
           expect(referenced_object(@inserted_page[:Prev])).to eq(@page_2)
         end
 
-        it "should adjust the last relation of parent item" do
+        it 'should adjust the last relation of parent item' do
           expect(referenced_object(@section_1[:Last])).to eq(@inserted_page)
         end
       end
     end
 
-    it "should require an existing title" do
+    it 'should require an existing title' do
       expect do
         @pdf.go_to_page 1
         @pdf.start_new_page
-        @pdf.text "Inserted Page"
+        @pdf.text 'Inserted Page'
         @pdf.outline.update do
           insert_section_after 'Wrong page' do
-            page :destination => page_number, :title => "Inserted Page"
+            page destination: page_number, title: 'Inserted Page'
           end
         end
         render_and_find_objects
@@ -345,13 +354,13 @@ describe "Outline" do
     end
   end
 
-  describe "#page" do
-    it "should require a title option to be set" do
+  describe '#page' do
+    it 'should require a title option to be set' do
       expect do
         @pdf = Prawn::Document.new do
-          text "Page 1. This is the first Chapter. "
+          text 'Page 1. This is the first Chapter. '
           outline.define do
-            page :destination => 1, :title => nil
+            page destination: 1, title: nil
           end
         end
       end.to raise_error(Prawn::Errors::RequiredOption)
@@ -359,17 +368,17 @@ describe "Outline" do
   end
 end
 
-describe "foreign character encoding" do
+describe 'foreign character encoding' do
   before(:each) do
     pdf = Prawn::Document.new do
       outline.define do
-        section 'La pomme croquée', :destination => 1, :closed => true
+        section 'La pomme croquée', destination: 1, closed: true
       end
     end
     @hash = PDF::Reader::ObjectHash.new(StringIO.new(pdf.render, 'r+'))
   end
 
-  it "should handle other encodings for the title" do
+  it 'should handle other encodings for the title' do
     object = find_by_title('La pomme croquée')
     expect(object).not_to be_nil
   end
@@ -378,8 +387,12 @@ end
 def render_and_find_objects
   output = StringIO.new(@pdf.render, 'r+')
   @hash = PDF::Reader::ObjectHash.new(output)
-  @outline_root = @hash.values.find { |obj| obj.is_a?(Hash) && obj[:Type] == :Outlines }
-  @pages = @hash.values.find { |obj| obj.is_a?(Hash) && obj[:Type] == :Pages }[:Kids]
+  @outline_root = @hash.values.find do |obj|
+    obj.is_a?(Hash) && obj[:Type] == :Outlines
+  end
+  @pages = @hash.values.find do |obj|
+    obj.is_a?(Hash) && obj[:Type] == :Pages
+  end[:Kids]
   @section_1 = find_by_title('Chapter 1')
   @page_1 = find_by_title('Page 1')
   @page_2 = find_by_title('Page 2')
@@ -394,14 +407,13 @@ end
 # Outline titles are stored as UTF-16. This method accepts a UTF-8 outline title
 # and returns the PDF Object that contains an outline with that name
 def find_by_title(title)
-  @hash.values.find {|obj|
-    if obj.is_a?(Hash) && obj[:Title]
-      title_codepoints = obj[:Title].unpack("n*")
-      title_codepoints.shift
-      utf8_title = title_codepoints.pack("U*")
-      utf8_title == title ? obj : nil
-    end
-  }
+  @hash.values.find do |obj|
+    next unless obj.is_a?(Hash) && obj[:Title]
+    title_codepoints = obj[:Title].unpack('n*')
+    title_codepoints.shift
+    utf8_title = title_codepoints.pack('U*')
+    utf8_title == title ? obj : nil
+  end
 end
 
 def referenced_object(reference)

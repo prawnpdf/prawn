@@ -1,14 +1,11 @@
-# encoding: utf-8
-#
 # To define a <code>circle</code> all you need is the center point and the
 # radius.
 #
 # To define an <code>ellipse</code> you provide the center point and two radii
 # (or axes) values. If the second radius value is ommitted, both radii will be
 # equal and you will end up drawing a circle.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do

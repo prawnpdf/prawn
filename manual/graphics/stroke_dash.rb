@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # This sets the dashed pattern for lines and curves. The (dash) length defines
 # how long each dash will be.
 #
@@ -12,18 +10,17 @@
 # Complex dash patterns can be specified by using an array with alternating
 # dash/gap lengths for the first parameter (note that the <code>:space</code>
 # option is ignored in this case).
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   stroke_axis
 
-  dash([1, 2, 3, 2, 1, 5], :phase => 6)
-  stroke_horizontal_line 50, 500, :at => 230
+  dash([1, 2, 3, 2, 1, 5], phase: 6)
+  stroke_horizontal_line 50, 500, at: 230
   dash([1, 2, 3, 4, 5, 6, 7, 8])
-  stroke_horizontal_line 50, 500, :at => 220
+  stroke_horizontal_line 50, 500, at: 220
 
   base_y = 210
 
@@ -34,15 +31,15 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
     case i % 4
     when 0 then base_y -= 5
-    when 1 then phase = length        # start with space between dashes
-    when 2 then space = length * 0.5  # space between dashes half as long as dash
+    when 1 then phase = length       # start with space between dashes
+    when 2 then space = length * 0.5 # space between dashes half as long as dash
     when 3
       space = length * 0.5    # space between dashes half as long as dash
       phase = length          # start with space between dashes
     end
     base_y -= 5
 
-    dash(length, :space => space, :phase => phase)
-    stroke_horizontal_line 50, 500, :at => base_y - (2 * i)
+    dash(length, space: space, phase: phase)
+    stroke_horizontal_line 50, 500, at: base_y - (2 * i)
   end
 end

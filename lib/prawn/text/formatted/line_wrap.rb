@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # core/text/formatted/line_wrap.rb : Implements individual line wrapping of
 #                                    formatted text
 #
@@ -24,7 +22,7 @@ module Prawn
 
         # Whether this line is the last line in the paragraph
         def paragraph_finished?
-          @newline_encountered || is_next_string_newline? || @arranger.finished?
+          @newline_encountered || next_string_newline? || @arranger.finished?
         end
 
         def tokenize(fragment)
@@ -38,8 +36,10 @@ module Prawn
         def wrap_line(options)
           initialize_line(options)
 
+          # rubocop: disable Lint/AssignmentInCondition
           while fragment = @arranger.next_string
-            @fragment_output = ""
+            # rubocop: enable Lint/AssignmentInCondition
+            @fragment_output = ''
 
             fragment.lstrip! if first_fragment_on_this_line?(fragment)
             next if empty_line?(fragment)
@@ -61,14 +61,14 @@ module Prawn
         end
 
         def empty_line?(fragment)
-          empty = line_empty? && fragment.empty? && is_next_string_newline?
+          empty = line_empty? && fragment.empty? && next_string_newline?
           if empty
-            @arranger.update_last_string("", "", soft_hyphen(fragment.encoding))
+            @arranger.update_last_string('', '', soft_hyphen(fragment.encoding))
           end
           empty
         end
 
-        def is_next_string_newline?
+        def next_string_newline?
           @arranger.preview_next_string == "\n"
         end
 
@@ -84,7 +84,7 @@ module Prawn
         # the line
         #
         def add_fragment_to_line(fragment)
-          if fragment == ""
+          if fragment == ''
             true
           elsif fragment == "\n"
             @newline_encountered = true
@@ -94,19 +94,21 @@ module Prawn
               if segment == zero_width_space(segment.encoding)
                 segment_width = 0
               else
-                segment_width = @document.width_of(segment, :kerning => @kerning)
+                segment_width = @document.width_of(segment, kerning: @kerning)
               end
 
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
                 shy = soft_hyphen(segment.encoding)
                 if segment[-1] == shy
-                  sh_width = @document.width_of(shy, :kerning => @kerning)
+                  sh_width = @document.width_of(shy, kerning: @kerning)
                   @accumulated_width -= sh_width
                 end
                 @fragment_output += segment
               else
-                @line_contains_more_than_one_word = false if @accumulated_width == 0 && @line_contains_more_than_one_word
+                if @accumulated_width == 0 && @line_contains_more_than_one_word
+                  @line_contains_more_than_one_word = false
+                end
                 end_of_the_line_reached(segment)
                 fragment_finished(fragment)
                 return false
@@ -132,12 +134,12 @@ module Prawn
             "[^#{ebc}]+",
             "[#{ews}]+",
             "#{ehy}+[^#{ebc}]*",
-            "#{eshy}"
+            eshy.to_s
           ]
 
           pattern = patterns
-                    .map { |p| p.encode(encoding) }
-                    .join('|')
+            .map { |p| p.encode(encoding) }
+            .join('|')
 
           Regexp.new(pattern)
         end
@@ -147,7 +149,7 @@ module Prawn
         # word breaking is needed
         #
         def word_division_scan_pattern(encoding = ::Encoding::UTF_8)
-          common_whitespaces = ["\t", "\n", "\v", "\r", "\s"].map do |c|
+          common_whitespaces = ["\t", "\n", "\v", "\r", ' '].map do |c|
             c.encode(encoding)
           end
 
@@ -187,8 +189,8 @@ module Prawn
           "\s\t#{zero_width_space(encoding)}".encode(encoding)
         end
 
-        def hyphen(encoding = ::Encoding::UTF_8)
-          "-"
+        def hyphen(_encoding = ::Encoding::UTF_8)
+          '-'
         rescue ::Encoding::InvalidByteSequenceError,
                ::Encoding::UndefinedConversionError
           nil
@@ -226,20 +228,32 @@ module Prawn
               soft_hyphen(fragment.encoding)
             )
             update_line_status_based_on_last_output
-            determine_whether_to_pull_preceding_fragment_to_join_this_one(fragment)
+            pull_preceding_fragment_to_join_this_one?(fragment)
           end
           remember_this_fragment_for_backward_looking_ops
         end
 
-        def update_output_based_on_last_fragment(fragment, normalized_soft_hyphen = nil)
-          remaining_text = fragment.slice(@fragment_output.length..fragment.length)
-          fail Prawn::Errors::CannotFit if line_finished? && line_empty? && @fragment_output.empty? && !fragment.strip.empty?
-          @arranger.update_last_string(@fragment_output, remaining_text, normalized_soft_hyphen)
+        def update_output_based_on_last_fragment(
+          fragment, normalized_soft_hyphen = nil
+        )
+          remaining_text =
+            fragment.slice(@fragment_output.length..fragment.length)
+          if line_finished? && line_empty? && @fragment_output.empty? &&
+              !fragment.strip.empty?
+            raise Prawn::Errors::CannotFit
+          end
+          @arranger.update_last_string(
+            @fragment_output,
+            remaining_text,
+            normalized_soft_hyphen
+          )
         end
 
-        def determine_whether_to_pull_preceding_fragment_to_join_this_one(current_fragment)
-          if @fragment_output.empty? && !current_fragment.empty? && @line_contains_more_than_one_word
-            unless previous_fragment_ended_with_breakable? || fragment_begins_with_breakable?(current_fragment)
+        def pull_preceding_fragment_to_join_this_one?(current_fragment)
+          if @fragment_output.empty? && !current_fragment.empty? &&
+              @line_contains_more_than_one_word
+            unless previous_fragment_ended_with_breakable? ||
+                fragment_begins_with_breakable?(current_fragment)
               @fragment_output = @previous_fragment_output_without_last_word
               update_output_based_on_last_fragment(@previous_fragment)
             end
@@ -249,10 +263,12 @@ module Prawn
         def remember_this_fragment_for_backward_looking_ops
           @previous_fragment = @fragment_output.dup
           pf = @previous_fragment
-          @previous_fragment_ended_with_breakable = pf =~ /[#{break_chars(pf.encoding)}]$/
+          @previous_fragment_ended_with_breakable =
+            pf =~ /[#{break_chars(pf.encoding)}]$/
           last_word = pf.slice(/[^#{break_chars(pf.encoding)}]*$/)
           last_word_length = last_word.nil? ? 0 : last_word.length
-          @previous_fragment_output_without_last_word = pf.slice(0, pf.length - last_word_length)
+          @previous_fragment_output_without_last_word =
+            pf.slice(0, pf.length - last_word_length)
         end
 
         def previous_fragment_ended_with_breakable?
@@ -268,14 +284,17 @@ module Prawn
         end
 
         def update_line_status_based_on_last_output
-          if @fragment_output =~ word_division_scan_pattern(@fragment_output.encoding)
+          if @fragment_output =~
+              word_division_scan_pattern(@fragment_output.encoding)
             @line_contains_more_than_one_word = true
           end
         end
 
         def end_of_the_line_reached(segment)
           update_line_status_based_on_last_output
-          wrap_by_char(segment) unless @disable_wrap_by_char || @line_contains_more_than_one_word
+          unless @disable_wrap_by_char || @line_contains_more_than_one_word
+            wrap_by_char(segment)
+          end
           @line_full = true
         end
 

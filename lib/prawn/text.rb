@@ -1,17 +1,15 @@
-# encoding: utf-8
-
 # text.rb : Implements PDF text primitives
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require "zlib"
+require 'zlib'
 
-require "pdf/core/text"
+require 'pdf/core/text'
 
-require_relative "text/formatted"
-require_relative "text/box"
+require_relative 'text/formatted'
+require_relative 'text/box'
 
 module Prawn
   module Text
@@ -19,11 +17,11 @@ module Prawn
     include Prawn::Text::Formatted
 
     # No-Break Space
-    Prawn::Text::NBSP = " "
+    Prawn::Text::NBSP = " ".freeze
     # Zero Width Space (indicate word boundaries without a space)
-    Prawn::Text::ZWSP = [8203].pack("U")
+    Prawn::Text::ZWSP = [8203].pack('U')
     # Soft Hyphen (invisible, except when causing a line break)
-    Prawn::Text::SHY = "­"
+    Prawn::Text::SHY = "­".freeze
 
     # @group Stable API
 
@@ -139,9 +137,9 @@ module Prawn
     #                       each line is included below the last line;
     #                       otherwise, document.y is placed just below the
     #                       descender of the last line printed [true]
-    # <tt>:mode</tt>:: The text rendering mode to use. Use this to specify if the
-    #                  text should render with the fill color, stroke color or
-    #                  both. See the comments to text_rendering_mode() to see
+    # <tt>:mode</tt>:: The text rendering mode to use. Use this to specify if
+    #                  the text should render with the fill color, stroke color
+    #                  or both. See the comments to text_rendering_mode() to see
     #                  a list of valid options. [0]
     #
     # == Exceptions
@@ -156,12 +154,13 @@ module Prawn
       # we modify the options. don't change the user's hash
       options = options.dup
 
-      if p = options[:inline_format]
+      p = options[:inline_format]
+      if p
         p = [] unless p.is_a?(Array)
         options.delete(:inline_format)
-        array = self.text_formatter.format(string, *p)
+        array = text_formatter.format(string, *p)
       else
-        array = [{ :text => string }]
+        array = [{ text: string }]
       end
 
       formatted_text(array, options)
@@ -190,14 +189,15 @@ module Prawn
     def formatted_text(array, options = {})
       options = inspect_options_for_text(options.dup)
 
-      if color = options.delete(:color)
+      color = options.delete(:color)
+      if color
         array = array.map do |fragment|
-          fragment[:color] ? fragment : fragment.merge(:color => color)
+          fragment[:color] ? fragment : fragment.merge(color: color)
         end
       end
 
       if @indent_paragraphs
-        self.text_formatter.array_paragraphs(array).each do |paragraph|
+        text_formatter.array_paragraphs(array).each do |paragraph|
           remaining_text = draw_indented_formatted_line(paragraph, options)
 
           if @no_text_printed
@@ -236,7 +236,8 @@ module Prawn
     # == Rotation
     #
     # Text can be rotated before it is placed on the canvas by specifying the
-    # <tt>:rotate</tt> option with a given angle. Rotation occurs counter-clockwise.
+    # <tt>:rotate</tt> option with a given angle. Rotation occurs
+    # counter-clockwise.
     #
     # == Encoding
     #
@@ -253,7 +254,8 @@ module Prawn
     #
     # == Options (default values marked in [])
     #
-    # <tt>:at</tt>:: <tt>[x, y]</tt>(required). The position at which to start the text
+    # <tt>:at</tt>:: <tt>[x, y]</tt>(required). The position at which to start
+    #                the text
     # <tt>:kerning</tt>:: <tt>boolean</tt>. Whether or not to use kerning (if it
     #                     is available with the current font)
     #                     [value of default_kerning?]
@@ -317,7 +319,7 @@ module Prawn
     # any text
     #
     def height_of(string, options = {})
-      height_of_formatted([{ :text => string }], options)
+      height_of_formatted([{ text: string }], options)
     end
 
     # Gets height of formatted text in PDF points.
@@ -332,15 +334,15 @@ module Prawn
     #
     def height_of_formatted(array, options = {})
       if options[:indent_paragraphs]
-        fail NotImplementedError, ":indent_paragraphs option not available" \
-          "with height_of"
+        raise NotImplementedError, ':indent_paragraphs option not available' \
+          'with height_of'
       end
       process_final_gap_option(options)
       box = Text::Formatted::Box.new(
         array,
-        options.merge(:height => 100000000, :document => self)
+        options.merge(height: 100_000_000, document: self)
       )
-      box.render(:dry_run => true)
+      box.render(dry_run: true)
 
       height = box.height
       height += box.line_gap + box.leading if @final_gap
@@ -350,7 +352,7 @@ module Prawn
     private
 
     def draw_remaining_formatted_text_on_new_pages(remaining_text, options)
-      while remaining_text.length > 0
+      until remaining_text.empty?
         @bounding_box.move_past_bottom
         previous_remaining_text = remaining_text
         remaining_text = fill_formatted_text_box(remaining_text, options)
@@ -359,14 +361,14 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      if options.fetch(:direction, text_direction) == :ltr
-        gap = [@indent_paragraphs, 0]
-      else
-        gap = [0, @indent_paragraphs]
-      end
+      gap = if options.fetch(:direction, text_direction) == :ltr
+              [@indent_paragraphs, 0]
+            else
+              [0, @indent_paragraphs]
+            end
 
       indent(*gap) do
-        fill_formatted_text_box(string, options.dup.merge(:single_line => true))
+        fill_formatted_text_box(string, options.dup.merge(single_line: true))
       end
     end
 
@@ -384,22 +386,28 @@ module Prawn
     end
 
     def merge_text_box_positioning_options(options)
-      bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
-                                         @bounding_box.absolute_bottom
+      bottom =
+        if @bounding_box.stretchy?
+          @margin_box.absolute_bottom
+        else
+          @bounding_box.absolute_bottom
+        end
 
       options[:height] = y - bottom
       options[:width] = bounds.width
-      options[:at] = [@bounding_box.left_side - @bounding_box.absolute_left,
-                      y - @bounding_box.absolute_bottom]
+      options[:at] = [
+        @bounding_box.left_side - @bounding_box.absolute_left,
+        y - @bounding_box.absolute_bottom
+      ]
     end
 
     def inspect_options_for_draw_text(options)
       if options[:at].nil?
-        fail ArgumentError, "The :at option is required for draw_text"
+        raise ArgumentError, 'The :at option is required for draw_text'
       elsif options[:align]
-        fail ArgumentError, "The :align option does not work with draw_text"
+        raise ArgumentError, 'The :align option does not work with draw_text'
       end
-      if options[:kerning].nil? then
+      if options[:kerning].nil?
         options[:kerning] = default_kerning?
       end
       valid_options = PDF::Core::Text::VALID_OPTIONS + [:at, :rotate]
@@ -409,8 +417,8 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        fail ArgumentError, ":at is no longer a valid option with text." \
-                             "use draw_text or text_box instead"
+        raise ArgumentError, ':at is no longer a valid option with text.' \
+                             'use draw_text or text_box instead'
       end
       process_final_gap_option(options)
       process_indent_paragraphs_option(options)
@@ -429,8 +437,12 @@ module Prawn
     end
 
     def move_text_position(dy)
-      bottom = @bounding_box.stretchy? ? @margin_box.absolute_bottom :
-                                         @bounding_box.absolute_bottom
+      bottom =
+        if @bounding_box.stretchy?
+          @margin_box.absolute_bottom
+        else
+          @bounding_box.absolute_bottom
+        end
 
       @bounding_box.move_past_bottom if (y - dy) < bottom
 

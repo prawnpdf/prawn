@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # transparency.rb : Implements transparency
 #
 # Copyright October 2009, Daniel Nelson. All Rights Reserved.
@@ -51,14 +49,16 @@ module Prawn
       #     pdf.fill_and_stroke_circle([x, y], 25)
       #   end
       #
-      def transparent(opacity, stroke_opacity = opacity, &block)
+      def transparent(opacity, stroke_opacity = opacity)
         renderer.min_version(1.4)
 
-        opacity        = [[opacity, 0.0].max, 1.0].min
+        opacity = [[opacity, 0.0].max, 1.0].min
         stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min
 
         save_graphics_state
-        renderer.add_content "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
+        renderer.add_content(
+          "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
+        )
         yield
         restore_graphics_state
       end
@@ -77,21 +77,23 @@ module Prawn
         key = "#{opacity}_#{stroke_opacity}"
 
         if opacity_dictionary_registry[key]
-          dictionary =  opacity_dictionary_registry[key][:obj]
-          dictionary_name =  opacity_dictionary_registry[key][:name]
+          dictionary = opacity_dictionary_registry[key][:obj]
+          dictionary_name = opacity_dictionary_registry[key][:name]
         else
           dictionary = ref!(
-            :Type => :ExtGState,
-            :CA   => stroke_opacity,
-            :ca   => opacity
+            Type: :ExtGState,
+            CA: stroke_opacity,
+            ca: opacity
           )
 
           dictionary_name = "Tr#{next_opacity_dictionary_id}"
-          opacity_dictionary_registry[key] = { :name => dictionary_name,
-                                               :obj  => dictionary }
+          opacity_dictionary_registry[key] = {
+            name: dictionary_name,
+            obj: dictionary
+          }
         end
 
-        page.ext_gstates.merge!(dictionary_name => dictionary)
+        page.ext_gstates[dictionary_name] = dictionary
         dictionary_name
       end
     end

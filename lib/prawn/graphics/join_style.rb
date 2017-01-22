@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # join_style.rb : Implements stroke join styling
 #
 # Contributed by Daniel Nelson. October, 2009
@@ -9,7 +7,7 @@
 module Prawn
   module Graphics
     module JoinStyle
-      JOIN_STYLES = { :miter => 0, :round => 1, :bevel => 2 }
+      JOIN_STYLES = { miter: 0, round: 1, bevel: 2 }.freeze
 
       # @group Stable API
 
@@ -27,13 +25,14 @@ module Prawn
 
         unless JOIN_STYLES.key?(current_join_style)
           raise Prawn::Errors::InvalidJoinStyle,
-                "#{style} is not a recognized join style. Valid styles are #{JOIN_STYLES.keys.join(", ")}"
+            "#{style} is not a recognized join style. Valid styles are " +
+            JOIN_STYLES.keys.join(', ')
         end
 
         write_stroke_join_style
       end
 
-      alias_method :join_style=, :join_style
+      alias join_style= join_style
 
       private
 

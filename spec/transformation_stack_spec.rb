@@ -1,6 +1,4 @@
-# encoding: utf-8
-
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
+require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 describe Prawn::TransformationStack do
   before { create_pdf }
@@ -9,14 +7,14 @@ describe Prawn::TransformationStack do
   let(:pdf)   { @pdf }
   let(:stack) { @pdf.instance_variable_get(:@transformation_stack) }
 
-  describe "#add_to_transformation_stack" do
-    it "creates and adds to the stack" do
+  describe '#add_to_transformation_stack' do
+    it 'creates and adds to the stack' do
       pdf.add_to_transformation_stack(1, 0, 0, 1, 20, 20)
 
       expect(stack).to eq [[[2, 0, 0, 2, 100, 100], [1, 0, 0, 1, 20, 20]]]
     end
 
-    it "adds to the last stack" do
+    it 'adds to the last stack' do
       pdf.save_transformation_stack
       pdf.add_to_transformation_stack(1, 0, 0, 1, 20, 20)
 
@@ -27,8 +25,8 @@ describe Prawn::TransformationStack do
     end
   end
 
-  describe "#save_transformation_stack" do
-    it "clones the last stack" do
+  describe '#save_transformation_stack' do
+    it 'clones the last stack' do
       pdf.save_transformation_stack
 
       expect(stack.length).to eq 2
@@ -37,8 +35,8 @@ describe Prawn::TransformationStack do
     end
   end
 
-  describe "#restore_transformation_stack" do
-    it "pops off the last stack" do
+  describe '#restore_transformation_stack' do
+    it 'pops off the last stack' do
       pdf.save_transformation_stack
       pdf.add_to_transformation_stack(1, 0, 0, 1, 20, 20)
       pdf.restore_transformation_stack
@@ -47,17 +45,19 @@ describe Prawn::TransformationStack do
     end
   end
 
-  describe "current_transformation_matrix_with_translation" do
+  describe 'current_transformation_matrix_with_translation' do
     before do
       pdf.add_to_transformation_stack(1, 0, 0, 1, 20, 20)
     end
 
-    it "calculates the last transformation" do
-      expect(pdf.current_transformation_matrix_with_translation).to eq [2, 0, 0, 2, 140, 140]
+    it 'calculates the last transformation' do
+      expect(pdf.current_transformation_matrix_with_translation)
+        .to eq [2, 0, 0, 2, 140, 140]
     end
 
-    it "adds the supplied x and y coordinates to the transformation stack" do
-      expect(pdf.current_transformation_matrix_with_translation(15, 15)).to eq [2, 0, 0, 2, 170, 170]
+    it 'adds the supplied x and y coordinates to the transformation stack' do
+      expect(pdf.current_transformation_matrix_with_translation(15, 15))
+        .to eq [2, 0, 0, 2, 170, 170]
     end
   end
 end

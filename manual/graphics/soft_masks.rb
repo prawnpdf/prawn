@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Soft masks are used for more complex alpha channel manipulations. You can use
 # arbitrary drawing functions for creation of soft masks. The resulting alpha
 # channel is made of greyscale version of the drawing (luminosity channel to be
@@ -11,8 +9,7 @@
 # only to a part of page you need to enclose drawing instructions in
 # <code>save_graphics_state</code> block.
 
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do

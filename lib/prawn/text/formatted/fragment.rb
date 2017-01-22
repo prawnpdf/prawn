@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # text/formatted/fragment.rb : Implements information about a formatted fragment
 #
 # Copyright March 2010, Daniel Nelson. All Rights Reserved.
@@ -24,8 +22,8 @@ module Prawn
           @document = document
           @word_spacing = 0
 
-          # keep the original value of "text", so we can reinitialize @text if formatting parameters
-          #   like text direction are changed
+          # keep the original value of "text", so we can reinitialize @text if
+          # formatting parameters like text direction are changed
           @original_text = text
           @text = process_text(@original_text)
         end
@@ -128,7 +126,7 @@ module Prawn
         end
 
         def space_count
-          @text.count(" ")
+          @text.count(' ')
         end
 
         def callback_objects
@@ -213,14 +211,11 @@ module Prawn
             if soft_hyphens_need_processing?(string)
               string = process_soft_hyphens(string[0..-2]) + string[-1..-1]
             end
-          else
-            if soft_hyphens_need_processing?(string)
-              string = process_soft_hyphens(string)
-            end
+          elsif soft_hyphens_need_processing?(string)
+            string = process_soft_hyphens(string)
           end
 
-          case direction
-          when :rtl
+          if direction == :rtl
             string.reverse
           else
             string
@@ -232,7 +227,7 @@ module Prawn
         end
 
         def soft_hyphens_need_processing?(string)
-          string.length > 0 && normalized_soft_hyphen
+          !string.empty? && normalized_soft_hyphen
         end
 
         def normalized_soft_hyphen
@@ -244,12 +239,12 @@ module Prawn
             string.force_encoding(normalized_soft_hyphen.encoding)
           end
 
-          string.gsub(normalized_soft_hyphen, "")
+          string.gsub(normalized_soft_hyphen, '')
         end
 
         def strip_zero_width_spaces(string)
           if string.encoding == ::Encoding::UTF_8
-            string.gsub(Prawn::Text::ZWSP, "")
+            string.gsub(Prawn::Text::ZWSP, '')
           else
             string
           end

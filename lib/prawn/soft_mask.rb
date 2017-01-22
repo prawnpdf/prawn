@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # soft_mask.rb : Implements soft-masking
 #
 # Copyright September 2012, Alexander Mankuta. All Rights Reserved.
@@ -31,44 +29,44 @@ module Prawn
       renderer.min_version(1.4)
 
       group_attrs = ref!(
-        :Type => :Group,
-        :S => :Transparency,
-        :CS => :DeviceRGB,
-        :I => false,
-        :K => false
+        Type: :Group,
+        S: :Transparency,
+        CS: :DeviceRGB,
+        I: false,
+        K: false
       )
 
       group = ref!(
-        :Type => :XObject,
-        :Subtype => :Form,
-        :BBox => state.page.dimensions,
-        :Group => group_attrs
+        Type: :XObject,
+        Subtype: :Form,
+        BBox: state.page.dimensions,
+        Group: group_attrs
       )
 
       state.page.stamp_stream(group, &block)
 
       mask = ref!(
-        :Type => :Mask,
-        :S => :Luminosity,
-        :G => group
+        Type: :Mask,
+        S: :Luminosity,
+        G: group
       )
 
       g_state = ref!(
-        :Type => :ExtGState,
-        :SMask => mask,
+        Type: :ExtGState,
+        SMask: mask,
 
-        :AIS => false,
-        :BM => :Normal,
-        :OP => false,
-        :op => false,
-        :OPM => 1,
-        :SA => true
+        AIS: false,
+        BM: :Normal,
+        OP: false,
+        op: false,
+        OPM: 1,
+        SA: true
       )
 
       registry_key = {
-        :bbox => state.page.dimensions,
-        :mask => [group.stream.filters.normalized, group.stream.filtered_stream],
-        :page => state.page_count
+        bbox: state.page.dimensions,
+        mask: [group.stream.filters.normalized, group.stream.filtered_stream],
+        page: state.page_count
       }.hash
 
       if soft_mask_registry[registry_key]

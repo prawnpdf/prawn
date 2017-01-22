@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # errors.rb : Implements custom error classes for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.
@@ -43,9 +41,9 @@ module Prawn
     #
     UnknownOption = Class.new(StandardError)
 
-    # this error is raised when a user attempts to embed an image of an unsupported
-    # type. This can either a completely unsupported format, or a dialect of a
-    # supported format (ie. some types of PNG)
+    # this error is raised when a user attempts to embed an image of an
+    # unsupported type. This can either a completely unsupported format, or
+    # a dialect of a supported format (ie. some types of PNG)
     UnsupportedImageType = Class.new(StandardError)
 
     # This error is raised when a named element has alredy been
@@ -63,13 +61,15 @@ module Prawn
     # This error is raised when a required option has not been set
     RequiredOption = Class.new(StandardError)
 
-    # This error is raised when a requested outline item with a given title does not exist
+    # This error is raised when a requested outline item with a given title does
+    # not exist
     UnknownOutlineTitle = Class.new(StandardError)
 
     # This error is raised when a block is required, but not provided
     BlockRequired = Class.new(StandardError)
 
-    # This error is rased when a graphics method is called with improper arguments
+    # This error is rased when a graphics method is called with improper
+    # arguments
     InvalidGraphicsPath = Class.new(StandardError)
 
     # Raised when unrecognized content is provided for a table cell.

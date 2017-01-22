@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # There are three ways to create a PDF Document in Prawn: creating a new
 # <code>Prawn::Document</code> instance, or using the
 # <code>Prawn::Document.generate</code> method with and without block arguments.
@@ -19,21 +17,20 @@
 # The generate method without block arguments requires
 # less typing and defines and renders the pdf document in one shot.
 # Almost all of the examples are coded this way.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 # Assignment
 pdf = Prawn::Document.new
-pdf.text "Hello World"
-pdf.render_file "assignment.pdf"
+pdf.text 'Hello World'
+pdf.render_file 'assignment.pdf'
 
 # Implicit Block
-Prawn::Document.generate("implicit.pdf") do
-  text "Hello World"
+Prawn::Document.generate('implicit.pdf') do
+  text 'Hello World'
 end
 
 # Explicit Block
-Prawn::Document.generate("explicit.pdf") do |pdf|
-  pdf.text "Hello World"
+Prawn::Document.generate('explicit.pdf') do |pdf|
+  pdf.text 'Hello World'
 end

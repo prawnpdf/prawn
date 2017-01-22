@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # grid.rb: Provides a basic grid layout system for Prawn
 #
 # Contributed by Andrew O'Brien in March 2009
@@ -40,7 +38,8 @@ module Prawn
       else
         g1, g2 = args
 
-        if g1.class == Array && g2.class == Array && g1.length == 2 && g2.length == 2
+        if g1.is_a?(Array) && g2.is_a?(Array) && g1.length == 2 &&
+            g2.length == 2
           @boxes[args] = multi_box(single_box(*g1), single_box(*g2))
         else
           @boxes[args] = single_box(g1, g2)
@@ -63,7 +62,7 @@ module Prawn
         @pdf = pdf
         @columns = options[:columns]
         @rows = options[:rows]
-        set_gutter(options)
+        apply_gutter(options)
       end
 
       # Calculates the base width of boxes.
@@ -77,9 +76,9 @@ module Prawn
       end
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
-      def show_all(color = "CCCCCC")
-        self.rows.times do |i|
-          self.columns.times do |j|
+      def show_all(color = 'CCCCCC')
+        rows.times do |i|
+          columns.times do |j|
             pdf.grid(i, j).show(color)
           end
         end
@@ -91,12 +90,13 @@ module Prawn
         (total.to_f - (gutter * (num - 1).to_f)) / num.to_f
       end
 
-      def set_gutter(options)
+      def apply_gutter(options)
         if options.key?(:gutter)
           @gutter = options[:gutter].to_f
-          @row_gutter, @column_gutter = @gutter, @gutter
+          @row_gutter = @gutter
+          @column_gutter = @gutter
         else
-          @row_gutter    = options[:row_gutter].to_f
+          @row_gutter = options[:row_gutter].to_f
           @column_gutter = options[:column_gutter].to_f
           @gutter = 0
         end
@@ -121,7 +121,7 @@ module Prawn
       # col_num, row_num
       #
       def name
-        "#{@i.to_s},#{@j.to_s}"
+        "#{@i},#{@j}"
       end
 
       # :nodoc
@@ -186,16 +186,16 @@ module Prawn
 
       # Creates a standard bounding box based on the grid box.
       def bounding_box(&blk)
-        pdf.bounding_box(top_left, :width => width, :height => height, &blk)
+        pdf.bounding_box(top_left, width: width, height: height, &blk)
       end
 
       # Diagnostic method
-      def show(grid_color = "CCCCCC")
-        self.bounding_box do
+      def show(grid_color = 'CCCCCC')
+        bounding_box do
           original_stroke_color = pdf.stroke_color
 
           pdf.stroke_color = grid_color
-          pdf.text self.name
+          pdf.text name
           pdf.stroke_bounds
 
           pdf.stroke_color = original_stroke_color
@@ -219,7 +219,7 @@ module Prawn
       end
 
       def name
-        @bs.map(&:name).join(":")
+        @bs.map(&:name).join(':')
       end
 
       def total_height

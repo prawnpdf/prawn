@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # The <code>bounds</code> method returns the current bounding box. This is
 # useful because the <code>Prawn::BoundingBox</code> exposes some nice boundary
 # helpers.
@@ -16,9 +14,8 @@
 #
 # The following snippet shows the boundaries for the margin box side by side
 # with the boundaries for a custom bounding box.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
@@ -30,18 +27,18 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
     move_down 10
 
-    text "absolute top: #{sprintf "%.2f", bounds.absolute_top}"
-    text "absolute bottom: #{sprintf "%.2f", bounds.absolute_bottom}"
-    text "absolute left: #{sprintf "%.2f", bounds.absolute_left}"
-    text "absolute right: #{sprintf "%.2f", bounds.absolute_right}"
+    text "absolute top: #{format '%.2f', bounds.absolute_top}"
+    text "absolute bottom: #{format '%.2f', bounds.absolute_bottom}"
+    text "absolute left: #{format '%.2f', bounds.absolute_left}"
+    text "absolute right: #{format '%.2f', bounds.absolute_right}"
   end
 
-  text "Margin box bounds:"
+  text 'Margin box bounds:'
   move_down 5
   print_coordinates
 
-  bounding_box([250, cursor + 140], :width => 200, :height => 150) do
-    text "This bounding box bounds:"
+  bounding_box([250, cursor + 140], width: 200, height: 150) do
+    text 'This bounding box bounds:'
     move_down 5
     print_coordinates
     transparent(0.5) { stroke_bounds }

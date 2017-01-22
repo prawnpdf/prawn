@@ -1,13 +1,11 @@
-# encoding: utf-8
-
 # wrap.rb: Handles text wrapping for for formatted text
 #
 # Contributed by Daniel Nelson
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require_relative "line_wrap"
-require_relative "arranger"
+require_relative 'line_wrap'
+require_relative 'arranger'
 
 module Prawn
   module Text
@@ -15,10 +13,12 @@ module Prawn
       # @private
 
       module Wrap #:nodoc:
-        def initialize(array, options)
+        def initialize(_array, options)
           @line_wrap = Prawn::Text::Formatted::LineWrap.new
-          @arranger = Prawn::Text::Formatted::Arranger.new(@document,
-                                                           :kerning => options[:kerning])
+          @arranger = Prawn::Text::Formatted::Arranger.new(
+            @document,
+            kerning: options[:kerning]
+          )
           @disable_wrap_by_char = options[:disable_wrap_by_char]
         end
 
@@ -46,15 +46,17 @@ module Prawn
           initialize_wrap(array)
 
           stop = false
-          while !stop
+          until stop
             # wrap before testing if enough height for this line because the
             # height of the highest fragment on this line will be used to
             # determine the line height
-            @line_wrap.wrap_line(:document => @document,
-                                 :kerning => @kerning,
-                                 :width => available_width,
-                                 :arranger => @arranger,
-                                 :disable_wrap_by_char => @disable_wrap_by_char)
+            @line_wrap.wrap_line(
+              document: @document,
+              kerning: @kerning,
+              width: available_width,
+              arranger: @arranger,
+              disable_wrap_by_char: @disable_wrap_by_char
+            )
 
             if enough_height_for_this_line?
               move_baseline_down
@@ -78,30 +80,36 @@ module Prawn
           fragments_this_line = []
 
           word_spacing = word_spacing_for_this_line
-          while fragment = @arranger.retrieve_fragment
+          @arranger.fragments.each do |fragment|
             fragment.word_spacing = word_spacing
             if fragment.text == "\n"
-              printed_fragments << "\n" if @printed_lines.last == ""
+              printed_fragments << "\n" if @printed_lines.last == ''
               break
             end
             printed_fragments << fragment.text
             fragments_this_line << fragment
           end
+          @arranger.fragments.replace []
 
           accumulated_width = 0
           fragments_this_line.reverse! if @direction == :rtl
           fragments_this_line.each do |fragment_this_line|
             fragment_this_line.default_direction = @direction
-            format_and_draw_fragment(fragment_this_line, accumulated_width,
-                                     @line_wrap.width, word_spacing)
+            format_and_draw_fragment(
+              fragment_this_line, accumulated_width,
+              @line_wrap.width, word_spacing
+            )
             accumulated_width += fragment_this_line.width
           end
 
-          @printed_lines << printed_fragments.map { |s| s.force_encoding(::Encoding::UTF_8) }.join
+          @printed_lines << printed_fragments.map do |s|
+            s.force_encoding(::Encoding::UTF_8)
+          end.join
         end
 
         def word_spacing_for_this_line
-          if @align == :justify && @line_wrap.space_count > 0 && !@line_wrap.paragraph_finished?
+          if @align == :justify && @line_wrap.space_count > 0 &&
+              !@line_wrap.paragraph_finished?
             (available_width - @line_wrap.width) / @line_wrap.space_count
           else
             0
@@ -110,13 +118,13 @@ module Prawn
 
         def enough_height_for_this_line?
           @line_height = @arranger.max_line_height
-          @descender   = @arranger.max_descender
-          @ascender    = @arranger.max_ascender
-          if @baseline_y == 0
-            diff = @ascender + @descender
-          else
-            diff = @descender + @line_height + @leading
-          end
+          @descender = @arranger.max_descender
+          @ascender = @arranger.max_ascender
+          diff = if @baseline_y == 0
+                   @ascender + @descender
+                 else
+                   @descender + @line_height + @leading
+                 end
           require_relatived_total_height = @baseline_y.abs + diff
           if require_relatived_total_height > @height + 0.0001
             # no room for the full height of this line
@@ -133,9 +141,9 @@ module Prawn
 
           # these values will depend on the maximum value within a given line
           @line_height = 0
-          @descender   = 0
-          @ascender    = 0
-          @baseline_y  = 0
+          @descender = 0
+          @ascender = 0
+          @baseline_y = 0
 
           @printed_lines = []
           @nothing_printed = true
@@ -143,10 +151,12 @@ module Prawn
         end
 
         def format_and_draw_fragment(fragment, accumulated_width,
-                                     line_width, word_spacing)
+          line_width, word_spacing)
           @arranger.apply_color_and_font_settings(fragment) do
-            draw_fragment(fragment, accumulated_width,
-                          line_width, word_spacing)
+            draw_fragment(
+              fragment, accumulated_width,
+              line_width, word_spacing
+            )
           end
         end
       end

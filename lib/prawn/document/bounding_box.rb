@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # bounding_box.rb : Implements a mechanism for shifting the coordinate space
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
@@ -170,29 +168,29 @@ module Prawn
     #   end
     #
     def canvas(&block)
-      init_bounding_box(block, :hold_position => true) do |_|
+      init_bounding_box(block, hold_position: true) do |_|
         # Canvas bbox acts like margin_box in that its parent bounds are unset.
         @bounding_box = BoundingBox.new(
           self, nil, [0, page.dimensions[3]],
-          :width => page.dimensions[2],
-          :height => page.dimensions[3]
+          width: page.dimensions[2],
+          height: page.dimensions[3]
         )
       end
     end
 
     private
 
-    def init_bounding_box(user_block, options = {}, &init_block)
+    def init_bounding_box(user_block, options = {})
       unless user_block
-        fail ArgumentError,
-             "bounding boxes require a block to be drawn within the box"
+        raise ArgumentError,
+          'bounding boxes require a block to be drawn within the box'
       end
 
       parent_box = @bounding_box
 
       original_ypos = y
 
-      init_block.call(parent_box)
+      yield(parent_box)
 
       self.y = @bounding_box.absolute_top
       user_block.call
@@ -209,9 +207,10 @@ module Prawn
         self.y = @bounding_box.absolute_bottom
       end
 
-      created_box, @bounding_box = @bounding_box, parent_box
+      created_box = @bounding_box
+      @bounding_box = parent_box
 
-      return created_box
+      created_box
     end
 
     # Low level layout helper that simplifies coordinate math.
@@ -222,13 +221,14 @@ module Prawn
     class BoundingBox
       def initialize(document, parent, point, options = {}) # @private
         unless options[:width]
-          fail ArgumentError, "BoundingBox needs the :width option to be set"
+          raise ArgumentError, 'BoundingBox needs the :width option to be set'
         end
 
         @document = document
         @parent = parent
         @x, @y = point
-        @width, @height = options[:width], options[:height]
+        @width = options[:width]
+        @height = options[:height]
         @total_left_padding = 0
         @total_right_padding = 0
         @stretched_height = nil
@@ -280,7 +280,7 @@ module Prawn
       #  end
       #
       # @private
-      def indent(left_padding, right_padding = 0, &block)
+      def indent(left_padding, right_padding = 0)
         add_left_padding(left_padding)
         add_right_padding(right_padding)
         yield
@@ -319,7 +319,8 @@ module Prawn
         @width += right_padding
       end
 
-      # Relative right x-coordinate of the bounding box. (Equal to the box width)
+      # Relative right x-coordinate of the bounding box. (Equal to the box
+      # width)
       #
       # Example, position some text 3 pts from the right of the containing box:
       #
@@ -456,8 +457,10 @@ module Prawn
       #
       def height
         return @height if @height
-        @stretched_height = [(absolute_top - @document.y),
-                             @stretched_height.to_f].max
+        @stretched_height = [
+          (absolute_top - @document.y),
+          @stretched_height.to_f
+        ].max
       end
 
       # an alias for absolute_left
@@ -485,8 +488,9 @@ module Prawn
         end
       end
 
-      # Returns +false+ when the box has a defined height, +true+ when the height
-      # is being calculated on the fly based on the current vertical position.
+      # Returns +false+ when the box has a defined height, +true+ when the
+      # height is being calculated on the fly based on the current vertical
+      # position.
       #
       def stretchy?
         !@height
@@ -496,14 +500,14 @@ module Prawn
       #
       def reference_bounds
         if stretchy?
-          fail "Can't find reference bounds: my parent is unset" unless @parent
+          raise "Can't find reference bounds: my parent is unset" unless @parent
           @parent.reference_bounds
         else
           self
         end
       end
 
-      alias_method :update_height, :height
+      alias update_height height
 
       # Returns a deep copy of these bounds (including all parent bounds but
       # not copying the reference to the Document).
@@ -512,10 +516,13 @@ module Prawn
       def deep_copy
         copy = dup
         # Deep-copy the parent bounds
-        copy.instance_variable_set("@parent", if BoundingBox === @parent
-                                                @parent.deep_copy
-                                              end)
-        copy.instance_variable_set("@document", nil)
+        copy.instance_variable_set(
+          '@parent',
+          if @parent.is_a?(BoundingBox)
+            @parent.deep_copy
+          end
+        )
+        copy.instance_variable_set('@document', nil)
         copy
       end
 
@@ -525,7 +532,7 @@ module Prawn
       #
       # @private
       def self.restore_deep_copy(bounds, document)
-        bounds.instance_variable_set("@document", document)
+        bounds.instance_variable_set('@document', document)
         bounds
       end
     end

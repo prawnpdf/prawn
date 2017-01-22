@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # transformation.rb: Implements rotate, translate, skew, scale and a generic
 #                     transformation_matrix
 #
@@ -48,7 +46,7 @@ module Prawn
         if options[:origin].nil?
           transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
         else
-          fail Prawn::Errors::BlockRequired unless block_given?
+          raise Prawn::Errors::BlockRequired unless block_given?
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
           x_prime = x * cos - y * sin
@@ -59,8 +57,8 @@ module Prawn
         end
       end
 
-      # Translate the user space.  If a block is not provided, then you must save
-      # and restore the graphics state yourself.
+      # Translate the user space.  If a block is not provided, then you must
+      # save and restore the graphics state yourself.
       #
       # Example without a block: move the text up and over 10
       #
@@ -117,7 +115,7 @@ module Prawn
         if options[:origin].nil?
           transformation_matrix(factor, 0, 0, factor, 0, 0, &block)
         else
-          fail Prawn::Errors::BlockRequired unless block_given?
+          raise Prawn::Errors::BlockRequired unless block_given?
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
           x_prime = factor * x
@@ -142,11 +140,15 @@ module Prawn
       # Transform the user space (see notes for rotate regarding graphics state)
       # Generally, one would use the rotate, scale, translate, and skew
       # convenience methods instead of calling transformation_matrix directly
-      def transformation_matrix(a, b, c, d, e, f)
-        values = [a, b, c, d, e, f].map { |x| "%.5f" % x }.join(" ")
+      def transformation_matrix(*matrix)
+        if matrix.length != 6
+          raise ArgumentError,
+            'Transformation matrix must have exacty 6 elements'
+        end
+        values = matrix.map { |x| format '%.5f', x }.join(' ')
         save_graphics_state if block_given?
 
-        add_to_transformation_stack(a, b, c, d, e, f)
+        add_to_transformation_stack(*matrix)
 
         renderer.add_content "#{values} cm"
         if block_given?

@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # font.rb : The Prawn font class
 #
 # Copyright November 2008, Jamis Buck. All Rights Reserved.
@@ -20,7 +18,7 @@ module Prawn
       #
       def self.named_fonts(file)
         TTFunk::ResourceFile.open(file) do |f|
-          return f.resources_for("sfnt")
+          return f.resources_for('sfnt')
         end
       end
 
@@ -28,7 +26,7 @@ module Prawn
       #
       def self.font_count(file)
         TTFunk::ResourceFile.open(file) do |f|
-          return f.map["sfnt"][:list].length
+          return f.map['sfnt'][:list].length
         end
       end
 

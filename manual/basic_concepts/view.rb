@@ -1,11 +1,9 @@
-# encoding: UTF-8
-#
 # To create a custom class that extends Prawn's functionality,
 # use the <code>Prawn::View</code> mixin. This approach is safer than creating
 # subclasses of <code>Prawn::Document</code> while being just as convenient.
 #
-# By using this mixin, your state will be kept completely separate
-# from <code>Prawn::Document</code>'s state, and you will avoid accidental method
+# By using this mixin, your state will be kept completely separate from
+# <code>Prawn::Document</code>'s state, and you will avoid accidental method
 # collisions within <code>Prawn::Document</code>.
 #
 # To build custom classes that make use of other custom classes,
@@ -14,7 +12,7 @@
 # object. <code>Prawn::View</code> will then direct all delegated
 # calls to that object instead.
 
-require_relative "../example_helper"
+require_relative '../example_helper'
 
 class Greeter
   include Prawn::View
@@ -28,15 +26,15 @@ class Greeter
   end
 
   def say_goodbye
-    font("Courier") do
+    font('Courier') do
       text "Goodbye, #{@name}!"
     end
   end
 end
 
-greeter = Greeter.new("Gregory")
+greeter = Greeter.new('Gregory')
 
 greeter.say_hello
 greeter.say_goodbye
 
-greeter.save_as("greetings.pdf")
+greeter.save_as('greetings.pdf')

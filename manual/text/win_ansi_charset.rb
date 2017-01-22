@@ -1,11 +1,8 @@
-# encoding: utf-8
-#
 # Prints a list of all of the glyphs that can be rendered by Adobe's built
 # in fonts, along with their character widths and WinAnsi codes.  Be sure
 # to pass these glyphs as UTF-8, and Prawn will transcode them for you.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
@@ -14,17 +11,17 @@ Prawn::ManualBuilder::Example.generate(filename) do
   x = 0
   y = bounds.top
 
-  fields = [[20, :right], [8, :left], [12, :center], [30, :right], [8, :left],
-            [0, :left]]
+  fields = [
+    [20, :right], [8, :left], [12, :center], [30, :right], [8, :left],
+    [0, :left]
+  ]
 
-  font "Helvetica", :size => FONT_SIZE
+  font 'Helvetica', size: FONT_SIZE
 
-  move_down 30
-  text "(See next page for WinAnsi table)", :align => :center
   start_new_page
 
   Prawn::Encoding::WinAnsi::CHARACTERS.each_with_index do |name, index|
-    next if name == ".notdef"
+    next if name == '.notdef'
     y -= FONT_SIZE
 
     if y < FONT_SIZE
@@ -32,17 +29,17 @@ Prawn::ManualBuilder::Example.generate(filename) do
       x += 170
     end
 
-    code = "%d." % index
+    code = format('%d.', index)
     char = index.chr.force_encoding(::Encoding::Windows_1252)
 
-    width = 1000 * width_of(char, :size => FONT_SIZE) / FONT_SIZE
-    size  = "%d" % width
+    width = 1000 * width_of(char, size: FONT_SIZE) / FONT_SIZE
+    size = format('%d', width)
 
     data = [code, nil, char, size, nil, name]
-    dx   = x
+    dx = x
     fields.zip(data).each do |(total_width, align), field|
       if field
-        width = width_of(field, :size => FONT_SIZE)
+        width = width_of(field, size: FONT_SIZE)
 
         case align
         when :left   then offset = 0
@@ -50,8 +47,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
         when :center then offset = (total_width - width) / 2
         end
 
-        text_box(field.force_encoding("windows-1252").encode("UTF-8"),
-                 :at => [dx + offset, y])
+        text_box(
+          field.force_encoding('windows-1252').encode('UTF-8'),
+          at: [dx + offset, y]
+        )
       end
 
       dx += total_width

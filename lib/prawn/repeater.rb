@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # repeater.rb : Implements repeated page elements.
 # Heavy inspired by repeating_element() in PDF::Wrapper
 #   http://pdf-wrapper.rubyforge.org/
@@ -20,9 +18,9 @@ module Prawn
 
     # @group Experimental API
 
-    # Provides a way to execute a block of code repeatedly based on a
-    # page_filter.  Since Stamp is used under the hood, this method is very space
-    # efficient.
+    # Provides a way to execute a block of code repeatedly based on
+    # a page_filter.  Since Stamp is used under the hood, this method is very
+    # space efficient.
     #
     # Available page filters are:
     #   :all        -- repeats on every page
@@ -32,8 +30,9 @@ module Prawn
     #   some_range  -- repeats on every page included in the range
     #   some_lambda -- yields page number and repeats for true return values
     #
-    # Also accepts an optional second argument for dynamic content which executes the code
-    # in the context of the filtered pages without using a Stamp.
+    # Also accepts an optional second argument for dynamic content which
+    # executes the code in the context of the filtered pages without using
+    # a Stamp.
     #
     # Example:
     #
@@ -75,7 +74,10 @@ module Prawn
     #   end
     #
     def repeat(page_filter, options = {}, &block)
-      repeaters << Prawn::Repeater.new(self, page_filter, !!options[:dynamic], &block)
+      dynamic = options.fetch(:dynamic, false)
+      repeaters << Prawn::Repeater.new(
+        self, page_filter, dynamic, &block
+      )
     end
   end
 
@@ -91,10 +93,10 @@ module Prawn
     attr_reader :name
 
     def initialize(document, page_filter, dynamic = false, &block)
-      @document    = document
+      @document = document
       @page_filter = page_filter
       @dynamic = dynamic
-      @stamp_name  = "prawn_repeater(#{Repeater.count})"
+      @stamp_name = "prawn_repeater(#{Repeater.count})"
       @document.create_stamp(@stamp_name, &block) unless dynamic
       @block = block if dynamic
       @graphic_state = document.state.page.graphic_state.dup

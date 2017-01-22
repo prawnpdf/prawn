@@ -1,10 +1,8 @@
-# encoding: utf-8
+require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
+require 'prawn/measurement_extensions'
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "spec_helper")
-require "prawn/measurement_extensions"
-
-describe "Measurement units" do
-  it "should convert units to PostScriptPoints" do
+describe 'Measurement units' do
+  it 'should convert units to PostScriptPoints' do
     expect(1.mm).to be_within(0.000000001).of(2.834645669)
     expect(1.mm).to eq(72 / 25.4)
     expect(2.mm).to eq(2 * 72 / 25.4)

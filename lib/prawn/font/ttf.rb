@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # prawn/font/ttf.rb : Implements AFM font support for Prawn
 #
 # Copyright May 2008, Gregory Brown / James Healy / Jamis Buck
@@ -23,17 +21,17 @@ module Prawn
       def initialize(document, name, options = {})
         super
 
-        @ttf              = read_ttf_file
-        @subsets          = TTFunk::SubsetCollection.new(@ttf)
+        @ttf = read_ttf_file
+        @subsets = TTFunk::SubsetCollection.new(@ttf)
 
-        @attributes       = {}
-        @bounding_boxes   = {}
-        @char_widths      = {}
+        @attributes = {}
+        @bounding_boxes = {}
+        @char_widths = {}
         @has_kerning_data = @ttf.kerning.exists? && @ttf.kerning.tables.any?
 
-        @ascender         = Integer(@ttf.ascent * scale_factor)
-        @descender        = Integer(@ttf.descent * scale_factor)
-        @line_gap         = Integer(@ttf.line_gap * scale_factor)
+        @ascender = Integer(@ttf.ascent * scale_factor)
+        @descender = Integer(@ttf.descent * scale_factor)
+        @line_gap = Integer(@ttf.line_gap * scale_factor)
       end
 
       # NOTE: +string+ must be UTF8-encoded.
@@ -44,7 +42,7 @@ module Prawn
             if r.is_a?(Numeric)
               s - r
             else
-              r.inject(s) { |s2, u| s2 + character_width_by_code(u) }
+              r.inject(s) { |a, e| a + character_width_by_code(e) }
             end
           end * scale
         else
@@ -80,7 +78,9 @@ module Prawn
           last_subset = nil
           kern(text).inject([]) do |result, element|
             if element.is_a?(Numeric)
-              result.last[1] = [result.last[1]] unless result.last[1].is_a?(Array)
+              unless result.last[1].is_a?(Array)
+                result.last[1] = [result.last[1]]
+              end
               result.last[1] << element
               result
             else
@@ -100,7 +100,7 @@ module Prawn
             end
           end
         else
-          @subsets.encode(text.unpack("U*"))
+          @subsets.encode(text.unpack('U*'))
         end
       end
 
@@ -109,7 +109,7 @@ module Prawn
       end
 
       # not sure how to compute this for true-type fonts...
-      def stemV
+      def stemV # rubocop: disable Style/MethodName
         0
       end
 
@@ -118,7 +118,8 @@ module Prawn
 
         if @ttf.postscript.exists?
           raw = @ttf.postscript.italic_angle
-          hi, low = raw >> 16, raw & 0xFF
+          hi = raw >> 16
+          low = raw & 0xFF
           hi = -((hi ^ 0xFFFF) + 1) if hi & 0x8000 != 0
           @italic_angle = "#{hi}.#{low}".to_f
         else
@@ -160,24 +161,23 @@ module Prawn
           flags |= 0x0002 if serif?
           flags |= 0x0008 if script?
           flags |= 0x0040 if italic_angle != 0
-          flags |= 0x0004 # assume the font contains at least some non-latin characters
+          # Assume the font contains at least some non-latin characters
+          flags | 0x0004
         end
       end
 
       def normalize_encoding(text)
-        begin
-          text.encode(::Encoding::UTF_8)
-        rescue => e
-          puts e
-          raise Prawn::Errors::IncompatibleStringEncoding, "Encoding " \
-            "#{text.encoding} can not be transparently converted to UTF-8. " \
-            "Please ensure the encoding of the string you are attempting " \
-            "to use is set correctly"
-        end
+        text.encode(::Encoding::UTF_8)
+      rescue => e
+        puts e
+        raise Prawn::Errors::IncompatibleStringEncoding, 'Encoding ' \
+          "#{text.encoding} can not be transparently converted to UTF-8. " \
+          'Please ensure the encoding of the string you are attempting ' \
+          'to use is set correctly'
       end
 
       def to_utf8(text)
-        text.encode("UTF-8")
+        text.encode('UTF-8')
       end
 
       def glyph_present?(char)
@@ -194,7 +194,7 @@ module Prawn
       private
 
       def cmap
-        @cmap ||= @ttf.cmap.unicode.first or fail("no unicode cmap for font")
+        (@cmap ||= @ttf.cmap.unicode.first) || raise('no unicode cmap for font')
       end
 
       # +string+ must be UTF8-encoded.
@@ -220,12 +220,17 @@ module Prawn
       end
 
       def kern_pairs_table
-        @kerning_data ||= has_kerning_data? ? @ttf.kerning.tables.first.pairs : {}
+        @kerning_data ||=
+          if has_kerning_data?
+            @ttf.kerning.tables.first.pairs
+          else
+            {}
+          end
       end
 
       def cid_to_gid_map
         max = cmap.code_map.keys.max
-        (0..max).map { |cid| cmap[cid] }.pack("n*")
+        (0..max).map { |cid| cmap[cid] }.pack('n*')
       end
 
       def hmtx
@@ -247,12 +252,12 @@ module Prawn
       end
 
       def register(subset)
-        temp_name = @ttf.name.postscript_name.gsub("\0", "").to_sym
-        ref = @document.ref!(:Type => :Font, :BaseFont => temp_name)
+        temp_name = @ttf.name.postscript_name.delete("\0").to_sym
+        ref = @document.ref!(Type: :Font, BaseFont: temp_name)
 
         # Embed the font metrics in the document after everything has been
         # drawn, just before the document is emitted.
-        @document.renderer.before_render { |doc| embed(ref, subset) }
+        @document.renderer.before_render { |_doc| embed(ref, subset) }
 
         ref
       end
@@ -267,29 +272,32 @@ module Prawn
 
         # empirically, it looks like Adobe Reader will not display fonts
         # if their font name is more than 33 bytes long. Strange. But true.
-        basename = font.name.postscript_name[0, 33].gsub("\0", "")
+        basename = font.name.postscript_name[0, 33].delete("\0")
 
-        fail "Can't detect a postscript name for #{file}" if basename.nil?
+        raise "Can't detect a postscript name for #{file}" if basename.nil?
 
-        fontfile = @document.ref!(:Length1 => font_content.size)
+        fontfile = @document.ref!(Length1: font_content.size)
         fontfile.stream << font_content
         fontfile.stream.compress!
 
-        descriptor = @document.ref!(:Type        => :FontDescriptor,
-                                    :FontName    => basename.to_sym,
-                                    :FontFile2   => fontfile,
-                                    :FontBBox    => bbox,
-                                    :Flags       => pdf_flags,
-                                    :StemV       => stemV,
-                                    :ItalicAngle => italic_angle,
-                                    :Ascent      => @ascender,
-                                    :Descent     => @descender,
-                                    :CapHeight   => cap_height,
-                                    :XHeight     => x_height)
+        descriptor = @document.ref!(
+          Type: :FontDescriptor,
+          FontName: basename.to_sym,
+          FontFile2: fontfile,
+          FontBBox: bbox,
+          Flags: pdf_flags,
+          StemV: stemV,
+          ItalicAngle: italic_angle,
+          Ascent: @ascender,
+          Descent: @descender,
+          CapHeight: cap_height,
+          XHeight: x_height
+        )
 
         hmtx = font.horizontal_metrics
-        widths = font.cmap.tables.first.code_map.map { |gid|
-          Integer(hmtx.widths[gid] * scale_factor) }[32..-1]
+        widths = font.cmap.tables.first.code_map.map do |gid|
+          Integer(hmtx.widths[gid] * scale_factor)
+        end[32..-1]
 
         # It would be nice to have Encoding set for the macroman subsets,
         # and only do a ToUnicode cmap for non-encoded unicode subsets.
@@ -304,14 +312,17 @@ module Prawn
         map = @subsets[subset].to_unicode_map
 
         ranges = [[]]
-        map.keys.sort.inject("") do |s, code|
+        map.keys.sort.inject('') do |_s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
-          ranges.last << "<%02x><%04x>" % [code, unicode]
+          ranges.last << format('<%02x><%04x>', code, unicode)
         end
 
-        range_blocks = ranges.inject("") do |s, list|
-          s << "%d beginbfchar\n%s\nendbfchar\n" % [list.length, list.join("\n")]
+        range_blocks = ranges.inject('') do |s, list|
+          s << format(
+            "%d beginbfchar\n%s\nendbfchar\n",
+            list.length, list.join("\n")
+          )
         end
 
         to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
@@ -320,16 +331,18 @@ module Prawn
         cmap << to_unicode_cmap
         cmap.stream.compress!
 
-        reference.data.update(:Subtype => :TrueType,
-                              :BaseFont => basename.to_sym,
-                              :FontDescriptor => descriptor,
-                              :FirstChar => 32,
-                              :LastChar => 255,
-                              :Widths => @document.ref!(widths),
-                              :ToUnicode => cmap)
+        reference.data.update(
+          Subtype: :TrueType,
+          BaseFont: basename.to_sym,
+          FontDescriptor: descriptor,
+          FirstChar: 32,
+          LastChar: 255,
+          Widths: @document.ref!(widths),
+          ToUnicode: cmap
+        )
       end
 
-      UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, "")
+      UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, '')
         /CIDInit /ProcSet findresource begin
         12 dict begin
         begincmap

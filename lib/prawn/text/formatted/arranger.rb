@@ -1,11 +1,11 @@
-# encoding: utf-8
-
 # core/text/formatted/arranger.rb : Implements a data structure for 2-stage
 #                                   processing of lines of formatted text
 #
 # Copyright February 2010, Daniel Nelson. All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
+
+# rubocop: disable Style/AccessorMethodName
 
 module Prawn
   module Text
@@ -33,7 +33,7 @@ module Prawn
 
         def space_count
           unless finalized
-            fail "Lines must be finalized before calling #space_count"
+            raise 'Lines must be finalized before calling #space_count'
           end
 
           @fragments.inject(0) do |sum, fragment|
@@ -43,7 +43,7 @@ module Prawn
 
         def line_width
           unless finalized
-            fail "Lines must be finalized before calling #line_width"
+            raise 'Lines must be finalized before calling #line_width'
           end
 
           @fragments.inject(0) do |sum, fragment|
@@ -53,7 +53,7 @@ module Prawn
 
         def line
           unless finalized
-            fail "Lines must be finalized before calling #line"
+            raise 'Lines must be finalized before calling #line'
           end
 
           @fragments.collect do |fragment|
@@ -75,9 +75,11 @@ module Prawn
             text = hash[:text]
             format_state = hash.dup
             format_state.delete(:text)
-            fragment = Prawn::Text::Formatted::Fragment.new(text,
-                                                            format_state,
-                                                            @document)
+            fragment = Prawn::Text::Formatted::Fragment.new(
+              text,
+              format_state,
+              @document
+            )
             @fragments << fragment
             set_fragment_measurements(fragment)
             set_line_measurement_maximums(fragment)
@@ -89,7 +91,7 @@ module Prawn
           @unconsumed = []
           array.each do |hash|
             hash[:text].scan(/[^\n]+|\n/) do |line|
-              @unconsumed << hash.merge(:text => line)
+              @unconsumed << hash.merge(text: line)
             end
           end
         end
@@ -105,12 +107,12 @@ module Prawn
         end
 
         def finished?
-          @unconsumed.length == 0
+          @unconsumed.empty?
         end
 
         def next_string
           if finalized
-            fail "Lines must not be finalized when calling #next_string"
+            raise 'Lines must not be finalized when calling #next_string'
           end
 
           next_unconsumed_hash = @unconsumed.shift
@@ -151,21 +153,22 @@ module Prawn
             font = current_format_state[:font]
             size = current_format_state[:size]
             character_spacing = current_format_state[:character_spacing] ||
-                                @document.character_spacing
+              @document.character_spacing
             styles = current_format_state[:styles]
-            font_style = font_style(styles)
           else
             font = fragment.font
             size = fragment.size
             character_spacing = fragment.character_spacing
             styles = fragment.styles
-            font_style = font_style(styles)
           end
+          font_style = font_style(styles)
 
           @document.character_spacing(character_spacing) do
             if font || font_style != :normal
-              fail "Bad font family" unless @document.font.family
-              @document.font(font || @document.font.family, :style => font_style) do
+              raise 'Bad font family' unless @document.font.family
+              @document.font(
+                font || @document.font.family, style: font_style
+              ) do
                 apply_font_size(size, styles, &block)
               end
             else
@@ -186,7 +189,7 @@ module Prawn
           end
 
           unless unprinted.empty?
-            @unconsumed.unshift(@current_format_state.merge(:text => unprinted))
+            @unconsumed.unshift(@current_format_state.merge(text: unprinted))
           end
 
           load_previous_format_state if printed.empty?
@@ -194,7 +197,7 @@ module Prawn
 
         def retrieve_fragment
           unless finalized
-            fail "Lines must be finalized before fragments can be retrieved"
+            raise 'Lines must be finalized before fragments can be retrieved'
           end
 
           @fragments.shift
@@ -202,9 +205,11 @@ module Prawn
 
         def repack_unretrieved
           new_unconsumed = []
+          # rubocop: disable Lint/AssignmentInCondition
           while fragment = retrieve_fragment
+            # rubocop: enable Lint/AssignmentInCondition
             fragment.include_trailing_white_space!
-            new_unconsumed << fragment.format_state.merge(:text => fragment.text)
+            new_unconsumed << fragment.format_state.merge(text: fragment.text)
           end
           @unconsumed = new_unconsumed.concat(@unconsumed)
         end
@@ -238,11 +243,11 @@ module Prawn
         def apply_font_size(size, styles)
           if subscript?(styles) || superscript?(styles)
             relative_size = 0.583
-            if size.nil?
-              size = @document.font_size * relative_size
-            else
-              size = size * relative_size
-            end
+            size = if size.nil?
+                     @document.font_size * relative_size
+                   else
+                     size * relative_size
+                   end
           end
           if size.nil?
             yield
@@ -281,8 +286,10 @@ module Prawn
 
         def set_fragment_measurements(fragment)
           apply_font_settings(fragment) do
-            fragment.width = @document.width_of(fragment.text,
-                                                :kerning => @kerning)
+            fragment.width = @document.width_of(
+              fragment.text,
+              kerning: @kerning
+            )
             fragment.line_height = @document.font.height
             fragment.descender = @document.font.descender
             fragment.ascender = @document.font.ascender
@@ -290,9 +297,18 @@ module Prawn
         end
 
         def set_line_measurement_maximums(fragment)
-          @max_line_height = [defined?(@max_line_height) && @max_line_height, fragment.line_height].compact.max
-          @max_descender = [defined?(@max_descender) && @max_descender, fragment.descender].compact.max
-          @max_ascender = [defined?(@max_ascender) && @max_ascender, fragment.ascender].compact.max
+          @max_line_height = [
+            defined?(@max_line_height) && @max_line_height,
+            fragment.line_height
+          ].compact.max
+          @max_descender = [
+            defined?(@max_descender) && @max_descender,
+            fragment.descender
+          ].compact.max
+          @max_ascender = [
+            defined?(@max_ascender) && @max_ascender,
+            fragment.ascender
+          ].compact.max
         end
       end
     end

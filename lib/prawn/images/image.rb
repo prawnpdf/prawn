@@ -1,4 +1,3 @@
-# encoding: utf-8
 # image.rb : Base class for image info objects
 #
 # Copyright September 2011, Brad Ediger. All rights reserved.

@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Some permissions may be set for the regular user with the following options:
 # <code>:print_document</code>, <code>:modify_contents</code>,
 # <code>:copy_contents</code>, <code>:modify_annotations</code>. All this
@@ -14,23 +12,28 @@
 # documentation (you can find it here:
 # https://github.com/prawnpdf/prawn/blob/master/lib/prawn/security.rb ) before
 # using this for anything super serious.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 # User cannot print the document.
-Prawn::ManualBuilder::Example.generate("cannot_print.pdf") do
+Prawn::ManualBuilder::Example.generate('cannot_print.pdf') do
   text "If you used the user password you won't be able to print the doc."
-  encrypt_document(:user_password => 'foo', :owner_password => 'bar',
-                   :permissions => { :print_document => false })
+  encrypt_document(
+    user_password: 'foo', owner_password: 'bar',
+    permissions: { print_document: false }
+  )
 end
 
 # All permissions revoked and owner password set to random
-Prawn::ManualBuilder::Example.generate("no_permissions.pdf") do
+Prawn::ManualBuilder::Example.generate('no_permissions.pdf') do
   text "You may only view this and won't be able to use the owner password."
-  encrypt_document(:user_password => 'foo', :owner_password => :random,
-                   :permissions => { :print_document     => false,
-                                     :modify_contents    => false,
-                                     :copy_contents      => false,
-                                     :modify_annotations => false })
+  encrypt_document(
+    user_password: 'foo', owner_password: :random,
+    permissions: {
+      print_document: false,
+      modify_contents: false,
+      copy_contents: false,
+      modify_annotations: false
+    }
+  )
 end

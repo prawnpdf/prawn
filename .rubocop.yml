@@ -1,4 +1,40 @@
-Encoding:
+# This file shows examples on how to instantiate a document in multiple ways,
+# it does not actually do the instantiation and isn't actually shadowing any
+# variables.
+Lint/ShadowingOuterLocalVariable:
+  Exclude:
+    - manual/basic_concepts/creation.rb
+
+Metrics/AbcSize:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Style/AccessorMethodName:
+  Exclude:
+    - lib/prawn/graphics/color.rb
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+# We need to reference non-ascii characters when testing and explaining
+# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/Encoding:
+  EnforcedStyle: never
   # To be safe we are leaving these files encoded ASCII-8BIT as
   # discussed at https://github.com/prawnpdf/prawn/pull/705
   Exclude:
@@ -7,223 +43,66 @@ Encoding:
     - lib/prawn/images.rb
     - spec/png_spec.rb
 
-# These cops need to remain disabled for valid reasons on this code base
+Style/FirstArrayElementLineBreak:
+  Enabled: true
 
-# We need to reference non-ascii characters when testing and explaining
-# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
-AsciiComments:
-  Enabled: false
+Style/FirstHashElementLineBreak:
+  Enabled: true
 
-# We don't always prefer modified if statements even if they do fit on
-# a line.
-IfUnlessModifier:
+Style/FirstMethodArgumentLineBreak:
+  Enabled: true
+
+Style/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Style/GuardClause:
   Enabled: false
 
 # In this case we supress Prawn::Errors::CannotFit while trying to scale
 # text down to fit.
-HandleExceptions:
+Lint/HandleExceptions:
   Exclude:
     - lib/prawn/text/formatted/box.rb
 
-# %w() style arrays don't always look better.
-WordArray:
+# We don't always prefer modified if statements even if they do fit on
+# a line.
+Style/IfUnlessModifier:
   Enabled: false
 
-# Due to some layout constraints in our examples we want to allow these rule to
-# be ignored in the manual.
-Style/ClosingParenthesisIndentation:
-  Exclude:
-    - manual/**/*
-LineEndConcatenation:
-  Exclude:
-    - manual/**/*
-MultilineOperationIndentation:
-  Exclude:
-    - manual/**/*
-    - prawn.gemspec
-Style/SpaceInsideParens:
-  Exclude:
-    - manual/**/*
-Style/SpaceBeforeFirstArg:
-  Exclude:
-    - manual/**/*
-
-# This file shows examples on how to instantiate a document in multiple ways,
-# it does not actually do the instantiation and isn't actually shadowing any
-# variables.
-ShadowingOuterLocalVariable:
-  Exclude:
-    - manual/basic_concepts/creation.rb
-
-# We currently ignore usage of semicolons on this page of the manual so we
-# don't have to worry about changing the content of the manual for now.
-Semicolon:
-  Exclude:
-    - manual/bounding_box/nesting.rb
-
-
-# This cops are candidates for enabling and doing the related cleanup and/or
-# refactoring
-Style/BlockDelimiters:
-  Enabled: false
-  EnforcedStyle: semantic
-Void:
-  Enabled: false
-StringLiterals:
-  Enabled: false
-HashSyntax:
-  Enabled: false
-UselessAssignment:
-  Enabled: false
-Lambda:
-  Enabled: false
-LineLength:
-  Enabled: false
-SpaceBeforeBlockBraces:
-  Enabled: false
-SpaceInsideBrackets:
-  Enabled: false
-FormatString:
-  Enabled: false
-CollectionMethods:
-  Enabled: false
-DotPosition:
-  Enabled: false
-SingleLineBlockParams:
-  Enabled: false
-PercentLiteralDelimiters:
-  Enabled: false
-Documentation:
-  Enabled: false
-RegexpLiteral:
-  Enabled: false
-MethodLength:
-  Enabled: false
-VariableInterpolation:
-  Enabled: false
-AndOr:
-  Enabled: false
-AssignmentInCondition:
-  Enabled: false
-ClassAndModuleChildren:
-  Enabled: false
-NumericLiterals:
-  Enabled: false
-DoubleNegation:
-  Enabled: false
-SelfAssignment:
-  Enabled: false
-ClassLength:
-  Enabled: false
-CaseEquality:
-  Enabled: false
-RedundantSelf:
-  Enabled: false
-BlockNesting:
-  Enabled: false
-NegatedWhile:
-  Enabled: false
-MultilineIfThen:
-  Enabled: false
-ModuleFunction:
-  Enabled: false
-CyclomaticComplexity:
-  Enabled: false
-UnreachableCode:
-  Enabled: false
-AccessorMethodName:
-  Enabled: false
-Style/SpaceAroundKeyword:
-  Enabled: false
-PredicateName:
-  Enabled: false
-ConstantName:
-  Enabled: false
-MethodName:
-  Enabled: false
-Alias:
-  Enabled: false
-RedundantReturn:
-  Enabled: false
-WhileUntilModifier:
-  Enabled: false
-StringConversionInInterpolation:
-  Enabled: false
-RedundantBegin:
-  Enabled: false
-PerlBackrefs:
-  Enabled: false
-ClassVars:
-  Enabled: false
-ParameterLists:
-  Enabled: false
-AbcSize:
-  Enabled: false
-PerceivedComplexity:
-  Enabled: false
-UnusedBlockArgument:
-  Enabled: false
-UnusedMethodArgument:
-  Enabled: false
-Next:
-  Enabled: false
-ClassCheck:
-  Enabled: false
-SpaceBeforeComma:
-  Enabled: false
-StringLiteralsInInterpolation:
-  Enabled: false
-GuardClause:
-  Enabled: false
-BlockEndNewline:
-  Enabled: false
-Style/MultilineMethodCallBraceLayout:
-  Enabled: false
-Performance/StringReplacement:
-  Enabled: false
-Style/SymbolProc:
-  Enabled: false
-Style/ExtraSpacing:
-  Enabled: false
-Style/SpaceAroundOperators:
-  Enabled: false
-Style/ParallelAssignment:
-  Enabled: false
 Style/IndentArray:
-  Enabled: false
-Style/SignalException:
-  Enabled: false
-Style/MultilineArrayBraceLayout:
-  Enabled: false
-Style/MutableConstant:
-  Enabled: false
-Style/ConditionalAssignment:
-  Enabled: false
-Style/ZeroLengthPredicate:
-  Enabled: false
-Metrics/ModuleLength:
-  Enabled: false
-Style/MultilineTernaryOperator:
-  Enabled: false
-Style/UnneededInterpolation:
-  Enabled: false
-Style/IfInsideElse:
-  Enabled: false
-Style/IdenticalConditionalBranches:
-  Enabled: false
-Performance/RedundantBlockCall:
-  Enabled: false
-Performance/RedundantMerge:
-  Enabled: false
-Style/RedundantParentheses:
-  Enabled: false
-Performance/RangeInclude:
-  Enabled: false
-Lint/UselessAccessModifier:
-  Enabled: false
-Lint/LiteralInCondition:
-  Enabled: false
-Performance/TimesMap:
-  Enabled: false
-Lint/LiteralInCondition:
+  EnforcedStyle: consistent
+
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+  Exclude:
+    - prawn.gemspec
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%': '()'
+    '%i': '[]'
+    '%I': '[]'
+    '%q': '()'
+    '%Q': '()'
+    '%r': '{}'
+    '%s': '()'
+    '%w': '[]'
+    '%W': '[]'
+    '%x': '()'
+
+Style/PredicateName:
+  Exclude:
+    - lib/prawn/font/ttf.rb
+    - lib/prawn/font/afm.rb
+
+Style/SpaceAroundOperators:
+  AllowForAlignment: false
+
+Style/WhileUntilModifier:
   Enabled: false

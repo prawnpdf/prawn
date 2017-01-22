@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # The <code>encrypt_document</code> method, as you might have already guessed,
 # is used to encrypt the PDF document.
 #
@@ -12,18 +10,17 @@
 # documentation (you can find it here:
 # https://github.com/prawnpdf/prawn/blob/master/lib/prawn/security.rb ) before
 # using this for anything super serious.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 # Bare encryption. No password needed.
-Prawn::ManualBuilder::Example.generate("bare_encryption.pdf") do
-  text "See, no password was asked but the document is still encrypted."
+Prawn::ManualBuilder::Example.generate('bare_encryption.pdf') do
+  text 'See, no password was asked but the document is still encrypted.'
   encrypt_document
 end
 
 # Simple password. All permissions granted.
-Prawn::ManualBuilder::Example.generate("simple_password.pdf") do
-  text "You was asked for a password."
-  encrypt_document(:user_password => 'foo', :owner_password => 'bar')
+Prawn::ManualBuilder::Example.generate('simple_password.pdf') do
+  text 'You was asked for a password.'
+  encrypt_document(user_password: 'foo', owner_password: 'bar')
 end

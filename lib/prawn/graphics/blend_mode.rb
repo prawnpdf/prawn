@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # blend_mode.rb : Implements blend modes
 #
 # Contributed by John Ford. October, 2015
@@ -15,9 +13,10 @@ module Prawn
     # Passing an array of blend modes is allowed. PDF viewers should
     # blend layers based on the first recognized blend mode.
     #
-    # Valid blend modes in v1.4 of the PDF spec include :Normal, :Multiply, :Screen,
-    # :Overlay, :Darken, :Lighten, :ColorDodge, :ColorBurn, :HardLight, :SoftLight,
-    # :Difference, :Exclusion, :Hue, :Saturation, :Color, and :Luminosity.
+    # Valid blend modes in v1.4 of the PDF spec include :Normal, :Multiply,
+    # :Screen, :Overlay, :Darken, :Lighten, :ColorDodge, :ColorBurn, :HardLight,
+    # :SoftLight, :Difference, :Exclusion, :Hue, :Saturation, :Color, and
+    # :Luminosity.
     #
     # Example:
     #   pdf.fill_color('0000ff')
@@ -52,11 +51,11 @@ module Prawn
         dictionary_name = "BM#{key}"
 
         dictionary = blend_mode_dictionary_registry[dictionary_name] ||= ref!(
-          :Type => :ExtGState,
-          :BM   => blend_mode
+          Type: :ExtGState,
+          BM: blend_mode
         )
 
-        page.ext_gstates.merge!(dictionary_name => dictionary)
+        page.ext_gstates[dictionary_name] = dictionary
         dictionary_name
       end
     end

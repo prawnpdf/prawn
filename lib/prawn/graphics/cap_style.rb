@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # cap_style.rb : Implements stroke cap styling
 #
 # Contributed by Daniel Nelson. October, 2009
@@ -11,7 +9,7 @@ module Prawn
     module CapStyle
       # @group Stable API
 
-      CAP_STYLES = { :butt => 0, :round => 1, :projecting_square => 2 }
+      CAP_STYLES = { butt: 0, round: 1, projecting_square: 2 }.freeze
 
       # Sets the cap style for stroked lines and curves
       #
@@ -27,7 +25,7 @@ module Prawn
         write_stroke_cap_style
       end
 
-      alias_method :cap_style=, :cap_style
+      alias cap_style= cap_style
 
       private
 

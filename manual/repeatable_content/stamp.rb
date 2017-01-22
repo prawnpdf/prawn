@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Stamps should be used when you have content that will be included multiple
 # times in a document. Its advantages over creating the content anew each time
 # are:
@@ -15,27 +13,26 @@
 # There are two methods to render the stamp on a page <code>stamp</code> and
 # <code>stamp_at</code>. The first will render the stamp as is while the
 # second accepts a point to serve as an offset to the stamp content.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  create_stamp("approved") do
-    rotate(30, :origin => [-5, -5]) do
-      stroke_color "FF3333"
+  create_stamp('approved') do
+    rotate(30, origin: [-5, -5]) do
+      stroke_color 'FF3333'
       stroke_ellipse [0, 0], 29, 15
-      stroke_color "000000"
+      stroke_color '000000'
 
-      fill_color "993333"
-      font("Times-Roman") do
-        draw_text "Approved", :at => [-23, -3]
+      fill_color '993333'
+      font('Times-Roman') do
+        draw_text 'Approved', at: [-23, -3]
       end
-      fill_color "000000"
+      fill_color '000000'
     end
   end
 
-  stamp "approved"
+  stamp 'approved'
 
-  stamp_at "approved", [200, 200]
+  stamp_at 'approved', [200, 200]
 end

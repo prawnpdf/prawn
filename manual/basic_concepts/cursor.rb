@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # We normally write our documents from top to bottom and it is no different with
 # Prawn. Even if the origin is on the bottom left corner we still fill the page
 # from the top to the bottom. In other words the cursor for inserting content
@@ -11,9 +9,8 @@
 # The following snippet shows how the cursor behaves when we add some text to
 # the page and demonstrates some of the helpers to manage the cursor position.
 # The <code>cursor</code> method returns the current cursor position.
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do

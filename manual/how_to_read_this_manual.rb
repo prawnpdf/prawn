@@ -1,12 +1,10 @@
-# encoding: utf-8
-#
 # Prawn manual how to read this manual page.
 
-require_relative "example_helper"
+require_relative 'example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  header("How to read this manual")
+  header('How to read this manual')
 
   prose <<-END_TEXT
   This manual is a collection of examples categorized by theme and organized from the least to the most complex. While it covers most of the common use cases it is not a comprehensive guide.
@@ -21,7 +19,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   END_TEXT
 
   move_down(Prawn::ManualBuilder::Example::BOX_MARGIN)
-  header("Reading the examples")
+  header('Reading the examples')
 
   prose <<-END_TEXT
   The title of each example is the relative path from the Prawn source manual/ folder.

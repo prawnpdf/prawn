@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # The <code>number_pages</code> method is a simple way to number the pages of
 # your document. It should be called towards the end of the document since
 # pages created after the call won't be numbered.
@@ -20,33 +18,34 @@
 # <code>color</code> which accepts the same values as <code>fill_color</code>
 #
 # As well as any option accepted by <code>text_box</code>
-#
-require File.expand_path(File.join(File.dirname(__FILE__),
-                                   %w[.. example_helper]))
+
+require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  text "This is the first page!"
+  text 'This is the first page!'
 
   10.times do
     start_new_page
-    text "Here comes yet another page."
+    text 'Here comes yet another page.'
   end
 
-  string = "page <page> of <total>"
+  string = 'page <page> of <total>'
   # Green page numbers 1 to 7
-  options = { :at => [bounds.right - 150, 0],
-              :width => 150,
-              :align => :right,
-              :page_filter => (1..7),
-              :start_count_at => 1,
-              :color => "007700" }
+  options = {
+    at: [bounds.right - 150, 0],
+    width: 150,
+    align: :right,
+    page_filter: (1..7),
+    start_count_at: 1,
+    color: '007700'
+  }
   number_pages string, options
 
   # Gray page numbers from 8 on up
-  options[:page_filter]    = lambda{ |pg| pg > 7 }
+  options[:page_filter] = ->(pg) { pg > 7 }
   options[:start_count_at] = 8
-  options[:color]          = "333333"
+  options[:color] = '333333'
   number_pages string, options
 
   start_new_page

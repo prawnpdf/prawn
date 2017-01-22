@@ -1,11 +1,9 @@
-# encoding: UTF-8
-
-require_relative "example_helper"
+require_relative 'example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 
 Prawn::ManualBuilder::Example.generate(filename) do
-  header("Prawn::Table")
+  header('Prawn::Table')
 
   prose <<-END_TEXT
     As of Prawn 1.2.0, Prawn::Table has been extracted into its own

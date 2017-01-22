@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # Implementation of the "ARCFOUR" algorithm ("alleged RC4 (tm)"). Implemented
 # as described at:
 # http://www.mozilla.org/projects/security/pki/nss/draft-kaukonen-cipher-arcfour-03.txt
@@ -39,7 +37,7 @@ class Arcfour
   end
 
   def encrypt(string)
-    string.unpack('c*').map{ |byte| byte ^ key_byte }.pack('c*')
+    string.unpack('c*').map { |byte| byte ^ key_byte }.pack('c*')
   end
 
   private
