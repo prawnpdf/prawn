@@ -14,17 +14,6 @@ RSpec::Core::RakeTask.new('spec') do |c|
   c.rspec_opts = '-t ~unresolved'
 end
 
-desc "Show library's code statistics"
-task :stats do
-  require 'code_statistics/code_statistics'
-  puts CodeStatistics::CodeStatistics.new(
-    [
-      %w[Prawn lib],
-      %w[Specs spec]
-    ]
-  ).to_s
-end
-
 YARD::Rake::YardocTask.new do |t|
   t.options = ['--output-dir', 'doc/html']
 end
