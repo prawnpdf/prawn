@@ -485,6 +485,7 @@ module Prawn
           @document.start_new_page
         else
           @document.go_to_page(@document.page_number + 1)
+          @document.bounds = self
         end
       end
 
