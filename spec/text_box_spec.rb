@@ -66,10 +66,10 @@ describe 'Text::Box' do
     @pdf.text_direction = :rtl
     @pdf.text_direction = :rtl
     @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf", size: 16) do
-      @pdf.text "写个小"
+      @pdf.text '写个小'
     end
     text = PDF::Inspector::Text.analyze(@pdf.render)
-    expect(text.strings[0]).to eq("小个写")
+    expect(text.strings[0]).to eq('小个写')
   end
 
   it 'option should be able to override document-wide text direction' do
@@ -287,7 +287,7 @@ describe 'Text::Box#render(:dry_run => true)' do
 
   it 'subsequent calls to render do not raise an ArgumentError exception' do
     create_pdf
-    @text = "™©"
+    @text = '™©'
     @options = { document: @pdf }
     text_box = Prawn::Text::Box.new(@text, @options)
     text_box.render(dry_run: true)
@@ -696,7 +696,7 @@ end
 describe 'Text::Box printing UTF-8 string with higher bit characters' do
   before(:each) do
     create_pdf
-    @text = "©"
+    @text = '©'
     # not enough height to print any text, so we can directly compare against
     # the input string
     bounding_height = 1.0
@@ -874,7 +874,7 @@ end
 describe 'Text::Box with a solid block of Chinese characters' do
   it 'printed text should match requested text, except for newlines' do
     create_pdf
-    @text = "写中国字" * 10
+    @text = '写中国字' * 10
     @options = {
       width: 162.0,
       height: 162.0,
@@ -1046,7 +1046,7 @@ describe 'Text::Box wrapping' do
 
   it 'wraps lines comprised of a single word of the bounds when '\
     'wrapping text' do
-    text = "©" * 30
+    text = '©' * 30
 
     @pdf.font 'Courier'
     text_box = Prawn::Text::Box.new(
@@ -1057,14 +1057,14 @@ describe 'Text::Box wrapping' do
 
     text_box.render
 
-    expected = "©" * 25 + "\n" + "©" * 5
+    expected = '©' * 25 + "\n" + '©' * 5
     @pdf.font.normalize_encoding!(expected)
     expected = expected.force_encoding(Encoding::UTF_8)
     expect(text_box.text).to eq(expected)
   end
 
   it 'should wrap non-unicode strings using single-byte word-wrapping' do
-    text = "continúa esforzandote " * 5
+    text = 'continúa esforzandote ' * 5
     text_box = Prawn::Text::Box.new(
       text, width: 180,
             document: @pdf

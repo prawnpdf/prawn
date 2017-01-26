@@ -43,6 +43,7 @@ module Prawn
   module_function :verify_options
 
   module Configurable # @private
+    # rubocop: disable Security/MarshalLoad
     def configuration(*args)
       @config ||= Marshal.load(Marshal.dump(default_configuration))
       if args[0].is_a? Hash
@@ -55,6 +56,7 @@ module Prawn
         @config
       end
     end
+    # rubocop: enable Security/MarshalLoad
 
     alias C configuration
   end

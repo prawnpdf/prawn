@@ -56,14 +56,17 @@ module Prawn
       def dash(length = nil, options = {})
         return current_dash_state if length.nil?
 
-        if length == 0 || length.is_a?(Array) && length.all? { |e| e == 0 }
+        length = Array(length)
+
+        if length.all?(&:zero?)
           raise ArgumentError,
             'Zero length dashes are invalid. Call #undash to disable dashes.'
-        elsif length.is_a?(Integer) && length < 0 ||
-            length.is_a?(Array) && length.any? { |e| e < 0 }
+        elsif length.any? { |e| e < 0 }
           raise ArgumentError,
             'Negative numbers are not allowed for dash lengths.'
         end
+
+        length = length.first if length.length == 1
 
         self.current_dash_state = {
           dash: length,

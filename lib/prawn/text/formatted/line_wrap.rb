@@ -106,7 +106,7 @@ module Prawn
                 end
                 @fragment_output += segment
               else
-                if @accumulated_width == 0 && @line_contains_more_than_one_word
+                if @accumulated_width.zero? && @line_contains_more_than_one_word
                   @line_contains_more_than_one_word = false
                 end
                 end_of_the_line_reached(segment)
@@ -197,7 +197,7 @@ module Prawn
         end
 
         def line_empty?
-          @line_empty && @accumulated_width == 0
+          @line_empty && @accumulated_width.zero?
         end
 
         def initialize_line(options)

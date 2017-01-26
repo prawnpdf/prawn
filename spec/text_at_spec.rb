@@ -120,7 +120,7 @@ describe '#draw_text' do
   end
 
   it 'should correctly render a utf-8 string when using a built-in font' do
-    str = "©" # copyright symbol
+    str = '©' # copyright symbol
     @pdf.draw_text(str, at: [0, 0])
 
     # grab the text from the rendered PDF and ensure it matches

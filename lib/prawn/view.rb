@@ -67,6 +67,10 @@ module Prawn
       document.send(m, *a, &b)
     end
 
+    def respond_to_missing?
+      document.respond_to?(m)
+    end
+
     # Syntactic sugar that uses +instance_eval+ under the hood to provide
     # a block-based DSL.
     #

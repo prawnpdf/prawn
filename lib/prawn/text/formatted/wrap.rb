@@ -120,7 +120,7 @@ module Prawn
           @line_height = @arranger.max_line_height
           @descender = @arranger.max_descender
           @ascender = @arranger.max_ascender
-          diff = if @baseline_y == 0
+          diff = if @baseline_y.zero?
                    @ascender + @descender
                  else
                    @descender + @line_height + @leading

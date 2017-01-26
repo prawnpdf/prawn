@@ -29,7 +29,7 @@ module Prawn
         end
 
         def width
-          if @word_spacing == 0 then @width
+          if @word_spacing.zero? then @width
           else @width + @word_spacing * space_count
           end
         end

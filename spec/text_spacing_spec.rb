@@ -42,7 +42,7 @@ describe '#character_spacing' do
     create_pdf
     @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
 
-    str = "こんにちは世界"
+    str = 'こんにちは世界'
     @pdf.character_spacing(0) do
       @raw_width = @pdf.width_of(str)
     end

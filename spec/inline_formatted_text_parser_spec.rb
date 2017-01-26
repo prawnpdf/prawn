@@ -171,7 +171,7 @@ describe 'Text::Formatted::Parser#format' do
     string = "<b>©\n©</b>"
     array = Prawn::Text::Formatted::Parser.format(string)
     expect(array[0]).to eq(
-      text: "©",
+      text: '©',
       styles: [:bold],
       color: nil,
       link: nil,
@@ -193,7 +193,7 @@ describe 'Text::Formatted::Parser#format' do
       character_spacing: nil
     )
     expect(array[2]).to eq(
-      text: "©",
+      text: '©',
       styles: [:bold],
       color: nil,
       link: nil,

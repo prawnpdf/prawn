@@ -30,7 +30,7 @@ describe 'Text::Formatted::Box wrapping' do
 
     texts = [
       { text: 'Hello ' },
-      { text: "再见", font: 'Kai' },
+      { text: '再见', font: 'Kai' },
       { text: 'World' }
     ]
     text_box = Prawn::Text::Formatted::Box.new(
@@ -130,8 +130,8 @@ describe 'Text::Formatted::Box with :fallback_fonts option that includes' \
       normal: { file: file, font: 'Kai' }
     }
     formatted_text = [
-      { text: "hello你好" },
-      { text: "再见goodbye" }
+      { text: 'hello你好' },
+      { text: '再见goodbye' }
     ]
     @pdf.formatted_text_box(formatted_text, fallback_fonts: ['Kai'])
 
@@ -145,8 +145,8 @@ describe 'Text::Formatted::Box with :fallback_fonts option that includes' \
     expect(fonts_used[3]).to eq(:Helvetica)
 
     expect(text.strings[0]).to eq('hello')
-    expect(text.strings[1]).to eq("你好")
-    expect(text.strings[2]).to eq("再见")
+    expect(text.strings[1]).to eq('你好')
+    expect(text.strings[2]).to eq('再见')
     expect(text.strings[3]).to eq('goodbye')
   end
 end
@@ -161,8 +161,8 @@ describe 'Text::Formatted::Box with :fallback_fonts option that includes' \
     }
     @pdf.font('Kai')
     formatted_text = [
-      { text: "hello你好" },
-      { text: "再见€" }
+      { text: 'hello你好' },
+      { text: '再见€' }
     ]
     @pdf.formatted_text_box(formatted_text, fallback_fonts: ['Helvetica'])
 
@@ -176,9 +176,9 @@ describe 'Text::Formatted::Box with :fallback_fonts option that includes' \
     expect(fonts_used[3]).to eq(:Helvetica)
 
     expect(text.strings[0]).to eq('hello')
-    expect(text.strings[1]).to eq("你好")
-    expect(text.strings[2]).to eq("再见")
-    expect(text.strings[3]).to eq("€")
+    expect(text.strings[1]).to eq('你好')
+    expect(text.strings[2]).to eq('再见')
+    expect(text.strings[3]).to eq('€')
   end
 end
 
@@ -197,8 +197,8 @@ describe 'Text::Formatted::Box with :fallback_fonts option and fragment ' \
     }
 
     formatted_text = [
-      { text: "hello你好" },
-      { text: "再见goodbye", font: 'Times-Roman' }
+      { text: 'hello你好' },
+      { text: '再见goodbye', font: 'Times-Roman' }
     ]
     @pdf.formatted_text_box(formatted_text, fallback_fonts: ['Kai'])
 
@@ -212,8 +212,8 @@ describe 'Text::Formatted::Box with :fallback_fonts option and fragment ' \
     expect(fonts_used[3]).to eq(:"Times-Roman")
 
     expect(text.strings[0]).to eq('hello')
-    expect(text.strings[1]).to eq("你好")
-    expect(text.strings[2]).to eq("再见")
+    expect(text.strings[1]).to eq('你好')
+    expect(text.strings[2]).to eq('再见')
     expect(text.strings[3]).to eq('goodbye')
   end
 end
@@ -231,7 +231,7 @@ describe 'Text::Formatted::Box' do
       normal: { file: file }
     }
 
-    @formatted_text = [{ text: "hello你好" }]
+    @formatted_text = [{ text: 'hello你好' }]
     @pdf.fallback_fonts(['Kai'])
     @pdf.fallback_fonts = ['Kai']
   end
@@ -288,7 +288,7 @@ describe 'Text::Formatted::Box with :fallback_fonts option ' \
   'with glyphs not in the primary or the fallback fonts' do
   it 'should raise an exception' do
     create_pdf
-    formatted_text = [{ text: "hello world. 世界你好。" }]
+    formatted_text = [{ text: 'hello world. 世界你好。' }]
 
     expect do
       @pdf.formatted_text_box(formatted_text, fallback_fonts: ['Courier'])
@@ -782,11 +782,9 @@ class TestFragmentCallback
     @document = options[:document]
   end
 
-  def render_behind(fragment)
-  end
+  def render_behind(fragment); end
 
-  def render_in_front(fragment)
-  end
+  def render_in_front(fragment); end
 end
 
 class TestFragmentCallbackBehind
@@ -794,8 +792,7 @@ class TestFragmentCallbackBehind
     @document = options[:document]
   end
 
-  def render_behind(fragment)
-  end
+  def render_behind(fragment); end
 end
 
 class TestFragmentCallbackInFront
@@ -803,8 +800,7 @@ class TestFragmentCallbackInFront
     @document = options[:document]
   end
 
-  def render_in_front(fragment)
-  end
+  def render_in_front(fragment); end
 end
 
 module TestFormattedWrapOverride

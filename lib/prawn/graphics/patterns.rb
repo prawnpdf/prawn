@@ -201,17 +201,17 @@ module Prawn
 
         # If there's only two stops, we can use the single shader.
         # Otherwise we stitch the multiple shaders together.
-        if shader_stops.length == 1
-          shader = shader_stops.first
-        else
-          shader = ref!(
-            FunctionType: 3, # stitching function
-            Domain: [0.0, 1.0],
-            Functions: shader_stops,
-            Bounds: gradient.stops[1..-2].map(&:position),
-            Encode: [0.0, 1.0] * shader_stops.length
-          )
-        end
+        shader = if shader_stops.length == 1
+                   shader_stops.first
+                 else
+                   ref!(
+                     FunctionType: 3, # stitching function
+                     Domain: [0.0, 1.0],
+                     Functions: shader_stops,
+                     Bounds: gradient.stops[1..-2].map(&:position),
+                     Encode: [0.0, 1.0] * shader_stops.length
+                   )
+                 end
 
         x1, y1, x2, y2, transformation = gradient_coordinates(gradient)
 

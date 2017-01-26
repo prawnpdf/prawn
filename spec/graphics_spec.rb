@@ -160,7 +160,7 @@ describe 'When drawing an ellipse' do
     @curve = PDF::Inspector::Graphics::Curve.analyze(@pdf.render)
   end
 
-  it "should use a Bézier approximation" do
+  it 'should use a Bézier approximation' do
     expect(@curve.coords).to eq([
       125.0, 100.0,
 

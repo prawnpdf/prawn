@@ -32,7 +32,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   formatted_text(
     [
       { text: 'Fallback fonts can even override' },
-      { text: "fragment fonts (你好)", font: 'Times-Roman' }
+      { text: 'fragment fonts (你好)', font: 'Times-Roman' }
     ],
     fallback_fonts: ['Times-Roman', 'Kai']
   )

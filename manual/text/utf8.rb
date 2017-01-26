@@ -7,10 +7,10 @@ require_relative '../example_helper'
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   text 'Take this example, a simple Euro sign:'
-  text "€", size: 32
+  text '€', size: 32
   move_down 20
 
-  text "This works, because €  is one of the few " \
+  text 'This works, because €  is one of the few ' \
     'non-ASCII glyphs supported in PDF built-in fonts.'
 
   move_down 20
@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   move_down 20
 
   font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do
-    text "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει."
+    text 'ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει.'
     text 'There you go.'
   end
 end

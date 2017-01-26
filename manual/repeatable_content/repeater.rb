@@ -37,7 +37,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     draw_text 'From the 2nd to the 4th page', at: [300, 0]
   end
 
-  repeat(->(pg) { pg % 3 == 0 }) do
+  repeat(->(pg) { (pg % 3).zero? }) do
     draw_text 'Every third page', at: [250, 20]
   end
 

@@ -259,7 +259,7 @@ describe 'Document compression' do
     doc_compressed = Prawn::Document.new(compress: true)
     [doc_compressed, doc_uncompressed].each do |pdf|
       pdf.font "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
-      pdf.text "更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历" * 10
+      pdf.text '更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历' * 10
     end
 
     expect(doc_compressed.render.length).to be < doc_uncompressed.render.length
@@ -268,7 +268,7 @@ end
 
 describe 'Document metadata' do
   it 'should output strings as UTF-16 with a byte order mark' do
-    pdf = Prawn::Document.new(info: { Author: "Lóránt" })
+    pdf = Prawn::Document.new(info: { Author: 'Lóránt' })
     expect(pdf.state.store.info.object).to match(
       # UTF-16:     BOM L   ó   r   á   n   t
       %r{/Author\s*<feff004c00f3007200e1006e0074>}i

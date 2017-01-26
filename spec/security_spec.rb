@@ -127,7 +127,7 @@ describe 'Document encryption' do
 
     it 'should encrypt time properly' do
       expect(PDF::Core.encrypted_pdf_object(
-        Time.utc(2050, 04, 26, 10, 17, 10), '12345', 123, 0
+        Time.utc(2050, 0o4, 26, 10, 17, 10), '12345', 123, 0
       )).to eq(bin_string(
         "(h\x83\xBE\xDC\xEC\x99\x0F\xD7\\)%\x13\xD4$\xB8\xF0\x16\xB8\x80\xC5"\
         "\xE91+\xCF)"

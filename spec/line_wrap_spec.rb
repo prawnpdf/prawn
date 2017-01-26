@@ -328,7 +328,7 @@ describe 'Core::Text::Formatted::LineWrap#wrap_line' do
   end
 
   it 'does not process UTF-8 chars with default font', issue: 693 do
-    array = [{ text: "Ｔｅｓｔ" }]
+    array = [{ text: 'Ｔｅｓｔ' }]
     @arranger.format_array = array
 
     expect do
@@ -341,7 +341,7 @@ describe 'Core::Text::Formatted::LineWrap#wrap_line' do
   end
 
   it 'processes UTF-8 chars with UTF-8 font', issue: 693 do
-    array = [{ text: "Ｔｅｓｔ" }]
+    array = [{ text: 'Ｔｅｓｔ' }]
     @arranger.format_array = array
 
     @pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
@@ -351,7 +351,7 @@ describe 'Core::Text::Formatted::LineWrap#wrap_line' do
       document: @pdf
     )
 
-    expect(string).to eq("Ｔｅｓｔ")
+    expect(string).to eq('Ｔｅｓｔ')
   end
 end
 

@@ -39,13 +39,13 @@ describe 'Outline' do
 
     it 'sets the first and last top items of the root outline dictionary '\
       'item' do
-      expect(referenced_object(@outline_root[:First])).to eq(@section_1)
-      expect(referenced_object(@outline_root[:Last])).to eq(@section_1)
+      expect(referenced_object(@outline_root[:First])).to eq(@section1)
+      expect(referenced_object(@outline_root[:Last])).to eq(@section1)
     end
 
     describe '#create_outline_item' do
       it 'should create outline items for each section and page' do
-        [@section_1, @page_1, @page_2].each do |item|
+        [@section1, @page1, @page2].each do |item|
           expect(item).not_to be_nil
         end
       end
@@ -53,34 +53,34 @@ describe 'Outline' do
 
     describe '#set_relations, #set_variables_for_block, and #reset_parent' do
       it 'should link sibling items' do
-        expect(referenced_object(@page_1[:Next])).to eq(@page_2)
-        expect(referenced_object(@page_2[:Prev])).to eq(@page_1)
+        expect(referenced_object(@page1[:Next])).to eq(@page2)
+        expect(referenced_object(@page2[:Prev])).to eq(@page1)
       end
 
       it 'should link child items to parent item' do
-        [@page_1, @page_2].each do |page|
-          expect(referenced_object(page[:Parent])).to eq(@section_1)
+        [@page1, @page2].each do |page|
+          expect(referenced_object(page[:Parent])).to eq(@section1)
         end
       end
 
       it 'should set the first and last child items for parent item' do
-        expect(referenced_object(@section_1[:First])).to eq(@page_1)
-        expect(referenced_object(@section_1[:Last])).to eq(@page_2)
+        expect(referenced_object(@section1[:First])).to eq(@page1)
+        expect(referenced_object(@section1[:Last])).to eq(@page2)
       end
     end
 
     describe '#increase_count' do
       it 'should add the count of all descendant items' do
         expect(@outline_root[:Count]).to eq(3)
-        expect(@section_1[:Count].abs).to eq(2)
-        expect(@page_1[:Count]).to eq(0)
-        expect(@page_2[:Count]).to eq(0)
+        expect(@section1[:Count].abs).to eq(2)
+        expect(@page1[:Count]).to eq(0)
+        expect(@page2[:Count]).to eq(0)
       end
     end
 
     describe 'closed option' do
       it "should set the item's integer count to negative" do
-        expect(@section_1[:Count]).to eq(-2)
+        expect(@section1[:Count]).to eq(-2)
       end
     end
   end
@@ -120,20 +120,20 @@ describe 'Outline' do
     end
 
     it 'should add new outline items to document' do
-      [@section_2, @page_3].each { |item| expect(item).not_to be_nil }
+      [@section2, @page3].each { |item| expect(item).not_to be_nil }
     end
 
     it 'should reset the last items for root outline dictionary' do
-      expect(referenced_object(@outline_root[:First])).to eq(@section_1)
-      expect(referenced_object(@outline_root[:Last])).to eq(@section_2)
+      expect(referenced_object(@outline_root[:First])).to eq(@section1)
+      expect(referenced_object(@outline_root[:Last])).to eq(@section2)
     end
 
     it 'should reset the next relation for the previous last top level item' do
-      expect(referenced_object(@section_1[:Next])).to eq(@section_2)
+      expect(referenced_object(@section1[:Next])).to eq(@section2)
     end
 
     it 'should set the previous relation of the addded to section' do
-      expect(referenced_object(@section_2[:Prev])).to eq(@section_1)
+      expect(referenced_object(@section2[:Prev])).to eq(@section1)
     end
 
     it 'should increase the count of root outline dictionary' do
@@ -157,30 +157,30 @@ describe 'Outline' do
       end
 
       it 'should add new outline items to document' do
-        [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil }
+        [@subsection, @added_page3].each { |item| expect(item).not_to be_nil }
       end
 
       it 'should reset the last item for parent item dictionary' do
-        expect(referenced_object(@section_1[:First])).to eq(@page_1)
-        expect(referenced_object(@section_1[:Last])).to eq(@subsection)
+        expect(referenced_object(@section1[:First])).to eq(@page1)
+        expect(referenced_object(@section1[:Last])).to eq(@subsection)
       end
 
       it "sets the prev relation for the new subsection to its parent's old "\
         'last item' do
-        expect(referenced_object(@subsection[:Prev])).to eq(@page_2)
+        expect(referenced_object(@subsection[:Prev])).to eq(@page2)
       end
 
       it "the subsection should become the next relation for its parent's old "\
         'last item' do
-        expect(referenced_object(@page_2[:Next])).to eq(@subsection)
+        expect(referenced_object(@page2[:Next])).to eq(@subsection)
       end
 
       it 'should set the first relation for the new subsection' do
-        expect(referenced_object(@subsection[:First])).to eq(@added_page_3)
+        expect(referenced_object(@subsection[:First])).to eq(@added_page3)
       end
 
       it 'should set the correct last relation of the added to section' do
-        expect(referenced_object(@subsection[:Last])).to eq(@added_page_3)
+        expect(referenced_object(@subsection[:Last])).to eq(@added_page3)
       end
 
       it 'should increase the count of root outline dictionary' do
@@ -203,30 +203,30 @@ describe 'Outline' do
       end
 
       it 'should add new outline items to document' do
-        [@subsection, @added_page_3].each { |item| expect(item).not_to be_nil }
+        [@subsection, @added_page3].each { |item| expect(item).not_to be_nil }
       end
 
       it 'should reset the first item for parent item dictionary' do
-        expect(referenced_object(@section_1[:First])).to eq(@subsection)
-        expect(referenced_object(@section_1[:Last])).to eq(@page_2)
+        expect(referenced_object(@section1[:First])).to eq(@subsection)
+        expect(referenced_object(@section1[:Last])).to eq(@page2)
       end
 
       it "sets the next relation for the new subsection to its parent's old "\
         'first item' do
-        expect(referenced_object(@subsection[:Next])).to eq(@page_1)
+        expect(referenced_object(@subsection[:Next])).to eq(@page1)
       end
 
       it "the subsection should become the prev relation for its parent's old "\
         'first item' do
-        expect(referenced_object(@page_1[:Prev])).to eq(@subsection)
+        expect(referenced_object(@page1[:Prev])).to eq(@subsection)
       end
 
       it 'should set the first relation for the new subsection' do
-        expect(referenced_object(@subsection[:First])).to eq(@added_page_3)
+        expect(referenced_object(@subsection[:First])).to eq(@added_page3)
       end
 
       it 'should set the correct last relation of the added to section' do
-        expect(referenced_object(@subsection[:Last])).to eq(@added_page_3)
+        expect(referenced_object(@subsection[:Last])).to eq(@added_page3)
       end
 
       it 'should increase the count of root outline dictionary' do
@@ -270,26 +270,26 @@ describe 'Outline' do
       it 'should adjust the count of all ancestors' do
         render_and_find_objects
         expect(@outline_root[:Count]).to eq(4)
-        expect(@section_1[:Count].abs).to eq(3)
+        expect(@section1[:Count].abs).to eq(3)
       end
 
       describe '#adjust_relations' do
         it 'resets the sibling relations of adjoining items to inserted item' do
           render_and_find_objects
-          expect(referenced_object(@page_1[:Next])).to eq(@inserted_page)
-          expect(referenced_object(@page_2[:Prev])).to eq(@inserted_page)
+          expect(referenced_object(@page1[:Next])).to eq(@inserted_page)
+          expect(referenced_object(@page2[:Prev])).to eq(@inserted_page)
         end
 
         it 'should set the sibling relation of added item to adjoining items' do
           render_and_find_objects
-          expect(referenced_object(@inserted_page[:Next])).to eq(@page_2)
-          expect(referenced_object(@inserted_page[:Prev])).to eq(@page_1)
+          expect(referenced_object(@inserted_page[:Next])).to eq(@page2)
+          expect(referenced_object(@inserted_page[:Prev])).to eq(@page1)
         end
 
         it 'should not affect the first and last relations of parent item' do
           render_and_find_objects
-          expect(referenced_object(@section_1[:First])).to eq(@page_1)
-          expect(referenced_object(@section_1[:Last])).to eq(@page_2)
+          expect(referenced_object(@section1[:First])).to eq(@page1)
+          expect(referenced_object(@section1[:Last])).to eq(@page2)
         end
       end
 
@@ -304,8 +304,8 @@ describe 'Outline' do
             end
           end
           render_and_find_objects
-          expect(referenced_object(@outline_root[:Last])).to eq(@section_2)
-          expect(referenced_object(@section_1[:Next])).to eq(@section_2)
+          expect(referenced_object(@outline_root[:Last])).to eq(@section2)
+          expect(referenced_object(@section1[:Next])).to eq(@section2)
         end
       end
     end
@@ -325,16 +325,16 @@ describe 'Outline' do
 
       describe '#adjust_relations' do
         it 'resets the sibling relations of adjoining item to inserted item' do
-          expect(referenced_object(@page_2[:Next])).to eq(@inserted_page)
+          expect(referenced_object(@page2[:Next])).to eq(@inserted_page)
         end
 
         it 'should set the sibling relation of added item to adjoining items' do
           expect(referenced_object(@inserted_page[:Next])).to be_nil
-          expect(referenced_object(@inserted_page[:Prev])).to eq(@page_2)
+          expect(referenced_object(@inserted_page[:Prev])).to eq(@page2)
         end
 
         it 'should adjust the last relation of parent item' do
-          expect(referenced_object(@section_1[:Last])).to eq(@inserted_page)
+          expect(referenced_object(@section1[:Last])).to eq(@inserted_page)
         end
       end
     end
@@ -393,14 +393,14 @@ def render_and_find_objects
   @pages = @hash.values.find do |obj|
     obj.is_a?(Hash) && obj[:Type] == :Pages
   end[:Kids]
-  @section_1 = find_by_title('Chapter 1')
-  @page_1 = find_by_title('Page 1')
-  @page_2 = find_by_title('Page 2')
-  @section_2 = find_by_title('Added Section')
-  @page_3 = find_by_title('Page 3')
+  @section1 = find_by_title('Chapter 1')
+  @page1 = find_by_title('Page 1')
+  @page2 = find_by_title('Page 2')
+  @section2 = find_by_title('Added Section')
+  @page3 = find_by_title('Page 3')
   @inserted_page = find_by_title('Inserted Page')
   @subsection = find_by_title('Added SubSection')
-  @added_page_3 = find_by_title('Added Page 3')
+  @added_page3 = find_by_title('Added Page 3')
   @custom_dest = find_by_title('Custom Destination')
 end
 

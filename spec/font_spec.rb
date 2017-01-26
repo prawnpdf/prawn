@@ -351,7 +351,7 @@ describe '#glyph_present' do
 
   it 'should return false when absent in an AFM font' do
     font = @pdf.find_font('Helvetica')
-    expect(font.glyph_present?("再")).to eq false
+    expect(font.glyph_present?('再')).to eq false
   end
 
   it 'should return true when present in a TTF font' do
@@ -361,10 +361,10 @@ describe '#glyph_present' do
 
   it 'should return false when absent in a TTF font' do
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-    expect(font.glyph_present?("再")).to eq false
+    expect(font.glyph_present?('再')).to eq false
 
     font = @pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-    expect(font.glyph_present?("€")).to eq false
+    expect(font.glyph_present?('€')).to eq false
   end
 end
 
@@ -375,7 +375,7 @@ describe 'TTF fonts' do
   end
 
   it 'should calculate string width taking into account accented characters' do
-    expect(@font.compute_width_of("é", size: 12)).to eq(
+    expect(@font.compute_width_of('é', size: 12)).to eq(
       @font.compute_width_of('e', size: 12)
     )
   end
@@ -390,14 +390,14 @@ describe 'TTF fonts' do
     expect(@font.encode_text('To')).to eq([[0, 'To']])
 
     tele = "T\216l\216"
-    result = @font.encode_text("Télé")
+    result = @font.encode_text('Télé')
     expect(result.length).to eq(1)
     expect(result[0][0]).to eq(0)
     expect(result[0][1].bytes.to_a).to eq(tele.bytes.to_a)
 
     expect(@font.encode_text('Technology')).to eq([[0, 'Technology']])
     expect(@font.encode_text('Technology...')).to eq([[0, 'Technology...']])
-    expect(@font.encode_text("Teχnology...")).to eq([
+    expect(@font.encode_text('Teχnology...')).to eq([
       [0, 'Te'],
       [1, '!'], [0, 'nology...']
     ])
@@ -413,7 +413,7 @@ describe 'TTF fonts' do
     expect(@font.encode_text('Technology...', kerning: true)).to eq([
       [0, ['T', 169.921875, 'echnology', 142.578125, '...']]
     ])
-    expect(@font.encode_text("Teχnology...", kerning: true)).to eq([
+    expect(@font.encode_text('Teχnology...', kerning: true)).to eq([
       [0, ['T', 169.921875, 'e']],
       [1, '!'],
       [0, ['nology', 142.578125, '...']]
@@ -495,7 +495,7 @@ describe '#character_count(text)' do
   it 'should work on TTF fonts' do
     create_pdf
     @pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-    expect(@pdf.font.character_count("こんにちは世界")).to eq(7)
+    expect(@pdf.font.character_count('こんにちは世界')).to eq(7)
     expect(@pdf.font.character_count('Hello, world!')).to eq(13)
   end
 

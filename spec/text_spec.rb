@@ -2,7 +2,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 describe 'Prawn::Text::NBSP' do
   it 'should be defined' do
-    expect(Prawn::Text::NBSP).to eq(" ")
+    expect(Prawn::Text::NBSP).to eq(' ')
   end
 end
 
@@ -269,7 +269,7 @@ describe '#text' do
   end
 
   it 'should correctly render a utf-8 string when using a built-in font' do
-    str = "©" # copyright symbol
+    str = '©' # copyright symbol
     @pdf.text str
 
     # grab the text from the rendered PDF and ensure it matches
@@ -278,7 +278,7 @@ describe '#text' do
   end
 
   it 'should correctly render a utf-8 string when using a TTF font' do
-    str = "©" # copyright symbol
+    str = '©' # copyright symbol
     @pdf.font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
     @pdf.text str
 
@@ -289,7 +289,7 @@ describe '#text' do
 
   it 'subsets mixed low-ASCII and non-ASCII characters when they can '\
     'be subsetted together' do
-    str = "It’s super effective!"
+    str = 'It’s super effective!'
     @pdf.font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
     @pdf.text str
 
@@ -299,7 +299,7 @@ describe '#text' do
 
   it 'correctly renders a string with higher bit characters across a page '\
     'break when using a built-in font' do
-    str = "©"
+    str = '©'
     @pdf.move_cursor_to(@pdf.font.height)
     @pdf.text(str + "\n" + str)
 
@@ -311,7 +311,7 @@ describe '#text' do
 
   it 'should correctly render a string with higher bit characters across' \
     ' a page break when using a built-in font and :indent_paragraphs option' do
-    str = "©"
+    str = '©'
     @pdf.move_cursor_to(@pdf.font.height)
     @pdf.text(str + "\n" + str, indent_paragraphs: 20)
 

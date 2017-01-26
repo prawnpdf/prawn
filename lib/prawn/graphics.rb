@@ -270,20 +270,20 @@ module Prawn
     # first two points define the line segment and the third point helps define
     # the curve for the vertex.
     def rounded_vertex(radius, *points)
-      radial_point_1 = point_on_line(radius, points[0], points[1])
-      bezier_point_1 = point_on_line(
+      radial_point1 = point_on_line(radius, points[0], points[1])
+      bezier_point1 = point_on_line(
         (radius - radius * KAPPA),
         points[0],
         points[1]
       )
-      radial_point_2 = point_on_line(radius, points[2], points[1])
-      bezier_point_2 = point_on_line(
+      radial_point2 = point_on_line(radius, points[2], points[1])
+      bezier_point2 = point_on_line(
         (radius - radius * KAPPA),
         points[2],
         points[1]
       )
-      line_to(radial_point_1)
-      curve_to(radial_point_2, bounds: [bezier_point_1, bezier_point_2])
+      line_to(radial_point1)
+      curve_to(radial_point2, bounds: [bezier_point1, bezier_point2])
     end
 
     # Strokes the current path. If a block is provided, yields to the block

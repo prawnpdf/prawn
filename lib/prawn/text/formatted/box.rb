@@ -452,7 +452,7 @@ module Prawn
           current_font = nil
 
           font_glyph_pairs.each do |font, char|
-            if font != current_font || fragments.count == 0
+            if font != current_font || fragments.count.zero?
               current_font = font
               fragment = hash.dup
               fragment[:text] = char
@@ -467,7 +467,7 @@ module Prawn
         end
 
         def move_baseline_down
-          if @baseline_y == 0
+          if @baseline_y.zero?
             @baseline_y = -@ascender
           else
             @baseline_y -= (@line_height + @leading)

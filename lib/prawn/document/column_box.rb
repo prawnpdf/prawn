@@ -107,7 +107,7 @@ module Prawn
       def move_past_bottom
         @current_column = (@current_column + 1) % @columns
         @document.y = @y
-        if 0 == @current_column
+        if @current_column.zero?
           if @reflow_margins
             @y = @parent.absolute_top
           end

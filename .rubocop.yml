@@ -7,6 +7,14 @@ Lint/ShadowingOuterLocalVariable:
 
 Metrics/AbcSize:
   Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - lib/prawn/graphics.rb
+    - lib/prawn/images/png.rb
+    - lib/prawn/text/formatted/parser.rb
+    - manual/**/*.rb
+    - prawn.gemspec
+    - spec/**/*.rb
 Metrics/ClassLength:
   Enabled: false
 Metrics/CyclomaticComplexity:

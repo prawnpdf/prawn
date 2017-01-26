@@ -257,19 +257,19 @@ module Prawn
       private
 
       def left_box
-        @left_box ||= @bs.min { |a, b| a.left <=> b.left }
+        @left_box ||= @bs.min_by(&:left)
       end
 
       def right_box
-        @right_box ||= @bs.max { |a, b| a.right <=> b.right }
+        @right_box ||= @bs.max_by(&:right)
       end
 
       def top_box
-        @top_box ||= @bs.max { |a, b| a.top <=> b.top }
+        @top_box ||= @bs.max_by(&:top)
       end
 
       def bottom_box
-        @bottom_box ||= @bs.min { |a, b| a.bottom <=> b.bottom }
+        @bottom_box ||= @bs.min_by(&:bottom)
       end
     end
 

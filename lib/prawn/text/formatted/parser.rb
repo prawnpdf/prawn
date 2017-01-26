@@ -83,14 +83,14 @@ module Prawn
             end
 
             if hash[:color]
-              if hash[:color].is_a?(Array)
-                prefix += "<color c='#{hash[:color][0]}'" \
-                                        " m='#{hash[:color][1]}'" \
-                                        " y='#{hash[:color][2]}'" \
-                                        " k='#{hash[:color][3]}'>"
-              else
-                prefix += "<color rgb='#{hash[:color]}'>"
-              end
+              prefix += if hash[:color].is_a?(Array)
+                          "<color c='#{hash[:color][0]}'" \
+                                                  " m='#{hash[:color][1]}'" \
+                                                  " y='#{hash[:color][2]}'" \
+                                                  " k='#{hash[:color][3]}'>"
+                        else
+                          "<color rgb='#{hash[:color]}'>"
+                        end
               suffix = '</color>'
             end
 

@@ -29,16 +29,16 @@ module Prawn
       end
 
       def self.metrics_path
-        if ENV['METRICS']
-          @metrics_path ||= ENV['METRICS'].split(':')
-        else
-          @metrics_path ||= [
-            '.', '/usr/lib/afm',
-            '/usr/local/lib/afm',
-            '/usr/openwin/lib/fonts/afm',
-            Prawn::DATADIR + '/fonts'
-          ]
-        end
+        @metrics_path ||= if ENV['METRICS']
+                            ENV['METRICS'].split(':')
+                          else
+                            [
+                              '.', '/usr/lib/afm',
+                              '/usr/local/lib/afm',
+                              '/usr/openwin/lib/fonts/afm',
+                              Prawn::DATADIR + '/fonts'
+                            ]
+                          end
       end
 
       attr_reader :attributes #:nodoc:
