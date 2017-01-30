@@ -43,6 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('prawn-manual_builder', '>= 0.2.0')
   spec.add_development_dependency('pdf-reader', '~>1.2')
   spec.add_development_dependency('rubocop', '~> 0.47.1')
+  spec.add_development_dependency('rubocop-rspec', '~> 1.10')
 
   spec.homepage = 'http://prawn.majesticseacreature.com'
   spec.description = <<END_DESC

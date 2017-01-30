@@ -17,11 +17,11 @@ module Prawn
     include Prawn::Text::Formatted
 
     # No-Break Space
-    Prawn::Text::NBSP = ' '.freeze
+    NBSP = "\u00A0".freeze
     # Zero Width Space (indicate word boundaries without a space)
-    Prawn::Text::ZWSP = [8203].pack('U')
+    ZWSP = "\u200B".freeze
     # Soft Hyphen (invisible, except when causing a line break)
-    Prawn::Text::SHY = '­'.freeze
+    SHY = "\u00AD".freeze
 
     # @group Stable API
 

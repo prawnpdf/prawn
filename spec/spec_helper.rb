@@ -27,13 +27,13 @@ RSpec.configure do |config|
   config.include EncodingHelpers
 end
 
-def create_pdf(klass = Prawn::Document)
-  @pdf = klass.new(margin: 0)
+def create_pdf(klass = Prawn::Document, &block)
+  klass.new(margin: 0, &block)
 end
 
 RSpec::Matchers.define :have_parseable_xobjects do
   match do |actual|
-    expect { PDF::Inspector::XObject.analyze(actual.render) }.not_to raise_error
+    expect { PDF::Inspector::XObject.analyze(actual.render) }.to_not raise_error
     true
   end
   failure_message do |actual|
