@@ -220,7 +220,7 @@ module Prawn
       end
 
       def write_stroke_color
-        write_color(current_fill_color, 'SCN')
+        write_color(current_stroke_color, 'SCN')
       end
 
       def write_color(color, operator)
