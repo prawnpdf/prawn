@@ -215,14 +215,6 @@ module Prawn
         graphic_state.stroke_color = color
       end
 
-      def write_fill_color
-        write_color(current_fill_color, 'scn')
-      end
-
-      def write_stroke_color
-        write_color(current_fill_color, 'SCN')
-      end
-
       def write_color(color, operator)
         renderer.add_content "#{color} #{operator}"
       end
