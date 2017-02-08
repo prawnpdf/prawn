@@ -7,6 +7,7 @@
 require_relative 'font/afm'
 require_relative 'font/ttf'
 require_relative 'font/dfont'
+require_relative 'font/ttc'
 require_relative 'font_metric_cache'
 
 module Prawn
@@ -289,12 +290,14 @@ module Prawn
     attr_reader :options
 
     # Shortcut interface for constructing a font object.  Filenames of the form
-    # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, and anything else
-    # will be passed through to Font::AFM.new()
+    # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, *.ttc goes to
+    # Font::TTC.new, and anything else will be passed through to
+    # Font::AFM.new()
     def self.load(document, src, options = {})
       case font_format(src, options)
       when 'ttf'   then TTF.new(document, src, options)
       when 'dfont' then DFont.new(document, src, options)
+      when 'ttc'   then TTC.new(document, src, options)
       else AFM.new(document, src, options)
       end
     end
@@ -305,6 +308,7 @@ module Prawn
       case src.to_s
       when /\.ttf$/i   then return 'ttf'
       when /\.dfont$/i then return 'dfont'
+      when /\.ttc$/i   then return 'ttc'
       else return 'afm'
       end
     end
