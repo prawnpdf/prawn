@@ -1,9 +1,3 @@
-# font.rb : The Prawn font class
-#
-# Copyright November 2008, Jamis Buck. All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
 require_relative 'ttf'
 
 module Prawn
@@ -18,7 +12,7 @@ module Prawn
           list = []
 
           f.each do |font|
-            list << font.name.font_name.join(', ')
+            list << font.name.font_name.first
           end
 
           list
@@ -28,7 +22,16 @@ module Prawn
       private
 
       def read_ttf_file
-        TTFunk::File.from_ttc(@name, @options[:font] || 0)
+        TTFunk::File.from_ttc(@name,
+          font_option_to_index(@name, @options[:font]))
+      end
+
+      def font_option_to_index(file, option)
+        if option.is_a?(Numeric)
+          option
+        else
+          self.class.fonts(file).index { |n| n == option } || 0
+        end
       end
     end
   end

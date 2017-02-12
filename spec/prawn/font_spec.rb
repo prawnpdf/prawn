@@ -175,6 +175,22 @@ describe Prawn::Font do
       expect(name).to eq('subset+DejaVuSans-Bold')
     end
 
+    it 'allows fonts to be indexed by name in a ttc file' do
+      file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttc"
+      pdf.font_families['DejaVu Sans'] = {
+        normal: { file: file, font: 'DejaVu Sans' },
+        bold: { file: file, font: 'DejaVu Sans Bold' }
+      }
+
+      pdf.font 'DejaVu Sans', style: :bold
+      pdf.text 'In PanicSans-Bold'
+
+      text = PDF::Inspector::Text.analyze(pdf.render)
+      name = text.font_settings.map { |e| e[:name] }.first.to_s
+      name = name.sub(/\w+\+/, 'subset+')
+      expect(name).to eq('subset+DejaVuSans-Bold')
+    end
+
     it 'accepts Pathname objects for font files' do
       file = Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
       pdf.font_families['DejaVu Sans'] = {
