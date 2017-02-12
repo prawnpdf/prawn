@@ -41,25 +41,6 @@ module Prawn
     yield if block_given?
   end
   module_function :verify_options
-
-  module Configurable # @private
-    # rubocop: disable Security/MarshalLoad
-    def configuration(*args)
-      @config ||= Marshal.load(Marshal.dump(default_configuration))
-      if args[0].is_a? Hash
-        @config.update(args[0])
-      elsif args.length > 1
-        @config.values_at(*args)
-      elsif args.length == 1
-        @config[args[0]]
-      else
-        @config
-      end
-    end
-    # rubocop: enable Security/MarshalLoad
-
-    alias C configuration
-  end
 end
 
 require_relative 'prawn/version'

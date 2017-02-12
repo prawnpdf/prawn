@@ -228,11 +228,6 @@ module Prawn
           end
       end
 
-      def cid_to_gid_map
-        max = cmap.code_map.keys.max
-        (0..max).map { |cid| cmap[cid] }.pack('n*')
-      end
-
       def hmtx
         @hmtx ||= @ttf.horizontal_metrics
       end
