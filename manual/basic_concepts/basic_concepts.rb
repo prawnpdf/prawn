@@ -12,7 +12,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
     p.example 'other_cursor_helpers'
     p.example 'adding_pages'
     p.example 'measurement'
-    p.example 'view', eval_source: false, full_source: true
+    p.example 'view', eval_source: false
 
     p.intro do
       prose <<-END

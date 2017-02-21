@@ -1,51 +1,52 @@
-# To create a custom class that extends Prawn's functionality, use the
-# <code>Prawn::View</code> mixin. This approach is safer than creating
-# subclasses of <code>Prawn::Document</code> while being just as
-# convenient.
+# The recommended way to extend Prawn's functionality is to include the
+# <code>Prawn::View</code> mixin in your own class, which will make all
+# <code>Prawn::Document</code> methods available to your custom objects.
 #
-# By using this mixin, your state will be kept completely separate
-# from <code>Prawn::Document</code>'s state, and you will avoid
-# accidental method collisions within <code>Prawn::Document</code>.
+# This approach is preferred over inheriting from
+# <code>Prawn::Document</code>, as your state will be kept completely separate
+# from <code>Prawn::Document</code>'s, thus avoiding accidental method
+# collisions.
 #
-# You might define in your custom class a <code>document</code>
-# instance method with a <code>Prawn::Document</code> initialized to
-# your heart's content. This method will be called repeatedly by
-# <code>Prawn::View</code>, so do not forget to assign the object to
-# an instance variable via the <code>||=</code> operator.
+# Note that <code>Prawn::View</code> lazily instantiates a
+# <code>Prawn::Document</code> with default initialization settings, such as
+# page size, layout, margins, etc.
 #
-# If you do not define the <code>document</code> method, a
-# <code>Prawn::Document</code> will be lazily instantiated for you,
-# using default initialization settings, such as page size, layout,
-# margins, etc.
-#
-# Either way, your custom objects will have access to all
-# <code>Prawn::Document</code> methods.
+# By defining your own <code>document</code> method, as shown in the example,
+# you will be able to override those settings and initialize a
+# <code>Prawn::Document</code> to your heart's content. This method will be
+# called repeatedly by <code>Prawn::View</code>, so be sure to memoize the
+# object by assigning it to an instance variable via the <code>||=</code>
+# operator.
 
 require_relative '../example_helper'
+filename = File.basename(__FILE__).gsub('.rb', '.pdf')
+Prawn::ManualBuilder::Example.generate(filename) do
+  class Greeter
+    include Prawn::View
 
-class Greeter
-  include Prawn::View
+    def initialize(name)
+      @name = name
+    end
 
-  def initialize(name)
-    @name = name
-  end
+    # not needed this if you are happy with
+    # Prawn's default document settings
+    def document
+      @my_prawn_doc ||= Prawn::Document.new(page_size: 'A4')
+    end
 
-  def document
-    @my_prawn_doc ||= Prawn::Document.new(page_size: 'A4')
-  end
+    def say_hello
+      text "Hello, #{@name}!"
+    end
 
-  def say_hello
-    text "Hello, #{@name}!"
-  end
-
-  def say_goodbye
-    font('Courier') do
-      text "Goodbye, #{@name}!"
+    def say_goodbye
+      font('Courier') do
+        text "Goodbye, #{@name}!"
+      end
     end
   end
-end
 
-greeter = Greeter.new('Gregory')
-greeter.say_hello
-greeter.say_goodbye
-greeter.save_as('greetings.pdf')
+  greeter = Greeter.new('Gregory')
+  greeter.say_hello
+  greeter.say_goodbye
+  greeter.save_as('greetings.pdf')
+end
