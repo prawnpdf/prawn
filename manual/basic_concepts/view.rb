@@ -28,8 +28,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
       @name = name
     end
 
-    # not needed this if you are happy with
-    # Prawn's default document settings
+    # not needed if you are happy with Prawn's default document settings
     def document
       @my_prawn_doc ||= Prawn::Document.new(page_size: 'A4')
     end
