@@ -16,7 +16,7 @@ module Prawn
   #
   # There are three basic ways you can instantiate PDF Documents in Prawn, they
   # are through assignment, implicit block or explicit block.  Below is an
-  # exmple of each type, each example does exactly the same thing, makes a PDF
+  # example of each type, each example does exactly the same thing, makes a PDF
   # document with all the defaults and puts in the default font "Hello There"
   # and then saves it to the current directory as "example.pdf"
   #
