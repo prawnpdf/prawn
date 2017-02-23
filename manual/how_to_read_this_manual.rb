@@ -24,7 +24,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   prose <<-END_TEXT
   The title of each example is the relative path from the Prawn source manual/ folder.
 
-  The first body of text is the introductory text for the example. Generaly it is a short description of the features illustrated by the example.
+  The first body of text is the introductory text for the example. Generally it is a short description of the features illustrated by the example.
 
   Next comes the example source code block in fixed width font.
 
