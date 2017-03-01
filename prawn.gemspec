@@ -8,9 +8,7 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.summary = 'A fast and nimble PDF generator for Ruby'
   spec.files = Dir.glob('{examples,lib,spec,manual}/**/**/*') +
-    Dir.glob('data/images/*') +
     Dir.glob('data/fonts/{MustRead.html,*.afm}') +
-    ['data/shift_jis_text.txt'] +
     [
       'Rakefile', 'prawn.gemspec', 'Gemfile',
       'COPYING', 'LICENSE', 'GPLv2', 'GPLv3',
@@ -20,7 +18,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.0.0'
   spec.required_rubygems_version = '>= 1.3.6'
 
-  spec.test_files = Dir['spec/*_spec.rb']
   spec.authors = [
     'Gregory Brown', 'Brad Ediger', 'Daniel Nelson', 'Jonathan Greenberg',
     'James Healy'
