@@ -42,7 +42,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('rubocop', '~> 0.47.1')
   spec.add_development_dependency('rubocop-rspec', '~> 1.10')
 
-  spec.homepage = 'http://prawn.majesticseacreature.com'
+  spec.homepage = 'http://prawnpdf.org'
   spec.description = <<END_DESC
   Prawn is a fast, tiny, and nimble PDF generator for Ruby
 END_DESC
