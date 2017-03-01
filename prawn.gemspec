@@ -7,6 +7,12 @@ Gem::Specification.new do |spec|
   spec.version = Prawn::VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = 'A fast and nimble PDF generator for Ruby'
+
+  spec.cert_chain = ['certs/pointlessone.pem']
+  if $PROGRAM_NAME.end_with? 'gem'
+    spec.signing_key = File.expand_path('~/.ssh/gem-private_key.pem')
+  end
+
   spec.files = Dir.glob('{examples,lib,spec,manual}/**/**/*') +
     Dir.glob('data/fonts/{MustRead.html,*.afm}') +
     [
