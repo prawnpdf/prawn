@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.summary = 'A fast and nimble PDF generator for Ruby'
   spec.files = Dir.glob('{examples,lib,spec,manual}/**/**/*') +
-    Dir.glob('data/{encodings,images}/*') +
+    Dir.glob('data/images/*') +
     Dir.glob('data/fonts/{MustRead.html,*.afm}') +
     ['data/shift_jis_text.txt'] +
     [
