@@ -209,7 +209,7 @@ module PDF
   module Core
     module_function
 
-    # Like PdfObject, but returns an encrypted result if required.
+    # Like pdf_object, but returns an encrypted result if required.
     # For direct objects, requires the object identifier and generation number
     # from the indirect object referencing obj.
     #
@@ -232,7 +232,7 @@ module PDF
         ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
-        PdfObject(
+        pdf_object(
           ByteString.new(
             Prawn::Document::Security.encrypt_string(obj, key, id, gen)
           ),
@@ -245,17 +245,17 @@ module PDF
             raise PDF::Core::Errors::FailedObjectConversion,
               'A PDF Dictionary must be keyed by names'
           end
-          output << PdfObject(k.to_sym, in_content_stream) << ' ' <<
+          output << pdf_object(k.to_sym, in_content_stream) << ' ' <<
             encrypted_pdf_object(v, key, id, gen, in_content_stream) << "\n"
         end
         output << '>>'
       when NameTree::Value
-        PdfObject(obj.name) + ' ' +
+        pdf_object(obj.name) + ' ' +
           encrypted_pdf_object(obj.value, key, id, gen, in_content_stream)
       when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
         encrypted_pdf_object(obj.to_hash, key, id, gen, in_content_stream)
-      else # delegate back to PdfObject
-        PdfObject(obj, in_content_stream)
+      else # delegate back to pdf_object
+        pdf_object(obj, in_content_stream)
       end
     end
 
