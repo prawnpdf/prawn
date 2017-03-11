@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Prawn::Text::Formatted::Box
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "Prawn::Text::Formatted::Box";
+  relpath = '../../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../../_index.html">Index (B)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Text.html" title="Prawn::Text (module)">Text</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span></span>
+     &raquo; 
+    <span class="title">Box</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Prawn::Text::Formatted::Box
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Prawn::Text::Formatted::Box</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/prawn/text/formatted/box.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Generally, one would use the Prawn::Text::Formatted#formatted_text_box
+convenience method. However, using Text::Formatted::Box.new in conjunction
+with #render(:dry_run =&gt; true) enables one to do look-ahead calculations
+prior to placing text on the page, or to determine how much vertical space
+was consumed by the printed text</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="../Box.html" title="Prawn::Text::Box (class)">Box</a></span></p>
+</div>
+
+
+
+
+  <h2>Experimental API <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ascender-instance_method" title="#ascender (instance method)">#<strong>ascender</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The height of the ascender of the last line printed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#at-instance_method" title="#at (instance method)">#<strong>at</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The upper left corner of the text box.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#descender-instance_method" title="#descender (instance method)">#<strong>descender</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The height of the descender of the last line printed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#leading-instance_method" title="#leading (instance method)">#<strong>leading</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The leading used during printing.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line_height-instance_method" title="#line_height (instance method)">#<strong>line_height</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The line height of the last line printed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text-instance_method" title="#text (instance method)">#<strong>text</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The text that was successfully printed (or, if <code>dry_run</code> was
+used, the text that would have been successfully printed).</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Experimental API
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_width-instance_method" title="#available_width (instance method)">#<strong>available_width</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The width available at this point in the box.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#draw_fragment-instance_method" title="#draw_fragment (instance method)">#<strong>draw_fragment</strong>(fragment, accumulated_width = 0, line_width = 0, word_spacing = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p><code>fragment</code> is a Prawn::Text::Formatted::Fragment object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#everything_printed%3F-instance_method" title="#everything_printed? (instance method)">#<strong>everything_printed?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>True if everything printed (or, if <code>dry_run</code> was used,
+everything would have been successfully printed).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#height-instance_method" title="#height (instance method)">#<strong>height</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The height actually used during the previous <code>render</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(formatted_text, options = {})  &#x21d2; Box </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>See Prawn::Text#text_box for valid options.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#line_gap-instance_method" title="#line_gap (instance method)">#<strong>line_gap</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#nothing_printed%3F-instance_method" title="#nothing_printed? (instance method)">#<strong>nothing_printed?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>True if nothing printed (or, if <code>dry_run</code> was used, nothing
+would have been successfully printed).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#render-instance_method" title="#render (instance method)">#<strong>render</strong>(flags = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Render text to the document based on the settings defined in initialize.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Extension API
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extensions-class_method" title="extensions (class method)">.<strong>extensions</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Example (see Prawn::Text::Core::Formatted::Wrap for what is required of the
+wrap method if you want to override the default wrapping algorithm):.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_options-instance_method" title="#valid_options (instance method)">#<strong>valid_options</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(formatted_text, options = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Prawn::Text::Formatted::Box (class)">Box</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>See Prawn::Text#text_box for valid options</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 138</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@inked</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='const'><span class='object_link'><a href="../../../Prawn.html" title="Prawn (module)">Prawn</a></span></span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span><span class='lparen'>(</span><span class='id identifier rubyid_valid_options'>valid_options</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span><span class='period'>.</span><span class='id identifier rubyid_reverse_each'>reverse_each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_extend'>extend</span> <span class='id identifier rubyid_e'>e</span> <span class='rbrace'>}</span>
+
+  <span class='ivar'>@overflow</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:overflow</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='symbol'>:truncate</span>
+  <span class='ivar'>@disable_wrap_by_char</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:disable_wrap_by_char</span><span class='rbracket'>]</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_original_text'>original_text</span> <span class='op'>=</span> <span class='id identifier rubyid_formatted_text'>formatted_text</span>
+  <span class='ivar'>@text</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+  <span class='ivar'>@document</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:document</span><span class='rbracket'>]</span>
+  <span class='ivar'>@direction</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:direction</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_text_direction'>text_direction</span>
+  <span class='ivar'>@fallback_fonts</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:fallback_fonts</span><span class='rbracket'>]</span> <span class='op'>||</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_fallback_fonts'>fallback_fonts</span>
+  <span class='ivar'>@at</span> <span class='op'>=</span> <span class='lparen'>(</span>
+    <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span><span class='comma'>,</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_top'>top</span><span class='rbracket'>]</span>
+  <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='ivar'>@width</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:width</span><span class='rbracket'>]</span> <span class='op'>||</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_right'>right</span> <span class='op'>-</span> <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='ivar'>@height</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:height</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_default_height'>default_height</span>
+  <span class='ivar'>@align</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:align</span><span class='rbracket'>]</span> <span class='op'>||</span>
+    <span class='lparen'>(</span><span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:rtl</span> <span class='op'>?</span> <span class='symbol'>:right</span> <span class='op'>:</span> <span class='symbol'>:left</span><span class='rparen'>)</span>
+  <span class='ivar'>@vertical_align</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:valign</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='symbol'>:top</span>
+  <span class='ivar'>@leading</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:leading</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_default_leading'>default_leading</span>
+  <span class='ivar'>@character_spacing</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:character_spacing</span><span class='rbracket'>]</span> <span class='op'>||</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_character_spacing'>character_spacing</span>
+  <span class='ivar'>@mode</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:mode</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_text_rendering_mode'>text_rendering_mode</span>
+  <span class='ivar'>@rotate</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:rotate</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>0</span>
+  <span class='ivar'>@rotate_around</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:rotate_around</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='symbol'>:upper_left</span>
+  <span class='ivar'>@single_line</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:single_line</span><span class='rbracket'>]</span>
+  <span class='ivar'>@draw_text_callback</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:draw_text_callback</span><span class='rbracket'>]</span>
+
+  <span class='comment'># if the text rendering mode is :unknown, force it back to :fill
+</span>  <span class='kw'>if</span> <span class='ivar'>@mode</span> <span class='op'>==</span> <span class='symbol'>:unknown</span>
+    <span class='ivar'>@mode</span> <span class='op'>=</span> <span class='symbol'>:fill</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@overflow</span> <span class='op'>==</span> <span class='symbol'>:expand</span>
+    <span class='comment'># if set to expand, then we simply set the bottom
+</span>    <span class='comment'># as the bottom of the document bounds, since that
+</span>    <span class='comment'># is the maximum we should expand to
+</span>    <span class='ivar'>@height</span> <span class='op'>=</span> <span class='id identifier rubyid_default_height'>default_height</span>
+    <span class='ivar'>@overflow</span> <span class='op'>=</span> <span class='symbol'>:truncate</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@min_font_size</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:min_font_size</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>5</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_default_kerning?'>default_kerning?</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@options</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>kerning:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:kerning</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>size:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>style:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:style</span><span class='rbracket'>]</span>
+  <span class='rbrace'>}</span>
+
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="ascender-instance_method">
+  
+    #<strong>ascender</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The height of the ascender of the last line printed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ascender'>ascender</span>
+  <span class='ivar'>@ascender</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="at-instance_method">
+  
+    #<strong>at</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The upper left corner of the text box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_at'>at</span>
+  <span class='ivar'>@at</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="descender-instance_method">
+  
+    #<strong>descender</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The height of the descender of the last line printed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_descender'>descender</span>
+  <span class='ivar'>@descender</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="leading-instance_method">
+  
+    #<strong>leading</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The leading used during printing</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 130</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_leading'>leading</span>
+  <span class='ivar'>@leading</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="line_height-instance_method">
+  
+    #<strong>line_height</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The line height of the last line printed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_height'>line_height</span>
+  <span class='ivar'>@line_height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="text-instance_method">
+  
+    #<strong>text</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The text that was successfully printed (or, if <code>dry_run</code> was
+used, the text that would have been successfully printed)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span>
+  <span class='ivar'>@text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="extensions-class_method">
+  
+    .<strong>extensions</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Example (see Prawn::Text::Core::Formatted::Wrap for what is required of the
+wrap method if you want to override the default wrapping algorithm):</p>
+
+<pre class="code ruby"><code class="ruby">module MyWrap
+
+  def wrap(array)
+    initialize_wrap([{ :text =&gt; &#39;all your base are belong to us&#39; }])
+    @line_wrap.wrap_line(:document =&gt; @document,
+                         :kerning =&gt; @kerning,
+                         :width =&gt; 10000,
+                         :arranger =&gt; @arranger)
+    fragment = @arranger.retrieve_fragment
+    format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
+    []
+  end
+
+end
+
+Prawn::Text::Formatted::Box.extensions &lt;&lt; MyWrap
+
+box = Prawn::Text::Formatted::Box.new(&#39;hello world&#39;)
+box.render(&#39;why can&#39;t I print anything other than&#39; +
+           &#39;&quot;all your base are belong to us&quot;?&#39;)</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+331
+332
+333</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 331</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extensions'>extensions</span>
+  <span class='ivar'>@extensions</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="available_width-instance_method">
+  
+    #<strong>available_width</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The width available at this point in the box</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+241
+242
+243</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 241</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_available_width'>available_width</span>
+  <span class='ivar'>@width</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="draw_fragment-instance_method">
+  
+    #<strong>draw_fragment</strong>(fragment, accumulated_width = 0, line_width = 0, word_spacing = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p><code>fragment</code> is a Prawn::Text::Formatted::Fragment object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 254</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_draw_fragment'>draw_fragment</span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_fragment'>fragment</span><span class='comma'>,</span> <span class='id identifier rubyid_accumulated_width'>accumulated_width</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_line_width'>line_width</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_word_spacing'>word_spacing</span> <span class='op'>=</span> <span class='int'>0</span>
+<span class='rparen'>)</span> <span class='comment'>#:nodoc:
+</span>  <span class='kw'>case</span> <span class='ivar'>@align</span>
+  <span class='kw'>when</span> <span class='symbol'>:left</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='symbol'>:center</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='ivar'>@width</span> <span class='op'>*</span> <span class='float'>0.5</span> <span class='op'>-</span> <span class='id identifier rubyid_line_width'>line_width</span> <span class='op'>*</span> <span class='float'>0.5</span>
+  <span class='kw'>when</span> <span class='symbol'>:right</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='ivar'>@width</span> <span class='op'>-</span> <span class='id identifier rubyid_line_width'>line_width</span>
+  <span class='kw'>when</span> <span class='symbol'>:justify</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:ltr</span>
+          <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+        <span class='kw'>else</span>
+          <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='ivar'>@width</span> <span class='op'>-</span> <span class='id identifier rubyid_line_width'>line_width</span>
+        <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_x'>x</span> <span class='op'>+=</span> <span class='id identifier rubyid_accumulated_width'>accumulated_width</span>
+
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='ivar'>@at</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='ivar'>@baseline_y</span>
+
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>+=</span> <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_y_offset'>y_offset</span>
+
+  <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_left'>left</span> <span class='op'>=</span> <span class='id identifier rubyid_x'>x</span>
+  <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_baseline'>baseline</span> <span class='op'>=</span> <span class='id identifier rubyid_y'>y</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@inked</span>
+    <span class='id identifier rubyid_draw_fragment_underlays'>draw_fragment_underlays</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='rparen'>)</span>
+
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_word_spacing'>word_spacing</span><span class='lparen'>(</span><span class='id identifier rubyid_word_spacing'>word_spacing</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='kw'>if</span> <span class='ivar'>@draw_text_callback</span>
+        <span class='ivar'>@draw_text_callback</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span>
+          <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                         <span class='label'>kerning:</span> <span class='ivar'>@kerning</span>
+        <span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_draw_text!'>draw_text!</span><span class='lparen'>(</span>
+          <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                         <span class='label'>kerning:</span> <span class='ivar'>@kerning</span>
+        <span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_draw_fragment_overlays'>draw_fragment_overlays</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="everything_printed?-instance_method">
+  
+    #<strong>everything_printed?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>True if everything printed (or, if <code>dry_run</code> was used,
+everything would have been successfully printed)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 117</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_everything_printed?'>everything_printed?</span>
+  <span class='ivar'>@everything_printed</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="height-instance_method">
+  
+    #<strong>height</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The height actually used during the previous <code>render</code></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+247
+248
+249
+250</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 247</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_height'>height</span>
+  <span class='kw'>return</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='ivar'>@baseline_y</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@descender</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='lparen'>(</span><span class='ivar'>@baseline_y</span> <span class='op'>-</span> <span class='ivar'>@descender</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_abs'>abs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="line_gap-instance_method">
+  
+    #<strong>line_gap</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 132</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_gap'>line_gap</span>
+  <span class='id identifier rubyid_line_height'>line_height</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='id identifier rubyid_ascender'>ascender</span> <span class='op'>+</span> <span class='id identifier rubyid_descender'>descender</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="nothing_printed?-instance_method">
+  
+    #<strong>nothing_printed?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>True if nothing printed (or, if <code>dry_run</code> was used, nothing
+would have been successfully printed)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_nothing_printed?'>nothing_printed?</span>
+  <span class='ivar'>@nothing_printed</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="render-instance_method">
+  
+    #<strong>render</strong>(flags = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Render text to the document based on the settings defined in initialize.</p>
+
+<p>In order to facilitate look-ahead calculations, <code>render</code> accepts
+a <code>:dry_run =&gt; true</code> option. If provided, then everything is
+executed as if rendering, with the exception that nothing is drawn on the
+page. Useful for look-ahead computations of height, unprinted text, etc.</p>
+
+<p>Returns any text that did not print under the current settings.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 209</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_unprinted_text'>unprinted_text</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_save_font'>save_font</span> <span class='kw'>do</span>
+    <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_character_spacing'>character_spacing</span><span class='lparen'>(</span><span class='ivar'>@character_spacing</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_text_rendering_mode'>text_rendering_mode</span><span class='lparen'>(</span><span class='ivar'>@mode</span><span class='rparen'>)</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_process_options'>process_options</span>
+
+        <span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_normalized_text'>normalized_text</span><span class='lparen'>(</span><span class='id identifier rubyid_flags'>flags</span><span class='rparen'>)</span>
+
+        <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='ivar'>@font_size</span><span class='rparen'>)</span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_shrink_to_fit'>shrink_to_fit</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@overflow</span> <span class='op'>==</span> <span class='symbol'>:shrink_to_fit</span>
+          <span class='id identifier rubyid_process_vertical_alignment'>process_vertical_alignment</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+          <span class='ivar'>@inked</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='kw'>unless</span> <span class='id identifier rubyid_flags'>flags</span><span class='lbracket'>[</span><span class='symbol'>:dry_run</span><span class='rbracket'>]</span>
+          <span class='id identifier rubyid_unprinted_text'>unprinted_text</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ivar'>@rotate</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@inked</span>
+                             <span class='id identifier rubyid_render_rotated'>render_rotated</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+                           <span class='kw'>else</span>
+                             <span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+                           <span class='kw'>end</span>
+          <span class='ivar'>@inked</span> <span class='op'>=</span> <span class='kw'>false</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_unprinted_text'>unprinted_text</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
+    <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>text:</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id identifier rubyid_font'>font</span><span class='period'>.</span><span class='id identifier rubyid_to_utf8'>to_utf8</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='lbracket'>[</span><span class='symbol'>:text</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid_options-instance_method">
+  
+    #<strong>valid_options</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/formatted/box.rb', line 340</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid_options'>valid_options</span>
+  <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Core</span><span class='op'>::</span><span class='const'>Text</span><span class='op'>::</span><span class='const'>VALID_OPTIONS</span> <span class='op'>+</span> <span class='lbracket'>[</span>
+    <span class='symbol'>:at</span><span class='comma'>,</span>
+    <span class='symbol'>:height</span><span class='comma'>,</span> <span class='symbol'>:width</span><span class='comma'>,</span>
+    <span class='symbol'>:align</span><span class='comma'>,</span> <span class='symbol'>:valign</span><span class='comma'>,</span>
+    <span class='symbol'>:rotate</span><span class='comma'>,</span> <span class='symbol'>:rotate_around</span><span class='comma'>,</span>
+    <span class='symbol'>:overflow</span><span class='comma'>,</span> <span class='symbol'>:min_font_size</span><span class='comma'>,</span>
+    <span class='symbol'>:disable_wrap_by_char</span><span class='comma'>,</span>
+    <span class='symbol'>:leading</span><span class='comma'>,</span> <span class='symbol'>:character_spacing</span><span class='comma'>,</span>
+    <span class='symbol'>:mode</span><span class='comma'>,</span> <span class='symbol'>:single_line</span><span class='comma'>,</span>
+    <span class='symbol'>:document</span><span class='comma'>,</span>
+    <span class='symbol'>:direction</span><span class='comma'>,</span>
+    <span class='symbol'>:fallback_fonts</span><span class='comma'>,</span>
+    <span class='symbol'>:draw_text_callback</span>
+  <span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Mar 11 14:30:35 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.8 (ruby-2.4.0).
+</div>
+
+    </div>
+  </body>
+</html>
