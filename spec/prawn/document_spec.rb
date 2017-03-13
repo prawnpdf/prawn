@@ -153,6 +153,12 @@ describe Prawn::Document do
         described_class.new.start_new_page({ margin: 0 }.freeze)
       end.to_not raise_error
     end
+
+    it 'it sets individual page margins' do
+      doc = described_class.new
+      doc.start_new_page(top_margin: 42)
+      expect(doc.page.margins[:top]).to eq(42)
+    end
   end
 
   describe '#page_number' do
