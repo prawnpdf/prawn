@@ -1,6 +1,12 @@
 ## PrawnPDF master branch
 
-## PrawnPDF 2.2.0 -- Unreleased
+## PrawnPDF 2.2.1
+
+Fixed margins on individual pages.
+
+(Eric Hankins, [#1003](https://github.com/prawnpdf/prawn/pull/1003))
+
+## PrawnPDF 2.2.0
 
 ### Added support of TTC fonts
 
