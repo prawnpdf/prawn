@@ -4,9 +4,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-
-require_relative 'formatted/box'
-
 module Prawn
   module Text
     # @group Stable API
