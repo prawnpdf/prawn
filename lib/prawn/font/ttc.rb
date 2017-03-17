@@ -1,5 +1,3 @@
-require_relative 'ttf'
-
 module Prawn
   class Font
     # @private
