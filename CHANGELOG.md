@@ -1,5 +1,11 @@
 ## PrawnPDF master branch
 
+## PrawnPDF 2.2.2
+
+Relax pdf-inspector depspec.
+
+(Alexander Mankuta)
+
 ## PrawnPDF 2.2.1
 
 Fixed margins on individual pages.
