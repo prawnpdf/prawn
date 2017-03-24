@@ -8,8 +8,6 @@ require 'digest/md5'
 
 require 'pdf/core/byte_string'
 
-require_relative 'security/arcfour'
-
 module Prawn
   class Document
     # Implements PDF encryption (password protection and permissions) as

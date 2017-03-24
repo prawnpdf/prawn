@@ -6,11 +6,6 @@
 
 require 'stringio'
 
-require_relative 'document/bounding_box'
-require_relative 'document/column_box'
-require_relative 'document/internals'
-require_relative 'document/span'
-
 module Prawn
   # The Prawn::Document class is how you start creating a PDF document.
   #

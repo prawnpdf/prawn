@@ -4,8 +4,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require_relative 'bounding_box'
-
 module Prawn
   class Document
     # @group Experimental API
