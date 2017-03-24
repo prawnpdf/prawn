@@ -13,7 +13,7 @@ Prawn::Document.generate(filename, background: img, margin: 100) do
 
   move_down font.height * 2
 
-  text 'Here is my text explaning this report. ' * 20,
+  text 'Here is my text explaining this report. ' * 20,
     size: 12, align: :left, leading: 2
 
   move_down font.height

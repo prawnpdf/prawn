@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Prawn::Stamp do
   describe 'create_stamp before any page is added' do
     let(:pdf) { Prawn::Document.new(skip_page_creation: true) }
+
     it 'works with the font class' do
       # If anything goes wrong, Prawn::Errors::NotOnPage will be raised
       pdf.create_stamp('my_stamp') do

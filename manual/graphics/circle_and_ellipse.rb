@@ -2,7 +2,7 @@
 # radius.
 #
 # To define an <code>ellipse</code> you provide the center point and two radii
-# (or axes) values. If the second radius value is ommitted, both radii will be
+# (or axes) values. If the second radius value is omitted, both radii will be
 # equal and you will end up drawing a circle.
 
 require_relative '../example_helper'
