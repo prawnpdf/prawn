@@ -94,6 +94,26 @@ module Prawn
       @extensions ||= []
     end
 
+    def draw(drawer, *args)
+      preserve_state do
+        drawer.call self, *args
+      end
+    end
+
+    def preserve_state
+      preserved_fill_color = self.fill_color
+      preserved_bounds = self.bounds
+      preserved_font = self.font.name
+      preserved_font_size = self.font_size
+
+      yield
+
+      self.fill_color = preserved_fill_color
+      self.bounds = preserved_bounds
+      self.font preserved_font
+      self.font_size = preserved_font_size
+    end
+
     # @private
     def self.inherited(base)
       extensions.each { |e| base.extensions << e }
