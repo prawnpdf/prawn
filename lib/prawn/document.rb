@@ -586,6 +586,11 @@ module Prawn
     end
 
     # @group Experimental API
+    
+
+    def anchor(label)
+      add_dest label, dest_fit
+    end
 
     # Attempts to group the given block vertically within the current context.
     # First attempts to render it in the current position on the current page.
@@ -729,5 +734,6 @@ module Prawn
     def font_metric_cache #:nodoc:
       @font_metric_cache ||= FontMetricCache.new(self)
     end
+
   end
 end
