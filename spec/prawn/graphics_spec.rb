@@ -245,6 +245,10 @@ describe Prawn::Graphics do
       expect { pdf.fill_color 'zcff00' }.to raise_error(ArgumentError)
     end
 
+    it 'raises an error for a color string with invalid characters' do
+      expect { pdf.fill_color 'f0f0f?' }.to raise_error(ArgumentError)
+    end
+
     it 'resets the colors on each new page if they have been defined' do
       pdf.fill_color 'ccff00'
 
