@@ -71,12 +71,14 @@ module Prawn
               character_spacing = nil
             end
             if hash[:horizontal_text_scaling]
-              horizontal_text_scaling = " horizontal_text_scaling='#{hash[:horizontal_text_scaling]}'"
+              horizontal_text_scaling =
+                " horizontal_text_scaling='#{hash[:horizontal_text_scaling]}'"
             else
               horizontal_text_scaling = nil
             end
             if font || size || character_spacing || horizontal_text_scaling
-              prefix += "<font#{font}#{size}#{character_spacing}#{horizontal_text_scaling}>"
+              prefix += "<font#{font}#{size}#{character_spacing}"\
+                "#{horizontal_text_scaling}>"
               suffix = '</font>'
             end
 

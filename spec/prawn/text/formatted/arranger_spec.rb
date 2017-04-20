@@ -349,7 +349,8 @@ describe Prawn::Text::Formatted::Arranger do
   end
 
   describe '#line_width with horizontal_text_scaling > 100' do
-    it 'returns a width greater than a line without a horizontal_text_scaling' do
+    it 'returns a width greater than a line without a '\
+      'horizontal_text_scaling' do
       array = [
         { text: 'hello ' },
         { text: 'world', styles: [:bold] }
@@ -358,9 +359,9 @@ describe Prawn::Text::Formatted::Arranger do
       while arranger.next_string
       end
       arranger.finalize_line
-  
+
       base_line_width = arranger.line_width
-  
+
       array = [
         { text: 'hello ' },
         {
@@ -375,7 +376,7 @@ describe Prawn::Text::Formatted::Arranger do
       expect(arranger.line_width).to be > base_line_width
     end
   end
-  
+
   describe '#line_width with horizontal_text_scaling < 100' do
     it 'returns a width less than a line without a horizontal_text_scaling' do
       array = [
@@ -386,9 +387,9 @@ describe Prawn::Text::Formatted::Arranger do
       while arranger.next_string
       end
       arranger.finalize_line
-  
+
       base_line_width = arranger.line_width
-  
+
       array = [
         { text: 'hello ' },
         {

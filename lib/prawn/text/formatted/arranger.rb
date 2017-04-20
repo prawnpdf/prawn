@@ -156,7 +156,8 @@ module Prawn
             size = current_format_state[:size]
             character_spacing = current_format_state[:character_spacing] ||
               @document.character_spacing
-            horizontal_text_scaling = current_format_state[:horizontal_text_scaling] ||
+            horizontal_text_scaling =
+              current_format_state[:horizontal_text_scaling] ||
               @document.horizontal_text_scaling
             styles = current_format_state[:styles]
           else

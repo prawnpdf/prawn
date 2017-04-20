@@ -133,7 +133,8 @@ describe Prawn::Text::Formatted::Parser do
       )
     end
     it 'handles horizontal_text_scaling' do
-      string = "<font horizontal_text_scaling='125'>extra horizontal text scaling</font>"
+      string = "<font horizontal_text_scaling='125'>extra horizontal text "\
+        'scaling</font>'
       array = described_class.format(string)
       expect(array[0]).to eq(
         text: 'extra horizontal text scaling',
@@ -570,8 +571,8 @@ describe Prawn::Text::Formatted::Parser do
       expect(described_class.to_string(array)).to eq(string)
     end
     it 'handles horizontal text scaling' do
-      string =
-        "<font horizontal_text_scaling='125'>125 extra horizontal text scaling</font>"
+      string = "<font horizontal_text_scaling='125'>125 extra horizontal text "\
+        'scaling</font>'
       array = [{
         text: '125 extra horizontal text scaling',
         styles: [],
