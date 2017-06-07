@@ -95,7 +95,7 @@ describe Prawn::Stamp do
         next unless obj =~ %r{/Type /Page$}
         # The page object must contain the annotation reference
         # to render a clickable link
-        expect(obj).to match(%r{^/Annots \[\d \d .\]$})
+        expect(obj).to match(%r{^/Annots \[\d+ \d .\]$})
       end
     end
 

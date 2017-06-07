@@ -454,7 +454,13 @@ describe Prawn::Document do
     end
 
     it 'is idempotent' do
-      pdf = described_class.new
+      # We need to overwrite the trailer ID, otherwise each render
+      # pass will generate a new random ID and the documents would
+      # not match.
+      trailer_id = PDF::Core::ByteString.new(SecureRandom.random_bytes(16))
+      pdf = described_class.new(trailer: {
+        ID: [trailer_id, trailer_id]
+      })
 
       contents = pdf.render
       contents2 = pdf.render
@@ -508,7 +514,7 @@ describe Prawn::Document do
   end
 
   describe 'content stream characteristics' do
-    it 'has 1 single content stream for a single page PDF' do
+    it 'has 2 content streams for a single page PDF' do
       pdf = described_class.new
       pdf.text 'James'
       output = StringIO.new(pdf.render)
@@ -516,10 +522,10 @@ describe Prawn::Document do
 
       streams = hash.values.select { |obj| obj.is_a?(PDF::Reader::Stream) }
 
-      expect(streams.size).to eq(1)
+      expect(streams.size).to eq(2)
     end
 
-    it 'has 1 single content stream for a single page PDF, even if go_to_page '\
+    it 'has 2 content streams for a single page PDF, even if go_to_page '\
       'is used' do
       pdf = described_class.new
       pdf.text 'James'
@@ -530,7 +536,7 @@ describe Prawn::Document do
 
       streams = hash.values.select { |obj| obj.is_a?(PDF::Reader::Stream) }
 
-      expect(streams.size).to eq(1)
+      expect(streams.size).to eq(2)
     end
   end
 

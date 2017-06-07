@@ -6,9 +6,14 @@ def prawn_manual_document
   old_default_external_encoding = Encoding.default_external
   Encoding.default_external = Encoding::UTF_8
 
+  # We need to use a fixed trailer ID, otherwise the test for
+  # unintended manual changes will always trigger because of
+  # a random trailer ID.
+  trailer_id = PDF::Core::ByteString.new('PrawnPrawnPrawnP')
   Prawn::ManualBuilder::Example.new(
     skip_page_creation: true,
-    page_size: 'FOLIO'
+    page_size: 'FOLIO',
+    trailer: { ID: [trailer_id, trailer_id] }
   ) do
     load_page '', 'cover'
     load_page '', 'how_to_read_this_manual'
