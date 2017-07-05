@@ -206,3 +206,5 @@ GitHub [Contributors](https://github.com/prawnpdf/prawn/contributors) page.
 After a long period of inactivity, Prawn reached its 1.0 milestone in 2014
 thanks to some modest funding provided to Gregory by Madriska, Inc. (Brad
 Ediger's company).
+
+# Adding a pointless change to test GH org permissions
