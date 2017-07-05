@@ -4,12 +4,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require_relative 'font/afm'
-require_relative 'font/ttf'
-require_relative 'font/dfont'
-require_relative 'font/ttc'
-require_relative 'font_metric_cache'
-
 module Prawn
   class Document
     # @group Stable API

@@ -1,5 +1,9 @@
 ## PrawnPDF master branch
 
+### Fixed
+
+* Use `require` instead of `require_relative` to avoid dual loading files
+
 ## PrawnPDF 2.2.2
 
 Relax pdf-inspector depspec.

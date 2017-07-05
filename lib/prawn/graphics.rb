@@ -4,15 +4,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require_relative 'graphics/blend_mode'
-require_relative 'graphics/color'
-require_relative 'graphics/dash'
-require_relative 'graphics/cap_style'
-require_relative 'graphics/join_style'
-require_relative 'graphics/transparency'
-require_relative 'graphics/transformation'
-require_relative 'graphics/patterns'
-
 module Prawn
   # Implements the drawing facilities for Prawn::Document.
   # Use this to draw the most beautiful imaginable things.
