@@ -26,6 +26,7 @@ describe Prawn::Document do
       let(:num_columns) { 5 }
       let(:num_rows) { 8 }
       let(:gutter) { 10.0 }
+
       before do
         pdf.define_grid(
           columns: num_columns,

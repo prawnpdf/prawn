@@ -66,7 +66,7 @@ describe Prawn::Text do
       pdf.text ' '
       text = PDF::Inspector::Text.analyze(pdf.render)
       # If anything is rendered to the page, it should be whitespace.
-      text.strings.each { |str| expect(str).to match(/\A\s*\z/) }
+      expect(text.strings).to all(match(/\A\s*\z/))
     end
 
     it 'ignores call when string is nil' do
