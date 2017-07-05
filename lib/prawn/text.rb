@@ -6,8 +6,6 @@
 
 require 'zlib'
 
-require 'pdf/core/text'
-
 require_relative 'text/formatted'
 require_relative 'text/box'
 
