@@ -664,4 +664,22 @@ describe Prawn::Text::Formatted::Parser do
       expect(described_class.array_paragraphs(array)).to eq(target)
     end
   end
+
+  describe '#escape' do
+    it 'escapes < > & chars' do
+      string = "&gt; < gt; hello &lt > &lt; world &amp & &amp; \" ' \n &nbsp;"
+      value = described_class.escape(string)
+      exp = '&amp;gt; &lt; gt; hello &amp;lt &gt; &amp;lt; world'\
+        " &amp;amp &amp; &amp;amp; \" ' \n &amp;nbsp;"
+      expect(value).to eq(exp)
+    end
+  end
+
+  describe '#unescape' do
+    it 'unescapes &gt; &lt; &amp; chars' do
+      string = "&gt; < gt; hello &lt > &lt; world &amp & &amp; \" ' \n &nbsp;"
+      value = described_class.unescape(string)
+      expect(value).to eq("> < gt; hello &lt > < world &amp & & \" ' \n &nbsp;")
+    end
+  end
 end
