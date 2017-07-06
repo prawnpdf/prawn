@@ -3,7 +3,7 @@
 # Need to find files that have these sections first.
 #
 # see http://www.w3.org/TR/PNG/ for a detailed description of the PNG spec,
-# particuarly Table 11.1 for the different color types
+# particularly Table 11.1 for the different color types
 
 require 'spec_helper'
 

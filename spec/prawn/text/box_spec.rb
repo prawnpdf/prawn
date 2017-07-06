@@ -759,7 +759,7 @@ describe Prawn::Text::Box do
     context 'truncated with text and size taken from the manual' do
       it 'returns the right text' do
         text = 'This is the beginning of the text. It will be cut somewhere ' \
-          'and the rest of the text will procede to be rendered this time by '\
+          'and the rest of the text will proceed to be rendered this time by '\
           'calling another method.' + ' . ' * 50
         options[:width] = 300
         options[:height] = 50
@@ -767,7 +767,7 @@ describe Prawn::Text::Box do
         text_box = described_class.new(text, options)
         remaining_text = text_box.render
         expect(remaining_text).to eq(
-          'text will procede to be rendered this time by calling another ' \
+          'text will proceed to be rendered this time by calling another ' \
           'method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ' \
           '.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ' \
           '.  .  .  .  .  .  .  .  . '

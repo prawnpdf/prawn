@@ -217,7 +217,7 @@ module Prawn
 
         # For PNG color types 4 and 6, the transparency data is stored as
         # a alpha channel mixed in with the main image data. The PNG class
-        # seperates it out for us and makes it available via the alpha_channel
+        # separates it out for us and makes it available via the alpha_channel
         # attribute
         if alpha_channel?
           smask_obj = document.ref!(

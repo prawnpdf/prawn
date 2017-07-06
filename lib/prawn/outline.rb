@@ -13,7 +13,7 @@ module Prawn
   # The Outline class organizes the outline tree items for the document.
   # Note that the prev and parent instance variables are adjusted while
   # navigating through the nested blocks. These variables along with the
-  # presence or absense of blocks are the primary means by which the relations
+  # presence or absence of blocks are the primary means by which the relations
   # for the various OutlineItems and the OutlineRoot are set. Unfortunately, the
   # best way to understand how this works is to follow the method calls through
   # a real example.
