@@ -10,4 +10,3 @@ drop_to_console.rb
 /bin
 .DS_Store
 *.pdf
-/.byebug_history
