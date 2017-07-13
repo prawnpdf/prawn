@@ -454,14 +454,7 @@ describe Prawn::Document do
     end
 
     it 'is idempotent' do
-      # We need to overwrite the trailer ID, otherwise each render
-      # pass will generate a new random ID and the documents would
-      # not match.
-      trailer_id = PDF::Core::ByteString.new(SecureRandom.random_bytes(16))
-      pdf = described_class.new(trailer: {
-        ID: [trailer_id, trailer_id]
-      })
-
+      pdf = described_class.new
       contents = pdf.render
       contents2 = pdf.render
       expect(contents2).to eq(contents)

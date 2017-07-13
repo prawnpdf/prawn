@@ -67,7 +67,7 @@ module Prawn
       :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
       :compress, :background, :info,
       :text_formatter, :print_scaling,
-      :trailer, :enable_pdfa_1b
+      :enable_pdfa_1b
     ].freeze
 
     # Any module added to this array will be included into instances of
@@ -384,7 +384,7 @@ module Prawn
     #   pdf.render_file "foo.pdf"
     #
     def render_file(filename)
-      File.open(filename, 'wb') { |f| render(f) }
+      File.open(filename, 'rb+') { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,
