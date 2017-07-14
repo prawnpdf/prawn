@@ -46,7 +46,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('pdf-reader', ['~> 1.4', '>= 1.4.1'])
   spec.add_development_dependency('rubocop', '~> 0.47.1')
   spec.add_development_dependency('rubocop-rspec', '~> 1.10')
-  spec.add_development_dependency('nokogiri', '~> 1.7')
 
   spec.homepage = 'http://prawnpdf.org'
   spec.description = <<END_DESC

@@ -1,4 +1,4 @@
-require 'nokogiri'
+require 'rexml/document'
 require 'open3'
 
 module Prawn
@@ -29,17 +29,12 @@ module Prawn
     end
 
     def reported_as_compliant?(xml_data)
-      xml_doc = Nokogiri::XML xml_data
-      raise Exception, 'The veraPDF xml report was not well formed.' unless xml_doc.errors.empty?
-
-      xml_doc.remove_namespaces!
-      validation_result = xml_doc.xpath('/processorResult/validationResult')
-      assertions = validation_result.xpath('assertions/assertion')
-      assertions.each do |assertion|
-        message = assertion.at_xpath('message').content
-        clause = assertion.at_xpath('ruleId').attribute('clause').content
-        test = assertion.at_xpath('ruleId').attribute('testNumber').content
-        context = assertion.at_xpath('location/context').content
+      xml_doc = REXML::Document.new xml_data
+      xml_doc.elements.each('/processorResult/validationResult/ns2:assertions/ns2:assertion') do |element|
+        message = element.elements.to_a('ns2:message').first.text
+        clause = element.elements.to_a('ns2:ruleId').first.attributes['clause']
+        test = element.elements.to_a('ns2:ruleId').first.attributes['testNumber']
+        context = element.elements.to_a('ns2:location/ns2:context').first.text
         url = 'https://github.com/veraPDF/veraPDF-validation-profiles/wiki/PDFA-Part-1-rules'
         url_anchor = "rule-#{clause.delete('.')}-#{test}"
         puts
@@ -49,7 +44,7 @@ module Prawn
         puts "  Details: #{url}##{url_anchor}"
         puts
       end
-      validation_result.attribute('isCompliant').content == 'true'
+      xml_doc.elements.to_a('/processorResult/validationResult').first.attributes['isCompliant'] == 'true'
     end
   end
 end

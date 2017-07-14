@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'prawn/vera_pdf'
+require_relative 'vera_pdf'
 
 describe Prawn::Document do
   include Prawn::VeraPdf
