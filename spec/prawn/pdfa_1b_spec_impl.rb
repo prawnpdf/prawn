@@ -1,8 +1,7 @@
 require 'spec_helper'
-require_relative 'vera_pdf'
 
 describe Prawn::Document do
-  include Prawn::VeraPdf
+  include VeraPdfHelpers
 
   let(:pdf) { described_class.new(enable_pdfa_1b: true) }
 

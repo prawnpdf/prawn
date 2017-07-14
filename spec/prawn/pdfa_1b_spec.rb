@@ -1,7 +1,6 @@
 require 'spec_helper'
-require 'prawn/vera_pdf'
 
-include Prawn::VeraPdf
+include VeraPdfHelpers
 
 if vera_pdf_available?
   require_relative 'pdfa_1b_spec_impl'
