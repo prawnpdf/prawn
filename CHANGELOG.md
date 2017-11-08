@@ -1,5 +1,11 @@
 ## PrawnPDF master branch
 
+### Unknown font message
+
+Provide more detail in error message about unknown font.
+
+(Dan Allen, [#1022](https://github.com/prawnpdf/prawn/pull/1022))
+
 ## PrawnPDF 2.2.2
 
 Relax pdf-inspector depspec.
