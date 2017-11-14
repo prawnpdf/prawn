@@ -69,6 +69,14 @@ describe Prawn::Font do
       end
     end
 
+    it 'reports missing font with style' do
+      expect do
+        pdf.font('Nada', style: :bold) do
+          pdf.width_of('hello')
+        end
+      end.to raise_error(Prawn::Errors::UnknownFont, /Nada \(bold\)/)
+    end
+
     it 'calculates styled widths correctly using TTFs' do
       pdf.font_families.update(
         'DejaVu Sans' => {
