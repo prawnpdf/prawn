@@ -171,7 +171,7 @@ module Prawn
           gradient.stops.length,
           gradient.stops.map { |s| [s.position, s.color] }
         ].flatten
-        Digest::SHA1.hexdigest(key.pack('HC*'))
+        Digest::SHA1.hexdigest(key.join(','))
       end
 
       def gradient_registry
