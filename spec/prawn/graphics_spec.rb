@@ -308,7 +308,7 @@ describe Prawn::Graphics do
         )
 
         str = pdf.render
-        pattern_ids = str.scan(%r{SP\h{40}\s+scn})
+        pattern_ids = str.scan(/SP\h{40}\s+scn/)
         expect(pattern_ids.uniq.length).to eq 2
       end
 
