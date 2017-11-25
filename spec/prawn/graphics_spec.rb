@@ -295,6 +295,23 @@ describe Prawn::Graphics do
         end).to eq true
       end
 
+      it 'creates a unique ID for each pattern resource' do
+        pdf.fill_gradient(
+          [256, 512],
+          [356, 512],
+          'ffffff', 'fe00ff'
+        )
+        pdf.fill_gradient(
+          [256, 256],
+          [356, 256],
+          'ffffff', '0000ff'
+        )
+
+        str = pdf.render
+        pattern_ids = str.scan(%r{SP\h{40}\s+scn})
+        expect(pattern_ids.uniq.length).to eq 2
+      end
+
       it 'fill_gradient should set fill color to the pattern' do
         pdf.fill_gradient(
           [0, pdf.bounds.height],
