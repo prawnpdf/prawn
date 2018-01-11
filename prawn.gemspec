@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
     spec.signing_key = File.expand_path('~/.ssh/gem-private_key.pem')
   end
 
-  spec.files = Dir.glob('{examples,lib,spec,manual}/**/**/*') +
+  spec.files = Dir.glob('{lib,spec,manual,data/images}/**/**/*') +
     Dir.glob('data/fonts/{MustRead.html,*.afm}') +
     [
       'Rakefile', 'prawn.gemspec', 'Gemfile',
