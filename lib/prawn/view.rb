@@ -67,8 +67,8 @@ module Prawn
       document.send(m, *a, &b)
     end
 
-    def respond_to_missing?
-      document.respond_to?(m)
+    def respond_to_missing?(method_name, include_private = false)
+      document.respond_to?(method_name, include_private)
     end
 
     # Syntactic sugar that uses +instance_eval+ under the hood to provide
