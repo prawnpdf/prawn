@@ -742,6 +742,20 @@ describe Prawn::Text::Formatted::Box do
       contents = PDF::Inspector::Text.analyze(pdf.render)
       expect(contents.word_spacing).to be_empty
     end
+
+    it 'raise an exception when align value is not a symbol' do
+      array = [
+        { text: 'hello world ' },
+        { text: "\n" },
+        { text: 'goodbye' }
+      ]
+      options = { document: pdf, align: 'justify' }
+      text_box = described_class.new(array, options)
+      expect { text_box.render }.to raise_error(
+        ArgumentError,
+        'align must be one of :left, :right, :center or :justify symbols'
+      )
+    end
   end
 
   describe 'Text::Formatted::Box#render with :valign => :center' do

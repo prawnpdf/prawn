@@ -269,6 +269,9 @@ module Prawn
                 else
                   @at[0] + @width - line_width
                 end
+          else
+            raise ArgumentError,
+              'align must be one of :left, :right, :center or :justify symbols'
           end
 
           x += accumulated_width
