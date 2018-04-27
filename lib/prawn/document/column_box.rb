@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # column_box.rb: Extends BoundingBox to allow for columns of text
 #
 # Author Paul Ostazeski.

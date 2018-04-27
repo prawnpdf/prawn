@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # encryption.rb : Implements encrypted PDF and access permissions.
 #
 # Copyright August 2008, Brad Ediger. All Rights Reserved.
@@ -215,9 +217,9 @@ module PDF
     def encrypted_pdf_object(obj, key, id, gen, in_content_stream = false)
       case obj
       when Array
-        '[' << obj.map do |e|
+        '[' + obj.map do |e|
           encrypted_pdf_object(e, key, id, gen, in_content_stream)
-        end.join(' ') << ']'
+        end.join(' ') + ']'
       when LiteralString
         obj = ByteString.new(
           Prawn::Document::Security.encrypt_string(obj, key, id, gen)
@@ -237,16 +239,16 @@ module PDF
           in_content_stream
         )
       when ::Hash
-        output = '<< '
-        obj.each do |k, v|
-          unless k.is_a?(String) || k.is_a?(Symbol)
-            raise PDF::Core::Errors::FailedObjectConversion,
-              'A PDF Dictionary must be keyed by names'
-          end
-          output << pdf_object(k.to_sym, in_content_stream) << ' ' <<
-            encrypted_pdf_object(v, key, id, gen, in_content_stream) << "\n"
-        end
-        output << '>>'
+        '<< ' +
+          obj.map do |k, v|
+            unless k.is_a?(String) || k.is_a?(Symbol)
+              raise PDF::Core::Errors::FailedObjectConversion,
+                'A PDF Dictionary must be keyed by names'
+            end
+            pdf_object(k.to_sym, in_content_stream) + ' ' +
+              encrypted_pdf_object(v, key, id, gen, in_content_stream) + "\n"
+          end.join('') +
+          '>>'
       when NameTree::Value
         pdf_object(obj.name) + ' ' +
           encrypted_pdf_object(obj.value, key, id, gen, in_content_stream)
@@ -276,9 +278,9 @@ module PDF
       # Returns the object definition for the object this references, keyed from
       # +key+.
       def encrypted_object(key)
-        @on_encode.call(self) if @on_encode
+        @on_encode&.call(self)
 
-        output = "#{@identifier} #{gen} obj\n"
+        output = +"#{@identifier} #{gen} obj\n"
         if @stream.empty?
           output <<
             PDF::Core.encrypted_pdf_object(data, key, @identifier, gen) << "\n"

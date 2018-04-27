@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # dash.rb : Implements stroke dashing
 #
 # Contributed by Daniel Nelson. October, 2009
@@ -61,7 +63,7 @@ module Prawn
         if length.all?(&:zero?)
           raise ArgumentError,
             'Zero length dashes are invalid. Call #undash to disable dashes.'
-        elsif length.any? { |e| e < 0 }
+        elsif length.any?(&:negative?)
           raise ArgumentError,
             'Negative numbers are not allowed for dash lengths.'
         end

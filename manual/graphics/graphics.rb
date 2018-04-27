@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for the Graphics package.
 
 require_relative '../example_helper'

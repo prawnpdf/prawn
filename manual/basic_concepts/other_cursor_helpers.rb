@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Another group of helpers for changing the cursor position are the pad methods.
 # They accept a numeric value and a block. <code>pad</code> will use the numeric
 # value to move the cursor down both before and after the block content.

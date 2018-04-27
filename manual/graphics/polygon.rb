@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Drawing polygons in Prawn is easy, just pass a sequence of points to one of
 # the polygon family of methods.
 #

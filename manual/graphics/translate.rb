@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This transformation is used to translate the user space. Just provide the
 # x and y coordinates for the new origin.
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # stamp.rb : Implements a repeatable stamp
 #
 # Copyright October 2009, Daniel Nelson. All Rights Reserved.

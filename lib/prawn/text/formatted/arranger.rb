@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # core/text/formatted/arranger.rb : Implements a data structure for 2-stage
 #                                   processing of lines of formatted text
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # soft_mask.rb : Implements soft-masking
 #
 # Copyright September 2012, Alexander Mankuta. All Rights Reserved.

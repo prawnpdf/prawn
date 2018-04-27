@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prints a list of all of the glyphs that can be rendered by Adobe's built
 # in fonts, along with their character widths and WinAnsi codes.  Be sure
 # to pass these glyphs as UTF-8, and Prawn will transcode them for you.
@@ -48,7 +50,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
         end
 
         text_box(
-          field.force_encoding('windows-1252').encode('UTF-8'),
+          field.dup.force_encoding('windows-1252').encode('UTF-8'),
           at: [dx + offset, y]
         )
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 basedir = File.expand_path(File.dirname(__FILE__))
 
 require "#{basedir}/lib/prawn/version"

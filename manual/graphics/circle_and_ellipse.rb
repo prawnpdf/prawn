@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To define a <code>circle</code> all you need is the center point and the
 # radius.
 #

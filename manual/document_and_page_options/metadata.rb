@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To set the document metadata just pass a hash to the <code>:info</code>
 # option when creating new documents.
 # The keys in the example below are arbitrary, so you may add whatever keys you

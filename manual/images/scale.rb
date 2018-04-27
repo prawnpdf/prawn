@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To scale an image use the <code>:scale</code> option.
 #
 # It scales the image proportionally given the provided value.

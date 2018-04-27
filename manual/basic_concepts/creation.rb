@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # There are three ways to create a PDF Document in Prawn: creating a new
 # <code>Prawn::Document</code> instance, or using the
 # <code>Prawn::Document.generate</code> method with and without block arguments.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # text/formatted/rectangle.rb : Implements text boxes with formatted text
 #
 # Copyright February 2010, Daniel Nelson. All Rights Reserved.

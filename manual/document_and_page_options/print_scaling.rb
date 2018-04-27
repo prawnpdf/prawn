@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # (Optional; PDF 1.6) The page scaling option to be selected when a print dialog
 # is displayed for this document.  Valid values are <code>None</code>, which
 # indicates that the print dialog should reflect no page scaling, and

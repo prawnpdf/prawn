@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # font_metric_cache.rb : The Prawn font class
 #
 # Copyright Dec 2012, Kenneth Kalmer. All Rights Reserved.

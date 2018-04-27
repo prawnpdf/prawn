@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A PDF document is a collection of pages. When we create a new document be it
 # with <code>Document.new</code> or on a <code>Document.generate</code> block
 # one initial page is created for us.

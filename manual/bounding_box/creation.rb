@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # If you've read the basic concepts examples you probably know that the origin
 # of a page is on the bottom left corner and that the content flows from top to
 # bottom.

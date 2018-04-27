@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # We have already seen how to define an outline tree sequentially.
 #
 # If you'd like to add nodes to the middle of an outline tree the

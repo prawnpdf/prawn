@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The recommended way to extend Prawn's functionality is to include the
 # <code>Prawn::View</code> mixin in your own class, which will make all
 # <code>Prawn::Document</code> methods available to your custom objects.

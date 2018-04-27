@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # bounding_box.rb : Implements a mechanism for shifting the coordinate space
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.

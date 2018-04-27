@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # repeater.rb : Implements repeated page elements.
 # Heavy inspired by repeating_element() in PDF::Wrapper
 #   http://pdf-wrapper.rubyforge.org/

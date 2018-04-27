@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # One of the options that the <code>image</code> method accepts is
 # <code>:at</code>. If you've read some of the graphics examples you are
 # probably already familiar with it. Just provide it the upper-left corner where

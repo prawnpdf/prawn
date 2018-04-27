@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'pathname'
 
@@ -350,12 +352,6 @@ describe Prawn::Font do
         normalized = times.normalize_encoding(original)
         expect(original.equal?(normalized)).to eq false
       end
-
-      it 'modifies the original string when normalize_encoding!() is used' do
-        original = 'Foo'
-        normalized = times.normalize_encoding!(original)
-        expect(original.equal?(normalized)).to eq true
-      end
     end
 
     it 'omits /Encoding for symbolic fonts' do
@@ -457,12 +453,6 @@ describe Prawn::Font do
         original = 'Foo'
         normalized = font.normalize_encoding(original)
         expect(original.equal?(normalized)).to eq false
-      end
-
-      it 'modifies the original string when normalize_encoding!() is used' do
-        original = 'Foo'
-        normalized = font.normalize_encoding!(original)
-        expect(original.equal?(normalized)).to eq true
       end
     end
   end

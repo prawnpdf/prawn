@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn enables the declaration of fallback fonts for those glyphs that may not
 # be present in the desired font. Use the <code>:fallback_fonts</code> option
 # with any of the text or text box methods, or set fallback_fonts document-wide.

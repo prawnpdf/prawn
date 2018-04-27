@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # <code>:fit</code> option is useful when you want the image to have the
 # maximum size within a container preserving the aspect ratio without
 # overlapping.

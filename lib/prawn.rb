@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Welcome to Prawn, the best PDF Generation library ever.
 # This documentation covers user level functionality.
 #

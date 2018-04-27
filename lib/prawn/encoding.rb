@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright September 2008, Gregory Brown, James Healy  All Rights Reserved.
 #
 # This is free software. Please see the LICENSE and COPYING files for details.

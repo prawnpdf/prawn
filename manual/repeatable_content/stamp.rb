@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Stamps should be used when you have content that will be included multiple
 # times in a document. Its advantages over creating the content anew each time
 # are:

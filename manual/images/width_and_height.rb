@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The image size can be set with the <code>:width</code> and
 # <code>:height</code> options.
 #

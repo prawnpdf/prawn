@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This transformation is used to scale the user space. Give it an scale factor
 # and an <code>:origin</code> point and everything inside the block will be
 # scaled using the origin point as reference.

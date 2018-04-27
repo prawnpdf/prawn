@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To set the vertical position of an image use the <code>:vposition</code>
 # option.
 #

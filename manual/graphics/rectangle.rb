@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To draw a rectangle, just provide the upper-left corner, width and height to
 # the <code>rectangle</code> method.
 #

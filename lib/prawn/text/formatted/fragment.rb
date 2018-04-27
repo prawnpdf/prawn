@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # text/formatted/fragment.rb : Implements information about a formatted fragment
 #
 # Copyright March 2010, Daniel Nelson. All Rights Reserved.

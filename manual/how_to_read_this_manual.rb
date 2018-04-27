@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn manual how to read this manual page.
 
 require_relative 'example_helper'

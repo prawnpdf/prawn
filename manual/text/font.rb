@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>font</code> method can be used in three different ways.
 #
 # If we don't pass it any arguments it will return the current font being used

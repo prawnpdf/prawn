@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn provides helpers for drawing some commonly used lines:
 #
 # <code>vertical_line</code> and <code>horizontal_line</code> do just what their

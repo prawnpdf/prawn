@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The document outline tree is the set of links used to navigate through the
 # various document sections and pages.
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for text rendering.
 
 require '../example_helper'

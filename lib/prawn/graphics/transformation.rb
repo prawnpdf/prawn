@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # transformation.rb: Implements rotate, translate, skew, scale and a generic
 #                     transformation_matrix
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The base unit in Prawn is the PDF Point. One PDF Point is equal to 1/72 of
 # an inch.
 #

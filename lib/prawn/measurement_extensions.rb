@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # measurement_extensions.rb: Core extensions for Prawn::Measurements
 #
 # Copyright December 2008, Florian Witteler.  All Rights Reserved.

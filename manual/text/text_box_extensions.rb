@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # We've already seen one way of using text boxes with the <code>text_box</code>
 # method. Turns out this method is just a convenience for using the
 # <code>Prawn::Text::Box</code> class as it creates a new object and call

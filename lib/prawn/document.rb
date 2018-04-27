@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # document.rb : Implements PDF document generation for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.
@@ -269,7 +271,7 @@ module Prawn
 
         # erase the color space so that it gets reset on new page for fussy
         # pdf-readers
-        new_graphic_state.color_space = {} if new_graphic_state
+        new_graphic_state&.color_space = {}
 
         page_options[:graphic_state] = new_graphic_state
       end

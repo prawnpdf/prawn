@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Kerning is the process of adjusting the spacing between characters in a
 # proportional font. It is usually done with specific letter pairs. We can
 # switch it on and off if it is available with the current font. Just pass a

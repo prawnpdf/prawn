@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Text rendering can be as simple or as complex as you want.
 #
 # This example covers the most basic method: <code>text</code>. It is meant for

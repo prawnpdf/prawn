@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>text_box</code> method accepts both <code>:width</code> and
 # <code>:height</code> options. So what happens if the text doesn't fit the box?
 #

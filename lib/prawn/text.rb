@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # text.rb : Implements PDF text primitives
 #
 # Copyright May 2008, Gregory Brown. All Rights Reserved.
@@ -15,11 +17,11 @@ module Prawn
     include Prawn::Text::Formatted
 
     # No-Break Space
-    NBSP = "\u00A0".freeze
+    NBSP = "\u00A0"
     # Zero Width Space (indicate word boundaries without a space)
-    ZWSP = "\u200B".freeze
+    ZWSP = "\u200B"
     # Soft Hyphen (invisible, except when causing a line break)
-    SHY = "\u00AD".freeze
+    SHY = "\u00AD"
 
     # @group Stable API
 
@@ -279,7 +281,7 @@ module Prawn
       text = text.to_s.dup
       save_font do
         process_text_options(options)
-        font.normalize_encoding!(text)
+        text = font.normalize_encoding(text)
         font_size(options[:size]) { draw_text!(text, options) }
       end
     end

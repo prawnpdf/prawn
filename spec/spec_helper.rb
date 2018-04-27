@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 puts "Prawn specs: Running on Ruby Version: #{RUBY_VERSION}"
 
 require 'bundler'

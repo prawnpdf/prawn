@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Blend modes can be used to change the way two layers (images, graphics,
 # text, etc.) are blended together. The <code>blend_mode</code> method
 # accepts a single blend mode or an array of blend modes. PDF viewers should

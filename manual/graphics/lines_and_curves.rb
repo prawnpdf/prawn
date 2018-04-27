@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn supports drawing both lines and curves starting either at the current
 # position, or from a specified starting position.
 #

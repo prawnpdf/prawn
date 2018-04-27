@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This sets the dashed pattern for lines and curves. The (dash) length defines
 # how long each dash will be.
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To embed images onto your PDF file use the <code>image</code> method.
 # It accepts the file path of the image to be loaded and some optional
 # arguments.

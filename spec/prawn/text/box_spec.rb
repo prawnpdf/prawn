@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Prawn::Text::Box do
@@ -1031,8 +1033,8 @@ describe Prawn::Text::Box do
 
       text_box.render
 
-      expected = '©' * 25 + "\n" + '©' * 5
-      pdf.font.normalize_encoding!(expected)
+      expected = +'©' * 25 + "\n" + '©' * 5
+      expected = pdf.font.normalize_encoding(expected)
       expected = expected.force_encoding(Encoding::UTF_8)
       expect(text_box.text).to eq(expected)
     end

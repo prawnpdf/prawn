@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>bounds</code> method returns the current bounding box. This is
 # useful because the <code>Prawn::BoundingBox</code> exposes some nice boundary
 # helpers.

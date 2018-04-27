@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # You have already seen how to set the text color using both inline formatting
 # and the format text methods. There is another way by using the graphics
 # methods <code>fill_color</code> and <code>stroke_color</code>.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>font_size</code> method works just like the <code>font</code>
 # method.
 #

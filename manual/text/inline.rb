@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Inline formatting gives you the option to format specific portions of a text.
 # It uses HTML-esque syntax inside the text string. Supported tags are:
 # <code>b</code> (bold), <code>i</code> (italic), <code>u</code> (underline),

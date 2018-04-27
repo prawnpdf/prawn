@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>line_width=</code> method sets the stroke width for subsequent
 # stroke calls.
 #

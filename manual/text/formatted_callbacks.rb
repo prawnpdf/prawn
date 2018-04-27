@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>:callback</code> option is also available for the formatted text
 # methods.
 #

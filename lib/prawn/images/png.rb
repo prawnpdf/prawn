@@ -1,5 +1,7 @@
 # encoding: ASCII-8BIT
 
+# frozen_string_literal: true
+
 # png.rb : Extracts the data from a PNG that is needed for embedding
 #
 # Based on some similar code in PDF::Writer by Austin Ziegler
@@ -38,8 +40,8 @@ module Prawn
 
         data.read(8) # Skip the default header
 
-        @palette = ''
-        @img_data = ''
+        @palette = +''
+        @img_data = +''
         @transparency = {}
 
         loop do

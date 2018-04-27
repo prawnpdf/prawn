@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>encrypt_document</code> method, as you might have already guessed,
 # is used to encrypt the PDF document.
 #

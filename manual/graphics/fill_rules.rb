@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn's fill operators (<code>fill</code> and <code>fill_and_stroke</code>
 # both accept a <code>:fill_rule</code> option. These rules determine which
 # parts of the page are counted as "inside" vs. "outside" the path. There are

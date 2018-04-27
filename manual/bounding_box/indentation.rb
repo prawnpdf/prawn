@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Sometimes you just need to indent a portion of the contents of a bounding box,
 # and using a nested bounding box is pure overkill. The <code>indent</code>
 # method is what you might need.

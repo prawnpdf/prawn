@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for stamps and repeaters.
 
 require_relative '../example_helper'

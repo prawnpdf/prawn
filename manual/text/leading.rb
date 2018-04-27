@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Leading is the additional space between lines of text.
 #
 # The leading can be set using the <code>default_leading</code> method which
