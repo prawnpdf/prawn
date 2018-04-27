@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Another way to insert nodes into an existing outline is the
 # <code>insert_section_after</code> method.
 #

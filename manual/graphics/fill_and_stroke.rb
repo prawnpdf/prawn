@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # There are two drawing primitives in Prawn: <code>fill</code> and
 # <code>stroke</code>.
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # color.rb : Implements color handling
 #
 # Copyright June 2008, Gregory Brown.  All Rights Reserved.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Pass an image path to the <code>:background</code> option and it will be used
 # as the background for all pages.
 # This option can only be used on document creation.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # font.rb : The Prawn font class
 #
 # Copyright May 2008, Gregory Brown / James Healy. All Rights Reserved.
@@ -355,8 +357,11 @@ module Prawn
     # Destructive version of normalize_encoding; normalizes the encoding of a
     # string in place.
     #
+    # @deprecated
     def normalize_encoding!(str)
-      str.replace(normalize_encoding(str))
+      warn 'Font#normalize_encoding! is deprecated. ' \
+        'Please use non-mutating version Font#normalize_encoding instead.'
+      str.dup.replace(normalize_encoding(str))
     end
 
     # Gets height of current font in PDF points at the given font size

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # To produce this manual we use the <code>stroke_axis</code> helper method
 # within the examples.
 #

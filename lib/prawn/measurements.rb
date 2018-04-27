@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # measurements.rb: Conversions from other measurements to PDF points
 #
 # Copyright December 2008, Florian Witteler.  All Rights Reserved.

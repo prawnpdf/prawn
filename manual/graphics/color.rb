@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # We can change the stroke and fill colors providing an HTML rgb 6 digit color
 # code string ("AB1234") or 4 values for CMYK.
 

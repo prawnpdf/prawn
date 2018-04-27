@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Horizontal text alignment can be achieved by supplying the <code>:align</code>
 # option to the text methods. Available options are <code>:left</code>
 # (default), <code>:right</code>, <code>:center</code>, and

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The default margin for pages is 0.5 inch but you can change that with the
 # <code>:margin</code> option or if you'd like to have different margins you
 # can use the <code>:left_margin</code>, <code>:right_margin</code>,

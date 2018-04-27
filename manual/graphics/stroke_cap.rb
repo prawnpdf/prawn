@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The cap style defines how the edge of a line or curve will be drawn. There are
 # three types: <code>:butt</code> (the default), <code>:round</code> and
 # <code>:projecting_square</code>

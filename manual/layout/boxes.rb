@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # After defined the grid is there but nothing happens. To start taking effect
 # we need to use the grid boxes.
 #

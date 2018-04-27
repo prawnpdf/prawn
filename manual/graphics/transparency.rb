@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Although the name of the method is <code>transparency</code>, what we are
 # actually setting is the opacity for fill and stroke. So <code>0</code> means
 # completely transparent and <code>1.0</code> means completely opaque

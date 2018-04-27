@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # prawn/font/ttf.rb : Implements AFM font support for Prawn
 #
 # Copyright May 2008, Gregory Brown / James Healy / Jamis Buck
@@ -182,7 +184,7 @@ module Prawn
 
       def glyph_present?(char)
         code = char.codepoints.first
-        cmap[code] > 0
+        cmap[code].positive?
       end
 
       # Returns the number of characters in +str+ (a UTF-8-encoded string).
@@ -313,7 +315,7 @@ module Prawn
           ranges.last << format('<%02x><%04x>', code, unicode)
         end
 
-        range_blocks = ranges.inject('') do |s, list|
+        range_blocks = ranges.inject(+'') do |s, list|
           s << format(
             "%d beginbfchar\n%s\nendbfchar\n",
             list.length, list.join("\n")

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # There are two other text methods available: <code>formatted_text</code> and
 # <code>formatted_text_box</code>.
 #

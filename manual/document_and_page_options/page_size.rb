@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn comes with support for most of the common page sizes so you'll only need
 # to provide specific values if your intended format is not supported. To see a
 # list with all supported sizes take a look at PDF::Core::PageGeometry

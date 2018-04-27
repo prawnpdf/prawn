@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The join style defines how the intersection between two lines is drawn. There
 # are three types: <code>:miter</code> (the default), <code>:round</code> and
 # <code>:bevel</code>

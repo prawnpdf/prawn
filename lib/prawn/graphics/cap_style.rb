@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # cap_style.rb : Implements stroke cap styling
 #
 # Contributed by Daniel Nelson. October, 2009

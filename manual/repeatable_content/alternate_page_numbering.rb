@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Below is the code to generate page numbers that alternate being rendered
 # on the right and left side of the page. The first page will have a "1" in
 # the bottom right corner. The second page will have a "2" in the bottom

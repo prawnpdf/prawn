@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Most font families come with some styles other than normal. Most common are
 # <code>bold</code>, <code>italic</code> and <code>bold_italic</code>.
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for using grid layouts.
 
 require_relative '../example_helper'

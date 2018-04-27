@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Some permissions may be set for the regular user with the following options:
 # <code>:print_document</code>, <code>:modify_contents</code>,
 # <code>:copy_contents</code>, <code>:modify_annotations</code>. All this

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>:color</code> attribute can give a block of text a default color,
 # in RGB hex format or 4-value CMYK.
 

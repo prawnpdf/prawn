@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # prawn/font/afm.rb : Implements AFM font support for Prawn
 #
 # Copyright May 2008, Gregory Brown / James Healy.  All Rights Reserved.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # text/formatted/parser.rb : Implements a bi-directional parser between a subset
 #                            of html and formatted text arrays
 #
@@ -55,11 +57,9 @@ module Prawn
           array.collect do |hash|
             prefix = ''
             suffix = ''
-            if hash[:styles]
-              hash[:styles].each do |style|
-                prefix += prefixes[style]
-                suffix = suffixes[style] + suffix
-              end
+            hash[:styles]&.each do |style|
+              prefix += prefixes[style]
+              suffix = suffixes[style] + suffix
             end
 
             font = hash[:font] ? " name='#{hash[:font]}'" : nil

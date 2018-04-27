@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Normally when we provide the top left corner of a bounding box we
 # express the coordinates relative to the margin box. This is not the
 # case when we have nested bounding boxes. Once nested the inner bounding box

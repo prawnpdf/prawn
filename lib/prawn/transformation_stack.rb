@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # transformation_stack.rb : Stores the transformations that have been applied to
 # the document
 #
@@ -21,7 +23,7 @@ module Prawn
     end
 
     def restore_transformation_stack
-      @transformation_stack.pop if @transformation_stack
+      @transformation_stack&.pop
     end
 
     def current_transformation_matrix_with_translation(x = 0, y = 0)

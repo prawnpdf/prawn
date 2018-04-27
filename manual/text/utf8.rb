@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Multilingualization isn't much of a problem on Prawn as its default encoding
 # is UTF-8. The only thing you need to worry about is if the font support the
 # glyphs of your language.

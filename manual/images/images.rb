@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for embedding images.
 
 require_relative '../example_helper'

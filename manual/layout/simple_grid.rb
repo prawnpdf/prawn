@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The document grid on Prawn is just a table-like structure with a defined
 # number of rows and columns. There are some helpers to create boxes of content
 # based on the grid coordinates.

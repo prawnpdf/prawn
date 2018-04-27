@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Rotating text is best avoided on free flowing text, so this example
 # will only use the <code>text_box</code> method as we can have much more
 # control over its output.

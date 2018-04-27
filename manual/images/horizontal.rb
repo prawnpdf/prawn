@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The image may be positioned relatively to the current bounding box. The
 # horizontal position may be set with the <code>:position</code> option.
 #

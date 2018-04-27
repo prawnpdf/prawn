@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>number_pages</code> method is a simple way to number the pages of
 # your document. It should be called towards the end of the document since
 # pages created after the call won't be numbered.

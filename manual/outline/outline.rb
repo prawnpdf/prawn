@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for defining the document outline.
 
 require_relative '../example_helper'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Now that we know how to access the boxes we might as well add some content
 # to them.
 #

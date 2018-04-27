@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This transformation is used to rotate the user space. Give it an angle
 # and an <code>:origin</code> point about which to rotate and a block.
 # Everything inside the block will be drawn with the rotated coordinates.

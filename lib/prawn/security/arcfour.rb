@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Implementation of the "ARCFOUR" algorithm ("alleged RC4 (tm)"). Implemented
 # as described at:
 # http://www.mozilla.org/projects/security/pki/nss/draft-kaukonen-cipher-arcfour-03.txt

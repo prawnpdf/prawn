@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is the most important concept you need to learn about Prawn:
 #
 # PDF documents have the origin <code>[0,0]</code> at the bottom-left corner of

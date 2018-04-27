@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # graphics.rb : Implements PDF drawing primitives
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

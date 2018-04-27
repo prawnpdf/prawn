@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Whenever the <code>text_box</code> method truncates text, this truncated bit
 # is not lost, it is the method return value and we can take advantage of that.
 #

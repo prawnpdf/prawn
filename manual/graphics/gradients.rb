@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Note that because of the way PDF renders radial gradients in order to get
 # solid fill your start circle must be fully inside your end circle.
 # Otherwise you will get triangle fill like illustrated in the example below.

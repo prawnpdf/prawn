@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # transparency.rb : Implements transparency
 #
 # Copyright October 2009, Daniel Nelson. All Rights Reserved.

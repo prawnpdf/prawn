@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Prawn strips all whitespace from the beginning and the end of strings so there
 # are two ways to indent paragraphs:
 #

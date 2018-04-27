@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for bounding boxes.
 
 require_relative '../example_helper'

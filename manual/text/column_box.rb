@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>column_box</code> method allows you to define columns that flow
 # their contents from one section to the next. You can have a number of columns
 # on the page, and only when the last column overflows will a new page be

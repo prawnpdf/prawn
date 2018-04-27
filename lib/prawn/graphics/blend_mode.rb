@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # blend_mode.rb : Implements blend modes
 #
 # Contributed by John Ford. October, 2015

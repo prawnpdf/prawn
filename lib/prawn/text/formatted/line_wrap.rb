@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # core/text/formatted/line_wrap.rb : Implements individual line wrapping of
 #                                    formatted text
 #
@@ -39,7 +41,7 @@ module Prawn
           # rubocop: disable Lint/AssignmentInCondition
           while fragment = @arranger.next_string
             # rubocop: enable Lint/AssignmentInCondition
-            @fragment_output = ''
+            @fragment_output = +''
 
             fragment.lstrip! if first_fragment_on_this_line?(fragment)
             next if empty_line?(fragment)

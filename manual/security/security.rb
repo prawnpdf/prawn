@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Examples for document encryption.
 
 require_relative '../example_helper'

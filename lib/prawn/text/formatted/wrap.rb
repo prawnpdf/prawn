@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # wrap.rb: Handles text wrapping for for formatted text
 #
 # Contributed by Daniel Nelson
@@ -103,12 +105,12 @@ module Prawn
           end
 
           @printed_lines << printed_fragments.map do |s|
-            s.force_encoding(::Encoding::UTF_8)
+            s.dup.force_encoding(::Encoding::UTF_8)
           end.join
         end
 
         def word_spacing_for_this_line
-          if @align == :justify && @line_wrap.space_count > 0 &&
+          if @align == :justify && @line_wrap.space_count.positive? &&
               !@line_wrap.paragraph_finished?
             (available_width - @line_wrap.width) / @line_wrap.space_count
           else

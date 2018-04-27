@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # text/rectangle.rb : Implements text boxes
 #
 # Copyright November 2009, Daniel Nelson. All Rights Reserved.

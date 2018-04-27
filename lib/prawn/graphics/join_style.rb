@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # join_style.rb : Implements stroke join styling
 #
 # Contributed by Daniel Nelson. October, 2009

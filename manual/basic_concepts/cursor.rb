@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # We normally write our documents from top to bottom and it is no different with
 # Prawn. Even if the origin is on the bottom left corner we still fill the page
 # from the top to the bottom. In other words the cursor for inserting content

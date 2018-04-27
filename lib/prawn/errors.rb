@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # errors.rb : Implements custom error classes for Prawn
 #
 # Copyright April 2008, Gregory Brown.  All Rights Reserved.

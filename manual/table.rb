@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')

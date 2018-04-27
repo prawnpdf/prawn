@@ -1,5 +1,7 @@
 # encoding: ASCII-8BIT
 
+# frozen_string_literal: true
+
 # jpg.rb : Extracts the data from a JPG that is needed for embedding
 #
 # Copyright April 2008, James Healy.  All Rights Reserved.

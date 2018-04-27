@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Registering font families will help you when you want to use a font over and
 # over or if you would like to take advantage of the <code>:style</code> option
 # of the text methods and the <code>b</code> and <code>i</code> tags when using

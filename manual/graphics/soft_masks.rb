@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Soft masks are used for more complex alpha channel manipulations. You can use
 # arbitrary drawing functions for creation of soft masks. The resulting alpha
 # channel is made of greyscale version of the drawing (luminosity channel to be

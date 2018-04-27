@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Sometimes we want the text on a specific position on the page. The
 # <code>text</code> method just won't help us.
 #

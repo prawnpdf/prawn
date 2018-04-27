@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The <code>repeat</code> method is quite versatile when it comes to define
 # the intervals at which the content block should repeat.
 #

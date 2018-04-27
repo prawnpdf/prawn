@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # span.rb : Implements text columns
 #
 # Copyright September 2008, Gregory Brown. All Rights Reserved.

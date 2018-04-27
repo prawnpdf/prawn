@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # utilities.rb : General-purpose utility classes which don't fit anywhere else
 #
 # Copyright August 2012, Alex Dowad. All Rights Reserved.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Bounding Boxes accept an optional <code>:height</code> parameter. Unless it
 # is provided the bounding box will be stretchy. It will expand the height to
 # fit all content generated inside it.

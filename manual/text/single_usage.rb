@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The PDF format has some built-in font support. If you want to use other fonts
 # in Prawn you need to embed the font file.
 #

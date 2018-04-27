@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This example is mostly just for fun, and shows how nested bounding boxes
 # can simplify calculations. See the "Bounding Box" section of the manual
 # for more basic uses.

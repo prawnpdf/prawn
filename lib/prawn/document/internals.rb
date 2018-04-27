@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # internals.rb : Implements document internals for Prawn
 #
 # Copyright August 2008, Gregory Brown. All Rights Reserved.

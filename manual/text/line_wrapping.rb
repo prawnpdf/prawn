@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Line wrapping happens on white space or hyphens. Soft hyphens can be used to
 # indicate where words can be hyphenated. Non-breaking spaces can be used to
 # display space without allowing for a break.
