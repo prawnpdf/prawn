@@ -43,9 +43,10 @@ for rendering rich HTML documents.
 ## Supported Ruby Versions and Implementations
 
 Because Prawn is pure Ruby and all of its runtime dependencies are maintained by
-us, it should work pretty much anywhere. We officially support MRI (2.1, 2.2,
-and 2.3) and JRuby 9000, however we will accept patches to fix problems on other
-Ruby platforms if they aren't too invasive.
+us, it should work pretty much anywhere. We officially support Ruby 2.3 and
+newer. That translates to MRI 2.3 and newer and JRuby 9.1.13 and newer, however
+we will accept patches to fix problems on other Ruby platforms if they aren't
+too invasive.
 
 ## Installing Prawn
 
