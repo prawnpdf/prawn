@@ -389,7 +389,7 @@ module Prawn
     end
 
     def identifier_for(subset) #:nodoc:
-      "#{@identifier}.#{subset}"
+      "#{@identifier}.#{subset}".to_sym
     end
 
     def inspect #:nodoc:
