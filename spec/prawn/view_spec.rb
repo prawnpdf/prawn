@@ -44,4 +44,20 @@ describe Prawn::View do
     view_object.save_as('foo.pdf')
     expect(doc).to have_received(:render_file)
   end
+
+  describe '#respond_to?', issue: 1064 do
+    subject { view_object.respond_to?(method) }
+
+    context 'when called with an existing method from Prawn::Document' do
+      let(:method) { :text }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when called with a non-existing method' do
+      let(:method) { :non_existing_method }
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end
