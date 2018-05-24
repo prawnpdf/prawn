@@ -69,7 +69,7 @@ module Prawn
       document.send(m, *a, &b)
     end
 
-    def respond_to_missing?
+    def respond_to_missing?(m, _include_all = false)
       document.respond_to?(m)
     end
 
