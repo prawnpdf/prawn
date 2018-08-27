@@ -22,6 +22,11 @@ module Prawn
         # The number of spaces in the last wrapped line
         attr_reader :space_count
 
+        # This is set to true when there is not enough space.
+        # We then clean up the document state before raising
+        # the CannotFit error.
+        attr_accessor :cannot_fit
+
         # Whether this line is the last line in the paragraph
         def paragraph_finished?
           @newline_encountered || next_string_newline? || @arranger.finished?
@@ -218,6 +223,7 @@ module Prawn
 
           @newline_encountered = false
           @line_full = false
+          @cannot_fit = false
         end
 
         def fragment_finished(fragment)
@@ -242,7 +248,8 @@ module Prawn
             fragment.slice(@fragment_output.length..fragment.length)
           if line_finished? && line_empty? && @fragment_output.empty? &&
               !fragment.strip.empty?
-            raise Prawn::Errors::CannotFit
+            @cannot_fit = true
+            return
           end
           @arranger.update_last_string(
             @fragment_output,
