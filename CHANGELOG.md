@@ -14,6 +14,10 @@ It's a subtle bug that could result in use of incorrect fonts.
 
 (maerch, [#924](https://github.com/prawnpdf/prawn/pull/924), Alexander Mankuta)
 
+### Fixed line spacing in text boxes with indentation
+
+(Jakub Stasiak, [#1079](https://github.com/prawnpdf/prawn/pull/1079))
+
 ## PrawnPDF 2.4.0
 
 ### Added support for Ruby 3
