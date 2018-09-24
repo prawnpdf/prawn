@@ -491,6 +491,44 @@ describe Prawn::Text do
         end
       end
 
+      describe 'when :final_gap is set to false, there should still be ' \
+        'a gap between the first line and the rest' do
+        it 'spaces the first and the second line correctly' do
+          text = 'hello ' * 30
+          original_y = pdf.y
+          # First rendering with no indentation so we know what the correct
+          # render height should be
+          pdf.text(text, final_gap: false)
+          height_with_no_indentation = original_y - pdf.y
+          y_between_paragraphs = pdf.y
+          # The indentation size doesn't matter, it's about triggering
+          # a different path in the code
+          pdf.text(text, indent_paragraphs: 1, final_gap: false)
+          height_with_indentation = y_between_paragraphs - pdf.y
+          expect(height_with_indentation).to be_within(0.0001)
+            .of(height_with_no_indentation)
+        end
+      end
+
+      describe 'single line height with no final_gap should not depend on '\
+        'indentation' do
+        it 'does not affect the height of a single line' do
+          text = 'hello'
+          original_y = pdf.y
+          # First rendering with no indentation so we know what the correct
+          # render height should be
+          pdf.text(text, final_gap: false)
+          height_with_no_indentation = original_y - pdf.y
+          y_between_paragraphs = pdf.y
+          # The indentation size doesn't matter, it's about triggering
+          # a different path in the code
+          pdf.text(text, indent_paragraphs: 1, final_gap: false)
+          height_with_indentation = y_between_paragraphs - pdf.y
+          expect(height_with_indentation).to be_within(0.0001)
+            .of(height_with_no_indentation)
+        end
+      end
+
       describe 'when wrap to new page, and first line of new page' \
               ' is not the start of a new paragraph, that line should' \
               ' not be indented' do

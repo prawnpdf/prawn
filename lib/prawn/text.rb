@@ -382,7 +382,13 @@ module Prawn
       @all_text_printed = box.everything_printed?
 
       self.y -= box.height
-      self.y -= box.line_gap + box.leading if @final_gap
+
+      # If there's no remaining_text we don't really want to treat this line
+      # in a special way, we printed everything we wanted so the special
+      # single_line logic should not be triggered here.
+      if @final_gap || (options[:single_line] && !@all_text_printed)
+        self.y -= box.line_gap + box.leading
+      end
 
       remaining_text
     end
