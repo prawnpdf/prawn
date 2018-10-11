@@ -75,7 +75,7 @@ module Prawn
         renderer.add_content "/#{soft_mask_registry[registry_key]} gs"
       else
         masks = page.resources[:ExtGState] ||= {}
-        id = masks.empty? ? 'GS1' : masks.keys.sort.last.succ
+        id = masks.empty? ? 'GS1' : masks.keys.max.succ
         masks[id] = g_state
 
         soft_mask_registry[registry_key] = id
