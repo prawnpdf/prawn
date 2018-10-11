@@ -33,3 +33,4 @@ Prawn::ManualBuilder::Example.generate(filename) do
     y -= 100
   end
 end
+# rubocop: enable Lint/UselessAssignment

@@ -74,3 +74,4 @@ Prawn::ManualBuilder::Example.generate('text.pdf', page_size: 'FOLIO') do
     end
   end
 end
+# rubocop: enable Metrics/LineLength
