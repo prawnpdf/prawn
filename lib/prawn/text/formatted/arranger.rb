@@ -7,7 +7,7 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-# rubocop: disable Style/AccessorMethodName
+# rubocop: disable Naming/AccessorMethodName
 
 module Prawn
   module Text
