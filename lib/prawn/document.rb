@@ -306,6 +306,26 @@ module Prawn
       end
     end
 
+    # Remove page of the document by index
+    #
+    #   pdf = Prawn::Document.new
+    #   pdf.page_count #=> 1
+    #   3.times { pdf.start_new_page }
+    #   pdf.page_count #=> 4
+    #   pdf.delete_page(-1)
+    #   pdf.page_count #=> 3
+    #
+    def delete_page(index)
+      return false if index.abs > (state.pages.count - 1)
+
+      state.pages.delete_at(index)
+
+      state.store.pages.data[:Kids].delete_at(index)
+      state.store.pages.data[:Count] -= 1
+      @page_number -= 1
+      true
+    end
+
     # Returns the number of pages in the document
     #
     #   pdf = Prawn::Document.new
