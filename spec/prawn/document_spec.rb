@@ -163,6 +163,48 @@ describe Prawn::Document do
     end
   end
 
+  describe '#delete_page(index)' do
+    before do
+      pdf.text 'Page one'
+      pdf.start_new_page
+      pdf.text 'Page two'
+      pdf.start_new_page
+      pdf.text 'Page three'
+    end
+
+    it 'destroy a specific page of the document' do
+      pdf.delete_page(1)
+      expect(pdf.page_number).to eq(2)
+      text_analysis = PDF::Inspector::Text.analyze(pdf.render)
+      expect(text_analysis.strings).to eq(['Page one', 'Page three'])
+    end
+
+    it 'destroy the last page of the document' do
+      pdf.delete_page(-1)
+      expect(pdf.page_number).to eq(2)
+      text_analysis = PDF::Inspector::Text.analyze(pdf.render)
+      expect(text_analysis.strings).to eq(['Page one', 'Page two'])
+    end
+
+    context 'with an invalid index' do
+      let(:expected_content) { ['Page one', 'Page two', 'Page three'] }
+
+      it 'does not destroy an invalid positve index' do
+        pdf.delete_page(42)
+        expect(pdf.page_number).to eq(3)
+        text_analysis = PDF::Inspector::Text.analyze(pdf.render)
+        expect(text_analysis.strings).to eq(expected_content)
+      end
+
+      it 'does not destroy an invalid negative index' do
+        pdf.delete_page(-42)
+        expect(pdf.page_number).to eq(3)
+        text_analysis = PDF::Inspector::Text.analyze(pdf.render)
+        expect(text_analysis.strings).to eq(expected_content)
+      end
+    end
+  end
+
   describe '#page_number' do
     it 'is 1 for a new document' do
       pdf = described_class.new
