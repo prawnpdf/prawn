@@ -82,8 +82,7 @@ module Prawn
     #
     # @private
     def build_image_object(file)
-      io = verify_and_open_image(file)
-      image_content = io.read
+      image_content = verify_and_read_image(file)
       image_sha1 = Digest::SHA1.hexdigest(image_content)
 
       # if this image has already been embedded, just reuse it
@@ -135,7 +134,7 @@ module Prawn
 
     private
 
-    def verify_and_open_image(io_or_path)
+    def verify_and_read_image(io_or_path)
       # File or IO
       if io_or_path.respond_to?(:rewind)
         io = io_or_path
@@ -145,13 +144,12 @@ module Prawn
         # read the file as binary so the size is calculated correctly
         # guard binmode because some objects acting io-like don't implement it
         io.binmode if io.respond_to?(:binmode)
-        return io
+        return io.read
       end
       # String or Pathname
       io_or_path = Pathname.new(io_or_path)
       raise ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
-      io = io_or_path.open('rb')
-      io
+      io_or_path.binread
     end
 
     def image_position(w, h, options)

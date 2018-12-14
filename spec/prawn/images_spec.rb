@@ -43,9 +43,60 @@ describe Prawn::Images do
     expect(info.height).to eq(453)
   end
 
+  it 'does not close passed-in IO objects' do
+    file = File.open(filename, 'rb')
+    _info = pdf.image(file)
+
+    expect(file).to_not be_closed
+  end
+
   it 'accepts Pathname objects' do
     info = pdf.image(Pathname.new(filename))
     expect(info.height).to eq(453)
+  end
+
+  context 'closes opened files again after getting Pathnames', issue: 975 do
+    context 'spec with File message spy' do
+      let(:not_filename) { 'non-existent filename' }
+      let(:pathname_double) { instance_double('Pathname', file?: true) }
+
+      before do
+        file_content = File.new(filename, 'rb').read
+        allow(Pathname).to receive(:new).with(not_filename) { pathname_double }
+        allow(pathname_double).to receive(:binread) { file_content }
+      end
+
+      it 'uses only binread, which closes opened files' do
+        # this implicitly tests that a file handle is closed again
+        # because only stubbed binread can be called on not_filename
+        _info = pdf.image(not_filename)
+        expect(pathname_double).to have_received(:binread)
+      end
+    end
+
+    system_has_lsof = system('lsof -v > /dev/null 2>&1')
+    system_has_grep = system('grep --version > /dev/null 2>&1')
+    if system_has_lsof && system_has_grep
+      it 'closes opened files, spec with lsof' do
+        gc_was_disabled = GC.disable # GC of File would close the file
+        open_before = `lsof -c ruby | grep "#{filename}"`
+        _info = pdf.image(Pathname.new(filename))
+        open_after = `lsof -c ruby | grep "#{filename}"`
+        GC.enable unless gc_was_disabled
+        expect(open_after).to eq(open_before)
+      end
+    end
+
+    if RUBY_PLATFORM != 'java'
+      it 'closes opened files, spec with ObjectSpace' do
+        gc_was_disabled = GC.disable # GC of File would close the file
+        open_before = ObjectSpace.each_object(File).count { |f| !f.closed? }
+        _info = pdf.image(Pathname.new(filename))
+        open_after = ObjectSpace.each_object(File).count { |f| !f.closed? }
+        GC.enable unless gc_was_disabled
+        expect(open_after).to eq(open_before)
+      end
+    end
   end
 
   context 'setting the length of the bytestream' do
