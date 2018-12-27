@@ -25,6 +25,7 @@ module Prawn
 
         @ttf = read_ttf_file
         @subsets = TTFunk::SubsetCollection.new(@ttf)
+        @italic_angle = nil
 
         @attributes = {}
         @bounding_boxes = {}
