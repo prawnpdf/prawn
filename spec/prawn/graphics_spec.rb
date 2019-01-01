@@ -670,6 +670,36 @@ describe Prawn::Graphics do
         expect(new_state.public_send(attr)).to_not equal(pdf.graphic_state.public_send(attr))
       end
     end
+
+    it 'saves the transformation stack on graphics state save' do
+      allow(pdf).to receive(:save_transformation_stack)
+      allow(pdf).to receive(:restore_transformation_stack)
+
+      pdf.save_graphics_state
+
+      expect(pdf).to have_received(:save_transformation_stack)
+      expect(pdf).to_not have_received(:restore_transformation_stack)
+    end
+
+    it 'saves and restores the transformation stack when save graphics state ' \
+      'used in block form' do
+      allow(pdf).to receive(:save_transformation_stack)
+      allow(pdf).to receive(:restore_transformation_stack)
+
+      pdf.save_graphics_state do
+      end
+
+      expect(pdf).to have_received(:save_transformation_stack)
+      expect(pdf).to have_received(:restore_transformation_stack)
+    end
+
+    it 'restores the transformation stack on graphics state restore' do
+      allow(pdf).to receive(:restore_transformation_stack)
+
+      pdf.restore_graphics_state
+
+      expect(pdf).to have_received(:restore_transformation_stack)
+    end
   end
 
   describe 'When using transformation matrix' do

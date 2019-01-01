@@ -31,6 +31,7 @@ module Prawn
       def save_graphics_state(state = nil, &block)
         save_transformation_stack
         renderer.save_graphics_state(state, &block)
+        restore_transformation_stack if block
       end
 
       def restore_graphics_state
