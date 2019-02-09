@@ -112,7 +112,7 @@ module Prawn
       end
 
       # not sure how to compute this for true-type fonts...
-      def stemV # rubocop: disable Naming/MethodName
+      def stemV # rubocop: disable Style/MethodName
         0
       end
 

@@ -43,11 +43,11 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Naming/AccessorMethodName:
+Style/AccessorMethodName:
   Exclude:
     - lib/prawn/graphics/color.rb
 
-Layout/AlignParameters:
+Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 # We need to reference non-ascii characters when testing and explaining
@@ -67,16 +67,16 @@ Style/Encoding:
     - lib/prawn/images.rb
     - spec/png_spec.rb
 
-Layout/FirstArrayElementLineBreak:
+Style/FirstArrayElementLineBreak:
   Enabled: true
 
-Layout/FirstHashElementLineBreak:
+Style/FirstHashElementLineBreak:
   Enabled: true
 
-Layout/FirstMethodArgumentLineBreak:
+Style/FirstMethodArgumentLineBreak:
   Enabled: true
 
-Layout/FirstParameterIndentation:
+Style/FirstParameterIndentation:
   EnforcedStyle: consistent
 
 Style/GuardClause:
@@ -93,16 +93,16 @@ Lint/HandleExceptions:
 Style/IfUnlessModifier:
   Enabled: false
 
-Layout/IndentArray:
+Style/IndentArray:
   EnforcedStyle: consistent
 
-Layout/IndentHash:
+Style/IndentHash:
   EnforcedStyle: consistent
 
-Layout/MultilineMethodCallIndentation:
+Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Layout/MultilineOperationIndentation:
+Style/MultilineOperationIndentation:
   EnforcedStyle: indented
   Exclude:
     - prawn.gemspec
@@ -120,12 +120,12 @@ Style/PercentLiteralDelimiters:
     '%W': '[]'
     '%x': '()'
 
-Naming/PredicateName:
+Style/PredicateName:
   Exclude:
     - lib/prawn/font/ttf.rb
     - lib/prawn/font/afm.rb
 
-Layout/SpaceAroundOperators:
+Style/SpaceAroundOperators:
   AllowForAlignment: false
 
 Style/WhileUntilModifier:

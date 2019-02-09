@@ -44,7 +44,7 @@ describe Prawn::Text do
       expect(text.font_settings[0][:size]).to eq(16)
     end
 
-    # rubocop: disable Naming/AccessorMethodName
+    # rubocop: disable Style/AccessorMethodName
     rotated_text_inspector = Class.new(PDF::Inspector) do
       attr_reader :tm_operator_used
 
@@ -56,7 +56,7 @@ describe Prawn::Text do
         @tm_operator_used = true
       end
     end
-    # rubocop: enable Naming/AccessorMethodName
+    # rubocop: enable Style/AccessorMethodName
 
     it 'allows rotation' do
       pdf.draw_text('Test', at: [100, 100], rotate: 90)
