@@ -33,6 +33,9 @@ module Prawn
       # <tt>:character_spacing</tt>::
       #     a number denoting how much to increase or decrease the default
       #     spacing between characters
+      # <tt>:horizontal_text_scaling</tt>::
+      #     The amount as a percentage by which to scale the text
+      #     horizontally. [100]
       # <tt>:font</tt>::
       #     the name of a font. The name must be an AFM font with the desired
       #     faces or must be a font that is already registered using
@@ -166,6 +169,8 @@ module Prawn
           @leading = options[:leading] || @document.default_leading
           @character_spacing = options[:character_spacing] ||
             @document.character_spacing
+          @horizontal_text_scaling = options[:horizontal_text_scaling] ||
+            @document.horizontal_text_scaling
           @mode = options[:mode] || @document.text_rendering_mode
           @rotate = options[:rotate] || 0
           @rotate_around = options[:rotate_around] || :upper_left
@@ -213,21 +218,23 @@ module Prawn
 
           @document.save_font do
             @document.character_spacing(@character_spacing) do
-              @document.text_rendering_mode(@mode) do
-                process_options
+              @document.horizontal_text_scaling(@horizontal_text_scaling) do
+                @document.text_rendering_mode(@mode) do
+                  process_options
 
-                text = normalized_text(flags)
+                  text = normalized_text(flags)
 
-                @document.font_size(@font_size) do
-                  shrink_to_fit(text) if @overflow == :shrink_to_fit
-                  process_vertical_alignment(text)
-                  @inked = true unless flags[:dry_run]
-                  unprinted_text = if @rotate != 0 && @inked
-                                     render_rotated(text)
-                                   else
-                                     wrap(text)
-                                   end
-                  @inked = false
+                  @document.font_size(@font_size) do
+                    shrink_to_fit(text) if @overflow == :shrink_to_fit
+                    process_vertical_alignment(text)
+                    @inked = true unless flags[:dry_run]
+                    unprinted_text = if @rotate != 0 && @inked
+                                       render_rotated(text)
+                                     else
+                                       wrap(text)
+                                     end
+                    @inked = false
+                  end
                 end
               end
             end
@@ -350,7 +357,7 @@ module Prawn
             :rotate, :rotate_around,
             :overflow, :min_font_size,
             :disable_wrap_by_char,
-            :leading, :character_spacing,
+            :leading, :character_spacing, :horizontal_text_scaling,
             :mode, :single_line,
             :document,
             :direction,

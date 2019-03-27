@@ -45,6 +45,13 @@ describe Prawn::Font do
       end
     end
 
+    it 'takes horizontal text scaling into account' do
+      original_width = pdf.width_of('hello world')
+      pdf.horizontal_text_scaling(110) do
+        expect(pdf.width_of('hello world')).to eq(original_width * 1.1)
+      end
+    end
+
     it 'excludes newlines' do
       # Use a TTF font that has a non-zero width for \n
       pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")

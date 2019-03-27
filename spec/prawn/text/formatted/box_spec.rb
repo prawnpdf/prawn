@@ -729,6 +729,37 @@ describe Prawn::Text::Formatted::Box do
     end
   end
 
+  describe 'Text::Formatted::Box#render with fragment level '\
+    ':horizontal_text_scaling option' do
+    it 'draws the horizontal text scaling to the document' do
+      array = [{
+        text: 'hello world',
+        horizontal_text_scaling: 110
+      }]
+      options = { document: pdf }
+      text_box = described_class.new(array, options)
+      text_box.render
+      contents = PDF::Inspector::Text.analyze(pdf.render)
+      expect(contents.horizontal_text_scaling[0]).to eq(110)
+    end
+
+    it 'lays out text properly' do
+      array = [{
+        text: 'hello world',
+        font: 'Courier',
+        horizontal_text_scaling: 150
+      }]
+      options = {
+        document: pdf,
+        width: 100,
+        overflow: :expand
+      }
+      text_box = described_class.new(array, options)
+      text_box.render
+      expect(text_box.text).to eq("hello\nworld")
+    end
+  end
+
   describe 'Text::Formatted::Box#render with :align => :justify' do
     it 'does not justify the last line of a paragraph' do
       array = [

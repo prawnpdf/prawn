@@ -70,8 +70,13 @@ module Prawn
             else
               character_spacing = nil
             end
-            if font || size || character_spacing
-              prefix += "<font#{font}#{size}#{character_spacing}>"
+            if hash[:horizontal_text_scaling]
+              horizontal_text_scaling = " horizontal_text_scaling='#{hash[:horizontal_text_scaling]}'"
+            else
+              horizontal_text_scaling = nil
+            end
+            if font || size || character_spacing || horizontal_text_scaling
+              prefix += "<font#{font}#{size}#{character_spacing}#{horizontal_text_scaling}>"
               suffix = '</font>'
             end
 
@@ -133,6 +138,7 @@ module Prawn
           fonts = []
           sizes = []
           character_spacings = []
+          horizontal_text_scalings = []
 
           tokens.each do |token|
             case token
@@ -170,6 +176,7 @@ module Prawn
               fonts.pop
               sizes.pop
               character_spacings.pop
+              horizontal_text_scalings.pop
             when /^<link[^>]*>$/, /^<a[^>]*>$/
               matches = /href="([^"]*)"/.match(token) ||
                 /href='([^']*)'/.match(token)
@@ -220,6 +227,10 @@ module Prawn
               matches = /character_spacing="([^"]*)"/.match(token) ||
                 /character_spacing='([^']*)'/.match(token)
               character_spacings << matches[1].to_f unless matches.nil?
+
+              matches = /horizontal_text_scaling="([^"]*)"/.match(token) ||
+                /horizontal_text_scaling='([^']*)'/.match(token)
+              horizontal_text_scalings << matches[1].to_f unless matches.nil?
             else
               string = token.gsub('&lt;', '<').gsub('&gt;', '>')
                 .gsub('&amp;', '&')
@@ -232,7 +243,8 @@ module Prawn
                 anchor: anchor,
                 font: fonts.last,
                 size: sizes.last,
-                character_spacing: character_spacings.last
+                character_spacing: character_spacings.last,
+                horizontal_text_scaling: horizontal_text_scalings.last
               }
             end
           end

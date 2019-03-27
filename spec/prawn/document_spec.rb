@@ -46,7 +46,8 @@ describe Prawn::Document do
               local: nil,
               font: nil,
               size: nil,
-              character_spacing: nil
+              character_spacing: nil,
+              horizontal_text_scaling: nil
             }
           ]
         end
@@ -797,5 +798,37 @@ describe Prawn::Document do
       expect((1..10).select { |i| pdf.page_match?(fltr, i) })
         .to eq([1, 3, 6, 9])
     end
+  end
+
+  describe "#horizontal_text_scaling" do
+    it "should draw the horizontal text scaling to the document" do
+      pdf.horizontal_text_scaling(110) do
+        pdf.text("hello world")
+      end 
+      contents = PDF::Inspector::Text.analyze(pdf.render)
+      expect(contents.horizontal_text_scaling.first).to eq(110)
+    end 
+    it "should not draw the horizontal text scaling to the document" \
+      " when the new horizontal text scaling matches the old" do
+      pdf.horizontal_text_scaling(100) do
+        pdf.text("hello world")
+      end 
+      contents = PDF::Inspector::Text.analyze(pdf.render)
+      expect(contents.horizontal_text_scaling).to be_empty
+    end 
+    it "should restore horizontal text scaling to 100" do
+      pdf.horizontal_text_scaling(110) do
+        pdf.text("hello world")
+      end 
+      contents = PDF::Inspector::Text.analyze(pdf.render)
+      expect(contents.horizontal_text_scaling.last).to eq(100)
+    end 
+    it "should function as an accessor when no parameter given" do
+      pdf.horizontal_text_scaling(110) do
+        pdf.text("hello world")
+        expect(pdf.horizontal_text_scaling).to eq(110)
+      end 
+      expect(pdf.horizontal_text_scaling).to eq(100)
+    end 
   end
 end

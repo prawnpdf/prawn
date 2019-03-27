@@ -40,6 +40,8 @@ module Prawn
     # <tt>:character_spacing</tt>:: <tt>number</tt>. The amount of space to add
     #                               to or remove from the default character
     #                               spacing. [0]
+    # <tt>:horizontal_text_scaling</tt>:: <tt>number</tt>. The amount as a percentage
+    #                                     by which to scale the text horizontally. [100]
     # <tt>:disable_wrap_by_char</tt>:: <tt>boolean</tt> Whether
     # or not to prevent mid-word breaks when text does not fit in box. [false]
     # <tt>:mode</tt>:: <tt>symbol</tt>. The text rendering mode. See
