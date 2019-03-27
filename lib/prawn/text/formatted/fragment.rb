@@ -111,6 +111,11 @@ module Prawn
             @document.character_spacing
         end
 
+        def horizontal_text_scaling
+          @format_state[:horizontal_text_scaling] ||
+            @document.horizontal_text_scaling
+        end
+
         def direction
           @format_state[:direction]
         end

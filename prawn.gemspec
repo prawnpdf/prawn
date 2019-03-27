@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('ttfunk', '~> 1.5')
   spec.add_dependency('pdf-core', '~> 0.8.1')
 
-  spec.add_development_dependency('pdf-inspector', '>= 1.2.1', '< 2.0.a')
+  spec.add_development_dependency('pdf-inspector', '>= 1.3.0', '< 2.0.a')
   spec.add_development_dependency('yard')
   spec.add_development_dependency('rspec', '~> 3.0')
   spec.add_development_dependency('rake', '~> 12.0')

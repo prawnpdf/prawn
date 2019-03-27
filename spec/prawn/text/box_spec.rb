@@ -904,6 +904,29 @@ describe Prawn::Text::Box do
     end
   end
 
+  describe '#render with :horizontal_text_scaling option' do
+    it 'draws the horizontal text scaling to the document' do
+      string = 'hello world'
+      options = { document: pdf, horizontal_text_scaling: 110 }
+      text_box = described_class.new(string, options)
+      text_box.render
+      contents = PDF::Inspector::Text.analyze(pdf.render)
+      expect(contents.horizontal_text_scaling[0]).to eq(110)
+    end
+    it 'takes horizontal text scaling into account when wrapping' do
+      pdf.font 'Courier'
+      text_box = described_class.new(
+        'hello world',
+        width: 100,
+        overflow: :expand,
+        horizontal_text_scaling: 150,
+        document: pdf
+      )
+      text_box.render
+      expect(text_box.text).to eq("hello\nworld")
+    end
+  end
+
   describe 'wrapping' do
     it 'wraps text' do
       text = 'Please wrap this text about HERE. ' \

@@ -16,7 +16,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles sub' do
@@ -31,7 +32,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles rgb' do
@@ -46,7 +48,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it '# should be optional in rgb' do
@@ -61,7 +64,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles cmyk' do
@@ -76,7 +80,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles fonts' do
@@ -91,7 +96,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: 'Courier',
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles size' do
@@ -106,7 +112,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: 14,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles character_spacing' do
@@ -121,7 +128,25 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: 2.5
+        character_spacing: 2.5,
+        horizontal_text_scaling: nil
+      )
+    end
+    it 'handles horizontal_text_scaling' do
+      string = "<font horizontal_text_scaling='125'>extra horizontal text "\
+        'scaling</font>'
+      array = described_class.format(string)
+      expect(array[0]).to eq(
+        text: 'extra horizontal text scaling',
+        styles: [],
+        color: nil,
+        link: nil,
+        anchor: nil,
+        local: nil,
+        font: nil,
+        size: nil,
+        character_spacing: nil,
+        horizontal_text_scaling: 125
       )
     end
     it 'handles links' do
@@ -136,7 +161,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles local links' do
@@ -151,7 +177,8 @@ describe Prawn::Text::Formatted::Parser do
         local: '/home/example/foo.bar',
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles anchors' do
@@ -166,7 +193,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles higher order characters properly' do
@@ -181,7 +209,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[1]).to eq(
         text: "\n",
@@ -192,7 +221,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[2]).to eq(
         text: '©',
@@ -203,7 +233,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'converts &lt; &gt;, and &amp; to <, >, and &, respectively' do
@@ -218,7 +249,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles double qoutes around tag attributes' do
@@ -233,7 +265,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: 14,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'handles single qoutes around tag attributes' do
@@ -248,7 +281,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: 14,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'constructs a formatted text array from a string' do
@@ -264,7 +298,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[1]).to eq(
         text: 'world',
@@ -275,7 +310,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[2]).to eq(
         text: "\n",
@@ -286,7 +322,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[3]).to eq(
         text: 'how ',
@@ -297,7 +334,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[4]).to eq(
         text: 'are',
@@ -308,7 +346,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[5]).to eq(
         text: ' you?',
@@ -319,7 +358,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'accepts <strong> as an alternative to <b>' do
@@ -335,7 +375,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[1]).to eq(
         text: ' not bold',
@@ -346,7 +387,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'accepts <em> as an alternative to <i>' do
@@ -362,7 +404,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[1]).to eq(
         text: ' not italic',
@@ -373,7 +416,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
     it 'accepts <a> as an alternative to <link>' do
@@ -389,7 +433,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
       expect(array[1]).to eq(
         text: ' not a link',
@@ -400,7 +445,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       )
     end
 
@@ -422,7 +468,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -437,7 +484,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -452,7 +500,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -467,7 +516,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -482,7 +532,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: 'Courier',
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -497,7 +548,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: 14,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -513,7 +565,25 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: 2.5
+        character_spacing: 2.5,
+        horizontal_text_scaling: nil
+      }]
+      expect(described_class.to_string(array)).to eq(string)
+    end
+    it 'handles horizontal text scaling' do
+      string = "<font horizontal_text_scaling='125'>125 extra horizontal text "\
+        'scaling</font>'
+      array = [{
+        text: '125 extra horizontal text scaling',
+        styles: [],
+        color: nil,
+        link: nil,
+        anchor: nil,
+        local: nil,
+        font: nil,
+        size: nil,
+        character_spacing: nil,
+        horizontal_text_scaling: 125
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
@@ -527,7 +597,8 @@ describe Prawn::Text::Formatted::Parser do
         local: nil,
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       string = "<link href='http://example.com'>external link</link>"
       expect(described_class.to_string(array)).to eq(string)
@@ -541,7 +612,8 @@ describe Prawn::Text::Formatted::Parser do
         anchor: 'ToC',
         font: nil,
         size: nil,
-        character_spacing: nil
+        character_spacing: nil,
+        horizontal_text_scaling: nil
       }]
       string = "<link anchor='ToC'>internal link</link>"
       expect(described_class.to_string(array)).to eq(string)
@@ -555,7 +627,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         },
         {
           text: '<, >, and &',
@@ -564,7 +637,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         }
       ]
       string = 'hello <b>&lt;, &gt;, and &amp;</b>'
@@ -579,7 +653,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: 14,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         },
         {
           text: 'world',
@@ -588,7 +663,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         },
         {
           text: "\n",
@@ -597,7 +673,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         },
         {
           text: 'how ',
@@ -606,7 +683,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         },
         {
           text: 'are',
@@ -615,7 +693,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         },
         {
           text: ' you?',
@@ -624,7 +703,8 @@ describe Prawn::Text::Formatted::Parser do
           link: nil,
           font: nil,
           size: nil,
-          character_spacing: nil
+          character_spacing: nil,
+          horizontal_text_scaling: nil
         }
       ]
       string = "<font size='14'>hello </font><b>world</b><b>\n"\
