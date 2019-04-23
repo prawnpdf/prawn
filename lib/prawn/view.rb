@@ -11,6 +11,12 @@ module Prawn
   #     class Greeter
   #       include Prawn::View
   #
+  #       # Optional override: allows you to set document options or even use
+  #       # a custom document class
+  #       def document
+  #         @document ||= Prawn::Document.new(page_size: 'A4')
+  #       end
+  #
   #       def initialize(name)
   #         @name = name
   #       end
