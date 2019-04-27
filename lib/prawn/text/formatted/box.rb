@@ -248,6 +248,7 @@ module Prawn
         #
         def height
           return 0 if @baseline_y.nil? || @descender.nil?
+
           (@baseline_y - @descender).abs
         end
 
@@ -343,19 +344,19 @@ module Prawn
         end
 
         def valid_options
-          PDF::Core::Text::VALID_OPTIONS + [
-            :at,
-            :height, :width,
-            :align, :valign,
-            :rotate, :rotate_around,
-            :overflow, :min_font_size,
-            :disable_wrap_by_char,
-            :leading, :character_spacing,
-            :mode, :single_line,
-            :document,
-            :direction,
-            :fallback_fonts,
-            :draw_text_callback
+          PDF::Core::Text::VALID_OPTIONS + %i[
+            at
+            height width
+            align valign
+            rotate rotate_around
+            overflow min_font_size
+            disable_wrap_by_char
+            leading character_spacing
+            mode single_line
+            document
+            direction
+            fallback_fonts
+            draw_text_callback
           ]
         end
 
@@ -501,6 +502,7 @@ module Prawn
               @vertical_alignment_processed
             return
           end
+
           @vertical_alignment_processed = true
 
           return if @vertical_align == :top
@@ -592,6 +594,7 @@ module Prawn
 
         def draw_fragment_overlay_link(fragment)
           return unless fragment.link
+
           box = fragment.absolute_bounding_box
           @document.link_annotation(
             box,
@@ -606,6 +609,7 @@ module Prawn
 
         def draw_fragment_overlay_anchor(fragment)
           return unless fragment.anchor
+
           box = fragment.absolute_bounding_box
           @document.link_annotation(
             box,
@@ -616,6 +620,7 @@ module Prawn
 
         def draw_fragment_overlay_local(fragment)
           return unless fragment.local
+
           box = fragment.absolute_bounding_box
           @document.link_annotation(
             box,

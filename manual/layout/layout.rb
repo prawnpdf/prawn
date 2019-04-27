@@ -11,11 +11,11 @@ Prawn::ManualBuilder::Example.generate('layout.pdf', page_size: 'FOLIO') do
     p.example 'content'
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         Prawn has support for two-dimensional grid based layouts out of the box.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'How to define the document grid',

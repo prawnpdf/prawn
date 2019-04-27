@@ -20,7 +20,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   self.line_width = 25
 
-  [:butt, :round, :projecting_square].each_with_index do |cap, i|
+  %i[butt round projecting_square].each_with_index do |cap, i|
     self.cap_style = cap
 
     y = 250 - i * 100

@@ -107,6 +107,7 @@ module Prawn
     def create_stamp_dictionary(name)
       raise Prawn::Errors::InvalidName if name.empty?
       raise Prawn::Errors::NameTaken unless stamp_dictionary_registry[name].nil?
+
       # BBox origin is the lower left margin of the page, so we need
       # it to be the full dimension of the page, or else things that
       # should appear near the top or right margin are invisible
@@ -133,7 +134,7 @@ module Prawn
     # to the /Annot dictionary of the object that contains the
     # call to the stamp object.
     def update_annotation_references(annots)
-      if annots && annots.any?
+      if annots&.any?
         state.page.dictionary.data[:Annots] ||= []
         state.page.dictionary.data[:Annots] |= annots
       end

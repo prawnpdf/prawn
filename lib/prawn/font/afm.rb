@@ -205,6 +205,7 @@ module Prawn
             data[:bounding_boxes][name] = line[/\bB\s+([^;]+);/, 1].to_s.rstrip
           when %w[FontMetrics KernData KernPairs]
             next unless line =~ /^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/
+
             data[:kern_pairs][[Regexp.last_match(1), Regexp.last_match(2)]] =
               Regexp.last_match(3).to_i
           when %w[FontMetrics KernData TrackKern],

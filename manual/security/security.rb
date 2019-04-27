@@ -10,12 +10,12 @@ Prawn::ManualBuilder::Example.generate('security.pdf', page_size: 'FOLIO') do
     p.example 'permissions', eval_source: false, full_source: true
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         Security lets you control who can read the document by defining
         a password.
 
         The examples include:
-      END
+      TEXT
 
       list(
         'How to encrypt the document without the need for a password',

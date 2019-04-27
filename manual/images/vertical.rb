@@ -13,7 +13,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   bounding_box([0, cursor], width: 500, height: 450) do
     stroke_bounds
 
-    [:top, :center, :bottom].each do |vposition|
+    %i[top center bottom].each do |vposition|
       text "Image vertically aligned to the #{vposition}.", valign: vposition
       image "#{Prawn::DATADIR}/images/stef.jpg",
         position: 250, vposition: vposition

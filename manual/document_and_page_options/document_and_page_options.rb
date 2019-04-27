@@ -14,14 +14,14 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
     p.example 'print_scaling', eval_source: false, full_source: true
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         So far we've already seen how to create new documents and start new
         pages. This chapter expands on the previous examples by showing other
         options avialable. Some of the options are only available when creating
         new documents.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'How to configure page size',

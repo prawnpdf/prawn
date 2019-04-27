@@ -24,6 +24,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   Prawn::Encoding::WinAnsi::CHARACTERS.each_with_index do |name, index|
     next if name == '.notdef'
+
     y -= FONT_SIZE
 
     if y < FONT_SIZE
@@ -31,11 +32,11 @@ Prawn::ManualBuilder::Example.generate(filename) do
       x += 170
     end
 
-    code = format('%d.', index)
+    code = format('%<index>d.', index: index)
     char = index.chr.force_encoding(::Encoding::Windows_1252)
 
     width = 1000 * width_of(char, size: FONT_SIZE) / FONT_SIZE
-    size = format('%d', width)
+    size = format('%<width>d', width: width)
 
     data = [code, nil, char, size, nil, name]
     dx = x

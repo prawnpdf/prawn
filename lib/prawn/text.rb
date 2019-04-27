@@ -151,6 +151,7 @@ module Prawn
     #
     def text(string, options = {})
       return false if string.nil?
+
       # we modify the options. don't change the user's hash
       options = options.dup
 
@@ -409,10 +410,11 @@ module Prawn
       elsif options[:align]
         raise ArgumentError, 'The :align option does not work with draw_text'
       end
+
       if options[:kerning].nil?
         options[:kerning] = default_kerning?
       end
-      valid_options = PDF::Core::Text::VALID_OPTIONS + [:at, :rotate]
+      valid_options = PDF::Core::Text::VALID_OPTIONS + %i[at rotate]
       Prawn.verify_options(valid_options, options)
       options
     end
@@ -438,7 +440,7 @@ module Prawn
       options.delete(:indent_paragraphs)
     end
 
-    def move_text_position(dy)
+    def move_text_position(amount)
       bottom =
         if @bounding_box.stretchy?
           @margin_box.absolute_bottom
@@ -446,9 +448,9 @@ module Prawn
           @bounding_box.absolute_bottom
         end
 
-      @bounding_box.move_past_bottom if (y - dy) < bottom
+      @bounding_box.move_past_bottom if (y - amount) < bottom
 
-      self.y -= dy
+      self.y -= amount
     end
   end
 end

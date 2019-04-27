@@ -6,8 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-require 'thread'
-
 module Prawn
   # Throughout the Prawn codebase, repeated calculations which can benefit from
   # caching are made.

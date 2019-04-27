@@ -52,7 +52,7 @@ describe Prawn::Text do
         @tm_operator_used = false
       end
 
-      def set_text_matrix_and_text_line_matrix(*_a)
+      def set_text_matrix_and_text_line_matrix(*_arguments)
         @tm_operator_used = true
       end
     end

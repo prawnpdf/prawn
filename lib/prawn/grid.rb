@@ -33,22 +33,21 @@ module Prawn
     #
     def grid(*args)
       @boxes ||= {}
-      return @boxes[args] if @boxes[args]
+      @boxes[args] ||=
+        begin
+          if args.empty?
+            @grid
+          else
+            g1, g2 = args
 
-      if args.empty?
-        @boxes[args] = @grid
-      else
-        g1, g2 = args
-
-        if g1.is_a?(Array) && g2.is_a?(Array) && g1.length == 2 &&
-            g2.length == 2
-          @boxes[args] = multi_box(single_box(*g1), single_box(*g2))
-        else
-          @boxes[args] = single_box(g1, g2)
+            if g1.is_a?(Array) && g2.is_a?(Array) &&
+                g1.length == 2 && g2.length == 2
+              multi_box(single_box(*g1), single_box(*g2))
+            else
+              single_box(g1, g2)
+            end
+          end
         end
-      end
-
-      @boxes[args]
     end
 
     # A Grid represents the entire grid system of a Page and calculates
@@ -58,7 +57,7 @@ module Prawn
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
       def initialize(pdf, options = {}) # :nodoc:
-        valid_options = [:columns, :rows, :gutter, :row_gutter, :column_gutter]
+        valid_options = %i[columns rows gutter row_gutter column_gutter]
         Prawn.verify_options valid_options, options
 
         @pdf = pdf
@@ -79,9 +78,9 @@ module Prawn
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
       def show_all(color = 'CCCCCC')
-        rows.times do |i|
-          columns.times do |j|
-            pdf.grid(i, j).show(color)
+        rows.times do |row|
+          columns.times do |column|
+            pdf.grid(row, column).show(color)
           end
         end
       end
@@ -113,17 +112,17 @@ module Prawn
     class GridBox
       attr_reader :pdf
 
-      def initialize(pdf, i, j)
+      def initialize(pdf, rows, columns)
         @pdf = pdf
-        @i = i
-        @j = j
+        @rows = rows
+        @columns = columns
       end
 
       # Mostly diagnostic method that outputs the name of a box as
       # col_num, row_num
       #
       def name
-        "#{@i},#{@j}"
+        "#{@rows},#{@columns}"
       end
 
       # :nodoc
@@ -148,7 +147,7 @@ module Prawn
 
       # x-coordinate of left side
       def left
-        @left ||= (width + grid.column_gutter) * @j.to_f
+        @left ||= (width + grid.column_gutter) * @columns.to_f
       end
 
       # x-coordinate of right side
@@ -158,7 +157,7 @@ module Prawn
 
       # y-coordinate of the top
       def top
-        @top ||= total_height - ((height + grid.row_gutter) * @i.to_f)
+        @top ||= total_height - ((height + grid.row_gutter) * @rows.to_f)
       end
 
       # y-coordinate of the bottom
@@ -215,17 +214,17 @@ module Prawn
     #
     # @group Experimental API
     class MultiBox < GridBox
-      def initialize(pdf, b1, b2)
+      def initialize(pdf, box1, box2)
         @pdf = pdf
-        @bs = [b1, b2]
+        @boxes = [box1, box2]
       end
 
       def name
-        @bs.map(&:name).join(':')
+        @boxes.map(&:name).join(':')
       end
 
       def total_height
-        @bs[0].total_height
+        @boxes[0].total_height
       end
 
       def width
@@ -237,7 +236,7 @@ module Prawn
       end
 
       def gutter
-        @bs[0].gutter
+        @boxes[0].gutter
       end
 
       def left
@@ -259,30 +258,30 @@ module Prawn
       private
 
       def left_box
-        @left_box ||= @bs.min_by(&:left)
+        @left_box ||= @boxes.min_by(&:left)
       end
 
       def right_box
-        @right_box ||= @bs.max_by(&:right)
+        @right_box ||= @boxes.max_by(&:right)
       end
 
       def top_box
-        @top_box ||= @bs.max_by(&:top)
+        @top_box ||= @boxes.max_by(&:top)
       end
 
       def bottom_box
-        @bottom_box ||= @bs.min_by(&:bottom)
+        @bottom_box ||= @boxes.min_by(&:bottom)
       end
     end
 
     private
 
-    def single_box(i, j)
-      GridBox.new(self, i, j)
+    def single_box(rows, columns)
+      GridBox.new(self, rows, columns)
     end
 
-    def multi_box(b1, b2)
-      MultiBox.new(self, b1, b2)
+    def multi_box(box1, box2)
+      MultiBox.new(self, box1, box2)
     end
   end
 end

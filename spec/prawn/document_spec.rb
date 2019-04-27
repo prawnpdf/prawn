@@ -616,7 +616,7 @@ describe Prawn::Document do
       expect(pdf).to_not have_received(:text_box)
     end
 
-    context 'start_count_at option' do
+    context 'with start_count_at option' do
       [1, 2].each do |startat|
         context "equal to #{startat}" do
           it 'increments the pages' do
@@ -649,7 +649,7 @@ describe Prawn::Document do
       end
     end
 
-    context 'total_pages option' do
+    context 'with total_pages option' do
       it 'allows the total pages count to be overridden' do
         2.times { pdf.start_new_page }
         allow(pdf).to receive(:text_box)
@@ -660,8 +660,8 @@ describe Prawn::Document do
       end
     end
 
-    context 'special page filter' do
-      context 'such as :odd' do
+    context 'with special page filter' do
+      describe 'such as :odd' do
         it 'increments the pages' do
           3.times { pdf.start_new_page }
           allow(pdf).to receive(:text_box)
@@ -673,7 +673,7 @@ describe Prawn::Document do
         end
       end
 
-      context 'missing' do
+      describe 'missing' do
         it 'does not print any page numbers' do
           3.times { pdf.start_new_page }
           allow(pdf).to receive(:text_box)
@@ -684,8 +684,8 @@ describe Prawn::Document do
       end
     end
 
-    context 'given both a special page filter and a start_count_at parameter' do
-      context 'such as :odd and 7' do
+    context 'with both a special page filter and a start_count_at parameter' do
+      describe 'such as :odd and 7' do
         it 'increments the pages' do
           3.times { pdf.start_new_page }
           allow(pdf).to receive(:text_box)
@@ -704,7 +704,8 @@ describe Prawn::Document do
           expect(pdf).to have_received(:text_box).with('7 3', height: 50)
         end
       end
-      context 'some crazy proc and 2' do
+
+      context 'with some crazy proc and 2' do
         it 'increments the pages' do
           6.times { pdf.start_new_page }
           options = {
@@ -735,7 +736,7 @@ describe Prawn::Document do
       end
     end
 
-    context 'height option' do
+    describe 'height option' do
       before do
         pdf.start_new_page
       end
@@ -768,7 +769,7 @@ describe Prawn::Document do
     end
 
     it 'returns nil given no filter' do
-      expect(pdf.page_match?(:nil, 1)).to be_falsey
+      expect(pdf).to_not be_page_match(:nil, 1)
     end
 
     it 'must provide an :all filter' do
@@ -779,7 +780,7 @@ describe Prawn::Document do
     it 'must provide an :odd filter' do
       odd, even = (1..pdf.page_count).partition(&:odd?)
       expect(odd.all? { |i| pdf.page_match?(:odd, i) }).to eq true
-      expect(even.any? { |i| pdf.page_match?(:odd, i) }).to be_falsey
+      expect(even).to_not(be_any { |i| pdf.page_match?(:odd, i) })
     end
 
     it 'must be able to filter by an array of page numbers' do

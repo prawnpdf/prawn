@@ -118,6 +118,7 @@ describe Prawn::Graphics do
 
   describe 'When drawing a rounded rectangle' do
     before { pdf.rounded_rectangle([50, 550], 50, 100, 10) }
+
     let(:original_point) do
       curve = PDF::Inspector::Graphics::Curve.analyze(pdf.render)
       curve_points = curve.coords.each_slice(2).to_a
@@ -430,7 +431,7 @@ describe Prawn::Graphics do
     end
 
     describe 'gradient transformations' do
-      subject do
+      subject(:transformations) do
         pdf.scale 2 do
           pdf.translate 40, 40 do
             pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF', opts
@@ -448,7 +449,7 @@ describe Prawn::Graphics do
 
         it 'uses the transformation stack to translate user co-ordinates to '\
           'document co-ordinates required by /Pattern' do
-          is_expected.to eq([[2, 0, 0, 2, 80, 100]])
+          expect(transformations).to eq([[2, 0, 0, 2, 80, 100]])
         end
       end
 
@@ -456,7 +457,7 @@ describe Prawn::Graphics do
         let(:opts) { { apply_transformations: false } }
 
         it "doesn't transform the gradient" do
-          is_expected.to eq([[1, 0, 0, 1, 0, 10]])
+          expect(transformations).to eq([[1, 0, 0, 1, 0, 10]])
         end
       end
 
@@ -465,7 +466,7 @@ describe Prawn::Graphics do
 
         it "doesn't transform the gradient and displays a warning" do
           allow(pdf).to receive(:warn).twice
-          is_expected.to eq([[1, 0, 0, 1, 0, 10]])
+          expect(transformations).to eq([[1, 0, 0, 1, 0, 10]])
           expect(pdf).to have_received(:warn).twice
         end
       end
@@ -626,7 +627,7 @@ describe Prawn::Graphics do
       'the initializer' do
       new_state = PDF::Core::GraphicState.new(pdf.graphic_state)
 
-      [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
+      %i[color_space dash fill_color stroke_color].each do |attr|
         expect(new_state.send(attr)).to eq(pdf.graphic_state.send(attr))
         expect(new_state.send(attr)).to_not equal(pdf.graphic_state.send(attr))
       end
@@ -635,7 +636,7 @@ describe Prawn::Graphics do
     it 'copies mutable attributes when duping' do
       new_state = pdf.graphic_state.dup
 
-      [:color_space, :dash, :fill_color, :stroke_color].each do |attr|
+      %i[color_space dash fill_color stroke_color].each do |attr|
         expect(new_state.send(attr)).to eq(pdf.graphic_state.send(attr))
         expect(new_state.send(attr)).to_not equal(pdf.graphic_state.send(attr))
       end

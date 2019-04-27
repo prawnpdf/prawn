@@ -125,8 +125,29 @@ Naming/PredicateName:
     - lib/prawn/font/ttf.rb
     - lib/prawn/font/afm.rb
 
+Naming/UncommunicativeMethodParamName:
+  MinNameLength: 3
+  AllowNamesEndingInNumbers: true
+  AllowedNames:
+  - id
+  - to
+  - at
+  - x
+  - x1
+  - x2
+  - y
+  - y1
+  - y2
+  - r1
+  - r2
+
+  ForbiddenNames: []
+
 Layout/SpaceAroundOperators:
   AllowForAlignment: false
 
 Style/WhileUntilModifier:
+  Enabled: false
+
+Rails:
   Enabled: false

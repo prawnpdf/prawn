@@ -144,9 +144,9 @@ describe Prawn::Font do
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.font_settings.map { |e| e[:name] }).to eq(
-        [
-          :"Courier-Bold", :"Courier-BoldOblique", :"Courier-Oblique",
-          :Courier, :Helvetica
+        %i[
+          Courier-Bold Courier-BoldOblique Courier-Oblique
+          Courier Helvetica
         ]
       )
     end

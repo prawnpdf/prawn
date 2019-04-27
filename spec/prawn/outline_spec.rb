@@ -44,6 +44,7 @@ describe Prawn::Outline do
     it 'stores all outline titles as UTF-16' do
       hash.each_value do |obj|
         next unless obj.is_a?(Hash) && obj[:Title]
+
         title = obj[:Title].dup
         title.force_encoding(Encoding::UTF_16LE)
         expect(title.valid_encoding?).to eq(true)
@@ -159,7 +160,7 @@ describe Prawn::Outline do
   end
 
   describe '#outline.add_subsection_to' do
-    context 'positioned last' do
+    context 'when positioned last' do
       before do
         pdf.start_new_page
         pdf.text 'Page 3. An added subsection '
@@ -205,7 +206,7 @@ describe Prawn::Outline do
       end
     end
 
-    context 'positioned first' do
+    context 'when positioned first' do
       before do
         pdf.start_new_page
         pdf.text 'Page 3. An added subsection '
@@ -397,6 +398,7 @@ describe Prawn::Outline do
   def find_by_title(title)
     hash.values.find do |obj|
       next unless obj.is_a?(Hash) && obj[:Title]
+
       title_codepoints = obj[:Title].unpack('n*')
       title_codepoints.shift
       utf8_title = title_codepoints.pack('U*')

@@ -31,7 +31,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     rotate: angle, rotate_around: :center
   )
 
-  [:lower_left, :upper_left, :lower_right, :upper_right]
+  %i[lower_left upper_left lower_right upper_right]
     .each_with_index do |corner, index|
     y -= 100 if index == 2
     stroke_rectangle [x + (index % 2) * 200, y], width, height

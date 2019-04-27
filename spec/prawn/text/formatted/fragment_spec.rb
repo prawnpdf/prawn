@@ -8,7 +8,7 @@ describe Prawn::Text::Formatted::Fragment do
   describe 'Text::Formatted::Fragment' do
     let(:fragment) do
       format_state = {
-        styles: [:bold, :italic],
+        styles: %i[bold italic],
         color: nil,
         link: nil,
         anchor: nil,
@@ -37,7 +37,7 @@ describe Prawn::Text::Formatted::Fragment do
 
     describe '#styles' do
       it 'returns the styles array' do
-        expect(fragment.styles).to eq([:bold, :italic])
+        expect(fragment.styles).to eq(%i[bold italic])
       end
 
       it 'nevers return nil' do
@@ -182,7 +182,7 @@ describe Prawn::Text::Formatted::Fragment do
   describe '#word_spacing=' do
     let(:fragment) do
       format_state = {
-        styles: [:bold, :italic],
+        styles: %i[bold italic],
         color: nil,
         link: nil,
         anchor: nil,

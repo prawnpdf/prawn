@@ -108,7 +108,8 @@ module Prawn
         renderer.add_content "/SP#{registry_key} #{operator}"
       end
 
-      def parse_gradient_arguments( # rubocop: disable Metrics/ParameterLists
+      # rubocop: disable Metrics/ParameterLists
+      def parse_gradient_arguments(
         *arguments, from: nil, to: nil, r1: nil, r2: nil, stops: nil,
         apply_transformations: nil
       )
@@ -139,6 +140,7 @@ module Prawn
           unless (0..1).cover?(position)
             raise ArgumentError, 'position must be between 0 and 1'
           end
+
           GradientStop.new(position, normalize_color(color))
         end
 
@@ -161,6 +163,7 @@ module Prawn
           r1, r2
         )
       end
+      # rubocop: enable Metrics/ParameterLists
 
       def gradient_registry_key(gradient)
         _x1, _y1, x2, y2, transformation = gradient_coordinates(gradient)

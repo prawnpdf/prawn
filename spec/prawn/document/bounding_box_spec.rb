@@ -228,7 +228,7 @@ describe Prawn::Document::BoundingBox do
       pdf.bounding_box([100, 100], width: 200) do
         begin
           pdf.indent(20) { raise }
-        rescue
+        rescue StandardError
           expect(pdf.bounds.absolute_left).to eq(100)
           expect(pdf.bounds.width).to eq(200)
         end

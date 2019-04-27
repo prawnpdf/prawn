@@ -4,6 +4,8 @@
 #
 # Copyright December 2008, Florian Witteler.  All Rights Reserved.
 #
+
+# rubocop: disable Naming/UncommunicativeMethodParamName
 module Prawn
   # @group Stable API
 
@@ -69,3 +71,4 @@ module Prawn
     end
   end
 end
+# rubocop: enable Naming/UncommunicativeMethodParamName

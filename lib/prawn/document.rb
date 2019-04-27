@@ -64,11 +64,11 @@ module Prawn
     # NOTE: We probably need to rethink the options validation system, but this
     # constant temporarily allows for extensions to modify the list.
 
-    VALID_OPTIONS = [
-      :page_size, :page_layout, :margin, :left_margin,
-      :right_margin, :top_margin, :bottom_margin, :skip_page_creation,
-      :compress, :background, :info,
-      :text_formatter, :print_scaling
+    VALID_OPTIONS = %i[
+      page_size page_layout margin left_margin
+      right_margin top_margin bottom_margin skip_page_creation
+      compress background info
+      text_formatter print_scaling
     ].freeze
 
     # Any module added to this array will be included into instances of
@@ -342,9 +342,9 @@ module Prawn
     #
     # See Prawn::Document#number_pages for a sample usage of this capability.
     #
-    def go_to_page(k)
-      @page_number = k
-      state.page = state.pages[k - 1]
+    def go_to_page(page_number)
+      @page_number = page_number
+      state.page = state.pages[page_number - 1]
       generate_margin_box
       @y = @bounding_box.absolute_top
     end
@@ -391,13 +391,13 @@ module Prawn
     # Renders the PDF document to string.
     # Pass an open file descriptor to render to file.
     #
-    def render(*a, &b)
+    def render(*arguments, &block)
       (1..page_count).each do |i|
         go_to_page i
         repeaters.each { |r| r.run(i) }
       end
 
-      renderer.render(*a, &b)
+      renderer.render(*arguments, &block)
     end
 
     # Renders the PDF document to file.
@@ -459,15 +459,15 @@ module Prawn
     # Moves up the document by n points relative to the current position inside
     # the current bounding box.
     #
-    def move_up(n)
-      self.y += n
+    def move_up(amount)
+      self.y += amount
     end
 
     # Moves down the document by n points relative to the current position
     # inside the current bounding box.
     #
-    def move_down(n)
-      self.y -= n
+    def move_down(amount)
+      self.y -= amount
     end
 
     # Moves down the document and then executes a block.
@@ -619,7 +619,7 @@ module Prawn
     # the current page or column.
     #
     # @private
-    def group(*_a)
+    def group(*_arguments)
       raise NotImplementedError,
         'Document#group has been disabled because its implementation ' \
         'lead to corrupted documents whenever a page boundary was ' \
@@ -728,11 +728,11 @@ module Prawn
 
       # we must update bounding box if not flowing from the previous page
       #
-      @bounding_box = @margin_box unless @bounding_box && @bounding_box.parent
+      @bounding_box = @margin_box unless @bounding_box&.parent
     end
 
     def apply_margin_options(options)
-      sides = [:top, :right, :bottom, :left]
+      sides = %i[top right bottom left]
       margin = Array(options[:margin])
 
       # Treat :margin as CSS shorthand with 1-4 values.

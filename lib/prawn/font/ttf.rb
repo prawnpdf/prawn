@@ -112,7 +112,7 @@ module Prawn
       end
 
       # not sure how to compute this for true-type fonts...
-      def stemV # rubocop: disable Naming/MethodName
+      def stem_v
         0
       end
 
@@ -158,7 +158,7 @@ module Prawn
       end
 
       def pdf_flags
-        @flags ||= begin
+        @pdf_flags ||= begin
           flags = 0
           flags |= 0x0001 if @ttf.postscript.fixed_pitch?
           flags |= 0x0002 if serif?
@@ -171,7 +171,7 @@ module Prawn
 
       def normalize_encoding(text)
         text.encode(::Encoding::UTF_8)
-      rescue => e
+      rescue StandardError => e
         puts e
         raise Prawn::Errors::IncompatibleStringEncoding, 'Encoding ' \
           "#{text.encoding} can not be transparently converted to UTF-8. " \
@@ -223,7 +223,7 @@ module Prawn
       end
 
       def kern_pairs_table
-        @kerning_data ||=
+        @kern_pairs_table ||=
           if has_kerning_data?
             @ttf.kerning.tables.first.pairs
           else
@@ -246,7 +246,7 @@ module Prawn
       end
 
       def scale_factor
-        @scale ||= 1000.0 / @ttf.header.units_per_em
+        @scale_factor ||= 1000.0 / @ttf.header.units_per_em
       end
 
       def register(subset)
@@ -284,7 +284,7 @@ module Prawn
           FontFile2: fontfile,
           FontBBox: bbox,
           Flags: pdf_flags,
-          StemV: stemV,
+          StemV: stem_v,
           ItalicAngle: italic_angle,
           Ascent: @ascender,
           Descent: @descender,
@@ -318,8 +318,9 @@ module Prawn
 
         range_blocks = ranges.inject(+'') do |s, list|
           s << format(
-            "%d beginbfchar\n%s\nendbfchar\n",
-            list.length, list.join("\n")
+            "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
+            lenght: list.length,
+            list: list.join("\n")
           )
         end
 

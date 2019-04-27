@@ -13,7 +13,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
     p.example 'alternate_page_numbering', eval_source: false
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         Prawn offers two ways to handle repeatable content blocks. Repeater is
         useful for content that gets repeated at well defined intervals while
         Stamp is more appropriate if you need better control of when to repeat
@@ -22,7 +22,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
         There is also one very specific helper for numbering pages.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'How to repeat content on several pages with a single invocation',

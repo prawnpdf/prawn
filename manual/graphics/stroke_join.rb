@@ -15,7 +15,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   self.line_width = 25
 
-  [:miter, :round, :bevel].each_with_index do |style, i|
+  %i[miter round bevel].each_with_index do |style, i|
     self.join_style = style
 
     y = 200 - i * 100

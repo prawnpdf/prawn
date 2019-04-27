@@ -7,8 +7,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 
-# rubocop: disable Naming/AccessorMethodName
-
 module Prawn
   module Text
     module Formatted #:nodoc:
@@ -83,8 +81,8 @@ module Prawn
               @document
             )
             @fragments << fragment
-            set_fragment_measurements(fragment)
-            set_line_measurement_maximums(fragment)
+            self.fragment_measurements = fragment
+            self.line_measurement_maximums = fragment
           end
         end
 
@@ -168,6 +166,7 @@ module Prawn
           @document.character_spacing(character_spacing) do
             if font || font_style != :normal
               raise 'Bad font family' unless @document.font.family
+
               @document.font(
                 font || @document.font.family, style: font_style
               ) do
@@ -181,6 +180,7 @@ module Prawn
 
         def update_last_string(printed, unprinted, normalized_soft_hyphen = nil)
           return if printed.nil?
+
           if printed.empty?
             @consumed.pop
           else
@@ -286,7 +286,7 @@ module Prawn
           end
         end
 
-        def set_fragment_measurements(fragment)
+        def fragment_measurements=(fragment)
           apply_font_settings(fragment) do
             fragment.width = @document.width_of(
               fragment.text,
@@ -298,7 +298,7 @@ module Prawn
           end
         end
 
-        def set_line_measurement_maximums(fragment)
+        def line_measurement_maximums=(fragment)
           @max_line_height = [
             defined?(@max_line_height) && @max_line_height,
             fragment.line_height

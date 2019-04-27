@@ -465,7 +465,7 @@ describe Prawn::Text::Formatted::Box do
       text_box.render
       contents = PDF::Inspector::Text.analyze(pdf.render)
       fonts = contents.font_settings.map { |e| e[:name] }
-      expect(fonts).to eq([:Helvetica, :"Times-Bold", :Helvetica])
+      expect(fonts).to eq(%i[Helvetica Times-Bold Helvetica])
       expect(contents.strings[0]).to eq('this contains ')
       expect(contents.strings[1]).to eq('Times-Bold')
       expect(contents.strings[2]).to eq(' text')
@@ -481,7 +481,7 @@ describe Prawn::Text::Formatted::Box do
       text_box.render
       contents = PDF::Inspector::Text.analyze(pdf.render)
       fonts = contents.font_settings.map { |e| e[:name] }
-      expect(fonts).to eq([:Helvetica, :"Helvetica-Bold", :Helvetica])
+      expect(fonts).to eq(%i[Helvetica Helvetica-Bold Helvetica])
       expect(contents.strings[0]).to eq('this contains ')
       expect(contents.strings[1]).to eq('bold')
       expect(contents.strings[2]).to eq(' text')
@@ -497,7 +497,7 @@ describe Prawn::Text::Formatted::Box do
       text_box.render
       contents = PDF::Inspector::Text.analyze(pdf.render)
       fonts = contents.font_settings.map { |e| e[:name] }
-      expect(fonts).to eq([:Helvetica, :"Helvetica-Oblique", :Helvetica])
+      expect(fonts).to eq(%i[Helvetica Helvetica-Oblique Helvetica])
     end
 
     it 'is able to set subscript' do
@@ -531,14 +531,14 @@ describe Prawn::Text::Formatted::Box do
     it 'is able to set compound bold and italic text' do
       array = [
         { text: 'this contains ' },
-        { text: 'bold italic', styles: [:bold, :italic] },
+        { text: 'bold italic', styles: %i[bold italic] },
         { text: ' text' }
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
       contents = PDF::Inspector::Text.analyze(pdf.render)
       fonts = contents.font_settings.map { |e| e[:name] }
-      expect(fonts).to eq([:Helvetica, :"Helvetica-BoldOblique", :Helvetica])
+      expect(fonts).to eq(%i[Helvetica Helvetica-BoldOblique Helvetica])
     end
     it 'is able to underline' do
       array = [

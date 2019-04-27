@@ -44,8 +44,8 @@ RSpec::Matchers.define :have_parseable_xobjects do
 end
 
 # Make some methods public to assist in testing
-module Prawn
-  module Graphics
-    public :map_to_absolute
-  end
-end
+# module Prawn
+#   module Graphics
+#     public :map_to_absolute
+#   end
+# end
