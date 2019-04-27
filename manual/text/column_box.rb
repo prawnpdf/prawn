@@ -14,7 +14,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   move_down 12
 
   column_box([0, cursor], columns: 2, width: bounds.width) do
-    text((<<-END.gsub(/\s+/, ' ') + "\n\n") * 3)
+    text((<<-TEXT.gsub(/\s+/, ' ') + "\n\n") * 3)
       All the States and Governments by which men are or ever have been ruled,
       have been and are either Republics or Princedoms. Princedoms are either
       hereditary, in which the sovereignty is derived through an ancient line
@@ -25,6 +25,6 @@ Prawn::ManualBuilder::Example.generate(filename) do
       acquired have either been used to live under a Prince or have been free;
       and he who acquires them does so either by his own arms or by the arms of
       others, and either by good fortune or by merit.
-    END
+    TEXT
   end
 end

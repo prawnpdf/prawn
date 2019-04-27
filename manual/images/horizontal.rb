@@ -13,7 +13,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   bounding_box([50, cursor], width: 400, height: 450) do
     stroke_bounds
 
-    [:left, :center, :right].each do |position|
+    %i[left center right].each do |position|
       text  "Image aligned to the #{position}."
       image "#{Prawn::DATADIR}/images/stef.jpg", position: position
     end

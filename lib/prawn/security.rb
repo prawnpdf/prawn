@@ -86,7 +86,7 @@ module Prawn
       #   PDF format.
       #
       def encrypt_document(options = {})
-        Prawn.verify_options [:user_password, :owner_password, :permissions],
+        Prawn.verify_options %i[user_password owner_password permissions],
           options
         @user_password = options.delete(:user_password) || ''
 
@@ -133,28 +133,30 @@ module Prawn
       end
 
       # Flags in the permissions word, numbered as LSB = 1
-      PermissionsBits = {
+      PERMISSIONS_BITS = {
         print_document: 3,
         modify_contents: 4,
         copy_contents: 5,
         modify_annotations: 6
       }.freeze
+      private_constant :PERMISSIONS_BITS
 
       FULL_PERMISSIONS = 0b1111_1111_1111_1111_1111_1111_1111_1111
+      private_constant :FULL_PERMISSIONS
 
       def permissions=(perms = {})
         @permissions ||= FULL_PERMISSIONS
         perms.each do |key, value|
-          unless PermissionsBits[key]
+          unless PERMISSIONS_BITS[key]
             raise(
               ArgumentError,
               "Unknown permission :#{key}. Valid options: " +
-                PermissionsBits.keys.map(&:inspect).join(', ')
+                PERMISSIONS_BITS.keys.map(&:inspect).join(', ')
             )
           end
 
           # 0-based bit number, from LSB
-          bit_position = PermissionsBits[key] - 1
+          bit_position = PERMISSIONS_BITS[key] - 1
 
           if value # set bit
             @permissions |= (1 << bit_position)
@@ -168,14 +170,14 @@ module Prawn
         @permissions || FULL_PERMISSIONS
       end
 
-      PasswordPadding =
+      PASSWORD_PADDING =
         '28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A'
           .scan(/../).map { |x| x.to_i(16) }.pack('c*')
 
       # Pads or truncates a password to 32 bytes as per Alg 3.2.
       def pad_password(password)
         password = password[0, 32]
-        password + PasswordPadding[0, 32 - password.length]
+        password + PASSWORD_PADDING[0, 32 - password.length]
       end
 
       def user_encryption_key
@@ -198,7 +200,7 @@ module Prawn
 
       # The U (user) value in the encryption dictionary. Algorithm 3.4.
       def user_password_hash
-        Arcfour.new(user_encryption_key).encrypt(PasswordPadding)
+        Arcfour.new(user_encryption_key).encrypt(PASSWORD_PADDING)
       end
     end
   end

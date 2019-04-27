@@ -49,6 +49,7 @@ module Prawn
           transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
         else
           raise Prawn::Errors::BlockRequired unless block_given?
+
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
           x_prime = x * cos - y * sin
@@ -118,6 +119,7 @@ module Prawn
           transformation_matrix(factor, 0, 0, factor, 0, 0, &block)
         else
           raise Prawn::Errors::BlockRequired unless block_given?
+
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
           x_prime = factor * x

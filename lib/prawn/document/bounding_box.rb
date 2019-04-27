@@ -155,10 +155,10 @@ module Prawn
     # Of course, if you use canvas, you will be responsible for ensuring that
     # you remain within the printable area of your document.
     #
-    def bounding_box(pt, *args, &block)
+    def bounding_box(point, *args, &block)
       init_bounding_box(block) do |parent_box|
-        pt = map_to_absolute(pt)
-        @bounding_box = BoundingBox.new(self, parent_box, pt, *args)
+        point = map_to_absolute(point)
+        @bounding_box = BoundingBox.new(self, parent_box, point, *args)
       end
     end
 
@@ -221,7 +221,8 @@ module Prawn
     # is used for.
     #
     class BoundingBox
-      def initialize(document, parent, point, options = {}) # @private
+      # @private
+      def initialize(document, parent, point, options = {})
         unless options[:width]
           raise ArgumentError, 'BoundingBox needs the :width option to be set'
         end
@@ -459,6 +460,7 @@ module Prawn
       #
       def height
         return @height if @height
+
         @stretched_height = [
           (absolute_top - @document.y),
           @stretched_height.to_f
@@ -503,6 +505,7 @@ module Prawn
       def reference_bounds
         if stretchy?
           raise "Can't find reference bounds: my parent is unset" unless @parent
+
           @parent.reference_bounds
         else
           self

@@ -23,12 +23,12 @@ Prawn::ManualBuilder::Example.generate('images.pdf', page_size: 'FOLIO') do
     end
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         Embedding images on PDF documents is fairly easy. Prawn supports both
         JPG and PNG images.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'How to add an image to a page',

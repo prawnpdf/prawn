@@ -63,14 +63,14 @@ module Prawn
 
     # Delegates all unhandled calls to object returned by +document+ method.
     # (which is an instance of Prawn::Document by default)
-    def method_missing(m, *a, &b)
-      return super unless document.respond_to?(m)
+    def method_missing(method_name, *arguments, &block)
+      return super unless document.respond_to?(method_name)
 
-      document.send(m, *a, &b)
+      document.send(method_name, *arguments, &block)
     end
 
-    def respond_to_missing?(m, _include_all = false)
-      document.respond_to?(m)
+    def respond_to_missing?(method_name, _include_all = false)
+      document.respond_to?(method_name)
     end
 
     # Syntactic sugar that uses +instance_eval+ under the hood to provide
@@ -81,8 +81,8 @@ module Prawn
     #      say_goodbye
     #    end
     #
-    def update(&b)
-      instance_eval(&b)
+    def update(&block)
+      instance_eval(&block)
     end
 
     # Syntatic sugar that calls +document.render_file+ under the hood.

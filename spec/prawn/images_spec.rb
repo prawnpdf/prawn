@@ -55,8 +55,8 @@ describe Prawn::Images do
     expect(info.height).to eq(453)
   end
 
-  context 'closes opened files again after getting Pathnames', issue: 975 do
-    context 'spec with File message spy' do
+  describe 'closes opened files again after getting Pathnames', issue: 975 do
+    describe 'spec with File message spy' do
       let(:not_filename) { 'non-existent filename' }
       let(:pathname_double) { instance_double('Pathname', file?: true) }
 
@@ -99,7 +99,7 @@ describe Prawn::Images do
     end
   end
 
-  context 'setting the length of the bytestream' do
+  describe 'setting the length of the bytestream' do
     it 'correctlies work with images from Pathname objects' do
       pdf.image(Pathname.new(filename))
       expect(pdf).to have_parseable_xobjects
@@ -164,7 +164,7 @@ describe Prawn::Images do
     end[:Kids]
     expect(pages.size).to eq(1)
     expect(Set.new(hash[pages[0]][:Resources][:XObject].keys)).to eq(
-      Set.new([:I1, :I2])
+      Set.new(%i[I1 I2])
     )
   end
 

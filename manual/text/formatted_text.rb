@@ -27,7 +27,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   formatted_text [
     { text: 'Some bold. ', styles: [:bold] },
     { text: 'Some italic. ', styles: [:italic] },
-    { text: 'Bold italic. ', styles: [:bold, :italic] },
+    { text: 'Bold italic. ', styles: %i[bold italic] },
     { text: 'Bigger Text. ', size: 20 },
     { text: 'More spacing. ', character_spacing: 3 },
     { text: 'Different Font. ', font: 'Courier' },

@@ -19,7 +19,7 @@ describe Prawn::Document::Security do
       padded = pad_password(pw)
       expect(padded.length).to eq(32)
       expect(padded).to eq(
-        pw + Prawn::Document::Security::PasswordPadding[0, 28]
+        pw + Prawn::Document::Security::PASSWORD_PADDING[0, 28]
       )
     end
 
@@ -27,7 +27,7 @@ describe Prawn::Document::Security do
       pw = ''
       padded = pad_password(pw)
       expect(padded.length).to eq(32)
-      expect(padded).to eq(Prawn::Document::Security::PasswordPadding)
+      expect(padded).to eq(Prawn::Document::Security::PASSWORD_PADDING)
     end
   end
 
@@ -35,10 +35,11 @@ describe Prawn::Document::Security do
     def doc_with_permissions(permissions)
       pdf = Prawn::Document.new
 
-      class << pdf
-        # Make things easier to test
-        public :permissions_value
-      end
+      # Make things easier to test
+      pdf.singleton_class.send :public, :permissions_value
+      # class << pdf
+      #   public :permissions_value
+      # end
 
       pdf.encrypt_document(permissions: permissions)
       pdf

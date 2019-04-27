@@ -329,7 +329,7 @@ describe Prawn::Text::Box do
       }
     end
 
-    context ':rotate_around option of :center' do
+    context 'with :rotate_around option of :center' do
       it 'draws content to the page rotated about the center of the text' do
         options[:rotate_around] = :center
         text_box = described_class.new(text, options)
@@ -358,7 +358,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context ':rotate_around option of :upper_left' do
+    context 'with :rotate_around option of :upper_left' do
       it 'draws content to the page rotated about the upper left corner of '\
         'the text' do
         options[:rotate_around] = :upper_left
@@ -386,7 +386,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context 'default :rotate_around' do
+    context 'with default :rotate_around' do
       it 'draws content to the page rotated about the upper left corner of '\
         'the text' do
         text_box = described_class.new(text, options)
@@ -413,7 +413,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context ':rotate_around option of :upper_right' do
+    context 'with :rotate_around option of :upper_right' do
       it 'draws content to the page rotated about the upper right corner of '\
         'the text' do
         options[:rotate_around] = :upper_right
@@ -443,7 +443,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context ':rotate_around option of :lower_right' do
+    context 'with :rotate_around option of :lower_right' do
       it 'draws content to the page rotated about the lower right corner of '\
         'the text' do
         options[:rotate_around] = :lower_right
@@ -473,7 +473,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context ':rotate_around option of :lower_left' do
+    context 'with :rotate_around option of :lower_left' do
       it 'draws content to the page rotated about the lower left corner of '\
         'the text' do
         options[:rotate_around] = :lower_left
@@ -665,7 +665,7 @@ describe Prawn::Text::Box do
     end
   end
 
-  context 'printing UTF-8 string with higher bit characters' do
+  context 'when printing UTF-8 string with higher bit characters' do
     let(:text) { '©' }
 
     let(:text_box) do
@@ -716,7 +716,7 @@ describe Prawn::Text::Box do
       }
     end
 
-    context 'truncated overflow' do
+    context 'when truncated overflow' do
       let(:text_box) do
         described_class.new(text, options.merge(overflow: :truncate))
       end
@@ -758,7 +758,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context 'truncated with text and size taken from the manual' do
+    context 'when truncated with text and size taken from the manual' do
       it 'returns the right text' do
         text = 'This is the beginning of the text. It will be cut somewhere ' \
           'and the rest of the text will procede to be rendered this time by '\
@@ -777,7 +777,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context 'expand overflow' do
+    context 'when expand overflow' do
       let(:text_box) do
         described_class.new(text, options.merge(overflow: :expand))
       end
@@ -801,7 +801,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context 'shrink_to_fit overflow' do
+    context 'when shrink_to_fit overflow' do
       let(:text_box) do
         described_class.new(
           text,
@@ -822,7 +822,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    context 'shrink_to_fit overflow' do
+    context 'when shrink_to_fit overflow' do
       it 'does not drop below the minimum font size' do
         options[:overflow] = :shrink_to_fit
         options[:min_font_size] = 10.1

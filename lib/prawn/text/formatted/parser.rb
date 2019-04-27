@@ -64,12 +64,10 @@ module Prawn
 
             font = hash[:font] ? " name='#{hash[:font]}'" : nil
             size = hash[:size] ? " size='#{hash[:size]}'" : nil
-            if hash[:character_spacing]
-              character_spacing =
+            character_spacing =
+              if hash[:character_spacing]
                 " character_spacing='#{hash[:character_spacing]}'"
-            else
-              character_spacing = nil
-            end
+              end
             if font || size || character_spacing
               prefix += "<font#{font}#{size}#{character_spacing}>"
               suffix = '</font>'

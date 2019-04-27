@@ -26,7 +26,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   text string
 
   y_position = cursor - 20
-  [:truncate, :expand, :shrink_to_fit].each_with_index do |mode, i|
+  %i[truncate expand shrink_to_fit].each_with_index do |mode, i|
     text_box string, at: [i * 150, y_position],
                      width: 100,
                      height: 50,

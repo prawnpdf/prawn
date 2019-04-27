@@ -30,11 +30,16 @@ module Prawn
   #   Detected unknown option(s): [:tomato]
   #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
   #
-  attr_accessor :debug # @private
+  # @private
+  attr_accessor :debug
   module_function :debug, :debug=
 
-  def verify_options(accepted, actual) # @private
+  module_function
+
+  # @private
+  def verify_options(accepted, actual)
     return unless debug || $DEBUG
+
     unless (act = Set[*actual.keys]).subset?(acc = Set[*accepted])
       raise Prawn::Errors::UnknownOption,
         "\nDetected unknown option(s): #{(act - acc).to_a.inspect}\n" \
@@ -42,7 +47,6 @@ module Prawn
     end
     yield if block_given?
   end
-  module_function :verify_options
 end
 
 require_relative 'prawn/version'

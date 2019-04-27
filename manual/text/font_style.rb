@@ -14,7 +14,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   ['Courier', 'Helvetica', 'Times-Roman'].each do |example_font|
     move_down 20
 
-    [:bold, :bold_italic, :italic, :normal].each do |style|
+    %i[bold bold_italic italic normal].each do |style|
       font example_font, style: style
       text "I'm writing in #{example_font} (#{style})"
     end

@@ -40,7 +40,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
     end
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         Here we show all the drawing methods provided by Prawn. Use them to draw
         the most beautiful imaginable things.
 
@@ -50,7 +50,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
         least read the basic examples.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'All the possible ways that you can fill or stroke shapes on a page',

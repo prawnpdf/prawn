@@ -8,11 +8,11 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  def combine(a1, a2)
+  def combine(horizontal_span, vertical_span)
     output = []
-    a1.each do |i1|
-      a2.each do |i2|
-        output += [[i1, i2]]
+    horizontal_span.each do |x|
+      vertical_span.each do |y|
+        output += [[x, y]]
       end
     end
     output

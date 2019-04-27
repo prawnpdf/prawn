@@ -130,11 +130,11 @@ describe Prawn::Repeater do
     doc
   end
 
-  def repeater(*args, &b)
-    Prawn::Repeater.new(*args, &b)
+  def repeater(*args, &block)
+    Prawn::Repeater.new(*args, &block)
   end
 
-  context 'graphic state' do
+  describe 'graphic state' do
     let(:pdf) { create_pdf }
 
     it 'does not alter the graphic state stack color space' do
@@ -146,7 +146,7 @@ describe Prawn::Repeater do
         .to eq(starting_color_space)
     end
 
-    context 'dynamic repeaters' do
+    context 'with dynamic repeaters' do
       it 'preserves the graphic state at creation time' do
         pdf.repeat :all, dynamic: true do
           pdf.text "fill_color: #{pdf.graphic_state.fill_color}"

@@ -93,11 +93,11 @@ module Prawn
             false
           else
             tokenize(fragment).each do |segment|
-              if segment == zero_width_space(segment.encoding)
-                segment_width = 0
-              else
-                segment_width = @document.width_of(segment, kerning: @kerning)
-              end
+              segment_width = if segment == zero_width_space(segment.encoding)
+                                0
+                              else
+                                @document.width_of(segment, kerning: @kerning)
+                              end
 
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
@@ -244,6 +244,7 @@ module Prawn
               !fragment.strip.empty?
             raise Prawn::Errors::CannotFit
           end
+
           @arranger.update_last_string(
             @fragment_output,
             remaining_text,

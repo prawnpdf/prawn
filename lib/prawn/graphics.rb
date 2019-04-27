@@ -150,11 +150,7 @@ module Prawn
     #  horizontal_line 25, 100, :at => 75
     #
     def horizontal_line(x1, x2, options = {})
-      y1 = if options[:at]
-             options[:at]
-           else
-             y - bounds.absolute_bottom
-           end
+      y1 = options[:at] || y - bounds.absolute_bottom
 
       line(x1, y1, x2, y1)
     end
@@ -200,36 +196,36 @@ module Prawn
       ellipse(center, radius, radius)
     end
 
-    # Draws an ellipse of +x+ radius <tt>r1</tt> and +y+ radius <tt>r2</tt>
-    # with the centre-point at <tt>point</tt> as a complete subpath. The
-    # drawing point will be moved to the centre-point upon completion of the
-    # drawing the ellipse.
+    # Draws an ellipse of +x+ radius <tt>radius1</tt> and +y+ radius
+    # <tt>radius2</tt> with the centre-point at <tt>point</tt> as a complete
+    # subpath. The drawing point will be moved to the centre-point upon
+    # completion of the drawing the ellipse.
     #
     #    # draws an ellipse with x-radius 25 and y-radius 50
     #    pdf.ellipse [100,100], 25, 50
     #
-    def ellipse(point, r1, r2 = r1)
+    def ellipse(point, radius1, radius2 = radius1)
       x, y = point
-      l1 = r1 * KAPPA
-      l2 = r2 * KAPPA
+      l1 = radius1 * KAPPA
+      l2 = radius2 * KAPPA
 
-      move_to(x + r1, y)
+      move_to(x + radius1, y)
 
       # Upper right hand corner
-      curve_to [x,  y + r2],
-        bounds: [[x + r1, y + l2], [x + l1, y + r2]]
+      curve_to [x,  y + radius2],
+        bounds: [[x + radius1, y + l2], [x + l1, y + radius2]]
 
       # Upper left hand corner
-      curve_to [x - r1, y],
-        bounds: [[x - l1, y + r2], [x - r1, y + l2]]
+      curve_to [x - radius1, y],
+        bounds: [[x - l1, y + radius2], [x - radius1, y + l2]]
 
       # Lower left hand corner
-      curve_to [x, y - r2],
-        bounds: [[x - r1, y - l2], [x - l1, y - r2]]
+      curve_to [x, y - radius2],
+        bounds: [[x - radius1, y - l2], [x - l1, y - radius2]]
 
       # Lower right hand corner
-      curve_to [x + r1, y],
-        bounds: [[x + l1, y - r2], [x + r1, y - l2]]
+      curve_to [x + radius1, y],
+        bounds: [[x + l1, y - radius2], [x + radius1, y - l2]]
 
       move_to(x, y)
     end
@@ -345,9 +341,9 @@ module Prawn
       }.merge(options)
 
       Prawn.verify_options(
-        [
-          :at, :width, :height, :step_length,
-          :negative_axes_length, :color
+        %i[
+          at width height step_length
+          negative_axes_length color
         ], options
       )
 
@@ -636,12 +632,12 @@ module Prawn
     ]
 
     ops.product(shapes).each do |operation, shape|
-      class_eval <<-END
+      class_eval <<-METHOD, __FILE__, __LINE__ + 1
         def #{operation}_#{shape}(*args)
           #{shape}(*args)
           #{operation}
         end
-      END
+      METHOD
     end
 
     private

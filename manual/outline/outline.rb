@@ -16,12 +16,12 @@ Prawn::ManualBuilder::Example.generate('outline.pdf', page_size: 'FOLIO') do
     end
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         The outline of a PDF document is the table of contents tab you see to
         the right or left of your PDF viewer.
 
         The examples include:
-      END
+      TEXT
 
       list(
         'How to define sections and pages',

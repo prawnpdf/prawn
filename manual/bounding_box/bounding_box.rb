@@ -21,13 +21,13 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
     end
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         Bounding boxes are the basic containers for structuring the content
         flow. Even being low level building blocks sometimes their simplicity is
         very welcome.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'How to create bounding boxes with specific dimensions',

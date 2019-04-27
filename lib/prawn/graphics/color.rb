@@ -27,6 +27,7 @@ module Prawn
       #
       def fill_color(*color)
         return current_fill_color if color.empty?
+
         self.current_fill_color = process_color(*color)
         set_fill_color
       end
@@ -49,6 +50,7 @@ module Prawn
       #
       def stroke_color(*color)
         return current_stroke_color if color.empty?
+
         color = process_color(*color)
         self.current_stroke_color = color
         set_stroke_color(color)
@@ -137,7 +139,7 @@ module Prawn
         end
       end
 
-      COLOR_SPACES = [:DeviceRGB, :DeviceCMYK, :Pattern].freeze
+      COLOR_SPACES = %i[DeviceRGB DeviceCMYK Pattern].freeze
 
       def set_color_space(type, color_space)
         # don't set the same color space again
@@ -145,6 +147,7 @@ module Prawn
             !state.page.in_stamp_stream?
           return
         end
+
         set_current_color_space(color_space, type)
 
         unless COLOR_SPACES.include?(color_space)

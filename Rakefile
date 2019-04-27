@@ -9,7 +9,7 @@ require 'yard'
 require 'rubygems/package_task'
 require 'rubocop/rake_task'
 
-task default: [:spec, :rubocop]
+task default: %i[spec rubocop]
 
 desc 'Run all rspec files'
 RSpec::Core::RakeTask.new('spec') do |c|

@@ -43,7 +43,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     inline_format: true
   move_down 20
 
-  [:bold, :bold_italic, :italic, :normal].each do |style|
+  %i[bold bold_italic italic normal].each do |style|
     text "Using the #{style} style option.",
       style: style
     move_down 10

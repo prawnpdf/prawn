@@ -98,6 +98,7 @@ module Prawn
     #
     def font_size(points = nil)
       return @font_size unless points
+
       size_before_yield = @font_size
       @font_size = points
       block_given? ? yield : return
@@ -422,13 +423,14 @@ module Prawn
       loop do
         key = :"F#{font_count}"
         break if key_is_unique?(key)
+
         font_count += 1
       end
       key
     end
 
     def key_is_unique?(test_key)
-      !@document.state.page.fonts.keys.any? do |key|
+      @document.state.page.fonts.keys.none? do |key|
         key.to_s.start_with?("#{test_key}.")
       end
     end

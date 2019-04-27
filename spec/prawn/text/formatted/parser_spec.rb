@@ -301,7 +301,7 @@ describe Prawn::Text::Formatted::Parser do
       )
       expect(array[4]).to eq(
         text: 'are',
-        styles: [:bold, :italic],
+        styles: %i[bold italic],
         color: nil,
         link: nil,
         anchor: nil,
@@ -610,7 +610,7 @@ describe Prawn::Text::Formatted::Parser do
         },
         {
           text: 'are',
-          styles: [:bold, :italic],
+          styles: %i[bold italic],
           color: nil,
           link: nil,
           font: nil,

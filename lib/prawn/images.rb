@@ -66,9 +66,9 @@ module Prawn
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     #
     def image(file, options = {})
-      Prawn.verify_options [
-        :at, :position, :vposition, :height,
-        :width, :scale, :fit
+      Prawn.verify_options %i[
+        at position vposition height
+        width scale fit
       ], options
 
       pdf_obj, info = build_image_object(file)
@@ -149,32 +149,33 @@ module Prawn
       # String or Pathname
       io_or_path = Pathname.new(io_or_path)
       raise ArgumentError, "#{io_or_path} not found" unless io_or_path.file?
+
       io_or_path.binread
     end
 
-    def image_position(w, h, options)
+    def image_position(width, height, options)
       options[:position] ||= :left
 
       y = case options[:vposition]
           when :top
             bounds.absolute_top
           when :center
-            bounds.absolute_top - (bounds.height - h) / 2.0
+            bounds.absolute_top - (bounds.height - height) / 2.0
           when :bottom
-            bounds.absolute_bottom + h
+            bounds.absolute_bottom + height
           when Numeric
             bounds.absolute_top - options[:vposition]
           else
-            determine_y_with_page_flow(h)
+            determine_y_with_page_flow(height)
           end
 
       x = case options[:position]
           when :left
             bounds.left_side
           when :center
-            bounds.left_side + (bounds.width - w) / 2.0
+            bounds.left_side + (bounds.width - width) / 2.0
           when :right
-            bounds.right_side - w
+            bounds.right_side - width
           when Numeric
             options[:position] + bounds.left_side
           end
@@ -182,15 +183,15 @@ module Prawn
       [x, y]
     end
 
-    def determine_y_with_page_flow(h)
-      if overruns_page?(h)
+    def determine_y_with_page_flow(height)
+      if overruns_page?(height)
         bounds.move_past_bottom
       end
       y
     end
 
-    def overruns_page?(h)
-      (y - h) < reference_bounds.absolute_bottom
+    def overruns_page?(height)
+      (y - height) < reference_bounds.absolute_bottom
     end
 
     def image_registry

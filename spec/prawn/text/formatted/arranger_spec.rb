@@ -11,7 +11,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you?' }
       ]
 
@@ -20,7 +20,7 @@ describe Prawn::Text::Formatted::Arranger do
       expect(arranger.unconsumed[0]).to eq(text: 'hello ')
       expect(arranger.unconsumed[1]).to eq(text: 'world how ', styles: [:bold])
       expect(arranger.unconsumed[2])
-        .to eq(text: 'are', styles: [:bold, :italic])
+        .to eq(text: 'are', styles: %i[bold italic])
       expect(arranger.unconsumed[3]).to eq(text: ' you?')
     end
 
@@ -67,7 +67,7 @@ describe Prawn::Text::Formatted::Arranger do
       [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you?' }
       ]
     end
@@ -87,7 +87,7 @@ describe Prawn::Text::Formatted::Arranger do
 
       expect(arranger.consumed[0]).to eq(text: 'hello ')
       expect(arranger.consumed[1]).to eq(text: 'world how ', styles: [:bold])
-      expect(arranger.consumed[2]).to eq(text: 'are', styles: [:bold, :italic])
+      expect(arranger.consumed[2]).to eq(text: 'are', styles: %i[bold italic])
       expect(arranger.consumed[3]).to eq(text: ' you?')
     end
 
@@ -99,7 +99,7 @@ describe Prawn::Text::Formatted::Arranger do
       expect(arranger.current_format_state).to eq(styles: [:bold])
 
       arranger.next_string
-      expect(arranger.current_format_state).to eq(styles: [:bold, :italic])
+      expect(arranger.current_format_state).to eq(styles: %i[bold italic])
 
       arranger.next_string
       expect(arranger.current_format_state).to eq({})
@@ -157,7 +157,7 @@ describe Prawn::Text::Formatted::Arranger do
         [
           { text: 'hello ' },
           { text: 'world how ', styles: [:bold] },
-          { text: 'are', styles: [:bold, :italic] },
+          { text: 'are', styles: %i[bold italic] },
           { text: ' you?' }
         ]
       end
@@ -166,7 +166,7 @@ describe Prawn::Text::Formatted::Arranger do
         arranger.format_array = array
       end
 
-      context 'after all strings have been consumed' do
+      describe 'after all strings have been consumed' do
         before do
           while arranger.next_string
           end
@@ -176,7 +176,7 @@ describe Prawn::Text::Formatted::Arranger do
           expect { arranger.retrieve_fragment }.to raise_error(RuntimeError)
         end
 
-        context 'and finalized' do
+        describe 'and finalized' do
           before do
             arranger.finalize_line
           end
@@ -203,8 +203,8 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
-        { text: ' you now?', styles: [:bold, :italic] }
+        { text: 'are', styles: %i[bold italic] },
+        { text: ' you now?', styles: %i[bold italic] }
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -212,10 +212,10 @@ describe Prawn::Text::Formatted::Arranger do
       arranger.update_last_string(' you', ' now?', nil)
       expect(arranger.consumed[3]).to eq(
         text: ' you',
-        styles: [:bold, :italic]
+        styles: %i[bold italic]
       )
       expect(arranger.unconsumed).to eq([
-        { text: ' now?', styles: [:bold, :italic] }
+        { text: ' now?', styles: %i[bold italic] }
       ])
     end
 
@@ -223,12 +223,12 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ]
       arranger.format_array = array
       3.times { arranger.next_string }
-      expect(arranger.current_format_state).to eq(styles: [:bold, :italic])
+      expect(arranger.current_format_state).to eq(styles: %i[bold italic])
       arranger.update_last_string('', 'are', '-')
       expect(arranger.current_format_state).to eq(styles: [:bold])
     end
@@ -238,7 +238,7 @@ describe Prawn::Text::Formatted::Arranger do
         array = [
           { text: 'hello ' },
           { text: 'world how ', styles: [:bold] },
-          { text: 'are', styles: [:bold, :italic] },
+          { text: 'are', styles: %i[bold italic] },
           { text: ' you now?' }
         ]
         arranger.format_array = array
@@ -255,7 +255,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you?' }
       ]
       arranger.format_array = array
@@ -281,7 +281,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: '   ', styles: [:bold, :italic] }
+        { text: '   ', styles: %i[bold italic] }
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -376,7 +376,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ]
       arranger.format_array = array
@@ -387,7 +387,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ]
       arranger.format_array = array
@@ -402,7 +402,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ]
       arranger.format_array = array
@@ -416,7 +416,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ]
       arranger.format_array = array
@@ -431,7 +431,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic], size: 28 },
+        { text: 'are', styles: %i[bold italic], size: 28 },
         { text: ' you now?' }
       ]
       arranger.format_array = array
@@ -447,7 +447,7 @@ describe Prawn::Text::Formatted::Arranger do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ]
       arranger.format_array = array
@@ -458,7 +458,7 @@ describe Prawn::Text::Formatted::Arranger do
       arranger.retrieve_fragment
       arranger.repack_unretrieved
       expect(arranger.unconsumed).to eq([
-        { text: 'are', styles: [:bold, :italic] },
+        { text: 'are', styles: %i[bold italic] },
         { text: ' you now?' }
       ])
     end

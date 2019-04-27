@@ -49,14 +49,14 @@ Prawn::ManualBuilder::Example.generate('text.pdf', page_size: 'FOLIO') do
     end
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         This is probably the feature people will use the most. There is no
         shortage of options when it comes to text. You'll be hard pressed to
         find a use case that is not covered by one of the text methods and
         configurable options.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'Text that flows from page to page automatically starting new pages when necessary',

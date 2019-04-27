@@ -44,9 +44,9 @@ describe Prawn::Graphics::BlendMode do
 
   it 'setting the blend mode with multiple parameters sets an array of '\
     'blend modes' do
-    make_blend_mode([:Multiply, :Screen, :Overlay])
+    make_blend_mode(%i[Multiply Screen Overlay])
     extgstate = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates.first
-    expect(extgstate[:blend_mode]).to eq([:Multiply, :Screen, :Overlay])
+    expect(extgstate[:blend_mode]).to eq(%i[Multiply Screen Overlay])
   end
 
   describe 'with more than one page' do

@@ -21,10 +21,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
   # https://commons.wikimedia.org/wiki/File:Blend_modes_1.-top-layer.jpg#/media/File:Blend_modes_1.-top-layer.jpg
   top_layer = "#{Prawn::DATADIR}/images/blend_modes_top_layer.jpg"
 
-  blend_modes = [
-    :Normal, :Multiply, :Screen, :Overlay, :Darken, :Lighten, :ColorDodge,
-    :ColorBurn, :HardLight, :SoftLight, :Difference, :Exclusion, :Hue,
-    :Saturation, :Color, :Luminosity
+  blend_modes = %i[
+    Normal Multiply Screen Overlay Darken Lighten ColorDodge
+    ColorBurn HardLight SoftLight Difference Exclusion Hue
+    Saturation Color Luminosity
   ]
   blend_modes.each_with_index do |blend_mode, index|
     x = index % 4 * 135

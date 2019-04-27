@@ -17,7 +17,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
     p.example 'view', eval_source: false, full_source: true
 
     p.intro do
-      prose <<-END
+      prose <<-TEXT
         This chapter covers the minimum amount of functionality you'll need to
         start using Prawn.
 
@@ -26,7 +26,7 @@ Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
         Basics section of the Graphics, Bounding Box and Text sections.
 
         The examples show:
-      END
+      TEXT
 
       list(
         'How to create new pdf documents in every possible way',
