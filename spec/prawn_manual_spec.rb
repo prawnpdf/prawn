@@ -3,15 +3,15 @@
 require 'spec_helper'
 require 'digest/sha2'
 
-# rubocop: disable Metrics/LineLength
 MANUAL_HASH =
   case RUBY_ENGINE
   when 'ruby'
-    'cfc8c0335d96952ec9e06e8509ba6e80af20e4ff5e8a75143f1e78ca36ddb56ff861dd285c65b5b823845ae2b4d7a4f9d538c5fbf376f50c89bb87b7dd3c6b51'
+    'cfc8c0335d96952ec9e06e8509ba6e80af20e4ff5e8a75143f1e78ca36ddb56f'\
+    'f861dd285c65b5b823845ae2b4d7a4f9d538c5fbf376f50c89bb87b7dd3c6b51'
   when 'jruby'
-    '30b10f71981d3dfbc087f18fe7aa98e67aaeaf5c0d97e30896b2edbda8de39e11031f13905ec093cbc1afe4e6e00ef22d9dcf8a27b8febf76f02120c2ebf187a'
+    '30b10f71981d3dfbc087f18fe7aa98e67aaeaf5c0d97e30896b2edbda8de39e1'\
+    '1031f13905ec093cbc1afe4e6e00ef22d9dcf8a27b8febf76f02120c2ebf187a'
   end
-# rubocop: enable Metrics/LineLength
 
 RSpec.describe Prawn do
   describe 'manual' do
