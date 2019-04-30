@@ -97,9 +97,9 @@ module Prawn
       def colors
         case color_type
         when 0, 3, 4
-          return 1
+          1
         when 2, 6
-          return 3
+          3
         end
       end
 
