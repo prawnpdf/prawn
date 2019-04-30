@@ -1,3 +1,4 @@
+require: rubocop-performance
 require: rubocop-rspec
 
 AllCops:
@@ -67,6 +68,9 @@ Style/Encoding:
     - lib/prawn/images.rb
     - spec/png_spec.rb
 
+Layout/AlignArguments:
+  EnforcedStyle: with_fixed_indentation
+
 Layout/FirstArrayElementLineBreak:
   Enabled: true
 
@@ -76,7 +80,7 @@ Layout/FirstHashElementLineBreak:
 Layout/FirstMethodArgumentLineBreak:
   Enabled: true
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   EnforcedStyle: consistent
 
 Style/GuardClause:
@@ -93,10 +97,10 @@ Lint/HandleExceptions:
 Style/IfUnlessModifier:
   Enabled: false
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   EnforcedStyle: consistent
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
 
 Layout/MultilineMethodCallIndentation:
