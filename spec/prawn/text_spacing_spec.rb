@@ -52,8 +52,8 @@ describe Prawn::Text do
       end
 
       pdf.character_spacing(10) do
-        # the new width should include seven 10-pt character spaces.
-        expect(pdf.width_of(str)).to be_within(0.001).of(raw_width + (10 * 7))
+        # the new width should include six 10-pt character spaces.
+        expect(pdf.width_of(str)).to be_within(0.001).of(raw_width + (10 * 6))
       end
     end
   end
