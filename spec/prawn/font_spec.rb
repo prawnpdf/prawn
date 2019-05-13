@@ -41,7 +41,7 @@ describe Prawn::Font do
     it 'takes character spacing into account' do
       original_width = pdf.width_of('hello world')
       pdf.character_spacing(7) do
-        expect(pdf.width_of('hello world')).to eq(original_width + 11 * 7)
+        expect(pdf.width_of('hello world')).to eq(original_width + 10 * 7)
       end
     end
 

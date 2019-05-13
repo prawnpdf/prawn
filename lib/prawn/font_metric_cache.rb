@@ -37,9 +37,12 @@ module Prawn
 
       length = @cache[key]
 
-      length +
-        (@document.character_spacing *
-         @document.font.character_count(encoded_string))
+      character_count = @document.font.character_count(encoded_string)
+      if character_count.positive?
+        length += @document.character_spacing * (character_count - 1)
+      end
+
+      length
     end
   end
 end
