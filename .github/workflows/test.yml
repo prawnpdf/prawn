@@ -27,6 +27,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run tests
         run: |
-          gem install bundler
+          gem install bundler -v '>= 2'
           bundle install --jobs 4 --retry 3
           bundle exec rake
