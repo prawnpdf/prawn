@@ -21,7 +21,7 @@ jobs:
           - jruby:9.1.17.0
 
     container:
-      image: jruby:${{matrix.ruby}}
+      image: ${{matrix.ruby}}
 
     steps:
       - uses: actions/checkout@v1
