@@ -1,0 +1,50 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test-mri:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby:
+          - 2.3.0
+          - 2.3.x
+          - 2.4.0
+          - 2.4.x
+          - 2.5.0
+          - 2.5.x
+          - 2.6.0
+          - 2.6.x
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{matrix.ruby}}
+      - name: Run tests
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rake
+
+  test-jruby:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby:
+          - 9.1.13.0
+          - 9.1.17.0
+
+    container:
+      image: jruby:${{matrix.ruby}}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run tests
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rake
