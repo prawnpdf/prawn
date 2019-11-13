@@ -146,6 +146,7 @@ module Prawn
 
           @overflow = options[:overflow] || :truncate
           @disable_wrap_by_char = options[:disable_wrap_by_char]
+          @disable_wrap_height_check = options[:disable_wrap_height_check]
 
           self.original_text = formatted_text
           @text = nil

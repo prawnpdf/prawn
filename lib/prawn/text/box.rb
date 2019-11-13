@@ -93,6 +93,9 @@ module Prawn
     #     <tt>number</tt>. The minimum font size to use when :overflow is set to
     #     :shrink_to_fit (that is the font size will not be reduced to less than
     #     this value, even if it means that some text will be cut off). [5]
+    # <tt>:disable_wrap_height_check</tt>::
+    #     <tt>boolean</tt>. If true, then truncated text would render even if 
+    #     text height exceeds field height [false]
     #
     # == Returns
     #
