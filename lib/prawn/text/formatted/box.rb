@@ -146,6 +146,7 @@ module Prawn
 
           @overflow = options[:overflow] || :truncate
           @disable_wrap_by_char = options[:disable_wrap_by_char]
+          @disable_wrap_height_check = options[:disable_wrap_height_check]
 
           self.original_text = formatted_text
           @text = nil
@@ -232,6 +233,9 @@ module Prawn
               end
             end
           end
+
+          # Only raise CannotFit error after cleaning up document state
+          raise Errors::CannotFit if @line_wrap.cannot_fit
 
           unprinted_text.map do |e|
             e.merge(text: @document.font.to_utf8(e[:text]))
@@ -523,18 +527,13 @@ module Prawn
         # size is reached
         def shrink_to_fit(text)
           loop do
-            if @disable_wrap_by_char && @font_size > @min_font_size
-              begin
-                wrap(text)
-              rescue Errors::CannotFit
-                # Ignore errors while we can still attempt smaller
-                # font sizes.
-              end
-            else
-              wrap(text)
-            end
+            wrap(text)
 
-            break if @everything_printed || @font_size <= @min_font_size
+            unless @disable_wrap_by_char && @font_size > @min_font_size
+              break if @everything_printed ||
+                @line_wrap.cannot_fit ||
+                @font_size <= @min_font_size
+            end
 
             @font_size = [@font_size - 0.5, @min_font_size].max
             @document.font_size = @font_size

@@ -36,6 +36,7 @@ describe Prawn::Text::Formatted::LineWrap do
       document: pdf
     )
     expect(line).to be_empty
+    expect(line_wrap.cannot_fit).to eq false
   end
 
   it 'tokenizes a string using the scan_pattern' do
@@ -76,20 +77,20 @@ describe Prawn::Text::Formatted::LineWrap do
         document: pdf
       )
       expect(string).to eq('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+      expect(line_wrap.cannot_fit).to eq false
     end
-    it 'raise_errors CannotFit if a too-small width is given' do
+    it 'sets cannot_fit to true if a too-small width is given' do
       array = [
         { text: ' hello world, ' },
         { text: 'goodbye  ', style: [:bold] }
       ]
       arranger.format_array = array
-      expect do
-        line_wrap.wrap_line(
-          arranger: arranger,
-          width: 1,
-          document: pdf
-        )
-      end.to raise_error(Prawn::Errors::CannotFit)
+      line_wrap.wrap_line(
+        arranger: arranger,
+        width: 1,
+        document: pdf
+      )
+      expect(line_wrap.cannot_fit).to eq true
     end
 
     it 'breaks on space' do
@@ -101,6 +102,7 @@ describe Prawn::Text::Formatted::LineWrap do
         document: pdf
       )
       expect(string).to eq('hello')
+      expect(line_wrap.cannot_fit).to eq false
     end
 
     it 'breaks on zero-width space' do

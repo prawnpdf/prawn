@@ -22,6 +22,7 @@ module Prawn
             kerning: options[:kerning]
           )
           @disable_wrap_by_char = options[:disable_wrap_by_char]
+          @disable_wrap_height_check = options[:disable_wrap_height_check]
         end
 
         # See the developer documentation for PDF::Core::Text#wrap
@@ -60,7 +61,7 @@ module Prawn
               disable_wrap_by_char: @disable_wrap_by_char
             )
 
-            if enough_height_for_this_line?
+            if @disable_wrap_height_check || enough_height_for_this_line?
               move_baseline_down
               print_line
             else
