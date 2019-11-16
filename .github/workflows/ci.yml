@@ -1,0 +1,32 @@
+name: CI
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: ${{matrix.image}}
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - ruby:2.4.0
+          - ruby:2.4
+          - ruby:2.5.0
+          - ruby:2.5
+          - ruby:2.6.0
+          - ruby:2.6
+          - ruby:rc
+          - jruby:9.2
+        include:
+          - image: ruby:rc
+            continue-on-error: true
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Ruby
+        run: |
+          gem update --system > /dev/null
+          gem --version
+          gem install -g
+      - name: Run tests
+        run: rake

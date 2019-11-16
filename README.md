@@ -87,10 +87,8 @@ build the manual, here's what you need to do:
 1. Clone the repository
 2. Switch to the stable branch (optional, stay on master for development
    version)
-3. Install bundler if necessary
-4. Run `bundle install`
-5. Run `bundle exec rake manual`, which will generate _manual.pdf_ in the
-   project root
+3. Run `gem install -g`
+4. Run `rake manual`, which will generate _manual.pdf_ in the project root
 
 ## Release Policies
 
