@@ -262,7 +262,7 @@ describe Prawn::Text::Formatted::Box do
       expect(fonts_used[1]).to match(/Kai/)
     end
 
-    it 'should omit the fallback fonts overhead when passing an empty array ' \
+    it 'omits the fallback fonts overhead when passing an empty array ' \
       'as the :fallback_fonts' do
       pdf.font('Kai')
 
@@ -301,27 +301,47 @@ describe Prawn::Text::Formatted::Box do
   end
 
   describe 'Text::Formatted::Box#extensions' do
+    let(:formatted_wrap_override) do
+      Module.new do
+        # rubocop: disable RSpec/InstanceVariable
+        def wrap(_array)
+          initialize_wrap([{ text: 'all your base are belong to us' }])
+          @line_wrap.wrap_line(
+            document: @document,
+            kerning: @kerning,
+            width: 10_000,
+            arranger: @arranger
+          )
+          fragment = @arranger.retrieve_fragment
+          format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
+
+          []
+        end
+        # rubocop: enable RSpec/InstanceVariable
+      end
+    end
+
     it 'is able to override default line wrapping' do
-      described_class.extensions << TestFormattedWrapOverride
+      described_class.extensions << formatted_wrap_override
       pdf.formatted_text_box([{ text: 'hello world' }], {})
-      described_class.extensions.delete(TestFormattedWrapOverride)
+      described_class.extensions.delete(formatted_wrap_override)
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.strings[0]).to eq('all your base are belong to us')
     end
 
     it 'overrides Text::Formatted::Box line wrapping does not affect ' \
       'Text::Box wrapping' do
-      described_class.extensions << TestFormattedWrapOverride
+      described_class.extensions << formatted_wrap_override
       pdf.text_box('hello world', {})
-      described_class.extensions.delete(TestFormattedWrapOverride)
+      described_class.extensions.delete(formatted_wrap_override)
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.strings[0]).to eq('hello world')
     end
 
     it "overring Text::Box line wrapping doesn't override Text::Box wrapping" do
-      Prawn::Text::Box.extensions << TestFormattedWrapOverride
+      Prawn::Text::Box.extensions << formatted_wrap_override
       pdf.text_box('hello world', {})
-      Prawn::Text::Box.extensions.delete(TestFormattedWrapOverride)
+      Prawn::Text::Box.extensions.delete(formatted_wrap_override)
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.strings[0]).to eq('all your base are belong to us')
     end
@@ -382,8 +402,19 @@ describe Prawn::Text::Formatted::Box do
   end
 
   describe 'Text::Formatted::Box#render' do
+    let(:fragment_callback_class) do
+      Class.new do
+        def initialize(_string, _number, _options); end
+
+        def render_behind(fragment); end
+
+        def render_in_front(fragment); end
+      end
+    end
+
     it 'is able to perform fragment callbacks' do
-      callback_object = TestFragmentCallback.new('something', 7, document: pdf)
+      callback_object =
+        fragment_callback_class.new('something', 7, document: pdf)
       allow(callback_object).to receive(:render_behind)
       allow(callback_object).to receive(:render_in_front)
       array = [
@@ -402,11 +433,12 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'is able to perform fragment callbacks on multiple objects' do
-      callback_object = TestFragmentCallback.new('something', 7, document: pdf)
+      callback_object =
+        fragment_callback_class.new('something', 7, document: pdf)
       allow(callback_object).to receive(:render_behind)
       allow(callback_object).to receive(:render_in_front)
 
-      callback_object2 = TestFragmentCallback.new(
+      callback_object2 = fragment_callback_class.new(
         'something else', 14, document: pdf
       )
       allow(callback_object2).to receive(:render_behind)
@@ -434,11 +466,23 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'fragment callbacks is able to define only the callback they need' do
-      behind = TestFragmentCallbackBehind.new(
+      behind = (
+        Class.new do
+          def initialize(_string, _number, _options); end
+
+          def render_behind(fragment); end
+        end
+      ).new(
         'something', 7,
         document: pdf
       )
-      in_front = TestFragmentCallbackInFront.new(
+      in_front = (
+        Class.new do
+          def initialize(_string, _number, _options); end
+
+          def render_in_front(fragment); end
+        end
+      ).new(
         'something', 7,
         document: pdf
       )
@@ -540,6 +584,7 @@ describe Prawn::Text::Formatted::Box do
       fonts = contents.font_settings.map { |e| e[:name] }
       expect(fonts).to eq(%i[Helvetica Helvetica-BoldOblique Helvetica])
     end
+
     it 'is able to underline' do
       array = [
         { text: 'this contains ' },
@@ -800,42 +845,4 @@ describe Prawn::Text::Formatted::Box do
       expect(text_box.at[1]).to be_within(0.01).of(top_padding)
     end
   end
-
-  class TestFragmentCallback
-    def initialize(_string, _number, _options); end
-
-    def render_behind(fragment); end
-
-    def render_in_front(fragment); end
-  end
-
-  class TestFragmentCallbackBehind
-    def initialize(_string, _number, _options); end
-
-    def render_behind(fragment); end
-  end
-
-  class TestFragmentCallbackInFront
-    def initialize(_string, _number, _options); end
-
-    def render_in_front(fragment); end
-  end
-
-  # rubocop: disable RSpec/InstanceVariable
-  module TestFormattedWrapOverride
-    def wrap(_array)
-      initialize_wrap([{ text: 'all your base are belong to us' }])
-      @line_wrap.wrap_line(
-        document: @document,
-        kerning: @kerning,
-        width: 10_000,
-        arranger: @arranger
-      )
-      fragment = @arranger.retrieve_fragment
-      format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
-
-      []
-    end
-  end
-  # rubocop: enable RSpec/InstanceVariable
 end

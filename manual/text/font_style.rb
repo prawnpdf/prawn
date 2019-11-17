@@ -11,7 +11,7 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  ['Courier', 'Helvetica', 'Times-Roman'].each do |example_font|
+  %w[Courier Helvetica Times-Roman].each do |example_font|
     move_down 20
 
     %i[bold bold_italic italic normal].each do |style|

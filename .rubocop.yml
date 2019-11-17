@@ -153,6 +153,3 @@ Layout/SpaceAroundOperators:
 
 Style/WhileUntilModifier:
   Enabled: false
-
-Rails:
-  Enabled: false

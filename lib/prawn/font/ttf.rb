@@ -313,7 +313,11 @@ module Prawn
         map.keys.sort.inject('') do |_s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
-          ranges.last << format('<%02x><%04x>', code, unicode)
+          ranges.last << format(
+            '<%<code>02x><%<unicode>04x>',
+            code: code,
+            unicode: unicode
+          )
         end
 
         range_blocks = ranges.inject(+'') do |s, list|

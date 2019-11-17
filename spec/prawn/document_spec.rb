@@ -34,7 +34,7 @@ describe Prawn::Document do
 
   describe 'when generating a document with a custom text formatter' do
     it 'uses the provided text formatter' do
-      class TestTextFormatter
+      text_formatter = Class.new do
         def self.format(string)
           [
             {
@@ -51,7 +51,7 @@ describe Prawn::Document do
           ]
         end
       end
-      pdf = described_class.new text_formatter: TestTextFormatter
+      pdf = described_class.new text_formatter: text_formatter
       pdf.text 'Dr. Who?', inline_format: true
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.strings.first).to eq("Just 'The Doctor'.")
@@ -400,7 +400,7 @@ describe Prawn::Document do
     end
 
     (PDF::Core::PageGeometry::SIZES.keys - ['LETTER']).each do |k|
-      it "should provide #{k} geometry" do
+      it "provides #{k} geometry" do
         pdf = described_class.new(page_size: k)
         pages = PDF::Inspector::Page.analyze(pdf.render).pages
         expect(pages.first[:size]).to eq(PDF::Core::PageGeometry::SIZES[k])

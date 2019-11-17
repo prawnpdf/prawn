@@ -90,7 +90,7 @@ describe Prawn::Text::Formatted::Fragment do
     end
 
     describe '#absolute_bounding_box' do
-      it 'should return the bounding box surrounding the fragment' \
+      it 'returns the bounding box surrounding the fragment' \
         ' in absolute coordinates' do
         target_box = [50, 193, 150, 217]
         target_box[0] += pdf.bounds.absolute_left
@@ -130,7 +130,7 @@ describe Prawn::Text::Formatted::Fragment do
       expect(fragment.space_count).to eq(2)
     end
 
-    it 'should exclude trailing spaces from the count when ' \
+    it 'excludes trailing spaces from the count when ' \
       ':exclude_trailing_white_space => true' do
       format_state = { exclude_trailing_white_space: true }
       fragment = described_class.new(
@@ -167,7 +167,7 @@ describe Prawn::Text::Formatted::Fragment do
       expect(fragment.text).to eq('hello world ')
     end
 
-    it 'should return the fragment text without trailing spaces when ' \
+    it 'returns the fragment text without trailing spaces when ' \
       ':exclude_trailing_white_space => true' do
       format_state = { exclude_trailing_white_space: true }
       fragment = described_class.new(
@@ -316,7 +316,7 @@ describe Prawn::Text::Formatted::Fragment do
   end
 
   describe '#default_direction=' do
-    it 'should set the direction if there is no fragment level direction ' \
+    it 'sets the direction if there is no fragment level direction ' \
       'specification' do
       format_state = {}
       fragment = described_class.new(
@@ -328,7 +328,7 @@ describe Prawn::Text::Formatted::Fragment do
       expect(fragment.direction).to eq(:rtl)
     end
 
-    it 'should not set the direction if there is a fragment level direction ' \
+    it 'does not set the direction if there is a fragment level direction ' \
       'specification' do
       format_state = { direction: :rtl }
       fragment = described_class.new(
