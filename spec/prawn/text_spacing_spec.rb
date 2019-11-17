@@ -14,7 +14,7 @@ describe Prawn::Text do
       expect(contents.character_spacing.first).to eq(10.5556)
     end
 
-    it 'should not draw the character spacing to the document' \
+    it 'does not draw the character spacing to the document' \
       ' when the new character spacing matches the old' do
       pdf.character_spacing(0) do
         pdf.text('hello world')
@@ -67,7 +67,7 @@ describe Prawn::Text do
       expect(contents.word_spacing.first).to eq(10.5556)
     end
 
-    it 'should draw the word spacing to the document' \
+    it 'draws the word spacing to the document' \
       ' when the new word spacing matches the old' do
       pdf.word_spacing(0) do
         pdf.text('hello world')

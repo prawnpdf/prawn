@@ -38,16 +38,16 @@ describe Prawn::Stamp do
   describe 'Document with a stamp' do
     let(:pdf) { create_pdf }
 
-    it 'should raise_error NameTaken error when attempt to create stamp ' \
-      'with same name as an existing stamp' do
+    it 'raises NameTaken error when attempt to create stamp with '\
+       'same name as an existing stamp' do
       pdf.create_stamp('MyStamp')
       expect do
         pdf.create_stamp('MyStamp')
       end.to raise_error(Prawn::Errors::NameTaken)
     end
 
-    it 'should raise_error InvalidName error when attempt to create ' \
-      'stamp with a blank name' do
+    it 'raises InvalidName error when attempt to create stamp with '\
+        'a blank name' do
       expect do
         pdf.create_stamp('')
       end.to raise_error(Prawn::Errors::InvalidName)

@@ -26,7 +26,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
       'to right.' \
       "\n\n" \
       "hello ƒ 你好\n再见 ƒ goodbye",
-      fallback_fonts: ['Times-Roman', 'Kai']
+      fallback_fonts: %w[Times-Roman Kai]
     )
   end
   move_down 20
@@ -36,6 +36,6 @@ Prawn::ManualBuilder::Example.generate(filename) do
       { text: 'Fallback fonts can even override' },
       { text: 'fragment fonts (你好)', font: 'Times-Roman' }
     ],
-    fallback_fonts: ['Times-Roman', 'Kai']
+    fallback_fonts: %w[Times-Roman Kai]
   )
 end

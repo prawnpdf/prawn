@@ -190,6 +190,7 @@ describe Prawn::Images do
       expect(info.scaled_width).to eq(604)
       expect(info.scaled_height).to eq(453)
     end
+
     it 'moves text position' do
       y = pdf.y
       pdf.image filename, fit: [100, 400]

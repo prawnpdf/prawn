@@ -29,10 +29,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
     move_down 10
 
-    text "absolute top: #{format '%.2f', bounds.absolute_top}"
-    text "absolute bottom: #{format '%.2f', bounds.absolute_bottom}"
-    text "absolute left: #{format '%.2f', bounds.absolute_left}"
-    text "absolute right: #{format '%.2f', bounds.absolute_right}"
+    text "absolute top: #{bounds.absolute_top.to_f.round(2)}"
+    text "absolute bottom: #{bounds.absolute_bottom.to_f.round(2)}"
+    text "absolute left: #{bounds.absolute_left.to_f.round(2)}"
+    text "absolute right: #{bounds.absolute_right.to_f.round(2)}"
   end
 
   text 'Margin box bounds:'

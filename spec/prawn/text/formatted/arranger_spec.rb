@@ -198,8 +198,8 @@ describe Prawn::Text::Formatted::Arranger do
   end
 
   describe '#update_last_string' do
-    it 'should update the last retrieved string with what actually fit on' \
-      'the line and the list of unconsumed with what did not' do
+    it 'updates the last retrieved string with what actually fit on the line '\
+       'and the list of unconsumed with what did not' do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
@@ -276,8 +276,8 @@ describe Prawn::Text::Formatted::Arranger do
   end
 
   describe '#finalize_line' do
-    it 'should make it so that all trailing white space fragments ' \
-      'exclude trailing white space' do
+    it 'makes it so that all trailing white space fragments exclude '\
+       'trailing white space' do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },

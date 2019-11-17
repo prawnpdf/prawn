@@ -185,8 +185,8 @@ describe Prawn::Document::BoundingBox do
       expect(pdf.y).to be_within(0.001).of(orig_y - pdf.height_of('hello'))
     end
 
-    it 'should not advance y-position of a stretchy bbox if it would stretch ' \
-      'the bbox further' do
+    it 'does not advance y-position of a stretchy bbox if it would stretch '\
+       'the bbox further' do
       bottom = pdf.y = pdf.margin_box.absolute_bottom
       pdf.bounding_box [0, pdf.margin_box.top], width: pdf.bounds.width do
         pdf.y = bottom

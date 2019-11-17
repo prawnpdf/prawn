@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Prawn::Text do
-  describe Prawn::Text::NBSP do
+  describe 'NBSP' do
     it 'is defined' do
       expect(Prawn::Text::NBSP).to eq("\u00a0")
     end
@@ -12,7 +12,7 @@ describe Prawn::Text do
   describe '#height_of' do
     let(:pdf) { create_pdf }
 
-    it 'should return the height that would be required to print a' \
+    it 'returns the height that would be required to print a' \
       'particular string of text' do
       original_y = pdf.y
       pdf.text('Foo')
@@ -20,7 +20,7 @@ describe Prawn::Text do
       expect(pdf.height_of('Foo')).to be_within(0.0001).of(original_y - new_y)
     end
 
-    it 'should omit the gap below the last descender if :final_gap => false ' \
+    it 'omits the gap below the last descender if :final_gap => false ' \
       'is given' do
       original_y = pdf.y
       pdf.text('Foo', final_gap: false)
@@ -89,7 +89,7 @@ describe Prawn::Text do
       expect(text.strings.reject(&:empty?)).to eq(%w[text text])
     end
 
-    it 'should correctly render strings ending with empty paragraphs and ' \
+    it 'correctly renders strings ending with empty paragraphs and ' \
       ':inline_format and :indent_paragraphs' do
       pdf.text "text\n\n", inline_format: true, indent_paragraphs: 5
       text = PDF::Inspector::Text.analyze(pdf.render)
@@ -313,7 +313,7 @@ describe Prawn::Text do
       expect(pages[1][:strings]).to eq([str])
     end
 
-    it 'should correctly render a string with higher bit characters across ' \
+    it 'correctly renders a string with higher bit characters across ' \
       'a page break when using a built-in font and :indent_paragraphs option' do
       str = '©'
       pdf.move_cursor_to(pdf.font.height)
@@ -341,7 +341,7 @@ describe Prawn::Text do
       pdf.text(sjis_str)
     end
 
-    it 'should call move_past_bottom when printing more text than can fit' \
+    it 'calls move_past_bottom when printing more text than can fit' \
       ' between the current document.y and bounds.bottom' do
       pdf.y = pdf.font.height
       pdf.text 'Hello'

@@ -19,6 +19,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles sub' do
       string = '<sub>subscript</sub>'
       array = described_class.format(string)
@@ -34,6 +35,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles rgb' do
       string = "<color rgb='#ff0000'>red text</color>"
       array = described_class.format(string)
@@ -49,6 +51,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it '# should be optional in rgb' do
       string = "<color rgb='ff0000'>red text</color>"
       array = described_class.format(string)
@@ -64,6 +67,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles cmyk' do
       string = "<color c='0' m='100' y='0' k='0'>magenta text</color>"
       array = described_class.format(string)
@@ -79,6 +83,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles fonts' do
       string = "<font name='Courier'>Courier text</font>"
       array = described_class.format(string)
@@ -94,6 +99,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles size' do
       string = "<font size='14'>14 point text</font>"
       array = described_class.format(string)
@@ -109,6 +115,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles character_spacing' do
       string = "<font character_spacing='2.5'>extra character spacing</font>"
       array = described_class.format(string)
@@ -124,6 +131,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: 2.5
       )
     end
+
     it 'handles links' do
       string = "<link href='http://example.com'>external link</link>"
       array = described_class.format(string)
@@ -139,6 +147,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles local links' do
       string = "<link local='/home/example/foo.bar'>local link</link>"
       array = described_class.format(string)
@@ -154,6 +163,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles anchors' do
       string = "<link anchor='ToC'>internal link</link>"
       array = described_class.format(string)
@@ -169,6 +179,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles higher order characters properly' do
       string = "<b>©\n©</b>"
       array = described_class.format(string)
@@ -206,6 +217,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'converts &lt; &gt;, and &amp; to <, >, and &, respectively' do
       string = 'hello <b>&lt;, &gt;, and &amp;</b>'
       array = described_class.format(string)
@@ -221,6 +233,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles double qoutes around tag attributes' do
       string = 'some <font size="14">sized</font> text'
       array = described_class.format(string)
@@ -236,6 +249,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'handles single qoutes around tag attributes' do
       string = "some <font size='14'>sized</font> text"
       array = described_class.format(string)
@@ -251,6 +265,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'constructs a formatted text array from a string' do
       string = "hello <b>world\nhow <i>are</i></b> you?"
       array = described_class.format(string)
@@ -322,6 +337,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'accepts <strong> as an alternative to <b>' do
       string = '<strong>bold</strong> not bold'
       array = described_class.format(string)
@@ -349,6 +365,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'accepts <em> as an alternative to <i>' do
       string = '<em>italic</em> not italic'
       array = described_class.format(string)
@@ -376,6 +393,7 @@ describe Prawn::Text::Formatted::Parser do
         character_spacing: nil
       )
     end
+
     it 'accepts <a> as an alternative to <link>' do
       string = "<a href='http://example.com'>link</a> not a link"
       array = described_class.format(string)
@@ -426,6 +444,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles sub' do
       string = '<sub>subscript</sub>'
       array = [{
@@ -441,6 +460,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles rgb' do
       string = "<color rgb='ff0000'>red text</color>"
       array = [{
@@ -456,6 +476,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles cmyk' do
       string = "<color c='0' m='100' y='0' k='0'>magenta text</color>"
       array = [{
@@ -471,6 +492,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles fonts' do
       string = "<font name='Courier'>Courier text</font>"
       array = [{
@@ -486,6 +508,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles size' do
       string = "<font size='14'>14 point text</font>"
       array = [{
@@ -501,6 +524,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles character spacing' do
       string =
         "<font character_spacing='2.5'>2.5 extra character spacing</font>"
@@ -517,6 +541,7 @@ describe Prawn::Text::Formatted::Parser do
       }]
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles links' do
       array = [{
         text: 'external link',
@@ -532,6 +557,7 @@ describe Prawn::Text::Formatted::Parser do
       string = "<link href='http://example.com'>external link</link>"
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'handles anchors' do
       array = [{
         text: 'internal link',
@@ -546,6 +572,7 @@ describe Prawn::Text::Formatted::Parser do
       string = "<link anchor='ToC'>internal link</link>"
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'converts <, >, and & to &lt; &gt;, and &amp;, respectively' do
       array = [
         {
@@ -570,6 +597,7 @@ describe Prawn::Text::Formatted::Parser do
       string = 'hello <b>&lt;, &gt;, and &amp;</b>'
       expect(described_class.to_string(array)).to eq(string)
     end
+
     it 'constructs an HTML-esque string from a formatted text array' do
       array = [
         {

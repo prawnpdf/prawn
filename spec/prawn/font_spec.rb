@@ -273,7 +273,7 @@ describe Prawn::Font do
       pdf.font 'Times-Roman'
       pdf.text('hello')
 
-      ['Courier', 'Helvetica', 'Times-Roman'].each do |f|
+      %w[Courier Helvetica Times-Roman].each do |f|
         page_should_include_font(f)
       end
 

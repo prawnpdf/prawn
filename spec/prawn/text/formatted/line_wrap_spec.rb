@@ -20,7 +20,7 @@ describe Prawn::Text::Formatted::LineWrap do
   end
   let(:line_wrap) { described_class.new }
 
-  it 'should only return an empty string if nothing fit or there' \
+  it 'only returns an empty string if nothing fit or there' \
      'was nothing to wrap' do
     8.times do
       line = line_wrap.wrap_line(
@@ -61,7 +61,7 @@ describe Prawn::Text::Formatted::LineWrap do
       expect(string).to eq('hello world, goodbye')
     end
 
-    it 'should strip trailing spaces when a white-space-only fragment was' \
+    it 'strips trailing spaces when a white-space-only fragment was' \
       ' successfully pushed onto the end of a line but no other non-white' \
       ' space fragment fits after it' do
       array = [
@@ -77,6 +77,7 @@ describe Prawn::Text::Formatted::LineWrap do
       )
       expect(string).to eq('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     end
+
     it 'raise_errors CannotFit if a too-small width is given' do
       array = [
         { text: ' hello world, ' },
@@ -185,7 +186,7 @@ describe Prawn::Text::Formatted::LineWrap do
       expect(string).to eq('hello-')
     end
 
-    it 'should not break after a hyphen that follows white space and' \
+    it 'does not break after a hyphen that follows white space and' \
       'precedes a word' do
       array = [{ text: 'hello -' }]
       arranger.format_array = array
@@ -261,7 +262,7 @@ describe Prawn::Text::Formatted::LineWrap do
       expect(res1).to eq(res2)
     end
 
-    it 'should not display soft hyphens except at the end of a line ' \
+    it 'does not display soft hyphens except at the end of a line ' \
       'for more than one element in format_array', issue: 347 do
       pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
       line_wrap = described_class.new
@@ -322,7 +323,7 @@ describe Prawn::Text::Formatted::LineWrap do
       expect(string).to eq('hello')
     end
 
-    it 'should not break after a hard hyphen that follows a soft hyphen and' \
+    it 'does not break after a hard hyphen that follows a soft hyphen and' \
       'precedes a word' do
       string = pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}-")
       array = [{ text: string }]

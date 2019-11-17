@@ -17,7 +17,7 @@ describe Prawn::Text do
   end
 
   describe '#text with inline styling' do
-    it 'should automatically move to a new page if the tallest fragment' \
+    it 'automatically moves to a new page if the tallest fragment' \
       " on the next line won't fit in the available space" do
       pdf.move_cursor_to(pdf.font.height)
       formatted = "this contains <font size='24'>sized</font> text"

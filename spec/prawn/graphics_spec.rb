@@ -14,8 +14,7 @@ describe Prawn::Graphics do
       expect(line_drawing.points).to eq([[100, 600], [100, 500]])
     end
 
-    it 'should draw two lines at (100,600) to (100,500) ' \
-      'and (75,100) to (50,125)' do
+    it 'draws two lines at (100,600) to (100,500) and (75,100) to (50,125)' do
       pdf.line(100, 600, 100, 500)
       pdf.line(75, 100, 50, 125)
 
@@ -69,6 +68,7 @@ describe Prawn::Graphics do
         line_drawing = PDF::Inspector::Graphics::Line.analyze(pdf.render)
         expect(line_drawing.points).to eq([[350, 300], [350, 400]])
       end
+
       it 'requires a y coordinate' do
         expect { pdf.vertical_line(400, 500) }
           .to raise_error(ArgumentError)
@@ -649,15 +649,15 @@ describe Prawn::Graphics do
 
     it 'sends the right content on transformation_matrix' do
       allow(pdf.renderer).to receive(:add_content)
-        .with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
+        .with('1.0 0.0 0.12346 -1.0 5.5 20.0 cm')
       pdf.transformation_matrix 1, 0, 0.123456789, -1.0, 5.5, 20
       expect(pdf.renderer).to have_received(:add_content)
-        .with('1.00000 0.00000 0.12346 -1.00000 5.50000 20.00000 cm')
+        .with('1.0 0.0 0.12346 -1.0 5.5 20.0 cm')
     end
 
     it 'uses fixed digits with very small number' do
       values = Array.new(6, 0.000000000001)
-      string = Array.new(6, '0.00000').join ' '
+      string = Array.new(6, '0.0').join ' '
       allow(pdf.renderer).to receive(:add_content).with("#{string} cm")
       pdf.transformation_matrix(*values)
       expect(pdf.renderer).to have_received(:add_content).with("#{string} cm")
@@ -671,7 +671,7 @@ describe Prawn::Graphics do
 
     it 'saves the graphics state inside the given block' do
       values = Array.new(6, 0.000000000001)
-      string = Array.new(6, '0.00000').join ' '
+      string = Array.new(6, '0.0').join ' '
 
       allow(pdf).to receive(:save_graphics_state).with(no_args)
       allow(pdf.renderer).to receive(:add_content).with(any_args).twice
@@ -762,10 +762,6 @@ describe Prawn::Graphics do
           pdf.rotate(angle, origin: [x, y])
         end.to raise_error(Prawn::Errors::BlockRequired)
       end
-
-      def reduce_precision(float)
-        (format '%.5f', float).to_f
-      end
     end
 
     describe '#translate' do
@@ -828,10 +824,10 @@ describe Prawn::Graphics do
           pdf.scale(factor, origin: [x, y])
         end.to raise_error(Prawn::Errors::BlockRequired)
       end
-
-      def reduce_precision(float)
-        (format '%.5f', float).to_f
-      end
     end
+  end
+
+  def reduce_precision(float)
+    float.round(5)
   end
 end

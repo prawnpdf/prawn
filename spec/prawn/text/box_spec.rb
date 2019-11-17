@@ -58,8 +58,8 @@ describe Prawn::Text::Box do
     expect(text.strings[1]).to eq("I'm fine, thank you.")
   end
 
-  it 'should only require enough space for the descender and the ascender ' \
-    'when determining whether a line can fit' do
+  it 'only requires enough space for the descender and the ascender '\
+     'when determining whether a line can fit' do
     text = 'Oh hai text rect'
     options = {
       document: pdf,
@@ -112,8 +112,7 @@ describe Prawn::Text::Box do
   end
 
   describe '#line_gap' do
-    it 'should == the line gap of the font when using a single ' \
-      'font and font size' do
+    it '==S the line gap of the font when using a single font and font size' do
       string = "Hello world, how are you?\nI'm fine, thank you."
       text_box = described_class.new(string, document: pdf)
       text_box.render
@@ -142,8 +141,8 @@ describe Prawn::Text::Box do
   end
 
   describe '#height without leading' do
-    it 'should == the sum of the height of each line, ' \
-      'not including the space below the last line' do
+    it 'is the sum of the height of each line, not including the space below '\
+       'the last line' do
       text = "Oh hai text rect.\nOh hai text rect."
       options = { document: pdf }
       text_box = described_class.new(text, options)
@@ -154,8 +153,8 @@ describe Prawn::Text::Box do
   end
 
   describe '#height with leading' do
-    it 'should == the sum of the height of each line plus leading, ' \
-      'but not including the space below the last line' do
+    it 'is the sum of the height of each line plus leading, but not including '\
+       'the space below the last line' do
       text = "Oh hai text rect.\nOh hai text rect."
       leading = 12
       options = { document: pdf, leading: leading }
@@ -523,8 +522,8 @@ describe Prawn::Text::Box do
       end
     end
 
-    it 'should use the parent-box bottom if in a stretchy bbox and ' \
-      'overflow is :expand, even with an explicit height' do
+    it 'uses the parent-box bottom if in a stretchy bbox and overflow is '\
+       ':expand, even with an explicit height' do
       pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width) do
         target_height = pdf.y - pdf.bounds.bottom
         text = "Oh hai\n" * 60
@@ -1106,7 +1105,7 @@ describe Prawn::Text::Box do
   end
 
   def reduce_precision(float)
-    (format '%.5f', float).to_f
+    float.round(5)
   end
 
   def first_line(str)
