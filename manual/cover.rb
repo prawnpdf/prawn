@@ -22,14 +22,15 @@ Prawn::ManualBuilder::Example.generate(filename) do
     at: [170, cursor - 160]
   )
 
-  if Dir.exist?("#{Prawn::BASEDIR}/.git")
-    commit = `git show --pretty=%h`
-    git_commit = "git commit: #{commit.lines.first}"
-  else
-    git_commit = ''
-  end
-
   unless ENV['CI']
+    git_commit =
+      if Dir.exist?("#{Prawn::BASEDIR}/.git")
+        commit = `git show --pretty=%h`
+        "git commit: #{commit.lines.first}"
+      else
+        ''
+      end
+
     formatted_text_box(
       [{
         text: "Last Update: #{Time.now.strftime('%Y-%m-%d')}\n" \
