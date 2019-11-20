@@ -77,8 +77,9 @@ module Prawn
     #
     def repeat(page_filter, options = {}, &block)
       dynamic = options.fetch(:dynamic, false)
+      before = options.fetch(:before, false)
       repeaters << Prawn::Repeater.new(
-        self, page_filter, dynamic, &block
+        self, page_filter, dynamic, before, &block
       )
     end
   end
@@ -92,9 +93,9 @@ module Prawn
       end
     end
 
-    attr_reader :name
+    attr_reader :name, :before
 
-    def initialize(document, page_filter, dynamic = false, &block)
+    def initialize(document, page_filter, dynamic = false, before = false, &block)
       @document = document
       @page_filter = page_filter
       @dynamic = dynamic
@@ -102,6 +103,7 @@ module Prawn
       @document.create_stamp(@stamp_name, &block) unless dynamic
       @block = block if dynamic
       @graphic_state = document.state.page.graphic_state.dup
+      @before = before
 
       Repeater.count += 1
     end

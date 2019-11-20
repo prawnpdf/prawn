@@ -303,6 +303,8 @@ module Prawn
         float do
           state.on_page_create_action(self)
         end
+
+        repeaters.select { |r|r.before }.each { |r| r.run(@page_number) }
       end
     end
 
@@ -394,7 +396,7 @@ module Prawn
     def render(*arguments, &block)
       (1..page_count).each do |i|
         go_to_page i
-        repeaters.each { |r| r.run(i) }
+        repeaters.reject { |r|r.before }.each { |r| r.run(i) }
       end
 
       renderer.render(*arguments, &block)
