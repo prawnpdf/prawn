@@ -61,7 +61,7 @@ module Prawn
     #     or right-to-left) [value of document.text_direction]
     # <tt>:fallback_fonts</tt>::
     #     An array of font names. Each name must be the name of an AFM font or
-    #     the name that was used to register a family of TTF fonts (see
+    #     the name that was used to register a family of external fonts (see
     #     Prawn::Document#font_families). If present, then each glyph will be
     #     rendered using the first font that includes the glyph, starting with
     #     the current font and then moving through :fallback_fonts from

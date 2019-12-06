@@ -17,7 +17,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   move_down 20
 
-  text 'For full internationalized text support, we need to use TTF fonts:'
+  text 'For full internationalized text support, we need to use external fonts:'
   move_down 20
 
   font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do

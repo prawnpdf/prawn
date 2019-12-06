@@ -457,6 +457,37 @@ describe Prawn::Font do
     end
   end
 
+  describe 'OTF fonts' do
+    let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/Bodoni-Book.otf" }
+
+    it 'calculates string width taking into account accented characters' do
+      expect(font.compute_width_of('é', size: 12)).to eq(
+        font.compute_width_of('e', size: 12)
+      )
+    end
+
+    it 'uses the ascender, descender, and cap height from the OTF verbatim' do
+      # These metrics are relative to the font's own bbox. They should not be
+      # scaled with font size.
+      ref = pdf.ref!({})
+      font.send :embed, ref, 0
+
+      # Pull out the embedded font descriptor
+      descriptor = ref.data[:FontDescriptor].data
+      expect(descriptor[:Ascent]).to eq(1023)
+      expect(descriptor[:Descent]).to eq(-200)
+      expect(descriptor[:CapHeight]).to eq(3072)
+    end
+
+    describe 'when normalizing encoding' do
+      it 'does not modify the original string with normalize_encoding()' do
+        original = 'Foo'
+        normalized = font.normalize_encoding(original)
+        expect(original).to_not be_equal(normalized)
+      end
+    end
+  end
+
   describe 'DFont fonts' do
     let(:file) { "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont" }
 

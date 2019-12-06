@@ -12,7 +12,7 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  # Registering a single TTF font
+  # Registering a single external font
   font_families.update(
     'DejaVu Sans' => {
       normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"

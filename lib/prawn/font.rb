@@ -282,6 +282,7 @@ module Prawn
     require_relative 'fonts/afm'
     require_relative 'fonts/ttf'
     require_relative 'fonts/dfont'
+    require_relative 'fonts/otf'
     require_relative 'fonts/ttc'
 
     # @deprecated
@@ -305,9 +306,10 @@ module Prawn
     # Fonts::AFM.new()
     def self.load(document, src, options = {})
       case font_format(src, options)
-      when 'ttf'   then TTF.new(document, src, options)
+      when 'ttf' then TTF.new(document, src, options)
+      when 'otf' then Fonts::OTF.new(document, src, options)
       when 'dfont' then DFont.new(document, src, options)
-      when 'ttc'   then TTC.new(document, src, options)
+      when 'ttc' then TTC.new(document, src, options)
       else AFM.new(document, src, options)
       end
     end
@@ -317,6 +319,7 @@ module Prawn
 
       case src.to_s
       when /\.ttf$/i   then 'ttf'
+      when /\.otf$/i   then 'otf'
       when /\.dfont$/i then 'dfont'
       when /\.ttc$/i   then 'ttc'
       else 'afm'

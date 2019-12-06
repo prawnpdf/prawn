@@ -62,9 +62,12 @@ module Prawn
       end
 
       # Returns true if the font has kerning data, false otherwise
+      #
+      # rubocop: disable Naming/PredicateName
       def has_kerning_data?
         @has_kerning_data
       end
+      # rubocop: enable Naming/PredicateName
 
       # Perform any changes to the string that need to happen
       # before it is rendered to the canvas. Returns an array of

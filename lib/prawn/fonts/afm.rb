@@ -97,9 +97,11 @@ module Prawn
 
       # Returns true if the font has kerning data, false otherwise
       #
+      # rubocop: disable Naming/PredicateName
       def has_kerning_data?
         @kern_pairs.any?
       end
+      # rubocop: enable Naming/PredicateName
 
       # built-in fonts only work with winansi encoding, so translate the
       # string. Changes the encoding in-place, so the argument itself
@@ -113,8 +115,8 @@ module Prawn
         raise Prawn::Errors::IncompatibleStringEncoding,
           "Your document includes text that's not compatible with the " \
           "Windows-1252 character set.\n" \
-          "If you need full UTF-8 support, use external fonts instead of PDF's " \
-          "built-in fonts.\n"
+          'If you need full UTF-8 support, use external fonts instead of ' \
+          "PDF's built-in fonts.\n"
       end
 
       def to_utf8(text)

@@ -5,7 +5,8 @@
 # display space without allowing for a break.
 #
 # For writing styles that do not make use of spaces, the zero width space serves
-# to mark word boundaries. Zero width spaces are available only with TTF fonts.
+# to mark word boundaries. Zero width spaces are available only with external
+# fonts.
 
 require_relative '../example_helper'
 
