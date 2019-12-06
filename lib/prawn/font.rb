@@ -309,10 +309,10 @@ module Prawn
       return options.fetch(:format, 'ttf') if src.respond_to? :read
 
       case src.to_s
-      when /\.ttf$/i   then return 'ttf'
-      when /\.dfont$/i then return 'dfont'
-      when /\.ttc$/i   then return 'ttc'
-      else return 'afm'
+      when /\.ttf$/i   then 'ttf'
+      when /\.dfont$/i then 'dfont'
+      when /\.ttc$/i   then 'ttc'
+      else 'afm'
       end
     end
 

@@ -49,7 +49,7 @@ Naming/AccessorMethodName:
   Exclude:
     - lib/prawn/graphics/color.rb
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 # We need to reference non-ascii characters when testing and explaining
@@ -69,7 +69,7 @@ Style/Encoding:
     - lib/prawn/images.rb
     - spec/png_spec.rb
 
-Layout/AlignArguments:
+Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/FirstArrayElementLineBreak:
@@ -81,7 +81,7 @@ Layout/FirstHashElementLineBreak:
 Layout/FirstMethodArgumentLineBreak:
   Enabled: true
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   EnforcedStyle: consistent
 
 Style/GuardClause:
@@ -89,7 +89,7 @@ Style/GuardClause:
 
 # In this case we supress Prawn::Errors::CannotFit while trying to scale
 # text down to fit.
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - lib/prawn/text/formatted/box.rb
 
@@ -98,10 +98,10 @@ Lint/HandleExceptions:
 Style/IfUnlessModifier:
   Enabled: false
 
-Layout/IndentFirstArrayElement:
+Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
 
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
 Layout/MultilineMethodCallIndentation:
@@ -130,7 +130,7 @@ Naming/PredicateName:
     - lib/prawn/font/ttf.rb
     - lib/prawn/font/afm.rb
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   MinNameLength: 3
   AllowNamesEndingInNumbers: true
   AllowedNames:

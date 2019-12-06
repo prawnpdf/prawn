@@ -9,7 +9,7 @@
 
 require 'matrix'
 
-# rubocop: disable Metrics/ParameterLists, Naming/UncommunicativeMethodParamName
+# rubocop: disable Metrics/ParameterLists, Naming/MethodParameterName
 module Prawn
   module TransformationStack
     def add_to_transformation_stack(a, b, c, d, e, f)
@@ -41,5 +41,4 @@ module Prawn
     end
   end
 end
-
-# rubocop: enable Metrics/ParameterLists, Naming/UncommunicativeMethodParamName
+# rubocop: enable Metrics/ParameterLists, Naming/MethodParameterName
