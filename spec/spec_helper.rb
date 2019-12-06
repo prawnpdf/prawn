@@ -12,7 +12,7 @@ end
 require_relative '../lib/prawn'
 
 Prawn.debug = true
-Prawn::Font::AFM.hide_m17n_warning = true
+Prawn::Fonts::AFM.hide_m17n_warning = true
 
 require 'rspec'
 require 'pdf/reader'

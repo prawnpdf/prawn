@@ -461,14 +461,14 @@ describe Prawn::Font do
     let(:file) { "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont" }
 
     it 'lists all named fonts' do
-      list = Prawn::Font::DFont.named_fonts(file)
+      list = Prawn::Fonts::DFont.named_fonts(file)
       expect(list).to match_array(%w[
         PanicSans PanicSans-Bold PanicSans-BoldItalic PanicSans-Italic
       ])
     end
 
     it 'counts the number of fonts in the file' do
-      expect(Prawn::Font::DFont.font_count(file)).to eq(4)
+      expect(Prawn::Fonts::DFont.font_count(file)).to eq(4)
     end
 
     it 'defaults selected font to the first one if not specified' do

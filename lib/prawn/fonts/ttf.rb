@@ -11,7 +11,7 @@ require 'ttfunk'
 require 'ttfunk/subset_collection'
 
 module Prawn
-  class Font
+  module Fonts
     # @private
     class TTF < Font
       attr_reader :ttf, :subsets

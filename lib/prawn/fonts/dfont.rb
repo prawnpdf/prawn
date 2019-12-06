@@ -3,7 +3,7 @@
 require_relative 'ttf'
 
 module Prawn
-  class Font
+  module Fonts
     # @private
     class DFont < TTF
       # Returns a list of the names of all named fonts in the given dfont file.

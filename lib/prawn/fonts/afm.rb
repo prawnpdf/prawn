@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# prawn/font/afm.rb : Implements AFM font support for Prawn
+# Implements AFM font support for Prawn
 #
 # Copyright May 2008, Gregory Brown / James Healy.  All Rights Reserved.
 #
@@ -9,7 +9,7 @@
 require_relative '../encoding'
 
 module Prawn
-  class Font
+  module Fonts
     # @private
 
     class AFM < Font
@@ -113,7 +113,7 @@ module Prawn
         raise Prawn::Errors::IncompatibleStringEncoding,
           "Your document includes text that's not compatible with the " \
           "Windows-1252 character set.\n" \
-          "If you need full UTF-8 support, use TTF fonts instead of PDF's " \
+          "If you need full UTF-8 support, use external fonts instead of PDF's " \
           "built-in fonts.\n"
       end
 

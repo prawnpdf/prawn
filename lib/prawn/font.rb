@@ -6,10 +6,6 @@
 #
 # This is free software. Please see the LICENSE and COPYING files for details.
 #
-require_relative 'font/afm'
-require_relative 'font/ttf'
-require_relative 'font/dfont'
-require_relative 'font/ttc'
 require_relative 'font_metric_cache'
 
 module Prawn
@@ -37,7 +33,7 @@ module Prawn
     #
     # The :name parameter must be a string. It can be one of the 14 built-in
     # fonts supported by PDF, or the location of a TTF file. The
-    # Font::AFM::BUILT_INS array specifies the valid built in font values.
+    # Fonts::AFM::BUILT_INS array specifies the valid built in font values.
     #
     # If a ttf font is specified, the glyphs necessary to render your document
     # will be embedded in the rendered PDF. This should be your preferred option
@@ -283,6 +279,17 @@ module Prawn
   # Provides font information and helper functions.
   #
   class Font
+    require_relative 'fonts/afm'
+    require_relative 'fonts/ttf'
+    require_relative 'fonts/dfont'
+    require_relative 'fonts/ttc'
+
+    # @deprecated
+    AFM = Fonts::AFM
+    TTF = Fonts::TTF
+    DFont = Fonts::DFont
+    TTC = Fonts::TTC
+
     # The current font name
     attr_reader :name
 
@@ -293,9 +300,9 @@ module Prawn
     attr_reader :options
 
     # Shortcut interface for constructing a font object.  Filenames of the form
-    # *.ttf will call Font::TTF.new, *.dfont Font::DFont.new, *.ttc goes to
-    # Font::TTC.new, and anything else will be passed through to
-    # Font::AFM.new()
+    # *.ttf will call Fonts::TTF.new, *.dfont Fonts::DFont.new, *.ttc goes to
+    # Fonts::TTC.new, and anything else will be passed through to
+    # Fonts::AFM.new()
     def self.load(document, src, options = {})
       case font_format(src, options)
       when 'ttf'   then TTF.new(document, src, options)
