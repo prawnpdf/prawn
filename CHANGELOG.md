@@ -1,5 +1,9 @@
 ## PrawnPDF master branch
 
+### Improved color string validation
+
+(Brendan Thomas, [#1021](https://github.com/prawnpdf/prawn/pull/1021))
+
 ### Added documentation about document configuration with `Prawn::View`
 
 (Arnaud Joubay, [#1112](https://github.com/prawnpdf/prawn/pull/1112))
