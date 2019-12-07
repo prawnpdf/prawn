@@ -1,10 +1,71 @@
 ## PrawnPDF master branch
 
+### Added documentation about document configuration with `Prawn::View`
+
+(Arnaud Joubay, [#1112](https://github.com/prawnpdf/prawn/pull/1112))
+
+### Fixed `character_spacing` effect on text width calculation
+
+Extra spacing was applied to the end of string which resulted in visually
+incorrect center/right alligned text.
+
+(Matjaz Gregoric, [#1117](https://github.com/prawnpdf/prawn/pull/1117))
+
+
+### Fixed instance variable `@italic_angle` not initialized
+
+(Rostislav Svoboda, [#1095](https://github.com/prawnpdf/prawn/pull/1095))
+
+### Correctly handle image pathnames
+
+Prawn used to not close IOs passed to `image`. This prevented file deletion. The
+case is handled correctly now.
+
+(Guido Gloor Modjib, [#1090](https://github.com/prawnpdf/prawn/pull/1090))
+
+### Stricter validation of text alignment mode
+
+(Luciano Sousa, [#1057](https://github.com/prawnpdf/prawn/pull/1057))
+
+### Fixed `Prawn::View#respond_to_missing?` method signature
+
+When you use `Prawn::View` mixin to create custom class that extends Prawn's
+functionality, the method `respond_to?` was giving an error when called with a
+missing method.
+
+(Vitor Arimitsu, [#1065](https://github.com/prawnpdf/prawn/pull/1065))
+
+### Updated list of supported Rubies
+
+* Added Ruby 2.6 support
+* Added Ruby 2.7 support
+* Added JRuby 9.2 support
+
+* Dropped Ruby 2.2 & 2.3 support
+* Dropped JRuby 9.1 support
+
+Ruby 2.2 & 2.3 are not supported upstream any more.
+
+(Alexander Mankuta)
+
+### Fixed gradient cache key collision
+
+Packing gradient attributes down to 8-bit values causes collisions when
+generating the SHA1 digest.
+
+(Paul Jackson, [#1049](https://github.com/prawnpdf/prawn/pull/1049))
+
 ### Unknown font message
 
 Provide more detail in error message about unknown font.
 
-(Dan Allen, [#1022](https://github.com/prawnpdf/prawn/pull/1022))
+(Dan Allen, [#1045](https://github.com/prawnpdf/prawn/pull/1045))
+
+### Fixed double require
+
+Remove superfluous pdf-core requires
+
+(Matt Patterson, [#1032](https://github.com/prawnpdf/prawn/pull/1032)
 
 ## PrawnPDF 2.2.2
 
