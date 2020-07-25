@@ -95,7 +95,7 @@ describe Prawn::Stamp do
       objects = output.split('endobj')
 
       objects.each do |obj|
-        next unless obj =~ %r{/Type /Page$}
+        next unless %r{/Type /Page$}.match?(obj)
 
         # The page object must contain the annotation reference
         # to render a clickable link
@@ -116,9 +116,9 @@ describe Prawn::Stamp do
       output = pdf.render
       objects = output.split('endobj')
       objects.each do |object|
-        if object =~ %r{/Type /Page$}
+        if %r{/Type /Page$}.match?(object)
           expect(object).to_not match(%r{/ExtGState})
-        elsif object =~ %r{/Type /XObject$}
+        elsif %r{/Type /XObject$}.match?(object)
           expect(object).to match(%r{/ExtGState})
         end
       end

@@ -98,7 +98,7 @@ module Prawn
       def color_type(color)
         case color
         when String
-          if color =~ /\A\h{6}\z/
+          if /\A\h{6}\z/.match?(color)
             :RGB
           else
             raise ArgumentError, "Unknown type of color: #{color.inspect}"

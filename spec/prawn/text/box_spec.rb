@@ -819,9 +819,7 @@ describe Prawn::Text::Box do
       it 'render returns an empty string because no text remains unprinted' do
         expect(text_box.render).to eq('')
       end
-    end
 
-    context 'when shrink_to_fit overflow' do
       it 'does not drop below the minimum font size' do
         options[:overflow] = :shrink_to_fit
         options[:min_font_size] = 10.1
@@ -1019,7 +1017,7 @@ describe Prawn::Text::Box do
       expect(text_box.text).to eq(expect)
     end
 
-    it 'wraps lines comprised of a single word of the bounds when '\
+    it 'wraps lines comprised of a single non-alpha word of the bounds when '\
       'wrapping text' do
       text = '©' * 30
 

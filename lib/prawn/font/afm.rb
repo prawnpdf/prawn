@@ -60,7 +60,7 @@ module Prawn
         super
 
         file_name = @name.dup
-        file_name << '.afm' unless file_name =~ /\.afm$/
+        file_name << '.afm' unless /\.afm$/.match?(file_name)
         file_name = file_name[0] == '/' ? file_name : find_font(file_name)
 
         font_data = self.class.font_data[file_name] ||= parse_afm(file_name)
@@ -198,7 +198,7 @@ module Prawn
 
           case section
           when %w[FontMetrics CharMetrics]
-            next unless line =~ /^CH?\s/
+            next unless /^CH?\s/.match?(line)
 
             name = line[/\bN\s+(\.?\w+)\s*;/, 1]
             data[:glyph_widths][name] = line[/\bWX\s+(\d+)\s*;/, 1].to_i

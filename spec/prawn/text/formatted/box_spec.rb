@@ -348,6 +348,16 @@ describe Prawn::Text::Formatted::Box do
   end
 
   describe 'Text::Formatted::Box#render' do
+    let(:fragment_callback_class) do
+      Class.new do
+        def initialize(_string, _number, _options); end
+
+        def render_behind(fragment); end
+
+        def render_in_front(fragment); end
+      end
+    end
+
     it 'handles newlines' do
       array = [{ text: "hello\nworld" }]
       options = { document: pdf }
@@ -398,18 +408,6 @@ describe Prawn::Text::Formatted::Box do
       expect(text.strings[1]).to eq('world')
       expect(text.strings[2]).to eq(' olleh' * number_of_hellos)
       expect(text.strings[3]).to eq('?uoy')
-    end
-  end
-
-  describe 'Text::Formatted::Box#render' do
-    let(:fragment_callback_class) do
-      Class.new do
-        def initialize(_string, _number, _options); end
-
-        def render_behind(fragment); end
-
-        def render_in_front(fragment); end
-      end
     end
 
     it 'is able to perform fragment callbacks' do

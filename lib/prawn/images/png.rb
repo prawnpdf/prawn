@@ -43,7 +43,7 @@ module Prawn
         @transparency = {}
 
         loop do
-          chunk_size = data.read(4).unpack('N')[0]
+          chunk_size = data.read(4).unpack1('N')
           section = data.read(4)
           case section
           when 'IHDR'
@@ -72,7 +72,7 @@ module Prawn
             when 0
               # Greyscale. Corresponding to entries in the PLTE chunk.
               # Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
-              grayval = data.read(chunk_size).unpack('n').first
+              grayval = data.read(chunk_size).unpack1('n')
               @transparency[:grayscale] = grayval
             when 2
               # True colour with proper alpha channel.
@@ -321,7 +321,7 @@ module Prawn
           alpha.putc filter
 
           width.times do
-            color = data.read(1).unpack('C').first
+            color = data.read(1).unpack1('C')
             alpha.putc alpha_palette[color]
           end
         end

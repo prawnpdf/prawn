@@ -226,12 +226,10 @@ describe Prawn::Document::BoundingBox do
 
     it 'restores the x coordinate and width on error' do
       pdf.bounding_box([100, 100], width: 200) do
-        begin
-          pdf.indent(20) { raise }
-        rescue StandardError
-          expect(pdf.bounds.absolute_left).to eq(100)
-          expect(pdf.bounds.width).to eq(200)
-        end
+        pdf.indent(20) { raise }
+      rescue StandardError
+        expect(pdf.bounds.absolute_left).to eq(100)
+        expect(pdf.bounds.width).to eq(200)
       end
     end
 

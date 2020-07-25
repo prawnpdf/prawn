@@ -93,17 +93,17 @@ describe Prawn::Document::Security do
     end
 
     it 'calculates the correct owner hash' do
-      expect(pdf.owner_password_hash.unpack('H*').first)
+      expect(pdf.owner_password_hash.unpack1('H*'))
         .to match(/^61CA855012/i)
     end
 
     it 'calculates the correct user hash' do
-      expect(pdf.user_password_hash.unpack('H*').first)
+      expect(pdf.user_password_hash.unpack1('H*'))
         .to match(/^6BC8C51031/i)
     end
 
     it 'calculates the correct user_encryption_key' do
-      expect(pdf.user_encryption_key.unpack('H*').first.upcase)
+      expect(pdf.user_encryption_key.unpack1('H*').upcase)
         .to eq('B100AB6429')
     end
   end

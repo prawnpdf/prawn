@@ -57,12 +57,10 @@ module Prawn
           end
 
           @fragments.collect do |fragment|
-            begin
-              fragment.text.dup.encode(::Encoding::UTF_8)
-            rescue ::Encoding::InvalidByteSequenceError,
-                   ::Encoding::UndefinedConversionError
-              fragment.text.dup.force_encoding(::Encoding::UTF_8)
-            end
+            fragment.text.dup.encode(::Encoding::UTF_8)
+          rescue ::Encoding::InvalidByteSequenceError,
+                 ::Encoding::UndefinedConversionError
+            fragment.text.dup.force_encoding(::Encoding::UTF_8)
           end.join
         end
 

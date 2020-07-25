@@ -287,8 +287,7 @@ module Prawn
         end
 
         def update_line_status_based_on_last_output
-          if @fragment_output =~
-              word_division_scan_pattern(@fragment_output.encoding)
+          if @fragment_output&.match?(word_division_scan_pattern(@fragment_output.encoding))
             @line_contains_more_than_one_word = true
           end
         end

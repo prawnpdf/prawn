@@ -4,7 +4,6 @@
 
 require '../example_helper'
 
-# rubocop: disable Layout/LineLength
 Prawn::ManualBuilder::Example.generate('text.pdf', page_size: 'FOLIO') do
   package 'text' do |p|
     p.section 'Basics' do |s|
@@ -74,4 +73,3 @@ Prawn::ManualBuilder::Example.generate('text.pdf', page_size: 'FOLIO') do
     end
   end
 end
-# rubocop: enable Layout/LineLength

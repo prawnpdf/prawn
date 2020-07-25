@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
       '.yardopts'
     ]
   spec.require_path = 'lib'
-  spec.required_ruby_version = '~> 2.3'
+  spec.required_ruby_version = '~> 2.5'
   spec.required_rubygems_version = '>= 1.3.6'
 
   spec.authors = [
@@ -44,7 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('prawn-manual_builder', '>= 0.3.0')
   spec.add_development_dependency('rake', '~> 12.0')
   spec.add_development_dependency('rspec', '~> 3.0')
-  spec.add_development_dependency('rubocop', '~> 0.78.0')
+  spec.add_development_dependency('rubocop', '~> 0.84.0')
   spec.add_development_dependency('rubocop-performance', '~> 1.1')
   spec.add_development_dependency('rubocop-rspec', '~> 1.32')
   spec.add_development_dependency('simplecov')
