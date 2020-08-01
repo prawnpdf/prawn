@@ -1,5 +1,15 @@
 ## PrawnPDF master branch
 
+## PrawnPDF 2.3.0
+
+### Added OpenType Font Support
+
+TTFunk gained support for OpenType fonts thanks to great work by Cameron Dutro.
+
+Now you can use OTF fonts in your documents.
+
+(Alexander Mankuta)
+
 ### Improved color string validation
 
 (Brendan Thomas, [#1021](https://github.com/prawnpdf/prawn/pull/1021))
@@ -15,10 +25,13 @@ incorrect center/right alligned text.
 
 (Matjaz Gregoric, [#1117](https://github.com/prawnpdf/prawn/pull/1117))
 
-
 ### Fixed instance variable `@italic_angle` not initialized
 
 (Rostislav Svoboda, [#1095](https://github.com/prawnpdf/prawn/pull/1095))
+
+### Added a method to delete pages of the document by index
+
+(David Silveira, [#1092](https://github.com/prawnpdf/prawn/pull/1092))
 
 ### Correctly handle image pathnames
 
@@ -45,10 +58,10 @@ missing method.
 * Added Ruby 2.7 support
 * Added JRuby 9.2 support
 
-* Dropped Ruby 2.2 & 2.3 support
+* Dropped Ruby 2.2, 2.3 & 2.4 support
 * Dropped JRuby 9.1 support
 
-Ruby 2.2 & 2.3 are not supported upstream any more.
+Ruby 2.2, 2.3 & 2.4 are not supported upstream any more.
 
 (Alexander Mankuta)
 
