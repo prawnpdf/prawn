@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Prawn::Text
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Prawn::Text";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (T)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Prawn.html" title="Prawn (module)">Prawn</a></span></span>
+     &raquo; 
+    <span class="title">Text</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Prawn::Text
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>PDF::Core::Text, <span class='object_link'><a href="Text/Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span></dd>
+  </dl>
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Document.html" title="Prawn::Document (class)">Document</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/prawn/text.rb<span class="defines">,<br />
+  lib/prawn/text/box.rb,<br /> lib/prawn/text/formatted/box.rb,<br /> lib/prawn/text/formatted/wrap.rb,<br /> lib/prawn/text/formatted/parser.rb,<br /> lib/prawn/text/formatted/arranger.rb,<br /> lib/prawn/text/formatted/fragment.rb,<br /> lib/prawn/text/formatted/line_wrap.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Text/Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Text/Box.html" title="Prawn::Text::Box (class)">Box</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="NBSP-constant" class="">NBSP =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>No-Break Space</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\u00A0</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="ZWSP-constant" class="">ZWSP =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Zero Width Space (indicate word boundaries without a space)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\u200B</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="SHY-constant" class="">SHY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Soft Hyphen (invisible, except when causing a line break)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\u00AD</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#draw_text-instance_method" title="#draw_text (instance method)">#<strong>draw_text</strong>(text, options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws text on the page, beginning at the point specified by the :at option the string is assumed to be pre-formatted to properly fit the page.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#draw_text!-instance_method" title="#draw_text! (instance method)">#<strong>draw_text!</strong>(text, options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Low level text placement method.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#formatted_text-instance_method" title="#formatted_text (instance method)">#<strong>formatted_text</strong>(array, options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws formatted text to the page.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#height_of-instance_method" title="#height_of (instance method)">#<strong>height_of</strong>(string, options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Gets height of text in PDF points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#height_of_formatted-instance_method" title="#height_of_formatted (instance method)">#<strong>height_of_formatted</strong>(array, options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Gets height of formatted text in PDF points.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text-instance_method" title="#text (instance method)">#<strong>text</strong>(string, options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>If you want text to flow onto a new page or between columns, this is the method to use.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text_box-instance_method" title="#text_box (instance method)">#<strong>text_box</strong>(string, options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Draws the requested text into a box.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Text/Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Text/Formatted.html#formatted_text_box-instance_method" title="Prawn::Text::Formatted#formatted_text_box (method)">#formatted_text_box</a></span></p>
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="draw_text-instance_method">
+  
+    #<strong>draw_text</strong>(text, options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws text on the page, beginning at the point specified by the :at option the string is assumed to be pre-formatted to properly fit the page.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_draw_text'>draw_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Goodbye World</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:at</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>50</span><span class='comma'>,</span><span class='int'>50</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>16</span>
+</code></pre>
+
+<p>If your font contains kerning pair data that Prawn can parse, the text will be kerned by default. You can disable kerning by including a false <code>:kerning</code> option. If you want to disable kerning on an entire document, set default_kerning = false for that document</p>
+
+<h3 id="label-Text+Positioning+Details-3A">Text Positioning Details:</h3>
+
+<p>Prawn will position your text by the left-most edge of its baseline, and flow along a single line.  (This means that :align will not work)</p>
+
+<h2 id="label-Rotation">Rotation</h2>
+
+<p>Text can be rotated before it is placed on the canvas by specifying the <code>:rotate</code> option with a given angle. Rotation occurs counter-clockwise.</p>
+
+<h2 id="label-Encoding">Encoding</h2>
+
+<p>Note that strings passed to this function should be encoded as UTF-8. If you get unexpected characters appearing in your rendered document, check this.</p>
+
+<p>If the current font is a built-in one, although the string must be encoded as UTF-8, only characters that are available in WinAnsi are allowed.</p>
+
+<p>If an empty box is rendered to your PDF instead of the character you wanted it usually means the current font doesn&#39;t include that character.</p>
+
+<h2 id="label-Options+-28default+values+marked+in+-5B-5D-29">Options (default values marked in [])</h2>
+<dl class="rdoc-list note-list"><dt><code>:at</code>
+<dd>
+<p><code>[x, y]</code>(required). The position at which to start the text</p>
+</dd><dt><code>:kerning</code>
+<dd>
+<p><code>boolean</code>. Whether or not to use kerning (if it is available with the current font)</p>
+<dl class="rdoc-list label-list"><dt>value of default_kerning?
+<dd></dd></dl>
+</dd><dt><code>:size</code>
+<dd>
+<p><code>number</code>. The font size to use. [current font size]</p>
+</dd><dt><code>:style</code>
+<dd>
+<p>The style to use. The requested style must be part of the current font familly. [current style]</p>
+</dd><dt><code>:rotate</code>
+<dd>
+<p><code>number</code>. The angle to which to rotate text</p>
+</dd></dl>
+
+<h2 id="label-Exceptions">Exceptions</h2>
+
+<p>Raises <code>ArgumentError</code> if <code>:at</code> option omitted</p>
+
+<p>Raises <code>ArgumentError</code> if <code>:align</code> option included</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 278</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_draw_text'>draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_inspect_options_for_draw_text'>inspect_options_for_draw_text</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
+
+  <span class='comment'># dup because normalize_encoding changes the string
+</span>  <span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='id identifier rubyid_save_font'>save_font</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_process_text_options'>process_text_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_font'>font</span><span class='period'>.</span><span class='id identifier rubyid_normalize_encoding'>normalize_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_font_size'>font_size</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_draw_text!'>draw_text!</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="draw_text!-instance_method">
+  
+    #<strong>draw_text!</strong>(text, options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Low level text placement method. All font and size alterations should already be set</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 293</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_draw_text!'>draw_text!</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_font'>font</span><span class='period'>.</span><span class='id identifier rubyid_unicode?'>unicode?</span> <span class='op'>||</span> <span class='id identifier rubyid_font'>font</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_hide_m17n_warning'>hide_m17n_warning</span> <span class='op'>||</span> <span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_ascii_only?'>ascii_only?</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PDF&#39;s built-in fonts have very limited support for </span><span class='tstring_end'>&quot;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>internationalized text.\nIf you need full UTF-8 support, </span><span class='tstring_end'>&quot;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>consider using an external font instead.\n\nTo disable this </span><span class='tstring_end'>&quot;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>warning, add the following line to your code:\n</span><span class='tstring_end'>&quot;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Prawn::Fonts::AFM.hide_m17n_warning = true\n</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='id identifier rubyid_font'>font</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_hide_m17n_warning'>hide_m17n_warning</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_map_to_absolute'>map_to_absolute</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:at</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_text_content'>add_text_content</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="formatted_text-instance_method">
+  
+    #<strong>formatted_text</strong>(array, options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws formatted text to the page. Formatted text is comprised of an array of hashes, where each hash defines text and format information. See Text::Formatted#formatted_text_box for more information on the structure of this array</p>
+
+<h2 id="label-Example">Example</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>24</span><span class='comma'>,</span>
+        <span class='symbol'>:styles</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:bold</span><span class='comma'>,</span> <span class='symbol'>:italic</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+
+<h2 id="label-Options">Options</h2>
+
+<p>Accepts the same options as #text</p>
+
+<h2 id="label-Exceptions">Exceptions</h2>
+
+<p>Same as for #text</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 190</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_inspect_options_for_text'>inspect_options_for_text</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:color</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_color'>color</span>
+    <span class='id identifier rubyid_array'>array</span> <span class='op'>=</span> <span class='id identifier rubyid_array'>array</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_fragment'>fragment</span><span class='op'>|</span>
+      <span class='id identifier rubyid_fragment'>fragment</span><span class='lbracket'>[</span><span class='symbol'>:color</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_fragment'>fragment</span> <span class='op'>:</span> <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>color:</span> <span class='id identifier rubyid_color'>color</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@indent_paragraphs</span>
+    <span class='id identifier rubyid_text_formatter'>text_formatter</span><span class='period'>.</span><span class='id identifier rubyid_array_paragraphs'>array_paragraphs</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_paragraph'>paragraph</span><span class='op'>|</span>
+      <span class='id identifier rubyid_remaining_text'>remaining_text</span> <span class='op'>=</span> <span class='id identifier rubyid_draw_indented_formatted_line'>draw_indented_formatted_line</span><span class='lparen'>(</span><span class='id identifier rubyid_paragraph'>paragraph</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+      <span class='kw'>if</span> <span class='ivar'>@no_text_printed</span>
+        <span class='comment'># unless this paragraph was an empty line
+</span>        <span class='kw'>unless</span> <span class='ivar'>@all_text_printed</span>
+          <span class='ivar'>@bounding_box</span><span class='period'>.</span><span class='id identifier rubyid_move_past_bottom'>move_past_bottom</span>
+          <span class='id identifier rubyid_remaining_text'>remaining_text</span> <span class='op'>=</span> <span class='id identifier rubyid_draw_indented_formatted_line'>draw_indented_formatted_line</span><span class='lparen'>(</span><span class='id identifier rubyid_paragraph'>paragraph</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='kw'>unless</span> <span class='ivar'>@all_text_printed</span>
+        <span class='id identifier rubyid_remaining_text'>remaining_text</span> <span class='op'>=</span> <span class='id identifier rubyid_fill_formatted_text_box'>fill_formatted_text_box</span><span class='lparen'>(</span><span class='id identifier rubyid_remaining_text'>remaining_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_draw_remaining_formatted_text_on_new_pages'>draw_remaining_formatted_text_on_new_pages</span><span class='lparen'>(</span><span class='id identifier rubyid_remaining_text'>remaining_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_remaining_text'>remaining_text</span> <span class='op'>=</span> <span class='id identifier rubyid_fill_formatted_text_box'>fill_formatted_text_box</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_draw_remaining_formatted_text_on_new_pages'>draw_remaining_formatted_text_on_new_pages</span><span class='lparen'>(</span><span class='id identifier rubyid_remaining_text'>remaining_text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="height_of-instance_method">
+  
+    #<strong>height_of</strong>(string, options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets height of text in PDF points. Same options as #text, except as noted. Not compatible with :indent_paragraphs option</p>
+
+<h2 id="label-Example">Example</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_height_of'>height_of</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello\nworld</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<h2 id="label-Exceptions">Exceptions</h2>
+
+<p>Raises <code>NotImplementedError</code> if <code>:indent_paragraphs</code> option included</p>
+
+<p>Raises <code>Prawn::Errrors::CannotFit</code> if not wide enough to print any text</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+324
+325
+326</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 324</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_height_of'>height_of</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='label'>text:</span> <span class='id identifier rubyid_string'>string</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="height_of_formatted-instance_method">
+  
+    #<strong>height_of_formatted</strong>(array, options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets height of formatted text in PDF points. See documentation for #height_of.</p>
+
+<h2 id="label-Example">Example</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+                     <span class='lbrace'>{</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>world</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                       <span class='symbol'>:size</span> <span class='op'>=&gt;</span> <span class='int'>24</span><span class='comma'>,</span>
+                       <span class='symbol'>:styles</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:bold</span><span class='comma'>,</span> <span class='symbol'>:italic</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 338</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_height_of_formatted'>height_of_formatted</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:indent_paragraphs</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:indent_paragraphs option not available</span><span class='tstring_end'>&#39;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>with height_of</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_process_final_gap_option'>process_final_gap_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_box'>box</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Prawn::Text (module)">Text</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Text/Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Text/Formatted/Box.html" title="Prawn::Text::Formatted::Box (class)">Box</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Text/Formatted/Box.html#initialize-instance_method" title="Prawn::Text::Formatted::Box#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_array'>array</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>height:</span> <span class='int'>100_000_000</span><span class='comma'>,</span> <span class='label'>document:</span> <span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_box'>box</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='label'>dry_run:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_height'>height</span> <span class='op'>=</span> <span class='id identifier rubyid_box'>box</span><span class='period'>.</span><span class='id identifier rubyid_height'>height</span>
+  <span class='id identifier rubyid_height'>height</span> <span class='op'>+=</span> <span class='id identifier rubyid_box'>box</span><span class='period'>.</span><span class='id identifier rubyid_line_gap'>line_gap</span> <span class='op'>+</span> <span class='id identifier rubyid_box'>box</span><span class='period'>.</span><span class='id identifier rubyid_leading'>leading</span> <span class='kw'>if</span> <span class='ivar'>@final_gap</span>
+  <span class='id identifier rubyid_height'>height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="text-instance_method">
+  
+    #<strong>text</strong>(string, options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>If you want text to flow onto a new page or between columns, this is the method to use. If, instead, if you want to place bounded text outside of the flow of a document (for captions, labels, charts, etc.), use Text::Box or its convenience method text_box.</p>
+
+<p>Draws text on the page. Prawn attempts to wrap the text to fit within your current bounding box (or margin_box if no bounding box is being used). Text will flow onto the next page when it reaches the bottom of the bounding box. Text wrap in Prawn does not re-flow linebreaks, so if you want fully automated text wrapping, be sure to remove newlines before attempting to draw your string.</p>
+
+<h2 id="label-Examples">Examples</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Will be wrapped when it hits the edge of your bounding box</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This will be centered</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:align</span> <span class='op'>=&gt;</span> <span class='symbol'>:center</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This will be right aligned</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:align</span> <span class='op'>=&gt;</span> <span class='symbol'>:right</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>This &lt;i&gt;includes &lt;b&gt;inline&lt;/b&gt;&lt;/i&gt; &lt;font size=&#39;24&#39;&gt;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>formatting&lt;/font&gt;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:inline_format</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
+</code></pre>
+
+<p>If your font contains kerning pair data that Prawn can parse, the text will be kerned by default. You can disable kerning by including a false <code>:kerning</code> option. If you want to disable kerning on an entire document, set default_kerning = false for that document</p>
+
+<h3 id="label-Text+Positioning+Details">Text Positioning Details</h3>
+
+<p>The text is positioned at font.ascender below the baseline, making it easy to use this method within bounding boxes and spans.</p>
+
+<h2 id="label-Encoding">Encoding</h2>
+
+<p>Note that strings passed to this function should be encoded as UTF-8. If you get unexpected characters appearing in your rendered document, check this.</p>
+
+<p>If the current font is a built-in one, although the string must be encoded as UTF-8, only characters that are available in WinAnsi are allowed.</p>
+
+<p>If an empty box is rendered to your PDF instead of the character you wanted it usually means the current font doesn&#39;t include that character.</p>
+
+<h2 id="label-Options+-28default+values+marked+in+-5B-5D-29">Options (default values marked in [])</h2>
+<dl class="rdoc-list note-list"><dt><code>:inline_format</code>
+<dd>
+<p><code>boolean</code>. If true, then the string parameter is interpreted as a HTML-esque string that recognizes the following tags (assuming the default text formatter is used):</p>
+<dl class="rdoc-list note-list"><dt><code>&lt;b&gt;&lt;/b&gt;</code>
+<dd>
+<p>bold</p>
+</dd><dt><code>&lt;i&gt;&lt;/i&gt;</code>
+<dd>
+<p>italic</p>
+</dd><dt><code>&lt;u&gt;&lt;/u&gt;</code>
+<dd>
+<p>underline</p>
+</dd><dt><code>&lt;strikethrough&gt;&lt;/strikethrough&gt;</code>
+<dd>
+<p>strikethrough</p>
+</dd><dt><code>&lt;sub&gt;&lt;/sub&gt;</code>
+<dd>
+<p>subscript</p>
+</dd><dt><code>&lt;sup&gt;&lt;/sup&gt;</code>
+<dd>
+<p>superscript</p>
+</dd><dt><code>&lt;font&gt;&lt;/font&gt;</code>
+<dd>
+<p>with the following attributes (using double or single quotes)</p>
+
+<pre class="code ruby"><code class="ruby">&lt;tt&gt;size=&quot;24&quot;&lt;/tt&gt;::
+    attribute for setting size
+&lt;tt&gt;character_spacing=&quot;2.5&quot;&lt;/tt&gt;::
+    attribute for setting character spacing
+&lt;tt&gt;name=&quot;Helvetica&quot;&lt;/tt&gt;::
+    attribute for setting the font. The font name must be an
+    AFM font with the desired faces or must be a font that is
+    already registered using Prawn::Document#font_families
+</code></pre>
+</dd><dt><code>&lt;color&gt;&lt;/color&gt;</code>
+<dd>
+<p>with the following attributes</p>
+
+<pre class="code ruby"><code class="ruby">&lt;tt&gt;rgb=&quot;ffffff&quot; or rgb=&quot;#ffffff&quot;&lt;/tt&gt;::
+&lt;tt&gt;c=&quot;100&quot; m=&quot;100&quot; y=&quot;100&quot; k=&quot;100&quot;&lt;/tt&gt;::
+</code></pre>
+</dd><dt><code>&lt;link&gt;&lt;/link&gt;</code>
+<dd>
+<p>with the following attributes</p>
+
+<pre class="code ruby"><code class="ruby">&lt;tt&gt;href=&quot;http://example.com&quot;&lt;/tt&gt;:: an external link
+</code></pre>
+
+<p>Note that you must explicitly underline and color using the appropriate tags if you which to draw attention to the link</p>
+</dd></dl>
+</dd><dt><code>:kerning</code>
+<dd>
+<p><code>boolean</code>. Whether or not to use kerning (if it is available with the current font)</p>
+<dl class="rdoc-list label-list"><dt>value of document.default_kerning?
+<dd></dd></dl>
+</dd><dt><code>:size</code>
+<dd>
+<p><code>number</code>. The font size to use. [current font size]</p>
+</dd><dt><code>:color</code>
+<dd>
+<p>an RGB color (“ff0000”) or CMYK array [10, 20, 30, 40].</p>
+</dd><dt><code>:character_spacing</code>
+<dd>
+<p><code>number</code>. The amount of space to add to or remove from the default character spacing. [0]</p>
+</dd><dt><code>:style</code>
+<dd>
+<p>The style to use. The requested style must be part of the current font familly. [current style]</p>
+</dd><dt><code>:indent_paragraphs</code>
+<dd>
+<p><code>number</code>. The amount to indent the first line of each paragraph. Omit this option if you do not want indenting.</p>
+</dd><dt><code>:direction</code>
+<dd>
+<p><code>:ltr</code>, <code>:rtl</code>, Direction of the text (left-to-right or right-to-left) [value of document.text_direction]</p>
+</dd><dt><code>:fallback_fonts</code>
+<dd>
+<p>An array of font names. Each name must be the name of an AFM font or the name that was used to register a family of TTF fonts (see Prawn::Document#font_families). If present, then each glyph will be rendered using the first font that includes the glyph, starting with the current font and then moving through :fallback_fonts from left to right.</p>
+</dd><dt><code>:align</code>
+<dd>
+<p><code>:left</code>, <code>:center</code>, <code>:right</code>, or <code>:justify</code> Alignment within the bounding box</p>
+<dl class="rdoc-list label-list"><dt>:left if direction is :ltr, :right if direction is :rtl
+<dd></dd></dl>
+</dd><dt><code>:valign</code>
+<dd>
+<p><code>:top</code>, <code>:center</code>, or <code>:bottom</code>. Vertical alignment within the bounding box [:top]</p>
+</dd><dt><code>:leading</code>
+<dd>
+<p><code>number</code>. Additional space between lines [value of document.default_leading]</p>
+</dd><dt><code>:final_gap</code>
+<dd>
+<p><code>boolean</code>. If true, then the space between each line is included below the last line; otherwise, document.y is placed just below the descender of the last line printed [true]</p>
+</dd><dt><code>:mode</code>
+<dd>
+<p>The text rendering mode to use. Use this to specify if the text should render with the fill color, stroke color or both. See the comments to text_rendering_mode() to see a list of valid options. [0]</p>
+</dd></dl>
+
+<h2 id="label-Exceptions">Exceptions</h2>
+
+<p>Raises <code>ArgumentError</code> if <code>:at</code> option included</p>
+
+<p>Raises <code>Prawn::Errrors::CannotFit</code> if not wide enough to print any text</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text.rb', line 152</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_string'>string</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='comment'># we modify the options. don&#39;t change the user&#39;s hash
+</span>  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+
+  <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:inline_format</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_p'>p</span>
+    <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:inline_format</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_array'>array</span> <span class='op'>=</span> <span class='id identifier rubyid_text_formatter'>text_formatter</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_p'>p</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_array'>array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='label'>text:</span> <span class='id identifier rubyid_string'>string</span> <span class='rbrace'>}</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_formatted_text'>formatted_text</span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="text_box-instance_method">
+  
+    #<strong>text_box</strong>(string, options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Draws the requested text into a box. When the text overflows the rectangle, you shrink to fit, or truncate the text. Text boxes are independent of the document y position.</p>
+
+<h2 id="label-Encoding">Encoding</h2>
+
+<p>Note that strings passed to this function should be encoded as UTF-8. If you get unexpected characters appearing in your rendered document, check this.</p>
+
+<p>If the current font is a built-in one, although the string must be encoded as UTF-8, only characters that are available in WinAnsi are allowed.</p>
+
+<p>If an empty box is rendered to your PDF instead of the character you wanted it usually means the current font doesn&#39;t include that character.</p>
+
+<h2 id="label-Options+-28default+values+marked+in+-5B-5D-29">Options (default values marked in [])</h2>
+<dl class="rdoc-list note-list"><dt><code>:kerning</code>
+<dd>
+<p><code>boolean</code>. Whether or not to use kerning (if it is available with the current font)</p>
+<dl class="rdoc-list label-list"><dt>value of document.default_kerning?
+<dd></dd></dl>
+</dd><dt><code>:size</code>
+<dd>
+<p><code>number</code>. The font size to use. [current font size]</p>
+</dd><dt><code>:character_spacing</code>
+<dd>
+<p><code>number</code>. The amount of space to add to or remove from the default character spacing. [0]</p>
+</dd><dt><code>:disable_wrap_by_char</code>
+<dd>
+<p><code>boolean</code> Whether</p>
+</dd></dl>
+
+<p>or not to prevent mid-word breaks when text does not fit in box. [false]</p>
+<dl class="rdoc-list note-list"><dt><code>:mode</code>
+<dd>
+<p><code>symbol</code>. The text rendering mode. See documentation for Prawn::Document#text_rendering_mode for a list of valid options. [:fill]</p>
+</dd><dt><code>:style</code>
+<dd>
+<p>The style to use. The requested style must be part of the current font familly. [current style]</p>
+</dd><dt><code>:at</code>
+<dd>
+<p><code>[x, y]</code>. The upper left corner of the box</p>
+<dl class="rdoc-list label-list"><dt>@document.bounds.left, @document.bounds.top
+<dd></dd></dl>
+</dd><dt><code>:width</code>
+<dd>
+<p><code>number</code>. The width of the box</p>
+<dl class="rdoc-list label-list"><dt>@document.bounds.right - @<a href="0">at</a>
+<dd></dd></dl>
+</dd><dt><code>:height</code>
+<dd>
+<p><code>number</code>. The height of the box [default_height()]</p>
+</dd><dt><code>:direction</code>
+<dd>
+<p><code>:ltr</code>, <code>:rtl</code>, Direction of the text (left-to-right or right-to-left) [value of document.text_direction]</p>
+</dd><dt><code>:fallback_fonts</code>
+<dd>
+<p>An array of font names. Each name must be the name of an AFM font or the name that was used to register a family of external fonts (see Prawn::Document#font_families). If present, then each glyph will be rendered using the first font that includes the glyph, starting with the current font and then moving through :fallback_fonts from left to right.</p>
+</dd><dt><code>:align</code>
+<dd>
+<p><code>:left</code>, <code>:center</code>, <code>:right</code>, or <code>:justify</code> Alignment within the bounding box</p>
+<dl class="rdoc-list label-list"><dt>:left if direction is :ltr, :right if direction is :rtl
+<dd></dd></dl>
+</dd><dt><code>:valign</code>
+<dd>
+<p><code>:top</code>, <code>:center</code>, or <code>:bottom</code>. Vertical alignment within the bounding box [:top]</p>
+</dd><dt><code>:rotate</code>
+<dd>
+<p><code>number</code>. The angle to rotate the text</p>
+</dd><dt><code>:rotate_around</code>
+<dd>
+<p><code>:center</code>, <code>:upper_left</code>, <code>:upper_right</code>, <code>:lower_right</code>, or <code>:lower_left</code>. The point around which to rotate the text [:upper_left]</p>
+</dd><dt><code>:leading</code>
+<dd>
+<p><code>number</code>. Additional space between lines [value of document.default_leading]</p>
+</dd><dt><code>:single_line</code>
+<dd>
+<p><code>boolean</code>. If true, then only the first line will be drawn</p>
+<dl class="rdoc-list label-list"><dt>false
+<dd></dd></dl>
+</dd><dt><code>:overflow</code>
+<dd>
+<p><code>:truncate</code>, <code>:shrink_to_fit</code>, or <code>:expand</code> This controls the behavior when the amount of text exceeds the available space. [:truncate]</p>
+</dd><dt><code>:min_font_size</code>
+<dd>
+<p><code>number</code>. The minimum font size to use when :overflow is set to :shrink_to_fit (that is the font size will not be reduced to less than this value, even if it means that some text will be cut off). [5]</p>
+</dd></dl>
+
+<h2 id="label-Returns">Returns</h2>
+
+<p>Returns any text that did not print under the current settings.</p>
+
+<h2 id="label-Exceptions">Exceptions</h2>
+
+<p>Raises <code>Prawn::Errors::CannotFit</code> if not wide enough to print any text</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/text/box.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_text_box'>text_box</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:document</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span>
+
+  <span class='id identifier rubyid_box'>box</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:inline_format</span><span class='rbracket'>]</span>
+          <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:inline_format</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_array'>array</span> <span class='op'>=</span> <span class='id identifier rubyid_text_formatter'>text_formatter</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_p'>p</span><span class='rparen'>)</span>
+          <span class='const'><span class='object_link'><a href="" title="Prawn::Text (module)">Text</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Text/Formatted.html" title="Prawn::Text::Formatted (module)">Formatted</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Text/Formatted/Box.html" title="Prawn::Text::Formatted::Box (class)">Box</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Text/Formatted/Box.html#initialize-instance_method" title="Prawn::Text::Formatted::Box#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+        <span class='kw'>else</span>
+          <span class='const'><span class='object_link'><a href="" title="Prawn::Text (module)">Text</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Text/Box.html" title="Prawn::Text::Box (class)">Box</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Text/Box.html#initialize-instance_method" title="Prawn::Text::Box#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_box'>box</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Aug  1 21:07:57 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.7.1).
+</div>
+
+    </div>
+  </body>
+</html>

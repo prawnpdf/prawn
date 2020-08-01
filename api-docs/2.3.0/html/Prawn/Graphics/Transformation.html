@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Prawn::Graphics::Transformation
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "Prawn::Graphics::Transformation";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (T)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span></span>
+     &raquo; 
+    <span class="title">Transformation</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Prawn::Graphics::Transformation
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Prawn::Graphics</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/prawn/graphics/transformation.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rotate-instance_method" title="#rotate (instance method)">#<strong>rotate</strong>(angle, options = {}, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Rotate the user space.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scale-instance_method" title="#scale (instance method)">#<strong>scale</strong>(factor, options = {}, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Scale the user space.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#transformation_matrix-instance_method" title="#transformation_matrix (instance method)">#<strong>transformation_matrix</strong>(*matrix)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Transform the user space (see notes for rotate regarding graphics state)
+Generally, one would use the rotate, scale, translate, and skew convenience
+methods instead of calling transformation_matrix directly.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#translate-instance_method" title="#translate (instance method)">#<strong>translate</strong>(x, y, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Translate the user space.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="rotate-instance_method">
+  
+    #<strong>rotate</strong>(angle, options = {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Rotate the user space.  If a block is not provided, then you must save and
+restore the graphics state yourself.</p>
+
+<h2 id="label-Options">Options</h2>
+<dl class="rdoc-list note-list"><dt><code>:origin</code>
+<dd>
+<p><code>[number, number]</code>. The point around which to rotate. A block
+must be provided if using the :origin</p>
+</dd></dl>
+
+<p>raises <code>Prawn::Errors::BlockRequired</code> if an :origin option is
+provided, but no block is given</p>
+
+<p>Example without a block:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span>
+<span class='id identifier rubyid_rotate'>rotate</span> <span class='int'>30</span>
+<span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rotated text</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span>
+</code></pre>
+
+<p>Example with a block: rotating a rectangle around its upper-left corner</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='int'>150</span>
+<span class='id identifier rubyid_height'>height</span> <span class='op'>=</span> <span class='int'>200</span>
+<span class='id identifier rubyid_angle'>angle</span> <span class='op'>=</span> <span class='int'>30</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_rotate'>rotate</span><span class='lparen'>(</span><span class='id identifier rubyid_angle'>angle</span><span class='comma'>,</span> <span class='symbol'>:origin</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/transformation.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rotate'>rotate</span><span class='lparen'>(</span><span class='id identifier rubyid_angle'>angle</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span><span class='lparen'>(</span><span class='symbol'>:origin</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_rad'>rad</span> <span class='op'>=</span> <span class='id identifier rubyid_degree_to_rad'>degree_to_rad</span><span class='lparen'>(</span><span class='id identifier rubyid_angle'>angle</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cos'>cos</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_rad'>rad</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sin'>sin</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_rad'>rad</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:origin</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_transformation_matrix'>transformation_matrix</span><span class='lparen'>(</span><span class='id identifier rubyid_cos'>cos</span><span class='comma'>,</span> <span class='id identifier rubyid_sin'>sin</span><span class='comma'>,</span> <span class='op'>-</span><span class='id identifier rubyid_sin'>sin</span><span class='comma'>,</span> <span class='id identifier rubyid_cos'>cos</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Errors.html" title="Prawn::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Errors.html#BlockRequired-constant" title="Prawn::Errors::BlockRequired (constant)">BlockRequired</a></span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:origin</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_left'>absolute_left</span>
+    <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:origin</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+    <span class='id identifier rubyid_x_prime'>x_prime</span> <span class='op'>=</span> <span class='id identifier rubyid_x'>x</span> <span class='op'>*</span> <span class='id identifier rubyid_cos'>cos</span> <span class='op'>-</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>*</span> <span class='id identifier rubyid_sin'>sin</span>
+    <span class='id identifier rubyid_y_prime'>y_prime</span> <span class='op'>=</span> <span class='id identifier rubyid_x'>x</span> <span class='op'>*</span> <span class='id identifier rubyid_sin'>sin</span> <span class='op'>+</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>*</span> <span class='id identifier rubyid_cos'>cos</span>
+    <span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_x_prime'>x_prime</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_y_prime'>y_prime</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_transformation_matrix'>transformation_matrix</span><span class='lparen'>(</span><span class='id identifier rubyid_cos'>cos</span><span class='comma'>,</span> <span class='id identifier rubyid_sin'>sin</span><span class='comma'>,</span> <span class='op'>-</span><span class='id identifier rubyid_sin'>sin</span><span class='comma'>,</span> <span class='id identifier rubyid_cos'>cos</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="scale-instance_method">
+  
+    #<strong>scale</strong>(factor, options = {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Scale the user space.  If a block is not provided, then you must save and
+restore the graphics state yourself.</p>
+
+<h2 id="label-Options">Options</h2>
+<dl class="rdoc-list note-list"><dt><code>:origin</code>
+<dd>
+<p><code>[number, number]</code>. The point from which to scale. A block must
+be provided if using the :origin</p>
+</dd></dl>
+
+<p>raises <code>Prawn::Errors::BlockRequired</code> if an :origin option is
+provided, but no block is given</p>
+
+<p>Example without a block:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span>
+<span class='id identifier rubyid_scale'>scale</span> <span class='float'>1.5</span>
+<span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>scaled text</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span>
+</code></pre>
+
+<p>Example with a block: scale a rectangle from its upper-left corner</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='int'>300</span>
+<span class='id identifier rubyid_width'>width</span> <span class='op'>=</span> <span class='int'>150</span>
+<span class='id identifier rubyid_height'>height</span> <span class='op'>=</span> <span class='int'>200</span>
+<span class='id identifier rubyid_factor'>factor</span> <span class='op'>=</span> <span class='float'>1.5</span>
+<span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_scale'>scale</span><span class='lparen'>(</span><span class='id identifier rubyid_angle'>angle</span><span class='comma'>,</span> <span class='symbol'>:origin</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_pdf'>pdf</span><span class='period'>.</span><span class='id identifier rubyid_stroke_rectangle'>stroke_rectangle</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_width'>width</span><span class='comma'>,</span> <span class='id identifier rubyid_height'>height</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/transformation.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_scale'>scale</span><span class='lparen'>(</span><span class='id identifier rubyid_factor'>factor</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span><span class='period'>.</span><span class='id identifier rubyid_verify_options'>verify_options</span><span class='lparen'>(</span><span class='symbol'>:origin</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:origin</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_transformation_matrix'>transformation_matrix</span><span class='lparen'>(</span><span class='id identifier rubyid_factor'>factor</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_factor'>factor</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Errors.html" title="Prawn::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Errors.html#BlockRequired-constant" title="Prawn::Errors::BlockRequired (constant)">BlockRequired</a></span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:origin</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_left'>absolute_left</span>
+    <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:origin</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_bounds'>bounds</span><span class='period'>.</span><span class='id identifier rubyid_absolute_bottom'>absolute_bottom</span>
+    <span class='id identifier rubyid_x_prime'>x_prime</span> <span class='op'>=</span> <span class='id identifier rubyid_factor'>factor</span> <span class='op'>*</span> <span class='id identifier rubyid_x'>x</span>
+    <span class='id identifier rubyid_y_prime'>y_prime</span> <span class='op'>=</span> <span class='id identifier rubyid_factor'>factor</span> <span class='op'>*</span> <span class='id identifier rubyid_y'>y</span>
+    <span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_x_prime'>x_prime</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_y_prime'>y_prime</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_transformation_matrix'>transformation_matrix</span><span class='lparen'>(</span><span class='id identifier rubyid_factor'>factor</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_factor'>factor</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="transformation_matrix-instance_method">
+  
+    #<strong>transformation_matrix</strong>(*matrix)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Transform the user space (see notes for rotate regarding graphics state)
+Generally, one would use the rotate, scale, translate, and skew convenience
+methods instead of calling transformation_matrix directly</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/transformation.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_transformation_matrix'>transformation_matrix</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_matrix'>matrix</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_matrix'>matrix</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='int'>6</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Transformation matrix must have exacty 6 elements</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_matrix'>matrix</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_format'>format</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>%.5f</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_x'>x</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='id identifier rubyid_add_to_transformation_stack'>add_to_transformation_stack</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_matrix'>matrix</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_renderer'>renderer</span><span class='period'>.</span><span class='id identifier rubyid_add_content'>add_content</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_values'>values</span><span class='embexpr_end'>}</span><span class='tstring_content'> cm</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='kw'>yield</span>
+    <span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="translate-instance_method">
+  
+    #<strong>translate</strong>(x, y, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Translate the user space.  If a block is not provided, then you must save
+and restore the graphics state yourself.</p>
+
+<p>Example without a block: move the text up and over 10</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_save_graphics_state'>save_graphics_state</span>
+<span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>10</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_text'>text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>scaled text</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_restore_graphics_state'>restore_graphics_state</span>
+</code></pre>
+
+<p>Example with a block: draw a rectangle with its upper-left corner at</p>
+
+<pre class="code ruby"><code class="ruby">                    x + 10, y + 10
+
+x = 300
+y = 300
+width = 150
+height = 200
+pdf.translate(10, 10) do
+  pdf.stroke_rectangle([x, y], width, height)
+end</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/transformation.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_transformation_matrix'>transformation_matrix</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Apr 26 13:04:36 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.8 (ruby-2.4.2).
+</div>
+
+    </div>
+  </body>
+</html>

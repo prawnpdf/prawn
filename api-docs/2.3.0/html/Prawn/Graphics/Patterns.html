@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Prawn::Graphics::Patterns
+  
+    &mdash; Prawn Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "Prawn::Graphics::Patterns";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Prawn.html" title="Prawn (module)">Prawn</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Graphics</a></span></span>
+     &raquo; 
+    <span class="title">Patterns</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Prawn::Graphics::Patterns
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../Graphics.html" title="Prawn::Graphics (module)">Prawn::Graphics</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/prawn/graphics/patterns.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Patterns/Gradient.html" title="Prawn::Graphics::Patterns::Gradient (class)">Gradient</a></span>, <span class='object_link'><a href="Patterns/GradientStop.html" title="Prawn::Graphics::Patterns::GradientStop (class)">GradientStop</a></span>
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Stable API
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fill_gradient-instance_method" title="#fill_gradient (instance method)">#<strong>fill_gradient</strong>(*args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the fill gradient.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stroke_gradient-instance_method" title="#stroke_gradient (instance method)">#<strong>stroke_gradient</strong>(*args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the stroke gradient.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="fill_gradient-instance_method">
+  
+    #<strong>fill_gradient</strong>(*args, **kwargs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the fill gradient. old arguments:</p>
+
+<pre class="code ruby"><code class="ruby">from, to, color1, color2
+or
+from, r1, to, r2, color1, color2</code></pre>
+
+<p>new arguments:</p>
+
+<pre class="code ruby"><code class="ruby">from: [x, y]
+to: [x, y]
+r1: radius
+r2: radius
+stops: [color, color, ...] or
+       { position =&gt; color, position =&gt; color, ... }
+apply_transformations: true</code></pre>
+
+<p>Examples:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># draws a horizontal axial gradient that starts at red on the left
+</span><span class='comment'># and ends at blue on the right
+</span><span class='id identifier rubyid_fill_gradient'>fill_gradient</span> <span class='label'>from:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>stops:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>red</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>blue</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='comment'># draws a horizontal radial gradient that starts at red, is green
+</span><span class='comment'># 80% of the way through, and finishes blue
+</span><span class='id identifier rubyid_fill_gradient'>fill_gradient</span> <span class='label'>from:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>r1:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>r2:</span> <span class='int'>180</span><span class='comma'>,</span>
+  <span class='label'>stops:</span> <span class='lbrace'>{</span> <span class='int'>0</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>red</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='float'>0.8</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>green</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='int'>1</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>blue</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+</code></pre>
+
+<p><code>from</code> and <code>to</code> specify the axis of where the
+gradient should be painted.</p>
+
+<p><code>r1</code> and <code>r2</code>, if specified, make a radial gradient
+with the starting circle of radius <code>r1</code> centered at
+<code>from</code> and ending at a circle of radius <code>r2</code> centered
+at <code>to</code>. If <code>r1</code> is not specified, a axial gradient
+will be drawn.</p>
+
+<p><code>stops</code> is an array or hash of stops.  Each stop is either just
+a string indicating the color, in which case the stops will be evenly
+distributed across the gradient, or a hash where the key is a position
+between 0 and 1 indicating what distance through the gradient the color
+should change, and the value is a color string.</p>
+
+<p>Option <code>apply_transformations</code>, if set true, will transform the
+gradient&#39;s co-ordinate space so it matches the current co-ordinate
+space of the document.  This option will be the default from Prawn v3, and
+is default true if you use the new arguments format. The default for the
+old arguments format, false, will mean if you (for example) scale your
+document by 2 and put a gradient inside, you will have to manually multiply
+your co-ordinates by 2 so the gradient is correctly positioned.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/patterns.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fill_gradient'>fill_gradient</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_gradient'>set_gradient</span><span class='lparen'>(</span><span class='symbol'>:fill</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stroke_gradient-instance_method">
+  
+    #<strong>stroke_gradient</strong>(*args, **kwargs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the stroke gradient. See fill_gradient for a description of the
+arguments to this method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/prawn/graphics/patterns.rb', line 75</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stroke_gradient'>stroke_gradient</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_gradient'>set_gradient</span><span class='lparen'>(</span><span class='symbol'>:stroke</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Apr 26 13:04:36 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.8 (ruby-2.4.2).
+</div>
+
+    </div>
+  </body>
+</html>
