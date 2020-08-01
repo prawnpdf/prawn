@@ -44,3 +44,11 @@ task :console do
 end
 
 RuboCop::RakeTask.new
+
+task :checksum do
+  require 'digest/sha2'
+  built_gem_path = "prawn-#{Prawn::VERSION}.gem"
+  checksum = Digest::SHA512.new.hexdigest(File.read(built_gem_path))
+  checksum_path = "checksums/#{built_gem_path}.sha512"
+  File.write(checksum_path, checksum)
+end
