@@ -1,5 +1,13 @@
 ## PrawnPDF master branch
 
+## Unreleased
+
+### Apply correct margin box when creating or switching pages
+
+When creating a new page or returning to a page previously created, compute the margin box correctly.
+
+(Dan Allen, [#1122](https://github.com/prawnpdf/prawn/pull/1022))
+
 ## PrawnPDF 2.3.0
 
 ### Added OpenType Font Support
