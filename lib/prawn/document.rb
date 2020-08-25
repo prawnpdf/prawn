@@ -723,15 +723,17 @@ module Prawn
           (page.margins[:top] + page.margins[:bottom])
       )
 
-      # This check maintains indentation settings across page breaks
+      # update bounding box if not flowing from the previous page
+      unless @bounding_box&.parent
+        old_margin_box = @bounding_box
+        @bounding_box = @margin_box
+      end
+
+      # maintains indentation settings across page breaks
       if old_margin_box
         @margin_box.add_left_padding(old_margin_box.total_left_padding)
         @margin_box.add_right_padding(old_margin_box.total_right_padding)
       end
-
-      # we must update bounding box if not flowing from the previous page
-      #
-      @bounding_box = @margin_box unless @bounding_box&.parent
     end
 
     def apply_margin_options(options)
