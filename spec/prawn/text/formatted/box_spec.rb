@@ -218,6 +218,32 @@ describe Prawn::Text::Formatted::Box do
       expect(text.strings[2]).to eq('再见')
       expect(text.strings[3]).to eq('goodbye')
     end
+
+    it 'considers style when looking for glyph in font' do
+      dustismo_file = "#{Prawn::DATADIR}/fonts/Dustismo_Roman.ttf"
+      dejavu_sans_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+      dejavu_sans_bold_file = "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+
+      pdf.font_families['Dustismo'] = {
+        normal: { file: dustismo_file },
+        bold: { file: dejavu_sans_bold_file }
+      }
+
+      pdf.font_families['Fallback'] = {
+        normal: { file: dejavu_sans_file },
+        bold: { file: dejavu_sans_file }
+      }
+
+      formatted_text = [{ text: ?\u203b, styles: [:bold], font: 'Dustismo' }]
+      pdf.formatted_text_box(formatted_text, fallback_fonts: ['Fallback'])
+
+      text = PDF::Inspector::Text.analyze(pdf.render)
+
+      fonts_used = text.font_settings.map { |e| e[:name] }
+      expect(fonts_used.length).to eq(1)
+      expect(fonts_used[0].to_s).to match(/DejaVuSans-Bold/)
+      expect(text.strings[0]).to eq(?\u203b)
+    end
   end
 
   describe 'Text::Formatted::Box' do

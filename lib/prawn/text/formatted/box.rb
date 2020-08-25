@@ -419,6 +419,8 @@ module Prawn
 
           original_font = @document.font.family
           fragment_font = hash[:font] || original_font
+          fragment_font_options =
+            (fragment_font_style = font_style(hash[:styles])) == :normal ? {} : { style: fragment_font_style }
 
           fallback_fonts = @fallback_fonts.dup
           # always default back to the current font if the glyph is missing from
@@ -431,7 +433,8 @@ module Prawn
                 find_font_for_this_glyph(
                   char,
                   fragment_font,
-                  fallback_fonts.dup
+                  fallback_fonts.dup,
+                  fragment_font_options
                 ),
                 char
               ]
@@ -448,12 +451,26 @@ module Prawn
           form_fragments_from_like_font_glyph_pairs(font_glyph_pairs, hash)
         end
 
-        def find_font_for_this_glyph(char, current_font, fallback_fonts)
-          @document.font(current_font)
+        def font_style(styles)
+          if styles
+            if styles.include?(:bold)
+              styles.include?(:italic) ? :bold_italic : :bold
+            elsif styles.include?(:italic)
+              :italic
+            else
+              :normal
+            end
+          else
+            :normal
+          end
+        end
+
+        def find_font_for_this_glyph(char, current_font, fallback_fonts, current_font_options = {})
+          @document.font(current_font, current_font_options)
           if fallback_fonts.empty? || @document.font.glyph_present?(char)
             current_font
           else
-            find_font_for_this_glyph(char, fallback_fonts.shift, fallback_fonts)
+            find_font_for_this_glyph(char, fallback_fonts.shift, fallback_fonts, current_font_options)
           end
         end
 
