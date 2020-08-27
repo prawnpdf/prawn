@@ -413,7 +413,7 @@ module Prawn
     # Prawn::Table::Text#styled_with_of_single_character)
     #
     def hash #:nodoc:
-      [self.class, name, family, size].hash
+      [self.class, name, family].hash
     end
 
     # Compliments the #hash implementation above

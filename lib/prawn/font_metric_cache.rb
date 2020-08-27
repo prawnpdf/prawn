@@ -13,7 +13,7 @@ module Prawn
   #
   # @private
   class FontMetricCache
-    CacheEntry = Struct.new(:font, :options, :string)
+    CacheEntry = Struct.new(:font, :font_size, :options, :string)
 
     def initialize(document)
       @document = document
@@ -32,7 +32,7 @@ module Prawn
 
       encoded_string = f.normalize_encoding(string)
 
-      key = CacheEntry.new(f, options, encoded_string)
+      key = CacheEntry.new(f, @document.font_size, options, encoded_string)
 
       @cache[key] ||= f.compute_width_of(encoded_string, options)
 
