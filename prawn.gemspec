@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
       '.yardopts'
     ]
   spec.require_path = 'lib'
-  spec.required_ruby_version = '~> 2.5'
+  spec.required_ruby_version = '>= 2.5'
   spec.required_rubygems_version = '>= 1.3.6'
 
   spec.authors = [
