@@ -14,3 +14,4 @@ rvm:
   - 2.6.1
   - jruby-9.1.13.0
   - jruby-9.1.17.0
+  - truffleruby-head
