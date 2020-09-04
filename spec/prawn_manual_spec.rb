@@ -3,15 +3,9 @@
 require 'spec_helper'
 require 'digest/sha2'
 
-MANUAL_HASH =
-  case RUBY_ENGINE
-  when 'ruby'
-    'b38bd8aaa7b419a2f594ee8837cd62f813141000393995b0c0456644b823a62a'\
-    '2f8031b2db0fc9e7c544b3946a9b0e60570d510564e6fed3931e0717dd49188a'
-  when 'jruby'
-    'b38bd8aaa7b419a2f594ee8837cd62f813141000393995b0c0456644b823a62a'\
-    '2f8031b2db0fc9e7c544b3946a9b0e60570d510564e6fed3931e0717dd49188a'
-  end
+MANUAL_HASH = 'b38bd8aaa7b419a2f594ee8837cd62f813141000393995b0c0456644b823a62a'\
+              '2f8031b2db0fc9e7c544b3946a9b0e60570d510564e6fed3931e0717dd49188a'
+  
 
 RSpec.describe Prawn do
   describe 'manual' do
