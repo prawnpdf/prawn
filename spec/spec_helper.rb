@@ -9,7 +9,7 @@ if ENV['COVERAGE']
   end
 end
 
-require_relative '../lib/prawn'
+require 'prawn'
 
 Prawn.debug = true
 Prawn::Fonts::AFM.hide_m17n_warning = true
