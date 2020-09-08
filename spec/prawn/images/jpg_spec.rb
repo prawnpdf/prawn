@@ -7,14 +7,30 @@
 require 'spec_helper'
 
 describe Prawn::Images::JPG do
-  let(:img_data) { File.binread("#{Prawn::DATADIR}/images/pigs.jpg") }
 
-  it 'reads the basic attributes correctly' do
-    jpg = described_class.new(img_data)
+  context "with a valid picture" do
+    let(:img_data) { File.binread("#{Prawn::DATADIR}/images/pigs.jpg") }
 
-    expect(jpg.width).to eq(604)
-    expect(jpg.height).to eq(453)
-    expect(jpg.bits).to eq(8)
-    expect(jpg.channels).to eq(3)
+    it 'reads the basic attributes correctly' do
+      jpg = described_class.new(img_data)
+
+      expect(jpg.width).to eq(604)
+      expect(jpg.height).to eq(453)
+      expect(jpg.bits).to eq(8)
+      expect(jpg.channels).to eq(3)
+    end
+  end
+
+  context "with a corrupt header picture" do
+    let(:img_data) { File.binread("#{Prawn::DATADIR}/images/corrupt_headers.jpg") }
+
+    it 'reads the basic attributes correctly' do
+      jpg = described_class.new(img_data)
+
+      expect(jpg.width).to eq(300)
+      expect(jpg.height).to eq(225)
+      expect(jpg.bits).to eq(8)
+      expect(jpg.channels).to eq(3)
+    end
   end
 end
