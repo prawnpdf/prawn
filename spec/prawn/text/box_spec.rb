@@ -1100,6 +1100,6 @@ describe Prawn::Text::Box do
   end
 
   def first_line(str)
-    str.each_line { |line| return line }
+    str.lines.first
   end
 end
