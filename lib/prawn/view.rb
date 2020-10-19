@@ -76,7 +76,7 @@ module Prawn
     end
 
     def respond_to_missing?(method_name, _include_all = false)
-      document.respond_to?(method_name)
+      document.respond_to?(method_name) || super
     end
 
     # Syntactic sugar that uses +instance_eval+ under the hood to provide

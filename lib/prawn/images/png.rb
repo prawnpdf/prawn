@@ -34,6 +34,7 @@ module Prawn
       # <tt>data</tt>:: A binary string of PNG data
       #
       def initialize(data)
+        super()
         data = StringIO.new(data.dup)
 
         data.read(8) # Skip the default header

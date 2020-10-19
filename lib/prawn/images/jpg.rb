@@ -35,6 +35,7 @@ module Prawn
       # <tt>:data</tt>:: A binary string of JPEG data
       #
       def initialize(data)
+        super()
         @data = data
         d = StringIO.new(@data)
         d.binmode
