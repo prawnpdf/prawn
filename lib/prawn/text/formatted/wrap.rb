@@ -152,8 +152,7 @@ module Prawn
           @everything_printed = false
         end
 
-        def format_and_draw_fragment(fragment, accumulated_width,
-          line_width, word_spacing)
+        def format_and_draw_fragment(fragment, accumulated_width, line_width, word_spacing)
           @arranger.apply_color_and_font_settings(fragment) do
             draw_fragment(
               fragment, accumulated_width,
