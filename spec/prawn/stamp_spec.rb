@@ -116,9 +116,10 @@ describe Prawn::Stamp do
       output = pdf.render
       objects = output.split('endobj')
       objects.each do |object|
-        if %r{/Type /Page$}.match?(object)
+        case object
+        when %r{/Type /Page$}
           expect(object).to_not match(%r{/ExtGState})
-        elsif %r{/Type /XObject$}.match?(object)
+        when %r{/Type /XObject$}
           expect(object).to match(%r{/ExtGState})
         end
       end

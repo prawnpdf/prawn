@@ -86,9 +86,10 @@ module Prawn
         # the line
         #
         def add_fragment_to_line(fragment)
-          if fragment == ''
+          case fragment
+          when ''
             true
-          elsif fragment == "\n"
+          when "\n"
             @newline_encountered = true
             false
           else
