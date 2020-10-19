@@ -4,99 +4,100 @@ require 'spec_helper'
 
 describe Prawn::Document::BoundingBox do
   let(:pdf) { create_pdf }
-  let(:x) { 100 }
-  let(:y) { 125 }
-  let(:width) { 50 }
-  let(:height) { 75 }
-  let(:box) do
-    described_class.new(
-      nil,
-      nil,
-      [x, y],
-      width: width,
-      height: height
-    )
+
+  describe 'attributes' do
+    let(:box) do
+      described_class.new(
+        nil,
+        nil,
+        [100, 125],
+        width: 50,
+        height: 75
+      )
+    end
+
+    it 'has an anchor at (x, y - height)' do
+      expect(box.anchor).to eq([100, 50])
+    end
+
+    it 'has a left boundary of 0' do
+      expect(box.left).to eq(0)
+    end
+
+    it 'has a right boundary equal to the width' do
+      expect(box.right).to eq(50)
+    end
+
+    it 'has a top boundary of height' do
+      expect(box.top).to eq(75)
+    end
+
+    it 'has a bottom boundary of 0' do
+      expect(box.bottom).to eq(0)
+    end
+
+    it 'has a top-left of [0, height]' do
+      expect(box.top_left).to eq([0, 75])
+    end
+
+    it 'has a top-right of [width, height]' do
+      expect(box.top_right).to eq([50, 75])
+    end
+
+    it 'has a bottom-left of [0, 0]' do
+      expect(box.bottom_left).to eq([0, 0])
+    end
+
+    it 'has a bottom-right of [width ,0]' do
+      expect(box.bottom_right).to eq([50, 0])
+    end
+
+    it 'has an absolute left boundary of x' do
+      expect(box.absolute_left).to eq(100)
+    end
+
+    it 'has an absolute right boundary of x + width' do
+      expect(box.absolute_right).to eq(150)
+    end
+
+    it 'has an absolute top boundary of y' do
+      expect(box.absolute_top).to eq(125)
+    end
+
+    it 'has an absolute bottom boundary of y - height' do
+      expect(box.absolute_bottom).to eq(50)
+    end
+
+    it 'has an absolute bottom-left of [x, y - height]' do
+      expect(box.absolute_bottom_left).to eq([100, 50])
+    end
+
+    it 'has an absolute bottom-right of [x + width, y - height]' do
+      expect(box.absolute_bottom_right).to eq([150, 50])
+    end
+
+    it 'has an absolute top-left of [x, y]' do
+      expect(box.absolute_top_left).to eq([100, 125])
+    end
+
+    it 'has an absolute top-right of [x + width, y]' do
+      expect(box.absolute_top_right).to eq([150, 125])
+    end
   end
 
-  it 'has an anchor at (x, y - height)' do
-    expect(box.anchor).to eq([x, y - height])
-  end
+  describe 'validations' do
+    it 'requires width to be set' do
+      expect do
+        described_class.new(nil, nil, [100, 100])
+      end.to raise_error(ArgumentError)
+    end
 
-  it 'has a left boundary of 0' do
-    expect(box.left).to eq(0)
-  end
-
-  it 'has a right boundary equal to the width' do
-    expect(box.right).to eq(width)
-  end
-
-  it 'has a top boundary of height' do
-    expect(box.top).to eq(height)
-  end
-
-  it 'has a bottom boundary of 0' do
-    expect(box.bottom).to eq(0)
-  end
-
-  it 'has a top-left of [0,height]' do
-    expect(box.top_left).to eq([0, height])
-  end
-
-  it 'has a top-right of [width,height]' do
-    expect(box.top_right).to eq([width, height])
-  end
-
-  it 'has a bottom-left of [0,0]' do
-    expect(box.bottom_left).to eq([0, 0])
-  end
-
-  it 'has a bottom-right of [width,0]' do
-    expect(box.bottom_right).to eq([width, 0])
-  end
-
-  it 'has an absolute left boundary of x' do
-    expect(box.absolute_left).to eq(x)
-  end
-
-  it 'has an absolute right boundary of x + width' do
-    expect(box.absolute_right).to eq(x + width)
-  end
-
-  it 'has an absolute top boundary of y' do
-    expect(box.absolute_top).to eq(y)
-  end
-
-  it 'has an absolute bottom boundary of y - height' do
-    expect(box.absolute_bottom).to eq(y - height)
-  end
-
-  it 'has an absolute bottom-left of [x,y-height]' do
-    expect(box.absolute_bottom_left).to eq([x, y - height])
-  end
-
-  it 'has an absolute bottom-right of [x+width,y-height]' do
-    expect(box.absolute_bottom_right).to eq([x + width, y - height])
-  end
-
-  it 'has an absolute top-left of [x,y]' do
-    expect(box.absolute_top_left).to eq([x, y])
-  end
-
-  it 'has an absolute top-right of [x+width,y]' do
-    expect(box.absolute_top_right).to eq([x + width, y])
-  end
-
-  it 'requires width to be set' do
-    expect do
-      described_class.new(nil, nil, [100, 100])
-    end.to raise_error(ArgumentError)
-  end
-
-  it 'raise_errors an ArgumentError if a block is not passed' do
-    pdf = Prawn::Document.new
-    expect do
-      pdf.bounding_box([0, 0], width: 200)
-    end.to raise_error(ArgumentError)
+    it 'raise_errors an ArgumentError if a block is not passed' do
+      pdf = Prawn::Document.new
+      expect do
+        pdf.bounding_box([0, 0], width: 200)
+      end.to raise_error(ArgumentError)
+    end
   end
 
   describe 'drawing' do

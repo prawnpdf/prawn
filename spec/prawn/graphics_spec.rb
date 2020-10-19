@@ -697,14 +697,11 @@ describe Prawn::Graphics do
   end
 
   describe 'When using transformations shortcuts' do
-    let(:x) { 12 }
-    let(:y) { 54.32 }
-    let(:angle) { 12.32 }
-    let(:cos) { Math.cos(angle * Math::PI / 180) }
-    let(:sin) { Math.sin(angle * Math::PI / 180) }
-    let(:factor) { 0.12 }
-
     describe '#rotate' do
+      let(:angle) { 12.32 }
+      let(:cos) { Math.cos(angle * Math::PI / 180) }
+      let(:sin) { Math.sin(angle * Math::PI / 180) }
+
       it 'rotates' do
         allow(pdf).to receive(:transformation_matrix)
           .with(cos, sin, -sin, cos, 0, 0)
@@ -715,7 +712,13 @@ describe Prawn::Graphics do
     end
 
     describe '#rotate with :origin option' do
+      let(:angle) { 12.32 }
+      let(:cos) { Math.cos(angle * Math::PI / 180) }
+      let(:sin) { Math.sin(angle * Math::PI / 180) }
+
       it 'rotates around the origin' do
+        x = 12
+        y = 54.32
         x_prime = x * cos - y * sin
         y_prime = x * sin + y * cos
 
@@ -737,6 +740,8 @@ describe Prawn::Graphics do
       end
 
       it 'rotates around the origin in a document with a margin' do
+        x = 12
+        y = 54.32
         pdf = Prawn::Document.new
 
         pdf.rotate(angle, origin: [x, y]) { pdf.text('hello world') }
@@ -763,7 +768,7 @@ describe Prawn::Graphics do
 
       it 'raise_errors BlockRequired if no block is given' do
         expect do
-          pdf.rotate(angle, origin: [x, y])
+          pdf.rotate(angle, origin: [0, 0])
         end.to raise_error(Prawn::Errors::BlockRequired)
       end
     end
@@ -781,6 +786,7 @@ describe Prawn::Graphics do
 
     describe '#scale' do
       it 'scales' do
+        factor = 0.12
         allow(pdf).to receive(:transformation_matrix)
           .with(factor, 0, 0, factor, 0, 0)
         pdf.scale(factor)
@@ -790,7 +796,11 @@ describe Prawn::Graphics do
     end
 
     describe '#scale with :origin option' do
+      let(:factor) { 0.12 }
+
       it 'scales from the origin' do
+        x = 12
+        y = 54.32
         x_prime = factor * x
         y_prime = factor * y
 
@@ -806,6 +816,8 @@ describe Prawn::Graphics do
       end
 
       it 'scales from the origin in a document with a margin' do
+        x = 12
+        y = 54.32
         pdf = Prawn::Document.new
         x_ = x + pdf.bounds.absolute_left
         y_ = y + pdf.bounds.absolute_bottom
@@ -825,7 +837,7 @@ describe Prawn::Graphics do
 
       it 'raise_errors BlockRequired if no block is given' do
         expect do
-          pdf.scale(factor, origin: [x, y])
+          pdf.scale(factor, origin: [0, 0])
         end.to raise_error(Prawn::Errors::BlockRequired)
       end
     end

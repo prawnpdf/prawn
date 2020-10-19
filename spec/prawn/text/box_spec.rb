@@ -310,21 +310,16 @@ describe Prawn::Text::Box do
   end
 
   describe '#render with :rotate option of 30)' do
-    let(:angle) { 30 }
-    let(:x) { 300 }
-    let(:y) { 70 }
-    let(:width) { 100 }
-    let(:height) { 50 }
-    let(:cos) { Math.cos(angle * Math::PI / 180) }
-    let(:sin) { Math.sin(angle * Math::PI / 180) }
+    let(:cos) { Math.cos(30 * Math::PI / 180) }
+    let(:sin) { Math.sin(30 * Math::PI / 180) }
     let(:text) { 'Oh hai text rect. ' * 10 }
     let(:options) do
       {
         document: pdf,
-        rotate: angle,
-        at: [x, y],
-        width: width,
-        height: height
+        rotate: 30,
+        at: [300, 70],
+        width: 100,
+        height: 50
       }
     end
 
@@ -335,14 +330,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x + width / 2
-        y_ = y - height / 2
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 350
+        y = 45
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -365,12 +360,12 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = 300 * cos - 70 * sin
+        y_prime = 300 * sin + 70 * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
+          reduce_precision(300 - x_prime),
+          reduce_precision(70 - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -392,12 +387,12 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = 300 * cos - 70 * sin
+        y_prime = 300 * sin + 70 * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
+          reduce_precision(300 - x_prime),
+          reduce_precision(70 - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -420,14 +415,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x + width
-        y_ = y
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 400
+        y = 70
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -450,14 +445,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x + width
-        y_ = y - height
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 400
+        y = 20
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -480,14 +475,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x
-        y_ = y - height
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 300
+        y = 20
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -746,11 +741,9 @@ describe Prawn::Text::Box do
           remaining_text = text_box.render
 
           rotate = 30
-          x = 300
-          y = 70
           options[:document] = pdf
           options[:rotate] = rotate
-          options[:at] = [x, y]
+          options[:at] = [300, 70]
           rotated_text_box = described_class.new(text, options)
           expect(rotated_text_box.render).to eq(remaining_text)
         end
