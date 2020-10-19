@@ -181,21 +181,23 @@ module Prawn
       end
 
       def user_encryption_key
-        @user_encryption_key ||= begin
-          md5 = Digest::MD5.new
-          md5 << pad_password(@user_password)
-          md5 << owner_password_hash
-          md5 << [permissions_value].pack('V')
-          md5.digest[0, 5]
-        end
+        @user_encryption_key ||=
+          begin
+            md5 = Digest::MD5.new
+            md5 << pad_password(@user_password)
+            md5 << owner_password_hash
+            md5 << [permissions_value].pack('V')
+            md5.digest[0, 5]
+          end
       end
 
       # The O (owner) value in the encryption dictionary. Algorithm 3.3.
       def owner_password_hash
-        @owner_password_hash ||= begin
-          key = Digest::MD5.digest(pad_password(@owner_password))[0, 5]
-          Arcfour.new(key).encrypt(pad_password(@user_password))
-        end
+        @owner_password_hash ||=
+          begin
+            key = Digest::MD5.digest(pad_password(@owner_password))[0, 5]
+            Arcfour.new(key).encrypt(pad_password(@user_password))
+          end
       end
 
       # The U (user) value in the encryption dictionary. Algorithm 3.4.
@@ -224,15 +226,17 @@ module PDF
         end.join(' ')
         "[#{array_content}]"
       when LiteralString
-        obj = ByteString.new(
-          Prawn::Document::Security.encrypt_string(obj, key, id, gen)
-        ).gsub(/[\\\n()]/) { |m| "\\#{m}" }
+        obj =
+          ByteString.new(
+            Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+          ).gsub(/[\\\n()]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         obj = "#{obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop}'00'"
-        obj = ByteString.new(
-          Prawn::Document::Security.encrypt_string(obj, key, id, gen)
-        ).gsub(/[\\\n()]/) { |m| "\\#{m}" }
+        obj =
+          ByteString.new(
+            Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+          ).gsub(/[\\\n()]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
         pdf_object(

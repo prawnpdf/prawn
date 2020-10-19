@@ -34,23 +34,24 @@ describe Prawn::Document do
 
   describe 'when generating a document with a custom text formatter' do
     it 'uses the provided text formatter' do
-      text_formatter = Class.new do
-        def self.format(string)
-          [
-            {
-              text: string.gsub('Dr. Who?', "Just 'The Doctor'."),
-              styles: [],
-              color: nil,
-              link: nil,
-              anchor: nil,
-              local: nil,
-              font: nil,
-              size: nil,
-              character_spacing: nil
-            }
-          ]
+      text_formatter =
+        Class.new do
+          def self.format(string)
+            [
+              {
+                text: string.gsub('Dr. Who?', "Just 'The Doctor'."),
+                styles: [],
+                color: nil,
+                link: nil,
+                anchor: nil,
+                local: nil,
+                font: nil,
+                size: nil,
+                character_spacing: nil
+              }
+            ]
+          end
         end
-      end
       pdf = described_class.new text_formatter: text_formatter
       pdf.text 'Dr. Who?', inline_format: true
       text = PDF::Inspector::Text.analyze(pdf.render)
@@ -331,13 +332,14 @@ describe Prawn::Document do
 
   describe 'When reopening pages' do
     it 'modifies the content stream size' do
-      pdf = described_class.new do
-        text 'Page 1'
-        start_new_page
-        text 'Page 2'
-        go_to_page 1
-        text 'More for page 1'
-      end
+      pdf =
+        described_class.new do
+          text 'Page 1'
+          start_new_page
+          text 'Page 2'
+          go_to_page 1
+          text 'More for page 1'
+        end
 
       # Indirectly verify that the actual length does not match dictionary
       # length.  If it isn't, a MalformedPDFError will be raised
@@ -364,9 +366,10 @@ describe Prawn::Document do
     end
 
     it 'restores the layout of the page' do
-      doc = described_class.new do
-        start_new_page layout: :landscape
-      end
+      doc =
+        described_class.new do
+          start_new_page layout: :landscape
+        end
 
       lsize = [doc.bounds.width, doc.bounds.height]
 

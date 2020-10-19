@@ -31,16 +31,17 @@ module Prawn
       end
 
       def self.metrics_path
-        @metrics_path ||= if ENV['METRICS']
-                            ENV['METRICS'].split(':')
-                          else
-                            [
-                              '.', '/usr/lib/afm',
-                              '/usr/local/lib/afm',
-                              '/usr/openwin/lib/fonts/afm',
-                              "#{Prawn::DATADIR}/fonts"
-                            ]
-                          end
+        @metrics_path ||=
+          if ENV['METRICS']
+            ENV['METRICS'].split(':')
+          else
+            [
+              '.', '/usr/lib/afm',
+              '/usr/local/lib/afm',
+              '/usr/openwin/lib/fonts/afm',
+              "#{Prawn::DATADIR}/fonts"
+            ]
+          end
       end
 
       attr_reader :attributes #:nodoc:
@@ -220,9 +221,10 @@ module Prawn
 
         # process data parsed from AFM file to build tables which
         #   will be used when measuring and kerning text
-        data[:glyph_table] = (0..255).map do |i|
-          data[:glyph_widths][Encoding::WinAnsi::CHARACTERS[i]].to_i
-        end
+        data[:glyph_table] =
+          (0..255).map do |i|
+            data[:glyph_widths][Encoding::WinAnsi::CHARACTERS[i]].to_i
+          end
 
         character_hash = Hash[
           Encoding::WinAnsi::CHARACTERS.zip(

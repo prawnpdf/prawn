@@ -156,29 +156,31 @@ module Prawn
     def image_position(width, height, options)
       options[:position] ||= :left
 
-      y = case options[:vposition]
-          when :top
-            bounds.absolute_top
-          when :center
-            bounds.absolute_top - (bounds.height - height) / 2.0
-          when :bottom
-            bounds.absolute_bottom + height
-          when Numeric
-            bounds.absolute_top - options[:vposition]
-          else
-            determine_y_with_page_flow(height)
-          end
+      y =
+        case options[:vposition]
+        when :top
+          bounds.absolute_top
+        when :center
+          bounds.absolute_top - (bounds.height - height) / 2.0
+        when :bottom
+          bounds.absolute_bottom + height
+        when Numeric
+          bounds.absolute_top - options[:vposition]
+        else
+          determine_y_with_page_flow(height)
+        end
 
-      x = case options[:position]
-          when :left
-            bounds.left_side
-          when :center
-            bounds.left_side + (bounds.width - width) / 2.0
-          when :right
-            bounds.right_side - width
-          when Numeric
-            options[:position] + bounds.left_side
-          end
+      x =
+        case options[:position]
+        when :left
+          bounds.left_side
+        when :center
+          bounds.left_side + (bounds.width - width) / 2.0
+        when :right
+          bounds.right_side - width
+        when Numeric
+          options[:position] + bounds.left_side
+        end
 
       [x, y]
     end

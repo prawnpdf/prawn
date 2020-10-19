@@ -107,14 +107,15 @@ module Prawn
       options = options.dup
       options[:document] = self
 
-      box = if options[:inline_format]
-              p = options.delete(:inline_format)
-              p = [] unless p.is_a?(Array)
-              array = text_formatter.format(string, *p)
-              Text::Formatted::Box.new(array, options)
-            else
-              Text::Box.new(string, options)
-            end
+      box =
+        if options[:inline_format]
+          p = options.delete(:inline_format)
+          p = [] unless p.is_a?(Array)
+          array = text_formatter.format(string, *p)
+          Text::Formatted::Box.new(array, options)
+        else
+          Text::Box.new(string, options)
+        end
 
       box.render
     end

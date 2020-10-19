@@ -222,11 +222,12 @@ module Prawn
                   shrink_to_fit(text) if @overflow == :shrink_to_fit
                   process_vertical_alignment(text)
                   @inked = true unless flags[:dry_run]
-                  unprinted_text = if @rotate != 0 && @inked
-                                     render_rotated(text)
-                                   else
-                                     wrap(text)
-                                   end
+                  unprinted_text =
+                    if @rotate != 0 && @inked
+                      render_rotated(text)
+                    else
+                      wrap(text)
+                    end
                   @inked = false
                 end
               end
@@ -265,11 +266,12 @@ module Prawn
           when :right
             x = @at[0] + @width - line_width
           when :justify
-            x = if @direction == :ltr
-                  @at[0]
-                else
-                  @at[0] + @width - line_width
-                end
+            x =
+              if @direction == :ltr
+                @at[0]
+              else
+                @at[0] + @width - line_width
+              end
           else
             raise ArgumentError,
               'align must be one of :left, :right, :center or :justify symbols'

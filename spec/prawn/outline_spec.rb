@@ -478,11 +478,12 @@ describe Prawn::Outline do
 
   describe 'foreign character encoding' do
     let(:hash) do
-      pdf = Prawn::Document.new do
-        outline.define do
-          section 'La pomme croquée', destination: 1, closed: true
+      pdf =
+        Prawn::Document.new do
+          outline.define do
+            section 'La pomme croquée', destination: 1, closed: true
+          end
         end
-      end
       PDF::Reader::ObjectHash.new(StringIO.new(pdf.render, 'r+'))
     end
 

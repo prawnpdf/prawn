@@ -45,17 +45,18 @@ describe Prawn::Text do
     end
 
     # rubocop: disable Naming/AccessorMethodName
-    rotated_text_inspector = Class.new(PDF::Inspector) do
-      attr_reader :tm_operator_used
+    rotated_text_inspector =
+      Class.new(PDF::Inspector) do
+        attr_reader :tm_operator_used
 
-      def initialize
-        @tm_operator_used = false
-      end
+        def initialize
+          @tm_operator_used = false
+        end
 
-      def set_text_matrix_and_text_line_matrix(*_arguments)
-        @tm_operator_used = true
+        def set_text_matrix_and_text_line_matrix(*_arguments)
+          @tm_operator_used = true
+        end
       end
-    end
     # rubocop: enable Naming/AccessorMethodName
 
     it 'allows rotation' do

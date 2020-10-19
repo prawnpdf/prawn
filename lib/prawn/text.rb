@@ -192,9 +192,10 @@ module Prawn
 
       color = options.delete(:color)
       if color
-        array = array.map do |fragment|
-          fragment[:color] ? fragment : fragment.merge(color: color)
-        end
+        array =
+          array.map do |fragment|
+            fragment[:color] ? fragment : fragment.merge(color: color)
+          end
       end
 
       if @indent_paragraphs
@@ -364,11 +365,12 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      gap = if options.fetch(:direction, text_direction) == :ltr
-              [@indent_paragraphs, 0]
-            else
-              [0, @indent_paragraphs]
-            end
+      gap =
+        if options.fetch(:direction, text_direction) == :ltr
+          [@indent_paragraphs, 0]
+        else
+          [0, @indent_paragraphs]
+        end
 
       indent(*gap) do
         fill_formatted_text_box(string, options.dup.merge(single_line: true))

@@ -95,14 +95,15 @@ module Prawn
           patterns["SP#{registry_key}"] = shading
         end
 
-        operator = case type
-                   when :fill
-                     'scn'
-                   when :stroke
-                     'SCN'
-                   else
-                     raise ArgumentError, "unknown type '#{type}'"
-                   end
+        operator =
+          case type
+          when :fill
+            'scn'
+          when :stroke
+            'SCN'
+          else
+            raise ArgumentError, "unknown type '#{type}'"
+          end
 
         set_color_space type, :Pattern
         renderer.add_content "/SP#{registry_key} #{operator}"
@@ -128,21 +129,22 @@ module Prawn
           raise ArgumentError, 'At least two stops must be specified'
         end
 
-        stops = stops.map.with_index do |stop, index|
-          case stop
-          when Array, Hash
-            position, color = stop
-          else
-            position = index / (stops.length.to_f - 1)
-            color = stop
-          end
+        stops =
+          stops.map.with_index do |stop, index|
+            case stop
+            when Array, Hash
+              position, color = stop
+            else
+              position = index / (stops.length.to_f - 1)
+              color = stop
+            end
 
-          unless (0..1).cover?(position)
-            raise ArgumentError, 'position must be between 0 and 1'
-          end
+            unless (0..1).cover?(position)
+              raise ArgumentError, 'position must be between 0 and 1'
+            end
 
-          GradientStop.new(position, normalize_color(color))
-        end
+            GradientStop.new(position, normalize_color(color))
+          end
 
         if stops.first.position != 0
           raise ArgumentError, 'The first stop must have a position of 0'
@@ -195,37 +197,40 @@ module Prawn
             'for more information.'
         end
 
-        shader_stops = gradient.stops.each_cons(2).map do |first, second|
-          ref!(
-            FunctionType: 2,
-            Domain: [0.0, 1.0],
-            C0: first.color,
-            C1: second.color,
-            N: 1.0
-          )
-        end
+        shader_stops =
+          gradient.stops.each_cons(2).map do |first, second|
+            ref!(
+              FunctionType: 2,
+              Domain: [0.0, 1.0],
+              C0: first.color,
+              C1: second.color,
+              N: 1.0
+            )
+          end
 
         # If there's only two stops, we can use the single shader.
         # Otherwise we stitch the multiple shaders together.
-        shader = if shader_stops.length == 1
-                   shader_stops.first
-                 else
-                   ref!(
-                     FunctionType: 3, # stitching function
-                     Domain: [0.0, 1.0],
-                     Functions: shader_stops,
-                     Bounds: gradient.stops[1..-2].map(&:position),
-                     Encode: [0.0, 1.0] * shader_stops.length
-                   )
-                 end
+        shader =
+          if shader_stops.length == 1
+            shader_stops.first
+          else
+            ref!(
+              FunctionType: 3, # stitching function
+              Domain: [0.0, 1.0],
+              Functions: shader_stops,
+              Bounds: gradient.stops[1..-2].map(&:position),
+              Encode: [0.0, 1.0] * shader_stops.length
+            )
+          end
 
         x1, y1, x2, y2, transformation = gradient_coordinates(gradient)
 
-        coords = if gradient.type == :axial
-                   [0, 0, x2 - x1, y2 - y1]
-                 else
-                   [0, 0, gradient.r1, x2 - x1, y2 - y1, gradient.r2]
-                 end
+        coords =
+          if gradient.type == :axial
+            [0, 0, x2 - x1, y2 - y1]
+          else
+            [0, 0, gradient.r1, x2 - x1, y2 - y1, gradient.r2]
+          end
 
         shading = ref!(
           ShadingType: gradient.type == :axial ? 2 : 3,

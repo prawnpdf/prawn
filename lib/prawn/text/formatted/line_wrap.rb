@@ -94,11 +94,12 @@ module Prawn
             false
           else
             tokenize(fragment).each do |segment|
-              segment_width = if segment == zero_width_space(segment.encoding)
-                                0
-                              else
-                                @document.width_of(segment, kerning: @kerning)
-                              end
+              segment_width =
+                if segment == zero_width_space(segment.encoding)
+                  0
+                else
+                  @document.width_of(segment, kerning: @kerning)
+                end
 
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
@@ -152,9 +153,10 @@ module Prawn
         # word breaking is needed
         #
         def word_division_scan_pattern(encoding = ::Encoding::UTF_8)
-          common_whitespaces = ["\t", "\n", "\v", "\r", ' '].map do |c|
-            c.encode(encoding)
-          end
+          common_whitespaces =
+            ["\t", "\n", "\v", "\r", ' '].map do |c|
+              c.encode(encoding)
+            end
 
           Regexp.union(
             common_whitespaces +

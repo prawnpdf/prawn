@@ -157,10 +157,11 @@ describe Prawn::Document::BoundingBox do
     end
 
     it 'keeps track of the max height the box was stretched to' do
-      box = pdf.bounding_box(pdf.bounds.top_left, width: 100) do
-        pdf.move_down 100
-        pdf.move_up 15
-      end
+      box =
+        pdf.bounding_box(pdf.bounds.top_left, width: 100) do
+          pdf.move_down 100
+          pdf.move_up 15
+        end
 
       expect(box.height).to eq(100)
     end

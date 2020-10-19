@@ -110,15 +110,16 @@ describe Prawn::Repeater do
   end
 
   it 'must treat any block as a closure (Document.new instance_eval form)' do
-    doc = Prawn::Document.new(skip_page_creation: true) do
-      10.times { start_new_page }
+    doc =
+      Prawn::Document.new(skip_page_creation: true) do
+        10.times { start_new_page }
 
-      page = 'Page'
-      repeat(:all, dynamic: true) do
-        # ensure self is accessible here
-        draw_text "#{page} #{page_number}", at: [500, 0]
+        page = 'Page'
+        repeat(:all, dynamic: true) do
+          # ensure self is accessible here
+          draw_text "#{page} #{page_number}", at: [500, 0]
+        end
       end
-    end
 
     text = PDF::Inspector::Text.analyze(doc.render)
     expect(text.strings).to eq((1..10).to_a.map { |p| "Page #{p}" })

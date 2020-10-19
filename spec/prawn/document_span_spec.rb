@@ -26,9 +26,10 @@ describe Prawn::Document do
   end
 
   it 'does create a margin box' do
-    margin_box = pdf.span(350, position: :center) do
-      pdf.text "Here's some centered text in a 350 point column. " * 100
-    end
+    margin_box =
+      pdf.span(350, position: :center) do
+        pdf.text "Here's some centered text in a 350 point column. " * 100
+      end
 
     expect(margin_box.top).to eq(792.0)
     expect(margin_box.bottom).to eq(0)

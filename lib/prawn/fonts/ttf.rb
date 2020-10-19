@@ -136,10 +136,11 @@ module Prawn
       end
 
       def cap_height
-        @cap_height ||= begin
-          height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
-          height.zero? ? @ascender : height
-        end
+        @cap_height ||=
+          begin
+            height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
+            height.zero? ? @ascender : height
+          end
       end
 
       def x_height
@@ -161,15 +162,16 @@ module Prawn
       end
 
       def pdf_flags
-        @pdf_flags ||= begin
-          flags = 0
-          flags |= 0x0001 if @ttf.postscript.fixed_pitch?
-          flags |= 0x0002 if serif?
-          flags |= 0x0008 if script?
-          flags |= 0x0040 if italic_angle != 0
-          # Assume the font contains at least some non-latin characters
-          flags | 0x0004
-        end
+        @pdf_flags ||=
+          begin
+            flags = 0
+            flags |= 0x0001 if @ttf.postscript.fixed_pitch?
+            flags |= 0x0002 if serif?
+            flags |= 0x0008 if script?
+            flags |= 0x0040 if italic_angle != 0
+            # Assume the font contains at least some non-latin characters
+            flags | 0x0004
+          end
       end
 
       def normalize_encoding(text)
@@ -323,13 +325,14 @@ module Prawn
           )
         end
 
-        range_blocks = ranges.inject(+'') do |s, list|
-          s << format(
-            "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
-            lenght: list.length,
-            list: list.join("\n")
-          )
-        end
+        range_blocks =
+          ranges.inject(+'') do |s, list|
+            s << format(
+              "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
+              lenght: list.length,
+              list: list.join("\n")
+            )
+          end
 
         to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
 

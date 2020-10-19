@@ -571,11 +571,12 @@ module Prawn
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
 
-      page_filter = if opts.key?(:page_filter)
-                      opts.delete(:page_filter)
-                    else
-                      :all
-                    end
+      page_filter =
+        if opts.key?(:page_filter)
+          opts.delete(:page_filter)
+        else
+          :all
+        end
 
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
@@ -586,12 +587,13 @@ module Prawn
       pseudopage = 0
       (1..page_count).each do |p|
         unless start_count
-          pseudopage = case start_count_at
-                       when 0
-                         1
-                       else
-                         start_count_at.to_i
-                       end
+          pseudopage =
+            case start_count_at
+            when 0
+              1
+            else
+              start_count_at.to_i
+            end
         end
         if page_match?(page_filter, p)
           go_to_page(p)
