@@ -56,6 +56,7 @@ module Prawn
     # @group Experimental API
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
+
       def initialize(pdf, options = {}) # :nodoc:
         valid_options = %i[columns rows gutter row_gutter column_gutter]
         Prawn.verify_options valid_options, options

@@ -32,6 +32,7 @@ module Prawn
   #
   # @private
   attr_accessor :debug
+
   module_function :debug, :debug=
 
   module_function
