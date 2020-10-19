@@ -382,9 +382,9 @@ describe Prawn::Text::Formatted::Box do
       expect(text_box.text).to eq("hello\n\nworld")
 
       array = [
-        { text: 'hello' + ' ' * 500 },
+        { text: "hello#{' ' * 500}" },
         { text: ' ' * 500 },
-        { text: ' ' * 500 + "\n" },
+        { text: "#{' ' * 500}\n" },
         { text: 'world' }
       ]
       options = { document: pdf }

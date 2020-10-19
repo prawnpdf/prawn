@@ -219,16 +219,17 @@ module PDF
     def encrypted_pdf_object(obj, key, id, gen, in_content_stream = false)
       case obj
       when Array
-        '[' + obj.map do |e|
+        array_content = obj.map do |e|
           encrypted_pdf_object(e, key, id, gen, in_content_stream)
-        end.join(' ') + ']'
+        end.join(' ')
+        "[#{array_content}]"
       when LiteralString
         obj = ByteString.new(
           Prawn::Document::Security.encrypt_string(obj, key, id, gen)
         ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
-        obj = obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop + "'00'"
+        obj = "#{obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop}'00'"
         obj = ByteString.new(
           Prawn::Document::Security.encrypt_string(obj, key, id, gen)
         ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
@@ -241,19 +242,16 @@ module PDF
           in_content_stream
         )
       when ::Hash
-        '<< ' +
-          obj.map do |k, v|
-            unless k.is_a?(String) || k.is_a?(Symbol)
-              raise PDF::Core::Errors::FailedObjectConversion,
-                'A PDF Dictionary must be keyed by names'
-            end
-            pdf_object(k.to_sym, in_content_stream) + ' ' +
-              encrypted_pdf_object(v, key, id, gen, in_content_stream) + "\n"
-          end.join('') +
-          '>>'
+        hash_content = obj.map do |k, v|
+          unless k.is_a?(String) || k.is_a?(Symbol)
+            raise PDF::Core::Errors::FailedObjectConversion,
+              'A PDF Dictionary must be keyed by names'
+          end
+          "#{pdf_object(k.to_sym, in_content_stream)} #{encrypted_pdf_object(v, key, id, gen, in_content_stream)}\n"
+        end.join('')
+        "<< #{hash_content}>>"
       when NameTree::Value
-        pdf_object(obj.name) + ' ' +
-          encrypted_pdf_object(obj.value, key, id, gen, in_content_stream)
+        "#{pdf_object(obj.name)} #{encrypted_pdf_object(obj.value, key, id, gen, in_content_stream)}"
       when PDF::Core::OutlineRoot, PDF::Core::OutlineItem
         encrypted_pdf_object(obj.to_hash, key, id, gen, in_content_stream)
       else # delegate back to pdf_object
@@ -265,10 +263,11 @@ module PDF
     class Stream
       def encrypted_object(key, id, gen)
         if filtered_stream
-          "stream\n" +
+          "stream\n#{
             Prawn::Document::Security.encrypt_string(
               filtered_stream, key, id, gen
-            ) + "\nendstream\n"
+            )
+          }\nendstream\n"
         else
           ''
         end

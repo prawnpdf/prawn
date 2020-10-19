@@ -44,7 +44,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     text 'Span is a different kind of bounding box as it lets the text ' \
       "flow gracefully onto the next page. It doesn't matter if the text " \
       'started on the middle of the previous page, when it flows to the ' \
-      'next page it will start at the beginning.' + ' _ ' * 500 +
+      "next page it will start at the beginning.#{' _ ' * 500}" \
       'I told you it would start on the beginning of this page.'
   end
 end

@@ -573,7 +573,7 @@ describe Prawn::Text::Box do
     it 'printed text should match requested text, except that preceding and ' \
       'trailing white space will be stripped from each line, and newlines ' \
       'may be inserted' do
-      text_box = described_class.new('  ' + text, options)
+      text_box = described_class.new("  #{text}", options)
       text_box.render
       expect(text_box.text.tr("\n", ' ')).to eq(text.strip)
     end
@@ -1023,7 +1023,7 @@ describe Prawn::Text::Box do
 
       text_box.render
 
-      expected = +'©' * 25 + "\n" + '©' * 5
+      expected = "#{'©' * 25}\n#{'©' * 5}"
       expected = pdf.font.normalize_encoding(expected)
       expected = expected.force_encoding(Encoding::UTF_8)
       expect(text_box.text).to eq(expected)
