@@ -226,13 +226,13 @@ module PDF
       when LiteralString
         obj = ByteString.new(
           Prawn::Document::Security.encrypt_string(obj, key, id, gen)
-        ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        ).gsub(/[\\\n()]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         obj = "#{obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop}'00'"
         obj = ByteString.new(
           Prawn::Document::Security.encrypt_string(obj, key, id, gen)
-        ).gsub(/[\\\n\(\)]/) { |m| "\\#{m}" }
+        ).gsub(/[\\\n()]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
         pdf_object(
