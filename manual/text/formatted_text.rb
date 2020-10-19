@@ -50,7 +50,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
       { text: ' text_box ', font: 'Courier' },
       {
         text: 'with some additional formatting options added to the mix.',
-        color: [50, 100, 0, 0], styles: [:italic]
+        color: [50, 100, 0, 0],
+        styles: [:italic]
       }
     ],
     at: [100, 100], width: 200, height: 100

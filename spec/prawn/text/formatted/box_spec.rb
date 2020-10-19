@@ -105,7 +105,8 @@ describe Prawn::Text::Formatted::Box do
       texts = [{
         text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
           'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
-        font: 'Courier', size: 10
+        font: 'Courier',
+        size: 10
       }]
       text_box = described_class.new(
         texts,
