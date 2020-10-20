@@ -161,8 +161,10 @@ module Prawn
           r1 ? :radial : :axial,
           apply_transformations,
           stops,
-          from, to,
-          r1, r2
+          from,
+          to,
+          r1,
+          r2
         )
       end
       # rubocop: enable Metrics/ParameterLists

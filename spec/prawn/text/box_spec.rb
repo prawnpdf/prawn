@@ -183,7 +183,8 @@ describe Prawn::Text::Box do
       draw_block = instance_spy('Draw block')
 
       pdf.text_box 'this text has <b>fancy</b> formatting',
-        inline_format: true, width: 500,
+        inline_format: true,
+        width: 500,
         draw_text_callback: ->(text, _) { draw_block.kick(text) }
 
       expect(draw_block).to have_received(:kick).with('this text has ')
@@ -193,8 +194,9 @@ describe Prawn::Text::Box do
 
     it 'does not call #draw_text!' do
       allow(pdf).to receive(:draw_text!)
-      pdf.text_box 'some text', width: 500,
-                                draw_text_callback: ->(_, _) {}
+      pdf.text_box 'some text',
+        width: 500,
+        draw_text_callback: ->(_, _) {}
       expect(pdf).to_not have_received(:draw_text!)
     end
   end
@@ -1016,9 +1018,10 @@ describe Prawn::Text::Box do
 
       pdf.font 'Courier'
       text_box = described_class.new(
-        text, width: 180,
-              overflow: :expand,
-              document: pdf
+        text,
+        width: 180,
+        overflow: :expand,
+        document: pdf
       )
 
       text_box.render
@@ -1032,16 +1035,18 @@ describe Prawn::Text::Box do
     it 'wraps non-unicode strings using single-byte word-wrapping' do
       text = 'continúa esforzandote ' * 5
       text_box = described_class.new(
-        text, width: 180,
-              document: pdf
+        text,
+        width: 180,
+        document: pdf
       )
       text_box.render
       results_with_accent = text_box.text
 
       text = 'continua esforzandote ' * 5
       text_box = described_class.new(
-        text, width: 180,
-              document: pdf
+        text,
+        width: 180,
+        document: pdf
       )
       text_box.render
       results_without_accent = text_box.text

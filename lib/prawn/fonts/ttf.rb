@@ -178,8 +178,8 @@ module Prawn
         text.encode(::Encoding::UTF_8)
       rescue StandardError => e
         puts e
-        raise Prawn::Errors::IncompatibleStringEncoding, 'Encoding ' \
-          "#{text.encoding} can not be transparently converted to UTF-8. " \
+        raise Prawn::Errors::IncompatibleStringEncoding,
+          "Encoding #{text.encoding} can not be transparently converted to UTF-8. " \
           'Please ensure the encoding of the string you are attempting ' \
           'to use is set correctly'
       end

@@ -66,10 +66,10 @@ module Prawn
     # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
     #
     def image(file, options = {})
-      Prawn.verify_options %i[
-        at position vposition height
-        width scale fit
-      ], options
+      Prawn.verify_options(
+        %i[at position vposition height width scale fit],
+        options
+      )
 
       pdf_obj, info = build_image_object(file)
       embed_image(pdf_obj, info, options)

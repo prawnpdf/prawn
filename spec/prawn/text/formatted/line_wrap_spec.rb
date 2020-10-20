@@ -263,7 +263,8 @@ describe Prawn::Text::Formatted::LineWrap do
     end
 
     it 'does not display soft hyphens except at the end of a line ' \
-      'for more than one element in format_array', issue: 347 do
+      'for more than one element in format_array',
+      issue: 347 do
       pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
       line_wrap = described_class.new
 

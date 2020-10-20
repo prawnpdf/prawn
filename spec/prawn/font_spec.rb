@@ -314,7 +314,8 @@ describe Prawn::Font do
         .to eq(13.332)
       expect(times.compute_width_of(
         win1252_string('To'),
-        size: 12, kerning: true
+        size: 12,
+        kerning: true
       )).to eq(12.372)
 
       input = win1252_string("T\xF6") # Tö in win-1252

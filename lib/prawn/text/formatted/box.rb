@@ -292,13 +292,15 @@ module Prawn
             @document.word_spacing(word_spacing) do
               if @draw_text_callback
                 @draw_text_callback.call(
-                  fragment.text, at: [x, y],
-                                 kerning: @kerning
+                  fragment.text,
+                  at: [x, y],
+                  kerning: @kerning
                 )
               else
                 @document.draw_text!(
-                  fragment.text, at: [x, y],
-                                 kerning: @kerning
+                  fragment.text,
+                  at: [x, y],
+                  kerning: @kerning
                 )
               end
             end

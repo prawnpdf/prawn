@@ -51,7 +51,8 @@ module Prawn
           [
             left_boundary,
             margin_box.absolute_top
-          ], width: width
+          ],
+          width: width
         ) do
           self.y = original_position
           yield

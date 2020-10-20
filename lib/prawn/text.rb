@@ -338,8 +338,8 @@ module Prawn
     #
     def height_of_formatted(array, options = {})
       if options[:indent_paragraphs]
-        raise NotImplementedError, ':indent_paragraphs option not available' \
-          'with height_of'
+        raise NotImplementedError,
+          ':indent_paragraphs option not available with height_of'
       end
       process_final_gap_option(options)
       box = Text::Formatted::Box.new(
@@ -423,8 +423,9 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        raise ArgumentError, ':at is no longer a valid option with text.' \
-                             'use draw_text or text_box instead'
+        raise ArgumentError,
+          ':at is no longer a valid option with text.' \
+          'use draw_text or text_box instead'
       end
       process_final_gap_option(options)
       process_indent_paragraphs_option(options)

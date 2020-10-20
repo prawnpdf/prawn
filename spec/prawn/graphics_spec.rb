@@ -285,7 +285,8 @@ describe Prawn::Graphics do
         pdf.fill_gradient(
           [0, pdf.bounds.height],
           [pdf.bounds.width, pdf.bounds.height],
-          'FF0000', '0000FF'
+          'FF0000',
+          '0000FF'
         )
 
         grad = PDF::Inspector::Graphics::Pattern.analyze(pdf.render)
@@ -306,12 +307,14 @@ describe Prawn::Graphics do
         pdf.fill_gradient(
           [256, 512],
           [356, 512],
-          'ffffff', 'fe00ff'
+          'ffffff',
+          'fe00ff'
         )
         pdf.fill_gradient(
           [256, 256],
           [356, 256],
-          'ffffff', '0000ff'
+          'ffffff',
+          '0000ff'
         )
 
         str = pdf.render
@@ -323,7 +326,8 @@ describe Prawn::Graphics do
         pdf.fill_gradient(
           [0, pdf.bounds.height],
           [pdf.bounds.width, pdf.bounds.height],
-          'FF0000', '0000FF'
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -334,7 +338,8 @@ describe Prawn::Graphics do
         pdf.stroke_gradient(
           [0, pdf.bounds.height],
           [pdf.bounds.width, pdf.bounds.height],
-          'FF0000', '0000FF'
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -391,9 +396,12 @@ describe Prawn::Graphics do
     describe 'radial gradients' do
       it 'creates a /Pattern resource' do
         pdf.fill_gradient(
-          [0, pdf.bounds.height], 10,
-          [pdf.bounds.width, pdf.bounds.height], 20,
-          'FF0000', '0000FF'
+          [0, pdf.bounds.height],
+          10,
+          [pdf.bounds.width, pdf.bounds.height],
+          20,
+          'FF0000',
+          '0000FF'
         )
 
         grad = PDF::Inspector::Graphics::Pattern.analyze(pdf.render)
@@ -413,9 +421,12 @@ describe Prawn::Graphics do
 
       it 'fill_gradient should set fill color to the pattern' do
         pdf.fill_gradient(
-          [0, pdf.bounds.height], 10,
-          [pdf.bounds.width, pdf.bounds.height], 20,
-          'FF0000', '0000FF'
+          [0, pdf.bounds.height],
+          10,
+          [pdf.bounds.width, pdf.bounds.height],
+          20,
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -424,9 +435,12 @@ describe Prawn::Graphics do
 
       it 'stroke_gradient should set stroke color to the pattern' do
         pdf.stroke_gradient(
-          [0, pdf.bounds.height], 10,
-          [pdf.bounds.width, pdf.bounds.height], 20,
-          'FF0000', '0000FF'
+          [0, pdf.bounds.height],
+          10,
+          [pdf.bounds.width, pdf.bounds.height],
+          20,
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -439,8 +453,7 @@ describe Prawn::Graphics do
         pdf.scale 2 do
           pdf.translate 40, 40 do
             pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF', opts
-            pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF',
-              opts
+            pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF', opts
           end
         end
 

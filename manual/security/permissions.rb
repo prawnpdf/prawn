@@ -21,7 +21,8 @@ require_relative '../example_helper'
 Prawn::ManualBuilder::Example.generate('cannot_print.pdf') do
   text "If you used the user password you won't be able to print the doc."
   encrypt_document(
-    user_password: 'foo', owner_password: 'bar',
+    user_password: 'foo',
+    owner_password: 'bar',
     permissions: { print_document: false }
   )
 end
@@ -30,7 +31,8 @@ end
 Prawn::ManualBuilder::Example.generate('no_permissions.pdf') do
   text "You may only view this and won't be able to use the owner password."
   encrypt_document(
-    user_password: 'foo', owner_password: :random,
+    user_password: 'foo',
+    owner_password: :random,
     permissions: {
       print_document: false,
       modify_contents: false,

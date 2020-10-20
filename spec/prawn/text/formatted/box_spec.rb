@@ -472,7 +472,8 @@ describe Prawn::Text::Formatted::Box do
           def render_behind(fragment); end
         end
       ).new(
-        'something', 7,
+        'something',
+        7,
         document: pdf
       )
       in_front = (
@@ -482,7 +483,8 @@ describe Prawn::Text::Formatted::Box do
           def render_in_front(fragment); end
         end
       ).new(
-        'something', 7,
+        'something',
+        7,
         document: pdf
       )
       array = [
