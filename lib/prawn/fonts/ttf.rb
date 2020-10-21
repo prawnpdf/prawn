@@ -14,6 +14,29 @@ module Prawn
   module Fonts
     # @private
     class TTF < Font
+      class Error < StandardError
+        DEFAULT_MESSAGE = 'TTF font error'
+        MESSAGE_WITH_FONT = 'TTF font error in font %<font>s'
+
+        def initialize(message = DEFAULT_MESSAGE, font: nil)
+          if font && message == DEFAULT_MESSAGE
+            super format(MESSAGE_WITH_FONT, font: font)
+          else
+            super message
+          end
+        end
+      end
+
+      class NoUnicodeCMap < Error
+        DEFAULT_MESSAGE = 'No unicode cmap found in font'
+        MESSAGE_WITH_FONT = 'No unicode cmap found in font %<font>s'
+      end
+
+      class NoPostscriptName < Error
+        DEFAULT_MESSAGE = 'Can not detect a postscript name'
+        MESSAGE_WITH_FONT = 'Can not detect a postscript name in font %<font>s'
+      end
+
       attr_reader :ttf, :subsets
 
       def unicode?
@@ -202,7 +225,7 @@ module Prawn
       private
 
       def cmap
-        (@cmap ||= @ttf.cmap.unicode.first) || raise('no unicode cmap for font')
+        (@cmap ||= @ttf.cmap.unicode.first) || raise(NoUnicodeCMap.new(font: name))
       end
 
       # +string+ must be UTF8-encoded.
@@ -277,7 +300,7 @@ module Prawn
         # if their font name is more than 33 bytes long. Strange. But true.
         basename = font.name.postscript_name[0, 33].delete("\0")
 
-        raise "Can't detect a postscript name for #{file}" if basename.nil?
+        raise NoPostscriptName.new(font: font) if basename.nil?
 
         fontfile = @document.ref!(Length1: font_content.size)
         fontfile.stream << font_content

@@ -16,6 +16,8 @@ module Prawn
     # of a JPG image that we need to embed them in a PDF
     #
     class JPG < Image
+      class FormatError < StandardError; end
+
       # @group Extension API
 
       attr_reader :width, :height, :bits, :channels
@@ -44,7 +46,7 @@ module Prawn
         d.seek(2) # Skip the first two bytes of JPEG identifier.
         loop do
           marker, code, length = d.read(4).unpack('CCn')
-          raise 'JPEG marker not found!' if marker != c_marker
+          raise FormatError, 'JPEG marker not found!' if marker != c_marker
 
           if JPEG_SOF_BLOCKS.include?(code)
             @bits, @height, @width, @channels = d.read(6).unpack('CnnC')

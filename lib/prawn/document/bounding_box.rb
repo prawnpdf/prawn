@@ -223,6 +223,12 @@ module Prawn
     # is used for.
     #
     class BoundingBox
+      class NoReferenceBounds < StandardError
+        def initialize(message = "Can't find reference bounds: my parent is unset")
+          super
+        end
+      end
+
       # @private
       def initialize(document, parent, point, options = {})
         unless options[:width]
@@ -506,7 +512,7 @@ module Prawn
       #
       def reference_bounds
         if stretchy?
-          raise "Can't find reference bounds: my parent is unset" unless @parent
+          raise NoReferenceBounds unless @parent
 
           @parent.reference_bounds
         else
