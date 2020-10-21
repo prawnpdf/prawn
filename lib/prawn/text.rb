@@ -202,12 +202,9 @@ module Prawn
         text_formatter.array_paragraphs(array).each do |paragraph|
           remaining_text = draw_indented_formatted_line(paragraph, options)
 
-          if @no_text_printed
-            # unless this paragraph was an empty line
-            unless @all_text_printed
-              @bounding_box.move_past_bottom
-              remaining_text = draw_indented_formatted_line(paragraph, options)
-            end
+          if @no_text_printed && !@all_text_printed
+            @bounding_box.move_past_bottom
+            remaining_text = draw_indented_formatted_line(paragraph, options)
           end
 
           unless @all_text_printed

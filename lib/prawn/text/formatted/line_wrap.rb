@@ -257,12 +257,11 @@ module Prawn
 
         def pull_preceding_fragment_to_join_this_one?(current_fragment)
           if @fragment_output.empty? && !current_fragment.empty? &&
-              @line_contains_more_than_one_word
-            unless previous_fragment_ended_with_breakable? ||
-                fragment_begins_with_breakable?(current_fragment)
-              @fragment_output = @previous_fragment_output_without_last_word
-              update_output_based_on_last_fragment(@previous_fragment)
-            end
+              @line_contains_more_than_one_word &&
+              !(previous_fragment_ended_with_breakable? ||
+                fragment_begins_with_breakable?(current_fragment))
+            @fragment_output = @previous_fragment_output_without_last_word
+            update_output_based_on_last_fragment(@previous_fragment)
           end
         end
 
