@@ -217,18 +217,19 @@ describe Prawn::Font do
     end
 
     it 'accepts IO objects for font files' do
-      io = File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-      pdf.font_families['DejaVu Sans'] = {
-        normal: described_class.load(pdf, io)
-      }
+      File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" do |io|
+        pdf.font_families['DejaVu Sans'] = {
+          normal: described_class.load(pdf, io)
+        }
 
-      pdf.font 'DejaVu Sans'
-      pdf.text 'In DejaVu Sans'
+        pdf.font 'DejaVu Sans'
+        pdf.text 'In DejaVu Sans'
 
-      text = PDF::Inspector::Text.analyze(pdf.render)
-      name = text.font_settings.map { |e| e[:name] }.first.to_s
-      name = name.sub(/\w+\+/, 'subset+')
-      expect(name).to eq('subset+DejaVuSans')
+        text = PDF::Inspector::Text.analyze(pdf.render)
+        name = text.font_settings.map { |e| e[:name] }.first.to_s
+        name = name.sub(/\w+\+/, 'subset+')
+        expect(name).to eq('subset+DejaVuSans')
+      end
     end
   end
 
