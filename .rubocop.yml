@@ -9,6 +9,11 @@ AllCops:
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - manual/text/formatted_callbacks.rb
+    - manual/text/text_box_extensions.rb
+
 Layout/FirstArrayElementLineBreak:
   Enabled: true
 
