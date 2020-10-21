@@ -671,9 +671,9 @@ module Prawn
       # and then restores the original values after the block has executed.
       # -- I will remove the nodoc if/when this feature is a little less hacky
       stored = {}
-      fields.each { |f| stored[f] = send(f) }
+      fields.each { |f| stored[f] = public_send(f) }
       yield
-      fields.each { |f| send("#{f}=", stored[f]) }
+      fields.each { |f| public_send("#{f}=", stored[f]) }
     end
 
     # @group Extension API

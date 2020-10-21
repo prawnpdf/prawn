@@ -645,8 +645,8 @@ describe Prawn::Graphics do
       new_state = PDF::Core::GraphicState.new(pdf.graphic_state)
 
       %i[color_space dash fill_color stroke_color].each do |attr|
-        expect(new_state.send(attr)).to eq(pdf.graphic_state.send(attr))
-        expect(new_state.send(attr)).to_not equal(pdf.graphic_state.send(attr))
+        expect(new_state.public_send(attr)).to eq(pdf.graphic_state.public_send(attr))
+        expect(new_state.public_send(attr)).to_not equal(pdf.graphic_state.public_send(attr))
       end
     end
 
@@ -654,8 +654,8 @@ describe Prawn::Graphics do
       new_state = pdf.graphic_state.dup
 
       %i[color_space dash fill_color stroke_color].each do |attr|
-        expect(new_state.send(attr)).to eq(pdf.graphic_state.send(attr))
-        expect(new_state.send(attr)).to_not equal(pdf.graphic_state.send(attr))
+        expect(new_state.public_send(attr)).to eq(pdf.graphic_state.public_send(attr))
+        expect(new_state.public_send(attr)).to_not equal(pdf.graphic_state.public_send(attr))
       end
     end
   end

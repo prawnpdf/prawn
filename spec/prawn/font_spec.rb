@@ -358,7 +358,7 @@ describe Prawn::Font do
 
     it 'omits /Encoding for symbolic fonts' do
       zapf = pdf.find_font 'ZapfDingbats'
-      font_dict = zapf.send(:register, nil)
+      font_dict = zapf.__send__(:register, nil)
       expect(font_dict.data[:Encoding]).to be_nil
     end
   end
@@ -441,7 +441,7 @@ describe Prawn::Font do
       # These metrics are relative to the font's own bbox. They should not be
       # scaled with font size.
       ref = pdf.ref!({})
-      font.send :embed, ref, 0
+      font.__send__(:embed, ref, 0)
 
       # Pull out the embedded font descriptor
       descriptor = ref.data[:FontDescriptor].data
@@ -472,7 +472,7 @@ describe Prawn::Font do
       # These metrics are relative to the font's own bbox. They should not be
       # scaled with font size.
       ref = pdf.ref!({})
-      font.send :embed, ref, 0
+      font.__send__(:embed, ref, 0)
 
       # Pull out the embedded font descriptor
       descriptor = ref.data[:FontDescriptor].data
