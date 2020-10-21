@@ -376,7 +376,7 @@ module Prawn
         end
 
         def original_text
-          @original_array.collect(&:dup)
+          @original_array.map(&:dup)
         end
 
         def original_text=(formatted_text)

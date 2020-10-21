@@ -135,7 +135,7 @@ module Prawn
 
       def render(flags = {})
         leftover = super(flags)
-        leftover.collect { |hash| hash[:text] }.join
+        leftover.map { |hash| hash[:text] }.join
       end
     end
   end

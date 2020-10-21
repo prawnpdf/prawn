@@ -41,15 +41,15 @@ module Prawn
       def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
-          kern(string).inject(0) do |s, r|
+          kern(string).reduce(0) do |s, r|
             if r.is_a?(Numeric)
               s - r
             else
-              r.inject(s) { |a, e| a + character_width_by_code(e) }
+              r.reduce(s) { |a, e| a + character_width_by_code(e) }
             end
           end * scale
         else
-          string.codepoints.inject(0) do |s, r|
+          string.codepoints.reduce(0) do |s, r|
             s + character_width_by_code(r)
           end * scale
         end
@@ -82,7 +82,7 @@ module Prawn
 
         if options[:kerning]
           last_subset = nil
-          kern(text).inject([]) do |result, element|
+          kern(text).reduce([]) do |result, element|
             if element.is_a?(Numeric)
               unless result.last[1].is_a?(Array)
                 result.last[1] = [result.last[1]]
@@ -315,7 +315,7 @@ module Prawn
         map = @subsets[subset].to_unicode_map
 
         ranges = [[]]
-        map.keys.sort.inject('') do |_s, code|
+        map.keys.sort.reduce('') do |_s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
           ranges.last << format(
@@ -326,7 +326,7 @@ module Prawn
         end
 
         range_blocks =
-          ranges.inject(+'') do |s, list|
+          ranges.reduce(+'') do |s, list|
             s << format(
               "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
               lenght: list.length,

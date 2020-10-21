@@ -36,7 +36,7 @@ module Prawn
             raise 'Lines must be finalized before calling #space_count'
           end
 
-          @fragments.inject(0) do |sum, fragment|
+          @fragments.reduce(0) do |sum, fragment|
             sum + fragment.space_count
           end
         end
@@ -46,7 +46,7 @@ module Prawn
             raise 'Lines must be finalized before calling #line_width'
           end
 
-          @fragments.inject(0) do |sum, fragment|
+          @fragments.reduce(0) do |sum, fragment|
             sum + fragment.width
           end
         end
@@ -56,7 +56,7 @@ module Prawn
             raise 'Lines must be finalized before calling #line'
           end
 
-          @fragments.collect do |fragment|
+          @fragments.map do |fragment|
             fragment.text.dup.encode(::Encoding::UTF_8)
           rescue ::Encoding::InvalidByteSequenceError,
                  ::Encoding::UndefinedConversionError

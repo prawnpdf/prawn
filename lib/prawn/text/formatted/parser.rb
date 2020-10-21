@@ -55,7 +55,7 @@ module Prawn
             subscript: '</sub>',
             superscript: '</sup>'
           }
-          array.collect do |hash|
+          array.map do |hash|
             prefix = ''
             suffix = ''
             hash[:styles]&.each do |style|
