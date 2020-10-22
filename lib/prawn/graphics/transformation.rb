@@ -149,7 +149,7 @@ module Prawn
           raise ArgumentError,
             'Transformation matrix must have exacty 6 elements'
         end
-        values = matrix.map { |x| x.to_f.round(5) }.join(' ')
+        values = matrix.map { |x| format '%.5f', x }.join(' ')
         save_graphics_state if block_given?
 
         add_to_transformation_stack(*matrix)
