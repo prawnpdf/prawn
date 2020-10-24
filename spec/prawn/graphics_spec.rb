@@ -707,6 +707,16 @@ describe Prawn::Graphics do
       expect(pdf).to have_received(:restore_graphics_state).with(no_args)
         .ordered
     end
+
+    it 'properly serializes the matrix', issue: 1178 do
+      pdf.transformation_matrix 1, 0, 0, 1, 0.0, 1.8977874316715393e-05
+      rendered_document = pdf.render
+
+      expect(rendered_document).to_not include('2.0e-05')
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(rendered_document)
+      expect(matrices.matrices).to eq([[1, 0, 0, 1, 0.0, 0.00002]])
+    end
   end
 
   describe 'When using transformations shortcuts' do
