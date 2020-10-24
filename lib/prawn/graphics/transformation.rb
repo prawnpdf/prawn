@@ -149,11 +149,11 @@ module Prawn
           raise ArgumentError,
             'Transformation matrix must have exacty 6 elements'
         end
-        values = matrix.map { |x| x.to_f.round(5) }.join(' ')
         save_graphics_state if block_given?
 
         add_to_transformation_stack(*matrix)
 
+        values = PDF::Core.real_params(matrix)
         renderer.add_content "#{values} cm"
         if block_given?
           yield
