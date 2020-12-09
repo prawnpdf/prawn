@@ -8,7 +8,7 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  FONT_SIZE = 9.5
+  font_size = 9.5
 
   x = 0
   y = bounds.top
@@ -18,31 +18,31 @@ Prawn::ManualBuilder::Example.generate(filename) do
     [0, :left]
   ]
 
-  font 'Helvetica', size: FONT_SIZE
+  font 'Helvetica', size: font_size
 
   start_new_page
 
   Prawn::Encoding::WinAnsi::CHARACTERS.each_with_index do |name, index|
     next if name == '.notdef'
 
-    y -= FONT_SIZE
+    y -= font_size
 
-    if y < FONT_SIZE
-      y = bounds.top - FONT_SIZE
+    if y < font_size
+      y = bounds.top - font_size
       x += 170
     end
 
     code = format('%<index>d.', index: index)
     char = index.chr.force_encoding(::Encoding::Windows_1252)
 
-    width = 1000 * width_of(char, size: FONT_SIZE) / FONT_SIZE
+    width = 1000 * width_of(char, size: font_size) / font_size
     size = format('%<width>d', width: width)
 
     data = [code, nil, char, size, nil, name]
     dx = x
     fields.zip(data).each do |(total_width, align), field|
       if field
-        width = width_of(field, size: FONT_SIZE)
+        width = width_of(field, size: font_size)
 
         case align
         when :left   then offset = 0

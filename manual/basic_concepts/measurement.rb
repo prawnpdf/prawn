@@ -18,7 +18,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   require 'prawn/measurement_extensions'
 
   %i[mm cm dm m in yd ft].each do |measurement|
-    text "1 #{measurement} in PDF Points: #{1.send(measurement)} pt"
+    text "1 #{measurement} in PDF Points: #{1.public_send(measurement)} pt"
     move_down 5.mm
   end
 end

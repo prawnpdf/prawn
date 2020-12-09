@@ -6,11 +6,11 @@ require 'digest/sha2'
 MANUAL_HASH =
   case RUBY_ENGINE
   when 'ruby', 'truffleruby'
-    'b38bd8aaa7b419a2f594ee8837cd62f813141000393995b0c0456644b823a62a'\
-    '2f8031b2db0fc9e7c544b3946a9b0e60570d510564e6fed3931e0717dd49188a'
+    'bcba28d39698ac349a626e1bc3d6a354d20bd7da340190bc8843cec1be3caefb'\
+    '88fc9591edba9cf21d7f2e08faf40a40d269b26b5c5ac6afb8c7fb61cba8c544'
   when 'jruby'
-    'b38bd8aaa7b419a2f594ee8837cd62f813141000393995b0c0456644b823a62a'\
-    '2f8031b2db0fc9e7c544b3946a9b0e60570d510564e6fed3931e0717dd49188a'
+    'fc28a61d956326664aba40e2fa41bda2ffc112ce95c6b689be01f5e909038b09'\
+    '6b93f6445cf4b324b2d13dc794edc88ee2116db556dd6ae5c7d350e963d1f45a'
   end
 
 RSpec.describe Prawn do

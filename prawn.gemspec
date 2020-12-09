@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   ]
   spec.licenses = %w[PRAWN GPL-2.0 GPL-3.0]
 
-  spec.add_dependency('pdf-core', '~> 0.8.1')
+  spec.add_dependency('pdf-core', '~> 0.9.0')
   spec.add_dependency('ttfunk', '~> 1.6')
 
   spec.add_development_dependency('pdf-inspector', '>= 1.2.1', '< 2.0.a')
@@ -44,9 +44,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('prawn-manual_builder', '>= 0.3.0')
   spec.add_development_dependency('rake', '~> 12.0')
   spec.add_development_dependency('rspec', '~> 3.0')
-  spec.add_development_dependency('rubocop', '~> 0.90.0')
-  spec.add_development_dependency('rubocop-performance', '~> 1.1')
-  spec.add_development_dependency('rubocop-rspec', '~> 1.32')
+  spec.add_development_dependency('rubocop', '~> 0.93')
+  spec.add_development_dependency('rubocop-performance', '~> 1.8')
+  spec.add_development_dependency('rubocop-rspec', '~> 1.44')
   spec.add_development_dependency('simplecov')
   spec.add_development_dependency('yard')
 

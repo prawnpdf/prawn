@@ -222,11 +222,12 @@ module Prawn
                   shrink_to_fit(text) if @overflow == :shrink_to_fit
                   process_vertical_alignment(text)
                   @inked = true unless flags[:dry_run]
-                  unprinted_text = if @rotate != 0 && @inked
-                                     render_rotated(text)
-                                   else
-                                     wrap(text)
-                                   end
+                  unprinted_text =
+                    if @rotate != 0 && @inked
+                      render_rotated(text)
+                    else
+                      wrap(text)
+                    end
                   @inked = false
                 end
               end
@@ -265,11 +266,12 @@ module Prawn
           when :right
             x = @at[0] + @width - line_width
           when :justify
-            x = if @direction == :ltr
-                  @at[0]
-                else
-                  @at[0] + @width - line_width
-                end
+            x =
+              if @direction == :ltr
+                @at[0]
+              else
+                @at[0] + @width - line_width
+              end
           else
             raise ArgumentError,
               'align must be one of :left, :right, :center or :justify symbols'
@@ -290,13 +292,15 @@ module Prawn
             @document.word_spacing(word_spacing) do
               if @draw_text_callback
                 @draw_text_callback.call(
-                  fragment.text, at: [x, y],
-                                 kerning: @kerning
+                  fragment.text,
+                  at: [x, y],
+                  kerning: @kerning
                 )
               else
                 @document.draw_text!(
-                  fragment.text, at: [x, y],
-                                 kerning: @kerning
+                  fragment.text,
+                  at: [x, y],
+                  kerning: @kerning
                 )
               end
             end
@@ -340,6 +344,7 @@ module Prawn
 
         # @private
         def self.inherited(base)
+          super
           extensions.each { |e| base.extensions << e }
         end
 
@@ -371,7 +376,7 @@ module Prawn
         end
 
         def original_text
-          @original_array.collect(&:dup)
+          @original_array.map(&:dup)
         end
 
         def original_text=(formatted_text)

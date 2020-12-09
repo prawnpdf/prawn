@@ -264,11 +264,12 @@ module Prawn
       counting_parent = parent
       while counting_parent
         counting_parent.data.count += 1
-        counting_parent = if counting_parent == root
-                            nil
-                          else
-                            counting_parent.data.parent
-                          end
+        counting_parent =
+          if counting_parent == root
+            nil
+          else
+            counting_parent.data.parent
+          end
       end
     end
 

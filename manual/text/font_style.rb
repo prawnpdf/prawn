@@ -11,10 +11,13 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  %w[Courier Helvetica Times-Roman].each do |example_font|
+  fonts = %w[Courier Helvetica Times-Roman]
+  styles = %i[bold bold_italic italic normal]
+
+  fonts.each do |example_font|
     move_down 20
 
-    %i[bold bold_italic italic normal].each do |style|
+    styles.each do |style|
       font example_font, style: style
       text "I'm writing in #{example_font} (#{style})"
     end

@@ -105,7 +105,8 @@ describe Prawn::Text::Formatted::Box do
       texts = [{
         text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
           'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
-        font: 'Courier', size: 10
+        font: 'Courier',
+        size: 10
       }]
       text_box = described_class.new(
         texts,
@@ -382,9 +383,9 @@ describe Prawn::Text::Formatted::Box do
       expect(text_box.text).to eq("hello\n\nworld")
 
       array = [
-        { text: 'hello' + ' ' * 500 },
+        { text: "hello#{' ' * 500}" },
         { text: ' ' * 500 },
-        { text: ' ' * 500 + "\n" },
+        { text: "#{' ' * 500}\n" },
         { text: 'world' }
       ]
       options = { document: pdf }
@@ -471,7 +472,8 @@ describe Prawn::Text::Formatted::Box do
           def render_behind(fragment); end
         end
       ).new(
-        'something', 7,
+        'something',
+        7,
         document: pdf
       )
       in_front = (
@@ -481,7 +483,8 @@ describe Prawn::Text::Formatted::Box do
           def render_in_front(fragment); end
         end
       ).new(
-        'something', 7,
+        'something',
+        7,
         document: pdf
       )
       array = [

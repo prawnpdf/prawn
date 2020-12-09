@@ -15,7 +15,8 @@ require_relative '../example_helper'
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::Document.generate(
   filename,
-  page_layout: :landscape, print_scaling: :none
+  page_layout: :landscape,
+  print_scaling: :none
 ) do
   text 'When you print this document, the scale to fit in print preview '\
     'should be disabled by default.'

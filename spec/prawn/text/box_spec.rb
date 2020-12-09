@@ -183,7 +183,8 @@ describe Prawn::Text::Box do
       draw_block = instance_spy('Draw block')
 
       pdf.text_box 'this text has <b>fancy</b> formatting',
-        inline_format: true, width: 500,
+        inline_format: true,
+        width: 500,
         draw_text_callback: ->(text, _) { draw_block.kick(text) }
 
       expect(draw_block).to have_received(:kick).with('this text has ')
@@ -193,8 +194,9 @@ describe Prawn::Text::Box do
 
     it 'does not call #draw_text!' do
       allow(pdf).to receive(:draw_text!)
-      pdf.text_box 'some text', width: 500,
-                                draw_text_callback: ->(_, _) {}
+      pdf.text_box 'some text',
+        width: 500,
+        draw_text_callback: ->(_, _) {}
       expect(pdf).to_not have_received(:draw_text!)
     end
   end
@@ -310,21 +312,16 @@ describe Prawn::Text::Box do
   end
 
   describe '#render with :rotate option of 30)' do
-    let(:angle) { 30 }
-    let(:x) { 300 }
-    let(:y) { 70 }
-    let(:width) { 100 }
-    let(:height) { 50 }
-    let(:cos) { Math.cos(angle * Math::PI / 180) }
-    let(:sin) { Math.sin(angle * Math::PI / 180) }
+    let(:cos) { Math.cos(30 * Math::PI / 180) }
+    let(:sin) { Math.sin(30 * Math::PI / 180) }
     let(:text) { 'Oh hai text rect. ' * 10 }
     let(:options) do
       {
         document: pdf,
-        rotate: angle,
-        at: [x, y],
-        width: width,
-        height: height
+        rotate: 30,
+        at: [300, 70],
+        width: 100,
+        height: 50
       }
     end
 
@@ -335,14 +332,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x + width / 2
-        y_ = y - height / 2
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 350
+        y = 45
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -365,12 +362,12 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = 300 * cos - 70 * sin
+        y_prime = 300 * sin + 70 * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
+          reduce_precision(300 - x_prime),
+          reduce_precision(70 - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -392,12 +389,12 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = 300 * cos - 70 * sin
+        y_prime = 300 * sin + 70 * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
+          reduce_precision(300 - x_prime),
+          reduce_precision(70 - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -420,14 +417,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x + width
-        y_ = y
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 400
+        y = 70
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -450,14 +447,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x + width
-        y_ = y - height
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 400
+        y = 20
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -480,14 +477,14 @@ describe Prawn::Text::Box do
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_ = x
-        y_ = y - height
-        x_prime = x_ * cos - y_ * sin
-        y_prime = x_ * sin + y_ * cos
+        x = 300
+        y = 20
+        x_prime = x * cos - y * sin
+        y_prime = x * sin + y * cos
         expect(matrices.matrices[0]).to eq([
           1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
+          reduce_precision(x - x_prime),
+          reduce_precision(y - y_prime)
         ])
         expect(matrices.matrices[1]).to eq([
           reduce_precision(cos),
@@ -578,7 +575,7 @@ describe Prawn::Text::Box do
     it 'printed text should match requested text, except that preceding and ' \
       'trailing white space will be stripped from each line, and newlines ' \
       'may be inserted' do
-      text_box = described_class.new('  ' + text, options)
+      text_box = described_class.new("  #{text}", options)
       text_box.render
       expect(text_box.text.tr("\n", ' ')).to eq(text.strip)
     end
@@ -746,11 +743,9 @@ describe Prawn::Text::Box do
           remaining_text = text_box.render
 
           rotate = 30
-          x = 300
-          y = 70
           options[:document] = pdf
           options[:rotate] = rotate
-          options[:at] = [x, y]
+          options[:at] = [300, 70]
           rotated_text_box = described_class.new(text, options)
           expect(rotated_text_box.render).to eq(remaining_text)
         end
@@ -1023,14 +1018,15 @@ describe Prawn::Text::Box do
 
       pdf.font 'Courier'
       text_box = described_class.new(
-        text, width: 180,
-              overflow: :expand,
-              document: pdf
+        text,
+        width: 180,
+        overflow: :expand,
+        document: pdf
       )
 
       text_box.render
 
-      expected = +'©' * 25 + "\n" + '©' * 5
+      expected = "#{'©' * 25}\n#{'©' * 5}"
       expected = pdf.font.normalize_encoding(expected)
       expected = expected.force_encoding(Encoding::UTF_8)
       expect(text_box.text).to eq(expected)
@@ -1039,16 +1035,18 @@ describe Prawn::Text::Box do
     it 'wraps non-unicode strings using single-byte word-wrapping' do
       text = 'continúa esforzandote ' * 5
       text_box = described_class.new(
-        text, width: 180,
-              document: pdf
+        text,
+        width: 180,
+        document: pdf
       )
       text_box.render
       results_with_accent = text_box.text
 
       text = 'continua esforzandote ' * 5
       text_box = described_class.new(
-        text, width: 180,
-              document: pdf
+        text,
+        width: 180,
+        document: pdf
       )
       text_box.render
       results_without_accent = text_box.text
@@ -1107,6 +1105,6 @@ describe Prawn::Text::Box do
   end
 
   def first_line(str)
-    str.each_line { |line| return line }
+    str.lines.first
   end
 end

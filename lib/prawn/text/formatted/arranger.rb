@@ -13,6 +13,25 @@ module Prawn
       # @private
 
       class Arranger #:nodoc:
+        class NotFinalized < StandardError
+          DEFAULT_MESSAGE = 'Lines must be finalized'
+          MESSAGE_WITH_METHOD = 'Lines must be finalized before calling #%<method>s'
+
+          def initialize(message = DEFAULT_MESSAGE, method: nil)
+            if method && message == DEFAULT_MESSAGE
+              super format(MESSAGE_WITH_METHOD, method: method)
+            else
+              super message
+            end
+          end
+        end
+
+        class BadFontFamily < StandardError
+          def initialize(message = 'Bad font family')
+            super
+          end
+        end
+
         attr_reader :max_line_height
         attr_reader :max_descender
         attr_reader :max_ascender
@@ -33,30 +52,30 @@ module Prawn
 
         def space_count
           unless finalized
-            raise 'Lines must be finalized before calling #space_count'
+            raise NotFinalized.new(method: 'space_count')
           end
 
-          @fragments.inject(0) do |sum, fragment|
+          @fragments.reduce(0) do |sum, fragment|
             sum + fragment.space_count
           end
         end
 
         def line_width
           unless finalized
-            raise 'Lines must be finalized before calling #line_width'
+            raise raise NotFinalized.new(method: 'line_width')
           end
 
-          @fragments.inject(0) do |sum, fragment|
+          @fragments.reduce(0) do |sum, fragment|
             sum + fragment.width
           end
         end
 
         def line
           unless finalized
-            raise 'Lines must be finalized before calling #line'
+            raise NotFinalized.new(method: 'line')
           end
 
-          @fragments.collect do |fragment|
+          @fragments.map do |fragment|
             fragment.text.dup.encode(::Encoding::UTF_8)
           rescue ::Encoding::InvalidByteSequenceError,
                  ::Encoding::UndefinedConversionError
@@ -110,7 +129,7 @@ module Prawn
 
         def next_string
           if finalized
-            raise 'Lines must not be finalized when calling #next_string'
+            raise NotFinalized.new(method: 'next_string')
           end
 
           next_unconsumed_hash = @unconsumed.shift
@@ -163,7 +182,7 @@ module Prawn
 
           @document.character_spacing(character_spacing) do
             if font || font_style != :normal
-              raise 'Bad font family' unless @document.font.family
+              raise BadFontFamily unless @document.font.family
 
               @document.font(
                 font || @document.font.family, style: font_style
@@ -197,7 +216,7 @@ module Prawn
 
         def retrieve_fragment
           unless finalized
-            raise 'Lines must be finalized before fragments can be retrieved'
+            raise NotFinalized, 'Lines must be finalized before fragments can be retrieved'
           end
 
           @fragments.shift
@@ -240,19 +259,20 @@ module Prawn
           end
         end
 
-        def apply_font_size(size, styles)
+        def apply_font_size(size, styles, &block)
           if subscript?(styles) || superscript?(styles)
             relative_size = 0.583
-            size = if size.nil?
-                     @document.font_size * relative_size
-                   else
-                     size * relative_size
-                   end
+            size =
+              if size.nil?
+                @document.font_size * relative_size
+              else
+                size * relative_size
+              end
           end
           if size.nil?
             yield
           else
-            @document.font_size(size) { yield }
+            @document.font_size(size, &block)
           end
         end
 

@@ -420,7 +420,7 @@ module Prawn
     #
     def eql?(other) #:nodoc:
       self.class == other.class && name == other.name &&
-        family == other.family && size == other.send(:size)
+        family == other.family && size == other.size
     end
 
     private
@@ -444,6 +444,8 @@ module Prawn
         key.to_s.start_with?("#{test_key}.")
       end
     end
+
+    protected
 
     def size
       @document.font_size

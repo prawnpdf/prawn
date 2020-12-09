@@ -16,7 +16,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
       # Draw a point on the new origin
       fill_circle [0, 0], 2
       draw_text "New origin after translation to [#{x}, #{y}]",
-        at: [5, -2], size: 8
+        at: [5, -2],
+        size: 8
 
       stroke_rectangle [100, 75], 100, 50
       text_box 'Top left corner at [100,75]',

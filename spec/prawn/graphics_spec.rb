@@ -137,10 +137,10 @@ describe Prawn::Graphics do
     it 'draws a rectangle by connecting lines with rounded bezier curves' do
       expect(all_coords).to eq(
         [
-          [60.0, 550.0], [90.0, 550.0], [95.5228, 550.0], [100.0, 545.5228],
-          [100.0, 540.0], [100.0, 460.0], [100.0, 454.4772], [95.5228, 450.0],
-          [90.0, 450.0], [60.0, 450.0], [54.4772, 450.0], [50.0, 454.4772],
-          [50.0, 460.0], [50.0, 540.0], [50.0, 545.5228], [54.4772, 550.0],
+          [60.0, 550.0], [90.0, 550.0], [95.52285, 550.0], [100.0, 545.52285],
+          [100.0, 540.0], [100.0, 460.0], [100.0, 454.47715], [95.52285, 450.0],
+          [90.0, 450.0], [60.0, 450.0], [54.47715, 450.0], [50.0, 454.47715],
+          [50.0, 460.0], [50.0, 540.0], [50.0, 545.52285], [54.47715, 550.0],
           [60.0, 550.0]
         ]
       )
@@ -161,20 +161,20 @@ describe Prawn::Graphics do
       expect(curve.coords).to eq([
         125.0, 100.0,
 
-        125.0, 127.6142,
-        113.8071, 150,
+        125.0, 127.61424,
+        113.80712, 150,
         100.0, 150.0,
 
-        86.1929, 150.0,
-        75.0, 127.6142,
+        86.19288, 150.0,
+        75.0, 127.61424,
         75.0, 100.0,
 
-        75.0, 72.3858,
-        86.1929, 50.0,
+        75.0, 72.38576,
+        86.19288, 50.0,
         100.0, 50.0,
 
-        113.8071, 50.0,
-        125.0, 72.3858,
+        113.80712, 50.0,
+        125.0, 72.38576,
         125.0, 100.0,
 
         100.0, 100.0
@@ -285,7 +285,8 @@ describe Prawn::Graphics do
         pdf.fill_gradient(
           [0, pdf.bounds.height],
           [pdf.bounds.width, pdf.bounds.height],
-          'FF0000', '0000FF'
+          'FF0000',
+          '0000FF'
         )
 
         grad = PDF::Inspector::Graphics::Pattern.analyze(pdf.render)
@@ -306,12 +307,14 @@ describe Prawn::Graphics do
         pdf.fill_gradient(
           [256, 512],
           [356, 512],
-          'ffffff', 'fe00ff'
+          'ffffff',
+          'fe00ff'
         )
         pdf.fill_gradient(
           [256, 256],
           [356, 256],
-          'ffffff', '0000ff'
+          'ffffff',
+          '0000ff'
         )
 
         str = pdf.render
@@ -323,7 +326,8 @@ describe Prawn::Graphics do
         pdf.fill_gradient(
           [0, pdf.bounds.height],
           [pdf.bounds.width, pdf.bounds.height],
-          'FF0000', '0000FF'
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -334,7 +338,8 @@ describe Prawn::Graphics do
         pdf.stroke_gradient(
           [0, pdf.bounds.height],
           [pdf.bounds.width, pdf.bounds.height],
-          'FF0000', '0000FF'
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -391,9 +396,12 @@ describe Prawn::Graphics do
     describe 'radial gradients' do
       it 'creates a /Pattern resource' do
         pdf.fill_gradient(
-          [0, pdf.bounds.height], 10,
-          [pdf.bounds.width, pdf.bounds.height], 20,
-          'FF0000', '0000FF'
+          [0, pdf.bounds.height],
+          10,
+          [pdf.bounds.width, pdf.bounds.height],
+          20,
+          'FF0000',
+          '0000FF'
         )
 
         grad = PDF::Inspector::Graphics::Pattern.analyze(pdf.render)
@@ -413,9 +421,12 @@ describe Prawn::Graphics do
 
       it 'fill_gradient should set fill color to the pattern' do
         pdf.fill_gradient(
-          [0, pdf.bounds.height], 10,
-          [pdf.bounds.width, pdf.bounds.height], 20,
-          'FF0000', '0000FF'
+          [0, pdf.bounds.height],
+          10,
+          [pdf.bounds.width, pdf.bounds.height],
+          20,
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -424,9 +435,12 @@ describe Prawn::Graphics do
 
       it 'stroke_gradient should set stroke color to the pattern' do
         pdf.stroke_gradient(
-          [0, pdf.bounds.height], 10,
-          [pdf.bounds.width, pdf.bounds.height], 20,
-          'FF0000', '0000FF'
+          [0, pdf.bounds.height],
+          10,
+          [pdf.bounds.width, pdf.bounds.height],
+          20,
+          'FF0000',
+          '0000FF'
         )
 
         str = pdf.render
@@ -439,8 +453,7 @@ describe Prawn::Graphics do
         pdf.scale 2 do
           pdf.translate 40, 40 do
             pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF', opts
-            pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF',
-              opts
+            pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF', opts
           end
         end
 
@@ -560,7 +573,7 @@ describe Prawn::Graphics do
 
     it 'rounds dash values to four decimal places' do
       pdf.dash 5.12345
-      expect(pdf.graphic_state.dash_setting).to eq('[5.1235 5.1235] 0.0 d')
+      expect(pdf.graphic_state.dash_setting).to eq('[5.12345 5.12345] 0.0 d')
     end
 
     it 'raises an error when dash is called w. a zero length or space' do
@@ -632,8 +645,8 @@ describe Prawn::Graphics do
       new_state = PDF::Core::GraphicState.new(pdf.graphic_state)
 
       %i[color_space dash fill_color stroke_color].each do |attr|
-        expect(new_state.send(attr)).to eq(pdf.graphic_state.send(attr))
-        expect(new_state.send(attr)).to_not equal(pdf.graphic_state.send(attr))
+        expect(new_state.public_send(attr)).to eq(pdf.graphic_state.public_send(attr))
+        expect(new_state.public_send(attr)).to_not equal(pdf.graphic_state.public_send(attr))
       end
     end
 
@@ -641,8 +654,8 @@ describe Prawn::Graphics do
       new_state = pdf.graphic_state.dup
 
       %i[color_space dash fill_color stroke_color].each do |attr|
-        expect(new_state.send(attr)).to eq(pdf.graphic_state.send(attr))
-        expect(new_state.send(attr)).to_not equal(pdf.graphic_state.send(attr))
+        expect(new_state.public_send(attr)).to eq(pdf.graphic_state.public_send(attr))
+        expect(new_state.public_send(attr)).to_not equal(pdf.graphic_state.public_send(attr))
       end
     end
   end
@@ -694,17 +707,24 @@ describe Prawn::Graphics do
       expect(pdf).to have_received(:restore_graphics_state).with(no_args)
         .ordered
     end
+
+    it 'properly serializes the matrix', issue: 1178 do
+      pdf.transformation_matrix 1, 0, 0, 1, 0.0, 1.8977874316715393e-05
+      rendered_document = pdf.render
+
+      expect(rendered_document).to_not include('2.0e-05')
+
+      matrices = PDF::Inspector::Graphics::Matrix.analyze(rendered_document)
+      expect(matrices.matrices).to eq([[1, 0, 0, 1, 0.0, 0.00002]])
+    end
   end
 
   describe 'When using transformations shortcuts' do
-    let(:x) { 12 }
-    let(:y) { 54.32 }
-    let(:angle) { 12.32 }
-    let(:cos) { Math.cos(angle * Math::PI / 180) }
-    let(:sin) { Math.sin(angle * Math::PI / 180) }
-    let(:factor) { 0.12 }
-
     describe '#rotate' do
+      let(:angle) { 12.32 }
+      let(:cos) { Math.cos(angle * Math::PI / 180) }
+      let(:sin) { Math.sin(angle * Math::PI / 180) }
+
       it 'rotates' do
         allow(pdf).to receive(:transformation_matrix)
           .with(cos, sin, -sin, cos, 0, 0)
@@ -715,7 +735,13 @@ describe Prawn::Graphics do
     end
 
     describe '#rotate with :origin option' do
+      let(:angle) { 12.32 }
+      let(:cos) { Math.cos(angle * Math::PI / 180) }
+      let(:sin) { Math.sin(angle * Math::PI / 180) }
+
       it 'rotates around the origin' do
+        x = 12
+        y = 54.32
         x_prime = x * cos - y * sin
         y_prime = x * sin + y * cos
 
@@ -737,6 +763,8 @@ describe Prawn::Graphics do
       end
 
       it 'rotates around the origin in a document with a margin' do
+        x = 12
+        y = 54.32
         pdf = Prawn::Document.new
 
         pdf.rotate(angle, origin: [x, y]) { pdf.text('hello world') }
@@ -763,7 +791,7 @@ describe Prawn::Graphics do
 
       it 'raise_errors BlockRequired if no block is given' do
         expect do
-          pdf.rotate(angle, origin: [x, y])
+          pdf.rotate(angle, origin: [0, 0])
         end.to raise_error(Prawn::Errors::BlockRequired)
       end
     end
@@ -781,6 +809,7 @@ describe Prawn::Graphics do
 
     describe '#scale' do
       it 'scales' do
+        factor = 0.12
         allow(pdf).to receive(:transformation_matrix)
           .with(factor, 0, 0, factor, 0, 0)
         pdf.scale(factor)
@@ -790,7 +819,11 @@ describe Prawn::Graphics do
     end
 
     describe '#scale with :origin option' do
+      let(:factor) { 0.12 }
+
       it 'scales from the origin' do
+        x = 12
+        y = 54.32
         x_prime = factor * x
         y_prime = factor * y
 
@@ -806,6 +839,8 @@ describe Prawn::Graphics do
       end
 
       it 'scales from the origin in a document with a margin' do
+        x = 12
+        y = 54.32
         pdf = Prawn::Document.new
         x_ = x + pdf.bounds.absolute_left
         y_ = y + pdf.bounds.absolute_bottom
@@ -825,7 +860,7 @@ describe Prawn::Graphics do
 
       it 'raise_errors BlockRequired if no block is given' do
         expect do
-          pdf.scale(factor, origin: [x, y])
+          pdf.scale(factor, origin: [0, 0])
         end.to raise_error(Prawn::Errors::BlockRequired)
       end
     end

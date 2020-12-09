@@ -217,18 +217,19 @@ describe Prawn::Font do
     end
 
     it 'accepts IO objects for font files' do
-      io = File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
-      pdf.font_families['DejaVu Sans'] = {
-        normal: described_class.load(pdf, io)
-      }
+      File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" do |io|
+        pdf.font_families['DejaVu Sans'] = {
+          normal: described_class.load(pdf, io)
+        }
 
-      pdf.font 'DejaVu Sans'
-      pdf.text 'In DejaVu Sans'
+        pdf.font 'DejaVu Sans'
+        pdf.text 'In DejaVu Sans'
 
-      text = PDF::Inspector::Text.analyze(pdf.render)
-      name = text.font_settings.map { |e| e[:name] }.first.to_s
-      name = name.sub(/\w+\+/, 'subset+')
-      expect(name).to eq('subset+DejaVuSans')
+        text = PDF::Inspector::Text.analyze(pdf.render)
+        name = text.font_settings.map { |e| e[:name] }.first.to_s
+        name = name.sub(/\w+\+/, 'subset+')
+        expect(name).to eq('subset+DejaVuSans')
+      end
     end
   end
 
@@ -314,7 +315,8 @@ describe Prawn::Font do
         .to eq(13.332)
       expect(times.compute_width_of(
         win1252_string('To'),
-        size: 12, kerning: true
+        size: 12,
+        kerning: true
       )).to eq(12.372)
 
       input = win1252_string("T\xF6") # Tö in win-1252
@@ -356,7 +358,7 @@ describe Prawn::Font do
 
     it 'omits /Encoding for symbolic fonts' do
       zapf = pdf.find_font 'ZapfDingbats'
-      font_dict = zapf.send(:register, nil)
+      font_dict = zapf.__send__(:register, nil)
       expect(font_dict.data[:Encoding]).to be_nil
     end
   end
@@ -439,7 +441,7 @@ describe Prawn::Font do
       # These metrics are relative to the font's own bbox. They should not be
       # scaled with font size.
       ref = pdf.ref!({})
-      font.send :embed, ref, 0
+      font.__send__(:embed, ref, 0)
 
       # Pull out the embedded font descriptor
       descriptor = ref.data[:FontDescriptor].data
@@ -470,7 +472,7 @@ describe Prawn::Font do
       # These metrics are relative to the font's own bbox. They should not be
       # scaled with font size.
       ref = pdf.ref!({})
-      font.send :embed, ref, 0
+      font.__send__(:embed, ref, 0)
 
       # Pull out the embedded font descriptor
       descriptor = ref.data[:FontDescriptor].data

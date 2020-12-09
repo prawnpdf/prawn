@@ -8,7 +8,7 @@ describe Prawn::Text do
   describe '#formatted_text' do
     it 'draws text' do
       string = 'hello world'
-      format_array = [text: string]
+      format_array = [{ text: string }]
       pdf.formatted_text(format_array)
       # grab the text from the rendered PDF and ensure it matches
       text = PDF::Inspector::Text.analyze(pdf.render)

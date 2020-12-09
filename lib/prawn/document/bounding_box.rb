@@ -173,7 +173,9 @@ module Prawn
       init_bounding_box(block, hold_position: true) do |_|
         # Canvas bbox acts like margin_box in that its parent bounds are unset.
         @bounding_box = BoundingBox.new(
-          self, nil, [0, page.dimensions[3]],
+          self,
+          nil,
+          [0, page.dimensions[3]],
           width: page.dimensions[2],
           height: page.dimensions[3]
         )
@@ -221,6 +223,12 @@ module Prawn
     # is used for.
     #
     class BoundingBox
+      class NoReferenceBounds < StandardError
+        def initialize(message = "Can't find reference bounds: my parent is unset")
+          super
+        end
+      end
+
       # @private
       def initialize(document, parent, point, options = {})
         unless options[:width]
@@ -504,7 +512,7 @@ module Prawn
       #
       def reference_bounds
         if stretchy?
-          raise "Can't find reference bounds: my parent is unset" unless @parent
+          raise NoReferenceBounds unless @parent
 
           @parent.reference_bounds
         else

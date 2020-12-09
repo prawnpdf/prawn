@@ -341,10 +341,8 @@ module Prawn
       }.merge(options)
 
       Prawn.verify_options(
-        %i[
-          at width height step_length
-          negative_axes_length color
-        ], options
+        %i[at width height step_length negative_axes_length color],
+        options
       )
 
       save_graphics_state do
@@ -354,11 +352,13 @@ module Prawn
         dash(1, space: 4)
         stroke_horizontal_line(
           options[:at][0] - options[:negative_axes_length],
-          options[:at][0] + options[:width], at: options[:at][1]
+          options[:at][0] + options[:width],
+          at: options[:at][1]
         )
         stroke_vertical_line(
           options[:at][1] - options[:negative_axes_length],
-          options[:at][1] + options[:height], at: options[:at][0]
+          options[:at][1] + options[:height],
+          at: options[:at][0]
         )
         undash
 

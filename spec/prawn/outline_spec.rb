@@ -18,27 +18,15 @@ describe Prawn::Outline do
     end
   end
 
-  let(:output) { StringIO.new(pdf.render, 'r+') }
-  let(:hash) { PDF::Reader::ObjectHash.new(output) }
+  let(:hash) do
+    output = StringIO.new(pdf.render, 'r+')
+    PDF::Reader::ObjectHash.new(output)
+  end
   let(:outline_root) do
     hash.values.find do |obj|
       obj.is_a?(Hash) && obj[:Type] == :Outlines
     end
   end
-  let(:pages) do
-    hash.values.find do |obj|
-      obj.is_a?(Hash) && obj[:Type] == :Pages
-    end[:Kids]
-  end
-  let(:section1) { find_by_title('Chapter 1') }
-  let(:page1) { find_by_title('Page 1') }
-  let(:page2) { find_by_title('Page 2') }
-  let(:section2) { find_by_title('Added Section') }
-  let(:page3) { find_by_title('Page 3') }
-  let(:inserted_page) { find_by_title('Inserted Page') }
-  let(:subsection) { find_by_title('Added SubSection') }
-  let(:added_page3) { find_by_title('Added Page 3') }
-  let(:custom_dest) { find_by_title('Custom Destination') }
 
   describe 'outline encoding' do
     it 'stores all outline titles as UTF-16' do
@@ -59,12 +47,18 @@ describe Prawn::Outline do
 
     it 'sets the first and last top items of the root outline dictionary '\
       'item' do
+      section1 = find_by_title('Chapter 1')
+
       expect(referenced_object(outline_root[:First])).to eq(section1)
       expect(referenced_object(outline_root[:Last])).to eq(section1)
     end
 
     describe '#create_outline_item' do
       it 'creates outline items for each section and page' do
+        section1 = find_by_title('Chapter 1')
+        page1 = find_by_title('Page 1')
+        page2 = find_by_title('Page 2')
+
         expect(section1).to_not be_nil
         expect(page1).to_not be_nil
         expect(page2).to_not be_nil
@@ -73,16 +67,27 @@ describe Prawn::Outline do
 
     describe '#set_relations, #set_variables_for_block, and #reset_parent' do
       it 'links sibling items' do
+        page1 = find_by_title('Page 1')
+        page2 = find_by_title('Page 2')
+
         expect(referenced_object(page1[:Next])).to eq(page2)
         expect(referenced_object(page2[:Prev])).to eq(page1)
       end
 
       it 'links child items to parent item' do
+        section1 = find_by_title('Chapter 1')
+        page1 = find_by_title('Page 1')
+        page2 = find_by_title('Page 2')
+
         expect(referenced_object(page1[:Parent])).to eq(section1)
         expect(referenced_object(page2[:Parent])).to eq(section1)
       end
 
       it 'sets the first and last child items for parent item' do
+        section1 = find_by_title('Chapter 1')
+        page1 = find_by_title('Page 1')
+        page2 = find_by_title('Page 2')
+
         expect(referenced_object(section1[:First])).to eq(page1)
         expect(referenced_object(section1[:Last])).to eq(page2)
       end
@@ -90,6 +95,10 @@ describe Prawn::Outline do
 
     describe '#increase_count' do
       it 'adds the count of all descendant items' do
+        section1 = find_by_title('Chapter 1')
+        page1 = find_by_title('Page 1')
+        page2 = find_by_title('Page 2')
+
         expect(outline_root[:Count]).to eq(3)
         expect(section1[:Count].abs).to eq(2)
         expect(page1[:Count]).to eq(0)
@@ -99,6 +108,8 @@ describe Prawn::Outline do
 
     describe 'closed option' do
       it "sets the item's integer count to negative" do
+        section1 = find_by_title('Chapter 1')
+
         expect(section1[:Count]).to eq(-2)
       end
     end
@@ -116,12 +127,21 @@ describe Prawn::Outline do
     end
 
     it 'creates an outline item' do
+      custom_dest = find_by_title('Custom Destination')
+
       expect(custom_dest).to_not be_nil
     end
 
     it 'references the custom destination' do
+      custom_dest = find_by_title('Custom Destination')
+      last_page =
+        hash.values.find do |obj|
+          obj.is_a?(Hash) && obj[:Type] == :Pages
+        end[:Kids]
+          .last
+
       expect(referenced_object(custom_dest[:Dest].first))
-        .to eq(referenced_object(pages.last))
+        .to eq(referenced_object(last_page))
     end
   end
 
@@ -137,20 +157,32 @@ describe Prawn::Outline do
     end
 
     it 'adds new outline items to document' do
+      section2 = find_by_title('Added Section')
+      page3 = find_by_title('Page 3')
+
       expect(section2).to_not be_nil
       expect(page3).to_not be_nil
     end
 
     it 'resets the last items for root outline dictionary' do
+      section1 = find_by_title('Chapter 1')
+      section2 = find_by_title('Added Section')
+
       expect(referenced_object(outline_root[:First])).to eq(section1)
       expect(referenced_object(outline_root[:Last])).to eq(section2)
     end
 
     it 'resets the next relation for the previous last top level item' do
+      section1 = find_by_title('Chapter 1')
+      section2 = find_by_title('Added Section')
+
       expect(referenced_object(section1[:Next])).to eq(section2)
     end
 
     it 'sets the previous relation of the addded to section' do
+      section1 = find_by_title('Chapter 1')
+      section2 = find_by_title('Added Section')
+
       expect(referenced_object(section2[:Prev])).to eq(section1)
     end
 
@@ -174,31 +206,50 @@ describe Prawn::Outline do
       end
 
       it 'adds new outline items to document' do
+        subsection = find_by_title('Added SubSection')
+        added_page = find_by_title('Added Page 3')
+
         expect(subsection).to_not be_nil
-        expect(added_page3).to_not be_nil
+        expect(added_page).to_not be_nil
       end
 
       it 'resets the last item for parent item dictionary' do
+        section1 = find_by_title('Chapter 1')
+        page1 = find_by_title('Page 1')
+        subsection = find_by_title('Added SubSection')
+
         expect(referenced_object(section1[:First])).to eq(page1)
         expect(referenced_object(section1[:Last])).to eq(subsection)
       end
 
       it "sets the prev relation for the new subsection to its parent's old "\
         'last item' do
+        subsection = find_by_title('Added SubSection')
+        page2 = find_by_title('Page 2')
+
         expect(referenced_object(subsection[:Prev])).to eq(page2)
       end
 
       it "the subsection should become the next relation for its parent's old "\
         'last item' do
+        subsection = find_by_title('Added SubSection')
+        page2 = find_by_title('Page 2')
+
         expect(referenced_object(page2[:Next])).to eq(subsection)
       end
 
       it 'sets the first relation for the new subsection' do
-        expect(referenced_object(subsection[:First])).to eq(added_page3)
+        subsection = find_by_title('Added SubSection')
+        added_page = find_by_title('Added Page 3')
+
+        expect(referenced_object(subsection[:First])).to eq(added_page)
       end
 
       it 'sets the correct last relation of the added to section' do
-        expect(referenced_object(subsection[:Last])).to eq(added_page3)
+        subsection = find_by_title('Added SubSection')
+        added_page = find_by_title('Added Page 3')
+
+        expect(referenced_object(subsection[:Last])).to eq(added_page)
       end
 
       it 'increases the count of root outline dictionary' do
@@ -220,31 +271,50 @@ describe Prawn::Outline do
       end
 
       it 'adds new outline items to document' do
+        subsection = find_by_title('Added SubSection')
+        added_page = find_by_title('Added Page 3')
+
         expect(subsection).to_not be_nil
-        expect(added_page3).to_not be_nil
+        expect(added_page).to_not be_nil
       end
 
       it 'resets the first item for parent item dictionary' do
+        section1 = find_by_title('Chapter 1')
+        subsection = find_by_title('Added SubSection')
+        page2 = find_by_title('Page 2')
+
         expect(referenced_object(section1[:First])).to eq(subsection)
         expect(referenced_object(section1[:Last])).to eq(page2)
       end
 
       it "sets the next relation for the new subsection to its parent's old "\
         'first item' do
+        subsection = find_by_title('Added SubSection')
+        page1 = find_by_title('Page 1')
+
         expect(referenced_object(subsection[:Next])).to eq(page1)
       end
 
       it "the subsection should become the prev relation for its parent's old "\
         'first item' do
+        subsection = find_by_title('Added SubSection')
+        page1 = find_by_title('Page 1')
+
         expect(referenced_object(page1[:Prev])).to eq(subsection)
       end
 
       it 'sets the first relation for the new subsection' do
-        expect(referenced_object(subsection[:First])).to eq(added_page3)
+        subsection = find_by_title('Added SubSection')
+        added_page = find_by_title('Added Page 3')
+
+        expect(referenced_object(subsection[:First])).to eq(added_page)
       end
 
       it 'sets the correct last relation of the added to section' do
-        expect(referenced_object(subsection[:Last])).to eq(added_page3)
+        subsection = find_by_title('Added SubSection')
+        added_page = find_by_title('Added Page 3')
+
+        expect(referenced_object(subsection[:Last])).to eq(added_page)
       end
 
       it 'increases the count of root outline dictionary' do
@@ -281,26 +351,42 @@ describe Prawn::Outline do
       end
 
       it 'inserts new outline items to document' do
+        inserted_page = find_by_title('Inserted Page')
+
         expect(inserted_page).to_not be_nil
       end
 
       it 'adjusts the count of all ancestors' do
+        section1 = find_by_title('Chapter 1')
+
         expect(outline_root[:Count]).to eq(4)
         expect(section1[:Count].abs).to eq(3)
       end
 
       describe '#adjust_relations' do
         it 'resets the sibling relations of adjoining items to inserted item' do
+          inserted_page = find_by_title('Inserted Page')
+          page1 = find_by_title('Page 1')
+          page2 = find_by_title('Page 2')
+
           expect(referenced_object(page1[:Next])).to eq(inserted_page)
           expect(referenced_object(page2[:Prev])).to eq(inserted_page)
         end
 
         it 'sets the sibling relation of added item to adjoining items' do
+          inserted_page = find_by_title('Inserted Page')
+          page1 = find_by_title('Page 1')
+          page2 = find_by_title('Page 2')
+
           expect(referenced_object(inserted_page[:Next])).to eq(page2)
           expect(referenced_object(inserted_page[:Prev])).to eq(page1)
         end
 
         it 'does not affect the first and last relations of parent item' do
+          section1 = find_by_title('Chapter 1')
+          page1 = find_by_title('Page 1')
+          page2 = find_by_title('Page 2')
+
           expect(referenced_object(section1[:First])).to eq(page1)
           expect(referenced_object(section1[:Last])).to eq(page2)
         end
@@ -316,6 +402,10 @@ describe Prawn::Outline do
               page destination: page_number, title: 'Inserted Page'
             end
           end
+
+          section1 = find_by_title('Chapter 1')
+          section2 = find_by_title('Added Section')
+
           expect(referenced_object(outline_root[:Last])).to eq(section2)
           expect(referenced_object(section1[:Next])).to eq(section2)
         end
@@ -336,15 +426,24 @@ describe Prawn::Outline do
 
       describe '#adjust_relations' do
         it 'resets the sibling relations of adjoining item to inserted item' do
+          page2 = find_by_title('Page 2')
+          inserted_page = find_by_title('Inserted Page')
+
           expect(referenced_object(page2[:Next])).to eq(inserted_page)
         end
 
         it 'sets the sibling relation of added item to adjoining items' do
+          page2 = find_by_title('Page 2')
+          inserted_page = find_by_title('Inserted Page')
+
           expect(referenced_object(inserted_page[:Next])).to be_nil
           expect(referenced_object(inserted_page[:Prev])).to eq(page2)
         end
 
         it 'adjusts the last relation of parent item' do
+          section1 = find_by_title('Chapter 1')
+          inserted_page = find_by_title('Inserted Page')
+
           expect(referenced_object(section1[:Last])).to eq(inserted_page)
         end
       end
@@ -379,11 +478,12 @@ describe Prawn::Outline do
 
   describe 'foreign character encoding' do
     let(:hash) do
-      pdf = Prawn::Document.new do
-        outline.define do
-          section 'La pomme croquée', destination: 1, closed: true
+      pdf =
+        Prawn::Document.new do
+          outline.define do
+            section 'La pomme croquée', destination: 1, closed: true
+          end
         end
-      end
       PDF::Reader::ObjectHash.new(StringIO.new(pdf.render, 'r+'))
     end
 

@@ -36,7 +36,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   Prawn::Text::Formatted::Box.extensions << TriangleBox
   stroke_rectangle([200, y_position], width, height)
   formatted_text_box(
-    [text: 'A' * 100, color: '009900'],
+    [{ text: 'A' * 100, color: '009900' }],
     at: [200, y_position],
     width: width,
     height: height

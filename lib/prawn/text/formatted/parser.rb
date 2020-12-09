@@ -14,23 +14,24 @@ module Prawn
       class Parser
         # @group Extension API
 
-        PARSER_REGEX = begin
-          regex_string = "\n|" \
-                         '<b>|</b>|' \
-                         '<i>|</i>|' \
-                         '<u>|</u>|' \
-                         '<strikethrough>|</strikethrough>|' \
-                         '<sub>|</sub>|' \
-                         '<sup>|</sup>|' \
-                         '<link[^>]*>|</link>|' \
-                         '<color[^>]*>|</color>|' \
-                         '<font[^>]*>|</font>|' \
-                         '<strong>|</strong>|' \
-                         '<em>|</em>|' \
-                         '<a[^>]*>|</a>|' \
-                         "[^<\n]+"
-          Regexp.new(regex_string, Regexp::MULTILINE)
-        end
+        PARSER_REGEX =
+          begin
+            regex_string = "\n|" \
+                          '<b>|</b>|' \
+                          '<i>|</i>|' \
+                          '<u>|</u>|' \
+                          '<strikethrough>|</strikethrough>|' \
+                          '<sub>|</sub>|' \
+                          '<sup>|</sup>|' \
+                          '<link[^>]*>|</link>|' \
+                          '<color[^>]*>|</color>|' \
+                          '<font[^>]*>|</font>|' \
+                          '<strong>|</strong>|' \
+                          '<em>|</em>|' \
+                          '<a[^>]*>|</a>|' \
+                          "[^<\n]+"
+            Regexp.new(regex_string, Regexp::MULTILINE)
+          end
 
         def self.format(string, *_args)
           tokens = string.gsub(%r{<br\s*/?>}, "\n").scan(PARSER_REGEX)
@@ -54,7 +55,7 @@ module Prawn
             subscript: '</sub>',
             superscript: '</sup>'
           }
-          array.collect do |hash|
+          array.map do |hash|
             prefix = ''
             suffix = ''
             hash[:styles]&.each do |style|
@@ -81,14 +82,15 @@ module Prawn
             end
 
             if hash[:color]
-              prefix += if hash[:color].is_a?(Array)
-                          "<color c='#{hash[:color][0]}'" \
-                                                  " m='#{hash[:color][1]}'" \
-                                                  " y='#{hash[:color][2]}'" \
-                                                  " k='#{hash[:color][3]}'>"
-                        else
-                          "<color rgb='#{hash[:color]}'>"
-                        end
+              prefix +=
+                if hash[:color].is_a?(Array)
+                  "<color c='#{hash[:color][0]}'" \
+                    " m='#{hash[:color][1]}'" \
+                    " y='#{hash[:color][2]}'" \
+                    " k='#{hash[:color][3]}'>"
+                else
+                  "<color rgb='#{hash[:color]}'>"
+                end
               suffix = '</color>'
             end
 
