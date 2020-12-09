@@ -5,7 +5,7 @@ require 'digest/sha2'
 
 MANUAL_HASH =
   case RUBY_ENGINE
-  when 'ruby'
+  when 'ruby', 'truffleruby'
     'bcba28d39698ac349a626e1bc3d6a354d20bd7da340190bc8843cec1be3caefb'\
     '88fc9591edba9cf21d7f2e08faf40a40d269b26b5c5ac6afb8c7fb61cba8c544'
   when 'jruby'
