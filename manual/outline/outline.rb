@@ -11,7 +11,7 @@ Prawn::ManualBuilder::Example.generate('outline.pdf', page_size: 'FOLIO') do
     end
 
     p.section 'Adding nodes later' do |s|
-      s.example 'add_subsection_to',    eval_source: false
+      s.example 'add_subsection_to', eval_source: false
       s.example 'insert_section_after', eval_source: false
     end
 

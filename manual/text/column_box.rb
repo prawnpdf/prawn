@@ -9,7 +9,7 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  text 'The Prince',          align: :center, size: 18
+  text 'The Prince', align: :center, size: 18
   text 'Niccolò Machiavelli', align: :center, size: 14
   move_down 12
 

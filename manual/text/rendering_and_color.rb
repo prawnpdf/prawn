@@ -16,7 +16,7 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  fill_color   '00ff00'
+  fill_color '00ff00'
   stroke_color '0000ff'
 
   font_size(40) do

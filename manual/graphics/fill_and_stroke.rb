@@ -33,7 +33,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   # With block
   stroke { line [200, 200], [300, 150] }
-  fill   { rectangle [200, 100], 100, 100 }
+  fill { rectangle [200, 100], 100, 100 }
 
   # Method hook
   stroke_line [400, 200], [500, 150]

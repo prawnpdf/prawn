@@ -47,10 +47,10 @@ Prawn::ManualBuilder::Example.generate(filename) do
         fragment.bottom_left
       )
 
-      @document.fill_circle(fragment.top_left,     @radius)
-      @document.fill_circle(fragment.top_right,    @radius)
+      @document.fill_circle(fragment.top_left, @radius)
+      @document.fill_circle(fragment.top_right, @radius)
       @document.fill_circle(fragment.bottom_right, @radius)
-      @document.fill_circle(fragment.bottom_left,  @radius)
+      @document.fill_circle(fragment.bottom_left, @radius)
     end
   end
 

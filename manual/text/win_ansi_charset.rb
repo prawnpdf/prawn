@@ -45,8 +45,8 @@ Prawn::ManualBuilder::Example.generate(filename) do
         width = width_of(field, size: font_size)
 
         case align
-        when :left   then offset = 0
-        when :right  then offset = total_width - width
+        when :left then offset = 0
+        when :right then offset = total_width - width
         when :center then offset = (total_width - width) / 2
         end
 

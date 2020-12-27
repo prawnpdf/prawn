@@ -11,14 +11,14 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  text  'Scale by setting only the width'
+  text 'Scale by setting only the width'
   image "#{Prawn::DATADIR}/images/pigs.jpg", width: 150
   move_down 20
 
-  text  'Scale by setting only the height'
+  text 'Scale by setting only the height'
   image "#{Prawn::DATADIR}/images/pigs.jpg", height: 100
   move_down 20
 
-  text  'Stretch to fit the width and height provided'
+  text 'Stretch to fit the width and height provided'
   image "#{Prawn::DATADIR}/images/pigs.jpg", width: 500, height: 100
 end

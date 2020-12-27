@@ -177,7 +177,7 @@ module Prawn
       rescue NoMethodError
         raise Prawn::Errors::UnknownFont,
           "Couldn't find the font: #{file} in any of:\n" +
-          self.class.metrics_path.join("\n")
+            self.class.metrics_path.join("\n")
       end
 
       def parse_afm(file_name)

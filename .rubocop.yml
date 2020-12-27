@@ -1,73 +1,15 @@
-require:
-  - rubocop-performance
-  - rubocop-rspec
-
-AllCops:
-  TargetRubyVersion: 2.5
-  NewCops: enable
-
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
+inherit_gem:
+  prawn-dev: rubocop.yml
 
 Lint/ConstantDefinitionInBlock:
   Exclude:
     - manual/text/formatted_callbacks.rb
     - manual/text/text_box_extensions.rb
 
-Layout/FirstArrayElementLineBreak:
-  Enabled: true
-
-Layout/FirstHashElementLineBreak:
-  Enabled: true
-
-Layout/FirstMethodArgumentLineBreak:
-  Enabled: true
-
-Layout/FirstMethodParameterLineBreak:
-  Enabled: true
-
-Layout/FirstArgumentIndentation:
-  EnforcedStyle: consistent
-
-Layout/FirstArrayElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/HeredocArgumentClosingParenthesis:
-  Enabled: true
-
-Layout/MultilineAssignmentLayout:
-  Enabled: true
-
-Layout/MultilineHashKeyLineBreaks:
-  Enabled: true
-
-Layout/MultilineMethodArgumentLineBreaks:
-  Enabled: true
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
 Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
   Exclude:
     - prawn.gemspec
-
-Layout/ParameterAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/SpaceAroundOperators:
-  AllowForAlignment: false
-
-
-Lint/HeredocMethodCallPosition:
-  Enabled: true
-
-# FIXME
-Lint/NumberConversion:
-  Enabled: false
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -82,9 +24,6 @@ Lint/SuppressedException:
   Exclude:
     - lib/prawn/text/formatted/box.rb
 
-
-Metrics/AbcSize:
-  Enabled: false
 Metrics/BlockLength:
   Exclude:
     - lib/prawn/graphics.rb
@@ -93,17 +32,6 @@ Metrics/BlockLength:
     - manual/**/*.rb
     - prawn.gemspec
     - spec/**/*.rb
-Metrics/ClassLength:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/MethodLength:
-  Enabled: false
-Metrics/ModuleLength:
-  Enabled: false
-Metrics/PerceivedComplexity:
-  Enabled: false
-
 
 Naming/AccessorMethodName:
   Exclude:
@@ -114,43 +42,6 @@ Naming/PredicateName:
     - lib/prawn/font/ttf.rb
     - lib/prawn/font/afm.rb
 
-Naming/MethodParameterName:
-  MinNameLength: 3
-  AllowNamesEndingInNumbers: true
-  AllowedNames:
-  - id
-  - to
-  - at
-  - x
-  - x1
-  - x2
-  - y
-  - y1
-  - y2
-  - r1
-  - r2
-
-  ForbiddenNames: []
-
-
-# This one doesn't work well with YARD
-Style/AccessorGrouping:
-  Enabled: false
-
-# We need to reference non-ascii characters when testing and explaining
-# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
-Style/AsciiComments:
-  Enabled: false
-
-Style/AutoResourceCleanup:
-  Enabled: true
-
-Style/CollectionMethods:
-  Enabled: true
-
-Style/Documentation:
-  Enabled: false
-
 Style/Encoding:
   # To be safe we are leaving these files encoded ASCII-8BIT as
   # discussed at https://github.com/prawnpdf/prawn/pull/705
@@ -159,64 +50,3 @@ Style/Encoding:
     - lib/prawn/images/png.rb
     - lib/prawn/images.rb
     - spec/png_spec.rb
-
-Style/GuardClause:
-  Enabled: false
-
-# We don't always prefer modifier statements even if they do fit on a line.
-Style/IfUnlessModifier:
-  Enabled: false
-Style/WhileUntilModifier:
-  Enabled: false
-
-Style/ImplicitRuntimeError:
-  Enabled: true
-
-# This one would break our public API
-Style/OptionalBooleanParameter:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%': '()'
-    '%i': '[]'
-    '%I': '[]'
-    '%q': '()'
-    '%Q': '()'
-    '%r': '{}'
-    '%s': '()'
-    '%w': '[]'
-    '%W': '[]'
-    '%x': '()'
-
-Style/ReturnNil:
-  Enabled: true
-
-Style/Send:
-  Enabled: true
-
-
-Performance/CaseWhenSplat:
-  Enabled: true
-
-Performance/IoReadlines:
-  Enabled: true
-
-
-RSpec/DescribedClassModuleWrapping:
-  Enabled: true
-
-RSpec/ExampleLength:
-  Enabled: false
-
-RSpec/MessageExpectation:
-  Enabled: true
-
-RSpec/MultipleExpectations:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Max: 5
-
-RSpec/NotToNot:
-  EnforcedStyle: to_not

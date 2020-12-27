@@ -212,7 +212,7 @@ module Prawn
       move_to(x + radius1, y)
 
       # Upper right hand corner
-      curve_to [x,  y + radius2],
+      curve_to [x, y + radius2],
         bounds: [[x + radius1, y + l2], [x + l1, y + radius2]]
 
       # Upper left hand corner
@@ -633,10 +633,10 @@ module Prawn
 
     ops.product(shapes).each do |operation, shape|
       class_eval <<-METHOD, __FILE__, __LINE__ + 1
-        def #{operation}_#{shape}(*args)
-          #{shape}(*args)
-          #{operation}
-        end
+        def #{operation}_#{shape}(*args)    # def fill_polygon(*args)
+          #{shape}(*args)                   #   polygon(*args)
+          #{operation}                      #   fill
+        end                                 # end
       METHOD
     end
 

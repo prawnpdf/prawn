@@ -7,12 +7,19 @@ describe Prawn::Document do
 
   it 'onlies accept :position as option in debug mode' do
     Prawn.debug = true
-    expect { pdf.span(350, x: 3) {} }
-      .to raise_error(Prawn::Errors::UnknownOption)
+    expect do
+      pdf.span(350, x: 3) do
+        # draw
+      end
+    end.to raise_error(Prawn::Errors::UnknownOption)
   end
 
   it 'has raise an error if :position is invalid' do
-    expect { pdf.span(350, position: :x) {} }.to raise_error(ArgumentError)
+    expect do
+      pdf.span(350, position: :x) do
+        # draw
+      end
+    end.to raise_error(ArgumentError)
   end
 
   it 'restores the margin box when bounding box exits' do

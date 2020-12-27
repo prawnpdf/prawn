@@ -29,7 +29,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     line_to 0, 100
 
     curve_to [150, 250], bounds: [[20, 200], [120, 200]]
-    curve_to [200, 0],   bounds: [[150, 200], [450, 10]]
+    curve_to [200, 0], bounds: [[150, 200], [450, 10]]
   end
 
   # line and curve

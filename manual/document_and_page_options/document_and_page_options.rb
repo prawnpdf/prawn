@@ -7,10 +7,10 @@ require_relative '../example_helper'
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename, page_size: 'FOLIO') do
   package 'document_and_page_options' do |p|
-    p.example 'page_size',    eval_source: false, full_source: true
+    p.example 'page_size', eval_source: false, full_source: true
     p.example 'page_margins', eval_source: false, full_source: true
-    p.example 'background',   eval_source: false, full_source: true
-    p.example 'metadata',     eval_source: false, full_source: true
+    p.example 'background', eval_source: false, full_source: true
+    p.example 'metadata', eval_source: false, full_source: true
     p.example 'print_scaling', eval_source: false, full_source: true
 
     p.intro do

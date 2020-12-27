@@ -28,16 +28,16 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   24.times do |i|
     length = (i / 4) + 1
-    space = length            # space between dashes same length as dash
-    phase = 0                 # start with dash
+    space = length # space between dashes same length as dash
+    phase = 0 # start with dash
 
     case i % 4
     when 0 then base_y -= 5
-    when 1 then phase = length       # start with space between dashes
+    when 1 then phase = length # start with space between dashes
     when 2 then space = length * 0.5 # space between dashes half as long as dash
     when 3
-      space = length * 0.5    # space between dashes half as long as dash
-      phase = length          # start with space between dashes
+      space = length * 0.5 # space between dashes half as long as dash
+      phase = length # start with space between dashes
     end
     base_y -= 5
 

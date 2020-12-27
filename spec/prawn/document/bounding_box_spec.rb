@@ -433,7 +433,9 @@ describe Prawn::Document::BoundingBox do
 
       original_ypos = doc.y
 
-      doc.canvas {}
+      doc.canvas do
+        # draw
+      end
 
       expect(doc.y).to eq(original_ypos)
     end

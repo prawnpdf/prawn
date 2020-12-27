@@ -452,8 +452,8 @@ describe Prawn::Graphics do
       subject(:transformations) do
         pdf.scale 2 do
           pdf.translate 40, 40 do
-            pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF', opts
-            pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF', opts
+            pdf.fill_gradient [0, 10], [15, 15], 'FF0000', '0000FF', **opts
+            pdf.fill_gradient [0, 10], 15, [15, 15], 25, 'FF0000', '0000FF', **opts
           end
         end
 
@@ -661,7 +661,7 @@ describe Prawn::Graphics do
   end
 
   describe 'When using transformation matrix' do
-    # Note: The (approximate) number of significant decimal digits of precision
+    # NOTE: The (approximate) number of significant decimal digits of precision
     # in fractional part is 5 (PDF Reference, Third Edition, p. 706)
 
     it 'sends the right content on transformation_matrix' do

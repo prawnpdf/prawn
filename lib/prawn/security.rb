@@ -124,8 +124,8 @@ module Prawn
       def encryption_dictionary
         {
           Filter: :Standard, # default PDF security handler
-          V: 1,         # "Algorithm 3.1", PDF reference 1.3
-          R: 2,         # Revision 2 of the algorithm
+          V: 1, # "Algorithm 3.1", PDF reference 1.3
+          R: 2, # Revision 2 of the algorithm
           O: PDF::Core::ByteString.new(owner_password_hash),
           U: PDF::Core::ByteString.new(user_password_hash),
           P: permissions_value

@@ -234,9 +234,8 @@ module Prawn
         end
 
         def font_style(styles)
-          if styles.nil?
-            :normal
-          elsif styles.include?(:bold) && styles.include?(:italic)
+          styles = Array(styles)
+          if styles.include?(:bold) && styles.include?(:italic)
             :bold_italic
           elsif styles.include?(:bold)
             :bold

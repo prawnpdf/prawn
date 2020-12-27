@@ -114,6 +114,7 @@ module Prawn
         *arguments, from: nil, to: nil, r1: nil, r2: nil, stops: nil,
         apply_transformations: nil
       )
+
         case arguments.length
         when 0
           apply_transformations = true if apply_transformations.nil?
