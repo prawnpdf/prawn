@@ -1,5 +1,7 @@
 ## PrawnPDF master branch
 
+## PrawnPDF 2.4.0
+
 ### Added support for Ruby 3
 
 (Alexander Mankuta)
