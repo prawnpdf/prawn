@@ -1,5 +1,13 @@
 ## PrawnPDF master branch
 
+### Added support for Ruby 3
+
+(Alexander Mankuta)
+
+### Fixed transformation matrix serialization
+
+(Alexander Mankuta, [#1182](https://github.com/prawnpdf/prawn/pull/1182))
+
 ## PrawnPDF 2.3.0
 
 ### Added OpenType Font Support
