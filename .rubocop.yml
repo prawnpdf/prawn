@@ -1,6 +1,10 @@
 inherit_gem:
   prawn-dev: rubocop.yml
 
+AllCops:
+  Exclude:
+    - vendor/**/*
+
 Lint/ConstantDefinitionInBlock:
   Exclude:
     - manual/text/formatted_callbacks.rb
