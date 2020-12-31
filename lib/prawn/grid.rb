@@ -56,6 +56,7 @@ module Prawn
     # @group Experimental API
     class Grid
       attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
+
       def initialize(pdf, options = {}) # :nodoc:
         valid_options = %i[columns rows gutter row_gutter column_gutter]
         Prawn.verify_options valid_options, options
@@ -213,11 +214,13 @@ module Prawn
     # A MultiBox is specified by 2 Boxes and spans the areas between.
     #
     # @group Experimental API
-    class MultiBox < GridBox
+    class MultiBox
       def initialize(pdf, box1, box2)
         @pdf = pdf
         @boxes = [box1, box2]
       end
+
+      attr_reader :pdf
 
       def name
         @boxes.map(&:name).join(':')
@@ -253,6 +256,38 @@ module Prawn
 
       def bottom
         bottom_box.bottom
+      end
+
+      def top_left
+        [left, top]
+      end
+
+      def top_right
+        [right, top]
+      end
+
+      def bottom_left
+        [left, bottom]
+      end
+
+      def bottom_right
+        [right, bottom]
+      end
+
+      def bounding_box(&blk)
+        pdf.bounding_box(top_left, width: width, height: height, &blk)
+      end
+
+      def show(grid_color = 'CCCCCC')
+        bounding_box do
+          original_stroke_color = pdf.stroke_color
+
+          pdf.stroke_color = grid_color
+          pdf.text name
+          pdf.stroke_bounds
+
+          pdf.stroke_color = original_stroke_color
+        end
       end
 
       private

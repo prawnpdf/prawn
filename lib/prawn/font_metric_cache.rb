@@ -22,12 +22,13 @@ module Prawn
     end
 
     def width_of(string, options)
-      f = if options[:style]
-            # override style with :style => :bold
-            @document.find_font(@document.font.family, style: options[:style])
-          else
-            @document.font
-          end
+      f =
+        if options[:style]
+          # override style with :style => :bold
+          @document.find_font(@document.font.family, style: options[:style])
+        else
+          @document.font
+        end
 
       encoded_string = f.normalize_encoding(string)
 

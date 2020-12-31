@@ -318,10 +318,10 @@ module Prawn
       return options.fetch(:format, 'ttf') if src.respond_to? :read
 
       case src.to_s
-      when /\.ttf$/i   then 'ttf'
-      when /\.otf$/i   then 'otf'
+      when /\.ttf$/i then 'ttf'
+      when /\.otf$/i then 'otf'
       when /\.dfont$/i then 'dfont'
-      when /\.ttc$/i   then 'ttc'
+      when /\.ttc$/i then 'ttc'
       else 'afm'
       end
     end
@@ -420,7 +420,7 @@ module Prawn
     #
     def eql?(other) #:nodoc:
       self.class == other.class && name == other.name &&
-        family == other.family && size == other.send(:size)
+        family == other.family && size == other.size
     end
 
     private
@@ -444,6 +444,8 @@ module Prawn
         key.to_s.start_with?("#{test_key}.")
       end
     end
+
+    protected
 
     def size
       @document.font_size

@@ -14,6 +14,29 @@ module Prawn
   module Fonts
     # @private
     class TTF < Font
+      class Error < StandardError
+        DEFAULT_MESSAGE = 'TTF font error'
+        MESSAGE_WITH_FONT = 'TTF font error in font %<font>s'
+
+        def initialize(message = DEFAULT_MESSAGE, font: nil)
+          if font && message == DEFAULT_MESSAGE
+            super format(MESSAGE_WITH_FONT, font: font)
+          else
+            super message
+          end
+        end
+      end
+
+      class NoUnicodeCMap < Error
+        DEFAULT_MESSAGE = 'No unicode cmap found in font'
+        MESSAGE_WITH_FONT = 'No unicode cmap found in font %<font>s'
+      end
+
+      class NoPostscriptName < Error
+        DEFAULT_MESSAGE = 'Can not detect a postscript name'
+        MESSAGE_WITH_FONT = 'Can not detect a postscript name in font %<font>s'
+      end
+
       attr_reader :ttf, :subsets
 
       def unicode?
@@ -41,15 +64,15 @@ module Prawn
       def compute_width_of(string, options = {}) #:nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
-          kern(string).inject(0) do |s, r|
+          kern(string).reduce(0) do |s, r|
             if r.is_a?(Numeric)
               s - r
             else
-              r.inject(s) { |a, e| a + character_width_by_code(e) }
+              r.reduce(s) { |a, e| a + character_width_by_code(e) }
             end
           end * scale
         else
-          string.codepoints.inject(0) do |s, r|
+          string.codepoints.reduce(0) do |s, r|
             s + character_width_by_code(r)
           end * scale
         end
@@ -82,7 +105,7 @@ module Prawn
 
         if options[:kerning]
           last_subset = nil
-          kern(text).inject([]) do |result, element|
+          kern(text).reduce([]) do |result, element|
             if element.is_a?(Numeric)
               unless result.last[1].is_a?(Array)
                 result.last[1] = [result.last[1]]
@@ -136,10 +159,11 @@ module Prawn
       end
 
       def cap_height
-        @cap_height ||= begin
-          height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
-          height.zero? ? @ascender : height
-        end
+        @cap_height ||=
+          begin
+            height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
+            height.zero? ? @ascender : height
+          end
       end
 
       def x_height
@@ -161,23 +185,24 @@ module Prawn
       end
 
       def pdf_flags
-        @pdf_flags ||= begin
-          flags = 0
-          flags |= 0x0001 if @ttf.postscript.fixed_pitch?
-          flags |= 0x0002 if serif?
-          flags |= 0x0008 if script?
-          flags |= 0x0040 if italic_angle != 0
-          # Assume the font contains at least some non-latin characters
-          flags | 0x0004
-        end
+        @pdf_flags ||=
+          begin
+            flags = 0
+            flags |= 0x0001 if @ttf.postscript.fixed_pitch?
+            flags |= 0x0002 if serif?
+            flags |= 0x0008 if script?
+            flags |= 0x0040 if italic_angle != 0
+            # Assume the font contains at least some non-latin characters
+            flags | 0x0004
+          end
       end
 
       def normalize_encoding(text)
         text.encode(::Encoding::UTF_8)
       rescue StandardError => e
         puts e
-        raise Prawn::Errors::IncompatibleStringEncoding, 'Encoding ' \
-          "#{text.encoding} can not be transparently converted to UTF-8. " \
+        raise Prawn::Errors::IncompatibleStringEncoding,
+          "Encoding #{text.encoding} can not be transparently converted to UTF-8. " \
           'Please ensure the encoding of the string you are attempting ' \
           'to use is set correctly'
       end
@@ -200,7 +225,7 @@ module Prawn
       private
 
       def cmap
-        (@cmap ||= @ttf.cmap.unicode.first) || raise('no unicode cmap for font')
+        (@cmap ||= @ttf.cmap.unicode.first) || raise(NoUnicodeCMap.new(font: name))
       end
 
       # +string+ must be UTF8-encoded.
@@ -275,7 +300,7 @@ module Prawn
         # if their font name is more than 33 bytes long. Strange. But true.
         basename = font.name.postscript_name[0, 33].delete("\0")
 
-        raise "Can't detect a postscript name for #{file}" if basename.nil?
+        raise NoPostscriptName.new(font: font) if basename.nil?
 
         fontfile = @document.ref!(Length1: font_content.size)
         fontfile.stream << font_content
@@ -313,7 +338,7 @@ module Prawn
         map = @subsets[subset].to_unicode_map
 
         ranges = [[]]
-        map.keys.sort.inject('') do |_s, code|
+        map.keys.sort.reduce('') do |_s, code|
           ranges << [] if ranges.last.length >= 100
           unicode = map[code]
           ranges.last << format(
@@ -323,13 +348,14 @@ module Prawn
           )
         end
 
-        range_blocks = ranges.inject(+'') do |s, list|
-          s << format(
-            "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
-            lenght: list.length,
-            list: list.join("\n")
-          )
-        end
+        range_blocks =
+          ranges.reduce(+'') do |s, list|
+            s << format(
+              "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
+              lenght: list.length,
+              list: list.join("\n")
+            )
+          end
 
         to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
 

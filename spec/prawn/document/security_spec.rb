@@ -36,7 +36,7 @@ describe Prawn::Document::Security do
       pdf = Prawn::Document.new
 
       # Make things easier to test
-      pdf.singleton_class.send :public, :permissions_value
+      pdf.singleton_class.__send__ :public, :permissions_value
       # class << pdf
       #   public :permissions_value
       # end

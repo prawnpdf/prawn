@@ -31,16 +31,17 @@ module Prawn
       end
 
       def self.metrics_path
-        @metrics_path ||= if ENV['METRICS']
-                            ENV['METRICS'].split(':')
-                          else
-                            [
-                              '.', '/usr/lib/afm',
-                              '/usr/local/lib/afm',
-                              '/usr/openwin/lib/fonts/afm',
-                              Prawn::DATADIR + '/fonts'
-                            ]
-                          end
+        @metrics_path ||=
+          if ENV['METRICS']
+            ENV['METRICS'].split(':')
+          else
+            [
+              '.', '/usr/lib/afm',
+              '/usr/local/lib/afm',
+              '/usr/openwin/lib/fonts/afm',
+              "#{Prawn::DATADIR}/fonts"
+            ]
+          end
       end
 
       attr_reader :attributes #:nodoc:
@@ -88,7 +89,7 @@ module Prawn
 
         if options[:kerning]
           strings, numbers = kern(string).partition { |e| e.is_a?(String) }
-          total_kerning_offset = numbers.inject(0.0) { |a, e| a + e }
+          total_kerning_offset = numbers.sum
           (unscaled_width_of(strings.join) - total_kerning_offset) * scale
         else
           unscaled_width_of(string) * scale
@@ -176,7 +177,7 @@ module Prawn
       rescue NoMethodError
         raise Prawn::Errors::UnknownFont,
           "Couldn't find the font: #{file} in any of:\n" +
-          self.class.metrics_path.join("\n")
+            self.class.metrics_path.join("\n")
       end
 
       def parse_afm(file_name)
@@ -220,9 +221,10 @@ module Prawn
 
         # process data parsed from AFM file to build tables which
         #   will be used when measuring and kerning text
-        data[:glyph_table] = (0..255).map do |i|
-          data[:glyph_widths][Encoding::WinAnsi::CHARACTERS[i]].to_i
-        end
+        data[:glyph_table] =
+          (0..255).map do |i|
+            data[:glyph_widths][Encoding::WinAnsi::CHARACTERS[i]].to_i
+          end
 
         character_hash = Hash[
           Encoding::WinAnsi::CHARACTERS.zip(
@@ -281,7 +283,7 @@ module Prawn
       end
 
       def unscaled_width_of(string)
-        string.bytes.inject(0) do |s, r|
+        string.bytes.reduce(0) do |s, r|
           s + @glyph_table[r]
         end
       end

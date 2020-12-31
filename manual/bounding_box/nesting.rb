@@ -3,7 +3,7 @@
 # Normally when we provide the top left corner of a bounding box we
 # express the coordinates relative to the margin box. This is not the
 # case when we have nested bounding boxes. Once nested the inner bounding box
-# coordinates are relative to the outter bounding box.
+# coordinates are relative to the outer bounding box.
 #
 # This example shows some nested bounding boxes with fixed and stretchy heights.
 # Note how the <code>cursor</code> method returns coordinates relative to

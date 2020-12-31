@@ -72,11 +72,11 @@ module Prawn
     def method_missing(method_name, *arguments, &block)
       return super unless document.respond_to?(method_name)
 
-      document.send(method_name, *arguments, &block)
+      document.public_send(method_name, *arguments, &block)
     end
 
     def respond_to_missing?(method_name, _include_all = false)
-      document.respond_to?(method_name)
+      document.respond_to?(method_name) || super
     end
 
     # Syntactic sugar that uses +instance_eval+ under the hood to provide

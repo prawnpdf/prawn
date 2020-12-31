@@ -305,7 +305,7 @@ describe Prawn::Text do
       'break when using a built-in font' do
       str = '©'
       pdf.move_cursor_to(pdf.font.height)
-      pdf.text(str + "\n" + str)
+      pdf.text("#{str}\n#{str}")
 
       pages = PDF::Inspector::Page.analyze(pdf.render).pages
       expect(pages.size).to eq(2)
@@ -317,7 +317,7 @@ describe Prawn::Text do
       'a page break when using a built-in font and :indent_paragraphs option' do
       str = '©'
       pdf.move_cursor_to(pdf.font.height)
-      pdf.text(str + "\n" + str, indent_paragraphs: 20)
+      pdf.text("#{str}\n#{str}", indent_paragraphs: 20)
 
       pages = PDF::Inspector::Page.analyze(pdf.render).pages
       expect(pages.size).to eq(2)
@@ -356,7 +356,7 @@ describe Prawn::Text do
       it 'indents the paragraphs' do
         hello = 'hello ' * 50
         hello2 = 'hello ' * 50
-        pdf.text(hello + "\n" + hello2, indent_paragraphs: 60)
+        pdf.text("#{hello}\n#{hello2}", indent_paragraphs: 60)
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings[0]).to eq(('hello ' * 19).strip)
         expect(text.strings[1]).to eq(('hello ' * 21).strip)
@@ -368,7 +368,7 @@ describe Prawn::Text do
         para1 = 'The rain in spain falls mainly on the plains ' * 3
         para2 = 'The rain in spain falls mainly on the plains ' * 3
 
-        pdf.text(para1 + "\n" + para2, indent_paragraphs: 60, direction: :rtl)
+        pdf.text("#{para1}\n#{para2}", indent_paragraphs: 60, direction: :rtl)
 
         text = PDF::Inspector::Text.analyze(pdf.render)
 
@@ -405,7 +405,7 @@ describe Prawn::Text do
         para2 = 'The rain in spain falls mainly on the plains ' * 3
 
         pdf.text_direction = :rtl
-        pdf.text(para1 + "\n" + para2, indent_paragraphs: 60)
+        pdf.text("#{para1}\n#{para2}", indent_paragraphs: 60)
 
         text = PDF::Inspector::Text.analyze(pdf.render)
 
@@ -441,7 +441,7 @@ describe Prawn::Text do
         para1 = 'The rain in spain falls mainly on the plains ' * 3
         para2 = 'The rain in spain falls mainly on the plains ' * 3
 
-        pdf.text(para1 + "\n" + para2, indent_paragraphs: 60, direction: :ltr)
+        pdf.text("#{para1}\n#{para2}", indent_paragraphs: 60, direction: :ltr)
 
         text = PDF::Inspector::Text.analyze(pdf.render)
 
@@ -459,7 +459,7 @@ describe Prawn::Text do
         para2 = 'The rain in spain falls mainly on the plains ' * 3
 
         pdf.text_direction = :ltr
-        pdf.text(para1 + "\n" + para2, indent_paragraphs: 60)
+        pdf.text("#{para1}\n#{para2}", indent_paragraphs: 60)
 
         text = PDF::Inspector::Text.analyze(pdf.render)
 
@@ -490,7 +490,7 @@ describe Prawn::Text do
           hello = 'hello ' * 50
           hello2 = 'hello ' * 50
           pdf.move_cursor_to(pdf.font.height)
-          pdf.text(hello + "\n" + hello2, indent_paragraphs: 60)
+          pdf.text("#{hello}\n#{hello2}", indent_paragraphs: 60)
           text = PDF::Inspector::Text.analyze(pdf.render)
           expect(text.strings[0]).to eq(('hello ' * 19).strip)
           expect(text.strings[1]).to eq(('hello ' * 21).strip)
@@ -506,7 +506,7 @@ describe Prawn::Text do
           hello = 'hello ' * 50
           hello2 = 'hello ' * 50
           pdf.move_cursor_to(pdf.font.height * 3)
-          pdf.text(hello + "\n" + hello2, indent_paragraphs: 60)
+          pdf.text("#{hello}\n#{hello2}", indent_paragraphs: 60)
           text = PDF::Inspector::Text.analyze(pdf.render)
           expect(text.strings[0]).to eq(('hello ' * 19).strip)
           expect(text.strings[1]).to eq(('hello ' * 21).strip)

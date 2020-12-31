@@ -76,9 +76,9 @@ describe Prawn::Text::Formatted::Arranger do
       arranger.format_array = array
     end
 
-    it 'raises RuntimeError if called after a line was finalized' do
+    it 'raises an error if called after a line was finalized' do
       arranger.finalize_line
-      expect { arranger.next_string }.to raise_error(RuntimeError)
+      expect { arranger.next_string }.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'populates the conumed array' do
@@ -172,8 +172,8 @@ describe Prawn::Text::Formatted::Arranger do
           end
         end
 
-        it 'raises RuntimeError an error if not finalized' do
-          expect { arranger.retrieve_fragment }.to raise_error(RuntimeError)
+        it 'raises an error if not finalized' do
+          expect { arranger.retrieve_fragment }.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
         end
 
         describe 'and finalized' do
@@ -263,10 +263,10 @@ describe Prawn::Text::Formatted::Arranger do
       end
     end
 
-    it 'raise_errors an error if called before finalize_line was called' do
+    it 'raises an error if called before finalize_line was called' do
       expect do
         arranger.space_count
-      end.to raise_error(RuntimeError)
+      end.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'returns the total number of spaces in all fragments' do
@@ -311,10 +311,10 @@ describe Prawn::Text::Formatted::Arranger do
       end
     end
 
-    it 'raise_errors an error if called before finalize_line was called' do
+    it 'raises an error if called before finalize_line was called' do
       expect do
         arranger.line_width
-      end.to raise_error(RuntimeError)
+      end.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'returns the width of the complete line' do
@@ -359,10 +359,10 @@ describe Prawn::Text::Formatted::Arranger do
       end
     end
 
-    it 'raise_errors an error if called before finalize_line was called' do
+    it 'raises an error if called before finalize_line was called' do
       expect do
         arranger.line
-      end.to raise_error(RuntimeError)
+      end.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'returns the complete line' do

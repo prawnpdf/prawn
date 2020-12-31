@@ -52,7 +52,7 @@ describe Prawn::SoftMask do
     extgstate = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates.first
     expect(extgstate[:soft_mask][:G].data).to eq(
       "q\n/DeviceRGB cs\n0.0 0.0 0.0 scn\n/DeviceRGB CS\n0.0 0.0 0.0 SCN\n"\
-      "1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.502 0.502 0.502 scn\n"\
+      "1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.50196 0.50196 0.50196 scn\n"\
       "100.0 -100.0 200.0 200.0 re\nf\nQ\n"
     )
   end

@@ -29,25 +29,30 @@ describe Prawn::Images do
   end
 
   it 'accepts IO objects' do
-    file = File.open(filename, 'rb')
-    info = pdf.image(file)
+    info =
+      File.open(filename, 'rb') do |file|
+        pdf.image(file)
+      end
 
     expect(info.height).to eq(453)
   end
 
   it 'rewinds IO objects to be able to embed them multiply' do
-    file = File.open(filename, 'rb')
+    info =
+      File.open(filename, 'rb') do |file|
+        pdf.image(file)
+        pdf.image(file)
+      end
 
-    pdf.image(file)
-    info = pdf.image(file)
     expect(info.height).to eq(453)
   end
 
   it 'does not close passed-in IO objects' do
-    file = File.open(filename, 'rb')
-    _info = pdf.image(file)
+    File.open(filename, 'rb') do |file|
+      pdf.image(file)
 
-    expect(file).to_not be_closed
+      expect(file).to_not be_closed
+    end
   end
 
   it 'accepts Pathname objects' do

@@ -98,8 +98,10 @@ module Prawn
           fragments_this_line.each do |fragment_this_line|
             fragment_this_line.default_direction = @direction
             format_and_draw_fragment(
-              fragment_this_line, accumulated_width,
-              @line_wrap.width, word_spacing
+              fragment_this_line,
+              accumulated_width,
+              @line_wrap.width,
+              word_spacing
             )
             accumulated_width += fragment_this_line.width
           end
@@ -122,11 +124,12 @@ module Prawn
           @line_height = @arranger.max_line_height
           @descender = @arranger.max_descender
           @ascender = @arranger.max_ascender
-          diff = if @baseline_y.zero?
-                   @ascender + @descender
-                 else
-                   @descender + @line_height + @leading
-                 end
+          diff =
+            if @baseline_y.zero?
+              @ascender + @descender
+            else
+              @descender + @line_height + @leading
+            end
           require_relatived_total_height = @baseline_y.abs + diff
           if require_relatived_total_height > @height + 0.0001
             # no room for the full height of this line
@@ -152,12 +155,13 @@ module Prawn
           @everything_printed = false
         end
 
-        def format_and_draw_fragment(fragment, accumulated_width,
-          line_width, word_spacing)
+        def format_and_draw_fragment(fragment, accumulated_width, line_width, word_spacing)
           @arranger.apply_color_and_font_settings(fragment) do
             draw_fragment(
-              fragment, accumulated_width,
-              line_width, word_spacing
+              fragment,
+              accumulated_width,
+              line_width,
+              word_spacing
             )
           end
         end

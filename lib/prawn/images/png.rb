@@ -34,6 +34,7 @@ module Prawn
       # <tt>data</tt>:: A binary string of PNG data
       #
       def initialize(data)
+        super()
         data = StringIO.new(data.dup)
 
         data.read(8) # Skip the default header
@@ -212,7 +213,7 @@ module Prawn
           # - An array with N elements, where N is two times the number of color
           #   components.
           rgb = transparency[:rgb]
-          obj.data[:Mask] = rgb.collect { |x| [x, x] }.flatten
+          obj.data[:Mask] = rgb.map { |x| [x, x] }.flatten
         end
 
         # For PNG color types 4 and 6, the transparency data is stored as

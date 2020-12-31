@@ -14,11 +14,11 @@ Prawn::ManualBuilder::Example.generate(filename) do
     stroke_bounds
 
     %i[left center right].each do |position|
-      text  "Image aligned to the #{position}."
+      text "Image aligned to the #{position}."
       image "#{Prawn::DATADIR}/images/stef.jpg", position: position
     end
 
-    text  'The next image has a 50 point offset from the left boundary'
+    text 'The next image has a 50 point offset from the left boundary'
     image "#{Prawn::DATADIR}/images/stef.jpg", position: 50
   end
 end

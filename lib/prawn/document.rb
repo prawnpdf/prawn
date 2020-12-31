@@ -98,6 +98,7 @@ module Prawn
 
     # @private
     def self.inherited(base)
+      super
       extensions.each { |e| base.extensions << e }
     end
 
@@ -570,11 +571,12 @@ module Prawn
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
 
-      page_filter = if opts.key?(:page_filter)
-                      opts.delete(:page_filter)
-                    else
-                      :all
-                    end
+      page_filter =
+        if opts.key?(:page_filter)
+          opts.delete(:page_filter)
+        else
+          :all
+        end
 
       total_pages = opts.delete(:total_pages)
       txtcolor = opts.delete(:color)
@@ -585,12 +587,13 @@ module Prawn
       pseudopage = 0
       (1..page_count).each do |p|
         unless start_count
-          pseudopage = case start_count_at
-                       when 0
-                         1
-                       else
-                         start_count_at.to_i
-                       end
+          pseudopage =
+            case start_count_at
+            when 0
+              1
+            else
+              start_count_at.to_i
+            end
         end
         if page_match?(page_filter, p)
           go_to_page(p)
@@ -668,9 +671,9 @@ module Prawn
       # and then restores the original values after the block has executed.
       # -- I will remove the nodoc if/when this feature is a little less hacky
       stored = {}
-      fields.each { |f| stored[f] = send(f) }
+      fields.each { |f| stored[f] = public_send(f) }
       yield
-      fields.each { |f| send("#{f}=", stored[f]) }
+      fields.each { |f| public_send("#{f}=", stored[f]) }
     end
 
     # @group Extension API
@@ -737,8 +740,10 @@ module Prawn
 
       # Treat :margin as CSS shorthand with 1-4 values.
       positions = {
-        4 => [0, 1, 2, 3], 3 => [0, 1, 2, 1],
-        2 => [0, 1, 0, 1], 1 => [0, 0, 0, 0],
+        4 => [0, 1, 2, 3],
+        3 => [0, 1, 2, 1],
+        2 => [0, 1, 0, 1],
+        1 => [0, 0, 0, 0],
         0 => []
       }[margin.length]
 

@@ -27,7 +27,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
   end
 
   bounding_box([300, y_position], width: 200, height: 150) do
-    transparent(0.5) { stroke_bounds }  # This will stroke on one page
+    transparent(0.5) { stroke_bounds } # This will stroke on one page
 
     text 'Now look what happens when the free flowing text reaches the end ' \
       'of a bounding box that is narrower than the margin box.' +
@@ -36,7 +36,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
       'was cloned. If we want it to have the same border as the one on ' \
       'the previous page we will need to stroke the boundaries again.'
 
-    transparent(0.5) { stroke_bounds }  # And this will stroke on the next
+    transparent(0.5) { stroke_bounds } # And this will stroke on the next
   end
 
   move_cursor_to 200
@@ -44,7 +44,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     text 'Span is a different kind of bounding box as it lets the text ' \
       "flow gracefully onto the next page. It doesn't matter if the text " \
       'started on the middle of the previous page, when it flows to the ' \
-      'next page it will start at the beginning.' + ' _ ' * 500 +
+      "next page it will start at the beginning.#{' _ ' * 500}" \
       'I told you it would start on the beginning of this page.'
   end
 end

@@ -33,7 +33,9 @@ end
 # Slowest case: styled table, which is very squeezed horizontally,
 #   so text has to be wrapped
 benchmark_table_generation(
-  26, 50, 10,
+  26,
+  50,
+  10,
   row_colors: %w[FFFFFF F0F0FF],
   header: true,
   cell_style: { inline_format: true }
@@ -47,7 +49,9 @@ benchmark_table_generation(10, 100, 5)
 # Try different optional arguments to Prawn::Document#table
 benchmark_table_generation(10, 450, 5, cell_style: { inline_format: true })
 benchmark_table_generation(
-  10, 450, 5,
+  10,
+  450,
+  5,
   row_colors: %w[FFFFFF F0F0FF],
   header: true,
   cell_style: { inline_format: true }

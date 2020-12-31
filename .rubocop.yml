@@ -1,21 +1,15 @@
-require:
-  - rubocop-performance
-  - rubocop-rspec
+inherit_gem:
+  prawn-dev: rubocop.yml
 
-AllCops:
-  TargetRubyVersion: 2.5
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - manual/text/formatted_callbacks.rb
+    - manual/text/text_box_extensions.rb
 
-RSpec/ExampleLength:
-  Enabled: false
-
-RSpec/MultipleExpectations:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Max: 5
-
-RSpec/NotToNot:
-  EnforcedStyle: to_not
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+  Exclude:
+    - prawn.gemspec
 
 # This file shows examples on how to instantiate a document in multiple ways,
 # it does not actually do the instantiation and isn't actually shadowing any
@@ -24,8 +18,12 @@ Lint/ShadowingOuterLocalVariable:
   Exclude:
     - manual/basic_concepts/creation.rb
 
-Metrics/AbcSize:
-  Enabled: false
+# In this case we supress Prawn::Errors::CannotFit while trying to scale
+# text down to fit.
+Lint/SuppressedException:
+  Exclude:
+    - lib/prawn/text/formatted/box.rb
+
 Metrics/BlockLength:
   Exclude:
     - lib/prawn/graphics.rb
@@ -34,31 +32,15 @@ Metrics/BlockLength:
     - manual/**/*.rb
     - prawn.gemspec
     - spec/**/*.rb
-Metrics/ClassLength:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/MethodLength:
-  Enabled: false
-Metrics/ModuleLength:
-  Enabled: false
-Metrics/PerceivedComplexity:
-  Enabled: false
 
 Naming/AccessorMethodName:
   Exclude:
     - lib/prawn/graphics/color.rb
 
-Layout/ParameterAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-# We need to reference non-ascii characters when testing and explaining
-# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
-Style/AsciiComments:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
+Naming/PredicateName:
+  Exclude:
+    - lib/prawn/font/ttf.rb
+    - lib/prawn/font/afm.rb
 
 Style/Encoding:
   # To be safe we are leaving these files encoded ASCII-8BIT as
@@ -68,142 +50,3 @@ Style/Encoding:
     - lib/prawn/images/png.rb
     - lib/prawn/images.rb
     - spec/png_spec.rb
-
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/FirstArrayElementLineBreak:
-  Enabled: true
-
-Layout/FirstHashElementLineBreak:
-  Enabled: true
-
-Layout/FirstMethodArgumentLineBreak:
-  Enabled: true
-
-Layout/FirstArgumentIndentation:
-  EnforcedStyle: consistent
-
-Style/GuardClause:
-  Enabled: false
-
-# In this case we supress Prawn::Errors::CannotFit while trying to scale
-# text down to fit.
-Lint/SuppressedException:
-  Exclude:
-    - lib/prawn/text/formatted/box.rb
-
-# We don't always prefer modified if statements even if they do fit on
-# a line.
-Style/IfUnlessModifier:
-  Enabled: false
-
-Layout/FirstArrayElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-Layout/MultilineOperationIndentation:
-  EnforcedStyle: indented
-  Exclude:
-    - prawn.gemspec
-
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%': '()'
-    '%i': '[]'
-    '%I': '[]'
-    '%q': '()'
-    '%Q': '()'
-    '%r': '{}'
-    '%s': '()'
-    '%w': '[]'
-    '%W': '[]'
-    '%x': '()'
-
-Naming/PredicateName:
-  Exclude:
-    - lib/prawn/font/ttf.rb
-    - lib/prawn/font/afm.rb
-
-Naming/MethodParameterName:
-  MinNameLength: 3
-  AllowNamesEndingInNumbers: true
-  AllowedNames:
-  - id
-  - to
-  - at
-  - x
-  - x1
-  - x2
-  - y
-  - y1
-  - y2
-  - r1
-  - r2
-
-  ForbiddenNames: []
-
-Layout/SpaceAroundOperators:
-  AllowForAlignment: false
-
-Style/WhileUntilModifier:
-  Enabled: false
-
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: false
-
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: false
-
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: false
-
-Lint/RaiseException:
-  Enabled: false
-
-Lint/StructNewOverride:
-  Enabled: false
-
-Style/ExponentialNotation:
-  Enabled: false
-
-Style/HashEachMethods:
-  Enabled: false
-
-Style/HashTransformKeys:
-  Enabled: false
-
-Style/HashTransformValues:
-  Enabled: false
-
-Style/SlicingWithRange:
-  Enabled: false
-
-Performance/AncestorsInclude:
-  Enabled: false
-
-Performance/BigDecimalWithNumericArgument:
-  Enabled: false
-
-Performance/RedundantSortBlock:
-  Enabled: false
-
-Performance/RedundantStringChars:
-  Enabled: false
-
-Performance/ReverseFirst:
-  Enabled: false
-
-Performance/SortReverse:
-  Enabled: false
-
-Performance/Squeeze:
-  Enabled: false
-
-Performance/StringInclude:
-  Enabled: false

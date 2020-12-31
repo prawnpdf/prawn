@@ -9,27 +9,37 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: ${{matrix.image}}
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - ruby:2.5.0
-          - ruby:2.5
-          - ruby:2.6.0
-          - ruby:2.6
-          - ruby:2.7.0
-          - ruby:2.7
-          - jruby:9.2
-        include:
-          - image: ruby:rc
-            continue-on-error: true
+        ruby:
+          - "2.5.0"
+          - "2.5"
+          - "2.6.0"
+          - "2.6"
+          - "2.7.0"
+          - "2.7"
+          - "3.0.0"
+          - ruby-head
+          - jruby-9.2
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Gems cache
+        uses: actions/cache@v2
+        with:
+          path: ~/gems
+          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
+          restore-keys: |
+            gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-
+            gems-${{ matrix.ruby }}-
+      - name: Install dependencies
         run: |
-          gem update --system > /dev/null
-          gem --version
-          gem install -g
+          gem install bundler
+          bundle config path ~/gems
+          bundle install --jobs 4 --retry 3
       - name: Run tests
-        run: rake
+        run: bundle exec rake

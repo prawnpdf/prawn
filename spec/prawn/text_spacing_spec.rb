@@ -11,7 +11,7 @@ describe Prawn::Text do
         pdf.text('hello world')
       end
       contents = PDF::Inspector::Text.analyze(pdf.render)
-      expect(contents.character_spacing.first).to eq(10.5556)
+      expect(contents.character_spacing.first).to eq(10.55556)
     end
 
     it 'does not draw the character spacing to the document' \
@@ -64,7 +64,7 @@ describe Prawn::Text do
         pdf.text('hello world')
       end
       contents = PDF::Inspector::Text.analyze(pdf.render)
-      expect(contents.word_spacing.first).to eq(10.5556)
+      expect(contents.word_spacing.first).to eq(10.55556)
     end
 
     it 'draws the word spacing to the document' \

@@ -9,12 +9,12 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  text 'The Prince',          align: :center, size: 18
+  text 'The Prince', align: :center, size: 18
   text 'Niccolò Machiavelli', align: :center, size: 14
   move_down 12
 
   column_box([0, cursor], columns: 2, width: bounds.width) do
-    text((<<-TEXT.gsub(/\s+/, ' ') + "\n\n") * 3)
+    text("#{<<~TEXT.gsub(/\s+/, ' ')}\n\n" * 3)
       All the States and Governments by which men are or ever have been ruled,
       have been and are either Republics or Princedoms. Princedoms are either
       hereditary, in which the sovereignty is derived through an ancient line

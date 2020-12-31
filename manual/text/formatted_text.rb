@@ -24,7 +24,7 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  formatted_text [
+  formatted_text([
     { text: 'Some bold. ', styles: [:bold] },
     { text: 'Some italic. ', styles: [:italic] },
     { text: 'Bold italic. ', styles: %i[bold italic] },
@@ -42,7 +42,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
       color: '0000FF',
       local: './local_file.txt'
     }
-  ]
+  ])
 
   formatted_text_box(
     [
@@ -50,9 +50,12 @@ Prawn::ManualBuilder::Example.generate(filename) do
       { text: ' text_box ', font: 'Courier' },
       {
         text: 'with some additional formatting options added to the mix.',
-        color: [50, 100, 0, 0], styles: [:italic]
+        color: [50, 100, 0, 0],
+        styles: [:italic]
       }
     ],
-    at: [100, 100], width: 200, height: 100
+    at: [100, 100],
+    width: 200,
+    height: 100
   )
 end

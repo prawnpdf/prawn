@@ -192,21 +192,19 @@ module Prawn
 
       color = options.delete(:color)
       if color
-        array = array.map do |fragment|
-          fragment[:color] ? fragment : fragment.merge(color: color)
-        end
+        array =
+          array.map do |fragment|
+            fragment[:color] ? fragment : fragment.merge(color: color)
+          end
       end
 
       if @indent_paragraphs
         text_formatter.array_paragraphs(array).each do |paragraph|
           remaining_text = draw_indented_formatted_line(paragraph, options)
 
-          if @no_text_printed
-            # unless this paragraph was an empty line
-            unless @all_text_printed
-              @bounding_box.move_past_bottom
-              remaining_text = draw_indented_formatted_line(paragraph, options)
-            end
+          if @no_text_printed && !@all_text_printed
+            @bounding_box.move_past_bottom
+            remaining_text = draw_indented_formatted_line(paragraph, options)
           end
 
           unless @all_text_printed
@@ -337,8 +335,8 @@ module Prawn
     #
     def height_of_formatted(array, options = {})
       if options[:indent_paragraphs]
-        raise NotImplementedError, ':indent_paragraphs option not available' \
-          'with height_of'
+        raise NotImplementedError,
+          ':indent_paragraphs option not available with height_of'
       end
       process_final_gap_option(options)
       box = Text::Formatted::Box.new(
@@ -364,11 +362,12 @@ module Prawn
     end
 
     def draw_indented_formatted_line(string, options)
-      gap = if options.fetch(:direction, text_direction) == :ltr
-              [@indent_paragraphs, 0]
-            else
-              [0, @indent_paragraphs]
-            end
+      gap =
+        if options.fetch(:direction, text_direction) == :ltr
+          [@indent_paragraphs, 0]
+        else
+          [0, @indent_paragraphs]
+        end
 
       indent(*gap) do
         fill_formatted_text_box(string, options.dup.merge(single_line: true))
@@ -421,8 +420,9 @@ module Prawn
 
     def inspect_options_for_text(options)
       if options[:at]
-        raise ArgumentError, ':at is no longer a valid option with text.' \
-                             'use draw_text or text_box instead'
+        raise ArgumentError,
+          ':at is no longer a valid option with text.' \
+          'use draw_text or text_box instead'
       end
       process_final_gap_option(options)
       process_indent_paragraphs_option(options)

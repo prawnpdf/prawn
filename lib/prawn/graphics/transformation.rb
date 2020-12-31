@@ -48,7 +48,7 @@ module Prawn
         if options[:origin].nil?
           transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
         else
-          raise Prawn::Errors::BlockRequired unless block_given?
+          raise Prawn::Errors::BlockRequired unless block
 
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
@@ -118,7 +118,7 @@ module Prawn
         if options[:origin].nil?
           transformation_matrix(factor, 0, 0, factor, 0, 0, &block)
         else
-          raise Prawn::Errors::BlockRequired unless block_given?
+          raise Prawn::Errors::BlockRequired unless block
 
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
@@ -149,11 +149,11 @@ module Prawn
           raise ArgumentError,
             'Transformation matrix must have exacty 6 elements'
         end
-        values = matrix.map { |x| x.to_f.round(5) }.join(' ')
         save_graphics_state if block_given?
 
         add_to_transformation_stack(*matrix)
 
+        values = PDF::Core.real_params(matrix)
         renderer.add_content "#{values} cm"
         if block_given?
           yield

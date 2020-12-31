@@ -17,7 +17,7 @@ require_relative '../example_helper'
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   text 'This text should be left aligned'
-  text 'This text should be centered',      align: :center
+  text 'This text should be centered', align: :center
   text 'This text should be right aligned', align: :right
 
   bounding_box([0, 220], width: 250, height: 220) do
@@ -36,7 +36,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   bounding_box([300, 220], width: 250, height: 220) do
     text 'This text should be vertically top aligned'
-    text 'This text should be vertically centered',       valign: :center
+    text 'This text should be vertically centered', valign: :center
     text 'This text should be vertically bottom aligned', valign: :bottom
     transparent(0.5) { stroke_bounds }
   end

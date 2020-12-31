@@ -15,9 +15,9 @@ require_relative '../example_helper'
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
   canvas do
-    fill_circle [bounds.left, bounds.top],     30
-    fill_circle [bounds.right, bounds.top],    30
+    fill_circle [bounds.left, bounds.top], 30
+    fill_circle [bounds.right, bounds.top], 30
     fill_circle [bounds.right, bounds.bottom], 30
-    fill_circle [0, 0],                        30
+    fill_circle [0, 0], 30
   end
 end
