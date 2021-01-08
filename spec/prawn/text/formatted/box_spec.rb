@@ -845,5 +845,36 @@ describe Prawn::Text::Formatted::Box do
 
       expect(text_box.at[1]).to be_within(0.01).of(top_padding)
     end
+
+    it 'raise an exception when valign value is an invalid symbol' do
+      array =  [{ text: 'Invalid Vertical Align' }]
+      options = { document: pdf, align: ':justify' }
+      text_box = described_class.new(array, options)
+      expect { text_box.render }.to raise_error(
+                                        ArgumentError,
+                                        'align must be one of :left, :right or :center symbols'
+                                    )
+    end
+  end
+
+  describe 'Text::Formatted::Box#render with :valign => invalid argument' do
+    it 'raise an exception when valign value is not a symbol' do
+      array =  [{ text: 'Invalid Vertical Align' }]
+      options = { document: pdf, align: 'center' }
+      text_box = described_class.new(array, options)
+      expect { text_box.render }.to raise_error(
+                                        ArgumentError,
+                                        'align must be one of :left, :right or :center symbols'
+                                    )
+    end
+    it 'raise an exception when valign value is an invalid symbol' do
+      array =  [{ text: 'Invalid Vertical Align' }]
+      options = { document: pdf, align: ':justify' }
+      text_box = described_class.new(array, options)
+      expect { text_box.render }.to raise_error(
+                                        ArgumentError,
+                                        'align must be one of :left, :right or :center symbols'
+                                    )
+    end
   end
 end
