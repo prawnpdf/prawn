@@ -521,7 +521,7 @@ module Prawn
             @at[1] -= (@height - height)
           else
             raise ArgumentError,
-                  'valign must be one of :left, :right or :center symbols'
+              'valign must be one of :left, :right or :center symbols'
           end
 
           @height = height
