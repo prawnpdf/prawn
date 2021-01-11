@@ -12,6 +12,8 @@ module Prawn
   class Document
     # @group Stable API
 
+    DEFAULT_OPTS = {}.freeze
+
     # Without arguments, this returns the currently selected font. Otherwise,
     # it sets the current font. When a block is used, the font is applied
     # transactionally and is rolled back when the block exits.
@@ -45,7 +47,7 @@ module Prawn
     # font files.
     # See font_families for more information.
     #
-    def font(name = nil, options = {})
+    def font(name = nil, options = DEFAULT_OPTS)
       return((defined?(@font) && @font) || font('Helvetica')) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
@@ -336,6 +338,7 @@ module Prawn
       @identifier = generate_unique_id
 
       @references = {}
+      @subset_name_cache = {}
     end
 
     # The size of the font ascender in PDF points
@@ -394,13 +397,11 @@ module Prawn
     #
     def add_to_current_page(subset)
       @references[subset] ||= register(subset)
-      @document.state.page.fonts.merge!(
-        identifier_for(subset) => @references[subset]
-      )
+      @document.state.page.fonts[identifier_for(subset)] = @references[subset]
     end
 
     def identifier_for(subset) #:nodoc:
-      "#{@identifier}.#{subset}".to_sym
+      @subset_name_cache[subset] ||= "#{@identifier}.#{subset}".to_sym
     end
 
     def inspect #:nodoc:
