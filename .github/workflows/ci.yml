@@ -7,6 +7,29 @@ on:
     - cron: "6 20 * * 6"
 
 jobs:
+  code-style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0
+      - name: Gems cache
+        uses: actions/cache@v2
+        with:
+          path: ~/gems
+          key: gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
+          restore-keys: |
+            gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-
+            gems-3.0.0-
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle config path ~/gems
+          bundle install --jobs 4 --retry 3
+      - name: Check code style
+        run: bundle exec rake rubocop
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -42,4 +65,4 @@ jobs:
           bundle config path ~/gems
           bundle install --jobs 4 --retry 3
       - name: Run tests
-        run: bundle exec rake
+        run: bundle exec rake spec
