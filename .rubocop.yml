@@ -6,6 +6,11 @@ Lint/ConstantDefinitionInBlock:
     - manual/text/formatted_callbacks.rb
     - manual/text/text_box_extensions.rb
 
+Layout/LineLength:
+  Exclude:
+    # Hashes are long
+    - spec/prawn_manual_spec.rb
+
 Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
   Exclude:

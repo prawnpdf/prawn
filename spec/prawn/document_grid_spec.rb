@@ -38,13 +38,15 @@ describe Prawn::Document do
       end
 
       it 'computes the column width' do
-        expect(pdf.grid.column_width * num_columns.to_f +
-          gutter * (num_columns - 1).to_f).to eq(pdf.bounds.width)
+        expect(
+          pdf.grid.column_width * num_columns.to_f + gutter * (num_columns - 1).to_f
+        ).to eq(pdf.bounds.width)
       end
 
       it 'computes the row height' do
-        expect(pdf.grid.row_height * num_rows.to_f +
-          gutter * (num_rows - 1).to_f).to eq(pdf.bounds.height)
+        expect(
+          pdf.grid.row_height * num_rows.to_f + gutter * (num_rows - 1).to_f
+        ).to eq(pdf.bounds.height)
       end
 
       it 'gives the edges of a grid box' do

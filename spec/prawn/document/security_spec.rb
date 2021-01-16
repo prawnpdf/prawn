@@ -47,12 +47,14 @@ describe Prawn::Document::Security do
 
     it 'defaults to full permissions' do
       expect(doc_with_permissions({}).permissions_value).to eq(0xFFFFFFFF)
-      expect(doc_with_permissions(
-        print_document: true,
-        modify_contents: true,
-        copy_contents: true,
-        modify_annotations: true
-      ).permissions_value)
+      expect(
+        doc_with_permissions(
+          print_document: true,
+          modify_contents: true,
+          copy_contents: true,
+          modify_annotations: true
+        ).permissions_value
+      )
         .to eq(0xFFFFFFFF)
     end
 
@@ -120,23 +122,33 @@ describe Prawn::Document::Security do
     end
 
     it 'encrypts literal strings properly' do
-      expect(PDF::Core.encrypted_pdf_object(
-        PDF::Core::LiteralString.new('foo'), '12345', 123, 0
-      )).to eq(bin_string("(J\xD6\xE3)"))
-      expect(PDF::Core.encrypted_pdf_object(
-        PDF::Core::LiteralString.new('lhfbqg3do5u0satu3fjf'), nil, 123, 0
-      )).to eq(bin_string(
-        "(\xF1\x8B\\(\b\xBB\xE18S\x130~4*#\\(%\x87\xE7\x8E\\\n)"
-      ))
+      expect(
+        PDF::Core.encrypted_pdf_object(
+          PDF::Core::LiteralString.new('foo'), '12345', 123, 0
+        )
+      ).to eq(bin_string("(J\xD6\xE3)"))
+      expect(
+        PDF::Core.encrypted_pdf_object(
+          PDF::Core::LiteralString.new('lhfbqg3do5u0satu3fjf'), nil, 123, 0
+        )
+      ).to eq(
+        bin_string(
+          "(\xF1\x8B\\(\b\xBB\xE18S\x130~4*#\\(%\x87\xE7\x8E\\\n)"
+        )
+      )
     end
 
     it 'encrypts time properly' do
-      expect(PDF::Core.encrypted_pdf_object(
-        Time.utc(2050, 0o4, 26, 10, 17, 10), '12345', 123, 0
-      )).to eq(bin_string(
-        "(h\x83\xBE\xDC\xEC\x99\x0F\xD7\\)%\x13\xD4$\xB8\xF0\x16\xB8\x80\xC5"\
-        "\xE91+\xCF)"
-      ))
+      expect(
+        PDF::Core.encrypted_pdf_object(
+          Time.utc(2050, 0o4, 26, 10, 17, 10), '12345', 123, 0
+        )
+      ).to eq(
+        bin_string(
+          "(h\x83\xBE\xDC\xEC\x99\x0F\xD7\\)%\x13\xD4$\xB8\xF0\x16\xB8\x80\xC5"\
+          "\xE91+\xCF)"
+        )
+      )
     end
 
     it 'properlies handle compound types' do

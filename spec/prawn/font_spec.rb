@@ -313,11 +313,13 @@ describe Prawn::Font do
     it 'calculates string width taking into account kerning pairs' do
       expect(times.compute_width_of(win1252_string('To'), size: 12))
         .to eq(13.332)
-      expect(times.compute_width_of(
-        win1252_string('To'),
-        size: 12,
-        kerning: true
-      )).to eq(12.372)
+      expect(
+        times.compute_width_of(
+          win1252_string('To'),
+          size: 12,
+          kerning: true
+        )
+      ).to eq(12.372)
 
       input = win1252_string("T\xF6") # Tö in win-1252
       expect(times.compute_width_of(input, size: 12, kerning: true))
@@ -414,27 +416,37 @@ describe Prawn::Font do
 
       expect(font.encode_text('Technology')).to eq([[0, 'Technology']])
       expect(font.encode_text('Technology...')).to eq([[0, 'Technology...']])
-      expect(font.encode_text('Teχnology...')).to eq([
-        [0, 'Te'],
-        [1, '!'], [0, 'nology...']
-      ])
+      expect(font.encode_text('Teχnology...')).to eq(
+        [
+          [0, 'Te'],
+          [1, '!'], [0, 'nology...']
+        ]
+      )
     end
 
     it 'encodes text with kerning if requested' do
-      expect(font.encode_text('To', kerning: true)).to eq([
-        [0, ['T', 169.921875, 'o']]
-      ])
-      expect(font.encode_text('Technology', kerning: true)).to eq([
-        [0, ['T', 169.921875, 'echnology']]
-      ])
-      expect(font.encode_text('Technology...', kerning: true)).to eq([
-        [0, ['T', 169.921875, 'echnology', 142.578125, '...']]
-      ])
-      expect(font.encode_text('Teχnology...', kerning: true)).to eq([
-        [0, ['T', 169.921875, 'e']],
-        [1, '!'],
-        [0, ['nology', 142.578125, '...']]
-      ])
+      expect(font.encode_text('To', kerning: true)).to eq(
+        [
+          [0, ['T', 169.921875, 'o']]
+        ]
+      )
+      expect(font.encode_text('Technology', kerning: true)).to eq(
+        [
+          [0, ['T', 169.921875, 'echnology']]
+        ]
+      )
+      expect(font.encode_text('Technology...', kerning: true)).to eq(
+        [
+          [0, ['T', 169.921875, 'echnology', 142.578125, '...']]
+        ]
+      )
+      expect(font.encode_text('Teχnology...', kerning: true)).to eq(
+        [
+          [0, ['T', 169.921875, 'e']],
+          [1, '!'],
+          [0, ['nology', 142.578125, '...']]
+        ]
+      )
     end
 
     it 'uses the ascender, descender, and cap height from the TTF verbatim' do
@@ -495,9 +507,11 @@ describe Prawn::Font do
 
     it 'lists all named fonts' do
       list = Prawn::Fonts::DFont.named_fonts(file)
-      expect(list).to match_array(%w[
-        PanicSans PanicSans-Bold PanicSans-BoldItalic PanicSans-Italic
-      ])
+      expect(list).to match_array(
+        %w[
+          PanicSans PanicSans-Bold PanicSans-BoldItalic PanicSans-Italic
+        ]
+      )
     end
 
     it 'counts the number of fonts in the file' do

@@ -336,18 +336,22 @@ describe Prawn::Text::Box do
         y = 45
         x_prime = x * cos - y * sin
         y_prime = x * sin + y * cos
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x - x_prime),
+            reduce_precision(y - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings).to_not be_empty
@@ -364,18 +368,22 @@ describe Prawn::Text::Box do
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
         x_prime = 300 * cos - 70 * sin
         y_prime = 300 * sin + 70 * cos
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(300 - x_prime),
-          reduce_precision(70 - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(300 - x_prime),
+            reduce_precision(70 - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings).to_not be_empty
@@ -391,18 +399,22 @@ describe Prawn::Text::Box do
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
         x_prime = 300 * cos - 70 * sin
         y_prime = 300 * sin + 70 * cos
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(300 - x_prime),
-          reduce_precision(70 - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(300 - x_prime),
+            reduce_precision(70 - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings).to_not be_empty
@@ -421,18 +433,22 @@ describe Prawn::Text::Box do
         y = 70
         x_prime = x * cos - y * sin
         y_prime = x * sin + y * cos
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x - x_prime),
+            reduce_precision(y - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings).to_not be_empty
@@ -451,18 +467,22 @@ describe Prawn::Text::Box do
         y = 20
         x_prime = x * cos - y * sin
         y_prime = x * sin + y * cos
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x - x_prime),
+            reduce_precision(y - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings).to_not be_empty
@@ -481,18 +501,22 @@ describe Prawn::Text::Box do
         y = 20
         x_prime = x * cos - y * sin
         y_prime = x * sin + y * cos
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x - x_prime),
+            reduce_precision(y - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         expect(text.strings).to_not be_empty

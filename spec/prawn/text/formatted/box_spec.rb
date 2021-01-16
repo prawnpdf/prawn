@@ -102,12 +102,14 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'properlies handle empty slices using default encoding' do
-      texts = [{
-        text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
-          'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
-        font: 'Courier',
-        size: 10
-      }]
+      texts = [
+        {
+          text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
+            'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
+          font: 'Courier',
+          size: 10
+        }
+      ]
       text_box = described_class.new(
         texts,
         document: pdf,
@@ -697,10 +699,12 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'is able to set color via an rgb hex string' do
-      array = [{
-        text: 'rgb',
-        color: 'ff0000'
-      }]
+      array = [
+        {
+          text: 'rgb',
+          color: 'ff0000'
+        }
+      ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
       colors = PDF::Inspector::Graphics::Color.analyze(pdf.render)
@@ -709,10 +713,12 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'is able to set color using a cmyk array' do
-      array = [{
-        text: 'cmyk',
-        color: [100, 0, 0, 0]
-      }]
+      array = [
+        {
+          text: 'cmyk',
+          color: [100, 0, 0, 0]
+        }
+      ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
       colors = PDF::Inspector::Graphics::Color.analyze(pdf.render)
@@ -728,10 +734,12 @@ describe Prawn::Text::Formatted::Box do
       stroke_color_count = state_before.stroke_color_count
       stroke_color_space_count = state_before.stroke_color_space_count
 
-      array = [{
-        text: 'Foo',
-        color: [0, 0, 0, 100]
-      }]
+      array = [
+        {
+          text: 'Foo',
+          color: [0, 0, 0, 100]
+        }
+      ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
       text_box.render(dry_run: true)
@@ -747,10 +755,12 @@ describe Prawn::Text::Formatted::Box do
   describe 'Text::Formatted::Box#render with fragment level '\
     ':character_spacing option' do
     it 'draws the character spacing to the document' do
-      array = [{
-        text: 'hello world',
-        character_spacing: 7
-      }]
+      array = [
+        {
+          text: 'hello world',
+          character_spacing: 7
+        }
+      ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
       text_box.render
@@ -759,11 +769,13 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'lays out text properly' do
-      array = [{
-        text: 'hello world',
-        font: 'Courier',
-        character_spacing: 10
-      }]
+      array = [
+        {
+          text: 'hello world',
+          font: 'Courier',
+          character_spacing: 10
+        }
+      ]
       options = {
         document: pdf,
         width: 100,

@@ -431,144 +431,162 @@ describe Prawn::Text::Formatted::Parser do
   describe '#to_string' do
     it 'handles sup' do
       string = '<sup>superscript</sup>'
-      array = [{
-        text: 'superscript',
-        styles: [:superscript],
-        color: nil,
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'superscript',
+          styles: [:superscript],
+          color: nil,
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles sub' do
       string = '<sub>subscript</sub>'
-      array = [{
-        text: 'subscript',
-        styles: [:subscript],
-        color: nil,
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'subscript',
+          styles: [:subscript],
+          color: nil,
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles rgb' do
       string = "<color rgb='ff0000'>red text</color>"
-      array = [{
-        text: 'red text',
-        styles: [],
-        color: 'ff0000',
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'red text',
+          styles: [],
+          color: 'ff0000',
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles cmyk' do
       string = "<color c='0' m='100' y='0' k='0'>magenta text</color>"
-      array = [{
-        text: 'magenta text',
-        styles: [],
-        color: [0, 100, 0, 0],
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'magenta text',
+          styles: [],
+          color: [0, 100, 0, 0],
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles fonts' do
       string = "<font name='Courier'>Courier text</font>"
-      array = [{
-        text: 'Courier text',
-        styles: [],
-        color: nil,
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: 'Courier',
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'Courier text',
+          styles: [],
+          color: nil,
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: 'Courier',
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles size' do
       string = "<font size='14'>14 point text</font>"
-      array = [{
-        text: '14 point text',
-        styles: [],
-        color: nil,
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: 14,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: '14 point text',
+          styles: [],
+          color: nil,
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: 14,
+          character_spacing: nil
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles character spacing' do
       string =
         "<font character_spacing='2.5'>2.5 extra character spacing</font>"
-      array = [{
-        text: '2.5 extra character spacing',
-        styles: [],
-        color: nil,
-        link: nil,
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: nil,
-        character_spacing: 2.5
-      }]
+      array = [
+        {
+          text: '2.5 extra character spacing',
+          styles: [],
+          color: nil,
+          link: nil,
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: nil,
+          character_spacing: 2.5
+        }
+      ]
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles links' do
-      array = [{
-        text: 'external link',
-        styles: [],
-        color: nil,
-        link: 'http://example.com',
-        anchor: nil,
-        local: nil,
-        font: nil,
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'external link',
+          styles: [],
+          color: nil,
+          link: 'http://example.com',
+          anchor: nil,
+          local: nil,
+          font: nil,
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       string = "<link href='http://example.com'>external link</link>"
       expect(described_class.to_string(array)).to eq(string)
     end
 
     it 'handles anchors' do
-      array = [{
-        text: 'internal link',
-        styles: [],
-        color: nil,
-        link: nil,
-        anchor: 'ToC',
-        font: nil,
-        size: nil,
-        character_spacing: nil
-      }]
+      array = [
+        {
+          text: 'internal link',
+          styles: [],
+          color: nil,
+          link: nil,
+          anchor: 'ToC',
+          font: nil,
+          size: nil,
+          character_spacing: nil
+        }
+      ]
       string = "<link anchor='ToC'>internal link</link>"
       expect(described_class.to_string(array)).to eq(string)
     end

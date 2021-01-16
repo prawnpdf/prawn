@@ -163,9 +163,11 @@ describe Prawn::Text::Formatted::LineWrap do
     end
 
     it 'does not break on NBSP in a Win-1252 encoded string' do
-      array = [{
-        text: "hello#{Prawn::Text::NBSP}world".encode(Encoding::Windows_1252)
-      }]
+      array = [
+        {
+          text: "hello#{Prawn::Text::NBSP}world".encode(Encoding::Windows_1252)
+        }
+      ]
       arranger.format_array = array
       string = line_wrap.wrap_line(
         arranger: arranger,

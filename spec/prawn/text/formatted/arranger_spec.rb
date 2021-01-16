@@ -214,9 +214,11 @@ describe Prawn::Text::Formatted::Arranger do
         text: ' you',
         styles: %i[bold italic]
       )
-      expect(arranger.unconsumed).to eq([
-        { text: ' now?', styles: %i[bold italic] }
-      ])
+      expect(arranger.unconsumed).to eq(
+        [
+          { text: ' now?', styles: %i[bold italic] }
+        ]
+      )
     end
 
     it 'sets the format state to the previously processed fragment' do
@@ -457,10 +459,12 @@ describe Prawn::Text::Formatted::Arranger do
       arranger.retrieve_fragment
       arranger.retrieve_fragment
       arranger.repack_unretrieved
-      expect(arranger.unconsumed).to eq([
-        { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
-      ])
+      expect(arranger.unconsumed).to eq(
+        [
+          { text: 'are', styles: %i[bold italic] },
+          { text: ' you now?' }
+        ]
+      )
     end
   end
 end
