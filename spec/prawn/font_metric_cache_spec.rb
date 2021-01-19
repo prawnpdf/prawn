@@ -53,15 +53,16 @@ describe Prawn::FontMetricCache do
   end
 
   it 'does not use the cached width of a different font size' do
-    pdf = Prawn::Document.new do
-      font('Helvetica', size: 42, style: :bold) do
-        text 'First part M'
+    pdf =
+      Prawn::Document.new do
+        font('Helvetica', size: 42, style: :bold) do
+          text 'First part M'
+        end
+        font('Helvetica', size: 12) do
+          text '<strong>First part M</strong> second part', inline_format: true
+          text '<strong>First part W</strong> second part.', inline_format: true
+        end
       end
-      font('Helvetica', size: 12) do
-        text '<strong>First part M</strong> second part', inline_format: true
-        text '<strong>First part W</strong> second part.', inline_format: true
-      end
-    end
 
     x_positions = PDF::Inspector::Text.analyze(pdf.render).positions.map(&:first)
 
