@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   ]
   spec.licenses = %w[PRAWN GPL-2.0 GPL-3.0]
 
+  spec.add_dependency('matrix', '~> 0.4')
   spec.add_dependency('pdf-core', '~> 0.9.0')
   spec.add_dependency('ttfunk', '~> 1.7')
 
