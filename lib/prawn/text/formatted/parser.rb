@@ -33,6 +33,14 @@ module Prawn
             Regexp.new(regex_string, Regexp::MULTILINE)
           end
 
+        ESCAPE_CHARS = {
+          '&' => '&amp;',
+          '>' => '&gt;',
+          '<' => '&lt;'
+        }.freeze
+
+        UNESCAPE_CHARS = ESCAPE_CHARS.invert.freeze
+
         def self.format(string, *_args)
           tokens = string.gsub(%r{<br\s*/?>}, "\n").scan(PARSER_REGEX)
           array_from_tokens(tokens)
@@ -94,8 +102,7 @@ module Prawn
               suffix = '</color>'
             end
 
-            string = hash[:text].gsub('&', '&amp;').gsub('>', '&gt;')
-              .gsub('<', '&lt;')
+            string = escape(hash[:text])
             prefix + string + suffix
           end.join
         end
@@ -221,8 +228,7 @@ module Prawn
                 /character_spacing='([^']*)'/.match(token)
               character_spacings << matches[1].to_f unless matches.nil?
             else
-              string = token.gsub('&lt;', '<').gsub('&gt;', '>')
-                .gsub('&amp;', '&')
+              string = unescape(token)
               array << {
                 text: string,
                 styles: styles.dup,
@@ -237,6 +243,14 @@ module Prawn
             end
           end
           array
+        end
+
+        def self.escape(text)
+          text.gsub(Regexp.union(ESCAPE_CHARS.keys), ESCAPE_CHARS)
+        end
+
+        def self.unescape(text)
+          text.gsub(Regexp.union(UNESCAPE_CHARS.keys), UNESCAPE_CHARS)
         end
       end
     end
