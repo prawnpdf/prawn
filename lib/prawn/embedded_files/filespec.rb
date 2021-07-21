@@ -3,7 +3,7 @@
 module Prawn
   module EmbeddedFiles
     class Filespec
-      attr_reader :file_name, :not_hidden
+      attr_reader :file_name
 
       def initialize(file, options = {})
         name = options[:name] || file.chksum
@@ -15,15 +15,12 @@ module Prawn
           @description = PDF::Core::LiteralString.new(desc_str)
         end
 
-        if options[:hidden].nil? || options[:hidden] != true
-          @not_hidden = true
-        end
-
+        @hidden = options[:hidden] == true
         @file = file
       end
 
-      def hidden
-        !@not_hidden
+      def hidden?
+        @hidden
       end
 
       def build_pdf_object(document)

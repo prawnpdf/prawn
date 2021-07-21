@@ -32,7 +32,7 @@ module Prawn
       filespec = Filespec.new(file_obj, options)
       filespec_obj = filespec.build_pdf_object(self)
 
-      unless filespec.hidden
+      unless filespec.hidden?
         # Wait for pdf-core PR
 
         # attach_file(filespec.file_name, filespec_obj)
