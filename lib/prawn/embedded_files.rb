@@ -13,6 +13,8 @@ module Prawn
       elsif path.file?
         data = path.read
         options[:name] ||= src
+        options[:creation_date] ||= path.birthtime
+        options[:modification_date] ||= path.mtime
       else
         data = src
       end
