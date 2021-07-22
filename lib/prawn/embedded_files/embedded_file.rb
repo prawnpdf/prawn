@@ -9,12 +9,12 @@ module Prawn
 
       def initialize(data, options = {})
         @creation_date = options[:creation_date]
-        unless @creation_date.instance_of?(Time)
+        unless @creation_date.kind_of?(Time)
           @creation_date = Time.now.utc
         end
 
         @mod_date = options[:modification_date]
-        unless @mod_date.instance_of?(Time)
+        unless @mod_date.kind_of?(Time)
           @mod_date = Time.now.utc
         end
 
