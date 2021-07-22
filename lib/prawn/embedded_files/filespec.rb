@@ -31,7 +31,7 @@ module Prawn
           UF: @file_name
         )
 
-        obj[:Desc] = @description if @description
+        obj.data[:Desc] = @description if @description
         obj
       end
     end
