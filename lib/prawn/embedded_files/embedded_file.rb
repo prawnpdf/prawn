@@ -34,7 +34,7 @@ module Prawn
         )
 
         obj << data
-        obj.stream.compress!
+        obj.stream.compress! if document.compression_enabled?
         obj
       end
 
