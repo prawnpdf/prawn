@@ -22,11 +22,11 @@ module Prawn
       @file_registry ||= {}
 
       file = EmbeddedFile.new(data, options)
-      file_obj = @file_registry[file.chksum]
+      file_obj = @file_registry[file.checksum]
 
       if file_obj.nil?
         file_obj = file.build_pdf_object(self)
-        @file_registry[file.chksum] = file_obj
+        @file_registry[file.checksum] = file_obj
       end
 
       filespec = Filespec.new(file_obj, options)

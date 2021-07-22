@@ -6,7 +6,7 @@ module Prawn
       attr_reader :file_name
 
       def initialize(file, options = {})
-        name = options[:name] || file.chksum
+        name = options[:name] || file.checksum
 
         @file_name = PDF::Core::LiteralString.new(name)
 

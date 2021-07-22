@@ -5,7 +5,7 @@ require 'digest/md5'
 module Prawn
   module EmbeddedFiles
     class EmbeddedFile
-      attr_reader :chksum
+      attr_reader :checksum
 
       def initialize(data, options = {})
         @creation_date = options[:creation_date]
@@ -18,7 +18,7 @@ module Prawn
           @mod_date = Time.now.utc
         end
 
-        @chksum = Digest::MD5.digest(data)
+        @checksum = Digest::MD5.digest(data)
         @data = data
       end
 
@@ -28,7 +28,7 @@ module Prawn
           Params: {
             CreationDate: @creation_date,
             ModDate: @mod_date,
-            CheckSum: PDF::Core::LiteralString.new(@chksum),
+            CheckSum: PDF::Core::LiteralString.new(@checksum),
             Size: @data.length
           }
         )
