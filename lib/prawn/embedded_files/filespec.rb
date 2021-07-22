@@ -15,7 +15,7 @@ module Prawn
           @description = PDF::Core::LiteralString.new(desc_str)
         end
 
-        @hidden = options[:hidden] == true
+        @hidden = options[:hidden]
         @file = file
       end
 
