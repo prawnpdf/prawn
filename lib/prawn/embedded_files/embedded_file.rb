@@ -19,7 +19,7 @@ module Prawn
         end
 
         @chksum = Digest::MD5.digest(data)
-        @data = data.dup
+        @data = data
       end
 
       def build_pdf_object(document)
