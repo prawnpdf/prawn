@@ -18,7 +18,7 @@ module Prawn
           @mod_date = Time.now.utc
         end
 
-        @chksum = Digest::MD5.hexdigest(data)
+        @chksum = Digest::MD5.digest(data)
         @data = data.dup
       end
 
