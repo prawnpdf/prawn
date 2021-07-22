@@ -26,14 +26,18 @@ module Prawn
       def build_pdf_object(document)
         obj = document.ref!(
           Type: :Filespec,
-          F: @file_name,
-          EF: { F: @file },
-          UF: @file_name
+          F: file_name,
+          EF: { F: file },
+          UF: file_name
         )
 
-        obj.data[:Desc] = @description if @description
+        obj.data[:Desc] = description if description
         obj
       end
+
+      private
+
+      attr_reader :file, :description
     end
   end
 end

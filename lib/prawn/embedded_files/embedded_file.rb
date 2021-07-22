@@ -13,9 +13,9 @@ module Prawn
           @creation_date = Time.now.utc
         end
 
-        @mod_date = options[:modification_date]
-        unless @mod_date.kind_of?(Time)
-          @mod_date = Time.now.utc
+        @modification_date = options[:modification_date]
+        unless @modification_date.kind_of?(Time)
+          @modification_date = Time.now.utc
         end
 
         @checksum = Digest::MD5.digest(data)
@@ -26,17 +26,21 @@ module Prawn
         obj = document.ref!(
           Type: :EmbeddedFile,
           Params: {
-            CreationDate: @creation_date,
-            ModDate: @mod_date,
-            CheckSum: PDF::Core::LiteralString.new(@checksum),
-            Size: @data.length
+            CreationDate: creation_date,
+            ModDate: modification_date,
+            CheckSum: PDF::Core::LiteralString.new(checksum),
+            Size: data.length
           }
         )
 
-        obj << @data
+        obj << data
         obj.stream.compress!
         obj
       end
+
+      private
+
+      attr_reader :data, :creation_date, :modification_date
     end
   end
 end
