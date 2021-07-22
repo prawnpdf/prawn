@@ -7,21 +7,22 @@ module Prawn
 
     def file(src, options = {})
       path = Pathname.new(src)
+      mut_opts = options.dup
 
       if path.directory?
         raise ArgumentError, 'Data source can\'t be a directory'
       elsif path.file?
         data = path.read
-        options[:name] ||= src
-        options[:creation_date] ||= path.birthtime
-        options[:modification_date] ||= path.mtime
+        mut_opts[:name] ||= src
+        mut_opts[:creation_date] ||= path.birthtime
+        mut_opts[:modification_date] ||= path.mtime
       else
         data = src
       end
 
       @file_registry ||= {}
 
-      file = EmbeddedFile.new(data, options)
+      file = EmbeddedFile.new(data, mut_opts)
       file_obj = @file_registry[file.checksum]
 
       if file_obj.nil?
@@ -29,7 +30,7 @@ module Prawn
         @file_registry[file.checksum] = file_obj
       end
 
-      filespec = Filespec.new(file_obj, options)
+      filespec = Filespec.new(file_obj, mut_opts)
       filespec_obj = filespec.build_pdf_object(self)
 
       unless filespec.hidden?
