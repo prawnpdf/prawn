@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
+require 'digest'
+
 module Prawn
   module EmbeddedFiles
     class Filespec
       attr_reader :file_name
 
       def initialize(file, options = {})
-        name = options[:name] || file.checksum
+        hexdigest = Digest.hexencode(file.data[:Params][:CheckSum])
+        name = options[:name] || hexdigest
 
         @file_name = PDF::Core::LiteralString.new(name)
 
