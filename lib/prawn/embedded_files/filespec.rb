@@ -30,7 +30,7 @@ module Prawn
         obj = document.ref!(
           Type: :Filespec,
           F: file_name,
-          EF: { F: file },
+          EF: { F: file, UF: file },
           UF: file_name
         )
 
