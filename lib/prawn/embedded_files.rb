@@ -5,6 +5,30 @@ module Prawn
     # include PDF::Core::EmbeddedFiles
     # Link to PR (https://github.com/prawnpdf/pdf-core/pull/47)
 
+    # Add the file's data from a source to the document. Any kind of data with
+    # a string representation can be embedded.
+    #
+    # Arguments:
+    # <tt>src</tt>:: path to file, string or an object that responds to #to_str
+    # and #length.
+    #
+    # Options:
+    # <tt>:name</tt>:: explicit default filename override.
+    # <tt>:creation_date</tt>:: date when the file was created.
+    # <tt>:modification_date</tt>::  date when the file was last modified.
+    # <tt>:description</tt>:: file description.
+    # <tt>:hidden</tt>:: if true, prevents the file from appearing in the
+    # catalog. (default false)
+    #
+    #   Prawn::Document.generate("file1.pdf") do
+    #     dice = "#{Prawn::DATADIR}/images/dice.png"
+    #     file dice, description: 'Example of an embedded image file'
+    #   end
+    #
+    # This method returns an instance of PDF::Core::NameTree::Value
+    # corresponding to the file in the embedded files catalog entry node. If
+    # hidden, then nil is returned.
+    #
     def file(src, options = {})
       path = Pathname.new(src)
       mut_opts = options.dup
