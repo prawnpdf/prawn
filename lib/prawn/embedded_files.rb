@@ -44,14 +44,12 @@ module Prawn
         data = src
       end
 
-      @file_registry ||= {}
-
       file = EmbeddedFile.new(data, mut_opts)
-      file_obj = @file_registry[file.checksum]
+      file_obj = file_registry[file.checksum]
 
       if file_obj.nil?
         file_obj = file.build_pdf_object(self)
-        @file_registry[file.checksum] = file_obj
+        file_registry[file.checksum] = file_obj
       end
 
       filespec = Filespec.new(file_obj, mut_opts)
@@ -62,6 +60,12 @@ module Prawn
 
         # attach_file(filespec.file_name, filespec_obj)
       end
+    end
+
+    private
+
+    def file_registry
+      @file_registry ||= {}
     end
   end
 end
