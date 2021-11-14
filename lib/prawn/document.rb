@@ -218,6 +218,7 @@ module Prawn
 
       @background = options[:background]
       @background_scale = options[:background_scale] || 1
+      @font = nil
       @font_size = 12
 
       @bounding_box = nil

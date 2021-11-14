@@ -72,6 +72,7 @@ module Prawn
         @kern_pair_table = font_data[:kern_pair_table]
         @attributes = font_data[:attributes]
 
+        @family ||= @attributes['familyname']
         @ascender = @attributes['ascender'].to_i
         @descender = @attributes['descender'].to_i
         @line_gap = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
