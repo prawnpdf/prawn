@@ -13,6 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
+          - "2.4.0"
+          - "2.4"
           - "2.5.0"
           - "2.5"
           - "2.6.0"
