@@ -188,6 +188,21 @@ describe Prawn::Font do
       expect(pdf.font.name).to eq('Helvetica')
     end
 
+    it 'allows setting font style for a TTF font' do
+      pdf.font_families.update(
+        'DejaVu Sans' => {
+          normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
+          bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+        }
+      )
+      pdf.font 'DejaVu Sans'
+      expect(pdf.font_style).to eq(:normal)
+      pdf.font_style :bold
+      expect(pdf.font_style).to eq(:bold)
+      expect(pdf.font_family).to eq('DejaVu Sans')
+      expect(pdf.font.name).to eq("#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf")
+    end
+
     it 'allows setting font style as assignment' do
       pdf.font_style = :bold
       expect(pdf.font_style).to eq(:bold)

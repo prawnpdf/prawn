@@ -105,7 +105,7 @@ module Prawn
     def font_style(style = nil, &block)
       return @font ? @font.style : :normal if style.nil?
 
-      font(font.name, style: style, &block)
+      font(font_family, style: style, &block)
     end
 
     # Sets the font style
