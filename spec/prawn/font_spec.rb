@@ -173,7 +173,6 @@ describe Prawn::Font do
     end
 
     it 'allows setting font style in DSL style' do
-      expect(pdf.font_style).to eq(:normal)
       pdf.font_style :bold
       expect(pdf.font_style).to eq(:bold)
       expect(pdf.font.name).to eq('Helvetica-Bold')
