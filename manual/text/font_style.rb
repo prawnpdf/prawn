@@ -16,20 +16,36 @@ require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
 Prawn::ManualBuilder::Example.generate(filename) do
-  fonts = %w[Courier Helvetica Times-Roman]
-  styles = %i[bold bold_italic italic normal]
+  text "The default style is normal"
 
-  fonts.each do |example_font|
-    move_down 20
+  move_down 10
+  font_style :bold
+  text 'This is bold'
 
-    styles.each do |style|
-      font example_font, style: style
-      text "I'm writing in #{example_font} (#{style})"
+  move_down 10
+  font_style :italic
+  text 'This is italic (not bold, i.e. existing style is overwritten)'
 
-      font_style style
-      text "This is also #{style}"
+  move_down 10
+  font_style :bold_italic
+  text 'This is bold italic'
 
-      text "And this is also #{style}", style: style
-    end
+  move_down 10
+  font_style :normal
+  text 'Back to normal'
+
+  move_down 10
+  text 'A single line of italic', style: :italic
+
+  move_down 10
+  font_style :bold do
+    text 'A single line of bold'
   end
+
+  move_down 10
+  font 'Courier', style: :bold_italic
+  text 'This is Courier bold italic'
+
+  font 'Courier'
+  text 'This is Courier normal (style is reset when changing font)'
 end
