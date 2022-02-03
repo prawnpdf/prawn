@@ -102,9 +102,6 @@ module Prawn
     # the style to :italic results in italic, not bold-italic text. Use
     # :bold_italic instead.
     #
-    # When called without an argument, this method returns the current font
-    # style.
-    #
     def font_style(style = nil, &block)
       return @font ? @font.style : :normal if style.nil?
 
@@ -138,9 +135,6 @@ module Prawn
     #
     #     text "At size 16"
     #   end
-    #
-    # When called without an argument, this method returns the current font
-    # size.
     #
     def font_size(points = nil)
       return @font_size unless points
