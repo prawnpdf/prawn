@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-  pull_request_target:
+  pull_request:
   schedule:
     - cron: "6 20 * * 6"
 
@@ -48,6 +48,7 @@ jobs:
           - "3.1"
           - ruby-head
           - jruby-9.2
+          - jruby-9.3
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
