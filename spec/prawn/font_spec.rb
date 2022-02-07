@@ -76,11 +76,11 @@ describe Prawn::Font do
         pdf.font('Helvetica') do
           pdf.width_of('hello', style: :heavy)
         end
-      end.to raise_error(Prawn::Errors::UnknownFont, /Font family `Helvetica` has no `:heavy` style/)
+      end.to raise_error(Prawn::Errors::UnknownFont, 'Font family `Helvetica` has no `:heavy` style.')
     end
 
     it 'warns on style with single font' do
-      expect(pdf).to receive(:warn).with(/Style not supported for/).once
+      expect(pdf).to receive(:warn).with('Style not supported for `Courier-Bold`.').once
       pdf.font('Courier-Bold') do
         pdf.width_of('hello', style: :bold)
       end
@@ -149,14 +149,20 @@ describe Prawn::Font do
       expect(pdf.font_size).to eq(12)
     end
 
+     it 'raises on unknown font' do
+      expect do
+        pdf.font 'Arial Black'
+      end.to raise_error(Prawn::Errors::UnknownFont, '`Arial Black` is not a known font.')
+    end
+
      it 'raises on missing style in family' do
       expect do
         pdf.font 'Helvetica', style: :heavy
-      end.to raise_error(Prawn::Errors::UnknownFont, /Font family `Helvetica` has no `:heavy` style/)
+      end.to raise_error(Prawn::Errors::UnknownFont, 'Font family `Helvetica` has no `:heavy` style.')
     end
 
     it 'warns on style with single font' do
-      expect(pdf).to receive(:warn).with(/Style not supported for/).once
+      expect(pdf).to receive(:warn).with('Style not supported for `Courier-Bold`.').once
       pdf.font 'Courier-Bold', style: :bold
       expect(pdf.font.name).to eq('Courier-Bold')
       expect(pdf.font_style).to eq(:normal)
@@ -233,11 +239,11 @@ describe Prawn::Font do
         pdf.font('Helvetica') do
           pdf.font_style :heavy
         end
-      end.to raise_error(Prawn::Errors::UnknownFont, /Font family `Helvetica` has no `:heavy` style/)
+      end.to raise_error(Prawn::Errors::UnknownFont, 'Font family `Helvetica` has no `:heavy` style.')
     end
 
     it 'warns on style with single font' do
-      expect(pdf).to receive(:warn).with(/Style not supported for/).once
+      expect(pdf).to receive(:warn).with('Style not supported for `Courier-Bold`.').once
       pdf.font('Courier-Bold') do
         pdf.font_style :bold
         expect(pdf.font_style).to eq(:normal)
