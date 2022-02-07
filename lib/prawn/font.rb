@@ -69,9 +69,9 @@ module Prawn
       @font
     end
 
-    # Returns the family of the current font, if the font was selected using
-    # a font family name, or nil, if the font was selected using a specific font
-    # name.
+    # Returns the family name of the current font, if the font was selected using
+    # a font family name, or nil, if the font was specified as a specific built-in
+    # font or a TTF file.
     def font_family
       @font ? @font.family : 'Helvetica'
     end
@@ -102,6 +102,9 @@ module Prawn
     # Font styles are not additive, i.e. if the current style is :bold, setting
     # the style to :italic results in italic, not bold-italic text. Use
     # :bold_italic instead.
+    #
+    # Font style can only be applied, if the current font is specified using a
+    # font family name, not a specific built-in font or TTF file.
     #
     def font_style(style = nil, &block)
       return @font ? @font.style : :normal if style.nil?

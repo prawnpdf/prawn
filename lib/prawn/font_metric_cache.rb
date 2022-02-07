@@ -24,7 +24,7 @@ module Prawn
     def width_of(string, options)
       f =
         if options[:style]
-          # override style with :style => :boldd
+          # override style with :style => :bold
           @document.find_font(nil, style: options[:style])
         else
           @document.font
