@@ -55,7 +55,7 @@ module Prawn
         name ||= options[:family]
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont,
-            "#{name} (#{options[:style] || 'normal'}) is not a known font."
+            "`#{name}` is not a known font."
         end
 
         super

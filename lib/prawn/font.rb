@@ -47,14 +47,15 @@ module Prawn
     # font files.
     # See font_families for more information.
     #
-    def font(name = nil, options = DEFAULT_OPTS)
-      return((defined?(@font) && @font) || font('Helvetica')) if name.nil?
+    def font(name = nil, options = nil)
+      return @font || font('Helvetica') if name.nil? && options.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
         raise Prawn::Errors::NotOnPage
       end
 
-      new_font = find_font(name.to_s, options)
+      options ||= DEFAULT_OPTS
+      new_font = find_font(name, options)
 
       if block_given?
         save_font do
@@ -66,6 +67,54 @@ module Prawn
       end
 
       @font
+    end
+
+    # Returns the family name of the current font, if the font was selected using
+    # a font family name, or nil, if the font was specified as a specific built-in
+    # font or a TTF file.
+    def font_family
+      @font ? @font.family : 'Helvetica'
+    end
+
+    # @method font_style(points=nil)
+    #
+    # When called with no argument, returns the current font style.
+    #
+    # When called with a single argument but no block, sets the current font
+    # style.  When a block is used, the font style is applied transactionally and
+    # is rolled back when the block exits.  You may still change the font style
+    # within a transactional block for individual text segments, or nested calls
+    # to font_style.
+    #
+    #   Prawn::Document.generate("font_style.pdf") do
+    #     font_style :bold
+    #     text "Bold text"
+    #
+    #     font_style(:italic) do
+    #       text "Italic text"
+    #       text "Bold text", :style => :bold
+    #       text "Italic text"
+    #     end
+    #
+    #     text "Bold text"
+    #   end
+    #
+    # Font styles are not additive, i.e. if the current style is :bold, setting
+    # the style to :italic results in italic, not bold-italic text. Use
+    # :bold_italic instead.
+    #
+    # Font style can only be applied, if the current font is specified using a
+    # font family name, not a specific built-in font or TTF file.
+    #
+    def font_style(style = nil, &block)
+      return @font ? @font.style : :normal if style.nil?
+
+      font(nil, style: style, &block)
+    end
+
+    # Sets the font style
+    def font_style=(style = nil)
+      font_style(style)
     end
 
     # @method font_size(points=nil)
@@ -90,9 +139,6 @@ module Prawn
     #
     #     text "At size 16"
     #   end
-    #
-    # When called without an argument, this method returns the current font
-    # size.
     #
     def font_size(points = nil)
       return @font_size unless points
@@ -237,13 +283,22 @@ module Prawn
     #
     # @private
     def find_font(name, options = {}) #:nodoc:
+      name ||= font_family || font.name
+      style = options[:style] || :normal
       if font_families.key?(name)
         family = name
-        name = font_families[name][options[:style] || :normal]
+        if !font_families[family].key?(style)
+          raise Prawn::Errors::UnknownFont,
+            "Font family `#{family}` has no `:#{style}` style."
+        end
+        name = font_families[family][style]
         if name.is_a?(::Hash)
           options = options.merge(name)
           name = options[:file]
         end
+      elsif style != :normal
+        options[:style] = :normal
+        warn "Style not supported for `#{name}`."
       end
       key = "#{name}:#{options[:font] || 0}"
 
@@ -299,6 +354,9 @@ module Prawn
     # The current font family
     attr_reader :family
 
+    # The current font style
+    attr_reader :style
+
     # The options hash used to initialize the font
     attr_reader :options
 
@@ -334,6 +392,7 @@ module Prawn
       @options = options
 
       @family = options[:family]
+      @style = options[:style] || :normal
 
       @identifier = generate_unique_id
 

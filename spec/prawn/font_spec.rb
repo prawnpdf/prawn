@@ -71,12 +71,19 @@ describe Prawn::Font do
       end
     end
 
-    it 'reports missing font with style' do
+    it 'raises on missing style in family' do
       expect do
-        pdf.font('Nada', style: :bold) do
-          pdf.width_of('hello')
+        pdf.font('Helvetica') do
+          pdf.width_of('hello', style: :heavy)
         end
-      end.to raise_error(Prawn::Errors::UnknownFont, /Nada \(bold\)/)
+      end.to raise_error(Prawn::Errors::UnknownFont, 'Font family `Helvetica` has no `:heavy` style.')
+    end
+
+    it 'warns on style with single font' do
+      expect(pdf).to receive(:warn).with('Style not supported for `Courier-Bold`.').once
+      pdf.font('Courier-Bold') do
+        pdf.width_of('hello', style: :bold)
+      end
     end
 
     it 'calculates styled widths correctly using TTFs' do
@@ -111,10 +118,152 @@ describe Prawn::Font do
     end
   end
 
+  describe '#font' do
+    it 'allows setting of size directly when font is created' do
+      pdf.font 'Courier', size: 16 #, style: :bold
+      expect(pdf.font_size).to eq(16)
+    end
+
+    it 'allows temporary setting of a new font using a transaction' do
+      pdf.font 'Helvetica', size: 12
+
+      pdf.font 'Courier', size: 16, style: :bold do
+        expect(pdf.font_family).to eq('Courier')
+        expect(pdf.font_size).to eq(16)
+        expect(pdf.font_style).to eq(:bold)
+      end
+
+      expect(pdf.font.name).to eq('Helvetica')
+      expect(pdf.font_size).to eq(12)
+      expect(pdf.font_style).to eq(:normal)
+    end
+
+    it 'masks font size when using a transacation' do
+      pdf.font 'Courier', size: 16 do
+        expect(pdf.font_size).to eq(16)
+      end
+
+      pdf.font 'Times-Roman'
+      pdf.font 'Courier'
+
+      expect(pdf.font_size).to eq(12)
+    end
+
+     it 'raises on unknown font' do
+      expect do
+        pdf.font 'Arial Black'
+      end.to raise_error(Prawn::Errors::UnknownFont, '`Arial Black` is not a known font.')
+    end
+
+     it 'raises on missing style in family' do
+      expect do
+        pdf.font 'Helvetica', style: :heavy
+      end.to raise_error(Prawn::Errors::UnknownFont, 'Font family `Helvetica` has no `:heavy` style.')
+    end
+
+    it 'warns on style with single font' do
+      expect(pdf).to receive(:warn).with('Style not supported for `Courier-Bold`.').once
+      pdf.font 'Courier-Bold', style: :bold
+      expect(pdf.font.name).to eq('Courier-Bold')
+      expect(pdf.font_style).to eq(:normal)
+    end
+  end
+
   describe '#font_size' do
+    it 'returns default font size' do
+      expect(pdf.font_size).to eq(12)
+    end
+
     it 'allows setting font size in DSL style' do
       pdf.font_size 20
       expect(pdf.font_size).to eq(20)
+    end
+
+    it 'allows setting font size in DSL style using a transaction' do
+      pdf.font_size 20 do
+        expect(pdf.font_size).to eq(20)
+      end
+
+      expect(pdf.font_size).to eq(12)
+    end
+
+    it 'allows setting font size as assignment' do
+      pdf.font_size = 20
+      expect(pdf.font_size).to eq(20)
+    end
+  end
+
+  describe '#font_style' do
+    it 'returns default font style' do
+      expect(pdf.font_style).to eq(:normal)
+    end
+
+    it 'allows setting font style in DSL style' do
+      pdf.font_style :bold
+      expect(pdf.font_style).to eq(:bold)
+      expect(pdf.font.name).to eq('Helvetica-Bold')
+    end
+
+    it 'allows setting font style in DSL style using a transaction' do
+      pdf.font_style :bold do
+        expect(pdf.font_style).to eq(:bold)
+        expect(pdf.font.name).to eq('Helvetica-Bold')
+      end
+
+      expect(pdf.font_style).to eq(:normal)
+      expect(pdf.font.name).to eq('Helvetica')
+    end
+
+    it 'allows setting font style for a TTF font' do
+      pdf.font_families.update(
+        'deja' => {
+          normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
+          bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+        }
+      )
+      pdf.font 'deja'
+      expect(pdf.font_style).to eq(:normal)
+      pdf.font_style :bold
+      expect(pdf.font_style).to eq(:bold)
+      expect(pdf.font_family).to eq('deja')
+      expect(pdf.font.name).to eq("#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf")
+    end
+
+    it 'allows setting font style as assignment' do
+      pdf.font_style = :bold
+      expect(pdf.font_style).to eq(:bold)
+    end
+
+    it 'raises on missing style in family' do
+      expect do
+        pdf.font('Helvetica') do
+          pdf.font_style :heavy
+        end
+      end.to raise_error(Prawn::Errors::UnknownFont, 'Font family `Helvetica` has no `:heavy` style.')
+    end
+
+    it 'warns on style with single font' do
+      expect(pdf).to receive(:warn).with('Style not supported for `Courier-Bold`.').once
+      pdf.font('Courier-Bold') do
+        pdf.font_style :bold
+        expect(pdf.font_style).to eq(:normal)
+      end
+    end
+  end
+
+  describe '#font_family' do
+    it 'returns default font family' do
+      expect(pdf.font_family).to eq('Helvetica')
+    end
+
+    it 'returns font family' do
+      pdf.font 'Courier', style: :bold
+      expect(pdf.font_family).to eq('Courier')
+    end
+
+    it 'returns nil font family for specific font' do
+      pdf.font 'ZapfDingbats'
+      expect(pdf.font_family).to be_nil
     end
   end
 
@@ -142,11 +291,14 @@ describe Prawn::Font do
       pdf.font 'Helvetica'
       pdf.text 'In Normal Helvetica'
 
+      pdf.font nil, style: :bold
+      pdf.text 'In Bold Helvetica'
+
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.font_settings.map { |e| e[:name] }).to eq(
         %i[
           Courier-Bold Courier-BoldOblique Courier-Oblique
-          Courier Helvetica
+          Courier Helvetica Helvetica-Bold
         ]
       )
     end
@@ -230,36 +382,6 @@ describe Prawn::Font do
         name = name.sub(/\w+\+/, 'subset+')
         expect(name).to eq('subset+DejaVuSans')
       end
-    end
-  end
-
-  describe 'Transactional font handling' do
-    it 'allows setting of size directly when font is created' do
-      pdf.font 'Courier', size: 16
-      expect(pdf.font_size).to eq(16)
-    end
-
-    it 'allows temporary setting of a new font using a transaction' do
-      pdf.font 'Helvetica', size: 12
-
-      pdf.font 'Courier', size: 16 do
-        expect(pdf.font.name).to eq('Courier')
-        expect(pdf.font_size).to eq(16)
-      end
-
-      expect(pdf.font.name).to eq('Helvetica')
-      expect(pdf.font_size).to eq(12)
-    end
-
-    it 'masks font size when using a transacation' do
-      pdf.font 'Courier', size: 16 do
-        expect(pdf.font_size).to eq(16)
-      end
-
-      pdf.font 'Times-Roman'
-      pdf.font 'Courier'
-
-      expect(pdf.font_size).to eq(12)
     end
   end
 
