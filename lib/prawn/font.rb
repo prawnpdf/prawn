@@ -54,10 +54,8 @@ module Prawn
         raise Prawn::Errors::NotOnPage
       end
 
-      name ||= font_family
       options ||= DEFAULT_OPTS
-
-      new_font = find_font(name.to_s, options)
+      new_font = find_font(name, options)
 
       if block_given?
         save_font do
@@ -71,6 +69,9 @@ module Prawn
       @font
     end
 
+    # Returns the family of the current font, if the font was selected using
+    # a font family name, or nil, if the font was selected using a specific font
+    # name.
     def font_family
       @font ? @font.family : 'Helvetica'
     end
@@ -105,7 +106,7 @@ module Prawn
     def font_style(style = nil, &block)
       return @font ? @font.style : :normal if style.nil?
 
-      font(font_family, style: style, &block)
+      font(nil, style: style, &block)
     end
 
     # Sets the font style
@@ -279,13 +280,22 @@ module Prawn
     #
     # @private
     def find_font(name, options = {}) #:nodoc:
+      name ||= font_family || font.name
+      style = options[:style] || :normal
       if font_families.key?(name)
         family = name
-        name = font_families[name][options[:style] || :normal]
+        if !font_families[family].key?(style)
+          raise Prawn::Errors::UnknownFont,
+            "Font family `#{family}` has no `:#{style}` style."
+        end
+        name = font_families[family][style]
         if name.is_a?(::Hash)
           options = options.merge(name)
           name = options[:file]
         end
+      elsif style != :normal
+        options[:style] = :normal
+        warn "Style not supported for `#{name}`."
       end
       key = "#{name}:#{options[:font] || 0}"
 

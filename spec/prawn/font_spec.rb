@@ -71,12 +71,19 @@ describe Prawn::Font do
       end
     end
 
-    it 'reports missing font with style' do
+    it 'raises on missing style in family' do
       expect do
-        pdf.font('Nada', style: :bold) do
-          pdf.width_of('hello')
+        pdf.font('Helvetica') do
+          pdf.width_of('hello', style: :heavy)
         end
-      end.to raise_error(Prawn::Errors::UnknownFont, /Nada \(bold\)/)
+      end.to raise_error(Prawn::Errors::UnknownFont, /Font family `Helvetica` has no `:heavy` style/)
+    end
+
+    it 'warns on style with single font' do
+      expect(pdf).to receive(:warn).with(/Style not supported for/).once
+      pdf.font('Courier-Bold') do
+        pdf.width_of('hello', style: :bold)
+      end
     end
 
     it 'calculates styled widths correctly using TTFs' do
@@ -113,7 +120,7 @@ describe Prawn::Font do
 
   describe '#font' do
     it 'allows setting of size directly when font is created' do
-      pdf.font 'Courier', size: 16
+      pdf.font 'Courier', size: 16 #, style: :bold
       expect(pdf.font_size).to eq(16)
     end
 
@@ -140,6 +147,19 @@ describe Prawn::Font do
       pdf.font 'Courier'
 
       expect(pdf.font_size).to eq(12)
+    end
+
+     it 'raises on missing style in family' do
+      expect do
+        pdf.font 'Helvetica', style: :heavy
+      end.to raise_error(Prawn::Errors::UnknownFont, /Font family `Helvetica` has no `:heavy` style/)
+    end
+
+    it 'warns on style with single font' do
+      expect(pdf).to receive(:warn).with(/Style not supported for/).once
+      pdf.font 'Courier-Bold', style: :bold
+      expect(pdf.font.name).to eq('Courier-Bold')
+      expect(pdf.font_style).to eq(:normal)
     end
   end
 
@@ -190,22 +210,38 @@ describe Prawn::Font do
 
     it 'allows setting font style for a TTF font' do
       pdf.font_families.update(
-        'DejaVu Sans' => {
+        'deja' => {
           normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
           bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
         }
       )
-      pdf.font 'DejaVu Sans'
+      pdf.font 'deja'
       expect(pdf.font_style).to eq(:normal)
       pdf.font_style :bold
       expect(pdf.font_style).to eq(:bold)
-      expect(pdf.font_family).to eq('DejaVu Sans')
+      expect(pdf.font_family).to eq('deja')
       expect(pdf.font.name).to eq("#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf")
     end
 
     it 'allows setting font style as assignment' do
       pdf.font_style = :bold
       expect(pdf.font_style).to eq(:bold)
+    end
+
+    it 'raises on missing style in family' do
+      expect do
+        pdf.font('Helvetica') do
+          pdf.font_style :heavy
+        end
+      end.to raise_error(Prawn::Errors::UnknownFont, /Font family `Helvetica` has no `:heavy` style/)
+    end
+
+    it 'warns on style with single font' do
+      expect(pdf).to receive(:warn).with(/Style not supported for/).once
+      pdf.font('Courier-Bold') do
+        pdf.font_style :bold
+        expect(pdf.font_style).to eq(:normal)
+      end
     end
   end
 
@@ -219,14 +255,9 @@ describe Prawn::Font do
       expect(pdf.font_family).to eq('Courier')
     end
 
-    it 'returns font family for AFM font' do
+    it 'returns nil font family for specific font' do
       pdf.font 'ZapfDingbats'
-      expect(pdf.font_family).to eq('ZapfDingbats')
-    end
-
-    it 'returns font family for TTF font' do
-      pdf.font "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
-      expect(pdf.font_family).to eq('DejaVu Sans')
+      expect(pdf.font_family).to be_nil
     end
   end
 

@@ -47,7 +47,6 @@ module Prawn
         super
 
         @ttf = read_ttf_file
-        @family ||= @ttf.name.font_family.first
         @subsets = TTFunk::SubsetCollection.new(@ttf)
         @italic_angle = nil
 
