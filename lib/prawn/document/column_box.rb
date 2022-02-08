@@ -52,7 +52,7 @@ module Prawn
     # work.
     #
     class ColumnBox < BoundingBox
-      def initialize(document, parent, point, options = {}) #:nodoc:
+      def initialize(document, parent, point, options = {}) # :nodoc:
         super
         @columns = options[:columns] || 3
         @spacer = options[:spacer] || @document.font_size

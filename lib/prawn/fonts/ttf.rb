@@ -61,7 +61,7 @@ module Prawn
       end
 
       # NOTE: +string+ must be UTF8-encoded.
-      def compute_width_of(string, options = {}) #:nodoc:
+      def compute_width_of(string, options = {}) # :nodoc:
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).reduce(0) do |s, r|
@@ -323,7 +323,7 @@ module Prawn
         hmtx = font.horizontal_metrics
         widths = font.cmap.tables.first.code_map.map do |gid|
           Integer(hmtx.widths[gid] * scale_factor)
-        end[32..-1]
+        end[32..]
 
         # It would be nice to have Encoding set for the macroman subsets,
         # and only do a ToUnicode cmap for non-encoded unicode subsets.

@@ -186,7 +186,7 @@ describe Prawn::Graphics do
     end
 
     it 'moves the pointer to the center of the ellipse after drawing' do
-      expect(curve.coords[-2..-1]).to eq([100, 100])
+      expect(curve.coords[-2..]).to eq([100, 100])
     end
   end
 
@@ -199,7 +199,7 @@ describe Prawn::Graphics do
 
     it 'strokes the same path as the equivalent ellipse' do
       middle = curve.coords.length / 2
-      expect(curve.coords[0...middle]).to eq(curve.coords[middle..-1])
+      expect(curve.coords[0...middle]).to eq(curve.coords[middle..])
     end
   end
 

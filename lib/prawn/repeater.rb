@@ -83,7 +83,7 @@ module Prawn
     end
   end
 
-  class Repeater #:nodoc:
+  class Repeater # :nodoc:
     class << self
       attr_writer :count
 

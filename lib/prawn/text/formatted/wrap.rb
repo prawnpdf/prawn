@@ -11,10 +11,10 @@ require_relative 'arranger'
 
 module Prawn
   module Text
-    module Formatted #:nodoc:
+    module Formatted # :nodoc:
       # @private
 
-      module Wrap #:nodoc:
+      module Wrap # :nodoc:
         def initialize(_array, options)
           @line_wrap = Prawn::Text::Formatted::LineWrap.new
           @arranger = Prawn::Text::Formatted::Arranger.new(
@@ -44,7 +44,7 @@ module Prawn
         #
         # Returns any formatted text that was not printed
         #
-        def wrap(array) #:nodoc:
+        def wrap(array) # :nodoc:
           initialize_wrap(array)
 
           stop = false
