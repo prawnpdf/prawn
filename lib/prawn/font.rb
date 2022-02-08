@@ -236,7 +236,7 @@ module Prawn
     # ++
     #
     # @private
-    def find_font(name, options = {}) #:nodoc:
+    def find_font(name, options = {}) # :nodoc:
       if font_families.key?(name)
         family = name
         name = font_families[name][options[:style] || :normal]
@@ -257,7 +257,7 @@ module Prawn
 
     # Hash of Font objects keyed by names
     #
-    def font_registry #:nodoc:
+    def font_registry # :nodoc:
       @font_registry ||= {}
     end
 
@@ -328,7 +328,7 @@ module Prawn
       end
     end
 
-    def initialize(document, name, options = {}) #:nodoc:
+    def initialize(document, name, options = {}) # :nodoc:
       @document = document
       @name = name
       @options = options
@@ -400,11 +400,11 @@ module Prawn
       @document.state.page.fonts[identifier_for(subset)] = @references[subset]
     end
 
-    def identifier_for(subset) #:nodoc:
+    def identifier_for(subset) # :nodoc:
       @subset_name_cache[subset] ||= "#{@identifier}.#{subset}".to_sym
     end
 
-    def inspect #:nodoc:
+    def inspect # :nodoc:
       "#{self.class.name}< #{name}: #{size} >"
     end
 
@@ -413,13 +413,13 @@ module Prawn
     # that cache certain values (See
     # Prawn::Table::Text#styled_with_of_single_character)
     #
-    def hash #:nodoc:
+    def hash # :nodoc:
       [self.class, name, family].hash
     end
 
     # Compliments the #hash implementation above
     #
-    def eql?(other) #:nodoc:
+    def eql?(other) # :nodoc:
       self.class == other.class && name == other.name &&
         family == other.family && size == other.size
     end

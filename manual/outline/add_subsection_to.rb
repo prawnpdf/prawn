@@ -44,17 +44,17 @@ Prawn::ManualBuilder::Example.generate(filename) do
 
   outline.add_subsection_to('Section 1') do
     outline.page title: 'Added later - last position',
-                 destination: 6
+      destination: 6
   end
 
   outline.add_subsection_to('Added later - first position') do
     outline.page title: 'Another page added later',
-                 destination: 7
+      destination: 7
   end
 
   # The title provided is for a page which will be converted into a section
   outline.add_subsection_to('Page 3') do
     outline.page title: 'Last page added',
-                 destination: 8
+      destination: 8
   end
 end

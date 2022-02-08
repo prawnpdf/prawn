@@ -44,14 +44,14 @@ module Prawn
           end
       end
 
-      attr_reader :attributes #:nodoc:
+      attr_reader :attributes # :nodoc:
 
       # parse each ATM font file once only
       def self.font_data
         @font_data ||= SynchronizedCache.new
       end
 
-      def initialize(document, name, options = {}) #:nodoc:
+      def initialize(document, name, options = {}) # :nodoc:
         name ||= options[:family]
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont,
@@ -84,7 +84,7 @@ module Prawn
       end
 
       # NOTE: String *must* be encoded as WinAnsi
-      def compute_width_of(string, options = {}) #:nodoc:
+      def compute_width_of(string, options = {}) # :nodoc:
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]

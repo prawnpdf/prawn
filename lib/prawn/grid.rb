@@ -34,18 +34,16 @@ module Prawn
     def grid(*args)
       @boxes ||= {}
       @boxes[args] ||=
-        begin
-          if args.empty?
-            @grid
-          else
-            g1, g2 = args
+        if args.empty?
+          @grid
+        else
+          g1, g2 = args
 
-            if g1.is_a?(Array) && g2.is_a?(Array) &&
-                g1.length == 2 && g2.length == 2
-              multi_box(single_box(*g1), single_box(*g2))
-            else
-              single_box(g1, g2)
-            end
+          if g1.is_a?(Array) && g2.is_a?(Array) &&
+              g1.length == 2 && g2.length == 2
+            multi_box(single_box(*g1), single_box(*g2))
+          else
+            single_box(g1, g2)
           end
         end
     end

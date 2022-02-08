@@ -9,10 +9,10 @@
 
 module Prawn
   module Text
-    module Formatted #:nodoc:
+    module Formatted # :nodoc:
       # @private
 
-      class Arranger #:nodoc:
+      class Arranger # :nodoc:
         class NotFinalized < StandardError
           DEFAULT_MESSAGE = 'Lines must be finalized'
           MESSAGE_WITH_METHOD = 'Lines must be finalized before calling #%<method>s'
@@ -277,13 +277,15 @@ module Prawn
 
         def subscript?(styles)
           if styles.nil? then false
-          else styles.include?(:subscript)
+          else
+            styles.include?(:subscript)
           end
         end
 
         def superscript?(styles)
           if styles.nil? then false
-          else styles.include?(:superscript)
+          else
+            styles.include?(:superscript)
           end
         end
 

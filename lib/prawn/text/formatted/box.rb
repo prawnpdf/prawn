@@ -257,7 +257,7 @@ module Prawn
         #
         def draw_fragment(
           fragment, accumulated_width = 0, line_width = 0, word_spacing = 0
-        ) #:nodoc:
+        ) # :nodoc:
           case @align
           when :left
             x = @at[0]

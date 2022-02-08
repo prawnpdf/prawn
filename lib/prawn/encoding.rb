@@ -9,7 +9,7 @@ module Prawn
   module Encoding
     # Map between unicode and WinAnsiEnoding
     #
-    class WinAnsi #:nodoc:
+    class WinAnsi # :nodoc:
       CHARACTERS = %w[
         .notdef .notdef .notdef .notdef
         .notdef .notdef .notdef .notdef

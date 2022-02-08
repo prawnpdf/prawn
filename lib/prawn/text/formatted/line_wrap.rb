@@ -10,9 +10,9 @@
 
 module Prawn
   module Text
-    module Formatted #:nodoc:
+    module Formatted # :nodoc:
       # @private
-      class LineWrap #:nodoc:
+      class LineWrap # :nodoc:
         # The width of the last wrapped line
         #
         def width

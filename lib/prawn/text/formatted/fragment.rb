@@ -32,7 +32,8 @@ module Prawn
 
         def width
           if @word_spacing.zero? then @width
-          else @width + @word_spacing * space_count
+          else
+            @width + @word_spacing * space_count
           end
         end
 
@@ -51,7 +52,8 @@ module Prawn
         def y_offset
           if subscript? then -descender
           elsif superscript? then 0.85 * ascender
-          else 0
+          else
+            0
           end
         end
 
@@ -211,7 +213,7 @@ module Prawn
             string = string.rstrip
 
             if soft_hyphens_need_processing?(string)
-              string = process_soft_hyphens(string[0..-2]) + string[-1..-1]
+              string = process_soft_hyphens(string[0..-2]) + string[-1..]
             end
           elsif soft_hyphens_need_processing?(string)
             string = process_soft_hyphens(string)
