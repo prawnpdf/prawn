@@ -28,7 +28,7 @@ module Prawn
     # or work with the grid system directly.
     #
     #   @pdf.grid                 # Get the Grid directly
-    #   @pdf.grid([0,1])          # Get the GridBox at [0,1]
+    #   @pdf.grid(0, 1)           # Get the GridBox at [0,1]
     #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
     #
     def grid(*args)
