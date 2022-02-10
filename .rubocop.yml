@@ -23,7 +23,7 @@ Lint/ShadowingOuterLocalVariable:
   Exclude:
     - manual/basic_concepts/creation.rb
 
-# In this case we supress Prawn::Errors::CannotFit while trying to scale
+# In this case we suppress Prawn::Errors::CannotFit while trying to scale
 # text down to fit.
 Lint/SuppressedException:
   Exclude:

@@ -254,7 +254,7 @@ module Prawn
       end
 
       # converts a string into an array with spacing offsets
-      # bewteen characters that need to be kerned
+      # between characters that need to be kerned
       #
       # String *must* be encoded as WinAnsi
       #

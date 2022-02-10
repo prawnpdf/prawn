@@ -151,7 +151,7 @@ describe Prawn::Font do
       )
     end
 
-    it 'allows font familes to be defined in a single dfont' do
+    it 'allows font families to be defined in a single dfont' do
       file = "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont"
       pdf.font_families['Panic Sans'] = {
         normal: { file: file, font: 'PanicSans' },
@@ -169,7 +169,7 @@ describe Prawn::Font do
       expect(name).to eq('subset+PanicSans-Italic')
     end
 
-    it 'allows font familes to be defined in a single ttc' do
+    it 'allows font families to be defined in a single ttc' do
       file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttc"
       pdf.font_families['DejaVu Sans'] = {
         normal: { file: file, font: 0 },
