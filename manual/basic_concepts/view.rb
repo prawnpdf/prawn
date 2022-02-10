@@ -13,7 +13,7 @@
 # <code>Prawn::Document</code> with default initialization settings, such as
 # page size, layout, margins, etc.
 #
-# By defining your own <code>document</code> method, as shown in the example,
+# By defining your own <code>document</code> method
 # you will be able to override those settings and initialize a
 # <code>Prawn::Document</code> to your heart's content. This method will be
 # called repeatedly by <code>Prawn::View</code>, so be sure to memoize the

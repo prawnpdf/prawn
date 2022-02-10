@@ -29,6 +29,12 @@ Lint/SuppressedException:
   Exclude:
     - lib/prawn/text/formatted/box.rb
 
+# Disable this cop here, rather than in the file, so the Rubocop directives
+# don't print out in the manual.
+Lint/UselessAssignment:
+  Exclude:
+    - manual/graphics/line_width.rb
+
 Metrics/BlockLength:
   Exclude:
     - lib/prawn/graphics.rb
