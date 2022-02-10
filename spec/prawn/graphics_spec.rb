@@ -687,6 +687,7 @@ describe Prawn::Graphics do
       allow(pdf).to receive(:restore_transformation_stack)
 
       pdf.save_graphics_state do
+        # Deliberately empty block
       end
 
       expect(pdf).to have_received(:save_transformation_stack)
