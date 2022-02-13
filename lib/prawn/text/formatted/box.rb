@@ -553,11 +553,8 @@ module Prawn
           loop do
             wrap(text)
 
-            unless @disable_wrap_by_char && @font_size > @min_font_size
-              break if @everything_printed ||
-                @line_wrap.cannot_fit ||
-                @font_size <= @min_font_size
-            end
+            break if @font_size <= @min_font_size
+            break if (@everything_printed || @line_wrap.cannot_fit) && !@disable_wrap_by_char
 
             @font_size = [@font_size - 0.5, @min_font_size].max
             @document.font_size = @font_size
