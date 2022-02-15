@@ -59,6 +59,8 @@ module Prawn
     include Prawn::SoftMask
     include Prawn::TransformationStack
 
+    alias inspect to_s
+
     # @group Extension API
 
     # NOTE: We probably need to rethink the options validation system, but this
