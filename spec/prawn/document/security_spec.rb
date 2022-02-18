@@ -134,7 +134,7 @@ describe Prawn::Document::Security do
         )
       ).to eq(
         bin_string(
-          "(2&\\(\x02P\x92\x9C\e\xAF\\)\\\r\x83\x94\x11\x0F)"
+          "(2&\\(\x02P\x92\x9C\e\xAF\\)\\r\x83\x94\x11\x0F)"
         )
       )
     end
@@ -146,7 +146,7 @@ describe Prawn::Document::Security do
         )
       ).to eq(
         bin_string(
-          "(h\x83\xBD\xDC\xE9\x99\\\r\xD3/!\x14\xD5%\xBE\xF6\x17"\
+          "(h\x83\xBD\xDC\xE9\x99\\r\xD3/!\x14\xD5%\xBE\xF6\x17"\
           "\xA3\x9B\xC5\xFE&+\xD8\x93)"
         )
       )
