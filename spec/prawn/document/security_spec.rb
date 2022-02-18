@@ -131,7 +131,7 @@ describe Prawn::Document::Security do
           PDF::Core::LiteralString.new("\xAF\xC5fh\x9A\x14\x97,\xD3,\x06\x87\xCDSS"), nil, 123, 0,
         ),
       ).to eq(
-        bin_string("(2&\\(\x02P\x92\x9C\e\xAF\\)\\\r\x83\x94\x11\x0F)"),
+        bin_string("(2&\\(\x02P\x92\x9C\e\xAF\\)\\r\x83\x94\x11\x0F)"),
       )
     end
 
@@ -140,9 +140,7 @@ describe Prawn::Document::Security do
         PDF::Core.encrypted_pdf_object(
           Time.utc(10_002, 0o4, 26, 10, 17, 10), '12345', 123, 0,
         ),
-      ).to eq(
-        bin_string("(h\x83\xBD\xDC\xE9\x99\\\r\xD3/!\x14\xD5%\xBE\xF6\x17\xA3\x9B\xC5\xFE&+\xD8\x93)"),
-      )
+      ).to eq bin_string("(h\x83\xBD\xDC\xE9\x99\\r\xD3/!\x14\xD5%\xBE\xF6\x17\xA3\x9B\xC5\xFE&+\xD8\x93)")
     end
 
     it 'properlies handle compound types' do

@@ -225,14 +225,14 @@ module PDF
         obj =
           ByteString.new(
             Prawn::Document::Security.encrypt_string(obj, key, id, gen),
-          ).gsub(/[\\\r()]/) { |m| "\\#{m}" }
+          ).gsub(/[\\\r()]/, STRING_ESCAPE_MAP)
         "(#{obj})"
       when Time
         obj = "#{obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop}'00'"
         obj =
           ByteString.new(
             Prawn::Document::Security.encrypt_string(obj, key, id, gen),
-          ).gsub(/[\\\r()]/) { |m| "\\#{m}" }
+          ).gsub(/[\\\r()]/, STRING_ESCAPE_MAP)
         "(#{obj})"
       when String
         pdf_object(
