@@ -1,0 +1,36 @@
+name: Experimental
+
+on:
+  schedule:
+    - cron: "6 20 * * 6"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - truffleruby-head
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Gems cache
+        uses: actions/cache@v2
+        with:
+          path: ~/gems
+          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
+          restore-keys: |
+            gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-
+            gems-${{ matrix.ruby }}-
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle config path ~/gems
+          bundle install --jobs 4 --retry 3
+      - name: Run tests
+        run: bundle exec rake spec
