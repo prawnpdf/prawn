@@ -329,6 +329,69 @@ describe Prawn::Text::Formatted::Box do
     end
   end
 
+  describe 'Text::Formatted::Box#used_width' do
+    subject(:used_width) { text_box.used_width }
+
+    let(:text_box) { described_class.new(array, box_options) }
+    let(:box_options) { base_box_options }
+    let(:base_box_options) { { document: pdf } }
+    let(:array) { [{ text: 'hello world' }] }
+
+    context 'with basic text' do
+      it 'returns the max width of the text in the box' do
+        expect(used_width).to be_within(0.1).of(57.408)
+      end
+    end
+
+    context 'with formatted text' do
+      let(:array) { [{ text: 'hello world', size: 20 }] }
+
+      it 'returns the max width of the text in the box' do
+        expect(used_width).to be_within(0.1).of(95.68)
+      end
+    end
+
+    context 'with text containing a line break' do
+      let(:array) { [{ text: "hello\nworld" }] }
+
+      it 'returns the max width of the text in the box' do
+        expect(used_width).to be_within(0.1).of(28.728)
+      end
+
+      context 'with first line being longer' do
+        let(:array) { [{ text: "world\nhello" }] }
+
+        it 'returns the max width of the text in the box' do
+          expect(used_width).to be_within(0.1).of(28.728)
+        end
+      end
+    end
+
+    context 'when the text would wrap in the box' do
+      let(:array) { [{text: 'hello world ' * 11}]}
+
+      it 'returns the width of the text in the box after wrapping' do
+        expect(used_width).to be_within(0.1).of(604.104)
+      end
+    end
+
+    context 'with fallback fonts and UTF-8 text' do
+      before do
+        file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+        pdf.font_families['DejaVu Sans'] = {
+          normal: { file: file }
+        }
+      end
+
+      let(:box_options) { base_box_options.merge(fallback_fonts: ['DejaVu Sans']) }
+      let(:array) { [{text: 'Hello ≦≧ world'}]}
+
+      it 'returns the max width of the text in the box' do
+        expect(used_width).to be_within(0.1).of(82.824)
+      end
+    end
+  end
+
   describe 'Text::Formatted::Box#extensions' do
     let(:formatted_wrap_override) do
       Module.new do

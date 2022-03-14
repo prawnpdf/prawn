@@ -239,6 +239,15 @@ module Prawn
           end
         end
 
+        # Calculate the used width for the text in the box
+        #
+        def used_width
+          # dry run the render loop to calculate the width
+          render(dry_run: true)
+
+          @max_line_width
+        end
+
         # The width available at this point in the box
         #
         def available_width
