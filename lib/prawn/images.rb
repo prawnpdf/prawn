@@ -58,7 +58,7 @@ module Prawn
     #   require "open-uri"
     #
     #   Prawn::Document.generate("remote_images.pdf") do
-    #     image open("http://prawnpdf.org/media/prawn_logo.png")
+    #     image URI.open("http://prawnpdf.org/media/prawn_logo.png")
     #   end
     #
     # This method returns an image info object which can be used to check the
