@@ -8,6 +8,12 @@ Take the font style into account when looking for a glyph and fallback fonts are
 
 (Dan Allen, [#1147](https://github.com/prawnpdf/prawn/issues/1147))
 
+### Restore original column after call to float
+
+When the `float` method is used inside of a column box, restore the original column in addition to the page number and y.
+
+(Dan Allen, [#1266](https://github.com/prawnpdf/prawn/issues/1266))
+
 ## PrawnPDF 2.4.0
 
 ### Added support for Ruby 3

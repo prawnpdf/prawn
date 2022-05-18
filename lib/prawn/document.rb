@@ -385,9 +385,11 @@ module Prawn
     #
     def float
       original_page = page_number
+      original_column = bounds.instance_variable_get :@current_column if bounds.is_a? ColumnBox
       original_y = y
       yield
       go_to_page(original_page) unless page_number == original_page
+      bounds.instance_variable_set :@current_column, original_column if original_column
       self.y = original_y
     end
 

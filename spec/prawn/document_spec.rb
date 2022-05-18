@@ -135,6 +135,18 @@ describe Prawn::Document do
       expect(pdf.y).to eq(orig_y)
     end
 
+    it 'restores the original column' do
+      orig_y = pdf.y
+      pdf.column_box [pdf.bounds.left, pdf.cursor], width: pdf.bounds.width, columns: 2, reflow_margins: true do
+        pdf.float do
+          pdf.bounds.move_past_bottom
+          pdf.text 'Foo'
+        end
+        expect(pdf.y).to eq(orig_y)
+        expect(pdf.bounds.instance_variable_get(:@current_column)).to eq(0)
+      end
+    end
+
     it 'teleports across pages if necessary' do
       pdf.float do
         pdf.text 'Foo'
@@ -147,6 +159,24 @@ describe Prawn::Document do
       expect(pages.size).to eq(2)
       expect(pages[0][:strings]).to eq(%w[Foo Baz])
       expect(pages[1][:strings]).to eq(['Bar'])
+    end
+
+    it 'restores the original column across pages' do
+      orig_y = pdf.y
+      orig_page = pdf.page_number
+      pdf.column_box [pdf.bounds.left, pdf.cursor], width: pdf.bounds.width, columns: 2, reflow_margins: true do
+        pdf.float do
+          pdf.bounds.move_past_bottom
+          pdf.text 'Foo'
+          pdf.bounds.move_past_bottom
+          pdf.text 'Bar'
+          pdf.bounds.move_past_bottom
+          pdf.text 'Baz'
+        end
+        expect(pdf.y).to eq(orig_y)
+        expect(pdf.page_number).to eq(orig_page)
+        expect(pdf.bounds.instance_variable_get(:@current_column)).to eq(0)
+      end
     end
   end
 
