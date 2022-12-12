@@ -10,13 +10,13 @@ jobs:
   code-style:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.0
       - name: Gems cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/gems
           key: gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
@@ -47,13 +47,13 @@ jobs:
           - ruby-head
           - jruby-9.3
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Gems cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/gems
           key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}

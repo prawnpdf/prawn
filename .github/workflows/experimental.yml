@@ -14,13 +14,13 @@ jobs:
         ruby:
           - truffleruby-head
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Gems cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/gems
           key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
