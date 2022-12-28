@@ -309,7 +309,6 @@ module Prawn
         descriptor = @document.ref!(
           Type: :FontDescriptor,
           FontName: basename.to_sym,
-          FontFile2: fontfile,
           FontBBox: bbox,
           Flags: pdf_flags,
           StemV: stem_v,
@@ -351,8 +350,8 @@ module Prawn
         range_blocks =
           ranges.reduce(+'') do |s, list|
             s << format(
-              "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
-              lenght: list.length,
+              "%<length>d beginbfchar\n%<list>s\nendbfchar\n",
+              length: list.length,
               list: list.join("\n")
             )
           end
@@ -364,7 +363,6 @@ module Prawn
         cmap.stream.compress!
 
         reference.data.update(
-          Subtype: :TrueType,
           BaseFont: basename.to_sym,
           FontDescriptor: descriptor,
           FirstChar: 32,
@@ -372,6 +370,15 @@ module Prawn
           Widths: @document.ref!(widths),
           ToUnicode: cmap
         )
+
+        if font.cff.exists?
+          fontfile.data.update(Subtype: :Type1C)
+          reference.data.update(Subtype: :Type1)
+          descriptor.data.update(FontFile3: fontfile)
+        else
+          reference.data.update(Subtype: :TrueType)
+          descriptor.data.update(FontFile2: fontfile)
+        end
       end
 
       UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, '')
