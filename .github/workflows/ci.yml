@@ -10,24 +10,12 @@ jobs:
   code-style:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.0
-      - name: Gems cache
-        uses: actions/cache@v2
-        with:
-          path: ~/gems
-          key: gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
-          restore-keys: |
-            gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-
-            gems-3.0.0-
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle config path ~/gems
-          bundle install --jobs 4 --retry 3
+          bundler-cache: true
       - name: Check code style
         run: bundle exec rake rubocop
   test:
@@ -44,26 +32,16 @@ jobs:
           - "3.0"
           - "3.1.0"
           - "3.1"
+          - "3.2.0"
+          - "3.2"
           - ruby-head
           - jruby-9.3
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - name: Gems cache
-        uses: actions/cache@v2
-        with:
-          path: ~/gems
-          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
-          restore-keys: |
-            gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-
-            gems-${{ matrix.ruby }}-
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle config path ~/gems
-          bundle install --jobs 4 --retry 3
+          bundler-cache: true
       - name: Run tests
         run: bundle exec rake spec
