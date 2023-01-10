@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
       '.yardopts'
     ]
   spec.require_path = 'lib'
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 2.6'
   spec.required_rubygems_version = '>= 1.3.6'
 
   spec.authors = [
@@ -36,12 +36,13 @@ Gem::Specification.new do |spec|
   ]
   spec.licenses = %w[PRAWN GPL-2.0 GPL-3.0]
 
+  spec.add_dependency('matrix', '~> 0.4')
   spec.add_dependency('pdf-core', '~> 0.9.0')
   spec.add_dependency('ttfunk', '~> 1.7')
 
   spec.add_development_dependency('pdf-inspector', '>= 1.2.1', '< 2.0.a')
   spec.add_development_dependency('pdf-reader', ['~> 1.4', '>= 1.4.1'])
-  spec.add_development_dependency('prawn-dev', '~> 0.1.0')
+  spec.add_development_dependency('prawn-dev', '~> 0.3.0')
   spec.add_development_dependency('prawn-manual_builder', '>= 0.3.0')
 
   spec.homepage = 'http://prawnpdf.org'

@@ -6,6 +6,11 @@ Lint/ConstantDefinitionInBlock:
     - manual/text/formatted_callbacks.rb
     - manual/text/text_box_extensions.rb
 
+Layout/LineLength:
+  Exclude:
+    # Hashes are long
+    - spec/prawn_manual_spec.rb
+
 Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
   Exclude:
@@ -18,11 +23,17 @@ Lint/ShadowingOuterLocalVariable:
   Exclude:
     - manual/basic_concepts/creation.rb
 
-# In this case we supress Prawn::Errors::CannotFit while trying to scale
+# In this case we suppress Prawn::Errors::CannotFit while trying to scale
 # text down to fit.
 Lint/SuppressedException:
   Exclude:
     - lib/prawn/text/formatted/box.rb
+
+# Disable this cop here, rather than in the file, so the Rubocop directives
+# don't print out in the manual.
+Lint/UselessAssignment:
+  Exclude:
+    - manual/graphics/line_width.rb
 
 Metrics/BlockLength:
   Exclude:

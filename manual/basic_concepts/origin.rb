@@ -11,7 +11,7 @@
 # creating a bounding box is its top-left corner, not bottom-left (hence the
 # <code>[100, 300]</code> coordinates below).
 #
-# Even if you never create a bounding box explictly, each document already comes
+# Even if you never create a bounding box explicitly, each document already comes
 # with one called the margin box. This initial bounding box is the one
 # responsible for the document margins.
 #

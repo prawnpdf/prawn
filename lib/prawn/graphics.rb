@@ -237,7 +237,7 @@ module Prawn
     #
     def polygon(*points)
       move_to points[0]
-      (points[1..-1] << points[0]).each do |point|
+      (points[1..] << points[0]).each do |point|
         line_to(*point)
       end
       # close the path

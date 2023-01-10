@@ -102,12 +102,14 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'properlies handle empty slices using default encoding' do
-      texts = [{
-        text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
-          'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
-        font: 'Courier',
-        size: 10
-      }]
+      texts = [
+        {
+          text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
+            'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
+          font: 'Courier',
+          size: 10
+        }
+      ]
       text_box = described_class.new(
         texts,
         document: pdf,
@@ -215,6 +217,32 @@ describe Prawn::Text::Formatted::Box do
       expect(text.strings[1]).to eq('你好')
       expect(text.strings[2]).to eq('再见')
       expect(text.strings[3]).to eq('goodbye')
+    end
+
+    it 'considers style when looking for glyph in font' do
+      dustismo_file = "#{Prawn::DATADIR}/fonts/Dustismo_Roman.ttf"
+      dejavu_sans_file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
+      dejavu_sans_bold_file = "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+
+      pdf.font_families['Dustismo'] = {
+        normal: { file: dustismo_file },
+        bold: { file: dejavu_sans_bold_file }
+      }
+
+      pdf.font_families['Fallback'] = {
+        normal: { file: dejavu_sans_file },
+        bold: { file: dejavu_sans_file }
+      }
+
+      formatted_text = [{ text: ?\u203b, styles: [:bold], font: 'Dustismo' }]
+      pdf.formatted_text_box(formatted_text, fallback_fonts: ['Fallback'])
+
+      text = PDF::Inspector::Text.analyze(pdf.render)
+
+      fonts_used = text.font_settings.map { |e| e[:name] }
+      expect(fonts_used.length).to eq(1)
+      expect(fonts_used[0].to_s).to match(/DejaVuSans-Bold/)
+      expect(text.strings[0]).to eq(?\u203b)
     end
   end
 
@@ -697,10 +725,12 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'is able to set color via an rgb hex string' do
-      array = [{
-        text: 'rgb',
-        color: 'ff0000'
-      }]
+      array = [
+        {
+          text: 'rgb',
+          color: 'ff0000'
+        }
+      ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
       colors = PDF::Inspector::Graphics::Color.analyze(pdf.render)
@@ -709,10 +739,12 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'is able to set color using a cmyk array' do
-      array = [{
-        text: 'cmyk',
-        color: [100, 0, 0, 0]
-      }]
+      array = [
+        {
+          text: 'cmyk',
+          color: [100, 0, 0, 0]
+        }
+      ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
       colors = PDF::Inspector::Graphics::Color.analyze(pdf.render)
@@ -728,10 +760,12 @@ describe Prawn::Text::Formatted::Box do
       stroke_color_count = state_before.stroke_color_count
       stroke_color_space_count = state_before.stroke_color_space_count
 
-      array = [{
-        text: 'Foo',
-        color: [0, 0, 0, 100]
-      }]
+      array = [
+        {
+          text: 'Foo',
+          color: [0, 0, 0, 100]
+        }
+      ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
       text_box.render(dry_run: true)
@@ -747,10 +781,12 @@ describe Prawn::Text::Formatted::Box do
   describe 'Text::Formatted::Box#render with fragment level '\
     ':character_spacing option' do
     it 'draws the character spacing to the document' do
-      array = [{
-        text: 'hello world',
-        character_spacing: 7
-      }]
+      array = [
+        {
+          text: 'hello world',
+          character_spacing: 7
+        }
+      ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
       text_box.render
@@ -759,11 +795,13 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'lays out text properly' do
-      array = [{
-        text: 'hello world',
-        font: 'Courier',
-        character_spacing: 10
-      }]
+      array = [
+        {
+          text: 'hello world',
+          font: 'Courier',
+          character_spacing: 10
+        }
+      ]
       options = {
         document: pdf,
         width: 100,
@@ -844,6 +882,28 @@ describe Prawn::Text::Formatted::Box do
       top_padding = y - (box_height - text_box.height)
 
       expect(text_box.at[1]).to be_within(0.01).of(top_padding)
+    end
+  end
+
+  describe 'Text::Formatted::Box#render with :valign => invalid argument' do
+    it 'raise an exception when valign value is not a symbol' do
+      array = [{ text: 'Invalid Vertical Align' }]
+      options = { document: pdf, valign: 'center' }
+      text_box = described_class.new(array, options)
+      expect { text_box.render }.to raise_error(
+        ArgumentError,
+        'valign must be one of :left, :right or :center symbols'
+      )
+    end
+
+    it 'raise an exception when valign value is an invalid symbol' do
+      array = [{ text: 'Invalid Vertical Align' }]
+      options = { document: pdf, valign: ':justify' }
+      text_box = described_class.new(array, options)
+      expect { text_box.render }.to raise_error(
+        ArgumentError,
+        'valign must be one of :left, :right or :center symbols'
+      )
     end
   end
 end

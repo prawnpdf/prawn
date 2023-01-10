@@ -59,6 +59,8 @@ module Prawn
     include Prawn::SoftMask
     include Prawn::TransformationStack
 
+    alias inspect to_s
+
     # @group Extension API
 
     # NOTE: We probably need to rethink the options validation system, but this
@@ -753,7 +755,7 @@ module Prawn
       end
     end
 
-    def font_metric_cache #:nodoc:
+    def font_metric_cache # :nodoc:
       @font_metric_cache ||= FontMetricCache.new(self)
     end
   end

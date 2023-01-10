@@ -7,8 +7,6 @@
 # assignment is a local temporary, rather than a setter method, if you are using
 # the block call to <code>Prawn::Document.generate</code> without passing params
 # you will need to call <code>line_width</code> on self.
-
-# rubocop: disable Lint/UselessAssignment
 require_relative '../example_helper'
 
 filename = File.basename(__FILE__).gsub('.rb', '.pdf')
@@ -33,4 +31,3 @@ Prawn::ManualBuilder::Example.generate(filename) do
     y -= 100
   end
 end
-# rubocop: enable Lint/UselessAssignment

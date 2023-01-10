@@ -380,23 +380,27 @@ describe Prawn::Text do
         # this test will need to be updated.
 
         expect(x_positions[0]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right - 60 -
-                              pdf.width_of(lines[0].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - 60 - pdf.width_of(lines[0].reverse, kerning: true)
+          )
         )
 
         expect(x_positions[1]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right -
-                              pdf.width_of(lines[1].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - pdf.width_of(lines[1].reverse, kerning: true)
+          )
         )
 
         expect(x_positions[2]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right - 60 -
-                              pdf.width_of(lines[2].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - 60 - pdf.width_of(lines[2].reverse, kerning: true)
+          )
         )
 
         expect(x_positions[3]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right -
-                              pdf.width_of(lines[3].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - pdf.width_of(lines[3].reverse, kerning: true)
+          )
         )
       end
 
@@ -417,23 +421,27 @@ describe Prawn::Text do
         # this test will need to be updated.
 
         expect(x_positions[0]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right - 60 -
-                              pdf.width_of(lines[0].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - 60 - pdf.width_of(lines[0].reverse, kerning: true)
+          )
         )
 
         expect(x_positions[1]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right -
-                              pdf.width_of(lines[1].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - pdf.width_of(lines[1].reverse, kerning: true)
+          )
         )
 
         expect(x_positions[2]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right - 60 -
-                              pdf.width_of(lines[2].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - 60 - pdf.width_of(lines[2].reverse, kerning: true)
+          )
         )
 
         expect(x_positions[3]).to(
-          be_within(0.001).of(pdf.bounds.absolute_right -
-                              pdf.width_of(lines[3].reverse, kerning: true))
+          be_within(0.001).of(
+            pdf.bounds.absolute_right - pdf.width_of(lines[3].reverse, kerning: true)
+          )
         )
       end
 

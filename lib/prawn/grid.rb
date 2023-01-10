@@ -28,24 +28,22 @@ module Prawn
     # or work with the grid system directly.
     #
     #   @pdf.grid                 # Get the Grid directly
-    #   @pdf.grid([0,1])          # Get the GridBox at [0,1]
+    #   @pdf.grid(0, 1)           # Get the GridBox at [0,1]
     #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
     #
     def grid(*args)
       @boxes ||= {}
       @boxes[args] ||=
-        begin
-          if args.empty?
-            @grid
-          else
-            g1, g2 = args
+        if args.empty?
+          @grid
+        else
+          g1, g2 = args
 
-            if g1.is_a?(Array) && g2.is_a?(Array) &&
-                g1.length == 2 && g2.length == 2
-              multi_box(single_box(*g1), single_box(*g2))
-            else
-              single_box(g1, g2)
-            end
+          if g1.is_a?(Array) && g2.is_a?(Array) &&
+              g1.length == 2 && g2.length == 2
+            multi_box(single_box(*g1), single_box(*g2))
+          else
+            single_box(g1, g2)
           end
         end
     end

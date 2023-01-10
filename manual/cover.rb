@@ -32,11 +32,13 @@ Prawn::ManualBuilder::Example.generate(filename) do
       end
 
     formatted_text_box(
-      [{
-        text: "Last Update: #{Time.now.strftime('%Y-%m-%d')}\n" \
-          "Prawn Version: #{Prawn::VERSION}\n#{git_commit}",
-        size: 12
-      }],
+      [
+        {
+          text: "Last Update: #{Time.now.strftime('%Y-%m-%d')}\n" \
+            "Prawn Version: #{Prawn::VERSION}\n#{git_commit}",
+          size: 12
+        }
+      ],
       at: [390, cursor - 620]
     )
   end

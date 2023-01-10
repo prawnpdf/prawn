@@ -12,6 +12,8 @@ module Prawn
   class Document
     # @group Stable API
 
+    DEFAULT_OPTS = {}.freeze
+
     # Without arguments, this returns the currently selected font. Otherwise,
     # it sets the current font. When a block is used, the font is applied
     # transactionally and is rolled back when the block exits.
@@ -45,7 +47,7 @@ module Prawn
     # font files.
     # See font_families for more information.
     #
-    def font(name = nil, options = {})
+    def font(name = nil, options = DEFAULT_OPTS)
       return((defined?(@font) && @font) || font('Helvetica')) if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
@@ -234,7 +236,7 @@ module Prawn
     # ++
     #
     # @private
-    def find_font(name, options = {}) #:nodoc:
+    def find_font(name, options = {}) # :nodoc:
       if font_families.key?(name)
         family = name
         name = font_families[name][options[:style] || :normal]
@@ -255,7 +257,7 @@ module Prawn
 
     # Hash of Font objects keyed by names
     #
-    def font_registry #:nodoc:
+    def font_registry # :nodoc:
       @font_registry ||= {}
     end
 
@@ -326,7 +328,7 @@ module Prawn
       end
     end
 
-    def initialize(document, name, options = {}) #:nodoc:
+    def initialize(document, name, options = {}) # :nodoc:
       @document = document
       @name = name
       @options = options
@@ -336,6 +338,7 @@ module Prawn
       @identifier = generate_unique_id
 
       @references = {}
+      @subset_name_cache = {}
     end
 
     # The size of the font ascender in PDF points
@@ -394,16 +397,14 @@ module Prawn
     #
     def add_to_current_page(subset)
       @references[subset] ||= register(subset)
-      @document.state.page.fonts.merge!(
-        identifier_for(subset) => @references[subset]
-      )
+      @document.state.page.fonts[identifier_for(subset)] = @references[subset]
     end
 
-    def identifier_for(subset) #:nodoc:
-      "#{@identifier}.#{subset}".to_sym
+    def identifier_for(subset) # :nodoc:
+      @subset_name_cache[subset] ||= "#{@identifier}.#{subset}".to_sym
     end
 
-    def inspect #:nodoc:
+    def inspect # :nodoc:
       "#{self.class.name}< #{name}: #{size} >"
     end
 
@@ -412,13 +413,13 @@ module Prawn
     # that cache certain values (See
     # Prawn::Table::Text#styled_with_of_single_character)
     #
-    def hash #:nodoc:
-      [self.class, name, family, size].hash
+    def hash # :nodoc:
+      [self.class, name, family].hash
     end
 
     # Compliments the #hash implementation above
     #
-    def eql?(other) #:nodoc:
+    def eql?(other) # :nodoc:
       self.class == other.class && name == other.name &&
         family == other.family && size == other.size
     end

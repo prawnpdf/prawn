@@ -1,5 +1,13 @@
 ## PrawnPDF master branch
 
+## Unreleased
+
+### Look for glyph in correct font
+
+Take the font style into account when looking for a glyph and fallback fonts are enabled.
+
+(Dan Allen, [#1147](https://github.com/prawnpdf/prawn/issues/1147))
+
 ## PrawnPDF 2.4.0
 
 ### Added support for Ruby 3

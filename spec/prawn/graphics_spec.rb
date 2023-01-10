@@ -49,10 +49,12 @@ describe Prawn::Graphics do
       it 'draws from [x1,pdf.y],[x2,pdf.y]' do
         pdf.horizontal_line(100, 150)
         line = PDF::Inspector::Graphics::Line.analyze(pdf.render)
-        expect(line.points).to eq([
-          [100.0 + pdf.bounds.absolute_left, pdf.y],
-          [150.0 + pdf.bounds.absolute_left, pdf.y]
-        ])
+        expect(line.points).to eq(
+          [
+            [100.0 + pdf.bounds.absolute_left, pdf.y],
+            [150.0 + pdf.bounds.absolute_left, pdf.y]
+          ]
+        )
       end
 
       it 'draws a line from (200, 250) to (300, 250)' do
@@ -158,31 +160,33 @@ describe Prawn::Graphics do
     end
 
     it 'uses a Bézier approximation' do
-      expect(curve.coords).to eq([
-        125.0, 100.0,
+      expect(curve.coords).to eq(
+        [
+          125.0, 100.0,
 
-        125.0, 127.61424,
-        113.80712, 150,
-        100.0, 150.0,
+          125.0, 127.61424,
+          113.80712, 150,
+          100.0, 150.0,
 
-        86.19288, 150.0,
-        75.0, 127.61424,
-        75.0, 100.0,
+          86.19288, 150.0,
+          75.0, 127.61424,
+          75.0, 100.0,
 
-        75.0, 72.38576,
-        86.19288, 50.0,
-        100.0, 50.0,
+          75.0, 72.38576,
+          86.19288, 50.0,
+          100.0, 50.0,
 
-        113.80712, 50.0,
-        125.0, 72.38576,
-        125.0, 100.0,
+          113.80712, 50.0,
+          125.0, 72.38576,
+          125.0, 100.0,
 
-        100.0, 100.0
-      ])
+          100.0, 100.0
+        ]
+      )
     end
 
     it 'moves the pointer to the center of the ellipse after drawing' do
-      expect(curve.coords[-2..-1]).to eq([100, 100])
+      expect(curve.coords[-2..]).to eq([100, 100])
     end
   end
 
@@ -195,7 +199,7 @@ describe Prawn::Graphics do
 
     it 'strokes the same path as the equivalent ellipse' do
       middle = curve.coords.length / 2
-      expect(curve.coords[0...middle]).to eq(curve.coords[middle..-1])
+      expect(curve.coords[0...middle]).to eq(curve.coords[middle..])
     end
   end
 
@@ -295,12 +299,16 @@ describe Prawn::Graphics do
         expect(pattern).to_not be_nil
         expect(pattern[:Shading][:ShadingType]).to eq(2)
         expect(pattern[:Shading][:Coords]).to eq([0, 0, pdf.bounds.width, 0])
-        expect(pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all? do |x1, x2|
-          (x1 - x2).abs < 0.01
-        end).to eq true
-        expect(pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all? do |x1, x2|
-          (x1 - x2).abs < 0.01
-        end).to eq true
+        expect(
+          pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all? do |x1, x2|
+            (x1 - x2).abs < 0.01
+          end
+        ).to eq true
+        expect(
+          pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all? do |x1, x2|
+            (x1 - x2).abs < 0.01
+          end
+        ).to eq true
       end
 
       it 'creates a unique ID for each pattern resource' do
@@ -411,12 +419,16 @@ describe Prawn::Graphics do
         expect(pattern[:Shading][:ShadingType]).to eq(3)
         expect(pattern[:Shading][:Coords])
           .to eq([0, 0, 10, pdf.bounds.width, 0, 20])
-        expect(pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all? do |x1, x2|
-          (x1 - x2).abs < 0.01
-        end).to eq true
-        expect(pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all? do |x1, x2|
-          (x1 - x2).abs < 0.01
-        end).to eq true
+        expect(
+          pattern[:Shading][:Function][:C0].zip([1, 0, 0]).all? do |x1, x2|
+            (x1 - x2).abs < 0.01
+          end
+        ).to eq true
+        expect(
+          pattern[:Shading][:Function][:C1].zip([0, 0, 1]).all? do |x1, x2|
+            (x1 - x2).abs < 0.01
+          end
+        ).to eq true
       end
 
       it 'fill_gradient should set fill color to the pattern' do
@@ -658,6 +670,37 @@ describe Prawn::Graphics do
         expect(new_state.public_send(attr)).to_not equal(pdf.graphic_state.public_send(attr))
       end
     end
+
+    it 'saves the transformation stack on graphics state save' do
+      allow(pdf).to receive(:save_transformation_stack)
+      allow(pdf).to receive(:restore_transformation_stack)
+
+      pdf.save_graphics_state
+
+      expect(pdf).to have_received(:save_transformation_stack)
+      expect(pdf).to_not have_received(:restore_transformation_stack)
+    end
+
+    it 'saves and restores the transformation stack when save graphics state ' \
+      'used in block form' do
+      allow(pdf).to receive(:save_transformation_stack)
+      allow(pdf).to receive(:restore_transformation_stack)
+
+      pdf.save_graphics_state do
+        # Deliberately empty block
+      end
+
+      expect(pdf).to have_received(:save_transformation_stack)
+      expect(pdf).to have_received(:restore_transformation_stack)
+    end
+
+    it 'restores the transformation stack on graphics state restore' do
+      allow(pdf).to receive(:restore_transformation_stack)
+
+      pdf.restore_graphics_state
+
+      expect(pdf).to have_received(:restore_transformation_stack)
+    end
   end
 
   describe 'When using transformation matrix' do
@@ -748,18 +791,22 @@ describe Prawn::Graphics do
         pdf.rotate(angle, origin: [x, y]) { pdf.text('hello world') }
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x - x_prime),
+            reduce_precision(y - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
       end
 
       it 'rotates around the origin in a document with a margin' do
@@ -775,18 +822,22 @@ describe Prawn::Graphics do
         y_prime = x_ * sin + y_ * cos
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
-        ])
-        expect(matrices.matrices[1]).to eq([
-          reduce_precision(cos),
-          reduce_precision(sin),
-          reduce_precision(-sin),
-          reduce_precision(cos),
-          0, 0
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x_ - x_prime),
+            reduce_precision(y_ - y_prime)
+          ]
+        )
+        expect(matrices.matrices[1]).to eq(
+          [
+            reduce_precision(cos),
+            reduce_precision(sin),
+            reduce_precision(-sin),
+            reduce_precision(cos),
+            0, 0
+          ]
+        )
       end
 
       it 'raise_errors BlockRequired if no block is given' do
@@ -830,11 +881,13 @@ describe Prawn::Graphics do
         pdf.scale(factor, origin: [x, y]) { pdf.text('hello world') }
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x - x_prime),
-          reduce_precision(y - y_prime)
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x - x_prime),
+            reduce_precision(y - y_prime)
+          ]
+        )
         expect(matrices.matrices[1]).to eq([factor, 0, 0, factor, 0, 0])
       end
 
@@ -850,11 +903,13 @@ describe Prawn::Graphics do
         pdf.scale(factor, origin: [x, y]) { pdf.text('hello world') }
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        expect(matrices.matrices[0]).to eq([
-          1, 0, 0, 1,
-          reduce_precision(x_ - x_prime),
-          reduce_precision(y_ - y_prime)
-        ])
+        expect(matrices.matrices[0]).to eq(
+          [
+            1, 0, 0, 1,
+            reduce_precision(x_ - x_prime),
+            reduce_precision(y_ - y_prime)
+          ]
+        )
         expect(matrices.matrices[1]).to eq([factor, 0, 0, factor, 0, 0])
       end
 
