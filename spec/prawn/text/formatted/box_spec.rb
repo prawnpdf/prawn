@@ -906,4 +906,52 @@ describe Prawn::Text::Formatted::Box do
       )
     end
   end
+
+  describe 'Text::Formatted::box#line_widths' do
+    it 'handles newlines' do
+      accented_char = win1252_string("\xE9"); # é in win-1252
+      array = [
+        {
+          text: "Oh hai t#{accented_char}xt rect.\nOh hai text rect thats longer.",
+          font: 'Times-Roman',
+          size: 12
+        }
+      ]
+
+      options = { document: pdf }
+      text_box = described_class.new(array, options)
+      text_box.render
+      expect(text_box.line_widths).to eq(
+        [
+          77.136,
+          135.804
+        ]
+      )
+    end
+
+    it 'handles fallback fonts' do
+      file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+      pdf.font_families['Kai'] = {
+        normal: { file: file, font: 'Kai' }
+      }
+      array = [
+        {
+          text: "hello你好\n再见goodbye",
+          font: 'Times-Roman',
+          size: 12
+        }
+      ]
+
+      options = { document: pdf, fallback_fonts: ['Kai'] }
+      text_box = described_class.new(array, options)
+      text_box.render
+
+      expect(text_box.line_widths).to eq(
+        [
+          48.000,
+          65.328
+        ]
+      )
+    end
+  end
 end

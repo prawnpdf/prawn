@@ -106,6 +106,8 @@ module Prawn
             accumulated_width += fragment_this_line.width
           end
 
+          @line_widths.push(accumulated_width)
+
           @printed_lines << printed_fragments.map do |s|
             s.dup.force_encoding(::Encoding::UTF_8)
           end.join
