@@ -11,13 +11,22 @@ describe Prawn::View do
 
   it 'delegates unhandled methods to object returned by document method' do
     doc = instance_double('Document')
+    allow(doc).to receive(:fill_gradient) do |*args, **kwargs, &block|
+      { args: args, kwargs: kwargs, block: block }
+    end
+
     allow(view_object).to receive(:document).and_return(doc)
 
-    allow(doc).to receive(:some_delegated_method)
+    block = proc {}
+    arguments = view_object.fill_gradient('positional', keyword: 'argument', &block)
 
-    view_object.some_delegated_method
-
-    expect(doc).to have_received(:some_delegated_method)
+    expect(arguments).to eq(
+      {
+        args: ['positional'],
+        kwargs: { keyword: 'argument' },
+        block: block
+      }
+    )
   end
 
   it 'allows a block-like DSL via the update method' do

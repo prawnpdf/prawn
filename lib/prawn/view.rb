@@ -69,10 +69,10 @@ module Prawn
 
     # Delegates all unhandled calls to object returned by +document+ method.
     # (which is an instance of Prawn::Document by default)
-    def method_missing(method_name, *arguments, &block)
+    def method_missing(method_name, *args, **kwargs, &block)
       return super unless document.respond_to?(method_name)
 
-      document.public_send(method_name, *arguments, &block)
+      document.public_send(method_name, *args, **kwargs, &block)
     end
 
     def respond_to_missing?(method_name, _include_all = false)
