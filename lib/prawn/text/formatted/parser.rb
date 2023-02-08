@@ -19,6 +19,7 @@ module Prawn
                          "<b>|</b>|" \
                          "<i>|</i>|" \
                          "<u>|</u>|" \
+                         "<p>|</p>|" \
                          "<strikethrough>|</strikethrough>|" \
                          "<sub>|</sub>|" \
                          "<sup>|</sup>|" \
@@ -41,12 +42,14 @@ module Prawn
           prefixes = { :bold => "<b>",
                        :italic => "<i>",
                        :underline => "<u>",
+                       :paragraph => "<p>",
                        :strikethrough => "<strikethrough>",
                        :subscript => "<sub>",
                        :superscript => "<sup>" }
           suffixes = { :bold => "</b>",
                        :italic => "</i>",
                        :underline => "</u>",
+                       :paragraph => "</p>",
                        :strikethrough => "</strikethrough>",
                        :subscript => "</sub>",
                        :superscript => "</sup>" }
@@ -136,6 +139,8 @@ module Prawn
               styles << :italic
             when "<u>"
               styles << :underline
+            when "<p>"
+              styles << :paragraph
             when "<strikethrough>"
               styles << :strikethrough
             when "<sub>"
@@ -148,6 +153,8 @@ module Prawn
               styles.delete(:italic)
             when "</u>"
               styles.delete(:underline)
+            when "</p>"
+              styles.delete(:paragraph)
             when "</strikethrough>"
               styles.delete(:strikethrough)
             when "</sub>"
