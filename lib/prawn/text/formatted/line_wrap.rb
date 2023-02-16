@@ -101,7 +101,7 @@ module Prawn
                   @document.width_of(segment, kerning: @kerning)
                 end
 
-              if @accumulated_width + segment_width <= @width
+              if @accumulated_width + segment_width <= @width + FLOAT_PRECISION_DELTA
                 @accumulated_width += segment_width
                 shy = soft_hyphen(segment.encoding)
                 if segment[-1] == shy
