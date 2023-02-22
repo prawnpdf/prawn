@@ -10,11 +10,13 @@ if ENV['COVERAGE']
 end
 
 require_relative '../lib/prawn'
+require_relative '../lib/pdf/core'
 
 Prawn.debug = true
 Prawn::Fonts::AFM.hide_m17n_warning = true
 
 require 'rspec'
+require 'securerandom'
 require 'pdf/reader'
 require 'pdf/inspector'
 
@@ -24,6 +26,7 @@ Dir[File.join(__dir__, 'extensions', '**', '*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.include EncodingHelpers
+  config.disable_monkey_patching!
 end
 
 def create_pdf(klass = Prawn::Document, &block)
