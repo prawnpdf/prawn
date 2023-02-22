@@ -27,6 +27,7 @@ Dir[File.join(__dir__, 'extensions', '**', '*.rb')].sort.each { |f| require f }
 RSpec.configure do |config|
   config.include EncodingHelpers
   config.disable_monkey_patching!
+  config.expose_dsl_globally = true
 end
 
 def create_pdf(klass = Prawn::Document, &block)
