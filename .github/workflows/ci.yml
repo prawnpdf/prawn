@@ -14,15 +14,15 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.0
+          ruby-version: "3.2"
       - name: Gems cache
         uses: actions/cache@v2
         with:
           path: ~/gems
-          key: gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
+          key: gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
           restore-keys: |
-            gems-3.0.0-${{ hashFiles('*.gemspec', 'Gemfile') }}-
-            gems-3.0.0-
+            gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}-
+            gems-3.2-
       - name: Install dependencies
         run: |
           gem install bundler
@@ -44,8 +44,11 @@ jobs:
           - "3.0"
           - "3.1.0"
           - "3.1"
-          - ruby-head
-          - jruby-9.3
+          - "3.2.0"
+          - "3.2"
+          - "head"
+          - "jruby-9.3"
+          - "jruby-9.4"
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
