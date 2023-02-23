@@ -19,9 +19,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/gems
-          key: gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
+          key: gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}
           restore-keys: |
-            gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}-
             gems-3.2-
       - name: Install dependencies
         run: |
@@ -59,9 +58,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/gems
-          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
+          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}
           restore-keys: |
-            gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-
             gems-${{ matrix.ruby }}-
       - name: Install dependencies
         run: |
