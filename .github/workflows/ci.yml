@@ -16,7 +16,7 @@ jobs:
         with:
           ruby-version: "3.2"
       - name: Gems cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/gems
           key: gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
@@ -56,7 +56,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Gems cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/gems
           key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}-${{ github.sha }}
