@@ -24,6 +24,9 @@ Dir[File.join(__dir__, 'extensions', '**', '*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.include EncodingHelpers
+
+  # force colors on during CI for better readability, since GitHub Actions supports it
+  config.color_enabled = true if ENV['CI']
 end
 
 def create_pdf(klass = Prawn::Document, &block)
