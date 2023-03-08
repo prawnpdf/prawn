@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'bundler/setup'
 
 GEMSPEC = File.expand_path('prawn.gemspec', __dir__)
