@@ -164,7 +164,14 @@ module Prawn
     #                      [false]
     # <tt>:background</tt>:: An image path to be used as background on all pages
     #                        [nil]
+    # <tt>:background_landscape</tt>:: A landscape image path to be used as
+    #                        background on all pages [nil]
+    # <tt>:background_portrait</tt>:: A portrait image path to be used as
+    #                        background on all pages [nil]
+    # <tt>:background_dimensions</tt>:: Backgound image dimension strategy
+    #                        [:scale] [nil]
     # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
+    # <tt>:background_enabled</tt>:: Backgound enable [true] [nil]
     # <tt>:info</tt>:: Generic hash allowing for custom metadata properties
     #                  [nil]
     # <tt>:text_formatter</tt>: The text formatter to use for
@@ -218,8 +225,7 @@ module Prawn
 
       renderer.min_version(1.6) if options[:print_scaling] == :none
 
-      @background = options[:background]
-      @background_scale = options[:background_scale] || 1
+      @background = Background.new(options)
       @font_size = 12
 
       @bounding_box = nil
@@ -296,9 +302,10 @@ module Prawn
         state.insert_page(state.page, @page_number)
         @page_number += 1
 
-        if @background
+        if @background.render?
           canvas do
-            image(@background, scale: @background_scale, at: bounds.top_left)
+            @background.update(at: bounds.top_left, layout: state.page.layout)
+            image(@background.file, @background.options)
           end
         end
         @y = @bounding_box.absolute_top

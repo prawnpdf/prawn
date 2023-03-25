@@ -123,7 +123,8 @@ describe Prawn::Document do
 
       it 'places a background image interntally if it is in options block' do
         expect(pdf.instance_variable_defined?(:@background)).to eq(true)
-        expect(pdf.instance_variable_get(:@background)).to eq(filename)
+
+        expect(pdf.background.file).to eq(filename)
       end
     end
   end
