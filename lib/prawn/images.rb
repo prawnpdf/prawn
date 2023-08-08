@@ -10,6 +10,7 @@
 
 require 'digest/sha1'
 require 'pathname'
+require 'open-uri'
 
 module Prawn
   module Images
@@ -146,6 +147,15 @@ module Prawn
         io.binmode if io.respond_to?(:binmode)
         return io.read
       end
+
+      if io_or_path.to_s =~ URI::DEFAULT_PARSER.make_regexp
+        # Handle URL case
+        url_io = URI.parse(io_or_path.to_s).open
+        url_io.binmode if url_io.respond_to?(:binmode)
+
+        return url_io.read
+      end
+
       # String or Pathname
       io_or_path = Pathname.new(io_or_path)
       raise ArgumentError, "#{io_or_path} not found" unless io_or_path.file?

@@ -37,6 +37,19 @@ describe Prawn::Images do
     expect(info.height).to eq(453)
   end
 
+  it 'accepts an image URL address' do
+    current_directory = File.dirname(__FILE__)
+    fixture_path = File.join(current_directory, '..', 'fixtures')
+    image_bin_data = File.open(File.join(fixture_path, 'image_in_bytes'), 'rb').read
+    tempfile_mock = double('Tempfile', binmode: nil, read: image_bin_data, rewind: nil)
+
+    allow(URI).to receive(:open).and_return(tempfile_mock)
+
+    info = pdf.image('https://github.com/prawnpdf/prawn/blob/master/data/images/ruport.png?raw=true')
+
+    expect(info.height).to eq(105)
+  end
+
   it 'rewinds IO objects to be able to embed them multiply' do
     info =
       File.open(filename, 'rb') do |file|
