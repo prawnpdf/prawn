@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Full font embedding
+
+Fonts can be embedded in their original form without subsetting or any other
+modification.
+
+(Alexander Mankuta, [#1322](https://github.com/prawnpdf/prawn/pull/1322))
+
 ## Fixed keyword arguments in Prawn::View
 
 (Kim Burgestrand, [1284](https://github.com/prawnpdf/prawn/pull/1284))

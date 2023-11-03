@@ -469,6 +469,52 @@ describe Prawn::Font do
         expect(original.equal?(normalized)).to eq false
       end
     end
+
+    describe 'full font embedding' do
+      let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf", subset: false }
+      let(:ref) { pdf.ref!({}).tap { |ref| font.__send__(:embed, ref, nil) } }
+
+      it 'is a composite font' do
+        font_obj = ref.data
+
+        expect(font_obj[:Subtype]).to eq(:Type0)
+        expect(font_obj[:DescendantFonts]).to be_an(Array)
+        expect(font_obj[:DescendantFonts].length).to eq(1)
+        desc_font = font_obj[:DescendantFonts].first.data
+        expect(desc_font[:Type]).to eq(:Font)
+        expect(desc_font[:Subtype]).to eq(:CIDFontType2)
+      end
+
+      it 'has proper metrics' do
+        descriptor = ref.data[:DescendantFonts].first.data[:FontDescriptor].data
+        expect(descriptor[:Ascent]).to eq(759)
+        expect(descriptor[:Descent]).to eq(-240)
+        expect(descriptor[:CapHeight]).to eq(759)
+      end
+
+      it 'has proper encoding' do
+        font_obj = ref.data
+        expect(font_obj[:Encoding]).to eq(:'Identity-H')
+        desc_font = font_obj[:DescendantFonts].first.data
+        expect(desc_font[:CIDToGIDMap]).to eq(:Identity)
+      end
+
+      it 'contains glyph widths' do
+        desc_font = ref.data[:DescendantFonts].first.data
+        expect(desc_font[:W]).to be_an(Array)
+        expect(desc_font[:W].length).to eq(2)
+        expect(desc_font[:W][0]).to eq(0)
+        expect(desc_font[:W][1]).to be_an(Array)
+        expect(desc_font[:W][1].length).to eq(6108) # All glyph metrics
+      end
+
+      it 'propely embeds font data' do
+        descriptor = ref.data[:DescendantFonts].first.data[:FontDescriptor].data
+        expect(descriptor).to have_key(:FontFile2)
+        expect(descriptor[:FontFile2].data[:Length1]).to eq(741_536)
+        expect(descriptor[:FontFile2].stream).to_not be_empty
+      end
+    end
   end
 
   describe 'OTF fonts' do
@@ -498,6 +544,51 @@ describe Prawn::Font do
         original = 'Foo'
         normalized = font.normalize_encoding(original)
         expect(original).to_not be_equal(normalized)
+      end
+    end
+
+    describe 'full font embedding' do
+      let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/Bodoni-Book.otf", subset: false }
+      let(:ref) { pdf.ref!({}).tap { |ref| font.__send__(:embed, ref, nil) } }
+
+      it 'is a composite font' do
+        font_obj = ref.data
+
+        expect(font_obj[:Subtype]).to eq(:Type0)
+        expect(font_obj[:DescendantFonts]).to be_an(Array)
+        expect(font_obj[:DescendantFonts].length).to eq(1)
+        desc_font = font_obj[:DescendantFonts].first.data
+        expect(desc_font[:Type]).to eq(:Font)
+        expect(desc_font[:Subtype]).to eq(:CIDFontType0)
+      end
+
+      it 'has proper metrics' do
+        descriptor = ref.data[:DescendantFonts].first.data[:FontDescriptor].data
+        expect(descriptor[:Ascent]).to eq(1023)
+        expect(descriptor[:Descent]).to eq(-200)
+        expect(descriptor[:CapHeight]).to eq(3072)
+      end
+
+      it 'has proper encoding' do
+        font_obj = ref.data
+        expect(font_obj[:Encoding]).to eq(:'Identity-H')
+        desc_font = font_obj[:DescendantFonts].first.data
+        expect(desc_font).to_not have_key(:CIDToGIDMap)
+      end
+
+      it 'contains glyph widths' do
+        desc_font = ref.data[:DescendantFonts].first.data
+        expect(desc_font[:W]).to be_an(Array)
+        expect(desc_font[:W].length).to eq(2)
+        expect(desc_font[:W][0]).to eq(0)
+        expect(desc_font[:W][1]).to be_an(Array)
+        expect(desc_font[:W][1].length).to eq(353) # All glyph metrics
+      end
+
+      it 'propely embeds font data' do
+        descriptor = ref.data[:DescendantFonts].first.data[:FontDescriptor].data
+        expect(descriptor).to have_key(:FontFile3)
+        expect(descriptor[:FontFile3].stream).to_not be_empty
       end
     end
   end
@@ -566,7 +657,7 @@ describe Prawn::Font do
         # This has to be the same font file as in the other family.
         normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
         bold: "#{Prawn::DATADIR}/fonts/Dustismo_Roman.ttf"
-      },
+      }
     )
 
     pdf.font 'DejaVu Sans'

@@ -9,6 +9,7 @@
 
 require 'ttfunk'
 require 'ttfunk/subset_collection'
+require_relative 'to_unicode_cmap'
 
 module Prawn
   module Fonts
@@ -43,11 +44,70 @@ module Prawn
         true
       end
 
+      class FullFontSubsetsCollection
+        FULL_FONT = Object.new.tap do |obj|
+          obj.singleton_class.define_method(:inspect) do
+            super().insert(-2, ' FULL_FONT')
+          end
+        end.freeze
+
+        def initialize(original)
+          @original = original
+
+          (@cmap ||= original.cmap.unicode.first) || raise(NoUnicodeCMap.new(font: name))
+
+          @code_space_size =
+            case cmap.code_map.keys.max
+            when 0..0xff then 1
+            when 0x100..0xffff then 2
+            when 0x10000..0xffffff then 3
+            else
+              4
+            end
+
+          # Codespaces are not sequentional, they're ranges in
+          # a multi-dimentional space. Each byte is considered separately. So we
+          # have to maximally extend the lower two bytes in order to allow for
+          # continuos Unicode mapping.
+          # We only keep the highest byte because Unicode only goes to 1FFFFF
+          # and fonts usually cover even less of the space. We don't want to
+          # list all those unmapped charac codes here.
+          @code_space_max = cmap.code_map.keys.max | ('ff' * (code_space_size - 1)).to_i(16)
+        end
+
+        def encode(characters)
+          [
+            [
+              FULL_FONT,
+              characters.map do |c|
+                check_bounds!(c)
+                [cmap[c]].pack('n')
+              end.join('')
+            ]
+          ]
+        end
+
+        private
+
+        attr_reader :cmap, :code_space_size, :code_space_max
+
+        def check_bounds!(num)
+          if num > code_space_max
+            raise Error, "CID (#{num}) exceedes code space size"
+          end
+        end
+      end
+
       def initialize(document, name, options = {})
         super
 
         @ttf = read_ttf_file
-        @subsets = TTFunk::SubsetCollection.new(@ttf)
+        @subsets =
+          if full_font_embedding
+            FullFontSubsetsCollection.new(@ttf)
+          else
+            TTFunk::SubsetCollection.new(@ttf)
+          end
         @italic_angle = nil
 
         @attributes = {}
@@ -199,8 +259,7 @@ module Prawn
 
       def normalize_encoding(text)
         text.encode(::Encoding::UTF_8)
-      rescue StandardError => e
-        puts e
+      rescue StandardError
         raise Prawn::Errors::IncompatibleStringEncoding,
           "Encoding #{text.encoding} can not be transparently converted to UTF-8. " \
           'Please ensure the encoding of the string you are attempting ' \
@@ -289,12 +348,26 @@ module Prawn
       end
 
       def embed(reference, subset)
-        font_content = @subsets[subset].encode
+        if full_font_embedding
+          embed_full_font(reference)
+        else
+          embed_subset(reference, subset)
+        end
+      end
 
-        # FIXME: we need postscript_name and glyph widths from the font
-        # subset. Perhaps this could be done by querying the subset,
-        # rather than by parsing the font that the subset produces?
-        font = TTFunk::File.new(font_content)
+      def embed_subset(reference, subset)
+        font = TTFunk::File.new(@subsets[subset].encode)
+        unicode_mapping = @subsets[subset].to_unicode_map
+        embed_simple_font(reference, font, unicode_mapping)
+      end
+
+      def embed_simple_font(reference, font, unicode_mapping)
+        if font_type(font) == :unknown
+          raise Error, %(Simple font embedding is not uspported for font "#{font.name}.")
+        end
+
+        true_type = font_type(font) == :true_type
+        open_type = font_type(font) == :open_type
 
         # empirically, it looks like Adobe Reader will not display fonts
         # if their font name is more than 33 bytes long. Strange. But true.
@@ -302,14 +375,14 @@ module Prawn
 
         raise NoPostscriptName.new(font: font) if basename.nil?
 
-        fontfile = @document.ref!(Length1: font_content.size)
-        fontfile.stream << font_content
-        fontfile.stream.compress!
+        fontfile = @document.ref!({})
+        fontfile.data[:Length1] = font.contents.size
+        fontfile.stream << font.contents.string
+        fontfile.stream.compress! if @document.compression_enabled?
 
         descriptor = @document.ref!(
           Type: :FontDescriptor,
           FontName: basename.to_sym,
-          FontFile2: fontfile,
           FontBBox: bbox,
           Flags: pdf_flags,
           StemV: stem_v,
@@ -320,10 +393,20 @@ module Prawn
           XHeight: x_height
         )
 
+        first_char = font.cmap.tables.first.code_map.index { |gid| !gid.zero? }
+        last_char = font.cmap.tables.first.code_map.rindex { |gid| !gid.zero? }
         hmtx = font.horizontal_metrics
-        widths = font.cmap.tables.first.code_map.map do |gid|
-          Integer(hmtx.widths[gid] * scale_factor)
-        end[32..]
+        widths =
+          font.cmap.tables.first.code_map[first_char..last_char].map do |gid|
+            if gid.zero?
+              # These characters are not in the document so we don't ever use
+              # these values but we need to encode them so let's use as little
+              # sapce as possible.
+              0
+            else
+              Integer(hmtx.widths[gid] * scale_factor)
+            end
+          end
 
         # It would be nice to have Encoding set for the macroman subsets,
         # and only do a ToUnicode cmap for non-encoded unicode subsets.
@@ -335,65 +418,120 @@ module Prawn
         # For now, it's simplest to just create a unicode cmap for every font.
         # It offends my inner purist, but it'll do.
 
-        map = @subsets[subset].to_unicode_map
-
-        ranges = [[]]
-        map.keys.sort.reduce('') do |_s, code|
-          ranges << [] if ranges.last.length >= 100
-          unicode = map[code]
-          ranges.last << format(
-            '<%<code>02x><%<unicode>04x>',
-            code: code,
-            unicode: unicode
-          )
-        end
-
-        range_blocks =
-          ranges.reduce(+'') do |s, list|
-            s << format(
-              "%<lenght>d beginbfchar\n%<list>s\nendbfchar\n",
-              lenght: list.length,
-              list: list.join("\n")
-            )
-          end
-
-        to_unicode_cmap = UNICODE_CMAP_TEMPLATE % range_blocks.strip
-
-        cmap = @document.ref!({})
-        cmap << to_unicode_cmap
-        cmap.stream.compress!
+        to_unicode = @document.ref!({})
+        to_unicode << ToUnicodeCMap.new(unicode_mapping).generate
+        to_unicode.stream.compress! if @document.compression_enabled?
 
         reference.data.update(
-          Subtype: :TrueType,
           BaseFont: basename.to_sym,
           FontDescriptor: descriptor,
-          FirstChar: 32,
-          LastChar: 255,
+          FirstChar: first_char,
+          LastChar: last_char,
           Widths: @document.ref!(widths),
-          ToUnicode: cmap
+          ToUnicode: to_unicode
+        )
+
+        if true_type
+          reference.data.update(Subtype: :TrueType)
+          descriptor.data.update(FontFile2: fontfile)
+        elsif open_type
+          @document.renderer.min_version(1.6)
+          reference.data.update(Subtype: :Type1)
+          descriptor.data.update(FontFile3: fontfile)
+          fontfile.data.update(Subtype: :OpenType)
+        end
+      end
+
+      def embed_full_font(reference)
+        embed_composite_font(reference, @ttf)
+      end
+
+      def embed_composite_font(reference, font)
+        if font_type(font) == :unknown
+          raise Error, %(Composite font embedding is not uspported for font "#{font.name}.")
+        end
+
+        true_type = font_type(font) == :true_type
+        open_type = font_type(font) == :open_type
+
+        fontfile = @document.ref!({})
+        fontfile.data[:Length1] = font.contents.size if true_type
+        fontfile.data[:Subtype] = :CIDFontType0C if open_type
+        fontfile.stream << font.contents.string
+        fontfile.stream.compress! if @document.compression_enabled?
+
+        # empirically, it looks like Adobe Reader will not display fonts
+        # if their font name is more than 33 bytes long. Strange. But true.
+        basename = font.name.postscript_name[0, 33].delete("\0")
+
+        descriptor = @document.ref!(
+          Type: :FontDescriptor,
+          FontName: basename.to_sym,
+          FontBBox: bbox,
+          Flags: pdf_flags,
+          StemV: stem_v,
+          ItalicAngle: italic_angle,
+          Ascent: @ascender,
+          Descent: @descender,
+          CapHeight: cap_height,
+          XHeight: x_height
+        )
+        descriptor.data[:FontFile2] = fontfile if true_type
+        descriptor.data[:FontFile3] = fontfile if open_type
+
+        to_unicode = @document.ref!({})
+        to_unicode << ToUnicodeCMap.new(
+          font.cmap.unicode.first
+          .code_map
+          .reject { |cid, gid| gid.zero? || (0xd800..0xdfff).cover?(cid) }
+          .invert
+          .sort.to_h,
+          2 # Identity-H is a 2-byte encoding
+        ).generate
+        to_unicode.stream.compress! if @document.compression_enabled?
+
+        widths =
+          font.horizontal_metrics.widths.map { |w| (w * scale_factor).round }
+
+        child_font = @document.ref!(
+          Type: :Font,
+          BaseFont: basename.to_sym,
+          CIDSystemInfo: {
+            Registry: 'Adobe',
+            Ordering: 'Identity',
+            Supplement: 0
+          },
+          FontDescriptor: descriptor,
+          W: [0, widths]
+        )
+        if true_type
+          child_font.data.update(
+            Subtype: :CIDFontType2,
+            CIDToGIDMap: :Identity
+          )
+        end
+        if open_type
+          child_font.data[:Subtype] = :CIDFontType0
+        end
+
+        reference.data.update(
+          Subtype: :Type0,
+          BaseFont: basename.to_sym,
+          Encoding: :'Identity-H',
+          DescendantFonts: [child_font],
+          ToUnicode: to_unicode
         )
       end
 
-      UNICODE_CMAP_TEMPLATE = <<-STR.strip.gsub(/^\s*/, '')
-        /CIDInit /ProcSet findresource begin
-        12 dict begin
-        begincmap
-        /CIDSystemInfo <<
-          /Registry (Adobe)
-          /Ordering (UCS)
-          /Supplement 0
-        >> def
-        /CMapName /Adobe-Identity-UCS def
-        /CMapType 2 def
-        1 begincodespacerange
-        <00><ff>
-        endcodespacerange
-        %s
-        endcmap
-        CMapName currentdict /CMap defineresource pop
+      def font_type(font)
+        if font.directory.tables.key?('glyf')
+          :true_type
+        elsif font.directory.tables.key?('CFF ')
+          :open_type
+        else
+          :unknown
         end
-        end
-      STR
+      end
 
       def read_ttf_file
         TTFunk::File.open(@name)
