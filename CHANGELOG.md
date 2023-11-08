@@ -2,11 +2,49 @@
 
 ## Unreleased
 
+## PrawnPDF 2.5.0
+
+### Aliases inspect so that it calls to_s
+
+(Peter Goldstein, [#1062](https://github.com/prawnpdf/prawn/issues/1062))
+
+### Extract escape and unescape methods in Text::Formatted::Parser module
+
+(Johnny Shields)
+
+### Fix bug when encrypted string contains \r
+
+(Thomas Leitner)
+
+### Fix transformation stack not being popped
+
+(Roger Nesbitt)
+
+### Minor fixes to the documentation & CI
+
+(Peter Goldstein)
+
+### Support for Ruby 3.1, 3.2 and JRuby 9.4
+
+(Alexander Mankuta)
+
+### Reduce memory allocations
+
+(Thomas Leitner)
+
 ### Look for glyph in correct font
 
 Take the font style into account when looking for a glyph and fallback fonts are enabled.
 
 (Dan Allen, [#1147](https://github.com/prawnpdf/prawn/issues/1147))
+
+### Raise an exception on invalid valign value
+
+(Masakinpo)
+
+### Update code style
+
+(Alexander Mankuta)
 
 ## PrawnPDF 2.4.0
 
