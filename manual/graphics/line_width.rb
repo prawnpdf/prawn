@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Example.generate(filename) do
     case i
     when 0 then line_width = 10 # This call will have no effect
     when 1 then self.line_width = 10
-    when 2 then self.line_width = 25
+    when 2 then line_width 25   # Consistancy practice
     end
 
     stroke do
