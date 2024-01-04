@@ -555,4 +555,28 @@ describe Prawn::Font do
       expect(pdf.font.character_count('Hello, world!')).to eq(13)
     end
   end
+
+  it 'properly caches fonts' do
+    pdf.font_families.update(
+      'DejaVu Sans' => {
+        normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
+        bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+      },
+      'Dustismo' => {
+        # This has to be the same font file as in the other family.
+        normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
+        bold: "#{Prawn::DATADIR}/fonts/Dustismo_Roman.ttf"
+      },
+    )
+
+    pdf.font 'DejaVu Sans'
+
+    pdf.font 'Dustismo' do
+      pdf.text 'Dustismo bold', style: :bold
+    end
+
+    text = PDF::Inspector::Text.analyze(pdf.render)
+    font_name = text.font_settings.first[:name].to_s.sub(/\w+\+/, 'subset+')
+    expect(font_name).to eq 'subset+DustismoRoman'
+  end
 end
