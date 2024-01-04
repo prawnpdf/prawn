@@ -62,6 +62,13 @@ jobs:
           restore-keys: |
             gems-${{ matrix.ruby }}-
       - name: Install dependencies
+        if: ${{ startsWith(matrix.ruby, '2.') }}
+        run: |
+          gem install bundler -v 2.4.22
+          bundle config path ~/gems
+          bundle install --jobs 4 --retry 3
+      - name: Install dependencies
+        if: ${{ ! startsWith(matrix.ruby, '2.') }}
         run: |
           gem install bundler
           bundle config path ~/gems
