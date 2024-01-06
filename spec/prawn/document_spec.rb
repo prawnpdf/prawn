@@ -126,6 +126,19 @@ describe Prawn::Document do
         expect(pdf.instance_variable_get(:@background)).to eq(filename)
       end
     end
+
+    it 'retains the current margin and padding' do
+      initial_absolute_left = pdf.bounds.absolute_left
+
+      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width do
+        pdf.bounds.move_past_bottom
+      end
+      pdf.indent 20 do
+        pdf.bounds.move_past_bottom
+      end
+
+      expect(pdf.bounds.absolute_left).to eq(initial_absolute_left)
+    end
   end
 
   describe '#float' do

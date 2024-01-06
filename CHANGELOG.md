@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Apply correct margin box when creating or switching pages
+
+When creating a new page or returning to a page previously created, compute the margin box correctly.
+
+(Dan Allen, [#1122](https://github.com/prawnpdf/prawn/pull/1022))
+
 ### Look for glyph in correct font
 
 Take the font style into account when looking for a glyph and fallback fonts are enabled.
