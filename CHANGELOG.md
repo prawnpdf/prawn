@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## Fixed keyword arguments in Prawn::View
+
+(Kim Burgestrand, [1284](https://github.com/prawnpdf/prawn/pull/1284))
+
 ### Look for glyph in correct font
 
 Take the font style into account when looking for a glyph and fallback fonts are enabled.
