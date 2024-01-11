@@ -245,7 +245,7 @@ module Prawn
           name = options[:file]
         end
       end
-      key = "#{name}:#{options[:font] || 0}"
+      key = "#{family}:#{name}:#{options[:font] || 0}"
 
       if name.is_a? Prawn::Font
         font_registry[key] = name
