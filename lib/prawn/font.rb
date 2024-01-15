@@ -145,19 +145,23 @@ module Prawn
       end
     end
 
-    # Hash that maps font family names to their styled individual font names.
+    # Hash that maps font family names to their styled individual font
+    # definitions.
     #
     # To add support for another font family, append to this hash, e.g:
     #
     #   pdf.font_families.update(
-    #    "MyTrueTypeFamily" => { :bold        => "foo-bold.ttf",
-    #                            :italic      => "foo-italic.ttf",
-    #                            :bold_italic => "foo-bold-italic.ttf",
-    #                            :normal      => "foo.ttf" })
+    #     "MyTrueTypeFamily" => {
+    #       bold: "foo-bold.ttf",
+    #       italic: "foo-italic.ttf",
+    #       bold_italic: "foo-bold-italic.ttf",
+    #       normal: "foo.ttf"
+    #     }
+    #   )
     #
     # This will then allow you to use the fonts like so:
     #
-    #   pdf.font("MyTrueTypeFamily", :style => :bold)
+    #   pdf.font("MyTrueTypeFamily", style: :bold)
     #   pdf.text "Some bold text"
     #   pdf.font("MyTrueTypeFamily")
     #   pdf.text "Some normal text"
@@ -169,6 +173,17 @@ module Prawn
     # defined for fonts "Courier", "Times-Roman" and "Helvetica". When
     # defining your own font families, you can map any or all of these
     # styles to whatever font files you'd like.
+    #
+    # Font definition can be either a hash or just a string.
+    #
+    # A hash font definition can specify a number of options:
+    #
+    # - :file -- path to the font file (required)
+    # - :subset -- whether to subset the font (default false). Only
+    #   applicable to TrueType and OpenType fonts (includnig DFont and TTC).
+    #
+    # A string font definition is equivalent to hash definition with only
+    # :file being specified.
     #
     def font_families
       @font_families ||= {}.merge!(
@@ -339,6 +354,8 @@ module Prawn
 
       @references = {}
       @subset_name_cache = {}
+
+      @full_font_embedding = options.key?(:subset) && !options[:subset]
     end
 
     # The size of the font ascender in PDF points
@@ -401,7 +418,12 @@ module Prawn
     end
 
     def identifier_for(subset) # :nodoc:
-      @subset_name_cache[subset] ||= "#{@identifier}.#{subset}".to_sym
+      @subset_name_cache[subset] ||=
+        if full_font_embedding
+          @identifier.to_sym
+        else
+          "#{@identifier}.#{subset}".to_sym
+        end
     end
 
     def inspect # :nodoc:
@@ -425,6 +447,8 @@ module Prawn
     end
 
     private
+
+    attr_reader :full_font_embedding
 
     # generate a font identifier that hasn't been used on the current page yet
     #
