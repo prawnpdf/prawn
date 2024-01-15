@@ -4,6 +4,7 @@ pkg
 .rvmrc
 .bundle
 Gemfile.lock
+Gemfile.local
 drop_to_console.rb
 /.idea
 /doc
