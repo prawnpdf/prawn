@@ -14,6 +14,9 @@ module Prawn
   # You must group soft mask and graphics it's applied to under
   # save_graphics_state because soft mask is a part of graphic state in PDF.
   #
+  # Note that soft_mask is applied only to the following content in the
+  # graphic state. Anything that comes before soft_mask is drawn without mask.
+  #
   # Example:
   #   pdf.save_graphics_state do
   #     pdf.soft_mask do
