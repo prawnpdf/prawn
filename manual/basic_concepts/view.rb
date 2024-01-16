@@ -29,6 +29,10 @@ class Greeter
     @name = name
   end
 
+  def document
+    @document ||= Prawn::Document.new(page_size: 'A4', page_layout: :landscape, margin: 30)
+  end
+
   def say_hello
     text "Hello, #{@name}!"
   end
