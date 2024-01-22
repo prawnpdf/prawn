@@ -17,6 +17,18 @@ module Prawn
   # Note that soft_mask is applied only to the following content in the
   # graphic state. Anything that comes before soft_mask is drawn without mask.
   #
+  # Conceptually, soft mask is an alpha channel. Luminosity of the drawing in
+  # the soft mask defines the transparency of the drawing the mask is applied
+  # to. 0.0 mask luminosity ("black") results in a fully opaque target image and
+  # 1.0 mask luminosity ("white") results in a fully transparent target image.
+  # Grey values result in some semi-transparent target image.
+  #
+  # Note: you can use colour in mask drawings but it makes harder to reason
+  # about the resulting value of alpha channel as it requires an additional
+  # luminosity calculation. However, this also allows achieving some advanced
+  # artistic effects (e.g. full-color photos in masks to get an effect similar
+  # to double exposure).
+  #
   # Example:
   #   pdf.save_graphics_state do
   #     pdf.soft_mask do
