@@ -118,7 +118,7 @@ module Prawn
         mapping
           .sort
           .slice_when { |a, b| (b[0] - a[0]) != 1 } # Slice at key discontinuity
-          .flat_map { |slice|
+          .flat_map { |slice| # rubocop: disable Style/BlockDelimiters
             if slice.length == 1
               [[:short, slice]]
             else
@@ -133,7 +133,7 @@ module Prawn
                 .map { |span| span.length > 1 ? [:index_sorted, span] : [:short, slice] } +
                 continuous_slices.map { |span| [:fully_sorted, span] }
             end
-          }
+          } # rubocop: disable Style/MultilineBlockChain
           .sort_by { |span| span[1][0][0] } # Sort span start key
       end
     end

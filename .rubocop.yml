@@ -61,3 +61,7 @@ Style/Encoding:
     - lib/prawn/images/png.rb
     - lib/prawn/images.rb
     - spec/png_spec.rb
+
+RSpec/FilePath:
+  Exclude:
+    - spec/prawn/fonts/to_unicode_cmap_spec.rb
