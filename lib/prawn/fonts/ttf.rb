@@ -393,18 +393,18 @@ module Prawn
           XHeight: x_height
         )
 
-        first_char = font.cmap.tables.first.code_map.index { |gid| !gid.zero? }
-        last_char = font.cmap.tables.first.code_map.rindex { |gid| !gid.zero? }
+        first_char, last_char = unicode_mapping.keys.minmax
         hmtx = font.horizontal_metrics
         widths =
-          font.cmap.tables.first.code_map[first_char..last_char].map do |gid|
-            if gid.zero?
+          (first_char..last_char).map do |code|
+            if unicode_mapping.key?(code)
+              gid = font.cmap.tables.first.code_map[code]
+              Integer(hmtx.widths[gid] * scale_factor)
+            else
               # These characters are not in the document so we don't ever use
               # these values but we need to encode them so let's use as little
               # sapce as possible.
               0
-            else
-              Integer(hmtx.widths[gid] * scale_factor)
             end
           end
 

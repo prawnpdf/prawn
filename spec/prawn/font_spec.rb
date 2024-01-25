@@ -670,4 +670,43 @@ describe Prawn::Font do
     font_name = text.font_settings.first[:name].to_s.sub(/\w+\+/, 'subset+')
     expect(font_name).to eq 'subset+DustismoRoman'
   end
+
+  it 'does not change width of unknown glyph' do
+    text_with_string_widths =
+      Class.new(PDF::Inspector::Text) do
+        attr_reader :string_widths
+
+        def initialize(*)
+          super
+          @string_widths = []
+        end
+
+        def show_text(text, kerned = false)
+          super
+          @string_widths << ((@state.current_font.unpack text).reduce(0) do |width, code|
+            width + (@state.current_font.glyph_width code) * @font_settings[-1][:size] / 1000.0
+          end)
+        end
+      end
+
+    pdf =
+      Prawn::Document.new do
+        font_families.update(
+          'DejaVu Sans' => {
+            normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
+            bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+          }
+        )
+
+        # changing option to subset: false fixes issue (albeit using different behavior)
+        font 'DejaVu Sans', subset: true do
+          text '日本語<b>end</b>', inline_format: true
+        end
+      end
+
+    rendered_pdf = pdf.render
+    analyzed_pdf = text_with_string_widths.analyze(rendered_pdf)
+    expect(analyzed_pdf.string_widths.length).to be 2
+    expect(analyzed_pdf.string_widths[0]).to be > 0.0
+  end
 end
