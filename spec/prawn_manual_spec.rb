@@ -6,9 +6,9 @@ require 'digest/sha2'
 MANUAL_HASH =
   case RUBY_ENGINE
   when 'ruby'
-    '7991e4f72e944140840e1c26f0fff331029846eaab148de8483d06491c7808bc4963e8e7376a514e855037f1f1b4197877a31f2df44f511f4f7f5e0ce5df3170'
+    'e9f599d2ec19846d51faefbd9f2cd9f8d0a729b56103418e11cf08d129f986b899e18e55b5706575e3d3a3b0e4dbaef021ac81f98a5658ee33ebca4e35a26455'
   when 'jruby'
-    '29b8f8cb00910426805ce226fb47c59d6409683f35f0d2c056a6cf837ba086ca5c763ff89266cfc8e11b1d92af60c9974822b12ad761cdbdf520adb005a98750'
+    '598c7e8c474dcc4e61ae5849cfb4a145129095ca37ca55641473e0898291f0296c7c07c201b80997c2f3efebfd67b428bf71376f95f1680f776db529ccbe87f9'
   end
 
 RSpec.describe Prawn do
@@ -22,8 +22,9 @@ RSpec.describe Prawn do
     it 'contains no unexpected changes' do
       ENV['CI'] ||= 'true'
 
-      require File.expand_path(File.join(__dir__, %w[.. manual contents]))
-      s = prawn_manual_document.render
+      manual_path = File.expand_path('../manual/manual.rb', __dir__)
+      manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path)
+      s = manual.generate
 
       hash = Digest::SHA512.hexdigest(s)
 

@@ -8,8 +8,10 @@ task default: %i[spec rubocop]
 desc "Generate the 'Prawn by Example' manual"
 task :manual do
   puts 'Building manual...'
-  require File.expand_path(File.join(__dir__, %w[manual contents]))
-  prawn_manual_document.render_file('manual.pdf')
+  require_relative 'manual/manual'
+  manual_path = File.expand_path('manual/manual.rb', __dir__)
+  manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path)
+  manual.generate('manual.pdf')
   puts 'The Prawn manual is available at manual.pdf. Happy Prawning!'
 end
 

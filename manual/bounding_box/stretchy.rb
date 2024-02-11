@@ -1,29 +1,36 @@
 # frozen_string_literal: true
 
-# Bounding Boxes accept an optional <code>:height</code> parameter. Unless it
-# is provided the bounding box will be stretchy. It will expand the height to
-# fit all content generated inside it.
+require 'prawn/manual_builder'
 
-require_relative '../example_helper'
+Prawn::ManualBuilder::Chapter.new do
+  title 'Stretchy Bounding Box'
 
-filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::ManualBuilder::Example.generate(filename) do
-  y_position = cursor
-  bounding_box([0, y_position], width: 200, height: 100) do
-    text 'This bounding box has a height of 100. If this text gets too large ' \
-      'it will flow to the next page.'
-
-    transparent(0.5) { stroke_bounds }
+  text do
+    prose <<~TEXT
+      Bounding Boxes accept an optional <code>:height</code> parameter. Unless
+      it is provided the bounding box will be stretchy. It will expand the
+      height to fit all content generated inside it.
+    TEXT
   end
 
-  bounding_box([300, y_position], width: 200) do
-    text 'This bounding box has variable height. No matter how much text is ' \
-      'written here, the height will expand to fit.'
+  example do
+    y_position = cursor
+    bounding_box([0, y_position], width: 200, height: 100) do
+      text 'This bounding box has a height of 100. If this text gets too large ' \
+        'it will flow to the next page.'
 
-    text ' _' * 100
+      transparent(0.5) { stroke_bounds }
+    end
 
-    text ' *' * 100
+    bounding_box([300, y_position], width: 200) do
+      text 'This bounding box has variable height. No matter how much text is ' \
+        'written here, the height will expand to fit.'
 
-    transparent(0.5) { stroke_bounds }
+      text ' _' * 100
+
+      text ' *' * 100
+
+      transparent(0.5) { stroke_bounds }
+    end
   end
 end

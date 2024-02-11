@@ -1,29 +1,38 @@
 # frozen_string_literal: true
 
-# Pass an image path to the <code>:background</code> option and it will be used
-# as the background for all pages.
-# This option can only be used on document creation.
+require 'prawn/manual_builder'
 
-require_relative '../example_helper'
+Prawn::ManualBuilder::Chapter.new do
+  title 'Background'
 
-filename = File.basename(__FILE__).gsub('.rb', '.pdf')
+  text do
+    prose <<~TEXT
+      Pass an image path to the <code>:background</code> option and it will be
+      used as the background for all pages.
 
-img = "#{Prawn::DATADIR}/images/letterhead.jpg"
+      This option can only be used on document creation.
+    TEXT
+  end
 
-Prawn::Document.generate(filename, background: img, margin: 100) do
-  text 'My report caption', size: 18, align: :right
+  example eval: false, standalone: true do
+    img = "#{Prawn::DATADIR}/images/letterhead.jpg"
 
-  move_down font.height * 2
+    Prawn::Document.generate('example.pdf', background: img, margin: 100) do
+      text 'My report caption', size: 18, align: :right
 
-  text 'Here is my text explaining this report. ' * 20,
-    size: 12,
-    align: :left,
-    leading: 2
+      move_down font.height * 2
 
-  move_down font.height
+      text 'Here is my text explaining this report. ' * 20,
+        size: 12,
+        align: :left,
+        leading: 2
 
-  text "I'm using a soft background. " * 40,
-    size: 12,
-    align: :left,
-    leading: 2
+      move_down font.height
+
+      text "I'm using a soft background. " * 40,
+        size: 12,
+        align: :left,
+        leading: 2
+    end
+  end
 end

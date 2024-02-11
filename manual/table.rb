@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'example_helper'
+require 'prawn/manual_builder'
 
-filename = File.basename(__FILE__).gsub('.rb', '.pdf')
+Prawn::ManualBuilder::Chapter.new do
+  title 'Prawn::Table'
 
-Prawn::ManualBuilder::Example.generate(filename) do
-  header('Prawn::Table')
+  text do
+    prose <<~TEXT
+      As of Prawn 1.2.0, Prawn::Table has been extracted into its own
+      semi-officially supported gem.
 
-  prose <<-END_TEXT
-    As of Prawn 1.2.0, Prawn::Table has been extracted into its own
-    semi-officially supported gem.
-
-    Please see https://github.com/prawnpdf/prawn-table for more details.
-  END_TEXT
+      Please see https://github.com/prawnpdf/prawn-table for more details.
+    TEXT
+  end
 end

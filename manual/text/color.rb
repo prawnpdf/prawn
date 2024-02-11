@@ -1,24 +1,31 @@
 # frozen_string_literal: true
 
-# The <code>:color</code> attribute can give a block of text a default color,
-# in RGB hex format or 4-value CMYK.
+require 'prawn/manual_builder'
 
-require_relative '../example_helper'
+Prawn::ManualBuilder::Chapter.new do
+  title 'Color'
 
-filename = File.basename(__FILE__).gsub('.rb', '.pdf')
-Prawn::ManualBuilder::Example.generate(filename) do
-  text 'Default color is black'
-  move_down 25
+  text do
+    prose <<~TEXT
+      The <code>:color</code> attribute can give a block of text a default
+      color, in RGB hex format or 4-value CMYK.
+    TEXT
+  end
 
-  text 'Changed to red', color: 'FF0000'
-  move_down 25
+  example do
+    text 'Default color is black'
+    move_down 25
 
-  text 'CMYK color', color: [22, 55, 79, 30]
-  move_down 25
+    text 'Changed to red', color: 'FF0000'
+    move_down 25
 
-  text(
-    "Also works with <color rgb='ff0000'>inline</color> formatting",
-    color: '0000FF',
-    inline_format: true
-  )
+    text 'CMYK color', color: [22, 55, 79, 30]
+    move_down 25
+
+    text(
+      "Also works with <color rgb='ff0000'>inline</color> formatting",
+      color: '0000FF',
+      inline_format: true
+    )
+  end
 end
