@@ -23,7 +23,7 @@ RSpec.describe Prawn do
       ENV['CI'] ||= 'true'
 
       manual_path = File.expand_path('../manual/manual.rb', __dir__)
-      manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path)
+      manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path) # rubocop:disable Security/Eval
       s = manual.generate
 
       hash = Digest::SHA512.hexdigest(s)

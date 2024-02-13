@@ -10,7 +10,7 @@ task :manual do
   puts 'Building manual...'
   require_relative 'manual/manual'
   manual_path = File.expand_path('manual/manual.rb', __dir__)
-  manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path)
+  manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path) # rubocop:disable Security/Eval
   manual.generate('manual.pdf')
   puts 'The Prawn manual is available at manual.pdf. Happy Prawning!'
 end
