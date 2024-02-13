@@ -35,8 +35,6 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - "2.6.0"
-          - "2.6"
           - "2.7.0"
           - "2.7"
           - "3.0.0"
@@ -47,7 +45,6 @@ jobs:
           - "3.2"
           - "3.3.0"
           - "head"
-          - "jruby-9.3"
           - "jruby-9.4"
     steps:
       - uses: actions/checkout@v3
