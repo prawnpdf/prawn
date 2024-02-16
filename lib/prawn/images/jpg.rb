@@ -94,5 +94,7 @@ module Prawn
         obj
       end
     end
+
+    Prawn.image_handler.register(Prawn::Images::JPG)
   end
 end

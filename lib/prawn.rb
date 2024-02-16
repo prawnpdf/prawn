@@ -54,6 +54,7 @@ require_relative 'prawn/version'
 
 require_relative 'prawn/errors'
 
+require_relative 'prawn/image_handler'
 require_relative 'prawn/utilities'
 require_relative 'prawn/text'
 require_relative 'prawn/graphics'
@@ -72,7 +73,3 @@ require_relative 'prawn/repeater'
 require_relative 'prawn/outline'
 require_relative 'prawn/grid'
 require_relative 'prawn/view'
-require_relative 'prawn/image_handler'
-
-Prawn.image_handler.register(Prawn::Images::PNG)
-Prawn.image_handler.register(Prawn::Images::JPG)

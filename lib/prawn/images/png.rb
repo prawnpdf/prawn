@@ -328,5 +328,7 @@ module Prawn
         end
       end
     end
+
+    Prawn.image_handler.register(Prawn::Images::PNG)
   end
 end
