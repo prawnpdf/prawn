@@ -1,36 +1,40 @@
 # frozen_string_literal: true
 
-# Welcome to Prawn, the best PDF Generation library ever.
-# This documentation covers user level functionality.
-#
 require 'set'
 
 require 'ttfunk'
 require 'pdf/core'
 
+# Welcome to Prawn, the best PDF Generation library ever.
+# This documentation covers user level functionality.
 module Prawn
   file = __FILE__
   file = File.readlink(file) if File.symlink?(file)
   dir = File.dirname(file)
 
-  # The base source directory for Prawn as installed on the system
-  #
-  #
+  # The base source directory for Prawn as installed on the system.
   BASEDIR = File.expand_path(File.join(dir, '..'))
+
+  # Directory where Prawn keeps its data files.
   DATADIR = File.expand_path(File.join(dir, '..', 'data'))
 
+  # @deprecated This is not used any more.
   FLOAT_PRECISION = 1.0e-9
 
-  # When set to true, Prawn will verify hash options to ensure only valid keys
-  # are used.  Off by default.
+  # When set to `true`, Prawn will verify hash options to ensure only valid keys
+  # are used. Off by default.
   #
   # Example:
-  #   >> Prawn::Document.new(:tomato => "Juicy")
-  #   Prawn::Errors::UnknownOption:
-  #   Detected unknown option(s): [:tomato]
-  #   Accepted options are: [:page_size, :page_layout, :left_margin, ...]
+  #
+  # ```shell
+  # >> Prawn::Document.new(:tomato => "Juicy")
+  # Prawn::Errors::UnknownOption:
+  # Detected unknown option(s): [:tomato]
+  # Accepted options are: [:page_size, :page_layout, :left_margin, ...]
+  # ```
   #
   # @private
+  # @return [Boolean]
   attr_accessor :debug
 
   module_function :debug, :debug=
@@ -38,6 +42,11 @@ module Prawn
   module_function
 
   # @private
+  # @param accepted [Array<Symbol>] list of valid options
+  # @param actual [Hash<Symbol, any>] opetions hash to validate
+  # @return [void]
+  # @raise [Prawn::Errors::UnknownOption]
+  # @yield
   def verify_options(accepted, actual)
     return unless debug || $DEBUG
 

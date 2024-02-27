@@ -26,6 +26,7 @@ RSpec.configure do |config|
   config.include EncodingHelpers
 end
 
+# Create a document.
 def create_pdf(klass = Prawn::Document, &block)
   klass.new(margin: 0, &block)
 end

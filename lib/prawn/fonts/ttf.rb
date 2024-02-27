@@ -13,10 +13,16 @@ require_relative 'to_unicode_cmap'
 
 module Prawn
   module Fonts
-    # @private
+    # TrueType font.
+    #
+    # @note You shouldn't use this class directly.
     class TTF < Font
+      # TrueType font error.
       class Error < StandardError
+        # @private
         DEFAULT_MESSAGE = 'TTF font error'
+
+        # @private
         MESSAGE_WITH_FONT = 'TTF font error in font %<font>s'
 
         def initialize(message = DEFAULT_MESSAGE, font: nil)
@@ -28,22 +34,39 @@ module Prawn
         end
       end
 
+      # Signals absence of a Unicode character map in the font.
       class NoUnicodeCMap < Error
+        # @private
         DEFAULT_MESSAGE = 'No unicode cmap found in font'
+
+        # @private
         MESSAGE_WITH_FONT = 'No unicode cmap found in font %<font>s'
       end
 
+      # Signals absense of a PostScript font name.
       class NoPostscriptName < Error
+        # @private
         DEFAULT_MESSAGE = 'Can not detect a postscript name'
+
+        # @private
         MESSAGE_WITH_FONT = 'Can not detect a postscript name in font %<font>s'
       end
 
-      attr_reader :ttf, :subsets
+      # TTFunk font.
+      # @return [TTFunk::File]
+      attr_reader :ttf
+      attr_reader :subsets
 
+      # Does this font support Unicode?
+      #
+      # @return [true]
       def unicode?
         true
       end
 
+      # An adapter for subset collection to represent a full font.
+      #
+      # @private
       class FullFontSubsetsCollection
         FULL_FONT = Object.new.tap do |obj|
           obj.singleton_class.define_method(:inspect) do
@@ -75,6 +98,9 @@ module Prawn
           @code_space_max = cmap.code_map.keys.max | ('ff' * (code_space_size - 1)).to_i(16)
         end
 
+        # Encode characters.
+        #
+        # @return [Array<Array(FULL_FONT, String)>]
         def encode(characters)
           [
             [
@@ -98,6 +124,11 @@ module Prawn
         end
       end
 
+      # @param document [Prawn::Document]
+      # @param name [String] font file path
+      # @param options [Hash]
+      # @option options :family [String]
+      # @option options :style [Symbol]
       def initialize(document, name, options = {})
         super
 
@@ -120,8 +151,15 @@ module Prawn
         @line_gap = Integer(@ttf.line_gap * scale_factor)
       end
 
-      # NOTE: +string+ must be UTF8-encoded.
-      def compute_width_of(string, options = {}) # :nodoc:
+      # Compute width of a string at the specified size, optionally with kerning
+      # applied.
+      #
+      # @param string [String] *must* be encoded as UTF-8
+      # @param options [Hash{Symbol => any}]
+      # @option options :size [Number]
+      # @option options :kerning [Boolean] (false)
+      # @return [Number]
+      def compute_width_of(string, options = {})
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
           kern(string).reduce(0) do |s, r|
@@ -138,28 +176,29 @@ module Prawn
         end
       end
 
-      # The font bbox, as an array of integers
+      # The font bbox.
       #
+      # @return [Array(Number, Number, Number, Number)]
       def bbox
         @bbox ||= @ttf.bbox.map { |i| Integer(i * scale_factor) }
       end
 
-      # Returns true if the font has kerning data, false otherwise
+      # Does this font contain kerning data.
       #
-      # rubocop: disable Naming/PredicateName
-      def has_kerning_data?
+      # @return [Boolean]
+      def has_kerning_data? # rubocop: disable Naming/PredicateName
         @has_kerning_data
       end
-      # rubocop: enable Naming/PredicateName
 
-      # Perform any changes to the string that need to happen
-      # before it is rendered to the canvas. Returns an array of
-      # subset "chunks", where the even-numbered indices are the
-      # font subset number, and the following entry element is
-      # either a string or an array (for kerned text).
+      # Perform any changes to the string that need to happen before it is
+      # rendered to the canvas. Returns an array of subset "chunks", where the
+      # even-numbered indices are the font subset number, and the following
+      # entry element is either a string or an array (for kerned text).
       #
-      # The +text+ parameter must be UTF8-encoded.
-      #
+      # @param text [String] must be in UTF-8 encoding
+      # @param options [Hash{Symbol => any}]
+      # @option options :kerning [Boolean]
+      # @return [Array<Array(0, (String, Array)>]
       def encode_text(text, options = {})
         text = text.chomp
 
@@ -193,15 +232,23 @@ module Prawn
         end
       end
 
+      # Base name of the font.
+      #
+      # @return [String]
       def basename
         @basename ||= @ttf.name.postscript_name
       end
 
-      # not sure how to compute this for true-type fonts...
+      # @devnote not sure how to compute this for true-type fonts...
+      #
+      # @private
+      # @return [Number]
       def stem_v
         0
       end
 
+      # @private
+      # @return [Number]
       def italic_angle
         return @italic_angle if @italic_angle
 
@@ -218,6 +265,8 @@ module Prawn
         @italic_angle
       end
 
+      # @private
+      # @return [Number]
       def cap_height
         @cap_height ||=
           begin
@@ -226,24 +275,34 @@ module Prawn
           end
       end
 
+      # @private
+      # @return [number]
       def x_height
         # FIXME: seems like if os2 table doesn't exist, we could
         # just find the height of the lower-case 'x' glyph?
         @ttf.os2.exists? && @ttf.os2.x_height || 0
       end
 
+      # @private
+      # @return [Number]
       def family_class
         @family_class ||= (@ttf.os2.exists? && @ttf.os2.family_class || 0) >> 8
       end
 
+      # @private
+      # @return [Boolean]
       def serif?
         @serif ||= [1, 2, 3, 4, 5, 7].include?(family_class)
       end
 
+      # @private
+      # @return [Boolean]
       def script?
         @script ||= family_class == 10
       end
 
+      # @private
+      # @return [Integer]
       def pdf_flags
         @pdf_flags ||=
           begin
@@ -257,6 +316,10 @@ module Prawn
           end
       end
 
+      # Normlize text to a compatible encoding.
+      #
+      # @param text [String]
+      # @return [String]
       def normalize_encoding(text)
         text.encode(::Encoding::UTF_8)
       rescue StandardError
@@ -266,17 +329,27 @@ module Prawn
           'to use is set correctly'
       end
 
+      # Encode text to UTF-8.
+      #
+      # @param text [String]
+      # @return [String]
       def to_utf8(text)
         text.encode('UTF-8')
       end
 
+      # Does this font has a glyph for the character?
+      #
+      # @param char [String]
+      # @return [Boolean]
       def glyph_present?(char)
         code = char.codepoints.first
         cmap[code].positive?
       end
 
-      # Returns the number of characters in +str+ (a UTF-8-encoded string).
+      # Returns the number of characters in `str` (a UTF-8-encoded string).
       #
+      # @param str [String]
+      # @return [Integer]
       def character_count(str)
         str.length
       end

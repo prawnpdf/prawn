@@ -1,24 +1,26 @@
 # frozen_string_literal: true
 
-# grid.rb: Provides a basic grid layout system for Prawn
-#
-# Contributed by Andrew O'Brien in March 2009
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 module Prawn
-  class Document
+  class Document # rubocop: disable Style/Documentation
     # @group Experimental API
 
-    # Defines the grid system for a particular document.  Takes the number of
+    # Defines the grid system for a particular document. Takes the number of
     # rows and columns and the width to use for the gutter as the
     # keys :rows, :columns, :gutter, :row_gutter, :column_gutter
     #
-    # Note that a completely new grid object is built each time define_grid()
-    # is called. This means that all subsequent calls to grid() will use
-    # the newly defined Grid object -- grids are not nestable like
-    # bounding boxes are.
-
+    # @note A completely new grid object is built each time `define_grid`
+    #   is called. This means that all subsequent calls to grid() will use
+    #   the newly defined Grid object -- grids are not nestable like
+    #   bounding boxes are.
+    #
+    # @param options [Hash{Symbol => any}]
+    # @option options :columns [Integer] Number of columns in the grid.
+    # @option options :rows [Integer] Number of rows in the grid.
+    # @option options :gutter [Number] Gutter size. `:row_gutter` and
+    #   `:column_gutter` are ignored if specified.
+    # @option options :row_gutter [Number] Row gutter size.
+    # @option options :column_gutter [Number] Column gutter size.
+    # @return [Grid]
     def define_grid(options = {})
       @boxes = nil
       @grid = Grid.new(self, options)
@@ -27,10 +29,24 @@ module Prawn
     # A method that can either be used to access a particular grid on the page
     # or work with the grid system directly.
     #
-    #   @pdf.grid                 # Get the Grid directly
-    #   @pdf.grid(0, 1)           # Get the GridBox at [0,1]
-    #   @pdf.grid([0,1], [1,2])   # Get a multi-box spanning from [0,1] to [1,2]
+    # @overload grid
+    #   Get current grid.
     #
+    #   @return [Grid]
+    #
+    # @overload grid(row, column)
+    #   Get a grid box.
+    #
+    #   @param row [Integer]
+    #   @param column [Integer]
+    #   @return [GridBox]
+    #
+    # @overload grid(box1, box2)
+    #   Get a grid multi-box.
+    #
+    #   @param box1 [Array(Integer, Integer)] Start box coordinates.
+    #   @param box2 [Array(Integer, Integer)] End box coordinates.
+    #   @return [MultiBox]
     def grid(*args)
       @boxes ||= {}
       @boxes[args] ||=
@@ -53,9 +69,39 @@ module Prawn
     #
     # @group Experimental API
     class Grid
-      attr_reader :pdf, :columns, :rows, :gutter, :row_gutter, :column_gutter
+      # @private
+      # @return [Prawn::Document]
+      attr_reader :pdf
 
-      def initialize(pdf, options = {}) # :nodoc:
+      # Number of columns in the grid.
+      # @return [Integer]
+      attr_reader :columns
+
+      # Number of rows in the grid.
+      # @return [Integer]
+      attr_reader :rows
+
+      # Gutter size.
+      # @return [Number]
+      attr_reader :gutter
+
+      # Row gutter size.
+      # @return [Number]
+      attr_reader :row_gutter
+
+      # Column gutter size.
+      # @return [Number]
+      attr_reader :column_gutter
+
+      # @param pdf [Prawn::Document]
+      # @param options [Hash{Symbol => any}]
+      # @option options :columns [Integer] Number of columns in the grid.
+      # @option options :rows [Integer] Number of rows in the grid.
+      # @option options :gutter [Number] Gutter size. `:row_gutter` and
+      #   `:column_gutter` are ignored if specified.
+      # @option options :row_gutter [Number] Row gutter size.
+      # @option options :column_gutter [Number] Column gutter size.
+      def initialize(pdf, options = {})
         valid_options = %i[columns rows gutter row_gutter column_gutter]
         Prawn.verify_options valid_options, options
 
@@ -66,16 +112,23 @@ module Prawn
       end
 
       # Calculates the base width of boxes.
+      #
+      # @return [Float]
       def column_width
         @column_width ||= subdivide(pdf.bounds.width, columns, column_gutter)
       end
 
       # Calculates the base height of boxes.
+      #
+      # @return [Float]
       def row_height
         @row_height ||= subdivide(pdf.bounds.height, rows, row_gutter)
       end
 
-      # Diagnostic tool to show all of the grids.  Defaults to gray.
+      # Diagnostic tool to show all of the grid boxes.
+      #
+      # @param color [Color]
+      # @return [void]
       def show_all(color = 'CCCCCC')
         rows.times do |row|
           columns.times do |column|
@@ -105,10 +158,11 @@ module Prawn
 
     # A Box is a class that represents a bounded area of a page.
     # A Grid object has methods that allow easy access to the coordinates of
-    # its corners, which can be plugged into most existing prawnmethods.
+    # its corners, which can be plugged into most existing Prawn methods.
     #
     # @group Experimental API
     class GridBox
+      # @private
       attr_reader :pdf
 
       def initialize(pdf, rows, columns)
@@ -120,76 +174,105 @@ module Prawn
       # Mostly diagnostic method that outputs the name of a box as
       # col_num, row_num
       #
+      # @return [String]
       def name
         "#{@rows},#{@columns}"
       end
 
-      # :nodoc
+      # @private
       def total_height
         pdf.bounds.height.to_f
       end
 
-      # Width of a box
+      # Width of a box.
+      #
+      # @return [Float]
       def width
         grid.column_width.to_f
       end
 
-      # Height of a box
+      # Height of a box.
+      #
+      # @return [Float]
       def height
         grid.row_height.to_f
       end
 
-      # Width of the gutter
+      # Width of the gutter.
+      #
+      # @return [Float]
       def gutter
         grid.gutter.to_f
       end
 
-      # x-coordinate of left side
+      # x-coordinate of left side.
+      #
+      # @return [Float]
       def left
         @left ||= (width + grid.column_gutter) * @columns.to_f
       end
 
-      # x-coordinate of right side
+      # x-coordinate of right side.
+      #
+      # @return [Float]
       def right
         @right ||= left + width
       end
 
-      # y-coordinate of the top
+      # y-coordinate of the top.
+      #
+      # @return [Float]
       def top
         @top ||= total_height - ((height + grid.row_gutter) * @rows.to_f)
       end
 
-      # y-coordinate of the bottom
+      # y-coordinate of the bottom.
+      #
+      # @return [Float]
       def bottom
         @bottom ||= top - height
       end
 
-      # x,y coordinates of top left corner
+      # x,y coordinates of top left corner.
+      #
+      # @return [Array(Float, Float)]
       def top_left
         [left, top]
       end
 
-      # x,y coordinates of top right corner
+      # x,y coordinates of top right corner.
+      #
+      # @return [Array(Float, Float)]
       def top_right
         [right, top]
       end
 
-      # x,y coordinates of bottom left corner
+      # x,y coordinates of bottom left corner.
+      #
+      # @return [Array(Float, Float)]
       def bottom_left
         [left, bottom]
       end
 
-      # x,y coordinates of bottom right corner
+      # x,y coordinates of bottom right corner.
+      #
+      # @return [Array(Float, Float)]
       def bottom_right
         [right, bottom]
       end
 
       # Creates a standard bounding box based on the grid box.
+      #
+      # @yield
+      # @return [void]
       def bounding_box(&blk)
         pdf.bounding_box(top_left, width: width, height: height, &blk)
       end
 
-      # Diagnostic method
+      # Drawn the box. Diagnostic method.
+      #
+      # @param grid_color [Color]
+      # @return [void]
       def show(grid_color = 'CCCCCC')
         bounding_box do
           original_stroke_color = pdf.stroke_color
@@ -218,64 +301,110 @@ module Prawn
         @boxes = [box1, box2]
       end
 
+      # @private
       attr_reader :pdf
 
+      # Mostly diagnostic method that outputs the name of a box.
+      #
+      # @return [String]
       def name
         @boxes.map(&:name).join(':')
       end
 
+      # @private
       def total_height
         @boxes[0].total_height
       end
 
+      # Width of a box.
+      #
+      # @return [Float]
       def width
         right_box.right - left_box.left
       end
 
+      # Height of a box.
+      #
+      # @return [Float]
       def height
         top_box.top - bottom_box.bottom
       end
 
+      # Width of the gutter.
+      #
+      # @return [Float]
       def gutter
         @boxes[0].gutter
       end
 
+      # x-coordinate of left side.
+      #
+      # @return [Float]
       def left
         left_box.left
       end
 
+      # x-coordinate of right side.
+      #
+      # @return [Float]
       def right
         right_box.right
       end
 
+      # y-coordinate of the top.
+      #
+      # @return [Float]
       def top
         top_box.top
       end
 
+      # y-coordinate of the bottom.
+      #
+      # @return [Float]
       def bottom
         bottom_box.bottom
       end
 
+      # x,y coordinates of top left corner.
+      #
+      # @return [Array(Float, Float)]
       def top_left
         [left, top]
       end
 
+      # x,y coordinates of top right corner.
+      #
+      # @return [Array(Float, Float)]
       def top_right
         [right, top]
       end
 
+      # x,y coordinates of bottom left corner.
+      #
+      # @return [Array(Float, Float)]
       def bottom_left
         [left, bottom]
       end
 
+      # x,y coordinates of bottom right corner.
+      #
+      # @return [Array(Float, Float)]
       def bottom_right
         [right, bottom]
       end
 
+      # Creates a standard bounding box based on the grid box.
+      #
+      # @yield
+      # @return [void]
       def bounding_box(&blk)
         pdf.bounding_box(top_left, width: width, height: height, &blk)
       end
 
+      # Drawn the box. Diagnostic method.
+      #
+      # @param grid_color [Color]
+      # @return [void]
       def show(grid_color = 'CCCCCC')
         bounding_box do
           original_stroke_color = pdf.stroke_color

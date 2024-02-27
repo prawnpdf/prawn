@@ -1,38 +1,77 @@
 # encoding: ASCII-8BIT
-
 # frozen_string_literal: true
-
-# png.rb : Extracts the data from a PNG that is needed for embedding
-#
-# Based on some similar code in PDF::Writer by Austin Ziegler
-#
-# Copyright April 2008, James Healy.  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'stringio'
 module Prawn
-  module Images
-    # A convenience class that wraps the logic for extracting the parts
-    # of a PNG image that we need to embed them in a PDF
-    #
+  module Images # rubocop: disable Style/Documentation
+    # A convenience class that wraps the logic for extracting the parts of a PNG
+    # image that we need to embed them in a PDF.
     class PNG < Image
       # @group Extension API
 
-      attr_reader :palette, :img_data, :transparency
-      attr_reader :width, :height, :bits
-      attr_reader :color_type, :compression_method, :filter_method
-      attr_reader :interlace_method, :alpha_channel
-      attr_accessor :scaled_width, :scaled_height
+      # Palette data.
+      # @return [String]
+      attr_reader :palette
 
+      # Image data.
+      # @return [String]
+      attr_reader :img_data
+
+      # Transparency data.
+      # @return [Hash{Symbol => String}]
+      attr_reader :transparency
+
+      # Image width in pixels.
+      # @return [Integer]
+      attr_reader :width
+
+      # Image height in pixels.
+      # @return [Integer]
+      attr_reader :height
+
+      # Bits per sample or per palette index.
+      # @return [Integer]
+      attr_reader :bits
+
+      # Color type.
+      # @return [Integer]
+      attr_reader :color_type
+
+      # Compression method.
+      # @return [Integer]
+      attr_reader :compression_method
+
+      # Filter method.
+      # @return [Integer]
+      attr_reader :filter_method
+
+      # Interlace method.
+      # @return [Integer]
+      attr_reader :interlace_method
+
+      # Extracted alpha-channel.
+      # @return [String, nil]
+      attr_reader :alpha_channel
+
+      # Scaled width of the image in PDF points.
+      # @return [Number]
+      attr_accessor :scaled_width
+
+      # Scaled height of the image in PDF points.
+      # @return [Number]
+      attr_accessor :scaled_height
+
+      # Can this image handler process this image?
+      #
+      # @param image_blob [String]
+      # @return [Boolean]
       def self.can_render?(image_blob)
         image_blob[0, 8].unpack('C*') == [137, 80, 78, 71, 13, 10, 26, 10]
       end
 
       # Process a new PNG image
       #
-      # <tt>data</tt>:: A binary string of PNG data
-      #
+      # @param data [String] A binary string of PNG data.
       def initialize(data)
         super()
         data = StringIO.new(data.dup)
@@ -93,8 +132,9 @@ module Prawn
         @img_data = Zlib::Inflate.inflate(@img_data)
       end
 
-      # number of color components to each pixel
+      # Number of color components to each pixel.
       #
+      # @return [Integer]
       def colors
         case color_type
         when 0, 3, 4
@@ -104,9 +144,11 @@ module Prawn
         end
       end
 
-      # split the alpha channel data from the raw image data in images
-      # where it's required.
+      # Split the alpha channel data from the raw image data in images where
+      # it's required.
       #
+      # @private
+      # @return [void]
       def split_alpha_channel!
         if alpha_channel?
           if color_type == 3
@@ -117,6 +159,9 @@ module Prawn
         end
       end
 
+      # Is there an alpha-channel in this image?
+      #
+      # @return [Boolean]
       def alpha_channel?
         return true if color_type == 4 || color_type == 6
         return @transparency.any? if color_type == 3
@@ -124,9 +169,11 @@ module Prawn
         false
       end
 
-      # Build a PDF object representing this image in +document+, and return
+      # Build a PDF object representing this image in `document`, and return
       # a Reference to it.
       #
+      # @param document [Prawn::Document]
+      # @return [PDF::Core::Reference]
       def build_pdf_object(document)
         if compression_method != 0
           raise Errors::UnsupportedImageType,
@@ -247,6 +294,8 @@ module Prawn
       end
 
       # Returns the minimum PDF version required to support this image.
+      #
+      # @return [Float]
       def min_pdf_version
         if bits > 8
           # 16-bit color only supported in 1.5+ (ISO 32000-1:2008 8.9.5.1)

@@ -2,16 +2,23 @@
 
 module Prawn
   module Fonts
+    # This class generates ToUnicode CMap for embedde TrueType/OpenType fonts.
+    # It's a separate format and is somewhat complicated so it has its own
+    # place.
+    #
     # @private
     class ToUnicodeCMap
-      # mapping is expected to be a hash with keys being charater codes (in
+      # mapping is expected to be a hash with keys being character codes (in
       # broad sense, as used in the showing operation strings) and values being
-      # Unicode code points
+      # Unicode code points.
       def initialize(mapping, code_space_size = nil)
         @mapping = mapping
         @code_space_size = code_space_size
       end
 
+      # Generate CMap.
+      #
+      # @return [String]
       def generate
         chunks = []
 

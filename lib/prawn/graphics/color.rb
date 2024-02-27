@@ -1,30 +1,37 @@
 # frozen_string_literal: true
 
-# color.rb : Implements color handling
-#
-# Copyright June 2008, Gregory Brown.  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 module Prawn
   module Graphics
+    # Implements color handling.
     module Color
       # @group Stable API
 
       # Sets or returns the fill color.
       #
-      # When called with no argument, it returns the current fill color.
+      # @overload fill_color
+      #   Returns the current fill color.
       #
-      # If a single argument is provided, it should be a 6 digit HTML color
-      # code.
+      #   @return [String, Array<Number>]
       #
+      # @overload fill_color(color)
+      #   Sets the fill color.
+      #
+      #   If a single argument is provided, it should be a 6 digit HTML color
+      #   code.
+      #
+      #   ```ruby
       #   pdf.fill_color "f0ffc1"
+      #   ```
       #
-      # If 4 arguments are provided, the color is assumed to be a CMYK value
-      # Values range from 0 - 100.
+      #   If 4 arguments are provided, the color is assumed to be a CMYK value.
+      #   Values range is 0–100.
       #
+      #   ```ruby
       #   pdf.fill_color 0, 99, 95, 0
+      #   ```
       #
+      #   @param color [String, Array<Number>]
+      #   @return [void]
       def fill_color(*color)
         return current_fill_color if color.empty?
 
@@ -36,18 +43,27 @@ module Prawn
 
       # Sets or returns the line stroking color.
       #
-      # When called with no argument, it returns the current stroking color.
+      # @overload stroke_color
+      #   When called with no argument, it returns the current stroking color.
       #
-      # If a single argument is provided, it should be a 6 digit HTML color
-      # code.
+      #   @return [String, Array<Number>]
       #
-      #   pdf.stroke_color "f0ffc1"
+      # @overload stroke_color(color)
+      #   Sets the stroking color.
       #
-      # If 4 arguments are provided, the color is assumed to be a CMYK value
-      # Values range from 0 - 100.
+      #   @param color [String, Array<Number>] new stroking color:
+      #     - In String form it should be a 6 digit HTML color code.
       #
-      #   pdf.stroke_color 0, 99, 95, 0
+      #       ```ruby
+      #       pdf.stroke_color "f0ffc1"
+      #       ```
+      #     - If 4 arguments are provided, the color is assumed to be a CMYK
+      #       value. Values range from 0 to 100.
       #
+      #       ```ruby
+      #       pdf.stroke_color 0, 99, 95, 0
+      #       ```
+      #   @return [void]
       def stroke_color(*color)
         return current_stroke_color if color.empty?
 
@@ -60,21 +76,28 @@ module Prawn
 
       module_function
 
-      # Converts RGB value array to hex string suitable for use with fill_color
-      # and stroke_color
+      # Converts RGB value array to hex string suitable for use with
+      # {fill_color} and {stroke_color}.
       #
-      #   >> Prawn::Graphics::Color.rgb2hex([255,120,8])
-      #   => "ff7808"
+      # @example
+      #   Prawn::Graphics::Color.rgb2hex([255, 120, 8])
+      #   #=> "ff7808"
       #
+      # @param rgb [Array(Number, Number, Number)]
+      #   Each component has to be in the range from 0 to 255.
+      # @return [String]
       def rgb2hex(rgb)
         rgb.map { |e| format '%<value>02x', value: e }.join
       end
 
-      # Converts hex string into RGB value array:
+      # Converts hex string into RGB value array.
       #
-      #  >> Prawn::Graphics::Color.hex2rgb("ff7808")
-      #  => [255, 120, 8]
+      # @example
+      #   Prawn::Graphics::Color.hex2rgb("ff7808")
+      #   #=> [255, 120, 8]
       #
+      # @param hex [String] must be 6-digits long.
+      # @return [Array(Integer, Integer, Integer)]
       def hex2rgb(hex)
         r = hex[0..1]
         g = hex[2..3]

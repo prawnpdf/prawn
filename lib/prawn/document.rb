@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-# document.rb : Implements PDF document generation for Prawn
-#
-# Copyright April 2008, Gregory Brown.  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 require 'stringio'
 
 require_relative 'document/bounding_box'
@@ -14,39 +8,45 @@ require_relative 'document/internals'
 require_relative 'document/span'
 
 module Prawn
-  # The Prawn::Document class is how you start creating a PDF document.
+  # The `Prawn::Document` class is how you start creating a PDF document.
   #
   # There are three basic ways you can instantiate PDF Documents in Prawn, they
-  # are through assignment, implicit block or explicit block.  Below is an
+  # are through assignment, implicit block or explicit block. Below is an
   # example of each type, each example does exactly the same thing, makes a PDF
   # document with all the defaults and puts in the default font "Hello There"
-  # and then saves it to the current directory as "example.pdf"
+  # and then saves it to the current directory as _example.pdf_.
   #
   # For example, assignment can be like this:
   #
-  #   pdf = Prawn::Document.new
-  #   pdf.text "Hello There"
-  #   pdf.render_file "example.pdf"
+  # ```ruby
+  # pdf = Prawn::Document.new
+  # pdf.text "Hello There"
+  # pdf.render_file "example.pdf"
+  # ```
   #
   # Or you can do an implied block form:
   #
-  #   Prawn::Document.generate "example.pdf" do
-  #     text "Hello There"
-  #   end
+  # ```ruby
+  # Prawn::Document.generate "example.pdf" do
+  #   text "Hello There"
+  # end
+  # ```
   #
   # Or if you need to access a variable outside the scope of the block, the
   # explicit block form:
   #
-  #   words = "Hello There"
-  #   Prawn::Document.generate "example.pdf" do |pdf|
-  #     pdf.text words
-  #   end
+  # ```ruby
+  # words = "Hello There"
+  # Prawn::Document.generate "example.pdf" do |pdf|
+  #   pdf.text words
+  # end
+  # ```
   #
   # Usually, the block forms are used when you are simply creating a PDF
   # document that you want to immediately save or render out.
   #
-  # See the new and generate methods for further details on the above.
-  #
+  # See the {#initialize new} and {.generate generate} methods for further
+  # details on the above.
   class Document
     include Prawn::Document::Internals
     include PDF::Core::Annotations
@@ -66,6 +66,7 @@ module Prawn
     # NOTE: We probably need to rethink the options validation system, but this
     # constant temporarily allows for extensions to modify the list.
 
+    # List of recognised options.
     VALID_OPTIONS = %i[
       page_size page_layout margin left_margin
       right_margin top_margin bottom_margin skip_page_creation
@@ -74,17 +75,14 @@ module Prawn
     ].freeze
 
     # Any module added to this array will be included into instances of
-    # Prawn::Document at the per-object level.  These will also be inherited by
-    # any subclasses.
+    # {Prawn::Document} at the per-object level.  These will also be inherited
+    # by any subclasses.
     #
-    # Example:
-    #
+    # @example
     #   module MyFancyModule
-    #
     #     def party!
     #       text "It's a big party!"
     #     end
-    #
     #   end
     #
     #   Prawn::Document.extensions << MyFancyModule
@@ -93,7 +91,7 @@ module Prawn
     #     party!
     #   end
     #
-    #
+    # @return [Array<Module>]
     def self.extensions
       @extensions ||= []
     end
@@ -106,12 +104,26 @@ module Prawn
 
     # @group Stable Attributes
 
+    # Current margin box.
+    # @return [Prawn::Document::BoundingBox]
     attr_accessor :margin_box
-    attr_reader :margins, :y
+
+    # Current page margins.
+    # @return [{:left, :top, :right, :bottom => Number}]
+    attr_reader :margins
+
+    # Absolute cursor position.
+    # @return [Number]
+    attr_reader :y
+
+    # Current page number.
+    # @return [Integer]
     attr_accessor :page_number
 
     # @group Extension Attributes
 
+    # Current text formatter. By default it's {Text::Formatted::Parser}
+    # @return [Object]
     attr_accessor :text_formatter
 
     # @group Stable API
@@ -119,90 +131,99 @@ module Prawn
     # Creates and renders a PDF document.
     #
     # When using the implicit block form, Prawn will evaluate the block
-    # within an instance of Prawn::Document, simplifying your syntax.
+    # within an instance of {Prawn::Document}, simplifying your syntax.
     # However, please note that you will not be able to reference variables
     # from the enclosing scope within this block.
     #
-    #   # Using implicit block form and rendering to a file
-    #   Prawn::Document.generate "example.pdf" do
-    #     # self here is set to the newly instantiated Prawn::Document
-    #     # and so any variables in the outside scope are unavailable
-    #     font "Times-Roman"
-    #     draw_text "Hello World", :at => [200,720], :size => 32
-    #   end
+    # ```ruby
+    # # Using implicit block form and rendering to a file
+    # Prawn::Document.generate "example.pdf" do
+    #   # self here is set to the newly instantiated Prawn::Document
+    #   # and so any variables in the outside scope are unavailable
+    #   font "Times-Roman"
+    #   draw_text "Hello World", at: [200,720], size: 32
+    # end
+    # ```
     #
     # If you need to access your local and instance variables, use the explicit
-    # block form shown below.  In this case, Prawn yields an instance of
-    # PDF::Document and the block is an ordinary closure:
+    # block form shown below. In this case, Prawn yields an instance of
+    # {Prawn::Document} and the block is an ordinary closure:
     #
-    #   # Using explicit block form and rendering to a file
-    #   content = "Hello World"
-    #   Prawn::Document.generate "example.pdf" do |pdf|
-    #     # self here is left alone
-    #     pdf.font "Times-Roman"
-    #     pdf.draw_text content, :at => [200,720], :size => 32
-    #   end
-    #
+    # ```ruby
+    # # Using explicit block form and rendering to a file
+    # content = "Hello World"
+    # Prawn::Document.generate "example.pdf" do |pdf|
+    #   # self here is left alone
+    #   pdf.font "Times-Roman"
+    #   pdf.draw_text content, at: [200,720], size: 32
+    # end
+    # ```
     def self.generate(filename, options = {}, &block)
       pdf = new(options, &block)
       pdf.render_file(filename)
     end
 
-    # Creates a new PDF Document.  The following options are available (with
-    # the default values marked in [])
+    # Creates a new PDF Document.
     #
-    # <tt>:page_size</tt>:: One of the PDF::Core::PageGeometry sizes [LETTER]
-    # <tt>:page_layout</tt>:: Either <tt>:portrait</tt> or <tt>:landscape</tt>
-    # <tt>:margin</tt>:: Sets the margin on all sides in points [0.5 inch]
-    # <tt>:left_margin</tt>:: Sets the left margin in points [0.5 inch]
-    # <tt>:right_margin</tt>:: Sets the right margin in points [0.5 inch]
-    # <tt>:top_margin</tt>:: Sets the top margin in points [0.5 inch]
-    # <tt>:bottom_margin</tt>:: Sets the bottom margin in points [0.5 inch]
-    # <tt>:skip_page_creation</tt>:: Creates a document without starting the
-    #                                first page [false]
-    # <tt>:compress</tt>:: Compresses content streams before rendering them
-    #                      [false]
-    # <tt>:background</tt>:: An image path to be used as background on all pages
-    #                        [nil]
-    # <tt>:background_scale</tt>:: Backgound image scale [1] [nil]
-    # <tt>:info</tt>:: Generic hash allowing for custom metadata properties
-    #                  [nil]
-    # <tt>:text_formatter</tt>: The text formatter to use for
-    #                           <tt>:inline_format</tt>ted text
-    #                           [Prawn::Text::Formatted::Parser]
-    #
-    # Setting e.g. the :margin to 100 points and the :left_margin to 50 will
+    # Setting e.g. the `:margin` to 100 points and the `:left_margin` to 50 will
     # result in margins of 100 points on every side except for the left, where
     # it will be 50.
     #
-    # The :margin can also be an array much like CSS shorthand:
+    # The `:margin` can also be an array much like CSS shorthand:
     #
-    #   # Top and bottom are 20, left and right are 100.
-    #   :margin => [20, 100]
-    #   # Top is 50, left and right are 100, bottom is 20.
-    #   :margin => [50, 100, 20]
-    #   # Top is 10, right is 20, bottom is 30, left is 40.
-    #   :margin => [10, 20, 30, 40]
+    # ```ruby
+    # # Top and bottom are 20, left and right are 100.
+    # margin: [20, 100]
+    # # Top is 50, left and right are 100, bottom is 20.
+    # margin: [50, 100, 20]
+    # # Top is 10, right is 20, bottom is 30, left is 40.
+    # margin: [10, 20, 30, 40]
+    # ```
     #
-    # Additionally, :page_size can be specified as a simple two value array
+    # Additionally, `:page_size` can be specified as a simple two value array
     # giving the width and height of the document you need in PDF Points.
     #
-    # Usage:
-    #
-    #   # New document, US Letter paper, portrait orientation
+    # @example New document, US Letter paper, portrait orientation
     #   pdf = Prawn::Document.new
     #
-    #   # New document, A4 paper, landscaped
+    # @example New document, A4 paper, landscaped
     #   pdf = Prawn::Document.new(page_size: "A4", page_layout: :landscape)
     #
-    #   # New document, Custom size
+    # @example New document, Custom size
     #   pdf = Prawn::Document.new(page_size: [200, 300])
     #
-    #   # New document, with background
+    # @example New document, with background
     #   pdf = Prawn::Document.new(
     #     background: "#{Prawn::DATADIR}/images/pigs.jpg"
     #   )
     #
+    # @param options [Hash{Symbol => any}]
+    # @option options :page_size [String, Array(Number, Number)] (LETTER)
+    #   One of the `PDF::Core::PageGeometry` sizes.
+    # @option options :page_layout [:portrait, :landscape]
+    #   Page orientation.
+    # @option options :margin [Number, Array<Number>] ([32])
+    #   Sets the margin on all sides in points.
+    # @option options :left_margin [Number] (32)
+    #   Sets the left margin in points.
+    # @option options :right_margin [Number] (32)
+    #   Sets the right margin in points.
+    # @option options :top_margin [Number] (32)
+    #   Sets the top margin in points.
+    # @option options :bottom_margin [Number] (32)
+    #   Sets the bottom margin in points.
+    # @option options :skip_page_creation [Boolean] (false)
+    #   Creates a document without starting the first page.
+    # @option options :compress [Boolean] (false)
+    #   Compresses content streams before rendering them.
+    # @option options :background [String?] (nil)
+    #   An image path to be used as background on all pages.
+    # @option options :background_scale [Number?] (1)
+    #   Background image scale.
+    # @option options :info [Hash{Symbol => any}?] (nil)
+    #   Generic hash allowing for custom metadata properties.
+    # @option options :text_formatter [Object] (Prawn::Text::Formatted::Parser)
+    #  The text formatter to use for `:inline_format`ted text.
     def initialize(options = {}, &block)
       options = options.dup
 
@@ -247,13 +268,34 @@ module Prawn
     # Creates and advances to a new page in the document.
     #
     # Page size, margins, and layout can also be set when generating a
-    # new page. These values will become the new defaults for page creation
+    # new page. These values will become the new defaults for page creation.
     #
+    # @example
     #   pdf.start_new_page #=> Starts new page keeping current values
-    #   pdf.start_new_page(:size => "LEGAL", :layout => :landscape)
-    #   pdf.start_new_page(:left_margin => 50, :right_margin => 50)
-    #   pdf.start_new_page(:margin => 100)
+    #   pdf.start_new_page(size: "LEGAL", :layout => :landscape)
+    #   pdf.start_new_page(left_margin: 50, right_margin: 50)
+    #   pdf.start_new_page(margin: 100)
     #
+    # @param options [Hash]
+    # @option options :margins [Hash{:left, :right, :top, :bottom => Number}, nil]
+    #   ({ left: 0, right: 0, top: 0, bottom: 0 }) Page margins
+    # @option options :crop [Hash{:left, :right, :top, :bottom => Number}, nil] (PDF::Core::Page::ZERO_INDENTS)
+    #   Page crop box
+    # @option options :bleed [Hash{:left, :right, :top, :bottom => Number},  nil] (PDF::Core::Page::ZERO_INDENTS)
+    #   Page bleed box
+    # @option options :trims [Hash{:left, :right, :top, :bottom => Number}, nil] (PDF::Core::Page::ZERO_INDENTS)
+    #   Page trim box
+    # @option options :art_indents [Hash{:left, :right, :top, :bottom => Number}, nil] (PDF::Core::Page::ZERO_INDENTS)
+    #   Page art box indents.
+    # @option options :graphic_state [PDF::Core::GraphicState, nil] (nil)
+    #   Initial graphic state
+    # @option options :size [String, Array<Number>, nil] ('LETTER')
+    #   Page size. A string identifies a named page size defined in
+    #   `PDF::Core::PageGeometry`. An array must be a two element array
+    #   specifying width and height in points.
+    # @option options :layout [:portrait, :landscape, nil] (:portrait)
+    #   Page orientation.
+    # @return [void]
     def start_new_page(options = {})
       last_page = state.page
       if last_page
@@ -309,8 +351,9 @@ module Prawn
       end
     end
 
-    # Remove page of the document by index
+    # Remove page of the document by index.
     #
+    # @example
     #   pdf = Prawn::Document.new
     #   pdf.page_count #=> 1
     #   3.times { pdf.start_new_page }
@@ -318,6 +361,8 @@ module Prawn
     #   pdf.delete_page(-1)
     #   pdf.page_count #=> 3
     #
+    # @param index [Integer]
+    # @return [Boolean]
     def delete_page(index)
       return false if index.abs > (state.pages.count - 1)
 
@@ -329,13 +374,15 @@ module Prawn
       true
     end
 
-    # Returns the number of pages in the document
+    # Number of pages in the document.
     #
+    # @example
     #   pdf = Prawn::Document.new
     #   pdf.page_count #=> 1
     #   3.times { pdf.start_new_page }
     #   pdf.page_count #=> 4
     #
+    # @return [Integer]
     def page_count
       state.page_count
     end
@@ -343,8 +390,8 @@ module Prawn
     # Re-opens the page with the given (1-based) page number so that you can
     # draw on it.
     #
-    # See Prawn::Document#number_pages for a sample usage of this capability.
-    #
+    # @param page_number [Integer]
+    # @return [void]
     def go_to_page(page_number)
       @page_number = page_number
       state.page = state.pages[page_number - 1]
@@ -352,6 +399,10 @@ module Prawn
       @y = @bounding_box.absolute_top
     end
 
+    # Set cursor absolute position.
+    #
+    # @param new_y [Number]
+    # @return [new_y]
     def y=(new_y)
       @y = new_y
       bounds.update_height
@@ -360,12 +411,15 @@ module Prawn
     # The current y drawing position relative to the innermost bounding box,
     # or to the page margins at the top level.
     #
+    # @return [Number]
     def cursor
       y - bounds.absolute_bottom
     end
 
     # Moves to the specified y position in relative terms to the bottom margin.
     #
+    # @param new_y [Number]
+    # @return [void]
     def move_cursor_to(new_y)
       self.y = new_y + bounds.absolute_bottom
     end
@@ -374,6 +428,7 @@ module Prawn
     # were created during this block, it will teleport back to the original
     # page when done.
     #
+    # @example
     #   pdf.text "A"
     #
     #   pdf.float do
@@ -383,6 +438,7 @@ module Prawn
     #
     #   pdf.text "B"
     #
+    # @return [void]
     def float
       original_page = page_number
       original_y = y
@@ -394,6 +450,9 @@ module Prawn
     # Renders the PDF document to string.
     # Pass an open file descriptor to render to file.
     #
+    # @overload render(output = nil)
+    #   @param output [#<<]
+    #   @return [String]
     def render(*arguments)
       (1..page_count).each do |i|
         go_to_page i
@@ -405,15 +464,18 @@ module Prawn
 
     # Renders the PDF document to file.
     #
+    # @example
     #   pdf.render_file "foo.pdf"
     #
+    # @param filename [String]
+    # @return [void]
     def render_file(filename)
       File.open(filename, 'wb') { |f| render(f) }
     end
 
     # The bounds method returns the current bounding box you are currently in,
     # which is by default the box represented by the margin box on the
-    # document itself.  When called from within a created <tt>bounding_box</tt>
+    # document itself. When called from within a created `bounding_box`
     # block, the box defined by that call will be returned instead of the
     # document margin box.
     #
@@ -421,8 +483,7 @@ module Prawn
     # y measurements within a bounding box code block are relative to the bottom
     # left corner of the bounding box.
     #
-    # For example:
-    #
+    # @example
     #  Prawn::Document.new do
     #    # In the default "margin box" of a Prawn document of 0.5in along each
     #    # edge
@@ -439,6 +500,7 @@ module Prawn
     #    stroke_bounds
     #  end
     #
+    # @return [Prawn::Document::BoundingBox]
     def bounds
       @bounding_box
     end
@@ -446,15 +508,18 @@ module Prawn
     # Returns the innermost non-stretchy bounding box.
     #
     # @private
+    # @return [Prawn::Document::BoundingBox]
     def reference_bounds
       @bounding_box.reference_bounds
     end
 
-    # Sets Document#bounds to the BoundingBox provided.  See above for a brief
-    # description of what a bounding box is.  This function is useful if you
-    # really need to change the bounding box manually, but usually, just
+    # Sets {Document#bounds} to the {BoundingBox} provided. See {#bounds} for
+    # a brief description of what a bounding box is. This function is useful if
+    # you really need to change the bounding box manually, but usually, just
     # entering and exiting bounding box code blocks is good enough.
     #
+    # @param bounding_box [Prawn::Document::BoundingBox]
+    # @return [bounding_box]
     def bounds=(bounding_box)
       @bounding_box = bounding_box
     end
@@ -462,6 +527,8 @@ module Prawn
     # Moves up the document by n points relative to the current position inside
     # the current bounding box.
     #
+    # @param amount [Number]
+    # @return [void]
     def move_up(amount)
       self.y += amount
     end
@@ -469,18 +536,24 @@ module Prawn
     # Moves down the document by n points relative to the current position
     # inside the current bounding box.
     #
+    # @param amount [Number]
+    # @return [void]
     def move_down(amount)
       self.y -= amount
     end
 
     # Moves down the document and then executes a block.
     #
+    # @example
     #   pdf.text "some text"
     #   pdf.pad_top(100) do
     #     pdf.text "This is 100 points below the previous line of text"
     #   end
     #   pdf.text "This text appears right below the previous line of text"
     #
+    # @param y [Number]
+    # @return [void]
+    # @yield
     def pad_top(y)
       move_down(y)
       yield
@@ -488,12 +561,16 @@ module Prawn
 
     # Executes a block then moves down the document
     #
+    # @example
     #   pdf.text "some text"
     #   pdf.pad_bottom(100) do
     #     pdf.text "This text appears right below the previous line of text"
     #   end
     #   pdf.text "This is 100 points below the previous line of text"
     #
+    # @param y [Number]
+    # @return [void]
+    # @yield
     def pad_bottom(y)
       yield
       move_down(y)
@@ -502,12 +579,16 @@ module Prawn
     # Moves down the document by y, executes a block, then moves down the
     # document by y again.
     #
+    # @example
     #   pdf.text "some text"
     #   pdf.pad(100) do
     #     pdf.text "This is 100 points below the previous line of text"
     #   end
     #   pdf.text "This is 100 points below the previous line of text"
     #
+    # @param y [Number]
+    # @return [void]
+    # @yield
     def pad(y)
       move_down(y)
       yield
@@ -516,6 +597,7 @@ module Prawn
 
     # Indents the specified number of PDF points for the duration of the block
     #
+    # @example
     #  pdf.text "some text"
     #  pdf.indent(20) do
     #    pdf.text "This is indented 20 points"
@@ -526,49 +608,47 @@ module Prawn
     #    pdf.text "This line is indented on both sides."
     #  end
     #
+    # @param left [Number]
+    # @param right [Number]
+    # @yield
+    # @return [void]
     def indent(left, right = 0, &block)
       bounds.indent(left, right, &block)
     end
 
     # Places a text box on specified pages for page numbering.  This should be
     # called towards the end of document creation, after all your content is
-    # already in place.  In your template string, <page> refers to the current
-    # page, and <total> refers to the total amount of pages in the document.
-    # Page numbering should occur at the end of your Prawn::Document.generate
+    # already in place. In your template string, `<page>` refers to the current
+    # page, and `<total>` refers to the total amount of pages in the document.
+    # Page numbering should occur at the end of your {Prawn::Document.generate}
     # block because the method iterates through existing pages after they are
     # created.
     #
-    # Parameters are:
+    # Please refer to {Prawn::Text#text_box} for additional options concerning
+    # text formatting and placement.
     #
-    # <tt>string</tt>:: Template string for page number wording.
-    #                   Should include '<page>' and, optionally, '<total>'.
-    # <tt>options</tt>:: A hash for page numbering and text box options.
-    #     <tt>:page_filter</tt>:: A filter to specify which pages to place page
-    #                             numbers on. Refer to the method 'page_match?'
-    #     <tt>:start_count_at</tt>:: The starting count to increment pages from.
-    #     <tt>:total_pages</tt>:: If provided, will replace <total> with the
-    #                             value given. Useful to override the total
-    #                             number of pages when using the start_count_at
-    #                             option.
-    #     <tt>:color</tt>:: Text fill color.
+    # @example Print page numbers on every page except for the first. Start counting from five.
+    #   Prawn::Document.generate("page_with_numbering.pdf") do
+    #     number_pages "<page> in a total of <total>", {
+    #       start_count_at: 5,
+    #       page_filter: lambda { |pg| pg != 1 },
+    #       at: [bounds.right - 50, 0],
+    #       align: :right,
+    #       size: 14
+    #     }
+    #   end
     #
-    #     Please refer to Prawn::Text::text_box for additional options
-    #     concerning text formatting and placement.
-    #
-    # Example:
-    #   Print page numbers on every page except for the first. Start counting
-    #   from five.
-    #
-    #     Prawn::Document.generate("page_with_numbering.pdf") do
-    #       number_pages "<page> in a total of <total>", {
-    #         start_count_at: 5,
-    #         page_filter: lambda { |pg| pg != 1 },
-    #         at: [bounds.right - 50, 0],
-    #         align: :right,
-    #         size: 14
-    #       }
-    #     end
-    #
+    # @param string [String] Template string for page number wording.
+    #   Should include `<page>` and, optionally, `<total>`.
+    # @param options [Hash{Symbol => any}] A hash for page numbering and text box options.
+    # @option options :page_filter []
+    #   A filter to specify which pages to place page numbers on. Refer to the method {#page_match?}
+    # @option options :start_count_at [Integer]
+    #   The starting count to increment pages from.
+    # @option options :total_pages [Integer]
+    #   If provided, will replace `<total>` with the value given. Useful to
+    #   override the total number of pages when using the start_count_at option.
+    # @option options :color [String, Array<Number>] Text fill color.
     def number_pages(string, options = {})
       opts = options.dup
       start_count_at = opts.delete(:start_count_at).to_i
@@ -614,15 +694,6 @@ module Prawn
 
     # @group Experimental API
 
-    # Attempts to group the given block vertically within the current context.
-    # First attempts to render it in the current position on the current page.
-    # If that attempt overflows, it is tried anew after starting a new context
-    # (page or column). Returns a logically true value if the content fits in
-    # one page/column, false if a new page or column was needed.
-    #
-    # Raises CannotGroup if the provided content is too large to fit alone in
-    # the current page or column.
-    #
     # @private
     def group(*_arguments)
       raise NotImplementedError,
@@ -647,10 +718,16 @@ module Prawn
     # Available page filters are:
     #   :all         repeats on every page
     #   :odd         repeats on odd pages
-    #   :even        repeats on even pages
-    #   some_array   repeats on every page listed in the array
-    #   some_range   repeats on every page included in the range
-    #   some_lambda  yields page number and repeats for true return values
+    #
+    # @param page_filter [:all, :odd, :even, Array<Number>, Range, Proc]
+    #   * `:all`: repeats on every page
+    #   * `:odd`: repeats on odd pages
+    #   * `:even`: repeats on even pages
+    #   * array: repeats on every page listed in the array
+    #   * range: repeats on every page included in the range
+    #   * lambda: yields page number and repeats for true return values
+    # @param page_number [Integer]
+    # @return [Boolean]
     def page_match?(page_filter, page_number)
       case page_filter
       when :all
@@ -667,7 +744,6 @@ module Prawn
     end
 
     # @private
-
     def mask(*fields)
       # Stores the current state of the named attributes, executes the block,
       # and then restores the original values after the block has executed.
@@ -680,6 +756,12 @@ module Prawn
 
     # @group Extension API
 
+    # Initializes the first page in a new document.
+    # This methods allows customisation of this process in extensions such as
+    # Prawn::Template.
+    #
+    # @param options [Hash]
+    # @return [void]
     def initialize_first_page(options)
       if options[:skip_page_creation]
         start_new_page(options.merge(orphan: true))

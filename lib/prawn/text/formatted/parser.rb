@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
-# text/formatted/parser.rb : Implements a bi-directional parser between a subset
-#                            of html and formatted text arrays
-#
-# Copyright February 2010, Daniel Nelson. All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
-
 module Prawn
   module Text
     module Formatted
+      # Implements a bi-directional parser between a subset of html and
+      # formatted text arrays.
       class Parser
         # @group Extension API
 
+        # Parser regular expression.
+        # @private
         PARSER_REGEX =
           begin
             regex_string = "\n|" \
@@ -33,19 +29,30 @@ module Prawn
             Regexp.new(regex_string, Regexp::MULTILINE)
           end
 
+        # Escaped characters.
+        # @private
         ESCAPE_CHARS = {
           '&' => '&amp;',
           '>' => '&gt;',
           '<' => '&lt;'
         }.freeze
 
+        # @private
         UNESCAPE_CHARS = ESCAPE_CHARS.invert.freeze
 
+        # Parse formatted string.
+        #
+        # @param string [String]
+        # @return [Array<Hash>] Text fragments.
         def self.format(string, *_args)
           tokens = string.gsub(%r{<br\s*/?>}, "\n").scan(PARSER_REGEX)
           array_from_tokens(tokens)
         end
 
+        # Serialize text fragments to an inline format string.
+        #
+        # @param array [Array<Hash>]
+        # @return [String]
         def self.to_string(array)
           prefixes = {
             bold: '<b>',
@@ -107,7 +114,12 @@ module Prawn
           end.join
         end
 
-        def self.array_paragraphs(array) # :nodoc:
+        # Break text into paragraphs.
+        #
+        # @private
+        # @param array [Array<Hash>] Text fragments.
+        # @return [Array<Array<Hash>>] Pragraphs of text fragments.
+        def self.array_paragraphs(array)
           paragraphs = []
           paragraph = []
           previous_string = "\n"
@@ -130,6 +142,9 @@ module Prawn
           paragraphs
         end
 
+        # @private
+        # @param tokens [Array<String>]
+        # @return [Array<Hash>]
         def self.array_from_tokens(tokens)
           array = []
           styles = []
@@ -245,10 +260,18 @@ module Prawn
           array
         end
 
+        # Escape characters that can interfere with inline format parsing.
+        #
+        # @param text [String]
+        # @return [String]
         def self.escape(text)
           text.gsub(Regexp.union(ESCAPE_CHARS.keys), ESCAPE_CHARS)
         end
 
+        # Unescape characters that can interfere with inline format parsing.
+        #
+        # @param text [String]
+        # @return [String]
         def self.unescape(text)
           text.gsub(Regexp.union(UNESCAPE_CHARS.keys), UNESCAPE_CHARS)
         end

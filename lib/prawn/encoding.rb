@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
-# Copyright September 2008, Gregory Brown, James Healy  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
 module Prawn
   # @private
   module Encoding
     # Map between unicode and WinAnsiEnoding
     #
-    class WinAnsi # :nodoc:
+    # @private
+    class WinAnsi
       CHARACTERS = %w[
         .notdef .notdef .notdef .notdef
         .notdef .notdef .notdef .notdef

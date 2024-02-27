@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
-# font_metric_cache.rb : The Prawn font class
-#
-# Copyright Dec 2012, Kenneth Kalmer. All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
-
 module Prawn
-  # Cache used internally by Prawn::Document instances to calculate the width
+  # Cache used internally by {Prawn::Document} instances to calculate the width
   # of various strings for layout purposes.
   #
   # @private
@@ -21,6 +14,14 @@ module Prawn
       @cache = {}
     end
 
+    # Get width of string.
+    #
+    # @param string [String]
+    # @param options [Hash{Symbol => any}]
+    # @option options :style [Symbol]
+    # @option options :size [Number]
+    # @option options :kerning [Boolean] (false)
+    # @return [Number]
     def width_of(string, options)
       f =
         if options[:style]

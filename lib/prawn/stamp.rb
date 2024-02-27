@@ -1,44 +1,37 @@
 # frozen_string_literal: true
 
-# stamp.rb : Implements a repeatable stamp
-#
-# Copyright October 2009, Daniel Nelson. All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
 module Prawn
-  # The Prawn::Stamp module is used to create content that will be
-  # included multiple times in a document. Using a stamp has three
-  # advantages over creating content anew each time it is placed on
-  # the page:
-  #   i.   faster document creation
-  #   ii.  smaller final document
-  #   iii. faster display on subsequent displays of the repeated
-  #   element because the viewer application can cache the rendered
-  #   results
+  # This module is used to create content that will be included multiple times
+  # in a document. Using a stamp has three advantages over creating content anew
+  # each time it is placed on the page:
+  # * Faster document creation.
+  # * Smaller final document.
+  # * Faster display on subsequent displays of the repeated element because the
+  #   viewer application can cache the rendered results.
   #
-  # Example:
+  # @example
   #   pdf.create_stamp("my_stamp") {
   #     pdf.fill_circle([10, 15], 5)
-  #     pdf.draw_text("hello world", :at => [20, 10])
+  #     pdf.draw_text("hello world", at: [20, 10])
   #   }
   #   pdf.stamp("my_stamp")
-  #
   module Stamp
     # @group Stable API
 
-    # Renders the stamp named <tt>name</tt> to the page
-    # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?
-    # raises <tt>Prawn::Errors::UndefinedObjectName</tt> if no stamp
-    # has been created with this name
+    # Renders the stamp.
     #
-    # Example:
+    # @example
     #   pdf.create_stamp("my_stamp") {
     #     pdf.fill_circle([10, 15], 5)
-    #     pdf.text("hello world", :at => [20, 10])
+    #     pdf.text("hello world", at: [20, 10])
     #   }
     #   pdf.stamp("my_stamp")
     #
+    # @param name [String]
+    # @return [void]
+    # @raise [Prawn::Errors::InvalidName] if name is empty.
+    # @raise [Prawn::Errors::UndefinedObjectName] if no stamp has been created
+    #   with this name.
     def stamp(name)
       dictionary_name, dictionary = stamp_dictionary(name)
       renderer.add_content "/#{dictionary_name} Do"
@@ -46,35 +39,38 @@ module Prawn
       state.page.xobjects.merge!(dictionary_name => dictionary)
     end
 
-    # Renders the stamp named <tt>name</tt> at a position offset from
-    # the initial coords at which the elements of the stamp was
-    # created
+    # Renders the stamp at a position offset from the initial coords at which
+    # the elements of the stamp was created.
     #
-    # Example:
+    # @example
     #   pdf.create_stamp("circle") do
     #     pdf.fill_circle([0, 0], 25)
     #   end
     #   # draws a circle at 100, 100
     #   pdf.stamp_at("circle", [100, 100])
     #
-    # See stamp() for exceptions that might be raised
-    #
+    # @param name [String]
+    # @param point [Array(Number, Number)]
+    # @return [void]
+    # @see [stamp] for exceptions that might be raised.
     def stamp_at(name, point)
       translate(point[0], point[1]) { stamp(name) }
     end
 
-    # Creates a re-usable stamp named <tt>name</tt>
+    # Creates a re-usable stamp.
     #
-    # raises <tt>Prawn::Errors::NameTaken</tt> if a stamp already
-    # exists in this document with this name
-    # raises <tt>Prawn::Errors::InvalidName</tt> if name.empty?
-    #
-    # Example:
+    # @example
     #   pdf.create_stamp("my_stamp") {
     #     pdf.fill_circle([10, 15], 5)
-    #     pdf.draw_text("hello world", :at => [20, 10])
+    #     pdf.draw_text("hello world", at: [20, 10])
     #   }
     #
+    # @param name [String] Stamp name.
+    # @yield Stamp content.
+    # @return [void]
+    # @raise [Prawn::Errors::NameTaken]
+    #   if a stamp already exists in this document with this name.
+    # @raise [Prawn::Errors::InvalidName] if name is empty.
     def create_stamp(name, &block)
       dictionary = create_stamp_dictionary(name)
 

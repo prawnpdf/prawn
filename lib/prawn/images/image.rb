@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
-# image.rb : Base class for image info objects
-#
-# Copyright September 2011, Brad Ediger. All rights reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 require 'digest/sha1'
 
 module Prawn
   module Images
+    # Base class for image info objects
+    # @abstract
     class Image
       # @group Extension API
 
+      # Calculate the final image dimensions from provided options.
+      # @private
       def calc_image_dimensions(options)
         w = options[:width] || width
         h = options[:height] || height

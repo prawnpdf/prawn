@@ -6,10 +6,6 @@
 #
 # "RC4" is a trademark of RSA Data Security, Inc.
 #
-# Copyright August 2009, Brad Ediger. All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 # @private
 class Arcfour
   def initialize(key)
@@ -38,6 +34,10 @@ class Arcfour
     @i = @j = 0
   end
 
+  # Encrypt string.
+  #
+  # @param string [String]
+  # @return [String]
   def encrypt(string)
     string.unpack('c*').map { |byte| byte ^ key_byte }.pack('c*')
   end

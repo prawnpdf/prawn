@@ -1,70 +1,58 @@
 # encoding: ASCII-8BIT
-
 # frozen_string_literal: true
-
-# images.rb : Implements PDF image embedding
-#
-# Copyright April 2008, James Healy, Gregory Brown.  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'digest/sha1'
 require 'pathname'
 
 module Prawn
+  # PDF image embedding.
   module Images
     # @group Stable API
 
-    # Add the image at filename to the current page. Currently only
-    # JPG and PNG files are supported. (Note that processing PNG
-    # images with alpha channels can be processor and memory intensive.)
+    # Add the image at `file` to the current page. Currently only JPG and
+    # PNG files are supported. (Note that processing PNG images with alpha
+    # channels can be processor and memory intensive.)
     #
-    # Arguments:
-    # <tt>file</tt>:: path to file or an object that responds to #read and
-    #   #rewind
+    # If only one of `:width` or `:height` are provided, the image will be
+    # scaled proportionally. When both are provided, the image will be stretched
+    # to fit the dimensions without maintaining the aspect ratio.
     #
-    # Options:
-    # <tt>:at</tt>:: an array [x,y] with the location of the top left corner of
-    #   the image.
-    # <tt>:position</tt>::  One of (:left, :center, :right) or an x-offset
-    # <tt>:vposition</tt>::  One of (:top, :center, :bottom) or an y-offset
-    # <tt>:height</tt>:: the height of the image [actual height of the image]
-    # <tt>:width</tt>:: the width of the image [actual width of the image]
-    # <tt>:scale</tt>:: scale the dimensions of the image proportionally
-    # <tt>:fit</tt>:: scale the dimensions of the image proportionally to fit
-    #   inside [width,height]
-    #
-    #   Prawn::Document.generate("image2.pdf", :page_layout => :landscape) do
+    # @example
+    #   Prawn::Document.generate("image2.pdf", page_layout: :landscape) do
     #     pigs = "#{Prawn::DATADIR}/images/pigs.jpg"
-    #     image pigs, :at => [50,450], :width => 450
+    #     image pigs, at: [50,450], width: 450
     #
     #     dice = "#{Prawn::DATADIR}/images/dice.png"
-    #     image dice, :at => [50, 450], :scale => 0.75
+    #     image dice, at: [50, 450], scale: 0.75
     #   end
     #
-    # If only one of :width / :height are provided, the image will be scaled
-    # proportionally.  When both are provided, the image will be stretched to
-    # fit the dimensions without maintaining the aspect ratio.
+    # @param file [String, IO]
+    #   Path to file or an object that responds to `#read` and `#rewind`.
+    # @param options [Hash{Symbol => any}]
+    # @option options :at [Array(Number, Number)]
+    #   The location of the top left corner of the image. If provided,
+    #   the image will be place in the current page but the text position will
+    #   not be changed.
+    # @option options :position [:left, :center, :right, Number]
+    #   Horizontal position relative to the current bounding box.
+    # @option options :vposition [:topm :center, :bottom, Number]
+    #   Vertical position relative to the current bounding box.
+    # @option options :height [Number] (actual height of the image)
+    #   The height of the image.
+    # @option options :width [Number] (actual width of the image)
+    #   The width of the image.
+    # @option options :scale [Number]
+    #   Scale the dimensions of the image proportionally.
+    # @option options :fit [Array(Number, Number)]
+    #   Scale the dimensions of the image proportionally to fit
+    #   inside the rectangle of specified size (width, height).
+    # @return [Prawn::Images::Image]
+    #   An image handler. All image handlers provided by Prawn are subclasses of
+    #   {Prawn::Images::Image}. This object can be used to check the image
+    #   dimensions and get other format-specific information.
     #
-    #
-    # If :at is provided, the image will be place in the current page but
-    # the text position will not be changed.
-    #
-    #
-    # If instead of an explicit filename, an object with a read method is
-    # passed as +file+, you can embed images from IO objects and things
-    # that act like them (including Tempfiles and open-uri objects).
-    #
-    #   require "open-uri"
-    #
-    #   Prawn::Document.generate("remote_images.pdf") do
-    #     image URI.open("http://prawnpdf.org/media/prawn_logo.png")
-    #   end
-    #
-    # This method returns an image info object which can be used to check the
-    # dimensions of an image object if needed.
-    # (See also: Prawn::Images::PNG , Prawn::Images::JPG)
-    #
+    # @see Prawn::Images::PNG
+    # @see Prawn::Images::JPG
     def image(file, options = {})
       Prawn.verify_options(
         %i[at position vposition height width scale fit],
@@ -106,10 +94,9 @@ module Prawn
       [image_obj, info]
     end
 
-    # Given a PDF image resource <tt>pdf_obj</tt> that has been added to the
-    # page's resources and an <tt>info</tt> object (the pair returned from
-    # build_image_object), embed the image according to the <tt>options</tt>
-    # given.
+    # Given a PDF image resource `pdf_obj` that has been added to the page's
+    # resources and an `info` object (the pair returned from
+    # {build_image_object}), embed the image according to the `options` given.
     #
     # @private
     def embed_image(pdf_obj, info, options)

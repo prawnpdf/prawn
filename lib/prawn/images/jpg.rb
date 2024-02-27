@@ -1,41 +1,60 @@
 # encoding: ASCII-8BIT
-
 # frozen_string_literal: true
-
-# jpg.rb : Extracts the data from a JPG that is needed for embedding
-#
-# Copyright April 2008, James Healy.  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
 
 require 'stringio'
 
 module Prawn
-  module Images
-    # A convenience class that wraps the logic for extracting the parts
-    # of a JPG image that we need to embed them in a PDF
-    #
+  module Images # rubocop: disable Style/Documentation
+    # A convenience class that wraps the logic for extracting the parts of a JPG
+    # image that we need to embed them in a PDF.
     class JPG < Image
+      # Signals an issue with the image format. The image is probably corrupted
+      # if you're getting this.
       class FormatError < StandardError; end
 
       # @group Extension API
 
-      attr_reader :width, :height, :bits, :channels
-      attr_accessor :scaled_width, :scaled_height
+      # Image width in pixels.
+      # @return [Integer]
+      attr_reader :width
 
+      # Image height in pixels.
+      # @return [Integer]
+      attr_reader :height
+
+      # Sample Precision in bits.
+      # @return [Integer]
+      attr_reader :bits
+
+      # Number of image components (channels).
+      # @return [Integer]
+      attr_reader :channels
+
+      # Scaled width of the image in PDF points.
+      # @return [Number]
+      attr_accessor :scaled_width
+
+      # Scaled height of the image in PDF points.
+      # @return [Number]
+      attr_accessor :scaled_height
+
+      # @private
       JPEG_SOF_BLOCKS = [
         0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE,
         0xCF
       ].freeze
 
+      # Can this image handler process this image?
+      #
+      # @param image_blob [String]
+      # @return [Boolean]
       def self.can_render?(image_blob)
         image_blob[0, 3].unpack('C*') == [255, 216, 255]
       end
 
-      # Process a new JPG image
+      # Process a new JPG image.
       #
-      # <tt>:data</tt>:: A binary string of JPEG data
-      #
+      # @param data [String] A binary string of JPEG data.
       def initialize(data)
         super()
         @data = data
@@ -57,9 +76,11 @@ module Prawn
         end
       end
 
-      # Build a PDF object representing this image in +document+, and return
+      # Build a PDF object representing this image in `document`, and return
       # a Reference to it.
       #
+      # @param document [Prawn::Document]
+      # @return [PDF::Core::Reference]
       def build_pdf_object(document)
         color_space =
           case channels

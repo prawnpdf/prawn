@@ -4,11 +4,16 @@ require_relative 'ttf'
 
 module Prawn
   module Fonts
-    # @private
+    # TrueType Collection font. It's an SFNT-based format that contains a bunch
+    # of TrueType fonts in a single file.
+    #
+    # @note You shouldn't use this class directly.
     class TTC < TTF
       # Returns a list of the names of all named fonts in the given ttc file.
       # They are returned in order of their appearance in the file.
       #
+      # @param file [String]
+      # @return [Array<String>]
       def self.font_names(file)
         TTFunk::Collection.open(file) do |ttc|
           ttc.map { |font| font.name.font_name.first }

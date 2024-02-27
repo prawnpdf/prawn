@@ -48,15 +48,16 @@ suported by Ruby Core Team and JRuby versions of matching Ruby version. However
 we will accept patches to fix problems on other Ruby platforms if they aren't
 too invasive.
 
+
 ## Installing Prawn
 
 Prawn is distributed via RubyGems, and can be installed the usual way that you
 install gems: by simply typing `gem install prawn` on the command line.
 
 You can also install from git if you'd like, the _master_ branch contains the
-latest developments, and _stable_ represents the latest bug fixes to the
-currently released version of Prawn. If you go this route, using Bundler is
-encouraged.
+latest developments. We're trying to keep `master` branch in working order but
+you may encounter some rough edges and fresh bugs along with bugfixes. We
+encourage you to try `master` branch with your application.
 
 ## Hello World!
 
@@ -73,54 +74,62 @@ end
 
 Of course, you'll probably want to do more interesting things than that...
 
+
 ## Manual
 
-Felipe Doria provided us with a beautiful system for generating a user manual
-from our examples. This can be generated from the prawn source or you can
-download a pre-generated snapshot of it at http://prawnpdf.org/manual.pdf
+The manual is a series of examples that demonstrate use of the wide range of
+features Prawn provides. You can get a generated version of the latest released
+Prawn version on the [Prawn website](https://prawnpdf.org/). The examples
+themselves can be found in the `manual` directory in this repository.
 
-Note that while we will try to keep the downloadable manual up to date, that
-it's provided as a convenience only and you should generate the manual yourself
-if you want to be sure the code in it actually runs and works as expected. To
-build the manual, here's what you need to do:
+Please note that while the manual is a great introduction and guide to Prawn
+it's not exhaustive. Please refer to API docs for more complete information on
+what Prawn provides and how to use it.
+
+To build the manual, here's what you need to do:
 
 1. Clone the repository
-2. Switch to the stable branch (optional, stay on master for development
-   version)
 3. Run `gem install -g`
 4. Run `rake manual`, which will generate _manual.pdf_ in the project root
 
+
 ## Release Policies
 
-Before upgrading Prawn on one of your projects, you should read our [API
-compatibility](https://github.com/prawnpdf/prawn/wiki/API-Compatibility-Notes)
-guidelines. Generally speaking, you can expect tiny and minor version updates to
-always be safe upgrades, but major updates can introduce incompatibilities.
+We're trying to not break things unnecessarily but we don't formally follow
+Semantic Versioning. The reason is that we release a number of experimental
+APIs. We don't make any promises on their stability. You can assume the stable
+portion of the API follows Semantic Versioning.
+
+Also note that bug fixes can change behaviour. We don't consider that to be
+a breaking change for the purposes of versioning. Please test your applications
+after updating Prawn.
 
 Be sure to read the release notes in
 [CHANGELOG.md](https://github.com/prawnpdf/prawn/blob/master/CHANGELOG.md) each
 time we cut a new release, and lock your gems accordingly.
 
+
 ## Support
 
-The easiest way to get help with Prawn is to post a message to our mailing list:
-
-<http://groups.google.com/group/prawn-ruby>
+The easiest way to get help with Prawn is to post a message to our
+[Discussions](https://github.com/orgs/prawnpdf/discussions).
 
 Feel free to post any Prawn related question there, our community is very
 responsive and will be happy to help you figure out how to use Prawn, or help
 you determine whether it's the right tool for the task you are working on.
 
-Please make your posts to the list as specific as possible, including code
-samples and output where relevant. Do not post any information that should not
-be shared publicly, and be sure to reduce your example code as much as possible
-so that those who are responding to your question can more easily see what the
-issue might be.
+Please make your posts as specific as possible, including code samples and
+output where relevant. Do not post any information that should not be shared
+publicly, and be sure to reduce your example code as much as possible so that
+those who are responding to your question can more easily see what the issue
+might be.
+
 
 ## Code of Conduct
-Prawn adheres to the [Contributor Covenant](CODE_OF_CONDUCT.md).
-Unacceptable behavior can be reported to conduct@prawnpdf.org which is monitored
-by the core team.
+
+Prawn adheres to the [Contributor Covenant](CODE_OF_CONDUCT.md). Unacceptable
+behavior can be reported to conduct@prawnpdf.org which is monitored by the core
+team.
 
 
 ## Contributing
@@ -152,8 +161,8 @@ suite run.
 ## Maintenance team
 
 Prawn has always been heavily dependent on community contributions, with dozens
-of people contributing code over the year. In that sense, the lines have blurred
-to the point where we no longer have a strong distinction between core
+of people contributing code over the years. In that sense, the lines have
+blurred to the point where we no longer have a strong distinction between core
 developers and contributors.
 
 That said, there are a few folks who have been responsible for cutting releases,
@@ -192,7 +201,7 @@ license your code under the same terms as the project itself.
 ## History
 
 Prawn was originally developed by [Gregory
-Brown](http://twitter.com/practicingruby), under the auspices of the Ruby
+Brown](https://practicingdeveloper.com/), under the auspices of the Ruby
 Mendicant Project, a grassroots initiative in which the Ruby community
 collectively provided funding so that Gregory could take several months off from
 work to focus on this project.

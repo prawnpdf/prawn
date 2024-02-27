@@ -2,6 +2,7 @@
 --main README.md
 --title 'Prawn Documentation'
 --no-private
+--embed-mixins
 -
 CONTRIBUTING.md
 COPYING

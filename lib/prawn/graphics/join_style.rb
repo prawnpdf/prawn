@@ -1,24 +1,30 @@
 # frozen_string_literal: true
 
-# join_style.rb : Implements stroke join styling
-#
-# Contributed by Daniel Nelson. October, 2009
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
 module Prawn
   module Graphics
+    # Implements stroke join styling.
     module JoinStyle
+      # @private
       JOIN_STYLES = { miter: 0, round: 1, bevel: 2 }.freeze
 
       # @group Stable API
 
-      # Sets the join style for stroked lines and curves
+      # Get or set the join style for stroked lines and curves.
       #
-      # style is one of :miter, :round, or :bevel
+      # @overload join_style
+      #   Get current join style.
       #
-      # NOTE: if this method is never called, :miter will be used for join style
-      # throughout the document
+      #   @return [:miter, :round, :bevel]
+      #
+      # @overload join_style(style)
+      #   Set join style.
+      #
+      #   @note If this method is never called, `:miter` will be used for join
+      #     style throughout the document.
+      #
+      #   @param style [:miter, :round, :bevel]
+      #   @return [void]
+      #
       #
       def join_style(style = nil)
         return current_join_style || :miter if style.nil?

@@ -1,24 +1,21 @@
 # frozen_string_literal: true
 
-# cap_style.rb : Implements stroke cap styling
-#
-# Contributed by Daniel Nelson. October, 2009
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
 module Prawn
   module Graphics
+    # Implements stroke cap styling
     module CapStyle
       # @group Stable API
 
+      # @private
       CAP_STYLES = { butt: 0, round: 1, projecting_square: 2 }.freeze
 
-      # Sets the cap style for stroked lines and curves
+      # Sets the cap style for stroked lines and curves.
       #
-      # style is one of :butt, :round, or :projecting_square
-      #
-      # NOTE: If this method is never called, :butt will be used by default.
-      #
+      # @overload cap_style(style)
+      #   @param style [:butt, :round, :projecting_square] (:butt)
+      #   @return [void]
+      # @overload cap_style()
+      #   @return [Symbol]
       def cap_style(style = nil)
         return current_cap_style || :butt if style.nil?
 

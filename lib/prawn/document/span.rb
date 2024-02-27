@@ -7,25 +7,27 @@
 # This is free software. Please see the LICENSE and COPYING files for details.
 
 module Prawn
-  class Document
+  class Document # rubocop: disable Style/Documentation
     # @group Stable API
 
-    # A span is a special purpose bounding box that allows a column of
-    # elements to be positioned relative to the margin_box.
+    # A span is a special purpose bounding box that allows a column of elements
+    # to be positioned relative to the margin_box.
     #
-    # Arguments:
-    # +width+:: The width of the column in PDF points
+    # This method is typically used for flowing a column of text from one page
+    # to the next.
     #
-    # Options:
-    # <tt>:position</tt>:: One of :left, :center, :right or an x offset
+    # @example
+    #   span(350, position: :center) do
+    #     text "Here's some centered text in a 350 point column. " * 100
+    #   end
     #
-    # This method is typically used for flowing a column of text from one
-    # page to the next.
-    #
-    #  span(350, :position => :center) do
-    #    text "Here's some centered text in a 350 point column. " * 100
-    #  end
-    #
+    # @param width [Number] The width of the column in PDF points
+    # @param options [Hash{Symbol => any }]
+    # @option options :position [:left, :center, :right, Number]
+    #   position of the span relative to the page margins.
+    # @yield
+    # @return [void]
+    # @raise [ArgumentError] For unsupported `:position` value.
     def span(width, options = {})
       Prawn.verify_options [:position], options
       original_position = y

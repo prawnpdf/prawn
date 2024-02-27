@@ -1,47 +1,44 @@
 # frozen_string_literal: true
 
-# soft_mask.rb : Implements soft-masking
-#
-# Copyright September 2012, Alexander Mankuta. All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-#
-
 module Prawn
-  # The Prawn::SoftMask module is used to create arbitrary transparency in
-  # document. Using a soft mask allows creating more visually rich documents.
-  #
-  # You must group soft mask and graphics it's applied to under
-  # save_graphics_state because soft mask is a part of graphic state in PDF.
-  #
-  # Note that soft_mask is applied only to the following content in the
-  # graphic state. Anything that comes before soft_mask is drawn without mask.
-  #
-  # Conceptually, soft mask is an alpha channel. Luminosity of the drawing in
-  # the soft mask defines the transparency of the drawing the mask is applied
-  # to. 0.0 mask luminosity ("black") results in a fully opaque target image and
-  # 1.0 mask luminosity ("white") results in a fully transparent target image.
-  # Grey values result in some semi-transparent target image.
-  #
-  # Note: you can use colour in mask drawings but it makes harder to reason
-  # about the resulting value of alpha channel as it requires an additional
-  # luminosity calculation. However, this also allows achieving some advanced
-  # artistic effects (e.g. full-color photos in masks to get an effect similar
-  # to double exposure).
-  #
-  # Example:
-  #   pdf.save_graphics_state do
-  #     pdf.soft_mask do
-  #       pdf.fill_color "444444"
-  #       pdf.fill_polygon [0, 40], [60, 10], [120, 40], [60, 68]
-  #     end
-  #     pdf.fill_color '000000'
-  #     pdf.fill_rectangle [0, 50], 120, 68
-  #   end
-  #
+  # This module is used to create arbitrary transparency in document. Using
+  # a soft mask allows creating more visually rich documents.
   module SoftMask
     # @group Stable API
 
+    # Apply soft mask.
+    #
+    # You must group soft mask and graphics it's applied to under
+    # `save_graphics_state` because soft mask is a part of graphic state in PDF.
+    #
+    # Note that soft mask is applied only to the following content in the
+    # graphic state. Anything that comes before `soft_mask` is drawn without
+    # mask.
+    #
+    # Conceptually, soft mask is an alpha channel. Luminosity of the drawing in
+    # the soft mask defines the transparency of the drawing the mask is applied
+    # to. 0.0 mask luminosity ("black") results in a fully opaque target image and
+    # 1.0 mask luminosity ("white") results in a fully transparent target image.
+    # Grey values result in some semi-transparent target image.
+    #
+    # Note: you can use color in mask drawings but it makes harder to reason
+    # about the resulting value of alpha channel as it requires an additional
+    # luminosity calculation. However, this also allows achieving some advanced
+    # artistic effects (e.g. full-color photos in masks to get an effect similar
+    # to double exposure).
+    #
+    # @example
+    #   pdf.save_graphics_state do
+    #     pdf.soft_mask do
+    #       pdf.fill_color "444444"
+    #       pdf.fill_polygon [0, 40], [60, 10], [120, 40], [60, 68]
+    #     end
+    #     pdf.fill_color '000000'
+    #     pdf.fill_rectangle [0, 50], 120, 68
+    #   end
+    #
+    # @yield Mask content.
+    # @return [void]
     def soft_mask(&block)
       renderer.min_version(1.4)
 

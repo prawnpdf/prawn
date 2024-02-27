@@ -1,20 +1,15 @@
 # frozen_string_literal: true
 
-# wrap.rb: Handles text wrapping for for formatted text
-#
-# Contributed by Daniel Nelson
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 require_relative 'line_wrap'
 require_relative 'arranger'
 
 module Prawn
   module Text
-    module Formatted # :nodoc:
+    module Formatted
+      # Handles text wrapping for for formatted text.
+      #
       # @private
-
-      module Wrap # :nodoc:
+      module Wrap
         def initialize(_array, options)
           @line_wrap = Prawn::Text::Formatted::LineWrap.new
           @arranger = Prawn::Text::Formatted::Arranger.new(
@@ -44,7 +39,7 @@ module Prawn
         #
         # Returns any formatted text that was not printed
         #
-        def wrap(array) # :nodoc:
+        def wrap(array)
           initialize_wrap(array)
 
           stop = false

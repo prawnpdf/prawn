@@ -1,24 +1,31 @@
 # frozen_string_literal: true
 
-# Implements AFM font support for Prawn
-#
-# Copyright May 2008, Gregory Brown / James Healy.  All Rights Reserved.
-#
-# This is free software. Please see the LICENSE and COPYING files for details.
-
 require_relative '../encoding'
 
 module Prawn
   module Fonts
-    # @private
-
+    # AFM font. AFM stands for Adobe Font Metrics. It's not a complete font, it
+    # doesn't provide actual glyph outlines. It only contains glyph metrics to
+    # make text layout possible. AFM is used for PDF built-in fonts. Those
+    # fonts are supposed to be present on the target system making it possible
+    # to save a little bit of space by not embedding the fonts. A file that uses
+    # these fonts can not be read on a system that doesn't have these fonts
+    # installed.
+    #
+    # @note You shouldn't use this class directly.
     class AFM < Font
       class << self
+        # Prawn would warn you if you're using non-ASCII glyphs with AFM fonts
+        # as not all implementations provide those glyphs. This attribute
+        # suppresses that warning.
+        #
+        # @return [Boolean] (false)
         attr_accessor :hide_m17n_warning
       end
 
       self.hide_m17n_warning = false
 
+      # List of PDF built-in fonts.
       BUILT_INS = %w[
         Courier Helvetica Times-Roman Symbol ZapfDingbats
         Courier-Bold Courier-Oblique Courier-BoldOblique
@@ -26,10 +33,16 @@ module Prawn
         Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique
       ].freeze
 
+      # Does this font support Unicode?
+      #
+      # @return [false]
       def unicode?
         false
       end
 
+      # Paths to look for AFM files at.
+      #
+      # @return [Array<String>]
       def self.metrics_path
         @metrics_path ||=
           if ENV['METRICS']
@@ -44,14 +57,22 @@ module Prawn
           end
       end
 
-      attr_reader :attributes # :nodoc:
+      # @private
+      attr_reader :attributes
 
-      # parse each ATM font file once only
+      # Parsed AFM data cache.
+      #
+      # @return [SynchronizedCache]
       def self.font_data
         @font_data ||= SynchronizedCache.new
       end
 
-      def initialize(document, name, options = {}) # :nodoc:
+      # @param document [Prawn::Document]
+      # @param name [String]
+      # @param options [Hash]
+      # @option options :family [String]
+      # @option options :style [Symbol]
+      def initialize(document, name, options = {})
         name ||= options[:family]
         unless BUILT_INS.include?(name)
           raise Prawn::Errors::UnknownFont,
@@ -77,14 +98,22 @@ module Prawn
         @line_gap = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
       end
 
-      # The font bbox, as an array of integers
+      # The font bbox.
       #
+      # @return [Array(Number, Number, Number, Number)]
       def bbox
         @bbox ||= @attributes['fontbbox'].split(/\s+/).map { |e| Integer(e) }
       end
 
-      # NOTE: String *must* be encoded as WinAnsi
-      def compute_width_of(string, options = {}) # :nodoc:
+      # Compute width of a string at the specified size, optionally with kerning
+      # applied.
+      #
+      # @param string [String] *must* be encoded as WinAnsi
+      # @param options [Hash{Symbol => any}]
+      # @option options :size [Number]
+      # @option options :kerning [Boolean] (false)
+      # @return [Number]
+      def compute_width_of(string, options = {})
         scale = (options[:size] || size) / 1000.0
 
         if options[:kerning]
@@ -96,18 +125,19 @@ module Prawn
         end
       end
 
-      # Returns true if the font has kerning data, false otherwise
+      # Does this font contain kerning data.
       #
-      # rubocop: disable Naming/PredicateName
-      def has_kerning_data?
+      # @return [Boolean]
+      def has_kerning_data? # rubocop: disable Naming/PredicateName
         @kern_pairs.any?
       end
-      # rubocop: enable Naming/PredicateName
 
-      # built-in fonts only work with winansi encoding, so translate the
+      # Built-in fonts only work with WinAnsi encoding, so translate the
       # string. Changes the encoding in-place, so the argument itself
       # is replaced with a string in WinAnsi encoding.
       #
+      # @param text [String]
+      # @return [String]
       def normalize_encoding(text)
         text.encode('windows-1252')
       rescue ::Encoding::InvalidByteSequenceError,
@@ -120,12 +150,18 @@ module Prawn
           "PDF's built-in fonts.\n"
       end
 
+      # Encode text to UTF-8.
+      #
+      # @param text [String]
+      # @return [String]
       def to_utf8(text)
         text.encode('UTF-8')
       end
 
-      # Returns the number of characters in +str+ (a WinAnsi-encoded string).
+      # Returns the number of characters in `str` (a WinAnsi-encoded string).
       #
+      # @param str [String]
+      # @return [Integer]
       def character_count(str)
         str.length
       end
@@ -137,15 +173,23 @@ module Prawn
       # is either a string or an array (for kerned text).
       #
       # For Adobe fonts, there is only ever a single subset, so
-      # the first element of the array is "0", and the second is
+      # the first element of the array is `0`, and the second is
       # the string itself (or an array, if kerning is performed).
       #
-      # The +text+ parameter must be in WinAnsi encoding (cp1252).
+      # The `text` argument must be in WinAnsi encoding (cp1252).
       #
+      # @param text [String]
+      # @param options [Hash{Symbol => any}]
+      # @option options :kerning [Boolean]
+      # @return [Array<Array(0, (String, Array)>]
       def encode_text(text, options = {})
         [[0, options[:kerning] ? kern(text) : text]]
       end
 
+      # Does this font has a glyph for the character?
+      #
+      # @param char [String]
+      # @return [Boolean]
       def glyph_present?(char)
         !normalize_encoding(char).nil?
       rescue Prawn::Errors::IncompatibleStringEncoding

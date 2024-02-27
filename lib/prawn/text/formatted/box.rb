@@ -10,133 +10,166 @@
 module Prawn
   module Text
     module Formatted
-      # @group Stable API
-
-      # Draws the requested formatted text into a box. When the text overflows
-      # the rectangle shrink to fit or truncate the text. Text boxes are
-      # independent of the document y position.
+      # Formatted text box.
       #
-      # == Formatted Text Array
-      #
-      # Formatted text is comprised of an array of hashes, where each hash
-      # defines text and format information. As of the time of writing, the
-      # following hash options are supported:
-      #
-      # <tt>:text</tt>::
-      #     the text to format according to the other hash options
-      # <tt>:styles</tt>::
-      #     an array of styles to apply to this text. Available styles include
-      #     :bold, :italic, :underline, :strikethrough, :subscript, and
-      #     :superscript
-      # <tt>:size</tt>::
-      #     a number denoting the font size to apply to this text
-      # <tt>:character_spacing</tt>::
-      #     a number denoting how much to increase or decrease the default
-      #     spacing between characters
-      # <tt>:font</tt>::
-      #     the name of a font. The name must be an AFM font with the desired
-      #     faces or must be a font that is already registered using
-      #     Prawn::Document#font_families
-      # <tt>:color</tt>::
-      #     anything compatible with Prawn::Graphics::Color#fill_color and
-      #     Prawn::Graphics::Color#stroke_color
-      # <tt>:link</tt>::
-      #     a URL to which to create a link. A clickable link will be created
-      #     to that URL. Note that you must explicitly underline and color using
-      #     the appropriate tags if you which to draw attention to the link
-      # <tt>:anchor</tt>::
-      #     a destination that has already been or will be registered using
-      #     PDF::Core::Destinations#add_dest. A clickable link will be
-      #     created to that destination. Note that you must explicitly underline
-      #     and color using the appropriate tags if you which to draw attention
-      #     to the link
-      # <tt>:local</tt>::
-      #     a file or application to be opened locally. A clickable link will be
-      #     created to the provided local file or application. If the file is
-      #     another PDF, it will be opened in a new window. Note that you must
-      #     explicitly underline and color using the appropriate tags if you
-      #     which to draw attention to the link
-      # <tt>:draw_text_callback</tt>:
-      #     if provided, this Proc will be called instead of #draw_text! once
-      #     per fragment for every low-level addition of text to the page.
-      # <tt>:callback</tt>::
-      #     an object (or array of such objects) with two methods:
-      #     #render_behind and #render_in_front, which are called immediately
-      #     prior to and immediately after rendring the text fragment and which
-      #     are passed the fragment as an argument
-      #
-      # == Example
-      #
-      #   formatted_text_box([{ :text => "hello" },
-      #                       { :text => "world",
-      #                         :size => 24,
-      #                         :styles => [:bold, :italic] }])
-      #
-      # == Options
-      #
-      # Accepts the same options as Text::Box with the below exceptions
-      #
-      # == Returns
-      #
-      # Returns a formatted text array representing any text that did not print
-      # under the current settings.
-      #
-      # == Exceptions
-      #
-      # Raises "Bad font family" if no font family is defined for the current
-      # font
-      #
-      # Raises <tt>Prawn::Errors::CannotFit</tt> if not wide enough to print
-      # any text
-      #
-      def formatted_text_box(array, options = {})
-        Text::Formatted::Box.new(array, options.merge(document: self)).render
-      end
-
-      # Generally, one would use the Prawn::Text::Formatted#formatted_text_box
-      # convenience method. However, using Text::Formatted::Box.new in
-      # conjunction with #render(:dry_run => true) enables one to do look-ahead
-      # calculations prior to placing text on the page, or to determine how much
-      # vertical space was consumed by the printed text
-      #
+      # Generally, one would use the {Prawn::Text::Formatted#formatted_text_box}
+      # convenience method. However, using `Text::Formatted::Box.new` in
+      # conjunction with `#render(dry_run: true)` enables one to do calculations
+      # prior to placing text on the page, or to determine how much vertical
+      # space was consumed by the printed text
       class Box
         include Prawn::Text::Formatted::Wrap
 
         # @group Experimental API
 
-        # The text that was successfully printed (or, if <tt>dry_run</tt> was
-        # used, the text that would have been successfully printed)
+        # The text that was successfully printed (or, if `:dry_run` was
+        # used, the text that would have been successfully printed).
+        # @return [Array<Hash>]
         attr_reader :text
 
-        # True if nothing printed (or, if <tt>dry_run</tt> was
-        # used, nothing would have been successfully printed)
+        # True if nothing printed (or, if `:dry_run` was used, nothing would
+        # have been successfully printed).
+        #
+        # @return [Boolean]
         def nothing_printed?
           @nothing_printed
         end
 
-        # True if everything printed (or, if <tt>dry_run</tt> was
-        # used, everything would have been successfully printed)
+        # True if everything printed (or, if `:dry_run` was used, everything
+        # would have been successfully printed).
+        #
+        # @return [Boolean]
         def everything_printed?
           @everything_printed
         end
 
-        # The upper left corner of the text box
+        # The upper left corner of the text box.
+        # @return [Array(Number, Number)]
         attr_reader :at
-        # The line height of the last line printed
+
+        # The line height of the last line printed.
+        # @return [Number]
         attr_reader :line_height
-        # The height of the ascender of the last line printed
+
+        # The height of the ascender of the last line printed.
+        # @return [Number]
         attr_reader :ascender
-        # The height of the descender of the last line printed
+
+        # The height of the descender of the last line printed.
+        # @return [Number]
         attr_reader :descender
-        # The leading used during printing
+
+        # The leading used during printing.
+        # @return [Number]
         attr_reader :leading
 
+        # Gap between adjacent lines of text.
+        #
+        # @return [Number]
         def line_gap
           line_height - (ascender + descender)
         end
 
         # See Prawn::Text#text_box for valid options
         #
+        # @param formatted_text [Array<Hash{Symbol => any}>]
+        #   Formatted text is an array of hashes, where each hash defines text
+        #   and format information. The following hash options are supported:
+        #
+        #   - `:text` --- the text to format according to the other hash
+        #     options.
+        #   - `:styles` --- an array of styles to apply to this text. Available
+        #     styles include `:bold`, `:italic`, `:underline`, `:strikethrough`,
+        #     `:subscript`, and `:superscript`.
+        #   - `:size` ---a number denoting the font size to apply to this text.
+        #   - `:character_spacing` --- a number denoting how much to increase or
+        #     decrease the default spacing between characters.
+        #   - `:font` --- the name of a font. The name must be an AFM font with
+        #     the desired faces or must be a font that is already registered
+        #     using {Prawn::Document#font_families}.
+        #   - `:color` --- anything compatible with
+        #     {Prawn::Graphics::Color#fill_color} and
+        #     {Prawn::Graphics::Color#stroke_color}.
+        #   - :link` --- a URL to which to create a link. A clickable link will
+        #     be created to that URL. Note that you must explicitly underline
+        #     and color using the appropriate tags if you which to draw
+        #     attention to the link.
+        #   - `:anchor` --- a destination that has already been or will be
+        #     registered using `PDF::Core::Destinations#add_dest`. A clickable
+        #     link will be created to that destination. Note that you must
+        #     explicitly underline and color using the appropriate tags if you
+        #     which to draw attention to the link.
+        #   - `:local` --- a file or application to be opened locally.
+        #     A clickable link will be created to the provided local file or
+        #     application. If the file is another PDF, it will be opened in
+        #     a new window. Note that you must explicitly underline and color
+        #     using the appropriate options if you which to draw attention to
+        #     the link.
+        #   - `:draw_text_callback` --- if provided, this Proc will be called
+        #     instead of {Prawn::Document#draw_text!} once per fragment for
+        #     every low-level addition of text to the page.
+        #   - `:callback` --- an object (or array of such objects) with two
+        #     methods: `render_behind` and `render_in_front`, which are called
+        #     immediately prior to and immediately after rendering the text
+        #     fragment and which are passed the fragment as an argument.
+        # @param options [Hash{Symbol => any}]
+        # @option options :document [Prawn::Document] Owning document.
+        # @option options :kerning [Boolean]
+        #   (value of document.default_kerning?)
+        #   Whether or not to use kerning (if it is available with the current
+        #   font).
+        # @option options :size [Number] (current font size)
+        #   The font size to use.
+        # @option options :character_spacing [Number] (0)
+        #   The amount of space to add to or remove from the default character
+        #   spacing.
+        # @option options :disable_wrap_by_char [Boolean] (false)
+        #   Whether or not to prevent mid-word breaks when text does not fit in
+        #   box.
+        # @option options :mode [Symbol] (:fill)
+        #   The text rendering mode. See documentation for
+        #   {Prawn::Document#text_rendering_mode} for a list of valid options.
+        # @option option :style [Symbol] (current style)
+        #   The style to use. The requested style must be part of the current
+        #   font family.
+        # @option option :at [Array(Number, Number)] (bounds top left corner)
+        #   The upper left corner of the box.
+        # @option options :width [Number] (bounds.right - at[0])
+        #   The width of the box.
+        # @option options :height [Number] (default_height())
+        #   The height of the box.
+        # @option options :direction [:ltr, :rtl]
+        #   (value of document.text_direction)
+        #   Direction of the text (left-to-right or right-to-left).
+        # @option options :fallback_fonts [Array<String>]
+        #   An array of font names. Each name must be the name of an AFM font or
+        #   the name that was used to register a family of external fonts (see
+        #   {Prawn::Document#font_families}). If present, then each glyph will
+        #   be rendered using the first font that includes the glyph, starting
+        #   with the current font and then moving through `:fallback_fonts`.
+        # @option options :align [:left, :center, :right, :justify]
+        #   (:left if direction is :ltr, :right if direction is :rtl)
+        #   Alignment within the bounding box.
+        # @option options :valign [:top, :center, :bottom] (:top)
+        #   Vertical alignment within the bounding box.
+        # @option options :rotate [Number]
+        #   The angle to rotate the text.
+        # @option options :rotate_around
+        #   [:center, :upper_left, :upper_right, :lower_right, :lower_left]
+        #   (:upper_left)
+        #   The point around which to rotate the text.
+        # @option options :leading [Number] (value of document.default_leading)
+        #   Additional space between lines.
+        # @option options :single_line [Boolean] (false)
+        #   If true, then only the first line will be drawn.
+        # @option options :overflow [:truncate, :shrink_to_fit, :expand]
+        #   (:truncate)
+        #   This controls the behavior when the amount of text exceeds the
+        #   available space.
+        # @option options :min_font_size [Number] (5)
+        #   The minimum font size to use when `:overflow` is set to
+        #   `:shrink_to_fit` (that is the font size will not be reduced to less
+        #   than this value, even if it means that some text will be cut off).
         def initialize(formatted_text, options = {})
           @inked = false
           Prawn.verify_options(valid_options, options)
@@ -198,16 +231,23 @@ module Prawn
         end
 
         # Render text to the document based on the settings defined in
-        # initialize.
+        # constructor.
         #
-        # In order to facilitate look-ahead calculations, <tt>render</tt>
-        # accepts a <tt>:dry_run => true</tt> option. If provided, then
-        # everything is executed as if rendering, with the exception that
-        # nothing is drawn on the page. Useful for look-ahead computations of
-        # height, unprinted text, etc.
+        # In order to facilitate look-ahead calculations, this method accepts
+        # a `dry_run: true` option. If provided, then everything is executed as
+        # if rendering, with the exception that nothing is drawn on the page.
+        # Useful for look-ahead computations of height, unprinted text, etc.
         #
-        # Returns any text that did not print under the current settings.
-        #
+        # @param flags [Hash{Symbol => any}]
+        # @option flags :dry_run [Boolean] (false)
+        #   Do not draw the text. Everything else is done.
+        # @return [Array<Hash>]
+        #   A formatted text array representing any text that did not print
+        #   under the current settings.
+        # @raise [Prawn::Text::Formatted::Arranger::BadFontFamily]
+        #   If no font family is defined for the current font.
+        # @raise [Prawn::Errors::CannotFit]
+        #   If not wide enough to print any text.
         def render(flags = {})
           unprinted_text = []
 
@@ -239,25 +279,31 @@ module Prawn
           end
         end
 
-        # The width available at this point in the box
+        # The width available at this point in the box.
         #
+        # @return [Number]
         def available_width
           @width
         end
 
-        # The height actually used during the previous <tt>render</tt>
+        # The height actually used during the previous {render}.
         #
+        # @return [Number]
         def height
           return 0 if @baseline_y.nil? || @descender.nil?
 
           (@baseline_y - @descender).abs
         end
 
-        # <tt>fragment</tt> is a Prawn::Text::Formatted::Fragment object
-        #
+        # @private
+        # @param fragment [Prawn::Text::Formatted::Fragment]
+        # @param accumulated_width [Number]
+        # @param line_width [Number]
+        # @param word_spacing [Number]
+        # @return [void]
         def draw_fragment(
           fragment, accumulated_width = 0, line_width = 0, word_spacing = 0
-        ) # :nodoc:
+        )
           case @align
           when :left
             x = @at[0]
@@ -311,33 +357,37 @@ module Prawn
 
         # @group Extension API
 
-        # Example (see Prawn::Text::Core::Formatted::Wrap for what is required
-        # of the wrap method if you want to override the default wrapping
-        # algorithm):
+        # Text box extensions.
         #
+        # Example:
         #
-        #   module MyWrap
-        #
-        #     def wrap(array)
-        #       initialize_wrap([{ :text => 'all your base are belong to us' }])
-        #       @line_wrap.wrap_line(:document => @document,
-        #                            :kerning => @kerning,
-        #                            :width => 10000,
-        #                            :arranger => @arranger)
-        #       fragment = @arranger.retrieve_fragment
-        #       format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
-        #       []
-        #     end
-        #
+        # ```ruby
+        # module MyWrap
+        #   def wrap(array)
+        #     initialize_wrap([{ text: 'all your base are belong to us' }])
+        #     @line_wrap.wrap_line(
+        #       document: @document,
+        #       kerning: @kerning,
+        #       width: 10000,
+        #       arranger: @arranger
+        #     )
+        #     fragment = @arranger.retrieve_fragment
+        #     format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
+        #     []
         #   end
+        # end
         #
-        #   Prawn::Text::Formatted::Box.extensions << MyWrap
+        # Prawn::Text::Formatted::Box.extensions << MyWrap
         #
-        #   box = Prawn::Text::Formatted::Box.new('hello world')
-        #   box.render('why can't I print anything other than' +
-        #              '"all your base are belong to us"?')
+        # box = Prawn::Text::Formatted::Box.new('hello world')
+        # box.render("why can't I print anything other than" +
+        #            '"all your base are belong to us"?')
+        # ```
         #
+        # See {Prawn::Text::Formatted::Wrap} for what is required of the
+        # wrap method if you want to override the default wrapping algorithm.
         #
+        # @return [Array<Module>]
         def self.extensions
           @extensions ||= []
         end
@@ -348,6 +398,7 @@ module Prawn
           extensions.each { |e| base.extensions << e }
         end
 
+        # @private
         def valid_options
           PDF::Core::Text::VALID_OPTIONS + %i[
             at
