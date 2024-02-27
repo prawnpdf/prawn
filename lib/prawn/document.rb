@@ -394,13 +394,13 @@ module Prawn
     # Renders the PDF document to string.
     # Pass an open file descriptor to render to file.
     #
-    def render(*arguments, &block)
+    def render(*arguments)
       (1..page_count).each do |i|
         go_to_page i
         repeaters.each { |r| r.run(i) }
       end
 
-      renderer.render(*arguments, &block)
+      renderer.render(*arguments)
     end
 
     # Renders the PDF document to file.
