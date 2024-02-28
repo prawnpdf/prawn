@@ -41,12 +41,14 @@ module Prawn
         #       set to true until something is printed, then false
         #   <tt>@everything_printed</tt>::
         #       set to false until everything printed, then true
+        #   <tt>@max_line_width</tt>::
+        #       set to the maximum line width of all lines processed
         #
         # Returns any formatted text that was not printed
         #
         def wrap(array) # :nodoc:
           initialize_wrap(array)
-
+          @max_line_width = 0
           stop = false
           until stop
             # wrap before testing if enough height for this line because the
@@ -59,6 +61,8 @@ module Prawn
               arranger: @arranger,
               disable_wrap_by_char: @disable_wrap_by_char
             )
+
+            @max_line_width = [@max_line_width, @arranger.line_width].max
 
             if enough_height_for_this_line?
               move_baseline_down
