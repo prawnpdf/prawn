@@ -130,6 +130,8 @@ module Prawn
         attr_reader :descender
         # The leading used during printing
         attr_reader :leading
+        # The width of each line
+        attr_reader :line_widths
 
         def line_gap
           line_height - (ascender + descender)
@@ -193,6 +195,8 @@ module Prawn
             size: options[:size],
             style: options[:style]
           }
+
+          @line_widths = []
 
           super(formatted_text, options)
         end
