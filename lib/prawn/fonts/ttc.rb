@@ -25,7 +25,7 @@ module Prawn
       def read_ttf_file
         TTFunk::File.from_ttc(
           @name,
-          font_option_to_index(@name, @options[:font])
+          font_option_to_index(@name, @options[:font]),
         )
       end
 

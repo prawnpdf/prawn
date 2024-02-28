@@ -12,7 +12,7 @@ module Prawn
 
       # @private
       Gradient = Struct.new(
-        :type, :apply_transformations, :stops, :from, :to, :r1, :r2
+        :type, :apply_transformations, :stops, :from, :to, :r1, :r2,
       )
 
       # @group Stable API
@@ -72,7 +72,7 @@ module Prawn
       #   @example Draw a horizontal axial gradient that starts at red on the left and ends at blue on the right
       #     fill_gradient from: [0, 0], to: [100, 0], stops: ['ff0000', '0000ff']
       #
-      #   @example Draw a horizontal radial gradient that starts at red, is green 80% of the way through, and finishes blue
+      #   @example Draw a horizontal radial gradient that starts at red, is green 80% through, and finishes blue
       #     fill_gradient from: [0, 0], r1: 0, to: [100, 0], r2: 180,
       #       stops: { 0 => 'ff0000', 0.8 => '00ff00', 1 => '0000ff' }
       #
@@ -161,7 +161,7 @@ module Prawn
       #   @example Draw a horizontal axial gradient that starts at red on the left and ends at blue on the right
       #     stroke_gradient from: [0, 0], to: [100, 0], stops: ['ff0000', '0000ff']
       #
-      #   @example Draw a horizontal radial gradient that starts at red, is green 80% of the way through, and finishes blue
+      #   @example Draw a horizontal radial gradient that starts at red, is green 80% through, and finishes blue
       #     stroke_gradient from: [0, 0], r1: 0, to: [100, 0], r2: 180,
       #       stops: { 0 => 'ff0000', 0.8 => '00ff00', 1 => '0000ff' }
       #
@@ -202,9 +202,9 @@ module Prawn
 
         patterns = page.resources[:Pattern] ||= {}
 
-        registry_key = gradient_registry_key gradient
+        registry_key = gradient_registry_key(gradient)
 
-        unless patterns.key? "SP#{registry_key}"
+        unless patterns.key?("SP#{registry_key}")
           shading = gradient_registry[registry_key]
           unless shading
             shading = create_gradient_pattern(gradient)
@@ -224,8 +224,8 @@ module Prawn
             raise ArgumentError, "unknown type '#{type}'"
           end
 
-        set_color_space type, :Pattern
-        renderer.add_content "/SP#{registry_key} #{operator}"
+        set_color_space(type, :Pattern)
+        renderer.add_content("/SP#{registry_key} #{operator}")
       end
 
       # rubocop: disable Metrics/ParameterLists
@@ -250,12 +250,12 @@ module Prawn
         end
 
         stops =
-          stops.map.with_index do |stop, index|
+          stops.map.with_index { |stop, index|
             case stop
             when Array, Hash
               position, color = stop
             else
-              position = index / (stops.length.to_f - 1)
+              position = index / (Float(stops.length) - 1)
               color = stop
             end
 
@@ -264,7 +264,7 @@ module Prawn
             end
 
             GradientStop.new(position, normalize_color(color))
-          end
+          }
 
         if stops.first.position != 0
           raise ArgumentError, 'The first stop must have a position of 0'
@@ -284,7 +284,7 @@ module Prawn
           from,
           to,
           r1,
-          r2
+          r2,
         )
       end
       # rubocop: enable Metrics/ParameterLists
@@ -298,7 +298,7 @@ module Prawn
           x2, y2,
           gradient.r1 || -1, gradient.r2 || -1,
           gradient.stops.length,
-          gradient.stops.map { |s| [s.position, s.color] }
+          gradient.stops.map { |s| [s.position, s.color] },
         ].flatten
         Digest::SHA1.hexdigest(key.join(','))
       end
@@ -311,24 +311,26 @@ module Prawn
         if gradient.apply_transformations.nil? &&
             current_transformation_matrix_with_translation(0, 0) !=
                 [1, 0, 0, 1, 0, 0]
-          warn 'Gradients in Prawn 2.x and lower are not correctly positioned '\
-            'when a transformation has been made to the document. ' \
-            "Pass 'apply_transformations: true' to correctly transform the " \
-            'gradient, or see ' \
-            'https://github.com/prawnpdf/prawn/wiki/Gradient-Transformations ' \
-            'for more information.'
+          warn(
+            'Gradients in Prawn 2.x and lower are not correctly positioned ' \
+              'when a transformation has been made to the document. ' \
+              "Pass 'apply_transformations: true' to correctly transform the " \
+              'gradient, or see ' \
+              'https://github.com/prawnpdf/prawn/wiki/Gradient-Transformations ' \
+              'for more information.',
+          )
         end
 
         shader_stops =
-          gradient.stops.each_cons(2).map do |first, second|
+          gradient.stops.each_cons(2).map { |first, second|
             ref!(
               FunctionType: 2,
               Domain: [0.0, 1.0],
               C0: first.color,
               C1: second.color,
-              N: 1.0
+              N: 1.0,
             )
-          end
+          }
 
         # If there's only two stops, we can use the single shader.
         # Otherwise we stitch the multiple shaders together.
@@ -341,7 +343,7 @@ module Prawn
               Domain: [0.0, 1.0],
               Functions: shader_stops,
               Bounds: gradient.stops[1..-2].map(&:position),
-              Encode: [0.0, 1.0] * shader_stops.length
+              Encode: [0.0, 1.0] * shader_stops.length,
             )
           end
 
@@ -359,13 +361,13 @@ module Prawn
           ColorSpace: color_space(gradient.stops.first.color),
           Coords: coords,
           Function: shader,
-          Extend: [true, true]
+          Extend: [true, true],
         )
 
         ref!(
           PatternType: 2, # shading pattern
           Shading: shading,
-          Matrix: transformation
+          Matrix: transformation,
         )
       end
 

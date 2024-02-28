@@ -35,7 +35,7 @@ describe Prawn::Outline do
 
         title = obj[:Title].dup
         title.force_encoding(Encoding::UTF_16LE)
-        expect(title.valid_encoding?).to eq(true)
+        expect(title.valid_encoding?).to be(true)
       end
     end
   end
@@ -45,8 +45,7 @@ describe Prawn::Outline do
       expect(outline_root).to_not be_nil
     end
 
-    it 'sets the first and last top items of the root outline dictionary '\
-      'item' do
+    it 'sets the first and last top items of the root outline dictionary item' do
       section1 = find_by_title('Chapter 1')
 
       expect(referenced_object(outline_root[:First])).to eq(section1)
@@ -118,7 +117,7 @@ describe Prawn::Outline do
   describe 'adding a custom destination' do
     before do
       pdf.start_new_page
-      pdf.text 'Page 3 with a destination'
+      pdf.text('Page 3 with a destination')
       pdf.add_dest('customdest', pdf.dest_xyz(200, 200))
       destination = pdf.dest_xyz(200, 200)
       pdf.outline.update do
@@ -135,20 +134,18 @@ describe Prawn::Outline do
     it 'references the custom destination' do
       custom_dest = find_by_title('Custom Destination')
       last_page =
-        hash.values.find do |obj|
-          obj.is_a?(Hash) && obj[:Type] == :Pages
-        end[:Kids]
+        hash.values
+          .find { |obj| obj.is_a?(Hash) && obj[:Type] == :Pages }[:Kids]
           .last
 
-      expect(referenced_object(custom_dest[:Dest].first))
-        .to eq(referenced_object(last_page))
+      expect(referenced_object(custom_dest[:Dest].first)).to eq(referenced_object(last_page))
     end
   end
 
   describe 'addding a section later with outline#section' do
     before do
       pdf.start_new_page
-      pdf.text 'Page 3. An added section '
+      pdf.text('Page 3. An added section ')
       pdf.outline.update do
         section 'Added Section', destination: 3 do
           page destination: 3, title: 'Page 3'
@@ -195,7 +192,7 @@ describe Prawn::Outline do
     context 'when positioned last' do
       before do
         pdf.start_new_page
-        pdf.text 'Page 3. An added subsection '
+        pdf.text('Page 3. An added subsection ')
         pdf.outline.update do
           add_subsection_to 'Chapter 1' do
             section 'Added SubSection', destination: 3 do
@@ -222,16 +219,14 @@ describe Prawn::Outline do
         expect(referenced_object(section1[:Last])).to eq(subsection)
       end
 
-      it "sets the prev relation for the new subsection to its parent's old "\
-        'last item' do
+      it "sets the prev relation for the new subsection to its parent's old last item" do
         subsection = find_by_title('Added SubSection')
         page2 = find_by_title('Page 2')
 
         expect(referenced_object(subsection[:Prev])).to eq(page2)
       end
 
-      it "the subsection should become the next relation for its parent's old "\
-        'last item' do
+      it "the subsection should become the next relation for its parent's old last item" do
         subsection = find_by_title('Added SubSection')
         page2 = find_by_title('Page 2')
 
@@ -260,7 +255,7 @@ describe Prawn::Outline do
     context 'when positioned first' do
       before do
         pdf.start_new_page
-        pdf.text 'Page 3. An added subsection '
+        pdf.text('Page 3. An added subsection ')
         pdf.outline.update do
           add_subsection_to 'Chapter 1', :first do
             section 'Added SubSection', destination: 3 do
@@ -287,16 +282,14 @@ describe Prawn::Outline do
         expect(referenced_object(section1[:Last])).to eq(page2)
       end
 
-      it "sets the next relation for the new subsection to its parent's old "\
-        'first item' do
+      it "sets the next relation for the new subsection to its parent's old first item" do
         subsection = find_by_title('Added SubSection')
         page1 = find_by_title('Page 1')
 
         expect(referenced_object(subsection[:Next])).to eq(page1)
       end
 
-      it "the subsection should become the prev relation for its parent's old "\
-        'first item' do
+      it "the subsection should become the prev relation for its parent's old first item" do
         subsection = find_by_title('Added SubSection')
         page1 = find_by_title('Page 1')
 
@@ -323,26 +316,26 @@ describe Prawn::Outline do
     end
 
     it 'requires an existing title' do
-      expect do
-        pdf.go_to_page 1
+      expect {
+        pdf.go_to_page(1)
         pdf.start_new_page
-        pdf.text 'Inserted Page'
+        pdf.text('Inserted Page')
         pdf.outline.update do
-          add_subsection_to 'Wrong page' do
-            page page_number, title: 'Inserted Page'
+          add_subsection_to('Wrong page') do
+            page(page_number, title: 'Inserted Page')
           end
         end
         render_and_find_objects
-      end.to raise_error(Prawn::Errors::UnknownOutlineTitle)
+      }.to raise_error(Prawn::Errors::UnknownOutlineTitle)
     end
   end
 
   describe '#outline.insert_section_after' do
     describe 'inserting in the middle of another section' do
       before do
-        pdf.go_to_page 1
+        pdf.go_to_page(1)
         pdf.start_new_page
-        pdf.text 'Inserted Page'
+        pdf.text('Inserted Page')
         pdf.outline.update do
           insert_section_after 'Page 1' do
             page destination: page_number, title: 'Inserted Page'
@@ -393,10 +386,9 @@ describe Prawn::Outline do
       end
 
       context 'when adding another section afterwards' do
-        it 'has reset the root position so that a new section is added at '\
-          'the end of root sections' do
+        it 'has reset the root position so that a new section is added at the end of root sections' do
           pdf.start_new_page
-          pdf.text 'Another Inserted Page'
+          pdf.text('Another Inserted Page')
           pdf.outline.update do
             section 'Added Section' do
               page destination: page_number, title: 'Inserted Page'
@@ -414,9 +406,9 @@ describe Prawn::Outline do
 
     describe 'inserting at the end of another section' do
       before do
-        pdf.go_to_page 2
+        pdf.go_to_page(2)
         pdf.start_new_page
-        pdf.text 'Inserted Page'
+        pdf.text('Inserted Page')
         pdf.outline.update do
           insert_section_after 'Page 2' do
             page destination: page_number, title: 'Inserted Page'
@@ -450,29 +442,29 @@ describe Prawn::Outline do
     end
 
     it 'requires an existing title' do
-      expect do
-        pdf.go_to_page 1
+      expect {
+        pdf.go_to_page(1)
         pdf.start_new_page
-        pdf.text 'Inserted Page'
+        pdf.text('Inserted Page')
         pdf.outline.update do
-          insert_section_after 'Wrong page' do
-            page destination: page_number, title: 'Inserted Page'
+          insert_section_after('Wrong page') do
+            page(destination: page_number, title: 'Inserted Page')
           end
         end
-      end.to raise_error(Prawn::Errors::UnknownOutlineTitle)
+      }.to raise_error(Prawn::Errors::UnknownOutlineTitle)
     end
   end
 
   describe '#page' do
     it 'requires a title option to be set' do
-      expect do
+      expect {
         Prawn::Document.new do
-          text 'Page 1. This is the first Chapter. '
+          text('Page 1. This is the first Chapter. ')
           outline.define do
-            page destination: 1, title: nil
+            page(destination: 1, title: nil)
           end
         end
-      end.to raise_error(Prawn::Errors::RequiredOption)
+      }.to raise_error(Prawn::Errors::RequiredOption)
     end
   end
 
@@ -481,7 +473,7 @@ describe Prawn::Outline do
       pdf =
         Prawn::Document.new do
           outline.define do
-            section 'La pomme croquée', destination: 1, closed: true
+            section('La pomme croquée', destination: 1, closed: true)
           end
         end
       PDF::Reader::ObjectHash.new(StringIO.new(pdf.render, 'r+'))

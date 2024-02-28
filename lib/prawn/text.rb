@@ -266,9 +266,9 @@ module Prawn
       color = options.delete(:color)
       if color
         array =
-          array.map do |fragment|
+          array.map { |fragment|
             fragment[:color] ? fragment : fragment.merge(color: color)
-          end
+          }
       end
 
       if @indent_paragraphs
@@ -374,11 +374,13 @@ module Prawn
     # @return [void]
     def draw_text!(text, options)
       unless font.unicode? || font.class.hide_m17n_warning || text.ascii_only?
-        warn "PDF's built-in fonts have very limited support for " \
-             "internationalized text.\nIf you need full UTF-8 support, " \
-             "consider using an external font instead.\n\nTo disable this " \
-             "warning, add the following line to your code:\n" \
-             "Prawn::Fonts::AFM.hide_m17n_warning = true\n"
+        warn(
+          "PDF's built-in fonts have very limited support for " \
+            "internationalized text.\nIf you need full UTF-8 support, " \
+            "consider using an external font instead.\n\nTo disable this " \
+            "warning, add the following line to your code:\n" \
+            "Prawn::Fonts::AFM.hide_m17n_warning = true\n",
+        )
 
         font.class.hide_m17n_warning = true
       end
@@ -578,7 +580,7 @@ module Prawn
       process_final_gap_option(options)
       box = Text::Formatted::Box.new(
         array,
-        options.merge(height: 100_000_000, document: self)
+        options.merge(height: 100_000_000, document: self),
       )
       box.render(dry_run: true)
 
@@ -642,7 +644,7 @@ module Prawn
       options[:width] = bounds.width
       options[:at] = [
         @bounding_box.left_side - @bounding_box.absolute_left,
-        y - @bounding_box.absolute_bottom
+        y - @bounding_box.absolute_bottom,
       ]
     end
 
@@ -665,7 +667,7 @@ module Prawn
       if options[:at]
         raise ArgumentError,
           ':at is no longer a valid option with text.' \
-          'use draw_text or text_box instead'
+            'use draw_text or text_box instead'
       end
       process_final_gap_option(options)
       process_indent_paragraphs_option(options)

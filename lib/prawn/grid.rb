@@ -103,7 +103,7 @@ module Prawn
       # @option options :column_gutter [Number] Column gutter size.
       def initialize(pdf, options = {})
         valid_options = %i[columns rows gutter row_gutter column_gutter]
-        Prawn.verify_options valid_options, options
+        Prawn.verify_options(valid_options, options)
 
         @pdf = pdf
         @columns = options[:columns]
@@ -140,17 +140,17 @@ module Prawn
       private
 
       def subdivide(total, num, gutter)
-        (total.to_f - (gutter * (num - 1).to_f)) / num.to_f
+        (Float(total) - (gutter * Float((num - 1)))) / Float(num)
       end
 
       def apply_gutter(options)
         if options.key?(:gutter)
-          @gutter = options[:gutter].to_f
+          @gutter = Float(options[:gutter])
           @row_gutter = @gutter
           @column_gutter = @gutter
         else
-          @row_gutter = options[:row_gutter].to_f
-          @column_gutter = options[:column_gutter].to_f
+          @row_gutter = Float(options[:row_gutter])
+          @column_gutter = Float(options[:column_gutter])
           @gutter = 0
         end
       end
@@ -181,35 +181,35 @@ module Prawn
 
       # @private
       def total_height
-        pdf.bounds.height.to_f
+        Float(pdf.bounds.height)
       end
 
       # Width of a box.
       #
       # @return [Float]
       def width
-        grid.column_width.to_f
+        Float(grid.column_width)
       end
 
       # Height of a box.
       #
       # @return [Float]
       def height
-        grid.row_height.to_f
+        Float(grid.row_height)
       end
 
       # Width of the gutter.
       #
       # @return [Float]
       def gutter
-        grid.gutter.to_f
+        Float(grid.gutter)
       end
 
       # x-coordinate of left side.
       #
       # @return [Float]
       def left
-        @left ||= (width + grid.column_gutter) * @columns.to_f
+        @left ||= (width + grid.column_gutter) * Float(@columns)
       end
 
       # x-coordinate of right side.
@@ -223,7 +223,7 @@ module Prawn
       #
       # @return [Float]
       def top
-        @top ||= total_height - ((height + grid.row_gutter) * @rows.to_f)
+        @top ||= total_height - ((height + grid.row_gutter) * Float(@rows))
       end
 
       # y-coordinate of the bottom.
@@ -278,7 +278,7 @@ module Prawn
           original_stroke_color = pdf.stroke_color
 
           pdf.stroke_color = grid_color
-          pdf.text name
+          pdf.text(name)
           pdf.stroke_bounds
 
           pdf.stroke_color = original_stroke_color
@@ -410,7 +410,7 @@ module Prawn
           original_stroke_color = pdf.stroke_color
 
           pdf.stroke_color = grid_color
-          pdf.text name
+          pdf.text(name)
           pdf.stroke_bounds
 
           pdf.stroke_color = original_stroke_color

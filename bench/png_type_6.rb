@@ -10,7 +10,7 @@ Benchmark.bmbm do |x|
   x.report('PNG Type 6') do
     N.times do
       Prawn::Document.new do
-        image "#{Prawn::DATADIR}/images/dice.png"
+        image("#{Prawn::DATADIR}/images/dice.png")
       end.render_file('dice.pdf')
     end
   end

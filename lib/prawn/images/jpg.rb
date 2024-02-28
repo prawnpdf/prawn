@@ -41,7 +41,7 @@ module Prawn
       # @private
       JPEG_SOF_BLOCKS = [
         0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE,
-        0xCF
+        0xCF,
       ].freeze
 
       # Can this image handler process this image?
@@ -100,7 +100,7 @@ module Prawn
           ColorSpace: color_space,
           BitsPerComponent: bits,
           Width: width,
-          Height: height
+          Height: height,
         )
 
         # add extra decode params for CMYK images. By swapping the

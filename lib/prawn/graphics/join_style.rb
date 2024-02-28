@@ -53,7 +53,7 @@ module Prawn
       end
 
       def write_stroke_join_style
-        renderer.add_content "#{JOIN_STYLES[current_join_style]} j"
+        renderer.add_content("#{JOIN_STYLES[current_join_style]} j")
       end
     end
   end

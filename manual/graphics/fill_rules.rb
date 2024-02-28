@@ -14,14 +14,14 @@ Prawn::ManualBuilder::Chapter.new do
     TEXT
 
     list(
-      '<code>:nonzero_winding_number</code> (default): a point is inside the '\
-        'path if a ray from that point to infinity crosses a nonzero "net '\
-        'number" of path segments, where path segments intersecting in one '\
-        'direction are counted as positive and those in the other direction '\
+      '<code>:nonzero_winding_number</code> (default): a point is inside the ' \
+        'path if a ray from that point to infinity crosses a nonzero "net ' \
+        'number" of path segments, where path segments intersecting in one ' \
+        'direction are counted as positive and those in the other direction ' \
         'negative.',
-      '<code>:even_odd</code>: A point is inside the path if a ray from that '\
-        'point to infinity crosses an odd number of path segments, regardless '\
-        'of direction.'
+      '<code>:even_odd</code>: A point is inside the path if a ray from that ' \
+        'point to infinity crosses an odd number of path segments, regardless ' \
+        'of direction.',
     )
 
     prose <<~TEXT

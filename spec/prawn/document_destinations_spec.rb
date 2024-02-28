@@ -7,8 +7,8 @@ describe Prawn::Document do
     let(:pdf) { create_pdf }
 
     it 'adds entry to Dests name tree' do
-      expect(pdf.dests.data.empty?).to eq(true)
-      pdf.add_dest 'candy', 'chocolate'
+      expect(pdf.dests.data.empty?).to be(true)
+      pdf.add_dest('candy', 'chocolate')
       expect(pdf.dests.data.size).to eq(1)
     end
   end

@@ -17,8 +17,7 @@ describe Prawn::Graphics::Transparency do
     expect(str[0, 8]).to eq('%PDF-1.4')
   end
 
-  it 'a new extended graphics state should be created for ' \
-    'each unique transparency setting' do
+  it 'a new extended graphics state should be created for each unique transparency setting' do
     make_transparent(0.5, 0.2) do
       make_transparent(0.5, 0.75)
     end
@@ -26,8 +25,7 @@ describe Prawn::Graphics::Transparency do
     expect(extgstates.length).to eq(2)
   end
 
-  it 'a new extended graphics state should not be created for ' \
-    'each duplicate transparency setting' do
+  it 'a new extended graphics state should not be created for each duplicate transparency setting' do
     make_transparent(0.5, 0.75) do
       make_transparent(0.5, 0.75)
     end
@@ -35,8 +33,7 @@ describe Prawn::Graphics::Transparency do
     expect(extgstates.length).to eq(1)
   end
 
-  it 'setting the transparency with only one parameter sets the ' \
-    'transparency for both the fill and the stroke' do
+  it 'setting the transparency with only one parameter sets the transparency for both the fill and the stroke' do
     make_transparent(0.5)
     extgstate = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates[0]
     expect(extgstate[:opacity]).to eq(0.5)

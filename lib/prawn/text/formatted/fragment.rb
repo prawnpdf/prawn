@@ -8,10 +8,15 @@ module Prawn
       #
       # @private
       class Fragment
-        attr_reader :format_state, :text
+        attr_reader :format_state
+        attr_reader :text
         attr_writer :width
-        attr_accessor :line_height, :descender, :ascender
-        attr_accessor :word_spacing, :left, :baseline
+        attr_accessor :line_height
+        attr_accessor :descender
+        attr_accessor :ascender
+        attr_accessor :word_spacing
+        attr_accessor :left
+        attr_accessor :baseline
 
         # @param text [String]
         # @param format_state [Hash{Symbol => any}]
@@ -33,7 +38,7 @@ module Prawn
         def width
           if @word_spacing.zero? then @width
           else
-            @width + @word_spacing * space_count
+            @width + (@word_spacing * space_count)
           end
         end
 
@@ -100,7 +105,7 @@ module Prawn
         #
         # @return [Array(Array(Number, Number), Array(Number, Number))]
         def strikethrough_points
-          y = baseline + ascender * 0.3
+          y = baseline + (ascender * 0.3)
           [[left, y], [right, y]]
         end
 

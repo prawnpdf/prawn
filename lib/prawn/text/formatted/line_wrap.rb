@@ -147,7 +147,7 @@ module Prawn
             "[^#{ebc}]+",
             "[#{ews}]+",
             "#{ehy}+[^#{ebc}]*",
-            eshy.to_s
+            eshy.to_s,
           ]
 
           pattern = patterns
@@ -163,17 +163,17 @@ module Prawn
         #
         def word_division_scan_pattern(encoding = ::Encoding::UTF_8)
           common_whitespaces =
-            ["\t", "\n", "\v", "\r", ' '].map do |c|
+            ["\t", "\n", "\v", "\r", ' '].map { |c|
               c.encode(encoding)
-            end
+            }
 
           Regexp.union(
             common_whitespaces +
             [
               zero_width_space(encoding),
               soft_hyphen(encoding),
-              hyphen(encoding)
-            ].compact
+              hyphen(encoding),
+            ].compact,
           )
         end
 
@@ -188,7 +188,7 @@ module Prawn
           [
             whitespace(encoding),
             soft_hyphen(encoding),
-            hyphen(encoding)
+            hyphen(encoding),
           ].join('')
         end
 
@@ -239,7 +239,7 @@ module Prawn
           else
             update_output_based_on_last_fragment(
               fragment,
-              soft_hyphen(fragment.encoding)
+              soft_hyphen(fragment.encoding),
             )
             update_line_status_based_on_last_output
             pull_preceding_fragment_to_join_this_one?(fragment)
@@ -260,7 +260,7 @@ module Prawn
           @arranger.update_last_string(
             @fragment_output,
             remaining_text,
-            normalized_soft_hyphen
+            normalized_soft_hyphen,
           )
         end
 

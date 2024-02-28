@@ -34,8 +34,8 @@ module Prawn
     #   with this name.
     def stamp(name)
       dictionary_name, dictionary = stamp_dictionary(name)
-      renderer.add_content "/#{dictionary_name} Do"
-      update_annotation_references dictionary.data[:Annots]
+      renderer.add_content("/#{dictionary_name} Do")
+      update_annotation_references(dictionary.data[:Annots])
       state.page.xobjects.merge!(dictionary_name => dictionary)
     end
 
@@ -112,15 +112,15 @@ module Prawn
         Subtype: :Form,
         BBox: [
           0, 0,
-          state.page.dimensions[2], state.page.dimensions[3]
-        ]
+          state.page.dimensions[2], state.page.dimensions[3],
+        ],
       )
 
       dictionary_name = "Stamp#{next_stamp_dictionary_id}"
 
       stamp_dictionary_registry[name] = {
         stamp_dictionary_name: dictionary_name,
-        stamp_dictionary: dictionary
+        stamp_dictionary: dictionary,
       }
       dictionary
     end

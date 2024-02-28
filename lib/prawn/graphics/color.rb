@@ -87,7 +87,7 @@ module Prawn
       #   Each component has to be in the range from 0 to 255.
       # @return [String]
       def rgb2hex(rgb)
-        rgb.map { |e| format '%<value>02x', value: e }.join
+        rgb.map { |e| format('%<value>02x', value: e) }.join
       end
 
       # Converts hex string into RGB value array.
@@ -150,7 +150,7 @@ module Prawn
       end
 
       def color_to_s(color)
-        PDF::Core.real_params normalize_color(color)
+        PDF::Core.real_params(normalize_color(color))
       end
 
       def color_space(color)
@@ -187,7 +187,7 @@ module Prawn
             raise ArgumentError, "unknown type '#{type}'"
           end
 
-        renderer.add_content "/#{color_space} #{operator}"
+        renderer.add_content("/#{color_space} #{operator}")
       end
 
       def set_color(type, color, options = {})
@@ -202,21 +202,21 @@ module Prawn
           end
 
         if options[:pattern]
-          set_color_space type, :Pattern
-          renderer.add_content "/#{color} #{operator}"
+          set_color_space(type, :Pattern)
+          renderer.add_content("/#{color} #{operator}")
         else
-          set_color_space type, color_space(color)
+          set_color_space(type, color_space(color))
           color = color_to_s(color)
           write_color(color, operator)
         end
       end
 
       def set_fill_color(color = nil)
-        set_color :fill, color || current_fill_color
+        set_color(:fill, color || current_fill_color)
       end
 
       def set_stroke_color(color = nil)
-        set_color :stroke, color || current_stroke_color
+        set_color(:stroke, color || current_stroke_color)
       end
 
       def update_colors
@@ -250,7 +250,7 @@ module Prawn
       end
 
       def write_color(color, operator)
-        renderer.add_content "#{color} #{operator}"
+        renderer.add_content("#{color} #{operator}")
       end
     end
   end

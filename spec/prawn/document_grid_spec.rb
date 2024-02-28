@@ -33,30 +33,27 @@ describe Prawn::Document do
         pdf.define_grid(
           columns: num_columns,
           rows: num_rows,
-          gutter: gutter
+          gutter: gutter,
         )
       end
 
       it 'computes the column width' do
-        expect(
-          pdf.grid.column_width * num_columns.to_f + gutter * (num_columns - 1).to_f
-        ).to eq(pdf.bounds.width)
+        expect((pdf.grid.column_width * Float(num_columns)) + (gutter * Float((num_columns - 1))))
+          .to eq(pdf.bounds.width)
       end
 
       it 'computes the row height' do
-        expect(
-          pdf.grid.row_height * num_rows.to_f + gutter * (num_rows - 1).to_f
-        ).to eq(pdf.bounds.height)
+        expect((pdf.grid.row_height * Float(num_rows)) + (gutter * Float((num_rows - 1)))).to eq(pdf.bounds.height)
       end
 
       it 'gives the edges of a grid box' do
-        grid_width = (pdf.bounds.width.to_f -
-          (gutter * (num_columns - 1).to_f)) / num_columns.to_f
-        grid_height = (pdf.bounds.height.to_f -
-          (gutter * (num_rows - 1).to_f)) / num_rows.to_f
+        grid_width = (Float(pdf.bounds.width) -
+          (gutter * Float((num_columns - 1)))) / Float(num_columns)
+        grid_height = (Float(pdf.bounds.height) -
+          (gutter * Float((num_rows - 1)))) / Float(num_rows)
 
-        exp_tl_x = (grid_width + gutter.to_f) * 4.0
-        exp_tl_y = pdf.bounds.height.to_f - (grid_height + gutter.to_f)
+        exp_tl_x = (grid_width + Float(gutter)) * 4.0
+        exp_tl_y = Float(pdf.bounds.height) - (grid_height + Float(gutter))
 
         expect(pdf.grid(1, 4).top_left).to eq([exp_tl_x, exp_tl_y])
         expect(pdf.grid(1, 4).top_right).to eq [exp_tl_x + grid_width, exp_tl_y]
@@ -87,8 +84,8 @@ describe Prawn::Document do
       end
 
       it 'draws outlines without curent color settings' do
-        pdf.fill_color 'ccff00'
-        pdf.stroke_color 'ffcc00'
+        pdf.fill_color('ccff00')
+        pdf.stroke_color('ffcc00')
 
         pdf.grid.show_all
 

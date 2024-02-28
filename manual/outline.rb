@@ -15,8 +15,7 @@ Prawn::ManualBuilder::Peritext.new do
 
     list(
       'How to define sections and pages',
-      'How to insert sections and/or pages to a previously defined outline '\
-      'structure'
+      'How to insert sections and/or pages to a previously defined outline structure',
     )
   end
 end

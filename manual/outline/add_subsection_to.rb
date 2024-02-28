@@ -43,25 +43,22 @@ Prawn::ManualBuilder::Chapter.new do
     # Now we will start adding nodes to the previous outline
     outline.add_subsection_to('Section 1', :first) do
       outline.section('Added later - first position') do
-        outline.page title: 'Page 4', destination: 4
-        outline.page title: 'Page 5', destination: 5
+        outline.page(title: 'Page 4', destination: 4)
+        outline.page(title: 'Page 5', destination: 5)
       end
     end
 
     outline.add_subsection_to('Section 1') do
-      outline.page title: 'Added later - last position',
-        destination: 6
+      outline.page(title: 'Added later - last position', destination: 6)
     end
 
     outline.add_subsection_to('Added later - first position') do
-      outline.page title: 'Another page added later',
-        destination: 7
+      outline.page(title: 'Another page added later', destination: 7)
     end
 
     # The title provided is for a page which will be converted into a section
     outline.add_subsection_to('Page 3') do
-      outline.page title: 'Last page added',
-        destination: 8
+      outline.page(title: 'Last page added', destination: 8)
     end
   end
 end

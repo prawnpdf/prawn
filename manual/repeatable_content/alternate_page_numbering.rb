@@ -28,14 +28,14 @@ Prawn::ManualBuilder::Chapter.new do
       width: 150,
       align: :right,
       page_filter: :odd,
-      start_count_at: 1
+      start_count_at: 1,
     }
     even_options = {
       at: [0, bounds.left],
       width: 150,
       align: :left,
       page_filter: :even,
-      start_count_at: 2
+      start_count_at: 2,
     }
     number_pages string, odd_options
     number_pages string, even_options

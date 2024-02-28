@@ -47,14 +47,14 @@ module Prawn
         S: :Transparency,
         CS: :DeviceRGB,
         I: false,
-        K: false
+        K: false,
       )
 
       group = ref!(
         Type: :XObject,
         Subtype: :Form,
         BBox: state.page.dimensions,
-        Group: group_attrs
+        Group: group_attrs,
       )
 
       state.page.stamp_stream(group, &block)
@@ -62,7 +62,7 @@ module Prawn
       mask = ref!(
         Type: :Mask,
         S: :Luminosity,
-        G: group
+        G: group,
       )
 
       g_state = ref!(
@@ -74,17 +74,17 @@ module Prawn
         OP: false,
         op: false,
         OPM: 1,
-        SA: true
+        SA: true,
       )
 
       registry_key = {
         bbox: state.page.dimensions,
         mask: [group.stream.filters.normalized, group.stream.filtered_stream],
-        page: state.page_count
+        page: state.page_count,
       }.hash
 
       if soft_mask_registry[registry_key]
-        renderer.add_content "/#{soft_mask_registry[registry_key]} gs"
+        renderer.add_content("/#{soft_mask_registry[registry_key]} gs")
       else
         masks = page.resources[:ExtGState] ||= {}
         id = masks.empty? ? 'GS1' : masks.keys.max.succ
@@ -92,7 +92,7 @@ module Prawn
 
         soft_mask_registry[registry_key] = id
 
-        renderer.add_content "/#{id} gs"
+        renderer.add_content("/#{id} gs")
       end
     end
 

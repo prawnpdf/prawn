@@ -6,9 +6,9 @@ require 'digest/sha2'
 MANUAL_HASH =
   case RUBY_ENGINE
   when 'ruby'
-    'e9f599d2ec19846d51faefbd9f2cd9f8d0a729b56103418e11cf08d129f986b899e18e55b5706575e3d3a3b0e4dbaef021ac81f98a5658ee33ebca4e35a26455'
+    'cc870b1f374b1da862c7bd08fa9f23c2815b4a12616b734e8dc30a8226ed307cb11503ec4621bb935bec3bd94837a32c1b186f493a0e3c2137cb8e1122518ba0'
   when 'jruby'
-    '598c7e8c474dcc4e61ae5849cfb4a145129095ca37ca55641473e0898291f0296c7c07c201b80997c2f3efebfd67b428bf71376f95f1680f776db529ccbe87f9'
+    '3583b193ec8698ba752916b8a4c37cd9d2d90f1bf7284922759c3e10b41e36e146149f12e2f96ae7716915089ff6f82945895a5de7d1f536f749404d1c1b1627'
   end
 
 RSpec.describe Prawn do
@@ -23,7 +23,7 @@ RSpec.describe Prawn do
       ENV['CI'] ||= 'true'
 
       manual_path = File.expand_path('../manual/manual.rb', __dir__)
-      manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path) # rubocop:disable Security/Eval
+      manual = eval(File.read(manual_path), TOPLEVEL_BINDING, manual_path) # rubocop: disable Security/Eval
       s = manual.generate
 
       hash = Digest::SHA512.hexdigest(s)

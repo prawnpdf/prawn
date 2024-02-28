@@ -5,8 +5,13 @@ require 'spec_helper'
 describe Prawn::ImageHandler do
   let(:image_handler) { described_class.new }
 
-  let(:handler_a) { instance_double('Handler A') }
-  let(:handler_b) { instance_double('Handler B') }
+  let(:dummy_handler) do
+    Class.new do
+      def self.can_render?(_blob); end
+    end
+  end
+  let(:handler_a) { object_double(dummy_handler, 'Handler A') }
+  let(:handler_b) { object_double(dummy_handler, 'Handler B') }
 
   it 'finds the image handler for an image' do
     allow(handler_a).to receive(:can_render?).and_return(true)

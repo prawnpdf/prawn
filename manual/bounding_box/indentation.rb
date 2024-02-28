@@ -41,8 +41,7 @@ Prawn::ManualBuilder::Chapter.new do
         text 'Another indent block.'
 
         bounding_box([0, cursor], width: 200) do
-          text 'Note that this bounding box coordinates are relative to the ' \
-            'indent block'
+          text 'Note that this bounding box coordinates are relative to the indent block'
 
           transparent(0.5) { stroke_bounds }
         end

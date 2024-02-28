@@ -32,7 +32,7 @@ module Prawn
         renderer.min_version(1.4)
 
         save_graphics_state if block_given?
-        renderer.add_content "/#{blend_mode_dictionary_name(blend_mode)} gs"
+        renderer.add_content("/#{blend_mode_dictionary_name(blend_mode)} gs")
         if block_given?
           yield
           restore_graphics_state
@@ -51,7 +51,7 @@ module Prawn
 
         dictionary = blend_mode_dictionary_registry[dictionary_name] ||= ref!(
           Type: :ExtGState,
-          BM: blend_mode
+          BM: blend_mode,
         )
 
         page.ext_gstates[dictionary_name] = dictionary

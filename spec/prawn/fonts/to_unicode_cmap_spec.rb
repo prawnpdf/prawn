@@ -9,7 +9,7 @@ describe Prawn::Fonts::ToUnicodeCMap do
       0x20 => 0x20,
       0x21 => 0x21,
       0x22 => 0x22,
-      0x30 => 0x30
+      0x30 => 0x30,
     }
     to_unicode_cmap = described_class.new(charmap)
 
@@ -83,16 +83,16 @@ describe Prawn::Fonts::ToUnicodeCMap do
   end
 
   it 'splits continuous mappings into groups of 100' do
-    mapping = (1..142).flat_map { |n| Array.new(3) { |i| [n * 10 + i, n * 10 + i] } }.to_h
+    mapping = (1..142).flat_map { |n| Array.new(3) { |i| [(n * 10) + i, (n * 10) + i] } }.to_h
     cmap = described_class.new(mapping).generate
 
-    expect(cmap).to include("\n100 beginbfrange\n").and include("\n42 beginbfrange\n")
+    expect(cmap).to include("\n100 beginbfrange\n").and(include("\n42 beginbfrange\n"))
   end
 
   it 'splits individual mappings into groups of 100' do
     mapping = (1..142).to_h { |n| [n * 2, n * 2] }
     cmap = described_class.new(mapping).generate
 
-    expect(cmap).to include("\n100 beginbfchar\n").and include("\n42 beginbfchar\n")
+    expect(cmap).to include("\n100 beginbfchar\n").and(include("\n42 beginbfchar\n"))
   end
 end

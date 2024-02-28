@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Prawn::Text::Formatted::Arranger do
   let(:pdf) { create_pdf }
-  let(:arranger) { described_class.new pdf }
+  let(:arranger) { described_class.new(pdf) }
 
   describe '#format_array' do
     it 'populates the unconsumed array' do
@@ -12,7 +12,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you?' }
+        { text: ' you?' },
       ]
 
       arranger.format_array = array
@@ -26,7 +26,7 @@ describe Prawn::Text::Formatted::Arranger do
 
     it 'splits newlins into their own elements' do
       array = [
-        { text: "\nhello\nworld" }
+        { text: "\nhello\nworld" },
       ]
 
       arranger.format_array = array
@@ -68,7 +68,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you?' }
+        { text: ' you?' },
       ]
     end
 
@@ -130,7 +130,7 @@ describe Prawn::Text::Formatted::Arranger do
           { text: 'fine, thanks.' },
           { text: '' },
           { text: "\n" },
-          { text: '' }
+          { text: '' },
         ]
       end
 
@@ -158,7 +158,7 @@ describe Prawn::Text::Formatted::Arranger do
           { text: 'hello ' },
           { text: 'world how ', styles: [:bold] },
           { text: 'are', styles: %i[bold italic] },
-          { text: ' you?' }
+          { text: ' you?' },
         ]
       end
 
@@ -198,13 +198,13 @@ describe Prawn::Text::Formatted::Arranger do
   end
 
   describe '#update_last_string' do
-    it 'updates the last retrieved string with what actually fit on the line '\
-       'and the list of unconsumed with what did not' do
+    it 'updates the last retrieved string with what actually fit on the line and the list of unconsumed with ' \
+      'what did not' do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?', styles: %i[bold italic] }
+        { text: ' you now?', styles: %i[bold italic] },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -212,12 +212,12 @@ describe Prawn::Text::Formatted::Arranger do
       arranger.update_last_string(' you', ' now?', nil)
       expect(arranger.consumed[3]).to eq(
         text: ' you',
-        styles: %i[bold italic]
+        styles: %i[bold italic],
       )
       expect(arranger.unconsumed).to eq(
         [
-          { text: ' now?', styles: %i[bold italic] }
-        ]
+          { text: ' now?', styles: %i[bold italic] },
+        ],
       )
     end
 
@@ -226,7 +226,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       3.times { arranger.next_string }
@@ -241,7 +241,7 @@ describe Prawn::Text::Formatted::Arranger do
           { text: 'hello ' },
           { text: 'world how ', styles: [:bold] },
           { text: 'are', styles: %i[bold italic] },
-          { text: ' you now?' }
+          { text: ' you now?' },
         ]
         arranger.format_array = array
         while arranger.next_string
@@ -258,7 +258,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you?' }
+        { text: ' you?' },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -266,9 +266,7 @@ describe Prawn::Text::Formatted::Arranger do
     end
 
     it 'raises an error if called before finalize_line was called' do
-      expect do
-        arranger.space_count
-      end.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
+      expect { arranger.space_count }.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'returns the total number of spaces in all fragments' do
@@ -278,12 +276,11 @@ describe Prawn::Text::Formatted::Arranger do
   end
 
   describe '#finalize_line' do
-    it 'makes it so that all trailing white space fragments exclude '\
-       'trailing white space' do
+    it 'makes it so that all trailing white space fragments exclude trailing white space' do
       array = [
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
-        { text: '   ', styles: %i[bold italic] }
+        { text: '   ', styles: %i[bold italic] },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -306,7 +303,7 @@ describe Prawn::Text::Formatted::Arranger do
     before do
       array = [
         { text: 'hello ' },
-        { text: 'world', styles: [:bold] }
+        { text: 'world', styles: [:bold] },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -314,9 +311,7 @@ describe Prawn::Text::Formatted::Arranger do
     end
 
     it 'raises an error if called before finalize_line was called' do
-      expect do
-        arranger.line_width
-      end.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
+      expect { arranger.line_width }.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'returns the width of the complete line' do
@@ -329,7 +324,7 @@ describe Prawn::Text::Formatted::Arranger do
     it 'returns a width greater than a line without a character_spacing' do
       array = [
         { text: 'hello ' },
-        { text: 'world', styles: [:bold] }
+        { text: 'world', styles: [:bold] },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -340,7 +335,7 @@ describe Prawn::Text::Formatted::Arranger do
 
       array = [
         { text: 'hello ' },
-        { text: 'world', styles: [:bold], character_spacing: 7 }
+        { text: 'world', styles: [:bold], character_spacing: 7 },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -354,7 +349,7 @@ describe Prawn::Text::Formatted::Arranger do
     before do
       array = [
         { text: 'hello ' },
-        { text: 'world', styles: [:bold] }
+        { text: 'world', styles: [:bold] },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -362,9 +357,7 @@ describe Prawn::Text::Formatted::Arranger do
     end
 
     it 'raises an error if called before finalize_line was called' do
-      expect do
-        arranger.line
-      end.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
+      expect { arranger.line }.to raise_error(Prawn::Text::Formatted::Arranger::NotFinalized)
     end
 
     it 'returns the complete line' do
@@ -379,7 +372,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       expect(arranger.unconsumed).to eq(array)
@@ -390,7 +383,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -405,7 +398,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -419,7 +412,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -434,7 +427,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic], size: 28 },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -450,7 +443,7 @@ describe Prawn::Text::Formatted::Arranger do
         { text: 'hello ' },
         { text: 'world how ', styles: [:bold] },
         { text: 'are', styles: %i[bold italic] },
-        { text: ' you now?' }
+        { text: ' you now?' },
       ]
       arranger.format_array = array
       while arranger.next_string
@@ -462,8 +455,8 @@ describe Prawn::Text::Formatted::Arranger do
       expect(arranger.unconsumed).to eq(
         [
           { text: 'are', styles: %i[bold italic] },
-          { text: ' you now?' }
-        ]
+          { text: ' you now?' },
+        ],
       )
     end
   end

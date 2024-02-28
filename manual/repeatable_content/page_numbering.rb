@@ -16,15 +16,15 @@ Prawn::ManualBuilder::Chapter.new do
 
     list(
       '<code>start_count_at</code> is the value from which to start numbering pages',
-      '<code>total_pages</code> If provided, will replace <code>total</code> '\
-        'with the value given.  Useful for overriding the total number of pages '\
+      '<code>total_pages</code> If provided, will replace <code>total</code> ' \
+        'with the value given.  Useful for overriding the total number of pages ' \
         'when using the start_count_at option.',
-      '<code>page_filter</code>, which is one of: <code>:all</code>, '\
-        '<code>:odd</code>, <code>:even</code>, an array, a range, or a Proc that '\
-        'receives the page number as an argument and should return true if the page '\
+      '<code>page_filter</code>, which is one of: <code>:all</code>, ' \
+        '<code>:odd</code>, <code>:even</code>, an array, a range, or a Proc that ' \
+        'receives the page number as an argument and should return true if the page ' \
         'number should be printed on that page.',
       '<code>color</code> which accepts the same values as <code>fill_color</code>',
-      'As well as any option accepted by <code>text_box</code>'
+      'As well as any option accepted by <code>text_box</code>',
     )
   end
 
@@ -44,7 +44,7 @@ Prawn::ManualBuilder::Chapter.new do
       align: :right,
       page_filter: (1..7),
       start_count_at: 1,
-      color: '007700'
+      color: '007700',
     }
     number_pages string, options
 

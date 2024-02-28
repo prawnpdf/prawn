@@ -76,8 +76,7 @@ module Prawn
       #     interactive form fields.
       # @return [void]
       def encrypt_document(options = {})
-        Prawn.verify_options %i[user_password owner_password permissions],
-          options
+        Prawn.verify_options(%i[user_password owner_password permissions], options)
         @user_password = options.delete(:user_password) || ''
 
         @owner_password = options.delete(:owner_password) || @user_password
@@ -125,7 +124,7 @@ module Prawn
           R: 2, # Revision 2 of the algorithm
           O: PDF::Core::ByteString.new(owner_password_hash),
           U: PDF::Core::ByteString.new(user_password_hash),
-          P: permissions_value
+          P: permissions_value,
         }
       end
 
@@ -134,7 +133,7 @@ module Prawn
         print_document: 3,
         modify_contents: 4,
         copy_contents: 5,
-        modify_annotations: 6
+        modify_annotations: 6,
       }.freeze
       private_constant :PERMISSIONS_BITS
 
@@ -148,7 +147,7 @@ module Prawn
             raise(
               ArgumentError,
               "Unknown permission :#{key}. Valid options: " +
-                PERMISSIONS_BITS.keys.map(&:inspect).join(', ')
+                PERMISSIONS_BITS.keys.map(&:inspect).join(', '),
             )
           end
 
@@ -218,38 +217,38 @@ module PDF
     def encrypted_pdf_object(obj, key, id, gen, in_content_stream = false)
       case obj
       when Array
-        array_content = obj.map do |e|
+        array_content = obj.map { |e|
           encrypted_pdf_object(e, key, id, gen, in_content_stream)
-        end.join(' ')
+        }.join(' ')
         "[#{array_content}]"
       when LiteralString
         obj =
           ByteString.new(
-            Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+            Prawn::Document::Security.encrypt_string(obj, key, id, gen),
           ).gsub(/[\\\r()]/) { |m| "\\#{m}" }
         "(#{obj})"
       when Time
         obj = "#{obj.strftime('D:%Y%m%d%H%M%S%z').chop.chop}'00'"
         obj =
           ByteString.new(
-            Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+            Prawn::Document::Security.encrypt_string(obj, key, id, gen),
           ).gsub(/[\\\r()]/) { |m| "\\#{m}" }
         "(#{obj})"
       when String
         pdf_object(
           ByteString.new(
-            Prawn::Document::Security.encrypt_string(obj, key, id, gen)
+            Prawn::Document::Security.encrypt_string(obj, key, id, gen),
           ),
-          in_content_stream
+          in_content_stream,
         )
       when ::Hash
-        hash_content = obj.map do |k, v|
+        hash_content = obj.map { |k, v|
           unless k.is_a?(String) || k.is_a?(Symbol)
             raise PDF::Core::Errors::FailedObjectConversion,
               'A PDF Dictionary must be keyed by names'
           end
           "#{pdf_object(k.to_sym, in_content_stream)} #{encrypted_pdf_object(v, key, id, gen, in_content_stream)}\n"
-        end.join('')
+        }.join('')
         "<< #{hash_content}>>"
       when NameTree::Value
         "#{pdf_object(obj.name)} #{encrypted_pdf_object(obj.value, key, id, gen, in_content_stream)}"
@@ -272,7 +271,7 @@ module PDF
         if filtered_stream
           "stream\n#{
             Prawn::Document::Security.encrypt_string(
-              filtered_stream, key, id, gen
+              filtered_stream, key, id, gen,
             )
           }\nendstream\n"
         else
@@ -297,7 +296,7 @@ module PDF
             PDF::Core.encrypted_pdf_object(data, key, @identifier, gen) << "\n"
         else
           output << PDF::Core.encrypted_pdf_object(
-            data.merge(@stream.data), key, @identifier, gen
+            data.merge(@stream.data), key, @identifier, gen,
           ) << "\n" <<
             @stream.encrypted_object(key, @identifier, gen)
         end

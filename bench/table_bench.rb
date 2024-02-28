@@ -21,9 +21,9 @@ def benchmark_table_generation(columns, rows, string_size, options = {})
   data = data_for_table(columns, rows, string_size)
   Benchmark.bm do |x|
     x.report(
-      "#{columns}x#{rows} table (#{columns * rows} cells, with #{string_size} "\
-      'char string contents' \
-      "#{", options = #{options.inspect}" unless options.empty?})"
+      "#{columns}x#{rows} table (#{columns * rows} cells, with #{string_size} " \
+        'char string contents' \
+        "#{", options = #{options.inspect}" unless options.empty?})",
     ) do
       Prawn::Document.new { table(data, options) }.render
     end
@@ -38,7 +38,7 @@ benchmark_table_generation(
   10,
   row_colors: %w[FFFFFF F0F0FF],
   header: true,
-  cell_style: { inline_format: true }
+  cell_style: { inline_format: true },
 )
 
 # Try building and rendering tables of different sizes
@@ -54,5 +54,5 @@ benchmark_table_generation(
   5,
   row_colors: %w[FFFFFF F0F0FF],
   header: true,
-  cell_style: { inline_format: true }
+  cell_style: { inline_format: true },
 )

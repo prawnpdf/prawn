@@ -12,7 +12,7 @@ describe Prawn::Document::BoundingBox do
         nil,
         [100, 125],
         width: 50,
-        height: 75
+        height: 75,
       )
     end
 
@@ -87,16 +87,16 @@ describe Prawn::Document::BoundingBox do
 
   describe 'validations' do
     it 'requires width to be set' do
-      expect do
+      expect {
         described_class.new(nil, nil, [100, 100])
-      end.to raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
 
     it 'raise_errors an ArgumentError if a block is not passed' do
       pdf = Prawn::Document.new
-      expect do
+      expect {
         pdf.bounding_box([0, 0], width: 200)
-      end.to raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
   end
 
@@ -104,8 +104,8 @@ describe Prawn::Document::BoundingBox do
     it 'does not stomp on the arguments to bounding_box' do
       pdf = Prawn::Document.new
       x = [100, 500]
-      pdf.bounding_box x, width: 100 do
-        pdf.text 'bork-bork-bork'
+      pdf.bounding_box(x, width: 100) do
+        pdf.text('bork-bork-bork')
       end
       expect(x).to eq([100, 500])
     end
@@ -115,7 +115,7 @@ describe Prawn::Document::BoundingBox do
 
       # add a multi-page bounding box
       pdf.bounding_box([100, pdf.bounds.top], width: 400) do
-        pdf.text "The rain in spain falls mainly in the plains.\n" * 30
+        pdf.text("The rain in spain falls mainly in the plains.\n" * 30)
       end
 
       pdf.start_new_page(margin: 0)
@@ -127,7 +127,7 @@ describe Prawn::Document::BoundingBox do
     end
 
     it 'restores the parent bounding box when calls are nested' do
-      pdf.bounding_box [100, 500], width: 300, height: 300 do
+      pdf.bounding_box([100, 500], width: 300, height: 300) do
         expect(pdf.bounds.absolute_top)
           .to eq(500 + pdf.margin_box.absolute_bottom)
         expect(pdf.bounds.absolute_left)
@@ -135,7 +135,7 @@ describe Prawn::Document::BoundingBox do
 
         parent_box = pdf.bounds
 
-        pdf.bounding_box [50, 200], width: 100, height: 100 do
+        pdf.bounding_box([50, 200], width: 100, height: 100) do
           expect(pdf.bounds.absolute_top)
             .to eq(200 + parent_box.absolute_bottom)
           expect(pdf.bounds.absolute_left).to eq(50 + parent_box.absolute_left)
@@ -150,7 +150,7 @@ describe Prawn::Document::BoundingBox do
 
     it 'calculates a height if none is specified' do
       pdf.bounding_box([100, 500], width: 100) do
-        pdf.text 'The rain in Spain falls mainly on the plains.'
+        pdf.text('The rain in Spain falls mainly on the plains.')
       end
 
       expect(pdf.y).to be_within(0.001).of(458.384)
@@ -158,18 +158,18 @@ describe Prawn::Document::BoundingBox do
 
     it 'keeps track of the max height the box was stretched to' do
       box =
-        pdf.bounding_box(pdf.bounds.top_left, width: 100) do
-          pdf.move_down 100
-          pdf.move_up 15
-        end
+        pdf.bounding_box(pdf.bounds.top_left, width: 100) {
+          pdf.move_down(100)
+          pdf.move_up(15)
+        }
 
       expect(box.height).to eq(100)
     end
 
     it 'advances the y-position by bbox.height by default' do
       orig_y = pdf.y
-      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
-        pdf.text 'hello'
+      pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width, height: 30) do
+        pdf.text('hello')
       end
       expect(pdf.y).to be_within(0.001).of(orig_y - 30)
     end
@@ -179,20 +179,19 @@ describe Prawn::Document::BoundingBox do
       pdf.bounding_box(
         [0, pdf.cursor],
         width: pdf.bounds.width,
-        hold_position: true
+        hold_position: true,
       ) do
-        pdf.text 'hello'
+        pdf.text('hello')
       end
       # y only advances by height of one line ("hello")
       expect(pdf.y).to be_within(0.001).of(orig_y - pdf.height_of('hello'))
     end
 
-    it 'does not advance y-position of a stretchy bbox if it would stretch '\
-       'the bbox further' do
+    it 'does not advance y-position of a stretchy bbox if it would stretch the bbox further' do
       bottom = pdf.y = pdf.margin_box.absolute_bottom
-      pdf.bounding_box [0, pdf.margin_box.top], width: pdf.bounds.width do
+      pdf.bounding_box([0, pdf.margin_box.top], width: pdf.bounds.width) do
         pdf.y = bottom
-        pdf.text 'hello' # starts a new page
+        pdf.text('hello') # starts a new page
       end
       expect(pdf.page_count).to eq(2)
 
@@ -201,7 +200,7 @@ describe Prawn::Document::BoundingBox do
       # equivalent to a bbox with :hold_position => true, where we only advance
       # by the amount that was actually drawn.
       expect(pdf.y).to be_within(0.001).of(
-        pdf.margin_box.absolute_top - pdf.height_of('hello')
+        pdf.margin_box.absolute_top - pdf.height_of('hello'),
       )
     end
   end
@@ -277,7 +276,7 @@ describe Prawn::Document::BoundingBox do
           width: pdf.bounds.width,
           height: 200,
           columns: 2,
-          spacer: 20
+          spacer: 20,
         ) do
           width = pdf.bounds.width
           pdf.indent(20) do
@@ -292,7 +291,7 @@ describe Prawn::Document::BoundingBox do
           width: pdf.bounds.width,
           height: 200,
           columns: 2,
-          spacer: 20
+          spacer: 20,
         ) do
           width = pdf.bounds.width
           pdf.indent(20, 30) do
@@ -306,7 +305,7 @@ describe Prawn::Document::BoundingBox do
           [0, pdf.cursor],
           width: pdf.bounds.width,
           columns: 3,
-          spacer: 15
+          spacer: 15,
         ) do
           3.times do |_column|
             x = pdf.bounds.left_side
@@ -318,13 +317,12 @@ describe Prawn::Document::BoundingBox do
         end
       end
 
-      it 'does not change the right margin if only left indentation is '\
-        'requested' do
+      it 'does not change the right margin if only left indentation is requested' do
         pdf.column_box(
           [0, pdf.cursor],
           width: pdf.bounds.width,
           columns: 3,
-          spacer: 15
+          spacer: 15,
         ) do
           3.times do |_column|
             x = pdf.bounds.right_side
@@ -341,7 +339,7 @@ describe Prawn::Document::BoundingBox do
           [0, pdf.cursor],
           width: pdf.bounds.width,
           columns: 3,
-          spacer: 15
+          spacer: 15,
         ) do
           3.times do |_column|
             x = pdf.bounds.right_side
@@ -358,7 +356,7 @@ describe Prawn::Document::BoundingBox do
           [0, pdf.cursor],
           width: pdf.bounds.width,
           columns: 3,
-          spacer: 15
+          spacer: 15,
         ) do
           3.times do |_column|
             # I am giving a right indent of 10...
@@ -375,13 +373,12 @@ describe Prawn::Document::BoundingBox do
         end
       end
 
-      it 'reverts the right indentation if negative indent is given in '\
-        'nested indent' do
+      it 'reverts the right indentation if negative indent is given in nested indent' do
         pdf.column_box(
           [0, pdf.cursor],
           width: pdf.bounds.width,
           columns: 3,
-          spacer: 15
+          spacer: 15,
         ) do
           3.times do |_column|
             x = pdf.bounds.right_side
@@ -397,13 +394,12 @@ describe Prawn::Document::BoundingBox do
         end
       end
 
-      it 'reduces the available column width by the sum of ' \
-        'all nested indents' do
+      it 'reduces the available column width by the sum of all nested indents' do
         pdf.column_box(
           [0, pdf.cursor],
           width: pdf.bounds.width,
           columns: 3,
-          spacer: 15
+          spacer: 15,
         ) do
           3.times do |_column|
             w = pdf.bounds.width
@@ -422,7 +418,7 @@ describe Prawn::Document::BoundingBox do
   describe 'A canvas' do
     it 'uses whatever the last set y position is' do
       pdf.canvas do
-        pdf.bounding_box([100, 500], width: 200) { pdf.move_down 50 }
+        pdf.bounding_box([100, 500], width: 200) { pdf.move_down(50) }
       end
       expect(pdf.y).to eq(450)
     end
@@ -455,7 +451,7 @@ describe Prawn::Document::BoundingBox do
     it 'deep-copies parent bounds' do
       Prawn::Document.new do |pdf|
         outside = pdf.bounds
-        pdf.bounding_box [100, 100], width: 100 do
+        pdf.bounding_box([100, 100], width: 100) do
           copy = pdf.bounds.deep_copy
 
           # the parent bounds should have the same parameters
@@ -520,7 +516,7 @@ describe Prawn::Document::BoundingBox do
   describe '#move_past_bottom' do
     it 'ordinarilies start a new page' do
       pdf.bounds.move_past_bottom
-      pdf.text 'Foo'
+      pdf.text('Foo')
 
       pages = PDF::Inspector::Page.analyze(pdf.render).pages
       expect(pages.size).to eq(2)
@@ -534,12 +530,12 @@ describe Prawn::Document::BoundingBox do
 
       # create a blank page but go to the page before it
       pdf.start_new_page
-      pdf.go_to_page 1
-      pdf.text 'Foo'
+      pdf.go_to_page(1)
+      pdf.text('Foo')
 
       pdf.bounds.move_past_bottom
       expect(pdf.y).to be_within(0.001).of(top_y)
-      pdf.text 'Bar'
+      pdf.text('Bar')
 
       pages = PDF::Inspector::Page.analyze(pdf.render).pages
       expect(pages.size).to eq(2)

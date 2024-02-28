@@ -21,7 +21,7 @@ describe Prawn::Repeater do
     doc = sample_document
     r = repeater(doc, :all) { :do_nothing }
 
-    expect((1..doc.page_count).all? { |i| r.match?(i) }).to eq true
+    expect((1..doc.page_count).all? { |i| r.match?(i) }).to be true
   end
 
   it 'must provide an :odd filter' do
@@ -30,29 +30,29 @@ describe Prawn::Repeater do
 
     odd, even = (1..doc.page_count).partition(&:odd?)
 
-    expect(odd.all? { |i| r.match?(i) }).to eq true
-    expect(even.any? { |i| r.match?(i) }).to eq false
+    expect(odd.all? { |i| r.match?(i) }).to be true
+    expect(even.any? { |i| r.match?(i) }).to be false
   end
 
   it 'must be able to filter by an array of page numbers' do
     doc = sample_document
     r = repeater(doc, [1, 2, 7]) { :do_nothing }
 
-    expect((1..10).select { |i| r.match?(i) }).to eq([1, 2, 7])
+    expect((1..10).select { |i| r.match?(i) }).to eq([1, 2, 7]) # rubocop: disable Style/SelectByRegexp
   end
 
   it 'must be able to filter by a range of page numbers' do
     doc = sample_document
     r = repeater(doc, 2..4) { :do_nothing }
 
-    expect((1..10).select { |i| r.match?(i) }).to eq([2, 3, 4])
+    expect((1..10).select { |i| r.match?(i) }).to eq([2, 3, 4]) # rubocop: disable Style/SelectByRegexp
   end
 
   it 'must be able to filter by an arbitrary proc' do
     doc = sample_document
     r = repeater(doc, ->(x) { x == 1 || x % 3 == 0 })
 
-    expect((1..10).select { |i| r.match?(i) }).to eq([1, 3, 6, 9])
+    expect((1..10).select { |i| r.match?(i) }).to eq([1, 3, 6, 9]) # rubocop: disable Style/SelectByRegexp
   end
 
   it 'must try to run a stamp if the page number matches' do
@@ -84,7 +84,7 @@ describe Prawn::Repeater do
 
     allow(doc).to receive(:draw_text)
     (1..10).each do |p|
-      repeater(doc, [1, 2], true) { doc.draw_text 'foo' }.run(p)
+      repeater(doc, [1, 2], true) { doc.draw_text('foo') }.run(p)
     end
     expect(doc).to have_received(:draw_text).twice
   end
@@ -93,7 +93,7 @@ describe Prawn::Repeater do
     doc = sample_document
 
     allow(doc).to receive(:draw_text)
-    repeater(doc, :odd, true) { doc.draw_text 'foo' }.run(2)
+    repeater(doc, :odd, true) { doc.draw_text('foo') }.run(2)
     expect(doc).to_not have_received(:draw_text)
   end
 
@@ -102,7 +102,7 @@ describe Prawn::Repeater do
 
     page = 'Page' # ensure access to ivars
     doc.repeat(:all, dynamic: true) do
-      doc.draw_text "#{page} #{doc.page_number}", at: [500, 0]
+      doc.draw_text("#{page} #{doc.page_number}", at: [500, 0])
     end
 
     text = PDF::Inspector::Text.analyze(doc.render)
@@ -117,7 +117,7 @@ describe Prawn::Repeater do
         page = 'Page'
         repeat(:all, dynamic: true) do
           # ensure self is accessible here
-          draw_text "#{page} #{page_number}", at: [500, 0]
+          draw_text("#{page} #{page_number}", at: [500, 0])
         end
       end
 
@@ -131,8 +131,8 @@ describe Prawn::Repeater do
     doc
   end
 
-  def repeater(*args, &block)
-    Prawn::Repeater.new(*args, &block)
+  def repeater(...)
+    Prawn::Repeater.new(...)
   end
 
   describe 'graphic state' do
@@ -140,8 +140,8 @@ describe Prawn::Repeater do
 
     it 'does not alter the graphic state stack color space' do
       starting_color_space = pdf.state.page.graphic_state.color_space.dup
-      pdf.repeat :all do
-        pdf.text 'Testing', size: 24, style: :bold
+      pdf.repeat(:all) do
+        pdf.text('Testing', size: 24, style: :bold)
       end
       expect(pdf.state.page.graphic_state.color_space)
         .to eq(starting_color_space)
@@ -149,17 +149,17 @@ describe Prawn::Repeater do
 
     context 'with dynamic repeaters' do
       it 'preserves the graphic state at creation time' do
-        pdf.repeat :all, dynamic: true do
-          pdf.text "fill_color: #{pdf.graphic_state.fill_color}"
-          pdf.text "cap_style: #{pdf.graphic_state.cap_style}"
+        pdf.repeat(:all, dynamic: true) do
+          pdf.text("fill_color: #{pdf.graphic_state.fill_color}")
+          pdf.text("cap_style: #{pdf.graphic_state.cap_style}")
         end
-        pdf.fill_color '666666'
-        pdf.cap_style :round
+        pdf.fill_color('666666')
+        pdf.cap_style(:round)
         text = PDF::Inspector::Text.analyze(pdf.render)
-        expect(text.strings.include?('fill_color: 666666')).to eq(false)
-        expect(text.strings.include?('fill_color: 000000')).to eq(true)
-        expect(text.strings.include?('cap_style: round')).to eq(false)
-        expect(text.strings.include?('cap_style: butt')).to eq(true)
+        expect(text.strings.include?('fill_color: 666666')).to be(false)
+        expect(text.strings.include?('fill_color: 000000')).to be(true)
+        expect(text.strings.include?('cap_style: round')).to be(false)
+        expect(text.strings.include?('cap_style: butt')).to be(true)
       end
     end
   end

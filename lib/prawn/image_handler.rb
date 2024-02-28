@@ -23,7 +23,7 @@ module Prawn # rubocop: disable Style/Documentation
     # @return [void]
     def register(handler)
       @handlers.delete(handler)
-      @handlers.push handler
+      @handlers.push(handler)
     end
 
     # Register an image handler with the highest priority.
@@ -32,7 +32,7 @@ module Prawn # rubocop: disable Style/Documentation
     # @return [void]
     def register!(handler)
       @handlers.delete(handler)
-      @handlers.unshift handler
+      @handlers.unshift(handler)
     end
 
     # Unregister an image handler.
@@ -50,7 +50,7 @@ module Prawn # rubocop: disable Style/Documentation
     # @raise [Prawn::Errors::UnsupportedImageType] If no image handler were
     #   found for the image.
     def find(image_blob)
-      handler = @handlers.find { |h| h.can_render? image_blob }
+      handler = @handlers.find { |h| h.can_render?(image_blob) }
 
       return handler if handler
 

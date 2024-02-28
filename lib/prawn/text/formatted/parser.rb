@@ -12,20 +12,21 @@ module Prawn
         # @private
         PARSER_REGEX =
           begin
-            regex_string = "\n|" \
-                          '<b>|</b>|' \
-                          '<i>|</i>|' \
-                          '<u>|</u>|' \
-                          '<strikethrough>|</strikethrough>|' \
-                          '<sub>|</sub>|' \
-                          '<sup>|</sup>|' \
-                          '<link[^>]*>|</link>|' \
-                          '<color[^>]*>|</color>|' \
-                          '<font[^>]*>|</font>|' \
-                          '<strong>|</strong>|' \
-                          '<em>|</em>|' \
-                          '<a[^>]*>|</a>|' \
-                          "[^<\n]+"
+            regex_string =
+              "\n|" \
+                '<b>|</b>|' \
+                '<i>|</i>|' \
+                '<u>|</u>|' \
+                '<strikethrough>|</strikethrough>|' \
+                '<sub>|</sub>|' \
+                '<sup>|</sup>|' \
+                '<link[^>]*>|</link>|' \
+                '<color[^>]*>|</color>|' \
+                '<font[^>]*>|</font>|' \
+                '<strong>|</strong>|' \
+                '<em>|</em>|' \
+                '<a[^>]*>|</a>|' \
+                "[^<\n]+"
             Regexp.new(regex_string, Regexp::MULTILINE)
           end
 
@@ -34,7 +35,7 @@ module Prawn
         ESCAPE_CHARS = {
           '&' => '&amp;',
           '>' => '&gt;',
-          '<' => '&lt;'
+          '<' => '&lt;',
         }.freeze
 
         # @private
@@ -60,7 +61,7 @@ module Prawn
             underline: '<u>',
             strikethrough: '<strikethrough>',
             subscript: '<sub>',
-            superscript: '<sup>'
+            superscript: '<sup>',
           }
           suffixes = {
             bold: '</b>',
@@ -68,50 +69,52 @@ module Prawn
             underline: '</u>',
             strikethrough: '</strikethrough>',
             subscript: '</sub>',
-            superscript: '</sup>'
+            superscript: '</sup>',
           }
-          array.map do |hash|
-            prefix = ''
-            suffix = ''
-            hash[:styles]&.each do |style|
-              prefix += prefixes[style]
-              suffix = suffixes[style] + suffix
-            end
-
-            font = hash[:font] ? " name='#{hash[:font]}'" : nil
-            size = hash[:size] ? " size='#{hash[:size]}'" : nil
-            character_spacing =
-              if hash[:character_spacing]
-                " character_spacing='#{hash[:character_spacing]}'"
+          array
+            .map { |hash|
+              prefix = ''
+              suffix = ''
+              hash[:styles]&.each do |style|
+                prefix += prefixes[style]
+                suffix = suffixes[style] + suffix
               end
-            if font || size || character_spacing
-              prefix += "<font#{font}#{size}#{character_spacing}>"
-              suffix = '</font>'
-            end
 
-            link = hash[:link] ? " href='#{hash[:link]}'" : nil
-            anchor = hash[:anchor] ? " anchor='#{hash[:anchor]}'" : nil
-            if link || anchor
-              prefix += "<link#{link}#{anchor}>"
-              suffix = '</link>'
-            end
-
-            if hash[:color]
-              prefix +=
-                if hash[:color].is_a?(Array)
-                  "<color c='#{hash[:color][0]}'" \
-                    " m='#{hash[:color][1]}'" \
-                    " y='#{hash[:color][2]}'" \
-                    " k='#{hash[:color][3]}'>"
-                else
-                  "<color rgb='#{hash[:color]}'>"
+              font = hash[:font] ? " name='#{hash[:font]}'" : nil
+              size = hash[:size] ? " size='#{hash[:size]}'" : nil
+              character_spacing =
+                if hash[:character_spacing]
+                  " character_spacing='#{hash[:character_spacing]}'"
                 end
-              suffix = '</color>'
-            end
+              if font || size || character_spacing
+                prefix += "<font#{font}#{size}#{character_spacing}>"
+                suffix = '</font>'
+              end
 
-            string = escape(hash[:text])
-            prefix + string + suffix
-          end.join
+              link = hash[:link] ? " href='#{hash[:link]}'" : nil
+              anchor = hash[:anchor] ? " anchor='#{hash[:anchor]}'" : nil
+              if link || anchor
+                prefix += "<link#{link}#{anchor}>"
+                suffix = '</link>'
+              end
+
+              if hash[:color]
+                prefix +=
+                  if hash[:color].is_a?(Array)
+                    "<color c='#{hash[:color][0]}' " \
+                      "m='#{hash[:color][1]}' " \
+                      "y='#{hash[:color][2]}' " \
+                      "k='#{hash[:color][3]}'>"
+                  else
+                    "<color rgb='#{hash[:color]}'>"
+                  end
+                suffix = '</color>'
+              end
+
+              string = escape(hash[:text])
+              prefix + string + suffix
+            }
+            .join
         end
 
         # Break text into paragraphs.
@@ -211,16 +214,16 @@ module Prawn
 
               match = /c="#?([^"]*)"/.match(token) ||
                 /c='#?([^']*)'/.match(token)
-              c = match[1].to_i unless match.nil?
+              c = Integer(match[1], 10) unless match.nil?
               match = /m="#?([^"]*)"/.match(token) ||
                 /m='#?([^']*)'/.match(token)
-              m = match[1].to_i unless match.nil?
+              m = Integer(match[1], 10) unless match.nil?
               match = /y="#?([^"]*)"/.match(token) ||
                 /y='#?([^']*)'/.match(token)
-              y = match[1].to_i unless match.nil?
+              y = Integer(match[1], 10) unless match.nil?
               match = /k="#?([^"]*)"/.match(token) ||
                 /k='#?([^']*)'/.match(token)
-              k = match[1].to_i unless match.nil?
+              k = Integer(match[1], 10) unless match.nil?
               colors << [c, m, y, k] if [c, m, y, k].all?
 
               # intend to support rgb="#ffffff" or rgb='#ffffff',
@@ -237,11 +240,11 @@ module Prawn
 
               matches = /size="([^"]*)"/.match(token) ||
                 /size='([^']*)'/.match(token)
-              sizes << matches[1].to_f unless matches.nil?
+              sizes << Float(matches[1]) unless matches.nil?
 
               matches = /character_spacing="([^"]*)"/.match(token) ||
                 /character_spacing='([^']*)'/.match(token)
-              character_spacings << matches[1].to_f unless matches.nil?
+              character_spacings << Float(matches[1]) unless matches.nil?
             else
               string = unescape(token)
               array << {
@@ -253,7 +256,7 @@ module Prawn
                 anchor: anchor,
                 font: fonts.last,
                 size: sizes.last,
-                character_spacing: character_spacings.last
+                character_spacing: character_spacings.last,
               }
             end
           end

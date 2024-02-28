@@ -25,7 +25,7 @@ Prawn::ManualBuilder::Chapter.new do
     text(
       "Also works with <color rgb='ff0000'>inline</color> formatting",
       color: '0000FF',
-      inline_format: true
+      inline_format: true,
     )
   end
 end

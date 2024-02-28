@@ -55,10 +55,7 @@ module Prawn
         chunks << 'endcodespacerange'
 
         # Mapping
-        all_spans =
-          mapping_spans(
-            mapping.reject { |gid, cid| gid.zero? || (0xd800..0xdfff).cover?(cid) }
-          )
+        all_spans = mapping_spans(mapping.reject { |gid, cid| gid.zero? || (0xd800..0xdfff).cover?(cid) })
 
         short_spans, long_spans = all_spans.partition { |span| span[0] == :short }
 
@@ -67,22 +64,24 @@ module Prawn
             chunks << "#{spans.length} beginbfrange"
 
             spans.each do |type, span|
+              # rubocop: disable Lint/FormatParameterMismatch # false positive
               case type
               when :fully_sorted
                 chunks << format(
                   "<%0#{code_space_size * 2}X><%0#{code_space_size * 2}X><%s>",
                   span.first[0],
                   span.last[0],
-                  span.first[1].chr(::Encoding::UTF_16BE).unpack1('H*')
+                  span.first[1].chr(::Encoding::UTF_16BE).unpack1('H*'),
                 )
               when :index_sorted
                 chunks << format(
                   "<%0#{code_space_size * 2}X><%0#{code_space_size * 2}X>[%s]",
                   span.first[0],
                   span.last[0],
-                  span.map { |_, cid| "<#{cid.chr(::Encoding::UTF_16BE).unpack1('H*')}>" }.join('')
+                  span.map { |_, cid| "<#{cid.chr(::Encoding::UTF_16BE).unpack1('H*')}>" }.join(''),
                 )
               end
+              # rubocop: enable Lint/FormatParameterMismatch
             end
 
             chunks << 'endbfrange'
@@ -93,13 +92,15 @@ module Prawn
           .each_slice(100) do |mapping|
             chunks << "#{mapping.length} beginbfchar"
             chunks.concat(
-              mapping.map do |(gid, cid)|
+              mapping.map { |(gid, cid)|
+                # rubocop: disable Lint/FormatParameterMismatch # false positive
                 format(
                   "<%0#{code_space_size * 2}X><%s>",
                   gid,
-                  cid.chr(::Encoding::UTF_16BE).unpack1('H*')
+                  cid.chr(::Encoding::UTF_16BE).unpack1('H*'),
                 )
-              end
+                # rubocop: enable Lint/FormatParameterMismatch
+              },
             )
             chunks << 'endbfchar'
           end
@@ -119,13 +120,15 @@ module Prawn
 
       attr_reader :mapping
 
-      attr_reader :cmap, :code_space_size, :code_space_max
+      attr_reader :cmap
+      attr_reader :code_space_size
+      attr_reader :code_space_max
 
       def mapping_spans(mapping)
         mapping
           .sort
           .slice_when { |a, b| (b[0] - a[0]) != 1 } # Slice at key discontinuity
-          .flat_map { |slice| # rubocop: disable Style/BlockDelimiters
+          .flat_map { |slice|
             if slice.length == 1
               [[:short, slice]]
             else

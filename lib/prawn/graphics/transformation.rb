@@ -45,8 +45,8 @@ module Prawn
 
           x = options[:origin][0] + bounds.absolute_left
           y = options[:origin][1] + bounds.absolute_bottom
-          x_prime = x * cos - y * sin
-          y_prime = x * sin + y * cos
+          x_prime = (x * cos) - (y * sin)
+          y_prime = (x * sin) + (y * cos)
           translate(x - x_prime, y - y_prime) do
             transformation_matrix(cos, sin, -sin, cos, 0, 0, &block)
           end
@@ -161,7 +161,7 @@ module Prawn
         add_to_transformation_stack(*matrix)
 
         values = PDF::Core.real_params(matrix)
-        renderer.add_content "#{values} cm"
+        renderer.add_content("#{values} cm")
         if block_given?
           yield
           restore_graphics_state

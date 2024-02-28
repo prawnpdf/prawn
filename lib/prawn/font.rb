@@ -148,7 +148,7 @@ module Prawn
     # @option options :style [Symbol]
     # @return [Number]
     def width_of(string, options = {})
-      if options.key? :inline_format
+      if options.key?(:inline_format)
         p = options[:inline_format]
         p = [] unless p.is_a?(Array)
 
@@ -215,22 +215,22 @@ module Prawn
           bold: 'Courier-Bold',
           italic: 'Courier-Oblique',
           bold_italic: 'Courier-BoldOblique',
-          normal: 'Courier'
+          normal: 'Courier',
         },
 
         'Times-Roman' => {
           bold: 'Times-Bold',
           italic: 'Times-Italic',
           bold_italic: 'Times-BoldItalic',
-          normal: 'Times-Roman'
+          normal: 'Times-Roman',
         },
 
         'Helvetica' => {
           bold: 'Helvetica-Bold',
           italic: 'Helvetica-Oblique',
           bold_italic: 'Helvetica-BoldOblique',
-          normal: 'Helvetica'
-        }
+          normal: 'Helvetica',
+        },
       )
     end
 
@@ -299,7 +299,7 @@ module Prawn
       end
       key = "#{family}:#{name}:#{options[:font] || 0}"
 
-      if name.is_a? Prawn::Font
+      if name.is_a?(Prawn::Font)
         font_registry[key] = name
       else
         font_registry[key] ||=
@@ -392,7 +392,7 @@ module Prawn
     # @option options :format [String]
     # @return [String]
     def self.font_format(src, options)
-      return options.fetch(:format, 'ttf') if src.respond_to? :read
+      return options.fetch(:format, 'ttf') if src.respond_to?(:read)
 
       case src.to_s
       when /\.ttf$/i then 'ttf'
@@ -467,8 +467,7 @@ module Prawn
     # @param str [String]
     # @return [String]
     def normalize_encoding!(str)
-      warn 'Font#normalize_encoding! is deprecated. ' \
-        'Please use non-mutating version Font#normalize_encoding instead.'
+      warn('Font#normalize_encoding! is deprecated. Please use non-mutating version Font#normalize_encoding instead.')
       str.dup.replace(normalize_encoding(str))
     end
 
@@ -507,7 +506,7 @@ module Prawn
         if full_font_embedding
           @identifier.to_sym
         else
-          "#{@identifier}.#{subset}".to_sym
+          :"#{@identifier}.#{subset}"
         end
     end
 

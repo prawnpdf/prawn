@@ -20,10 +20,10 @@ Prawn::ManualBuilder::Peritext.new do
 
     list(
       'All the possible ways that you can fill or stroke shapes on a page',
-      'How to draw all the shapes that Prawn has to offer from a measly '\
+      'How to draw all the shapes that Prawn has to offer from a measly ' \
         'line to a mighty polygon or ellipse',
       'The configuration options for stroking lines and filling shapes',
-      'How to apply transformations to your drawing space'
+      'How to apply transformations to your drawing space',
     )
   end
 end

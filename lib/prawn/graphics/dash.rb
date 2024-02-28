@@ -74,7 +74,7 @@ module Prawn
         self.current_dash_state = {
           dash: length,
           space: length.is_a?(Array) ? nil : options[:space] || length,
-          phase: options[:phase] || 0
+          phase: options[:phase] || 0,
         }
 
         write_stroke_dash
@@ -100,7 +100,7 @@ module Prawn
       private
 
       def write_stroke_dash
-        renderer.add_content dash_setting
+        renderer.add_content(dash_setting)
       end
 
       def undashed_setting

@@ -78,7 +78,7 @@ module Prawn
       #
       # @return [Number]
       def bare_column_width
-        (@width - @spacer * (@columns - 1)) / @columns
+        (@width - (@spacer * (@columns - 1))) / @columns
       end
 
       # The column width after padding. Used to calculate how long a line of

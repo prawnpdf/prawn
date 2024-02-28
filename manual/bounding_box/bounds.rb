@@ -28,17 +28,17 @@ Prawn::ManualBuilder::Chapter.new do
 
   example new_page: true do
     def print_coordinates
-      text "top: #{bounds.top}"
-      text "bottom: #{bounds.bottom}"
-      text "left: #{bounds.left}"
-      text "right: #{bounds.right}"
+      text("top: #{bounds.top}")
+      text("bottom: #{bounds.bottom}")
+      text("left: #{bounds.left}")
+      text("right: #{bounds.right}")
 
-      move_down 10
+      move_down(10)
 
-      text "absolute top: #{bounds.absolute_top.to_f.round(2)}"
-      text "absolute bottom: #{bounds.absolute_bottom.to_f.round(2)}"
-      text "absolute left: #{bounds.absolute_left.to_f.round(2)}"
-      text "absolute right: #{bounds.absolute_right.to_f.round(2)}"
+      text("absolute top: #{Float(bounds.absolute_top).round(2)}")
+      text("absolute bottom: #{Float(bounds.absolute_bottom).round(2)}")
+      text("absolute left: #{Float(bounds.absolute_left).round(2)}")
+      text("absolute right: #{Float(bounds.absolute_right).round(2)}")
     end
 
     move_down 20

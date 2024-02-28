@@ -28,8 +28,8 @@ Prawn::ManualBuilder::Chapter.new do
     self.text_direction = :rtl
 
     font("#{Prawn::ManualBuilder::DATADIR}/fonts/Jigmo.ttf", size: 16) do
-      long_text = '写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的'\
-        '关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写'\
+      long_text = '写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的' \
+        '关键信息顺次爬下来也不是什么难事写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事写' \
         '个小'
       text long_text
       move_down 20
@@ -45,9 +45,9 @@ Prawn::ManualBuilder::Chapter.new do
         { text: '来遍历您的' },
         { text: 'DB', direction: :ltr },
         {
-          text: '中的内容、写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事、这样的话、'\
-            '你就非常被动了。'
-        }
+          text: '中的内容、写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事、这样的话、' \
+            '你就非常被动了。',
+        },
       ]
       move_down 20
 
@@ -56,7 +56,7 @@ Prawn::ManualBuilder::Chapter.new do
         { text: 'this', direction: :ltr },
         { text: "won't", direction: :ltr, size: 24 },
         { text: 'work', direction: :ltr },
-        { text: '中的内容、写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事' }
+        { text: '中的内容、写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事' },
       ]
     end
   end

@@ -30,7 +30,7 @@ Prawn::ManualBuilder::Chapter.new do
       'This text was not rotated',
       at: [0, y],
       width: width,
-      height: height
+      height: height,
     )
 
     stroke_rectangle [0, y - 100], width, height
@@ -40,19 +40,19 @@ Prawn::ManualBuilder::Chapter.new do
       width: width,
       height: height,
       rotate: angle,
-      rotate_around: :center
+      rotate_around: :center,
     )
 
     %i[lower_left upper_left lower_right upper_right].each_with_index do |corner, index|
       y -= 100 if index == 2
-      stroke_rectangle [x + (index % 2) * 200, y], width, height
+      stroke_rectangle [x + ((index % 2) * 200), y], width, height
       text_box(
         "This text was rotated around the #{corner} corner.",
-        at: [x + (index % 2) * 200, y],
+        at: [x + ((index % 2) * 200), y],
         width: width,
         height: height,
         rotate: angle,
-        rotate_around: corner
+        rotate_around: corner,
       )
     end
   end

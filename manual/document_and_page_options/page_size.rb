@@ -26,7 +26,7 @@ Prawn::ManualBuilder::Chapter.new do
     Prawn::Document.generate(
       'example.pdf',
       page_size: 'EXECUTIVE',
-      page_layout: :landscape
+      page_layout: :landscape,
     ) do
       text 'EXECUTIVE landscape page.'
 

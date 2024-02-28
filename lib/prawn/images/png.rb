@@ -210,7 +210,7 @@ module Prawn
           Subtype: :Image,
           Height: height,
           Width: width,
-          BitsPerComponent: bits
+          BitsPerComponent: bits,
         )
 
         # append the actual image data to the object as a stream
@@ -221,8 +221,8 @@ module Prawn
             Predictor: 15,
             Colors: colors,
             BitsPerComponent: bits,
-            Columns: width
-          }
+            Columns: width,
+          },
         }
 
         # sort out the colours of the image
@@ -238,7 +238,7 @@ module Prawn
             :Indexed,
             :DeviceRGB,
             (palette.size / 3) - 1,
-            palette_obj
+            palette_obj,
           ]
         end
 
@@ -275,7 +275,7 @@ module Prawn
             Width: width,
             BitsPerComponent: bits,
             ColorSpace: :DeviceGray,
-            Decode: [0, 1]
+            Decode: [0, 1],
           )
           smask_obj.stream << alpha_channel
 
@@ -284,8 +284,8 @@ module Prawn
               Predictor: 15,
               Colors: 1,
               BitsPerComponent: bits,
-              Columns: width
-            }
+              Columns: width,
+            },
           }
           obj.data[:SMask] = smask_obj
         end
@@ -314,18 +314,18 @@ module Prawn
         alpha_bytes = bits / 8
         color_bytes = colors * bits / 8
 
-        scanline_length = (color_bytes + alpha_bytes) * width + 1
+        scanline_length = ((color_bytes + alpha_bytes) * width) + 1
         scanlines = @img_data.bytesize / scanline_length
         pixels = width * height
 
         data = StringIO.new(@img_data)
         data.binmode
 
-        color_data = [0x00].pack('C') * (pixels * color_bytes + scanlines)
+        color_data = [0x00].pack('C') * ((pixels * color_bytes) + scanlines)
         color = StringIO.new(color_data)
         color.binmode
 
-        @alpha_channel = [0x00].pack('C') * (pixels * alpha_bytes + scanlines)
+        @alpha_channel = [0x00].pack('C') * ((pixels * alpha_bytes) + scanlines)
         alpha = StringIO.new(@alpha_channel)
         alpha.binmode
 
@@ -334,12 +334,12 @@ module Prawn
 
           filter = data.getbyte
 
-          color.putc filter
-          alpha.putc filter
+          color.putc(filter)
+          alpha.putc(filter)
 
           width.times do
-            color.write data.read(color_bytes)
-            alpha.write data.read(alpha_bytes)
+            color.write(data.read(color_bytes))
+            alpha.write(data.read(alpha_bytes))
           end
         end
 
@@ -368,11 +368,11 @@ module Prawn
 
           filter = data.getbyte
 
-          alpha.putc filter
+          alpha.putc(filter)
 
           width.times do
             color = data.read(1).unpack1('C')
-            alpha.putc alpha_palette[color]
+            alpha.putc(alpha_palette[color])
           end
         end
       end

@@ -21,22 +21,22 @@ describe Prawn::Images::PNG do
       ['Type 3 with transparency', "#{image_dir}/indexed_transparency.png"],
       ['Type 4', "#{image_dir}/page_white_text.png"],
       ['Type 6', "#{image_dir}/dice.png"],
-      ['Type 6 in 16bit', "#{image_dir}/16bit.png"]
+      ['Type 6 in 16bit', "#{image_dir}/16bit.png"],
     ]
 
     images.each do |header, file|
       describe "and the image is #{header}" do
         it 'does not error' do
-          expect do
+          expect {
             Prawn::Document.generate("#{header}.pdf", page_size: 'A5') do
-              fill_color '00FF00'
+              fill_color('00FF00')
 
-              fill_rectangle bounds.top_left, bounds.width, bounds.height
-              text header
+              fill_rectangle(bounds.top_left, bounds.width, bounds.height)
+              text(header)
 
-              image file, at: [50, 450]
+              image(file, at: [50, 450])
             end
-          end.to_not raise_error
+          }.to_not raise_error
         end
       end
     end
@@ -115,8 +115,7 @@ describe Prawn::Images::PNG do
     end
   end
 
-  describe 'When reading an indexed color PNG file with transparency '\
-    '(color type 3)' do
+  describe 'When reading an indexed color PNG file with transparency (color type 3)' do
     let(:filename) { "#{Prawn::DATADIR}/images/indexed_transparency.png" }
     let(:color_filename) do
       "#{Prawn::DATADIR}/images/indexed_transparency_color.dat"
@@ -198,8 +197,7 @@ describe Prawn::Images::PNG do
       expect(png.interlace_method).to eq(0)
     end
 
-    it 'correctly returns the raw image data (with no alpha channel) from '\
-      'the image data chunk' do
+    it 'correctly returns the raw image data (with no alpha channel) from the image data chunk' do
       png = described_class.new(img_data)
       png.split_alpha_channel!
       data = File.binread(color_data_filename)
@@ -231,8 +229,7 @@ describe Prawn::Images::PNG do
       expect(png.interlace_method).to eq(0)
     end
 
-    it 'correctly returns the raw image data (with no alpha channel) from '\
-      'the image data chunk' do
+    it 'correctly returns the raw image data (with no alpha channel) from the image data chunk' do
       png = described_class.new(img_data)
       png.split_alpha_channel!
       data = File.binread(color_data_filename)
@@ -265,8 +262,7 @@ describe Prawn::Images::PNG do
       expect(png.interlace_method).to eq(0)
     end
 
-    it 'correctly returns the raw image data (with no alpha channel) from '\
-      'the image data chunk' do
+    it 'correctly returns the raw image data (with no alpha channel) from the image data chunk' do
       png = described_class.new(img_data)
       png.split_alpha_channel!
       data = File.binread(color_data_filename)

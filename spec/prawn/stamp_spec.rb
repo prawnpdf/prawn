@@ -8,23 +8,27 @@ describe Prawn::Stamp do
 
     it 'works with the font class' do
       # If anything goes wrong, Prawn::Errors::NotOnPage will be raised
-      pdf.create_stamp('my_stamp') do
-        pdf.font.height
-      end
+      expect {
+        pdf.create_stamp('my_stamp') do
+          pdf.font.height
+        end
+      }.to_not raise_error
     end
 
     it 'works with setting color' do
       # If anything goes wrong, Prawn::Errors::NotOnPage will be raised
-      pdf.create_stamp('my_stamp') do
-        pdf.fill_color = 'ff0000'
-      end
+      expect {
+        pdf.create_stamp('my_stamp') do
+          pdf.fill_color = 'ff0000'
+        end
+      }.to_not raise_error
     end
   end
 
   describe '#stamp_at' do
     let(:pdf) { create_pdf }
 
-    it 'works' do
+    it 'draws a stamp' do
       pdf.create_stamp('MyStamp')
       pdf.stamp_at('MyStamp', [100, 200])
       # I had modified PDF::Inspector::XObject to receive the
@@ -38,19 +42,13 @@ describe Prawn::Stamp do
   describe 'Document with a stamp' do
     let(:pdf) { create_pdf }
 
-    it 'raises NameTaken error when attempt to create stamp with '\
-       'same name as an existing stamp' do
+    it 'raises NameTaken error when attempt to create stamp with same name as an existing stamp' do
       pdf.create_stamp('MyStamp')
-      expect do
-        pdf.create_stamp('MyStamp')
-      end.to raise_error(Prawn::Errors::NameTaken)
+      expect { pdf.create_stamp('MyStamp') }.to raise_error(Prawn::Errors::NameTaken)
     end
 
-    it 'raises InvalidName error when attempt to create stamp with '\
-        'a blank name' do
-      expect do
-        pdf.create_stamp('')
-      end.to raise_error(Prawn::Errors::InvalidName)
+    it 'raises InvalidName error when attempt to create stamp with a blank name' do
+      expect { pdf.create_stamp('') }.to raise_error(Prawn::Errors::InvalidName)
     end
 
     it 'a new XObject should be defined for each stamp created' do
@@ -64,12 +62,9 @@ describe Prawn::Stamp do
       expect(xobjects.length).to eq(2)
     end
 
-    it 'calling stamp with a name that does not match an existing stamp ' \
-      'should raise_error UndefinedObjectName' do
+    it 'calling stamp with a name that does not match an existing stamp should raise_error UndefinedObjectName' do
       pdf.create_stamp('MyStamp')
-      expect do
-        pdf.stamp('OtherStamp')
-      end.to raise_error(Prawn::Errors::UndefinedObjectName)
+      expect { pdf.stamp('OtherStamp') }.to raise_error(Prawn::Errors::UndefinedObjectName)
     end
 
     it 'stamp should be drawn into the document each time stamp is called' do
@@ -85,11 +80,10 @@ describe Prawn::Stamp do
     end
 
     it 'stamp should render clickable links' do
-      pdf.create_stamp 'bar' do
-        pdf.text '<b>Prawn</b> <link href="http://github.com">GitHub</link>',
-          inline_format: true
+      pdf.create_stamp('bar') do
+        pdf.text('<b>Prawn</b> <link href="http://github.com">GitHub</link>', inline_format: true)
       end
-      pdf.stamp 'bar'
+      pdf.stamp('bar')
 
       output = pdf.render
       objects = output.split('endobj')
@@ -99,12 +93,11 @@ describe Prawn::Stamp do
 
         # The page object must contain the annotation reference
         # to render a clickable link
-        expect(obj).to match(%r{^/Annots \[\d \d .\]$})
+        expect(obj).to match(%r{/Annots \[\d+ \d+ R\]($|/\w+|>)})
       end
     end
 
-    it 'resources added during stamp creation should be added to the ' \
-      'stamp XObject, not the page' do
+    it 'resources added during stamp creation should be added to the stamp XObject, not the page' do
       pdf.create_stamp('MyStamp') do
         pdf.transparent(0.5) { pdf.circle([100, 100], 10) }
       end
@@ -127,7 +120,7 @@ describe Prawn::Stamp do
 
     it 'stamp stream should be wrapped in a graphic state' do
       pdf.create_stamp('MyStamp') do
-        pdf.text "This should have a 'q' before it and a 'Q' after it"
+        pdf.text("This should have a 'q' before it and a 'Q' after it")
       end
       pdf.stamp('MyStamp')
       stamps = PDF::Inspector::XObject.analyze(pdf.render)
@@ -141,7 +134,7 @@ describe Prawn::Stamp do
         pdf.save_graphics_state
         pdf.save_graphics_state
         pdf.save_graphics_state
-        pdf.text "This should have a 'q' before it and a 'Q' after it"
+        pdf.text("This should have a 'q' before it and a 'Q' after it")
         pdf.restore_graphics_state
       end
       expect(pdf.state.page.stack.stack.size).to eq(1)

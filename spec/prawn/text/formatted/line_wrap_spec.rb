@@ -14,26 +14,25 @@ describe Prawn::Text::Formatted::LineWrap do
         { text: 'fine, thanks. ' * 4 },
         { text: '' },
         { text: "\n" },
-        { text: '' }
+        { text: '' },
       ]
     end
   end
   let(:line_wrap) { described_class.new }
 
-  it 'only returns an empty string if nothing fit or there' \
-     'was nothing to wrap' do
+  it 'only returns an empty string if nothing fit or there was nothing to wrap' do
     8.times do
       line = line_wrap.wrap_line(
         arranger: arranger,
         width: 200,
-        document: pdf
+        document: pdf,
       )
       expect(line).to_not be_empty
     end
     line = line_wrap.wrap_line(
       arranger: arranger,
       width: 200,
-      document: pdf
+      document: pdf,
     )
     expect(line).to be_empty
   end
@@ -50,30 +49,30 @@ describe Prawn::Text::Formatted::LineWrap do
     it 'strips leading and trailing spaces' do
       array = [
         { text: ' hello world, ' },
-        { text: 'goodbye  ', style: [:bold] }
+        { text: 'goodbye  ', style: [:bold] },
       ]
       arranger.format_array = array
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello world, goodbye')
     end
 
-    it 'strips trailing spaces when a white-space-only fragment was' \
-      ' successfully pushed onto the end of a line but no other non-white' \
-      ' space fragment fits after it' do
+    it 'strips trailing spaces when a white-space-only fragment was ' \
+      'successfully pushed onto the end of a line but no other non-white ' \
+      'space fragment fits after it' do
       array = [
         { text: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ' },
         { text: '  ', style: [:bold] },
-        { text: ' bbbbbbbbbbbbbbbbbbbbbbbbbbbb' }
+        { text: ' bbbbbbbbbbbbbbbbbbbbbbbbbbbb' },
       ]
       arranger.format_array = array
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     end
@@ -81,16 +80,16 @@ describe Prawn::Text::Formatted::LineWrap do
     it 'raise_errors CannotFit if a too-small width is given' do
       array = [
         { text: ' hello world, ' },
-        { text: 'goodbye  ', style: [:bold] }
+        { text: 'goodbye  ', style: [:bold] },
       ]
       arranger.format_array = array
-      expect do
+      expect {
         line_wrap.wrap_line(
           arranger: arranger,
           width: 1,
-          document: pdf
+          document: pdf,
         )
-      end.to raise_error(Prawn::Errors::CannotFit)
+      }.to raise_error(Prawn::Errors::CannotFit)
     end
 
     it 'breaks on space' do
@@ -99,7 +98,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello')
     end
@@ -111,7 +110,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello')
     end
@@ -123,7 +122,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('helloworld')
     end
@@ -135,7 +134,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: 50,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('stringof')
     end
@@ -146,7 +145,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello')
     end
@@ -157,7 +156,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq("hello#{Prawn::Text::NBSP}wor")
     end
@@ -165,14 +164,14 @@ describe Prawn::Text::Formatted::LineWrap do
     it 'does not break on NBSP in a Win-1252 encoded string' do
       array = [
         {
-          text: "hello#{Prawn::Text::NBSP}world".encode(Encoding::Windows_1252)
-        }
+          text: "hello#{Prawn::Text::NBSP}world".encode(Encoding::Windows_1252),
+        },
       ]
       arranger.format_array = array
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq("hello#{Prawn::Text::NBSP}wor")
     end
@@ -183,19 +182,18 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello-')
     end
 
-    it 'does not break after a hyphen that follows white space and' \
-      'precedes a word' do
+    it 'does not break after a hyphen that follows white space and precedes a word' do
       array = [{ text: 'hello -' }]
       arranger.format_array = array
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello -')
 
@@ -204,7 +202,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello')
     end
@@ -216,7 +214,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq("hello#{Prawn::Text::SHY}")
 
@@ -229,17 +227,16 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq("hello#{Prawn::Text::SHY}")
     end
 
     it 'ignores width of a soft-hyphen during adding fragments to line',
       issue: 775 do
-      hyphen_string = "Hy#{Prawn::Text::SHY}phe#{Prawn::Text::SHY}nat"\
-        "#{Prawn::Text::SHY}ions "
+      hyphen_string = "Hy#{Prawn::Text::SHY}phe#{Prawn::Text::SHY}nat#{Prawn::Text::SHY}ions "
       string1 = pdf.font.normalize_encoding(hyphen_string * 5)
-      string2 = pdf.font.normalize_encoding('Hyphenations ' * 3 + hyphen_string)
+      string2 = pdf.font.normalize_encoding(('Hyphenations ' * 3) + hyphen_string)
 
       array1 = [{ text: string1 }]
       array2 = [{ text: string2 }]
@@ -249,7 +246,7 @@ describe Prawn::Text::Formatted::LineWrap do
       res1 = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
 
       line_wrap = described_class.new
@@ -259,13 +256,12 @@ describe Prawn::Text::Formatted::LineWrap do
       res2 = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(res1).to eq(res2)
     end
 
-    it 'does not display soft hyphens except at the end of a line ' \
-      'for more than one element in format_array',
+    it 'does not display soft hyphens except at the end of a line for more than one element in format_array',
       issue: 347 do
       pdf.font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
       line_wrap = described_class.new
@@ -277,7 +273,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('helloworld hiearth')
     end
@@ -290,7 +286,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: enough_width_for_hello_world,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello world')
 
@@ -299,7 +295,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: enough_width_for_hello_world,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello')
 
@@ -312,7 +308,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: enough_width_for_hello_world,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello world')
 
@@ -321,20 +317,19 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: enough_width_for_hello_world,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello')
     end
 
-    it 'does not break after a hard hyphen that follows a soft hyphen and' \
-      'precedes a word' do
+    it 'does not break after a hard hyphen that follows a soft hyphen and precedes a word' do
       string = pdf.font.normalize_encoding("hello#{Prawn::Text::SHY}-")
       array = [{ text: string }]
       arranger.format_array = array
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello-')
 
@@ -344,7 +339,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq("hello#{Prawn::Text::SHY}")
 
@@ -357,7 +352,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq('hello-')
 
@@ -367,7 +362,7 @@ describe Prawn::Text::Formatted::LineWrap do
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       expect(string).to eq("hello#{Prawn::Text::SHY}")
     end
@@ -376,24 +371,24 @@ describe Prawn::Text::Formatted::LineWrap do
       array = [{ text: 'Ｔｅｓｔ' }]
       arranger.format_array = array
 
-      expect do
+      expect {
         line_wrap.wrap_line(
           arranger: arranger,
           width: 300,
-          document: pdf
+          document: pdf,
         )
-      end.to raise_exception(Prawn::Errors::IncompatibleStringEncoding)
+      }.to raise_exception(Prawn::Errors::IncompatibleStringEncoding)
     end
 
     it 'processes UTF-8 chars with UTF-8 font', issue: 693 do
       array = [{ text: 'Ｔｅｓｔ' }]
       arranger.format_array = array
 
-      pdf.font Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
+      pdf.font(Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"))
       string = line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
 
       expect(string).to eq('Ｔｅｓｔ')
@@ -406,13 +401,13 @@ describe Prawn::Text::Formatted::LineWrap do
     it 'returns the number of spaces in the last wrapped line' do
       array = [
         { text: 'hello world, ' },
-        { text: 'goodbye', style: [:bold] }
+        { text: 'goodbye', style: [:bold] },
       ]
       arranger.format_array = array
       line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(line_wrap.space_count).to eq(2)
     end
@@ -420,13 +415,13 @@ describe Prawn::Text::Formatted::LineWrap do
     it 'excludes preceding and trailing spaces from the count' do
       array = [
         { text: ' hello world, ' },
-        { text: 'goodbye  ', style: [:bold] }
+        { text: 'goodbye  ', style: [:bold] },
       ]
       arranger.format_array = array
       line_wrap.wrap_line(
         arranger: arranger,
         width: 300,
-        document: pdf
+        document: pdf,
       )
       expect(line_wrap.space_count).to eq(2)
     end
@@ -443,10 +438,10 @@ describe Prawn::Text::Formatted::LineWrap do
       line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
 
-      expect(line_wrap.paragraph_finished?).to eq(false)
+      expect(line_wrap.paragraph_finished?).to be false
     end
 
     it 'is true when the last printed line is the last fragment to print' do
@@ -455,15 +450,15 @@ describe Prawn::Text::Formatted::LineWrap do
       line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
       line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
 
-      expect(line_wrap.paragraph_finished?).to eq(true)
+      expect(line_wrap.paragraph_finished?).to be true
     end
 
     it 'be_trues when a newline exists on the current line' do
@@ -472,26 +467,26 @@ describe Prawn::Text::Formatted::LineWrap do
       line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
 
-      expect(line_wrap.paragraph_finished?).to eq(true)
+      expect(line_wrap.paragraph_finished?).to be true
     end
 
     it 'be_trues when a newline exists in the next fragment' do
       array = [
         { text: 'hello ' },
         { text: " \n" },
-        { text: 'world' }
+        { text: 'world' },
       ]
       arranger.format_array = array
       line_wrap.wrap_line(
         arranger: arranger,
         width: one_word_width,
-        document: pdf
+        document: pdf,
       )
 
-      expect(line_wrap.paragraph_finished?).to eq(true)
+      expect(line_wrap.paragraph_finished?).to be true
     end
   end
 end

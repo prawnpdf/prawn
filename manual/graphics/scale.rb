@@ -33,7 +33,7 @@ Prawn::ManualBuilder::Chapter.new do
     stroke_rectangle [x, y], width, height
     text_box 'reference rectangle', at: [x + 10, y - 10], width: width - 20
 
-    scale(2, origin: [x + width / 2, y - height / 2]) do
+    scale(2, origin: [x + (width / 2), y - (height / 2)]) do
       stroke_rectangle [x, y], width, height
       text_box 'rectangle scaled from center', at: [x, y - height - 5], width: width
     end

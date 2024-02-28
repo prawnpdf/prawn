@@ -130,8 +130,7 @@ describe Prawn::Graphics do
     end
 
     describe 'setting a dash by passing a single argument' do
-      it 'space between dashes should be the same length as the dash in the '\
-        'rendered PDF' do
+      it 'space between dashes should be the same length as the dash in the rendered PDF' do
         pdf.dash(2)
         dashes = PDF::Inspector::Graphics::Dash.analyze(pdf.render)
         expect(dashes.stroke_dash).to eq([[2, 2], 0])
@@ -139,8 +138,7 @@ describe Prawn::Graphics do
     end
 
     describe 'with a space option that differs from the first argument' do
-      it 'space between dashes in the rendered PDF should be different length '\
-        'than the length of the dash' do
+      it 'space between dashes in the rendered PDF should be different length than the length of the dash' do
         pdf.dash(2, space: 3)
         dashes = PDF::Inspector::Graphics::Dash.analyze(pdf.render)
         expect(dashes.stroke_dash).to eq([[2, 3], 0])
@@ -200,13 +198,13 @@ describe Prawn::Graphics do
 
     describe '#dashed?' do
       it 'an initial document should not be dashed' do
-        expect(pdf.dashed?).to eq(false)
+        expect(pdf.dashed?).to be(false)
       end
 
       it 'returns true if any of the currently active settings are dashed' do
         pdf.dash(2)
         pdf.save_graphics_state
-        expect(pdf.dashed?).to eq(true)
+        expect(pdf.dashed?).to be(true)
       end
 
       it 'returns false if the document was most recently undashed' do
@@ -214,7 +212,7 @@ describe Prawn::Graphics do
         pdf.save_graphics_state
         pdf.undash
         pdf.save_graphics_state
-        expect(pdf.dashed?).to eq(false)
+        expect(pdf.dashed?).to be(false)
       end
 
       it 'returns true when restoring to a state that was dashed' do
@@ -222,7 +220,7 @@ describe Prawn::Graphics do
         pdf.save_graphics_state
         pdf.undash
         pdf.restore_graphics_state
-        expect(pdf.dashed?).to eq(true)
+        expect(pdf.dashed?).to be(true)
       end
     end
   end

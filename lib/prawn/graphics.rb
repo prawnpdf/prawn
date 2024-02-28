@@ -85,12 +85,11 @@ module Prawn
     def curve_to(dest, options = {})
       options[:bounds] || raise(
         Prawn::Errors::InvalidGraphicsPath,
-        'Bounding points for bezier curve must be specified ' \
-        'as :bounds => [[x1,y1],[x2,y2]]'
+        'Bounding points for bezier curve must be specified as :bounds => [[x1,y1],[x2,y2]]',
       )
 
       curve_points = PDF::Core.real_params(
-        (options[:bounds] << dest).flat_map { |e| map_to_absolute(e) }
+        (options[:bounds] << dest).flat_map { |e| map_to_absolute(e) },
       )
 
       renderer.add_content("#{curve_points} c")
@@ -127,7 +126,7 @@ module Prawn
     def rounded_rectangle(point, width, height, radius)
       x, y = point
       rounded_polygon(
-        radius, point, [x + width, y], [x + width, y - height], [x, y - height]
+        radius, point, [x + width, y], [x + width, y - height], [x, y - height],
       )
     end
 
@@ -201,7 +200,7 @@ module Prawn
     # @option options :at [Number]
     # @return [void]
     def horizontal_line(x1, x2, options = {})
-      y1 = options[:at] || y - bounds.absolute_bottom
+      y1 = options[:at] || (y - bounds.absolute_bottom)
 
       line(x1, y1, x2, y1)
     end
@@ -282,20 +281,28 @@ module Prawn
       move_to(x + radius1, y)
 
       # Upper right hand corner
-      curve_to [x, y + radius2],
-        bounds: [[x + radius1, y + l2], [x + l1, y + radius2]]
+      curve_to(
+        [x, y + radius2],
+        bounds: [[x + radius1, y + l2], [x + l1, y + radius2]],
+      )
 
       # Upper left hand corner
-      curve_to [x - radius1, y],
-        bounds: [[x - l1, y + radius2], [x - radius1, y + l2]]
+      curve_to(
+        [x - radius1, y],
+        bounds: [[x - l1, y + radius2], [x - radius1, y + l2]],
+      )
 
       # Lower left hand corner
-      curve_to [x, y - radius2],
-        bounds: [[x - radius1, y - l2], [x - l1, y - radius2]]
+      curve_to(
+        [x, y - radius2],
+        bounds: [[x - radius1, y - l2], [x - l1, y - radius2]],
+      )
 
       # Lower right hand corner
-      curve_to [x + radius1, y],
-        bounds: [[x + l1, y - radius2], [x + radius1, y - l2]]
+      curve_to(
+        [x + radius1, y],
+        bounds: [[x + l1, y - radius2], [x + radius1, y - l2]],
+      )
 
       move_to(x, y)
     end
@@ -308,12 +315,12 @@ module Prawn
     # @param points [Array<Array(Number, Number)>]
     # @return [void]
     def polygon(*points)
-      move_to points[0]
+      move_to(points[0])
       (points[1..] << points[0]).each do |point|
         line_to(*point)
       end
       # close the path
-      renderer.add_content 'h'
+      renderer.add_content('h')
     end
 
     # Draws a rounded polygon from specified points using the radius to define
@@ -329,14 +336,14 @@ module Prawn
     # @param points [Array<Array(Number, Number)>]
     # @return [void]
     def rounded_polygon(radius, *points)
-      move_to point_on_line(radius, points[1], points[0])
+      move_to(point_on_line(radius, points[1], points[0]))
       sides = points.size
       points << points[0] << points[1]
       sides.times do |i|
         rounded_vertex(radius, points[i], points[i + 1], points[i + 2])
       end
       # close the path
-      renderer.add_content 'h'
+      renderer.add_content('h')
     end
 
     # Creates a rounded vertex for a line segment used for building a rounded
@@ -350,15 +357,15 @@ module Prawn
     def rounded_vertex(radius, *points)
       radial_point1 = point_on_line(radius, points[0], points[1])
       bezier_point1 = point_on_line(
-        (radius - radius * KAPPA),
+        (radius - (radius * KAPPA)),
         points[0],
-        points[1]
+        points[1],
       )
       radial_point2 = point_on_line(radius, points[2], points[1])
       bezier_point2 = point_on_line(
-        (radius - radius * KAPPA),
+        (radius - (radius * KAPPA)),
         points[2],
-        points[1]
+        points[1],
       )
       line_to(radial_point1)
       curve_to(radial_point2, bounds: [bezier_point1, bezier_point2])
@@ -371,7 +378,7 @@ module Prawn
     # @return [void]
     def stroke
       yield if block_given?
-      renderer.add_content 'S'
+      renderer.add_content('S')
     end
 
     # Closes and strokes the current path. If a block is provided, yields to the
@@ -381,14 +388,14 @@ module Prawn
     # @return [void]
     def close_and_stroke
       yield if block_given?
-      renderer.add_content 's'
+      renderer.add_content('s')
     end
 
     # Draws and strokes a rectangle represented by the current bounding box.
     #
     # @return [void]
     def stroke_bounds
-      stroke_rectangle bounds.top_left, bounds.width, bounds.height
+      stroke_rectangle(bounds.top_left, bounds.width, bounds.height)
     end
 
     # Draws and strokes X and Y axes rulers beginning at the current bounding
@@ -411,16 +418,16 @@ module Prawn
     def stroke_axis(options = {})
       options = {
         at: [0, 0],
-        height: bounds.height.to_i - (options[:at] || [0, 0])[1],
-        width: bounds.width.to_i - (options[:at] || [0, 0])[0],
+        height: bounds.height - (options[:at] || [0, 0])[1],
+        width: bounds.width - (options[:at] || [0, 0])[0],
         step_length: 100,
         negative_axes_length: 20,
-        color: '000000'
+        color: '000000',
       }.merge(options)
 
       Prawn.verify_options(
         %i[at width height step_length negative_axes_length color],
-        options
+        options,
       )
 
       save_graphics_state do
@@ -431,12 +438,12 @@ module Prawn
         stroke_horizontal_line(
           options[:at][0] - options[:negative_axes_length],
           options[:at][0] + options[:width],
-          at: options[:at][1]
+          at: options[:at][1],
         )
         stroke_vertical_line(
           options[:at][1] - options[:negative_axes_length],
           options[:at][1] + options[:height],
-          at: options[:at][0]
+          at: options[:at][0],
         )
         undash
 
@@ -448,7 +455,7 @@ module Prawn
           draw_text(
             point,
             at: [options[:at][0] + point - 5, options[:at][1] - 10],
-            size: 7
+            size: 7,
           )
         end
 
@@ -458,7 +465,7 @@ module Prawn
           draw_text(
             point,
             at: [options[:at][0] - 17, options[:at][1] + point - 2],
-            size: 7
+            size: 7,
           )
         end
       end
@@ -501,7 +508,7 @@ module Prawn
     # Closes the current path.
     #
     def close_path
-      renderer.add_content 'h'
+      renderer.add_content('h')
     end
 
     # @!method fill_rectangle(point, width, height)
@@ -774,10 +781,10 @@ module Prawn
     # away from the second point defining the line segement
     def point_on_line(distance_from_end, *points)
       x0, y0, x1, y1 = points.flatten
-      length = Math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
+      length = Math.sqrt(((x1 - x0)**2) + ((y1 - y0)**2))
       p = (length - distance_from_end) / length
-      xr = x0 + p * (x1 - x0)
-      yr = y0 + p * (y1 - y0)
+      xr = x0 + (p * (x1 - x0))
+      yr = y0 + (p * (y1 - y0))
       [xr, yr]
     end
   end

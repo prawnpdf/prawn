@@ -11,7 +11,7 @@ describe Prawn::Document do
       pdf.annotate(
         Rect: [0, 0, 10, 10],
         Subtype: :Text,
-        Contents: 'Hello world!'
+        Contents: 'Hello world!',
       )
       PDF::Reader.open(StringIO.new(pdf.render)) do |pdf|
         expect(pdf.page(1).attributes[:Annots]).to be_nil
@@ -23,14 +23,14 @@ describe Prawn::Document do
       opts = pdf.annotate(
         Rect: [0, 0, 10, 10],
         Subtype: :Text,
-        Contents: 'Hello world!'
+        Contents: 'Hello world!',
       )
       expect(opts[:Type]).to eq(:Annot)
       opts = pdf.annotate(
         Type: :Bogus,
         Rect: [0, 0, 10, 10],
         Subtype: :Text,
-        Contents: 'Hello world!'
+        Contents: 'Hello world!',
       )
       expect(opts[:Type]).to eq(:Annot)
     end
@@ -51,7 +51,7 @@ describe Prawn::Document do
     it 'merges extra options' do
       opts = pdf.text_annotation(rect, content, Open: true, Subtype: :Bogus)
       expect(opts[:Subtype]).to eq(:Text)
-      expect(opts[:Open]).to eq(true)
+      expect(opts[:Open]).to be(true)
     end
   end
 

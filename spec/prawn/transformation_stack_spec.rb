@@ -23,7 +23,7 @@ describe Prawn::TransformationStack do
 
       expect(stack).to eq [
         [[2, 0, 0, 2, 100, 100]],
-        [[2, 0, 0, 2, 100, 100], [1, 0, 0, 1, 20, 20]]
+        [[2, 0, 0, 2, 100, 100], [1, 0, 0, 1, 20, 20]],
       ]
     end
   end

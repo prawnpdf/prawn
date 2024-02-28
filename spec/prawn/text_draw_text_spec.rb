@@ -11,9 +11,9 @@ describe Prawn::Text do
     end
 
     it 'raise_errors ArgumentError if :align option included' do
-      expect do
+      expect {
         pdf.draw_text('hai', at: [0, 0], align: :center)
-      end.to raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
 
     it 'allows drawing empty strings to the page' do
@@ -44,12 +44,12 @@ describe Prawn::Text do
       expect(text.font_settings[0][:size]).to eq(16)
     end
 
-    # rubocop: disable Naming/AccessorMethodName
     rotated_text_inspector =
       Class.new(PDF::Inspector) do
         attr_reader :tm_operator_used
 
         def initialize
+          super
           @tm_operator_used = false
         end
 
@@ -57,14 +57,13 @@ describe Prawn::Text do
           @tm_operator_used = true
         end
       end
-    # rubocop: enable Naming/AccessorMethodName
 
     it 'allows rotation' do
       pdf.draw_text('Test', at: [100, 100], rotate: 90)
 
       text = rotated_text_inspector.analyze(pdf.render)
 
-      expect(text.tm_operator_used).to eq true
+      expect(text.tm_operator_used).to be true
     end
 
     it 'does not use rotation matrix by default' do
@@ -72,7 +71,7 @@ describe Prawn::Text do
 
       text = rotated_text_inspector.analyze(pdf.render)
 
-      expect(text.tm_operator_used).to eq false
+      expect(text.tm_operator_used).to be false
     end
 
     it 'allows overriding default font for a single instance' do
@@ -86,7 +85,7 @@ describe Prawn::Text do
     end
 
     it 'allows setting a font size transaction with a block' do
-      pdf.font_size 16 do
+      pdf.font_size(16) do
         pdf.draw_text('Blah', at: [0, 0])
       end
 
@@ -110,17 +109,17 @@ describe Prawn::Text do
     end
 
     it 'allows registering of built-in font_settings on the fly' do
-      pdf.font 'Times-Roman'
+      pdf.font('Times-Roman')
       pdf.draw_text('Blah', at: [100, 100])
-      pdf.font 'Courier'
+      pdf.font('Courier')
       pdf.draw_text('Blaz', at: [150, 150])
       text = PDF::Inspector::Text.analyze(pdf.render)
-      expect(text.font_settings[0][:name]).to eq(:"Times-Roman")
+      expect(text.font_settings[0][:name]).to eq(:'Times-Roman')
       expect(text.font_settings[1][:name]).to eq(:Courier)
     end
 
     it 'raise_errors an exception when an unknown font is used' do
-      expect { pdf.font 'Pao bu' }.to raise_error(Prawn::Errors::UnknownFont)
+      expect { pdf.font('Pao bu') }.to raise_error(Prawn::Errors::UnknownFont)
     end
 
     it 'correctlies render a utf-8 string when using a built-in font' do
@@ -134,9 +133,7 @@ describe Prawn::Text do
 
     it 'raises an exception when a utf-8 incompatible string is rendered' do
       str = "Blah \xDD"
-      expect { pdf.draw_text(str, at: [0, 0]) }.to raise_error(
-        Prawn::Errors::IncompatibleStringEncoding
-      )
+      expect { pdf.draw_text(str, at: [0, 0]) }.to raise_error(Prawn::Errors::IncompatibleStringEncoding)
     end
 
     it 'does not raise an exception when a shift-jis string is rendered' do
@@ -144,7 +141,7 @@ describe Prawn::Text do
       sjis_str = File.open(datafile, 'r:shift_jis', &:gets)
       pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
 
-      pdf.draw_text(sjis_str, at: [0, 0])
+      expect { pdf.draw_text(sjis_str, at: [0, 0]) }.to_not raise_error
     end
   end
 end

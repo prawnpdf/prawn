@@ -20,7 +20,7 @@ Prawn::ManualBuilder::Chapter.new do
 
   example new_page: true do
     def box_content(string)
-      text string
+      text(string)
       transparent(0.5) { stroke_bounds }
     end
 

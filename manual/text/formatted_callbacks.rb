@@ -55,9 +55,9 @@ Prawn::ManualBuilder::Chapter.new do
         { text: '     ' },
         { text: 'world', callback: border },
         { text: '     ' },
-        { text: 'hello world', callback: [highlight, border] }
+        { text: 'hello world', callback: [highlight, border] },
       ],
-      size: 20
+      size: 20,
     )
   end
 end

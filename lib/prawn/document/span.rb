@@ -29,7 +29,7 @@ module Prawn
     # @return [void]
     # @raise [ArgumentError] For unsupported `:position` value.
     def span(width, options = {})
-      Prawn.verify_options [:position], options
+      Prawn.verify_options([:position], options)
       original_position = y
 
       # FIXME: Any way to move this upstream?
@@ -38,7 +38,7 @@ module Prawn
         when :left
           margin_box.absolute_left
         when :center
-          margin_box.absolute_left + margin_box.width / 2.0 - width / 2.0
+          margin_box.absolute_left + (margin_box.width / 2.0) - (width / 2.0)
         when :right
           margin_box.absolute_right - width
         when Numeric
@@ -52,9 +52,9 @@ module Prawn
         bounding_box(
           [
             left_boundary,
-            margin_box.absolute_top
+            margin_box.absolute_top,
           ],
-          width: width
+          width: width,
         ) do
           self.y = original_position
           yield

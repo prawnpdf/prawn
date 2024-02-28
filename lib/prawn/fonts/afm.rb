@@ -52,7 +52,7 @@ module Prawn
               '.', '/usr/lib/afm',
               '/usr/local/lib/afm',
               '/usr/openwin/lib/fonts/afm',
-              "#{Prawn::DATADIR}/fonts"
+              "#{Prawn::DATADIR}/fonts",
             ]
           end
       end
@@ -83,7 +83,7 @@ module Prawn
 
         file_name = @name.dup
         file_name << '.afm' unless /\.afm$/.match?(file_name)
-        file_name = file_name[0] == '/' ? file_name : find_font(file_name)
+        file_name = find_font(file_name) unless file_name[0] == '/'
 
         font_data = self.class.font_data[file_name] ||= parse_afm(file_name)
         @glyph_widths = font_data[:glyph_widths]
@@ -93,8 +93,8 @@ module Prawn
         @kern_pair_table = font_data[:kern_pair_table]
         @attributes = font_data[:attributes]
 
-        @ascender = @attributes['ascender'].to_i
-        @descender = @attributes['descender'].to_i
+        @ascender = Integer(@attributes.fetch('ascender', '0'), 10)
+        @descender = Integer(@attributes.fetch('descender', '0'), 10)
         @line_gap = Float(bbox[3] - bbox[1]) - (@ascender - @descender)
       end
 
@@ -145,9 +145,9 @@ module Prawn
 
         raise Prawn::Errors::IncompatibleStringEncoding,
           "Your document includes text that's not compatible with the " \
-          "Windows-1252 character set.\n" \
-          'If you need full UTF-8 support, use external fonts instead of ' \
-          "PDF's built-in fonts.\n"
+            "Windows-1252 character set.\n" \
+            'If you need full UTF-8 support, use external fonts instead of ' \
+            "PDF's built-in fonts.\n"
       end
 
       # Encode text to UTF-8.
@@ -202,7 +202,7 @@ module Prawn
         font_dict = {
           Type: :Font,
           Subtype: :Type1,
-          BaseFont: name.to_sym
+          BaseFont: name.to_sym,
         }
 
         # Symbolic AFM fonts (Symbol, ZapfDingbats) have their own encodings
@@ -216,7 +216,7 @@ module Prawn
       end
 
       def find_font(file)
-        self.class.metrics_path.find { |f| File.exist? "#{f}/#{file}" } +
+        self.class.metrics_path.find { |f| File.exist?("#{f}/#{file}") } +
           "/#{file}"
       rescue NoMethodError
         raise Prawn::Errors::UnknownFont,
@@ -229,14 +229,14 @@ module Prawn
           glyph_widths: {},
           bounding_boxes: {},
           kern_pairs: {},
-          attributes: {}
+          attributes: {},
         }
         section = []
 
         File.foreach(file_name) do |line|
           case line
           when /^Start(\w+)/
-            section.push Regexp.last_match(1)
+            section.push(Regexp.last_match(1))
             next
           when /^End(\w+)/
             section.pop
@@ -248,13 +248,13 @@ module Prawn
             next unless /^CH?\s/.match?(line)
 
             name = line[/\bN\s+(\.?\w+)\s*;/, 1]
-            data[:glyph_widths][name] = line[/\bWX\s+(\d+)\s*;/, 1].to_i
+            data[:glyph_widths][name] = Integer(line[/\bWX\s+(\d+)\s*;/, 1], 10)
             data[:bounding_boxes][name] = line[/\bB\s+([^;]+);/, 1].to_s.rstrip
           when %w[FontMetrics KernData KernPairs]
             next unless line =~ /^KPX\s+(\.?\w+)\s+(\.?\w+)\s+(-?\d+)/
 
             data[:kern_pairs][[Regexp.last_match(1), Regexp.last_match(2)]] =
-              Regexp.last_match(3).to_i
+              Integer(Regexp.last_match(3), 10)
           when %w[FontMetrics KernData TrackKern],
             %w[FontMetrics Composites]
             next
@@ -266,15 +266,11 @@ module Prawn
         # process data parsed from AFM file to build tables which
         #   will be used when measuring and kerning text
         data[:glyph_table] =
-          (0..255).map do |i|
-            data[:glyph_widths][Encoding::WinAnsi::CHARACTERS[i]].to_i
-          end
+          (0..255).map { |i|
+            data[:glyph_widths].fetch(Encoding::WinAnsi::CHARACTERS[i], 0)
+          }
 
-        character_hash = Hash[
-          Encoding::WinAnsi::CHARACTERS.zip(
-            (0..Encoding::WinAnsi::CHARACTERS.size).to_a
-          )
-        ]
+        character_hash = Encoding::WinAnsi::CHARACTERS.zip((0..Encoding::WinAnsi::CHARACTERS.size).to_a).to_h
         data[:kern_pair_table] =
           data[:kern_pairs].each_with_object({}) do |p, h|
             h[p[0].map { |n| character_hash[n] }] = p[1]
@@ -317,7 +313,7 @@ module Prawn
         end
 
         kerned.map do |e|
-          e = e.is_a?(Array) ? e.pack('C*') : e
+          e = e.pack('C*') if e.is_a?(Array)
           if e.respond_to?(:force_encoding)
             e.force_encoding(::Encoding::Windows_1252)
           else

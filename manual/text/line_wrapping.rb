@@ -37,23 +37,23 @@ Prawn::ManualBuilder::Chapter.new do
 
     font_families.update('Jigmo' => { normal: "#{Prawn::ManualBuilder::DATADIR}/fonts/Jigmo.ttf" })
     font('Jigmo', size: 16) do
-      text "No word boundaries:\n更可怕的是、同质化竞争对手可以按照URL中后面这个ID来遍历"\
-        '您的DB中的内容、写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事、这样的话、'\
-        '你就非常被动了。更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历您的DB中的内容、'\
+      text "No word boundaries:\n更可怕的是、同质化竞争对手可以按照URL中后面这个ID来遍历" \
+        '您的DB中的内容、写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事、这样的话、' \
+        '你就非常被动了。更可怕的是，同质化竞争对手可以按照URL中后面这个ID来遍历您的DB中的内容、' \
         '写个小爬虫把你的页面上的关键信息顺次爬下来也不是什么难事、这样的话、你就非常被动了。'
       move_down 20
 
       zwsp = Prawn::Text::ZWSP
-      text "Invisible word boundaries:\n更#{zwsp}可怕的#{zwsp}是、#{zwsp}同质化#{zwsp}竞争"\
-        "#{zwsp}对#{zwsp}手#{zwsp}可以#{zwsp}按照#{zwsp}URL#{zwsp}中#{zwsp}后面#{zwsp}这个"\
-        "#{zwsp}ID#{zwsp}来#{zwsp}遍历#{zwsp}您的#{zwsp}DB#{zwsp}中的#{zwsp}内容、#{zwsp}写个"\
-        "#{zwsp}小爬虫#{zwsp}把#{zwsp}你的#{zwsp}页面#{zwsp}上的#{zwsp}关#{zwsp}键#{zwsp}信"\
-        "#{zwsp}息顺#{zwsp}次#{zwsp}爬#{zwsp}下来#{zwsp}也#{zwsp}不是#{zwsp}什么#{zwsp}难事、"\
-        "#{zwsp}这样的话，#{zwsp}你#{zwsp}就#{zwsp}非常#{zwsp}被动了。#{zwsp}更#{zwsp}可怕的"\
-        "#{zwsp}是、#{zwsp}同质化#{zwsp}竞争#{zwsp}对#{zwsp}手#{zwsp}可以#{zwsp}按照#{zwsp}URL"\
-        "#{zwsp}中#{zwsp}后面#{zwsp}这个#{zwsp}ID#{zwsp}来#{zwsp}遍历#{zwsp}您的#{zwsp}DB#{zwsp}"\
-        "中的#{zwsp}内容、#{zwsp}写个#{zwsp}小爬虫#{zwsp}把#{zwsp}你的#{zwsp}页面#{zwsp}上的"\
-        "#{zwsp}关#{zwsp}键#{zwsp}信#{zwsp}息顺#{zwsp}次#{zwsp}爬#{zwsp}下来#{zwsp}也#{zwsp}不是"\
+      text "Invisible word boundaries:\n更#{zwsp}可怕的#{zwsp}是、#{zwsp}同质化#{zwsp}竞争" \
+        "#{zwsp}对#{zwsp}手#{zwsp}可以#{zwsp}按照#{zwsp}URL#{zwsp}中#{zwsp}后面#{zwsp}这个" \
+        "#{zwsp}ID#{zwsp}来#{zwsp}遍历#{zwsp}您的#{zwsp}DB#{zwsp}中的#{zwsp}内容、#{zwsp}写个" \
+        "#{zwsp}小爬虫#{zwsp}把#{zwsp}你的#{zwsp}页面#{zwsp}上的#{zwsp}关#{zwsp}键#{zwsp}信" \
+        "#{zwsp}息顺#{zwsp}次#{zwsp}爬#{zwsp}下来#{zwsp}也#{zwsp}不是#{zwsp}什么#{zwsp}难事、" \
+        "#{zwsp}这样的话，#{zwsp}你#{zwsp}就#{zwsp}非常#{zwsp}被动了。#{zwsp}更#{zwsp}可怕的" \
+        "#{zwsp}是、#{zwsp}同质化#{zwsp}竞争#{zwsp}对#{zwsp}手#{zwsp}可以#{zwsp}按照#{zwsp}URL" \
+        "#{zwsp}中#{zwsp}后面#{zwsp}这个#{zwsp}ID#{zwsp}来#{zwsp}遍历#{zwsp}您的#{zwsp}DB#{zwsp}" \
+        "中的#{zwsp}内容、#{zwsp}写个#{zwsp}小爬虫#{zwsp}把#{zwsp}你的#{zwsp}页面#{zwsp}上的" \
+        "#{zwsp}关#{zwsp}键#{zwsp}信#{zwsp}息顺#{zwsp}次#{zwsp}爬#{zwsp}下来#{zwsp}也#{zwsp}不是" \
         "#{zwsp}什么#{zwsp}难事、#{zwsp}这样的话、#{zwsp}你#{zwsp}就#{zwsp}非常#{zwsp}被动了。"
     end
   end

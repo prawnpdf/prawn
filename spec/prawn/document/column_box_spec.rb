@@ -11,7 +11,7 @@ describe Prawn::Document::ColumnBox do
       width: pdf.bounds.width,
       height: 200,
       columns: 3,
-      spacer: 25
+      spacer: 25,
     ) do
       left = pdf.bounds.left
       right = pdf.bounds.right
@@ -30,7 +30,7 @@ describe Prawn::Document::ColumnBox do
       width: 500,
       height: 200,
       columns: 3,
-      spacer: 25
+      spacer: 25,
     ) do
       expect(pdf.bounds.width).to eq(150) # (500 - (25 * 2)) / 3
 
@@ -43,9 +43,9 @@ describe Prawn::Document::ColumnBox do
 
   it 'does not reset the top margin on a new page by default' do
     page_top = pdf.cursor
-    pdf.move_down 50
+    pdf.move_down(50)
     init_column_top = pdf.cursor
-    pdf.column_box [0, pdf.cursor], width: 500, height: 200, columns: 2 do
+    pdf.column_box([0, pdf.cursor], width: 500, height: 200, columns: 2) do
       pdf.bounds.move_past_bottom
       pdf.bounds.move_past_bottom
 
@@ -56,14 +56,14 @@ describe Prawn::Document::ColumnBox do
 
   it 'does reset the top margin when reflow_margins is set' do
     page_top = pdf.cursor
-    pdf.move_down 50
+    pdf.move_down(50)
     init_column_top = pdf.cursor
     pdf.column_box(
       [0, pdf.cursor],
       width: 500,
       reflow_margins: true,
       height: 200,
-      columns: 2
+      columns: 2,
     ) do
       pdf.bounds.move_past_bottom
       pdf.bounds.move_past_bottom

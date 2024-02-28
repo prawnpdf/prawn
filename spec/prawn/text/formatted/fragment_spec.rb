@@ -13,13 +13,9 @@ describe Prawn::Text::Formatted::Fragment do
         link: nil,
         anchor: nil,
         font: nil,
-        size: nil
+        size: nil,
       }
-      described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      ).tap do |fragment|
+      described_class.new('hello world', format_state, pdf).tap do |fragment|
         fragment.width = 100
         fragment.left = 50
         fragment.baseline = 200
@@ -47,13 +43,9 @@ describe Prawn::Text::Formatted::Fragment do
           link: nil,
           anchor: nil,
           font: nil,
-          size: nil
+          size: nil,
         }
-        fragment = described_class.new(
-          'hello world',
-          format_state,
-          pdf
-        )
+        fragment = described_class.new('hello world', format_state, pdf)
         expect(fragment.styles).to eq([])
       end
     end
@@ -90,8 +82,7 @@ describe Prawn::Text::Formatted::Fragment do
     end
 
     describe '#absolute_bounding_box' do
-      it 'returns the bounding box surrounding the fragment' \
-        ' in absolute coordinates' do
+      it 'returns the bounding box surrounding the fragment in absolute coordinates' do
         target_box = [50, 193, 150, 217]
         target_box[0] += pdf.bounds.absolute_left
         target_box[1] += pdf.bounds.absolute_bottom
@@ -112,7 +103,7 @@ describe Prawn::Text::Formatted::Fragment do
 
     describe '#strikethrough_points' do
       it 'defines a line through the fragment' do
-        y = 200 + fragment.ascender * 0.3
+        y = 200 + (fragment.ascender * 0.3)
         target_points = [[50, y], [150, y]]
         expect(fragment.strikethrough_points).to eq(target_points)
       end
@@ -122,22 +113,13 @@ describe Prawn::Text::Formatted::Fragment do
   describe '#space_count' do
     it 'returns the number of spaces in the fragment' do
       format_state = {}
-      fragment = described_class.new(
-        'hello world ',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world ', format_state, pdf)
       expect(fragment.space_count).to eq(2)
     end
 
-    it 'excludes trailing spaces from the count when ' \
-      ':exclude_trailing_white_space => true' do
+    it 'excludes trailing spaces from the count when :exclude_trailing_white_space => true' do
       format_state = { exclude_trailing_white_space: true }
-      fragment = described_class.new(
-        'hello world ',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world ', format_state, pdf)
       expect(fragment.space_count).to eq(1)
     end
   end
@@ -145,11 +127,7 @@ describe Prawn::Text::Formatted::Fragment do
   describe '#include_trailing_white_space!' do
     it 'makes the fragment include trailing white space' do
       format_state = { exclude_trailing_white_space: true }
-      fragment = described_class.new(
-        'hello world ',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world ', format_state, pdf)
       expect(fragment.space_count).to eq(1)
       fragment.include_trailing_white_space!
       expect(fragment.space_count).to eq(2)
@@ -159,22 +137,13 @@ describe Prawn::Text::Formatted::Fragment do
   describe '#text' do
     it 'returns the fragment text' do
       format_state = {}
-      fragment = described_class.new(
-        'hello world ',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world ', format_state, pdf)
       expect(fragment.text).to eq('hello world ')
     end
 
-    it 'returns the fragment text without trailing spaces when ' \
-      ':exclude_trailing_white_space => true' do
+    it 'returns the fragment text without trailing spaces when :exclude_trailing_white_space => true' do
       format_state = { exclude_trailing_white_space: true }
-      fragment = described_class.new(
-        'hello world ',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world ', format_state, pdf)
       expect(fragment.text).to eq('hello world')
     end
   end
@@ -187,13 +156,9 @@ describe Prawn::Text::Formatted::Fragment do
         link: nil,
         anchor: nil,
         font: nil,
-        size: nil
+        size: nil,
       }
-      described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      ).tap do |fragment|
+      described_class.new('hello world', format_state, pdf).tap do |fragment|
         fragment.width = 100
         fragment.left = 50
         fragment.baseline = 200
@@ -229,7 +194,7 @@ describe Prawn::Text::Formatted::Fragment do
     end
 
     it 'accounts for word_spacing in #strikethrough_points' do
-      y = 200 + fragment.ascender * 0.3
+      y = 200 + (fragment.ascender * 0.3)
       target_points = [[50, y], [160, y]]
       expect(fragment.strikethrough_points).to eq(target_points)
     end
@@ -243,13 +208,9 @@ describe Prawn::Text::Formatted::Fragment do
         link: nil,
         anchor: nil,
         font: nil,
-        size: nil
+        size: nil,
       }
-      described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      ).tap do |fragment|
+      described_class.new('hello world', format_state, pdf).tap do |fragment|
         fragment.line_height = 27
         fragment.descender = 7
         fragment.ascender = 17
@@ -277,13 +238,9 @@ describe Prawn::Text::Formatted::Fragment do
         link: nil,
         anchor: nil,
         font: nil,
-        size: nil
+        size: nil,
       }
-      described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      ).tap do |fragment|
+      described_class.new('hello world', format_state, pdf).tap do |fragment|
         fragment.line_height = 27
         fragment.descender = 7
         fragment.ascender = 17
@@ -306,36 +263,22 @@ describe Prawn::Text::Formatted::Fragment do
   context 'with :direction => :rtl' do
     it '#text should be reversed' do
       format_state = { direction: :rtl }
-      fragment = described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world', format_state, pdf)
       expect(fragment.text).to eq('dlrow olleh')
     end
   end
 
   describe '#default_direction=' do
-    it 'sets the direction if there is no fragment level direction ' \
-      'specification' do
+    it 'sets the direction if there is no fragment level direction specification' do
       format_state = {}
-      fragment = described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world', format_state, pdf)
       fragment.default_direction = :rtl
       expect(fragment.direction).to eq(:rtl)
     end
 
-    it 'does not set the direction if there is a fragment level direction ' \
-      'specification' do
+    it 'does not set the direction if there is a fragment level direction specification' do
       format_state = { direction: :rtl }
-      fragment = described_class.new(
-        'hello world',
-        format_state,
-        pdf
-      )
+      fragment = described_class.new('hello world', format_state, pdf)
       fragment.default_direction = :ltr
       expect(fragment.direction).to eq(:rtl)
     end

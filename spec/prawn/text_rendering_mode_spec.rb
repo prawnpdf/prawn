@@ -14,8 +14,7 @@ describe Prawn::Text do
       expect(contents.text_rendering_mode.first).to eq(1)
     end
 
-    it 'does not draw the text rendering mode to the document' \
-      ' when the new mode matches the old' do
+    it 'does not draw the text rendering mode to the document when the new mode matches the old' do
       pdf.text_rendering_mode(:fill) do
         pdf.text('hello world')
       end

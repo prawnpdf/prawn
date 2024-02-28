@@ -6,7 +6,7 @@ module Prawn
   end
 end
 
-require_relative 'fonts/font'
+require_relative 'font'
 require_relative 'fonts/afm'
 require_relative 'fonts/ttf'
 require_relative 'fonts/dfont'

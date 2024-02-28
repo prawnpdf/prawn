@@ -27,7 +27,7 @@ Prawn::ManualBuilder::Chapter.new do
       height: 200,
       step_length: 50,
       negative_axes_length: 5,
-      color: '0000FF'
+      color: '0000FF',
     )
     stroke_axis(
       at: [140, 140],
@@ -35,7 +35,7 @@ Prawn::ManualBuilder::Chapter.new do
       height: Integer(cursor) - 140,
       step_length: 20,
       negative_axes_length: 40,
-      color: 'FF0000'
+      color: 'FF0000',
     )
   end
 end

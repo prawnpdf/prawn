@@ -32,7 +32,7 @@ Prawn::ManualBuilder::Chapter.new do
       encrypt_document(
         user_password: 'foo',
         owner_password: 'bar',
-        permissions: { print_document: false }
+        permissions: { print_document: false },
       )
     end
 
@@ -46,8 +46,8 @@ Prawn::ManualBuilder::Chapter.new do
           print_document: false,
           modify_contents: false,
           copy_contents: false,
-          modify_annotations: false
-        }
+          modify_annotations: false,
+        },
       )
     end
   end

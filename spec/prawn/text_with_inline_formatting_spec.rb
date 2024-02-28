@@ -17,8 +17,7 @@ describe Prawn::Text do
   end
 
   describe '#text with inline styling' do
-    it 'automatically moves to a new page if the tallest fragment' \
-      " on the next line won't fit in the available space" do
+    it "automatically moves to a new page if the tallest fragment on the next line won't fit in the available space" do
       pdf.move_cursor_to(pdf.font.height)
       formatted = "this contains <font size='24'>sized</font> text"
       pdf.text(formatted, inline_format: true)
@@ -27,8 +26,10 @@ describe Prawn::Text do
     end
 
     it 'embeds links as literal strings' do
-      pdf.text "<link href='http://wiki.github.com/sandal/prawn/'>wiki</link>",
-        inline_format: true
+      pdf.text(
+        "<link href='http://wiki.github.com/sandal/prawn/'>wiki</link>",
+        inline_format: true,
+      )
       expect(pdf.render).to match(%r{/URI\s+\(http://wiki\.github\.com})
     end
   end

@@ -40,7 +40,7 @@ Prawn::ManualBuilder::Chapter.new do
       { text: 'Different Font. ', font: 'Courier' },
       { text: 'Some coloring. ', color: 'FF00FF' },
       { text: 'Link to the home page. ', color: '0000FF', link: 'https://prawnpdf.org/' },
-      { text: 'Link to a local file. ', color: '0000FF', local: 'README.md' }
+      { text: 'Link to a local file. ', color: '0000FF', local: 'README.md' },
     ]
 
     formatted_text_box(
@@ -50,12 +50,12 @@ Prawn::ManualBuilder::Chapter.new do
         {
           text: 'with some additional formatting options added to the mix.',
           color: [50, 100, 0, 0],
-          styles: [:italic]
-        }
+          styles: [:italic],
+        },
       ],
       at: [100, 100],
       width: 200,
-      height: 100
+      height: 100,
     )
   end
 end

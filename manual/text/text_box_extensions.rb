@@ -36,7 +36,7 @@ Prawn::ManualBuilder::Chapter.new do
       'A' * 100,
       at: [0, y_position],
       width: width,
-      height: height
+      height: height,
     )
 
     Prawn::Text::Formatted::Box.extensions << TriangleBox
@@ -45,7 +45,7 @@ Prawn::ManualBuilder::Chapter.new do
       [{ text: 'A' * 100, color: '009900' }],
       at: [200, y_position],
       width: width,
-      height: height
+      height: height,
     )
 
     # Here we clear the extensions array

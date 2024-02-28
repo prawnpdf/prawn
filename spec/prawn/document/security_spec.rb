@@ -18,9 +18,7 @@ describe Prawn::Document::Security do
       pw = 'abcd'
       padded = pad_password(pw)
       expect(padded.length).to eq(32)
-      expect(padded).to eq(
-        pw + Prawn::Document::Security::PASSWORD_PADDING[0, 28]
-      )
+      expect(padded).to eq(pw + Prawn::Document::Security::PASSWORD_PADDING[0, 28])
     end
 
     it 'fullies pad null passwords' do
@@ -36,7 +34,7 @@ describe Prawn::Document::Security do
       pdf = Prawn::Document.new
 
       # Make things easier to test
-      pdf.singleton_class.__send__ :public, :permissions_value
+      pdf.singleton_class.__send__(:public, :permissions_value)
       # class << pdf
       #   public :permissions_value
       # end
@@ -52,8 +50,8 @@ describe Prawn::Document::Security do
           print_document: true,
           modify_contents: true,
           copy_contents: true,
-          modify_annotations: true
-        ).permissions_value
+          modify_annotations: true,
+        ).permissions_value,
       )
         .to eq(0xFFFFFFFF)
     end
@@ -70,9 +68,9 @@ describe Prawn::Document::Security do
     end
 
     it 'raise_errors ArgumentError if invalid option is provided' do
-      expect do
+      expect {
         doc_with_permissions(modify_document: false)
-      end.to raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
   end
 
@@ -89,7 +87,7 @@ describe Prawn::Document::Security do
         pdf.encrypt_document(
           user_password: 'foo',
           owner_password: 'bar',
-          permissions: { print_document: false }
+          permissions: { print_document: false },
         )
       end
     end
@@ -124,39 +122,32 @@ describe Prawn::Document::Security do
     it 'encrypts literal strings properly' do
       expect(
         PDF::Core.encrypted_pdf_object(
-          PDF::Core::LiteralString.new('foo'), '12345', 123, 0
-        )
+          PDF::Core::LiteralString.new('foo'), '12345', 123, 0,
+        ),
       ).to eq(bin_string("(J\xD6\xE3)"))
 
       expect(
         PDF::Core.encrypted_pdf_object(
-          PDF::Core::LiteralString.new("\xAF\xC5fh\x9A\x14\x97,\xD3,\x06\x87\xCDSS"), nil, 123, 0
-        )
+          PDF::Core::LiteralString.new("\xAF\xC5fh\x9A\x14\x97,\xD3,\x06\x87\xCDSS"), nil, 123, 0,
+        ),
       ).to eq(
-        bin_string(
-          "(2&\\(\x02P\x92\x9C\e\xAF\\)\\\r\x83\x94\x11\x0F)"
-        )
+        bin_string("(2&\\(\x02P\x92\x9C\e\xAF\\)\\\r\x83\x94\x11\x0F)"),
       )
     end
 
     it 'encrypts time properly' do
       expect(
         PDF::Core.encrypted_pdf_object(
-          Time.utc(10_002, 0o4, 26, 10, 17, 10), '12345', 123, 0
-        )
+          Time.utc(10_002, 0o4, 26, 10, 17, 10), '12345', 123, 0,
+        ),
       ).to eq(
-        bin_string(
-          "(h\x83\xBD\xDC\xE9\x99\\\r\xD3/!\x14\xD5%\xBE\xF6\x17"\
-          "\xA3\x9B\xC5\xFE&+\xD8\x93)"
-        )
+        bin_string("(h\x83\xBD\xDC\xE9\x99\\\r\xD3/!\x14\xD5%\xBE\xF6\x17\xA3\x9B\xC5\xFE&+\xD8\x93)"),
       )
     end
 
     it 'properlies handle compound types' do
       expect(PDF::Core.encrypted_pdf_object({ Bar: 'foo' }, '12345', 123, 0))
-        .to eq(
-          "<< /Bar <4ad6e3>\n>>"
-        )
+        .to eq("<< /Bar <4ad6e3>\n>>")
       expect(PDF::Core.encrypted_pdf_object(%w[foo bar], '12345', 123, 0))
         .to eq('[<4ad6e3> <4ed8fe>]')
     end
@@ -171,9 +162,7 @@ describe Prawn::Document::Security do
     it 'encrypts references with streams properly' do
       ref = PDF::Core::Reference.new(1, {})
       ref << 'foo'
-      result = bin_string(
-        "1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n"
-      )
+      result = bin_string("1 0 obj\n<< /Length 3\n>>\nstream\nO\xCA?\nendstream\nendobj\n")
       expect(ref.encrypted_object(nil)).to eq(result)
     end
   end

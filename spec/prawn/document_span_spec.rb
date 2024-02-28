@@ -7,26 +7,26 @@ describe Prawn::Document do
 
   it 'onlies accept :position as option in debug mode' do
     Prawn.debug = true
-    expect do
+    expect {
       pdf.span(350, x: 3) do
         # draw
       end
-    end.to raise_error(Prawn::Errors::UnknownOption)
+    }.to raise_error(Prawn::Errors::UnknownOption)
   end
 
   it 'has raise an error if :position is invalid' do
-    expect do
+    expect {
       pdf.span(350, position: :x) do
         # draw
       end
-    end.to raise_error(ArgumentError)
+    }.to raise_error(ArgumentError)
   end
 
   it 'restores the margin box when bounding box exits' do
     margin_box = pdf.bounds
 
     pdf.span(350, position: :center) do
-      pdf.text "Here's some centered text in a 350 point column. " * 100
+      pdf.text("Here's some centered text in a 350 point column. " * 100)
     end
 
     expect(pdf.bounds).to eq(margin_box)
@@ -34,9 +34,9 @@ describe Prawn::Document do
 
   it 'does create a margin box' do
     margin_box =
-      pdf.span(350, position: :center) do
-        pdf.text "Here's some centered text in a 350 point column. " * 100
-      end
+      pdf.span(350, position: :center) {
+        pdf.text("Here's some centered text in a 350 point column. " * 100)
+      }
 
     expect(margin_box.top).to eq(792.0)
     expect(margin_box.bottom).to eq(0)

@@ -17,8 +17,7 @@ describe Prawn::Graphics::BlendMode do
     expect(str[0, 8]).to eq('%PDF-1.4')
   end
 
-  it 'a new extended graphics state should be created for ' \
-     'each unique blend mode setting' do
+  it 'a new extended graphics state should be created for each unique blend mode setting' do
     make_blend_mode(:Multiply) do
       make_blend_mode(:Screen)
     end
@@ -26,8 +25,7 @@ describe Prawn::Graphics::BlendMode do
     expect(extgstates.length).to eq(2)
   end
 
-  it 'a new extended graphics state should not be created for ' \
-     'each duplicate blend mode setting' do
+  it 'a new extended graphics state should not be created for each duplicate blend mode setting' do
     make_blend_mode(:Multiply) do
       make_blend_mode(:Multiply)
     end
@@ -35,15 +33,13 @@ describe Prawn::Graphics::BlendMode do
     expect(extgstates.length).to eq(1)
   end
 
-  it 'setting the blend mode with only one parameter sets a single '\
-    'blend mode value' do
+  it 'setting the blend mode with only one parameter sets a single blend mode value' do
     make_blend_mode(:Multiply)
     extgstate = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates.first
     expect(extgstate[:blend_mode]).to eq(:Multiply)
   end
 
-  it 'setting the blend mode with multiple parameters sets an array of '\
-    'blend modes' do
+  it 'setting the blend mode with multiple parameters sets an array of blend modes' do
     make_blend_mode(%i[Multiply Screen Overlay])
     extgstate = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates.first
     expect(extgstate[:blend_mode]).to eq(%i[Multiply Screen Overlay])

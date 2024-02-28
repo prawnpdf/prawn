@@ -8,7 +8,7 @@ GC.disable
 before = GC.stat
 
 Prawn::Document.new do
-  image "#{Prawn::DATADIR}/images/dice.png"
+  image("#{Prawn::DATADIR}/images/dice.png")
 end.render
 
 after = GC.stat

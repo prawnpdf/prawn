@@ -175,7 +175,7 @@ module Prawn
           Prawn.verify_options(valid_options, options)
           options = options.dup
 
-          self.class.extensions.reverse_each { |e| extend e }
+          self.class.extensions.reverse_each { |e| extend(e) }
 
           @overflow = options[:overflow] || :truncate
           @disable_wrap_by_char = options[:disable_wrap_by_char]
@@ -191,7 +191,7 @@ module Prawn
             options[:at] || [@document.bounds.left, @document.bounds.top]
           ).dup
           @width = options[:width] ||
-            @document.bounds.right - @at[0]
+            (@document.bounds.right - @at[0])
           @height = options[:height] || default_height
           @align = options[:align] ||
             (@direction == :rtl ? :right : :left)
@@ -224,7 +224,7 @@ module Prawn
           @options = {
             kerning: options[:kerning],
             size: options[:size],
-            style: options[:style]
+            style: options[:style],
           }
 
           super(formatted_text, options)
@@ -308,7 +308,7 @@ module Prawn
           when :left
             x = @at[0]
           when :center
-            x = @at[0] + @width * 0.5 - line_width * 0.5
+            x = @at[0] + (@width * 0.5) - (line_width * 0.5)
           when :right
             x = @at[0] + @width - line_width
           when :justify
@@ -340,13 +340,13 @@ module Prawn
                 @draw_text_callback.call(
                   fragment.text,
                   at: [x, y],
-                  kerning: @kerning
+                  kerning: @kerning,
                 )
               else
                 @document.draw_text!(
                   fragment.text,
                   at: [x, y],
-                  kerning: @kerning
+                  kerning: @kerning,
                 )
               end
             end
@@ -485,9 +485,9 @@ module Prawn
                   char,
                   fragment_font,
                   fallback_fonts.dup,
-                  fragment_font_options
+                  fragment_font_options,
                 ),
-                char
+                char,
               ]
             end
           end
@@ -630,8 +630,8 @@ module Prawn
 
           case @rotate_around
           when :center
-            x = @at[0] + @width * 0.5
-            y = @at[1] - @height * 0.5
+            x = @at[0] + (@width * 0.5)
+            y = @at[1] - (@height * 0.5)
           when :upper_right
             x = @at[0] + @width
             y = @at[1]
@@ -678,8 +678,8 @@ module Prawn
             A: {
               Type: :Action,
               S: :URI,
-              URI: PDF::Core::LiteralString.new(fragment.link)
-            }
+              URI: PDF::Core::LiteralString.new(fragment.link),
+            },
           )
         end
 
@@ -690,7 +690,7 @@ module Prawn
           @document.link_annotation(
             box,
             Border: [0, 0, 0],
-            Dest: fragment.anchor
+            Dest: fragment.anchor,
           )
         end
 
@@ -705,8 +705,8 @@ module Prawn
               Type: :Action,
               S: :Launch,
               F: PDF::Core::LiteralString.new(fragment.local),
-              NewWindow: true
-            }
+              NewWindow: true,
+            },
           )
         end
 

@@ -17,9 +17,9 @@ module Prawn
 
           def initialize(message = DEFAULT_MESSAGE, method: nil)
             if method && message == DEFAULT_MESSAGE
-              super format(MESSAGE_WITH_METHOD, method: method)
+              super(format(MESSAGE_WITH_METHOD, method: method))
             else
-              super message
+              super(message)
             end
           end
         end
@@ -86,12 +86,13 @@ module Prawn
             raise NotFinalized.new(method: 'line')
           end
 
-          @fragments.map do |fragment|
-            fragment.text.dup.encode(::Encoding::UTF_8)
-          rescue ::Encoding::InvalidByteSequenceError,
-                 ::Encoding::UndefinedConversionError
-            fragment.text.dup.force_encoding(::Encoding::UTF_8)
-          end.join
+          @fragments.map { |fragment|
+            begin
+              fragment.text.dup.encode(::Encoding::UTF_8)
+            rescue ::Encoding::InvalidByteSequenceError, ::Encoding::UndefinedConversionError
+              fragment.text.dup.force_encoding(::Encoding::UTF_8)
+            end
+          }.join
         end
 
         # Finish laying out current line.
@@ -109,7 +110,7 @@ module Prawn
             fragment = Prawn::Text::Formatted::Fragment.new(
               text,
               format_state,
-              @document
+              @document,
             )
             @fragments << fragment
             self.fragment_measurements = fragment
@@ -226,7 +227,7 @@ module Prawn
               raise BadFontFamily unless @document.font.family
 
               @document.font(
-                font || @document.font.family, style: font_style
+                font || @document.font.family, style: font_style,
               ) do
                 apply_font_size(size, styles, &block)
               end
@@ -367,7 +368,7 @@ module Prawn
           apply_font_settings(fragment) do
             fragment.width = @document.width_of(
               fragment.text,
-              kerning: @kerning
+              kerning: @kerning,
             )
             fragment.line_height = @document.font.height
             fragment.descender = @document.font.descender
@@ -378,15 +379,15 @@ module Prawn
         def line_measurement_maximums=(fragment)
           @max_line_height = [
             defined?(@max_line_height) && @max_line_height,
-            fragment.line_height
+            fragment.line_height,
           ].compact.max
           @max_descender = [
             defined?(@max_descender) && @max_descender,
-            fragment.descender
+            fragment.descender,
           ].compact.max
           @max_ascender = [
             defined?(@max_ascender) && @max_ascender,
-            fragment.ascender
+            fragment.ascender,
           ].compact.max
         end
       end

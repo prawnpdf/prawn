@@ -23,7 +23,7 @@ require 'pdf/inspector'
 Dir[File.join(__dir__, 'extensions', '**', '*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
-  config.include EncodingHelpers
+  config.include(EncodingHelpers)
 end
 
 # Create a document.
@@ -31,7 +31,7 @@ def create_pdf(klass = Prawn::Document, &block)
   klass.new(margin: 0, &block)
 end
 
-RSpec::Matchers.define :have_parseable_xobjects do
+RSpec::Matchers.define(:have_parseable_xobjects) do
   match do |actual|
     expect { PDF::Inspector::XObject.analyze(actual.render) }.to_not raise_error
     true

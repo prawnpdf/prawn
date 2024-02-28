@@ -15,8 +15,8 @@ Prawn::ManualBuilder::Chapter.new do
     ordered_list(
       'Faster document creation',
       'Smaller final document',
-      'Faster display on subsequent displays of the repeated element because '\
-        'the viewer application can cache the rendered results'
+      'Faster display on subsequent displays of the repeated element because ' \
+        'the viewer application can cache the rendered results',
     )
 
     prose <<~TEXT

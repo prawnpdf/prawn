@@ -30,12 +30,12 @@ module Prawn
       def transparent(opacity, stroke_opacity = opacity)
         renderer.min_version(1.4)
 
-        opacity = [[opacity, 0.0].max, 1.0].min
-        stroke_opacity = [[stroke_opacity, 0.0].max, 1.0].min
+        opacity = opacity.clamp(0.0, 1.0)
+        stroke_opacity = stroke_opacity.clamp(0.0, 1.0)
 
         save_graphics_state
         renderer.add_content(
-          "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs"
+          "/#{opacity_dictionary_name(opacity, stroke_opacity)} gs",
         )
         yield
         restore_graphics_state
@@ -61,13 +61,13 @@ module Prawn
           dictionary = ref!(
             Type: :ExtGState,
             CA: stroke_opacity,
-            ca: opacity
+            ca: opacity,
           )
 
           dictionary_name = "Tr#{next_opacity_dictionary_id}"
           opacity_dictionary_registry[key] = {
             name: dictionary_name,
-            obj: dictionary
+            obj: dictionary,
           }
         end
 

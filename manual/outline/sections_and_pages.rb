@@ -58,10 +58,10 @@ Prawn::ManualBuilder::Chapter.new do
 
     # Outside of the define block
     outline.section('Section 3', destination: 8) do
-      outline.page title: 'Page 9', destination: 9
+      outline.page(title: 'Page 9', destination: 9)
     end
 
-    outline.page title: 'Page 10', destination: 10
+    outline.page(title: 'Page 10', destination: 10)
 
     # Section and Pages without links. While a section without a link may be
     # useful to group some pages, a page without a link is useless

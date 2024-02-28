@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Peritext.new do
       'How to configure page size',
       'How to configure page margins',
       'How to use a background image',
-      'How to add metadata to the generated PDF'
+      'How to add metadata to the generated PDF',
     )
   end
 end

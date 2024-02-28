@@ -23,12 +23,12 @@ Prawn::ManualBuilder::Chapter.new do
     font('Panic Sans') do
       text(
         'When fallback fonts are included, each glyph will be rendered ' \
-        'using the first font that includes the glyph, starting with the ' \
-        'current font and then moving through the fallback fonts from left ' \
-        'to right.' \
-        "\n\n" \
-        "hello ƒ 你好\n再见 ƒ goodbye",
-        fallback_fonts: %w[Times-Roman Jigmo]
+          'using the first font that includes the glyph, starting with the ' \
+          'current font and then moving through the fallback fonts from left ' \
+          'to right.' \
+          "\n\n" \
+          "hello ƒ 你好\n再见 ƒ goodbye",
+        fallback_fonts: %w[Times-Roman Jigmo],
       )
     end
     move_down 20
@@ -36,9 +36,9 @@ Prawn::ManualBuilder::Chapter.new do
     formatted_text(
       [
         { text: 'Fallback fonts can even override' },
-        { text: 'fragment fonts (你好)', font: 'Times-Roman' }
+        { text: 'fragment fonts (你好)', font: 'Times-Roman' },
       ],
-      fallback_fonts: %w[Times-Roman Jigmo]
+      fallback_fonts: %w[Times-Roman Jigmo],
     )
   end
 end

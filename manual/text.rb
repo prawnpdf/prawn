@@ -26,7 +26,7 @@ Prawn::ManualBuilder::Peritext.new do
       'How to use the different rendering modes available for the text methods',
       'How to create your custom text box extensions',
       'How to use external fonts on your pdfs',
-      'What happens when rendering text in different languages'
+      'What happens when rendering text in different languages',
     )
   end
 end

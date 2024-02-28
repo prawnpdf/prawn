@@ -23,7 +23,7 @@ Prawn::ManualBuilder::Chapter.new do
       Keywords: 'test metadata ruby pdf dry',
       Creator: 'ACME Soft App',
       Producer: 'Prawn',
-      CreationDate: Time.now
+      CreationDate: Time.now,
     }
 
     Prawn::Document.generate('example.pdf', info: info) do

@@ -9,17 +9,17 @@ Prawn::ManualBuilder::Peritext.new do
     doc.image(
       "#{Prawn::DATADIR}/images/prawn.png",
       scale: 0.9,
-      at: [0, doc.cursor - 60]
+      at: [0, doc.cursor - 60],
     )
 
     doc.formatted_text_box(
       [{ text: "Prawn\n", font: 'DejaVu', styles: [:bold], size: 85 }],
-      at: [160, doc.cursor - 50]
+      at: [160, doc.cursor - 50],
     )
 
     doc.formatted_text_box(
       [{ text: 'by example', font: 'Iosevka', size: 58 }],
-      at: [165, doc.cursor - 130]
+      at: [165, doc.cursor - 130],
     )
 
     unless ENV['CI']
@@ -37,8 +37,8 @@ Prawn::ManualBuilder::Peritext.new do
             text: "Last Update: #{Time.now.strftime('%Y-%m-%d')}\n" \
               "Prawn Version: #{Prawn::VERSION}\n#{git_commit}",
             font: 'DejaVu',
-            size: 12
-          }
+            size: 12,
+          },
         ]
         h = doc.height_of_formatted(v_text)
 

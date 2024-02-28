@@ -35,7 +35,7 @@ Prawn::ManualBuilder::Chapter.new do
       Saturation Color Luminosity
     ]
     blend_modes.each_with_index do |blend_mode, index|
-      x = 5 + index % 4 * 130
+      x = 5 + (index % 4 * 130)
       y = cursor - (index / 4 * 195) - 5
 
       image bottom_layer, at: [x, y], fit: [120, 120]

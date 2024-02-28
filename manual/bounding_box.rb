@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Peritext.new do
       'How to inspect the current bounding box for its coordinates',
       'Stretchy bounding boxes',
       'Nested bounding boxes',
-      'Indent blocks'
+      'Indent blocks',
     )
   end
 end

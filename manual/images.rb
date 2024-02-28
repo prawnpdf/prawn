@@ -16,8 +16,8 @@ Prawn::ManualBuilder::Peritext.new do
     list(
       'How to add an image to a page',
       'How place the image on a specific position',
-      'How to configure the image dimensions by setting the width and '\
-        'height or by scaling it'
+      'How to configure the image dimensions by setting the width and ' \
+        'height or by scaling it',
     )
   end
 end

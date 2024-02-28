@@ -196,7 +196,7 @@ module Prawn
           nil,
           [0, page.dimensions[3]],
           width: page.dimensions[2],
-          height: page.dimensions[3]
+          height: page.dimensions[3],
         )
       end
     end
@@ -531,7 +531,7 @@ module Prawn
 
         @stretched_height = [
           (absolute_top - @document.y),
-          @stretched_height.to_f
+          Float(@stretched_height || 0.0),
         ].max
       end
 
@@ -599,12 +599,12 @@ module Prawn
         copy = dup
         # Deep-copy the parent bounds
         copy.instance_variable_set(
-          '@parent',
+          :@parent,
           if @parent.is_a?(BoundingBox)
             @parent.deep_copy
-          end
+          end,
         )
-        copy.instance_variable_set('@document', nil)
+        copy.instance_variable_set(:@document, nil)
         copy
       end
 
@@ -617,7 +617,7 @@ module Prawn
       # @param document [Prawn::Document]
       # @return [BoundingBox]
       def self.restore_deep_copy(bounds, document)
-        bounds.instance_variable_set('@document', document)
+        bounds.instance_variable_set(:@document, document)
         bounds
       end
     end

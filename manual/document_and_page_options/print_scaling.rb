@@ -25,9 +25,9 @@ Prawn::ManualBuilder::Chapter.new do
     Prawn::Document.generate(
       'example.pdf',
       page_layout: :landscape,
-      print_scaling: :none
+      print_scaling: :none,
     ) do
-      text 'When you print this document, the scale to fit in print preview '\
+      text 'When you print this document, the scale to fit in print preview ' \
         'should be disabled by default.'
     end
   end

@@ -56,7 +56,7 @@ module Prawn
     def image(file, options = {})
       Prawn.verify_options(
         %i[at position vposition height width scale fit],
-        options
+        options,
       )
 
       pdf_obj, info = build_image_object(file)
@@ -107,7 +107,7 @@ module Prawn
         x, y = map_to_absolute(options[:at])
       else
         x, y = image_position(w, h, options)
-        move_text_position h
+        move_text_position(h)
       end
 
       # add a reference to the image object to the current page
@@ -148,7 +148,7 @@ module Prawn
         when :top
           bounds.absolute_top
         when :center
-          bounds.absolute_top - (bounds.height - height) / 2.0
+          bounds.absolute_top - ((bounds.height - height) / 2.0)
         when :bottom
           bounds.absolute_bottom + height
         when Numeric
@@ -162,7 +162,7 @@ module Prawn
         when :left
           bounds.left_side
         when :center
-          bounds.left_side + (bounds.width - width) / 2.0
+          bounds.left_side + ((bounds.width - width) / 2.0)
         when :right
           bounds.right_side - width
         when Numeric

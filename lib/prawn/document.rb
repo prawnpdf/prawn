@@ -227,12 +227,12 @@ module Prawn
     def initialize(options = {}, &block)
       options = options.dup
 
-      Prawn.verify_options VALID_OPTIONS, options
+      Prawn.verify_options(VALID_OPTIONS, options)
 
       # need to fix, as the refactoring breaks this
       # raise NotImplementedError if options[:skip_page_creation]
 
-      self.class.extensions.reverse_each { |e| extend e }
+      self.class.extensions.reverse_each { |e| extend(e) }
       self.state = PDF::Core::DocumentState.new(options)
       state.populate_pages_from_store(self)
       renderer.min_version(state.store.min_version) if state.store.min_version
@@ -307,7 +307,7 @@ module Prawn
       page_options = {
         size: options[:size] || last_page_size,
         layout: options[:layout] || last_page_layout,
-        margins: last_page_margins
+        margins: last_page_margins,
       }
       if last_page
         if last_page.graphic_state
@@ -455,7 +455,7 @@ module Prawn
     #   @return [String]
     def render(*arguments)
       (1..page_count).each do |i|
-        go_to_page i
+        go_to_page(i)
         repeaters.each { |r| r.run(i) }
       end
 
@@ -651,7 +651,7 @@ module Prawn
     # @option options :color [String, Array<Number>] Text fill color.
     def number_pages(string, options = {})
       opts = options.dup
-      start_count_at = opts.delete(:start_count_at).to_i
+      start_count_at = opts.delete(:start_count_at)
 
       page_filter =
         if opts.key?(:page_filter)
@@ -671,21 +671,23 @@ module Prawn
         unless start_count
           pseudopage =
             case start_count_at
-            when 0
-              1
+            when String
+              Integer(start_count_at, 10)
+            when (1..)
+              Integer(start_count_at)
             else
-              start_count_at.to_i
+              1
             end
         end
         if page_match?(page_filter, p)
           go_to_page(p)
           # have to use fill_color here otherwise text reverts back to default
           # fill color
-          fill_color txtcolor unless txtcolor.nil?
-          total_pages = total_pages.nil? ? page_count : total_pages
+          fill_color(txtcolor) unless txtcolor.nil?
+          total_pages = page_count if total_pages.nil?
           str = string.gsub('<page>', pseudopage.to_s)
             .gsub('<total>', total_pages.to_s)
-          text_box str, opts
+          text_box(str, opts)
           start_count = true # increment page count as soon as first match found
         end
         pseudopage += 1 if start_count
@@ -698,18 +700,18 @@ module Prawn
     def group(*_arguments)
       raise NotImplementedError,
         'Document#group has been disabled because its implementation ' \
-        'lead to corrupted documents whenever a page boundary was ' \
-        'crossed. We will try to work on reimplementing it in a ' \
-        'future release'
+          'lead to corrupted documents whenever a page boundary was ' \
+          'crossed. We will try to work on reimplementing it in a ' \
+          'future release'
     end
 
     # @private
     def transaction
       raise NotImplementedError,
         'Document#transaction has been disabled because its implementation ' \
-        'lead to corrupted documents whenever a page boundary was ' \
-        'crossed. We will try to work on reimplementing it in a ' \
-        'future release'
+          'lead to corrupted documents whenever a page boundary was ' \
+          'crossed. We will try to work on reimplementing it in a ' \
+          'future release'
     end
 
     # Provides a way to execute a block of code repeatedly based on a
@@ -751,7 +753,7 @@ module Prawn
       stored = {}
       fields.each { |f| stored[f] = public_send(f) }
       yield
-      fields.each { |f| public_send("#{f}=", stored[f]) }
+      fields.each { |f| public_send(:"#{f}=", stored[f]) }
     end
 
     # @group Extension API
@@ -804,7 +806,7 @@ module Prawn
         width: page.dimensions[-2] -
           (page.margins[:left] + page.margins[:right]),
         height: page.dimensions[-1] -
-          (page.margins[:top] + page.margins[:bottom])
+          (page.margins[:top] + page.margins[:bottom]),
       )
 
       # This check maintains indentation settings across page breaks
@@ -828,7 +830,7 @@ module Prawn
         3 => [0, 1, 2, 1],
         2 => [0, 1, 0, 1],
         1 => [0, 0, 0, 0],
-        0 => []
+        0 => [],
       }[margin.length]
 
       sides.zip(positions).each do |side, pos|

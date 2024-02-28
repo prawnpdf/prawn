@@ -11,13 +11,13 @@ describe Prawn::SoftMask do
         if block_given?
           yield
         else
-          pdf.fill_color '808080'
-          pdf.fill_rectangle [100, 100], 200, 200
+          pdf.fill_color('808080')
+          pdf.fill_rectangle([100, 100], 200, 200)
         end
       end
 
-      pdf.fill_color '000000'
-      pdf.fill_rectangle [0, 0], 200, 200
+      pdf.fill_color('000000')
+      pdf.fill_rectangle([0, 0], 200, 200)
     end
   end
 
@@ -29,43 +29,42 @@ describe Prawn::SoftMask do
 
   it 'creates a new extended graphics state for each unique soft mask' do
     make_soft_mask do
-      pdf.fill_color '808080'
-      pdf.fill_rectangle [100, 100], 200, 200
+      pdf.fill_color('808080')
+      pdf.fill_rectangle([100, 100], 200, 200)
     end
 
     make_soft_mask do
-      pdf.fill_color '808080'
-      pdf.fill_rectangle [10, 10], 200, 200
+      pdf.fill_color('808080')
+      pdf.fill_rectangle([10, 10], 200, 200)
     end
 
     extgstates = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates
     expect(extgstates.length).to eq(2)
   end
 
-  it 'a new extended graphics state contains soft mask with drawing '\
-    'instructions' do
+  it 'a new extended graphics state contains soft mask with drawing instructions' do
     make_soft_mask do
-      pdf.fill_color '808080'
-      pdf.fill_rectangle [100, 100], 200, 200
+      pdf.fill_color('808080')
+      pdf.fill_rectangle([100, 100], 200, 200)
     end
 
     extgstate = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates.first
     expect(extgstate[:soft_mask][:G].data).to eq(
-      "q\n/DeviceRGB cs\n0.0 0.0 0.0 scn\n/DeviceRGB CS\n0.0 0.0 0.0 SCN\n"\
-      "1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.50196 0.50196 0.50196 scn\n"\
-      "100.0 -100.0 200.0 200.0 re\nf\nQ\n"
+      "q\n/DeviceRGB cs\n0.0 0.0 0.0 scn\n/DeviceRGB CS\n0.0 0.0 0.0 SCN\n" \
+        "1 w\n0 J\n0 j\n[] 0 d\n/DeviceRGB cs\n0.50196 0.50196 0.50196 scn\n" \
+        "100.0 -100.0 200.0 200.0 re\nf\nQ\n",
     )
   end
 
   it 'does not create duplicate extended graphics states' do
     make_soft_mask do
-      pdf.fill_color '808080'
-      pdf.fill_rectangle [100, 100], 200, 200
+      pdf.fill_color('808080')
+      pdf.fill_rectangle([100, 100], 200, 200)
     end
 
     make_soft_mask do
-      pdf.fill_color '808080'
-      pdf.fill_rectangle [100, 100], 200, 200
+      pdf.fill_color('808080')
+      pdf.fill_rectangle([100, 100], 200, 200)
     end
 
     extgstates = PDF::Inspector::ExtGState.analyze(pdf.render).extgstates

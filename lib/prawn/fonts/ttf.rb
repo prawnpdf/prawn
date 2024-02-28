@@ -27,9 +27,9 @@ module Prawn
 
         def initialize(message = DEFAULT_MESSAGE, font: nil)
           if font && message == DEFAULT_MESSAGE
-            super format(MESSAGE_WITH_FONT, font: font)
+            super(format(MESSAGE_WITH_FONT, font: font))
           else
-            super message
+            super(message)
           end
         end
       end
@@ -105,17 +105,19 @@ module Prawn
           [
             [
               FULL_FONT,
-              characters.map do |c|
+              characters.map { |c|
                 check_bounds!(c)
                 [cmap[c]].pack('n')
-              end.join('')
-            ]
+              }.join(''),
+            ],
           ]
         end
 
         private
 
-        attr_reader :cmap, :code_space_size, :code_space_max
+        attr_reader :cmap
+        attr_reader :code_space_size
+        attr_reader :code_space_max
 
         def check_bounds!(num)
           if num > code_space_max
@@ -162,17 +164,17 @@ module Prawn
       def compute_width_of(string, options = {})
         scale = (options[:size] || size) / 1000.0
         if options[:kerning]
-          kern(string).reduce(0) do |s, r|
+          kern(string).reduce(0) { |s, r|
             if r.is_a?(Numeric)
               s - r
             else
               r.reduce(s) { |a, e| a + character_width_by_code(e) }
             end
-          end * scale
+          } * scale
         else
-          string.codepoints.reduce(0) do |s, r|
+          string.codepoints.reduce(0) { |s, r|
             s + character_width_by_code(r)
-          end * scale
+          } * scale
         end
       end
 
@@ -257,7 +259,7 @@ module Prawn
           hi = raw >> 16
           low = raw & 0xFF
           hi = -((hi ^ 0xFFFF) + 1) if hi & 0x8000 != 0
-          @italic_angle = "#{hi}.#{low}".to_f
+          @italic_angle = Float("#{hi}.#{low}")
         else
           @italic_angle = 0
         end
@@ -270,7 +272,7 @@ module Prawn
       def cap_height
         @cap_height ||=
           begin
-            height = @ttf.os2.exists? && @ttf.os2.cap_height || 0
+            height = (@ttf.os2.exists? && @ttf.os2.cap_height) || 0
             height.zero? ? @ascender : height
           end
       end
@@ -280,13 +282,13 @@ module Prawn
       def x_height
         # FIXME: seems like if os2 table doesn't exist, we could
         # just find the height of the lower-case 'x' glyph?
-        @ttf.os2.exists? && @ttf.os2.x_height || 0
+        (@ttf.os2.exists? && @ttf.os2.x_height) || 0
       end
 
       # @private
       # @return [Number]
       def family_class
-        @family_class ||= (@ttf.os2.exists? && @ttf.os2.family_class || 0) >> 8
+        @family_class ||= ((@ttf.os2.exists? && @ttf.os2.family_class) || 0) >> 8
       end
 
       # @private
@@ -325,8 +327,7 @@ module Prawn
       rescue StandardError
         raise Prawn::Errors::IncompatibleStringEncoding,
           "Encoding #{text.encoding} can not be transparently converted to UTF-8. " \
-          'Please ensure the encoding of the string you are attempting ' \
-          'to use is set correctly'
+            'Please ensure the encoding of the string you are attempting to use is set correctly'
       end
 
       # Encode text to UTF-8.
@@ -463,13 +464,13 @@ module Prawn
           Ascent: @ascender,
           Descent: @descender,
           CapHeight: cap_height,
-          XHeight: x_height
+          XHeight: x_height,
         )
 
         first_char, last_char = unicode_mapping.keys.minmax
         hmtx = font.horizontal_metrics
         widths =
-          (first_char..last_char).map do |code|
+          (first_char..last_char).map { |code|
             if unicode_mapping.key?(code)
               gid = font.cmap.tables.first.code_map[code]
               Integer(hmtx.widths[gid] * scale_factor)
@@ -479,7 +480,7 @@ module Prawn
               # sapce as possible.
               0
             end
-          end
+          }
 
         # It would be nice to have Encoding set for the macroman subsets,
         # and only do a ToUnicode cmap for non-encoded unicode subsets.
@@ -501,7 +502,7 @@ module Prawn
           FirstChar: first_char,
           LastChar: last_char,
           Widths: @document.ref!(widths),
-          ToUnicode: to_unicode
+          ToUnicode: to_unicode,
         )
 
         if true_type
@@ -547,7 +548,7 @@ module Prawn
           Ascent: @ascender,
           Descent: @descender,
           CapHeight: cap_height,
-          XHeight: x_height
+          XHeight: x_height,
         )
         descriptor.data[:FontFile2] = fontfile if true_type
         descriptor.data[:FontFile3] = fontfile if open_type
@@ -559,7 +560,7 @@ module Prawn
           .reject { |cid, gid| gid.zero? || (0xd800..0xdfff).cover?(cid) }
           .invert
           .sort.to_h,
-          2 # Identity-H is a 2-byte encoding
+          2, # Identity-H is a 2-byte encoding
         ).generate
         to_unicode.stream.compress! if @document.compression_enabled?
 
@@ -572,15 +573,15 @@ module Prawn
           CIDSystemInfo: {
             Registry: 'Adobe',
             Ordering: 'Identity',
-            Supplement: 0
+            Supplement: 0,
           },
           FontDescriptor: descriptor,
-          W: [0, widths]
+          W: [0, widths],
         )
         if true_type
           child_font.data.update(
             Subtype: :CIDFontType2,
-            CIDToGIDMap: :Identity
+            CIDToGIDMap: :Identity,
           )
         end
         if open_type
@@ -592,7 +593,7 @@ module Prawn
           BaseFont: basename.to_sym,
           Encoding: :'Identity-H',
           DescendantFonts: [child_font],
-          ToUnicode: to_unicode
+          ToUnicode: to_unicode,
         )
       end
 

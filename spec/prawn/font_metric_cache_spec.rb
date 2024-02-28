@@ -35,7 +35,7 @@ describe Prawn::FontMetricCache do
   it 'caches different copies of the same string with different font sizes' do
     font_metric_cache.width_of('M', {})
 
-    document.font_size 24
+    document.font_size(24)
     font_metric_cache.width_of('M', {})
 
     expect(font_metric_cache.instance_variable_get(:@cache).entries.size)
@@ -45,7 +45,7 @@ describe Prawn::FontMetricCache do
   it 'caches different copies of the same string with different fonts' do
     font_metric_cache.width_of('M', {})
 
-    document.font 'Courier'
+    document.font('Courier')
     font_metric_cache.width_of('M', {})
 
     expect(font_metric_cache.instance_variable_get(:@cache).entries.size)
@@ -56,11 +56,11 @@ describe Prawn::FontMetricCache do
     pdf =
       Prawn::Document.new do
         font('Helvetica', size: 42, style: :bold) do
-          text 'First part M'
+          text('First part M')
         end
         font('Helvetica', size: 12) do
-          text '<strong>First part M</strong> second part', inline_format: true
-          text '<strong>First part W</strong> second part.', inline_format: true
+          text('<strong>First part M</strong> second part', inline_format: true)
+          text('<strong>First part W</strong> second part.', inline_format: true)
         end
       end
 

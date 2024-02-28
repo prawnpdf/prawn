@@ -10,50 +10,48 @@ describe Prawn::Text::Formatted::Box do
       texts = [
         { text: 'Hello ' },
         { text: 'World' },
-        { text: '2', styles: [:superscript] }
+        { text: '2', styles: [:superscript] },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Hello World')
+        width: pdf.width_of('Hello World'),
       )
       text_box.render
       expect(text_box.text).to eq("Hello\nWorld2")
     end
 
-    it 'does not raise an Encoding::CompatibilityError when keeping a TTF and '\
-      'an AFM font together' do
+    it 'does not raise an Encoding::CompatibilityError when keeping a TTF and an AFM font together' do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
 
       pdf.font_families['Kai'] = {
-        normal: { file: file, font: 'Kai' }
+        normal: { file: file, font: 'Kai' },
       }
 
       texts = [
         { text: 'Hello ' },
         { text: '再见', font: 'Kai' },
-        { text: 'World' }
+        { text: 'World' },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Hello World')
+        width: pdf.width_of('Hello World'),
       )
 
-      text_box.render
+      expect { text_box.render }.to_not raise_error
     end
 
-    it 'wraps between two fragments when the preceding fragment ends with '\
-      'a white space' do
+    it 'wraps between two fragments when the preceding fragment ends with a white space' do
       texts = [
         { text: 'Hello ' },
         { text: 'World ' },
-        { text: '2', styles: [:superscript] }
+        { text: '2', styles: [:superscript] },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Hello World')
+        width: pdf.width_of('Hello World'),
       )
       text_box.render
       expect(text_box.text).to eq("Hello World\n2")
@@ -61,28 +59,27 @@ describe Prawn::Text::Formatted::Box do
       texts = [
         { text: 'Hello ' },
         { text: "World\n" },
-        { text: '2', styles: [:superscript] }
+        { text: '2', styles: [:superscript] },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Hello World')
+        width: pdf.width_of('Hello World'),
       )
       text_box.render
       expect(text_box.text).to eq("Hello World\n2")
     end
 
-    it 'wraps between two fragments when the final fragment begins with '\
-      'a white space' do
+    it 'wraps between two fragments when the final fragment begins with a white space' do
       texts = [
         { text: 'Hello ' },
         { text: 'World' },
-        { text: ' 2', styles: [:superscript] }
+        { text: ' 2', styles: [:superscript] },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Hello World')
+        width: pdf.width_of('Hello World'),
       )
       text_box.render
       expect(text_box.text).to eq("Hello World\n2")
@@ -90,12 +87,12 @@ describe Prawn::Text::Formatted::Box do
       texts = [
         { text: 'Hello ' },
         { text: 'World' },
-        { text: "\n2", styles: [:superscript] }
+        { text: "\n2", styles: [:superscript] },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Hello World')
+        width: pdf.width_of('Hello World'),
       )
       text_box.render
       expect(text_box.text).to eq("Hello World\n2")
@@ -107,35 +104,35 @@ describe Prawn::Text::Formatted::Box do
           text: 'Noua Delineatio Geographica generalis | Apostolicarum ' \
             'peregrinationum | S FRANCISCI XAUERII | Indiarum & Iaponiæ Apostoli',
           font: 'Courier',
-          size: 10
-        }
+          size: 10,
+        },
       ]
       text_box = described_class.new(
         texts,
         document: pdf,
-        width: pdf.width_of('Noua Delineatio Geographica gen')
+        width: pdf.width_of('Noua Delineatio Geographica gen'),
       )
-      expect do
+      expect {
         text_box.render
-      end.to_not raise_error
+      }.to_not raise_error
       expect(text_box.text).to eq(
         "Noua Delineatio Geographica\ngeneralis | Apostolicarum\n" \
-        "peregrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\n" \
-        'Apostoli'
+          "peregrinationum | S FRANCISCI\nXAUERII | Indiarum & Iaponi\346\n" \
+          'Apostoli',
       )
     end
   end
 
-  describe 'Text::Formatted::Box with :fallback_fonts option that includes' \
-    'a Chinese font and set of Chinese glyphs not in the current font' do
+  describe 'Text::Formatted::Box with :fallback_fonts option that includes a Chinese font and set of Chinese glyphs ' \
+    'not in the current font' do
     it 'changes the font to the Chinese font for the Chinese glyphs' do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       pdf.font_families['Kai'] = {
-        normal: { file: file, font: 'Kai' }
+        normal: { file: file, font: 'Kai' },
       }
       formatted_text = [
         { text: 'hello你好' },
-        { text: '再见goodbye' }
+        { text: '再见goodbye' },
       ]
       pdf.formatted_text_box(formatted_text, fallback_fonts: ['Kai'])
 
@@ -155,17 +152,17 @@ describe Prawn::Text::Formatted::Box do
     end
   end
 
-  describe 'Text::Formatted::Box with :fallback_fonts option that includes' \
-    'an AFM font and Win-Ansi glyph not in the current Chinese font' do
+  describe 'Text::Formatted::Box with :fallback_fonts option that includes an AFM font and Win-Ansi glyph not ' \
+    'in the current Chinese font' do
     it 'changes the font to the AFM font for the Win-Ansi glyph' do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       pdf.font_families['Kai'] = {
-        normal: { file: file, font: 'Kai' }
+        normal: { file: file, font: 'Kai' },
       }
       pdf.font('Kai')
       formatted_text = [
         { text: 'hello你好' },
-        { text: '再见€' }
+        { text: '再见€' },
       ]
       pdf.formatted_text_box(formatted_text, fallback_fonts: ['Helvetica'])
 
@@ -185,22 +182,21 @@ describe Prawn::Text::Formatted::Box do
     end
   end
 
-  describe 'Text::Formatted::Box with :fallback_fonts option and fragment ' \
-    'level font' do
+  describe 'Text::Formatted::Box with :fallback_fonts option and fragment level font' do
     it 'uses the fragment level font except for glyphs not in that font' do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       pdf.font_families['Kai'] = {
-        normal: { file: file, font: 'Kai' }
+        normal: { file: file, font: 'Kai' },
       }
 
       file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
       pdf.font_families['DejaVu Sans'] = {
-        normal: { file: file }
+        normal: { file: file },
       }
 
       formatted_text = [
         { text: 'hello你好' },
-        { text: '再见goodbye', font: 'Times-Roman' }
+        { text: '再见goodbye', font: 'Times-Roman' },
       ]
       pdf.formatted_text_box(formatted_text, fallback_fonts: ['Kai'])
 
@@ -211,7 +207,7 @@ describe Prawn::Text::Formatted::Box do
       expect(fonts_used[0]).to eq(:Helvetica)
       expect(fonts_used[1].to_s).to match(/GBZenKai-Medium/)
       expect(fonts_used[2].to_s).to match(/GBZenKai-Medium/)
-      expect(fonts_used[3]).to eq(:"Times-Roman")
+      expect(fonts_used[3]).to eq(:'Times-Roman')
 
       expect(text.strings[0]).to eq('hello')
       expect(text.strings[1]).to eq('你好')
@@ -226,12 +222,12 @@ describe Prawn::Text::Formatted::Box do
 
       pdf.font_families['Dustismo'] = {
         normal: { file: dustismo_file },
-        bold: { file: dejavu_sans_bold_file }
+        bold: { file: dejavu_sans_bold_file },
       }
 
       pdf.font_families['Fallback'] = {
         normal: { file: dejavu_sans_file },
-        bold: { file: dejavu_sans_file }
+        bold: { file: dejavu_sans_file },
       }
 
       formatted_text = [{ text: ?\u203b, styles: [:bold], font: 'Dustismo' }]
@@ -252,12 +248,12 @@ describe Prawn::Text::Formatted::Box do
     before do
       file = "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
       pdf.font_families['Kai'] = {
-        normal: { file: file, font: 'Kai' }
+        normal: { file: file, font: 'Kai' },
       }
 
       file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf"
       pdf.font_families['DejaVu Sans'] = {
-        normal: { file: file }
+        normal: { file: file },
       }
 
       pdf.fallback_fonts(['Kai'])
@@ -291,14 +287,13 @@ describe Prawn::Text::Formatted::Box do
       expect(fonts_used[1]).to match(/Kai/)
     end
 
-    it 'omits the fallback fonts overhead when passing an empty array ' \
-      'as the :fallback_fonts' do
+    it 'omits the fallback fonts overhead when passing an empty array as the :fallback_fonts' do
       pdf.font('Kai')
 
       box = described_class.new(
         formatted_text,
         document: pdf,
-        fallback_fonts: []
+        fallback_fonts: [],
       )
 
       allow(box).to receive(:process_fallback_fonts)
@@ -318,14 +313,13 @@ describe Prawn::Text::Formatted::Box do
     end
   end
 
-  describe 'Text::Formatted::Box with :fallback_fonts option ' \
-    'with glyphs not in the primary or the fallback fonts' do
+  describe 'Text::Formatted::Box with :fallback_fonts option with glyphs not in the primary or the fallback fonts' do
     it 'raises an exception' do
       formatted_text = [{ text: 'hello world. 世界你好。' }]
 
-      expect do
+      expect {
         pdf.formatted_text_box(formatted_text, fallback_fonts: ['Courier'])
-      end.to raise_error(Prawn::Errors::IncompatibleStringEncoding)
+      }.to raise_error(Prawn::Errors::IncompatibleStringEncoding)
     end
   end
 
@@ -339,7 +333,7 @@ describe Prawn::Text::Formatted::Box do
             document: @document,
             kerning: @kerning,
             width: 10_000,
-            arranger: @arranger
+            arranger: @arranger,
           )
           fragment = @arranger.retrieve_fragment
           format_and_draw_fragment(fragment, 0, @line_wrap.width, 0)
@@ -358,8 +352,7 @@ describe Prawn::Text::Formatted::Box do
       expect(text.strings[0]).to eq('all your base are belong to us')
     end
 
-    it 'overrides Text::Formatted::Box line wrapping does not affect ' \
-      'Text::Box wrapping' do
+    it 'overrides Text::Formatted::Box line wrapping does not affect Text::Box wrapping' do
       described_class.extensions << formatted_wrap_override
       pdf.text_box('hello world', {})
       described_class.extensions.delete(formatted_wrap_override)
@@ -379,8 +372,6 @@ describe Prawn::Text::Formatted::Box do
   describe 'Text::Formatted::Box#render' do
     let(:fragment_callback_class) do
       Class.new do
-        def initialize(_string, _number, _options); end
-
         def render_behind(fragment); end
 
         def render_in_front(fragment); end
@@ -414,7 +405,7 @@ describe Prawn::Text::Formatted::Box do
         { text: "hello#{' ' * 500}" },
         { text: ' ' * 500 },
         { text: "#{' ' * 500}\n" },
-        { text: 'world' }
+        { text: 'world' },
       ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
@@ -427,7 +418,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'hello ' * number_of_hellos },
         { text: 'world', direction: :ltr },
-        { text: ', how are you?' }
+        { text: ', how are you?' },
       ]
       options = { document: pdf, direction: :rtl }
       text_box = described_class.new(array, options)
@@ -440,88 +431,65 @@ describe Prawn::Text::Formatted::Box do
     end
 
     it 'is able to perform fragment callbacks' do
-      callback_object =
-        fragment_callback_class.new('something', 7, document: pdf)
+      callback_object = fragment_callback_class.new
       allow(callback_object).to receive(:render_behind)
       allow(callback_object).to receive(:render_in_front)
       array = [
         { text: 'hello world ' },
-        { text: 'callback now', callback: callback_object }
+        { text: 'callback now', callback: callback_object },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
 
-      expect(callback_object).to have_received(:render_behind).with(
-        kind_of(Prawn::Text::Formatted::Fragment)
-      )
-      expect(callback_object).to have_received(:render_in_front).with(
-        kind_of(Prawn::Text::Formatted::Fragment)
-      )
+      expect(callback_object).to have_received(:render_behind).with(kind_of(Prawn::Text::Formatted::Fragment))
+      expect(callback_object).to have_received(:render_in_front).with(kind_of(Prawn::Text::Formatted::Fragment))
     end
 
     it 'is able to perform fragment callbacks on multiple objects' do
-      callback_object =
-        fragment_callback_class.new('something', 7, document: pdf)
+      callback_object = fragment_callback_class.new
       allow(callback_object).to receive(:render_behind)
       allow(callback_object).to receive(:render_in_front)
 
-      callback_object2 = fragment_callback_class.new(
-        'something else', 14, document: pdf
-      )
+      callback_object2 = fragment_callback_class.new
       allow(callback_object2).to receive(:render_behind)
       allow(callback_object2).to receive(:render_in_front)
 
       array = [
         { text: 'hello world ' },
-        { text: 'callback now', callback: [callback_object, callback_object2] }
+        { text: 'callback now', callback: [callback_object, callback_object2] },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
 
-      expect(callback_object).to have_received(:render_behind).with(
-        kind_of(Prawn::Text::Formatted::Fragment)
-      )
-      expect(callback_object).to have_received(:render_in_front).with(
-        kind_of(Prawn::Text::Formatted::Fragment)
-      )
-      expect(callback_object2).to have_received(:render_behind).with(
-        kind_of(Prawn::Text::Formatted::Fragment)
-      )
-      expect(callback_object2).to have_received(:render_in_front).with(
-        kind_of(Prawn::Text::Formatted::Fragment)
-      )
+      expect(callback_object).to have_received(:render_behind).with(kind_of(Prawn::Text::Formatted::Fragment))
+      expect(callback_object).to have_received(:render_in_front).with(kind_of(Prawn::Text::Formatted::Fragment))
+      expect(callback_object2).to have_received(:render_behind).with(kind_of(Prawn::Text::Formatted::Fragment))
+      expect(callback_object2).to have_received(:render_in_front).with(kind_of(Prawn::Text::Formatted::Fragment))
     end
 
     it 'fragment callbacks is able to define only the callback they need' do
       behind = (
         Class.new do
-          def initialize(_string, _number, _options); end
-
           def render_behind(fragment); end
         end
-      ).new(
-        'something',
-        7,
-        document: pdf
-      )
+      ).new
+      allow(behind).to receive(:render_behind)
       in_front = (
         Class.new do
-          def initialize(_string, _number, _options); end
-
           def render_in_front(fragment); end
         end
-      ).new(
-        'something',
-        7,
-        document: pdf
-      )
+      ).new
+      allow(in_front).to receive(:render_in_front)
       array = [
         { text: 'hello world ' },
-        { text: 'callback now', callback: [behind, in_front] }
+        { text: 'callback now', callback: [behind, in_front] },
       ]
       text_box = described_class.new(array, document: pdf)
 
       text_box.render # trigger callbacks
+
+      expect(behind).to have_received(:render_behind)
+      expect(in_front).to have_received(:render_in_front)
     end
 
     it 'is able to set the font' do
@@ -530,9 +498,9 @@ describe Prawn::Text::Formatted::Box do
         {
           text: 'Times-Bold',
           styles: [:bold],
-          font: 'Times-Roman'
+          font: 'Times-Roman',
         },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -548,7 +516,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'bold', styles: [:bold] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -564,7 +532,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'italic', styles: [:italic] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -577,7 +545,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'subscript', size: 18, styles: [:subscript] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -591,7 +559,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'superscript', size: 18, styles: [:superscript] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -605,7 +573,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'bold italic', styles: %i[bold italic] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -618,7 +586,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'underlined', styles: [:underline] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -630,7 +598,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'struckthrough', styles: [:strikethrough] },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -643,7 +611,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'click ' },
         { text: 'here', link: 'http://example.com' },
-        { text: ' to visit' }
+        { text: ' to visit' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -654,8 +622,8 @@ describe Prawn::Text::Formatted::Box do
         A: {
           Type: :Action,
           S: :URI,
-          URI: 'http://example.com'
-        }
+          URI: 'http://example.com',
+        },
       )
     end
 
@@ -663,7 +631,7 @@ describe Prawn::Text::Formatted::Box do
       allow(pdf).to receive(:link_annotation)
       array = [
         { text: 'Go to the ' },
-        { text: 'Table of Contents', anchor: 'ToC' }
+        { text: 'Table of Contents', anchor: 'ToC' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -671,7 +639,7 @@ describe Prawn::Text::Formatted::Box do
       expect(pdf).to have_received(:link_annotation).with(
         kind_of(Array),
         Border: [0, 0, 0],
-        Dest: 'ToC'
+        Dest: 'ToC',
       )
     end
 
@@ -680,7 +648,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'click ' },
         { text: 'here', local: '../example.pdf' },
-        { text: ' to open a local file' }
+        { text: ' to open a local file' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -692,8 +660,8 @@ describe Prawn::Text::Formatted::Box do
           Type: :Action,
           S: :Launch,
           F: '../example.pdf',
-          NewWindow: true
-        }
+          NewWindow: true,
+        },
       )
     end
 
@@ -701,7 +669,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'sized', size: 24 },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -714,7 +682,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'this contains ' },
         { text: 'sized', size: 24 },
-        { text: ' text' }
+        { text: ' text' },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -728,8 +696,8 @@ describe Prawn::Text::Formatted::Box do
       array = [
         {
           text: 'rgb',
-          color: 'ff0000'
-        }
+          color: 'ff0000',
+        },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -742,8 +710,8 @@ describe Prawn::Text::Formatted::Box do
       array = [
         {
           text: 'cmyk',
-          color: [100, 0, 0, 0]
-        }
+          color: [100, 0, 0, 0],
+        },
       ]
       text_box = described_class.new(array, document: pdf)
       text_box.render
@@ -763,8 +731,8 @@ describe Prawn::Text::Formatted::Box do
       array = [
         {
           text: 'Foo',
-          color: [0, 0, 0, 100]
-        }
+          color: [0, 0, 0, 100],
+        },
       ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
@@ -778,14 +746,13 @@ describe Prawn::Text::Formatted::Box do
     end
   end
 
-  describe 'Text::Formatted::Box#render with fragment level '\
-    ':character_spacing option' do
+  describe 'Text::Formatted::Box#render with fragment level :character_spacing option' do
     it 'draws the character spacing to the document' do
       array = [
         {
           text: 'hello world',
-          character_spacing: 7
-        }
+          character_spacing: 7,
+        },
       ]
       options = { document: pdf }
       text_box = described_class.new(array, options)
@@ -799,13 +766,13 @@ describe Prawn::Text::Formatted::Box do
         {
           text: 'hello world',
           font: 'Courier',
-          character_spacing: 10
-        }
+          character_spacing: 10,
+        },
       ]
       options = {
         document: pdf,
         width: 100,
-        overflow: :expand
+        overflow: :expand,
       }
       text_box = described_class.new(array, options)
       text_box.render
@@ -818,7 +785,7 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'hello world ' },
         { text: "\n" },
-        { text: 'goodbye' }
+        { text: 'goodbye' },
       ]
       options = { document: pdf, align: :justify }
       text_box = described_class.new(array, options)
@@ -831,13 +798,13 @@ describe Prawn::Text::Formatted::Box do
       array = [
         { text: 'hello world ' },
         { text: "\n" },
-        { text: 'goodbye' }
+        { text: 'goodbye' },
       ]
       options = { document: pdf, align: 'justify' }
       text_box = described_class.new(array, options)
       expect { text_box.render }.to raise_error(
         ArgumentError,
-        'align must be one of :left, :right, :center or :justify symbols'
+        'align must be one of :left, :right, :center or :justify symbols',
       )
     end
   end
@@ -853,7 +820,7 @@ describe Prawn::Text::Formatted::Box do
         at: [0, y],
         width: 100,
         height: box_height,
-        size: 16
+        size: 16,
       }
       text_box = described_class.new(array, options)
       text_box.render
@@ -875,7 +842,7 @@ describe Prawn::Text::Formatted::Box do
         at: [0, y],
         width: 100,
         height: box_height,
-        size: 16
+        size: 16,
       }
       text_box = described_class.new(array, options)
       text_box.render
@@ -892,7 +859,7 @@ describe Prawn::Text::Formatted::Box do
       text_box = described_class.new(array, options)
       expect { text_box.render }.to raise_error(
         ArgumentError,
-        'valign must be one of :left, :right or :center symbols'
+        'valign must be one of :left, :right or :center symbols',
       )
     end
 
@@ -902,7 +869,7 @@ describe Prawn::Text::Formatted::Box do
       text_box = described_class.new(array, options)
       expect { text_box.render }.to raise_error(
         ArgumentError,
-        'valign must be one of :left, :right or :center symbols'
+        'valign must be one of :left, :right or :center symbols',
       )
     end
   end

@@ -21,8 +21,8 @@ Prawn::ManualBuilder::Chapter.new do
     # Registering a single external font
     font_families.update(
       'DejaVu Sans' => {
-        normal: "#{Prawn::ManualBuilder::DATADIR}/fonts/DejaVuSans.ttf"
-      }
+        normal: "#{Prawn::ManualBuilder::DATADIR}/fonts/DejaVuSans.ttf",
+      },
     )
 
     font('DejaVu Sans') do
@@ -37,8 +37,8 @@ Prawn::ManualBuilder::Chapter.new do
         normal: { file: font_path, font: 'PanicSans' },
         italic: { file: font_path, font: 'PanicSans-Italic' },
         bold: { file: font_path, font: 'PanicSans-Bold' },
-        bold_italic: { file: font_path, font: 'PanicSans-BoldItalic' }
-      }
+        bold_italic: { file: font_path, font: 'PanicSans-BoldItalic' },
+      },
     )
 
     font 'Panic Sans'

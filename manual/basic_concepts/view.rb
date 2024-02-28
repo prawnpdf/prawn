@@ -43,7 +43,7 @@ Prawn::ManualBuilder::Chapter.new do
 
       def say_hello
         font('Courier') do
-          text "Hello, #{@name}!"
+          text("Hello, #{@name}!")
         end
       end
     end

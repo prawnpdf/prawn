@@ -21,7 +21,7 @@ Prawn::ManualBuilder::Peritext.new do
       'How to repeat content on several pages with a single invocation',
       'How to create a new Stamp',
       'How to "stamp" the content block on the page',
-      'How to number the document pages with one simple call'
+      'How to number the document pages with one simple call',
     )
   end
 end

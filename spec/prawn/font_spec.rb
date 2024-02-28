@@ -41,7 +41,7 @@ describe Prawn::Font do
     it 'takes character spacing into account' do
       original_width = pdf.width_of('hello world')
       pdf.character_spacing(7) do
-        expect(pdf.width_of('hello world')).to eq(original_width + 10 * 7)
+        expect(pdf.width_of('hello world')).to eq(original_width + (10 * 7))
       end
     end
 
@@ -49,9 +49,7 @@ describe Prawn::Font do
       # Use a TTF font that has a non-zero width for \n
       pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
 
-      expect(pdf.width_of("\nhello world\n")).to eq(
-        pdf.width_of('hello world')
-      )
+      expect(pdf.width_of("\nhello world\n")).to eq(pdf.width_of('hello world'))
     end
 
     it 'takes formatting into account' do
@@ -72,19 +70,19 @@ describe Prawn::Font do
     end
 
     it 'reports missing font with style' do
-      expect do
+      expect {
         pdf.font('Nada', style: :bold) do
           pdf.width_of('hello')
         end
-      end.to raise_error(Prawn::Errors::UnknownFont, /Nada \(bold\)/)
+      }.to raise_error(Prawn::Errors::UnknownFont, /Nada \(bold\)/)
     end
 
     it 'calculates styled widths correctly using TTFs' do
       pdf.font_families.update(
         'DejaVu Sans' => {
           normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
-          bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
-        }
+          bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf",
+        },
       )
       styled_bold_hello = nil
       bold_hello = nil
@@ -113,7 +111,7 @@ describe Prawn::Font do
 
   describe '#font_size' do
     it 'allows setting font size in DSL style' do
-      pdf.font_size 20
+      pdf.font_size(20)
       expect(pdf.font_size).to eq(20)
     end
   end
@@ -122,32 +120,29 @@ describe Prawn::Font do
     it 'complains if there is no @current_page' do
       pdf_without_page = Prawn::Document.new(skip_page_creation: true)
 
-      expect { pdf_without_page.font 'Helvetica' }
+      expect { pdf_without_page.font('Helvetica') }
         .to raise_error(Prawn::Errors::NotOnPage)
     end
 
     it 'allows specifying font style by style name and font family' do
-      pdf.font 'Courier', style: :bold
-      pdf.text 'In Courier bold'
+      pdf.font('Courier', style: :bold)
+      pdf.text('In Courier bold')
 
-      pdf.font 'Courier', style: :bold_italic
-      pdf.text 'In Courier bold-italic'
+      pdf.font('Courier', style: :bold_italic)
+      pdf.text('In Courier bold-italic')
 
-      pdf.font 'Courier', style: :italic
-      pdf.text 'In Courier italic'
+      pdf.font('Courier', style: :italic)
+      pdf.text('In Courier italic')
 
-      pdf.font 'Courier', style: :normal
-      pdf.text 'In Normal Courier'
+      pdf.font('Courier', style: :normal)
+      pdf.text('In Normal Courier')
 
-      pdf.font 'Helvetica'
-      pdf.text 'In Normal Helvetica'
+      pdf.font('Helvetica')
+      pdf.text('In Normal Helvetica')
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.font_settings.map { |e| e[:name] }).to eq(
-        %i[
-          Courier-Bold Courier-BoldOblique Courier-Oblique
-          Courier Helvetica
-        ]
+        %i[Courier-Bold Courier-BoldOblique Courier-Oblique Courier Helvetica],
       )
     end
 
@@ -157,11 +152,11 @@ describe Prawn::Font do
         normal: { file: file, font: 'PanicSans' },
         italic: { file: file, font: 'PanicSans-Italic' },
         bold: { file: file, font: 'PanicSans-Bold' },
-        bold_italic: { file: file, font: 'PanicSans-BoldItalic' }
+        bold_italic: { file: file, font: 'PanicSans-BoldItalic' },
       }
 
-      pdf.font 'Panic Sans', style: :italic
-      pdf.text 'In PanicSans-Italic'
+      pdf.font('Panic Sans', style: :italic)
+      pdf.text('In PanicSans-Italic')
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       name = text.font_settings.map { |e| e[:name] }.first.to_s
@@ -173,11 +168,11 @@ describe Prawn::Font do
       file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttc"
       pdf.font_families['DejaVu Sans'] = {
         normal: { file: file, font: 0 },
-        bold: { file: file, font: 1 }
+        bold: { file: file, font: 1 },
       }
 
-      pdf.font 'DejaVu Sans', style: :bold
-      pdf.text 'In PanicSans-Bold'
+      pdf.font('DejaVu Sans', style: :bold)
+      pdf.text('In PanicSans-Bold')
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       name = text.font_settings.map { |e| e[:name] }.first.to_s
@@ -189,11 +184,11 @@ describe Prawn::Font do
       file = "#{Prawn::DATADIR}/fonts/DejaVuSans.ttc"
       pdf.font_families['DejaVu Sans'] = {
         normal: { file: file, font: 'DejaVu Sans' },
-        bold: { file: file, font: 'DejaVu Sans Bold' }
+        bold: { file: file, font: 'DejaVu Sans Bold' },
       }
 
-      pdf.font 'DejaVu Sans', style: :bold
-      pdf.text 'In PanicSans-Bold'
+      pdf.font('DejaVu Sans', style: :bold)
+      pdf.text('In PanicSans-Bold')
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       name = text.font_settings.map { |e| e[:name] }.first.to_s
@@ -204,11 +199,11 @@ describe Prawn::Font do
     it 'accepts Pathname objects for font files' do
       file = Pathname.new("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
       pdf.font_families['DejaVu Sans'] = {
-        normal: file
+        normal: file,
       }
 
-      pdf.font 'DejaVu Sans'
-      pdf.text 'In DejaVu Sans'
+      pdf.font('DejaVu Sans')
+      pdf.text('In DejaVu Sans')
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       name = text.font_settings.map { |e| e[:name] }.first.to_s
@@ -217,13 +212,13 @@ describe Prawn::Font do
     end
 
     it 'accepts IO objects for font files' do
-      File.open "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" do |io|
+      File.open("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") do |io|
         pdf.font_families['DejaVu Sans'] = {
-          normal: described_class.load(pdf, io)
+          normal: described_class.load(pdf, io),
         }
 
-        pdf.font 'DejaVu Sans'
-        pdf.text 'In DejaVu Sans'
+        pdf.font('DejaVu Sans')
+        pdf.text('In DejaVu Sans')
 
         text = PDF::Inspector::Text.analyze(pdf.render)
         name = text.font_settings.map { |e| e[:name] }.first.to_s
@@ -235,14 +230,14 @@ describe Prawn::Font do
 
   describe 'Transactional font handling' do
     it 'allows setting of size directly when font is created' do
-      pdf.font 'Courier', size: 16
+      pdf.font('Courier', size: 16)
       expect(pdf.font_size).to eq(16)
     end
 
     it 'allows temporary setting of a new font using a transaction' do
-      pdf.font 'Helvetica', size: 12
+      pdf.font('Helvetica', size: 12)
 
-      pdf.font 'Courier', size: 16 do
+      pdf.font('Courier', size: 16) do
         expect(pdf.font.name).to eq('Courier')
         expect(pdf.font_size).to eq(16)
       end
@@ -252,12 +247,12 @@ describe Prawn::Font do
     end
 
     it 'masks font size when using a transacation' do
-      pdf.font 'Courier', size: 16 do
+      pdf.font('Courier', size: 16) do
         expect(pdf.font_size).to eq(16)
       end
 
-      pdf.font 'Times-Roman'
-      pdf.font 'Courier'
+      pdf.font('Times-Roman')
+      pdf.font('Courier')
 
       expect(pdf.font_size).to eq(12)
     end
@@ -265,44 +260,36 @@ describe Prawn::Font do
 
   describe 'Document#page_fonts' do
     it 'registers fonts properly by page' do
-      pdf.font 'Courier'
+      pdf.font('Courier')
       pdf.text('hello')
 
-      pdf.font 'Helvetica'
+      pdf.font('Helvetica')
       pdf.text('hello')
 
-      pdf.font 'Times-Roman'
+      pdf.font('Times-Roman')
       pdf.text('hello')
 
-      %w[Courier Helvetica Times-Roman].each do |f|
-        page_should_include_font(f)
+      %w[Courier Helvetica Times-Roman].each do |font|
+        expect(page_includes_font?(font)).to be true
       end
 
       pdf.start_new_page
 
-      pdf.font 'Helvetica'
+      pdf.font('Helvetica')
       pdf.text('hello')
 
-      page_should_include_font('Helvetica')
-      page_should_not_include_font('Courier')
-      page_should_not_include_font('Times-Roman')
+      expect(page_includes_font?('Helvetica')).to be true
+      expect(page_includes_font?('Courier')).to be false
+      expect(page_includes_font?('Times-Roman')).to be false
     end
 
     def page_includes_font?(font)
       pdf.page.fonts.values.map { |e| e.data[:BaseFont] }.include?(font.to_sym)
     end
-
-    def page_should_include_font(font)
-      expect(page_includes_font?(font)).to eq true
-    end
-
-    def page_should_not_include_font(font)
-      expect(page_includes_font?(font)).to eq false
-    end
   end
 
   describe 'AFM fonts' do
-    let(:times) { pdf.find_font 'Times-Roman' }
+    let(:times) { pdf.find_font('Times-Roman') }
 
     it 'calculates string width taking into account accented characters' do
       input = win1252_string("\xE9") # é in win-1252
@@ -311,19 +298,17 @@ describe Prawn::Font do
     end
 
     it 'calculates string width taking into account kerning pairs' do
-      expect(times.compute_width_of(win1252_string('To'), size: 12))
-        .to eq(13.332)
+      expect(times.compute_width_of(win1252_string('To'), size: 12)).to eq(13.332)
       expect(
         times.compute_width_of(
           win1252_string('To'),
           size: 12,
-          kerning: true
-        )
+          kerning: true,
+        ),
       ).to eq(12.372)
 
       input = win1252_string("T\xF6") # Tö in win-1252
-      expect(times.compute_width_of(input, size: 12, kerning: true))
-        .to eq(12.372)
+      expect(times.compute_width_of(input, size: 12, kerning: true)).to eq(12.372)
     end
 
     it 'encodes text without kerning by default' do
@@ -350,16 +335,15 @@ describe Prawn::Font do
     end
 
     describe 'when normalizing encoding' do
-      it 'does not modify the original string when normalize_encoding() '\
-        'is used' do
+      it 'does not modify the original string when normalize_encoding() is used' do
         original = 'Foo'
         normalized = times.normalize_encoding(original)
-        expect(original.equal?(normalized)).to eq false
+        expect(original.equal?(normalized)).to be false
       end
     end
 
     it 'omits /Encoding for symbolic fonts' do
-      zapf = pdf.find_font 'ZapfDingbats'
+      zapf = pdf.find_font('ZapfDingbats')
       font_dict = zapf.__send__(:register, nil)
       expect(font_dict.data[:Encoding]).to be_nil
     end
@@ -368,41 +352,38 @@ describe Prawn::Font do
   describe '#glyph_present' do
     it 'returns true when present in an AFM font' do
       font = pdf.find_font('Helvetica')
-      expect(font.glyph_present?('H')).to eq true
+      expect(font.glyph_present?('H')).to be true
     end
 
     it 'returns false when absent in an AFM font' do
       font = pdf.find_font('Helvetica')
-      expect(font.glyph_present?('再')).to eq false
+      expect(font.glyph_present?('再')).to be false
     end
 
     it 'returns true when present in a TTF font' do
       font = pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-      expect(font.glyph_present?('H')).to eq true
+      expect(font.glyph_present?('H')).to be true
     end
 
     it 'returns false when absent in a TTF font' do
       font = pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf")
-      expect(font.glyph_present?('再')).to eq false
+      expect(font.glyph_present?('再')).to be false
 
       font = pdf.find_font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
-      expect(font.glyph_present?('€')).to eq false
+      expect(font.glyph_present?('€')).to be false
     end
   end
 
   describe 'TTF fonts' do
-    let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf" }
+    let(:font) { pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") }
 
     it 'calculates string width taking into account accented characters' do
-      expect(font.compute_width_of('é', size: 12)).to eq(
-        font.compute_width_of('e', size: 12)
-      )
+      expect(font.compute_width_of('é', size: 12)).to eq font.compute_width_of('e', size: 12)
     end
 
     it 'calculates string width taking into account kerning pairs' do
       expect(font.compute_width_of('To', size: 12)).to be_within(0.01).of(14.65)
-      expect(font.compute_width_of('To', size: 12, kerning: true))
-        .to be_within(0.01).of(12.61)
+      expect(font.compute_width_of('To', size: 12, kerning: true)).to be_within(0.01).of(12.61)
     end
 
     it 'encodes text without kerning by default' do
@@ -419,33 +400,33 @@ describe Prawn::Font do
       expect(font.encode_text('Teχnology...')).to eq(
         [
           [0, 'Te'],
-          [1, '!'], [0, 'nology...']
-        ]
+          [1, '!'], [0, 'nology...'],
+        ],
       )
     end
 
     it 'encodes text with kerning if requested' do
       expect(font.encode_text('To', kerning: true)).to eq(
         [
-          [0, ['T', 169.921875, 'o']]
-        ]
+          [0, ['T', 169.921875, 'o']],
+        ],
       )
       expect(font.encode_text('Technology', kerning: true)).to eq(
         [
-          [0, ['T', 169.921875, 'echnology']]
-        ]
+          [0, ['T', 169.921875, 'echnology']],
+        ],
       )
       expect(font.encode_text('Technology...', kerning: true)).to eq(
         [
-          [0, ['T', 169.921875, 'echnology', 142.578125, '...']]
-        ]
+          [0, ['T', 169.921875, 'echnology', 142.578125, '...']],
+        ],
       )
       expect(font.encode_text('Teχnology...', kerning: true)).to eq(
         [
           [0, ['T', 169.921875, 'e']],
           [1, '!'],
-          [0, ['nology', 142.578125, '...']]
-        ]
+          [0, ['nology', 142.578125, '...']],
+        ],
       )
     end
 
@@ -466,12 +447,12 @@ describe Prawn::Font do
       it 'does not modify the original string with normalize_encoding()' do
         original = 'Foo'
         normalized = font.normalize_encoding(original)
-        expect(original.equal?(normalized)).to eq false
+        expect(original.equal?(normalized)).to be false
       end
     end
 
     describe 'full font embedding' do
-      let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf", subset: false }
+      let(:font) { pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf", subset: false) }
       let(:ref) { pdf.ref!({}).tap { |ref| font.__send__(:embed, ref, nil) } }
 
       it 'is a composite font' do
@@ -518,12 +499,10 @@ describe Prawn::Font do
   end
 
   describe 'OTF fonts' do
-    let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/Bodoni-Book.otf" }
+    let(:font) { pdf.find_font("#{Prawn::DATADIR}/fonts/Bodoni-Book.otf") }
 
     it 'calculates string width taking into account accented characters' do
-      expect(font.compute_width_of('é', size: 12)).to eq(
-        font.compute_width_of('e', size: 12)
-      )
+      expect(font.compute_width_of('é', size: 12)).to eq font.compute_width_of('e', size: 12)
     end
 
     it 'uses the ascender, descender, and cap height from the OTF verbatim' do
@@ -543,12 +522,12 @@ describe Prawn::Font do
       it 'does not modify the original string with normalize_encoding()' do
         original = 'Foo'
         normalized = font.normalize_encoding(original)
-        expect(original).to_not be_equal(normalized)
+        expect(original).to_not equal(normalized)
       end
     end
 
     describe 'full font embedding' do
-      let(:font) { pdf.find_font "#{Prawn::DATADIR}/fonts/Bodoni-Book.otf", subset: false }
+      let(:font) { pdf.find_font("#{Prawn::DATADIR}/fonts/Bodoni-Book.otf", subset: false) }
       let(:ref) { pdf.ref!({}).tap { |ref| font.__send__(:embed, ref, nil) } }
 
       it 'is a composite font' do
@@ -598,11 +577,7 @@ describe Prawn::Font do
 
     it 'lists all named fonts' do
       list = Prawn::Fonts::DFont.named_fonts(file)
-      expect(list).to match_array(
-        %w[
-          PanicSans PanicSans-Bold PanicSans-BoldItalic PanicSans-Italic
-        ]
-      )
+      expect(list).to match_array(%w[PanicSans PanicSans-Bold PanicSans-BoldItalic PanicSans-Italic])
     end
 
     it 'counts the number of fonts in the file' do
@@ -651,19 +626,19 @@ describe Prawn::Font do
     pdf.font_families.update(
       'DejaVu Sans' => {
         normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
-        bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
+        bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf",
       },
       'Dustismo' => {
         # This has to be the same font file as in the other family.
         normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
-        bold: "#{Prawn::DATADIR}/fonts/Dustismo_Roman.ttf"
-      }
+        bold: "#{Prawn::DATADIR}/fonts/Dustismo_Roman.ttf",
+      },
     )
 
-    pdf.font 'DejaVu Sans'
+    pdf.font('DejaVu Sans')
 
-    pdf.font 'Dustismo' do
-      pdf.text 'Dustismo bold', style: :bold
+    pdf.font('Dustismo') do
+      pdf.text('Dustismo bold', style: :bold)
     end
 
     text = PDF::Inspector::Text.analyze(pdf.render)
@@ -683,9 +658,9 @@ describe Prawn::Font do
 
         def show_text(text, kerned = false)
           super
-          @string_widths << ((@state.current_font.unpack text).reduce(0) do |width, code|
-            width + (@state.current_font.glyph_width code) * @font_settings[-1][:size] / 1000.0
-          end)
+          @string_widths << (@state.current_font.unpack(text).reduce(0) { |width, code|
+            width + (@state.current_font.glyph_width(code) * @font_settings[-1][:size] / 1000.0)
+          })
         end
       end
 
@@ -694,13 +669,13 @@ describe Prawn::Font do
         font_families.update(
           'DejaVu Sans' => {
             normal: "#{Prawn::DATADIR}/fonts/DejaVuSans.ttf",
-            bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf"
-          }
+            bold: "#{Prawn::DATADIR}/fonts/DejaVuSans-Bold.ttf",
+          },
         )
 
         # changing option to subset: false fixes issue (albeit using different behavior)
-        font 'DejaVu Sans', subset: true do
-          text '日本語<b>end</b>', inline_format: true
+        font('DejaVu Sans', subset: true) do
+          text('日本語<b>end</b>', inline_format: true)
         end
       end
 

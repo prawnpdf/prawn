@@ -35,19 +35,19 @@ Prawn::ManualBuilder::Chapter.new do
     # Now we will start adding nodes to the previous outline
     outline.insert_section_after('Page 2') do
       outline.section('Section after Page 2') do
-        outline.page title: 'Page 4', destination: 4
+        outline.page(title: 'Page 4', destination: 4)
       end
     end
 
     outline.insert_section_after('Section 1') do
       outline.section('Section after Section 1') do
-        outline.page title: 'Page 5', destination: 5
+        outline.page(title: 'Page 5', destination: 5)
       end
     end
 
     # Adding just a page
     outline.insert_section_after('Page 3') do
-      outline.page title: 'Page after Page 3', destination: 6
+      outline.page(title: 'Page after Page 3', destination: 6)
     end
   end
 end

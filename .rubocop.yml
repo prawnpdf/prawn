@@ -65,3 +65,7 @@ Style/Encoding:
 RSpec/FilePath:
   Exclude:
     - spec/prawn/fonts/to_unicode_cmap_spec.rb
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/prawn/fonts/to_unicode_cmap_spec.rb

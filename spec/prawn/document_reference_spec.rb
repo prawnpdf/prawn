@@ -7,17 +7,17 @@ describe Prawn::Document do
     describe 'generated via Prawn::Document' do
       it 'returns a proper reference on ref!' do
         pdf = described_class.new
-        expect(pdf.ref!({}).is_a?(PDF::Core::Reference)).to eq(true)
+        expect(pdf.ref!({}).is_a?(PDF::Core::Reference)).to be(true)
       end
 
       it 'returns an identifier on ref' do
         pdf = described_class.new
         r = pdf.ref({})
-        expect(r.is_a?(Integer)).to eq(true)
+        expect(r.is_a?(Integer)).to be(true)
       end
 
       it 'has :Length of stream if it has one when compression disabled' do
-        pdf = described_class.new compress: false
+        pdf = described_class.new(compress: false)
         ref = pdf.ref!({})
         ref << 'Hello'
         expect(ref.stream.data[:Length]).to eq(5)

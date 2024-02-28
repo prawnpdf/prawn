@@ -17,7 +17,7 @@ describe Prawn::Text::Box do
     text_box = described_class.new(
       'hello world',
       document: pdf,
-      leading: 20
+      leading: 20,
     )
     expect(text_box.leading).to eq(20)
   end
@@ -38,7 +38,7 @@ describe Prawn::Text::Box do
     pdf.text_direction = :rtl
     pdf.text_direction = :rtl
     pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf", size: 16) do
-      pdf.text '写个小'
+      pdf.text('写个小')
     end
     text = PDF::Inspector::Text.analyze(pdf.render)
     expect(text.strings[0]).to eq('小个写')
@@ -50,7 +50,7 @@ describe Prawn::Text::Box do
     text_box = described_class.new(
       string,
       document: pdf,
-      direction: :ltr
+      direction: :ltr,
     )
     text_box.render
     text = PDF::Inspector::Text.analyze(pdf.render)
@@ -58,12 +58,11 @@ describe Prawn::Text::Box do
     expect(text.strings[1]).to eq("I'm fine, thank you.")
   end
 
-  it 'only requires enough space for the descender and the ascender '\
-     'when determining whether a line can fit' do
+  it 'only requires enough space for the descender and the ascender when determining whether a line can fit' do
     text = 'Oh hai text rect'
     options = {
       document: pdf,
-      height: pdf.font.ascender + pdf.font.descender
+      height: pdf.font.ascender + pdf.font.descender,
     }
     text_box = described_class.new(text, options)
     text_box.render
@@ -72,7 +71,7 @@ describe Prawn::Text::Box do
     text = "Oh hai text rect\nOh hai text rect"
     options = {
       document: pdf,
-      height: pdf.font.height + pdf.font.ascender + pdf.font.descender
+      height: pdf.font.height + pdf.font.ascender + pdf.font.descender,
     }
     text_box = described_class.new(text, options)
     text_box.render
@@ -84,14 +83,14 @@ describe Prawn::Text::Box do
       string = "Hello world, how are you?\nI'm fine, thank you."
       text_box = described_class.new(string, height: 2, document: pdf)
       text_box.render
-      expect(text_box.nothing_printed?).to eq true
+      expect(text_box.nothing_printed?).to be true
     end
 
     it 'returns false when something printed' do
       string = "Hello world, how are you?\nI'm fine, thank you."
       text_box = described_class.new(string, height: 14, document: pdf)
       text_box.render
-      expect(text_box.nothing_printed?).to eq false
+      expect(text_box.nothing_printed?).to be false
     end
   end
 
@@ -100,14 +99,14 @@ describe Prawn::Text::Box do
       string = "Hello world, how are you?\nI'm fine, thank you."
       text_box = described_class.new(string, height: 14, document: pdf)
       text_box.render
-      expect(text_box.everything_printed?).to eq false
+      expect(text_box.everything_printed?).to be false
     end
 
     it 'returns true when everything printed' do
       string = "Hello world, how are you?\nI'm fine, thank you."
       text_box = described_class.new(string, document: pdf)
       text_box.render
-      expect(text_box.everything_printed?).to eq true
+      expect(text_box.everything_printed?).to be true
     end
   end
 
@@ -141,62 +140,62 @@ describe Prawn::Text::Box do
   end
 
   describe '#height without leading' do
-    it 'is the sum of the height of each line, not including the space below '\
-       'the last line' do
+    it 'is the sum of the height of each line, not including the space below the last line' do
       text = "Oh hai text rect.\nOh hai text rect."
       options = { document: pdf }
       text_box = described_class.new(text, options)
       text_box.render
-      expect(text_box.height).to be_within(0.001)
-        .of(pdf.font.height * 2 - pdf.font.line_gap)
+      expect(text_box.height).to be_within(0.001).of((pdf.font.height * 2) - pdf.font.line_gap)
     end
   end
 
   describe '#height with leading' do
-    it 'is the sum of the height of each line plus leading, but not including '\
-       'the space below the last line' do
+    it 'is the sum of the height of each line plus leading, but not including the space below the last line' do
       text = "Oh hai text rect.\nOh hai text rect."
       leading = 12
       options = { document: pdf, leading: leading }
       text_box = described_class.new(text, options)
       text_box.render
-      expect(text_box.height).to be_within(0.001).of(
-        (pdf.font.height + leading) * 2 - pdf.font.line_gap - leading
-      )
+      expect(text_box.height).to be_within(0.001).of(((pdf.font.height + leading) * 2) - pdf.font.line_gap - leading)
     end
   end
 
   context 'with :draw_text_callback' do
     it 'hits the callback whenever text is drawn' do
-      draw_block = instance_spy('Draw block')
+      draw_block = instance_spy(Proc, 'Draw block')
 
-      pdf.text_box 'this text is long enough to span two lines',
+      pdf.text_box(
+        'this text is long enough to span two lines',
         width: 150,
-        draw_text_callback: ->(text, _) { draw_block.kick(text) }
+        draw_text_callback: draw_block,
+      )
 
-      expect(draw_block).to have_received(:kick)
-        .with('this text is long enough to')
-      expect(draw_block).to have_received(:kick).with('span two lines')
+      expect(draw_block).to have_received(:call).with('this text is long enough to', instance_of(Hash))
+      expect(draw_block).to have_received(:call).with('span two lines', instance_of(Hash))
     end
 
     it 'hits the callback once per fragment for :inline_format' do
-      draw_block = instance_spy('Draw block')
+      draw_block = instance_spy(Proc, 'Draw block')
 
-      pdf.text_box 'this text has <b>fancy</b> formatting',
+      pdf.text_box(
+        'this text has <b>fancy</b> formatting',
         inline_format: true,
         width: 500,
-        draw_text_callback: ->(text, _) { draw_block.kick(text) }
+        draw_text_callback: draw_block,
+      )
 
-      expect(draw_block).to have_received(:kick).with('this text has ')
-      expect(draw_block).to have_received(:kick).with('fancy')
-      expect(draw_block).to have_received(:kick).with(' formatting')
+      expect(draw_block).to have_received(:call).with('this text has ', instance_of(Hash))
+      expect(draw_block).to have_received(:call).with('fancy', instance_of(Hash))
+      expect(draw_block).to have_received(:call).with(' formatting', instance_of(Hash))
     end
 
     it 'does not call #draw_text!' do
       allow(pdf).to receive(:draw_text!)
-      pdf.text_box 'some text',
+      pdf.text_box(
+        'some text',
         width: 500,
-        draw_text_callback: ->(_, _) {}
+        draw_text_callback: ->(_, _) {},
+      )
       expect(pdf).to_not have_received(:draw_text!)
     end
   end
@@ -204,7 +203,7 @@ describe Prawn::Text::Box do
   describe '#valid_options' do
     it 'returns an array' do
       text_box = described_class.new('', document: pdf)
-      expect(text_box.valid_options).to be_a_kind_of(Array)
+      expect(text_box.valid_options).to be_a(Array)
     end
   end
 
@@ -213,7 +212,7 @@ describe Prawn::Text::Box do
       text = 'Oh hai text rect. ' * 10
       options = {
         height: pdf.font.height * 0.5,
-        document: pdf
+        document: pdf,
       }
       text_box = described_class.new(text, options)
       text_box.render
@@ -244,7 +243,7 @@ describe Prawn::Text::Box do
       text = 'Oh hai text rect. ' * 10
       options = {
         document: pdf,
-        single_line: true
+        single_line: true,
       }
       text_box = described_class.new(text, options)
       text_box.render
@@ -269,9 +268,9 @@ describe Prawn::Text::Box do
       text_box = described_class.new(text, options)
       text_box.render(dry_run: true)
 
-      expect do
+      expect {
         text_box.render
-      end.to_not raise_exception
+      }.to_not raise_exception
     end
   end
 
@@ -281,7 +280,7 @@ describe Prawn::Text::Box do
       options = {
         width: 162,
         valign: :bottom,
-        document: pdf
+        document: pdf,
       }
       text_box = described_class.new(text, options)
 
@@ -299,7 +298,7 @@ describe Prawn::Text::Box do
       options = {
         width: 162,
         valign: :center,
-        document: pdf
+        document: pdf,
       }
       text_box = described_class.new(text, options)
 
@@ -321,7 +320,7 @@ describe Prawn::Text::Box do
         rotate: 30,
         at: [300, 70],
         width: 100,
-        height: 50
+        height: 50,
       }
     end
 
@@ -334,14 +333,14 @@ describe Prawn::Text::Box do
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
         x = 350
         y = 45
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = (x * cos) - (y * sin)
+        y_prime = (x * sin) + (y * cos)
         expect(matrices.matrices[0]).to eq(
           [
             1, 0, 0, 1,
             reduce_precision(x - x_prime),
-            reduce_precision(y - y_prime)
-          ]
+            reduce_precision(y - y_prime),
+          ],
         )
         expect(matrices.matrices[1]).to eq(
           [
@@ -349,8 +348,8 @@ describe Prawn::Text::Box do
             reduce_precision(sin),
             reduce_precision(-sin),
             reduce_precision(cos),
-            0, 0
-          ]
+            0, 0,
+          ],
         )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
@@ -359,21 +358,20 @@ describe Prawn::Text::Box do
     end
 
     context 'with :rotate_around option of :upper_left' do
-      it 'draws content to the page rotated about the upper left corner of '\
-        'the text' do
+      it 'draws content to the page rotated about the upper left corner of the text' do
         options[:rotate_around] = :upper_left
         text_box = described_class.new(text, options)
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_prime = 300 * cos - 70 * sin
-        y_prime = 300 * sin + 70 * cos
+        x_prime = (300 * cos) - (70 * sin)
+        y_prime = (300 * sin) + (70 * cos)
         expect(matrices.matrices[0]).to eq(
           [
             1, 0, 0, 1,
             reduce_precision(300 - x_prime),
-            reduce_precision(70 - y_prime)
-          ]
+            reduce_precision(70 - y_prime),
+          ],
         )
         expect(matrices.matrices[1]).to eq(
           [
@@ -381,8 +379,8 @@ describe Prawn::Text::Box do
             reduce_precision(sin),
             reduce_precision(-sin),
             reduce_precision(cos),
-            0, 0
-          ]
+            0, 0,
+          ],
         )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
@@ -391,20 +389,19 @@ describe Prawn::Text::Box do
     end
 
     context 'with default :rotate_around' do
-      it 'draws content to the page rotated about the upper left corner of '\
-        'the text' do
+      it 'draws content to the page rotated about the upper left corner of the text' do
         text_box = described_class.new(text, options)
         text_box.render
 
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
-        x_prime = 300 * cos - 70 * sin
-        y_prime = 300 * sin + 70 * cos
+        x_prime = (300 * cos) - (70 * sin)
+        y_prime = (300 * sin) + (70 * cos)
         expect(matrices.matrices[0]).to eq(
           [
             1, 0, 0, 1,
             reduce_precision(300 - x_prime),
-            reduce_precision(70 - y_prime)
-          ]
+            reduce_precision(70 - y_prime),
+          ],
         )
         expect(matrices.matrices[1]).to eq(
           [
@@ -412,8 +409,8 @@ describe Prawn::Text::Box do
             reduce_precision(sin),
             reduce_precision(-sin),
             reduce_precision(cos),
-            0, 0
-          ]
+            0, 0,
+          ],
         )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
@@ -422,8 +419,7 @@ describe Prawn::Text::Box do
     end
 
     context 'with :rotate_around option of :upper_right' do
-      it 'draws content to the page rotated about the upper right corner of '\
-        'the text' do
+      it 'draws content to the page rotated about the upper right corner of the text' do
         options[:rotate_around] = :upper_right
         text_box = described_class.new(text, options)
         text_box.render
@@ -431,14 +427,14 @@ describe Prawn::Text::Box do
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
         x = 400
         y = 70
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = (x * cos) - (y * sin)
+        y_prime = (x * sin) + (y * cos)
         expect(matrices.matrices[0]).to eq(
           [
             1, 0, 0, 1,
             reduce_precision(x - x_prime),
-            reduce_precision(y - y_prime)
-          ]
+            reduce_precision(y - y_prime),
+          ],
         )
         expect(matrices.matrices[1]).to eq(
           [
@@ -446,8 +442,8 @@ describe Prawn::Text::Box do
             reduce_precision(sin),
             reduce_precision(-sin),
             reduce_precision(cos),
-            0, 0
-          ]
+            0, 0,
+          ],
         )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
@@ -456,8 +452,7 @@ describe Prawn::Text::Box do
     end
 
     context 'with :rotate_around option of :lower_right' do
-      it 'draws content to the page rotated about the lower right corner of '\
-        'the text' do
+      it 'draws content to the page rotated about the lower right corner of the text' do
         options[:rotate_around] = :lower_right
         text_box = described_class.new(text, options)
         text_box.render
@@ -465,14 +460,14 @@ describe Prawn::Text::Box do
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
         x = 400
         y = 20
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = (x * cos) - (y * sin)
+        y_prime = (x * sin) + (y * cos)
         expect(matrices.matrices[0]).to eq(
           [
             1, 0, 0, 1,
             reduce_precision(x - x_prime),
-            reduce_precision(y - y_prime)
-          ]
+            reduce_precision(y - y_prime),
+          ],
         )
         expect(matrices.matrices[1]).to eq(
           [
@@ -480,8 +475,8 @@ describe Prawn::Text::Box do
             reduce_precision(sin),
             reduce_precision(-sin),
             reduce_precision(cos),
-            0, 0
-          ]
+            0, 0,
+          ],
         )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
@@ -490,8 +485,7 @@ describe Prawn::Text::Box do
     end
 
     context 'with :rotate_around option of :lower_left' do
-      it 'draws content to the page rotated about the lower left corner of '\
-        'the text' do
+      it 'draws content to the page rotated about the lower left corner of the text' do
         options[:rotate_around] = :lower_left
         text_box = described_class.new(text, options)
         text_box.render
@@ -499,14 +493,14 @@ describe Prawn::Text::Box do
         matrices = PDF::Inspector::Graphics::Matrix.analyze(pdf.render)
         x = 300
         y = 20
-        x_prime = x * cos - y * sin
-        y_prime = x * sin + y * cos
+        x_prime = (x * cos) - (y * sin)
+        y_prime = (x * sin) + (y * cos)
         expect(matrices.matrices[0]).to eq(
           [
             1, 0, 0, 1,
             reduce_precision(x - x_prime),
-            reduce_precision(y - y_prime)
-          ]
+            reduce_precision(y - y_prime),
+          ],
         )
         expect(matrices.matrices[1]).to eq(
           [
@@ -514,8 +508,8 @@ describe Prawn::Text::Box do
             reduce_precision(sin),
             reduce_precision(-sin),
             reduce_precision(cos),
-            0, 0
-          ]
+            0, 0,
+          ],
         )
 
         text = PDF::Inspector::Text.analyze(pdf.render)
@@ -543,8 +537,7 @@ describe Prawn::Text::Box do
       end
     end
 
-    it 'uses the parent-box bottom if in a stretchy bbox and overflow is '\
-       ':expand, even with an explicit height' do
+    it 'uses the parent-box bottom if in a stretchy bbox and overflow is :expand, even with an explicit height' do
       pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width) do
         target_height = pdf.y - pdf.bounds.bottom
         text = "Oh hai\n" * 60
@@ -552,7 +545,7 @@ describe Prawn::Text::Box do
           text,
           document: pdf,
           height: 100,
-          overflow: :expand
+          overflow: :expand,
         )
         text_box.render
         expect(text_box.height).to be_within(pdf.font.height).of(target_height)
@@ -563,7 +556,7 @@ describe Prawn::Text::Box do
       pdf.bounding_box(
         [0, pdf.cursor],
         width: pdf.bounds.width,
-        height: 200
+        height: 200,
       ) do
         pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width) do
           text = "Oh hai\n" * 60
@@ -592,7 +585,7 @@ describe Prawn::Text::Box do
       {
         width: 162.0,
         height: 162.0,
-        document: pdf
+        document: pdf,
       }
     end
 
@@ -609,8 +602,7 @@ describe Prawn::Text::Box do
       expect(text_box.render).to eq('')
     end
 
-    it 'is truncated when the leading is set high enough to prevent all the '\
-      'lines from being printed' do
+    it 'is truncated when the leading is set high enough to prevent all the lines from being printed' do
       options[:leading] = 40
       text_box = described_class.new(text, options)
       text_box.render
@@ -625,9 +617,9 @@ describe Prawn::Text::Box do
     let(:options) do
       {
         width: 162.0,
-        height: pdf.font.ascender + pdf.font.height * interlines +
+        height: pdf.font.ascender + (pdf.font.height * interlines) +
           pdf.font.descender,
-        document: pdf
+        document: pdf,
       }
     end
 
@@ -657,7 +649,7 @@ describe Prawn::Text::Box do
       end
 
       it 'overflows when insufficient height is added' do
-        options[:height] += options[:leading] * interlines - 1
+        options[:height] += (options[:leading] * interlines) - 1
         text_box = described_class.new(text, options)
         text_box.render
         expect(text_box.text).to_not eq(text)
@@ -677,7 +669,7 @@ describe Prawn::Text::Box do
       end
 
       it 'overflows when too much height is removed' do
-        options[:height] += options[:leading] * interlines - 1
+        options[:height] += (options[:leading] * interlines) - 1
         text_box = described_class.new(text, options)
         text_box.render
         expect(text_box.text).to_not eq(text)
@@ -694,7 +686,7 @@ describe Prawn::Text::Box do
       bounding_height = 1.0
       options = {
         height: bounding_height,
-        document: pdf
+        document: pdf,
       }
       described_class.new(text, options)
     end
@@ -705,7 +697,7 @@ describe Prawn::Text::Box do
         normal: { file: file, font: 'PanicSans' },
         italic: { file: file, font: 'PanicSans-Italic' },
         bold: { file: file, font: 'PanicSans-Bold' },
-        bold_italic: { file: file, font: 'PanicSans-BoldItalic' }
+        bold_italic: { file: file, font: 'PanicSans-BoldItalic' },
       }
     end
 
@@ -732,7 +724,7 @@ describe Prawn::Text::Box do
       {
         width: 162.0,
         height: bounding_height,
-        document: pdf
+        document: pdf,
       }
     end
 
@@ -746,8 +738,7 @@ describe Prawn::Text::Box do
         expect(text_box.text.tr("\n", ' ')).to_not eq(text.strip)
       end
 
-      it 'render does not return an empty string because some text remains '\
-        'unprinted' do
+      it 'render does not return an empty string because some text remains unprinted' do
         expect(text_box.render).to_not be_empty
       end
 
@@ -758,8 +749,7 @@ describe Prawn::Text::Box do
 
       it '#height should be within one font height of the specified height' do
         text_box.render
-        expect(bounding_height).to be_within(pdf.font.height)
-          .of(text_box.height)
+        expect(bounding_height).to be_within(pdf.font.height).of(text_box.height)
       end
 
       context 'with :rotate option' do
@@ -779,8 +769,8 @@ describe Prawn::Text::Box do
     context 'when truncated with text and size taken from the manual' do
       it 'returns the right text' do
         text = 'This is the beginning of the text. It will be cut somewhere ' \
-          'and the rest of the text will proceed to be rendered this time by '\
-          'calling another method.' + ' . ' * 50
+          'and the rest of the text will proceed to be rendered this time by ' \
+          'calling another method.' + (' . ' * 50)
         options[:width] = 300
         options[:height] = 50
         options[:size] = 18
@@ -788,9 +778,9 @@ describe Prawn::Text::Box do
         remaining_text = text_box.render
         expect(remaining_text).to eq(
           'text will proceed to be rendered this time by calling another ' \
-          'method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ' \
-          '.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ' \
-          '.  .  .  .  .  .  .  .  . '
+            'method. .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ' \
+            '.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ' \
+            '.  .  .  .  .  .  .  .  . ',
         )
       end
     end
@@ -800,20 +790,18 @@ describe Prawn::Text::Box do
         described_class.new(text, options.merge(overflow: :expand))
       end
 
-      it 'height expands to encompass all the text '\
-        '(but not exceed the height of the page)' do
+      it 'height expands to encompass all the text (but not exceed the height of the page)' do
         text_box.render
         expect(text_box.height).to be > bounding_height
       end
 
-      it 'displays the entire string (as long as there was space remaining on '\
-        'the page to print all the text)' do
+      it 'displays the entire string (as long as there was space remaining on the page to print all the text)' do
         text_box.render
         expect(text_box.text.tr("\n", ' ')).to eq(text.strip)
       end
 
-      it 'render returns an empty string because no text remains unprinted '\
-        '(as long as there was space remaining on the page to print all '\
+      it 'render returns an empty string because no text remains unprinted ' \
+        '(as long as there was space remaining on the page to print all ' \
         'the text)' do
         expect(text_box.render).to eq('')
       end
@@ -825,8 +813,8 @@ describe Prawn::Text::Box do
           text,
           options.merge(
             overflow: :shrink_to_fit,
-            min_font_size: 2
-          )
+            min_font_size: 2,
+          ),
         )
       end
 
@@ -851,8 +839,7 @@ describe Prawn::Text::Box do
     end
   end
 
-  context 'with enough space to fit the text but using the ' \
-    'shrink_to_fit overflow' do
+  context 'with enough space to fit the text but using the shrink_to_fit overflow' do
     it 'does not shrink the text when there is no need to' do
       bounding_height = 162.0
       options = {
@@ -860,7 +847,7 @@ describe Prawn::Text::Box do
         height: bounding_height,
         overflow: :shrink_to_fit,
         min_font_size: 5,
-        document: pdf
+        document: pdf,
       }
       text_box = described_class.new("hello\nworld", options)
       text_box.render
@@ -877,9 +864,9 @@ describe Prawn::Text::Box do
         width: 162.0,
         height: 162.0,
         document: pdf,
-        overflow: :truncate
+        overflow: :truncate,
       }
-      pdf.font "#{Prawn::DATADIR}/fonts/gkai00mp.ttf"
+      pdf.font("#{Prawn::DATADIR}/fonts/gkai00mp.ttf")
       text_box = described_class.new(text, options)
       text_box.render
       expect(text_box.text.delete("\n")).to eq(text)
@@ -890,7 +877,7 @@ describe Prawn::Text::Box do
     it 'restores the margin box when bounding box exits' do
       margin_box = pdf.bounds
 
-      pdf.text_box 'Oh hai text box. ' * 11, height: pdf.font.height * 10
+      pdf.text_box('Oh hai text box. ' * 11, height: pdf.font.height * 10)
 
       expect(pdf.bounds).to eq(margin_box)
     end
@@ -907,13 +894,13 @@ describe Prawn::Text::Box do
     end
 
     it 'takes character spacing into account when wrapping' do
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         'hello world',
         width: 100,
         overflow: :expand,
         character_spacing: 10,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq("hello\nworld")
@@ -922,17 +909,15 @@ describe Prawn::Text::Box do
 
   describe 'wrapping' do
     it 'wraps text' do
-      text = 'Please wrap this text about HERE. ' \
-        'More text that should be wrapped'
-      expect = "Please wrap this text about\n"\
-        "HERE. More text that should be\nwrapped"
+      text = 'Please wrap this text about HERE. More text that should be wrapped'
+      expect = "Please wrap this text about\nHERE. More text that should be\nwrapped"
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 220,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
@@ -943,17 +928,16 @@ describe Prawn::Text::Box do
     # the line for other characters, so wrapping "hello hello" resulted in
     # "hello\n\nhello", rather than "hello\nhello"
     #
-    it 'white space at beginning of line should not be taken into account ' \
-      'when computing line width' do
+    it 'white space at beginning of line should not be taken into account hen computing line width' do
       text = 'hello hello'
       expect = "hello\nhello"
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 40,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
@@ -963,12 +947,12 @@ describe Prawn::Text::Box do
       text = "Please wrap only before\nTHIS word. Don't wrap this"
       expect = text
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 220,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
@@ -978,28 +962,27 @@ describe Prawn::Text::Box do
       text = "Please wrap only before THIS\n\nword. Don't wrap this"
       expect = "Please wrap only before\nTHIS\n\nword. Don't wrap this"
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 200,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
     end
 
-    it 'respects multiple newlines when wrapping text when those newlines '\
-      'coincide with a line break' do
+    it 'respects multiple newlines when wrapping text when those newlines coincide with a line break' do
       text = "Please wrap only before\n\nTHIS word. Don't wrap this"
       expect = text
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 220,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
@@ -1009,43 +992,41 @@ describe Prawn::Text::Box do
       text = "\nThis should be on line 2"
       expect = text
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 220,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
     end
 
-    it 'wraps lines comprised of a single word of the bounds when '\
-      'wrapping text' do
+    it 'wraps lines comprised of a single word of the bounds when wrapping text' do
       text = 'You_can_wrap_this_text_HERE'
       expect = "You_can_wrap_this_text_HE\nRE"
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 180,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)
     end
 
-    it 'wraps lines comprised of a single non-alpha word of the bounds when '\
-      'wrapping text' do
+    it 'wraps lines comprised of a single non-alpha word of the bounds when wrapping text' do
       text = '©' * 30
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 180,
         overflow: :expand,
-        document: pdf
+        document: pdf,
       )
 
       text_box.render
@@ -1061,7 +1042,7 @@ describe Prawn::Text::Box do
       text_box = described_class.new(
         text,
         width: 180,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       results_with_accent = text_box.text
@@ -1070,7 +1051,7 @@ describe Prawn::Text::Box do
       text_box = described_class.new(
         text,
         width: 180,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       results_without_accent = text_box.text
@@ -1080,16 +1061,15 @@ describe Prawn::Text::Box do
     end
 
     it 'allows you to disable wrapping by char' do
-      text = 'You_cannot_wrap_this_text_at_all_because_we_are_disabling_' \
-        'wrapping_by_char_and_there_are_no_word_breaks'
+      text = 'You_cannot_wrap_this_text_at_all_because_we_are_disabling_wrapping_by_char_and_there_are_no_word_breaks'
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 180,
         overflow: :shrink_to_fit,
         disable_wrap_by_char: true,
-        document: pdf
+        document: pdf,
       )
       expect { text_box.render }.to raise_error(Prawn::Errors::CannotFit)
     end
@@ -1098,7 +1078,7 @@ describe Prawn::Text::Box do
       text = 'Wrapped_words'
       expect = 'Wrapped_words'
 
-      pdf.font 'Courier'
+      pdf.font('Courier')
       text_box = described_class.new(
         text,
         width: 50,
@@ -1106,7 +1086,7 @@ describe Prawn::Text::Box do
         size: 50,
         overflow: :shrink_to_fit,
         disable_wrap_by_char: true,
-        document: pdf
+        document: pdf,
       )
       text_box.render
       expect(text_box.text).to eq(expect)

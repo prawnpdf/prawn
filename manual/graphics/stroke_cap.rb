@@ -27,7 +27,7 @@ Prawn::ManualBuilder::Chapter.new do
     %i[butt round projecting_square].each_with_index do |cap, i|
       self.cap_style = cap
 
-      y = 250 - i * 100
+      y = 250 - (i * 100)
       stroke_horizontal_line 100, 300, at: y
       stroke_circle [400, y], 15
     end

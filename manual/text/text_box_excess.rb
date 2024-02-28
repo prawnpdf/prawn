@@ -22,7 +22,7 @@ Prawn::ManualBuilder::Chapter.new do
   example do
     string = 'This is the beginning of the text. It will be cut somewhere and ' \
       'the rest of the text will proceed to be rendered this time by ' \
-      'calling another method.' + ' . ' * 50
+      'calling another method.' + (' . ' * 50)
 
     y_position = cursor - 20
     excess_text = text_box(
@@ -31,13 +31,13 @@ Prawn::ManualBuilder::Chapter.new do
       height: 50,
       overflow: :truncate,
       at: [100, y_position],
-      size: 18
+      size: 18,
     )
 
     text_box(
       excess_text,
       width: 300,
-      at: [100, y_position - 100]
+      at: [100, y_position - 100],
     )
   end
 end
