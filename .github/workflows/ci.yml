@@ -10,13 +10,13 @@ jobs:
   code-style:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
       - name: Gems cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/gems
           key: gems-3.2-${{ hashFiles('*.gemspec', 'Gemfile') }}
@@ -50,7 +50,7 @@ jobs:
           - "edge"
           - "release"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -63,7 +63,7 @@ jobs:
           echo "gem 'ttfunk', github: 'prawnpdf/ttfunk'" >> Gemfile.local
           echo "gem 'prawn-manual_builder', github: 'prawnpdf/prawn-manual_builder'" >> Gemfile.local
       - name: Gems cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/gems
           key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}
