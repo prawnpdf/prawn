@@ -46,12 +46,22 @@ jobs:
           - "3.3.0"
           - "head"
           - "jruby-9.4"
+        dependencies:
+          - "edge"
+          - "release"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+      - name: Setup deps
+        if: ${{ matrix.dependencies == 'edge' }}
+        run: |
+          echo "gem 'prawn-dev', github: 'prawnpdf/prawn-dev'" >> Gemfile.local
+          echo "gem 'pdf-core', github: 'prawnpdf/pdf-core'" >> Gemfile.local
+          echo "gem 'ttfunk', github: 'prawnpdf/ttfunk'" >> Gemfile.local
+          echo "gem 'prawn-manual_builder', github: 'prawnpdf/prawn-manual_builder'" >> Gemfile.local
       - name: Gems cache
         uses: actions/cache@v3
         with:
