@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.version = Prawn::VERSION
   spec.platform = Gem::Platform::RUBY
   spec.summary = 'A fast and nimble PDF generator for Ruby'
+  spec.description = 'Prawn is a fast, tiny, and nimble PDF generator for Ruby'
 
   spec.cert_chain = ['certs/pointlessone.pem']
   if $PROGRAM_NAME.end_with?('gem')
@@ -48,7 +49,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('prawn-manual_builder', '~> 0.4.0')
 
   spec.homepage = 'http://prawnpdf.org'
-  spec.description = <<END_DESC
-  Prawn is a fast, tiny, and nimble PDF generator for Ruby
-END_DESC
 end
