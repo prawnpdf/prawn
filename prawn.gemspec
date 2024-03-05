@@ -11,6 +11,10 @@ Gem::Specification.new do |spec|
   spec.summary = 'A fast and nimble PDF generator for Ruby'
   spec.description = 'Prawn is a fast, tiny, and nimble PDF generator for Ruby'
 
+  spec.files = Dir.glob('{lib}/**/**/*') +
+    Dir.glob('data/fonts/{MustRead.html,*.afm}') +
+    %w[COPYING LICENSE GPLv2 GPLv3]
+
   if File.basename($PROGRAM_NAME) == 'gem' && ARGV.include?('build')
     signing_key = File.expand_path('~/.gem/gem-private_key.pem')
     if File.exist?(signing_key)
@@ -21,13 +25,6 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.files = Dir.glob('{examples,lib,spec,manual}/**/**/*') +
-    Dir.glob('data/fonts/{MustRead.html,*.afm}') +
-    [
-      'Rakefile', 'prawn.gemspec', 'Gemfile',
-      'COPYING', 'LICENSE', 'GPLv2', 'GPLv3',
-      '.yardopts',
-    ]
   spec.required_ruby_version = '>= 2.7'
   spec.required_rubygems_version = '>= 1.3.6'
 
