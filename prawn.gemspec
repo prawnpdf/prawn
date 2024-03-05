@@ -36,9 +36,8 @@ Gem::Specification.new do |spec|
     'alex@pointless.one', 'gregory.t.brown@gmail.com', 'brad@bradediger.com',
     'dnelson@bluejade.com', 'greenberg@entryway.net', 'jimmy@deefa.com',
   ]
-  spec.licenses = %w[PRAWN GPL-2.0 GPL-3.0]
-
   spec.metadata = { 'rubygems_mfa_required' => 'true' }
+  spec.licenses = %w[Nonstandard GPL-2.0-only GPL-3.0-only]
 
   spec.add_dependency('matrix', '~> 0.4')
   spec.add_dependency('pdf-core', '~> 0.9.0')
