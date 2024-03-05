@@ -23,7 +23,6 @@ Gem::Specification.new do |spec|
       'COPYING', 'LICENSE', 'GPLv2', 'GPLv3',
       '.yardopts',
     ]
-  spec.require_path = 'lib'
   spec.required_ruby_version = '>= 2.7'
   spec.required_rubygems_version = '>= 1.3.6'
 
