@@ -36,8 +36,16 @@ Gem::Specification.new do |spec|
     'alex@pointless.one', 'gregory.t.brown@gmail.com', 'brad@bradediger.com',
     'dnelson@bluejade.com', 'greenberg@entryway.net', 'jimmy@deefa.com',
   ]
-  spec.metadata = { 'rubygems_mfa_required' => 'true' }
   spec.licenses = %w[Nonstandard GPL-2.0-only GPL-3.0-only]
+  spec.homepage = 'http://prawnpdf.org/'
+  spec.metadata = {
+    'rubygems_mfa_required' => 'true',
+    'homepage_uri' => spec.homepage,
+    'changelog_uri' => "https://github.com/prawnpdf/prawn/blob/#{spec.version}/CHANGELOG.md",
+    'source_code_uri' => 'https://github.com/prawnpdf/prawn',
+    'documentation_uri' => "https://prawnpdf.org/docs/prawn/#{spec.version}/",
+    'bug_tracker_uri' => 'https://github.com/prawnpdf/prawn/issues',
+  }
 
   spec.add_dependency('matrix', '~> 0.4')
   spec.add_dependency('pdf-core', '~> 0.9.0')
@@ -47,6 +55,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('pdf-reader', '~> 1.4', '>= 1.4.1')
   spec.add_development_dependency('prawn-dev', '~> 0.4.0')
   spec.add_development_dependency('prawn-manual_builder', '~> 0.4.0')
-
-  spec.homepage = 'http://prawnpdf.org'
 end
