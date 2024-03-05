@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## PrawnPDF 2.5.0
+
 ### Full font embedding
 
 Fonts can be embedded in their original form without subsetting or any other
