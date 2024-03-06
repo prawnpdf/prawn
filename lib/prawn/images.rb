@@ -35,7 +35,7 @@ module Prawn
     #   not be changed.
     # @option options :position [:left, :center, :right, Number]
     #   Horizontal position relative to the current bounding box.
-    # @option options :vposition [:topm :center, :bottom, Number]
+    # @option options :vposition [:top, :center, :bottom, Number]
     #   Vertical position relative to the current bounding box.
     # @option options :height [Number] (actual height of the image)
     #   The height of the image.
