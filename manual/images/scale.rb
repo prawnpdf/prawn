@@ -3,7 +3,7 @@
 require 'prawn/manual_builder'
 
 Prawn::ManualBuilder::Chapter.new do
-  title 'Scaling Pmages'
+  title 'Scaling Images'
 
   text do
     prose <<~TEXT
