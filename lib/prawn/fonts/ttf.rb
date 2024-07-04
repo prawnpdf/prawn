@@ -230,7 +230,7 @@ module Prawn
             end
           end
         else
-          @subsets.encode(text.unpack('U*'))
+          @subsets.encode(text.each_grapheme_cluster.map(&:codepoints))
         end
       end
 

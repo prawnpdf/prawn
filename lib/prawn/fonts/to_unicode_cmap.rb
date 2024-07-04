@@ -78,7 +78,7 @@ module Prawn
                   "<%0#{code_space_size * 2}X><%0#{code_space_size * 2}X>[%s]",
                   span.first[0],
                   span.last[0],
-                  span.map { |_, cid| "<#{cid.chr(::Encoding::UTF_16BE).unpack1('H*')}>" }.join(''),
+                  span.map { |_, cid| "<#{cid.map {|c| "#{c.chr(::Encoding::UTF_16BE).unpack1('H*')}"}.join(',')}>" }.join(''),
                 )
               end
               # rubocop: enable Lint/FormatParameterMismatch
