@@ -124,6 +124,14 @@ module Prawn
     def pt2mm(pt)
       pt * 1 / mm2pt(1) # (25.4 / 72)
     end
+
+    # Convert pixels to points.
+    #
+    # @param px [Number]
+    # @return [Number]
+    def px2pt(px)
+      px * 72 / 96.0
+    end
   end
 end
 # rubocop: enable Naming/MethodParameterName

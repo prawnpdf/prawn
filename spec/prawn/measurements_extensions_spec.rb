@@ -19,6 +19,7 @@ describe Prawn::Measurements do
       expect(1.ft).to eq(72 * 12)
       expect(1.yd).to eq(72 * 12 * 3)
       expect(1.pt).to eq(1)
+      expect(1.px).to eq(0.75)
     end
   end
 end

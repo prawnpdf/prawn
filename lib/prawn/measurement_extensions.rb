@@ -79,4 +79,11 @@ class Numeric
   def pt
     pt2pt(self)
   end
+
+  # Convert from pixels to points.
+  #
+  # @return [Number]
+  def px
+    px2pt(self)
+  end
 end
