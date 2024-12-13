@@ -119,7 +119,7 @@ describe Prawn::Text::Formatted::Arranger do
   end
 
   describe '#retrieve_fragment' do
-    context 'with a formatted array whos text is an empty string' do
+    context 'with a formatted array whose text is an empty string' do
       let(:array) do
         [
           { text: "hello\nworld\n\n\nhow are you?" },

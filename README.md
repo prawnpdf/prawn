@@ -44,7 +44,7 @@ for rendering rich HTML documents.
 
 Because Prawn is pure Ruby and all of its runtime dependencies are maintained by
 us, it should work pretty much anywhere. We officially support all Ruby versions
-suported by Ruby Core Team and JRuby versions of matching Ruby version. However
+supported by Ruby Core Team and JRuby versions of matching Ruby version. However
 we will accept patches to fix problems on other Ruby platforms if they aren't
 too invasive.
 

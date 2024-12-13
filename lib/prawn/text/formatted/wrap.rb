@@ -28,7 +28,7 @@ module Prawn
         #        the descender height of the tallest fragment in the last
         #        printed line
         #   <tt>@ascender</tt>::
-        #        the ascender heigth of the tallest fragment in the last
+        #        the ascender height of the tallest fragment in the last
         #        printed line
         #   <tt>@baseline_y</tt>::
         #       the baseline of the current line

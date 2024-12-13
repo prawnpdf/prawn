@@ -234,7 +234,7 @@ describe Prawn::Text::Formatted::Parser do
       )
     end
 
-    it 'handles double qoutes around tag attributes' do
+    it 'handles double quotes around tag attributes' do
       string = 'some <font size="14">sized</font> text'
       array = described_class.format(string)
       expect(array[1]).to eq(
@@ -250,7 +250,7 @@ describe Prawn::Text::Formatted::Parser do
       )
     end
 
-    it 'handles single qoutes around tag attributes' do
+    it 'handles single quotes around tag attributes' do
       string = "some <font size='14'>sized</font> text"
       array = described_class.format(string)
       expect(array[1]).to eq(

@@ -144,7 +144,7 @@ module Prawn
     # @return [void]
     #
     # @raise [ArgumentError] if `:at` option included
-    # @raise [Prawn::Errrors::CannotFit] if not wide enough to print any text
+    # @raise [Prawn::Errors::CannotFit] if not wide enough to print any text
     #
     # @see PDF::Core::Text#text_rendering_mode()
     #   for a list of valid text rendering modes.
@@ -256,7 +256,7 @@ module Prawn
     # @return [void]
     #
     # @raise [ArgumentError] if `:at` option included
-    # @raise [Prawn::Errrors::CannotFit] if not wide enough to print any text
+    # @raise [Prawn::Errors::CannotFit] if not wide enough to print any text
     #
     # @see PDF::Core::Text#text_rendering_mode()
     #   for a list of valid text rendering modes.
@@ -471,7 +471,7 @@ module Prawn
     # @return [void]
     #
     # @raise [ArgumentError] if `:at` option included
-    # @raise [Prawn::Errrors::CannotFit] if not wide enough to print any text
+    # @raise [Prawn::Errors::CannotFit] if not wide enough to print any text
     # @raise [NotImplementedError] if `:indent_paragraphs` option included.
     #
     # @see PDF::Core::Text#text_rendering_mode()
@@ -566,7 +566,7 @@ module Prawn
     # @return [void]
     #
     # @raise [ArgumentError] if `:at` option included
-    # @raise [Prawn::Errrors::CannotFit] if not wide enough to print any text
+    # @raise [Prawn::Errors::CannotFit] if not wide enough to print any text
     # @raise [NotImplementedError] if `:indent_paragraphs` option included.
     #
     # @see PDF::Core::Text#text_rendering_mode()

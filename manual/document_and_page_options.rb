@@ -9,7 +9,7 @@ Prawn::ManualBuilder::Peritext.new do
     prose <<-TEXT
       So far we've already seen how to create new documents and start new
       pages. This chapter expands on the previous examples by showing other
-      options avialable. Some of the options are only available when creating
+      options available. Some of the options are only available when creating
       new documents.
 
       The examples show:

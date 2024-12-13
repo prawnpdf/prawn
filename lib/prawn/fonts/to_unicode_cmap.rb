@@ -43,9 +43,9 @@ module Prawn
         used_code_space_size = @code_space_size || code_space_size
 
         # In CMap codespaces are not sequentional, they're ranges in
-        # a multi-dimentional space. Each byte is considered separately. So we
+        # a multi-dimensional space. Each byte is considered separately. So we
         # have to maximally extend the lower bytes in order to allow for
-        # continuos mapping.
+        # continuous mapping.
         # We only keep the highest byte because usually it's lower than
         # maximally allowed and we don't want to cover that unused space.
         code_space_max = max_glyph_index | ('ff' * (code_space_size - 1)).to_i(16)

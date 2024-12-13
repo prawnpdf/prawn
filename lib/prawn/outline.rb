@@ -171,7 +171,7 @@ module Prawn
     #
     # @example
     #   outline.section 'Added Section', destination: 3 do
-    #     outline.page destionation: 3, title: 'Page 3'
+    #     outline.page destination: 3, title: 'Page 3'
     #   end
     #
     # @param title [String] The outline text that appears for the section.
