@@ -15,7 +15,7 @@ RSpec.describe Prawn do
   describe 'manual' do
     # JRuby's zlib is a bit quirky. It sometimes produces different output to
     # libzlib (used by MRI). It's still a proper deflate stream and can be
-    # decompressed just fine, but for whatever reason, compression produces
+    # decompressed just fine but, for whatever reason, compression produces
     # different output.
     #
     # See: https://github.com/jruby/jruby/issues/4244
