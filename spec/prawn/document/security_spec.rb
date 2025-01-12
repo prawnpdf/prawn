@@ -82,7 +82,7 @@ describe Prawn::Document::Security do
     let(:pdf) do
       Prawn::Document.new do |pdf|
         class << pdf
-          public :owner_password_hash, :user_password_hash, :user_encryption_key
+          public :owner_password_hash, :user_password_hash, :user_encryption_key # rubocop:todo Style/AccessModifierDeclarations
         end
         pdf.encrypt_document(
           user_password: 'foo',
