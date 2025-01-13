@@ -142,7 +142,7 @@ describe Prawn::Outline do
     end
   end
 
-  describe 'addding a section later with outline#section' do
+  describe 'adding a section later with outline#section' do
     before do
       pdf.start_new_page
       pdf.text('Page 3. An added section ')
@@ -176,7 +176,7 @@ describe Prawn::Outline do
       expect(referenced_object(section1[:Next])).to eq(section2)
     end
 
-    it 'sets the previous relation of the addded to section' do
+    it 'sets the previous relation of the added to section' do
       section1 = find_by_title('Chapter 1')
       section2 = find_by_title('Added Section')
 

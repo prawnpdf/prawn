@@ -36,7 +36,7 @@ describe Prawn::Text::Formatted::Fragment do
         expect(fragment.styles).to eq(%i[bold italic])
       end
 
-      it 'nevers return nil' do
+      it 'never returns nil' do
         format_state = {
           styles: nil,
           color: nil,

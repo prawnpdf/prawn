@@ -62,7 +62,7 @@ Now you can use OTF fonts in your documents.
 ### Fixed `character_spacing` effect on text width calculation
 
 Extra spacing was applied to the end of string which resulted in visually
-incorrect center/right alligned text.
+incorrect center/right aligned text.
 
 (Matjaz Gregoric, [#1117](https://github.com/prawnpdf/prawn/pull/1117))
 

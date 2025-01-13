@@ -19,7 +19,7 @@ Prawn::ManualBuilder::Chapter.new do
       <code>line</code> and <code>curve</code> set the drawing path between the
       two specified points.
 
-      Both curve methods define a Bezier curve bounded by two aditional points
+      Both curve methods define a Bezier curve bounded by two additional points
       provided as the <code>:bounds</code> param.
     TEXT
   end

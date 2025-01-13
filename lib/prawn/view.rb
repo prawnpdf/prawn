@@ -102,7 +102,7 @@ module Prawn
       instance_eval(&block)
     end
 
-    # Syntatic sugar that calls `document.render_file` under the hood.
+    # Syntactic sugar that calls `document.render_file` under the hood.
     #
     # @example
     #   greeter.save_as("greetings.pdf")

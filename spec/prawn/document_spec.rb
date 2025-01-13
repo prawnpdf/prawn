@@ -190,7 +190,7 @@ describe Prawn::Document do
     context 'with an invalid index' do
       let(:expected_content) { ['Page one', 'Page two', 'Page three'] }
 
-      it 'does not destroy an invalid positve index' do
+      it 'does not destroy an invalid positive index' do
         pdf.delete_page(42)
         expect(pdf.page_number).to eq(3)
         text_analysis = PDF::Inspector::Text.analyze(pdf.render)

@@ -778,7 +778,7 @@ module Prawn
     end
 
     # Returns the coordinates for a point on a line that is a given distance
-    # away from the second point defining the line segement
+    # away from the second point defining the line segment
     def point_on_line(distance_from_end, *points)
       x0, y0, x1, y1 = points.flatten
       length = Math.sqrt(((x1 - x0)**2) + ((y1 - y0)**2))

@@ -83,7 +83,7 @@ describe Prawn::Document do
         expect(colors.stroke_color).to eq([0.0, 0.0, 0.0])
       end
 
-      it 'draws outlines without curent color settings' do
+      it 'draws outlines without current color settings' do
         pdf.fill_color('ccff00')
         pdf.stroke_color('ffcc00')
 

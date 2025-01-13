@@ -43,7 +43,7 @@ module Prawn
         MESSAGE_WITH_FONT = 'No unicode cmap found in font %<font>s'
       end
 
-      # Signals absense of a PostScript font name.
+      # Signals absence of a PostScript font name.
       class NoPostscriptName < Error
         # @private
         DEFAULT_MESSAGE = 'Can not detect a postscript name'
@@ -89,9 +89,9 @@ module Prawn
             end
 
           # Codespaces are not sequentional, they're ranges in
-          # a multi-dimentional space. Each byte is considered separately. So we
+          # a multi-dimensional space. Each byte is considered separately. So we
           # have to maximally extend the lower two bytes in order to allow for
-          # continuos Unicode mapping.
+          # continuous Unicode mapping.
           # We only keep the highest byte because Unicode only goes to 1FFFFF
           # and fonts usually cover even less of the space. We don't want to
           # list all those unmapped charac codes here.
@@ -437,7 +437,7 @@ module Prawn
 
       def embed_simple_font(reference, font, unicode_mapping)
         if font_type(font) == :unknown
-          raise Error, %(Simple font embedding is not uspported for font "#{font.name}.")
+          raise Error, %(Simple font embedding is not supported for font "#{font.name}.")
         end
 
         true_type = font_type(font) == :true_type
@@ -522,7 +522,7 @@ module Prawn
 
       def embed_composite_font(reference, font)
         if font_type(font) == :unknown
-          raise Error, %(Composite font embedding is not uspported for font "#{font.name}.")
+          raise Error, %(Composite font embedding is not supported for font "#{font.name}.")
         end
 
         true_type = font_type(font) == :true_type

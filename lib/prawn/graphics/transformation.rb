@@ -154,7 +154,7 @@ module Prawn
       def transformation_matrix(*matrix)
         if matrix.length != 6
           raise ArgumentError,
-            'Transformation matrix must have exacty 6 elements'
+            'Transformation matrix must have exactly 6 elements'
         end
         save_graphics_state if block_given?
 

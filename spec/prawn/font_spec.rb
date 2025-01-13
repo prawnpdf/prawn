@@ -489,7 +489,7 @@ describe Prawn::Font do
         expect(desc_font[:W][1].length).to eq(6108) # All glyph metrics
       end
 
-      it 'propely embeds font data' do
+      it 'properly embeds font data' do
         descriptor = ref.data[:DescendantFonts].first.data[:FontDescriptor].data
         expect(descriptor).to have_key(:FontFile2)
         expect(descriptor[:FontFile2].data[:Length1]).to eq(741_536)
@@ -564,7 +564,7 @@ describe Prawn::Font do
         expect(desc_font[:W][1].length).to eq(353) # All glyph metrics
       end
 
-      it 'propely embeds font data' do
+      it 'properly embeds font data' do
         descriptor = ref.data[:DescendantFonts].first.data[:FontDescriptor].data
         expect(descriptor).to have_key(:FontFile3)
         expect(descriptor[:FontFile3].stream).to_not be_empty
