@@ -145,12 +145,12 @@ module Prawn
 
       def apply_gutter(options)
         if options.key?(:gutter)
-          @gutter = Float(options[:gutter])
+          @gutter = Float(options.fetch(:gutter, 0.0))
           @row_gutter = @gutter
           @column_gutter = @gutter
         else
-          @row_gutter = Float(options[:row_gutter])
-          @column_gutter = Float(options[:column_gutter])
+          @row_gutter = Float(options.fetch(:row_gutter, 0.0))
+          @column_gutter = Float(options.fetch(:column_gutter, 0.0))
           @gutter = 0
         end
       end
