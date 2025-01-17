@@ -55,6 +55,7 @@ module Prawn
     include Prawn::Text
     include Prawn::Graphics
     include Prawn::Images
+    include Prawn::EmbeddedFiles
     include Prawn::Stamp
     include Prawn::SoftMask
     include Prawn::TransformationStack
