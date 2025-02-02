@@ -105,6 +105,18 @@ module Prawn
 
       if options[:at]
         x, y = map_to_absolute(options[:at])
+        case options[:position]
+        when :center
+          x-=w/2
+        when :right
+          x-=w
+        end
+        case options[:vposition]
+        when :center
+          y+=h/2
+        when :bottom
+          y+=h
+        end
       else
         x, y = image_position(w, h, options)
         move_text_position(h)
