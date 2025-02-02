@@ -158,7 +158,7 @@ module Prawn
       if p
         p = [] unless p.is_a?(Array)
         options.delete(:inline_format)
-        array = text_formatter.format(string, *p)
+        array = string.is_a?(Array) ? string : text_formatter.format(string, *p)
       else
         array = [{ text: string }]
       end
