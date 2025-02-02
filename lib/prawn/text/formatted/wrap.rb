@@ -126,7 +126,7 @@ module Prawn
               @descender + @line_height + @leading
             end
           require_relatived_total_height = @baseline_y.abs + diff
-          if require_relatived_total_height > @height + 0.0001
+          if require_relatived_total_height > @height + FLOAT_PRECISION_DELTA
             # no room for the full height of this line
             @arranger.repack_unretrieved
             false
