@@ -6,7 +6,11 @@ require 'digest/sha2'
 MANUAL_HASH =
   case RUBY_ENGINE
   when 'ruby'
-    '06ce69758c64b0e5f14d09474d94ba580aaa4edca7014c6ab5bc9536b5bb0d0c163425aceff74a0ad3867859f8372e07b96e63822cc0e789549bb3a35d3cf185'
+    if RUBY_VERSION >= '3.5.0'
+      '4b7fb30d46e11bd6e65e49ea5a01e231be3800712729ca3d2843abd06c5333c7e80fbf5a168c4d3d9a84381424f4b2fcd18478517d47b9b33428168e0a2dfb60'
+    else
+      '06ce69758c64b0e5f14d09474d94ba580aaa4edca7014c6ab5bc9536b5bb0d0c163425aceff74a0ad3867859f8372e07b96e63822cc0e789549bb3a35d3cf185'
+    end
   when 'jruby'
     '31b7c93ddf81f0c734a036644f07541071af36cee1f2e9a6c99847bd98ae6a66a9755afb69f4351fac711382bfc04d1cb50bc00122d7c4d187428f1582680794'
   end
@@ -15,7 +19,7 @@ RSpec.describe Prawn do
   describe 'manual' do
     # JRuby's zlib is a bit quirky. It sometimes produces different output to
     # libzlib (used by MRI). It's still a proper deflate stream and can be
-    # decompressed just fine but for whatever reason compressin produses
+    # decompressed just fine but for whatever reason compression produces
     # different output.
     #
     # See: https://github.com/jruby/jruby/issues/4244
