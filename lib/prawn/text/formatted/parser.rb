@@ -240,7 +240,8 @@ module Prawn
 
               matches = /size="([^"]*)"/.match(token) ||
                 /size='([^']*)'/.match(token)
-              sizes << Float(matches[1]) unless matches.nil?
+              size = (Float(matches[1]) rescue nil) unless matches.nil?
+              sizes << size unless size.nil?
 
               matches = /character_spacing="([^"]*)"/.match(token) ||
                 /character_spacing='([^']*)'/.match(token)
