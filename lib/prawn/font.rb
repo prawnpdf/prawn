@@ -362,6 +362,10 @@ module Prawn
     # @return [Hash]
     attr_reader :options
 
+    # Whether the font is a full embedding.
+    # @return [Boolean]
+    attr_reader :full_font_embedding
+
     # Shortcut interface for constructing a font object. Filenames of the form
     # `*.ttf` will call {Fonts::TTF#initialize TTF.new}, `*.otf` calls
     # {Fonts::OTF#initialize OTF.new}, `*.dfont` calls {Fonts::DFont#initialize
@@ -535,8 +539,6 @@ module Prawn
     end
 
     private
-
-    attr_reader :full_font_embedding
 
     # generate a font identifier that hasn't been used on the current page yet
     #

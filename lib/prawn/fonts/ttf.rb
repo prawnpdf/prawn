@@ -522,7 +522,7 @@ module Prawn
 
       def embed_composite_font(reference, font)
         if font_type(font) == :unknown
-          raise Error, %(Composite font embedding is not uspported for font "#{font.name}.")
+          raise Error, %(Composite font embedding is not supported for font "#{font.name}.")
         end
 
         true_type = font_type(font) == :true_type
@@ -565,7 +565,7 @@ module Prawn
         to_unicode.stream.compress! if @document.compression_enabled?
 
         widths =
-          font.horizontal_metrics.widths.map { |w| (w * scale_factor).round }
+          font.horizontal_metrics.widths.map { |w| Integer(w * scale_factor) }
 
         child_font = @document.ref!(
           Type: :Font,
