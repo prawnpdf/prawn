@@ -35,8 +35,7 @@ might be the tool for you. It is not a reporting tool or a publishing toolchain,
 though it could be fairly easily used to build those things.
 
 One thing Prawn is not, and will never be, is an HTML to PDF generator. For
-those needs, consider looking into FlyingSaucer via JRuby, or one of the WebKit
-based tools, like Wicked or PDFKit. We do have basic support for inline styling
+those needs, consider looking into [Ferrum](https://github.com/excid3/ferrum_pdf). We do have basic support for inline styling
 but it is limited to a very small subset of functionality and is not suitable
 for rendering rich HTML documents.
 

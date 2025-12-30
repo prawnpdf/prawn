@@ -37,7 +37,7 @@ module Prawn
   # @return [Boolean]
   attr_accessor :debug
 
-  module_function :debug, :debug=
+  module_function :debug, :debug= # rubocop:disable Style/AccessModifierDeclarations
 
   module_function
 

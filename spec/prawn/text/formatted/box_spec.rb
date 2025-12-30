@@ -859,7 +859,7 @@ describe Prawn::Text::Formatted::Box do
       text_box = described_class.new(array, options)
       expect { text_box.render }.to raise_error(
         ArgumentError,
-        'valign must be one of :left, :right or :center symbols',
+        'valign must be one of :top, :bottom or :center symbols',
       )
     end
 
@@ -869,7 +869,7 @@ describe Prawn::Text::Formatted::Box do
       text_box = described_class.new(array, options)
       expect { text_box.render }.to raise_error(
         ArgumentError,
-        'valign must be one of :left, :right or :center symbols',
+        'valign must be one of :top, :bottom or :center symbols',
       )
     end
   end
