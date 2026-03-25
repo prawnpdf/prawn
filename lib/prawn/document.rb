@@ -58,6 +58,7 @@ module Prawn
     include Prawn::Stamp
     include Prawn::SoftMask
     include Prawn::TransformationStack
+    include Prawn::Accessibility
 
     alias inspect to_s
 
@@ -72,6 +73,7 @@ module Prawn
       right_margin top_margin bottom_margin skip_page_creation
       compress background info
       text_formatter print_scaling
+      marked language
     ].freeze
 
     # Any module added to this array will be included into instances of
@@ -238,6 +240,10 @@ module Prawn
       renderer.min_version(state.store.min_version) if state.store.min_version
 
       renderer.min_version(1.6) if options[:print_scaling] == :none
+
+      if options[:language]
+        state.store.root.data[:Lang] = options[:language]
+      end
 
       @background = options[:background]
       @background_scale = options[:background_scale] || 1
