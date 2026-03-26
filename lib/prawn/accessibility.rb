@@ -40,6 +40,8 @@ module Prawn
     #   :Caption, :TOC, :TOCI, :Reference)
     # @param attributes [Hash] optional attributes
     # @option attributes [String] :Alt alternative text (for Figure, Formula)
+    # @option attributes [String] :ActualText replacement text for screen
+    #   readers (e.g., "required" for "*", "selected" for "X")
     # @option attributes [String] :Lang language override for this element
     # @option attributes [Symbol] :Scope table header scope (:Column, :Row, :Both)
     # @yield content to render inside this structure element
