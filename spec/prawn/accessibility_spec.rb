@@ -13,7 +13,7 @@ RSpec.describe Prawn::Accessibility do
 
       it 'returns false for unmarked documents' do
         plain = Prawn::Document.new
-        expect(plain).not_to be_tagged
+        expect(plain).to_not(be_tagged)
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe Prawn::Accessibility do
     describe '#structure' do
       it 'wraps content in a structure element' do
         pdf.structure(:H1) do
-          pdf.text 'Title'
+          pdf.text('Title')
         end
         output = pdf.render
 
@@ -37,7 +37,7 @@ RSpec.describe Prawn::Accessibility do
 
       it 'emits BDC/EMC in the content stream' do
         pdf.structure(:P) do
-          pdf.text 'Hello'
+          pdf.text('Hello')
         end
         output = pdf.render
 
@@ -48,11 +48,11 @@ RSpec.describe Prawn::Accessibility do
       it 'is a no-op for untagged documents' do
         plain = Prawn::Document.new
         plain.structure(:P) do
-          plain.text 'Hello'
+          plain.text('Hello')
         end
         output = plain.render
 
-        expect(output).not_to include('/StructTreeRoot')
+        expect(output).to_not(include('/StructTreeRoot'))
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.describe Prawn::Accessibility do
       it 'creates a parent structure without marking content directly' do
         pdf.structure_container(:Table) do
           pdf.structure(:TD) do
-            pdf.text 'Cell'
+            pdf.text('Cell')
           end
         end
         output = pdf.render
@@ -74,7 +74,7 @@ RSpec.describe Prawn::Accessibility do
     describe '#artifact' do
       it 'wraps content in Artifact markers' do
         pdf.artifact do
-          pdf.text 'Page 1'
+          pdf.text('Page 1')
         end
         output = pdf.render
 
@@ -84,7 +84,7 @@ RSpec.describe Prawn::Accessibility do
 
       it 'supports artifact type' do
         pdf.artifact(type: :Pagination) do
-          pdf.text 'Page 1'
+          pdf.text('Page 1')
         end
         output = pdf.render
 
@@ -95,11 +95,11 @@ RSpec.describe Prawn::Accessibility do
       it 'is a no-op for untagged documents' do
         plain = Prawn::Document.new
         plain.artifact do
-          plain.text 'Footer'
+          plain.text('Footer')
         end
         output = plain.render
 
-        expect(output).not_to include('/Artifact')
+        expect(output).to_not(include('/Artifact'))
       end
     end
 
@@ -134,7 +134,7 @@ RSpec.describe Prawn::Accessibility do
 
       it 'supports block form' do
         pdf.paragraph do
-          pdf.text 'Complex paragraph'
+          pdf.text('Complex paragraph')
         end
         output = pdf.render
 
@@ -146,7 +146,7 @@ RSpec.describe Prawn::Accessibility do
     describe 'ActualText' do
       it 'passes ActualText to structure elements' do
         pdf.structure(:Span, ActualText: 'required') do
-          pdf.text '*'
+          pdf.text('*')
         end
         output = pdf.render
 
@@ -155,10 +155,10 @@ RSpec.describe Prawn::Accessibility do
 
       it 'allows ActualText for checkbox indicators' do
         pdf.structure(:Span, ActualText: 'Selected') do
-          pdf.text 'X'
+          pdf.text('X')
         end
         pdf.structure(:Span, ActualText: 'Not selected') do
-          pdf.text ' '
+          pdf.text(' ')
         end
         output = pdf.render
 
@@ -169,7 +169,7 @@ RSpec.describe Prawn::Accessibility do
     describe '#figure' do
       it 'wraps content with alt text' do
         pdf.figure(alt_text: 'A logo') do
-          pdf.text 'IMAGE PLACEHOLDER'
+          pdf.text('IMAGE PLACEHOLDER')
         end
         output = pdf.render
 
@@ -184,7 +184,7 @@ RSpec.describe Prawn::Accessibility do
         pdf.paragraph('This is a test paragraph.')
 
         pdf.artifact(type: :Pagination) do
-          pdf.text 'Page 1 of 1'
+          pdf.text('Page 1 of 1')
         end
 
         output = pdf.render
