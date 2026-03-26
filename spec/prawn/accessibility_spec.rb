@@ -143,6 +143,29 @@ RSpec.describe Prawn::Accessibility do
       end
     end
 
+    describe 'ActualText' do
+      it 'passes ActualText to structure elements' do
+        pdf.structure(:Span, ActualText: 'required') do
+          pdf.text '*'
+        end
+        output = pdf.render
+
+        expect(output).to include('/ActualText')
+      end
+
+      it 'allows ActualText for checkbox indicators' do
+        pdf.structure(:Span, ActualText: 'Selected') do
+          pdf.text 'X'
+        end
+        pdf.structure(:Span, ActualText: 'Not selected') do
+          pdf.text ' '
+        end
+        output = pdf.render
+
+        expect(output).to include('/ActualText')
+      end
+    end
+
     describe '#figure' do
       it 'wraps content with alt text' do
         pdf.figure(alt_text: 'A logo') do
