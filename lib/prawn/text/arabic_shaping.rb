@@ -141,6 +141,8 @@ module Prawn
         # @param text [String]
         # @return [Boolean]
         def contains_arabic?(text)
+          return false unless text.encoding == Encoding::UTF_8 || text.encoding == Encoding::ASCII
+
           text.match?(/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/)
         end
 
