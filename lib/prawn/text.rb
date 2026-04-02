@@ -4,6 +4,7 @@ require 'zlib'
 
 require_relative 'text/formatted'
 require_relative 'text/box'
+require_relative 'text/arabic_shaping'
 
 module Prawn
   # PDF text primitives.
@@ -263,6 +264,17 @@ module Prawn
     def formatted_text(array, options = {})
       options = inspect_options_for_text(options.dup)
 
+      # Apply Arabic text shaping to convert characters to presentation forms.
+      # This must happen before rendering because Prawn does not perform
+      # OpenType text shaping (GSUB init/medi/fina/isol features).
+      array = array.map do |fragment|
+        if fragment[:text].is_a?(String)
+          fragment.merge(text: ArabicShaping.shape(fragment[:text]))
+        else
+          fragment
+        end
+      end
+
       color = options.delete(:color)
       if color
         array =
@@ -346,7 +358,7 @@ module Prawn
       options = inspect_options_for_draw_text(options.dup)
 
       # dup because normalize_encoding changes the string
-      text = text.to_s.dup
+      text = ArabicShaping.shape(text.to_s).dup
       save_font do
         process_text_options(options)
         text = font.normalize_encoding(text)
