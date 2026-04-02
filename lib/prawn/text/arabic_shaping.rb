@@ -124,13 +124,13 @@ module Prawn
       }.freeze
 
       # Arabic diacritical marks (tashkeel) - transparent to joining
-      ARABIC_MARKS = (0x064B..0x065F).to_a.concat(
-        [0x0610, 0x0611, 0x0612, 0x0613, 0x0614, 0x0615,
-         0x0616, 0x0617, 0x0618, 0x0619, 0x061A,
-         0x06D6, 0x06D7, 0x06D8, 0x06D9, 0x06DA, 0x06DB,
-         0x06DC, 0x06DF, 0x06E0, 0x06E1, 0x06E2, 0x06E3,
-         0x06E4, 0x06E7, 0x06E8, 0x06EA, 0x06EB, 0x06EC, 0x06ED,
-         0x0670]
+      ARABIC_MARKS = (0x064B..0x065F).to_a.push(
+        0x0610, 0x0611, 0x0612, 0x0613, 0x0614, 0x0615,
+        0x0616, 0x0617, 0x0618, 0x0619, 0x061A,
+        0x06D6, 0x06D7, 0x06D8, 0x06D9, 0x06DA, 0x06DB,
+        0x06DC, 0x06DF, 0x06E0, 0x06E1, 0x06E2, 0x06E3,
+        0x06E4, 0x06E7, 0x06E8, 0x06EA, 0x06EB, 0x06EC, 0x06ED,
+        0x0670,
       ).freeze
 
       ARABIC_MARKS_SET = ARABIC_MARKS.to_set.freeze
@@ -178,34 +178,34 @@ module Prawn
 
         private
 
-        def arabic_letter?(cp)
-          ARABIC_FORMS.key?(cp)
+        def arabic_letter?(codepoint)
+          ARABIC_FORMS.key?(codepoint)
         end
 
-        def arabic_mark?(cp)
-          ARABIC_MARKS_SET.include?(cp)
+        def arabic_mark?(codepoint)
+          ARABIC_MARKS_SET.include?(codepoint)
         end
 
-        def dual_joining?(cp)
-          forms = ARABIC_FORMS[cp]
+        def dual_joining?(codepoint)
+          forms = ARABIC_FORMS[codepoint]
           forms && forms[2] && forms[3]
         end
 
-        def right_joining?(cp)
-          forms = ARABIC_FORMS[cp]
+        def right_joining?(codepoint)
+          forms = ARABIC_FORMS[codepoint]
           forms && forms[1] && !forms[2]
         end
 
-        def join_causing?(cp)
-          cp == 0x0640 || cp == 0x200D
+        def join_causing?(codepoint)
+          [0x0640, 0x200D].include?(codepoint)
         end
 
-        def can_join_right?(cp)
-          dual_joining?(cp) || right_joining?(cp) || join_causing?(cp)
+        def can_join_right?(codepoint)
+          dual_joining?(codepoint) || right_joining?(codepoint) || join_causing?(codepoint)
         end
 
-        def can_join_left?(cp)
-          dual_joining?(cp) || join_causing?(cp)
+        def can_join_left?(codepoint)
+          dual_joining?(codepoint) || join_causing?(codepoint)
         end
 
         def shape_run(run)
@@ -232,7 +232,7 @@ module Prawn
             else
               forms = ARABIC_FORMS[entry]
               if forms
-                prev_joins = idx > 0 && prev_can_join_left?(shaped_bases, idx)
+                prev_joins = idx.positive? && prev_can_join_left?(shaped_bases, idx)
                 next_joins = idx < shaped_bases.length - 1 && next_can_join_right?(shaped_bases, idx)
                 result << select_form(forms, prev_joins, next_joins)
               else
@@ -254,7 +254,7 @@ module Prawn
             if bases[i] == 0x0644 && i + 1 < bases.length && LAM_ALEF_LIGATURES.key?(bases[i + 1])
               alef = bases[i + 1]
               ligature_forms = LAM_ALEF_LIGATURES[alef]
-              prev_joins = i > 0 && can_join_left?(bases[i - 1])
+              prev_joins = i.positive? && can_join_left?(bases[i - 1])
               ligature_cp = prev_joins ? ligature_forms[1] : ligature_forms[0]
               result << [ligature_cp, prev_joins ? :final : :isolated]
               i += 2
