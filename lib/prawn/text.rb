@@ -267,13 +267,14 @@ module Prawn
       # Apply Arabic text shaping to convert characters to presentation forms.
       # This must happen before rendering because Prawn does not perform
       # OpenType text shaping (GSUB init/medi/fina/isol features).
-      array = array.map do |fragment|
-        if fragment[:text].is_a?(String)
-          fragment.merge(text: ArabicShaping.shape(fragment[:text]))
-        else
-          fragment
-        end
-      end
+      array =
+        array.map { |fragment|
+          if fragment[:text].is_a?(String)
+            fragment.merge(text: ArabicShaping.shape(fragment[:text]))
+          else
+            fragment
+          end
+        }
 
       color = options.delete(:color)
       if color
