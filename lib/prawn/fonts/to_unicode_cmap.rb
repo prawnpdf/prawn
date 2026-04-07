@@ -140,7 +140,7 @@ module Prawn
               discontinuous_slices
                 .flatten(1) # Join together
                 .slice_when { |a, b| (b[0] - a[0]) != 1 } # Slice at key discontinuity, again
-                .map { |span| span.length > 1 ? [:index_sorted, span] : [:short, slice] } +
+                .map { |span| span.length > 1 ? [:index_sorted, span] : [:short, span] } +
                 continuous_slices.map { |span| [:fully_sorted, span] }
             end
           } # rubocop: disable Style/MultilineBlockChain

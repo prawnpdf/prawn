@@ -70,7 +70,7 @@ describe Prawn::Fonts::ToUnicodeCMap do
     expect(cmap).to include("beginbfrange\n<20><22><0030>\n")
   end
 
-  it 'uses ranges for continuous code rnages with non-continuous mappings' do
+  it 'uses ranges for continuous code ranges with non-continuous mappings' do
     cmap = described_class.new(0x20 => 0x32, 0x21 => 0x31, 0x22 => 0x30).generate
 
     expect(cmap).to include("beginbfrange\n<20><22>[<0032><0031><0030>]\n")
@@ -80,6 +80,13 @@ describe Prawn::Fonts::ToUnicodeCMap do
     cmap = described_class.new(0x20 => 0x30, 0x21 => 0x31, 0x22 => 0x32, 0x30 => 0x40).generate
 
     expect(cmap).to include("beginbfchar\n<30><0040>\n")
+  end
+
+  it 'splits mappings to continuous and non-coninuous code ranges' do
+    cmap = described_class.new(0x20 => 0x30, 0x21 => 0x31, 0x22 => 0x33).generate
+
+    expect(cmap).to include("beginbfrange\n<20><21><0030>\n")
+    expect(cmap).to include("beginbfchar\n<22><0033>\n")
   end
 
   it 'splits continuous mappings into groups of 100' do
