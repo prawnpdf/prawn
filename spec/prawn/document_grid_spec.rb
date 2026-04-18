@@ -13,6 +13,13 @@ describe Prawn::Document do
       expect(pdf.grid.gutter).to eq(0.1)
     end
 
+    it 'allows definition of a grid without gutter' do
+      pdf.define_grid(columns: 3, rows: 5)
+      expect(pdf.grid.columns).to eq(3)
+      expect(pdf.grid.rows).to eq(5)
+      expect(pdf.grid.gutter).to eq(0.0)
+    end
+
     it 'allows re-definition of a grid' do
       pdf.define_grid(columns: 5, rows: 8, gutter: 0.1)
       expect(pdf.grid.columns).to eq(5)
