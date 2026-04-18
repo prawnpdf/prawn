@@ -48,8 +48,8 @@ Gem::Specification.new do |spec|
   }
 
   spec.add_dependency('matrix', '~> 0.4')
-  spec.add_dependency('pdf-core', '~> 0.10.0')
-  spec.add_dependency('ttfunk', '~> 1.8')
+  spec.add_dependency('pdf-core', '~> 0.9.0')
+  spec.add_dependency('ttfunk', '~> 1.7.0') # Skip 1.8 until issue prawnpdf/ttfunk#102 fixed
 
   spec.add_development_dependency('pdf-inspector', '>= 1.2.1', '< 2.0.a')
   spec.add_development_dependency('pdf-reader', '~> 1.4', '>= 1.4.1')
