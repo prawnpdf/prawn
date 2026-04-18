@@ -45,6 +45,7 @@ jobs:
           - "3.2"
           - "3.3.0"
           - "3.3"
+          - "3.4"
           - "head"
           - "jruby-9.4"
         dependencies:
