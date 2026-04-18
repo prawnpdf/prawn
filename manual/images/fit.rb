@@ -3,7 +3,7 @@
 require 'prawn/manual_builder'
 
 Prawn::ManualBuilder::Chapter.new do
-  title 'Fiting'
+  title 'Fitting'
 
   text do
     prose <<~TEXT
