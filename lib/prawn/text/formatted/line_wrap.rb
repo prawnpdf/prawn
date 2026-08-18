@@ -7,6 +7,62 @@ module Prawn
       #
       # @private
       class LineWrap
+        # scan_pattern/word_division_scan_pattern/break_chars are pure
+        # functions of `encoding` alone, but were rebuilt from scratch --
+        # including a fresh Regexp compile -- on every call, once per
+        # wrapped text fragment. Encoding is effectively constant within a
+        # document, so for documents with many short fragments (e.g. a PDF
+        # table with thousands of cells) this dominates render time with
+        # redundant Regexp/String allocation. Memoize per encoding.
+        class << self
+          def scan_pattern_cache
+            @scan_pattern_cache ||= {}
+          end
+
+          def word_division_scan_pattern_cache
+            @word_division_scan_pattern_cache ||= {}
+          end
+
+          def break_chars_cache
+            @break_chars_cache ||= {}
+          end
+
+          def soft_hyphen_cache
+            @soft_hyphen_cache ||= {}
+          end
+
+          def zero_width_space_cache
+            @zero_width_space_cache ||= {}
+          end
+
+          def whitespace_cache
+            @whitespace_cache ||= {}
+          end
+
+          def break_char_at_end_pattern_cache
+            @break_char_at_end_pattern_cache ||= {}
+          end
+
+          def non_break_char_at_end_pattern_cache
+            @non_break_char_at_end_pattern_cache ||= {}
+          end
+
+          def break_char_at_start_pattern_cache
+            @break_char_at_start_pattern_cache ||= {}
+          end
+        end
+
+        # Memoize a per-encoding value in `cache`, computed by the block.
+        # Plain `||=` can't be used here: some of these legitimately memoize
+        # `nil` (an encoding that can't represent the character), and `||=`
+        # would recompute on every call in that case instead of caching it.
+        def self.memoize_per_encoding(cache, encoding)
+          return cache[encoding] if cache.key?(encoding)
+
+          cache[encoding] = yield
+        end
+        private_class_method :memoize_per_encoding
+
         # The width of the last wrapped line.
         #
         # @return [Number]
@@ -136,25 +192,27 @@ module Prawn
         # The pattern used to determine chunks of text to place on a given line
         #
         def scan_pattern(encoding = ::Encoding::UTF_8)
-          ebc = break_chars(encoding)
-          eshy = soft_hyphen(encoding)
-          ehy = hyphen(encoding)
-          ews = whitespace(encoding)
+          self.class.scan_pattern_cache[encoding] ||= begin
+            ebc = break_chars(encoding)
+            eshy = soft_hyphen(encoding)
+            ehy = hyphen(encoding)
+            ews = whitespace(encoding)
 
-          patterns = [
-            "[^#{ebc}]+#{eshy}",
-            "[^#{ebc}]+#{ehy}+",
-            "[^#{ebc}]+",
-            "[#{ews}]+",
-            "#{ehy}+[^#{ebc}]*",
-            eshy.to_s,
-          ]
+            patterns = [
+              "[^#{ebc}]+#{eshy}",
+              "[^#{ebc}]+#{ehy}+",
+              "[^#{ebc}]+",
+              "[#{ews}]+",
+              "#{ehy}+[^#{ebc}]*",
+              eshy.to_s,
+            ]
 
-          pattern = patterns
-            .map { |p| p.encode(encoding) }
-            .join('|')
+            pattern = patterns
+              .map { |p| p.encode(encoding) }
+              .join('|')
 
-          Regexp.new(pattern)
+            Regexp.new(pattern)
+          end
         end
 
         # The pattern used to determine whether any word breaks exist on a
@@ -162,30 +220,36 @@ module Prawn
         # word breaking is needed
         #
         def word_division_scan_pattern(encoding = ::Encoding::UTF_8)
-          common_whitespaces =
-            ["\t", "\n", "\v", "\r", ' '].map { |c|
-              c.encode(encoding)
-            }
+          self.class.word_division_scan_pattern_cache[encoding] ||= begin
+            common_whitespaces =
+              ["\t", "\n", "\v", "\r", ' '].map { |c|
+                c.encode(encoding)
+              }
 
-          Regexp.union(
-            common_whitespaces +
-            [
-              zero_width_space(encoding),
-              soft_hyphen(encoding),
-              hyphen(encoding),
-            ].compact,
-          )
+            Regexp.union(
+              common_whitespaces +
+              [
+                zero_width_space(encoding),
+                soft_hyphen(encoding),
+                hyphen(encoding),
+              ].compact,
+            )
+          end
         end
 
         def soft_hyphen(encoding = ::Encoding::UTF_8)
-          Prawn::Text::SHY.encode(encoding)
-        rescue ::Encoding::InvalidByteSequenceError,
-               ::Encoding::UndefinedConversionError
-          nil
+          self.class.send(:memoize_per_encoding, self.class.soft_hyphen_cache, encoding) do
+            begin
+              Prawn::Text::SHY.encode(encoding)
+            rescue ::Encoding::InvalidByteSequenceError,
+                   ::Encoding::UndefinedConversionError
+              nil
+            end
+          end
         end
 
         def break_chars(encoding = ::Encoding::UTF_8)
-          [
+          self.class.break_chars_cache[encoding] ||= [
             whitespace(encoding),
             soft_hyphen(encoding),
             hyphen(encoding),
@@ -193,14 +257,19 @@ module Prawn
         end
 
         def zero_width_space(encoding = ::Encoding::UTF_8)
-          Prawn::Text::ZWSP.encode(encoding)
-        rescue ::Encoding::InvalidByteSequenceError,
-               ::Encoding::UndefinedConversionError
-          nil
+          self.class.send(:memoize_per_encoding, self.class.zero_width_space_cache, encoding) do
+            begin
+              Prawn::Text::ZWSP.encode(encoding)
+            rescue ::Encoding::InvalidByteSequenceError,
+                   ::Encoding::UndefinedConversionError
+              nil
+            end
+          end
         end
 
         def whitespace(encoding = ::Encoding::UTF_8)
-          "\s\t#{zero_width_space(encoding)}".encode(encoding)
+          self.class.whitespace_cache[encoding] ||=
+            "\s\t#{zero_width_space(encoding)}".encode(encoding)
         end
 
         def hyphen(_encoding = ::Encoding::UTF_8)
@@ -278,11 +347,25 @@ module Prawn
           @previous_fragment = @fragment_output.dup
           pf = @previous_fragment
           @previous_fragment_ended_with_breakable =
-            pf =~ /[#{break_chars(pf.encoding)}]$/
-          last_word = pf.slice(/[^#{break_chars(pf.encoding)}]*$/)
+            pf =~ break_char_at_end_pattern(pf.encoding)
+          last_word = pf.slice(non_break_char_at_end_pattern(pf.encoding))
           last_word_length = last_word.nil? ? 0 : last_word.length
           @previous_fragment_output_without_last_word =
             pf.slice(0, pf.length - last_word_length)
+        end
+
+        # /[#{break_chars}]$/ — cached per encoding. Ruby doesn't cache
+        # regex literals built via string interpolation, so without this
+        # every call recompiled the pattern from scratch.
+        def break_char_at_end_pattern(encoding)
+          self.class.break_char_at_end_pattern_cache[encoding] ||=
+            /[#{break_chars(encoding)}]$/
+        end
+
+        # /[^#{break_chars}]*$/ — cached per encoding, see above.
+        def non_break_char_at_end_pattern(encoding)
+          self.class.non_break_char_at_end_pattern_cache[encoding] ||=
+            /[^#{break_chars(encoding)}]*$/
         end
 
         def previous_fragment_ended_with_breakable?
@@ -290,7 +373,13 @@ module Prawn
         end
 
         def fragment_begins_with_breakable?(fragment)
-          fragment =~ /^[#{break_chars(fragment.encoding)}]/
+          fragment =~ break_char_at_start_pattern(fragment.encoding)
+        end
+
+        # /^[#{break_chars}]/ — cached per encoding, see break_char_at_end_pattern.
+        def break_char_at_start_pattern(encoding)
+          self.class.break_char_at_start_pattern_cache[encoding] ||=
+            /^[#{break_chars(encoding)}]/
         end
 
         def line_finished?
