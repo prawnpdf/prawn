@@ -20,6 +20,14 @@ RSpec.describe Prawn do
     #
     # See: https://github.com/jruby/jruby/issues/4244
     it 'contains no unexpected changes' do
+      if ENV['PRAWN_EDGE_DEPS']
+        skip(
+          'pdf-core/ttfunk/prawn-manual_builder are installed from their ' \
+            'git main branches in this configuration, so the generated ' \
+            "manual's bytes aren't expected to match the golden hash.",
+        )
+      end
+
       ENV['CI'] ||= 'true'
 
       manual_path = File.expand_path('../manual/manual.rb', __dir__)

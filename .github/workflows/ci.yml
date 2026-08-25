@@ -63,6 +63,7 @@ jobs:
           echo "gem 'pdf-core', github: 'prawnpdf/pdf-core'" >> Gemfile.local
           echo "gem 'ttfunk', github: 'prawnpdf/ttfunk'" >> Gemfile.local
           echo "gem 'prawn-manual_builder', github: 'prawnpdf/prawn-manual_builder'" >> Gemfile.local
+          echo "PRAWN_EDGE_DEPS=true" >> "$GITHUB_ENV"
       - name: Gems cache
         uses: actions/cache@v4
         with:
