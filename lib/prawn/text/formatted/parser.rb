@@ -41,6 +41,12 @@ module Prawn
         # @private
         UNESCAPE_CHARS = ESCAPE_CHARS.invert.freeze
 
+        # @private
+        ESCAPE_REGEX = Regexp.union(ESCAPE_CHARS.keys)
+
+        # @private
+        UNESCAPE_REGEX = Regexp.union(UNESCAPE_CHARS.keys)
+
         # Parse formatted string.
         #
         # @param string [String]
@@ -268,7 +274,7 @@ module Prawn
         # @param text [String]
         # @return [String]
         def self.escape(text)
-          text.gsub(Regexp.union(ESCAPE_CHARS.keys), ESCAPE_CHARS)
+          text.gsub(ESCAPE_REGEX, ESCAPE_CHARS)
         end
 
         # Unescape characters that can interfere with inline format parsing.
@@ -276,7 +282,7 @@ module Prawn
         # @param text [String]
         # @return [String]
         def self.unescape(text)
-          text.gsub(Regexp.union(UNESCAPE_CHARS.keys), UNESCAPE_CHARS)
+          text.gsub(UNESCAPE_REGEX, UNESCAPE_CHARS)
         end
       end
     end
