@@ -56,6 +56,7 @@ module Prawn
     include Prawn::Graphics
     include Prawn::Images
     include Prawn::Stamp
+    include Prawn::Tagging
     include Prawn::SoftMask
     include Prawn::TransformationStack
 
@@ -71,7 +72,7 @@ module Prawn
       page_size page_layout margin left_margin
       right_margin top_margin bottom_margin skip_page_creation
       compress background info
-      text_formatter print_scaling
+      text_formatter print_scaling tagged language
     ].freeze
 
     # Any module added to this array will be included into instances of
@@ -224,6 +225,10 @@ module Prawn
     #   Generic hash allowing for custom metadata properties.
     # @option options :text_formatter [Object] (Prawn::Text::Formatted::Parser)
     #  The text formatter to use for `:inline_format`ted text.
+    # @option options :tagged [Boolean] (false)
+    #   Produces a tagged PDF. See {Prawn::Tagging}.
+    # @option options :language [String?] (nil)
+    #   Natural language of the document as a BCP 47 tag, e.g. `'en-GB'`.
     def initialize(options = {}, &block)
       options = options.dup
 
@@ -340,13 +345,17 @@ module Prawn
 
         if @background
           canvas do
-            image(@background, scale: @background_scale, at: bounds.top_left)
+            artifact(Type: :Background) do
+              image(@background, scale: @background_scale, at: bounds.top_left)
+            end
           end
         end
         @y = @bounding_box.absolute_top
 
         float do
-          state.on_page_create_action(self)
+          artifact(Type: :Pagination) do
+            state.on_page_create_action(self)
+          end
         end
       end
     end
@@ -687,7 +696,7 @@ module Prawn
           total_pages = page_count if total_pages.nil?
           str = string.gsub('<page>', pseudopage.to_s)
             .gsub('<total>', total_pages.to_s)
-          text_box(str, opts)
+          artifact(Type: :Pagination) { text_box(str, opts) }
           start_count = true # increment page count as soon as first match found
         end
         pseudopage += 1 if start_count

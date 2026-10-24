@@ -127,12 +127,14 @@ module Prawn
     # @param page_number [Integer]
     # @return [void]
     def run(page_number)
-      if !@dynamic
-        @document.stamp(@stamp_name) if match?(page_number)
-      elsif @block && match?(page_number)
-        @document.save_graphics_state(@graphic_state) do
-          @document.__send__(:freeze_stamp_graphics)
-          @block.call
+      @document.artifact(Type: :Pagination) do
+        if !@dynamic
+          @document.stamp(@stamp_name) if match?(page_number)
+        elsif @block && match?(page_number)
+          @document.save_graphics_state(@graphic_state) do
+            @document.__send__(:freeze_stamp_graphics)
+            @block.call
+          end
         end
       end
     end

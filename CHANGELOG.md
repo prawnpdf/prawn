@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Tagged PDF
+
+`tagged: true` produces a tagged PDF, with a logical structure that screen
+readers and other assistive technology read the document through.
+`structure` makes content a structure element and `artifact` marks content
+that is not part of the document. Elements continue across page breaks.
+Backgrounds, repeaters and page numbers are marked as artifacts and links in
+formatted text become `Link` elements. `language:` sets the document language.
+
+(Yaroslav Shmarov, [#1143](https://github.com/prawnpdf/prawn/issues/1143))
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding

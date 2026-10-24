@@ -20,6 +20,7 @@ Prawn::ManualBuilder::Peritext.new do
       'How to configure page margins',
       'How to use a background image',
       'How to add metadata to the generated PDF',
+      'How to make the generated PDF accessible',
     )
   end
 end
