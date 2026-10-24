@@ -157,6 +157,7 @@ Prawn::ManualBuilder::Manual.new(__dir__, page_size: 'A4') do
     chapter 'document_and_page_options/background'
     chapter 'document_and_page_options/metadata'
     chapter 'document_and_page_options/print_scaling'
+    chapter 'document_and_page_options/tagged_pdf'
   end
 
   section 'Outline' do

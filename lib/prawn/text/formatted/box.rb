@@ -333,25 +333,27 @@ module Prawn
           fragment.baseline = y
 
           if @inked
-            draw_fragment_underlays(fragment)
+            link_structure(fragment) do
+              draw_fragment_underlays(fragment)
 
-            @document.word_spacing(word_spacing) do
-              if @draw_text_callback
-                @draw_text_callback.call(
-                  fragment.text,
-                  at: [x, y],
-                  kerning: @kerning,
-                )
-              else
-                @document.draw_text!(
-                  fragment.text,
-                  at: [x, y],
-                  kerning: @kerning,
-                )
+              @document.word_spacing(word_spacing) do
+                if @draw_text_callback
+                  @draw_text_callback.call(
+                    fragment.text,
+                    at: [x, y],
+                    kerning: @kerning,
+                  )
+                else
+                  @document.draw_text!(
+                    fragment.text,
+                    at: [x, y],
+                    kerning: @kerning,
+                  )
+                end
               end
-            end
 
-            draw_fragment_overlays(fragment)
+              draw_fragment_overlays(fragment)
+            end
           end
         end
 
@@ -680,6 +682,7 @@ module Prawn
               S: :URI,
               URI: PDF::Core::LiteralString.new(fragment.link),
             },
+            **link_description(fragment),
           )
         end
 
@@ -691,6 +694,7 @@ module Prawn
             box,
             Border: [0, 0, 0],
             Dest: fragment.anchor,
+            **link_description(fragment),
           )
         end
 
@@ -707,7 +711,21 @@ module Prawn
               F: PDF::Core::LiteralString.new(fragment.local),
               NewWindow: true,
             },
+            **link_description(fragment),
           )
+        end
+
+        def link_structure(fragment, &block)
+          if fragment.link || fragment.anchor || fragment.local
+            @document.structure(:Link, &block)
+          else
+            yield
+          end
+        end
+
+        # Tagged PDF needs an alternate description on every link annotation.
+        def link_description(fragment)
+          @document.tagged? ? { Contents: fragment.text } : {}
         end
 
         def draw_fragment_overlay_styles(fragment)
