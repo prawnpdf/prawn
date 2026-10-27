@@ -48,10 +48,10 @@ Naming/AccessorMethodName:
   Exclude:
     - lib/prawn/graphics/color.rb
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   Exclude:
-    - lib/prawn/font/ttf.rb
-    - lib/prawn/font/afm.rb
+    - lib/prawn/fonts/ttf.rb
+    - lib/prawn/fonts/afm.rb
 
 Style/Encoding:
   # To be safe we are leaving these files encoded ASCII-8BIT as
@@ -61,10 +61,6 @@ Style/Encoding:
     - lib/prawn/images/png.rb
     - lib/prawn/images.rb
     - spec/png_spec.rb
-
-RSpec/FilePath:
-  Exclude:
-    - spec/prawn/fonts/to_unicode_cmap_spec.rb
 
 RSpec/SpecFilePathFormat:
   Exclude:

@@ -6,6 +6,21 @@ describe Prawn::Text do
   describe '#draw_text' do
     let(:pdf) { create_pdf }
 
+    let(:rotated_text_inspector) do
+      Class.new(PDF::Inspector) do
+        attr_reader :tm_operator_used
+
+        def initialize
+          super
+          @tm_operator_used = false
+        end
+
+        def set_text_matrix_and_text_line_matrix(*_arguments)
+          @tm_operator_used = true
+        end
+      end
+    end
+
     it 'raise_errors ArgumentError if :at option omitted' do
       expect { pdf.draw_text('hai', {}) }.to raise_error(ArgumentError)
     end
@@ -43,20 +58,6 @@ describe Prawn::Text do
       text = PDF::Inspector::Text.analyze(pdf.render)
       expect(text.font_settings[0][:size]).to eq(16)
     end
-
-    rotated_text_inspector =
-      Class.new(PDF::Inspector) do
-        attr_reader :tm_operator_used
-
-        def initialize
-          super
-          @tm_operator_used = false
-        end
-
-        def set_text_matrix_and_text_line_matrix(*_arguments)
-          @tm_operator_used = true
-        end
-      end
 
     it 'allows rotation' do
       pdf.draw_text('Test', at: [100, 100], rotate: 90)

@@ -86,7 +86,7 @@ module Prawn
         def apply_font_settings_and_add_fragment_to_line(fragment)
           result = nil
           @arranger.apply_font_settings do
-            result = add_fragment_to_line(fragment)
+            result = add_fragment_to_line?(fragment)
           end
           result
         end
@@ -94,7 +94,7 @@ module Prawn
         # returns true if all text was printed without running into the end of
         # the line
         #
-        def add_fragment_to_line(fragment)
+        def add_fragment_to_line?(fragment)
           case fragment
           when ''
             true
@@ -313,11 +313,11 @@ module Prawn
 
         def wrap_by_char(segment)
           segment.each_char do |char|
-            break unless append_char(char)
+            break unless append_char?(char)
           end
         end
 
-        def append_char(char)
+        def append_char?(char)
           # kerning doesn't make sense in the context of a single character
           char_width = @document.width_of(char)
 

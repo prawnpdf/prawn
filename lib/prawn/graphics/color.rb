@@ -163,6 +163,7 @@ module Prawn
       end
 
       COLOR_SPACES = %i[DeviceRGB DeviceCMYK Pattern].freeze
+      private_constant :COLOR_SPACES
 
       def set_color_space(type, color_space)
         # don't set the same color space again

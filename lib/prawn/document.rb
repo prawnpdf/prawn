@@ -363,7 +363,7 @@ module Prawn
     #
     # @param index [Integer]
     # @return [Boolean]
-    def delete_page(index)
+    def delete_page(index) # rubocop: disable Naming/PredicateMethod
       return false if index.abs > (state.pages.count - 1)
 
       state.pages.delete_at(index)

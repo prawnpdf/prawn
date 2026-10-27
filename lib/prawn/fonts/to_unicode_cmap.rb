@@ -51,7 +51,9 @@ module Prawn
         code_space_max = max_glyph_index | ('ff' * (code_space_size - 1)).to_i(16)
 
         chunks << '1 begincodespacerange'
+        # rubocop: disable Lint/FormatParameterMismatch -- false positive
         chunks << format("<%0#{used_code_space_size * 2}X><%0#{used_code_space_size * 2}X>", 0, code_space_max)
+        # rubocop: enable Lint/FormatParameterMismatch
         chunks << 'endcodespacerange'
 
         # Mapping
@@ -64,7 +66,7 @@ module Prawn
             chunks << "#{spans.length} beginbfrange"
 
             spans.each do |type, span|
-              # rubocop: disable Lint/FormatParameterMismatch # false positive
+              # rubocop: disable Lint/FormatParameterMismatch -- false positive
               case type
               when :fully_sorted
                 chunks << format(
@@ -93,7 +95,7 @@ module Prawn
             chunks << "#{mapping.length} beginbfchar"
             chunks.concat(
               mapping.map { |(gid, cid)|
-                # rubocop: disable Lint/FormatParameterMismatch # false positive
+                # rubocop: disable Lint/FormatParameterMismatch -- false positive
                 format(
                   "<%0#{code_space_size * 2}X><%s>",
                   gid,

@@ -184,7 +184,7 @@ module Prawn
       # @raise [Prawn::Errors::CannotFit]
       #   If not wide enough to print any text.
       def render(flags = {})
-        leftover = super(flags)
+        leftover = super
         leftover.map { |hash| hash[:text] }.join
       end
     end

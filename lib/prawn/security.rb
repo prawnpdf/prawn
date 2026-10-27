@@ -166,9 +166,11 @@ module Prawn
         @permissions || FULL_PERMISSIONS
       end
 
+      # rubocop: disable Lint/UselessConstantScoping -- referenced directly in specs
       PASSWORD_PADDING =
         '28BF4E5E4E758A4164004E56FFFA01082E2E00B6D0683E802F0CA9FE6453697A'
           .scan(/../).map { |x| x.to_i(16) }.pack('c*')
+      # rubocop: enable Lint/UselessConstantScoping
 
       # Pads or truncates a password to 32 bytes as per Alg 3.2.
       def pad_password(password)

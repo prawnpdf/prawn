@@ -140,7 +140,7 @@ module Prawn
       private
 
       def subdivide(total, num, gutter)
-        (Float(total) - (gutter * Float((num - 1)))) / Float(num)
+        (Float(total) - (gutter * Float(num - 1))) / Float(num)
       end
 
       def apply_gutter(options)
