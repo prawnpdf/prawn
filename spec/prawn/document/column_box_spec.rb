@@ -5,6 +5,19 @@ require 'spec_helper'
 describe Prawn::Document::ColumnBox do
   let(:pdf) { create_pdf }
 
+  it 'leaves the point array untouched' do
+    point = [10, 300]
+    left = top = nil
+    pdf.bounding_box([50, 600], width: 400, height: 400) do
+      pdf.column_box(point, width: 200, height: 100) do
+        left = pdf.bounds.absolute_left
+        top = pdf.bounds.absolute_top
+      end
+    end
+    expect(point).to eq([10, 300])
+    expect([left, top]).to eq([pdf.margin_box.absolute_left + 60, pdf.margin_box.absolute_bottom + 500])
+  end
+
   it 'has sensible left and right values' do
     pdf.column_box(
       [0, pdf.cursor],

@@ -31,10 +31,10 @@ module Prawn
     #   @option options :reflow_margins [Boolean] (false)
     #   @yieldparam parent_box [BoundingBox] parent bounding box
     #   @return [void]
-    def column_box(*args, &block)
+    def column_box(point, *args, &block)
       init_column_box(block) do |parent_box|
-        map_to_absolute!(args[0])
-        @bounding_box = ColumnBox.new(self, parent_box, *args)
+        point = map_to_absolute(point)
+        @bounding_box = ColumnBox.new(self, parent_box, point, *args)
       end
     end
 
