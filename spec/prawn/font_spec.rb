@@ -658,9 +658,9 @@ describe Prawn::Font do
 
         def show_text(text, kerned = false)
           super
-          @string_widths << (@state.current_font.unpack(text).reduce(0) { |width, code|
+          @string_widths << @state.current_font.unpack(text).reduce(0) { |width, code|
             width + (@state.current_font.glyph_width(code) * @font_settings[-1][:size] / 1000.0)
-          })
+          }
         end
       end
 

@@ -38,19 +38,19 @@ describe Prawn::Document do
       end
 
       it 'computes the column width' do
-        expect((pdf.grid.column_width * Float(num_columns)) + (gutter * Float((num_columns - 1))))
+        expect((pdf.grid.column_width * Float(num_columns)) + (gutter * Float(num_columns - 1)))
           .to eq(pdf.bounds.width)
       end
 
       it 'computes the row height' do
-        expect((pdf.grid.row_height * Float(num_rows)) + (gutter * Float((num_rows - 1)))).to eq(pdf.bounds.height)
+        expect((pdf.grid.row_height * Float(num_rows)) + (gutter * Float(num_rows - 1))).to eq(pdf.bounds.height)
       end
 
       it 'gives the edges of a grid box' do
         grid_width = (Float(pdf.bounds.width) -
-          (gutter * Float((num_columns - 1)))) / Float(num_columns)
+          (gutter * Float(num_columns - 1))) / Float(num_columns)
         grid_height = (Float(pdf.bounds.height) -
-          (gutter * Float((num_rows - 1)))) / Float(num_rows)
+          (gutter * Float(num_rows - 1))) / Float(num_rows)
 
         exp_tl_x = (grid_width + Float(gutter)) * 4.0
         exp_tl_y = Float(pdf.bounds.height) - (grid_height + Float(gutter))

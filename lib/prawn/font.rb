@@ -54,7 +54,7 @@ module Prawn
     # @see #font_families
     # @see Font::AFM::BUILT_INS
     def font(name = nil, options = DEFAULT_OPTS)
-      return((defined?(@font) && @font) || font('Helvetica')) if name.nil?
+      return (defined?(@font) && @font) || font('Helvetica') if name.nil?
 
       if state.pages.empty? && !state.page.in_stamp_stream?
         raise Prawn::Errors::NotOnPage

@@ -128,7 +128,7 @@ module Prawn
       # Does this font contain kerning data.
       #
       # @return [Boolean]
-      def has_kerning_data? # rubocop: disable Naming/PredicateName
+      def has_kerning_data?
         @kern_pairs.any?
       end
 

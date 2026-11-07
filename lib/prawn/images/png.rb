@@ -163,7 +163,7 @@ module Prawn
       #
       # @return [Boolean]
       def alpha_channel?
-        return true if color_type == 4 || color_type == 6
+        return true if [4, 6].include?(color_type)
         return @transparency.any? if color_type == 3
 
         false

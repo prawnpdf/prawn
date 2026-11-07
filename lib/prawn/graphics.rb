@@ -357,13 +357,13 @@ module Prawn
     def rounded_vertex(radius, *points)
       radial_point1 = point_on_line(radius, points[0], points[1])
       bezier_point1 = point_on_line(
-        (radius - (radius * KAPPA)),
+        radius - (radius * KAPPA),
         points[0],
         points[1],
       )
       radial_point2 = point_on_line(radius, points[2], points[1])
       bezier_point2 = point_on_line(
-        (radius - (radius * KAPPA)),
+        radius - (radius * KAPPA),
         points[2],
         points[1],
       )
@@ -451,22 +451,22 @@ module Prawn
 
         (options[:step_length]..options[:width])
           .step(options[:step_length]) do |point|
-          fill_circle([options[:at][0] + point, options[:at][1]], 1)
-          draw_text(
-            point,
-            at: [options[:at][0] + point - 5, options[:at][1] - 10],
-            size: 7,
-          )
+            fill_circle([options[:at][0] + point, options[:at][1]], 1)
+            draw_text(
+              point,
+              at: [options[:at][0] + point - 5, options[:at][1] - 10],
+              size: 7,
+            )
         end
 
         (options[:step_length]..options[:height])
           .step(options[:step_length]) do |point|
-          fill_circle([options[:at][0], options[:at][1] + point], 1)
-          draw_text(
-            point,
-            at: [options[:at][0] - 17, options[:at][1] + point - 2],
-            size: 7,
-          )
+            fill_circle([options[:at][0], options[:at][1] + point], 1)
+            draw_text(
+              point,
+              at: [options[:at][0] - 17, options[:at][1] + point - 2],
+              size: 7,
+            )
         end
       end
     end

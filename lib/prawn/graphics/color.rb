@@ -105,6 +105,8 @@ module Prawn
         [r, g, b].map { |e| e.to_i(16) }
       end
 
+      COLOR_SPACES = %i[DeviceRGB DeviceCMYK Pattern].freeze
+
       private
 
       def process_color(*color)
@@ -161,8 +163,6 @@ module Prawn
           :DeviceCMYK
         end
       end
-
-      COLOR_SPACES = %i[DeviceRGB DeviceCMYK Pattern].freeze
 
       def set_color_space(type, color_space)
         # don't set the same color space again

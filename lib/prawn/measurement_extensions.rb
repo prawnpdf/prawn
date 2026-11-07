@@ -20,6 +20,7 @@ require_relative 'measurements'
 # ```
 class Numeric
   include Prawn::Measurements
+
   # Prawn's basic unit is PostScript-Point: 72 points per inch.
 
   # @group Experimental API
