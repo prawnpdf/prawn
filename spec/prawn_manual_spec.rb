@@ -2,6 +2,7 @@
 
 require 'spec_helper'
 require 'digest/sha2'
+require 'uri'
 
 MANUAL_HASH =
   case RUBY_ENGINE
