@@ -23,6 +23,9 @@ RSpec.describe Prawn do
       # The hashes are for released dependencies; unreleased pdf-core, ttfunk or
       # prawn-manual_builder render a different manual.
       skip 'the manual is rendered with unreleased dependencies' if ENV['PRAWN_DEPENDENCIES'] == 'edge'
+      # prawn-manual_builder 0.5.0 needs URI::RFC2396_PARSER, which the uri of
+      # Ruby 2.7 and 3.0 lacks, and Ruby 2.7 can't bundle a newer uri.
+      skip 'prawn-manual_builder needs URI::RFC2396_PARSER' unless defined?(URI::RFC2396_PARSER)
 
       ENV['CI'] ||= 'true'
 
