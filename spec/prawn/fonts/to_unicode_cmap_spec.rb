@@ -82,6 +82,14 @@ describe Prawn::Fonts::ToUnicodeCMap do
     expect(cmap).to include("beginbfchar\n<30><0040>\n")
   end
 
+  it 'keeps a single mapping that sits between two continuous mappings' do
+    # σ τ, ή, ρ ς: the code in the middle belongs to neither range around it.
+    cmap = described_class.new(0x27 => 0x3c3, 0x28 => 0x3c4, 0x29 => 0x3ae, 0x2a => 0x3c1, 0x2b => 0x3c2).generate
+
+    expect(cmap).to include("beginbfrange\n<27><28><03c3>\n<2A><2B><03c1>\n")
+    expect(cmap).to include("beginbfchar\n<29><03ae>\n")
+  end
+
   it 'splits continuous mappings into groups of 100' do
     mapping = (1..142).flat_map { |n| Array.new(3) { |i| [(n * 10) + i, (n * 10) + i] } }.to_h
     cmap = described_class.new(mapping).generate

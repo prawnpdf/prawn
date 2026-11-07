@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Fixed a lost character in the ToUnicode CMap
+
+A glyph whose code sat alone between two runs of consecutive codes was written
+as a copy of a neighbouring entry instead of its own, so text extraction and
+search read it as the wrong character.
+
+(Laerti Papa)
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding
