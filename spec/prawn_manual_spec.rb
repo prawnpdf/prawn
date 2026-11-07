@@ -2,13 +2,14 @@
 
 require 'spec_helper'
 require 'digest/sha2'
+require 'uri'
 
 MANUAL_HASH =
   case RUBY_ENGINE
   when 'ruby'
-    '06ce69758c64b0e5f14d09474d94ba580aaa4edca7014c6ab5bc9536b5bb0d0c163425aceff74a0ad3867859f8372e07b96e63822cc0e789549bb3a35d3cf185'
+    '7ef89fc18fcf59bf036e87f9db3570dd70a5b3d6433b8f919bd196d3b90822caf81a01d2055584b544fe2ef092175f0864198bb52ac4e29ab3aff51177ef7abf'
   when 'jruby'
-    '31b7c93ddf81f0c734a036644f07541071af36cee1f2e9a6c99847bd98ae6a66a9755afb69f4351fac711382bfc04d1cb50bc00122d7c4d187428f1582680794'
+    '26a22157859ce98cb164e5ac2b4ef45b6dc198f62539d84f3cc7fe28bf2f49809d78292800a986e1fb53952872b8f96a264249bef4c8681bdbed1fe6c8bccfe3'
   end
 
 RSpec.describe Prawn do
@@ -20,6 +21,13 @@ RSpec.describe Prawn do
     #
     # See: https://github.com/jruby/jruby/issues/4244
     it 'contains no unexpected changes' do
+      # The hashes are for released dependencies; unreleased pdf-core, ttfunk or
+      # prawn-manual_builder render a different manual.
+      skip 'the manual is rendered with unreleased dependencies' if ENV['PRAWN_DEPENDENCIES'] == 'edge'
+      # prawn-manual_builder 0.5.0 needs URI::RFC2396_PARSER, which the uri of
+      # Ruby 2.7 and 3.0 lacks, and Ruby 2.7 can't bundle a newer uri.
+      skip 'prawn-manual_builder needs URI::RFC2396_PARSER' unless defined?(URI::RFC2396_PARSER)
+
       ENV['CI'] ||= 'true'
 
       manual_path = File.expand_path('../manual/manual.rb', __dir__)

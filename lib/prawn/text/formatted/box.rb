@@ -227,7 +227,7 @@ module Prawn
             style: options[:style],
           }
 
-          super(formatted_text, options)
+          super
         end
 
         # Render text to the document based on the settings defined in
@@ -531,7 +531,7 @@ module Prawn
           current_font = nil
 
           font_glyph_pairs.each do |font, char|
-            if font != current_font || fragments.count.zero?
+            if font != current_font || fragments.empty?
               current_font = font
               fragment = hash.dup
               fragment[:text] = char
