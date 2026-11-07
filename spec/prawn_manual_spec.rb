@@ -8,7 +8,7 @@ MANUAL_HASH =
   when 'ruby'
     '7ef89fc18fcf59bf036e87f9db3570dd70a5b3d6433b8f919bd196d3b90822caf81a01d2055584b544fe2ef092175f0864198bb52ac4e29ab3aff51177ef7abf'
   when 'jruby'
-    '31b7c93ddf81f0c734a036644f07541071af36cee1f2e9a6c99847bd98ae6a66a9755afb69f4351fac711382bfc04d1cb50bc00122d7c4d187428f1582680794'
+    '26a22157859ce98cb164e5ac2b4ef45b6dc198f62539d84f3cc7fe28bf2f49809d78292800a986e1fb53952872b8f96a264249bef4c8681bdbed1fe6c8bccfe3'
   end
 
 RSpec.describe Prawn do
@@ -20,6 +20,10 @@ RSpec.describe Prawn do
     #
     # See: https://github.com/jruby/jruby/issues/4244
     it 'contains no unexpected changes' do
+      # The hashes are for released dependencies; unreleased pdf-core, ttfunk or
+      # prawn-manual_builder render a different manual.
+      skip 'the manual is rendered with unreleased dependencies' if ENV['PRAWN_DEPENDENCIES'] == 'edge'
+
       ENV['CI'] ||= 'true'
 
       manual_path = File.expand_path('../manual/manual.rb', __dir__)
