@@ -102,9 +102,13 @@ module Prawn
             @newline_encountered = true
             false
           else
-            tokenize(fragment).each do |segment|
+            overflow = nil
+            zwsp = zero_width_space(fragment.encoding)
+            shy = soft_hyphen(fragment.encoding)
+
+            each_token(fragment) do |segment|
               segment_width =
-                if segment == zero_width_space(segment.encoding)
+                if segment == zwsp
                   0
                 else
                   @document.width_of(segment, kerning: @kerning)
@@ -112,7 +116,6 @@ module Prawn
 
               if @accumulated_width + segment_width <= @width
                 @accumulated_width += segment_width
-                shy = soft_hyphen(segment.encoding)
                 if segment[-1] == shy
                   sh_width = @document.width_of(shy, kerning: @kerning)
                   @accumulated_width -= sh_width
@@ -122,14 +125,36 @@ module Prawn
                 if @accumulated_width.zero? && @line_contains_more_than_one_word
                   @line_contains_more_than_one_word = false
                 end
-                end_of_the_line_reached(segment)
-                fragment_finished(fragment)
-                return false
+                overflow = segment
+                break
               end
+            end
+
+            if overflow
+              end_of_the_line_reached(overflow)
+              fragment_finished(fragment)
+              return false
             end
 
             fragment_finished(fragment)
             true
+          end
+        end
+
+        # Yields the tokens of the fragment one at a time.
+        #
+        # The fragment holds the rest of the paragraph, but usually only the
+        # tokens of one line are consumed before the caller breaks out. Scanning
+        # lazily avoids tokenizing the remainder of the paragraph again for
+        # every line, which made wrapping quadratic in the paragraph length.
+        #
+        # If {#tokenize} has been overridden (e.g. by a subclass or an extension
+        # that customizes line breaking), it is honoured.
+        def each_token(fragment, &block)
+          if method(:tokenize).source_location&.first == __FILE__
+            fragment.scan(scan_pattern(fragment.encoding), &block)
+          else
+            tokenize(fragment).each(&block)
           end
         end
 
