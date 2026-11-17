@@ -42,6 +42,49 @@ describe Prawn::Text::Formatted::LineWrap do
     expect(tokens.length).to eq(5)
   end
 
+  describe 'tokenizing while wrapping' do
+    def wrap_all(line_wrap, text)
+      arranger = Prawn::Text::Formatted::Arranger.new(pdf)
+      arranger.format_array = [{ text: text }]
+      lines = []
+      until arranger.finished?
+        lines << line_wrap.wrap_line(arranger: arranger, width: 200, document: pdf)
+      end
+      lines
+    end
+
+    let(:text) do
+      shy = Prawn::Text::SHY
+      zwsp = Prawn::Text::ZWSP
+      "Lorem ipsum dolor sit amet, consec#{shy}tetur adipiscing elit, sed-do " \
+        "eiusmod#{zwsp}tempor incididunt ut labore et dolore magna aliqua. " * 20
+    end
+
+    it 'wraps a long paragraph the same as tokenizing it eagerly' do
+      # Overriding tokenize makes LineWrap fall back to tokenizing the whole
+      # remaining fragment for every line, as it did before.
+      eager =
+        Class.new(described_class) do
+          def tokenize(fragment)
+            fragment.scan(scan_pattern(fragment.encoding))
+          end
+        end
+
+      lines = wrap_all(line_wrap, text)
+
+      expect(lines.length).to be > 20
+      expect(lines).to eq(wrap_all(eager.new, text))
+    end
+
+    it 'uses an overridden tokenize' do
+      allow(line_wrap).to receive(:tokenize).and_call_original
+
+      wrap_all(line_wrap, 'hello world')
+
+      expect(line_wrap).to have_received(:tokenize).with('hello world')
+    end
+  end
+
   describe 'Core::Text::Formatted::LineWrap#wrap_line' do
     let(:arranger) { Prawn::Text::Formatted::Arranger.new(pdf) }
     let(:one_word_width) { 50 }
