@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Faster wrapping of long paragraphs
+
+Line wrapping no longer tokenizes the whole rest of a paragraph for every line,
+so wrapping time grows linearly with the paragraph length instead of
+quadratically. A 10,000-word paragraph renders about 9× faster. An overridden
+`LineWrap#tokenize` is still used.
+
+(Simon Isler)
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding
