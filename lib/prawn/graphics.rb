@@ -89,7 +89,7 @@ module Prawn
       )
 
       curve_points = PDF::Core.real_params(
-        (options[:bounds] << dest).flat_map { |e| map_to_absolute(e) },
+        [*options[:bounds], dest].flat_map { |e| map_to_absolute(e) },
       )
 
       renderer.add_content("#{curve_points} c")
@@ -767,10 +767,6 @@ module Prawn
     def map_to_absolute(*point)
       x, y = point.flatten
       [@bounding_box.absolute_left + x, @bounding_box.absolute_bottom + y]
-    end
-
-    def map_to_absolute!(point)
-      point.replace(map_to_absolute(point))
     end
 
     def degree_to_rad(angle)
