@@ -7,6 +7,10 @@ describe Prawn::FontMetricCache do
   let(:document) { Prawn::Document.new }
   let(:font_metric_cache) { described_class.new(document) }
 
+  def cached_widths(cache)
+    cache.instance_variable_get(:@cache).values.flat_map(&:values).flat_map(&:values).sum(&:size)
+  end
+
   it 'starts with an empty cache' do
     expect(font_metric_cache.instance_variable_get(:@cache)).to be_empty
   end
@@ -14,22 +18,21 @@ describe Prawn::FontMetricCache do
   it 'caches the width of the provided string' do
     font_metric_cache.width_of('M', {})
 
-    expect(font_metric_cache.instance_variable_get(:@cache).size).to eq(1)
+    expect(cached_widths(font_metric_cache)).to eq(1)
   end
 
   it 'onlies cache a single copy of the same string' do
     font_metric_cache.width_of('M', {})
     font_metric_cache.width_of('M', {})
 
-    expect(font_metric_cache.instance_variable_get(:@cache).size).to eq(1)
+    expect(cached_widths(font_metric_cache)).to eq(1)
   end
 
   it 'caches different copies for different strings' do
     font_metric_cache.width_of('M', {})
     font_metric_cache.width_of('W', {})
 
-    expect(font_metric_cache.instance_variable_get(:@cache).entries.size)
-      .to eq 2
+    expect(cached_widths(font_metric_cache)).to eq(2)
   end
 
   it 'caches different copies of the same string with different font sizes' do
@@ -38,8 +41,7 @@ describe Prawn::FontMetricCache do
     document.font_size(24)
     font_metric_cache.width_of('M', {})
 
-    expect(font_metric_cache.instance_variable_get(:@cache).entries.size)
-      .to eq 2
+    expect(cached_widths(font_metric_cache)).to eq(2)
   end
 
   it 'caches different copies of the same string with different fonts' do
@@ -48,8 +50,7 @@ describe Prawn::FontMetricCache do
     document.font('Courier')
     font_metric_cache.width_of('M', {})
 
-    expect(font_metric_cache.instance_variable_get(:@cache).entries.size)
-      .to eq 2
+    expect(cached_widths(font_metric_cache)).to eq(2)
   end
 
   it 'does not use the cached width of a different font size' do
