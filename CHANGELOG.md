@@ -18,6 +18,14 @@ quadratically. A 10,000-word paragraph renders about 9× faster. An overridden
 
 (Simon Isler)
 
+### Faster kerning with TTF fonts
+
+Kerning pairs are looked up with Integer keys and cached glyph IDs instead of
+allocating an Array key per character pair. Documents using TTF fonts with
+kerning (the default) render about 8% faster.
+
+(Simon Isler)
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding
