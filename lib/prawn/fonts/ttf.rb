@@ -368,19 +368,38 @@ module Prawn
       # is an array of UTF-16 characters.
       def kern(string)
         a = []
+        pairs = scaled_kern_pairs
+        prev_gid = nil
 
         string.each_codepoint do |r|
+          gid = glyph_id(r)
           if a.empty?
             a << [r]
-          elsif (kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]])
-            kern *= scale_factor
+          elsif prev_gid && gid && (kern = pairs[(prev_gid << 16) | gid])
             a << -kern << [r]
           else
             a.last << r
           end
+          prev_gid = gid
         end
 
         a
+      end
+
+      # Kerning pairs keyed by `(left_gid << 16) | right_gid` (glyph IDs are
+      # 16-bit), with amounts already scaled to 1000 units per em. Looking up
+      # an Integer avoids allocating and hashing an Array key for every
+      # character pair.
+      def scaled_kern_pairs
+        @scaled_kern_pairs ||=
+          kern_pairs_table.each_with_object({}) do |((left, right), kern), table|
+            table[(left << 16) | right] = kern * scale_factor
+          end
+      end
+
+      def glyph_id(code)
+        @glyph_ids ||= {}
+        @glyph_ids.fetch(code) { @glyph_ids[code] = cmap[code] }
       end
 
       def kern_pairs_table

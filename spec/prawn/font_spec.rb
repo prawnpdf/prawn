@@ -386,6 +386,19 @@ describe Prawn::Font do
       expect(font.compute_width_of('To', size: 12, kerning: true)).to be_within(0.01).of(12.61)
     end
 
+    it 'applies the kerning table amount for every kerning pair' do
+      ttf = font.ttf
+      unicode = ttf.cmap.unicode.first.code_map.each_with_object({}) { |(code, gid), h| h[gid] ||= code }
+      scale = 1000.0 / ttf.header.units_per_em
+      pairs = ttf.kerning.tables.first.pairs.select { |(l, r), _| unicode[l] && unicode[r] }
+
+      expect(pairs).to_not be_empty
+      pairs.each do |(left, right), amount|
+        string = [unicode[left], unicode[right]].pack('U*')
+        expect(font.__send__(:kern, string)).to eq([[unicode[left]], -(amount * scale), [unicode[right]]])
+      end
+    end
+
     it 'encodes text without kerning by default' do
       expect(font.encode_text('To')).to eq([[0, 'To']])
 
