@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Faster inline format escaping
+
+`Parser.escape` and `Parser.unescape` no longer build a new regular expression
+on every call.
+
+(Clément Joubert)
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding
