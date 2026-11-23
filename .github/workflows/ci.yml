@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/gems
-          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile') }}
+          key: gems-${{ matrix.ruby }}-${{ hashFiles('*.gemspec', 'Gemfile*') }}
           restore-keys: |
             gems-${{ matrix.ruby }}-
       - name: Install dependencies
