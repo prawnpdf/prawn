@@ -59,10 +59,10 @@ jobs:
       - name: Setup deps
         if: ${{ matrix.dependencies == 'edge' }}
         run: |
-          echo "gem 'prawn-dev', github: 'prawnpdf/prawn-dev'" >> Gemfile.local
-          echo "gem 'pdf-core', github: 'prawnpdf/pdf-core'" >> Gemfile.local
-          echo "gem 'ttfunk', github: 'prawnpdf/ttfunk'" >> Gemfile.local
-          echo "gem 'prawn-manual_builder', github: 'prawnpdf/prawn-manual_builder'" >> Gemfile.local
+          echo "gem 'prawn-dev', '> 0', github: 'prawnpdf/prawn-dev'" >> Gemfile.local
+          echo "gem 'pdf-core', '> 0', github: 'prawnpdf/pdf-core'" >> Gemfile.local
+          echo "gem 'ttfunk', '> 0', github: 'prawnpdf/ttfunk'" >> Gemfile.local
+          echo "gem 'prawn-manual_builder', '> 0', github: 'prawnpdf/prawn-manual_builder'" >> Gemfile.local
       - name: Gems cache
         uses: actions/cache@v4
         with:
