@@ -30,7 +30,7 @@ jobs:
       - name: Check code style
         run: bundle exec rake rubocop
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
