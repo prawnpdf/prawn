@@ -722,6 +722,40 @@ describe Prawn::Text::Formatted::Box do
   end
 
   describe 'Text::Formatted::Box#render(:dry_run => true)' do
+    ['ff0000', [100, 0, 0, 0]].each do |color|
+      it "preserves #{color.inspect} in partially consumed and untouched overflow fragments" do
+        array = [
+          { text: 'one two three', color: color, styles: [:bold] },
+          { text: ' four', color: color },
+        ]
+        pdf.font('Courier')
+        options = { document: pdf, width: 30, height: 12 }
+        text_box = described_class.new(array, options)
+
+        excess = text_box.render(dry_run: true)
+
+        expect(text_box.text).to eq('one')
+        expect(excess.map { |fragment| fragment[:text] }.join).to eq('two three four')
+        expect(excess.map { |fragment| fragment[:color] }).to all(eq(color))
+        expect(excess.first[:styles]).to eq([:bold])
+        expect(array.first[:color]).to eq(color)
+      end
+    end
+
+    it 'returns the same formatted overflow as an actual render' do
+      array = [
+        { text: 'one two three', color: 'ff0000' },
+        { text: ' four', color: [100, 0, 0, 0] },
+        { text: ' five' },
+      ]
+      options = { document: pdf, width: 30, height: 12 }
+      text_box = described_class.new(array, options)
+
+      excess = text_box.render(dry_run: true)
+
+      expect(excess).to eq(text_box.render)
+    end
+
     it 'does not change the graphics state of the document' do
       state_before = PDF::Inspector::Graphics::Color.analyze(pdf.render)
       fill_color_count = state_before.fill_color_count

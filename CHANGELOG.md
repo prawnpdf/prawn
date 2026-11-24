@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Preserve colors in formatted text box dry-run overflow
+
+Formatted text returned by `render(dry_run: true)` retains its fragment colors
+without changing the document's graphics state.
+
+([#1355](https://github.com/prawnpdf/prawn/issues/1355))
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding
