@@ -51,6 +51,8 @@ jobs:
           - "4.0"
           - "head"
           - "jruby-9.4"
+          - "jruby-10.0"
+          - "jruby-10.1"
         dependencies:
           - "edge"
           - "release"
