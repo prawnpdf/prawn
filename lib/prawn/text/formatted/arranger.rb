@@ -186,10 +186,11 @@ module Prawn
         # Apply color and font settings.
         #
         # @param fragment [Prawn::Text::Formatted::Fragment]
+        # @param apply_color [Boolean] whether to apply colors to the document
         # @yield
         # @return [void]
-        def apply_color_and_font_settings(fragment, &block)
-          if fragment.color
+        def apply_color_and_font_settings(fragment, apply_color: true, &block)
+          if apply_color && fragment.color
             original_fill_color = @document.fill_color
             original_stroke_color = @document.stroke_color
             @document.fill_color(*fragment.color)
